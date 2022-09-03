@@ -460,8 +460,8 @@ tr:
     label_uploaded_by: "Yükleyen"
     label_default_queries: "Varsayılan"
     label_starred_queries: "Sık Kullanılan"
-    label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_global_queries: "Genel"
+    label_custom_queries: "Özel"
     label_columns: "Sütunlar"
     label_attachments: Ekler
     label_drop_files: Dosyaları buraya bırakın
@@ -533,11 +533,11 @@ tr:
         watched: 'izlendi'
         assigned: 'atanmış'
         responsible: 'accountable'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'oluşturuldu'
+        scheduled: 'zamanlandı'
+        commented: 'yorumlandı'
+        processed: 'işlem uygulandı'
+        prioritized: 'öncelik verildi'
       facets:
         unread: 'okunmamış'
         all: 'Hepsi'

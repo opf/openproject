@@ -2404,7 +2404,7 @@ ca:
   setting_brute_force_block_after_failed_logins: "Bloqueja l'usuari després d'aquest nombre d'intents fracassats de connexió"
   setting_brute_force_block_minutes: "Temps de bloqueig de l'usuari"
   setting_cache_formatted_text: "Text amb format de la caché"
-  setting_use_wysiwyg_description: "Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown."
+  setting_use_wysiwyg_description: "Selecciona per activar l'editor CKEditor5 WYSIWYG per a tots els usuaris per defecte. CKEditor té funcionalitats limitades per a GFM Markdown."
   setting_column_options: "Personalitzar l'aparença de les llistes de paquets de treball"
   setting_commit_fix_keywords: "Paraules claus per a la correcció"
   setting_commit_logs_encoding: "Codificació dels missatges dels commits"
@@ -2504,7 +2504,7 @@ ca:
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Si alguna de les opcions "%{day_of_week_setting_name}" o "%{first_week_setting_name}" estan configurades, l'altre ha d'estar també configurada per evitar inconsistències en l'aplicació.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
