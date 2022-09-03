@@ -533,6 +533,11 @@ hu:
         watched: 'Megfigyelt'
         assigned: 'hozzárendelve'
         responsible: 'felelős'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Olvasatlan'
         all: 'Mind'

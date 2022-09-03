@@ -533,6 +533,11 @@ ko:
         watched: '지켜본'
         assigned: '할당됨'
         responsible: '담당'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: '읽지 않음'
         all: '모두'

@@ -532,6 +532,11 @@ lol:
         watched: 'crwdns787688:0crwdne787688:0'
         assigned: 'crwdns787690:0crwdne787690:0'
         responsible: 'crwdns787692:0crwdne787692:0'
+        created: 'crwdns832420:0crwdne832420:0'
+        scheduled: 'crwdns832422:0crwdne832422:0'
+        commented: 'crwdns832424:0crwdne832424:0'
+        processed: 'crwdns832426:0crwdne832426:0'
+        prioritized: 'crwdns832428:0crwdne832428:0'
       facets:
         unread: 'crwdns787694:0crwdne787694:0'
         all: 'crwdns787696:0crwdne787696:0'

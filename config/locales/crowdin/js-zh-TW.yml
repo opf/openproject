@@ -532,6 +532,11 @@ zh-TW:
         watched: 'watched'
         assigned: 'assigned'
         responsible: '負責人'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Unread'
         all: '全部'

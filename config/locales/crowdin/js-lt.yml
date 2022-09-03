@@ -533,6 +533,11 @@ lt:
         watched: 'stebimas'
         assigned: 'paskirta'
         responsible: 'atsakingas'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Neskaitytas'
         all: 'Visi'

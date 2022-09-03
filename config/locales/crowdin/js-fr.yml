@@ -533,6 +533,11 @@ fr:
         watched: 'surveillé'
         assigned: 'assigné'
         responsible: 'responsable'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Non lu'
         all: 'Toutes'

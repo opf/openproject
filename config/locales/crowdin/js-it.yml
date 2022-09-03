@@ -533,6 +533,11 @@ it:
         watched: 'guardato'
         assigned: 'assegnato'
         responsible: 'responsabile'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Non Letta'
         all: 'Tutti'

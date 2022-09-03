@@ -532,6 +532,11 @@ ro:
         watched: 'vizionat'
         assigned: 'atribuit'
         responsible: 'Responsabil'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'necitită'
         all: 'Toate'
