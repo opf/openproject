@@ -401,9 +401,13 @@ Settings::Definition.define do
       default: 'enterprise-on-premises---euro---1-year',
       writable: false
 
-  add :feature_storages_module_active,
-      default: Rails.env.development?,
-      format: :boolean
+  # feature flags
+  # To add a feature flag register a new definition for a configuration variable
+  #
+  # Example:
+  # add :feature_your_module_active,
+  #     default: Rails.env.development?,
+  #     format: :boolean
 
   add :feeds_enabled,
       default: true
@@ -529,7 +533,7 @@ Settings::Definition.define do
   # Update users' status through the synchronization job
   add :ldap_users_sync_status,
       format: :boolean,
-      default: true,
+      default: false,
       writable: false
 
   add :ldap_tls_options,
@@ -602,9 +606,6 @@ Settings::Definition.define do
       default: nil,
       writable: false
 
-  add :notification_retention_period_days,
-      default: 30
-
   add :notification_email_delay_minutes,
       default: 15
 
@@ -665,16 +666,16 @@ Settings::Definition.define do
       writable: false
 
   # Assume we're running in an TLS terminated connection.
-  # This does not affect HSTS, use +rails_force_ssl+ for that.
   add :https,
       format: :boolean,
-      default: Rails.env.production?,
+      default: -> { Rails.env.production? },
       writable: false
 
-  # Enable HTTPS and HSTS
-  add :rails_force_ssl,
+  # Allow disabling of HSTS headers and http -> https redirects
+  # for non-localhost hosts
+  add :hsts,
       format: :boolean,
-      default: Rails.env.production?,
+      default: true,
       writable: false
 
   add :registration_footer,
@@ -984,10 +985,6 @@ Settings::Definition.define do
 
   add :work_package_startdate_is_adddate,
       default: false
-
-  add :work_packages_duration_field_active,
-      default: Rails.env.development?,
-      format: :boolean
 
   add :youtube_channel,
       default: 'https://www.youtube.com/c/OpenProjectCommunity',

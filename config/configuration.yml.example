@@ -162,14 +162,14 @@
 #     - 'types'
 #     - 'admin/roles'
 #
-# Enable file storages module:
+# Beta features
 #
-# The file storages module is currently under development and can
-# be enabled for beta usage by setting a feature flag:
+# Some features are hidden behind a feature flag during development.
+# To activate one or more features set the correspondig flag inside the section.
 #
+# Example:
 # production:
-#   feature_storages_module_active: true
-#
+#   feature_your_module_active: true
 
 # default configuration options for all environments
 default:
@@ -207,9 +207,6 @@ default:
   # rails_relative_url_root: "/open_project"
   #
   # rails_relative_url_root: ""
-
-  # whether to force ssl in production
-  rails_force_ssl: false
 
   # Absolute path to the directory where attachments are stored.
   # The default is the 'files' directory in your OpenProject instance.

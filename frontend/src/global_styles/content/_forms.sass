@@ -488,6 +488,9 @@ fieldset.form--fieldset
   &.-no-italic
     font-style: normal
 
+  &.-xwide
+    max-width: 800px
+
   &.-labeled-checkbox
     margin-left: 25px
 
@@ -862,6 +865,9 @@ input[readonly].-clickable
     &:last-of-type
       border-top-right-radius: 2px
       border-bottom-right-radius: 2px
+
+    &:focus-within
+      @include spot-focus
 
 .form--list
   display: flex

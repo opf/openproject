@@ -63,10 +63,14 @@ module.exports = {
         ],
 
         // Sometimes we need to shush the TypeScript compiler
-        "no-unused-vars": ["error", { "varsIgnorePattern": "^_" }],
+        "no-unused-vars": ["error", { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }],
+        "@typescript-eslint/no-unused-vars": ["error", { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }],
 
         // Who cares about line length
         "max-len": "off",
+
+        // Allow short circuit evaluations
+        "@typescript-eslint/no-unused-expressions": ["error", { "allowShortCircuit": true }],
 
         // Force single quotes to align with ruby
         quotes: "off",
@@ -147,11 +151,6 @@ module.exports = {
       files: ["*.html"],
       extends: ["plugin:@angular-eslint/template/recommended"],
       rules: {
-        /**
-         * Any template/HTML related rules you wish to use/reconfigure over and above the
-         * recommended set provided by the @angular-eslint project would go here.
-         */
-        "@angular-eslint/template/no-call-expression": 2,
       }
     },
     {

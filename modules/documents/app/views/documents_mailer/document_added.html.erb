@@ -27,6 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<p><%= link_to(@document.title, project_documents_url(@document)) %> (<%= @document.category.name %>)</p>
+<p><%= link_to(@document.title, document_url(@document)) %> (<%= @document.category.name %>)</p>
 
 <%= format_text @document.description %>

@@ -127,8 +127,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
       default_order: 'desc'
     },
     duration: {
-      sortable: "#{WorkPackage.table_name}.duration",
-      if: ->(*) { OpenProject::FeatureDecisions.work_packages_duration_field_active? }
+      sortable: "#{WorkPackage.table_name}.duration"
     }
   }
 

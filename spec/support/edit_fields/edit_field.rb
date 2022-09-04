@@ -248,7 +248,7 @@ class EditField
       'version-autocompleter'
     when :assignee, :responsible, :user
       'op-user-autocompleter'
-    when :priority, :status, :type, :category, :workPackage
+    when :priority, :status, :type, :category, :workPackage, :parent
       'create-autocompleter'
     when :project
       'op-autocompleter'

@@ -78,7 +78,7 @@ export class WorkPackageTabsService {
           ...tab,
           counter: tab.count
             ? (injector:Injector) => tab.count!(workPackage, injector || this.injector) // eslint-disable-line @typescript-eslint/no-non-null-assertion
-            : (_:Injector) => from([0]), // eslint-disable-line @typescript-eslint/no-unused-vars
+            : (_:Injector) => from([0]),
         }),
       );
   }

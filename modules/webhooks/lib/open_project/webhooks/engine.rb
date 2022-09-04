@@ -50,5 +50,7 @@ module OpenProject::Webhooks
         ::OpenProject::Webhooks::EventResources.subscribe!
       end
     end
+
+    add_cron_jobs { CleanupWebhookLogsJob }
   end
 end

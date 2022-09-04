@@ -27,13 +27,13 @@ ca:
       tab_header:
         title: "Pull request"
         copy_menu:
-          label: Fragments de git 
+          label: Fragments de git
           description: Fragments de git copiats al porta-retalls
         git_actions:
           branch_name: Nom de la branca
           commit_message: Sotmet el missatge
           cmd: Crea una branca amb una submissió buida
-          title: Fragments ràpids per git 
+          title: Fragments ràpids per git
           copy_success: '✅ Copiat!'
           copy_error: '❌ Còpia fallida!'
       tab_prs:

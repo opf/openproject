@@ -205,6 +205,7 @@ es:
             label_expires_at: "Expira el"
             receive_newsletter: Quiero recibir el <a target="_blank" href="%{link}">boletín</a> de OpenProject.
             taken_domain: Solo puede existir una prueba activa por dominio.
+            domain_mismatch: El nombre actual de host no coincide con el nombre de host configurado. Por favor, comprueba la configuración del sistema.
             taken_email: Cada usuario solo puede crear una prueba.
           email_not_received: "¿No ha recibido el correo electrónico? Para volver a enviarlo, use el enlace de la derecha."
           try_another_email: "O bien pruebe con otra dirección de correo electrónico."
@@ -236,6 +237,7 @@ es:
           confidence: >
             Ofrecemos la confianza de un software de gestión de proyectos de categoría empresarial probado y con asistencia: de código abierto y mente abierta.
           link_quote: "Solicitar presupuesto"
+          more_info: "Más información"
           text: >
             OpenProject edición Enterprise se basa en la edición de la comunidad (edición Community). Incluye características premium y asistencia profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
           unlimited: "Ilimitado"
@@ -268,8 +270,7 @@ es:
           one: "Primer criterio de ordenación"
           two: "Segundo criterio de ordenación"
           three: "Tercer criterio de ordenación"
-      upsale_for_more: "Los filtros avanzados te permiten usar casi cualquier atributo de paquete de trabajo como un filtro. Por favor, actualice a un plan de pago para usar esta función."
-      more_info: "Más información"
+      upsale_for_more: "Los filtros avanzados te permiten también filtrar los nombres de los archivos y el contenido de los archivos adjuntos del paquete de trabajo. Por favor, actualice a un plan de pago para utilizar esta característica."
       upsale_link: 'Edición Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
@@ -289,15 +290,15 @@ es:
           learn_about: "Más información sobre las nuevas características"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>El <b>nuevo módulo Planificador de equipo</b> (característica de la versión Enterprise) permite asignar tareas visualmente a los miembros del equipo y ver un resumen del trabajo de cada uno.</li> <li>Estamos <b>publicando paneles Agile básicos</b> para la versión de la comunidad.</li> <li>El <b>filtro «Incluir proyectos»</b> permite añadir fácilmente varios proyectos a las vistas (por ejemplo, para paquetes de trabajo, calendarios y planificadores de equipo).</li> <li>Hemos añadido <b>una nueva pestaña «Archivos»</b> en los detalles del paquete de trabajo para adjuntar toda la información posible a un paquete de trabajo.</li> <li>Hemos creado <b>roles globales para grupos</b>, que pueden asignarse a grupos y crear grupos de superusuarios.</li> <li>Se han añadido opciones de estado del proyecto.</li> </ul>
+                La versión contiene varias nuevas características y mejoras: <br> <ul class="%{list_styling_class}"> <li>¡No más búsqueda interminable de archivos! Con la nueva <b>integración de Nextcloud</b> en OpenProject 12.2, ahora puedes encontrar archivos directamente en el paquete de trabajo correspondiente y tener siempre la versión correcta al alcance de su mano.</li> <li>Hemos introducido <b>un nuevo selector de fechas</b> con un método de entrada actualizado y un banner de información que incluye un botón para mostrar las relaciones en formato Gantt.</li> <li>Añadimos la posibilidad de <b>registrar tiempo para otros usuarios.</b></li> <li>Marcar las notificaciones como leídas también fuera del centro de notificaciónes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                La versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>En el módulo BCF, ahora puede guardar como <b>vistas</b> los filtros de paquetes de trabajo seleccionados, las columnas, etc., y compartirlas con los miembros del equipo.</li> <li>El <b>nuevo módulo Planificador de equipo</b> (característica de la versión Enterprise) permite asignar tareas visualmente a los miembros del equipo y ver un resumen de las tareas en las que trabaja cada uno.</li> <li>Estamos <b>publicando paneles Agile básicos</b> para la versión de la comunidad.</li> <li>El <b>filtro «Incluir proyectos»</b> permite añadir fácilmente varios proyectos a las vistas (por ejemplo, para paquetes de trabajo, calendarios y planificadores de equipo).</li> <li>Hemos añadido <b>una nueva pestaña «Archivos»</b> en los detalles del paquete de trabajo para adjuntar toda la información posible a un paquete de trabajo.</li> <li>Hemos creado <b>roles globales para grupos</b> que pueden asignarse a grupos y crear grupos de superusuarios.</li> <li>Se han añadido opciones de estado del proyecto.</li> </ul>
+                La versión contiene varias nuevas características y mejoras: <br> <ul class="%{list_styling_class}"> <li>¡No más búsqueda interminable de archivos! Con la nueva <b>integración de Nextcloud</b> en OpenProject 12.2, ahora puedes encontrar archivos directamente en el paquete de trabajo correspondiente y tener siempre la versión correcta al alcance de su mano.</li> <li>Hemos introducido <b>un nuevo selector de fechas</b> con un método de entrada actualizado y un banner de información que incluye un botón para mostrar las relaciones en formato Gantt.</li> <li>Añadimos la posibilidad de <b>registrar tiempo para otros usuarios.</b></li> <li>Marcar las notificaciones como leídas también fuera del centro de notificaciónes.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Asignado a'
     label_add_column_after: "Añadir columna a la derecha"
@@ -369,7 +370,7 @@ es:
     label_in_more_than: "en más de"
     label_incoming_emails: "Correos electrónicos entrantes"
     label_information_plural: "Información"
-    label_invalid: "Invalid"
+    label_invalid: "Inválido"
     label_import: "Importar"
     label_latest_activity: "Actividad reciente"
     label_last_updated_on: "Ultima actualizacion realizada el"
@@ -473,7 +474,7 @@ es:
     label_remove_all_files: Borrar todos los archivos
     label_add_description: "Añadir una descripción para %{file}"
     label_upload_notification: "Cargando archivos…"
-    label_work_package_upload_notification: "Cargando archivos para el paquete de trabajo #%{id}: %{subject}"
+    label_work_package_upload_notification: "Cargando archivos para el paquete de trabajo #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} añadido por %{author}"
     label_files_to_upload: "Estos archivos se cargarán:"
     label_rejected_files: "Estos archivos no pueden ser cargados:"
@@ -532,6 +533,11 @@ es:
         watched: 'observado'
         assigned: 'asignado'
         responsible: 'responsable'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'No leídas'
         all: 'Todos'
@@ -603,6 +609,7 @@ es:
       default: '-'
       subject: 'Escriba aquí el asunto'
       selection: 'Por favor, elija'
+      description: 'Descripción: Haga clic para editar...'
       relation_description: 'Haga clic para añadir la descripción a esta relación'
     project:
       required_outside_context: >
@@ -733,8 +740,9 @@ es:
     field_value_enter_prompt: "Introduzca un valor para '%{field}'"
     project_menu_details: "Detalles"
     scheduling:
-      manual: 'Programación manual'
-      automatic: 'Programación automática'
+      title: 'Planificación'
+      manual: 'Manual'
+      default: 'Por defecto'
     sort:
       sorted_asc: 'Orden ascendiente aplicado, '
       sorted_dsc: 'Orden descendiente aplicado, '
@@ -757,7 +765,7 @@ es:
         farRight: 'Extremo derecho'
         showNone: '-- Sin etiqueta --'
         description: >
-          Seleccione los atributos que quiera que se muestren en las posiciones correspondientes del diagrama de Gantt en todo momento. Tenga en cuenta que, al mantener el ratón sobre un elemento, se mostrarán las etiquetas de fecha, en lugar de estos atributos. 
+          Seleccione los atributos que quiera que se muestren en las posiciones correspondientes del diagrama de Gantt en todo momento. Tenga en cuenta que, al mantener el ratón sobre un elemento, se mostrarán las etiquetas de fecha en lugar de estos atributos.
       button_activate: 'Mostrar diagrama de Gantt'
       button_deactivate: 'Ocultar diagrama de Gantt'
       cancel: Cancelar
@@ -842,6 +850,10 @@ es:
         changing_dates_affects_follow_relations: "Cambiar estas fechas afectará a las fechas de los paquetes de trabajo relacionados."
         click_on_show_relations_to_open_gantt: 'Haga clic en "%{button_name}" para la vista general de GANTT.'
         show_relations: 'Mostrar relaciones'
+        ignore_non_working_days:
+          title: 'Working days'
+          false: 'Work week'
+          true: 'Include weekends'
       description_filter: "Filtro"
       description_enter_text: "Introducir texto"
       description_options_hide: "Ocultar opciones"
@@ -897,6 +909,7 @@ es:
         description: "Descripción"
         date: "Fecha"
         dueDate: "Fecha de finalización"
+        duration: "Duración"
         estimatedTime: "Tiempo estimado"
         spentTime: "Tiempo empleado"
         category: "Categoría"
@@ -928,7 +941,6 @@ es:
       placeholders:
         default: "-"
         date: "Seleccionar fecha"
-        formattable: "%{name}: haga clic para editar…"
       query:
         column_names: "Columnas"
         group_by: "Resultados de grupo por"
@@ -995,7 +1007,6 @@ es:
           attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
           relation_columns: '¿Necesita ver las relaciones en la lista de paquetes de trabajo?'
           check_out_link: 'Vea la edición Enterprise.'
-          more-info-text: 'Más información'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrar paquetes de trabajo por tipo de relación'
       tabs:
@@ -1188,7 +1199,7 @@ es:
         include_all_selected: 'Está seleccionada la opción para incluir todos los subproyectos.'
         current_project: 'Este es el proyecto actual.'
         does_not_match_search: 'El proyecto no coincide con los criterios de búsqueda.'
-      no_results: 'No project matches your search criteria.'
+      no_results: 'Ningún producto coincide con tu criterio de búsqueda'
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'

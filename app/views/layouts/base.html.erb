@@ -117,7 +117,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% if show_onboarding_modal? %>
         <section data-augmented-model-wrapper
                  data-modal-initialize-now="true"
-                 data-modal-class-name="onboarding-modal op-modal_autoheight -highlight">
+                 data-modal-class-name="onboarding-modal">
           <%= render partial: '/onboarding/configuration_modal' %>
         </section>
       <% end %>
@@ -163,6 +163,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= content_for :additional_js_dom_ready %>
   }(jQuery));
 <% end %>
+<div class="op-wide-autocomplete-wrapper"></div>
 <%= call_hook :view_layouts_base_body_bottom %>
 </body>
 </html>

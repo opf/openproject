@@ -293,7 +293,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe 'duration', with_flag: { work_packages_duration_field_active: true } do
+    describe 'duration' do
       let(:milestone?) { false }
 
       before do
@@ -307,18 +307,12 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:type) { 'Duration' }
         let(:name) { I18n.t('activerecord.attributes.work_package.duration') }
         let(:required) { false }
-        let(:writable) { false }
+        let(:writable) { true }
       end
 
       context 'when the work package is a milestone' do
         let(:milestone?) { true }
 
-        it 'has no duration attribute' do
-          expect(subject).not_to have_json_path('duration')
-        end
-      end
-
-      context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
         it 'has no duration attribute' do
           expect(subject).not_to have_json_path('duration')
         end
@@ -336,19 +330,13 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe 'ignoreNonWorkingDays', with_flag: { work_packages_duration_field_active: true } do
+    describe 'ignoreNonWorkingDays' do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'ignoreNonWorkingDays' }
         let(:type) { 'Boolean' }
         let(:name) { I18n.t('activerecord.attributes.work_package.ignore_non_working_days') }
         let(:required) { false }
-        let(:writable) { false }
-      end
-
-      context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
-        it 'has no ignoreNonWorkingDays attribute' do
-          expect(subject).not_to have_json_path('ignoreNonWorkingDays')
-        end
+        let(:writable) { true }
       end
     end
 
@@ -796,6 +784,25 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:required) { false }
         let(:writable) { true }
         let(:location) { '_links' }
+      end
+
+      it_behaves_like 'links to allowed values via collection link' do
+        let(:path) { 'parent' }
+        let(:href) { api_v3_paths.work_package_available_relation_candidates(work_package.id, type: :parent) }
+      end
+
+      context 'when creating' do
+        let(:work_package) do
+          build(:work_package, project:) do |wp|
+            allow(wp)
+              .to receive(:available_custom_fields)
+                    .and_return(available_custom_fields)
+          end
+        end
+
+        it_behaves_like 'does not link to allowed values' do
+          let(:path) { 'parent' }
+        end
       end
     end
 

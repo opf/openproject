@@ -132,8 +132,6 @@ sv:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS leverans misslyckades.'
       voice_delivery_failed: 'MessageBird röstsamtal misslyckades.'
-    restdt:
-      delivery_failed_with_code: 'Token leverans misslyckades. (Felkod %{code})'
     strategies:
       totp: 'Autentiseringsprogram'
       sns: 'Amazon SNS'

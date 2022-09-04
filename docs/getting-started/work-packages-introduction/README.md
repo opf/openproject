@@ -12,12 +12,12 @@ In this document you will get a first introduction to work packages. You will fi
 
 For further documentation, please visit our [user guide for work packages](../../user-guide/work-packages).
 
-| Topic                                                        | Content                                                   |
-| ------------------------------------------------------------ | --------------------------------------------------------- |
-| [What is a work package?](#what-is-a-work-package)          | Find out what a work package in OpenProject is.           |
-| [Create a new work package](#create-a-new-work-package)      | How to create a new work package in a project?           |
-| [Open and edit a work package](#open-and-edit-a-work-package) | How to open and make changes to an existing work package? |
-| [Activity of work packages](#activity-of-work-packages)      | See all changes in a work package.                        |
+| Topic                                                         | Content                                                   |
+|---------------------------------------------------------------|-----------------------------------------------------------|
+| [What is a work package?](#what-is-a-work-package)            | Find out what a work package in OpenProject is.           |
+| [Create a new work package](#create-a-new-work-package)       | How to create a new work package in a project.            |
+| [Open and edit a work package](#open-and-edit-a-work-package) | How to open and make changes to an existing work package. |
+| [Activity of work packages](#activity-of-work-packages)       | See all changes in a work package.                        |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Work-Packages.mp4" type="video/mp4" controls="" style="width:100%"></video>
 

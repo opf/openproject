@@ -40,13 +40,10 @@ FactoryBot.define do
     author factory: :user
     created_at { Time.zone.now }
     updated_at { Time.zone.now }
-    duration do
-      if start_date && due_date
-        due_date - start_date + 1
-      else
-        # This needs to change to nil once duration can be set
-        1
-      end
+    duration { WorkPackages::Shared::Days.for(self).duration(start_date&.to_date, due_date&.to_date) }
+
+    trait :is_milestone do
+      type factory: :type_milestone
     end
 
     callback(:after_build) do |work_package, evaluator|

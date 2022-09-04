@@ -13,14 +13,14 @@ Here you will get an overview how to sign in and register to an existing OpenPro
 > **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/create-cloud-trial/).
 
 
-| Topic                                                        | Content                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Sign in with an existing account](#sign-in-with-an-existing-account) | Sign in with an existing account to an OpenProject installation. |
-| [Sign in with Google](#sign-in-with-a-google-account)                  | Find out how to sign in with a Google account.               |
+| Topic                                                                         | Content                                                            |
+|-------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| [Sign in with an existing account](#sign-in-with-an-existing-account)         | Sign in with an existing account to an OpenProject installation.   |
+| [Sign in with Google](#sign-in-with-a-google-account)                         | Find out how to sign in with a Google account.                     |
 | [Sign in from the OpenProject website](#sign-in-from-the-openproject-website) | Sign in to an existing OpenProject Cloud Edition from the website. |
-| [Create a new account](#create-a-new-account)                | Create a new account for OpenProject.                        |
-| [Choose your language](#choose-your-language)                | How to select your language in OpenProject?                  |
-| [Reset your password](#reset-your-password)                  | If you forgot your password find out how to reset it.        |
+| [Create a new account](#create-a-new-account)                                 | Create a new account for OpenProject.                              |
+| [Choose your language](#choose-your-language)                                 | How to select your language in OpenProject.                        |
+| [Reset your password](#reset-your-password)                                   | If you forgot your password find out how to reset it.              |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Sign-in-and-Registration-2.mp4" type="video/mp4" controls="" style="width:100%"></video>
 

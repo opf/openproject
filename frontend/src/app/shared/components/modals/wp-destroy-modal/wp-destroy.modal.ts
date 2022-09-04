@@ -35,12 +35,17 @@ import { OpModalComponent } from 'core-app/shared/components/modal/modal.compone
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import {
+  WorkPackageViewFocusService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { StateService } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import {
+  WorkPackageNotificationService,
+} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackageService } from 'core-app/features/work-packages/services/work-package.service';
+import isNotNull from 'core-app/core/state/is-not-null';
 
 @Component({
   templateUrl: './wp-destroy.modal.html',
@@ -61,7 +66,7 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
   // Need to confirm deletion when children are involved
   public childrenDeletionConfirmed = false;
 
-  public text:any = {
+  public text = {
     label_visibility_settings: this.I18n.t('js.label_visibility_settings'),
     button_save: this.I18n.t('js.modals.button_save'),
     confirm: this.I18n.t('js.button_confirm'),
@@ -69,10 +74,15 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
     cancel: this.I18n.t('js.button_cancel'),
     close: this.I18n.t('js.close_popup_title'),
     label_confirm_children_deletion: this.I18n.t('js.modals.destroy_work_package.confirm_deletion_children'),
+    title: '',
+    text: '',
+    childCount: (_wp:WorkPackageResource):string => '',
+    hasChildren: (_wp:WorkPackageResource):string => '',
+    deletesChildren: '',
   };
 
   constructor(readonly elementRef:ElementRef,
-    readonly WorkPackageService:WorkPackageService,
+    readonly workPackageService:WorkPackageService,
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
@@ -85,7 +95,7 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
     super(locals, cdRef, elementRef);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
 
     this.workPackages = this.locals.workPackages;
@@ -97,7 +107,7 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
       this.singleWorkPackageChildren = this.singleWorkPackage.children;
     }
 
-    this.text.title = this.I18n.t('js.modals.destroy_work_package.title', { label: this.workPackageLabel }),
+    this.text.title = this.I18n.t('js.modals.destroy_work_package.title', { label: this.workPackageLabel });
     this.text.text = this.I18n.t('js.modals.destroy_work_package.text', {
       label: this.workPackageLabel,
       count: this.workPackages.length,
@@ -108,32 +118,37 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
       return this.I18n.t('js.units.child_work_packages', { count });
     };
 
-    this.text.hasChildren = (wp:WorkPackageResource) => this.I18n.t('js.modals.destroy_work_package.has_children', { childUnits: this.text.childCount(wp) }),
-
+    this.text.hasChildren = (wp:WorkPackageResource) => {
+      const childUnits = this.text.childCount(wp);
+      return this.I18n.t('js.modals.destroy_work_package.has_children', { childUnits });
+    };
     this.text.deletesChildren = this.I18n.t('js.modals.destroy_work_package.deletes_children');
   }
 
-  public get blockedDueToUnconfirmedChildren() {
+  public get blockedDueToUnconfirmedChildren():boolean {
     return this.mustConfirmChildren && !this.childrenDeletionConfirmed;
   }
 
-  public get mustConfirmChildren() {
-    const result = false;
+  public get mustConfirmChildren():boolean {
+    let result = false;
 
     if (this.singleWorkPackage && this.singleWorkPackageChildren) {
-      const result = this.singleWorkPackageChildren.length > 0;
+      result = this.singleWorkPackageChildren.length > 0;
     }
 
     return result || !!_.find(this.workPackages, (wp) => wp.children && wp.children.length > 0);
   }
 
-  public confirmDeletion($event:JQuery.TriggeredEvent) {
+  public confirmDeletion($event:Event):boolean {
     if (this.busy || this.blockedDueToUnconfirmedChildren) {
       return false;
     }
 
     this.busy = true;
-    this.WorkPackageService.performBulkDelete(this.workPackages.map((el) => el.id!), true)
+    const ids = this.workPackages
+      .map((el) => el.id)
+      .filter(isNotNull);
+    this.workPackageService.performBulkDelete(ids, true)
       .then(() => {
         this.busy = false;
         this.closeMe($event);

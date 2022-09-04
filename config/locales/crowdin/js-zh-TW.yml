@@ -151,7 +151,7 @@ zh-TW:
           language_hint: '輸入將用於突出顯示的格式語言 (如果支援)。'
         dropdown:
           macros: '巨集'
-          chose_macro: '選擇macro'
+          chose_macro: 'Choose macro'
         toc: '目錄'
         toolbar_help: '按一下以選擇小部件並顯示工具列。按兩下以編輯小部件'
         wiki_page_include:
@@ -193,7 +193,7 @@ zh-TW:
           form:
             general_consent: >
               I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
+            invalid_email: "無效的電子郵件"
             label_company: "Company"
             label_first_name: "名字"
             label_last_name: "姓："
@@ -204,9 +204,10 @@ zh-TW:
             label_expires_at: "過期於"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
+          try_another_email: "或嘗試使用其他電子郵件"
           next_steps: "Next steps"
           resend_link: "重新發送"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
@@ -235,6 +236,7 @@ zh-TW:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "獲取報價"
+          more_info: "More information"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -267,8 +269,7 @@ zh-TW:
           one: "第一個排序條件"
           two: "第二個排序條件"
           three: "第三個排序條件"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: '企業版。'
     general_text_no: "否"
     general_text_yes: "是"
@@ -288,15 +289,15 @@ zh-TW:
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "啟用"
     label_assignee: 'Assignee'
     label_add_column_after: "在後面增加一欄"
@@ -472,7 +473,7 @@ zh-TW:
     label_remove_all_files: 刪除所有檔案
     label_add_description: "添加 %{file} 的說明"
     label_upload_notification: "上傳檔案中..."
-    label_work_package_upload_notification: "上傳檔案到工作包 #%{id}: %{subject}"
+    label_work_package_upload_notification: "上傳檔案到工作包 #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} 被 %{author} 新增"
     label_files_to_upload: "將上傳這些檔案:"
     label_rejected_files: "不能上傳這些檔案:"
@@ -490,7 +491,7 @@ zh-TW:
         next: '下一個'
         got_it: '了解'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -531,6 +532,11 @@ zh-TW:
         watched: 'watched'
         assigned: 'assigned'
         responsible: '負責人'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Unread'
         all: '全部'
@@ -601,6 +607,7 @@ zh-TW:
       default: '-'
       subject: '在此輸入主旨'
       selection: '請選擇'
+      description: 'Description: Click to edit...'
       relation_description: '按一下以便為此關係添加描述'
     project:
       required_outside_context: >
@@ -731,8 +738,9 @@ zh-TW:
     field_value_enter_prompt: "輸入'%{field}'的值"
     project_menu_details: "詳細資料"
     scheduling:
-      manual: '手動排程'
-      automatic: '自動排程'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: '已套用升冪排序， '
       sorted_dsc: '已套用降冪排序， '
@@ -755,7 +763,7 @@ zh-TW:
         farRight: '最右'
         showNone: '-- 沒有標籤 --'
         description: >
-          選擇要在甘特圖的對應位置上始終顯示的屬性。請注意, 在游標停在元素上時, 將顯示其日期標籤, 而不是這些屬性。
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: '檢視甘特圖'
       button_deactivate: '隱藏甘特圖'
       cancel: 取消
@@ -840,6 +848,10 @@ zh-TW:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        ignore_non_working_days:
+          title: 'Working days'
+          false: 'Work week'
+          true: 'Include weekends'
       description_filter: "篩選器"
       description_enter_text: "輸入文字"
       description_options_hide: "隱藏選項"
@@ -895,6 +907,7 @@ zh-TW:
         description: "說明"
         date: "日期"
         dueDate: "完成日期"
+        duration: "Duration"
         estimatedTime: "預估時間"
         spentTime: "耗時"
         category: "類別"
@@ -926,7 +939,6 @@ zh-TW:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "欄"
         group_by: "分組依據"
@@ -993,7 +1005,6 @@ zh-TW:
           attribute_highlighting: '需要某些工作包才能從大眾中脫穎而出？'
           relation_columns: '需要檢視工作項目清單的關係嗎'
           check_out_link: '請查閱企業版'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:

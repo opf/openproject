@@ -1,0 +1,15 @@
+# Frontend rules
+*.js @opf/frontend
+*.ts @opf/frontend
+
+# Backend rules
+*.rb @opf/backend
+
+# docs rules
+/docs/ @opf/doc-writers
+
+# Tech doc rules
+/docs/development @opf/tech-writers 
+/docs/installation-and-operations @opf/tech-writers 
+/docs/system-admin-guide @opf/tech-writers 
+/docs/api @opf/tech-writers @opf/backend

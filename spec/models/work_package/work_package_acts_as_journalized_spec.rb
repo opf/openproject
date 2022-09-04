@@ -179,7 +179,7 @@ describe WorkPackage, type: :model do
         work_package.save!
       end
 
-      context 'for last created journal', with_flag: { work_packages_duration_field_active: true } do
+      context 'for last created journal' do
         subject { work_package.journals.reload.last.details }
 
         it 'contains all changes' do
@@ -187,16 +187,6 @@ describe WorkPackage, type: :model do
              start_date due_date estimated_hours assigned_to_id
              responsible_id parent_id schedule_manually duration).each do |a|
             expect(subject).to have_key(a.to_s), "Missing change for #{a}"
-          end
-        end
-
-        context 'when duration feature flag is inactive', with_flag: { work_packages_duration_field_active: false } do
-          it 'contains all changes' do
-            %i(subject description type_id status_id priority_id
-               start_date due_date estimated_hours assigned_to_id
-               responsible_id parent_id schedule_manually).each do |a|
-              expect(subject).to have_key(a.to_s), "Missing change for #{a}"
-            end
           end
         end
       end
@@ -246,7 +236,7 @@ describe WorkPackage, type: :model do
           end
         end
 
-        describe 'duration', with_flag: { work_packages_duration_field_active: true } do
+        describe 'duration' do
           let(:property) { 'duration' }
 
           context 'for old value' do
@@ -259,22 +249,6 @@ describe WorkPackage, type: :model do
             let(:expected_value) { 8 }
 
             it_behaves_like 'new value'
-          end
-
-          context 'when duration feature flag is inactive', with_flag: { work_packages_duration_field_active: false } do
-            let(:property) { 'duration' }
-
-            context 'for old value' do
-              let(:expected_value) { nil }
-
-              it_behaves_like 'old value'
-            end
-
-            context 'for new value' do
-              let(:expected_value) { nil }
-
-              it_behaves_like 'new value'
-            end
           end
         end
       end
@@ -558,6 +532,40 @@ describe WorkPackage, type: :model do
 
               expect(subject.first.data.status_id)
                 .to eql new_status.id
+            end
+          end
+
+          context 'when adding another change with a customized work package' do
+            let(:custom_field) do
+              create :work_package_custom_field,
+                     is_required: false,
+                     field_format: 'list',
+                     possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
+            end
+            let(:custom_value) do
+              create :custom_value,
+                     value: custom_field.custom_options.find { |co| co.value == '1' }.try(:id),
+                     customized: work_package,
+                     custom_field:
+            end
+
+            before do
+              custom_value
+              work_package.reload # need to update the lock_version, avoiding StaleObjectError
+              work_package.subject = 'foo'
+              work_package.save!
+            end
+
+            it 'leads to a single journal with only one customizable journal' do
+              expect(subject.count).to eq 1
+
+              expect(subject.first.notes)
+                .to eql notes
+
+              expect(subject.first.data.subject)
+                .to eql 'foo'
+
+              expect(subject.first.customizable_journals.count).to eq(1)
             end
           end
         end

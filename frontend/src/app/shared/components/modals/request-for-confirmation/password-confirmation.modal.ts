@@ -39,7 +39,7 @@ export class PasswordConfirmationModalComponent extends ConfirmDialogModalCompon
 
   @ViewChild('passwordConfirmationField', { static: true }) passwordConfirmationField:ElementRef;
 
-  public ngOnInit() {
+  public ngOnInit():void {
     super.ngOnInit();
 
     this.text.title = I18n.t('js.password_confirmation.title');
@@ -52,18 +52,18 @@ export class PasswordConfirmationModalComponent extends ConfirmDialogModalCompon
     this.showClose = false;
   }
 
-  public confirmAndClose(evt:JQuery.TriggeredEvent) {
+  public confirmAndClose(evt:Event):void {
     if (this.passwordValuePresent()) {
       super.confirmAndClose(evt);
     }
   }
 
-  public onOpen(modalElement:JQuery) {
-    super.onOpen(modalElement);
+  public onOpen():void {
+    super.onOpen();
     this.passwordConfirmationField.nativeElement.focus();
   }
 
-  public passwordValuePresent() {
+  public passwordValuePresent():boolean {
     return this.password_confirmation !== null && this.password_confirmation.length > 0;
   }
 }

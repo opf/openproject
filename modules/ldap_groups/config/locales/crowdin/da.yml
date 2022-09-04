@@ -42,8 +42,7 @@ da:
         group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
         filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
         base_dn_text: >
-          Indtast søgefasen DN for at bruge dette filter. Det skal være under basen DN for den valgte LDAP- forbindelse.
-          Lad denne mulighed være tom for at genbruge basen DN for forbindelsen
+          Indtast søgefasen DN for at bruge dette filter. Det skal være under basen DN for den valgte LDAP- forbindelse. Lad denne mulighed være tom for at genbruge basen DN for forbindelsen
     synchronized_groups:
       add_new: 'Add synchronized LDAP group'
       destroy:

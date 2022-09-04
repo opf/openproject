@@ -52,7 +52,6 @@ import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/
 import { DatePickerModule } from 'core-app/shared/components/op-date-picker/date-picker.module';
 import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
 import { EnterpriseBannerComponent } from 'core-app/shared/components/enterprise-banner/enterprise-banner.component';
-import { EnterpriseBannerBootstrapComponent } from 'core-app/shared/components/enterprise-banner/enterprise-banner-bootstrap.component';
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -85,7 +84,8 @@ import { OpFormBindingDirective } from './components/forms/form-field/form-bindi
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
-import { OpProjectListComponent } from './components/project-list/project-list.component';
+import { OpProjectIncludeListComponent } from './components/project-include/list/project-include-list.component';
+import { OpLoadingProjectListComponent } from './components/searchable-project-list/loading-project-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { UIRouterGlobals } from '@uirouter/core';
@@ -196,7 +196,8 @@ export function bootstrapModule(injector:Injector):void {
     OpOptionListComponent,
     OpSidemenuComponent,
     OpProjectIncludeComponent,
-    OpProjectListComponent,
+    OpProjectIncludeListComponent,
+    OpLoadingProjectListComponent,
 
     ViewSelectComponent,
   ],
@@ -244,7 +245,6 @@ export function bootstrapModule(injector:Injector):void {
 
     // Enterprise Edition
     EnterpriseBannerComponent,
-    EnterpriseBannerBootstrapComponent,
 
     HomescreenNewFeaturesBlockComponent,
 
@@ -257,7 +257,8 @@ export function bootstrapModule(injector:Injector):void {
     OpOptionListComponent,
     OpSidemenuComponent,
     OpProjectIncludeComponent,
-    OpProjectListComponent,
+    OpProjectIncludeListComponent,
+    OpLoadingProjectListComponent,
   ],
 })
 export class OPSharedModule {

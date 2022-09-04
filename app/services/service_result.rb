@@ -27,20 +27,24 @@
 #++
 
 class ServiceResult
+  SUCCESS = true
+  FAILURE = false
+
   attr_accessor :success,
                 :result,
                 :errors,
-                :state,
                 :dependent_results
+
+  attr_writer :state
 
   # Creates a successful ServiceResult.
   def self.success(errors: nil,
                    message: nil,
                    message_type: nil,
-                   state: ::Shared::ServiceState.new,
+                   state: nil,
                    dependent_results: [],
                    result: nil)
-    new(success: true,
+    new(success: SUCCESS,
         errors:,
         message:,
         message_type:,
@@ -53,10 +57,10 @@ class ServiceResult
   def self.failure(errors: nil,
                    message: nil,
                    message_type: nil,
-                   state: ::Shared::ServiceState.new,
+                   state: nil,
                    dependent_results: [],
                    result: nil)
-    new(success: false,
+    new(success: FAILURE,
         errors:,
         message:,
         message_type:,
@@ -69,7 +73,7 @@ class ServiceResult
                  errors: nil,
                  message: nil,
                  message_type: nil,
-                 state: ::Shared::ServiceState.new,
+                 state: nil,
                  dependent_results: [],
                  result: nil)
     self.success = success
@@ -97,10 +101,6 @@ class ServiceResult
     merge_errors!(other)
     merge_dependent!(other)
   end
-
-  ##
-  # Rollback the state if possible
-  delegate :rollback!, to: :state
 
   ##
   # Print messages to flash
@@ -196,6 +196,10 @@ class ServiceResult
     elsif failure? && errors.is_a?(ActiveModel::Errors)
       errors.full_messages.join(" ")
     end
+  end
+
+  def state
+    @state ||= ::Shared::ServiceState.build
   end
 
   private

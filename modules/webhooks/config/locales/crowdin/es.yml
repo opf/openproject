@@ -37,7 +37,7 @@ es:
         enabled_text: 'El webhook emitirá cargas para los eventos definidos a continuación.'
         disabled_text: 'Haga clic en el botón Editar para activar el webhook.'
       deliveries:
-        no_results_table: No se han realizado entregas para este webhook.
+        no_results_table: No se han realizado entregas para este webhook en los últimos días.
         title: 'Entregas recientes'
         time: 'Hora de entrega'
       form:

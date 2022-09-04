@@ -135,8 +135,6 @@ cs:
     message_bird:
       sms_delivery_failed: 'Odeslání MessageBird SMS  se nezdařilo.'
       voice_delivery_failed: 'Hlasový hovor MessageBird se nezdařil.'
-    restdt:
-      delivery_failed_with_code: 'Doručení tokenu se nezdařilo. (Kód chybu %{code})'
     strategies:
       totp: 'Ověřovací aplikace'
       sns: 'Amazon SNS'

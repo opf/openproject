@@ -89,6 +89,11 @@ export interface IProjectAutocompleterData {
 export class ProjectAutocompleterComponent implements ControlValueAccessor {
   @HostBinding('class.op-project-autocompleter') public className = true;
 
+  @HostBinding('class.op-project-autocompleter_inline')
+  public get inlineClass():boolean {
+    return this.isInlineContext;
+  }
+
   projectTracker = (item:IProjectAutocompleteItem):ID => item.href || item.id;
 
   // Load all projects as default
@@ -111,6 +116,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
   @Input() public apiFilters:ApiV3ListFilter[] = [];
 
   @Input() public appendTo = '';
+
+  @Input() public isInlineContext = false;
 
   // This function allows mapping of the results before they are fed to the tree
   // structuring and destructuring algorithms used internally the this component
@@ -212,10 +219,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     this.value = value;
   }
 
-  // eslint-disable-next-line no-unused-vars
   onChange = (_:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void => {};
 
-  // eslint-disable-next-line no-unused-vars
   onTouched = (_:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void => {};
 
   registerOnChange(fn:(_:IProjectAutocompleterData|IProjectAutocompleterData[]|null) => void):void {

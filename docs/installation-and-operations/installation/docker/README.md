@@ -50,7 +50,7 @@ docker-compose up -d
 
 After a while, OpenProject should be up and running on `http://localhost:8080`. The default username and password is login: `admin`, and password: `admin`.
 
-Note that the `docker-compose.yml` file present in the repository can be adjusted to your convenience. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official [Docker Compose documentation](https://docs.docker.com/compose/extends/) for more details.
+Note that the `docker-compose.yml` file present in the repository can be adjusted to your convenience. With each pull it will be overwritten. Best practice is to use the file `docker-compose.override.yml` for that case. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official [Docker Compose documentation](https://docs.docker.com/compose/extends/) for more details.
 
 You can stop the Compose stack by running:
 
@@ -64,11 +64,28 @@ You can stop and remove all containers by running:
 docker-compose down
 ```
 
-This will not remove your data which is persisted in named volumes, likely called `compose_opdata` (for attachments) and `compose_pgdata` (for the database). The exact name depends on the name of the directory where
-your `docker-compose.yml` file is stored (`compose` in this case).
+This will not remove your data which is persisted in named volumes, likely called `compose_opdata` (for attachments) and `compose_pgdata` (for the database). The exact name depends on the name of the directory where your `docker-compose.yml` and/or you `docker-compose.override.yml` files are stored (`compose` in this case).
 
-If you want to start from scratch and remove the exsiting data you will have to remove these volumes via
+If you want to start from scratch and remove the existing data you will have to remove these volumes via
 `docker volume rm compose_opdata compose_pgdata`.
+
+
+
+### Disabling services in the docker-compose file
+
+If you have an override file created, it is also easy to disable certain services, such as the database container if you have an external one running anyway.
+
+To do that, add this section to the file:
+
+
+```yaml
+services: 
+  db:
+    deploy:
+      replicas: 0
+```
+
+
 
 ## All-in-one container
 
@@ -78,8 +95,19 @@ The fastest way to get an OpenProject instance up and running is to run the
 following command:
 
 ```bash
-docker run -it -p 8080:80 -e OPENPROJECT_SECRET_KEY_BASE=secret -e OPENPROJECT_HOST__NAME=localhost:8080 openproject/community:12
+docker run -it -p 8080:80 \
+  -e OPENPROJECT_SECRET_KEY_BASE=secret \
+  -e OPENPROJECT_HOST__NAME=localhost:8080 \
+  -e OPENPROJECT_HTTPS=false \
+  openproject/community:12
 ```
+
+Explanation of the used configuration values:
+
+- `-p 8080:80` binds the port 80 of the container to 8080 on the machine running docker.
+- `OPENPROJECT_SECRET_KEY_BASE` sets the secret key base for Rails. Please use a pseudo-random value for this and treat it like a password.
+- `OPENPROJECT_HOST__NAME` sets the host name of the application. This value is used for generating forms and links in emails, and needs to match the external request host name (The value users are seeing in their browsers).
+- `OPENPROJECT_HTTPS=false` disables the on-by-default HTTPS mode of OpenProject so you can access the instance over HTTP-only. For all production systems we strongly advise not to set this to false, and instead set up a proper TLS/SSL termination on your outer web server.
 
 This will take a bit of time the first time you launch it, but after a few
 minutes you should see a success message indicating the default administration
@@ -96,7 +124,11 @@ For normal usage you probably want to start it in the background, which can be
 achieved with the `-d` flag:
 
 ```bash
-docker run -it -p 8080:80 -e OPENPROJECT_SECRET_KEY_BASE=secret -e OPENPROJECT_HOST__NAME=localhost:8080 openproject/community:12
+docker run -d -p 8080:80 \
+  -e OPENPROJECT_SECRET_KEY_BASE=secret \
+  -e OPENPROJECT_HOST__NAME=localhost:8080 \
+  -e OPENPROJECT_HTTPS=false \
+  openproject/community:12
 ```
 
 **Note**: We've had reports of people being unable to start OpenProject this way
@@ -107,7 +139,7 @@ seems to be to add `-t` to your run command, even if you run in detached mode.
 ## Using this container in production
 
 The one-liner above is great to get started quickly, but we strongly advise against
-using this setup for production purposes.
+using this setup for production purposes, as it disables HTTPS mode and is insecure.
 
 Also, if you want to run OpenProject in production you need to ensure that your data is not
 lost if you restart the container.
@@ -124,8 +156,8 @@ those directories mounted:
 sudo mkdir -p /var/lib/openproject/{pgdata,assets} 
 
 docker run -d -p 8080:80 --name openproject \
-  -e OPENPROJECT_HOST__NAME=openproject.example.com \ # The public facing host name
-  -e OPENPROJECT_SECRET_KEY_BASE=secret \ # The secret key base used for cookies
+  -e OPENPROJECT_HOST__NAME=openproject.example.com \
+  -e OPENPROJECT_SECRET_KEY_BASE=secret \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
   openproject/community:12
@@ -164,6 +196,10 @@ image you need to pass all configuration through environment variables. You can
 overwrite any of the values usually found in the standard YAML file by using
 [environment variables](../../configuration/environment).
 
+
+
+#### All-in-one container
+
 Environment variables can be either passed directly on the command-line to the
 Docker Engine, or via an environment file:
 
@@ -172,6 +208,85 @@ docker run -d -e KEY1=VALUE1 -e KEY2=VALUE2 ...
 # or
 docker run -d --env-file path/to/file ...
 ```
+
+
+
+#### Docker-compose setup
+
+For the docker-compose setup, we recommend you copy the upstream docker-compose.yml and adjust it to your needs. Please observe any changes when updating to the latest versions.
+
+To add an environment variable manually to the docker-compose file, add it to the `environment:` section of the `op-x-app` definition like in the following example:
+
+```yaml
+version: "3.7"
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  pgdata:
+  opdata:
+
+x-op-restart-policy: &restart_policy
+  restart: unless-stopped
+x-op-image: &image
+  image: openproject/community:${TAG:-12}
+x-op-app: &app
+  <<: [*image, *restart_policy]
+  environment:
+    OPENPROJECT_HTTPS: true
+    # ... other configuration
+    RAILS_CACHE_STORE: "memcache"
+    OPENPROJECT_CACHE__MEMCACHE__SERVER: "cache:11211"
+    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+    DATABASE_URL: "${DATABASE_URL:-postgres://postgres:p4ssw0rd@db/openproject?pool=20&encoding=unicode&reconnect=true}"
+    RAILS_MIN_THREADS: 4
+    RAILS_MAX_THREADS: 16
+    # set to true to enable the email receiving feature. See ./docker/cron for more options
+    IMAP_ENABLED: "${IMAP_ENABLED:-false}"
+  volumes:
+    - "${OPDATA:-opdata}:/var/openproject/assets"
+
+# configuration cut off at this point. 
+# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/12/compose/docker-compose.yml
+```
+
+
+
+Alternatively, you can also use an env file for docker-compose like so:
+
+First, add a `.env` file with some variable:
+```
+OPENPROJECT_HTTPS=true
+```
+
+And the  `docker-compose` command will automatically pick it up. You can also specify multiple files if you have different configurations you want to test.
+
+Let's say you have a `.env.prod`  file with some production-specific configuration. Then, start the services with that special env file specified.
+
+```
+docker-compose --env-file .env.prod up
+```
+
+
+
+#### Disabling HTTPS mode
+
+By default, OpenProject will expect a HTTPS request in production systems.
+In most cases, you will have an external web server or load balancer terminating the SSL/TLS connection and proxy/reverse-proxy to the docker container. You will then have to set up the web server to forward the protocol information (usually, this is `X-Forwarded-Proto` but depends on your web server).
+
+**Note**: This does not imply the docker container itself is running on SSL.
+
+If you _really_ want to disable HTTPS responses by OpenProject, you will need to add the environment variable `OPENPROJECT_HTTPS=false`. Note that this will disable secure cookies for session cookies, and is strongly discouraged for any production system.
+
+#### Disabling HSTS headers and insecure request upgrade
+
+If OpenProject is running as HTTPS, it will output HTTP Strict Transport Security (HSTS) headers by default, which will force the browser to upgrade a request to HTTPS even before calling the web server. On the server side, if a request is still issued through HTTP, OpenProject will return a redirect to HTTPS.
+
+In most cases, you will want to leave this enabled. If you disabled HTTPS mode above, this flag will also be disabled.
+
+If you _really_ want to disable HSTS headers and request upgrades, you will need to set the setting `OPENPROJECT_HSTS=false`.
 
 For more advanced configuration, please have a look at the [Advanced configuration](../../configuration) section.
 
@@ -249,11 +364,8 @@ If you want to run OpenProject in a subdirectory on your server, first you will
 need to configure OpenProject accordingly by adding the following options to the `docker run` call:
 
 ```
--e OPENPROJECT_RAILS__RELATIVE__URL__ROOT=/openproject \
--e OPENPROJECT_RAILS__FORCE__SSL=true \
+-e OPENPROJECT_RAILS__RELATIVE__URL__ROOT=/openproject
 ```
-
-The `force ssl` option can be left out if you are not using HTTPS.
 
 The apache configuration for this configuration then looks like this:
 
@@ -432,7 +544,7 @@ We will show both possibilities later in the configuration.
 
 ### 3) Create stack
 
-To create a stack you need a stack file. The easiest way is to just copy OpenProject's [docker-compose.yml](https://github.com/opf/openproject/blob/release/12.0/docker-compose.yml). Just download it and save it as, say, `openproject-stack.yml`.
+To create a stack you need a stack file. The easiest way is to just copy OpenProject's [docker-compose.yml](https://github.com/opf/openproject/blob/release/12.2/docker-compose.yml). Just download it and save it as, say, `openproject-stack.yml`.
 
 #### Configuring storage
 
@@ -559,7 +671,7 @@ docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
 qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:12   
-cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10                
+cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:13                
 uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/community:12   *:8080->80/tcp
 g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:12   
 canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/community:12   

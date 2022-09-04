@@ -190,7 +190,7 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
 
     return this
       .halResourceService
-      .get<CollectionResource<UserResource>>(filteredURL.toString())
+      .get<CollectionResource<UserResource>>(filteredURL.toString(), { pageSize: -1 })
       .pipe(
         map((res) => res.elements.map((el) => ({
           name: el.name, id: el.id, href: el.href, avatar: el.avatar,
@@ -202,10 +202,8 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
     this.value = value;
   }
 
-  // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
   onChange = (_:IUserAutocompleteItem|IUserAutocompleteItem[]|null):void => {};
 
-  // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
   onTouched = (_:IUserAutocompleteItem|IUserAutocompleteItem[]|null):void => {};
 
   registerOnChange(fn:(_:IUserAutocompleteItem|IUserAutocompleteItem[]|null) => void):void {

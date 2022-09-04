@@ -1,3 +1,31 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2022 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -86,6 +114,8 @@ import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
+import { DeviceService } from 'core-app/core/browser/device.service';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -273,6 +303,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       shareReplay(1),
     );
 
+  isMobile = this.deviceService.isMobile;
+
   constructor(
     private $state:StateService,
     private configuration:ConfigurationService,
@@ -295,6 +327,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly actions$:ActionsService,
     readonly toastService:ToastService,
     readonly loadingIndicatorService:LoadingIndicatorService,
+    readonly weekdayService:WeekdayService,
+    readonly deviceService:DeviceService,
   ) {
     super();
   }
@@ -408,7 +442,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                   {
                     field: 'title',
                     headerContent: {
-                      html: `<span class="spot-icon spot-icon_user"></span> <span>${this.text.assignee}</span>`,
+                      html: `<span class="spot-icon spot-icon_user"></span> <span class="hidden-for-mobile">${this.text.assignee}</span>`,
                     },
                   },
                 ],
@@ -426,7 +460,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                   {
                     field: 'title',
                     headerContent: {
-                      html: `<span class="spot-icon spot-icon_user"></span> <span>${this.text.assignee}</span>`,
+                      html: `<span class="spot-icon spot-icon_user"></span> <span class="hidden-for-mobile">${this.text.assignee}</span>`,
                     },
                   },
                 ],
@@ -454,7 +488,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               },
             ],
             resources: skeletonResources,
-            resourceAreaWidth: '180px',
+            resourceAreaWidth: this.isMobile ? '60px' : '180px',
             select: this.handleDateClicked.bind(this) as unknown,
             resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
@@ -462,6 +496,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             editable: true,
             droppable: true,
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
+            eventResizeStart: (resizeInfo:EventResizeDoneArg) => {
+              const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
+              if (!wp.ignoreNonWorkingDays) {
+                this.addBackgroundEventsForNonWorkingDays();
+              }
+            },
+            eventResizeStop: () => this.removeBackGroundEvents(),
             eventDragStart: (dragInfo:EventDragStartArg) => {
               if (dragInfo.event.source?.id === 'skeleton') {
                 return;
@@ -710,11 +751,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private handleDateClicked(info:DateSelectArg) {
+    const startDay = new Date(info.start).getDate();
+    const endDay = new Date(info.end).getDate();
+    const duration = endDay - startDay;
+    const ignoreNonWorkingDays = duration !== 1 ? false : this.weekdayService.isNonWorkingDay(info.start);
+
     this.openNewSplitCreate(
       info.startStr,
       // end date is exclusive
-      this.workPackagesCalendar.getEndDateFromTimestamp(info.end),
+      this.workPackagesCalendar.getEndDateFromTimestamp(info.endStr),
       info.resource?.id || '',
+      ignoreNonWorkingDays,
     );
   }
 
@@ -724,7 +771,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     'document:teamPlannerSelectDate',
     ['$event.detail.start', '$event.detail.end', '$event.detail.assignee'],
   )
-  openNewSplitCreate(start:string, end:string, resourceHref:string):void {
+  openNewSplitCreate(start:string, end:string, resourceHref:string, nonWorkingDays:boolean):void {
     const defaults = {
       startDate: start,
       dueDate: end,
@@ -733,6 +780,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           href: resourceHref,
         },
       },
+      ignoreNonWorkingDays: nonWorkingDays,
     };
 
     void this.$state.go(
@@ -866,7 +914,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       )
       .subscribe(([assignable, principals]) => {
         const api = this.ucCalendar.getApi();
-
+        if (!wp.ignoreNonWorkingDays) {
+          this.addBackgroundEventsForNonWorkingDays();
+        }
         const eventBase = {
           start: moment().subtract('1', 'month').toDate(),
           end: moment().add('1', 'month').toDate(),
@@ -889,5 +939,25 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .getEvents()
       .filter((el) => el.source?.id === 'background')
       .forEach((el) => el.remove());
+  }
+
+  private addBackgroundEventsForNonWorkingDays() {
+    const api = this.ucCalendar.getApi();
+    let currentStartDate = this.ucCalendar.getApi().view.activeStart;
+    const currentEndDate = this.ucCalendar.getApi().view.activeEnd;
+    const nonWorkingDays = new Array<{ start:Date|string, end:Date|string }>();
+
+    while (currentStartDate.toString() !== currentEndDate.toString()) {
+      if (this.weekdayService.isNonWorkingDay(currentStartDate)) {
+        nonWorkingDays.push({
+          start: moment(currentStartDate).format('YYYY-MM-DD'),
+          end: moment(currentStartDate).add('1', 'day').format('YYYY-MM-DD'),
+        });
+      }
+      currentStartDate = moment(currentStartDate).add('1', 'day').toDate();
+    }
+    nonWorkingDays.forEach((day) => {
+      api.addEvent({ ...day }, 'background');
+    });
   }
 }

@@ -69,6 +69,8 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
   fileLinkIcon:IFileIcon;
 
+  downloadAllowed:boolean;
+
   viewAllowed:boolean;
 
   text = {
@@ -100,6 +102,8 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
     }
 
     this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
+
+    this.downloadAllowed = this.originData.mimeType !== 'application/x-op-directory';
 
     this.text.title.downloadFileLink = this.i18n.t(
       'js.storages.file_links.download',

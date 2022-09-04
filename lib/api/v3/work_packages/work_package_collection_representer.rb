@@ -32,7 +32,10 @@ module API
       class WorkPackageCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
         def initialize(models,
                        self_link:,
-                       groups:, total_sums:, current_user:, query: {},
+                       groups:,
+                       total_sums:,
+                       current_user:,
+                       query: {},
                        project: nil,
                        page: nil,
                        per_page: nil,
@@ -153,7 +156,8 @@ module API
                  render_nil: false
 
         def current_user_allowed_to_add_work_packages?
-          current_user.allowed_to?(:add_work_packages, project, global: project.nil?)
+          @current_user_allowed_to_add_work_packages ||=
+            current_user.allowed_to?(:add_work_packages, project, global: project.nil?)
         end
 
         def current_user_allowed_to_edit_work_packages?
@@ -183,7 +187,7 @@ module API
         end
 
         def schema_pairs
-          represented
+          @schema_pairs ||= represented
             .map { |work_package| [work_package.project, work_package.type, work_package.available_custom_fields] }
             .uniq
         end

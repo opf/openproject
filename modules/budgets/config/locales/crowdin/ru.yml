@@ -63,7 +63,7 @@ ru:
   label_example_placeholder: 'например, %{decimal}'
   label_view_all_budgets: "Отобразить все бюджеты"
   label_yes: "Да"
-  notice_budget_conflict: "Пакет работ должен быть из того же проекта."
+  notice_budget_conflict: "Пакеты работ должны быть из того же проекта."
   notice_no_budgets_available: "Нет доступных бюджетов."
   permission_edit_budgets: "Править бюджеты"
   permission_view_budgets: "Просмотр бюджетов"

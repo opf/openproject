@@ -78,7 +78,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
           body: result.form,
           // Observe the response, not the body
           observe: 'events',
-          // This is important as the CORS policy for the bucket is * and you can't use credentals then,
+          // This is important as the CORS policy for the bucket is * and you can't use credentials then,
           // besides we don't need them here anyway.
           headers: {
             [EXTERNAL_REQUEST_HEADER]: 'true',

@@ -48,9 +48,9 @@ tr:
         main-menu-hover-font-color: "Fareyle üzerine gelindiğinde ana menü yazı tipi"
         main-menu-border-color: "Ana menü kenarlığı"
       custom_colors: "Özel renkler"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+      customize: "OpenProject kurulumunuzu kendi logonuz ve renklerinizle özelleştirin."
       enterprise_notice: "OpenProject'in geliştirilmesine finansal destek verenlere özel olarak 'Teşekkür ederiz!'. Bu küçük özellik sadece Enterprise Sürüm alan destekçilerimize özeldir."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
+      enterprise_more_info: "Not: Kullanılan logo herkese açık olacaktır."
       manage_colors: "Renk seçim seçeneklerini düzenle"
       instructions:
         alternative-color: "Güçlü vurgu rengi, genellikle ekrandaki en önemli düğme için kullanılır."
@@ -75,11 +75,10 @@ tr:
       book_now: 'Şimdi rezervasyon yaptırın'
       get_quote: 'Fiyat teklifi alın'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
-        more_info: "More information"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
-      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+        upgrade: "Hemen Yükselt"
+        contact: "Demo için bizimle iletişime geçin"
+      enterprise_info_html: "bir Kurumsal  <strong class='icon-medal'></strong>  özelliktir."
+      upgrade_info: "Etkinleştirmek ve ekibinizde kullanmaya başlamak için lütfen ücretli bir plana yükseltin."
     journal_aggregation:
       explanation:
         text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
@@ -96,7 +95,7 @@ tr:
     add_new: 'Yardım metni ekle'
     edit: "%{attribute_caption} için Yardım metni Düzenle"
     enterprise:
-      description: 'Hovering on a sidebar menu item displays attribute help text that help you and your users better understand what each item does.'
+      description: 'İş paketlerinin ve projelerin öznitelikleri (özel alanlar dahil) için ek bilgiler sağlayın. Projelerde ve iş paketlerinde giriş alanlarının yanındaki soru işareti sembolüne tıklandığında yardım metinleri görüntülenir.'
   auth_sources:
     index:
       no_results_content_title: Şu anda bir doğrulama modu bulunmamakta.
@@ -174,8 +173,8 @@ tr:
     edit: 'Özel eylem %{name} Düzenle'
     execute: '%{name} yürütmek'
     upsale:
-      title: 'Custom actions'
-      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
+      title: 'Özel eylemler'
+      description: 'Özel eylemler, duruma, role, türe veya projeye göre belirli iş paketlerinde kullanıma sunabileceğiniz bir dizi önceden tanımlanmış eylemin tek tıkla kısayollarıdır.'
   custom_fields:
     text_add_new_custom_field: >
       Bir projeye yeni özel alanlar eklemeden önce onları oluşturmalısınız.
@@ -264,18 +263,17 @@ tr:
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+    delete_tooltip: "Yer tutucu kullanıcısını silin."
     deletion_info:
       heading: "%{name} yer tutucu kullanıcısını sil."
       data_consequences: >
-        Yer tutucu kullanıcının adının geçtiği her şey (örn. devralan, sorumlu veya diğer kullanıcı değerleri) "Silinmiş Kullanıcı" olarak anılan bir hesaba atanacaktır.
-        Silinmiş tüm hesapların bilgileri bu hesaba atandığından bu kullanıcının oluşturduğu veriler başka bir silinmiş hesap tarafından oluşturulmuş verilerden ayrılamaz.
+        Yer tutucu kullanıcının adının geçtiği her şey (örn. devralan, sorumlu veya diğer kullanıcı değerleri) "Silinmiş Kullanıcı" olarak anılan bir hesaba atanacaktır. Silinmiş tüm hesapların bilgileri bu hesaba atandığından bu kullanıcının oluşturduğu veriler başka bir silinmiş hesap tarafından oluşturulmuş verilerden ayrılamaz.
       irreversible: "Bu işlem geri alınamaz"
       confirmation: "Silme işlemini onaylamak için yer tutucu %{name} ismini girin."
     upsale:
-      title: Placeholder users
+      title: Yer tutucu kullanıcı
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want track tasks assigned to them.
+        Yer tutucu kullanıcılar, projenizin parçası olmayan kullanıcılara iş paketleri atamanın bir yoludur. Bir dizi senaryoda yararlı olabilirler; örneğin, henüz adlandırılmamış veya mevcut olmayan bir kaynak için görevleri izlemeniz gerekiyorsa veya o kişiye OpenProject'e erişim izni vermek istemiyorsanız ancak yine de kendilerine atanan görevleri izlemek istiyorsanız.
   prioritiies:
     edit:
       priority_color_text: |
@@ -306,7 +304,7 @@ tr:
       settings: "Ayarlar"
       form_configuration: "Formu yapılandırma"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> </ul>
+        Enterprise Edition, şu ek özelliklerle form yapılandırmasını özelleştirmenize olanak tanır: <br> <ul class="%{list_styling_class}"> <li><b>Yeni özellik grupları ekleyin</b></li> <li><b >Özellik gruplarını yeniden adlandırın</b></li> <li><b>İlgili iş paketlerinin bir tablosunu ekleyin</b></li> </ul>
       projects: "Projeler"
       enabled_projects: "Etkin projeler"
       edit_query: "Tabloyu düzenle"
@@ -465,12 +463,12 @@ tr:
         code: 'Durum'
         explanation: 'Durum tanımlaması'
         codes:
-          not_started: 'Not started'
+          not_started: 'Başlamadı'
           on_track: 'Takipte'
           at_risk: 'Riskli'
           off_track: 'Kapalı parça'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: 'Tamamlandı'
+          discontinued: 'Devam ettirilmedi'
       query:
         column_names: "Sütunlar"
         relations_to_type_column: "%{type} ile ilişkileri"
@@ -526,16 +524,16 @@ tr:
         begin_deletion: "Silme işleminin başlangıcı"
         children: "Alt öğeler"
         done_ratio: "İlerleme (%)"
-        duration: "Duration"
+        duration: "Süre"
         end_insertion: "Ekleme işlemi bitti"
         end_deletion: "Silme işlemi bitti"
-        ignore_non_working_days: "Ignore non working days"
+        ignore_non_working_days: "Çalışma dışı günleri yoksay"
         parent: "Üst"
         parent_issue: "Üst"
         parent_work_package: "Üst"
         priority: "Öncelik"
         progress: "İlerleme (%)"
-        readonly: "Read only"
+        readonly: "Salt okunur"
         schedule_manually: "Manuel zamanlamayı etkinleştir"
         spent_hours: "Harcanan zaman"
         spent_time: "Harcanan zaman"
@@ -574,7 +572,7 @@ tr:
         even: "çift olmalı."
         exclusion: "ayrılmıştır."
         file_too_large: "çok büyük (en büyük boyut %{count} bayt)."
-        filter_does_not_exist: "filter does not exist."
+        filter_does_not_exist: "Filtre mevcut değil"
         format: "Beklenen biçim '%{expected}' ile eşleşmiyor."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "%{count}'ten büyük olması gerekir."
@@ -610,7 +608,7 @@ tr:
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "kaldırılamadı."
         url_not_secure_context: >
-          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+          bir "Güvenli Bağlam" sağlamıyor. HTTPS veya localhost gibi bir geri döngü adresi kullanın.
         wrong_length: "uzunluğu yanlıştır (%{count} karakter olmalıdır)."
       models:
         attachment:
@@ -642,7 +640,7 @@ tr:
               fragment_present: 'parça içeremez.'
               invalid_uri: 'geçerli bir URI olmalıdır.'
               relative_uri: 'mutlaka bir URI olmalıdır.'
-              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
+              secured_uri: 'bir "Güvenli Bağlam" sağlamıyor. HTTPS veya localhost gibi bir geri döngü adresi kullanın.'
               forbidden_uri: 'sunucu tarafından yasaklanmıştır.'
             scopes:
               not_match_configured: "mevcut kapsamlarla eşleşmiyor."
@@ -743,12 +741,16 @@ tr:
         work_package:
           is_not_a_valid_target_for_time_entries: "İş paketi #%{id} zaman girdilerini yeniden atama için geçerli bir hedef değil."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "kilometre taşları için gerekli olmasına rağmen başlangıç tarihi değil."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "kilometre taşı olamaz."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -756,6 +758,7 @@ tr:
               not_a_valid_parent: "geçersizdir."
             start_date:
               violates_relationships: "yalnızca %{soonest_start} veya daha sonra iş paketi üst bağımlılık ilişkilerini ihlal etmediğinde ayarlanabilir."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "geçerli kullanıcının rolleri için eski durumdan yeni duruma geçerli bir geçiş mevcut olmadığından geçersiz."
               status_invalid_in_type: "Geçerli durum bu türde bulunmadığından geçersiz."
@@ -830,7 +833,7 @@ tr:
       member: "Üye"
       news: "Haberler"
       notification:
-        one: "Notification"
+        one: "Bildirim"
         other: "Bildirimler"
       placeholder_user: "Yer tutucu kullanıcı"
       project: "Proje"
@@ -908,11 +911,11 @@ tr:
     updated_on: "Güncelleme tarihi"
     uploader: "Yükleyici"
     user: "Kullanıcı"
-    value: "Value"
+    value: "Değer"
     version: "Sürüm"
     work_package: "İş paketi"
   backup:
-    failed: "Backup failed"
+    failed: "Yedekleme başarısız oldu"
     label_backup_token: "Yedek jeton"
     label_create_token: "Yedek jeton oluşturun"
     label_delete_token: "Yedek jetonu silin"
@@ -1249,7 +1252,7 @@ tr:
   error_enterprise_activation_user_limit: "Hesabınız etkinleştirilemedi (kullanıcı limitine ulaşıldı). Erişim sağlamak için lütfen yöneticinize başvurun."
   error_enterprise_token_invalid_domain: "Enterprise Edition etkin değil. Kurumsal simgenizin etki alanı (%{actual}) sistemin ana makine adıyla (%{expected}) eşleşmiyor."
   error_failed_to_delete_entry: 'Girdi silinemedi.'
-  error_in_dependent: "Bağımlı nesneyi değiştirmeye çalışırken hata: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Bağımlı nesneyi değiştirmeye çalışırken hata: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Seçili değeri geçersiz."
   error_journal_attribute_not_present: "Günlük  %{attribute} özniteliği içermiyor."
@@ -1361,7 +1364,7 @@ tr:
     admin:
       mail_notification: "E-posta bildirimleri"
       mails_and_notifications: "Emails and notification"
-      aggregation_and_retention: 'Aggregation and retention'
+      aggregation: 'Kümelenme'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Hızlı ekle menüsünü aç"
@@ -1388,17 +1391,11 @@ tr:
     update_info_mail:
       body: >
         We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-
         Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-
         This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-
         We hope you find in-app notifications useful and that they makes you even more productive.
-
-        Sincerely,
-        The OpenProject team
+        Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
       body_subheader: 'Haberler'
       subject: 'Important changes to notifications with the release of 12.0'
@@ -1613,6 +1610,7 @@ tr:
   label_index_by_title: "Başlığa göre dizin"
   label_information: "Bilgi"
   label_information_plural: "Bilgi"
+  label_installation_guides: 'Kurulum kılavuzları'
   label_integer: "Tamsayı"
   label_internal: "Dahili"
   label_introduction_video: "Tanıtım videosu"
@@ -1757,6 +1755,7 @@ tr:
   label_project_new: "Yeni proje"
   label_project_plural: "Projeler"
   label_project_settings: "Proje Ayarları"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} proje %{storage} disk alanı kullanıyor"
   label_project_view_all: "Tüm projeleri görüntüle"
   label_project_show_details: "Proje detaylarını göster"
@@ -1792,7 +1791,7 @@ tr:
   label_required: 'gerekli'
   label_requires: 'gerektirir'
   label_result_plural: "Sonuçlar"
-  label_reverse_chronological_order: "Newest first"
+  label_reverse_chronological_order: "Önce en yeni"
   label_revision: "Gözden geçirme"
   label_revision_id: "Düzeltme %{value}"
   label_revision_plural: "Düzeltmeler"
@@ -1908,6 +1907,7 @@ tr:
   label_wiki_start: "Başlangıç sayfası"
   label_work_package: "İş paketi"
   label_work_package_attachments: "İş paketi ekleri"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Yeni kategori"
   label_work_package_category_plural: "İş paketi kategorileri"
   label_work_package_hierarchy: "İş paketi hiyerarşisi"
@@ -2180,7 +2180,7 @@ tr:
   permission_comment_news: "Haberlere yorum yazmak"
   permission_commit_access: "Depoya okuma / yazma erişimi (tamamlama)"
   permission_copy_projects: "Proje kopyalamak"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Yedek oluştur"
   permission_delete_work_package_watchers: "Takipçi sil"
   permission_delete_work_packages: "İş paketi silmek"
   permission_delete_messages: "İleti silmek"
@@ -2197,14 +2197,14 @@ tr:
   permission_edit_own_time_entries: "Kendi zaman kayıtlarını düzenlemek"
   permission_edit_project: "Proje düzenleme"
   permission_edit_reportings: "Raporlamayı düzenlemek"
-  permission_edit_time_entries: "Edit time logs for other users"
+  permission_edit_time_entries: "Diğer kullanıcılar için zaman günlüklerini düzenleyin"
   permission_edit_timelines: "Zaman akışını düzenlemek"
   permission_edit_wiki_pages: "Wiki sayfalarını düzenlemek"
   permission_export_work_packages: "İş paketlerini dışarı aktar"
   permission_export_wiki_pages: "Wiki sayfalarını dışarı aktar"
   permission_list_attachments: "Ekleri listelemek"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "Kendi zamanını günlüğe kaydet"
+  permission_log_time: "Diğer kullanıcıların zamanını günlüğe kaydet"
   permission_manage_forums: "Forumları yönetmek"
   permission_manage_categories: "İş paket kategorilerini yönet"
   permission_manage_work_package_relations: "İş paketi ilişkilerini yönet"
@@ -2364,7 +2364,9 @@ tr:
       update_timeout: "Bir depo için N dakika boyunca gereken son disk alanı bilgilerini saklayın.\nDeponun gerekli disk alanını saymak maliyetli olabileceğinden performans etkisini azaltmak için bu değeri yükseltin."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
-      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
+      show_warning_details: "Bu dosya deposunu kullanmak için, istenen her projenin proje ayarlarında modülü ve belirli depolamayı etkinleştirmeyi unutmayın."
     subversion:
       existing_title: "Mevcut Subversion deposu"
       existing_introduction: "Varolan bir Subversion havuzunuz varsa, uygulamanın içinden erişmek için onu OpenProject ile bağlayabilirsiniz."
@@ -2444,7 +2446,6 @@ tr:
   setting_email_login: "Giriş olarak e-posta kullanın"
   setting_enabled_scm: "Etkinleştirilmiş SCM"
   setting_enabled_projects_columns: "Proje listesinde görünür"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "Yayınları Etkinleştir"
   setting_feeds_limit: "Besleme içeriği sınırı"
   setting_file_max_size_displayed: "Satır içi görüntülenen maksimum metin dosyası boyutu"
@@ -2457,7 +2458,7 @@ tr:
   setting_work_package_list_default_columns: "Varsayılan olarak göster"
   setting_work_package_properties: "İş paketi özellikleri"
   setting_work_package_startdate_is_adddate: "Yeni iş paketlerinde şu anki tarihi başlangıç tarihi olarak kullan"
-  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
+  setting_work_packages_projects_export_limit: "İş paketleri / Projeler dışa aktarım limiti"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Tüm istekler için kullanıcı oturum açma, ad ve posta adresini girme"
   setting_login_required: "Kimlik doğrulaması gerekli"
@@ -2517,8 +2518,6 @@ tr:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
@@ -2570,6 +2569,12 @@ tr:
     Özel alanları kullanırken: Özel alanların her proje için aktif yapılması gerektiğini unutmayın.
   text_custom_field_hint_activate_per_project_and_type: >
     Özel alanların iş paketi türü ve proje bazında aktive edilmesi gerekiyor.
+  text_wp_custom_field_html: >
+    Enterprise Edition, iş paketlerinin özel alanları için şu ek özellikleri ekleyecektir: <br> <ul> <li><b>List veya User türündeki özel alanlar için çoklu seçime izin ver</b></li> </ul >
+  text_wp_status_read_only_html: >
+    Enterprise Edition, iş paketlerinin durum alanları için şu ek özellikleri ekleyecektir: <br> <ul> <li><b>İş paketlerinin belirli durumlar için salt okunur olarak işaretlenmesine izin ver</b></li> </ul >
+  text_project_custom_field_html: >
+    Enterprise Edition, projelerin özel alanları için şu ek özellikleri ekleyecektir: <br> <ul> <li><b>Proje portföy görünümü oluşturmak için Proje listenize projeler için özel alanlar ekleyin</b></li> < /ul>
   text_custom_logo_instructions: >
     Saydam arka plan üzerinde beyaz bir logo önerilir. Hem geleneksel en iyi sonuçları almak ve retina görüntüler için resm boyutlarının 60px ye 460px olduğundan emin olun.
   text_custom_favicon_instructions: >
@@ -2875,10 +2880,10 @@ tr:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Protokol ayarı uyuşmazlığı'
+    https_mismatch:
+      title: 'HTTPS modu kurulum uyuşmazlığı'
       text_html: >
-        Uygulamanız, protokol ayarı <code>%{set_protocol}</code>,olarak ayarlanmış şekilde çalışıyor, ancak istek bir <code>%{actual_protocol}</code> isteğidir. Bu hatalarla sonuçlanacaktır! <a href="%{setting_path}"> Sistem ayarları </a> 'na gidin ve bunu düzeltmek için "Protokol" ayarını değiştirin.
+        Uygulamanız <code>%{set_protocol}</code> olarak ayarlanmış HTTPS moduyla çalışıyor, ancak istek bir <code>%{actual_protocol}</code> isteğidir. Bu hatalara yol açacaktır! Şu yapılandırma değerini ayarlamanız gerekecek: <code>%{setting_value}</code>. Lütfen bu yapılandırmanın nasıl ayarlanacağıyla ilgili <a href="%{more_info_path}">kurulum belgelerine</a> bakın.
     hostname_mismatch:
       title: 'Ana bilgisayar adı ayar uyuşmazlığı'
       text_html: >
@@ -3045,7 +3050,7 @@ tr:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Hata"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

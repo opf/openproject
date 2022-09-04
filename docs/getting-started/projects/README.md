@@ -70,7 +70,7 @@ To configure further project information, see the documentation for [project set
 
 ### View all projects
 
-To view all your projects in which you are a member, click on the **View all projects** link in the **Select a project** drop-down menu.
+To view all your projects in which you are a member, click on the **Projects list** button at the bottom of the action bar after opening the **Select a project** drop-down menu.
 
 ![view all projects](view_all_projects.png)
 

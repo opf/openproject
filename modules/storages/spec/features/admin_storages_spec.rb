@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe 'Admin storages', :storage_server_helpers, with_flag: { storages_module_active: true }, type: :feature, js: true do
+describe 'Admin storages', :storage_server_helpers, type: :feature, js: true do
   let(:admin) { create(:admin) }
 
   before do
@@ -53,7 +53,7 @@ describe 'Admin storages', :storage_server_helpers, with_flag: { storages_module
     # Test the happy path for a valid storage server (host).
     # Mock a valid response (=200) for example.com, so the host validation should succeed
     mock_server_capabilities_response("https://example.com")
-    mock_server_host_response("https://example.com")
+    mock_server_config_check_response("https://example.com")
     page.find('#storages_storage_name').set("NC 1")
     page.find('#storages_storage_host').set("https://example.com")
     page.find('button[type=submit]', text: "Save and continue setup").click

@@ -450,6 +450,16 @@ describe WorkPackages::BaseContract do
         it_behaves_like 'contract is valid'
       end
     end
+
+    context 'when setting due date and duration without start date' do
+      before do
+        work_package.duration = 1
+        work_package.start_date = nil
+        work_package.due_date = Time.zone.today
+      end
+
+      it_behaves_like 'contract is invalid', start_date: :cannot_be_null
+    end
   end
 
   describe 'due date' do
@@ -502,10 +512,20 @@ describe WorkPackages::BaseContract do
         it_behaves_like 'contract is valid'
       end
     end
+
+    context 'when setting start date and duration without due date' do
+      before do
+        work_package.duration = 1
+        work_package.start_date = Time.zone.today
+        work_package.due_date = nil
+      end
+
+      it_behaves_like 'contract is invalid', due_date: :cannot_be_null
+    end
   end
 
-  describe 'duration', with_flag: { work_packages_duration_field_active: true } do
-    context 'when setting the duration' do
+  describe 'duration' do
+    context 'when setting duration' do
       before do
         work_package.duration = 5
       end
@@ -513,7 +533,7 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'contract is valid'
     end
 
-    context 'when setting the duration for a milestone type work package' do
+    context 'when setting duration for a milestone type work package' do
       let(:is_milestone) { true }
 
       before do
@@ -523,7 +543,7 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'contract is invalid', duration: :not_available_for_milestones
     end
 
-    context 'when setting the duration to nil for a milestone type work package' do
+    context 'when setting duration to nil for a milestone type work package' do
       let(:is_milestone) { true }
 
       before do
@@ -533,7 +553,7 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'contract is invalid'
     end
 
-    context 'when setting the duration to 1 for a milestone type work package' do
+    context 'when setting duration to 1 for a milestone type work package' do
       let(:is_milestone) { true }
 
       before do
@@ -543,15 +563,7 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'contract is valid'
     end
 
-    context 'when setting the duration with the feature disabled', with_flag: { work_packages_duration_field_active: false } do
-      before do
-        work_package.duration = 5
-      end
-
-      it_behaves_like 'contract is invalid', duration: :error_readonly
-    end
-
-    context 'when setting the duration to 0' do
+    context 'when setting duration to 0' do
       before do
         work_package.duration = 0
       end
@@ -559,7 +571,7 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'contract is invalid', duration: :greater_than
     end
 
-    context 'when setting the duration to a floating point' do
+    context 'when setting duration to a floating point' do
       before do
         work_package.duration = 4.5
       end
@@ -567,7 +579,7 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'contract is invalid', duration: :not_an_integer
     end
 
-    context 'when setting the duration to a negative value' do
+    context 'when setting duration to a negative value' do
       before do
         work_package.duration = -5
       end
@@ -575,8 +587,9 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'contract is invalid', duration: :greater_than
     end
 
-    context 'when setting duration as well as the dates' do
+    context 'when setting duration and dates' do
       before do
+        work_package.ignore_non_working_days = true
         work_package.duration = 6
         work_package.start_date = Time.zone.today - 4.days
         work_package.due_date = Time.zone.today + 1.day
@@ -585,8 +598,21 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'contract is valid'
     end
 
-    context 'when setting duration as well as the dates and the duration is too small' do
+    context 'when setting duration and dates while covering non-working days' do
       before do
+        create(:week_days) # sat and sun are weekends
+        work_package.ignore_non_working_days = false
+        work_package.duration = 6
+        work_package.start_date = "2022-08-22"
+        work_package.due_date = "2022-08-29"
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when setting duration and dates and duration is too small' do
+      before do
+        work_package.ignore_non_working_days = true
         work_package.duration = 5
         work_package.start_date = Time.zone.today - 4.days
         work_package.due_date = Time.zone.today + 1.day
@@ -595,8 +621,21 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'contract is invalid', duration: :smaller_than_dates
     end
 
-    context 'when setting duration as well as the dates and the duration is too big' do
+    context 'when setting duration and dates while covering non-working days and duration is too small' do
       before do
+        create(:week_days) # sat and sun are weekends
+        work_package.ignore_non_working_days = false
+        work_package.duration = 1
+        work_package.start_date = "2022-08-22"
+        work_package.due_date = "2022-08-29"
+      end
+
+      it_behaves_like 'contract is invalid', duration: :smaller_than_dates
+    end
+
+    context 'when setting duration and dates and duration is too big' do
+      before do
+        work_package.ignore_non_working_days = true
         work_package.duration = 7
         work_package.start_date = Time.zone.today - 4.days
         work_package.due_date = Time.zone.today + 1.day
@@ -605,19 +644,31 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'contract is invalid', duration: :larger_than_dates
     end
 
-    context 'when setting duration as well as the dates to the same date' do
+    context 'when setting duration and dates while covering non-working days and duration is too big' do
       before do
-        work_package.duration = 1
+        create(:week_days) # sat and sun are weekends
+        work_package.ignore_non_working_days = false
+        work_package.duration = 99
+        work_package.start_date = "2022-08-22"
+        work_package.due_date = "2022-08-29"
+      end
+
+      it_behaves_like 'contract is invalid', duration: :larger_than_dates
+    end
+
+    context 'when setting start date and due date without duration' do
+      before do
+        work_package.duration = nil
         work_package.start_date = Time.zone.today
         work_package.due_date = Time.zone.today
       end
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like 'contract is invalid', duration: :cannot_be_null
     end
   end
 
   describe 'ignore_non_working_days' do
-    context 'when setting the value to true', with_flag: { work_packages_duration_field_active: true } do
+    context 'when setting the value to true' do
       before do
         work_package.ignore_non_working_days = true
       end
@@ -625,21 +676,12 @@ describe WorkPackages::BaseContract do
       it_behaves_like 'contract is valid'
     end
 
-    context 'when setting the value to false', with_flag: { work_packages_duration_field_active: true } do
+    context 'when setting the value to false' do
       before do
         work_package.ignore_non_working_days = false
       end
 
       it_behaves_like 'contract is valid'
-    end
-
-    context 'when setting the value to false and with the feature disabled',
-            with_flag: { work_packages_duration_field_active: false } do
-      before do
-        work_package.ignore_non_working_days = false
-      end
-
-      it_behaves_like 'contract is invalid', ignore_non_working_days: :error_readonly
     end
   end
 
@@ -772,6 +814,18 @@ describe WorkPackages::BaseContract do
       it 'is invalid' do
         expect(subject)
           .to include(:cant_link_a_work_package_with_a_descendant)
+      end
+    end
+
+    context 'when an invalid parent_id is set' do
+      before do
+        work_package.parent = nil
+        work_package.parent_id = -1
+      end
+
+      it 'is invalid' do
+        expect(subject)
+          .to include(:does_not_exist)
       end
     end
   end

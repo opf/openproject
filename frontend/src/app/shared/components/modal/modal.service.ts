@@ -1,3 +1,31 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2022 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
   ApplicationRef,
   ComponentFactoryResolver,
@@ -7,12 +35,14 @@ import {
   Injector,
 } from '@angular/core';
 import {
-  ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector,
+  ComponentPortal,
+  ComponentType,
+  DomPortalOutlet,
+  PortalInjector,
 } from '@angular/cdk/portal';
 import { TransitionService } from '@uirouter/core';
+
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
-import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 
@@ -21,7 +51,7 @@ export class OpModalService {
   public active:OpModalComponent|null = null;
 
   // Hold a reference to the DOM node we're using as a host
-  private portalHostElement:HTMLElement;
+  private readonly portalHostElement:HTMLElement;
 
   // And a reference to the actual portal host interface on top of the element
   private bodyPortalHost:DomPortalOutlet;
@@ -29,30 +59,40 @@ export class OpModalService {
   // Remember when we're opening a new modal to avoid the outside click bubbling up.
   private opening = false;
 
-  constructor(private componentFactoryResolver:ComponentFactoryResolver,
-    readonly FocusHelper:FocusHelperService,
-    private appRef:ApplicationRef,
-    private $transitions:TransitionService,
-    private injector:Injector) {
-    const hostElement = this.portalHostElement = document.createElement('div');
-    hostElement.classList.add('op-modal-overlay');
+  constructor(
+    private readonly componentFactoryResolver:ComponentFactoryResolver,
+    private readonly appRef:ApplicationRef,
+    private readonly $transitions:TransitionService,
+    private readonly injector:Injector,
+  ) {
+    const hostElement = document.createElement('div');
+    hostElement.classList.add('spot-modal-overlay');
     document.body.appendChild(hostElement);
 
-    // Listen to keyups on window to close context menus
-    jQuery(window).on('keydown', (evt:JQuery.TriggeredEvent) => {
-      if (this.active && this.active.closeOnEscape && evt.which === KeyCodes.ESCAPE) {
-        this.active.closeOnEscapeFunction(evt);
-      }
+    const closeButton = document.createElement('button');
+    closeButton.classList.add('spot-button', 'spot-modal-close-button');
+    closeButton.innerHTML = '<span class="spot-icon spot-icon_close"></span>';
+    hostElement.appendChild(closeButton);
 
+    // Listen to keystrokes on window to close context menus
+    window.addEventListener('keydown', (evt:KeyboardEvent) => {
+      if (this.active && this.active.closeOnEscape && evt.key === 'Escape') {
+        this.active.closeOnEscapeFunction();
+      }
       return true;
     });
 
-    // Listen to any click when should close outside modal
-    jQuery(window).on('click', (evt:JQuery.TriggeredEvent) => {
+    // Listen to any click on the modal overlay (backdrop click)
+    hostElement.addEventListener('click', (evt:MouseEvent) => {
       if (this.active
         && !this.opening
-        && this.active.closeOnOutsideClick
-        && this.activeModal[0] === evt.target as Element) {
+        && this.portalHostElement === evt.target as Element) {
+        this.close();
+      }
+    });
+
+    closeButton.addEventListener('click', () => {
+      if (this.active && !this.opening) {
         this.close();
       }
     });
@@ -63,6 +103,8 @@ export class OpModalService {
       this.appRef,
       this.injector,
     );
+
+    this.portalHostElement = hostElement;
   }
 
   /**
@@ -93,16 +135,15 @@ export class OpModalService {
     // Create a portal for the given component class and render it
     const portal = new ComponentPortal(modal, null, this.injectorFor(injector, locals));
     const ref:ComponentRef<OpModalComponent> = this.bodyPortalHost.attach(portal) as ComponentRef<OpModalComponent>;
-    const instance = ref.instance as T;
-    this.active = instance;
-    this.portalHostElement.classList.add('op-modal-overlay_active');
+    this.active = ref.instance as T;
+    this.portalHostElement.classList.add('spot-modal-overlay_active');
     if (notFullScreen) {
-      this.portalHostElement.classList.add('op-modal-overlay_not-full-screen');
+      this.portalHostElement.classList.add('spot-modal-overlay_not-full-screen');
     }
 
     setTimeout(() => {
       // Focus on the first element
-      this.active && this.active.onOpen(this.activeModal);
+      this.active && this.active.onOpen();
 
       // Mark that we've opened the modal now
       this.opening = false;
@@ -114,33 +155,28 @@ export class OpModalService {
     return this.active as T;
   }
 
-  public isActive(modal:OpModalComponent) {
-    return this.active && this.active === modal;
+  public isActive(modal:OpModalComponent):boolean {
+    return this.active !== null && this.active === modal;
   }
 
   /**
    * Closes currently open modal window
    */
-  public close() {
+  public close():void {
     // Detach any component currently in the portal
     if (this.active && this.active.onClose()) {
       this.active.closingEvent.emit(this.active);
       this.bodyPortalHost.detach();
-      this.portalHostElement.classList.remove('op-modal-overlay_active');
-      this.portalHostElement.classList.remove('op-modal-overlay_not-full-screen');
+      this.portalHostElement.classList.remove('spot-modal-overlay_active');
+      this.portalHostElement.classList.remove('spot-modal-overlay_not-full-screen');
       this.active = null;
     }
-  }
-
-  public get activeModal():JQuery {
-    return jQuery(this.portalHostElement).find('.op-modal');
   }
 
   /**
    * Create an augmented injector that is equal to this service's injector + the additional data
    * passed into +show+.
    * This allows callers to pass data into the newly created modal.
-   *
    */
   private injectorFor(injector:Injector, data:Record<string, unknown>) {
     const injectorTokens = new WeakMap();

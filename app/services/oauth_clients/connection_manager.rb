@@ -132,7 +132,7 @@ module OAuthClients
       service_result = refresh_token # `refresh_token` already has exception handling
       return :connected if service_result.success?
 
-      if service_result.result == 'invalid_grant'
+      if service_result.result == 'invalid_request'
         # This can happen if the Authorization Server invalidated all tokens.
         # Then the user would ideally be asked to reauthorize.
         :failed_authorization
@@ -147,7 +147,7 @@ module OAuthClients
     end
 
     # @returns ServiceResult with result to be :error or any type of object with data
-    def request_with_token_refresh
+    def request_with_token_refresh(oauth_client_token)
       # `yield` needs to returns a ServiceResult:
       #   success: result= any object with data
       #   failure: result= :error or :not_authorized
@@ -161,6 +161,7 @@ module OAuthClients
           return failed_service_result
         end
 
+        oauth_client_token.reload
         yield_service_result = yield # Should contain result=<data> in case of success
       end
 
@@ -231,8 +232,8 @@ module OAuthClients
         scheme: oauth_client_scheme,
         host: oauth_client_host,
         port: oauth_client_port,
-        authorization_endpoint: File.join(oauth_client_path, "/apps/oauth2/authorize"),
-        token_endpoint: File.join(oauth_client_path, "/apps/oauth2/api/v1/token")
+        authorization_endpoint: File.join(oauth_client_path, "/index.php/apps/oauth2/authorize"),
+        token_endpoint: File.join(oauth_client_path, "/index.php/apps/oauth2/api/v1/token")
       )
     end
 

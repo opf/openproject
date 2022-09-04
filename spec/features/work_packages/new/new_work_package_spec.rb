@@ -450,11 +450,7 @@ describe 'new work package', js: true do
       date_field.expect_value("#{parent.start_date} - #{parent.due_date}")
 
       date_field.input_element.click
-      sleep 1
-      date_field.clear with_backspace: true
-      date_field.input_element.send_keys :backspace
-
-      date_field.save!
+      date_field.update ['', parent.due_date]
 
       subject = split_create_page.edit_field(:subject)
       subject.set_value 'Child'

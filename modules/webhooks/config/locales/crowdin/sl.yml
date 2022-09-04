@@ -37,7 +37,7 @@ sl:
         enabled_text: 'Spletna zanka bo oddala koristne obremenitve za spodaj opredeljene dogodke.'
         disabled_text: 'Kliknite gumb za urejanje, da aktivirate spletno zanko.'
       deliveries:
-        no_results_table: Za ta webhook ni bilo opravljenih nobenih dobav.
+        no_results_table: No deliveries have been made for this webhook in the past days.
         title: 'Nedavne dostave'
         time: 'Čas dostave'
       form:
@@ -48,7 +48,7 @@ sl:
           placeholder: 'Neobvezen opis spletne zanke.'
         enabled:
           description: >
-            Če je označeno, se bo spletna zanka sprožila na izbranih dogodkih. Počistite polje, da onemogočite spletno zanko. 
+            Če je označeno, se bo spletna zanka sprožila na izbranih dogodkih. Počistite polje, da onemogočite spletno zanko.
         events:
           title: 'Omogočeni dogodki'
         project_ids:
@@ -60,4 +60,4 @@ sl:
           title: 'Izbrani projekti'
         secret:
           description: >
-            Če je nastavljeno, OpenProject to skrivno vrednost uporabi za podpis uporabnega bremena spletne zanke. 
+            Če je nastavljeno, OpenProject to skrivno vrednost uporabi za podpis uporabnega bremena spletne zanke.

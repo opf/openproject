@@ -100,7 +100,8 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
 
   ngOnInit():void {
     this.documentReferer = document.referrer;
-    this.titleService.prependFirstPart(this.text.title);
+
+    this.setInitialHtmlTitle();
 
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, ():any => {
       this.titleService.setFirstPart(this.text.title);
@@ -123,12 +124,29 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
   }
 
   // For shared template compliance
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  updateTitleName(val:string):void {
+  // eslint-disable-next-line class-methods-use-this
+  updateTitleName(_val:string):void {
   }
 
   // For shared template compliance
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  changeChangesFromTitle(val:string):void {
+  // eslint-disable-next-line class-methods-use-this
+  changeChangesFromTitle(_val:string):void {
+  }
+
+  private setInitialHtmlTitle():void {
+    const currentTitleParts = this.titleService.titleParts;
+
+    // Prepend "Notifications" if only the application name is shown
+    if (currentTitleParts.length === 1) {
+      this.titleService.prependFirstPart(this.text.title);
+    }
+
+    // A click on the left side menu of the notification center newly triggers the center page (and thus the ngOnInit).
+    // So the transition hook only works for changing the content of the split screen but not when switching for example
+    // from "watched" to "mentioned".
+    // So we override the first part in this case to make sure that there is not the name of a WP is shown when there is no split screen visible.
+    if (currentTitleParts[0] !== this.text.title) {
+      this.titleService.setFirstPart(this.text.title);
+    }
   }
 }

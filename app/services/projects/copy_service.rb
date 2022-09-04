@@ -42,15 +42,10 @@ module Projects
         ::Projects::Copy::ForumsDependentService,
         ::Projects::Copy::QueriesDependentService,
         ::Projects::Copy::BoardsDependentService,
-        ::Projects::Copy::OverviewDependentService
+        ::Projects::Copy::OverviewDependentService,
+        ::Projects::Copy::StoragesDependentService,
+        ::Projects::Copy::FileLinksDependentService
       ]
-    end
-
-    ##
-    # In case a rollback is needed,
-    # destroy the copied project again.
-    def rollback
-      state.project&.destroy
     end
 
     protected

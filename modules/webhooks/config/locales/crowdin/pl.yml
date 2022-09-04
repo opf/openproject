@@ -37,7 +37,7 @@ pl:
         enabled_text: 'Webhook będzie emitować zawartość zdarzeń określonych poniżej.'
         disabled_text: 'Kliknij przycisk edycji, aby aktywować webhook.'
       deliveries:
-        no_results_table: Nie wykonano żadnych dostaw dla tego webhooka.
+        no_results_table: W ciągu ostatnich dni nie dokonano żadnych dostaw dla tego webhooka.
         title: 'Ostatnie dostawy'
         time: 'Czas dostawy'
       form:

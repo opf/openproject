@@ -2,8 +2,8 @@
   [open]="opened"
   alignment="bottom-right"
   (closed)="opened = false"
-  (keydown)="searchableProjectListService.onKeydown($event)"
   class="op-project-list-modal"
+  data-searchable-list-parent="true"
 >
   <button
     slot="trigger"
@@ -32,6 +32,7 @@
     <form
       (submit)="onSubmit($event)"
       class="spot-container op-project-list-modal--body"
+      *ngIf="projects$ | async as projects"
     >
       <spot-text-field
         [placeholder]="text.search_placeholder"
@@ -41,6 +42,9 @@
         data-qa-selector="project-include-search"
         data-list-focus-catcher-container="true"
         data-modal-focus-catcher-container="true"
+        (keydown)="searchableProjectListService.onKeydown($event, projects)"
+        (inputFocus)="textFieldFocused = true"
+        (inputBlur)="textFieldFocused = false"
       >
         <span
           slot="before"
@@ -49,27 +53,26 @@
       </spot-text-field>
 
       <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
-        <ng-container *ngIf="(projects$ | async) as projects">
-          <ul
-            *ngIf="projects.length > 0; else noResultsTemplate"
-            class="op-project-include--list"
-            op-project-list
-            [projects]="projects"
-            [selected]="selectedProjects"
-            [includeSubprojects]="includeSubprojects$ | async"
-            [searchText]="searchableProjectListService.searchText"
-            [root]="true"
-            (update)="selectedProjects = $event"
-            data-qa-selector="project-include-list"
-            data-list-root="true"
-          ></ul>
+        <ul
+          *ngIf="projects.length > 0; else noResultsTemplate"
+          class="op-project-include--list"
+          [ngClass]="{ 'spot-list_active': textFieldFocused }"
+          op-project-include-list
+          [projects]="projects"
+          [selected]="selectedProjects"
+          [includeSubprojects]="includeSubprojects$ | async"
+          [searchText]="searchableProjectListService.searchText"
+          [root]="true"
+          (update)="selectedProjects = $event"
+          data-qa-selector="project-include-list"
+          data-list-root="true"
+        ></ul>
 
-          <ng-template #noResultsTemplate>
-            <span class="op-project-list-modal--no-results">
-              {{text.no_results}}
-            </span>
-          </ng-template>
-        </ng-container>
+        <ng-template #noResultsTemplate>
+          <span class="op-project-list-modal--no-results">
+            {{text.no_results}}
+          </span>
+        </ng-template>
       </ng-container>
 
       <div class="spot-action-bar">
@@ -104,37 +107,9 @@
   </ng-container>
 
   <ng-template #loadingTemplate>
-    <op-content-loader
+    <op-loading-project-list
       class="op-project-list-modal--loading"
       data-qa-selector="op-project-include--loading"
-      viewBox="0 0 200 140"
-    >
-      <svg:rect x="0" width="12" height="12" rx="1" />
-      <svg:rect x="15" width="100%" height="12" rx="1" />
-
-      <svg:rect x="10" y="16" width="12" height="12" rx="1" />
-      <svg:rect x="25" y="16" width="100%" height="12" rx="1" />
-
-      <svg:rect x="10" y="32" width="12" height="12" rx="1" />
-      <svg:rect x="25" y="32" width="100%" height="12" rx="1" />
-
-      <svg:rect x="20" y="48" width="12" height="12" rx="1" />
-      <svg:rect x="35" y="48" width="100%" height="12" rx="1" />
-
-      <svg:rect x="20" y="64" width="12" height="12" rx="1" />
-      <svg:rect x="35" y="64" width="100%" height="12" rx="1" />
-
-      <svg:rect x="0" y="80" width="12" height="12" rx="1" />
-      <svg:rect x="15" y="80" width="100%" height="12" rx="1" />
-
-      <svg:rect x="10" y="96" width="12" height="12" rx="1" />
-      <svg:rect x="25" y="96" width="100%" height="12" rx="1" />
-
-      <svg:rect x="10" y="112" width="12" height="12" rx="1" />
-      <svg:rect x="25" y="112" width="100%" height="12" rx="1" />
-
-      <svg:rect x="0" y="128" width="12" height="12" rx="1" />
-      <svg:rect x="15" y="128" width="100%" height="12" rx="1" />
-    </op-content-loader>
+    ></op-loading-project-list>
   </ng-template>
 </spot-drop-modal>

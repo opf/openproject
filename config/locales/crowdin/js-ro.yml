@@ -151,7 +151,7 @@ ro:
           language_hint: 'Introduceți limbajul de formatare care va fi utilizat pentru evidențiere (dacă există suport pentru acesta).'
         dropdown:
           macros: 'Macro'
-          chose_macro: 'Alegeți macro'
+          chose_macro: 'Choose macro'
         toc: 'Cuprins'
         toolbar_help: 'Faceți clic pentru a selecta widgetul și pentru a afișa bara de instrumente. Faceți dublu clic pentru a edita widgetul'
         wiki_page_include:
@@ -204,6 +204,7 @@ ro:
             label_expires_at: "Expiră la"
             receive_newsletter: Doresc să primesc <a target="_blank" href="%{link}">buletinul informativ</a> OpenProject.
             taken_domain: Nu poate exista decât un singur proces activ pe domeniu.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Fiecare utilizator poate crea doar o singură încercare.
           email_not_received: "Nu ați primit un e-mail? Puteți retrimite e-mailul cu ajutorul linkului din dreapta."
           try_another_email: "Sau încercați cu o altă adresă de e-mail."
@@ -235,6 +236,7 @@ ro:
           confidence: >
             Oferim încrederea unui software de gestionare a proiectelor de clasă enterprise testat și susținut - cu Open Source și o minte deschisă.
           link_quote: "Obțineți o ofertă"
+          more_info: "More information"
           text: >
             Ediția OpenProject Enterprise Edition se bazează pe ediția Community Edition. Aceasta include caracteristici premium și asistență profesională, destinate în principal organizațiilor cu peste 10 utilizatori care gestionează proiecte critice de afaceri cu OpenProject.
           unlimited: "Nelimitat"
@@ -267,8 +269,7 @@ ro:
           one: "Primul criteriu de sortare"
           two: "Al doilea criteriu de sortare"
           three: "Al treilea criteriu de sortare"
-      upsale_for_more: "Advanced filters allow you to use almost any work package attribute as a filter. Please upgrade to a paid plan to use this feature."
-      more_info: "More information"
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
       upsale_link: 'Versiunea Enterprise.'
     general_text_no: "nu"
     general_text_yes: "da"
@@ -288,15 +289,15 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-1-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>In the BCF module you can now save your selected work package filters, columns etc. as <b>views</b> and share those with your team members.</li> <li>A <b>new team planner module</b> (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what.</li> <li>We are <b>releasing the basic agile boards</b> for the Community version.</li> <li>The <b>"Include Projects" filter</b> option makes it easier to add different projects to your views, such as for work packages, calendars, and team planners.</li> <li>We added <b>a new "Files" tab</b> in the work package details to have all possible information attached to a work package together.</li> <li>We created <b>global roles for groups</b> to assign these roles to groups and create superuser groups.</li> <li>Project status was given more options to choose from.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "Activare"
     label_assignee: 'Assignee'
     label_add_column_after: "Adauga o coloana dupa"
@@ -472,7 +473,7 @@ ro:
     label_remove_all_files: Ştergeţi toate fişierele
     label_add_description: "Adăugați o descriere pentru %{file}"
     label_upload_notification: "Se încarcă fișierele..."
-    label_work_package_upload_notification: "Fişierele pentru pachetul de lucru #%{id}: %{subject} sunt în curs de încărcare"
+    label_work_package_upload_notification: "Fişierele pentru pachetul de lucru #%{id}: %{subject} sunt în curs de încărcare" #%{id}: %{subject} sunt în curs de încărcare"
     label_wp_id_added_by: "#%{id} adaugat de %{author}"
     label_files_to_upload: "Următoarele fişiere vor fi încărcate:"
     label_rejected_files: "Următoarele fişiere nu pot fi încărcate:"
@@ -490,7 +491,7 @@ ro:
         next: 'Înainte'
         got_it: 'Am înțeles'
       steps:
-        help_menu: 'Meniul Ajutor (?) oferă <b>resurse suplimentare de ajutor</b>. Aici puteți găsi un ghid de utilizator și videoclipuri de utilitate și multe altele. <br> Bucurați-vă de munca dvs. cu OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invitați noi <b>membri</b> să se alăture proiectului dumneavoastră.'
         project_selection: 'Vă rugăm să faceți clic pe unul dintre proiectele demo pe care le-am pregătit. Datele demo sunt disponibile în prezent doar în limba engleză. <br> Proiectul demonstrativ <b>general</b> se potrivește cel mai bine pentru gestionarea proiectelor clasice, în timp ce proiectul <b>Scrum</b> este mai bun pentru managementul agile al proiectului.'
         quick_add_button: 'Dă click pe pictograma plus (+) din antetul navigării pentru a <b>crea un nou proiect</b> sau <b>invita colaboratori</b>.'
@@ -531,6 +532,11 @@ ro:
         watched: 'vizionat'
         assigned: 'atribuit'
         responsible: 'Responsabil'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'necitită'
         all: 'Toate'
@@ -603,6 +609,7 @@ ro:
       default: '-'
       subject: 'Introduceţi subiectul aici'
       selection: 'Vă rugăm să selectaţi'
+      description: 'Description: Click to edit...'
       relation_description: 'Click pentru a adauga o descriere pentru această relaţie'
     project:
       required_outside_context: >
@@ -733,8 +740,9 @@ ro:
     field_value_enter_prompt: "Introduceţi o valoare pentru '%{field}'"
     project_menu_details: "Detalii"
     scheduling:
-      manual: 'Programarea manuală'
-      automatic: 'Programare automată'
+      title: 'Scheduling'
+      manual: 'Manual'
+      default: 'Default'
     sort:
       sorted_asc: 'Sortare ascendentă aplicată '
       sorted_dsc: 'Sortare descendentă aplicată '
@@ -757,7 +765,7 @@ ro:
         farRight: 'Extrema dreaptă'
         showNone: '-- Fără etichetă --'
         description: >
-          Selectați atributele pe care doriți să le afișați în permanență în pozițiile respective ale diagramei Gantt. Rețineți că, atunci când treceți cu degetul peste un element, etichetele de date ale acestuia vor fi afișate în locul acestor atribute.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Grafic Gantt'
       button_deactivate: 'Grafic Gantt'
       cancel: Anulare
@@ -842,6 +850,10 @@ ro:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        ignore_non_working_days:
+          title: 'Working days'
+          false: 'Work week'
+          true: 'Include weekends'
       description_filter: "Filtrare"
       description_enter_text: "Introduceţi textul"
       description_options_hide: "Ascundere opțiuni"
@@ -897,6 +909,7 @@ ro:
         description: "Descriere"
         date: "Dată"
         dueDate: "Data de finalizare"
+        duration: "Duration"
         estimatedTime: "Durata estimată"
         spentTime: "Timp consumat"
         category: "Categorie"
@@ -928,7 +941,6 @@ ro:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Coloane"
         group_by: "Grupare rezultate"
@@ -995,7 +1007,6 @@ ro:
           attribute_highlighting: 'Aveți nevoie ca anumite pachete de lucru să iasă în evidență?'
           relation_columns: 'Aveți nevoie să vedeți relațiile din lista pachetelor de lucru?'
           check_out_link: 'Achiziționați versiunea Enterprise'
-          more-info-text: 'More information'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrare pachete de lucru'
       tabs:

@@ -73,7 +73,7 @@ module Components
       end
 
       def save
-        find('[data-qa-selector="op-modal-wp-table-configuration-save-button"]').click
+        find('[data-qa-selector="spot-modal-wp-table-configuration-save-button"]').click
       end
 
       def cancel
@@ -109,7 +109,7 @@ module Components
       end
 
       def selector
-        '.op-modal'
+        '.spot-modal'
       end
 
       private

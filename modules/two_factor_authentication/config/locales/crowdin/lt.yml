@@ -135,8 +135,6 @@ lt:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS pristatymas nepavyko'
       voice_delivery_failed: 'MessageBird balso skambutis nepavyko.'
-    restdt:
-      delivery_failed_with_code: 'Žetono pristatymas nepavyko. (Klaidos kodas %{code})'
     strategies:
       totp: 'Autentifikatoriaus aplikacija'
       sns: 'Amazon SNS'

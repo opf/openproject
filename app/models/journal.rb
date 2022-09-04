@@ -102,6 +102,14 @@ class Journal < ApplicationRecord
     predecessor
   end
 
+  def successor
+    @successor ||= self.class
+                       .where(journable_type:, journable_id:)
+                       .where("#{self.class.table_name}.version > ?", version)
+                       .order(version: :asc)
+                       .first
+  end
+
   def noop?
     (!notes || notes&.empty?) && get_changes.empty?
   end

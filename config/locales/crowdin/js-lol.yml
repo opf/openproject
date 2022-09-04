@@ -151,7 +151,7 @@ lol:
           language_hint: 'crwdns787050:0crwdne787050:0'
         dropdown:
           macros: 'crwdns787052:0crwdne787052:0'
-          chose_macro: 'crwdns787054:0crwdne787054:0'
+          chose_macro: 'crwdns829550:0crwdne829550:0'
         toc: 'crwdns787056:0crwdne787056:0'
         toolbar_help: 'crwdns787058:0crwdne787058:0'
         wiki_page_include:
@@ -204,6 +204,7 @@ lol:
             label_expires_at: "crwdns787130:0crwdne787130:0"
             receive_newsletter: crwdns787132:0%{link}crwdne787132:0
             taken_domain: crwdns787134:0crwdne787134:0
+            domain_mismatch: crwdns825740:0crwdne825740:0
             taken_email: crwdns787136:0crwdne787136:0
           email_not_received: "crwdns787138:0crwdne787138:0"
           try_another_email: "crwdns787140:0crwdne787140:0"
@@ -235,6 +236,7 @@ lol:
           confidence: >
             crwdns787186:0crwdne787186:0
           link_quote: "crwdns787188:0crwdne787188:0"
+          more_info: "crwdns825474:0crwdne825474:0"
           text: >
             crwdns787190:0crwdne787190:0
           unlimited: "crwdns787192:0crwdne787192:0"
@@ -267,8 +269,7 @@ lol:
           one: "crwdns787230:0crwdne787230:0"
           two: "crwdns787232:0crwdne787232:0"
           three: "crwdns787234:0crwdne787234:0"
-      upsale_for_more: "crwdns823074:0crwdne823074:0"
-      more_info: "crwdns822254:0crwdne822254:0"
+      upsale_for_more: "crwdns825476:0crwdne825476:0"
       upsale_link: 'crwdns787238:0crwdne787238:0'
     general_text_no: "crwdns787240:0crwdne787240:0"
     general_text_yes: "crwdns787242:0crwdne787242:0"
@@ -288,15 +289,15 @@ lol:
           learn_about: "crwdns787258:0crwdne787258:0"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_1':
+          '12_2':
             standard:
-              learn_about_link: crwdns813928:0crwdne813928:0
+              learn_about_link: crwdns825714:0crwdne825714:0
               new_features_html: >
-                crwdns808274:0%{list_styling_class}crwdne808274:0
+                crwdns825716:0%{list_styling_class}crwdne825716:0
             bim:
-              learn_about_link: crwdns813930:0crwdne813930:0
+              learn_about_link: crwdns825718:0crwdne825718:0
               new_features_html: >
-                crwdns808278:0%{list_styling_class}crwdne808278:0
+                crwdns825720:0%{list_styling_class}crwdne825720:0
     label_activate: "crwdns787268:0crwdne787268:0"
     label_assignee: 'crwdns809580:0crwdne809580:0'
     label_add_column_after: "crwdns787270:0crwdne787270:0"
@@ -490,7 +491,7 @@ lol:
         next: 'crwdns787632:0crwdne787632:0'
         got_it: 'crwdns787634:0crwdne787634:0'
       steps:
-        help_menu: 'crwdns787636:0crwdne787636:0'
+        help_menu: 'crwdns830268:0crwdne830268:0'
         members: 'crwdns787638:0crwdne787638:0'
         project_selection: 'crwdns787640:0crwdne787640:0'
         quick_add_button: 'crwdns787642:0crwdne787642:0'
@@ -531,6 +532,11 @@ lol:
         watched: 'crwdns787688:0crwdne787688:0'
         assigned: 'crwdns787690:0crwdne787690:0'
         responsible: 'crwdns787692:0crwdne787692:0'
+        created: 'crwdns832420:0crwdne832420:0'
+        scheduled: 'crwdns832422:0crwdne832422:0'
+        commented: 'crwdns832424:0crwdne832424:0'
+        processed: 'crwdns832426:0crwdne832426:0'
+        prioritized: 'crwdns832428:0crwdne832428:0'
       facets:
         unread: 'crwdns787694:0crwdne787694:0'
         all: 'crwdns787696:0crwdne787696:0'
@@ -602,6 +608,7 @@ lol:
       default: 'crwdns787790:0crwdne787790:0'
       subject: 'crwdns787792:0crwdne787792:0'
       selection: 'crwdns787794:0crwdne787794:0'
+      description: 'crwdns830274:0crwdne830274:0'
       relation_description: 'crwdns787796:0crwdne787796:0'
     project:
       required_outside_context: >
@@ -732,8 +739,9 @@ lol:
     field_value_enter_prompt: "crwdns788014:0%{field}crwdne788014:0"
     project_menu_details: "crwdns788016:0crwdne788016:0"
     scheduling:
-      manual: 'crwdns788018:0crwdne788018:0'
-      automatic: 'crwdns788020:0crwdne788020:0'
+      title: 'crwdns831846:0crwdne831846:0'
+      manual: 'crwdns831848:0crwdne831848:0'
+      default: 'crwdns831850:0crwdne831850:0'
     sort:
       sorted_asc: 'crwdns788022:0crwdne788022:0'
       sorted_dsc: 'crwdns788024:0crwdne788024:0'
@@ -756,7 +764,7 @@ lol:
         farRight: 'crwdns788054:0crwdne788054:0'
         showNone: 'crwdns788056:0crwdne788056:0'
         description: >
-          crwdns788058:0crwdne788058:0
+          crwdns830270:0crwdne830270:0
       button_activate: 'crwdns788060:0crwdne788060:0'
       button_deactivate: 'crwdns788062:0crwdne788062:0'
       cancel: crwdns788064:0crwdne788064:0
@@ -841,6 +849,10 @@ lol:
         changing_dates_affects_follow_relations: "crwdns818674:0crwdne818674:0"
         click_on_show_relations_to_open_gantt: 'crwdns818666:0%{button_name}crwdne818666:0'
         show_relations: 'crwdns818668:0crwdne818668:0'
+        ignore_non_working_days:
+          title: 'crwdns832338:0crwdne832338:0'
+          false: 'crwdns832340:0crwdne832340:0'
+          true: 'crwdns832342:0crwdne832342:0'
       description_filter: "crwdns788192:0crwdne788192:0"
       description_enter_text: "crwdns788194:0crwdne788194:0"
       description_options_hide: "crwdns788196:0crwdne788196:0"
@@ -896,6 +908,7 @@ lol:
         description: "crwdns788280:0crwdne788280:0"
         date: "crwdns788282:0crwdne788282:0"
         dueDate: "crwdns788284:0crwdne788284:0"
+        duration: "crwdns831858:0crwdne831858:0"
         estimatedTime: "crwdns788286:0crwdne788286:0"
         spentTime: "crwdns788288:0crwdne788288:0"
         category: "crwdns788290:0crwdne788290:0"
@@ -927,7 +940,6 @@ lol:
       placeholders:
         default: "crwdns788338:0crwdne788338:0"
         date: "crwdns788340:0crwdne788340:0"
-        formattable: "crwdns788342:0%{name}crwdne788342:0"
       query:
         column_names: "crwdns788344:0crwdne788344:0"
         group_by: "crwdns788346:0crwdne788346:0"
@@ -994,7 +1006,6 @@ lol:
           attribute_highlighting: 'crwdns788452:0crwdne788452:0'
           relation_columns: 'crwdns788454:0crwdne788454:0'
           check_out_link: 'crwdns788456:0crwdne788456:0'
-          more-info-text: 'crwdns822260:0crwdne822260:0'
         relation_filters:
           filter_work_packages_by_relation_type: 'crwdns788458:0crwdne788458:0'
       tabs:
