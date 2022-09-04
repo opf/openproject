@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 describe Journal::Timestamps, type: :model do
+  # See: https://github.com/opf/openproject/pull/11243
 
   let!(:work_package) { create :work_package }
   let(:journable) { work_package }

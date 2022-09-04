@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 describe Journable::Timestamps, type: :model do
+  # See: https://github.com/opf/openproject/pull/11243
 
   before do
     @before_monday = "2022-01-01".to_datetime

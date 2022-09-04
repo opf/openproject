@@ -27,6 +27,8 @@
 #++
 
 module Journable::Timestamps
+  # See: https://github.com/opf/openproject/pull/11243
+
   extend ActiveSupport::Concern
 
   class_methods do

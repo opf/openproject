@@ -27,6 +27,8 @@
 #++
 
 class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
+  # See: https://github.com/opf/openproject/pull/11243
+
   attr_accessor :timestamp
 
   include ActiveRecord::Delegation::ClassSpecificRelation
