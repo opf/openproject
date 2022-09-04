@@ -206,7 +206,7 @@ describe Journable::Timestamps, type: :model do
 
       describe "when filtering on a column of an associated table" do
         before do
-          @time_entry = work_package.time_entries.create! user_id: User.first.id, hours: 1, activity_id: 1, project_id: create(:project).id, spent_on: @monday
+          @time_entry = work_package.time_entries.create! user_id: User.first.id, hours: 1, activity_id: 1, project_id: create(:project).id, spent_on: @monday, logged_by_id: User.first.id
           @relation = WorkPackage.joins(:time_entries).where(time_entries: {id: @time_entry.id})
         end
         describe "when querying with at_timestamp" do
