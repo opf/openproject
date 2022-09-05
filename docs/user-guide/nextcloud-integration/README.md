@@ -21,14 +21,13 @@ This integration makes it possible for you to:
 > Note: The the minimum requirements for this integration are Nextcloud version 22 (or above) and OpenProject version  12.2 (or above). To be able to use Nextcloud as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../system-admin-guide/integrations/nextcloud).
 
 
-
-| Topic                                                                                                     | Description                                                                               |
-|-----------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------|
+| Topic                                                        | Description                                                  |
+| ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Connecting your OpenProject and Nextcloud accounts](#connecting-your-openproject-and-nextcloud-accounts) | How to connect your Nextcloud and OpenProject accounts to be able to use this integration |
-| [Linking files and folders to work packages](#linking-files-and-folders-to-work-packages)                 | How to link/unlink files and folders to work packages and view and download linked files  |
-| [Permissions and access control](#permissions-and-access-control)                                         | Who has access to linked files and who doesn't                                            |
-| [Next steps for the integration](#next-steps-for-the-integration)                                         | What is planned in future releases                                                        |
-| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting)                               | Common errors and how to troubleshoot them                                                |
+| [Linking files and folders to work packages](#linking-files-and-folders-to-work-packages) | How to link/unlink files and folders to work packages and view and download linked files |
+| [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't               |
+| [Next steps for the integration](#next-steps-for-the-integration) | What is planned in future releases                           |
+| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them                   |
 
 
 
@@ -52,7 +51,9 @@ To begin using this integration, you will need to first connect your OpenProject
 
 5. The one-time process to connect your two accounts is complete. You will now be directed back to the original work package, where you can view and open any Nextcloud files that are already linked, or start linking new ones.
 
-> **Note:** To disconnect the link between your OpenProject and Nextcloud accounts, head on over to Nextcloud and navigate to _Settings → Connected accounts_. There, clicking **Disconnect from OpenProject** button. To re-link the two accounts, simply follow the above instructions again.
+
+> **Note**: To disconnect the link between your OpenProject and Nextcloud accounts, head on over to Nextcloud and navigate to _Settings → Connected accounts_. There, click *Disconnect from OpenProject* button. To re-link the two accounts, simply follow [the above instructions](#connecting-your-openproject-and-nextcloud-accounts) again.
+
 
 ## Linking files and folders to work packages
 
@@ -61,7 +62,7 @@ The following video gives you a short overview of how to use this integration:
 ![OpenProject Nextcloud integration video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Nextcloud-Integration-2.mp4)
 
 
-### In OpenProject:
+### In OpenProject
 
 In addition to listing files attached to a work package, the **Files** tab now also shows you Nextcloud files that are linked to the current work package. Hovering on any linked file with your mouse will give you options to  **open or download the file, show the containing folder in Nextcloud or remove the link**.
 ![Empty_status_files](1_0_00-No_files_linked.png)
@@ -69,7 +70,6 @@ In addition to listing files attached to a work package, the **Files** tab now a
 ![OP_linked_files](1_1_00-All_files_available.png)
 
 > **Note:** In this version of the integration, you can only link files to work packages on Nextcloud; adding a new link to a Nextcloud file via the OpenProject interface is not yet possible, but will be possible in the near future.
-
 
 
 ### In Nextcloud
@@ -97,7 +97,6 @@ In addition to actions related to individual files, you can also choose to displ
 ![added_NC_widget](Nextcloud_dashboard.png)
 
 
-
 There are three additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *Connected accounts*, you will find these options:
 
 - **Enable navigation link** displays a link to your OpenProject instance in the Nextcloud header 
@@ -109,6 +108,10 @@ There are three additional features related to the integration that you can enab
 ![NC_extra_navlink](Navigation_link_OpenProject.png)
 
 ![NC_extra_search](Unified_search.png)
+
+
+> **Note:** In this version of the integration, you can only link files to work packages on Nextcloud; adding a new link to a Nextcloud file via the OpenProject interface is not yet possible, but will be possible in the near future.
+
 
 ## Permissions and access control
 
@@ -126,11 +129,13 @@ However, all available actions depend on permissions the OpenProject user (or mo
 
 Further integration efforts are under way. In the near future, you will be able to link and upload files to Nextcloud directly from the OpenProject interface.
 
+
+
 ## Possible errors and troubleshooting
 
 #### No permission to see this file 
 
-If you are unable to see the details of a file or are unable to open some of the files linked to a work package, it could be related to your Nextcloud user not having the necessary permissions. In such a case, you will be able to see the name, time of last modification and the name of the modifier but you will not be able to perform any further actions. To open or access these files, please contact your Nextcloud administrator or the creator of the file so that they can grant you the necessary permissions.
+If you are unable to see the details of a file or are unable to open some of the files linked to a work package, it could be related to your Nextcloud account not having the necessary permissions. In such a case, you will be able to see the name, time of last modification and the name of the modifier but you will not be able to perform any further actions. To open or access these files, please contact your Nextcloud administrator or the creator of the file so that they can grant you the necessary permissions.
 
 ![OP_no_permissions](1_1_01-Not_all_files_available.png)
 
