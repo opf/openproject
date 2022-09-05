@@ -1122,12 +1122,14 @@ en:
       button_save: "Save"
       button_submit: "Submit"
       button_cancel: "Cancel"
+      button_delete: "Delete"
       form_submit:
         title: 'Confirm to continue'
         text: 'Are you sure you want to perform this action?'
       destroy_work_package:
         title: "Confirm deletion of %{label}"
-        text: "Are you sure you want to delete the following %{label} ?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "The work package has %{childUnits}:"
         confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
         deletes_children: "All child work packages and their descendants will also be recursively deleted."

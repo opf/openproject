@@ -5,18 +5,16 @@
 >
   <div class="spot-modal--header">{{text.title}}</div>
 
-  <div class="spot-divider"></div>
-
   <div class="spot-modal--body">
     <ng-container *ngIf="singleWorkPackage">
       <p>
-        <span [textContent]="text.text"></span>
-        <br/>
+        <span [textContent]="text.single_text"></span> 
         <strong>
-          {{ singleWorkPackage.type.name }}
-          #{{ singleWorkPackage.id }}
+          
           {{ singleWorkPackage.subject }}
+          #{{ singleWorkPackage.id }} 
         </strong>
+        ?
       </p>
       <div *ngIf="singleWorkPackageChildren && singleWorkPackageChildren.length > 0">
         <p class="danger-zone--warning">
@@ -38,7 +36,7 @@
     <ng-container *ngIf="workPackages.length > 1">
       <p class="danger-zone--warning">
         <span class="icon-context icon-error"></span>
-        <strong [textContent]="text.text"></strong>
+        <strong [textContent]="text.bulk_text"></strong>
       </p>
       <ul>
         <li *ngFor="let wp of workPackages">
@@ -74,10 +72,11 @@
       ></button>
       <button
         class="button button_no-margin -danger spot-action-bar--action"
-        [textContent]="text.confirm"
         [attr.disabled]="busy || blockedDueToUnconfirmedChildren || undefined"
-        (click)="confirmDeletion($event)"
-      ></button>
+        (click)="confirmDeletion($event)">
+        {{ text.confirm }}
+        <op-icon icon-classes="button--icon icon-delete"></op-icon>
+      </button>
     </div>
   </div>
 </div>
