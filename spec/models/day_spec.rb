@@ -103,7 +103,7 @@ describe Day, type: :model do
     end
 
     context 'when the week day is working' do
-      shared_let(:working_days) { reset_working_week_days('saturday') }
+      shared_let(:working_days) { set_work_week('saturday') }
 
       it 'is true' do
         expect(subject.working).to be_truthy

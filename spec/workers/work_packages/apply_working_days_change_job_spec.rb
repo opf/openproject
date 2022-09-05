@@ -122,8 +122,29 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
     end
   end
 
+  context 'when a follower has a predecessor with delay covering a day that is now a non-working day' do
+    let_schedule(<<~CHART)
+      days        | MTWTFSS |
+      predecessor | XX      |
+      follower    |    X    | follows predecessor with delay 1
+    CHART
+
+    before do
+      set_non_working_week_days('wednesday')
+    end
+
+    it 'moves the follower start date to keep the delay to 1 day' do
+      job.perform_now(user_id: user.id)
+      expect(WorkPackage.all).to match_schedule(<<~CHART)
+        days        | MTWTFSS |
+        predecessor | XX      |
+        follower    |     X   |
+      CHART
+    end
+  end
+
   context 'when a follower has a predecessor with dates covering a day that is now a working day' do
-    let!(:week) { reset_working_week_days('monday', 'tuesday', 'thursday', 'friday') }
+    let!(:week) { set_work_week('monday', 'tuesday', 'thursday', 'friday') }
 
     let_schedule(<<~CHART)
       days        | MTWTFSS  |
@@ -145,8 +166,8 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
     end
   end
 
-  xcontext 'when a follower has a predecessor with a non-working day between them that is now a working day' do
-    let!(:week) { reset_working_week_days('monday', 'tuesday', 'thursday', 'friday') }
+  context 'when a follower has a predecessor with a non-working day between them that is now a working day' do
+    let!(:week) { set_work_week('monday', 'tuesday', 'thursday', 'friday') }
 
     let_schedule(<<~CHART)
       days        | MTWTFSS  |
@@ -158,12 +179,12 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       set_working_week_days('wednesday')
     end
 
-    it 'moves the follower start date one day back to keep the same gap between them' do
+    it 'does not move the follower' do
       job.perform_now(user_id: user.id)
       expect(WorkPackage.all).to match_schedule(<<~CHART)
         days        | MTWTFSS |
         predecessor | XX      |
-        follower    |   XX    |
+        follower    |    XX   |
       CHART
     end
   end
@@ -229,8 +250,8 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
     end
   end
 
-  xcontext 'when having multiple work packages following each other, and having days becoming working days' do
-    let!(:week) { reset_working_week_days('monday', 'thursday') }
+  context 'when having multiple work packages following each other, and having days becoming working days' do
+    let!(:week) { set_work_week('monday', 'thursday') }
 
     let_schedule(<<~CHART)
       days | MTWTFSSmtwtfssmtwtfss  |
@@ -243,15 +264,15 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       set_working_week_days('tuesday', 'wednesday', 'friday')
     end
 
-    it 'updates them only once' do
+    it 'keeps the same start dates and updates them only once' do
       job.perform_now(user_id: user.id)
       expect(WorkPackage.all).to match_schedule(<<~CHART)
-        days | MTWTFSSmt |
-        wp1  |     X..XX |
-        wp2  |    X      |
-        wp3  | XXX       |
+        days | MTWTFSSmtwtfssmtwtfss  |
+        wp1  |               XXX      | follows wp2
+        wp2  |           X            | follows wp3
+        wp3  | XXX                    |
       CHART
-      expect(WorkPackage.pluck(:lock_version)).to all(be_less_or_equal_than(1))
+      expect(WorkPackage.pluck(:lock_version)).to all(be <= 1)
     end
   end
 
