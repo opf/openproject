@@ -27,7 +27,7 @@
 #++
 
 module BaseServices
-  class Copy < ::BaseServices::BaseContracted
+  class Copy < ::BaseServices::Write
     alias_attribute(:source, :model)
 
     ##
@@ -66,27 +66,25 @@ module BaseServices
       super
     end
 
-    def after_validate(params, _call)
-      # Initialize the target resource to copy into
-      call = initialize_copy(source, params)
-
+    def persist(call)
       # Return only the unsaved copy
       return call if params[:attributes_only]
 
-      # Try to save the result or return its errors
-      copy_instance = call.result
-      unless copy_instance.save
-        return ServiceResult.failure(result: copy_instance, errors: copy_instance.errors)
+      super.tap do |super_call|
+        copy_instance = super_call.result
+        self.class.copy_dependencies.each do |service_cls|
+          next if skip_dependency?(params, service_cls)
+
+          super_call.merge! call_dependent_service(service_cls, target: copy_instance, params:),
+                            without_success: true
+        end
       end
+    end
 
-      self.class.copy_dependencies.each do |service_cls|
-        next if skip_dependency?(params, service_cls)
+    def after_perform(call)
+      return call if params[:attributes_only]
 
-        call.merge! call_dependent_service(service_cls, target: copy_instance, params:),
-                    without_success: true
-      end
-
-      call
+      super
     end
 
     protected
@@ -123,8 +121,8 @@ module BaseServices
         .call(params:)
     end
 
-    def initialize_copy(source, params)
-      raise NotImplementedError
+    def instance(_params)
+      source.class.new
     end
 
     def default_contract_class
