@@ -48,13 +48,6 @@ module Projects
       ]
     end
 
-    ##
-    # In case a rollback is needed,
-    # destroy the copied project again.
-    def rollback
-      state.project&.destroy
-    end
-
     protected
 
     ##

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_packages_duration_field_active: true } do
+describe WorkPackages::SetScheduleService, 'working days' do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:week_days) { create(:week_days) }
@@ -42,7 +42,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
 
   context 'with a single successor' do
     context 'when moving successor will cover non-working days' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days          | MTWTFSS |
         work_package  | XX      |
         follower      |   XXX   | follows work_package
@@ -66,7 +66,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'when moved predecessor covers non-working days' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days          | MTWTFSS      |
         work_package  |    XX        |
         follower      |        XXX   | follows work_package
@@ -91,7 +91,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
 
     context 'when predecessor moved forward' do
       context 'on a day in the middle on working days with the follower having only start date' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSS   |
           work_package  | X         |
           follower      |  [        | follows work_package
@@ -114,7 +114,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'on a day just before non working days with the follower having only start date' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSS   |
           work_package  | X         |
           follower      |  [        | follows work_package
@@ -137,7 +137,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'on a day in the middle of working days with the follower having only due date and no space in between' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  | ]       |
           follower      |  ]      | follows work_package
@@ -160,7 +160,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'on a day in the middle of working days with the follower having only due date and much space in between' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSSmt |
           work_package  | ]         |
           follower      |         ] | follows work_package
@@ -183,7 +183,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'on a day just before non-working day with the follower having only due date' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  | ]       |
           follower      |  ]      | follows work_package
@@ -206,7 +206,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'with the follower having some space left' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSS   |
           work_package  | X         |
           follower      |     X..XX | follows work_package
@@ -229,7 +229,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'with the follower having enough space left to not be moved at all' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSS       |
           work_package  | X             |
           follower      |          XXX  | follows work_package
@@ -252,7 +252,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'with the follower having some space left and a delay' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSSmtwtfss  |
           work_package  | X               |
           follower      |        XXX      | follows work_package with delay 3
@@ -277,7 +277,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
 
     context 'when predecessor moved backwards' do
       context 'on a day right before some non-working days' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  | X       |
           follower      |  XX     | follows work_package
@@ -300,7 +300,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'on a day in the middle of working days' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  | X       |
           follower      |  XX     | follows work_package
@@ -323,7 +323,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'on a day before non-working days the follower having space between' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSS   |
           work_package  | X         |
           follower      |     X     | follows work_package
@@ -346,7 +346,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'with the follower having another relation limiting movement' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | mtwtfssmtwtfssMTWTFSS |
           work_package  |               X       |
           follower      |                XX     | follows work_package, follows annoyer with delay 2
@@ -370,7 +370,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'with the follower having another relation limiting movement and only due date' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | mtwtfssmtwtfssMTWTFSS |
           work_package  |               X       |
           follower      |                 ]     | follows work_package, follows annoyer with delay 2
@@ -396,7 +396,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
 
     context 'when removing the dates on the moved predecessor' do
       context 'with the follower having start and due dates' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  | XX      |
           follower      |   XXX   | follows work_package
@@ -419,7 +419,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'with the follower having only a due date' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  | XX      |
           follower      |     ]   | follows work_package
@@ -444,7 +444,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
 
     context 'when only creating the relation between predecessor and follower' do
       context 'with follower having no dates' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  | XX      |
           follower      |         |
@@ -464,7 +464,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'with follower having only due date before predecessor due date' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          |    MTWTFSS |
           work_package  |    XX      |
           follower      | ]          |
@@ -484,7 +484,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'with follower having only start date before predecessor due date' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          |    MTWTFSS |
           work_package  |    XX      |
           follower      | [          |
@@ -504,7 +504,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'with follower having both start and due dates before predecessor due date' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          |    mtwtfssMTWTFSS |
           work_package  |           XX      |
           follower      | X..XXX            |
@@ -524,7 +524,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'with follower having due date long after predecessor due date' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  | XX      |
           follower      |     ]   |
@@ -544,7 +544,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'with predecessor and follower having no dates' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days          | MTWTFSS |
           work_package  |         |
           follower      |         |
@@ -565,7 +565,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
 
     context 'with the successor having another predecessor which has no dates' do
       context 'when moved forward' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days              | MTWTFSS |
           work_package      | ]       |
           follower          |  XXX    | follows work_package, follows other_predecessor
@@ -589,7 +589,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
       end
 
       context 'when moved backwards' do
-        let_schedule(<<~CHART, ignore_non_working_days: false)
+        let_schedule(<<~CHART)
           days              | MTWTFSS |
           work_package      | ]       |
           follower          |  XXX    | follows work_package, follows other_predecessor
@@ -615,7 +615,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
   end
 
   context 'with a parent' do
-    let_schedule(<<~CHART, ignore_non_working_days: false)
+    let_schedule(<<~CHART)
       days         | MTWTFSS |
       parent       |         |
       work_package | ]       | child of parent
@@ -638,7 +638,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
   end
 
   context 'with a parent having a follower' do
-    let_schedule(<<~CHART, ignore_non_working_days: false)
+    let_schedule(<<~CHART)
       days            | MTWTFSS   |
       parent          | XX        |
       work_package    | ]         | child of parent
@@ -664,7 +664,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
 
   context 'with a single successor having a parent' do
     context 'when moving forward' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days            | MTWTFSS |
         work_package    | ]       |
         follower        |  XX     | follows work_package, child of follower_parent
@@ -689,7 +689,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'when moving forward with the parent having another child not being moved' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days             | MTWTFSS |
         work_package     | ]       |
         follower         |  XX     | follows work_package, child of follower_parent
@@ -715,7 +715,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'when moving backwards' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days            | MTWTFSS |
         work_package    | ]       |
         follower        |  XX     | follows work_package, child of follower_parent
@@ -740,7 +740,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'when moving backwards with the parent having a predecessor limiting movement' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days             | mtwtfssMTWTFSS |
         work_package     |        ]       |
         follower         |         XX     | follows work_package, child of follower_parent
@@ -766,7 +766,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'when moving backwards with the parent having another relation not limiting movement' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days             |     mtwtfssMTWTFSS |
         work_package     |            ]       |
         follower         |             XXXX   | follows work_package, child of follower_parent
@@ -792,7 +792,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'when moving backwards with the parent having another child not being moved' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days             | mtwtfssMTWTFSS |
         work_package     |        ]       |
         follower         |         XX     | follows work_package, child of follower_parent
@@ -820,7 +820,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
 
   context 'with a single successor having a child' do
     context 'when moving forward' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days           | MTWTFSS |
         work_package   | ]       |
         follower       |  XX     | follows work_package
@@ -847,7 +847,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
 
   context 'with a single successor having two children' do
     context 'when creating the follows relation while follower starts 1 day after moved due date' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days            | MTWTFSS          |
         work_package    | ]                |
         follower        |  XXXX..XXXXX..XX |
@@ -868,7 +868,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'when creating the follows relation while follower starts 3 days after moved due date' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days            | MTWTFSS            |
         work_package    | ]                  |
         follower        |    XX..XXXXX..XXXX |
@@ -889,7 +889,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'when creating the follows relation and follower first child starts before moved due date' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days            |    MTWTFSS     |
         work_package    |    ]           |
         follower        | X..XXXXX..XXXX |
@@ -912,7 +912,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'when creating the follows relation and both follower children start before moved due date' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days            |      MTWTFSS  |
         work_package    |      ]        |
         follower        | XXX..XXXXX..X |
@@ -938,7 +938,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
 
   context 'with a chain of followers' do
     context 'when moving forward' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days         | MTWTFSSm     sm     sm |
         work_package | ]                      |
         follower1    |  XXX                   | follows work_package
@@ -967,7 +967,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'when moving forward with some space between the followers' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days         | MTWTFSSm     sm     sm     |
         work_package | ]                          |
         follower1    |  XXX                       | follows work_package
@@ -994,7 +994,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'when moving forward with some delay and spaces between the followers' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days         | MTWTFSSm     sm     sm     |
         work_package | ]                          |
         follower1    |  XXX                       | follows work_package
@@ -1023,7 +1023,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'when moving backwards' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days         | MTWTFSSm     sm     sm     |
         work_package | ]                          |
         follower1    |  XXX                       | follows work_package
@@ -1054,7 +1054,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
 
   context 'with a chain of followers with two paths leading to the same follower in the end' do
     context 'when moving forward' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days         | MTWTFSSm     sm  |
         work_package | ]                |
         follower1    |  XXX             | follows work_package
@@ -1083,7 +1083,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'when moving backwards' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days         | MTWTFSSm     sm  |
         work_package | ]                |
         follower1    |  XXX             | follows work_package
@@ -1116,7 +1116,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     let(:changed_attributes) { [:parent] }
 
     context 'without dates and with the parent being restricted in its ability to be moved' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days                   | MTWTFSS |
         work_package           |         |
         new_parent             |         | follows new_parent_predecessor with delay 3
@@ -1138,7 +1138,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'without dates, with a duration and with the parent being restricted in its ability to be moved' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days                   | MTWTFSS |
         work_package           |         | duration 4
         new_parent             |         | follows new_parent_predecessor with delay 3
@@ -1161,7 +1161,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'with the parent being restricted in its ability to be moved and with a due date before parent constraint' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days                   | MTWTFSS   |
         work_package           | ]         |
         new_parent             |           | follows new_parent_predecessor with delay 3
@@ -1183,7 +1183,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'with the parent being restricted in its ability to be moved and with a due date after parent constraint' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days                   | MTWTFSS   |
         work_package           |         ] |
         new_parent             |           | follows new_parent_predecessor with delay 3
@@ -1205,7 +1205,7 @@ describe WorkPackages::SetScheduleService, 'working days', with_flag: { work_pac
     end
 
     context 'with the parent being restricted but work package already has both dates set' do
-      let_schedule(<<~CHART, ignore_non_working_days: false)
+      let_schedule(<<~CHART)
         days                   | MTWTFSS   |
         work_package           |        XX |
         new_parent             |           | follows new_parent_predecessor with delay 3

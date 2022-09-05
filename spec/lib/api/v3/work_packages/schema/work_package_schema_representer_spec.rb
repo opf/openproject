@@ -293,7 +293,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe 'duration', with_flag: { work_packages_duration_field_active: true } do
+    describe 'duration' do
       let(:milestone?) { false }
 
       before do
@@ -317,12 +317,6 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           expect(subject).not_to have_json_path('duration')
         end
       end
-
-      context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
-        it 'has no duration attribute' do
-          expect(subject).not_to have_json_path('duration')
-        end
-      end
     end
 
     describe 'scheduleManually' do
@@ -336,19 +330,13 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe 'ignoreNonWorkingDays', with_flag: { work_packages_duration_field_active: true } do
+    describe 'ignoreNonWorkingDays' do
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'ignoreNonWorkingDays' }
         let(:type) { 'Boolean' }
         let(:name) { I18n.t('activerecord.attributes.work_package.ignore_non_working_days') }
         let(:required) { false }
         let(:writable) { true }
-      end
-
-      context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
-        it 'has no ignoreNonWorkingDays attribute' do
-          expect(subject).not_to have_json_path('ignoreNonWorkingDays')
-        end
       end
     end
 

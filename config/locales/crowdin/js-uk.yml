@@ -533,6 +533,11 @@ uk:
         watched: 'відстежено'
         assigned: 'призначено'
         responsible: 'відповідальний'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Непрочитані'
         all: 'Всі'
@@ -847,10 +852,10 @@ uk:
         changing_dates_affects_follow_relations: "Змінення цих дат вплине на дати пов’язаних пакетів робіт."
         click_on_show_relations_to_open_gantt: 'Натисніть кнопку «%{button_name}», щоб перейти в режим GANTT.'
         show_relations: 'Показати зв’язки'
-        include_non_working_days:
+        ignore_non_working_days:
           title: 'Working days'
-          false: 'Working days only'
-          true: 'Include non-working days'
+          false: 'Work week'
+          true: 'Include weekends'
       description_filter: "Фільтр"
       description_enter_text: "Введіть текст"
       description_options_hide: "Сховати опції"

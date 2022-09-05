@@ -460,8 +460,8 @@ tr:
     label_uploaded_by: "Yükleyen"
     label_default_queries: "Varsayılan"
     label_starred_queries: "Sık Kullanılan"
-    label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_global_queries: "Genel"
+    label_custom_queries: "Özel"
     label_columns: "Sütunlar"
     label_attachments: Ekler
     label_drop_files: Dosyaları buraya bırakın
@@ -533,6 +533,11 @@ tr:
         watched: 'izlendi'
         assigned: 'atanmış'
         responsible: 'accountable'
+        created: 'oluşturuldu'
+        scheduled: 'zamanlandı'
+        commented: 'yorumlandı'
+        processed: 'işlem uygulandı'
+        prioritized: 'öncelik verildi'
       facets:
         unread: 'okunmamış'
         all: 'Hepsi'
@@ -737,7 +742,7 @@ tr:
     scheduling:
       title: 'Scheduling'
       manual: 'Manual'
-      default: 'Default'
+      default: 'Varsayılan'
     sort:
       sorted_asc: 'Artan sıralama, uygulandı, '
       sorted_dsc: 'Azalan sırılama uygulandı, '
@@ -845,10 +850,10 @@ tr:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'İlişkileri göster'
-        include_non_working_days:
-          title: 'Working days'
-          false: 'Working days only'
-          true: 'Include non-working days'
+        ignore_non_working_days:
+          title: 'Çalışma Günleri'
+          false: 'Çalışma Haftası'
+          true: 'Include weekends'
       description_filter: "Filtre"
       description_enter_text: "Metin girin"
       description_options_hide: "Seçenekleri gizle"
@@ -904,7 +909,7 @@ tr:
         description: "Açıklama"
         date: "Tarih"
         dueDate: "Bitiş tarihi"
-        duration: "Duration"
+        duration: "Süre"
         estimatedTime: "Tahmini süre"
         spentTime: "Harcanan zaman"
         category: "Kategori"

@@ -35,7 +35,6 @@ require 'features/work_packages/work_packages_page'
 
 describe 'date inplace editor',
          with_settings: { date_format: '%Y-%m-%d' },
-         with_flag: { work_packages_duration_field_active: true },
          js: true, selenium: true do
   let(:project) { create :project_with_types, public: true }
   let(:work_package) { create :work_package, project:, start_date: Date.parse('2016-01-02'), duration: nil }

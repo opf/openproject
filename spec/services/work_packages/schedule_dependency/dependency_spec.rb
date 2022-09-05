@@ -233,11 +233,11 @@ RSpec.describe WorkPackages::ScheduleDependency::Dependency do
       end
     end
 
-    context 'with non working days', with_flag: { work_packages_duration_field_active: true } do
+    context 'with non working days' do
       let!(:tomorrow_we_do_not_work!) { create(:non_working_day, date: Time.zone.tomorrow) }
 
       it 'returns the soonest start date being a working day' do
-        follower = create_follower_of(work_package, ignore_non_working_days: false)
+        follower = create_follower_of(work_package)
         expect(dependency_for(follower).soonest_start_date).to eq(work_package.due_date + 2.days)
       end
     end

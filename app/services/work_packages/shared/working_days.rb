@@ -32,7 +32,7 @@ module WorkPackages
       # Returns number of working days between two dates, excluding weekend days
       # and non working days.
       def duration(start_date, due_date)
-        return no_duration unless start_date && due_date
+        return nil unless start_date && due_date
 
         (start_date..due_date).count { working?(_1) }
       end
@@ -105,10 +105,6 @@ module WorkPackages
       end
 
       private
-
-      def no_duration
-        OpenProject::FeatureDecisions.work_packages_duration_field_active? ? nil : 1
-      end
 
       def assert_strictly_positive_duration(duration)
         raise ArgumentError, 'duration must be strictly positive' if duration.is_a?(Integer) && duration <= 0

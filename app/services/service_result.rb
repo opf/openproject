@@ -103,10 +103,6 @@ class ServiceResult
   end
 
   ##
-  # Rollback the state if possible
-  delegate :rollback!, to: :state
-
-  ##
   # Print messages to flash
   def apply_flash_message!(flash)
     if message

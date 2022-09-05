@@ -532,6 +532,11 @@ ru:
         watched: 'просмотрено'
         assigned: 'назначено'
         responsible: 'подотчетный'
+        created: 'создано'
+        scheduled: 'запланировано'
+        commented: 'прокомментировано'
+        processed: 'обработано'
+        prioritized: 'пририотизировано'
       facets:
         unread: 'Непрочтено'
         all: 'Bсе'
@@ -736,9 +741,9 @@ ru:
     field_value_enter_prompt: "Введите значение для '%{field} ' '"
     project_menu_details: "Детали"
     scheduling:
-      title: 'Scheduling'
-      manual: 'Manual'
-      default: 'Default'
+      title: 'Планирование'
+      manual: 'Вручную'
+      default: 'По умолчанию'
     sort:
       sorted_asc: 'Сортировка по возрастанию применяется, '
       sorted_dsc: 'Применяется сортировка по убыванию, '
@@ -846,10 +851,10 @@ ru:
         changing_dates_affects_follow_relations: "Изменение этих дат повлияет на даты связанных пакетов работ."
         click_on_show_relations_to_open_gantt: 'Нажмите на "%{button_name}" для просмотра GANTT.'
         show_relations: 'Показать взаимосвязи'
-        include_non_working_days:
-          title: 'Working days'
-          false: 'Working days only'
-          true: 'Include non-working days'
+        ignore_non_working_days:
+          title: 'Рабочие дни'
+          false: 'Рабочая неделя'
+          true: 'Включая выходные дни'
       description_filter: "Фильтр"
       description_enter_text: "Введите текст"
       description_options_hide: "Скрыть параметры"
@@ -905,7 +910,7 @@ ru:
         description: "Описание"
         date: "Дата"
         dueDate: "Дата окончания"
-        duration: "Duration"
+        duration: "Продолжительность"
         estimatedTime: "Предполагаемое время"
         spentTime: "Затраченное время"
         category: "Категория"

@@ -533,6 +533,11 @@ ca:
         watched: 'observat'
         assigned: 'assignat'
         responsible: 'responsable'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Sense llegir'
         all: 'Totes'
@@ -845,10 +850,10 @@ ca:
         changing_dates_affects_follow_relations: "Canviar aquestes dates afectarà les dates dels paquets de treball relacionats."
         click_on_show_relations_to_open_gantt: 'Fes clic a "%{button_name}" per obtenir una visió general GANTT.'
         show_relations: 'Mostra les relacions'
-        include_non_working_days:
-          title: 'Dies laborables'
-          false: 'Només dies laborables'
-          true: 'Inclou dies no laborables'
+        ignore_non_working_days:
+          title: 'Working days'
+          false: 'Work week'
+          true: 'Include weekends'
       description_filter: "Filtre"
       description_enter_text: "Introduïu text"
       description_options_hide: "Amagar opcions"

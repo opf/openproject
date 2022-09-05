@@ -532,6 +532,11 @@ lol:
         watched: 'crwdns787688:0crwdne787688:0'
         assigned: 'crwdns787690:0crwdne787690:0'
         responsible: 'crwdns787692:0crwdne787692:0'
+        created: 'crwdns832420:0crwdne832420:0'
+        scheduled: 'crwdns832422:0crwdne832422:0'
+        commented: 'crwdns832424:0crwdne832424:0'
+        processed: 'crwdns832426:0crwdne832426:0'
+        prioritized: 'crwdns832428:0crwdne832428:0'
       facets:
         unread: 'crwdns787694:0crwdne787694:0'
         all: 'crwdns787696:0crwdne787696:0'
@@ -844,10 +849,10 @@ lol:
         changing_dates_affects_follow_relations: "crwdns818674:0crwdne818674:0"
         click_on_show_relations_to_open_gantt: 'crwdns818666:0%{button_name}crwdne818666:0'
         show_relations: 'crwdns818668:0crwdne818668:0'
-        include_non_working_days:
-          title: 'crwdns831852:0crwdne831852:0'
-          false: 'crwdns831854:0crwdne831854:0'
-          true: 'crwdns831856:0crwdne831856:0'
+        ignore_non_working_days:
+          title: 'crwdns832338:0crwdne832338:0'
+          false: 'crwdns832340:0crwdne832340:0'
+          true: 'crwdns832342:0crwdne832342:0'
       description_filter: "crwdns788192:0crwdne788192:0"
       description_enter_text: "crwdns788194:0crwdne788194:0"
       description_options_hide: "crwdns788196:0crwdne788196:0"

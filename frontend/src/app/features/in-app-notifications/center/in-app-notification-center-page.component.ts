@@ -124,13 +124,13 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
   }
 
   // For shared template compliance
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  updateTitleName(val:string):void {
+  // eslint-disable-next-line class-methods-use-this
+  updateTitleName(_val:string):void {
   }
 
   // For shared template compliance
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  changeChangesFromTitle(val:string):void {
+  // eslint-disable-next-line class-methods-use-this
+  changeChangesFromTitle(_val:string):void {
   }
 
   private setInitialHtmlTitle():void {

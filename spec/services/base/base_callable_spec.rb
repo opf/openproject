@@ -35,10 +35,6 @@ describe ::BaseServices::BaseCallable, type: :model do
         state.test = 'foo'
         ServiceResult.success(result: 'something')
       end
-
-      def rollback
-        state.test = 'rolled back!'
-      end
     end
   end
 
@@ -47,11 +43,6 @@ describe ::BaseServices::BaseCallable, type: :model do
       def perform(*)
         state.test2 = 'foo'
         ServiceResult.success(result: 'something')
-      end
-
-      def rollback
-        state.test = 'Roll back other value'
-        state.test2 = nil
       end
     end
   end
@@ -67,17 +58,6 @@ describe ::BaseServices::BaseCallable, type: :model do
       expect(result_state).to be_kind_of(::Shared::ServiceState)
       expect(result_state.test).to eq 'foo'
       expect(subject).to be_kind_of ::ServiceResult
-
-      expect(result_state.service_chain.count).to eq(1)
-      expect(result_state.service_chain).to include(test_service)
-
-      # Roll back
-      expect(instance).to receive(:rollback).once.and_call_original
-      result_state.rollback!
-      # Second call does not go through
-      result_state.rollback!
-
-      expect(result_state.test).to eq 'rolled back!'
     end
 
     describe 'with state already passed into the service' do
@@ -88,25 +68,6 @@ describe ::BaseServices::BaseCallable, type: :model do
         expect(result_state.test).to eq 'foo'
         expect(result_state.bar).to eq 'some value'
       end
-    end
-  end
-
-  describe 'rolling back two services' do
-    it 'rolls back in that order' do
-      # Execute first service
-      result = test_service.new.call
-      state = result.state
-
-      # Execute second service
-      test_service2
-        .new
-        .with_state(state)
-        .call
-
-      expect(state.service_chain.map(&:class)).to eq [test_service, test_service2]
-      state.rollback!
-      expect(state.test2).to be_nil
-      expect(state.test).to eq 'rolled back!'
     end
   end
 end

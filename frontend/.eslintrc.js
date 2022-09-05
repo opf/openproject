@@ -64,7 +64,8 @@ module.exports = {
         ],
 
         // Sometimes we need to shush the TypeScript compiler
-        "no-unused-vars": ["error", { "varsIgnorePattern": "^_" }],
+        "no-unused-vars": ["error", { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }],
+        "@typescript-eslint/no-unused-vars": ["error", { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }],
 
         // Who cares about line length
         "max-len": "off",

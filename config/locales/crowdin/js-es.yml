@@ -533,6 +533,11 @@ es:
         watched: 'observado'
         assigned: 'asignado'
         responsible: 'responsable'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'No leídas'
         all: 'Todos'
@@ -845,10 +850,10 @@ es:
         changing_dates_affects_follow_relations: "Cambiar estas fechas afectará a las fechas de los paquetes de trabajo relacionados."
         click_on_show_relations_to_open_gantt: 'Haga clic en "%{button_name}" para la vista general de GANTT.'
         show_relations: 'Mostrar relaciones'
-        include_non_working_days:
-          title: 'Días laborables'
-          false: 'Solo días laborables'
-          true: 'Incluir días no laborables'
+        ignore_non_working_days:
+          title: 'Working days'
+          false: 'Work week'
+          true: 'Include weekends'
       description_filter: "Filtro"
       description_enter_text: "Introducir texto"
       description_options_hide: "Ocultar opciones"

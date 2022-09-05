@@ -533,6 +533,11 @@ ckb-IR:
         watched: 'watched'
         assigned: 'assigned'
         responsible: 'accountable'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Unread'
         all: 'All'
@@ -845,10 +850,10 @@ ckb-IR:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
-        include_non_working_days:
+        ignore_non_working_days:
           title: 'Working days'
-          false: 'Working days only'
-          true: 'Include non-working days'
+          false: 'Work week'
+          true: 'Include weekends'
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
