@@ -77,7 +77,7 @@ Please be aware that only those variables shall be edited which are documented a
 
 #### BIM Edition
 
-In order to install or change to BIM inside a Docker environment, please navigate to the [Docker](../installation-and-operations/changing-to-bim-edition#docker) paragraph at the [Changing to BIM Edition](../installation-and-operations/changing-to-bim-edition) documentation. 
+In order to install or change to BIM inside a Docker environment, please navigate to the [Docker](../installation-and-operations/changing-to-bim-edition/#docker) paragraph at the [Changing to BIM Edition](../installation-and-operations/changing-to-bim-edition) documentation. 
 
 ### Disabling services in the docker-compose file
 
