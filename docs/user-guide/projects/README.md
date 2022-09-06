@@ -181,7 +181,7 @@ You can choose the **columns displayed by default** in the [System settings](../
 
 ![configure project list](configure-project-list.png)
 
-To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](../../system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields) 
+To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](../../system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields).
 
 
 
