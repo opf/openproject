@@ -533,11 +533,11 @@ ca:
         watched: 'observat'
         assigned: 'assignat'
         responsible: 'responsable'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'creat'
+        scheduled: 'programat'
+        commented: 'comentat'
+        processed: 'processat'
+        prioritized: 'prioritzat'
       facets:
         unread: 'Sense llegir'
         all: 'Totes'
@@ -851,9 +851,9 @@ ca:
         click_on_show_relations_to_open_gantt: 'Fes clic a "%{button_name}" per obtenir una visió general GANTT.'
         show_relations: 'Mostra les relacions'
         ignore_non_working_days:
-          title: 'Working days'
-          false: 'Work week'
-          true: 'Include weekends'
+          title: 'Dies laborals'
+          false: 'Setmana laboral'
+          true: 'Inclou caps de setmana'
       description_filter: "Filtre"
       description_enter_text: "Introduïu text"
       description_options_hide: "Amagar opcions"
@@ -1196,7 +1196,7 @@ ca:
       search_placeholder: 'Cerca projecte...'
       include_subprojects: 'Inclou tots els subprojectes'
       tooltip:
-        include_all_selected: 'Incloure tots els subprojectes està seleccionat.'
+        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
         current_project: 'Aquest és el projecte actual.'
         does_not_match_search: 'El projecte no coincideix amb la cerca.'
       no_results: 'Cap projecte s''ajusta a la teva cerca.'

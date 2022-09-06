@@ -270,7 +270,7 @@ pl:
     upsale:
       title: Użytkownicy zastępczy
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        Użytkownicy zastępczy to sposób na przypisanie pakietów pracy do użytkowników, którzy nie są częścią twojego projektu. Może to być przydatne w wielu scenariuszach; na przykład, jeśli potrzebujesz śledzić zadania dla zasobu, który nie jest jeszcze nazwany lub dostępny, lub jeśli nie chcesz dać tej osobie dostępu do OpenProject, ale nadal chcesz śledzić zadania przypisane do niej.
   prioritiies:
     edit:
       priority_color_text: |
@@ -744,12 +744,12 @@ pl:
               format: "%{message}"
             due_date:
               not_start_date: "nie jest w dniu rozpoczęcia, chociaż jest to wymagane dla Kamieni Milowych."
-              cannot_be_null: "can not be set to null as start date and duration are known."
+              cannot_be_null: "nie można ustawić na wartość zero, ponieważ data rozpoczęcia i czas trwania są znane."
             duration:
               larger_than_dates: "jest większy niż interwał między datą rozpoczęcia i zakończenia."
               smaller_than_dates: "jest krótszy niż interwał między datą rozpoczęcia i zakończenia."
               not_available_for_milestones: "nie jest dostępny dla pakietów prac wpisywanych jako \"kamienie milowe\"."
-              cannot_be_null: "can not be set to null as start date and finish date are known."
+              cannot_be_null: "nie można ustawić na wartość zero, ponieważ data rozpoczęcia, zakończenia i czas trwania są znane."
             parent:
               cannot_be_milestone: "nie może być kamieniem milowym."
               cannot_be_self_assigned: "nie może być przypisany do siebie."
@@ -757,7 +757,7 @@ pl:
               not_a_valid_parent: "jest nieprawidłowe."
             start_date:
               violates_relationships: "aby nie naruszyć relacji pakietu pracy, należy ustawić datę %{soonest_start} lub późniejszą."
-              cannot_be_null: "can not be set to null as finish date and duration are known."
+              cannot_be_null: "nie można ustawić na wartość zero, ponieważ data zakończenia i czas trwania są znane."
             status_id:
               status_transition_invalid: "jest niewłaściwy z powodu braku prawidłowego przekształcenia ze starego do nowego statusu dla aktualnej roli użytkownika."
               status_invalid_in_type: "jest nieprawidłowy, ponieważ bieżący stan nie istnieje w tym typie."
@@ -1641,7 +1641,7 @@ pl:
   label_index_by_title: "Indeks tytułów"
   label_information: "Informacje"
   label_information_plural: "Informacje"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: 'Przewodniki instalacyjne'
   label_integer: "Liczba całkowita"
   label_internal: "Wewnętrzne"
   label_introduction_video: "Film wprowadzający"
@@ -1786,7 +1786,7 @@ pl:
   label_project_new: "Nowy projekt"
   label_project_plural: "Projekty"
   label_project_settings: "Ustawienia projektu"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "Magazyny"
   label_projects_storage_information: "%{count} projektów zużywających %{storage} przestrzeni dyskowej"
   label_project_view_all: "Zobacz wszystkie projekty"
   label_project_show_details: "Pokaż szczegóły projektu"
@@ -1938,7 +1938,7 @@ pl:
   label_wiki_start: "Strona startowa"
   label_work_package: "Zadanie"
   label_work_package_attachments: "Załączniki pakietu roboczego"
-  label_work_package_file_link_plural: "Work package file links"
+  label_work_package_file_link_plural: "Linki do plików pakietu roboczego"
   label_work_package_category_new: "Nowa kategoria"
   label_work_package_category_plural: "Kategorie pakietów roboczych"
   label_work_package_hierarchy: "Hierarchia zadań"
@@ -2396,8 +2396,8 @@ pl:
       update_timeout: "Zachowaj informacje o ostatnim wymaganym dla repozytorium miejscu na dysku przez N minut. Ponieważ obliczenie wymaganej dla repozytorium przestrzeni dysku może być kosztowne, powiększ tę wartość, aby pomniejszyć wpływ na wydajność."
       oauth_application_details: "Wartość kod klienta nie będzie ponownie dostępna po zamknięciu tego okna. Skopiuj tę wartości do ustawień Nextcloud OpenProject Integration:"
       oauth_application_details_link_text: "Przejdź do ustawień"
-      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
-      setup_documentation_details_link_text: "File Storages setup"
+      setup_documentation_details: "Jeśli potrzebujesz pomocy w konfiguracji nowego magazynu plików, sprawdź dokumentację: "
+      setup_documentation_details_link_text: "Konfiguracja magazynów plików"
       show_warning_details: "Aby wykorzystać ten magazyn plików należy aktywować moduł i konkretny magazyn w ustawieniach projektu dla każdego żądanego projektu."
     subversion:
       existing_title: "Istniejące repozytorium Subversion"
@@ -2918,9 +2918,9 @@ pl:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'Konfiguracja trybu HTTPS niezgodna'
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        Twoja aplikacja działa w trybie HTTPS ustawionym na <code>%{set_protocol}</code>, ale żądanie jest żądaniem <code>%{actual_protocol}</code>. Spowoduje to błędy! Musisz ustawić następującą wartość konfiguracji: <code>%{setting_value}</code>. Zapoznaj się z <a href="%{more_info_path}">dokumentacją instalacji</a>, aby dowiedzieć się, jak ustawić tę konfigurację.
     hostname_mismatch:
       title: 'Niezgodność ustawienia nazwy hosta'
       text_html: >
