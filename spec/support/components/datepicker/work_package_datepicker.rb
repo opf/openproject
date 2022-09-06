@@ -53,6 +53,10 @@ module Components
       expect(container).to have_field('duration', with: value, wait: 10)
     end
 
+    def milestone_date_field
+      container.find_field 'date'
+    end
+
     def start_date_field
       container.find_field 'startDate'
     end
@@ -61,12 +65,22 @@ module Components
       container.find_field 'endDate'
     end
 
+    def focus_milestone_date
+      milestone_date_field.click
+    end
+
     def focus_start_date
       start_date_field.click
     end
 
     def focus_due_date
       due_date_field.click
+    end
+
+    ##
+    # Expect date (milestone type)
+    def expect_milestone_date(value)
+      expect(container).to have_field('date', with: value, wait: 20)
     end
 
     ##
@@ -79,6 +93,14 @@ module Components
     # Expect due date
     def expect_due_date(value)
       expect(container).to have_field('endDate', with: value, wait: 20)
+    end
+
+    def set_milestone_date(value)
+      focus_milestone_date
+      fill_in 'date', with: value, fill_options: { clear: :backspace }
+
+      # Wait until debounce applied
+      sleep 1
     end
 
     def set_start_date(value)

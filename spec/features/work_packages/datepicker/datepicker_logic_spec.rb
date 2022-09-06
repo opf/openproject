@@ -47,7 +47,8 @@ describe 'Datepicker modal logic test cases (WP #43539)',
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
-  let(:date_field) { work_packages_page.edit_field(:combinedDate) }
+  let(:date_attribute) { :combinedDate }
+  let(:date_field) { work_packages_page.edit_field(date_attribute) }
   let(:datepicker) { date_field.datepicker }
 
   let(:work_package) { bug_wp }
@@ -682,6 +683,34 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       apply_and_expect_saved duration: 3,
                              start_date: Date.parse('2021-02-05'),
                              due_date: Date.parse('2021-02-09')
+    end
+  end
+
+  context 'when setting ignore NWD to true for a milesotone' do
+    let(:date_attribute) { :date }
+    let(:work_package) { milestone_wp }
+    let(:current_attributes) do
+      {
+        start_date: '2022-06-20',
+        due_date: '2022-06-20',
+        ignore_non_working_days: false
+      }
+    end
+
+    it 'allows to persist that value (Regression #43932)' do
+      datepicker.expect_milestone_date '2022-06-20'
+      datepicker.expect_ignore_non_working_days false
+
+      datepicker.ignore_non_working_days true
+
+      datepicker.expect_ignore_non_working_days true
+      datepicker.expect_milestone_date '2022-06-20'
+
+      # Set date to sunday
+      datepicker.set_milestone_date '2022-06-19'
+      apply_and_expect_saved start_date: Date.parse('2022-06-19'),
+                             due_date: Date.parse('2022-06-19'),
+                             ignore_non_working_days: true
     end
   end
 end
