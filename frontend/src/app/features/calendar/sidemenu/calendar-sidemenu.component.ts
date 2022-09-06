@@ -10,6 +10,7 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 
 export const opCalendarSidemenuSelector = 'op-calendar-sidemenu';
 
@@ -25,10 +26,12 @@ export class CalendarSidemenuComponent extends UntilDestroyedMixin {
 
   @Input() projectId:string|undefined;
 
-  canCreateCalendar$ = this.currentUserService.hasCapabilities$(
-    'calendars/create',
-    this.currentProjectService.id || undefined,
-  )
+  canCreateCalendar$ = this
+    .capabilitiesService
+    .hasCapabilities$(
+      'calendars/create',
+      this.currentProjectService.id || undefined,
+    )
     .pipe(this.untilDestroyed());
 
   text = {
@@ -49,6 +52,7 @@ export class CalendarSidemenuComponent extends UntilDestroyedMixin {
     readonly elementRef:ElementRef,
     readonly currentUserService:CurrentUserService,
     readonly currentProjectService:CurrentProjectService,
+    readonly capabilitiesService:CapabilitiesResourceService,
     readonly I18n:I18nService,
   ) {
     super();

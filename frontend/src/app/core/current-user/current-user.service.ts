@@ -27,20 +27,12 @@
 //++
 
 import { Injectable } from '@angular/core';
-import {
-  distinctUntilChanged,
-  map,
-  take,
-} from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
-import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import {
   CurrentUser,
   CurrentUserStore,
 } from './current-user.store';
 import { CurrentUserQuery } from './current-user.query';
-import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentUserService {
@@ -51,8 +43,6 @@ export class CurrentUserService {
   ) {
     this.setupLegacyDataListeners();
   }
-
-  public capabilities$ = this.currentUserQuery.capabilities$;
 
   public isLoggedIn$ = this.currentUserQuery.isLoggedIn$;
 
@@ -68,82 +58,6 @@ export class CurrentUserService {
       ...state,
       ...user,
     }));
-
-    this.fetchCapabilities([]);
-  }
-
-  /**
-   * Fetch all capabilities for certain contexts
-   */
-  public fetchCapabilities(contexts:string[] = []) {
-    this.user$.pipe(take(1)).subscribe((user) => {
-      if (!user.id) {
-        this.currentUserStore.update((state) => ({
-          ...state,
-          capabilities: [],
-        }));
-
-        return;
-      }
-
-      const filters:[string, FilterOperator, string[]][] = [['principal', '=', [user.id]]];
-      if (contexts.length) {
-        filters.push(['context', '=', contexts.map((context) => (context === 'global' ? 'g' : `p${context}`))]);
-      }
-
-      getPaginatedResults<CapabilityResource>(
-        (params) => this.apiV3Service.capabilities.list({ ...params, filters }),
-      )
-        .subscribe((capabilities) => {
-          this.currentUserStore.update((state) => ({
-            ...state,
-            capabilities: [
-              ...capabilities,
-              ...(state.capabilities || []).filter((cap) => !!capabilities.find((newCap) => newCap.id === cap.id)),
-            ],
-          }));
-        });
-    });
-
-    return this.currentUserQuery.capabilities$;
-  }
-
-  /**
-   * Returns the users' capabilities filtered by context
-   */
-  public capabilitiesForContext$(contextId:string) {
-    return this.capabilities$.pipe(
-      map((capabilities) => capabilities.filter((cap) => cap.context.href.endsWith(`/${contextId}`))),
-      distinctUntilChanged(),
-    );
-  }
-
-  /**
-   * Returns an Observable<boolean> indicating whether the user has the required capabilities in the provided context.
-   */
-  public hasCapabilities$(action:string|string[], contextId = 'global') {
-    const actions = _.castArray(action);
-    return this.capabilitiesForContext$(contextId).pipe(
-      map((capabilities) => actions.reduce(
-        (acc, contextAction) => acc && !!capabilities.find((cap) => cap.action.href.endsWith(`/api/v3/actions/${contextAction}`)),
-        capabilities.length > 0,
-      )),
-      distinctUntilChanged(),
-    );
-  }
-
-  /**
-   * Returns an Observable<boolean> indicating whether the user has any of the required capabilities in the provided context.
-   */
-  public hasAnyCapabilityOf$(actions:string|string[], contextId = 'global') {
-    const actionsToFilter = _.castArray(actions);
-    return this.capabilitiesForContext$(contextId).pipe(
-      map((capabilities) => capabilities.reduce(
-        (acc, cap) => acc || !!actionsToFilter.find((action) => cap.action.href.endsWith(`/api/v3/actions/${action}`)),
-        false,
-      )),
-      distinctUntilChanged(),
-    );
   }
 
   // Everything below this is deprecated legacy interfacing and should not be used

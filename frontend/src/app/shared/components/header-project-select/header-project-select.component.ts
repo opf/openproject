@@ -51,6 +51,7 @@ import { SearchableProjectListService } from 'core-app/shared/components/searcha
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
+import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 
 export const headerProjectSelectSelector = 'op-header-project-select';
 
@@ -71,7 +72,7 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
 
   public textFieldFocused = false;
 
-  public canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create');
+  public canCreateNewProjects$ = this.capabilitiesService.hasCapabilities$('projects/create');
 
   public projects$ = combineLatest([
     this.searchableProjectListService.allProjects$,
@@ -146,6 +147,7 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     protected currentProject:CurrentProjectService,
     readonly searchableProjectListService:SearchableProjectListService,
     readonly currentUserService:CurrentUserService,
+    readonly capabilitiesService:CapabilitiesResourceService,
   ) {
     super();
 

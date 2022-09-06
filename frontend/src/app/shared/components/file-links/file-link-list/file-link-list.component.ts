@@ -55,6 +55,7 @@ import { StorageActionButton } from 'core-app/shared/components/file-links/stora
 import {
   StorageInformationBox,
 } from 'core-app/shared/components/file-links/storage-information/storage-information-box';
+import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 
 @Component({
   selector: 'op-file-link-list',
@@ -107,6 +108,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     private readonly fileLinkResourceService:FileLinksResourceService,
     private readonly currentUserService:CurrentUserService,
     private readonly cookieService:CookieService,
+    private readonly capabilitiesService:CapabilitiesResourceService,
   ) {
     super();
   }
@@ -131,7 +133,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
         this.showLinkFilesAction.next(!this.disabled && fileLinks.length > 0);
       });
 
-    this.allowEditing$ = this.currentUserService
+    this.allowEditing$ = this
+      .capabilitiesService
       .hasCapabilities$('file_links/manage', (this.resource.project as unknown&{ id:string }).id);
   }
 

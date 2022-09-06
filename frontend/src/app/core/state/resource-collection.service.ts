@@ -37,9 +37,13 @@ import {
   map,
   switchMap,
 } from 'rxjs/operators';
-import { CollectionState } from 'core-app/core/state/collection-store';
+import {
+  collectionKey,
+  CollectionState,
+} from 'core-app/core/state/collection-store';
 import { omit } from 'lodash';
 import isDefinedEntity from 'core-app/core/state/is-defined-entity';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 
 export type CollectionStore<T> = EntityStore<CollectionState<T>>;
 
@@ -89,6 +93,17 @@ export abstract class ResourceCollectionService<T> {
    */
   exists(id:ID):boolean {
     return this.query.hasEntity(id);
+  }
+
+  /**
+   * Checks, if the store already has a collection given the key
+   */
+  collectionExists(input:string|ApiV3ListParameters):boolean {
+    const key = typeof input === 'string' ? input : collectionKey(input);
+    return !!this
+      .query
+      .getValue()
+      .collections[key];
   }
 
   /**

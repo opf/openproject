@@ -40,6 +40,7 @@ import { ProjectsResourceService } from 'core-app/core/state/projects/projects.s
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 
 @Component({
   selector: 'op-files-tab',
@@ -66,6 +67,7 @@ export class WorkPackageFilesTabComponent implements OnInit {
     private readonly i18n:I18nService,
     private readonly hook:HookService,
     private readonly currentUserService:CurrentUserService,
+    private readonly capabilitiesService:CapabilitiesResourceService,
     private readonly projectsResourceService:ProjectsResourceService,
     private readonly storagesResourceService:StoragesResourceService,
     private readonly apiV3:ApiV3Service,
@@ -79,7 +81,7 @@ export class WorkPackageFilesTabComponent implements OnInit {
     }
 
     const canViewFileLinks = this
-      .currentUserService
+      .capabilitiesService
       .hasCapabilities$('file_links/view', project.id);
 
     this.storages$ = this

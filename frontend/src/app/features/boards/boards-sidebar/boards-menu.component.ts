@@ -20,6 +20,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NewBoardModalComponent } from 'core-app/features/boards/new-board-modal/new-board-modal.component';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
+import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 
 export const boardsMenuSelector = 'boards-menu';
 
@@ -54,7 +55,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     );
 
   canCreateBoards$ = this
-    .currentUserService
+    .capabilitiesService
     .hasCapabilities$(
       'boards/create',
       this.currentProject.id || undefined,
@@ -72,6 +73,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     private readonly currentProject:CurrentProjectService,
     private readonly mainMenuService:MainMenuNavigationService,
     readonly currentUserService:CurrentUserService,
+    readonly capabilitiesService:CapabilitiesResourceService,
     readonly I18n:I18nService,
     private readonly opModalService:OpModalService,
     private readonly injector:Injector,
