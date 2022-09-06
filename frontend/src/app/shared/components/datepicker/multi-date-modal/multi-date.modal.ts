@@ -197,11 +197,16 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     )
     .subscribe(([field, update]) => {
       // When clearing the one date, clear the others as well
-      if (update === null) {
-        this.clearAllValues();
-      } else {
+      if (update !== null) {
         this.handleDatePickerChange(field, castArray(update));
       }
+
+      // Clear active field and duration
+      // when the active field was cleared
+      if (update === null && field !== 'duration') {
+        this.clearWithDuration(field);
+      }
+
 
       this.onDataChange();
       this.cdRef.detectChanges();
@@ -436,10 +441,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     return null;
   }
 
-  private clearAllValues() {
+  private clearWithDuration(field:DateKeys) {
     this.duration = null;
-    this.dates.start = null;
-    this.dates.end = null;
+    this.dates[field] = null;
     this.enforceManualChangesToDatepicker();
   }
 
