@@ -309,7 +309,7 @@ describe Repository::Subversion, type: :model do
         def find_events(user, options = {})
           options[:scope] = ['changesets']
           fetcher = Activities::Fetcher.new(user, options)
-          fetcher.events(Date.today - 30, Date.today + 1)
+          fetcher.events(30.days.ago, 1.day.from_now)
         end
 
         it 'finds events' do
