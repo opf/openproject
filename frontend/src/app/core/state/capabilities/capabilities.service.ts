@@ -69,7 +69,7 @@ export class CapabilitiesResourceService extends ResourceCollectionService<ICapa
    */
   public require$(params:ApiV3ListParameters):Observable<ICapability[]> {
     const key = collectionKey(params);
-    if (this.collectionExists(key)) {
+    if (this.collectionExists(key) || this.collectionLoading(key)) {
       return this.collection(key);
     }
 
@@ -125,13 +125,9 @@ export class CapabilitiesResourceService extends ResourceCollectionService<ICapa
   }
 
   fetchCapabilities(params:ApiV3ListParameters):Observable<IHALCollection<ICapability>> {
-    const collectionURL = collectionKey(params);
-
     return this
-      .http
-      .get<IHALCollection<ICapability>>(this.capabilitiesPath + collectionURL)
+      .fetchCollection(this.http, this.capabilitiesPath, params)
       .pipe(
-        tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
         catchError((error) => {
           this.toastService.addError(error);
           throw error;
