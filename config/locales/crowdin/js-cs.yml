@@ -1196,7 +1196,7 @@ cs:
       search_placeholder: 'Hledat projekt...'
       include_subprojects: 'Zahrnout všechny podprojekty'
       tooltip:
-        include_all_selected: 'Zahrnout všechny podprojekty je zvoleno.'
+        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
         current_project: 'Toto je aktuální projekt, ve kterém se nacházíte.'
         does_not_match_search: 'Projekt neodpovídá kritériím vyhledávání.'
       no_results: 'No project matches your search criteria.'

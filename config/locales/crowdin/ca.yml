@@ -130,13 +130,13 @@ ca:
       filter_string_concat: |
         OpanProject sempre filtre segons l'atribut d'inici de sessió subministrat per l'usuari per tal d'identificar el registre. Si has subministrat un filtre aquí, serà encadenat amb un "I". Per defecte, un filtre catch-all (objectClass=*) serà utilitzat.
       onthefly_register: |
-        Si activeu aquesta casella, OpenProject automàticament crearà nous usuaris a partir de les seves entrades LDAP durant la seva primera autentificació a OpenProject.
-        Deixeu-ho desactivat si sols voleu permetre a comptes existents a OpenProject que s'autentifiquin via LDAP!
+        Si actives aquesta casella, OpenProject automàticament crearà nous usuaris a partir de les seves entrades LDAP durant la seva primera autentificació a OpenProject.
+        Deixa-la desactivada si sols voleu permetre a comptes existents a OpenProject que s'autentifiquin via LDAP!
     connection_encryption: 'Encriptació de Connexió'
     system_account: 'Compte de Sistema'
     system_account_legend: |
       OpenProject requereix accés de sols lectura mitjançant un compte de sistema per a buscar usuaris i grups al vostre arbre LDAP.
-      Si us plau, especifiqueu les credencials associades a aquest usuari de sistema en al secció següent.
+      Si us plau, especifica les credencials associades a aquest usuari de sistema en al secció següent.
     ldap_details: 'Detalls LDAP'
     user_settings: 'Associació d''atributs'
     user_settings_legend: |
@@ -174,11 +174,11 @@ ca:
       description: 'Les accions personalitzades són accessos ràpids d''un sol clic que et permeten crear accions predefinides en els paquets de treball que desitgis basat en estat, rol, estil o projecte.'
   custom_fields:
     text_add_new_custom_field: >
-      Per afegir nous camps personalitzats a un projecte primer heu de crear-los abans de poder-los afegir a aquest projecte.
+      Per afegir nous camps personalitzats a un projecte primer has de crear-los abans de poder-los afegir a aquest projecte.
     is_enabled_globally: 'És habilitat globalment'
     enabled_in_project: 'Habilitat en aquest projecte'
     contained_in_type: 'Contingut a la classe'
-    confirm_destroy_option: "Suprimint una opció n'eliminareu totes les ocurrències (p.e. en un paquet de treball). Segur que ho voleu eliminar?"
+    confirm_destroy_option: "Eliminant una opció n'eliminareu totes les ocurrències (ex. en un paquet de treball). Segur que vols eliminar-ho?"
     reorder_alphabetical: "Reorganitza els valors alfabèticament"
     reorder_confirmation: "Alerta: L'ordre actual dels valors disponibles es perdran. Vols continuar?"
     tab:
@@ -244,8 +244,8 @@ ca:
   my:
     access_token:
       failed_to_reset_token: "Fallada al reiniciar el token d'accés: %{error}"
-      notice_reset_token: "S'ha generat un nou token %{type}. El vostre token d'accés és:"
-      token_value_warning: "Nota: Aquesta és la única vegada que veureu aquest token, assegureu-vos de copiar-lo ara."
+      notice_reset_token: "S'ha generat un nou token %{type}. El teu token d'accés és:"
+      token_value_warning: "Nota: Aquesta és la única vegada que veuràs aquest token, assegura't de copiar-lo ara."
       no_results_title_text: Actualment no hi ha cap token d'accés disponible.
   news:
     index:
@@ -352,7 +352,7 @@ ca:
   label_invitation: Invitació
   account:
     delete: "Elimina el compte"
-    delete_confirmation: "Segur que voleu eliminar aquest compte?"
+    delete_confirmation: "Segur que vols eliminar aquest compte?"
     deleted: "Compte suprimit amb èxit"
     deletion_info:
       data_consequences:
@@ -361,23 +361,23 @@ ca:
       heading: "Suprimir el compte %{name}"
       info:
         other: "Suprimir el compte d'usuari és una acció irreversible."
-        self: "Suprimir el compte d'usuari és una acció irreversible."
+        self: "Eliminar el compte d'usuari és una acció irreversible."
       login_consequences:
         other: "El compte es suprimirà del sistema. Per tant, l'usuari ja no podrà iniciar la sessió amb les seves credencials actuals. Ell/ella pot decidir convertir-se en un usuari d'aquesta aplicació una altra vegada pels mitjans que aquesta aplicació ofereix."
-        self: "El seu compte es suprimirà del sistema. Per tant, ja no podreu accedir amb les vostres credencials actuals. Si vostè vol convertir-se en un usuari d'aquesta aplicació una altra vegada, pot fer-ho utilitzant els mitjans que l'aplicació proporciona."
+        self: "El teu compte s'eliminarà del sistema. Per tant, ja no podràs accedir amb les vostres credencials actuals. Si vols tornar a ser usuari d'aquesta aplicació una altra vegada, podràs fer-ho utilitzant els mitjans que l'aplicació proporciona."
       login_verification:
         other: "Introdueix les teves credencials %{name} per a verificar l'eliminació. Un cop enviades, et demanarem la confirmació de la teva contrasenya."
         self: "Introdueix les teves credencials %{name} per a verificar l'eliminació. Un cop enviades, et demanarem la confirmació de la teva contrasenya."
     error_inactive_activation_by_mail: >
-      El teu compte encara no ha estat activat. Per activar el compte, feu clic a l'enllaç que se us va enviar per e-mail.
+      El teu compte encara no ha estat activat. Per activar el compte, feu clic a l'enllaç que se't va enviar per correu electrònic.
     error_inactive_manual_activation: >
-      El seu compte encara no ha estat activat. Espereu a que un administrador activi el vostre compte.
+      El teu compte encara no ha estat activat. Espera a que un administrador l'activi.
     error_self_registration_disabled: >
-      El registre d'usuaris està deshabilitat en aquest sistema. Demaneu a un administrador que us creï un compte.
-    login_with_auth_provider: "o inicieu la sessió amb el vostre compte"
+      El registre d'usuaris està deshabilitat en aquest sistema. Demana a un administrador que et creï un compte.
+    login_with_auth_provider: "o inicia la sessió amb el teu compte"
     signup_with_auth_provider: "o registra't mitjançant"
-    auth_source_login: Si us plau entra com a <em>%{login}</em> per activar el teu compte.
-    omniauth_login: Si us plau entra per activar el teu compte.
+    auth_source_login: Si us plau, entra com a <em>%{login}</em> per activar el teu compte.
+    omniauth_login: Si us plau, entra per activar el teu compte.
   actionview_instancetag_blank_option: "Si us plau, selecciona"
   activerecord:
     attributes:
@@ -625,7 +625,7 @@ ca:
           only_one_allowed: "(%{name}) sols és permès un valor."
           empty: "(%{name}) el valor no ser buit."
           inclusion: "(%{name}) el valor no s'ha establert a un dels valors permesos."
-          not_logged_in: "(%{name}) no es pot establir el valor perquè no heu iniciat la sessió."
+          not_logged_in: "(%{name}) no es pot establir el valor perquè no has iniciat la sessió."
           not_an_integer: "(%{name}) no és un enter."
           smaller_than_or_equal_to: "(%{name}) ha de ser més petit o igual a %{count}."
           greater_than_or_equal_to: "(%{name}) ha de ser més gran o igual a %{count}."
@@ -641,7 +641,7 @@ ca:
             scopes:
               not_match_configured: "no coincideix amb els àmbits disponibles."
         enterprise_token:
-          unreadable: "no es pot llegir. Sou segurs de que és un token de suport?"
+          unreadable: "no es pot llegir. Estàs segur que és un token de suport?"
         grids/grid:
           overlaps: 'superposició.'
           outside: 'és fora de la graella.'
@@ -1015,7 +1015,7 @@ ca:
     update_consent_last_time: "Última actualització de consentiment: %{update_time}"
   copy_project:
     title: 'Copia projecte "%{source_project_name}"'
-    started: "S'ha començat a copiar el projecte \"%{source_project_name}\" a \"%{target_project_name}\". Se li comunicarà per correu electrònic tan aviat com \"%{target_project_name}\" estigui disponible."
+    started: "S'ha començat a copiar el projecte \"%{source_project_name}\" a \"%{target_project_name}\". Se't comunicarà per correu electrònic tan aviat com \"%{target_project_name}\" estigui disponible."
     failed: "No es pot copiar el projecte %{source_project_name}"
     failed_internal: "La còpia ha fallat a causa d'un error intern."
     succeeded: "Projecte %{target_project_name} creat"
@@ -1186,7 +1186,7 @@ ca:
   description_active: "Actiu?"
   description_attachment_toggle: "Mostra o amaga els fitxers adjunts"
   description_autocomplete: >
-    Aquest camp utilitza l'emplenament automàtic. Mentre escriu el títol d'un paquet de treball veurà una llista dels possibles candidats. Pot escollir-ne un utilitzant les tecles de fletxa cap amunt o cap avall i seleccionar-lo amb tabulador o enter. Alternativament podeu introduir el número de paquet de treball directament.
+    Aquest camp utilitza l'emplenament automàtic. Mentre escrius el títol d'un paquet de treball veuràs una llista dels possibles candidats. Pots escollir-ne un utilitzant les tecles de fletxa cap amunt o cap avall i seleccionar-lo amb tabulador o enter. Alternativament pots introduir el número de paquet de treball directament.
   description_available_columns: "Columnes disponibles"
   description_choose_project: "Projectes"
   description_compare_from: "Compara des de"
@@ -1231,7 +1231,7 @@ ca:
   error_can_not_delete_custom_field: "No s'ha pogut suprimir el camp personalitat"
   error_can_not_delete_type:
     explanation: 'Aquest tipus conté paquets de treball i no es pot eliminar. Pots veure tots els paquets de treball afectats a <a target="_blank" href="%{url}">aquesta vista</a>.'
-    archived_projects: 'També hi ha paquets de treball en projectes arxivats. Primer heu de reactivar els següents projectes, abans de que pugui canviar-se el tipus dels respectius paquets de treball: %{archived_projects}'
+    archived_projects: 'També hi ha paquets de treball en projectes arxivats. Primer has de reactivar els següents projectes, abans de que pugui canviar-se el tipus dels respectius paquets de treball: %{archived_projects}'
   error_can_not_delete_standard_type: "No es poden suprimir els tipus estàndard."
   error_can_not_invite_user: "Error en enviar la invitació a l'usuari."
   error_can_not_remove_role: "Aquest rol s'està utilitzant i no es pot suprimir."
@@ -1257,7 +1257,7 @@ ca:
   error_must_be_project_member: "ha de ser membre del projecte"
   error_migrations_are_pending: "La teva instal·lació d'OpenProject té migracions de base de dades pendents. Probablement no vas fer les migracions en la teva última actualització. Si us plau, comprova la guia d'actualització per actualitzar la teva instal·lació correctament."
   error_migrations_visit_upgrade_guides: "Si us plau, visita la nostra guia d'actualització a la nostra documentació"
-  error_no_default_work_package_status: "No hi ha cap estat de paquet de treball definit per defecte. Comproveu la configuració (\"Administració-> Estats dels paquets de treball\")."
+  error_no_default_work_package_status: "No hi ha cap estat de paquet de treball definit per defecte. Comprova la configuració (\"Administració-> Estats dels paquets de treball\")."
   error_no_type_in_project: "Aquest projecte no té cap tipus associat. Comproveu els paràmetres del projecte."
   error_omniauth_registration_timed_out: "S'ha esgotat el temps d'espera per a la inscripció mitjançant un proveïdor d'autenticació externa. Torneu-ho a provar."
   error_omniauth_invalid_auth: "La informació d'autentificació rebuda del proveïdor d'identificació és invàlida. Si us plau, contacta amb el teu administrador per més ajuda."
@@ -1350,9 +1350,9 @@ ca:
   links:
     configuration_guide: 'Guia de configuració'
     get_in_touch: "Tens preguntes? Posa't en contacte amb nosaltres."
-  instructions_after_registration: "Vostè podrà entrar tan aviat com hagi activat el seu compte fent clic a %{signin}."
-  instructions_after_logout: "Vostè es pot inscriure altre vegada fent clic a %{signin}."
-  instructions_after_error: "Pot intentar iniciar sessió fent clic a %{signin}. Si l'error continua, demaneu ajuda al vostre administrador."
+  instructions_after_registration: "Podràs entrar tan aviat com hagis activat el teu compte fent clic a %{signin}."
+  instructions_after_logout: "Pots inscriure't de not fent clic a %{signin}."
+  instructions_after_error: "Pots intentar iniciar sessió fent clic a %{signin}. Si l'error continua, demana ajuda al teu administrador."
   menus:
     admin:
       mail_notification: "Avisos de correu electrònic"
@@ -1383,12 +1383,12 @@ ca:
         watched: "Estàs observant %{work_package}"
     update_info_mail:
       body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-        We hope you find in-app notifications useful and that they makes you even more productive.
-        Sincerely, The OpenProject team
+        Estem encantats d'anunciar la publicació d'OpenProject 12.0. És una publicació rellevant que esperem que millori de forma significant la forma en què utilitzes OpenProject.
+        Des d'aquesta versió, s'introdueixen les notificacions dins de l'aplicació. Des d'ara, rebràs notificacions relacionades amb els paquets de treball directament a OpenProject. Pots marcar aquestes notificacions com a llegides, respondre comentaris o inclús modificar els atributs del paquet de treball sense sortir del centre de notificacions.
+        Això, també vol dir que a partir d'ara no farem servir més correus electrònics per a les notificacions. Pensem que el nou centre de notificacions és el lloc adequat per actuar sobre les notificacions. Tot i això, si decideixes que és rellevant per a tu continuar rebent correus electrònics pots configurar recordatoris diaris en les hores que tu indiquis.
+        Si us plau, verifica la teva configuració de notificacions per defecte i configura les teves preferències per a notificacions i correus electrònics recordatoris via la configuració del teu compte. Pots fer aquestes accions fent servir el botó de "Canviar notificacions de correus electrònics".
+        Esperem que trobis les notificacions dins l'aplicació útils i que aquests canvis millorin la teva productivitat.
+        Sincerament, L'equip d'OpenProject
       body_header: 'Versió 12.0 amb Centre de Notificacions'
       body_subheader: 'Notícies'
       subject: 'Canvis importants en les notificacions amb el llançament de 12.0'
@@ -1993,8 +1993,8 @@ ca:
       see_all: 'Veure tot'
       updated_at: 'Actualitzat a les %{timestamp} per %{user}'
   mail_body_account_activation_request: "S'ha registrat un usuari nou (%{value}). El seu compte està pendent d'aprovació:"
-  mail_body_account_information: "Informació del vostre compte"
-  mail_body_account_information_external: "Podeu utilitzar el compte «%{value}» per entrar."
+  mail_body_account_information: "Informació del teu compte"
+  mail_body_account_information_external: "Pots utilitzar el compte «%{value}» per entrar."
   mail_body_backup_ready: "La teva còpia de seguretat demanada ja està llesta. Pots descarregar-la aquí:"
   mail_body_backup_token_reset_admin_info: El token de còpia de seguretat per a l'usuari "%{user}" no s'ha reiniciat.
   mail_body_backup_token_reset_user_info: El teu token de còpia de seguretat s'ha reiniciat.
@@ -2013,7 +2013,7 @@ ca:
     Si tens qualsevol dubte, consulta la nostra documentació (%{documentation_link}) o contacte el teu administrador.
   mail_body_register_closing: "El teu equip d'OpenProject"
   mail_body_register_ending: "Segueix en contacte! Atentament,"
-  mail_body_reminder: "%{count} paquet(s) de treball que teniu assignats venceran en els propers %{days} dies:"
+  mail_body_reminder: "%{count} paquet(s) de treball que tens assignats arribaran a la seva data final en els %{days} dies vinents:"
   mail_body_group_reminder: "%{count} paquet(s) de treball que estan assignats al grup \"%{group}\" arribaran a la seva data final en els pròxims %{days} dies:"
   mail_body_wiki_content_added: "En %{author} ha afegit la pàgina wiki «%{id}»."
   mail_body_wiki_content_updated: "L'autor %{author} ha actualitzat la pàgina wiki «%{id}»."
@@ -2061,7 +2061,7 @@ ca:
   noscript_heading: "JavaScript desactivat"
   noscript_learn_more: "Saber-ne més"
   notice_accessibility_mode: El mode d'accessibilitat pot ser activat a la configuració del seu compte [configuració del compte](url).
-  notice_account_activated: "El vostre compte s'ha activat correctament. Ara ja podeu entrar."
+  notice_account_activated: "El teu compte s'ha activat correctament. Ara ja pots entrar."
   notice_account_already_activated: El compte ja ha estat activat.
   notice_account_invalid_token: Token d'activació no vàlid
   notice_account_invalid_credentials: "Usuari o contrasenya no vàlids"
@@ -2071,13 +2071,13 @@ ca:
   notice_account_password_expired: "La teva contrasenya ha expirat després de %{days} dies. Si us plau, escriu-ne una de nova."
   notice_account_password_updated: "La contrasenya s'ha modificat correctament."
   notice_account_pending: "S'ha creat el compte i ara està pendent de l'aprovació de l'administrador."
-  notice_account_register_done: "El compte s'ha creat correctament. Per activar el compte, feu clic a l'enllaç que se us ha enviat per e-mail."
+  notice_account_register_done: "El compte s'ha creat correctament. Per activar el compte, feu clic a l'enllaç que se us ha enviat per correu electrònic."
   notice_account_unknown_email: "Usuari desconegut."
-  notice_account_update_failed: "No s'ha pogut desar la configuració del compte. Si us plau, revisi la pàgina del compte."
+  notice_account_update_failed: "No s'ha pogut desar la configuració del compte. Si us plau, revisa la pàgina del compte."
   notice_account_updated: "El compte s'ha actualitzat correctament."
   notice_account_other_session_expired: "Totes les altres sessions vinculades al teu compte han sigut invalidades."
   notice_account_wrong_password: "Contrasenya errònia"
-  notice_account_registered_and_logged_in: "Benvingut, el seu compte s'ha activat. Ara ja està vostè connectat."
+  notice_account_registered_and_logged_in: "Benvingut, el teu compte s'ha activat. Ara ja estàs connectat."
   notice_activation_failed: El compte no es pot activar.
   notice_auth_stage_verification_error: "No s'ha pogut validar l'etapa \"%{stage}\"."
   notice_auth_stage_wrong_stage: "S'esperava acabar l'etapa d'autentificació \"%{expected}\", però s'ha retornat \"%{actual}\"."
@@ -2089,21 +2089,21 @@ ca:
   notice_failed_to_save_work_packages: "No s'han pogut desar %{count} paquet(s) de treball de %{total} seleccionats: %{ids}."
   notice_failed_to_save_members: "No s'han pogut desar els membre(s): %{errors}."
   notice_deletion_scheduled: "S'ha planificat l'eliminació i serà executada de manera asíncrona."
-  notice_file_not_found: "La pàgina a la que intenteu accedir no existeix o s'ha suprimit."
-  notice_forced_logout: "Vostè té estat automàticament desconnectant després %{ttl_time} minuts d'inactivitat."
-  notice_internal_server_error: "S'ha produït un error a la pàgina a la que intenteu accedir. Si continueu tenint problemes contacteu amb el vostre administrador %{app_title} per obtenir ajuda."
+  notice_file_not_found: "La pàgina a la que intentes accedir no existeix o s'ha suprimit."
+  notice_forced_logout: "S'et ha desconnectant automàticament després %{ttl_time} minuts d'inactivitat."
+  notice_internal_server_error: "S'ha produït un error a la pàgina a la qual intentes accedir. Si continues tenint problemes contacte amb el vostre administrador %{app_title} per obtenir ajuda."
   notice_work_package_done_ratios_updated: "S'han actualitzars els ràtios de paquets de treball fets."
   notice_locking_conflict: "La informació s'ha actualitzat per almenys un altre usuari mentrestant."
   notice_locking_conflict_additional_information: "Les actualitzacions provenen de %{users}."
-  notice_locking_conflict_reload_page: "Si us plau, recarregueu la pàgina, reviseu els canvis i torneu a aplicar les actualitzacions."
+  notice_locking_conflict_reload_page: "Si us plau, regarrega la pàgina, revisa els canvis i torna a aplicar les actualitzacions."
   notice_member_added: '%{name} afegit al projecte.'
   notice_members_added: Afegits %{number} d'usuaris al projecte.
   notice_member_removed: "%{user} esborrat del projecte."
   notice_member_deleted: "%{user} s'ha eliminat del projecte i s'ha esborrat."
   notice_no_principals_found: "No s'han trobat resultats."
   notice_bad_request: "Sol·licitud incorrecte."
-  notice_not_authorized: "No teniu permís per accedir a aquesta pàgina."
-  notice_not_authorized_archived_project: "El projecte al que intenta accedir esta arxivat."
+  notice_not_authorized: "No tens permís per accedir a aquesta pàgina."
+  notice_not_authorized_archived_project: "El projecte al que intentes accedir està arxivat."
   notice_password_confirmation_failed: "La teva contrasenya no és correcta, no es pot continuar."
   notice_principals_found_multiple: "S'han trobat %{number} resultats.\nPrem per focalitzar el primer resultat."
   notice_principals_found_single: "S'han trobat un resultat.\nPrem per focalitzar-lo."
@@ -2119,11 +2119,11 @@ ca:
   notice_to_many_principals_to_display: "Hi ha massa resultats.\nAfini la cerca escrivint el nom del nou membre (o grup)."
   notice_user_missing_authentication_method: L'usuari encara ha de triar una contrassenya o una altra manera d'iniciar la sessió.
   notice_user_invitation_resent: Una invitació s'ha enviat a %{email}.
-  present_access_key_value: "El seu %{key_name} és: %{value}"
+  present_access_key_value: "El teu %{key_name} és: %{value}"
   notice_automatic_set_of_standard_type: "Establir tipus estàndard automàticament."
   notice_logged_out: "S'ha tancat la sessió."
   notice_wont_delete_auth_source: El mode d'autenticació no es pot suprimir mentre encara hi ha usuaris utilitzant-lo.
-  notice_project_cannot_update_custom_fields: "No pot actualitzar els camps personalitzats disponibles del projecte. El projecte no és vàlid: %{errors}"
+  notice_project_cannot_update_custom_fields: "No pots actualitzar els camps personalitzats disponibles del projecte. El projecte no és vàlid: %{errors}"
   notice_attachment_migration_wiki_page: >
     Aquesta pàgina s'ha generat automàticament durant l'actualització d'OpenProject. Compte tots els fitxers adjunts que anteriorment estaven associats amb el %{container_type} "%{container_name}".
   #Default format for numbers
@@ -2149,7 +2149,7 @@ ca:
   onboarding:
     heading_getting_started: "Obté una visió general"
     text_getting_started_description: "Obté una visió general ràpida de la gestió de projectes i col·laboració d'equips amb OpenProject."
-    text_show_again: "Pot reprendre aquest vídeo des del menú d'ajuda"
+    text_show_again: "Pots reprendre aquest vídeo des del menú d'ajuda"
     welcome: "Benvingut a %{app_title}"
     select_language: "Si us plau, selecciona el teu idioma"
   permission_add_work_package_notes: "Afegir notes"
@@ -2227,7 +2227,7 @@ ca:
     default: "-"
   project:
     destroy:
-      confirmation: "Si continueu, el projecte %{identifier} i totes les dades associades es destruiran permanentment."
+      confirmation: "Si continues, el projecte %{identifier} i totes les dades associades es destruiran permanentment."
       info: "Suprimir el projecte és una acció irreversible."
       project_verification: "Introdueixi el nom del projecte %{name} per verificar la supressió."
       subprojects_confirmation: "Els subproject(s): %{value} també es suprimiran."
@@ -2243,7 +2243,7 @@ ca:
       make_template: 'Estableix com a plantilla'
       remove_from_templates: 'Suprimir de les plantilles'
     archive:
-      are_you_sure: "Esteu segur que voleu arxivar el projecte \"%{name}\"?"
+      are_you_sure: "Estàs segur que vols arxivar el projecte \"%{name}\"?"
       archived: "Arxivat"
   project_module_activity: "Activitat"
   project_module_forums: "Fòrums"
@@ -2271,31 +2271,31 @@ ca:
       access:
         readwrite: 'Lectura / Escriptura'
         read: 'Només lectura'
-        none: 'No pot fer checkout, a través d''aquesta aplicació només pot veure el dipòsit.'
-      access_permission: 'Els vostres permissos en aquest repositori'
+        none: 'Sense accés al checkout, a través d''aquesta aplicació només pot veure el repositori.'
+      access_permission: 'Els teus permissos en aquest repositori'
       url: "URL de checkout"
       base_url_text: "L'URL base a utilitzar per a la generació d'URL de checkout (per exemple, https://myserver.example.org/repos/). Nota: L'URL base només s'utilitza per a la reescriptura de l'URL de checkout per dipòsits administrats. Els altres repositoris no es modifiquen."
       default_instructions:
         git: |-
-          Les dades contingudes en aquest repositori es poden descarregar al seu ordinador amb Git. Si us plau, consulteu la documentació de Git si necessiteu més informació sobre el procediment de checkout i clients disponibles.
+          Les dades contingudes en aquest repositori es poden descarregar al teu ordinador amb Git. Si us plau, consulta la documentació de Git si necessites més informació sobre el procediment de checkout i clients disponibles.
         subversion: |-
-          Les dades contingudes en aquest repositori es poden descarregar al seu ordinador amb Subversion. Si us plau, consulteu la documentació de Subversion si necessiteu més informació sobre el procediment de checkout i clients disponibles.
+          Les dades contingudes en aquest repositori es poden descarregar al teu ordinador amb Subversion. Si us plau, consulta la documentació de Subversion si necessites més informació sobre el procediment de checkout i clients disponibles.
       enable_instructions_text: "Mostra les instruccions de checkout definides més avall per totes les pàgines relacionades amb repositoris."
       instructions: "Instruccions de checkout"
       show_instructions: "Mostra les instruccions de checkout"
       text_instructions: "Aquest text apareix al costat de l'URL de checkout per indicar com fer el checkout del repositori."
-      not_available: "Les instruccions de checkout no estan definides per aquest repositori. Sol·liciteu al vostre administrador que les habiliti per aquest repositori en la configuració del sistema."
+      not_available: "Les instruccions de checkout no estan definides per aquest repositori. Sol·licita al teu administrador que les habiliti per aquest repositori en la configuració del sistema."
     create_managed_delay: "Tingueu en compte: el repositori es administrat, es crearà de manera asíncrona al disc i estarà disponible en breu."
     create_successful: "El repositori s'ha registrat."
     delete_sucessful: "El repositori s'ha suprimit."
     destroy:
-      confirmation: "Si continueu, s'eliminarà permanentment el repositori administrat."
+      confirmation: "Si continues, s'eliminarà permanentment el repositori administrat."
       info: "Eliminar el repositori és una acció irreversible."
       info_not_managed: "Nota: Això no suprimirà el contingut d'aquest repositori perquè no és administrat per OpenProject."
       managed_path_note: "S'esborrarà el directori següent: %{path}"
       repository_verification: "Introduir l'identificador del projecte %{identifier} per verificar la supressió del seu repositori."
       subtitle: "Esteu segur de voler suprimir el %{repository_type} del %{project_name} projecte?"
-      subtitle_not_managed: "Esteu segur de voler treure l'enllaç %{repository_type} %{url} del projecte %{project_name}?"
+      subtitle_not_managed: "Estàs segur que vols treure l'enllaç %{repository_type} %{url} del projecte %{project_name}?"
       title: "Suprimir el %{repository_type}"
       title_not_managed: "Eliminar la %{repository_type} enllaçat?"
     errors:
@@ -2307,7 +2307,7 @@ ca:
       filesystem_access_failed: "S'ha produït un error a l'accedir al repositori al sistema de fitxers: %{message}"
       not_manageable: "Aquest tipus de repositori no pot ser gestionat per OpenProject."
       path_permission_failed: "S'ha produït un error en intentar crear la ruta següent: %{path}. Si us plau, assegureu-vos que OpenProject pot escriure en aquesta carpeta."
-      unauthorized: "Vostè no està autoritzat a accedir al repositori o les credencials no són vàlides."
+      unauthorized: "No estàs autoritzat a accedir al repositori o les credencials no són vàlides."
       unavailable: "El repositori no està disponible."
       exception_title: "No es pot accedir al repositori: %{message}"
       disabled_or_unknown_type: "La classe seleccionada %{type} està deshabilitada o ja no està disponible per al proveïdor SCM %{vendor}."
@@ -2323,7 +2323,7 @@ ca:
         path_encoding: "Modificar la codificació de la ruta d'accés GIT (per defecte: UTF-8)"
       local_title: "Enllaç al repositori existent Git existent"
       local_url: "URL local"
-      local_introduction: "Si ja teniu un repositori de Git, podeu enllaçar-lo amb OpenProject per accedir-hi des de l'aplicació."
+      local_introduction: "Si ja tens un repositori de Git, pots enllaçar-lo amb OpenProject per accedir-hi des de l'aplicació."
       managed_introduction: "Permetre a OpenProject crear i integrar un repositori Git local automàticament."
       managed_title: "Repositori Git integrat en OpenProject"
       managed_url: "URL gestionada"
@@ -2351,7 +2351,7 @@ ca:
       show_warning_details: "Per tal d'utilitzar aquest emmagatzematge de fitxers recorda activar el mòdul i l'emmagatzematge específic a la configuració del projecte desitjat."
     subversion:
       existing_title: "Repositori de Subversion existent"
-      existing_introduction: "Si ja teniu un repositori de Subversion, podeu enllaçar-lo amb OpenProject per accedir-hi des de l'aplicació."
+      existing_introduction: "Si ja tens un repositori de Subversion, pots enllaçar-lo amb OpenProject per accedir-hi des de l'aplicació."
       existing_url: "URL existent"
       instructions:
         managed_url: "Aquesta és l'URL del repositori (local) de Subversion administrat."
@@ -2377,7 +2377,7 @@ ca:
     Si s'activa el CORS, aquests són els orígens que tenen permís per accedir a l'API d'OpenProject. <br/>Si us plau, valida la <a href="%{origin_link}" target="_blank">Documentació en l'encapçalament d'Origin</a> en com s'ha d'especificar els valors esperats.
   setting_apiv3_max_page_size: "Màxima mida de pàgina API"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    Configura el mida màxima de pàgina amb la qual l'API respondrà. No es permetrà fer peticions d'API que retornin més valors en una única pàgina. Alerta: Si us plau, canvia només aquest valor si estàs segur que ho necessitaràs. Configurant un valor alt resultarà en problemes d'execució mentre que un valor baix pot produir errors en les vistes paginades.
   setting_apiv3_docs: "Documentació"
   setting_apiv3_docs_enabled: "Activa la pàgina de documents"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2500,13 +2500,13 @@ ca:
       whitelist_text_html: >
         Defineix una llista vàlida d'extensions de fitxers i/o classes MIME per carregar fitxers. <br/>Introdueïx extensions de fitxers (ex. <code>%{ext_example}</code>) o classes MIME (ex. <code>%{mime_example}</code>). <br/> Deixa el camp buit per permetre qualsevol classe de fitxer. Es permeten múltiples valors (una línia per cada valor).
     notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      events_explanation: 'Controla per a quins esdeveniments s''envien correus electrònics. Els paquets de treball estan exclosos d''aquesta llista, ja que les seves notificacions poden ser configurades específicament per a cada usuari.'
+      delay_minutes_explanation: "L'enviada de correus electrònics pot ser endarrerida per permetre als usuaris amb notificacions dins l'aplicació confirmar la notificació dins de l'aplicació abans que s'enviï. Els usuaris que han llegit la notificació a l'aplicació no rebran el correu electrònic, ja que ja han llegit la notificació."
     display:
       first_date_of_week_and_year_set: >
         Si alguna de les opcions "%{day_of_week_setting_name}" o "%{first_week_setting_name}" estan configurades, l'altre ha d'estar també configurada per evitar inconsistències en l'aplicació.
       first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+        Selecciona la data de gener que està continguda dins la primera setmana de l'any. Aquest valor conjuntament amb el primer dia de la setmana estipula el nombre total de setmanes de l'any.
     projects:
       section_new_projects: "Configuració per a projectes nous"
       section_project_overview: "Configuracions per a la llista de visió general del projecte"
@@ -2533,11 +2533,11 @@ ca:
     array:
       sentence_connector: "i"
       skip_last_comma: "fals"
-  text_accessibility_hint: "The accessibility mode is designed for users who are blind, motorically handicaped or have a bad eyesight. For the latter focused elements are specially highlighted. Please notice, that the Backlogs module is not available in this mode."
+  text_accessibility_hint: "El mode d'accessibilitat està dissenyat per a usuaris cecs, amb discapacitats motores o problemes de vista. Els elements es focalitzen amb un ressaltat més evident. Si us plau, considera que el mòdul de \"Backlogs\" no està disponible en aquest mode."
   text_access_token_hint: "Els token d'accés permeten que aplicacions externes accedeixin als recursos d'OpenProject."
   text_analyze: "Analitzar més en profunditat: %{subject}"
-  text_are_you_sure: "N'esteu segur?"
-  text_are_you_sure_with_children: "Voleu suprimir el paquet de treball i tots els paquets de treball fills?"
+  text_are_you_sure: "N'estàs segur?"
+  text_are_you_sure_with_children: "Vols suprimir el paquet de treball i tots els paquets de treball fills?"
   text_assign_to_project: "Assignar al projecte"
   text_form_configuration: >
     Pots configurar quins camps seran mostrats en el formulari del paquet de treball. Pots agrupar els camps lliurement per mostrar les necessitats del teu domini.
@@ -2558,19 +2558,19 @@ ca:
   text_project_custom_field_html: >
     L'edició Enterprise afegirà funcionalitats addicionals pels camps personalitzats de projectes: <br> <ul> <li><b>Afegeix camps personalitzats pels teus projectes a la teva llista de projectes per crear una vista de cartera de projectes</b></li> </ul>
   text_custom_logo_instructions: >
-    A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
+    Es recomana un logo blanc amb fons transparent. Per a un millor resultat tant en pantalles retina o convencionals assegura't que la teva imatge té unes dimensions de 460px per 60px.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    Aquest és la icona petita que apareix a la pantalla del navegador just al costat del títol de la pàgina. Ha de ser un PNG de 32 per 32 píxels amb un fons transparent.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It's needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    Aquesta és la icona que apareix en el teu telèfon mòbil o tauleta quan guardes la web com a "bookmark" a la teva pantalla d'inici. Ha de ser un PNG quadrat de 180 per 180 píxels. Si us plau, assegura't que el fons de la imatge no és transparent per un millor resultat en iOS.
   text_database_allows_tsv: "La base de dades permet TSVector (opcional)"
   text_default_administrator_account_changed: "S'ha canviat el compte d'administrador predeterminat"
   text_default_encoding: "Per defecte: UTF-8"
   text_destroy: "Esborrar"
   text_destroy_with_associated: "Hi ha objectes addicionals associats amb el(s) paquet(s) de treball que es suprimiran. Aquests objectes són dels tipus següents:"
-  text_destroy_what_to_do: "Què voleu fer?"
+  text_destroy_what_to_do: "Què vols fer?"
   text_diff_truncated: "... Aquestes diferències s'han truncat perquè excedeixen la mida màxima que es pot mostrar."
-  text_email_delivery_not_configured: "L'entrega de correu electrònic no està configurada, i les notificacions estan desactivades.\nConfiguri el seu servidor SMTP per a habilitar-les."
+  text_email_delivery_not_configured: "L'entrega de correu electrònic no està configurada, i les notificacions estan desactivades.\nConfigura el teu servidor SMTP per a habilitar-les."
   text_enumeration_category_reassign_to: "Torna a assignar-los a aquest valor:"
   text_enumeration_destroy_question: "objectes %{count} estan assignades a aquest valor."
   text_file_repository_writable: "Es pot escriure en el repositori de fitxers adjunts"
@@ -2580,12 +2580,12 @@ ca:
   text_hours_between: "Entre %{min} i %{max} hores."
   text_work_package_added: "El paquet de treball %{id} ha estat informat per %{author}."
   text_work_package_category_destroy_assignments: "Suprimir les assignacions de la categoria"
-  text_work_package_category_destroy_question: "Alguns paquets de treball (%{count}) estan assignats a aquesta categoria. Què voleu fer?"
+  text_work_package_category_destroy_question: "Alguns paquets de treball (%{count}) estan assignats a aquesta categoria. Què vols fer?"
   text_work_package_category_reassign_to: "Tornar a assignar els paquets de treball a aquesta categoria"
   text_work_package_updated: "El paquet de treball %{id} ha estat actualitzat per %{author}."
   text_work_package_watcher_added: "%{watcher_changer} t'ha afegit com a observador del paquet de treball %{id}."
   text_work_package_watcher_removed: "%{watcher_changer} t'ha eliminat com a observador del paquet de treball %{id}."
-  text_work_packages_destroy_confirmation: "¿Està segur que desitja eliminar el(s) paquet(s) de treball seleccionat(s)?"
+  text_work_packages_destroy_confirmation: "¿Estàs segur que vols eliminar el(s) paquet(s) de treball seleccionat(s)?"
   text_work_packages_ref_in_commit_messages: "Referència i arregla els paquets de treball en els missatges dels commits"
   text_journal_added: "S'ha afegit %{label} %{value}"
   text_journal_changed_html: "%{label} ha canviat de %{old} %{linebreak}<strong>a</strong> %{new}"
@@ -2604,12 +2604,12 @@ ca:
   text_min_max_length_info: "0 significa sense restricció"
   text_no_roles_defined: No hi ha rols definits.
   text_no_access_tokens_configurable: "No hi ha tokens d'accés que siguin configurables."
-  text_no_configuration_data: "Encara no s'han configurat els rols, tipus, estats dels paquet de treball i flux de treball.\nÉs altament recomanable que carregueu la configuració predeterminada. Podreu modificar-la un cop carregada."
+  text_no_configuration_data: "Encara no s'han configurat els rols, tipus, estats dels paquet de treball i flux de treball.\nÉs altament recomanable que carreguis la configuració predeterminada. Podràs modificar-la un cop carregada."
   text_no_notes: "No hi ha cap comentari disponible per a aquest paquet de treball."
   text_notice_too_many_values_are_inperformant: "Nota: Mostrar més de 100 articles per pàgina pot augmentar el temps de càrrega de la pàgina."
   text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel, and on the home page. It is displayed to administrators only. <br/> The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities. For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.
-  text_own_membership_delete_confirmation: "Esteu a punt de suprimir algun o tots els vostres permisos i potser no podreu editar més aquest projecte.\nSegur que voleu continuar?"
+    Nota: si està activat, es mostra un indicador amb l'estat de la teva instal·lació <a href="%{information_panel_path}"> en el panell d'administració i a la pàgina inicial. Només es mostra als administradors. <br/> L'indicador comprova la teva versió d'OpenProject actual amb la versió oficial i t'avisa si hi ha actualitzacions o qualsevol vulnerabilitat. Per a més informació en quina informació es proveïx, quines dades són necessàries per actualitzacions i com desactivar aquesta funció, si us plau, visita <a href="%{more_info_url}">la documentació de configuració</a>.
+  text_own_membership_delete_confirmation: "Estàs a punt d'eliminar algun o tots els teus permisos i potser no podreu editar més aquest projecte.\nEstàs segur que vols continuar?"
   text_plugin_assets_writable: "Es pot escriure als complements actius"
   text_powered_by: "Desenvolupat per %{link}"
   text_project_identifier_info: "Només es permeten lletres minúscules (a-z), números, guions i guions baixos, i ha de començar amb una lletra minúscula."
@@ -2618,7 +2618,7 @@ ca:
   text_regexp_multiline: 'S''aplica l''expressió regular en mode de múltilínia. Per exemple, ^---\s+'
   text_repository_usernames_mapping: "Seleccioneu l'assignació entre els usuaris del OpenProject i cada nom d'usuari trobat al repositori.\nEls usuaris amb el mateix nom d'usuari o correu del OpenProject i del repositori s'assignaran automàticament."
   text_status_changed_by_changeset: "Aplicat en el conjunt de canvis %{value}."
-  text_table_difference_description: "In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown."
+  text_table_difference_description: "En aquesta taula es mostren %{entries} entrades úniques. Pots veure la diferència entre qualsevol de les entrades seleccionant-les a través dels \"checkboxes\" de la taula. Quan has fet clic en el botó de sota la taula es mostren les diferències."
   text_time_logged_by_changeset: "Aplicat en el conjunt de canvis %{value}."
   text_tip_work_package_begin_day: "el paquet de treball comença aquest dia"
   text_tip_work_package_begin_end_day: "treball paquet iniciant i acabant aquest dia"
@@ -2629,15 +2629,15 @@ ca:
   text_user_wrote: "%{value} va escriure:"
   text_warn_on_leaving_unsaved: "Aquest paquet de treball conté text sense desar que es perdrà si surt de la pàgina."
   text_what_did_you_change_click_to_add_comment: "Què has canviat? Fes clic per afegir un comentari"
-  text_wiki_destroy_confirmation: "Segur que voleu suprimir aquesta wiki i tot el seu contingut?"
+  text_wiki_destroy_confirmation: "Segur que vols eliminar aquesta wiki i tot el seu contingut?"
   text_wiki_page_destroy_children: "Suprimir les pàgines filles i tots els seus descendents"
-  text_wiki_page_destroy_question: "Aquesta pàgina té %{descendants} pàgines fill(es) i descendent(s). Què voleu fer?"
+  text_wiki_page_destroy_question: "Aquesta pàgina té %{descendants} pàgines fill(es) i descendent(s). Què vols fer?"
   text_wiki_page_nullify_children: "Deixar les pàgines filles com a pàgines arrel"
   text_wiki_page_reassign_children: "Reasignar les pàgines filles a aquesta pàgina pare"
   text_workflow_edit: "Seleccioneu un rol i un tipus per editar el flux de treball"
   text_zoom_in: "Ampliar"
   text_zoom_out: "Allunyar"
-  text_setup_mail_configuration: "Configurar el vostre proveïdor de correu electrònic"
+  text_setup_mail_configuration: "Configura el teu proveïdor de correu electrònic"
   time:
     am: "AM"
     formats:
@@ -2756,7 +2756,7 @@ ca:
     new_reporting: "Nou informe"
     new_timeline: "Nou informe de terminis"
     no_projects_for_reporting_available: "No hi ha cap projecte pel qual es pot crear una associació d'informes."
-    no_right_to_view_timeline: "No teniu permisos suficients per a veure el termini enllaçat."
+    no_right_to_view_timeline: "No tens permisos suficients per a veure el termini enllaçat."
     no_timeline_for_id: "No hi ha termini amb ID %{id}."
     notice_successful_deleted_all_elements: "Suprimits amb èxit tots els elements"
     outline: "Restablir el marc"
@@ -2781,9 +2781,9 @@ ca:
     reporting_could_not_be_saved: "No s'ha pogut desar l'informe"
     properties: "Propietats"
     really_delete_color: >
-      Esteu segur que voleu suprimir el següent color? Els tipus amb aquest color no es suprimiran.
+      Estàs segur que vols eliminar el següent color? Els tipus amb aquest color no s'eliminaràn.
     really_delete_reporting: >
-      Esteu segur que voleu suprimir el següent informe? Els informes d'estat anteriors també seran eliminats.
+      Estàs segur que vols eliminar el següent informe? Els informes d'estat anteriors també seran eliminats.
     start: "Inici"
     timeline: "Informe de terminis"
     timelines: "Cronologia d'informes"
@@ -2806,7 +2806,7 @@ ca:
     Envia una nova invitació amb un token nou en cas que l'anterior hagi caducat o l'usuari no hagi rebut el correu electrònic original. També es pot utilitzar perquè usuaris actius triïn un nou mètode d'autentificació. Quan s'utilitzi per a usuaris actius el seu estat canviarà a "convidat".
   tooltip:
     setting_email_login: >
-      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+      Si s'activa els usuaris serà incapaços de triar inici de sessió durant el registre. En comptes, el seu correu electrònic servirà per a l'inici de sessió. Els administradors encara podran canviar l'inici de sessió per separat.
   queries:
     apply_filter: Aplicar filtre preconfigurat
   top_menu:
@@ -2822,7 +2822,7 @@ ca:
     authentication_provider: "Proveïdor d'autenticació"
     authentication_settings_disabled_due_to_external_authentication: >
       Aquest usuari s'autentica mitjançant un proveïdor d'autenticació externa i no hi ha cap contrasenya a OpenProject per canviar.
-    authorization_rejected: "No podeu iniciar la sessió."
+    authorization_rejected: "No pots iniciar la sessió."
     assign_random_password: "Assignar contrasenya aleatòria (enviada a usuari mitjançant e-mail)"
     blocked: "bloquejat temporalment"
     blocked_num_failed_logins:
@@ -2852,7 +2852,7 @@ ca:
   warning: Alerta
   warning_attachments_not_saved: "No s'han pogut desar %{count} fitxer(s)."
   warning_imminent_user_limit: >
-    You invited more users than are supported by your current plan. Invited users may not be able to join your OpenProject environment. Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users in order to allow invited and registered users to join.
+    Has convidat a més usuaris dels permesos en el teu pla actual. Pot ser que els usuaris convidats no puguin unir-se al teu OpenProject. Si us plau, <a href="%{upgrade_url}">actualitza el teu pla</a> o bloqueja a usuaris per permetre als usuaris convidats registrar-se i unir-se.
   warning_registration_token_expired: |
     El correu electrònic d'activació ha caducat. N'enviarem un de nou a %{email}.
     Si us plau, fes clic a l'enllaç dins del correu per activar el teu compte.
@@ -2870,13 +2870,13 @@ ca:
     hostname_mismatch:
       title: 'Incongruència en els paràmetres del hostname'
       text_html: >
-        La seva aplicació s'executa amb configuració de nom de host establerta a <code>%{set_hostname}</code>, però la sol·licitud es <code>%{actual_hostname}</code>. Això donarà errors! Vagi a <a href="%{setting_path}">System settings</a> i canviï els paràmetres de "Nom de host" per a corregir-ho.
+        La teva aplicació s'executa amb configuració de nom de host establerta a <code>%{set_hostname}</code>, però la sol·licitud es <code>%{actual_hostname}</code>. Això donarà errors! Ves a <a href="%{setting_path}">Configuracions del sistema</a> i canvia els paràmetres de "Nom de host" per a corregir-ho.
   menu_item: "Element de menú"
   menu_item_setting: "Visibilitat"
   wiki_menu_item_for: "Element de menú per a la pàgina wiki \"%{title}\""
   wiki_menu_item_setting: "Visibilitat"
   wiki_menu_item_new_main_item_explanation: >
-    Esteu Suprimint l'únic l'element de menú principal wiki. Ara cal triar una pàgina wiki per a la qual es generarà un nou element principal. Per suprimir la wiki, els administradors del projecte poden desactivar el mòdul wiki.
+    Estas eliminant l'únic element de menú principal wiki. Ara cal triar una pàgina wiki per a la qual es generarà un nou element principal. Per suprimir la wiki, els administradors del projecte poden desactivar el mòdul wiki.
   wiki_menu_item_delete_not_permitted: No es pot suprimir l'element de menú de wiki de la única pàgina wiki.
   #TODO: merge with work_packages top level key
   work_package:
@@ -2891,9 +2891,9 @@ ca:
       lock_version: "Bloquejar versió"
     errors:
       code_400: "Demanda incorrecta: %{message}"
-      code_401: "Cal que esteu autenticat per accedir a aquest recurs."
-      code_401_wrong_credentials: "No heu proporcionat les credencials correctes."
-      code_403: "No està autoritzat a accedir a aquest recurs."
+      code_401: "Cal que estiguis autenticat per accedir a aquest recurs."
+      code_401_wrong_credentials: "No has proporcionat les credencials correctes."
+      code_403: "No estàs autoritzat a accedir a aquest recurs."
       code_404: "El recurs sol·licitat no s'ha trobat."
       code_409: "No s'ha pogut actualitzar el recurs a causa de modificacions en conflicte."
       code_429: "Masses demandes. Si us plau, prova-ho de nou més tard."

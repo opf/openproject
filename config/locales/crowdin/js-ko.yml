@@ -1187,7 +1187,7 @@ ko:
       search_placeholder: '프로젝트 검색...'
       include_subprojects: '모든 하위 프로젝트 포함'
       tooltip:
-        include_all_selected: '모든 하위 프로젝트 포함이 현재 선택되어 있습니다.'
+        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
         current_project: '작업 중인 현재 프로젝트입니다.'
         does_not_match_search: '프로젝트가 검색 기준과 일치하지 않습니다.'
       no_results: '검색 기준과 일치하는 프로젝트가 없습니다.'

@@ -1190,7 +1190,7 @@ it:
       search_placeholder: 'Cerca progetto...'
       include_subprojects: 'Includi tutti i sotto-progetti'
       tooltip:
-        include_all_selected: 'Includi tutti i sotto-progetti attualmente selezionati.'
+        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
         current_project: 'Questo è il progetto corrente in cui ti trovi.'
         does_not_match_search: 'Il progetto non corrisponde ai criteri di ricerca.'
       no_results: 'Nessun progetto corrisponde ai tuoi criteri di ricerca'
