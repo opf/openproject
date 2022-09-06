@@ -207,7 +207,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         this.clearWithDuration(field);
       }
 
-
       this.onDataChange();
       this.cdRef.detectChanges();
     });
