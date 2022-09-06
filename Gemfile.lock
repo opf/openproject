@@ -280,7 +280,7 @@ GEM
     afm (0.2.2)
     airbrake (13.0.2)
       airbrake-ruby (~> 6.0)
-    airbrake-ruby (6.1.2)
+    airbrake-ruby (6.2.0)
       rbtree3 (~> 0.5)
     appsignal (3.1.4)
       rack
