@@ -1274,6 +1274,7 @@ en:
 
       summary:
         next_button: 'Send invitation'
+        cancel_button: 'Cancel'
 
       success:
         title: '%{principal} was invited!'

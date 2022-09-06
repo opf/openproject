@@ -44,9 +44,9 @@ export class PrincipalComponent implements OnInit {
 
   @Input() type:PrincipalType;
 
-  @Input() role:RoleResource;
+  @Input() roleData:RoleResource;
 
-  @Input() message = '';
+  @Input() messageData = '';
 
   @Output() close = new EventEmitter<void>();
 
@@ -99,10 +99,8 @@ export class PrincipalComponent implements OnInit {
   public principalForm = new FormGroup({
     principal: new FormControl(null, [Validators.required]),
     userDynamicFields: new FormGroup({}),
-  });
-
-  public roleForm = new FormGroup({
     role: new FormControl(null, [Validators.required]),
+    message: new FormControl(''),
   });
 
   public userDynamicFieldConfig:{
@@ -113,16 +111,12 @@ export class PrincipalComponent implements OnInit {
     schema: null,
   };
 
-  public messageForm = new FormGroup({
-    message: new FormControl(''),
-  });
-
   get messageControl() {
-    return this.messageForm.get('message');
+    return this.principalForm.get('message');
   }
 
   get roleControl() {
-    return this.roleForm.get('role');
+    return this.principalForm.get('role');
   }
 
   get principalControl() {
@@ -131,6 +125,14 @@ export class PrincipalComponent implements OnInit {
 
   get principal():PrincipalLike|undefined {
     return this.principalControl?.value;
+  }
+
+  get role():RoleResource|undefined {
+    return this.roleControl?.value;
+  }
+
+  get message():string|undefined {
+    return this.messageControl?.value;
   }
 
   get dynamicFieldsControl() {
@@ -169,8 +171,8 @@ export class PrincipalComponent implements OnInit {
 
   ngOnInit() {
     this.principalControl?.setValue(this.principalData.principal);
-    this.roleControl?.setValue(this.role);
-    this.messageControl?.setValue(this.message);
+    this.roleControl?.setValue(this.roleData);
+    this.messageControl?.setValue(this.messageData);
 
     if (this.type === PrincipalType.User) {
       const payload = this.isNewPrincipal ? this.principalData.customFields : {};
@@ -243,8 +245,8 @@ export class PrincipalComponent implements OnInit {
         principal: this.principal!,
       },
       isAlreadyMember: this.isMemberOfCurrentProject,
-      role: this.roleForm?.value.role,
-      message: this.messageControl?.value,
+      role: this.role!,
+      message: this.message!,
     });
   }
 }
