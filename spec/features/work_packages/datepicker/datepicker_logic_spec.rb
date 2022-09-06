@@ -553,6 +553,60 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
+  describe 'When all values set, clear the start date (Scenario 21a)' do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse('2021-02-20'),
+        due_date: Date.parse('2021-02-21'),
+        duration: 1,
+        ignore_non_working_days: true
+      }
+    end
+
+    it 'also removes duration, but keeps finish date' do
+      datepicker.expect_start_date '2021-02-20'
+      datepicker.expect_due_date '2021-02-21'
+      datepicker.expect_duration 1
+      datepicker.expect_ignore_non_working_days true
+
+      datepicker.set_start_date ''
+      datepicker.expect_duration ''
+      datepicker.expect_due_date '2021-02-21'
+
+      apply_and_expect_saved duration: nil,
+                             start_date: nil,
+                             due_date: Date.parse('2021-02-21'),
+                             ignore_non_working_days: true
+    end
+  end
+
+  describe 'When all values set, clear the due date (Scenario 21a)' do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse('2021-02-20'),
+        due_date: Date.parse('2021-02-21'),
+        duration: 1,
+        ignore_non_working_days: true
+      }
+    end
+
+    it 'also removes duration, but keeps start date' do
+      datepicker.expect_start_date '2021-02-20'
+      datepicker.expect_due_date '2021-02-21'
+      datepicker.expect_duration 1
+      datepicker.expect_ignore_non_working_days true
+
+      datepicker.set_due_date ''
+      datepicker.expect_duration ''
+      datepicker.expect_start_date '2021-02-20'
+
+      apply_and_expect_saved duration: nil,
+                             start_date: Date.parse('2021-02-20'),
+                             due_date: nil,
+                             ignore_non_working_days: true
+    end
+  end
+
   describe 'when all values set and duration highlighted, selecting date in datepicker' do
     let(:current_attributes) do
       {

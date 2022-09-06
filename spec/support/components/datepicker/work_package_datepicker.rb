@@ -85,16 +85,16 @@ module Components
       focus_start_date
       fill_in 'startDate', with: value, fill_options: { clear: :backspace }
 
-      # Focus a different field
-      due_date_field.click
+      # Wait for the value to be applied
+      sleep 1
     end
 
     def set_due_date(value)
       focus_due_date
       fill_in 'endDate', with: value, fill_options: { clear: :backspace }
 
-      # Focus a different field
-      start_date_field.click
+      # Wait for the value to be applied
+      sleep 1
     end
 
     def expect_start_highlighted
