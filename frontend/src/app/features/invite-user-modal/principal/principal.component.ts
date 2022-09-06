@@ -16,6 +16,7 @@ import { PrincipalData, PrincipalLike } from 'core-app/shared/components/princip
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { PrincipalType } from '../invite-user.component';
+import { RoleResource } from 'core-app/features/hal/resources/role-resource';
 
 function extractCustomFieldsFromSchema(schema:IOPFormSettings['_embedded']['schema']) {
   return Object.keys(schema)
@@ -43,9 +44,13 @@ export class PrincipalComponent implements OnInit {
 
   @Input() type:PrincipalType;
 
+  @Input() role:RoleResource;
+
+  @Input() message = '';
+
   @Output() close = new EventEmitter<void>();
 
-  @Output() save = new EventEmitter<{ principalData:PrincipalData, isAlreadyMember:boolean }>();
+  @Output() save = new EventEmitter<{ principalData:PrincipalData, isAlreadyMember:boolean, role:RoleResource, message:string }>();
 
   @Output() back = new EventEmitter();
 
@@ -54,31 +59,50 @@ export class PrincipalComponent implements OnInit {
   public PrincipalType = PrincipalType;
 
   public text = {
-    title: () => this.I18n.t('js.invite_user_modal.title.invite_to_project', {
-      type: this.I18n.t(`js.invite_user_modal.title.${this.type}`),
-      project: this.project.name,
-    }),
-    label: {
-      User: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
-      PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.label.name'),
-      Group: this.I18n.t('js.invite_user_modal.principal.label.name'),
-      Email: this.I18n.t('js.label_email'),
+    principal: {
+      title: () => this.I18n.t('js.invite_user_modal.title.invite'),
+      label: {
+        User: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
+        PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.label.name'),
+        Group: this.I18n.t('js.invite_user_modal.principal.label.name'),
+        Email: this.I18n.t('js.label_email'),
+      },
+      change: this.I18n.t('js.label_change'),
+      inviteUser: this.I18n.t('js.invite_user_modal.principal.invite_user'),
+      createNewPlaceholder: this.I18n.t('js.invite_user_modal.principal.create_new_placeholder'),
+      required: {
+        User: this.I18n.t('js.invite_user_modal.principal.required.user'),
+        PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.required.placeholder'),
+        Group: this.I18n.t('js.invite_user_modal.principal.required.group'),
+      },
+      backButton: this.I18n.t('js.invite_user_modal.back'),
+      nextButton: this.I18n.t('js.invite_user_modal.principal.next_button'),
+      cancelButton: this.I18n.t('js.invite_user_modal.principal.cancel_button'),
     },
-    change: this.I18n.t('js.label_change'),
-    inviteUser: this.I18n.t('js.invite_user_modal.principal.invite_user'),
-    createNewPlaceholder: this.I18n.t('js.invite_user_modal.principal.create_new_placeholder'),
-    required: {
-      User: this.I18n.t('js.invite_user_modal.principal.required.user'),
-      PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.required.placeholder'),
-      Group: this.I18n.t('js.invite_user_modal.principal.required.group'),
+    role: {
+      label: () => this.I18n.t('js.invite_user_modal.role.label', {
+        project: this.project?.name,
+      }),
+      description: () => this.I18n.t('js.invite_user_modal.role.description', {
+        principal: this.principal?.name,
+      }),
+      required: this.I18n.t('js.invite_user_modal.role.required'),
     },
-    backButton: this.I18n.t('js.invite_user_modal.back'),
-    nextButton: this.I18n.t('js.invite_user_modal.principal.next_button'),
+    message: {
+      label: this.I18n.t('js.invite_user_modal.message.label'),
+      description: () => this.I18n.t('js.invite_user_modal.message.description', {
+        principal: this.principal?.name,
+      }),
+    },
   };
 
   public principalForm = new FormGroup({
     principal: new FormControl(null, [Validators.required]),
     userDynamicFields: new FormGroup({}),
+  });
+
+  public roleForm = new FormGroup({
+    role: new FormControl(null, [Validators.required]),
   });
 
   public userDynamicFieldConfig:{
@@ -88,6 +112,18 @@ export class PrincipalComponent implements OnInit {
     payload: null,
     schema: null,
   };
+
+  public messageForm = new FormGroup({
+    message: new FormControl(''),
+  });
+
+  get messageControl() {
+    return this.messageForm.get('message');
+  }
+
+  get roleControl() {
+    return this.roleForm.get('role');
+  }
 
   get principalControl() {
     return this.principalForm.get('principal');
@@ -111,9 +147,9 @@ export class PrincipalComponent implements OnInit {
 
   get textLabel() {
     if (this.type === PrincipalType.User && this.isNewPrincipal) {
-      return this.text.label.Email;
+      return this.text.principal.label.Email;
     }
-    return this.text.label[this.type];
+    return this.text.principal.label[this.type];
   }
 
   get isNewPrincipal() {
@@ -133,6 +169,8 @@ export class PrincipalComponent implements OnInit {
 
   ngOnInit() {
     this.principalControl?.setValue(this.principalData.principal);
+    this.roleControl?.setValue(this.role);
+    this.messageControl?.setValue(this.message);
 
     if (this.type === PrincipalType.User) {
       const payload = this.isNewPrincipal ? this.principalData.customFields : {};
@@ -205,6 +243,8 @@ export class PrincipalComponent implements OnInit {
         principal: this.principal!,
       },
       isAlreadyMember: this.isMemberOfCurrentProject,
+      role: this.roleForm?.value.role,
+      message: this.messageControl?.value,
     });
   }
 }

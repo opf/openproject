@@ -40,10 +40,7 @@ export class SummaryComponent {
   public PrincipalType = PrincipalType;
 
   public text = {
-    title: () => this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
-      principal: this.principal?.name,
-      project: this.project?.name,
-    }),
+    title: () => this.I18n.t('js.invite_user_modal.title.invite'),
     projectLabel: this.I18n.t('js.invite_user_modal.project.label'),
     principalLabel: {
       User: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),

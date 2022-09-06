@@ -15,35 +15,14 @@
   *ngIf="!loading && step === Steps.Principal"
   class="spot-modal"
   [project]="project"
+  [role]="role"
+  [message]="message"
   [principalData]="principalData"
   [type]="type"
   (save)="onPrincipalSave($event)"
   (back)="goTo(Steps.ProjectSelection)"
   (close)="closeMe()"
 ></op-ium-principal>
-
-<op-ium-role
-  *ngIf="!loading && step === Steps.Role"
-  class="spot-modal"
-  [role]="role"
-  [principal]="principalData.principal"
-  [project]="project"
-  [type]="type"
-  (save)="onRoleSave($event)"
-  (back)="goTo(Steps.Principal)"
-  (close)="closeMe()"
-></op-ium-role>
-
-<op-ium-message
-  *ngIf="!loading && step === Steps.Message"
-  class="spot-modal"
-  [message]="message"
-  [principal]="principalData.principal"
-  [project]="project"
-  (save)="onMessageSave($event)"
-  (back)="goTo(Steps.Role)"
-  (close)="closeMe()"
-></op-ium-message>
 
 <op-ium-summary
   *ngIf="!loading && step === Steps.Summary"
@@ -54,7 +33,7 @@
   [role]="role"
   [message]="message"
   (save)="onSuccessfulSubmission($event)"
-  (back)="goTo(this.type === 'placeholder' ? Steps.Role : Steps.Message)"
+  (back)="goTo(Steps.Principal)"
   (close)="closeMe()"
 ></op-ium-summary>
 
