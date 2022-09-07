@@ -528,6 +528,10 @@ bg:
         end_insertion: "Край на вмъкване"
         end_deletion: "Края на изтриване"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Горна категория"
         parent_issue: "Горна категория"
         parent_work_package: "Горна категория"

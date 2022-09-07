@@ -525,6 +525,10 @@ hu:
         end_insertion: "Beillesztés vége"
         end_deletion: "Törlés vége"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Szülő"
         parent_issue: "Szülő"
         parent_work_package: "Szülő"

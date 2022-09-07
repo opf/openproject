@@ -529,6 +529,10 @@ ru:
         end_insertion: "Завершение вставки"
         end_deletion: "Завершение удаления"
         ignore_non_working_days: "Игнорировать нерабочие дни"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Родитель"
         parent_issue: "Родитель"
         parent_work_package: "Родитель"

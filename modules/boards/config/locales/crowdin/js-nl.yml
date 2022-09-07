@@ -7,7 +7,7 @@ nl:
       label_unnamed_list: 'Naamloze lijst'
       label_board_type: 'Type bord'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
+        teaser_text: 'Wilt u uw workflows met Borden automatiseren? Geavanceerde boards zijn een Enterprise-functie. Upgrade naar een betaald abonnement.'
         upgrade: 'Upgrade nu'
       lists:
         delete: 'Lijst verwijderen'

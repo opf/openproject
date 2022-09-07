@@ -527,6 +527,10 @@ pt:
         end_insertion: "Final da inserção"
         end_deletion: "Final da exclusão"
         ignore_non_working_days: "Ignorar dias feriados e fim de semana"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Pai"
         parent_issue: "Pai"
         parent_work_package: "Pai"

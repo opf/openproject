@@ -528,6 +528,10 @@ fr:
         end_insertion: "Fin de l’insertion"
         end_deletion: "Fin de la suppression"
         ignore_non_working_days: "Ignorer les jours non ouvrables"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"

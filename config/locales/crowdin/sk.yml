@@ -530,6 +530,10 @@ sk:
         end_insertion: "Koniec vkladania"
         end_deletion: "Koniec odstraňovania"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Nadradený balíček"
         parent_issue: "Nadradený balíček"
         parent_work_package: "Nadradený balíček"

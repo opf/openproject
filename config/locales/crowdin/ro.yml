@@ -529,6 +529,10 @@ ro:
         end_insertion: "Sfârșit de inserare"
         end_deletion: "Sfârșit de ștergere"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Părinte"
         parent_issue: "Părinte"
         parent_work_package: "Părinte"

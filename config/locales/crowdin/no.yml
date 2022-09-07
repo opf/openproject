@@ -528,6 +528,10 @@
         end_insertion: "Slutt på innsettingen"
         end_deletion: "Slutt på slettingen"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Overordnet"
         parent_issue: "Overordnet"
         parent_work_package: "Overordnet"

@@ -510,6 +510,10 @@ lol:
         end_insertion: "crwdns495335:0crwdne495335:0"
         end_deletion: "crwdns495337:0crwdne495337:0"
         ignore_non_working_days: "crwdns819002:0crwdne819002:0"
+        include_non_working_days:
+          title: 'crwdns833120:0crwdne833120:0'
+          false: 'crwdns833122:0crwdne833122:0'
+          true: 'crwdns833124:0crwdne833124:0'
         parent: "crwdns495341:0crwdne495341:0"
         parent_issue: "crwdns495343:0crwdne495343:0"
         parent_work_package: "crwdns495345:0crwdne495345:0"

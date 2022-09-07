@@ -526,6 +526,10 @@ ko:
         end_insertion: "삽입 끝"
         end_deletion: "삭제 끝"
         ignore_non_working_days: "휴무일 무시"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "부모"
         parent_issue: "부모"
         parent_work_package: "부모"

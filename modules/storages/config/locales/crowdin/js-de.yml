@@ -25,3 +25,4 @@ de:
         open_location: 'Datei am Speicherort öffnen'
         remove: "Datei-Link entfernen"
         remove_confirmation: "Sind Sie sicher, dass Sie die Verknüpfung der Datei aus dem Arbeitspaket entfernen möchten?"
+        not_allowed_tooltip: "Please log in to Nextcloud to access this file"

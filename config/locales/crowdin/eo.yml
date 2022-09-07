@@ -528,6 +528,10 @@ eo:
         end_insertion: "Fino de enmeto"
         end_deletion: "Fino de forigo"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Patro"
         parent_issue: "Patro"
         parent_work_package: "Patro"

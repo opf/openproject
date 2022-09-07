@@ -25,3 +25,4 @@ uk:
         open_location: 'Відкрити файл у папці'
         remove: "Видалити посилання на файл"
         remove_confirmation: "Справді видалити посилання на файл із пакета робіт?"
+        not_allowed_tooltip: "Please log in to Nextcloud to access this file"

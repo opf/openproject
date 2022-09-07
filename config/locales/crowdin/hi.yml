@@ -526,6 +526,10 @@ hi:
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "जनक"
         parent_issue: "जनक"
         parent_work_package: "जनक"

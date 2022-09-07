@@ -25,3 +25,4 @@ pl:
         open_location: 'Otwórz plik w lokalizacji'
         remove: "Usuń link do pliku"
         remove_confirmation: "Czy na pewno chcesz odłączyć plik od pakietu roboczego?"
+        not_allowed_tooltip: "Please log in to Nextcloud to access this file"

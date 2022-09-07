@@ -530,6 +530,10 @@ cs:
         end_insertion: "Konec vložení"
         end_deletion: "Konec odstranění"
         ignore_non_working_days: "Ignorovat nepracovní dny"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Nadřazený"
         parent_issue: "Rodič"
         parent_work_package: "Nadřazený"

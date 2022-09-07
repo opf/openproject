@@ -25,3 +25,4 @@ ca:
         open_location: 'Obre la ubicació del fitxer'
         remove: "Elimina l'enllaç del fitxer"
         remove_confirmation: "Esteu segur que vols desenllaçar el fitxer del paquet de treball?"
+        not_allowed_tooltip: "Please log in to Nextcloud to access this file"
