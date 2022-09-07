@@ -63,7 +63,7 @@ id:
         integration: "Nextcloud Administration / OpenProject"
     delete_warning:
       storage: >
-        Apakah anda yakin untuk menghapus penyimpanan ini? Hal ini akan juga menghapus penyimpanan dari semua proyek yang anda gunakan sekarang. Lebih lanjut, ini akan menghapus semua tautan dari paket kerja ke berkas yang tersimpan pada penyimpanan tersebut. 
+        Apakah anda yakin untuk menghapus penyimpanan ini? Hal ini akan juga menghapus penyimpanan dari semua proyek yang anda gunakan sekarang. Lebih lanjut, ini akan menghapus semua tautan dari paket kerja ke berkas yang tersimpan pada penyimpanan tersebut.
       project_storage: >
         Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
     label_creator: "Creator"

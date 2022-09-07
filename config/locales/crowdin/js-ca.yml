@@ -1190,7 +1190,7 @@ ca:
       search_placeholder: 'Cerca projecte...'
       include_subprojects: 'Inclou tots els subprojectes'
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
+        include_all_selected: 'Projecte ja inclòs, ja que "Inclou tots els subprojectes" està activat.'
         current_project: 'Aquest és el projecte actual.'
         does_not_match_search: 'El projecte no coincideix amb la cerca.'
       no_results: 'Cap projecte s''ajusta a la teva cerca.'

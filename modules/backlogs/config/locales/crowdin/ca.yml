@@ -57,7 +57,7 @@ ca:
     hours: "Hores"
     impediment: "Impediment"
     label_versions_default_fold_state: "Mostra les versions contretes"
-    work_package_is_closed: "Paquet de treball està fet, quan"
+    work_package_is_closed: "Paquet de treball completat, quan"
     label_is_done_status: "L'estat %{status_name} significa fet"
     no_burndown_data: "No hi ha dades de progrés disponibles. És necessari tenir establertes les dates de l'inici i el final del sprint."
     points: "Punts"

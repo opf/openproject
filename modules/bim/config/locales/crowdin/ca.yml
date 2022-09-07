@@ -110,7 +110,7 @@ ca:
     label_edit_defaults: 'Editar els predeterminats'
     no_defaults_warning:
       title: 'No hi ha model IFC predeterminat per aquest projecte.'
-      check_1: 'Revisi que ha pujat com a mínim un model IFC.'
+      check_1: 'Revisa que has pujat com a mínim un model IFC.'
       check_2: 'Revisi que com a mínim un model IFC s''ha establert com a "Predeterminat".'
     no_results: "No s'han pujat models IFC en aquest projecte."
     conversion_status:
