@@ -525,9 +525,9 @@ ca:
         end_deletion: "Final de la supressió"
         ignore_non_working_days: "Ignora dies no laborals"
         include_non_working_days:
-          title: 'Working days'
-          false: 'working days only'
-          true: 'include non-working days'
+          title: 'Dies laborals'
+          false: 'només dies laborables'
+          true: 'inclou dies no laborables'
         parent: "Pare"
         parent_issue: "Pare"
         parent_work_package: "Pare"

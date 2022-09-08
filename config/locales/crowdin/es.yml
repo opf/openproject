@@ -526,9 +526,9 @@ es:
         end_deletion: "Final de la eliminación"
         ignore_non_working_days: "Ignorar días festivos"
         include_non_working_days:
-          title: 'Working days'
-          false: 'working days only'
-          true: 'include non-working days'
+          title: 'Días laborables'
+          false: 'solo días laborables'
+          true: 'incluir días no laborables'
         parent: "Padre"
         parent_issue: "Padre"
         parent_work_package: "Padre"

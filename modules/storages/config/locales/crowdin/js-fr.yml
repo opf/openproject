@@ -25,4 +25,4 @@ fr:
         open_location: 'Ouvrir le fichier à l''emplacement'
         remove: "Supprimer le lien de fichier"
         remove_confirmation: "Êtes-vous sûr de vouloir dissocier le fichier du lot de travaux ?"
-        not_allowed_tooltip: "Please log in to Nextcloud to access this file"
+        not_allowed_tooltip: "Veuillez vous connecter à Nextcloud pour accéder à ce fichier"

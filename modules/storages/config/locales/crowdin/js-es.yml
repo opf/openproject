@@ -25,4 +25,4 @@ es:
         open_location: 'Abrir fichero en su ubicación'
         remove: "Eliminar vínculo de fichero"
         remove_confirmation: "¿Estás seguro de que quieres desvincular el fichero del paquete de trabajo?"
-        not_allowed_tooltip: "Please log in to Nextcloud to access this file"
+        not_allowed_tooltip: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"
