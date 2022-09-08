@@ -292,7 +292,7 @@ GEM
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
     aws-partitions (1.626.0)
-    aws-sdk-core (3.140.0)
+    aws-sdk-core (3.142.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
       aws-sigv4 (~> 1.1)
