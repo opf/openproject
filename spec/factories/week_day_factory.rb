@@ -43,14 +43,30 @@ FactoryBot.define do
   end
 
   # Factory to create all 7 week days at once, Saturday and Sunday being weekend days
-  factory :week_days, class: 'Array' do
+  factory :week_with_saturday_and_sunday_as_weekend, aliases: [:week_days], parent: :week do
+    working_days { %w[monday tuesday wednesday thursday friday] }
+  end
+
+  # Factory to create all 7 week days at once
+  #
+  # use +working: ['monday', 'tuesday', ...]+ to define which days of the week
+  # will be working days. By default, all days are working days.
+  factory :week, class: 'Array' do
+    transient do
+      working_days { %w[monday tuesday wednesday thursday friday saturday sunday] }
+    end
+
     # Skip the create callback to be able to use non-AR models. Otherwise FactoryBot will
     # try to call #save! on any created object.
     skip_create
 
     initialize_with do
-      days = 1.upto(7).map { |day| create(:week_day, day:) }
-      new(days)
+      %w[monday tuesday wednesday thursday friday saturday sunday]
+        .map.with_index do |day_name, i|
+          day = i + 1
+          working = working_days.include?(day_name)
+          create(:week_day, day:, working:)
+        end
     end
   end
 end

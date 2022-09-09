@@ -30,12 +30,12 @@ module ScheduleHelpers
   class ChartRepresenter
     LINE = "%<id>s | %<days>s |".freeze
 
-    def self.normalized_to_s(reference_chart, other_chart)
-      order = reference_chart.work_package_names
-      id_column_size = [reference_chart, other_chart].map(&:id_column_size).max
-      first_day = [reference_chart, other_chart].map(&:first_day).min
-      last_day = [reference_chart, other_chart].map(&:last_day).max
-      [reference_chart, other_chart]
+    def self.normalized_to_s(expected_chart, actual_chart)
+      order = expected_chart.work_package_names
+      id_column_size = [expected_chart, actual_chart].map(&:id_column_size).max
+      first_day = [expected_chart, actual_chart].map(&:first_day).min
+      last_day = [expected_chart, actual_chart].map(&:last_day).max
+      [expected_chart, actual_chart]
         .map { |chart| chart.with(order:, id_column_size:, first_day:, last_day:) }
         .map(&:to_s)
     end
