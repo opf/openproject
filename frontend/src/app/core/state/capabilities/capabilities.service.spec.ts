@@ -155,7 +155,7 @@ describe('Capabilities service', () => {
         expect(req.request.method).toBe('GET');
         const url = URI(req.request.url);
         const filterParams = new URLSearchParams(url.query()).get('filters') as string;
-        const context = JSON.parse(filterParams)[1].context.values[0] as string
+        const context = JSON.parse(filterParams)[1].context.values[0] as string;
         let elements:ICapability[];
 
         switch (context) {

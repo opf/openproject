@@ -84,7 +84,8 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('inspectorPane') inspectorElement:ElementRef;
 
-  constructor(private I18n:I18nService,
+  constructor(
+    private I18n:I18nService,
     private elementRef:ElementRef,
     public ifcData:IfcModelsDataService,
     private ifcViewerService:IFCViewerService,

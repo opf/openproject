@@ -1,7 +1,6 @@
 import {
   IHalOptionalTitledLink,
   IHalResourceLink,
-  IHalResourceLinks,
 } from 'core-app/core/state/hal-resource';
 
 export interface ICapabilityHalResourceLinks {

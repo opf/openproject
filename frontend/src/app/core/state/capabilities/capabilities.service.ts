@@ -6,7 +6,6 @@ import {
   map,
   switchMap,
   take,
-  tap,
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -14,10 +13,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import {
-  collectionKey,
-  insertCollectionIntoState,
-} from 'core-app/core/state/collection-store';
+import { collectionKey } from 'core-app/core/state/collection-store';
 import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import { CapabilitiesStore } from 'core-app/core/state/capabilities/capabilities.store';
 import {
@@ -70,13 +66,13 @@ export class CapabilitiesResourceService extends ResourceCollectionService<ICapa
   public require$(params:ApiV3ListParameters):Observable<ICapability[]> {
     const key = collectionKey(params);
     if (this.collectionExists(key) || this.collectionLoading(key)) {
-      return this.collection(key);
+      return this.loadedCollection(key);
     }
 
     return this
       .fetchCapabilities(params)
       .pipe(
-        switchMap(() => this.collection(key)),
+        switchMap(() => this.loadedCollection(key)),
       );
   }
 

@@ -6,6 +6,7 @@ import {
   EventEmitter,
   Output,
   ElementRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -99,6 +100,7 @@ export class ProjectSelectionComponent implements OnInit {
     readonly apiV3Service:ApiV3Service,
     readonly currentUserService:CurrentUserService,
     readonly capabilitiesService:CapabilitiesResourceService,
+    readonly cdRef:ChangeDetectorRef,
   ) {}
 
   ngOnInit():void {
@@ -119,6 +121,7 @@ export class ProjectSelectionComponent implements OnInit {
       )
       .subscribe((projectInviteCapabilities) => {
         this.projectInviteCapabilities = projectInviteCapabilities;
+        this.cdRef.detectChanges();
       });
   }
 

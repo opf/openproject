@@ -33,7 +33,6 @@ import {
 } from '@datorama/akita';
 import { Observable } from 'rxjs';
 import {
-  catchError,
   filter,
   finalize,
   map,
@@ -42,6 +41,7 @@ import {
 } from 'rxjs/operators';
 import {
   collectionKey,
+  CollectionResponse,
   CollectionState,
   insertCollectionIntoState,
   setCollectionLoading,
@@ -50,7 +50,6 @@ import { omit } from 'lodash';
 import isDefinedEntity from 'core-app/core/state/is-defined-entity';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import { HttpClient } from '@angular/common/http';
 
 export type CollectionStore<T> = EntityStore<CollectionState<T>>;
@@ -67,11 +66,35 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
    */
   collection(key:string):Observable<T[]> {
     return this
+      .collectionState(key)
+      .pipe(
+        switchMap((collection) => this.query.selectMany(collection?.ids || [])),
+      );
+  }
+
+  /**
+   * Return a collection observable that triggers only when the collection is loaded.
+   * @param key
+   */
+  loadedCollection(key:string):Observable<T[]> {
+    return this
+      .collectionState(key)
+      .pipe(
+        filter((collection) => !!collection),
+        switchMap((collection:CollectionResponse) => this.query.selectMany(collection.ids)),
+      );
+  }
+
+  /**
+   * Return a collection observable that triggers only when the collection is loaded.
+   * @param key
+   */
+  collectionState(key:string):Observable<CollectionResponse|undefined> {
+    return this
       .query
       .select()
       .pipe(
-        map((state) => state.collections[key]?.ids),
-        switchMap((fileLinkIds) => this.query.selectMany(fileLinkIds)),
+        map((state) => state.collections[key]),
       );
   }
 
@@ -158,7 +181,7 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
   /**
    * Fetch a given collection, ensuring it is being flagged as loaded
    */
-  protected fetchCollection(http:HttpClient, basePath:string, params:ApiV3ListParameters) {
+  protected fetchCollection(http:HttpClient, basePath:string, params:ApiV3ListParameters):Observable<IHALCollection<T>> {
     const key = collectionKey(params);
 
     setCollectionLoading(this.store, key, true);
