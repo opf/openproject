@@ -20,9 +20,11 @@ If you have a plugin you wish to add to your packaged OpenProject installation, 
 
 ```
 group :opf_plugins do
-  gem 'openproject-emoji', git: 'https://github.com/tessi/openproject-emoji.git', :branch => 'op-5-stable'
+  gem 'openproject-gitlab_integration', git: 'https://github.com/btey/openproject-gitlab-integration.git'
 end
 ```
+
+**Note:** The Gitlab plugin is usually only compatible with the latest versions. For more information, please see the respective repository: https://github.com/btey/openproject-gitlab-integration/
 
 The group `:opf_plugins` is generally recommended, but only required for plugins with custom frontend code that is picked up by webpack and output into their respective bundles.
 
