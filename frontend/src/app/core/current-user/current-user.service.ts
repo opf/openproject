@@ -33,6 +33,17 @@ import {
   CurrentUserStore,
 } from './current-user.store';
 import { CurrentUserQuery } from './current-user.query';
+import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
+import { Observable } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+} from 'rxjs/operators';
+import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentUserService {
@@ -40,6 +51,7 @@ export class CurrentUserService {
     private apiV3Service:ApiV3Service,
     private currentUserStore:CurrentUserStore,
     private currentUserQuery:CurrentUserQuery,
+    private capabilitiesService:CapabilitiesResourceService,
   ) {
     this.setupLegacyDataListeners();
   }
@@ -53,11 +65,82 @@ export class CurrentUserService {
    *
    * This refetches the global and current project capabilities
    */
-  public setUser(user:CurrentUser) {
+  public setUser(user:CurrentUser):void {
     this.currentUserStore.update((state) => ({
       ...state,
       ...user,
     }));
+  }
+
+  /**
+   * Returns the set of capabilities for the given context and/or actions
+   */
+  public capabilities$(actions:string[] = [], projectContext:string|null = null):Observable<ICapability[]> {
+    return this
+      .principalFilter$()
+      .pipe(
+        map((userFilter) => {
+          const filters:ApiV3ListFilter[] = [userFilter];
+
+          if (projectContext) {
+            filters.push(['context', '=', [projectContext === 'global' ? 'g' : `p${projectContext}`]]);
+          }
+
+          if (actions.length > 0) {
+            filters.push(['action', '=', actions]);
+          }
+
+          return { filters, pageSize: -1 };
+        }),
+        switchMap((params) => this.capabilitiesService.require$(params)),
+      );
+  }
+
+  /**
+   * Returns an Observable<boolean> indicating whether the current user has the required capabilities
+   * in the provided context.
+   */
+  public hasCapabilities$(action:string|string[], projectContext = 'global'):Observable<boolean> {
+    const actions = _.castArray(action);
+    return this
+      .capabilities$(actions, projectContext)
+      .pipe(
+        map((capabilities) => actions.reduce(
+          (acc, contextAction) => acc && !!capabilities.find((cap) => cap._links.action.href.endsWith(`/api/v3/actions/${contextAction}`)),
+          capabilities.length > 0,
+        )),
+        distinctUntilChanged(),
+      );
+  }
+
+  /**
+   * Returns an Observable<boolean> indicating whether the current user
+   * has any of the required capabilities in the provided context.
+   */
+  public hasAnyCapabilityOf$(actions:string|string[], projectContext = 'global'):Observable<boolean> {
+    const actionsToFilter = _.castArray(actions);
+    return this
+      .capabilities$(actionsToFilter, projectContext)
+      .pipe(
+        map((capabilities) => capabilities.reduce(
+          (acc, cap) => acc || !!actionsToFilter.find((action) => cap._links.action.href.endsWith(`/api/v3/actions/${action}`)),
+          false,
+        )),
+        distinctUntilChanged(),
+      );
+  }
+
+  /**
+   * Returns a principal filter for the current user.
+   */
+  private principalFilter$():Observable<ApiV3ListFilter> {
+    return this
+      .user$
+      .pipe(
+        filter((user) => !!user.id),
+        take(1),
+        map((user) => ['principal', '=', [user.id as string]]),
+      );
   }
 
   // Everything below this is deprecated legacy interfacing and should not be used
@@ -70,7 +153,7 @@ export class CurrentUserService {
   private _isLoggedIn = false;
 
   /** @deprecated Use the store mechanism `currentUserQuery.isLoggedIn$` */
-  public get isLoggedIn() {
+  public get isLoggedIn():boolean {
     return this._isLoggedIn;
   }
 
@@ -81,27 +164,27 @@ export class CurrentUserService {
   };
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
-  public get userId() {
+  public get userId():string {
     return this._user.id || '';
   }
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
-  public get name() {
+  public get name():string {
     return this._user.name || '';
   }
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
-  public get mail() {
+  public get mail():string {
     return this._user.mail || '';
   }
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
-  public get href() {
+  public get href():string {
     return `/api/v3/users/${this.userId}`;
   }
 
   /** @deprecated Use `I18nService.locale` instead */
-  public get language() {
+  public get language():string {
     return I18n.locale || 'en';
   }
 }

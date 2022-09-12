@@ -47,7 +47,6 @@ import {
   Subject,
 } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 
 @Component({
   selector: 'op-ifc-viewer',
@@ -91,7 +90,6 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
     private ifcViewerService:IFCViewerService,
     private currentUserService:CurrentUserService,
     private currentProjectService:CurrentProjectService,
-    private capabilitiesService:CapabilitiesResourceService,
   ) {
   }
 
@@ -104,7 +102,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
     // as it needs all view children ready and rendered
     combineLatest([
       this
-        .capabilitiesService
+        .currentUserService
         .hasCapabilities$(
           [
             'ifc_models/create',
