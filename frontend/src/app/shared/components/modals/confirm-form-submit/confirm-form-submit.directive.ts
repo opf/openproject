@@ -27,8 +27,9 @@
 //++
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { ConfirmDialogService } from '../confirm-dialog/confirm-dialog.service';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 export const confirmFormSubmitSelector = 'confirm-form-submit';
 
@@ -37,25 +38,27 @@ export const confirmFormSubmitSelector = 'confirm-form-submit';
   selector: confirmFormSubmitSelector,
 })
 export class ConfirmFormSubmitController implements OnInit {
+  @Input() public dangerHighlighting = false;
+
+  @Input() public modalText = '';
+
+  @Input() public modalTitle = '';
+
   // Allow original form submission after dialog was closed
   public confirmed = false;
-
-  public text = {
-    title: this.I18n.t('js.modals.form_submit.title'),
-    text: this.I18n.t('js.modals.form_submit.text'),
-  };
 
   private $element:JQuery<HTMLElement>;
 
   private $form:JQuery<HTMLElement>;
 
-  constructor(readonly element:ElementRef,
+  constructor(readonly elementRef:ElementRef,
     readonly confirmDialog:ConfirmDialogService,
     readonly I18n:I18nService) {
+    populateInputsFromDataset(this);
   }
 
   ngOnInit() {
-    this.$element = jQuery<HTMLElement>(this.element.nativeElement);
+    this.$element = jQuery<HTMLElement>(this.elementRef.nativeElement);
 
     if (this.$element.is('form')) {
       this.$form = this.$element;
@@ -76,8 +79,12 @@ export class ConfirmFormSubmitController implements OnInit {
 
   public openConfirmationDialog() {
     this.confirmDialog.confirm({
-      text: this.text,
+      text: {
+        title: this.modalTitle === '' ? this.I18n.t('js.modals.form_submit.title') : this.modalTitle,
+        text: this.modalText === '' ? this.I18n.t('js.modals.form_submit.text') : this.modalText,
+      },
       closeByEscape: true,
+      dangerHighlighting: this.dangerHighlighting,
       showClose: true,
       closeByDocument: true,
     }).then(() => {

@@ -75,6 +75,9 @@ en:
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Replace your current support token"
       order: "Order Enterprise on-premises Edition"
       paste: "Paste your Enterprise Edition support token"
