@@ -531,9 +531,9 @@ cs:
         end_deletion: "Konec odstranění"
         ignore_non_working_days: "Ignorovat nepracovní dny"
         include_non_working_days:
-          title: 'Working days'
-          false: 'working days only'
-          true: 'include non-working days'
+          title: 'Pracovní dny'
+          false: 'pouze pracovní dny'
+          true: 'zahrnuje nepracovní dny'
         parent: "Nadřazený"
         parent_issue: "Rodič"
         parent_work_package: "Nadřazený"
@@ -1648,7 +1648,7 @@ cs:
   label_index_by_title: "Index dle názvu"
   label_information: "Informace"
   label_information_plural: "Informace"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: 'Instalační příručky'
   label_integer: "Celé číslo"
   label_internal: "Interní"
   label_introduction_video: "Seznamovací video"
@@ -1793,7 +1793,7 @@ cs:
   label_project_new: "Nový projekt"
   label_project_plural: "Projekty"
   label_project_settings: "Nastavení projektu"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "Úložiště"
   label_projects_storage_information: "%{count} projekty používající úložiště disků %{storage}"
   label_project_view_all: "Zobrazit všechny projekty - seznam"
   label_project_show_details: "Zobrazit detail projektu"
@@ -3101,7 +3101,7 @@ cs:
       failed_authorization: "Autorizace se nezdařila"
     labels:
       label_oauth_integration: "Integrace OAuth2"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "Přesměrovat URI"
       label_request_token: "Vyžádat token"
       label_refresh_token: "Obnovit token"
     errors:
