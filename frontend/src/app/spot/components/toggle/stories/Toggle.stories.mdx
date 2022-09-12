@@ -24,14 +24,17 @@ import { SpotToggleComponent } from '../toggle.component';
 
 # Toggles
 
+Some text here.
+
 <Canvas>
   <Story
-    name="No value set"
+    name="Preset value"
     args={{
       options: [
-        { value: 'first', title: 'First option' },
-        { value: 'second', title: 'Second option' },
+        { value: 'first', title: 'Unread' },
+        { value: 'second', title: 'All' },
       ],
+	  value: 'second',
     }}
   >
     {Template.bind({})}
@@ -51,7 +54,7 @@ export const Template = ({ name, value, options }) => {
 
 <Canvas>
   <Story
-    name="Preset value"
+    name="Preset value 2"
     args={{
       options: [
         { value: 'first', title: 'First option' },
