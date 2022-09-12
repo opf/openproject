@@ -25,3 +25,4 @@ ru:
         open_location: 'Открыть файл в расположении'
         remove: "Удалить ссылку на файл"
         remove_confirmation: "Вы уверены, что хотите удалить файл из пакета работ?"
+        not_allowed_tooltip: "Войдите в Nextcloud для доступа к этому файлу"

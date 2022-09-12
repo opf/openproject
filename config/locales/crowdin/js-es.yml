@@ -533,11 +533,11 @@ es:
         watched: 'observado'
         assigned: 'asignado'
         responsible: 'responsable'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'creado'
+        scheduled: 'programado'
+        commented: 'comentado'
+        processed: 'procesado'
+        prioritized: 'priorizar'
       facets:
         unread: 'No leídas'
         all: 'Todos'
@@ -851,9 +851,9 @@ es:
         click_on_show_relations_to_open_gantt: 'Haga clic en "%{button_name}" para la vista general de GANTT.'
         show_relations: 'Mostrar relaciones'
         ignore_non_working_days:
-          title: 'Working days'
-          false: 'Work week'
-          true: 'Include weekends'
+          title: 'Días laborables'
+          false: 'Semana laboral'
+          true: 'Incluir fines de semana'
       description_filter: "Filtro"
       description_enter_text: "Introducir texto"
       description_options_hide: "Ocultar opciones"
@@ -1196,7 +1196,7 @@ es:
       search_placeholder: 'Buscar proyecto…'
       include_subprojects: 'Incluir todos los subproyectos'
       tooltip:
-        include_all_selected: 'Está seleccionada la opción para incluir todos los subproyectos.'
+        include_all_selected: 'Proyecto ya incluido, ya que "Incluir todos los subproyectos" está activada.'
         current_project: 'Este es el proyecto actual.'
         does_not_match_search: 'El proyecto no coincide con los criterios de búsqueda.'
       no_results: 'Ningún producto coincide con tu criterio de búsqueda'

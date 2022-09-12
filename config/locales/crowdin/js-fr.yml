@@ -533,11 +533,11 @@ fr:
         watched: 'surveillé'
         assigned: 'assigné'
         responsible: 'responsable'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'créé'
+        scheduled: 'planifié'
+        commented: 'commenté'
+        processed: 'traité'
+        prioritized: 'priorisé'
       facets:
         unread: 'Non lu'
         all: 'Toutes'
@@ -609,7 +609,7 @@ fr:
       default: '-'
       subject: 'Saisir le sujet ici'
       selection: 'Veuillez sélectionner'
-      description: 'Description: Click to edit...'
+      description: 'Description: Cliquez pour modifier...'
       relation_description: 'Cliquez pour ajouter la description pour cette relation'
     project:
       required_outside_context: >
@@ -740,9 +740,9 @@ fr:
     field_value_enter_prompt: "Saisissez une valeur pour « %{field} »"
     project_menu_details: "Détails"
     scheduling:
-      title: 'Scheduling'
-      manual: 'Manual'
-      default: 'Default'
+      title: 'Planification'
+      manual: 'Manuel'
+      default: 'Défaut'
     sort:
       sorted_asc: 'Tri par ordre croissant appliqué, '
       sorted_dsc: 'Tri par ordre décroissant appliqué, '
@@ -851,9 +851,9 @@ fr:
         click_on_show_relations_to_open_gantt: 'Cliquez sur « %{button_name} » pour avoir une vue d''ensemble de GANTT.'
         show_relations: 'Afficher les relations'
         ignore_non_working_days:
-          title: 'Working days'
-          false: 'Work week'
-          true: 'Include weekends'
+          title: 'Journées de travail'
+          false: 'Semaine de travail'
+          true: 'Inclure les week-ends'
       description_filter: "Filtrer"
       description_enter_text: "Saisir texte"
       description_options_hide: "Masquer les options"
@@ -909,7 +909,7 @@ fr:
         description: "Description"
         date: "date"
         dueDate: "Date de fin"
-        duration: "Duration"
+        duration: "Durée"
         estimatedTime: "Durée estimée"
         spentTime: "Temps passé"
         category: "Catégorie"
@@ -1196,7 +1196,7 @@ fr:
       search_placeholder: 'Rechercher un projet...'
       include_subprojects: 'inclure tous les sous-projets'
       tooltip:
-        include_all_selected: 'Inclure tous les sous-projets est actuellement sélectionné.'
+        include_all_selected: 'Projet déjà inclus puisque Include tous les sous-projets sont activés.'
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'
         does_not_match_search: 'Le projet ne correspond pas aux critères de recherche.'
       no_results: 'Aucun projet ne correspond à vos critères de recherche.'

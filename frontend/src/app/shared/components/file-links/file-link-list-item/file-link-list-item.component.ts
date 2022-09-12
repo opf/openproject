@@ -47,6 +47,7 @@ import { PrincipalRendererService } from 'core-app/shared/components/principal/p
 import {
   getIconForMimeType,
 } from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
+import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -73,6 +74,8 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
   viewAllowed:boolean;
 
+  tooltipAllignment:SpotDropAlignmentOption = SpotDropAlignmentOption.TopLeft;
+
   text = {
     title: {
       openFile: this.i18n.t('js.storages.file_links.open'),
@@ -84,6 +87,7 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
       noViewPermission: this.i18n.t('js.storages.file_links.no_permission'),
     },
     removalConfirmation: this.i18n.t('js.storages.file_links.remove_confirmation'),
+    notAllowdTooltipText: this.i18n.t('js.storages.file_links.not_allowed_tooltip'),
   };
 
   constructor(

@@ -48,6 +48,7 @@ describe Queries::WorkPackages::Filter::DurationFilter, type: :model do
     it_behaves_like 'non ar filter'
 
     describe '#where' do
+      # TODO: 0 duration should not happen in 12.x. Should we remove it?
       let!(:work_package_zero_duration) { create(:work_package, duration: 0) }
       let!(:work_package_no_duration) { create(:work_package, duration: nil) }
       let!(:work_package_with_duration) { create(:work_package, duration: 1) }

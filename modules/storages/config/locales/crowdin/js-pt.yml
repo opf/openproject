@@ -25,3 +25,4 @@ pt:
         open_location: 'Abrir arquivo no local'
         remove: "Remover link de arquivo"
         remove_confirmation: "Tem certeza de que deseja desvincular o arquivo do pacote de trabalho?"
+        not_allowed_tooltip: "Please log in to Nextcloud to access this file"

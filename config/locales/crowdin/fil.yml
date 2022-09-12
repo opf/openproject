@@ -528,6 +528,10 @@ fil:
         end_insertion: "Katapusan na"
         end_deletion: "Katapusan ng pagbubura"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Magulang"
         parent_issue: "Magulang"
         parent_work_package: "Magulang"

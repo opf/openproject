@@ -25,3 +25,4 @@ lv:
         open_location: 'Open file in location'
         remove: "Remove file link"
         remove_confirmation: "Are you sure you want to unlink the file from the work package?"
+        not_allowed_tooltip: "Please log in to Nextcloud to access this file"

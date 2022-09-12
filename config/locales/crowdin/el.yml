@@ -524,6 +524,10 @@ el:
         end_insertion: "Λήξη της εισαγωγής"
         end_deletion: "Λήξη της διαγραφής"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Γονέας"
         parent_issue: "Γονέας"
         parent_work_package: "Γονέας"

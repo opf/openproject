@@ -1196,7 +1196,7 @@ tr:
       search_placeholder: 'Search project...'
       include_subprojects: 'Include all sub-projects'
       tooltip:
-        include_all_selected: 'Include all sub-projects is currently selected.'
+        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
         current_project: 'Bu, içinde bulunduğunuz mevcut projedir.'
         does_not_match_search: 'Proje arama kriterleriyle eşleşmiyor.'
       no_results: 'Arama kriterleriniz ile eşleşen proje yok'

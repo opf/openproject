@@ -1196,7 +1196,7 @@ hu:
       search_placeholder: 'Projektek keresése'
       include_subprojects: 'Összes alprojekt bevonása'
       tooltip:
-        include_all_selected: 'Include all sub-projects is currently selected.'
+        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
         current_project: 'Ez a jelenlegi projekt, amiben vagyunk.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
