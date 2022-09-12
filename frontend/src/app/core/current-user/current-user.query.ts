@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  filterNilValue,
-  Query,
-} from '@datorama/akita';
+import { Query } from '@datorama/akita';
 import {
   CurrentUserState,
   CurrentUserStore,
@@ -17,6 +14,4 @@ export class CurrentUserQuery extends Query<CurrentUserState> {
   isLoggedIn$ = this.select((state) => !!state.id);
 
   user$ = this.select(({ id, name, mail }) => ({ id, name, mail }));
-
-  capabilities$ = this.select('capabilities').pipe(filterNilValue());
 }

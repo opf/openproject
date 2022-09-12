@@ -1,3 +1,8 @@
+export interface IHalOptionalTitledLink {
+  href:string;
+  title?:string;
+}
+
 export interface IHalResourceLink {
   href:string;
   title:string;

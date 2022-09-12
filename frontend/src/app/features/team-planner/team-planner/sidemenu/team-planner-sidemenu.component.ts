@@ -12,6 +12,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { map } from 'rxjs/operators';
+import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 
 export const opTeamPlannerSidemenuSelector = 'op-team-planner-sidemenu';
 
@@ -28,7 +29,7 @@ export class TeamPlannerSidemenuComponent extends UntilDestroyedMixin {
   @Input() projectId:string|undefined;
 
   canAddTeamPlanner$ = this
-    .currentUserService
+    .capabilitiesService
     .hasCapabilities$(
       'team_planners/create',
       this.currentProjectService.id || undefined,
@@ -53,6 +54,7 @@ export class TeamPlannerSidemenuComponent extends UntilDestroyedMixin {
   constructor(
     readonly elementRef:ElementRef,
     readonly currentUserService:CurrentUserService,
+    readonly capabilitiesService:CapabilitiesResourceService,
     readonly currentProjectService:CurrentProjectService,
     readonly bannersService:BannersService,
     readonly I18n:I18nService,

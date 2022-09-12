@@ -28,17 +28,22 @@
 
 /* jshint expr: true */
 
-import { getTestBed, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { CurrentUserService } from './current-user.service';
-import { CurrentUser, CurrentUserStore } from './current-user.store';
-import { CurrentUserQuery } from './current-user.query';
+import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
+import { of } from 'rxjs';
+import { CurrentUser } from 'core-app/core/current-user/current-user.store';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { ICapability } from 'core-app/core/state/capabilities/capability.model';
+import * as URI from 'urijs';
 
-const globalCapability = {
-  _type: 'Capability',
+const globalCapability:ICapability = {
   id: 'placeholder_users/read/g-3',
   _links: {
     self: {
@@ -58,8 +63,7 @@ const globalCapability = {
   },
 };
 
-const projectCapabilityp63Update = {
-  _type: 'Capability',
+const projectCapabilityp63Update:ICapability = {
   id: 'memberships/update/p6-3',
   _links: {
     self: {
@@ -79,8 +83,7 @@ const projectCapabilityp63Update = {
   },
 };
 
-const projectCapabilityp63Read = {
-  _type: 'Capability',
+const projectCapabilityp63Read:ICapability = {
   id: 'memberships/read/p6-3',
   _links: {
     self: {
@@ -100,8 +103,7 @@ const projectCapabilityp63Read = {
   },
 };
 
-const projectCapabilityp53Update = {
-  _type: 'Capability',
+const projectCapabilityp53Update:ICapability = {
   id: 'memberships/update/p5-3',
   _links: {
     self: {
@@ -121,13 +123,13 @@ const projectCapabilityp53Update = {
   },
 };
 
-describe('CurrentUserService', () => {
-  let injector:TestBed;
-  let currentUserService:CurrentUserService;
+describe('Capabilities service', () => {
+  let service:CapabilitiesResourceService;
   let httpMock:HttpTestingController;
 
   const compile = (user:CurrentUser) => {
     const ConfigurationServiceStub = {};
+    const CurrentUserServiceStub = { user$: of(user) };
 
     TestBed.configureTestingModule({
       imports: [
@@ -135,18 +137,15 @@ describe('CurrentUserService', () => {
       ],
       providers: [
         HalResourceService,
-        CurrentUserStore,
-        CurrentUserQuery,
         { provide: ConfigurationService, useValue: ConfigurationServiceStub },
+        { provide: CurrentUserService, useValue: CurrentUserServiceStub },
         { provide: States, useValue: new States() },
+        CapabilitiesResourceService,
       ],
     });
 
-    injector = getTestBed();
-    currentUserService = TestBed.inject(CurrentUserService);
+    service = TestBed.inject(CapabilitiesResourceService);
     httpMock = TestBed.inject(HttpTestingController);
-
-    currentUserService.setUser(user);
   };
 
   const mockRequest = () => {
@@ -154,6 +153,26 @@ describe('CurrentUserService', () => {
       .match((req) => req.url.includes('/api/v3/capabilities'))
       .forEach((req) => {
         expect(req.request.method).toBe('GET');
+        const url = URI(req.request.url);
+        const filterParams = new URLSearchParams(url.query()).get('filters') as string;
+        const context = JSON.parse(filterParams)[1].context.values[0] as string;
+        let elements:ICapability[];
+
+        switch (context) {
+          case 'g':
+            elements = [globalCapability];
+            break;
+          case 'p6':
+            elements = [projectCapabilityp63Read, projectCapabilityp63Update];
+            break;
+          case 'p5':
+            elements = [projectCapabilityp53Update];
+            break;
+          default:
+            elements = [];
+            break;
+        }
+
         req.flush({
           _type: 'Collection',
           count: 4,
@@ -161,12 +180,7 @@ describe('CurrentUserService', () => {
           pageSize: 1000,
           offset: 1,
           _embedded: {
-            elements: [
-              globalCapability,
-              projectCapabilityp63Update,
-              projectCapabilityp63Read,
-              projectCapabilityp53Update,
-            ],
+            elements,
           },
         });
       });
@@ -180,17 +194,8 @@ describe('CurrentUserService', () => {
     beforeEach(() => compile({ id: null, name: null, mail: null }));
 
     it('Should have no capabilities', () => {
-      currentUserService.capabilities$.subscribe((caps) => {
-        console.log(caps);
+      service.loadedCapabilities$('global').subscribe((caps) => {
         expect(caps.length).toEqual(0);
-      });
-
-      mockRequest();
-    });
-
-    it('Should not think it is', () => {
-      currentUserService.isLoggedIn$.subscribe((loggedIn) => {
-        expect(loggedIn).toEqual(false);
       });
 
       mockRequest();
@@ -200,30 +205,22 @@ describe('CurrentUserService', () => {
   describe('When logged in', () => {
     beforeEach(() => compile({ id: '1', name: 'Admin', mail: 'admin@example.com' }));
 
-    it('Should know it is', () => {
-      currentUserService.isLoggedIn$.subscribe((loggedIn) => {
-        expect(loggedIn).toEqual(true);
-      });
-
-      mockRequest();
-    });
-
     it('Should have all capabilities', () => {
-      currentUserService.capabilities$.subscribe((caps) => {
-        expect(caps.length).toEqual(4);
+      service.requireContext$('global').subscribe((caps) => {
+        expect(caps.length).toEqual(1);
       });
 
       mockRequest();
     });
 
     it('Should filter by context', () => {
-      currentUserService.capabilitiesForContext$('global').subscribe((caps) => {
+      service.requireContext$('global').subscribe((caps) => {
         expect(caps.length).toEqual(1);
       });
-      currentUserService.capabilitiesForContext$('6').subscribe((caps) => {
+      service.requireContext$('6').subscribe((caps) => {
         expect(caps.length).toEqual(2);
       });
-      currentUserService.capabilitiesForContext$('5').subscribe((caps) => {
+      service.requireContext$('5').subscribe((caps) => {
         expect(caps.length).toEqual(1);
       });
 
@@ -231,16 +228,16 @@ describe('CurrentUserService', () => {
     });
 
     it('Should filter by context and all actions', () => {
-      currentUserService.hasCapabilities$('asdf/asdf').subscribe((hasCaps) => {
+      service.hasCapabilities$('asdf/asdf').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
       });
-      currentUserService.hasCapabilities$('placeholder_users/read').subscribe((hasCaps) => {
+      service.hasCapabilities$('placeholder_users/read').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      currentUserService.hasCapabilities$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
+      service.hasCapabilities$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      currentUserService.hasCapabilities$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
+      service.hasCapabilities$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
       });
 
@@ -248,16 +245,16 @@ describe('CurrentUserService', () => {
     });
 
     it('Should filter by context and any of the actions', () => {
-      currentUserService.hasAnyCapabilityOf$('memberships/update', '6').subscribe((hasCaps) => {
+      service.hasAnyCapabilityOf$('memberships/update', '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      currentUserService.hasAnyCapabilityOf$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
+      service.hasAnyCapabilityOf$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      currentUserService.hasAnyCapabilityOf$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
+      service.hasAnyCapabilityOf$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      currentUserService.hasAnyCapabilityOf$('memberships/nonexistent', '6').subscribe((hasCaps) => {
+      service.hasAnyCapabilityOf$('memberships/nonexistent', '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
       });
 

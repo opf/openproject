@@ -34,16 +34,27 @@ import {
 import { Observable } from 'rxjs';
 import {
   filter,
+  finalize,
   map,
   switchMap,
+  tap,
 } from 'rxjs/operators';
-import { CollectionState } from 'core-app/core/state/collection-store';
+import {
+  collectionKey,
+  CollectionResponse,
+  CollectionState,
+  insertCollectionIntoState,
+  setCollectionLoading,
+} from 'core-app/core/state/collection-store';
 import { omit } from 'lodash';
 import isDefinedEntity from 'core-app/core/state/is-defined-entity';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { HttpClient } from '@angular/common/http';
 
 export type CollectionStore<T> = EntityStore<CollectionState<T>>;
 
-export abstract class ResourceCollectionService<T> {
+export abstract class ResourceCollectionService<T extends { id:ID }> {
   protected store:CollectionStore<T> = this.createStore();
 
   protected query = new QueryEntity(this.store);
@@ -55,11 +66,35 @@ export abstract class ResourceCollectionService<T> {
    */
   collection(key:string):Observable<T[]> {
     return this
+      .collectionState(key)
+      .pipe(
+        switchMap((collection) => this.query.selectMany(collection?.ids || [])),
+      );
+  }
+
+  /**
+   * Return a collection observable that triggers only when the collection is loaded.
+   * @param key
+   */
+  loadedCollection(key:string):Observable<T[]> {
+    return this
+      .collectionState(key)
+      .pipe(
+        filter((collection) => !!collection),
+        switchMap((collection:CollectionResponse) => this.query.selectMany(collection.ids)),
+      );
+  }
+
+  /**
+   * Return a collection observable that triggers only when the collection is loaded.
+   * @param key
+   */
+  collectionState(key:string):Observable<CollectionResponse|undefined> {
+    return this
       .query
       .select()
       .pipe(
-        map((state) => state.collections[key]?.ids),
-        switchMap((fileLinkIds) => this.query.selectMany(fileLinkIds)),
+        map((state) => state.collections[key]),
       );
   }
 
@@ -92,6 +127,28 @@ export abstract class ResourceCollectionService<T> {
   }
 
   /**
+   * Checks, if the store already has a collection given the key
+   */
+  collectionExists(input:string|ApiV3ListParameters):boolean {
+    const key = typeof input === 'string' ? input : collectionKey(input);
+    return !!this
+      .query
+      .getValue()
+      .collections[key];
+  }
+
+  /**
+   * Checks, if the store already has a collection given the key
+   */
+  collectionLoading(input:string|ApiV3ListParameters):boolean {
+    const key = typeof input === 'string' ? input : collectionKey(input);
+    return this
+      .query
+      .getValue()
+      .loadingCollections[key] === true;
+  }
+
+  /**
    * Clear a collection key
    * @param key Collection key to clear
    */
@@ -120,4 +177,20 @@ export abstract class ResourceCollectionService<T> {
    * @protected
    */
   protected abstract createStore():CollectionStore<T>;
+
+  /**
+   * Fetch a given collection, ensuring it is being flagged as loaded
+   */
+  protected fetchCollection(http:HttpClient, basePath:string, params:ApiV3ListParameters):Observable<IHALCollection<T>> {
+    const key = collectionKey(params);
+
+    setCollectionLoading(this.store, key, true);
+
+    return http
+      .get<IHALCollection<T>>(basePath + key)
+      .pipe(
+        tap((collection) => insertCollectionIntoState(this.store, collection, key)),
+        finalize(() => setCollectionLoading(this.store, key, false)),
+      );
+  }
 }
