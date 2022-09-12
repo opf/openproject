@@ -1641,7 +1641,7 @@ cs:
   label_index_by_title: "Index dle názvu"
   label_information: "Informace"
   label_information_plural: "Informace"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: 'Instalační příručky'
   label_integer: "Celé číslo"
   label_internal: "Interní"
   label_introduction_video: "Seznamovací video"
@@ -3090,7 +3090,7 @@ cs:
       failed_authorization: "Autorizace se nezdařila"
     labels:
       label_oauth_integration: "Integrace OAuth2"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "Přesměrovat URI"
       label_request_token: "Vyžádat token"
       label_refresh_token: "Obnovit token"
     errors:

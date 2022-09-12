@@ -151,7 +151,7 @@ cs:
           language_hint: 'Zadejte jazyk, který bude použit pro zvýraznění (pokud je podporováno).'
         dropdown:
           macros: 'Makra'
-          chose_macro: 'Choose macro'
+          chose_macro: 'Vybrat makro'
         toc: 'Obsah'
         toolbar_help: 'Klikněte pro výběr widgetu a zobrazení panelu nástrojů. Dvojklikem upravíte widget'
         wiki_page_include:
@@ -237,7 +237,7 @@ cs:
           confidence: >
             Doručujeme testovaný a podporovaný software pro řízení projetků - s Open Source a otevřenou myslí.
           link_quote: "Získat cenovou nabídku"
-          more_info: "More information"
+          more_info: "Více informací"
           text: >
             OpenProject Enterprise Edition je postavena na komunitní edici. Obsahuje prémiové funkce a profesionální podporu zaměřenou především na organizace s více než 10 uživateli, kteří spravují kritické projekty
           unlimited: "Bez omezení"
@@ -292,11 +292,11 @@ cs:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '12_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "Aktivovat"
@@ -533,11 +533,11 @@ cs:
         watched: 'sledován'
         assigned: 'přiřazeno'
         responsible: 'Odpovědný'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'Vytvořeno'
+        scheduled: 'Naplánováno'
+        commented: 'komentováno'
+        processed: 'zpracováno'
+        prioritized: 'upřednostněno'
       facets:
         unread: 'Nepřečtené'
         all: 'Vše'
