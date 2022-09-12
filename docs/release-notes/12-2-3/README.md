@@ -22,4 +22,3 @@ This has been fixed in this released version. For more information, please see [
 #### Bug fixes and changes
 
 - Fixed: RPM/DEB installation fails with a custom gemfile \[[#44058](https://community.openproject.com/wp/44058)\]
-- Changed: Add meaningful tooltips to the most essential actions \[[#43299](https://community.openproject.com/wp/43299)\]
