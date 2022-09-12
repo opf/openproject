@@ -2910,7 +2910,6 @@ en:
       noneSelection: "(none)"
       outline: "Initial outline expansion"
       parent: "Show subprojects of"
-      work_package_filters: "Filter work packages"
       work_package_responsible: "Show work packages with accountable"
       work_package_assignee: "Show work packages with assignee"
       types: "Show types"

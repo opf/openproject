@@ -38,12 +38,9 @@ export class TeamPlannerSidemenuComponent extends UntilDestroyedMixin {
       map((val) => val && !this.bannersService.eeShowBanners),
     );
 
-  text = {
-    create_new_team_planner: this.I18n.t('js.team_planner.title'),
-  };
-
   createButton = {
-    title: this.text.create_new_team_planner,
+    text: this.I18n.t('js.team_planner.create_label'),
+    title: this.I18n.t('js.team_planner.create_title'),
     uiSref: 'team_planner.page.show',
     uiParams: {
       query_id: null,

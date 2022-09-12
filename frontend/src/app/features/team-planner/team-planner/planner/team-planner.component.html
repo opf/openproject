@@ -9,6 +9,7 @@
       #addExistingToggle
       class="button op-team-planner--add-existing-toggle"
       [ngClass]="{'-active': (showAddExistingPane | async)}"
+      [title]="text.add_existing_title"
       data-qa-selector="op-team-planner--add-existing-toggle"
       (click)="toggleAddExistingPane()">
       <op-icon icon-classes="icon-add button--icon"></op-icon>
