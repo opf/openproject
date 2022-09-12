@@ -270,7 +270,7 @@ pl:
     upsale:
       title: Użytkownicy zastępczy
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        Użytkownicy zastępczy to sposób na przypisanie pakietów pracy do użytkowników, którzy nie są częścią twojego projektu. Może to być przydatne w wielu scenariuszach; na przykład, jeśli potrzebujesz śledzić zadania dla zasobu, który nie jest jeszcze nazwany lub dostępny, lub jeśli nie chcesz dać tej osobie dostępu do OpenProject, ale nadal chcesz śledzić zadania przypisane do niej.
   prioritiies:
     edit:
       priority_color_text: |
@@ -1638,7 +1638,7 @@ pl:
   label_index_by_title: "Indeks tytułów"
   label_information: "Informacje"
   label_information_plural: "Informacje"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: 'Przewodniki instalacyjne'
   label_integer: "Liczba całkowita"
   label_internal: "Wewnętrzne"
   label_introduction_video: "Film wprowadzający"
@@ -2911,9 +2911,9 @@ pl:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'Konfiguracja trybu HTTPS niezgodna'
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        Twoja aplikacja działa w trybie HTTPS ustawionym na <code>%{set_protocol}</code>, ale żądanie jest żądaniem <code>%{actual_protocol}</code>. Spowoduje to błędy! Musisz ustawić następującą wartość konfiguracji: <code>%{setting_value}</code>. Zapoznaj się z <a href="%{more_info_path}">dokumentacją instalacji</a>, aby dowiedzieć się, jak ustawić tę konfigurację.
     hostname_mismatch:
       title: 'Niezgodność ustawienia nazwy hosta'
       text_html: >

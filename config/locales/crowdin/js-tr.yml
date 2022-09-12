@@ -460,8 +460,8 @@ tr:
     label_uploaded_by: "Yükleyen"
     label_default_queries: "Varsayılan"
     label_starred_queries: "Sık Kullanılan"
-    label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_global_queries: "Genel"
+    label_custom_queries: "Özel"
     label_columns: "Sütunlar"
     label_attachments: Ekler
     label_drop_files: Dosyaları buraya bırakın
@@ -533,6 +533,11 @@ tr:
         watched: 'izlendi'
         assigned: 'atanmış'
         responsible: 'accountable'
+        created: 'oluşturuldu'
+        scheduled: 'zamanlandı'
+        commented: 'yorumlandı'
+        processed: 'işlem uygulandı'
+        prioritized: 'öncelik verildi'
       facets:
         unread: 'okunmamış'
         all: 'Hepsi'
@@ -1185,7 +1190,7 @@ tr:
       search_placeholder: 'Search project...'
       include_subprojects: 'Include all sub-projects'
       tooltip:
-        include_all_selected: 'Include all sub-projects is currently selected.'
+        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
         current_project: 'Bu, içinde bulunduğunuz mevcut projedir.'
         does_not_match_search: 'Proje arama kriterleriyle eşleşmiyor.'
       no_results: 'Arama kriterleriniz ile eşleşen proje yok'

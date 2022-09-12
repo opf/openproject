@@ -533,6 +533,11 @@ fa:
         watched: 'watched'
         assigned: 'assigned'
         responsible: 'accountable'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Unread'
         all: 'همه'
@@ -1185,7 +1190,7 @@ fa:
       search_placeholder: 'Search project...'
       include_subprojects: 'Include all sub-projects'
       tooltip:
-        include_all_selected: 'Include all sub-projects is currently selected.'
+        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'

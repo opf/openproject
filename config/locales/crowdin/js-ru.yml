@@ -532,6 +532,11 @@ ru:
         watched: 'просмотрено'
         assigned: 'назначено'
         responsible: 'подотчетный'
+        created: 'создано'
+        scheduled: 'запланировано'
+        commented: 'прокомментировано'
+        processed: 'обработано'
+        prioritized: 'пририотизировано'
       facets:
         unread: 'Непрочтено'
         all: 'Bсе'
@@ -1190,7 +1195,7 @@ ru:
       search_placeholder: 'Поиск проекта...'
       include_subprojects: 'Включить все подпроекты'
       tooltip:
-        include_all_selected: 'Включить все выбранные подпроекты.'
+        include_all_selected: 'Проект уже включен, поскольку разрешено включение всех подпроектов.'
         current_project: 'Это текущий проект, в котором вы находитесь.'
         does_not_match_search: 'Ни один проект не соответствует критериям поиска.'
       no_results: 'Ни один проект не соответствует критериям поиска.'

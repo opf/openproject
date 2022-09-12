@@ -532,6 +532,11 @@ lol:
         watched: 'crwdns804668:0crwdne804668:0'
         assigned: 'crwdns804670:0crwdne804670:0'
         responsible: 'crwdns804672:0crwdne804672:0'
+        created: 'crwdns832410:0crwdne832410:0'
+        scheduled: 'crwdns832412:0crwdne832412:0'
+        commented: 'crwdns832414:0crwdne832414:0'
+        processed: 'crwdns832416:0crwdne832416:0'
+        prioritized: 'crwdns832418:0crwdne832418:0'
       facets:
         unread: 'crwdns804674:0crwdne804674:0'
         all: 'crwdns804676:0crwdne804676:0'
@@ -1184,7 +1189,7 @@ lol:
       search_placeholder: 'crwdns810636:0crwdne810636:0'
       include_subprojects: 'crwdns810638:0crwdne810638:0'
       tooltip:
-        include_all_selected: 'crwdns810640:0crwdne810640:0'
+        include_all_selected: 'crwdns833118:0crwdne833118:0'
         current_project: 'crwdns810642:0crwdne810642:0'
         does_not_match_search: 'crwdns824048:0crwdne824048:0'
       no_results: 'crwdns825550:0crwdne825550:0'

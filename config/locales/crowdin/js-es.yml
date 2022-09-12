@@ -533,6 +533,11 @@ es:
         watched: 'observado'
         assigned: 'asignado'
         responsible: 'responsable'
+        created: 'creado'
+        scheduled: 'programado'
+        commented: 'comentado'
+        processed: 'procesado'
+        prioritized: 'priorizar'
       facets:
         unread: 'No leídas'
         all: 'Todos'
@@ -1185,7 +1190,7 @@ es:
       search_placeholder: 'Buscar proyecto…'
       include_subprojects: 'Incluir todos los subproyectos'
       tooltip:
-        include_all_selected: 'Está seleccionada la opción para incluir todos los subproyectos.'
+        include_all_selected: 'Proyecto ya incluido, ya que "Incluir todos los subproyectos" está activada.'
         current_project: 'Este es el proyecto actual.'
         does_not_match_search: 'El proyecto no coincide con los criterios de búsqueda.'
       no_results: 'Ningún producto coincide con tu criterio de búsqueda'

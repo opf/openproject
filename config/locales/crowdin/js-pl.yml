@@ -151,7 +151,7 @@ pl:
           language_hint: 'Wprowadź język formatowania, który będzie używany do wyróżniania (jeśli jest obsługiwany).'
         dropdown:
           macros: 'Makra'
-          chose_macro: 'Choose macro'
+          chose_macro: 'Wybierz makro'
         toc: 'Spis treści'
         toolbar_help: 'Kliknij, aby wybrać widżet i wyświetlić pasek narzędzi. Kliknij dwukrotnie, aby edytować widżet'
         wiki_page_include:
@@ -492,7 +492,7 @@ pl:
         next: 'Następny'
         got_it: 'OK'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'Menu Pomoc (?) zawiera <b>dodatkowe zasoby pomocy</b>. Tutaj znajdziesz przewodnik użytkownika, pomocne filmy instruktażowe i nie tylko. <br> Życzymy miłej pracy z OpenProject!'
         members: 'Zaproś nowych <b>członków</b> do swojego projektu.'
         project_selection: 'Kliknij na jeden z projektów demonstracyjnych, które przygotowaliśmy. Dane demonstracyjne są obecnie dostępne tylko w języku angielskim. <br> Ogólny <b>projekt demo</b> najlepiej pasuje do klasycznego zarządzania projektami, natomiast <b>projekt Scrum</b> jest lepszy do zwinnego zarządzania projektami.'
         quick_add_button: 'Kliknij ikonę plus (+) w nawigacji nagłówka, aby <b>utworzyć nowy projekt</b> lub <b>zaprosić współpracowników</b>.'
@@ -533,6 +533,11 @@ pl:
         watched: 'obserwowane'
         assigned: 'przypisane'
         responsible: 'osoba odpowiedzialna'
+        created: 'utworzono'
+        scheduled: 'zaplanowano'
+        commented: 'skomentowano'
+        processed: 'przetworzono'
+        prioritized: 'priorytetowo'
       facets:
         unread: 'Nieprzeczytane'
         all: 'Wszystko'
@@ -760,7 +765,7 @@ pl:
         farRight: 'Po prawej'
         showNone: '-- Brak etykiety --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Wybierz atrybuty, które mają być zawsze wyświetlane w odpowiednich miejscach wykresu Gantta. Zauważ, że po najechaniu na element, zamiast tych atrybutów będą wyświetlane jego etykiety z datami.
       button_activate: 'Pokaż wykres Gantta'
       button_deactivate: 'Ukryj wykres Gantta'
       cancel: Anuluj
@@ -1191,7 +1196,7 @@ pl:
       search_placeholder: 'Wyszukaj projekt...'
       include_subprojects: 'Uwzględnij wszystkie podprojekty'
       tooltip:
-        include_all_selected: 'Opcja Uwzględnij wszystkie podprojekty jest obecnie zaznaczona.'
+        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
         current_project: 'To jest bieżący projekt, w którym jesteś.'
         does_not_match_search: 'Projekt nie spełnia kryteriów wyszukiwania.'
       no_results: 'Żaden projekt nie spełnia kryteriów wyszukiwania.'

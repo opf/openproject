@@ -14,6 +14,17 @@ We released [OpenProject 12.2.2](https://community.openproject.com/versions/1597
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
+
+## Known issues
+
+### Pending database migration issue
+
+When upgrading to 12.2.1, a migration was added to restore some deleted historical values. For more information, please see the release notes for 12.2.1: https://www.openproject.org/docs/release-notes/12-2-1
+
+For a few customers, this migration appears to have been unsuccessful to restore all affected journal entries. This resulted in the migration to fail and being unable to continue with the update. As we could not reproduce this issue as of now, you can choose to ignore the missing journals if you're affected.
+
+When you update to OpenProject 12.2.2 and the migration fails again, it will output steps on how to force the migration to complete. Doing that will output a debug log of all relevant information on these journals. Please help us identifying this issue by posting this log in this ticket: https://community.openproject.com/wp/43876, or reaching out to support@openproject.org.
+
 #### Bug fixes and changes
 
 - Fixed: Wrong link for "Documents added" email notification \[[#41114](https://community.openproject.com/wp/41114)\]

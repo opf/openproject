@@ -533,6 +533,11 @@ lt:
         watched: 'stebimas'
         assigned: 'paskirta'
         responsible: 'atsakingas'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Neskaitytas'
         all: 'Visi'
@@ -1191,7 +1196,7 @@ lt:
       search_placeholder: 'Ieškoti projekte...'
       include_subprojects: 'Įtraukti visus sub-projektus'
       tooltip:
-        include_all_selected: 'Įtraukti visus šiuo metu pažymėtus sub-projektus.'
+        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
         current_project: 'Tai dabartinis projektas, kuriame jūs esate.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'

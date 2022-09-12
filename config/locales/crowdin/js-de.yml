@@ -532,6 +532,11 @@ de:
         watched: 'beobachtet'
         assigned: 'zugewiesen'
         responsible: 'verantwortlich'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
       facets:
         unread: 'Ungelesen'
         all: 'Alle'
@@ -1184,7 +1189,7 @@ de:
       search_placeholder: 'Projekt durchsuchen...'
       include_subprojects: 'Alle Unterprojekte einbeziehen'
       tooltip:
-        include_all_selected: '"Alle Unterprojekte einbeziehen" ist derzeit ausgewählt.'
+        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
         current_project: 'Dies ist das aktuelle Projekt, in dem Sie sich befinden.'
         does_not_match_search: 'Projekt entspricht nicht den Suchkriterien.'
       no_results: 'Kein Projekt entspricht Ihren Suchkriterien.'
