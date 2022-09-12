@@ -1,4 +1,4 @@
-FROM node:latest as build
+FROM node:16.17 as build
 
 COPY ./frontend /build
 WORKDIR /build
