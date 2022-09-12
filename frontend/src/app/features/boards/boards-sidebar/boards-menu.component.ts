@@ -7,10 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { BoardService } from 'core-app/features/boards/board/board.service';
 import { Board } from 'core-app/features/boards/board/board';
-import {
-  map,
-  skip,
-} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -20,7 +17,6 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NewBoardModalComponent } from 'core-app/features/boards/new-board-modal/new-board-modal.component';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
-import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 
 export const boardsMenuSelector = 'boards-menu';
 
@@ -55,7 +51,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     );
 
   canCreateBoards$ = this
-    .capabilitiesService
+    .currentUserService
     .hasCapabilities$(
       'boards/create',
       this.currentProject.id || undefined,
@@ -73,7 +69,6 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     private readonly currentProject:CurrentProjectService,
     private readonly mainMenuService:MainMenuNavigationService,
     readonly currentUserService:CurrentUserService,
-    readonly capabilitiesService:CapabilitiesResourceService,
     readonly I18n:I18nService,
     private readonly opModalService:OpModalService,
     private readonly injector:Injector,
