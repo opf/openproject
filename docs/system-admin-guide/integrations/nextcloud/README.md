@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Nextcloud integration
+  title: Nextcloud integration setup
   priority: 600
 description: Set up Nextcloud as a file storage in your OpenProject instance
 keywords: Nextcloud file storage integration
@@ -8,7 +8,7 @@ keywords: Nextcloud file storage integration
 
 
 
-# Nextcloud integration
+# Nextcloud integration setup
 
 | Topic                      | Description                                                  |
 | ----------------------------------- | :----------------------------------------------------------- |
@@ -41,7 +41,7 @@ Please note these minimum version requirements for the integration to work:
 
 > **Important**: You need to have administrator privileges in both your Nextcloud and OpenProject instances to set up this integration.
 
-#### 1. Add the "OpenProject integration" app in Nextcloud and point it to your OpenProject instance
+#### 1. Add the "OpenProject Integration" app in Nextcloud and point it to your OpenProject instance
 
 Start by opening your Nextcloud instance as an administrator.
 
@@ -180,4 +180,4 @@ Deleting a file storage at an instance level deletes the Nextcloud integration c
 
 ## Using the integration
 
-Once the file storage is added and enabled for projects, your users are able to take full advantage of the integration between Nextcloud and OpenProject. For more information on how link Nextcloud files to work packages in OpenProject and access linked work packages in Nextcloud, please refer to the [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/).
+Once the file storage is added and enabled for projects, your users are able to take full advantage of the integration between Nextcloud and OpenProject. For more information on how to link Nextcloud files to work packages in OpenProject and access linked work packages in Nextcloud, please refer to [Using the Nextcloud integration](../../../user-guide/nextcloud-integration/).

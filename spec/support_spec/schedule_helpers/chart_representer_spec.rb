@@ -39,7 +39,7 @@ describe ScheduleHelpers::ChartRepresenter do
   let(:sunday) { Date.new(2022, 6, 26) }
 
   describe '#normalized_to_s' do
-    let!(:week_days) { create(:week_days) }
+    let!(:week_days) { create(:week_with_saturday_and_sunday_as_weekend) }
 
     context 'when both charts have different work packages items and/or order' do
       def to_first_columns(charts)

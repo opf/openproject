@@ -532,6 +532,10 @@ ar:
         end_insertion: "نهاية الإدراج"
         end_deletion: "نهاية الحذف"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "الجذر"
         parent_issue: "الجذر"
         parent_work_package: "الجذر"

@@ -232,6 +232,9 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     // Apply the changed scheduling mode if any
     this.changeset.setValue('scheduleManually', this.scheduleManually);
 
+    // Apply include NWD
+    this.changeset.setValue('ignoreNonWorkingDays', this.ignoreNonWorkingDays);
+
     // Apply the dates if they could be changed
     if (this.dateModalScheduling.isSchedulable) {
       this.changeset.setValue('date', mappedDate(this.date));

@@ -529,6 +529,10 @@ hr:
         end_insertion: "Kraj umetanja"
         end_deletion: "Kraj brisanja"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Matični"
         parent_issue: "Matični"
         parent_work_package: "Matični"

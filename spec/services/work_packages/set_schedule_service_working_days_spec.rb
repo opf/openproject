@@ -31,7 +31,7 @@ require 'spec_helper'
 describe WorkPackages::SetScheduleService, 'working days' do
   create_shared_association_defaults_for_work_package_factory
 
-  shared_let(:week_days) { create(:week_days) }
+  shared_let(:week_days) { create(:week_with_saturday_and_sunday_as_weekend) }
 
   let(:instance) do
     described_class.new(user:, work_package:)
@@ -1018,6 +1018,77 @@ describe WorkPackages::SetScheduleService, 'working days' do
           follower2    |               XXXX            |
           follower3    |                   X..XXXX     |
           follower4    |                          X..X |
+        CHART
+      end
+    end
+
+    def set_non_working_week_days(*days)
+      days.each do |day|
+        wday = %w[xxx monday tuesday wednesday thursday friday saturday sunday].index(day.downcase)
+        WeekDay.find_by!(day: wday).update(working: false)
+      end
+    end
+
+    context 'when moving forward due to days and predecessor due date now being non-working days' do
+      let_schedule(<<~CHART)
+        days         | MTWTFSS |
+        work_package | XX      |
+        follower1    |   X     | follows work_package
+        follower2    |    XX   | follows follower1
+      CHART
+
+      before do
+        # Tuesday, Thursday, and Friday are now non-working days. So work_package
+        # was starting on Monday and now is being shifted to Tuesday by the
+        # SetAttributesService.
+        #
+        # Below instructions reproduce the conditions in which such scheduling
+        # must happen.
+        set_non_working_week_days('tuesday', 'thursday', 'friday')
+        change_schedule([work_package], <<~CHART)
+          days         | MTWTFSS |
+          work_package | X.X     |
+        CHART
+      end
+
+      it 'reschedules all the followers keeping the delay and compacting the extra spaces' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | MTWTFSSm w    m |
+          work_package | X.X             |
+          follower1    |        X        |
+          follower2    |          X....X |
+        CHART
+      end
+    end
+
+    context 'when moving forward due to days and predecessor start date now being non-working days' do
+      let_schedule(<<~CHART)
+        days         | MTWTFSS |
+        work_package | XX      |
+        follower1    |   X     | follows work_package
+        follower2    |    XX   | follows follower1
+      CHART
+
+      before do
+        # Monday, Thursday, and Friday are now non-working days. So work_package
+        # was starting on Monday and now is being shifted to Tuesday by the
+        # SetAttributesService.
+        #
+        # Below instructions reproduce the conditions in which such scheduling
+        # must happen.
+        set_non_working_week_days('monday', 'thursday', 'friday')
+        change_schedule([work_package], <<~CHART)
+          days         | MTWTFSS |
+          work_package |  XX     |
+        CHART
+      end
+
+      it 'reschedules all the followers without crossing each other' do
+        expect(subject.all_results).to match_schedule(<<~CHART)
+          days         | MTWTFSS tw     tw |
+          work_package |  XX               |
+          follower1    |         X         |
+          follower2    |          X.....X  |
         CHART
       end
     end

@@ -6,6 +6,7 @@ import {
   EventEmitter,
   Output,
   ElementRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -21,11 +22,15 @@ import { cloneHalResource } from 'core-app/features/hal/helpers/hal-resource-bui
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { PrincipalType } from '../invite-user.component';
 import { ProjectAllowedValidator } from './project-allowed.validator';
-import { map } from 'rxjs/operators';
-import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
+import {
+  map,
+  switchMap,
+} from 'rxjs/operators';
 import { IProjectAutocompleteItem } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
+import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 
 @Component({
   selector: 'op-ium-project-selection',
@@ -38,6 +43,7 @@ export class ProjectSelectionComponent implements OnInit {
 
   @Input() project:ProjectResource|null;
 
+  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() close = new EventEmitter<void>();
 
   @Output() save = new EventEmitter<{ project:ProjectResource|null, type:string }>();
@@ -71,19 +77,21 @@ export class ProjectSelectionComponent implements OnInit {
   ];
 
   projectAndTypeForm = new FormGroup({
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     type: new FormControl(PrincipalType.User, [Validators.required]),
-    project: new FormControl(null, [Validators.required], ProjectAllowedValidator(this.currentUserService)),
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    project: new FormControl(null, [Validators.required], ProjectAllowedValidator(this.capabilitiesService)),
   });
 
   get typeControl():AbstractControl {
-    return this.projectAndTypeForm.get('type')!;
+    return this.projectAndTypeForm.get('type') as AbstractControl;
   }
 
   get projectControl():AbstractControl {
-    return this.projectAndTypeForm.get('project')!;
+    return this.projectAndTypeForm.get('project') as AbstractControl;
   }
 
-  private projectInviteCapabilities:CapabilityResource[] = [];
+  private projectInviteCapabilities:ICapability[] = [];
 
   constructor(
     readonly I18n:I18nService,
@@ -91,6 +99,8 @@ export class ProjectSelectionComponent implements OnInit {
     readonly bannersService:BannersService,
     readonly apiV3Service:ApiV3Service,
     readonly currentUserService:CurrentUserService,
+    readonly capabilitiesService:CapabilitiesResourceService,
+    readonly cdRef:ChangeDetectorRef,
   ) {}
 
   ngOnInit():void {
@@ -102,12 +112,16 @@ export class ProjectSelectionComponent implements OnInit {
 
     this.setPlaceholderOption();
 
-    this.currentUserService.capabilities$
+    this
+      .capabilitiesService
+      .userActionFilter$('memberships/create')
       .pipe(
-        map((capabilities) => capabilities.filter((c) => c.action.href.endsWith('/memberships/create'))),
+        switchMap((params) => this.capabilitiesService.require$(params)),
+        map((capabilities) => capabilities.filter((c) => c._links.action.href.endsWith('/memberships/create'))),
       )
       .subscribe((projectInviteCapabilities) => {
         this.projectInviteCapabilities = projectInviteCapabilities;
+        this.cdRef.detectChanges();
       });
   }
 
@@ -141,12 +155,13 @@ export class ProjectSelectionComponent implements OnInit {
       return;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const projectId = idFromLink(this.projectControl?.value?.href);
     const project = await this.apiV3Service.projects.id(projectId).get().toPromise();
 
     this.save.emit({
       project,
-      type: this.typeControl?.value,
+      type: this.typeControl.value as string,
     });
   }
 
@@ -154,7 +169,7 @@ export class ProjectSelectionComponent implements OnInit {
 
   projectFilterFn(projects:IProjectAutocompleteItem[]):IProjectAutocompleteItem[] {
     const mapped = projects.map((project) => {
-      const disabled = !this.projectInviteCapabilities.find((cap) => parseInt(cap.context?.id, 10) === project.id);
+      const disabled = !this.projectInviteCapabilities.find((cap) => idFromLink(cap._links.context.href) === project.id.toString());
       return {
         ...project,
         disabled,

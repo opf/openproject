@@ -529,6 +529,10 @@ vi:
         end_insertion: "Kết thúc chèn"
         end_deletion: "Kết thúc quá trình xóa"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Cha"
         parent_issue: "Cha"
         parent_work_package: "Cha"

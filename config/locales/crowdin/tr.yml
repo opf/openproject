@@ -528,6 +528,10 @@ tr:
         end_insertion: "Ekleme işlemi bitti"
         end_deletion: "Silme işlemi bitti"
         ignore_non_working_days: "Çalışma dışı günleri yoksay"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Üst"
         parent_issue: "Üst"
         parent_work_package: "Üst"

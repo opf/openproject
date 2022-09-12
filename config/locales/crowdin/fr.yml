@@ -528,6 +528,10 @@ fr:
         end_insertion: "Fin de l’insertion"
         end_deletion: "Fin de la suppression"
         ignore_non_working_days: "Ignorer les jours non ouvrables"
+        include_non_working_days:
+          title: 'Journées de travail'
+          false: 'jours ouvrés seulement'
+          true: 'Inclure les jours non travaillés'
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -745,12 +749,12 @@ fr:
               format: "%{message}"
             due_date:
               not_start_date: "n'est pas identique à la date de début, bien que cela soit requis pour les jalons."
-              cannot_be_null: "can not be set to null as start date and duration are known."
+              cannot_be_null: "ne peut pas être défini à NULL car la date de début et la durée sont connues."
             duration:
               larger_than_dates: "est plus grand que l'intervalle entre la date de début et la date de fin."
               smaller_than_dates: "est plus petit que l'intervalle entre la date de début et la date de fin."
               not_available_for_milestones: "n'est pas disponible pour les lots de travaux de type jalon."
-              cannot_be_null: "can not be set to null as start date and finish date are known."
+              cannot_be_null: "ne peut pas être défini à NULL car la date de début et la date de fin sont connues."
             parent:
               cannot_be_milestone: "ne peut pas être un jalon."
               cannot_be_self_assigned: "ne peut pas être assigné à lui-même."
@@ -758,7 +762,7 @@ fr:
               not_a_valid_parent: "est invalide."
             start_date:
               violates_relationships: "peut uniquement valoir %{soonest_start} ou une date ultérieure afin de ne pas violer les relations du lot de travaux."
-              cannot_be_null: "can not be set to null as finish date and duration are known."
+              cannot_be_null: "ne peut pas être défini à NULL car la date de fin et la durée sont connues."
             status_id:
               status_transition_invalid: "n'est pas valide, car aucune transition valide n'existe de l'ancien vers le nouveau statut pour les rôles de l'utilisateur actuel."
               status_invalid_in_type: "est invalide car le statut actuel n’existe pas dans ce type."
@@ -2364,8 +2368,8 @@ fr:
       update_timeout: "Garder les dernières informations de l'espace disque requis pour un dépôt pendant N minutes.\nEtant donné que l'opération de comptabilisation de l'espace disque requis pour un dépôt peut être coûteuse, augmentez cette valeur pour réduire l'impact sur les performances."
       oauth_application_details: "La valeur secrète du client ne sera plus accessible après la fermeture de cette fenêtre. Veuillez copier ces valeurs dans les paramètres d'intégration Nextcloud OpenProject :"
       oauth_application_details_link_text: "Aller à la page des paramètres"
-      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
-      setup_documentation_details_link_text: "File Storages setup"
+      setup_documentation_details: "Si vous avez besoin d'aide pour configurer un nouveau stockage de fichiers, veuillez vérifier la documentation : "
+      setup_documentation_details_link_text: "Configuration du stockage des fichiers"
       show_warning_details: "Pour utiliser ce stockage de fichiers, n'oubliez pas d'activer le module et le stockage spécifique dans les paramètres du projet de chaque projet souhaité."
     subversion:
       existing_title: "Dépôt Subversion existant"

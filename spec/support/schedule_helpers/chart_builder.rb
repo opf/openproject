@@ -114,6 +114,10 @@ module ScheduleHelpers
         )
       when /^duration (\d+)/
         chart.set_duration(name, $1.to_i)
+      when /^working days work week$/
+        chart.set_ignore_non_working_days(name, false)
+      when /^working days include weekends$/
+        chart.set_ignore_non_working_days(name, true)
       else
         raise "unable to parse property #{property.inspect} for line #{name.inspect}"
       end

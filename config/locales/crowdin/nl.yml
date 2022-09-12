@@ -95,7 +95,7 @@ nl:
     add_new: 'Alt-tekst invullen'
     edit: "Bewerken van help-tekst voor %{attribute_caption}"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: 'Geef aanvullende informatie voor attributen (incl. aangepaste velden) van werkpakketten en projecten. Helpteksten worden weergegeven wanneer gebruikers klikken op het vraagtekensymbool naast invoervelden in projecten en werkpakketten.'
   auth_sources:
     index:
       no_results_content_title: Er zijn momenteel geen verificatie methodes.
@@ -127,8 +127,8 @@ nl:
         Voeg een optioneel RFC4515 filter toe om toe te passen op de resultaten van gebruikers die gefilterd zijn in het LDAP.
         Dit kan worden gebruikt om de set gebruikers te beperken die gevonden zijn in OpenProject voor authenticatie en groepssynchronisatie.
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+        OpenProject zal altijd filteren op het login attribuut dat door de gebruiker wordt opgegeven om het record te identificeren. Als je hier een filter opgeeft,
+        het wordt samengevoegd met een AND. Standaard wordt een catch-all (objectClass=*) gebruikt als een filter.
       onthefly_register: |
         Als u dit selectievakje aanvinkt, zal OpenProject automatisch nieuwe gebruikers aanmaken van hun LDAP-items wanneer ze eerst verifiëren met OpenProject.
         Laat dit uitgevinkt om alleen bestaande accounts in OpenProject te laten verifiëren via LDAP!
@@ -270,7 +270,7 @@ nl:
     upsale:
       title: Tijdelijke gebruikers
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        Tijdelijke gebruikers zijn een manier om werkpakketten toe te wijzen aan gebruikers die geen deel uitmaken van uw project. Ze kunnen nuttig zijn in een reeks van scenario's; Bijvoorbeeld, als u de taken wilt bijhouden van een bron die nog niet genoemd of beschikbaar is, of als je die persoon geen toegang wilt geven tot OpenProject maar toch de taken wilt bijhouden die aan hen zijn toegewezen.
   prioritiies:
     edit:
       priority_color_text: |
@@ -301,7 +301,7 @@ nl:
       settings: "Instellingen"
       form_configuration: "Formulierconfiguratie"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise Edition stelt u in staat om de vorm configuratie aan te passen met deze extra functies: <br> <ul class="%{list_styling_class}"> <li><b>Voeg nieuwe attribuut groepen toe</b></li> <li><b>Hernoem attribuut groepen</b></li> <li><b>Voeg een tabel toe van gerelateerde werkpakketten</b></li> </ul>
       projects: "Projecten"
       enabled_projects: "Ingeschakelde projecten"
       edit_query: "Tabel bewerken"
@@ -525,6 +525,10 @@ nl:
         end_insertion: "Einde van het invoegen"
         end_deletion: "Einde van de verwijdering"
         ignore_non_working_days: "Negeer niet-werkdagen"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Bovenliggend werkpakket"
         parent_issue: "Bovenliggend werkpakket"
         parent_work_package: "Bovenliggend werkpakket"
@@ -605,14 +609,14 @@ nl:
         unknown_property_nested: "heeft het onbekende pad '%{path}' '."
         unremovable: "kan niet verwijderd worden."
         url_not_secure_context: >
-          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+          bevat geen "Secure Context". Gebruik HTTPS of een loopbackadres, zoals localhost.
         wrong_length: "is de verkeerde lengte (dient %{count} karakters te zijn)."
       models:
         attachment:
           attributes:
             content_type:
-              blank: "The content type of the file cannot be blank."
-              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              blank: "Het inhoudstype van het bestand mag niet leeg zijn."
+              not_whitelisted: "Het bestand is geweigerd door een automatisch filter. '%{value}' is niet gewhitelist voor uploaden."
               format: "%{message}"
         capability:
           context:
@@ -637,7 +641,7 @@ nl:
               fragment_present: 'kan geen fragment bevatten.'
               invalid_uri: 'moet een geldige URI zijn.'
               relative_uri: 'moet een absolute URI zijn.'
-              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
+              secured_uri: 'bevat geen "Secure Context". Gebruik HTTPS of een loopbackadres, zoals localhost.'
               forbidden_uri: 'is verboden door de server.'
             scopes:
               not_match_configured: "komt niet overeen met beschikbare scopes."
@@ -699,7 +703,7 @@ nl:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "filter heeft ongeldige waarden."
               format: "%{message}"
         relation:
           typed_dag:
@@ -728,13 +732,13 @@ nl:
         user_preference:
           attributes:
             pause_reminders:
-              invalid_range: "can only be a valid date range."
+              invalid_range: "kan alleen een geldig datumbereik zijn."
             daily_reminders:
               full_hour: "kan alleen worden geconfigureerd voor levering op een volledig uur."
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "kan niet worden afgeleid uit de titel '%{title}' '."
         work_package:
           is_not_a_valid_target_for_time_entries: "Werkpakket #%{id} is niet een geldig doel voor het opnieuw toewijzen van de tijden."
           attributes:
@@ -742,12 +746,12 @@ nl:
               format: "%{message}"
             due_date:
               not_start_date: "is niet op begindatum, hoewel dit voor mijlpalen vereist is."
-              cannot_be_null: "can not be set to null as start date and duration are known."
+              cannot_be_null: "kan niet worden ingesteld op nul omdat de begindatum en -duur bekend zijn."
             duration:
-              larger_than_dates: "is larger than the interval between the start and the finish date."
-              smaller_than_dates: "is smaller than the interval between the start and the finish date."
-              not_available_for_milestones: "is not available for milestone typed work packages."
-              cannot_be_null: "can not be set to null as start date and finish date are known."
+              larger_than_dates: "is groter dan het interval tussen start en afloopdatum."
+              smaller_than_dates: "is kleiner dan de interval tussen start en afloopdatum."
+              not_available_for_milestones: "is niet beschikbaar voor milestone typte werkpakketten."
+              cannot_be_null: "kan niet worden ingesteld op nul als begindatum en einddatum bekend zijn."
             parent:
               cannot_be_milestone: "kan geen mijlpaal zijn."
               cannot_be_self_assigned: "kan niet aan zichzelf worden toegewezen."
@@ -755,7 +759,7 @@ nl:
               not_a_valid_parent: "is ongeldig."
             start_date:
               violates_relationships: "kan enkel naar %{soonest_start} worden gezet of later met de bedoeling de relaties van het werkpakket niet te schenden."
-              cannot_be_null: "can not be set to null as finish date and duration are known."
+              cannot_be_null: "kan niet worden ingesteld op nul omdat de einddatum en duur bekend zijn."
             status_id:
               status_transition_invalid: "is ongeldig omdat geen geldige overgang van de oude naar de nieuwe status voor de huidige gebruikersrollen bestaat."
               status_invalid_in_type: "is ongeldig omdat de huidige status niet in dit type bestaat."
@@ -768,7 +772,7 @@ nl:
               does_not_exist: "De gekozen categorie bestaat niet."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "moet > = 0 zijn."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: 'Het werkpakket heeft een alleen-lezen status dus kunne attributen niet worden gewijzigd.'
         type:
           attributes:
             attribute_groups:
@@ -780,9 +784,9 @@ nl:
         user:
           attributes:
             base:
-              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              user_limit_reached: "Gebruikerslimiet bereikt. Er kunnen geen accounts meer worden gemaakt voor het huidige abonnement."
             password_confirmation:
-              confirmation: "Password confirmation does not match password."
+              confirmation: "Wachtwoordbevestiging komt niet overeen met wachtwoord."
               format: "%{message}"
             password:
               weak: "Moet karakters bevatten van de volgende klassen (ten minste %{min_count} van %{all_count}):%{rules}."
@@ -811,7 +815,7 @@ nl:
         version:
           undeletable_work_packages_attached: "De versie kan niet worden verwijderd omdat er werkpakketten aan zijn gekoppeld."
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "kan niet worden geactiveerd voor statussen die standaard zijn gemarkeerd."
       template:
         body: "Controleer de volgende velden:"
         header:
@@ -832,7 +836,7 @@ nl:
       notification:
         one: "Melding"
         other: "Meldingen"
-      placeholder_user: "Placeholder user"
+      placeholder_user: "Tijdelijke gebruiker"
       project: "Project"
       query: "Aangepaste query"
       role:
@@ -872,9 +876,9 @@ nl:
     date: "Datum"
     default_columns: "Standaardkolommen"
     description: "Omschrijving"
-    derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
-    derived_start_date: "Derived start date"
+    derived_due_date: "Afgeleide einddatum"
+    derived_estimated_hours: "Afgeleide eindtijd"
+    derived_start_date: "Afgeleide startdatum"
     display_sums: "Bedragen weergeven"
     due_date: "Einddatum"
     estimated_hours: "Geschatte tijd"
@@ -913,32 +917,32 @@ nl:
     work_package: "Werkpakket"
   backup:
     failed: "Back-up mislukt"
-    label_backup_token: "Backup token"
-    label_create_token: "Create backup token"
-    label_delete_token: "Delete backup token"
-    label_reset_token: "Reset backup token"
-    label_token_users: "The following users have active backup tokens"
+    label_backup_token: "Back-up token"
+    label_create_token: "Back-up token maken"
+    label_delete_token: "Back-up token verwijderen"
+    label_reset_token: "Reset back-up token"
+    label_token_users: "De volgende gebruikers hebben actieve back-up tokens"
     reset_token:
       action_create: Maken
       action_reset: Herstel
-      heading_reset: "Reset backup token"
-      heading_create: "Create backup token"
+      heading_reset: "Reset back-up token"
+      heading_create: "Creëer back-up token"
       implications: >
-        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+        Back-ups inschakelen zal elke gebruiker met de vereiste machtigingen en deze back-up token toestaan om een back-up te downloaden met alle gegevens van deze OpenProject installatie. Dit omvat de gegevens van alle andere gebruikers.
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        U moet een  back-up token genereren om een back-up te kunnen maken. Elke keer dat je een back-up wilt aanvragen, moet je deze back-up token opgeven. U kunt het back-up token verwijderen om back-ups voor deze gebruiker uit te schakelen.
       verification: >
-        Enter %{word} to confirm you want to %{action} the backup token.
+        Voer %{word} in om te bevestigen dat u de back-up token %{action} wilt gebruiken.
       verification_word_reset: reset
-      verification_word_create: create
+      verification_word_create: aanmaken
       warning: >
-        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
-    text_token_deleted: Backup token deleted. Backups are now disabled.
+        Wanneer je een nieuwe code aanmaakt, mag je pas na 24 uur een back-up aanvragen. Dit is een veiligheidsmaatregel. Hierna kunt u op elk gewenst moment een back-up vragen met dat token.
+    text_token_deleted: Back-up token verwijderd. Back-ups zijn nu uitgeschakeld.
     error:
-      invalid_token: Invalid or missing backup token
-      token_cooldown: The backup token will be valid in %{hours} hours.
-      backup_pending: There is already a backup pending.
-      limit_reached: You can only do %{limit} backups per day.
+      invalid_token: Ongeldige of ontbrekende back-up token
+      token_cooldown: Het back-up token zal binnen %{hours} uur geldig zijn.
+      backup_pending: Er is al een back-up wachtende.
+      limit_reached: U kunt slechts %{limit} back-ups per dag doen.
   button_add: "Toevoegen"
   button_add_comment: "Commentaar toevoegen"
   button_add_member: Lid toevoegen
@@ -1018,7 +1022,7 @@ nl:
     text_update_consent_time: Schakel dit selectievakje in als u wilt afdwingen dat gebruikers opnieuw toestemmen. Schakel deze in als u het juridische aspect van de toestemming van bovenstaande informatie hebt gewijzigd.
     update_consent_last_time: "Laatste update van toestemming: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
+    title: 'Kopieer project "%{source_project_name}"'
     started: "Begonnen met project \"%{source_project_name}\" te kopiëren naar \"%{target_project_name}\". U wordt zo spoedig mogelijk per email op de hoogte gesteld wanneer \"%{target_project_name}\" beschikbaar is."
     failed: "Kan project niet kopiëren %{source_project_name}"
     failed_internal: "Kopiëren mislukt door een interne fout."
@@ -1026,8 +1030,8 @@ nl:
     errors: "Fout"
     project_custom_fields: 'Aangepaste velden in het project'
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
+      zero: 'Geen objecten van dit type'
+      one: 'Één object van dit type'
       other: '%{count} objecten van dit type'
     text:
       failed: "Kan project \"%{target_project_name}\" project \"%{source_project_name}\" niet kopiëren."
@@ -1250,7 +1254,7 @@ nl:
   error_enterprise_token_invalid_domain: "De Enterprise Edition is niet actief. Het domein van uw Enterprise token (%{actual}) komt niet overeen met de hostnaam van het systeem (%{expected})."
   error_failed_to_delete_entry: 'Fout bij het verwijderen van deze ingave.'
   error_in_dependent: "Fout bij poging tot wijziging van afhankelijke object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
-  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Fout bij het maken van afhankelijke object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "De geselecteerde waarde is ongeldig."
   error_journal_attribute_not_present: "Dagboek bevat geen kenmerk %{attribute}."
   error_pdf_export_too_many_columns: "Te veel kolommen geselecteerd voor het exporteren naar PDF. Beperk het aantal kolommen."
@@ -1264,8 +1268,8 @@ nl:
   error_no_default_work_package_status: "Geen standaard werkpakket status is gedefinieerd. Controleer uw configuratie (Ga naar 'Administratie-> werkpakket statussen')."
   error_no_type_in_project: "Er is geen type gekoppeld aan dit project. Controleer de projectinstellingen."
   error_omniauth_registration_timed_out: "De registratie via een externe authenticatie-provider is verlopen. Probeer het opnieuw."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
-  error_password_change_failed: 'An error occurred when trying to change the password.'
+  error_omniauth_invalid_auth: "De verificatie-informatie van de identiteitsprovider was ongeldig. Neem contact op met uw beheerder voor verdere hulp."
+  error_password_change_failed: 'Er is een fout opgetreden tijdens het wijzigen van het wachtwoord.'
   error_scm_command_failed: "Er is een fout opgetreden tijdens het proberen om toegang te krijgen tot de repository: %{value}"
   error_scm_not_found: "De vermelding of de herziening werd niet gevonden in de repository."
   error_unable_delete_status: "De status van het werkpakket kan niet worden verwijderd omdat het door minstens één werkpakket wordt gebruikt."
@@ -1279,7 +1283,7 @@ nl:
   error_menu_item_not_saved: Menu-item kan niet worden opgeslagen
   error_wiki_root_menu_item_conflict: >
     Kan "%{old_name}" niet naar "%{new_name}" hernoemen vanwege een conflict in het resulterende menu-item met het bestaande menu-item. "%{existing_caption}" (%{existing_identifier}).
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "Er is een fout opgetreden tijdens de externe verificatie. Probeer het opnieuw."
   error_attribute_not_highlightable: "Attribute(s) niet markeerbaar: %{attributes}"
   events:
     project: 'Project bewerkt'
@@ -1293,8 +1297,8 @@ nl:
     work_package_edit: 'Werkpakket bewerkt'
     work_package_note: 'Werkpakket notitie toegevoegd'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
+    your_work_packages_export: "Uw werkpakketten exporteren"
+    succeeded: "Het exporteren is voltooid."
     failed: "De export is mislukt: %{message}"
     format:
       atom: "Atom"
@@ -1350,27 +1354,27 @@ nl:
   image_conversion:
     imagemagick: 'Imagemagick'
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "De wijzigingen werden teruggedraaid."
   links:
     configuration_guide: 'Configuratiegids'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "Heb je vragen? Neem contact met ons op."
   instructions_after_registration: "U kan inloggen zodra uw account geactiveerd is door te klikken op %{signin}."
   instructions_after_logout: "U kan terug inloggen door op %{signin} te klikken."
   instructions_after_error: "U kan opnieuw proberen inloggen door op %{signin} te klikken. Als de fout aanhoudt, vraag dan uw admin om hulp."
   menus:
     admin:
       mail_notification: "E-mailnotificaties"
-      mails_and_notifications: "Emails and notification"
-      aggregation: 'Aggregation'
-      api_and_webhooks: "API and webhooks"
+      mails_and_notifications: "E-mails en notificatie"
+      aggregation: 'Aggregatie'
+      api_and_webhooks: "API en webhooks"
     quick_add:
-      label: "Open quick add menu"
+      label: "Open snel toevoegenmenu"
   my_account:
     access_tokens:
       no_results:
         title: "Geen toegangstokens weer te geven"
         description: "Alle van hen zijn uitgeschakeld. Zij kunnen opnieuw worden ingeschakeld in het administratie menu."
-      access_tokens: "Access tokens"
+      access_tokens: "Toegangs-tokens"
       headers:
         action: "Actie"
         expiration: "Verloopt"
@@ -1387,15 +1391,15 @@ nl:
         watched: "Je volgt %{work_package}"
     update_info_mail:
       body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-        We hope you find in-app notifications useful and that they makes you even more productive.
-        Sincerely, The OpenProject team
-      body_header: 'Version 12.0 with Notification Center'
+        We zijn enthousiast om de release van OpenProject 12.0 aan te kondigen. Het is een belangrijke versie die hopelijk de manier waarop je OpenProject gebruikt aanzienlijk zal verbeteren.
+        Vanaf deze release, introduceren we in-app meldingen. Vanaf nu ontvangt u meldingen voor updates voor werkpakketten rechtstreeks in OpenProject. Je kunt deze meldingen als gelezen markeren, reageren op een reactie of zelfs direct de werkpakket kenmerken aanpassen zonder het notificatiecentrum te verlaten.
+        Dit betekent ook dat we geen e-mails meer gebruiken voor meldingen. Wij vinden dat het nieuwe meldingscentrum een betere plek is om deze updates te bekijken en op te volgen. Als u updates wilt blijven ontvangen via e-mail, kunt u ervoor kiezen dagelijks e-mailherinneringen te ontvangen op bepaalde momenten dat u wilt.
+        Zorg ervoor dat u uw nieuwe standaardinstellingen voor meldingen verifieert en uw voorkeuren voor herinneringen per e-mail via uw accountinstellingen instelt. U kunt dit doen via de knop "E-mail instellingen wijzigen" hieronder.
+        We hopen dat je in-app meldingen nuttig vindt en dat ze je nog productiever maken.
+        Met vriendelijke groet, Het OpenProject team
+      body_header: 'Versie 12.0 met Notificatie Centrum'
       body_subheader: 'Nieuws'
-      subject: 'Important changes to notifications with the release of 12.0'
+      subject: 'Belangrijke wijzigingen in meldingen met de release van 12.0'
   label_accessibility: "Toegankelijkheid"
   label_account: "Account"
   label_active: "Actief"
@@ -1445,7 +1449,7 @@ nl:
   label_available_project_versions: 'Beschikbare versies'
   label_available_project_repositories: 'Beschikbare opslagplaatsen'
   label_api_documentation: "API documentatie"
-  label_backup: "Backup"
+  label_backup: "Back-up"
   label_between: "tussen"
   label_blocked_by: "vergrendeld door"
   label_blocks: "vergrendelingen"
@@ -1510,7 +1514,7 @@ nl:
   label_custom_field_plural: "Aangepaste velden"
   label_custom_field_default_type: "Leeg type"
   label_custom_style: "Ontwerp"
-  label_database_version: "PostgreSQL version"
+  label_database_version: "PostgreSQL versie"
   label_date: "Datum"
   label_date_and_time: "Datum en tijd"
   label_date_from: "Van"
@@ -1522,7 +1526,7 @@ nl:
   label_delete_project: "Verwijder project"
   label_deleted: "verwijderd"
   label_deleted_custom_field: "(verwijderde aangepast veld)"
-  label_deleted_custom_option: "(deleted option)"
+  label_deleted_custom_option: "(verwijderde optie)"
   label_missing_or_hidden_custom_option: "(ontbrekende waarde of ontbrekende machtigingen voor toegang)"
   label_descending: "Aflopend"
   label_details: "Details"
@@ -1530,7 +1534,7 @@ nl:
   label_diff: "diff"
   label_diff_inline: "inline"
   label_diff_side_by_side: "Naast elkaar"
-  label_digital_accessibility: 'Digital accessibility (DE)'
+  label_digital_accessibility: 'Digitale toegankelijkheid (DE)'
   label_disabled: "uitgeschakeld"
   label_display: "Weergave"
   label_display_per_page: "Per pagina: %{value}"
@@ -1542,7 +1546,7 @@ nl:
   label_duplicate: "dupliceren"
   label_duplicates: "duplicaten"
   label_edit: "Wijzig"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Bewerken: %{x}"
   label_enable_multi_select: "Omschakelen multiselect"
   label_enabled_project_custom_fields: 'Ingeschakelde aangepaste velden'
   label_enabled_project_modules: 'Ingeschakelde modules'
@@ -1607,7 +1611,7 @@ nl:
   label_index_by_title: "indexeren op titel"
   label_information: "Informatie"
   label_information_plural: "Informatie"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: 'Installatie gidsen'
   label_integer: "Integer"
   label_internal: "Intern"
   label_introduction_video: "Introductie video"
@@ -1649,12 +1653,12 @@ nl:
   label_member_new: "Nieuw lid"
   label_member_all_admin: "(Alle rollen vanwege de admin status)"
   label_member_plural: "Leden"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  lable_membership_added: 'Lid toegevoegd'
+  lable_membership_updated: 'Lid bijgewerkt'
   label_menu_badge:
     pre_alpha: 'pre-alpha'
-    alpha: 'alpha'
-    beta: 'beta'
+    alpha: 'alfa'
+    beta: 'bèta'
   label_menu_item_name: "Naam van het menu-item"
   label_message: "Bericht"
   label_message_last: "Laatste bericht"
@@ -1726,9 +1730,9 @@ nl:
   label_permissions: "Machtigingen"
   label_permissions_report: "Machtigingen verslag"
   label_personalize_page: "Personaliseer deze pagina"
-  label_placeholder_user: "Placeholder user"
-  label_placeholder_user_new: "New placeholder user"
-  label_placeholder_user_plural: "Placeholder users"
+  label_placeholder_user: "Tijdelijke gebruiker"
+  label_placeholder_user_new: "Nieuwe tijdelijke gebruiker"
+  label_placeholder_user_plural: "Tijdelijke gebruikers"
   label_planning: "Planning"
   label_please_login: "Log in a.u.b."
   label_plugins: "Plug-ins"
@@ -1752,7 +1756,7 @@ nl:
   label_project_new: "Nieuw project"
   label_project_plural: "Projecten"
   label_project_settings: "Project Instellingen"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "Opslagplaatsen"
   label_projects_storage_information: "%{count} projecten die %{storage}-schijfopslag gebruiken"
   label_project_view_all: "Bekijk alle projecten"
   label_project_show_details: "Toon project details"
@@ -1857,7 +1861,7 @@ nl:
   label_used_by_types: "Wordt gebruikt door types"
   label_used_in_projects: "Wordt gebruikt in projecten"
   label_user: "Gebruiker"
-  label_user_and_permission: "Users and permissions"
+  label_user_and_permission: "Gebruikers en rechten"
   label_user_named: "Gebruiker %{name}"
   label_user_activity: "%{value} activiteit"
   label_user_anonymous: "Anoniem"
@@ -1904,7 +1908,7 @@ nl:
   label_wiki_start: "Startpagina"
   label_work_package: "Werkpakket"
   label_work_package_attachments: "Werkpakket bijlagen"
-  label_work_package_file_link_plural: "Work package file links"
+  label_work_package_file_link_plural: "Werkpakket bestandskoppelingen"
   label_work_package_category_new: "Nieuwe categorie"
   label_work_package_category_plural: "Werkpakket categorieën"
   label_work_package_hierarchy: "Werkpakket hiërarchie"
@@ -1978,11 +1982,11 @@ nl:
       subject: "%{user_name} heeft je genoemd in #%{id} - %{subject}"
     notification:
       center: 'Naar meldingscentrum'
-      see_in_center: 'See comment in notification center'
+      see_in_center: 'Bekijk commentaar in notificatie center'
       settings: 'E-mailinstellingen wijzigen'
     salutation: 'Hey %{user}!'
     work_packages:
-      created_at: 'Created at %{timestamp} by %{user} '
+      created_at: 'Aangemaakt op %{timestamp} door %{user} '
       login_to_see_all: 'Log in om alle meldingen te zien.'
       mentioned: 'U bent <b>genoemd in een opmerking</b>'
       mentioned_by: '%{user} heeft u genoemd in een reactie'
@@ -1997,38 +2001,38 @@ nl:
         subscribed: 'alle'
         prefix: 'Ontvangen vanwege de meldingsinstelling: %{reason}'
       see_all: 'Alles bekijken'
-      updated_at: 'Updated at %{timestamp} by %{user}'
+      updated_at: 'Bijgewerkt op %{timestamp} door %{user}'
   mail_body_account_activation_request: "Een nieuwe gebruiker (%{value}) heeft zich geregistreerd. Het account wacht op uw goedkeuring:"
   mail_body_account_information: "Uw accountinformatie"
   mail_body_account_information_external: "U kunt uw account %{value} gebruiken om in te loggen."
-  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
-  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
-  mail_body_backup_token_reset_user_info: Your backup token has been reset.
-  mail_body_backup_token_info: The previous token is no longer valid.
-  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
-  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
-  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
-  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
-  mail_body_incoming_email_error_logs: "Logs"
+  mail_body_backup_ready: "Uw gevraagde back-up is gereed. U kunt de back-up hier downloaden:"
+  mail_body_backup_token_reset_admin_info: De back-up token voor gebruiker '%{user}' is gereset.
+  mail_body_backup_token_reset_user_info: Uw back-up token is gereset.
+  mail_body_backup_token_info: Het vorige token is niet langer geldig.
+  mail_body_backup_waiting_period: Het nieuwe token zal ingeschakeld worden in %{hours} uur.
+  mail_body_backup_token_warning: Als u dit niet was, log dan onmiddellijk in op OpenProject en reset het opnieuw.
+  mail_body_incoming_email_error: De e-mail die u naar OpenProject heeft verzonden kon niet worden verwerkt.
+  mail_body_incoming_email_error_in_reply_to: "Op %{received_at} %{from_email} geschreven"
+  mail_body_incoming_email_error_logs: "Logboeken"
   mail_body_lost_password: "Om uw wachtwoord te wijzigen, klikt u op op de volgende link:"
-  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
-  mail_body_register_header_title: "Project member invitation email"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register: "Welkom bij %{app_title}. Activeer uw account door op deze link te klikken:"
+  mail_body_register_header_title: "Uitnodigings e-mail van projectlid"
+  mail_body_register_user: "Beste %(name),"
   mail_body_register_links_html: |
     Blader gerust door ons youtube kanaal (%{youtube_link}) waar we een webinar (%{webinar_link})
     en "Aan de slag gaan" video's (%{get_started_link}) voorzien om uw eerste stappen in OpenProject zo eenvoudig mogelijk te maken.
     <br />
     Als u nog vragen heeft, raadpleeg dan onze documentatie (%{documentation_link}) of neem contact op met uw beheerder.
-  mail_body_register_closing: "Your OpenProject team"
-  mail_body_register_ending: "Stay connected! Kind regards,"
+  mail_body_register_closing: "Jouw OpenProject team"
+  mail_body_register_ending: "Blijf op de hoogte! Met vriendelijke groet,"
   mail_body_reminder: "%{count} werkpakket(ten) die aan u zijn toegewezen bereiken in de volgende %{days} dagen hun uiterste datum:"
   mail_body_group_reminder: "%{count} werkpakket(ten) die zijn toegewezen aan groep \"%{group}\" zullen in de komende %{days} dagen klaar zijn:"
   mail_body_wiki_content_added: "De '%{id}' wikipagina is toegevoegd door %{author}."
   mail_body_wiki_content_updated: "De '%{id}' wikipagina is bijgewerkt door %{author}."
   mail_subject_account_activation_request: "%{value} account aanvraag dient geactiveerd te worden"
-  mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Backup token reset"
-  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
+  mail_subject_backup_ready: "Je back-up is klaar"
+  mail_subject_backup_token_reset: "Back-up token restten"
+  mail_subject_incoming_email_error: "Een e-mail die u naar OpenProject heeft verzonden kon niet worden verwerkt"
   mail_subject_lost_password: "Uw wachtwoord %{value}"
   mail_subject_register: "Uw %{value} account activatie"
   mail_subject_reminder: "%{count} werkpakket(ten) vervallen in de volgende %{days} dagen"
@@ -2036,26 +2040,26 @@ nl:
   mail_subject_wiki_content_added: "'%{id}' wikipagina is toegevoegd"
   mail_subject_wiki_content_updated: "'%{id}' wikipagina is bijgewerkt"
   mail_member_added_project:
-    subject: "%{project} - You have been added as a member"
+    subject: "%{project} - Je bent toegevoegd als lid"
     body:
       added_by:
-        without_message: "%{user} added you as a member to the project '%{project}'."
-        with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: "You have the following roles:"
+        without_message: "%{user} heeft u toegevoegd als deelnemer aan het project '%{project}'."
+        with_message: "%{user} heeft je toegevoegd als deelnemer aan het schrijven van het project '%{project}':"
+      roles: "U heeft de volgende rollen:"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} - Uw rollen zijn bijgewerkt"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have in the project '%{project}'."
-        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} heeft de rollen die je hebt in het project '%{project} ' bijgewerkt."
+        with_message: "%{user} heeft de rollen die je hebt in het schrijven van het project '%{project}' bijgewerkt:"
+      roles: "U heeft nu de volgende rollen:"
   mail_member_updated_global:
-    subject: "Your global permissions have been updated"
+    subject: "Uw globale machtigingen zijn bijgewerkt"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have globally."
-        with_message: "%{user} updated the roles you have globally writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} heeft de rollen die u globaal hebt bijgewerkt."
+        with_message: "%{user} heeft de rollen die je globaal hebt geschreven bijgewerkt:"
+      roles: "U heeft nu de volgende rollen:"
   mail_user_activation_limit_reached:
     subject: Activering gebruikerslimiet bereikt
     message: |
@@ -2096,7 +2100,7 @@ nl:
   notice_email_sent: "Een e-mail werd verzonden naar %{value}"
   notice_failed_to_save_work_packages: "%{count} werkpakket(ten) op %{total} geselecteerd opslaan mislukt: %{ids}."
   notice_failed_to_save_members: "Lid/leden opslaan mislukt: %{errors}."
-  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
+  notice_deletion_scheduled: "De verwijdering is gepland en wordt asynchroon uitgevoerd."
   notice_file_not_found: "De pagina die u probeerde te benaderen bestaat niet of is verwijderd."
   notice_forced_logout: "U bent automatisch uitgelogd na %{ttl_time} minuten van inactiviteit."
   notice_internal_server_error: "Er is een fout opgetreden op de pagina die u probeerde te gebruiken. Als u problemen blijft ervaren, neem dan contact op met uw %{app_title} beheerder voor hulp."
@@ -2121,11 +2125,11 @@ nl:
   notice_successful_delete: "Verwijdering geslaagd."
   notice_successful_update: "Succesvolle wijziging."
   notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+    Succesvolle update. Aangepaste velden van de geactiveerde types worden automatisch geactiveerd
+    op het werkpakket formulier. <a href="%{url}" target="_blank">Meer</a>.
   notice_successful_update_custom_fields_added_to_type: |
-    Successful update. The active custom fields are automatically activated for
-    the associated projects of this type.
+    Update geslaagd. De actieve aangepaste velden worden automatisch geactiveerd voor
+    de bijbehorende projecten van dit type.
   notice_to_many_principals_to_display: "Er zijn te veel resultaten. Beperk het zoekbereik door een naam in te geven van een nieuw lid (of groep)."
   notice_user_missing_authentication_method: Gebruiker dient nog een wachtwoord te kiezen of een andere manier om in te loggen te bepalen.
   notice_user_invitation_resent: Een nieuwe uitnodiging is verstuurd naar %{email}.
@@ -2160,14 +2164,14 @@ nl:
     heading_getting_started: "Krijg een overzicht"
     text_getting_started_description: "Krijg een overzicht van project management en team samenwerking met OpenProject."
     text_show_again: "U kunt deze video van het helpmenu opnieuw starten"
-    welcome: "Welcome to %{app_title}"
+    welcome: "Welkom bij %{app_title}"
     select_language: "Gelieve uw taal te kiezen"
   permission_add_work_package_notes: "Notities toevoegen"
   permission_add_work_packages: "Werkpakketten toevoegen"
   permission_add_messages: "Berichten posten"
   permission_add_project: "Project Aanmaken"
-  permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_manage_user: "Gebruikers aanmaken en bewerken"
+  permission_manage_placeholder_user: "Maak, bewerk en verwijder tijdelijke gebruikers"
   permission_add_subprojects: "Subprojecten maken"
   permission_add_work_package_watchers: "Kijkers toevoegen"
   permission_assign_versions: "Versies toewijzen"
@@ -2176,7 +2180,7 @@ nl:
   permission_comment_news: "Opmerking nieuws"
   permission_commit_access: "Lees/schrijf toegang tot opslagplaats (bevestig)"
   permission_copy_projects: "Kopiëren van projecten"
-  permission_create_backup: "Create backup"
+  permission_create_backup: "Back-up maken"
   permission_delete_work_package_watchers: "Kijkers verwijderen"
   permission_delete_work_packages: "Werkpakketten verwijderen"
   permission_delete_messages: "Berichten verwijderen"
@@ -2193,14 +2197,14 @@ nl:
   permission_edit_own_time_entries: "Bewerk de logboeken van de eigen tijd"
   permission_edit_project: "Project bewerken"
   permission_edit_reportings: "Rapporteringen bewerken"
-  permission_edit_time_entries: "Edit time logs for other users"
+  permission_edit_time_entries: "Bewerk tijdregistraties voor andere gebruikers"
   permission_edit_timelines: "Bewerken van tijdlijnen"
   permission_edit_wiki_pages: "Wiki pagina's bewerken"
   permission_export_work_packages: "Werkpakketten exporteren"
   permission_export_wiki_pages: "Wiki pagina's exporteren"
   permission_list_attachments: "Bijlagen weergeven"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "Eigen tijd registreren"
+  permission_log_time: "Log tijd voor andere gebruikers"
   permission_manage_forums: "Forum beheren"
   permission_manage_categories: "Werkpakket Categorieën beheren"
   permission_manage_work_package_relations: "Werkpakket relaties beheren"
@@ -2209,7 +2213,7 @@ nl:
   permission_manage_project_activities: "Projectactiviteiten beheren"
   permission_manage_public_queries: "Openbare overzichten beheren"
   permission_manage_repository: "Repository beheren"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "Beheer werkpakket hiërarchieën"
   permission_manage_versions: "Versies beheren"
   permission_manage_wiki: "Wiki beheren"
   permission_manage_wiki_menu: "Wiki menu beheren"
@@ -2217,7 +2221,7 @@ nl:
   permission_protect_wiki_pages: "Wiki-pagina's beveiligen"
   permission_rename_wiki_pages: "Wiki-pagina's wijzigen"
   permission_save_queries: "Weergaves opslaan"
-  permission_select_custom_fields: "Select custom fields"
+  permission_select_custom_fields: "Aangepaste velden selecteren"
   permission_select_project_modules: "Selecteer project modules"
   permission_manage_types: "Selecteer typen"
   permission_view_changesets: "Bekijk opslagplaats wijzigingen in OpenProject"
@@ -2231,7 +2235,7 @@ nl:
   permission_view_timelines: "Weergave tijdlijnen"
   permission_view_wiki_edits: "Wiki weergavegeschiedenis"
   permission_view_wiki_pages: "Weergave wiki"
-  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned: "Toewijzer/verantwoordelijk worden"
   permission_work_package_assigned_explanation: "Werkpakketten kunnen worden toegewezen aan gebruikers en groepen met deze rol in het respectieve project"
   placeholders:
     default: "-"
@@ -2248,7 +2252,7 @@ nl:
       title: Wijzig het identificatienummer van het project
     template:
       copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+        Uw project wordt aangemaakt uit het geselecteerde sjabloonproject. U wordt per e-mail op de hoogte gebracht zodra het project beschikbaar is.
       use_template: 'Sjabloon gebruiken'
       make_template: 'Opslaan als sjabloon'
       remove_from_templates: 'Sjabloon verwijderen'
@@ -2270,8 +2274,8 @@ nl:
     assigned_to_role: "Werknemer's rol"
     member_of_group: "Werknemer's groep"
     assignee_or_group: "Toegekend aan of hoort bij groep"
-    subproject_id: "Including subproject"
-    only_subproject_id: "Only subproject"
+    subproject_id: "Inclusief subproject"
+    only_subproject_id: "Alleen subproject"
     name_or_identifier: "Naam of id"
   repositories:
     at_identifier: 'op %{identifier}'
@@ -2358,11 +2362,11 @@ nl:
     storage:
       not_available: "Schijf opslag consumptie is niet beschikbaar voor deze repository."
       update_timeout: "Houd de laatste vereiste vrije schijfruimte voor een repository voor N minuten. Als het tellen van de vereiste schijfruimte van een repository kostbaar is, verhoog dit getal om invloed op de prestaties verminderen."
-      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
-      oauth_application_details_link_text: "Go to settings page"
-      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
-      setup_documentation_details_link_text: "File Storages setup"
-      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
+      oauth_application_details: "De klantgeheim waarde zal niet meer toegankelijk zijn nadat u dit venster sluit. Kopieer deze waarden in de Nextcloud OpenProject integratie-instellingen:"
+      oauth_application_details_link_text: "Ga naar instellingen pagina"
+      setup_documentation_details: "Als u hulp nodig heeft bij het configureren van een nieuw bestand controleer dan de documentatie: "
+      setup_documentation_details_link_text: "Bestandsopslag setup"
+      show_warning_details: "Als u deze bestandsopslag wilt gebruiken, moet u de module en de specifieke opslag activeren in de projectinstellingen van elk gewenst project."
     subversion:
       existing_title: "Bestaande Subversion-repository"
       existing_introduction: "Als u een bestaand Subversion repository hebt, kunt u deze koppelen met OpenProject om deze te openen van binnen de toepassing."
@@ -2377,22 +2381,22 @@ nl:
       username: "Repository-gebruikersnaam"
     truncated: "Onze excuses, we hebben de map beperkt tot %{limit} bestanden. De %{truncated} bestanden zijn verwijderd uit de lijst."
     named_repository: "%{vendor_name} repository"
-    update_settings_successful: "The settings have been successfully saved."
+    update_settings_successful: "De instellingen zijn met succes opgeslagen"
     url: "URL van de repository"
     warnings:
       cannot_annotate: "Dit bestand kan niet geannoteerd worden."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: 'geactiveerd'
+    deactivated: 'gedeactiveerd'
   search_input_placeholder: "Zoeken ..."
-  setting_apiv3_cors_enabled: "Enable CORS"
-  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_enabled: "Inschakelen CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) toegestane oorsprong"
   setting_apiv3_cors_origins_text_html: >
-    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
-  setting_apiv3_max_page_size: "Maximum API page size"
+    Als CORS is ingeschakeld, zijn dit de oorsprong die toegang heeft tot OpenProject API. <br/> Bekijk de <a href="%{origin_link}" target="_blank">Documentatie op de Oorsprongshoofd</a> over hoe u de verwachte waarden kunt opgeven.
+  setting_apiv3_max_page_size: "Maximale API pagina grootte"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
-  setting_apiv3_docs: "Documentation"
+    Stel de maximale pagina grootte in waarmee de API zal reageren. Het is niet mogelijk om API-verzoeken uit te voeren die meer waarden op een enkele pagina weergeven. <br/> <strong>Waarschuwing:</strong> Wijzig deze waarde alleen als u zeker weet waarom u het nodig heeft. Het instellen op een hoge waarde zal aanzienlijke prestatieeffecten hebben, terwijl een waarde lager is dan de per pagina opties fouten veroorzaakt in gepagineerde weergaven.
+  setting_apiv3_docs: "Documentatie"
   setting_apiv3_docs_enabled: "Documentenpagina inschakelen"
   setting_apiv3_docs_enabled_instructions_html: >
     Als de documentenpagina is ingeschakeld, kunt u een interactieve weergave krijgen van de APIv3 documentatie onder <a href="%{link}" target="_blank">%{link}</a>.
@@ -2406,7 +2410,7 @@ nl:
   setting_smtp_authentication: "SMTP-authenticatie"
   setting_smtp_user_name: "SMTP gebruikersnaam"
   setting_smtp_password: "SMTP wachtwoord"
-  setting_smtp_domain: "SMTP HELO domain"
+  setting_smtp_domain: "SMTP HELO domein"
   setting_activity_days_default: "Dagen weergegeven op projectactiviteit"
   setting_app_subtitle: "Applicatie ondertitel"
   setting_app_title: "Toepassingsnaam"
@@ -2430,7 +2434,7 @@ nl:
   setting_consent_required: "Toestemming vereist"
   setting_consent_decline_mail: "Toestemming contact e-mailadres"
   setting_cross_project_work_package_relations: "Sta werkpakketten over meerdere projecten toe"
-  setting_first_week_of_year: "First week in year contains"
+  setting_first_week_of_year: "De eerste week in het jaar bevat"
   setting_date_format: "Datumnotatie"
   setting_default_language: "Standaard taal"
   setting_default_projects_modules: "Standaard actieve modules voor nieuwe projecten"
@@ -2441,7 +2445,7 @@ nl:
   setting_emails_header: "Koptekst e-mails"
   setting_email_login: "Gebruik e-mail als inlog"
   setting_enabled_scm: "SCM Ingeschakeld"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Zichtbaar in de projectlijst"
   setting_feeds_enabled: "Feeds inschakelen"
   setting_feeds_limit: "Feed inhoud limiet"
   setting_file_max_size_displayed: "Maximale grootte van tekstbestanden inline weergegeven"
@@ -2454,7 +2458,7 @@ nl:
   setting_work_package_list_default_columns: "Standaard worden weergegeven"
   setting_work_package_properties: "Werkpakketeigenschappen"
   setting_work_package_startdate_is_adddate: "Huidige datum als begindatum voor nieuwe werkpakketten gebruiken"
-  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
+  setting_work_packages_projects_export_limit: "Werkpakketten / Projecten exportlimiet"
   setting_journal_aggregation_time_minutes: "Gebruikersacties geaggregeerd binnen"
   setting_log_requesting_user: "Gebruikerslogin, naam en e-mailadres voor alle aanvragen vastleggen"
   setting_login_required: "Verificatie vereist"
@@ -2472,8 +2476,8 @@ nl:
   setting_per_page_options: "Objecten per Pagina-opties"
   setting_plain_text_mail: "Tekst zonder opmaak (geen HTML)"
   setting_protocol: "Protocol"
-  setting_project_gantt_query: "Project portfolio Gantt view"
-  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_project_gantt_query: "Project portfolio Gantt weergave"
+  setting_project_gantt_query_text: "U kunt de query wijzigen die wordt gebruikt om de Gantt-grafiek weer te geven vanaf de projectoverzichtspagina."
   setting_security_badge_displayed: "Toon beveiligingsbadge"
   setting_registration_footer: "Registratie voettekst"
   setting_repositories_automatic_managed_vendor: "Automatisch repostiroy leveranciers type"
@@ -2518,12 +2522,12 @@ nl:
       delay_minutes_explanation: "Het verzenden van e-mail kan worden vertraagd zodat gebruikers met in app geconfigureerde melding binnen de applicatie de melding kunnen bevestigen voordat er een e-mail wordt verzonden. Gebruikers die een melding binnen de applicatie lezen ontvangen geen e-mail voor de reeds gelezen melding."
     display:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Als ofwel opties "%{day_of_week_setting_name}" of "%{first_week_setting_name}" zijn ingesteld, Ook het andere moet worden vastgesteld om inconsistenties op het frontend te voorkomen.
       first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+        Selecteer de datum van januari die in de eerste week van het jaar staat. Deze waarde bepaalt samen met de eerste dag van de week het totaal aantal weken in een jaar.
     projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_new_projects: "Instellingen voor nieuwe projecten"
+      section_project_overview: "Instellingen voor project overzicht lijst"
     user:
       default_preferences: "Standaardvoorkeuren"
       deletion: "Verwijdering"
@@ -2566,11 +2570,11 @@ nl:
   text_custom_field_hint_activate_per_project_and_type: >
     Aangepaste velden moeten worden geactiveerd per werkpakket type en per project.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    De Enterprise Edition zal deze extra functies toevoegen voor aangepaste velden van het werkpakket: <br> <ul> <li><b>Meervoudige selectie toestaan voor aangepaste velden van type lijst of Gebruiker</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    De Enterprise Edition zal deze extra functies toevoegen voor statussen van werkpakketten: <br> <ul> <li><b>Toestaan om werkpakketten alleen te markeren voor specifieke statussen</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    De Enterprise Edition zal deze extra functies toevoegen voor de aangepaste velden van de projecten: <br> <ul> <li><b>Voeg aangepaste velden toe voor projecten aan uw projectlijst om een projectefeuilles te maken</b></li> </ul>
   text_custom_logo_instructions: >
     Een wit logo op transparante achtergrond wordt aanbevolen. Voor de beste resultaten op zowel conventionele en retina displays, doet u door ervoor te zorgen dat uw afbeelding afmetingen zijn 460px bij 60px.
   text_custom_favicon_instructions: >
@@ -2855,7 +2859,7 @@ nl:
     reset_failed_logins: "Reset mislukte aanmeldingen"
     status_user_and_brute_force: "%{user} en %{brute_force}"
     status_change: "Statuswijziging"
-    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_provider_login: "De naam is ingesteld door uw login provider en kan dus niet worden gewijzigd."
     unlock: "Ontgrendelen"
     unlock_and_reset_failed_logins: "Openen en herstellen mislukte aanmeldingen"
   version_status_closed: "gesloten"
@@ -2877,9 +2881,9 @@ nl:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'HTTPS-modus instelling verschil'
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        Je programma wordt uitgevoerd met HTTPS modus ingesteld op <code>%{set_protocol}</code>, maar het verzoek is een verzoek van <code>%{actual_protocol}</code> . Dit leidt tot fouten! U moet de volgende waarde voor de configuratie instellen: <code>%{setting_value}</code>. Raadpleeg <a href="%{more_info_path}">de installatiedocumentatie</a> over hoe deze configuratie ingesteld moet worden.
     hostname_mismatch:
       title: 'Hostnaam instellingen komen niet overeen'
       text_html: >
@@ -2909,13 +2913,13 @@ nl:
       code_403: "U bent niet gemachtigd om toegang te hebben tot deze resource."
       code_404: "De gevraagde resource kan niet worden gevonden."
       code_409: "De bron kan niet worden bijgewerkt vanwege conflicterende wijzigingen."
-      code_429: "Too many requests. Please try again later."
+      code_429: "Te veel verzoeken. Probeer het later opnieuw."
       code_500: "Een interne fout is opgetreden."
       not_found:
-        work_package: "The work package you are looking for cannot be found or has been deleted."
+        work_package: "Het werkpakket dat u zoekt kan niet gevonden of verwijderd worden."
       expected:
         date: "JJJJ-MM-DD (alleen ISO 8601 datum)"
-        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
+        datetime: "YYYY-MM-DDDThh:mm:ss[.lll][+h:mm] (elk compatibel ISO 8601 datetime)"
         duration: "Standaard ISO 8601 duur"
       invalid_content_type: "CONTENT-TYPE  '%{content_type}' werd verwacht, maar '%{actual}' werd ingegeven."
       invalid_format: "Ongeldig formaat voor eigenschap '%{property}': een formaat zoals '%{expected_format}' wordt verwacht, maar '%{actual}' werd ingegeven."
@@ -2923,11 +2927,11 @@ nl:
       invalid_relation: "De relatie is ongeldig."
       invalid_resource: "Eigenschap '%{property}' verwacht een link zoals '%{expected}', maar kreeg '%{actual}'."
       invalid_signal:
-        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
+        embed: "De gevraagde embedding van %{invalid} wordt niet ondersteund. Ondersteunde embeddingen zijn %{supported}."
+        select: "De opgevraagde select van %{invalid} wordt niet ondersteund. Ondersteunde selecties zijn %{supported}."
       invalid_user_status_transition: "De accountstatus van de huidige gebruiker laat deze actie niet toe."
       missing_content_type: "niet bepaald"
-      missing_property: "Missing property '%{property}'."
+      missing_property: "Eigenschap ontbreekt '%{property}' ."
       missing_request_body: "Er was geen hoofdgedeelte van de aanvraag."
       missing_or_malformed_parameter: "De queryparameter '%{parameter}' is ongeldig of ontbreekt."
       multipart_body_error: "Het hoofdgedeelte van de aanvraag bevatte niet de verwachte meerdere delen."
@@ -2951,20 +2955,20 @@ nl:
       schema: 'Schema'
     undisclosed:
       parent: Niet openbaar gemaakt - De geselecteerde ouder is onzichtbaar door ontbrekende rechten.
-      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
+      ancestor: Onbekend - De voorouder is onzichtbaar door ontbrekende rechten.
   doorkeeper:
     pre_authorization:
       status: 'Pre-autorisatie'
-    auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+    auth_url: 'Authenticatie URL'
+    access_token_url: 'URL toegangstoken'
     errors:
       messages:
         #Common error messages
         invalid_request:
           unknown: 'De aanvraag ontbreekt een vereiste parameter, bevat een niet-ondersteunde parameter waarde, of is anders niet geconfigureerd.'
-          missing_param: 'Missing required parameter: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+          missing_param: 'Ontbrekende vereiste parameter: %{value}.'
+          request_not_authorized: 'Verzoek moet worden geautoriseerd. Verplichte parameter voor het autoriseren van verzoek ontbreekt of is ongeldig.'
+        invalid_redirect_uri: "De gevraagde omleidings-uri is ongeldig of komt niet overeen met omleidings-URI."
         unauthorized_client: 'De client is niet gemachtigd voor het uitvoeren van dit verzoek met behulp van deze methode.'
         access_denied: 'De resource eigenaar of autorisatie server heeft het verzoek geweigerd.'
         invalid_scope: 'De gevraagde reikwijdte is ongeldig, onbekend of ongeldig.'
@@ -2977,7 +2981,7 @@ nl:
         admin_authenticator_not_configured: 'Toegang tot admin paneel is verboden omdat Doorkeeper.configure.admin_authenticator niet is geconfigureerd.'
         #Access grant errors
         unsupported_response_type: 'De autorisatieserver ondersteunt dit reactietype niet.'
-        unsupported_response_mode: 'The authorization server does not support this response mode.'
+        unsupported_response_mode: 'De autorisatieserver ondersteunt deze antwoordmodus niet.'
         #Access token errors
         invalid_client: 'Client authenticatie is mislukt vanwege onbekende client, geen client authenticatie inbegrepen, of niet-ondersteunde authenticatie methode.'
         invalid_grant: 'De verstrekte machtiging is ongeldig, verlopen, ingetrokken, komt niet overeen met de omleiding URI die in het autorisatieverzoek wordt gebruikt, of is uitgegeven aan een andere client.'
@@ -2987,9 +2991,9 @@ nl:
           expired: "De toegangstoken is verlopen"
           unknown: "De toegangstoken is ongeldig"
         revoke:
-          unauthorized: "You are not authorized to revoke this token."
+          unauthorized: "U bent niet gemachtigd om deze token in te trekken."
         forbidden_token:
-          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
+          missing_scope: 'Toegang tot deze bron vereist scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Uw browser is verouderd en niet ondersteund."
     message: "U kan lopen in fouten en gedegradeerd ervaring op deze pagina."
@@ -3045,49 +3049,49 @@ nl:
     my_registered_applications: "Geregistreerde OAuth toepassingen"
   oauth_client:
     urn_connection_status:
-      connected: "Connected"
-      error: "Error"
-      failed_authorization: "Authorization failed"
+      connected: "Verbonden"
+      error: "Fout"
+      failed_authorization: "Autorisatie mislukt"
     labels:
-      label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
-      label_request_token: "Request token"
-      label_refresh_token: "Refresh token"
+      label_oauth_integration: "OAuth2 integratie"
+      label_redirect_uri: "URI omleiden"
+      label_request_token: "Verzoek token"
+      label_refresh_token: "Token vernieuwen"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
-      oauth_reported: "OAuth2 provider reported"
-      oauth_returned_error: "OAuth2 returned an error"
-      oauth_returned_json_error: "OAuth2 returned a JSON error"
-      oauth_returned_http_error: "OAuth2 returned a network error"
-      oauth_returned_standard_error: "OAuth2 returned an internal error"
-      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
-      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
-      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      oauth_authorization_code_grant_had_errors: "OAuth2 heeft een fout teruggestuurd"
+      oauth_reported: "OAuth2 leverancier gerapporteerd"
+      oauth_returned_error: "OAuth2 heeft een fout teruggestuurd"
+      oauth_returned_json_error: "OAuth2 heeft een JSON-fout teruggestuurd"
+      oauth_returned_http_error: "OAuth2 heeft een netwerkfout teruggestuurd"
+      oauth_returned_standard_error: "OAuth2 stuurde een interne fout terug"
+      wrong_token_type_returned: "OAuth2 gaf een verkeerd type token, verwacht AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 meldt een fout. Neem contact op met uw systeembeheerder."
+      oauth_client_not_found: "OAuth2 client niet gevonden in 'callback' eindpunt (redirect_uri)."
       refresh_token_called_without_existing_token: >
-        Internal error: Called refresh_token without a previously existing token.
-      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+        Interne fout: Vernieuw token zonder eerder bestaande token.
+      refresh_token_updated_failed: "Fout tijdens het bijwerken van OAuthClientToken"
       oauth_client_not_found_explanation: >
-        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
-      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+        Deze fout verschijnt nadat u de client_id en client_secret in OpenProject hebt bijgewerkt, maar heeft het 'Return URI' veld niet bijgewerkt in de OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' niet gevonden in 'callback' eindpunt (redirect_uri)."
       oauth_code_not_present_explanation: >
-        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
-      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+        Deze fout wordt weergegeven als u het verkeerde response_type in de OAuth2 provider hebt geselecteerd. Response_type moet 'code' zijn of gelijkwaardig.
+      oauth_state_not_present: "OAuth2 'staat' niet gevonden in 'callback' eindpunt (redirect_uri)."
       oauth_state_not_present_explanation: >
-        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+        De 'staat' wordt gebruikt om aan te geven aan OpenProject waar verder te gaan na een succesvolle OAuth2 autorisatie. Een ontbrekende 'staat' is een interne fout die kan verschijnen tijdens het instellen. Neem contact op met de systeembeheerder.
       rack_oauth2:
-        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        client_secret_invalid: "Klant geheim is ongeldig (client_secret_invalid)"
         invalid_request: >
-          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
-        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
-        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
-        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
-        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
-        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
-        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+          OAuth2 Authorization Server reageerde met 'invalid_request'. Deze fout verschijnt als je meerdere keren probeert te autoriseren of in geval van technische problemen.
+        invalid_response: "OAuth2 Autorisatie Server gaf een ongeldig antwoord (invalid_response)"
+        invalid_grant: "De OAuth2 Autorisatie Server vraagt u om opnieuw te autoriseren (invalid_grant)."
+        invalid_client: "De OAuth2 Authorization Server herkent OpenProject (invalid_client) niet."
+        unauthorized_client: "De OAuth2 Autorisatie Server verwerpt het subsidietype (unauthorized_client)"
+        unsupported_grant_type: "De OAuth2 Autorisatie Server vraagt u om opnieuw toestemming (niet-supported_grant_type)."
+        invalid_scope: "Je hebt geen toegang tot de gevraagde bron (ongeldig_scope)."
   http:
     request:
-      failed_authorization: "The server side request failed authorizing itself."
-      missing_authorization: "The server side request failed due to missing authorization information."
+      failed_authorization: "De serveraanvraag kan zichzelf niet autoriseren."
+      missing_authorization: "Het verzoek aan de serverzijde is mislukt omdat er geen autorisatieinformatie is."
     response:
-      unexpected: "Unexpected response received."
-  you: you
+      unexpected: "Onverwacht antwoord ontvangen."
+  you: jij

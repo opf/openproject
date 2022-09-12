@@ -528,6 +528,10 @@ fi:
         end_insertion: "Lisäyksen loppu"
         end_deletion: "Poistokohdan loppu"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Ylätaso"
         parent_issue: "Ylätaso"
         parent_work_package: "Ylätaso"

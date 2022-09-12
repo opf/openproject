@@ -525,6 +525,10 @@ it:
         end_insertion: "Fine inserimento"
         end_deletion: "Fine cancellazione"
         ignore_non_working_days: "Ignora giorni non lavorativi"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Superiore"
         parent_issue: "Superiore"
         parent_work_package: "Superiore"

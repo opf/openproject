@@ -528,6 +528,10 @@ si:
         end_insertion: "ඇතුළත් කිරීමේ අවසානය"
         end_deletion: "මකාදැමීමේ අවසානය"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "මාපිය"
         parent_issue: "මාපිය"
         parent_work_package: "මාපිය"

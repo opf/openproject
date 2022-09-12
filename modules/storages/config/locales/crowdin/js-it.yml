@@ -25,3 +25,4 @@ it:
         open_location: 'Apri file nella posizione'
         remove: "Rimuovi collegamento al file"
         remove_confirmation: "Vuoi davvero scollegare il file dalla macro-attività?"
+        not_allowed_tooltip: "Please log in to Nextcloud to access this file"

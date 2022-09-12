@@ -31,6 +31,7 @@ import { CommonModule } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
+import { OpSpotModule } from 'core-app/spot/spot.module';
 
 import { FileLinkListComponent } from 'core-app/shared/components/file-links/file-link-list/file-link-list.component';
 import {
@@ -44,6 +45,7 @@ import {
   imports: [
     CommonModule,
     IconModule,
+    OpSpotModule,
   ],
   declarations: [
     FileLinkListComponent,

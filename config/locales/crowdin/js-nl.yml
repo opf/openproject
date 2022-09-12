@@ -23,8 +23,8 @@ nl:
   js:
     ajax:
       hide: "Verberg"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "Laden…"
+      updating: "Bijwerken…"
     attachments:
       draggable_hint: |
         Sleep op het invoerveld naar in line afbeelding of verwijzing bijlage. Gesloten invoervelden wordt geopend terwijl u blijft slepen.
@@ -35,18 +35,18 @@ nl:
       remove: "Verwijder %{name}"
       active: "Actieve %{label} %{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: Bijlagen mogen niet worden opgenomen omdat ze de maximaal toegestane grootte overschrijden. U kunt dit wijzigen via de configuratie (vereist een herstart van de server).
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        Je kunt hier een back-up activeren. Het proces kan enige tijd in beslag nemen, afhankelijk van het aantal gegevens (met name de bijlagen) die je hebt. Je ontvangt een e-mail zodra het klaar is.
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
-      title: Backup OpenProject
+        Een nieuwe back-up zal elke vorige overschrijven. Alleen een beperkt aantal back-ups per dag kunnen worden aangevraagd.
+      last_backup: Laatste back-up
+      last_backup_from: Laatste back-up van
+      title: OpenProject back-uppen
       options: Opties
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      include_attachments: Inclusief bijlagen
+      download_backup: Back-up downloaden
+      request_backup: Back-up aanvragen
     close_popup_title: "Popup sluiten"
     close_filter_title: "Sluit filter"
     close_form_title: "Sluit formulier"
@@ -62,7 +62,7 @@ nl:
     button_confirm: "Accepteren"
     button_continue: "Ga verder"
     button_copy: "Kopieer"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Kopiëren naar een ander project"
     button_custom-fields: "Aangepaste velden"
     button_delete: "Verwijderen"
     button_delete_watcher: "Kijkers verwijderen"
@@ -96,10 +96,10 @@ nl:
         inline: 'Markeer inline:'
         entire_card_by: 'Gehele kaart door'
       remove_from_list: 'Verwijder kaart uit lijst'
-    caption_rate_history: "Rate history"
+    caption_rate_history: "Beoordeel geschiedenis"
     clipboard:
       browser_error: "Uw browser ondersteunt kopiëren naar het klembord niet. Kopieer de geselecteerde tekst handmatig."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "Succesvol gekopieerd naar klembord!"
     chart:
       type: 'Grafiek type'
       axis_criteria: 'As criteria'
@@ -131,11 +131,11 @@ nl:
         manual: 'Schakel naar de bron van het Markdown'
         wysiwyg: 'Schakel over naar de WYSIWYG-Editor'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'Macro: %{message} kan niet worden uitgebreid'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: 'Dit tekstsegment wordt dynamisch weergegeven door een macro.'
+          not_found: 'Gevraagde bron kan niet worden gevonden'
+          invalid_attribute: "Het geselecteerde attribuut '%{name}' bestaat niet."
         child_pages:
           button: 'Links naar onderliggende pagina ''s'
           include_parent: 'Inclusief bovenliggende'
@@ -151,7 +151,7 @@ nl:
           language_hint: 'Voer de opmaaktaal die wordt gebruikt voor het benadrukken(indien ondersteund).'
         dropdown:
           macros: 'Macro''s'
-          chose_macro: 'Choose macro'
+          chose_macro: 'Kies macro'
         toc: 'Inhoudsopgave'
         toolbar_help: 'Klik op widget en geef de werkbalk weer. Dubbelklikken om de widget te bewerken'
         wiki_page_include:
@@ -188,60 +188,60 @@ nl:
         text_reprieve_days_left: "%{days} dagen tot het einde van de genadeperiode"
         text_expired: "verlopen"
         trial:
-          confirmation: "Confirmation of email address"
+          confirmation: "Bevestiging van het e-mailadres"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            We hebben je een e-mail gestuurd op %{date} naar %{email}. Controleer uw inbox en klik op de bevestigingslink om uw proefperiode van 14 dagen te starten.
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+              Ik ga akkoord met de <a target="_blank" href="%{link_terms}">gebruiksvoorwaarden</a> en het <a target="_blank" href="%{link_privacy}">privacybeleid</a>.
+            invalid_email: "Ongeldig e-mailadres"
+            label_company: "Bedrijfsnaam"
             label_first_name: "Voornaam"
             label_last_name: "Achternaam"
-            label_domain: "Domain"
+            label_domain: "Domein"
             label_subscriber: "Abonnee"
             label_maximum_users: "Maximum aantal actieve gebruikers"
-            label_starts_at: "Starts at"
+            label_starts_at: "Start op"
             label_expires_at: "Verloopt op"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-            taken_domain: There can only be one active trial per domain.
-            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
-            taken_email: Each user can only create one trial.
-          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
-          next_steps: "Next steps"
+            receive_newsletter: Ik wil de OpenProject <a target="_blank" href="%{link}">nieuwsbrief</a> ontvangen.
+            taken_domain: Er kan slechts één actieve proefperiode per domein zijn.
+            domain_mismatch: De huidige hostnaam van de aanvraag komt niet overeen met de geconfigureerde hostnaam. Controleer uw systeeminstellingen.
+            taken_email: Elke gebruiker kan slechts één proefperiode aanmaken.
+          email_not_received: "U heeft geen e-mail ontvangen? U kunt de e-mail opnieuw versturen met de link aan de rechterkant."
+          try_another_email: "Of probeer het met een ander e-mailadres."
+          next_steps: "Volgende stappen"
           resend_link: "Opnieuw verzenden"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
+          resend_success: "E-mail is opnieuw verstuurd. Controleer uw e-mails en klik op de link ter bevestiging."
+          resend_warning: "Kon e-mail niet opnieuw verzenden."
+          session_timeout: "Uw sessie is verlopen. Probeer de pagina te herladen of e-mail opnieuw te verzenden."
           status_label: "Status:"
-          status_confirmed: "confirmed"
-          status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          status_confirmed: "bevestigd"
+          status_waiting: "E-mail verzonden - wacht op bevestiging"
+          test_ee: "Test de Enterprise Edition 14 dagen gratis"
+          quick_overview: "Krijg een kort overzicht van projectbeheer en teamsamenwerking met OpenProject Enterprise Edition."
         upsale:
           become_hero: "Word een held!"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
-            high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            description: "Wat zijn de voordelen van de Enterprise on-premises Editie?"
+            high_security: "Beveiliging functies"
+            high_security_text: "Eenmalige aanmelding (SAML, OpenID Connect, CAS), tweestapsverificatie en automatische synchronisatie van LDAP groepen."
+            installation: "Installatie ondersteuning"
+            installation_text: "Ervaren softwareingenieurs begeleiden u door het volledige installatieproces in uw eigen infrastructuur."
+            premium_features: "Premium functies"
+            premium_features_text: "Agile borden, aangepast thema en logo, grafieken, intelligente workflows met aangepaste acties, volledige tekst zoeken voor werkpakket bijlagen en meervoudige aangepaste velden."
             professional_support: "Professionele ondersteuning"
-            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_upgrade: "Upgrade now"
-          button_book_now: "Book now"
+            professional_support_text: "Krijg betrouwbare, krachtige ondersteuning van ervaren ondersteunende ingenieurs met deskundige kennis over het functioneren van OpenProject in zakelijke kritieke omgevingen."
+          button_start_trial: "Start gratis proefperiode"
+          button_upgrade: "Nu upgraden"
+          button_book_now: "Direct boeken"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
-          more_info: "More information"
+            We bieden het vertrouwen van een geteste en ondersteunde software voor projectbeheer van enterprise-class - met Open Source en een open geest.
+          link_quote: "Vraag een offerte aan"
+          more_info: "Meer informatie"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+            De OpenProject Enterprise Edition bouwt boven de Community Edition. Het bevat premium functies en professionele ondersteuning voornamelijk gericht op organisaties met meer dan 10 gebruikers die zakelijke kritieke projecten met OpenProject beheren.
+          unlimited: "Onbeperkt"
+          you_contribute: "Ontwikkelaars moeten ook hun rekeningen betalen. Door een upgrade naar de Enterprise Edition steunt u deze open source gemeenschap inspanningen en draagt u bij aan de ontwikkeling, het onderhoud en de voortdurende verbetering."
     custom_actions:
       date:
         specific: 'op'
@@ -252,10 +252,10 @@ nl:
       query_saving: "Het overzicht kon niet bewaard worden."
       embedded_table_loading: "De ingesloten weergave kon niet worden geladen: %{message}"
     enumeration_activities: "Activiteiten (tijdregistratie)"
-    enumeration_doc_categories: "Document categories"
+    enumeration_doc_categories: "Document categorieën"
     enumeration_work_package_priorities: "Werkpakket prioriteiten"
     filter:
-      more_values_not_shown: "There are %{total} more results, search to filter results."
+      more_values_not_shown: "Er zijn nog %{total} resultaten, zoeken om de resultaten te filteren."
       description:
         text_open_filter: "Open dit filter met de 'ALT'-knop en toetsenbord pijlen."
         text_close_filter: "Om een item te verlaten, verlaat dan de focus bijvoorbeeld door het drukken op de enter-toets. Om een item zonder filter te verlaten, selecteer het eerste (lege) item."
@@ -270,7 +270,7 @@ nl:
           one: "Eerste sorteercriteria"
           two: "Tweede sorteercriteria"
           three: "Derde sorteercriteria"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
+      upsale_for_more: "Met geavanceerde filters kunt u ook filteren op bestandsnamen en inhoud van werkpakketbijlagen. Gelieve te upgraden naar een betaald abonnement om deze functie te gebruiken."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "Nee"
     general_text_yes: "Ja"
@@ -300,7 +300,7 @@ nl:
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
     label_activate: "Activeren"
-    label_assignee: 'Assignee'
+    label_assignee: 'Toegewezene'
     label_add_column_after: "Kolom toevoegen"
     label_add_column_before: "Kolom invoegen"
     label_add_columns: "Kolommen toevoegen"
@@ -310,7 +310,7 @@ nl:
     label_add_row_before: "Rij invoegen"
     label_add_selected_columns: "Geselecteerde kolommen toevoegen"
     label_added_by: "toegevoegd door"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Toegevoegd door <a href=%{authorLink}>%{author}</a> op %{age}"
     label_ago: "dagen geleden"
     label_all: "alle"
     label_all_work_packages: "alle werkpakketten"
@@ -353,7 +353,7 @@ nl:
     label_expand_all: "Alles uitklappen"
     label_expand_project_menu: "Menu project uitvouwen"
     label_export: "Exporteren"
-    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_export_preparing: "De export wordt voorbereid en wordt binnenkort gedownload."
     label_filename: "Bestand"
     label_filesize: "Grootte"
     label_general: "Algemeen"
@@ -370,7 +370,7 @@ nl:
     label_in_more_than: "in meer dan"
     label_incoming_emails: "Inkomende e-mails"
     label_information_plural: "Informatie"
-    label_invalid: "Invalid"
+    label_invalid: "Ongeldig"
     label_import: "Importeren"
     label_latest_activity: "Laatste Activiteit"
     label_last_updated_on: "Laatst geüpdatet op"
@@ -388,7 +388,7 @@ nl:
     label_next: "Volgende"
     label_no_color: "Geen kleur"
     label_no_data: "Geen gegevens om weer te geven"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "geen einddatum"
     label_no_start_date: "geen startdatum"
     label_no_value: "Geen waarde"
     label_none: "geen"
@@ -403,7 +403,7 @@ nl:
     label_per_page: "Per pagina:"
     label_please_wait: "Een ogenblik geduld"
     label_project: "Project"
-    label_project_list: "Projects list"
+    label_project_list: "Projecten lijst"
     label_project_plural: "Projecten"
     label_visibility_settings: "Zichtbaarheidsinstellingen"
     label_quote_comment: "Citeer dit commentaar"
@@ -416,7 +416,7 @@ nl:
     label_report: "Rapport"
     label_repository_plural: "Repositories"
     label_save_as: "Opslaan als"
-    label_select_project: "Select a project"
+    label_select_project: "Kies een project"
     label_select_watcher: "Kies een toezichter..."
     label_selected_filter_list: "Geselecteerde filters"
     label_show_attributes: "Toon alle kenmerken"
@@ -432,10 +432,10 @@ nl:
     label_public_query: "Publiek"
     label_sum: "Som"
     label_sum_for: "Som voor"
-    label_total_sum: "Total sum"
+    label_total_sum: "Totale som"
     label_subject: "Onderwerp"
     label_this_week: "deze week"
-    label_today: "Today"
+    label_today: "Vandaag"
     label_time_entry_plural: "Bestede tijd"
     label_up: "Omhoog"
     label_user_plural: "Gebruikers"
@@ -445,10 +445,10 @@ nl:
     label_total_amount: "Totaal: %{amount}"
     label_updated_on: "bijgewerkt op"
     label_value_derived_from_children: "(waarde afgeleid van kinderen)"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_children_derived_duration: "Kinderen van het werkpakket afgeleide duur"
     label_warning: "Waarschuwing"
     label_work_package: "Werkpakket"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Bovenliggend werkpakket"
     label_work_package_plural: "Werkpakketten"
     label_watch: "Volgen"
     label_watch_work_package: "Bekijk werkpakket"
@@ -458,10 +458,10 @@ nl:
     label_unwatch: "Niet meer volgen"
     label_unwatch_work_package: "Stop met het bekijken van werkpakket"
     label_uploaded_by: "Geüpload door"
-    label_default_queries: "Default"
-    label_starred_queries: "Favorite"
-    label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_default_queries: "Standaard"
+    label_starred_queries: "Favoriete"
+    label_global_queries: "Openbaar"
+    label_custom_queries: "Privé"
     label_columns: "Kolommen"
     label_attachments: Bijlagen
     label_drop_files: Bestanden hier neerzetten
@@ -492,7 +492,7 @@ nl:
         next: 'Volgende'
         got_it: 'Begrepen'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'Het Help (?) menu biedt <b>extra hulpbronnen</b>. Hier vindt u een gebruikershandleiding, handige how-to videos en meer. <br> Veel plezier met uw werk met OpenProject!'
         members: 'Nodig nieuwe <b>leden</b> uit om deel te nemen aan uw project.'
         project_selection: 'Klik a.u.b. op een van de demoprojecten die we hebben voorbereid. Demogegevens zijn momenteel alleen beschikbaar in het Engels. <br> Het algemene <b>demo project</b> past het beste bij klassiek projectbeheer. terwijl het <b>Scrum-project</b> beter is voor agile projectbeheer.'
         quick_add_button: 'Klik op het plus (+) pictogram in de koptekst navigatie om <b>een nieuw project te maken</b> of <b>collega''s uit te nodigen</b>.'
@@ -508,7 +508,7 @@ nl:
         boards:
           overview: 'Selecteer <b>borden</b> om het overzicht te verschuiven en uw project te beheren met behulp van de agile borden weergave.'
           lists_kanban: 'Hier kunt u meerdere lijsten (kolommen) binnen uw bord maken. Met deze functie kunt u bijvoorbeeld een <b>Kanban board</b>maken.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
+          lists_basic: 'Hier kun je meerdere lijsten (kolommen) maken binnen je agile bord.'
           add: 'Klik op het plus (+) icoon om <b>een nieuwe kaart te creëren</b> of <b>een bestaande kaart  toe te voegen</b> aan de lijst op het bord.'
           drag: 'Sleep uw kaarten in een bepaalde lijst om ze te rangschikken of om ze naar een andere lijst te verplaatsen. <br> U kunt op het info pictogram (i) in de rechterbovenhoek klikken of dubbelklikken op een kaart om de details te openen.'
         wp:
@@ -520,11 +520,11 @@ nl:
           timeline_button: 'U kunt de <b>Gantt-grafiek</b> weergave activeren om een tijdlijn voor uw project te maken.'
           timeline: 'Hier kunt u <b>uw projectplan</b>bewerken, nieuwe werkpakketten maken, zoals taken, mijlpalen, fasen, en meer en <b>afhankelijkheden toevoegen</b>. Alle teamleden kunnen de laatste planning op elk moment zien en bijwerken.'
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          overview: 'Met de teamplanner kunt u taken visueel toewijzen aan teamleden en een overzicht krijgen over wie er aan wat werkt.'
+          calendar: 'Het wekelijkse of tweewekelijkse planningsbord toont alle werkpakketten die zijn toegewezen aan je teamleden.'
+          add_assignee: 'Voeg taakontvangers toe aan de teamplanner om te beginnen.'
+          add_existing: 'Zoek naar bestaande werkpakketten en sleep ze naar de teamplanner om ze direct toe te wijzen aan een teamlid en definieer begin- en einddata.'
+          card: 'Sleep de werkpakketten horizontaal om ze achteruit of naar voren te bewegen op tijd, sleep de randen om begin- en einddatums te wijzigen en sleep ze zelfs verticaal naar een andere rij om ze toe te wijzen aan een andere lid.'
     notifications:
       title: "Meldingen"
       no_unread: "Geen ongelezen meldingen"
@@ -533,11 +533,11 @@ nl:
         watched: 'bekeken'
         assigned: 'toegewezen'
         responsible: 'verantwoordelijk'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'aangemaakt'
+        scheduled: 'gepland'
+        commented: 'Becommentarieerd'
+        processed: 'verwerkt'
+        prioritized: 'prioriteren'
       facets:
         unread: 'Ongelezen'
         all: 'Alle'
@@ -765,7 +765,7 @@ nl:
         farRight: 'Uiterst rechts'
         showNone: '--Geen label--'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Selecteer de attributen die u te allen tijde wilt laten zien in de respectieve posities van het Gantt-diagram. Merk op dat wanneer de muis over een element beweegt, de datum labels worden getoond in plaats van deze eigenschappen.
       button_activate: 'Toon Gantt-diagram'
       button_deactivate: 'Verberg Gantt-diagram'
       cancel: Annuleren
@@ -1102,7 +1102,7 @@ nl:
       day:
         one: "1 day"
         other: "%{count} days"
-        zero: "0 days"
+        zero: "0 dagen"
     zen_mode:
       button_activate: 'Zen-modus activeren'
       button_deactivate: 'Deactiveren van zen modus'
@@ -1122,86 +1122,86 @@ nl:
       timeline: 'Gantt'
     invite_user_modal:
       back: 'Terug'
-      invite: 'Invite'
+      invite: 'Uitnodigen'
       title:
         invite: 'Gebruiker uitnodigen'
-        invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
-        PlaceholderUser: 'placeholder user'
-        invite_principal_to_project: 'Invite %{principal} to %{project}'
+        invite_to_project: 'Nodig %{type} uit voor %{project}'
+        User: 'gebruiker'
+        Group: 'Groep'
+        PlaceholderUser: 'Tijdelijke gebruiker'
+        invite_principal_to_project: 'Nodig %{principal} uit voor %{project}'
       project:
         label: 'Project'
-        required: 'Please select a project'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        required: 'Selecteer een project'
+        lacking_permission: 'Selecteer een ander project omdat u geen rechten heeft om gebruikers toe te wijzen aan de geselecteerde projecten.'
+        lacking_permission_info: 'U heeft geen toestemming om gebruikers toe te wijzen aan het project waar u zich momenteel in bevindt. U moet een andere selecteren.'
         next_button: 'Volgende'
-        no_results: 'No projects were found'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        no_results: 'Er zijn geen projecten gevonden'
+        no_invite_rights: 'U bent niet bevoegd om deelnemers uit te nodigen voor dit project'
       type:
-        required: 'Please select the type to be invited'
+        required: 'Selecteer het type om uit te nodigen'
         user:
           title: 'Gebruiker'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: 'Permissies gebaseerd op de toegewezen rol in het geselecteerde project'
         group:
           title: 'Groep'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: 'Permissies gebaseerd op de toegewezen rol in het geselecteerde project'
         placeholder:
-          title: 'Placeholder user'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
-          description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          title: 'Tijdelijke gebruiker'
+          title_no_ee: 'Tijdelijke gebruiker (alleen voor Enterprise Edition)'
+          description: 'Heeft geen toegang tot het project en er worden geen e-mails verstuurd.'
+          description_no_ee: 'Heeft geen toegang tot het project en er worden geen e-mails verstuurd. <br>Bekijk de <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
         label:
-          name_or_email: 'Name or email address'
+          name_or_email: 'Naam of e-mailadres'
           name: 'Naam'
-        already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
-        invite_user: 'Invite:'
-        no_results_placeholder: 'No placeholders were found'
-        create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
+        already_member_message: 'Al lid van %{project}'
+        no_results_user: 'Geen gebruikers gevonden'
+        invite_user: 'Uitnodigen:'
+        no_results_placeholder: 'Geen tijdelijke gebruikers gevonden'
+        create_new_placeholder: 'Maak een nieuwe tijdelijke gebruiker:'
+        no_results_group: 'Er zijn geen groepen gevonden.'
         next_button: 'Volgende'
         required:
-          user: 'Please select a user'
-          placeholder: 'Please select a placeholder'
-          group: 'Please select a group'
+          user: 'Selecteer een gebruiker'
+          placeholder: 'Selecteer een tijdelijke gebruiker'
+          group: 'Selecteer een groep'
       role:
-        label: 'Role in %{project}'
-        no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
-        required: 'Please select a role'
+        label: 'Rol in %{project}'
+        no_roles_found: 'Geen rollen gevonden'
+        description: 'Dit is de rol die %{principal} zal ontvangen wanneer ze deelnemen aan uw project. De rol bepaalt welke acties zij mogen ondernemen en welke informatie zij mogen zien. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Meer informatie over rollen en rechten. </a>'
+        required: 'Selecteer een rol'
         next_button: 'Volgende'
       message:
-        label: 'Invitation message'
-        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review invitation'
+        label: 'Uitnodigings bericht'
+        description: 'We sturen een e-mail naar %{principal}, waar u hier een persoonlijk bericht kunt toevoegen. Een verklaring voor de uitnodiging zou nuttig kunnen zijn, of misschien wat informatie over het project om hen te helpen aan de slag te gaan.'
+        next_button: 'Uitnodiging controleren'
       summary:
         next_button: 'Verstuur uitnodiging'
       success:
-        title: '%{principal} was invited!'
+        title: '%{principal} is uitgenodigd!'
         description:
-          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+          user: 'De gebruiker kan nu inloggen om toegang te krijgen tot %{project}. Ondertussen kan je met die gebruiker al plannen en werkpakketten toewijzen, bijvoorbeeld.'
+          placeholder: 'De tijdelijke gebruiker kan nu worden gebruikt in %{project}. Ondertussen kunt u deze gebruiker al plannen en werkpakketten toewijzen, bijvoorbeeld.'
+          group: 'De groep is nu een deel van %{project}. Ondertussen kun je al plannen maken met die groep en werkpakketten toewijzen, bijvoorbeeld.'
         next_button: 'Ga verder'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Inclusief de projecten'
       title: 'Projecten'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Selectie wissen'
       apply: 'Toepassen'
       selected_filter:
-        all: 'All projects'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
-      include_subprojects: 'Include all sub-projects'
+        all: 'Alle projecten'
+        selected: 'Alleen geselecteerd'
+      search_placeholder: 'Zoek project'
+      include_subprojects: 'Inclusief alle sub-projecten'
       tooltip:
-        include_all_selected: 'Include all sub-projects is currently selected.'
-        current_project: 'This is the current project you are in.'
-        does_not_match_search: 'Project does not match the search criteria.'
-      no_results: 'No project matches your search criteria.'
+        include_all_selected: 'Project al opgenomen omdat alle subprojecten zijn ingeschakeld.'
+        current_project: 'Dit is het huidige project waarin u zich bevindt.'
+        does_not_match_search: 'Het project komt niet overeen met de zoekcriteria.'
+      no_results: 'Geen enkel project komt overeen met uw zoekcriteria.'
     forms:
-      submit_success_message: 'The form was successfully submitted'
+      submit_success_message: 'Het formulier is met succes verzonden'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'Geavanceerde instellingen'

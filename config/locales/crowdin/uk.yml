@@ -525,6 +525,10 @@ uk:
         end_insertion: "Кінець вставки"
         end_deletion: "Кінець видалення"
         ignore_non_working_days: "Ігнорувати неробочі дні"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Джерело"
         parent_issue: "Джерело"
         parent_work_package: "Джерело"
