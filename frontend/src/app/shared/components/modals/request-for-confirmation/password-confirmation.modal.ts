@@ -45,6 +45,7 @@ export class PasswordConfirmationModalComponent extends ConfirmDialogModalCompon
     this.text.title = I18n.t('js.password_confirmation.title');
     this.text.field_description = I18n.t('js.password_confirmation.field_description');
     this.text.confirm_button = I18n.t('js.button_confirm');
+    this.text.cancel_button = I18n.t('js.button_cancel');
     this.text.password = I18n.t('js.label_password');
 
     this.closeOnEscape = false;
