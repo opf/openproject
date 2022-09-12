@@ -21,6 +21,20 @@ The packager.io website observes changes in the repository through webhooks and 
 
 To see the status of a build, simply follow one of the links and choose a distribution whose logs you want to look at.
 
+
+
+## Debugging an installed packager integration
+
+In some cases, you have an existing packaged installation and would like to debug or change parts of an addon to see if it breaks or works the way you expect it to.
+
+In an installed installations, these are the paths you have to look for:
+
+`/opt/openproject` : location of the repository, all ruby and frontend code. Changing any ruby code will require you to restart the web service with `systemctl restart openproject`
+
+`/usr/share/openproject/installer/addons/` : Location of the addons such as the openproject integration. Changing anything there will require you to run `openproject configure` again to see it in use.
+
+`/etc/openproject` : configuration directory. The wizard feeds itself from the values input to `/etc/openproject/installer.dat` , and it will output ENV variables to separate files within `/etc/openproject/conf.d`. Simply removing values there might not work for that reason.
+
 ## Testing a packaging-related bug fix
 
 If you need a package of your changes before they are being merged, simply create a branch with the prefix `packaging/` to allow it being build.
