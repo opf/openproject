@@ -1,0 +1,32 @@
+name: pullpreview
+
+on:
+  schedule:
+    # this is used to make sure no dangling resources are left
+    - cron: "30 2 * * *"
+  pull_request:
+    types: [labeled, unlabeled, synchronize, closed, reopened]
+
+jobs:
+  deploy:
+    if: github.repository == 'opf/openproject' && ( github.event_name == 'schedule' || github.event_name == 'push' || github.event.label.name == 'pullpreview-storybook' || contains(github.event.pull_request.labels.*.name, 'pullpreview-storybook') )
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@v2
+    - name: Prepare docker-compose files
+      run: |
+        cp ./docker/pullpreview-storybook/docker-compose.yml ./docker-compose.pullpreview-storybook.yml
+        cp ./docker/pullpreview-storybook/Dockerfile ./Dockerfile
+    - uses: pullpreview/action@v5
+      with:
+        admins: crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,b12f,cbliard
+        always_on: dev
+        compose_files: docker-compose.pullpreview-storybook.yml
+        instance_type: small_1_0
+        ports: 80,443
+        default_port: 443
+      env:
+        AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+        AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+        AWS_REGION: eu-central-1
