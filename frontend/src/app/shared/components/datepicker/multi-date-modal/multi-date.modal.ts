@@ -151,17 +151,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   scheduleManually = false;
 
-  schedulingOptions = [
-    { value: false, title: this.text.scheduling.default },
-    { value: true, title: this.text.scheduling.manual },
-  ];
-
   ignoreNonWorkingDays = false;
-
-  ignoreNonWorkingDaysOptions = [
-    { value: false, title: this.text.ignoreNonWorkingDays.no },
-    { value: true, title: this.text.ignoreNonWorkingDays.yes },
-  ];
 
   duration:number|null;
 

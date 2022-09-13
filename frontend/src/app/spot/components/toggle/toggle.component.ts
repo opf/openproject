@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   forwardRef,
@@ -36,8 +37,13 @@ export class SpotToggleComponent<T> implements ControlValueAccessor {
 
   @Input() public value:T;
 
+  constructor(
+    private cdRef:ChangeDetectorRef,
+  ) {}
+
   writeValue(value:T):void {
     this.value = value;
+    this.cdRef.markForCheck();
   }
 
   onToggle(value:T):void {
