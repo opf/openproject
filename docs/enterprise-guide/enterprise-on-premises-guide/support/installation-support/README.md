@@ -11,7 +11,7 @@ Our Premium and Corporate Enterprise on-premises support plans include installat
 
 ## Support Data Collector
 
-Please run [our script](/script/op-support-data.sh) and send us the complete terminal output prior to the on-premise installation.
+Please run [our script](./script/op-support-data.sh) and send us the complete terminal output prior to the on-premise installation.
 
 The script should run once on the OpenProject on-premises host with or without OpenProject installed
  It will ask you some questions that are needed to be answered interactively.
