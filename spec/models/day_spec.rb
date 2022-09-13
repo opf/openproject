@@ -23,8 +23,8 @@ describe Day, type: :model do
       )
     end
 
-    it 'eager loads week_day relation' do
-      expect(days).to(be_all { |d| d.association(:week_day).loaded? })
+    it 'loads week_day method' do
+      expect(days).to(be_all { |d| d.week_day.present? })
     end
 
     it 'eager loads non_working_days relation' do
@@ -43,16 +43,16 @@ describe Day, type: :model do
       expect(days.first.day_of_week % 7).to eq(today.at_beginning_of_month.wday) # wday is from 0-6
     end
 
-    it 'does not have a name' do
-      expect(days.first.name).to be_nil
+    it 'loads the name attribute' do
+      expect(days.first.name).to eq(today.at_beginning_of_month.strftime("%A"))
     end
   end
 
   context 'for collection with multiple non-working days' do
+    shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
     let(:non_working_dates) { [date_range.begin, date_range.begin + 1.day] }
 
     before do
-      create(:week_with_saturday_and_sunday_as_weekend)
       non_working_dates.each { |date| create(:non_working_day, date:) }
     end
 
@@ -78,10 +78,6 @@ describe Day, type: :model do
   end
 
   context 'with the weekday present' do
-    before do
-      create(:week_day, day: 6)
-    end
-
     it 'loads the name attribute' do
       expect(subject.name).to eq('Saturday')
     end
@@ -89,9 +85,7 @@ describe Day, type: :model do
 
   describe '#working' do
     context 'when the week day is non-working' do
-      before do
-        create(:week_day, day: 6, working: false)
-      end
+      shared_let(:working_days) { week_with_no_working_days }
 
       it 'is false' do
         expect(subject.working).to be_falsy
@@ -109,9 +103,7 @@ describe Day, type: :model do
     end
 
     context 'when the week day is working' do
-      before do
-        create(:week_day, day: 6, working: true)
-      end
+      shared_let(:working_days) { reset_working_week_days('saturday') }
 
       it 'is true' do
         expect(subject.working).to be_truthy

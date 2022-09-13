@@ -79,7 +79,6 @@ Lint/Void:
 Lint/AmbiguousBlockAssociation:
   AllowedMethods: [change]
 
-
 Metrics/ClassLength:
   Enabled: false
 
@@ -281,6 +280,9 @@ Style/EvenOdd:
 
 Style/FormatString:
   Enabled: false
+
+Style/FormatStringToken:
+  AllowedMethods: [redirect]
 
 Style/GlobalVars:
   Enabled: false
