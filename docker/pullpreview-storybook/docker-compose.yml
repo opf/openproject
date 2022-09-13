@@ -7,6 +7,7 @@ services:
   file-server:
     build:
       context: .
+      target: prod
     restart: unless-stopped
     command: "caddy file-server -root /srv/storybook -domain '${PULLPREVIEW_URL}' -listen 0.0.0.0:8080"
     ports:
