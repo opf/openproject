@@ -16,13 +16,13 @@ jobs:
     - uses: actions/checkout@v2
     - name: Prepare docker-compose files
       run: |
-        cp ./docker/pullpreview-storybook/docker-compose.yml ./docker-compose.pullpreview-storybook.yml
+        cp ./docker/pullpreview-storybook/docker-compose.yml ./docker-compose.pullpreview.yml
         cp ./docker/pullpreview-storybook/Dockerfile ./Dockerfile
     - uses: pullpreview/action@v5
       with:
         admins: crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,b12f,cbliard
         always_on: dev
-        compose_files: docker-compose.pullpreview-storybook.yml
+        compose_files: docker-compose.pullpreview.yml
         instance_type: small_1_0
         ports: 80,443
         default_port: 443
