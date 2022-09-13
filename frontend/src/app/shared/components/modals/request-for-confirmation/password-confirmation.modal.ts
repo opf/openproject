@@ -28,11 +28,13 @@
 
 import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import {
+  ChangeDetectionStrategy,
   Component, ElementRef, OnInit, ViewChild,
 } from '@angular/core';
 
 @Component({
   templateUrl: './password-confirmation.modal.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordConfirmationModalComponent extends ConfirmDialogModalComponent implements OnInit {
   public password_confirmation:string|null = null;
@@ -42,11 +44,13 @@ export class PasswordConfirmationModalComponent extends ConfirmDialogModalCompon
   public ngOnInit():void {
     super.ngOnInit();
 
-    this.text.title = I18n.t('js.password_confirmation.title');
-    this.text.field_description = I18n.t('js.password_confirmation.field_description');
-    this.text.confirm_button = I18n.t('js.button_confirm');
-    this.text.cancel_button = I18n.t('js.button_cancel');
-    this.text.password = I18n.t('js.label_password');
+    this.text = {
+      title: I18n.t('js.password_confirmation.title'),
+      field_description: I18n.t('js.password_confirmation.field_description'),
+      confirm_button: I18n.t('js.button_confirm'),
+      cancel_button: I18n.t('js.button_cancel'),
+      password: I18n.t('js.label_password'),
+    };
 
     this.closeOnEscape = false;
     this.closeOnOutsideClick = false;

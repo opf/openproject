@@ -27,7 +27,13 @@
 //++
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { ConfirmDialogService } from '../confirm-dialog/confirm-dialog.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
@@ -36,6 +42,7 @@ export const confirmFormSubmitSelector = 'confirm-form-submit';
 @Component({
   template: '',
   selector: confirmFormSubmitSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmFormSubmitController implements OnInit {
   @Input() public dangerHighlighting = false;
@@ -57,7 +64,7 @@ export class ConfirmFormSubmitController implements OnInit {
     populateInputsFromDataset(this);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     this.$element = jQuery<HTMLElement>(this.elementRef.nativeElement);
 
     if (this.$element.is('form')) {
@@ -77,7 +84,7 @@ export class ConfirmFormSubmitController implements OnInit {
     });
   }
 
-  public openConfirmationDialog() {
+  public openConfirmationDialog():void {
     this.confirmDialog.confirm({
       text: {
         title: this.modalTitle === '' ? this.I18n.t('js.modals.form_submit.title') : this.modalTitle,

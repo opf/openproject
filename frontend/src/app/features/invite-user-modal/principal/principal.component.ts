@@ -124,15 +124,15 @@ export class PrincipalComponent implements OnInit {
   }
 
   get principal():PrincipalLike|undefined {
-    return this.principalControl?.value;
+    return this.principalControl?.value as PrincipalLike|undefined;
   }
 
   get role():RoleResource|undefined {
-    return this.roleControl?.value;
+    return this.roleControl?.value as RoleResource|undefined;
   }
 
   get message():string|undefined {
-    return this.messageControl?.value;
+    return this.messageControl?.value as string|undefined;
   }
 
   get dynamicFieldsControl() {
