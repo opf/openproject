@@ -1,7 +1,7 @@
 FROM node:16.17 as build
 
-COPY ./frontend /build
-WORKDIR /build
+COPY . /build
+WORKDIR /build/frontend
 RUN npm ci
 RUN touch ./src/app/features/plugins/linked-plugins.styles.sass
 RUN cp ./src/app/features/plugins/linked-plugins.module.ts.example ./src/app/features/plugins/linked-plugins.module.ts
@@ -13,6 +13,6 @@ ARG DOMAIN=my.pullpreview.com
 ENV DOMAIN=$DOMAIN
 
 RUN mkdir -p /srv
-COPY --from=build /build/storybook-static /srv/storybook
+COPY --from=build /build/frontend/storybook-static /srv/storybook
 WORKDIR /srv/storybook
 
