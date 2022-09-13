@@ -74,8 +74,8 @@
         class="button button_no-margin -danger spot-action-bar--action"
         [attr.disabled]="busy || blockedDueToUnconfirmedChildren || undefined"
         (click)="confirmDeletion($event)">
-        {{ text.confirm }}
         <op-icon icon-classes="button--icon icon-delete"></op-icon>
+        {{ text.confirm }}
       </button>
     </div>
   </div>
