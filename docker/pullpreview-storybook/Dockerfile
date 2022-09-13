@@ -17,5 +17,5 @@ COPY --from=build /build/frontend/storybook-static /srv/storybook
 WORKDIR /srv/storybook
 CMD caddy file-server \
   -root /srv/storybook \
-  -listen 0.0.0.0
+  -listen 0.0.0.0:8080
 
