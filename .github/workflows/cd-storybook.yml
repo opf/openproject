@@ -2,7 +2,6 @@ name: cd-storybook
 on:
   push:
     branches:
-      - feature/storybook
       - dev
 
 permissions:
