@@ -1,0 +1,15 @@
+<div class="form--field">
+  <label class="form--label">
+    {{text.scheduling.title}}
+  </label>
+  <div class="form--field-container">
+    <spot-toggle
+      [options]="schedulingOptions"
+      [value]="scheduleManually"
+      [name]="'scheduling'"
+      [ngModel]="scheduleManually"
+      (ngModelChange)="onToggle($event)"
+      data-qa-selector="op-datepicker-modal--scheduling-action"
+    ></spot-toggle>
+  </div>
+</div>

@@ -126,11 +126,6 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
 
   ignoreNonWorkingDays = false;
 
-  ignoreNonWorkingDaysOptions = [
-    { value: true, title: this.text.ignoreNonWorkingDays.yes },
-    { value: false, title: this.text.ignoreNonWorkingDays.no },
-  ];
-
   htmlId = '';
 
   date:string|null = null;
