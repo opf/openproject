@@ -1,5 +1,5 @@
 <div
-  class="spot-modal confirm-form-submit--modal loading-indicator--location"
+  class="spot-modal loading-indicator--location"
   data-indicator-name="modal"
 >
   <div class="spot-modal--header">{{text.title}}</div>
@@ -15,6 +15,7 @@
   <div class="spot-modal--footer spot-action-bar">
     <div class="spot-action-bar--right">
       <button class="button button_no-margin spot-action-bar--action"
+              data-qa-selector="confirmation-modal--cancel"
               (click)="closeMe($event)"
       >
         <op-icon
@@ -30,6 +31,7 @@
         >{{text.button_cancel}}</span>
       </button>
       <button class="button button_no-margin spot-action-bar--action"
+              data-qa-selector="confirmation-modal--confirmed"
               [ngClass]="dangerHighlighting ? '-danger': '-highlight'"
               (click)="confirmAndClose($event)"
       >
