@@ -1969,7 +1969,7 @@ ko:
       center: '알림 센터로'
       see_in_center: '알림 센터의 코멘트 보기'
       settings: '이메일 설정 변경'
-    salutation: '안녕하세요, %{user} 님!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: '%{timestamp}, %{user} 님이 생성함 '
       login_to_see_all: '로그인하여 모든 알림을 확인하세요.'

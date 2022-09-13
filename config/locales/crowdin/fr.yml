@@ -1987,7 +1987,7 @@ fr:
       center: 'Vers le centre de notifications'
       see_in_center: 'Voir le commentaire dans le centre de notifications'
       settings: 'Modifier les paramètres d''e-mail'
-    salutation: 'Bonjour %{user} !'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: 'Créé le %{timestamp} par %{user} '
       login_to_see_all: 'Connectez-vous pour voir toutes les notifications.'

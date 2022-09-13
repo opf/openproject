@@ -72,10 +72,10 @@ ar:
       required_for_feature: "This feature is only available with an active Enterprise Edition support token."
       enterprise_link: "For more information, click here."
       start_trial: 'Start free trial'
-      book_now: 'Book now'
+      book_now: 'احجز الآن'
       get_quote: 'Get a quote'
       buttons:
-        upgrade: "Upgrade now"
+        upgrade: "الترقية الآن"
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
@@ -2050,7 +2050,7 @@ ar:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'

@@ -2018,7 +2018,7 @@ pl:
       center: 'Do centrum powiadomień'
       see_in_center: 'Zobacz komentarz w centrum powiadomień'
       settings: 'Zmień ustawienia poczty elektronicznej'
-    salutation: 'Cześć %{user}!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: 'Utworzono %{timestamp}, autor %{user} '
       login_to_see_all: 'Zaloguj się, aby zobaczyć wszystkie powiadomienia.'

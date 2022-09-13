@@ -1984,7 +1984,7 @@ es:
       center: 'Al centro de notificaciones'
       see_in_center: 'Ver comentario en el centro de notificaciones'
       settings: 'Cambiar configuración de correo electrónico'
-    salutation: '¡Hola, %{user}!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: 'Creado a las %{timestamp} por %{user} '
       login_to_see_all: 'Inicie sesión para ver todas las notificaciones.'

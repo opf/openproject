@@ -1984,7 +1984,7 @@ it:
       center: 'Al centro notifiche'
       see_in_center: 'Vedi commento nel centro notifiche'
       settings: 'Modifica impostazioni email'
-    salutation: 'Ciao %{user}!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: 'Creato il %{timestamp} da %{user} '
       login_to_see_all: 'Accedi per visualizzare tutte le notifiche.'
