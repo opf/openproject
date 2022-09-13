@@ -2004,7 +2004,7 @@ ro:
       center: 'Centrul de notificare'
       see_in_center: 'Vezi comentariul în centrul de notificări'
       settings: 'Modificare setări e-mail'
-    salutation: 'Salut %{user}!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: 'Creat la %{timestamp} de %{user} '
       login_to_see_all: 'Autentifică-te pentru a vedea toate notificările.'

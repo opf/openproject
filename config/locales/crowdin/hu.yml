@@ -1984,7 +1984,7 @@ hu:
       center: "Az értesítési központba\n"
       see_in_center: 'See comment in notification center'
       settings: "E-mail beállítások módosítása\n"
-    salutation: 'Helló %{user}!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: '%{timestamp} időpontban %{user} létrehozta'
       login_to_see_all: "Jelentkezzen be az összes értesítés megtekintéséhez.\n"

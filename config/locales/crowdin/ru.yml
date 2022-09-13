@@ -2020,7 +2020,7 @@ ru:
       center: 'В центр уведомлений'
       see_in_center: 'Смотрите комментарий в центре уведомлений'
       settings: 'Изменить настройки электронной почты'
-    salutation: 'Привет, %{user}!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: 'Создано %{timestamp} пользователем %{user} '
       login_to_see_all: 'Войдите, чтобы увидеть все уведомления.'

@@ -2018,7 +2018,7 @@ lt:
       center: 'Į pranešimų centrą'
       see_in_center: 'Žiūrėkite komentarą pranešimų centre'
       settings: 'Keisti e-pašto nustatymus'
-    salutation: 'Labas, %{user}!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: 'Sukūrė %{user} %{timestamp} '
       login_to_see_all: 'Prisijunkite, norėdami pamatyti visus pranešimus.'

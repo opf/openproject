@@ -56,7 +56,10 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
 
   @Input() public showCloseFilter = false;
 
-  @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
+  @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(
+    componentDestroyed(this),
+    500,
+  );
 
   public remainingFilters:any[] = [];
 

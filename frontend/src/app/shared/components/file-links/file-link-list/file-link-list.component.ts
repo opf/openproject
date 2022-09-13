@@ -32,7 +32,10 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+} from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -52,9 +55,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { StorageActionButton } from 'core-app/shared/components/file-links/storage-information/storage-action-button';
-import {
-  StorageInformationBox,
-} from 'core-app/shared/components/file-links/storage-information/storage-information-box';
+import { StorageInformationBox } from 'core-app/shared/components/file-links/storage-information/storage-information-box';
 
 @Component({
   selector: 'op-file-link-list',
@@ -131,7 +132,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
         this.showLinkFilesAction.next(!this.disabled && fileLinks.length > 0);
       });
 
-    this.allowEditing$ = this.currentUserService
+    this.allowEditing$ = this
+      .currentUserService
       .hasCapabilities$('file_links/manage', (this.resource.project as unknown&{ id:string }).id);
   }
 

@@ -7,10 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { BoardService } from 'core-app/features/boards/board/board.service';
 import { Board } from 'core-app/features/boards/board/board';
-import {
-  map,
-  skip,
-} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';

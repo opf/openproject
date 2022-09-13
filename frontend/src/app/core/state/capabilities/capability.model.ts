@@ -1,12 +1,12 @@
 import {
+  IHalOptionalTitledLink,
   IHalResourceLink,
-  IHalResourceLinks,
 } from 'core-app/core/state/hal-resource';
 
-export interface ICapabilityHalResourceLinks extends IHalResourceLinks {
-  self:IHalResourceLink;
+export interface ICapabilityHalResourceLinks {
+  self:IHalOptionalTitledLink;
 
-  action:IHalResourceLink;
+  action:IHalOptionalTitledLink;
   context:IHalResourceLink;
   principal:IHalResourceLink;
 }
