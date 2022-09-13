@@ -15,4 +15,8 @@ ENV DOMAIN=$DOMAIN
 RUN mkdir -p /srv
 COPY --from=build /build/frontend/storybook-static /srv/storybook
 WORKDIR /srv/storybook
+CMD caddy file-server \
+  -root /srv/storybook \
+  -domain "${$(echo PULLPREVIEW_URL | awk -F/ '{print $3}' | awk -F: '{print $1}')}" \
+  -listen 0.0.0.0
 
