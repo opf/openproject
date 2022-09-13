@@ -1,11 +1,14 @@
 <div
-  class="spot-modal loading-indicator--location"
+  class="spot-modal op-confirm-dialog loading-indicator--location"
   data-indicator-name="modal"
 >
   <div class="spot-modal--header">{{text.title}}</div>
+  <div class="spot-divider"></div>
 
   <div class="spot-modal--body">
-    <span [textContent]="text.text"></span>
+    <span class="op-confirm-dialog--text"
+          [textContent]="text.text"
+    ></span>
     <span *ngFor="let data of passedData">
       <br/>
       <strong>{{data}}</strong>
