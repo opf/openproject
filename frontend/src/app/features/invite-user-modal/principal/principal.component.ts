@@ -99,6 +99,7 @@ export class PrincipalComponent implements OnInit {
   public principalForm = new FormGroup({
     principal: new FormControl(null, [Validators.required]),
     userDynamicFields: new FormGroup({}),
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     role: new FormControl(null, [Validators.required]),
     message: new FormControl(''),
   });
