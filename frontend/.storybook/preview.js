@@ -1,5 +1,6 @@
 import { setCompodocJson } from "@storybook/addon-docs/angular";
 import { addParameters } from '@storybook/client-api';
+import { Pan } from "hammerjs";
 import docJson from "../documentation.json";
 setCompodocJson(docJson);
 
@@ -16,4 +17,20 @@ export const parameters = {
     },
   },
   docs: { inlineStories: true },
+  options: {
+    storySort: {
+      order: [
+        'Design System',
+        'Devices and Accessibility',
+        'Tokens',
+        [
+          'Typography',
+          'Colors',
+          'Spacings',
+          'Shadows',
+        ],
+        'Blocks',
+      ],
+    },
+  },
 }
