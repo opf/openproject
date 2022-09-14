@@ -182,7 +182,7 @@ module Pages
       else
         open_and_fill_add_list_modal query
         page.find('.ng-option', text: option, wait: 10).click
-        page.find('.confirm-form-submit--submit').click
+        page.find('[data-qa-selector="confirmation-modal--confirmed"]').click
       end
     end
 
