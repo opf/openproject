@@ -47,7 +47,7 @@ export const mainMenuToggleSelector = 'main-menu-toggle';
   template: `
     <button
       *ngIf="this.currentProject.id !== null || this.deviceService.isMobile"
-      class="op-app-menu--item-action"
+      class="op-app-menu--item-action op-main-menu-toggle--button"
       id="main-menu-toggle"
       aria-haspopup="true"
       type="button"
