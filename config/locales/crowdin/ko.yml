@@ -726,6 +726,10 @@ ko:
           attributes:
             permissions:
               dependency_missing: "'%{permission}'이(가) 선택되었으므로 '%{dependency}'도 포함해야 합니다."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
         time_entry:
           attributes:
             hours:
@@ -1909,6 +1913,7 @@ ko:
   label_workflow: "워크플로"
   label_workflow_plural: "워크플로"
   label_workflow_summary: "요약"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1개 닫힘"
     other: "%{count}개 닫힘"
@@ -2728,7 +2733,6 @@ ko:
       noneSelection: "(없음)"
       outline: "초기 윤곽 확장"
       parent: "다음의 하위 프로젝트 표시"
-      work_package_filters: "작업 패키지 필터링"
       work_package_responsible: "담당하는 작업 패키지 표시"
       work_package_assignee: "작업 패키지와 담당자 표시"
       types: "유형 표시"
@@ -2882,6 +2886,11 @@ ko:
     destroy:
       info: "작업 패키지 삭제는 취소할 수 없는 작업입니다."
       title: "작업 패키지 삭제"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "미리 볼 내용 없음"
   api_v3:
     attributes:

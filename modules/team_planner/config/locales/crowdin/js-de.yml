@@ -3,7 +3,9 @@ de:
   js:
     team_planner:
       add_existing: 'Bestehende hinzufügen'
-      title: 'Teamplaner'
+      add_existing_title: 'Add existing work packages'
+      create_label: 'Team planner'
+      create_title: 'Create new team planner'
       unsaved_title: 'Unbenannter Teamplaner'
       no_data: 'Fügen Sie zugewiesene Benutzer hinzu, um Ihren Teamplaner einzurichten.'
       add_assignee: 'Zugewiesenen Benutzer hinzufügen'

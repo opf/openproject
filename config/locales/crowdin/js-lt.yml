@@ -82,6 +82,10 @@ lt:
     button_open_fullscreen: "Atverti pilno ekrano vaizdą"
     button_show_cards: "Rodyti kortelių vaizdą"
     button_show_list: "Rodyti sąrašo vaizdą"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Cituoti"
     button_save: "Įrašyti"
     button_settings: "Nustatymai"
@@ -540,7 +544,9 @@ lt:
         prioritized: 'prioritized'
       facets:
         unread: 'Neskaitytas'
+        unread_title: 'Show unread'
         all: 'Visi'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'ir dar 1'
@@ -875,6 +881,8 @@ lt:
       message_work_package_read_only: "Šioje būsenoje darbų paketas yra užrakintas. Negali būti keičiamas joks atributas, išskyrus būseną."
       message_work_package_status_blocked: "Darbų paketo būsena negali būti keičiama, nes dabar yra uždaryta ir uždaryta versija yra priskirta."
       placeholder_filter_by_text: "Tema, aprašymas, komentarai, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą'
       create:

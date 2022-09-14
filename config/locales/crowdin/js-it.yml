@@ -82,6 +82,10 @@ it:
     button_open_fullscreen: "Apri la visualizzazione a schermo intero"
     button_show_cards: "Mostra la visualizzazione a schede"
     button_show_list: "Mostra la visualizzazione a elenco"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Cita"
     button_save: "Salva"
     button_settings: "Impostazioni"
@@ -540,7 +544,9 @@ it:
         prioritized: 'prioritized'
       facets:
         unread: 'Non Letta'
+        unread_title: 'Show unread'
         all: 'Tutti'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'e 1 altro'
@@ -873,6 +879,8 @@ it:
       message_work_package_read_only: "Il pacchetto di lavoro è bloccato in questo stato. Nessun attributo eccetto lo stato può essere alterato."
       message_work_package_status_blocked: "Lo stato della macro-attività non è scrivibile a causa dello stato chiuso e della versione chiusa assegnata."
       placeholder_filter_by_text: "Oggetto, descrizione, commenti, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Clicca qui per aggiungere un nuovo work package a questa lista'
       create:

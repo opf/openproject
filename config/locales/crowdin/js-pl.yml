@@ -82,6 +82,10 @@ pl:
     button_open_fullscreen: "Otwórz widok pełnoekranowy"
     button_show_cards: "Pokaż widok karty"
     button_show_list: "Pokaż widok listy"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Cytat"
     button_save: "Zapisz"
     button_settings: "Ustawienia"
@@ -540,7 +544,9 @@ pl:
         prioritized: 'priorytetowo'
       facets:
         unread: 'Nieprzeczytane'
+        unread_title: 'Show unread'
         all: 'Wszystko'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'i 1 inny'
@@ -875,6 +881,8 @@ pl:
       message_work_package_read_only: "Pakiet roboczy jest zablokowany w tym stanie. Nie można zmienić żadnego atrybutu innego niż stan."
       message_work_package_status_blocked: "Nie można zapisać stanu pakietu roboczego ze względu na jego zamknięty stan i przypisaną mu zamkniętą wersję."
       placeholder_filter_by_text: "Przedmiot, opis, komentarze, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Kliknij tutaj, aby dodać nowy pakiet prac do tej listy'
       create:

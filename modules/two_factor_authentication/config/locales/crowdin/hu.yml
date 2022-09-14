@@ -73,7 +73,7 @@ hu:
       text_2fa_disabled: "A felhasználó nem állított be 2FA eszközt a „Saját fiókom” oldalon"
     upsale:
       title: 'Kétlépcsős hitelesítés'
-      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
+      description: 'Erősítse meg OpenProject-példányának biztonságát kétlépcsős hitelesítés felajánlásával (vagy kényszerítésével) minden projekttag számára.'
     backup_codes:
       none_found: "Ehhez a fiókhoz nincsenek biztonsági kódok.\n"
       singular: Visszaállítási kulcs

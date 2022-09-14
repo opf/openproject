@@ -82,6 +82,10 @@ nl:
     button_open_fullscreen: "Open volledig scherm"
     button_show_cards: "Toon kaartweergave"
     button_show_list: "Toon lijstweergave"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Citeer"
     button_save: "Opslaan"
     button_settings: "Instellingen"
@@ -540,7 +544,9 @@ nl:
         prioritized: 'prioriteren'
       facets:
         unread: 'Ongelezen'
+        unread_title: 'Show unread'
         all: 'Alle'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'en 1 ander'
@@ -873,6 +879,8 @@ nl:
       message_work_package_read_only: "Werkpakket is opgesloten in deze status. Geen kenmerk dan status kan worden gewijzigd."
       message_work_package_status_blocked: "Werkpakket status is niet schrijfbaar vanwege gesloten status en gesloten toegewezen versie."
       placeholder_filter_by_text: "Onderwerp, beschrijving, commentaar, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Klik hier om een nieuw werkpakket aan deze lijst toe te voegen'
       create:

@@ -729,6 +729,10 @@ ru:
           attributes:
             permissions:
               dependency_missing: "включите также '%{dependency}', так как выбрано '%{permission}'."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
         time_entry:
           attributes:
             hours:
@@ -1960,6 +1964,7 @@ ru:
   label_workflow: "Рабочий поток"
   label_workflow_plural: "Рабочие потоки"
   label_workflow_summary: "Сводка"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 закрыто"
     other: "%{count} закрыто"
@@ -2788,7 +2793,6 @@ ru:
       noneSelection: "(нет)"
       outline: "Первоначальная схема детализации"
       parent: "Показывать подпроекты"
-      work_package_filters: "Фильтровать пакеты работ"
       work_package_responsible: "Показать пакеты работ с подотчетными"
       work_package_assignee: "Показать пакеты работ с назначениями"
       types: "Показать типы"
@@ -2944,6 +2948,11 @@ ru:
     destroy:
       info: "Удаление рабочего пакета – действие необратимое."
       title: "Удалить пакет работ"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Нет ничего для предосмотра"
   api_v3:
     attributes:

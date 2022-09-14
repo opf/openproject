@@ -82,6 +82,10 @@ sk:
     button_open_fullscreen: "Otvorené zobrazenie na celú obrazovku"
     button_show_cards: "Show card view"
     button_show_list: "Show list view"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Citovať"
     button_save: "Uložiť"
     button_settings: "Nastavenia"
@@ -540,7 +544,9 @@ sk:
         prioritized: 'prioritized'
       facets:
         unread: 'Unread'
+        unread_title: 'Show unread'
         all: 'Všetky'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'and 1 other'
@@ -875,6 +881,8 @@ sk:
       message_work_package_read_only: "Pracovný balíček je v tomto stave uzamknutý. Nie je možné zmeniť iný atribút ako stav."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Predmet, popis, komentáre, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Kliknutím sem pridajte nový pracovný balík do tohto zoznamu'
       create:

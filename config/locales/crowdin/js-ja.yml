@@ -83,6 +83,10 @@ ja:
     button_open_fullscreen: "全画面表示を開く"
     button_show_cards: "カードビュー表示"
     button_show_list: "リストビュー表示"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "引用"
     button_save: "保存"
     button_settings: "設定"
@@ -541,7 +545,9 @@ ja:
         prioritized: 'prioritized'
       facets:
         unread: 'Unread'
+        unread_title: 'Show unread'
         all: '全て'
+        all_title: 'Show all'
       center:
         and_more_users:
           other: 'and %{count} others'
@@ -873,6 +879,8 @@ ja:
       message_work_package_read_only: "作業項目はこの状態でロックされています。 ステータス以外の属性は変更できません。"
       message_work_package_status_blocked: "ステータスがクローズでクローズされたバージョンが割り当てられているため、ワークパッケージのステータスは書き込みできません。"
       placeholder_filter_by_text: "タイトル、説明、コメント、..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'クリックしてこのリストに新しい作業項目を追加します'
       create:

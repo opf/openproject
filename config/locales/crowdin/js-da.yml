@@ -82,6 +82,10 @@ da:
     button_open_fullscreen: "Fuldskærmsvisning"
     button_show_cards: "Show card view"
     button_show_list: "Show list view"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Citer"
     button_save: "Gem"
     button_settings: "Indstillinger"
@@ -539,7 +543,9 @@ da:
         prioritized: 'prioritized'
       facets:
         unread: 'Unread'
+        unread_title: 'Show unread'
         all: 'All'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'and 1 other'
@@ -872,6 +878,8 @@ da:
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Subject, description, comments, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Click here to add a new work package to this list'
       create:

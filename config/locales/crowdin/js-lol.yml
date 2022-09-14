@@ -82,6 +82,10 @@ lol:
     button_open_fullscreen: "crwdns786940:0crwdne786940:0"
     button_show_cards: "crwdns786942:0crwdne786942:0"
     button_show_list: "crwdns786944:0crwdne786944:0"
+    button_show_table: "crwdns833302:0crwdne833302:0"
+    button_show_gantt: "crwdns833304:0crwdne833304:0"
+    button_show_fullscreen: "crwdns833306:0crwdne833306:0"
+    button_more_actions: "crwdns833308:0crwdne833308:0"
     button_quote: "crwdns786946:0crwdne786946:0"
     button_save: "crwdns786948:0crwdne786948:0"
     button_settings: "crwdns786950:0crwdne786950:0"
@@ -539,7 +543,9 @@ lol:
         prioritized: 'crwdns832428:0crwdne832428:0'
       facets:
         unread: 'crwdns787694:0crwdne787694:0'
+        unread_title: 'crwdns833310:0crwdne833310:0'
         all: 'crwdns787696:0crwdne787696:0'
+        all_title: 'crwdns833312:0crwdne833312:0'
       center:
         and_more_users:
           one: 'crwdns787698:1crwdne787698:1'
@@ -872,6 +878,8 @@ lol:
       message_work_package_read_only: "crwdns788224:0crwdne788224:0"
       message_work_package_status_blocked: "crwdns788226:0crwdne788226:0"
       placeholder_filter_by_text: "crwdns788228:0crwdne788228:0"
+      filters:
+        title: 'crwdns833314:0crwdne833314:0'
       inline_create:
         title: 'crwdns788230:0crwdne788230:0'
       create:

@@ -82,6 +82,10 @@ uk:
     button_open_fullscreen: "Відкрити на весь екран"
     button_show_cards: "Показати подання картки"
     button_show_list: "Показати подання списку"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Цитата"
     button_save: "Зберегти"
     button_settings: "Налаштування"
@@ -540,7 +544,9 @@ uk:
         prioritized: 'prioritized'
       facets:
         unread: 'Непрочитані'
+        unread_title: 'Show unread'
         all: 'Всі'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'і ще 1'
@@ -875,6 +881,8 @@ uk:
       message_work_package_read_only: "Робочий пакет заблоковано в цьому статусі. Атрибут, відмінний від статусу, може бути змінений."
       message_work_package_status_blocked: "Пакет робіт недоступний для запису, оскільки призначено закритий статус або закриту версію."
       placeholder_filter_by_text: "Тема, опис, коментарі, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Клацніть тут, щоб додати до цього списку новий пакет робіт'
       create:
