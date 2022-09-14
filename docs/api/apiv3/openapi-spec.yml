@@ -555,7 +555,7 @@ components:
     Execute_custom_action:
       "$ref": "./components/schemas/execute_custom_action.yml"
     FileCollectionModel:
-      $ref: './components/schemas/file_collection_model.yml'
+      $ref: './components/schemas/storage_item_collection_model.yml'
     FileLinkCollectionReadModel:
       $ref: './components/schemas/file_link_collection_read_model.yml'
     FileLinkCollectionWriteModel:

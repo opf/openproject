@@ -1,4 +1,4 @@
-# Schema: FileCollectionModel
+# Schema: StorageItemCollectionModel
 ---
 allOf:
   - $ref: './collection_model.yml'
@@ -16,7 +16,7 @@ allOf:
             allOf:
               - $ref: "./link.yml"
               - description: |-
-                  This file links collection
+                  This collection of `storageItem`s
                   
                   **Resource**: FileLinkCollectionReadModel
       _embedded:

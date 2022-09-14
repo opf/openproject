@@ -6,22 +6,28 @@ get:
   tags:
     - File links
   description: |-
-    Gets a collection of file data from a storage. 
+    Gets a collection of file meta data from a storage. 
     
-    If no `root` context was given, the result is the content of the document root. With `root` context given, the
-    result contains the collections of file data from without the given root file id.
+    If no `storageItem` context was given, it defaults to the ID of the storage's root directory.
     
-    If given `root` context is no directory, but a file, the collection contains this file data as a single element. 
+    With the `storageItem` context provided and the storageItem being the ID of a directory, the result consists of a collections of meta data for all
+    `storageItem`s within that directory.
+    
+    TODO: I believe that this is bad design. We would need to first check the collection's sizes to be 1 and then
+          compare the requested storageItem ID with the one element in the collection. 
+    If the provided `storageItem` context is not a directory, but a file, the collection contains this file's meta data 
+    as a single element.
+
   parameters:
     - name: id
-      description: Storage id
+      description: Storage ID
       in: path
       required: true
       schema:
         type: integer
       example: 1337
-    - name: root
-      description: Root file id
+    - name: storageItem
+      description: ID of the file or directory for which 
       in: query
       required: false
       schema:
@@ -33,7 +39,7 @@ get:
       content:
         application/hal+json:
           schema:
-            $ref: '../components/schemas/file_collection_model.yml'
+            $ref: '../components/schemas/storage_item_collection_model.yml'
     '404':
       content:
         application/hal+json:
@@ -45,7 +51,7 @@ get:
             message: The requested resource could not be found.
       description: |-
         Returned in either of those cases:
-        - if the storage does not exist or the client does not have sufficient permissions to see it
+        - if the storage does not exist or the client does not have sufficient permissions to see it.
 
           **Required permission:** view file links
-        - if the document root file id do not exist on the storage 
+        - if the storageItem ID does not exist on the storage. 
