@@ -22,7 +22,7 @@ export const parameters = {
       order: [
         'Design System',
         'Devices and Accessibility',
-        'Tokens',
+        'Styles',
         [
           'Typography',
           'Colors',
@@ -30,6 +30,7 @@ export const parameters = {
           'Shadows',
         ],
         'Blocks',
+		// TODO: Add manual sort order for components and patterns 
       ],
     },
   },
