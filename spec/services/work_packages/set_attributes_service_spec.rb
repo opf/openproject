@@ -1039,7 +1039,7 @@ describe WorkPackages::SetAttributesService,
     end
 
     context 'with non-working days' do
-      shared_let(:week_days) { create(:week_with_saturday_and_sunday_as_weekend) }
+      shared_let(:working_days) { week_with_saturday_and_sunday_as_weekend }
       let(:monday) { Time.zone.today.beginning_of_week }
       let(:tuesday) { monday + 1.day }
       let(:wednesday) { monday + 2.days }
@@ -1643,12 +1643,12 @@ describe WorkPackages::SetAttributesService,
     end
 
     context 'when the soonest start date is a non-working day' do
+      shared_let(:working_days) { week_with_saturday_and_sunday_as_weekend }
       let(:saturday) { Time.zone.today.beginning_of_week.next_occurring(:saturday) }
       let(:next_monday) { saturday.next_occurring(:monday) }
       let(:soonest_start) { saturday }
 
       before do
-        create(:week_with_saturday_and_sunday_as_weekend)
         work_package.ignore_non_working_days = false
       end
 

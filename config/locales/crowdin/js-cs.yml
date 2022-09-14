@@ -82,6 +82,10 @@ cs:
     button_open_fullscreen: "Otevřít podrobnosti - fullscreen"
     button_show_cards: "Zobrazit zobrazení karty"
     button_show_list: "Zobrazit seznam"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Citovat"
     button_save: "Uložit"
     button_settings: "Nastavení"
@@ -540,7 +544,9 @@ cs:
         prioritized: 'upřednostněno'
       facets:
         unread: 'Nepřečtené'
+        unread_title: 'Show unread'
         all: 'Vše'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'a 1 další'
@@ -875,6 +881,8 @@ cs:
       message_work_package_read_only: "Pracovní balíček je v tomto stavu uzamčen. Nemůže být změněn žádný jiný atribut mimo vlastního stavu balíčku."
       message_work_package_status_blocked: "Stav pracovního balíčku nelze zapisovat kvůli stavu zavření a přiřazování uzavřené verze."
       placeholder_filter_by_text: "Předmět, popis, komentáře, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Klikněte zde pro přidání nového pracovního balíčku do tohoto seznamu'
       create:

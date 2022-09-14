@@ -1,12 +1,12 @@
 import {
   ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  Input,
-  EventEmitter,
-  Output,
-  ElementRef,
   ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -22,14 +22,10 @@ import { cloneHalResource } from 'core-app/features/hal/helpers/hal-resource-bui
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { PrincipalType } from '../invite-user.component';
 import { ProjectAllowedValidator } from './project-allowed.validator';
-import {
-  map,
-  switchMap,
-} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { IProjectAutocompleteItem } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 
 @Component({
@@ -80,7 +76,7 @@ export class ProjectSelectionComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     type: new FormControl(PrincipalType.User, [Validators.required]),
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    project: new FormControl(null, [Validators.required], ProjectAllowedValidator(this.capabilitiesService)),
+    project: new FormControl(null, [Validators.required], ProjectAllowedValidator(this.currentUserService)),
   });
 
   get typeControl():AbstractControl {
@@ -99,7 +95,6 @@ export class ProjectSelectionComponent implements OnInit {
     readonly bannersService:BannersService,
     readonly apiV3Service:ApiV3Service,
     readonly currentUserService:CurrentUserService,
-    readonly capabilitiesService:CapabilitiesResourceService,
     readonly cdRef:ChangeDetectorRef,
   ) {}
 
@@ -113,10 +108,9 @@ export class ProjectSelectionComponent implements OnInit {
     this.setPlaceholderOption();
 
     this
-      .capabilitiesService
-      .userActionFilter$('memberships/create')
+      .currentUserService
+      .capabilities$(['memberships/create'])
       .pipe(
-        switchMap((params) => this.capabilitiesService.require$(params)),
         map((capabilities) => capabilities.filter((c) => c._links.action.href.endsWith('/memberships/create'))),
       )
       .subscribe((projectInviteCapabilities) => {

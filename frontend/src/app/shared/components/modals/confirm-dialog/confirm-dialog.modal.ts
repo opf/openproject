@@ -27,8 +27,13 @@
 //++
 
 import {
-  ChangeDetectorRef, Component, ElementRef, Inject,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
 } from '@angular/core';
+
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
@@ -41,6 +46,10 @@ export interface ConfirmDialogOptions {
     button_continue?:string;
     button_cancel?:string;
   };
+  icon?:{
+    continue?:string;
+    cancel?:string;
+  };
   closeByEscape?:boolean;
   showClose?:boolean;
   closeByDocument?:boolean;
@@ -50,6 +59,7 @@ export interface ConfirmDialogOptions {
 
 @Component({
   templateUrl: './confirm-dialog.modal.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmDialogModalComponent extends OpModalComponent {
   public showClose:boolean;
@@ -58,12 +68,17 @@ export class ConfirmDialogModalComponent extends OpModalComponent {
 
   private options:ConfirmDialogOptions;
 
-  public text:any = {
+  public text = {
     title: this.I18n.t('js.modals.form_submit.title'),
     text: this.I18n.t('js.modals.form_submit.text'),
     button_continue: this.I18n.t('js.button_continue'),
     button_cancel: this.I18n.t('js.button_cancel'),
     close_popup: this.I18n.t('js.close_popup_title'),
+  };
+
+  public icon = {
+    continue: undefined,
+    cancel: undefined,
   };
 
   public passedData:string[];
@@ -75,15 +90,16 @@ export class ConfirmDialogModalComponent extends OpModalComponent {
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService) {
     super(locals, cdRef, elementRef);
-    this.options = locals.options || {};
+    this.options = (locals.options || {}) as ConfirmDialogOptions;
 
     this.dangerHighlighting = _.defaultTo(this.options.dangerHighlighting, false);
     this.passedData = _.defaultTo(this.options.passedData, []);
     this.closeOnEscape = _.defaultTo(this.options.closeByEscape, true);
     this.closeOnOutsideClick = _.defaultTo(this.options.closeByDocument, true);
     this.showClose = _.defaultTo(this.options.showClose, true);
-    // override default texts if any
+    // override default texts and icons if any
     this.text = _.defaults(this.options.text, this.text);
+    this.icon = _.defaults(this.options.icon, this.icon);
   }
 
   public confirmAndClose(evt:Event):void {

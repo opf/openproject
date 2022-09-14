@@ -173,3 +173,12 @@ $datepicker--border-radius: 5px
 
           &.today
             color: $spot-color-basic-gray-4
+
+.flatpickr-calendar.flatpickr-container-suppress-hover
+  .flatpickr-day
+    &.inRange,
+    &.startRange:not(.selected),
+    &.endRange:not(.selected)
+      background: transparent !important
+      border-color: transparent !important
+      color: black !important

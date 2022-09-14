@@ -26,27 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+module Settings
+  class WorkingDaysParamsContract < ::ParamsContract
+    include RequiresAdminGuard
 
-describe ::BasicData::WeekDaySeeder do
-  subject { described_class.new }
+    validate :working_days_are_present
 
-  before do
-    subject.seed!
-  end
+    protected
 
-  def reseed!
-    subject.seed!
-  end
+    def working_days_are_present
+      if working_days.empty?
+        errors.add :base, :working_days_are_missing
+      end
+    end
 
-  it 'creates the initial days' do
-    WeekDay.destroy_all
-    expect { reseed! }.to change { WeekDay.pluck(:day, :working) }
-      .from([])
-      .to([[1, true], [2, true], [3, true], [4, true], [5, true], [6, false], [7, false]])
-  end
-
-  it 'does not override existing days' do
-    expect { reseed! }.not_to change { WeekDay.pluck(:day, :working) }
+    def working_days
+      params[:working_days]
+    end
   end
 end

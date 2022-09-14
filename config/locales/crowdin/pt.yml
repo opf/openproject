@@ -727,6 +727,10 @@ pt:
           attributes:
             permissions:
               dependency_missing: "também precisa incluir '%{dependency}', já que '%{permission}' está selecionado."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
         time_entry:
           attributes:
             hours:
@@ -1926,6 +1930,7 @@ pt:
   label_workflow: "Fluxo de Trabalho"
   label_workflow_plural: "Fluxos de trabalho"
   label_workflow_summary: "Sumário"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 fechado"
     other: "%{count} fechados"
@@ -1986,7 +1991,7 @@ pt:
       center: 'Para o centro de notificação'
       see_in_center: 'Ver comentário no centro de notificações'
       settings: 'Alterar configurações de e-mail'
-    salutation: 'Olá, %{user}!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: 'Criado em %{timestamp} por %{user}'
       login_to_see_all: 'Faça o login para ver todas as notificações.'
@@ -2749,7 +2754,6 @@ pt:
       noneSelection: "(nenhum)"
       outline: "Expansão do esboço inicial"
       parent: "Visualizar subprojetos de"
-      work_package_filters: "Filtro de pacotes de trabalho"
       work_package_responsible: "Mostrar os pacotes de trabalho com responsável"
       work_package_assignee: "Mostrar os pacotes de trabalho com seus responsáveis"
       types: "Mostrar tipos"
@@ -2903,6 +2907,11 @@ pt:
     destroy:
       info: "Excluir o pacote de trabalho é uma ação irreversível."
       title: "Excluir o pacote de trabalho"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Nada para visualizar"
   api_v3:
     attributes:

@@ -276,6 +276,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new { User.current.admin? },
             icon: 'icon2 icon-enumerations'
 
+  menu.push :working_days,
+            { controller: '/admin/settings/working_days_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_working_days,
+            icon: 'icon2 icon-calendar'
+
   menu.push :settings,
             { controller: '/admin/settings/general_settings', action: :show },
             if: Proc.new { User.current.admin? },

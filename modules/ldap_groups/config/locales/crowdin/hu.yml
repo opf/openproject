@@ -67,5 +67,5 @@ hu:
         dn_text: "Adja meg a csoport teljes DN -jét az LDAP -ban\n"
         group_text: 'Válasszon egy meglévő OpenProject csoportot, amellyel az LDAP csoport tagjait szinkronizálni kell'
       upsale:
-        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
+        description: 'Használja ki a szinkronizált LDAP-csoportok előnyeit a felhasználók kezeléséhez, az engedélyeik módosításához és a csoportok közötti felhasználói kezelés megkönnyítéséhez.'
 

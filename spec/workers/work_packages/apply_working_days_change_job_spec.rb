@@ -33,22 +33,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
 
   shared_let(:user) { create(:user) }
 
-  let!(:week) { create(:week_with_saturday_and_sunday_as_weekend) }
-
-  def set_non_working_week_days(*days)
-    set_week_days(*days, working: false)
-  end
-
-  def set_working_week_days(*days)
-    set_week_days(*days, working: true)
-  end
-
-  def set_week_days(*days, working:)
-    days.each do |day|
-      wday = %w[xxx monday tuesday wednesday thursday friday saturday sunday].index(day.downcase)
-      WeekDay.find_by!(day: wday).update(working:)
-    end
-  end
+  let!(:week) { week_with_saturday_and_sunday_as_weekend }
 
   context 'when a work package includes a date that is now a non-working day' do
     let_schedule(<<~CHART)
@@ -138,7 +123,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
   end
 
   context 'when a follower has a predecessor with dates covering a day that is now a working day' do
-    let!(:week) { create(:week, working_days: ['monday', 'tuesday', 'thursday', 'friday']) }
+    let!(:week) { reset_working_week_days('monday', 'tuesday', 'thursday', 'friday') }
 
     let_schedule(<<~CHART)
       days        | MTWTFSS  |
@@ -161,7 +146,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
   end
 
   xcontext 'when a follower has a predecessor with a non-working day between them that is now a working day' do
-    let!(:week) { create(:week, working_days: ['monday', 'tuesday', 'thursday', 'friday']) }
+    let!(:week) { reset_working_week_days('monday', 'tuesday', 'thursday', 'friday') }
 
     let_schedule(<<~CHART)
       days        | MTWTFSS  |
@@ -245,7 +230,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
   end
 
   xcontext 'when having multiple work packages following each other, and having days becoming working days' do
-    let!(:week) { create(:week, working_days: ['monday', 'thursday']) }
+    let!(:week) { reset_working_week_days('monday', 'thursday') }
 
     let_schedule(<<~CHART)
       days | MTWTFSSmtwtfssmtwtfss  |

@@ -33,7 +33,7 @@ import { Component, Input } from '@angular/core';
   host: { class: 'op-icon--wrapper' },
   template: `
       <i [ngClass]="iconClasses"
-         [title]="iconTitle"
+         [attr.title]="iconTitle || undefined"
          aria-hidden="true"></i>
       <span
         class="hidden-for-sighted"

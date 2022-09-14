@@ -15,7 +15,7 @@
 
       color: $spot-color-basic-gray-1
       display: flex
-      align-items: center
+      align-items: flex-start
       justify-content: flex-start
       padding: $spot-spacing-0_5 $spot-spacing-1
       width: 100%
@@ -103,9 +103,9 @@
     background-color: $spot-color-basic-gray-6
     text-decoration: none
 
-  $item-list: ""
-  @for $i from 0 through 10
-    $item-list: list.append($item-list, ".spot-list--item")
+$item-list: ""
+@for $i from 0 through 10
+  $item-list: list.append($item-list, ".spot-list--item")
 
-    #{$item-list} .spot-list--item-action
-      padding-left: $spot-spacing-1 + ($i * $spot-spacing-1)
+  #{$item-list} .spot-list--item-action
+    padding-left: $spot-spacing-1 + ($i * $spot-spacing-1)

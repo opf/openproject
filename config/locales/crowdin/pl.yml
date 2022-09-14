@@ -727,6 +727,10 @@ pl:
           attributes:
             permissions:
               dependency_missing: "musi również uwzględniać wybór '%{dependency}' jako '%{permission}'."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
         time_entry:
           attributes:
             hours:
@@ -1958,6 +1962,7 @@ pl:
   label_workflow: "Przepływ pracy"
   label_workflow_plural: "Przepływ zadań"
   label_workflow_summary: "Podsumowanie"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 zamknięty"
     other: "Liczba zamkniętych: %{count}"
@@ -2018,7 +2023,7 @@ pl:
       center: 'Do centrum powiadomień'
       see_in_center: 'Zobacz komentarz w centrum powiadomień'
       settings: 'Zmień ustawienia poczty elektronicznej'
-    salutation: 'Cześć %{user}!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: 'Utworzono %{timestamp}, autor %{user} '
       login_to_see_all: 'Zaloguj się, aby zobaczyć wszystkie powiadomienia.'
@@ -2786,7 +2791,6 @@ pl:
       noneSelection: "(brak)"
       outline: "Initial outline expansion"
       parent: "Pokaż projekty podrzędne z"
-      work_package_filters: "Filtruj pakiety robocze"
       work_package_responsible: "Pokaż pakiety robocze z osobą odpowiedzialną"
       work_package_assignee: "Pokaż pakiety robocze z przypisanym"
       types: "Pokaż typy"
@@ -2943,6 +2947,11 @@ pl:
     destroy:
       info: "Usunięcie Zestawu zadań jest czynnością nieodwracalną."
       title: "Usuń Zestawy zadań"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:

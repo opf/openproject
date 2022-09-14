@@ -727,6 +727,10 @@ lt:
           attributes:
             permissions:
               dependency_missing: "taipogi reikia įtraukti „%{dependency}“ kai parinktas „%{permission}“."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
         time_entry:
           attributes:
             hours:
@@ -1958,6 +1962,7 @@ lt:
   label_workflow: "Darbų eiga"
   label_workflow_plural: "Darbų eigos"
   label_workflow_summary: "Santrauka"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 uždarytas"
     other: "%{count} uždaryti (-as, -ų)"
@@ -2018,7 +2023,7 @@ lt:
       center: 'Į pranešimų centrą'
       see_in_center: 'Žiūrėkite komentarą pranešimų centre'
       settings: 'Keisti e-pašto nustatymus'
-    salutation: 'Labas, %{user}!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: 'Sukūrė %{user} %{timestamp} '
       login_to_see_all: 'Prisijunkite, norėdami pamatyti visus pranešimus.'
@@ -2787,7 +2792,6 @@ lt:
       noneSelection: "(nėra)"
       outline: "Pirminio plano plėtra"
       parent: "Rodyti sub-projektus"
-      work_package_filters: "Filtruoti darbų paketus"
       work_package_responsible: "Rodyti darbo paketus su atsakingais"
       work_package_assignee: "Rodyti darbų paketus su vykdančiuoju asmeniu"
       types: "Rodyti tipus"
@@ -2943,6 +2947,11 @@ lt:
     destroy:
       info: "Darbų paketo ištrynimas yra negrįžtamas veiksmas."
       title: "Ištrinti darbų paketą"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Nėra ką rodyti"
   api_v3:
     attributes:

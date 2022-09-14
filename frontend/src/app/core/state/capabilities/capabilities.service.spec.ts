@@ -37,11 +37,15 @@ import { States } from 'core-app/core/states/states.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
-import { of } from 'rxjs';
-import { CurrentUser } from 'core-app/core/current-user/current-user.store';
+import {
+  CurrentUser,
+  CurrentUserStore,
+} from 'core-app/core/current-user/current-user.store';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import * as URI from 'urijs';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { CurrentUserQuery } from 'core-app/core/current-user/current-user.query';
 
 const globalCapability:ICapability = {
   id: 'placeholder_users/read/g-3',
@@ -124,12 +128,12 @@ const projectCapabilityp53Update:ICapability = {
 };
 
 describe('Capabilities service', () => {
+  let currentUser:CurrentUserService;
   let service:CapabilitiesResourceService;
   let httpMock:HttpTestingController;
 
   const compile = (user:CurrentUser) => {
     const ConfigurationServiceStub = {};
-    const CurrentUserServiceStub = { user$: of(user) };
 
     TestBed.configureTestingModule({
       imports: [
@@ -138,11 +142,16 @@ describe('Capabilities service', () => {
       providers: [
         HalResourceService,
         { provide: ConfigurationService, useValue: ConfigurationServiceStub },
-        { provide: CurrentUserService, useValue: CurrentUserServiceStub },
         { provide: States, useValue: new States() },
         CapabilitiesResourceService,
+        CurrentUserStore,
+        CurrentUserQuery,
+        CurrentUserService,
       ],
     });
+
+    currentUser = TestBed.inject(CurrentUserService);
+    currentUser.setUser(user);
 
     service = TestBed.inject(CapabilitiesResourceService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -206,38 +215,64 @@ describe('Capabilities service', () => {
     beforeEach(() => compile({ id: '1', name: 'Admin', mail: 'admin@example.com' }));
 
     it('Should have all capabilities', () => {
-      service.requireContext$('global').subscribe((caps) => {
-        expect(caps.length).toEqual(1);
-      });
+      const params:ApiV3ListParameters = {
+        filters: [['principal', '=', ['1']], ['context', '=', ['g']]],
+      };
+
+      service
+        .require$(params)
+        .subscribe((caps) => {
+          expect(caps.length).toEqual(1);
+        });
 
       mockRequest();
     });
 
     it('Should filter by context', () => {
-      service.requireContext$('global').subscribe((caps) => {
-        expect(caps.length).toEqual(1);
-      });
-      service.requireContext$('6').subscribe((caps) => {
-        expect(caps.length).toEqual(2);
-      });
-      service.requireContext$('5').subscribe((caps) => {
-        expect(caps.length).toEqual(1);
-      });
+      let params:ApiV3ListParameters = {
+        filters: [['principal', '=', ['1']], ['context', '=', ['g']]],
+      };
+
+      service
+        .require$(params)
+        .subscribe((caps) => {
+          expect(caps.length).toEqual(1);
+        });
+
+      params = {
+        filters: [['principal', '=', ['1']], ['context', '=', ['p6']]],
+      };
+
+      service
+        .require$(params)
+        .subscribe((caps) => {
+          expect(caps.length).toEqual(2);
+        });
+
+      params = {
+        filters: [['principal', '=', ['1']], ['context', '=', ['p5']]],
+      };
+
+      service
+        .require$(params)
+        .subscribe((caps) => {
+          expect(caps.length).toEqual(1);
+        });
 
       mockRequest();
     });
 
     it('Should filter by context and all actions', () => {
-      service.hasCapabilities$('asdf/asdf').subscribe((hasCaps) => {
+      currentUser.hasCapabilities$('asdf/asdf').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
       });
-      service.hasCapabilities$('placeholder_users/read').subscribe((hasCaps) => {
+      currentUser.hasCapabilities$('placeholder_users/read').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      service.hasCapabilities$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
+      currentUser.hasCapabilities$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      service.hasCapabilities$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
+      currentUser.hasCapabilities$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
       });
 
@@ -245,16 +280,16 @@ describe('Capabilities service', () => {
     });
 
     it('Should filter by context and any of the actions', () => {
-      service.hasAnyCapabilityOf$('memberships/update', '6').subscribe((hasCaps) => {
+      currentUser.hasAnyCapabilityOf$('memberships/update', '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      service.hasAnyCapabilityOf$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
+      currentUser.hasAnyCapabilityOf$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      service.hasAnyCapabilityOf$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
+      currentUser.hasAnyCapabilityOf$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      service.hasAnyCapabilityOf$('memberships/nonexistent', '6').subscribe((hasCaps) => {
+      currentUser.hasAnyCapabilityOf$('memberships/nonexistent', '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
       });
 

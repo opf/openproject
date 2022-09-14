@@ -67,7 +67,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   public canInviteByEmail$ = combineLatest(
     this.items$,
     this.input$,
-    this.capabilitiesService.hasCapabilities$('users/create'),
+    this.currentUserService.hasCapabilities$('users/create'),
   ).pipe(
     map(([elements, input, canCreateUsers]) => canCreateUsers
       && this.type === PrincipalType.User
@@ -79,9 +79,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   public canCreateNewPlaceholder$ = combineLatest([
     this.items$,
     this.input$,
-    this
-      .capabilitiesService
-      .hasCapabilities$('placeholder_users/create'),
+    this.currentUserService.hasCapabilities$('placeholder_users/create'),
   ])
     .pipe(
       map(([elements, input, hasCapability]) => {

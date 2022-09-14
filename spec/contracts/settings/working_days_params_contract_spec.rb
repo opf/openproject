@@ -25,34 +25,24 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module BasicData
-  class WeekDaySeeder < Seeder
-    def seed_data!
-      WeekDay.transaction do
-        days.each do |attributes|
-          WeekDay.create!(attributes)
-        end
-      end
-    end
 
-    def applicable?
-      WeekDay.none?
-    end
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
-    def not_applicable_message
-      'Skipping week days as there are already some configured'
-    end
+describe Settings::WorkingDaysParamsContract do
+  include_context 'ModelContract shared context'
+  let(:setting) { Setting }
+  let(:current_user) { build_stubbed(:admin) }
+  let(:params) { { working_days: [1] } }
+  let(:contract) do
+    described_class.new(setting, current_user, params:)
+  end
 
-    def days
-      [
-        { day: 1, working: true },
-        { day: 2, working: true },
-        { day: 3, working: true },
-        { day: 4, working: true },
-        { day: 5, working: true },
-        { day: 6, working: false },
-        { day: 7, working: false }
-      ]
-    end
+  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+
+  context 'without working days' do
+    let(:params) { { working_days: [] } }
+
+    include_examples 'contract is invalid', base: :working_days_are_missing
   end
 end

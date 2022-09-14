@@ -710,6 +710,10 @@ lol:
           attributes:
             permissions:
               dependency_missing: "crwdns495613:0%{dependency}crwdnd495613:0%{permission}crwdne495613:0"
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'crwdns833294:0crwdne833294:0'
         time_entry:
           attributes:
             hours:
@@ -1904,6 +1908,7 @@ lol:
   label_workflow: "crwdns497885:0crwdne497885:0"
   label_workflow_plural: "crwdns497887:0crwdne497887:0"
   label_workflow_summary: "crwdns497889:0crwdne497889:0"
+  label_working_days: "crwdns833296:0crwdne833296:0"
   label_x_closed_work_packages_abbr:
     one: "crwdns497893:0crwdne497893:0"
     other: "crwdns497895:0%{count}crwdne497895:0"
@@ -1964,7 +1969,7 @@ lol:
       center: 'crwdns498053:0crwdne498053:0'
       see_in_center: 'crwdns498055:0crwdne498055:0'
       settings: 'crwdns498057:0crwdne498057:0'
-    salutation: 'crwdns498061:0%{user}crwdne498061:0'
+    salutation: 'crwdns833148:0%{user}crwdne833148:0'
     work_packages:
       created_at: 'crwdns498063:0%{timestamp}crwdnd498063:0%{user}crwdne498063:0'
       login_to_see_all: 'crwdns498067:0crwdne498067:0'
@@ -2721,7 +2726,6 @@ lol:
       noneSelection: "crwdns499521:0crwdne499521:0"
       outline: "crwdns499523:0crwdne499523:0"
       parent: "crwdns499525:0crwdne499525:0"
-      work_package_filters: "crwdns499527:0crwdne499527:0"
       work_package_responsible: "crwdns499529:0crwdne499529:0"
       work_package_assignee: "crwdns499531:0crwdne499531:0"
       types: "crwdns499533:0crwdne499533:0"
@@ -2875,6 +2879,11 @@ lol:
     destroy:
       info: "crwdns499769:0crwdne499769:0"
       title: "crwdns499771:0crwdne499771:0"
+  working_days:
+    info: >
+      crwdns833298:0crwdne833298:0
+    warning: >
+      crwdns833300:0crwdne833300:0
   nothing_to_preview: "crwdns499773:0crwdne499773:0"
   api_v3:
     attributes:

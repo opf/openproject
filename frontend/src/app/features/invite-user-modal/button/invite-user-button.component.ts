@@ -8,7 +8,6 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { OpInviteUserModalService } from 'core-app/features/invite-user-modal/invite-user-modal.service';
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
-import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 
 @Component({
   selector: 'op-invite-user-button',
@@ -34,7 +33,6 @@ export class InviteUserButtonComponent {
     readonly opInviteUserModalService:OpInviteUserModalService,
     readonly currentProjectService:CurrentProjectService,
     readonly currentUserService:CurrentUserService,
-    readonly capabilitiesService:CapabilitiesResourceService,
     readonly autocompleter:OpAutocompleterComponent,
   ) {
   }
@@ -42,7 +40,7 @@ export class InviteUserButtonComponent {
   public ngOnInit():void {
     this.projectId = this.projectId || this.currentProjectService.id;
     this.canInviteUsersToProject$ = this
-      .capabilitiesService
+      .currentUserService
       .hasCapabilities$(
         'memberships/create',
         this.projectId || undefined,

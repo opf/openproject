@@ -71,7 +71,7 @@ OpenProject::Application.routes.draw do
   # forward requests to the proxy
   if FrontendAssetHelper.assets_proxied?
     match '/assets/frontend/*appendix',
-          to: redirect(FrontendAssetHelper.cli_proxy + "/assets/frontend/%{appendix}", status: 307),
+          to: redirect("#{FrontendAssetHelper.cli_proxy}/assets/frontend/%{appendix}", status: 307),
           format: false,
           via: :all
   end
@@ -143,10 +143,7 @@ OpenProject::Application.routes.draw do
 
   resources :custom_fields, except: :show do
     member do
-      match "options/:option_id",
-            to: "custom_fields#delete_option",
-            via: :delete,
-            as: :delete_option_of
+      delete "options/:option_id", to: "custom_fields#delete_option", as: :delete_option_of
 
       post :reorder_alphabetical
     end
@@ -192,7 +189,7 @@ OpenProject::Application.routes.draw do
     end
 
     member do
-      get "settings", to: redirect('projects/%{id}/settings/general/') # rubocop:disable Style/FormatStringToken
+      get "settings", to: redirect('projects/%{id}/settings/general/')
 
       get :copy
 
@@ -278,7 +275,7 @@ OpenProject::Application.routes.draw do
 
     resources :members, only: %i[index create update destroy], shallow: true do
       collection do
-        match :autocomplete_for_member, via: %i[get]
+        get :autocomplete_for_member
       end
     end
 
@@ -306,7 +303,7 @@ OpenProject::Application.routes.draw do
       %w{diff annotate changes entry browse}.each do |action|
         get "(/revisions/:rev)/#{action}(/*repo_path)",
             format: 'html',
-            action: action,
+            action:,
             constraints: { rev: /[\w0-9.\-_]+/, repo_path: /.*/ },
             as: "#{action}_revision"
       end
@@ -401,6 +398,7 @@ OpenProject::Application.routes.draw do
       resource :mail_notifications, controller: '/admin/settings/mail_notifications_settings', only: %i[show update]
       resource :api, controller: '/admin/settings/api_settings', only: %i[show update]
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
+      resource :working_days, controller: '/admin/settings/working_days_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
 
       # Redirect /settings to general settings
@@ -468,7 +466,7 @@ OpenProject::Application.routes.draw do
 
     member do
       get '/edit(/:tab)' => 'users#edit', as: 'edit'
-      match '/change_status/:change_action' => 'users#change_status_info', via: :get, as: 'change_status_info'
+      get '/change_status/:change_action' => 'users#change_status_info', as: 'change_status_info'
       post :change_status
       post :resend_invitation
       get :deletion_info
@@ -535,9 +533,8 @@ OpenProject::Application.routes.draw do
 
   # alternate routes for the current user
   scope 'my' do
-    match '/deletion_info' => 'users#deletion_info', via: :get, as: 'delete_my_account_info'
-    match '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', via: :post,
-          as: 'revoke_my_oauth_application'
+    get '/deletion_info' => 'users#deletion_info', as: 'delete_my_account_info'
+    post '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', as: 'revoke_my_oauth_application'
   end
 
   scope controller: 'my' do

@@ -729,6 +729,10 @@ ro:
           attributes:
             permissions:
               dependency_missing: "trebuie să includă și \"%{dependency}\", deoarece este selectat \"%{permission}\"."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
         time_entry:
           attributes:
             hours:
@@ -1944,6 +1948,7 @@ ro:
   label_workflow: "Flux de lucru"
   label_workflow_plural: "Fluxuri de lucru"
   label_workflow_summary: "Descriere"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "unul închis"
     other: "%{count} închise"
@@ -2004,7 +2009,7 @@ ro:
       center: 'Centrul de notificare'
       see_in_center: 'Vezi comentariul în centrul de notificări'
       settings: 'Modificare setări e-mail'
-    salutation: 'Salut %{user}!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: 'Creat la %{timestamp} de %{user} '
       login_to_see_all: 'Autentifică-te pentru a vedea toate notificările.'
@@ -2771,7 +2776,6 @@ ro:
       noneSelection: "(nimic)"
       outline: "Extindere contur inițial"
       parent: "Afișare subproiecte ale"
-      work_package_filters: "Filtrare pachete de lucru"
       work_package_responsible: "Afișați pachetele de lucru cu responsabilități"
       work_package_assignee: "Afișare pachete de lucru cu executant"
       types: "Afișare tipuri"
@@ -2927,6 +2931,11 @@ ro:
     destroy:
       info: "Ştergerea pachetul de lucru este o acţiune ireversibilă."
       title: "Ştergere a pachetului de lucru"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Nimic de previzualizat"
   api_v3:
     attributes:

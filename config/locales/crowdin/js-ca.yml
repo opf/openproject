@@ -82,6 +82,10 @@ ca:
     button_open_fullscreen: "Obrir vista en pantalla completa"
     button_show_cards: "Mostra la vista de targeta"
     button_show_list: "Mostrar la vista de llista"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Citar"
     button_save: "Desa"
     button_settings: "Configuració"
@@ -540,7 +544,9 @@ ca:
         prioritized: 'prioritzat'
       facets:
         unread: 'Sense llegir'
+        unread_title: 'Show unread'
         all: 'Totes'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: ' i 1 altre'
@@ -873,6 +879,8 @@ ca:
       message_work_package_read_only: "El paquet de treball està bloquejat en aquest estat. Cap atribut excepte l'estat es pot modificar."
       message_work_package_status_blocked: "L'estat del paquet de treball no permet l'escriptura perquè el seu estat i versió estan tancats."
       placeholder_filter_by_text: "Assumpte, descripció, comentaris, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Fes clic aquí per afegir un nou paquet de treball a aquesta llista'
       create:

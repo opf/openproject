@@ -82,6 +82,10 @@ si:
     button_open_fullscreen: "පූර්ණ තිර දර්ශනය විවෘත කරන්න"
     button_show_cards: "කාඩ් දැක්ම පෙන්වන්න"
     button_show_list: "ලැයිස්තු දර්ශනය පෙන්වන්න"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "උපුටා"
     button_save: "සුරකින්න"
     button_settings: "සැකසුම්"
@@ -540,7 +544,9 @@ si:
         prioritized: 'prioritized'
       facets:
         unread: 'Unread'
+        unread_title: 'Show unread'
         all: 'සියලු'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'and 1 other'
@@ -873,6 +879,8 @@ si:
       message_work_package_read_only: "වැඩ පැකේජය මෙම තත්වය තුළ අගුලු දමා ඇත. තත්වය හැර වෙනත් කිසිදු ගුණාංගයක් වෙනස් කළ නොහැක."
       message_work_package_status_blocked: "සංවෘත තත්ත්වය සහ සංවෘත අනුවාදය පවරා ඇති නිසා වැඩ පැකේජ තත්ත්වය ලිවිය නොහැකි ය."
       placeholder_filter_by_text: "විෂය, විස්තරය, අදහස්,..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'මෙම ලැයිස්තුවට නව වැඩ පැකේජයක් එක් කිරීමට මෙහි ක්ලික් කරන්න'
       create:

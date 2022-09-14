@@ -729,6 +729,10 @@ vi:
           attributes:
             permissions:
               dependency_missing: "cần bao gồm '%{dependency}' vì '%{permission}' được chọn."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
         time_entry:
           attributes:
             hours:
@@ -1912,6 +1916,7 @@ vi:
   label_workflow: "Quy trình làm việc"
   label_workflow_plural: "Quy trình làm việc"
   label_workflow_summary: "Tóm tắt"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 đóng"
     other: "%{count} đóng"
@@ -1972,7 +1977,7 @@ vi:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2734,7 +2739,6 @@ vi:
       noneSelection: "(trống)"
       outline: "Initial outline expansion"
       parent: "Show subprojects of"
-      work_package_filters: "Filter work packages"
       work_package_responsible: "Hiện gói công việc"
       work_package_assignee: "Show work packages with assignee"
       types: "Show types"
@@ -2887,6 +2891,11 @@ vi:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Nothing to preview"
   api_v3:
     attributes:

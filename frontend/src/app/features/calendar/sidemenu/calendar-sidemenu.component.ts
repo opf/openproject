@@ -1,16 +1,15 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  Input,
+  Component,
   ElementRef,
   HostBinding,
+  Input,
 } from '@angular/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
-import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 
 export const opCalendarSidemenuSelector = 'op-calendar-sidemenu';
 
@@ -27,7 +26,7 @@ export class CalendarSidemenuComponent extends UntilDestroyedMixin {
   @Input() projectId:string|undefined;
 
   canCreateCalendar$ = this
-    .capabilitiesService
+    .currentUserService
     .hasCapabilities$(
       'calendars/create',
       this.currentProjectService.id || undefined,
@@ -52,7 +51,6 @@ export class CalendarSidemenuComponent extends UntilDestroyedMixin {
     readonly elementRef:ElementRef,
     readonly currentUserService:CurrentUserService,
     readonly currentProjectService:CurrentProjectService,
-    readonly capabilitiesService:CapabilitiesResourceService,
     readonly I18n:I18nService,
   ) {
     super();

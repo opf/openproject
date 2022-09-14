@@ -10,37 +10,16 @@
 
   <div class="spot-modal--body form -vertical">
     <div class="op-datepicker-modal--toggle-actions-container">
-      <div class="form--field">
-        <label class="form--label">
-          {{text.scheduling.title}}
-        </label>
-        <div class="form--field-container">
-          <spot-toggle
-            [options]="schedulingOptions"
-            [value]="scheduleManually"
-            [name]="'scheduling'"
-            [(ngModel)]="scheduleManually"
-            (ngModelChange)="changeSchedulingMode()"
-            data-qa-selector="op-datepicker-modal--scheduling-action"
-          ></spot-toggle>
-        </div>
-      </div>
-
-      <div class="form--field">
-        <label class="form--label">
-          {{ text.ignoreNonWorkingDays.title }}
-        </label>
-        <div class="form--field-container">
-          <spot-toggle
-            [options]="ignoreNonWorkingDaysOptions"
-            [value]="ignoreNonWorkingDays"
-            [name]="'include-non-working-days'"
-            [(ngModel)]="ignoreNonWorkingDays"
-            (ngModelChange)="changeNonWorkingDays()"
-            data-qa-selector="op-datepicker-modal--include-non-working-days"
-          ></spot-toggle>
-        </div>
-      </div>
+      <op-datepicker-scheduling-toggle
+        name="scheduleManually"
+        [(ngModel)]="scheduleManually"
+        (ngModelChange)="changeSchedulingMode()"
+      ></op-datepicker-scheduling-toggle>
+      <op-datepicker-working-days-toggle
+        name="ignoreNonWorkingDays"
+        [(ngModel)]="ignoreNonWorkingDays"
+        (ngModelChange)="changeNonWorkingDays()"
+      ></op-datepicker-working-days-toggle>
     </div>
 
     <div class="op-datepicker-modal--dates-container">

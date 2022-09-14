@@ -41,7 +41,7 @@ export class WorkPackageSettingsButtonComponent {
   @Input() hideTableOptions = false;
 
   public text = {
-    button_settings: this.I18n.t('js.button_settings'),
+    more_actions: this.I18n.t('js.button_more_actions'),
   };
 
   constructor(readonly I18n:I18nService) {

@@ -33,8 +33,7 @@ describe ::API::V3::Days::WeekAPI,
          type: :request do
   include API::V3::Utilities::PathHelper
 
-  let(:week_day) { create(:week_day, day: 1) }
-  let(:path) { api_v3_paths.days_week_day(week_day.day) }
+  let(:path) { api_v3_paths.days_week_day(1) }
 
   current_user { user }
   subject { last_response.body }

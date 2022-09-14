@@ -237,7 +237,8 @@ describe 'Copy work packages through Rails view', js: true do
                           select_text: project2.name,
                           results_selector: 'body'
 
-      sleep(0.5)
+      # wait for page reload after selecting the target project
+      sleep(2)
 
       select 'nobody', from: 'Assignee'
 

@@ -725,6 +725,10 @@ uk:
           attributes:
             permissions:
               dependency_missing: "потрібно також вказати '%{dependency}' оскільки вибрано '%{permission}'."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
         time_entry:
           attributes:
             hours:
@@ -1956,6 +1960,7 @@ uk:
   label_workflow: "Робочий процес"
   label_workflow_plural: "Робочі процеси"
   label_workflow_summary: "Резюме"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 закрита"
     other: "%{count} закритих"
@@ -2016,7 +2021,7 @@ uk:
       center: 'Центр сповіщень'
       see_in_center: 'Переглянути коментарі у центрі сповіщень'
       settings: 'Змінити налаштування електронної пошти'
-    salutation: 'Привіт, %{user}!'
+    salutation: 'Hello %{user}!'
     work_packages:
       created_at: 'Створено о %{timestamp} користувачем %{user} '
       login_to_see_all: 'Увійдіть, щоб переглянути всі сповіщення.'
@@ -2784,7 +2789,6 @@ uk:
       noneSelection: "(нічого)"
       outline: "Початковий план розширення"
       parent: "Показати підпроекти"
-      work_package_filters: "Фільтрувати робочі пакети"
       work_package_responsible: "Покажіть робочі пакети з підзвітністю"
       work_package_assignee: "Покажіть робочі пакети з уповноваженими"
       types: "Показати типи"
@@ -2940,6 +2944,11 @@ uk:
     destroy:
       info: "Видалення робочого пакету є незворотною дією."
       title: "Видаліть робочий пакет"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Нічого для перегляду"
   api_v3:
     attributes:
