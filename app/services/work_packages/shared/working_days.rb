@@ -146,13 +146,15 @@ module WorkPackages
         # To accomodate both versions 0-6, 1-7, an array of 8 elements is created
         # where array[0] = array[7] = value for Sunday
         #
-        # Because the database table for WeekDay could be empty or incomplete
-        # (like in tests), the initial array is built with all days considered
-        # working (value is `true`)
+        # Since Setting.working_days can be empty, the initial array is
+        # built with all days considered working (value is `true`)
+
         @working_week_days = [true] * 8
-        WeekDay.pluck(:day, :working).each do |day, working|
-          @working_week_days[day] = working
+
+        WeekDay.all.each do |week_day|
+          @working_week_days[week_day.day] = week_day.working
         end
+
         @working_week_days[0] = @working_week_days[7] # value for Sunday is present at index 0 AND index 7
         @working_week_days
       end

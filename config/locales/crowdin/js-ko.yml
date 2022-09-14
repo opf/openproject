@@ -82,6 +82,10 @@ ko:
     button_open_fullscreen: "전체화면 보기"
     button_show_cards: "카드 보기 표시"
     button_show_list: "목록 보기 표시"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "인용"
     button_save: "저장"
     button_settings: "설정"
@@ -540,7 +544,9 @@ ko:
         prioritized: 'prioritized'
       facets:
         unread: '읽지 않음'
+        unread_title: 'Show unread'
         all: '모두'
+        all_title: 'Show all'
       center:
         and_more_users:
           other: '외 %{count}건'
@@ -872,6 +878,8 @@ ko:
       message_work_package_read_only: "작업 패키지가 이 상태로 잠겨 있습니다. 상태 이외의 특성은 변경할 수 없습니다."
       message_work_package_status_blocked: "닫힌 상태이고 닫힌 버전이 할당되었기 때문에 작업 패키지 상태를 쓸 수 없습니다."
       placeholder_filter_by_text: "제목, 설명, 코멘트, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: '이 목록에 새 작업 패키지를 추가하려면 여기를 클릭하세요.'
       create:

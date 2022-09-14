@@ -82,6 +82,10 @@ fr:
     button_open_fullscreen: "Ouvrir l'affichage plein écran"
     button_show_cards: "Afficher la vue carte"
     button_show_list: "Afficher la vue liste"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Citer"
     button_save: "Enregistrer"
     button_settings: "Paramètres"
@@ -540,7 +544,9 @@ fr:
         prioritized: 'priorisé'
       facets:
         unread: 'Non lu'
+        unread_title: 'Show unread'
         all: 'Toutes'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'et 1 autre'
@@ -873,6 +879,8 @@ fr:
       message_work_package_read_only: "Paquet de travail est verrouillé. Aucun attribut autre que l’État ne peut être modifié."
       message_work_package_status_blocked: "Le statut du lot de travail n'est pas modifiable en raison de la fermeture du statut et de la version assignés."
       placeholder_filter_by_text: "Objet, description, commentaires, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Cliquez ici pour ajouter un nouveau lot de travaux à cette liste'
       create:

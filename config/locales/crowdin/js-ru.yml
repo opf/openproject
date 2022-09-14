@@ -82,6 +82,10 @@ ru:
     button_open_fullscreen: "Открыть полноэкранный просмотр"
     button_show_cards: "В виде карточек"
     button_show_list: "В виде списка"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Цитировать"
     button_save: "Сохранить"
     button_settings: "Настройки"
@@ -539,7 +543,9 @@ ru:
         prioritized: 'пририотизировано'
       facets:
         unread: 'Непрочтено'
+        unread_title: 'Show unread'
         all: 'Bсе'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'и еще 1'
@@ -874,6 +880,8 @@ ru:
       message_work_package_read_only: "Пакет работ заблокирован в этом статусе. Никакой атрибут, отличный от статуса, не может быть изменен."
       message_work_package_status_blocked: "Статус пакета работ недоступен для записи из-за закрытого статуса и назначенной закрытой версии."
       placeholder_filter_by_text: "Тема, описание, комментарии, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Кликните здесь, чтобы добавить новый пакет работ в этот список'
       create:

@@ -82,6 +82,10 @@ zh-TW:
     button_open_fullscreen: "開啟全螢幕檢視"
     button_show_cards: "顯示卡片檢視"
     button_show_list: "列表檢視"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "引言"
     button_save: "儲存"
     button_settings: "設定"
@@ -539,7 +543,9 @@ zh-TW:
         prioritized: 'prioritized'
       facets:
         unread: 'Unread'
+        unread_title: 'Show unread'
         all: '全部'
+        all_title: 'Show all'
       center:
         and_more_users:
           other: 'and %{count} others'
@@ -871,6 +877,8 @@ zh-TW:
       message_work_package_read_only: "工作包被鎖定在此狀態。任何屬性以外的狀態都不能更改。"
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "主旨, 描述, 評論 ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: '點擊添加新的工作項目到此清單'
       create:

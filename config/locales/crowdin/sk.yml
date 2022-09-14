@@ -730,6 +730,10 @@ sk:
           attributes:
             permissions:
               dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
         time_entry:
           attributes:
             hours:
@@ -1961,6 +1965,7 @@ sk:
   label_workflow: "Pracovný postup"
   label_workflow_plural: "Pracovné postupy"
   label_workflow_summary: "Zhrnutie"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 uzatvorený"
     other: "%{count} uzatvorených"
@@ -2791,7 +2796,6 @@ sk:
       noneSelection: "(žiadny)"
       outline: "Rozbaľte primárny osnovu"
       parent: "Zobraziť podprojekty z"
-      work_package_filters: "Filter pracovných balíčkov"
       work_package_responsible: "Zobraziť pracovné balíčky so zodpovednou osobou"
       work_package_assignee: "Zobraziť pracovné balíčky s priradenou osobou"
       types: "Zobraziť typy"
@@ -2948,6 +2952,11 @@ sk:
     destroy:
       info: "Odstránenie pracovného balíka je nevratná akcia."
       title: "Odstrániť pracovný balík"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Nič na zobrazenie náhľadu"
   api_v3:
     attributes:

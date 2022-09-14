@@ -44,7 +44,7 @@ describe 'Team planner', type: :feature, js: true do
     end
 
     expect(page).to have_content 'There is currently nothing to display.'
-    click_on 'Create'
+    click_on 'Create', match: :first
 
     team_planner.expect_title
 

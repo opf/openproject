@@ -723,6 +723,10 @@ ja:
           attributes:
             permissions:
               dependency_missing: "選択した '%{permission}' の他に '%{dependency}' も含める必要があります。"
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
         time_entry:
           attributes:
             hours:
@@ -1906,6 +1910,7 @@ ja:
   label_workflow: "ワークフロー"
   label_workflow_plural: "ワークフロー"
   label_workflow_summary: "サマリ"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1件完了"
     other: "%{count}件完了"
@@ -2728,7 +2733,6 @@ ja:
       noneSelection: "(なし)"
       outline: "初期概要の拡大"
       parent: "子プロジェクトを表示"
-      work_package_filters: "ワークパッケージのフィルタ"
       work_package_responsible: "責任を持つワークパッケージを表示"
       work_package_assignee: "担当者付きのワークパッケージを表示"
       types: "ワークパッケージの種類を表示"
@@ -2881,6 +2885,11 @@ ja:
     destroy:
       info: "ワークパッケージの削除は復元できない操作です。"
       title: "ワークパッケージの削除"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "プレビューできるものは何もありません。"
   api_v3:
     attributes:

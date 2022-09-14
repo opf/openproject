@@ -3,7 +3,9 @@ it:
   js:
     team_planner:
       add_existing: 'Aggiungi esistente'
-      title: 'Team planner'
+      add_existing_title: 'Add existing work packages'
+      create_label: 'Team planner'
+      create_title: 'Create new team planner'
       unsaved_title: 'Team planner senza nome'
       no_data: 'Aggiungi assegnatari per configurare il tuo team planner.'
       add_assignee: 'Aggiungi assegnatario'

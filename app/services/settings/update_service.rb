@@ -27,9 +27,21 @@
 #++
 
 class Settings::UpdateService < ::BaseServices::BaseContracted
-  def initialize(user:)
+  def initialize(user:, contract_options: {})
     super user:,
+          contract_options:,
           contract_class: Settings::UpdateContract
+  end
+
+  def validate_params(params)
+    if contract_options[:params_contract]
+      contract = contract_options[:params_contract].new(model, user, params:)
+      ServiceResult.new success: contract.valid?,
+                        errors: contract.errors,
+                        result: model
+    else
+      super
+    end
   end
 
   def after_validate(params, call)
@@ -44,11 +56,9 @@ class Settings::UpdateService < ::BaseServices::BaseContracted
 
   def derive_value(value)
     case value
-    when Array
-      # remove blank values in array settings
-      value.delete_if(&:blank?)
-    when Hash
-      value.delete_if { |_, v| v.blank? }
+    when Array, Hash
+      # remove blank values in array, hash settings
+      value.compact_blank!
     else
       value.strip
     end

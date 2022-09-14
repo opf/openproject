@@ -82,6 +82,10 @@ pt:
     button_open_fullscreen: "Abrir visualização em tela cheia"
     button_show_cards: "Mostrar cartão"
     button_show_list: "Mostrar lista"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Citar"
     button_save: "Salvar"
     button_settings: "Configurações"
@@ -539,7 +543,9 @@ pt:
         prioritized: 'prioritized'
       facets:
         unread: 'Não lido'
+        unread_title: 'Show unread'
         all: 'Todos'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'e 1 outro'
@@ -872,6 +878,8 @@ pt:
       message_work_package_read_only: "Pacote de trabalho está bloqueado na presente situação. Nenhum atributo que não seja a situação pode ser alterado."
       message_work_package_status_blocked: "A situação do pacote de trabalho não é gravável devido a situação fechada e a versão fechada."
       placeholder_filter_by_text: "Assunto, descrição, comentários, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Clique aqui para adicionar um novo pacote de trabalho a esta lista'
       create:

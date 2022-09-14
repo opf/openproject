@@ -29,7 +29,7 @@
 Date::DATE_FORMATS[:wday_date] = '%a %-d %b %Y' # Fri 5 Aug 2022
 
 RSpec.shared_context 'with weekend days Saturday and Sunday' do
-  shared_let(:week_days) { create(:week_with_saturday_and_sunday_as_weekend) }
+  shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
 end
 
 RSpec.shared_context 'with non working days Christmas 2022 and new year 2023' do
@@ -41,7 +41,7 @@ RSpec.shared_context 'with no working days' do
   include_context 'with weekend days Saturday and Sunday'
 
   before do
-    WeekDay.update_all(working: false)
+    week_with_no_working_days
   end
 end
 

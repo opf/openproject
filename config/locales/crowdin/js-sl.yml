@@ -82,6 +82,10 @@ sl:
     button_open_fullscreen: "Odptri celozaslonski pogled"
     button_show_cards: "Prikaži kard pogled"
     button_show_list: "Prikaži list pogled"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Citiraj"
     button_save: "Shrani"
     button_settings: "Nastavitve"
@@ -539,7 +543,9 @@ sl:
         prioritized: 'prioritized'
       facets:
         unread: 'Unread'
+        unread_title: 'Show unread'
         all: 'Vse'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'and 1 other'
@@ -874,6 +880,8 @@ sl:
       message_work_package_read_only: "Delovni paket je zaklenjen v tem stanju. Spremenite lahko samo stanje. "
       message_work_package_status_blocked: "Stanja delovnega paketa ni mogoče napisati zaradi zaprtega stanja in dodeljene zaprte različice."
       placeholder_filter_by_text: "Subjekt, opis, komentarji,... "
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Za dodajanje novega delovnega paketa kliknite tukaj'
       create:

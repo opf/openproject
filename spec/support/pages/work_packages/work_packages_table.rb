@@ -68,6 +68,16 @@ module Pages
       end
     end
 
+    def expect_sums_row_with_attributes(attr_value_hash)
+      within(table_container) do
+        attr_value_hash.each do |column, value|
+          expect(page).to have_selector(
+            ".wp-table--sums-row div.#{column}", text: value.to_s, wait: 10
+          )
+        end
+      end
+    end
+
     def expect_work_package_subject(subject)
       within(table_container) do
         expect(page).to have_selector("td.subject",
@@ -79,6 +89,13 @@ module Pages
     def expect_work_package_count(count)
       within(table_container) do
         expect(page).to have_selector(".wp--row", count: count, wait: 20)
+      end
+    end
+
+    def update_work_package_attributes(work_package, **key_value_map)
+      key_value_map.each do |key, value|
+        field = EditField.new(work_package_container(work_package), key)
+        field.update(value, save: true)
       end
     end
 
@@ -217,6 +234,10 @@ module Pages
 
     def table_container
       find('#content .work-packages-split-view--tabletimeline-side')
+    end
+
+    def work_package_container(work_package)
+      table_container.find(work_package_row_selector(work_package))
     end
 
     def work_package_row_selector(work_package)

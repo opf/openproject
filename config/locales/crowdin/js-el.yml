@@ -82,6 +82,10 @@ el:
     button_open_fullscreen: "Άνοιγμα προβολής πλήρης οθόνη"
     button_show_cards: "Εμφάνιση προβολής κάρτας"
     button_show_list: "Εμφάνιση προβολής λίστας"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Παράθεση"
     button_save: "Αποθήκευση"
     button_settings: "Ρυθμίσεις"
@@ -539,7 +543,9 @@ el:
         prioritized: 'prioritized'
       facets:
         unread: 'Unread'
+        unread_title: 'Show unread'
         all: 'Όλα'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'and 1 other'
@@ -872,6 +878,8 @@ el:
       message_work_package_read_only: "Το πακέτο εργασίας είναι κλειδωμένο σε αυτή την κατάσταση. Κανένα χαρακτηριστικό εκτός από την κατάσταση δεν μπορεί να αλλαχθεί."
       message_work_package_status_blocked: "Η κατάσταση του πακέτου εργασίας δεν είναι εγγράψιμη λόγω κλειστής κατάστασης και εκχωρημένης έκδοσης."
       placeholder_filter_by_text: "Θέμα, περιγραφή, σχόλια, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Πατήστε εδώ για να προσθέσετε ένα καινούργιο πακέτο εργασίας σε αυτή τη λίστα'
       create:

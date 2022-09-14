@@ -82,6 +82,10 @@ es:
     button_open_fullscreen: "Abrir en pantalla completa"
     button_show_cards: "Mostrar vista de tarjeta"
     button_show_list: "Mostrar vista de lista"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "presupuesto"
     button_save: "Guardar"
     button_settings: "Configuración"
@@ -540,7 +544,9 @@ es:
         prioritized: 'priorizar'
       facets:
         unread: 'No leídas'
+        unread_title: 'Show unread'
         all: 'Todos'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'y 1 más'
@@ -873,6 +879,8 @@ es:
       message_work_package_read_only: "El paquete de trabajo está bloqueado en este estado. Excepto el estado, ningún otro atributo se puede modificar."
       message_work_package_status_blocked: "El estado del paquete de trabajo no permite la escritura porque están asignados como estado y versión cerrada."
       placeholder_filter_by_text: "Asunto, descripción, comentarios, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista'
       create:

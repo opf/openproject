@@ -38,7 +38,6 @@ describe ::API::V3::Days::WeekAPI,
   current_user { user }
 
   before do
-    create(:week_with_saturday_and_sunday_as_weekend)
     get api_v3_paths.days_week
   end
 

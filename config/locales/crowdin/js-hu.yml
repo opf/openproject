@@ -82,6 +82,10 @@ hu:
     button_open_fullscreen: "Teljes képernyős nézet"
     button_show_cards: "Mutatsd a card nézetet"
     button_show_list: "Mutatsd a lista nézetet"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Idéz"
     button_save: "Mentés"
     button_settings: "Beállítások"
@@ -540,7 +544,9 @@ hu:
         prioritized: 'prioritized'
       facets:
         unread: 'Olvasatlan'
+        unread_title: 'Show unread'
         all: 'Mind'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: "és 1 másik\n"
@@ -873,6 +879,8 @@ hu:
       message_work_package_read_only: "Ez Feladatcsomag ebben a státuszban zárolt. Nem lehet más attribútum segítségével megváltoztatni."
       message_work_package_status_blocked: "A munkacsomag állapota nem írható, mivel a zárt állapotot és a zárt verziót hozzárendelték."
       placeholder_filter_by_text: "Tárgy, leírás, kommentek"
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Ide kattintva adhatsz új munkacsomagot a listához'
       create:

@@ -724,6 +724,10 @@ el:
           attributes:
             permissions:
               dependency_missing: "πρέπει επίσης να συμπεριληφθεί το '%{dependency}' καθώς το '%{permission}' είναι επιλεγμένο."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
         time_entry:
           attributes:
             hours:
@@ -1923,6 +1927,7 @@ el:
   label_workflow: "Ροή εργασιών"
   label_workflow_plural: "Ροές εργασίας"
   label_workflow_summary: "Περίληψη"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 κλειστό"
     other: "%{count} κλειστά"
@@ -2747,7 +2752,6 @@ el:
       noneSelection: "(κανένα)"
       outline: "Αρχική επέκταση περιγράμματος"
       parent: "Εμφάνιση υποέργων του"
-      work_package_filters: "Φιλτράρισμα πακέτων εργασίας"
       work_package_responsible: "Εμφάνιση πακέτων εργασίας για τα οποία είμαι υπόλογος"
       work_package_assignee: "Εμφάνιση πακέτων εργασίας που έχουν ανατεθεί"
       types: "Εμφάνιση τύπων"
@@ -2901,6 +2905,11 @@ el:
     destroy:
       info: "Η διαγραφή του πακέτου εργασίας είναι μια μη αναστρέψιμη ενέργεια."
       title: "Διαγραφή του πακέτου εργασίας"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Δεν υπάρχει κάτι για προεπισκόπηση"
   api_v3:
     attributes:

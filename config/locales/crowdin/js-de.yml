@@ -82,6 +82,10 @@ de:
     button_open_fullscreen: "Vollbildansicht öffnen"
     button_show_cards: "Kartenansicht anzeigen"
     button_show_list: "Listenansicht anzeigen"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Zitieren"
     button_save: "Speichern"
     button_settings: "Einstellungen"
@@ -539,7 +543,9 @@ de:
         prioritized: 'prioritized'
       facets:
         unread: 'Ungelesen'
+        unread_title: 'Show unread'
         all: 'Alle'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'und ein weiterer'
@@ -872,6 +878,8 @@ de:
       message_work_package_read_only: "Das Arbeitspaket ist in diesem Status gesperrt. Kein Attribut außer des Status selbst kann darin verändert werden."
       message_work_package_status_blocked: "Das Arbeitspaket ist auf geschlossene Status- und Versions-Attribute gesetzt, der Status kann nicht verändert werden."
       placeholder_filter_by_text: "Titel, Beschreibung, Kommentare, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen'
       create:

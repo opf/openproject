@@ -26,11 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import {
   ChangeDetectionStrategy,
-  Component, ElementRef, OnInit, ViewChild,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
+
+import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 
 @Component({
   templateUrl: './password-confirmation.modal.html',
@@ -40,6 +44,7 @@ export class PasswordConfirmationModalComponent extends ConfirmDialogModalCompon
   public password_confirmation:string|null = null;
 
   @ViewChild('passwordConfirmationField', { static: true }) passwordConfirmationField:ElementRef;
+
 
   public ngOnInit():void {
     super.ngOnInit();
@@ -51,6 +56,7 @@ export class PasswordConfirmationModalComponent extends ConfirmDialogModalCompon
       cancel_button: I18n.t('js.button_cancel'),
       password: I18n.t('js.label_password'),
     };
+
 
     this.closeOnEscape = false;
     this.closeOnOutsideClick = false;

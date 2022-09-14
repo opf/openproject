@@ -82,6 +82,10 @@ ro:
     button_open_fullscreen: "Afișare pe tot ecranul"
     button_show_cards: "Afișați vizualizarea cardului"
     button_show_list: "Afișați vizualizarea listei"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Citare"
     button_save: "Salvare"
     button_settings: "Setări"
@@ -539,7 +543,9 @@ ro:
         prioritized: 'prioritized'
       facets:
         unread: 'necitită'
+        unread_title: 'Show unread'
         all: 'Toate'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'și încă unul'
@@ -873,6 +879,8 @@ ro:
       message_work_package_read_only: "Pachetul de lucru este blocat în acest statut. Niciun alt atribut în afară de status nu poate fi modificat."
       message_work_package_status_blocked: "Starea pachetului de lucru nu poate fi scrisă din cauza statutului închis și a versiunii închise care au fost atribuite."
       placeholder_filter_by_text: "Subiect, descriere, comentarii, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Click aici pentru a adăuga un nou pachet de lucru în listă'
       create:

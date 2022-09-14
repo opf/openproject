@@ -3,7 +3,9 @@ lol:
   js:
     team_planner:
       add_existing: 'crwdns808126:0crwdne808126:0'
-      title: 'crwdns500087:0crwdne500087:0'
+      add_existing_title: 'crwdns833316:0crwdne833316:0'
+      create_label: 'crwdns833318:0crwdne833318:0'
+      create_title: 'crwdns833320:0crwdne833320:0'
       unsaved_title: 'crwdns500089:0crwdne500089:0'
       no_data: 'crwdns500093:0crwdne500093:0'
       add_assignee: 'crwdns500095:0crwdne500095:0'

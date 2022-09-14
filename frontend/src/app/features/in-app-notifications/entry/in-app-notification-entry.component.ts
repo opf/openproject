@@ -68,6 +68,7 @@ export class InAppNotificationEntryComponent implements OnInit {
       { count }),
     loading: this.I18n.t('js.ajax.loading'),
     placeholder: this.I18n.t('js.placeholders.default'),
+    mark_as_read: this.I18n.t('js.notifications.center.mark_as_read'),
     updated_by_at: (age:string):string => this.I18n.t('js.notifications.center.text_update_date',
       { date: age }),
   };

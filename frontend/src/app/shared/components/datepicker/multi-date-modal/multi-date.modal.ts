@@ -60,6 +60,7 @@ import {
 } from 'rxjs/operators';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import {
+  fromEvent,
   merge,
   Observable,
   Subject,
@@ -150,17 +151,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   scheduleManually = false;
 
-  schedulingOptions = [
-    { value: false, title: this.text.scheduling.default },
-    { value: true, title: this.text.scheduling.manual },
-  ];
-
   ignoreNonWorkingDays = false;
-
-  ignoreNonWorkingDaysOptions = [
-    { value: false, title: this.text.ignoreNonWorkingDays.no },
-    { value: true, title: this.text.ignoreNonWorkingDays.yes },
-  ];
 
   duration:number|null;
 
@@ -456,8 +447,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         mode: 'range',
         showMonths: this.browserDetector.isMobile ? 1 : 2,
         inline: true,
-        onReady: () => {
+        onReady: (_date, _datestr, instance) => {
           this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
+          this.ensureHoveredSelection(instance.calendarContainer);
         },
         onChange: (dates:Date[]) => {
           const activeField = this.currentlyActivatedDateField;
@@ -728,5 +720,28 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         }),
         map((date) => [key, date]),
       );
+  }
+
+  /**
+   * When hovering selections in the range datepicker, the range usually
+   * stays active no matter where the cursor is.
+   *
+   * We want to hide any hovered selection preview when we leave the datepicker.
+   * @param calendarContainer
+   * @private
+   */
+  private ensureHoveredSelection(calendarContainer:HTMLDivElement) {
+    fromEvent(calendarContainer, 'mouseenter')
+      .pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe(() => calendarContainer.classList.remove('flatpickr-container-suppress-hover'));
+
+    fromEvent(calendarContainer, 'mouseleave')
+      .pipe(
+        this.untilDestroyed(),
+        filter(() => !(!!this.dates.start && !!this.dates.end)),
+      )
+      .subscribe(() => calendarContainer.classList.add('flatpickr-container-suppress-hover'));
   }
 }

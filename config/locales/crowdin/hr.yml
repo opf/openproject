@@ -729,6 +729,10 @@ hr:
           attributes:
             permissions:
               dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
         time_entry:
           attributes:
             hours:
@@ -1944,6 +1948,7 @@ hr:
   label_workflow: "Tijek rada"
   label_workflow_plural: "Tijek rada"
   label_workflow_summary: "Sažetak"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 zaključen"
     other: "%{count} zatvorenih"
@@ -2772,7 +2777,6 @@ hr:
       noneSelection: "(nijedan)"
       outline: "Initial outline expansion"
       parent: "Prikaži podprojekte od"
-      work_package_filters: "Filtriraj radne pakete"
       work_package_responsible: "Show work packages with accountable"
       work_package_assignee: "Prikaži radne pakete s dodijeljenim opunomoćenikom"
       types: "Prikaži tipove"
@@ -2928,6 +2932,11 @@ hr:
     destroy:
       info: "Brisanje radnog paketa je nepovratan čin."
       title: "Izbriši radni paket"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Ne postoji zapis za pregled"
   api_v3:
     attributes:
