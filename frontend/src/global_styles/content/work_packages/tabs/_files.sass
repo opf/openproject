@@ -35,8 +35,6 @@
 
     &-item
       &-action
-        padding-left: 0
-        padding-right: 0
         text-decoration: none
 
         &.view-not-allowed
@@ -61,6 +59,7 @@
       &-text
         @include spot-caption()
 
+        line-height: 1.5rem
         color: $spot-color-basic-gray-3
         flex-shrink: 0
 
@@ -68,6 +67,8 @@
           margin-right: $spot-spacing-0-5
 
       &-avatar
+        width: $spot-spacing-1-5
+        height: $spot-spacing-1-5
         display: inline-block
 
       &-floating-actions
@@ -87,6 +88,10 @@
 
         &-icon
           margin-right: $spot-spacing-0-5
+
+  &--file-list &--file-list-item &--file-list-item-action
+    padding-left: 0
+    padding-right: 0
 
   &--storage-info-box
     margin-top: 0.875rem
@@ -127,6 +132,7 @@
 
   &--icon
     width: $spot-spacing-1-5
+    height: $spot-spacing-1-5
 
     &_pdf
       color: #B93A33
