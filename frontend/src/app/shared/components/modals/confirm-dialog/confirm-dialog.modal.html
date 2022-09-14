@@ -22,6 +22,7 @@
   <div class="spot-modal--footer spot-action-bar">
     <div class="spot-action-bar--right">
       <button
+        type="button"
         class="button button_no-margin spot-action-bar--action"
         data-qa-selector="confirmation-modal--cancel"
         (click)="closeMe($event)"
@@ -39,6 +40,7 @@
         >{{text.button_cancel}}</span>
       </button>
       <button
+        type="button"
         class="button button_no-margin spot-action-bar--action"
         data-qa-selector="confirmation-modal--confirmed"
         [ngClass]="dangerHighlighting ? '-danger': '-highlight'"

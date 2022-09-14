@@ -30,7 +30,7 @@ module ConfirmationDialogHelper
   ##
   # Show an angular modal confirmation dialog using the augmented
   # ConfirmationDialogService
-  def augmented_confirmation_dialog(title:, text:, danger_zone: false, button_continue: nil, button_cancel: nil)
+  def augmented_confirmation_dialog(title: nil, text: nil, danger_zone: false, button_continue: nil, button_cancel: nil)
     {
       'augmented-confirm-dialog': {
         text: {
