@@ -38,9 +38,8 @@
       &_disabled
         &,
         &:hover
-          color: $spot-color-basic-gray-3
           background-color: transparent
-          cursor: default
+          cursor: not-allowed
 
       &_active#{&}_disabled
         color: $spot-color-basic-gray-3
@@ -52,6 +51,13 @@
     &-floating-wrapper
       position: relative
       display: flex
+
+      &_disabled
+        color: $spot-color-basic-gray-1
+
+        &:hover
+          background: none
+          cursor: not-allowed
 
     &-floating-actions
       opacity: 0
