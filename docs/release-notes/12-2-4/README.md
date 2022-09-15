@@ -13,6 +13,20 @@ Release date: 2022-09-15
 We released [OpenProject 12.2.4](https://community.openproject.com/versions/1599).
 The release contains several bug fixes and we recommend updating to the newest version.
 
+
+
+### Pending journal cleanup database migration
+
+With OpenProject 12.2.2, a journal cleanup migration was introduced to fix a data corruption bug in the 12.2.0 release.
+
+That migration would fail for some customers that have some invalid journal references in their datasets. The ones we found and confirmed were due to historical data being invalid, so these journals can be safely destroyed.
+
+A migration was added to this release to do just that, and ensure that the 12.2.2 migration can successfully be ran.
+
+For more information on that change, please see the discussion in [Bug #44132](https://community.openproject.com/wp/44132)
+
+
+
 <!--more-->
 #### Bug fixes and changes
 
