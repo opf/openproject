@@ -10,7 +10,7 @@ import { FocusHelperService } from './focus-helper';
   selector: '[opAutofocus]',
 })
 export class AutofocusDirective implements AfterViewInit {
-  @Input('opAutofocus') public condition = true;
+  @Input('opAutofocus') public condition:string|boolean = true;
 
   @Input('opAutofocusPriority') priority?:number = 0;
 
@@ -24,7 +24,12 @@ export class AutofocusDirective implements AfterViewInit {
   }
 
   private updateFocus() {
-    if (this.condition) {
+    // Empty string should count as true because just using the directive like the
+    // plain HTML autofocus attribute should be possible: 
+    // 
+    // <my-input opAutofocus />
+    //
+    if (this.condition || this.condition === '') {
       const element = jQuery(this.elementRef.nativeElement);
       this.FocusHelper.focusElement(element, this.priority);
     }

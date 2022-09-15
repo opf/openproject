@@ -99,6 +99,7 @@ export class FocusHelperService {
 
   public focusElement(element:JQuery, priority?:any) {
     if (!this.checkIfAllowedFocusChange(priority)) {
+      console.warn('Focus change is not allowed');
       return;
     }
 
