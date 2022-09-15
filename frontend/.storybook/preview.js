@@ -19,6 +19,7 @@ export const parameters = {
   docs: { inlineStories: true },
   options: {
     storySort: {
+      method: 'alphabetical',
       order: [
         'Design System',
         'Devices and Accessibility',

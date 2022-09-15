@@ -3,6 +3,7 @@ import { Canvas, Meta, Story } from '@storybook/addon-docs';
 
 import { OpSpotModule } from '../app/spot/spot.module';
 import { SbActionBarExample } from './ActionBar.example';
+import { SbActionBarLeftButtonsExample } from './ActionBarLeftButtons.example';
 
 <Meta
   title="Blocks/Action Bar"
@@ -56,7 +57,11 @@ There are however alternative variants:
 
 **Left buttons**
 
-> Example
+<Canvas>
+  <Story name="Left Buttons">
+    {{ component: SbActionBarLeftButtonsExample }}
+  </Story>
+</Canvas>
 
 The button set can be moved to the left, placing the side action on the right. This should be used sparingly and only if absolutely necessary.
 
