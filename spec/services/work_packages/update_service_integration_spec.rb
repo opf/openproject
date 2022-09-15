@@ -465,7 +465,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
       # calculated
       # sibling1 not factored in as its estimated_hours are nil
       calculated_ratio = ((work_package.done_ratio * work_package.estimated_hours) +
-                          (sibling2_work_package.done_ratio * sibling2_work_package.estimated_hours)) /
+                          (sibling2_work_package.done_ratio * sibling2_work_package.estimated_hours)) / \
                          (work_package.done_ratio +
                           sibling2_work_package.done_ratio)
 
@@ -773,7 +773,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
     # rubocop:enable RSpec/MultipleExpectations
   end
 
-  describe 'rescheduling work packages forward follows/hierarchy relations' do
+  describe 'rescheduling work packages backwards with follows/hierarchy relations' do
     # layout
     #                                                              other_work_package
     #                                                                      +
@@ -883,7 +883,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
     end
 
     # rubocop:disable RSpec/ExampleLength
-    it 'propagates the changes to start/finish date along' do
+    it 'does not propagate the changes to followers' do
       expect(subject)
         .to be_success
 
@@ -895,33 +895,33 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
 
       following_work_package.reload(select: %i(start_date due_date))
       expect(following_work_package.start_date)
-        .to eql Time.zone.today + 1.day
+        .to eql Time.zone.today + 6.days
       expect(following_work_package.due_date)
-        .to eql Time.zone.today + 15.days
+        .to eql Time.zone.today + 20.days
 
       following_parent_work_package.reload(select: %i(start_date due_date))
       expect(following_parent_work_package.start_date)
-        .to eql Time.zone.today + 1.day
+        .to eql Time.zone.today + 6.days
       expect(following_parent_work_package.due_date)
-        .to eql Time.zone.today + 15.days
+        .to eql Time.zone.today + 20.days
 
       following2_parent_work_package.reload(select: %i(start_date due_date))
       expect(following2_parent_work_package.start_date)
-        .to eql Time.zone.today + 22.days
+        .to eql Time.zone.today + 24.days
       expect(following2_parent_work_package.due_date)
-        .to eql Time.zone.today + 26.days
+        .to eql Time.zone.today + 28.days
 
       following2_work_package.reload(select: %i(start_date due_date))
       expect(following2_work_package.start_date)
-        .to eql Time.zone.today + 22.days
+        .to eql Time.zone.today + 24.days
       expect(following2_work_package.due_date)
-        .to eql Time.zone.today + 26.days
+        .to eql Time.zone.today + 28.days
 
       following3_work_package.reload(select: %i(start_date due_date))
       expect(following3_work_package.start_date)
-        .to eql Time.zone.today + 27.days
+        .to eql Time.zone.today + 29.days
       expect(following3_work_package.due_date)
-        .to eql Time.zone.today + 31.days
+        .to eql Time.zone.today + 33.days
     end
     # rubocop:enable RSpec/ExampleLength
   end
