@@ -26,6 +26,9 @@ cs:
       loading: "Načítání…"
       updating: "Aktualizace..."
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
     autocomplete_select:
@@ -761,7 +764,6 @@ cs:
       activate_no: 'odstranit řazení'
     text_work_packages_destroy_confirmation: "Jste si jisti, že chcete odstranit vybrané pracovní balíčky?"
     text_query_destroy_confirmation: "Jste si jisti, že chcete odstranit vybrané zobrazení?"
-    text_attachment_destroy_confirmation: "Jste si jisti, že chcete odstranit přílohu?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Ganttův diagram'

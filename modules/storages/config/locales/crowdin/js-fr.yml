@@ -24,5 +24,7 @@ fr:
         open: 'Ouvrir le fichier sur le stockage'
         open_location: 'Ouvrir le fichier à l''emplacement'
         remove: "Supprimer le lien de fichier"
-        remove_confirmation: "Êtes-vous sûr de vouloir dissocier le fichier du lot de travaux ?"
+        remove_confirmation: >
+          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
+        remove_short: "Remove link"
         not_allowed_tooltip: "Veuillez vous connecter à Nextcloud pour accéder à ce fichier"

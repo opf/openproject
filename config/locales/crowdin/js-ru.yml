@@ -26,6 +26,9 @@ ru:
       loading: "Загрузка…"
       updating: "Обновление…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Перетащите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в течение перетаскивания.
     autocomplete_select:
@@ -760,7 +763,6 @@ ru:
       activate_no: 'активировать для удаления сортировки'
     text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакеты работ?"
     text_query_destroy_confirmation: "Уверены, что хотите удалить выбранное представление?"
-    text_attachment_destroy_confirmation: "Вы уверены, что вы хотите удалить вложение?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Диаграмма Гантта'

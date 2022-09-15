@@ -24,5 +24,7 @@ ca:
         open: 'Obre el fitxer a l''emmagatzematge'
         open_location: 'Obre la ubicació del fitxer'
         remove: "Elimina l'enllaç del fitxer"
-        remove_confirmation: "Esteu segur que vols desenllaçar el fitxer del paquet de treball?"
+        remove_confirmation: >
+          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
+        remove_short: "Remove link"
         not_allowed_tooltip: "Si us plau, inicia sessió a Nextcloud per accedir a aquest fitxer"

@@ -26,6 +26,9 @@ tr:
       loading: "Yükleniyor…"
       updating: "Güncelleniyor..."
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
     autocomplete_select:
@@ -759,7 +762,6 @@ tr:
       activate_no: 'sıralamayı kaldırmak için etkinleştir'
     text_work_packages_destroy_confirmation: "Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?"
     text_query_destroy_confirmation: "Seçilen görünümü silmek istediğinizden emin misiniz?"
-    text_attachment_destroy_confirmation: "Eki silmek istediğinizden emin misiniz?"
     timelines:
       quarter_label: 'Ç%{quarter_number}'
       gantt_chart: 'Gantt görünümü'

@@ -26,6 +26,9 @@ ca:
       loading: "Carregant..."
       updating: "Actualitzant…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Arrossega a l'editor per a pujar una imatge o referenciar un fitxer adjunt. Els camps tancats de l'editor seguiran oberts mentre se segueixi arrossegant.
     autocomplete_select:
@@ -759,7 +762,6 @@ ca:
       activate_no: 'activeu per desactivar l''ordenació'
     text_work_packages_destroy_confirmation: "¿Estàs segur que vols eliminar el(s) paquet(s) de treball seleccionat(s)?"
     text_query_destroy_confirmation: "Estàs segur que vols eliminar la vista seleccionada?"
-    text_attachment_destroy_confirmation: "Estàs segur que vols eliminar el fitxer adjunt?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Diagrama de Gantt'
