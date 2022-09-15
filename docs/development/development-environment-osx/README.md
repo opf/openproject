@@ -200,7 +200,7 @@ The application will be available at `http://127.0.0.1:5000`. To customize bind 
 project as `.env` and [configure values](https://ddollar.github.io/foreman/#ENVIRONMENT) as required.
 
 By default a worker process will also be started. In development asynchronous execution of long-running background tasks (sending emails, copying projects,
-etc.) may be of limited use. To disable the worker process:
+etc.) may be of limited use and it has known issues with regards to memory (see background worker section below). To disable the worker process:. To disable the worker process:
 
 echo "concurrency: web=1,assets=1,worker=0" >> .foreman
 
@@ -244,7 +244,17 @@ RAILS_ENV=development bin/rails jobs:work
 
 This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
 
-**Note:** If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs before starting the worker, use the following command. **This will remove all currently scheduled jobs, never use this in a production setting.**
+## Known issues
+
+### Memory management
+
+The delayed_job background worker reloads the application for every job in development mode. This is a know issue and documented here: https://github.com/collectiveidea/delayed_job/issues/823
+
+
+
+### Spawning a lot of browser tabs
+
+If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs before starting the worker, use the following command. **This will remove all currently scheduled jobs, never use this in a production setting.**
 
 ```bash
 RAILS_ENV=development bin/rails runner "Delayed::Job.delete_all"
