@@ -4,6 +4,7 @@
   </label>
   <div class="form--field-container">
     <spot-toggle
+      [disabled]="disabled"
       [options]="ignoreNonWorkingDaysOptions"
       [value]="ignoreNonWorkingDays"
       [name]="'include-non-working-days'"
