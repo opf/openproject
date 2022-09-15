@@ -14,6 +14,13 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 12.2.4
+
+Release date: 2022-09-15
+
+[Release Notes](12-2-4/)
+
+
 ## 12.2.3
 
 Release date: 2022-09-12

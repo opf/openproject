@@ -55,7 +55,7 @@ describe 'Work packages remaining time', type: :feature, js: true do
            status:
   end
 
-  it 'is can set and edit the remaining time in hours (Regression #43549)' do
+  it 'can set and edit the remaining time in hours (Regression #43549)' do
     wp_page = Pages::FullWorkPackage.new(work_package)
 
     wp_page.visit!
@@ -65,10 +65,31 @@ describe 'Work packages remaining time', type: :feature, js: true do
 
     wp_page.update_attributes remainingTime: '125' # rubocop:disable Rails/ActiveRecordAliases
 
-    wp_page.expect_attributes remainingTime: '125'
+    wp_page.expect_attributes remainingTime: '125 h'
 
     work_package.reload
 
+    expect(work_package.remaining_hours).to eq 125.0
+  end
+
+  it 'displays the remaining time sum properly in hours (Regression #43833)' do
+    work_package
+    wp_table_page = Pages::WorkPackagesTable.new(project)
+
+    query_props = JSON.dump(c: %w(id subject remainingTime),
+                            s: true)
+
+    wp_table_page.visit_with_params("query_props=#{query_props}")
+
+    wp_table_page.expect_work_package_with_attributes work_package, remainingTime: '-'
+
+    wp_table_page.update_work_package_attributes work_package, remainingTime: '125'
+
+    wp_table_page.expect_work_package_with_attributes work_package, remainingTime: '125 h'
+
+    wp_table_page.expect_sums_row_with_attributes remainingTime: '125 h'
+
+    work_package.reload
     expect(work_package.remaining_hours).to eq 125.0
   end
 end

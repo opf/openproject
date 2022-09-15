@@ -3,7 +3,7 @@ es:
   js:
     team_planner:
       add_existing: 'Añadir existente'
-      title: 'Planificador de equipos'
+      title: 'Planificador de equipo'
       unsaved_title: 'Planificador de equipo sin nombre'
       no_data: 'Añadir asignados para configurar su planificador de equipo.'
       add_assignee: 'Añadir asignado'

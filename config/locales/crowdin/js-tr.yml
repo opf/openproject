@@ -62,7 +62,7 @@ tr:
     button_confirm: "Onaylamak"
     button_continue: "Devam et"
     button_copy: "Kopyalamak"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "Başka bir projeye kopyala"
     button_custom-fields: "Özel Alanlar"
     button_delete: "silmek"
     button_delete_watcher: "Takipçi sil"
@@ -520,7 +520,7 @@ tr:
           timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
           timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
         team_planner:
-          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          overview: 'Takım planlayıcı, takım üyelerine görsel olarak görevler atamanıza ve kimin ne üzerinde çalıştığına dair bir genel bakış elde etmenize olanak tanır.'
           calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
           add_assignee: 'To get started, add assignees to the team planner.'
           add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
