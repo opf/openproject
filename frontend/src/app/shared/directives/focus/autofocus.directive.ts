@@ -19,14 +19,14 @@ export class AutofocusDirective implements AfterViewInit {
     readonly elementRef:ElementRef,
   ) { }
 
-  ngAfterViewInit() {
+  ngAfterViewInit():void {
     this.updateFocus();
   }
 
-  private updateFocus() {
+  private updateFocus():void {
     // Empty string should count as true because just using the directive like the
-    // plain HTML autofocus attribute should be possible: 
-    // 
+    // plain HTML autofocus attribute should be possible:
+    //
     // <my-input opAutofocus />
     //
     if (this.condition || this.condition === '') {

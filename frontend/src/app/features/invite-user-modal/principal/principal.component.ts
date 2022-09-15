@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -6,6 +7,7 @@ import {
   FormGroup,
   FormControl,
   Validators,
+  AbstractControl,
 } from '@angular/forms';
 import { take } from 'rxjs/internal/operators/take';
 import { map } from 'rxjs/operators';
@@ -36,6 +38,7 @@ function extractCustomFieldsFromSchema(schema:IOPFormSettings['_embedded']['sche
   selector: 'op-ium-principal',
   templateUrl: './principal.component.html',
   styleUrls: ['./principal.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PrincipalComponent implements OnInit {
   @Input() principalData:PrincipalData;
@@ -60,7 +63,7 @@ export class PrincipalComponent implements OnInit {
 
   public text = {
     principal: {
-      title: () => this.I18n.t('js.invite_user_modal.title.invite'),
+      title: ():string => this.I18n.t('js.invite_user_modal.title.invite'),
       label: {
         User: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
         PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.label.name'),
@@ -80,23 +83,24 @@ export class PrincipalComponent implements OnInit {
       cancelButton: this.I18n.t('js.invite_user_modal.principal.cancel_button'),
     },
     role: {
-      label: () => this.I18n.t('js.invite_user_modal.role.label', {
+      label: ():string => this.I18n.t('js.invite_user_modal.role.label', {
         project: this.project?.name,
       }),
-      description: () => this.I18n.t('js.invite_user_modal.role.description', {
+      description: ():string => this.I18n.t('js.invite_user_modal.role.description', {
         principal: this.principal?.name,
       }),
       required: this.I18n.t('js.invite_user_modal.role.required'),
     },
     message: {
       label: this.I18n.t('js.invite_user_modal.message.label'),
-      description: () => this.I18n.t('js.invite_user_modal.message.description', {
+      description: ():string => this.I18n.t('js.invite_user_modal.message.description', {
         principal: this.principal?.name,
       }),
     },
   };
 
   public principalForm = new FormGroup({
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     principal: new FormControl(null, [Validators.required]),
     userDynamicFields: new FormGroup({}),
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -112,15 +116,15 @@ export class PrincipalComponent implements OnInit {
     schema: null,
   };
 
-  get messageControl() {
+  get messageControl():AbstractControl|null {
     return this.principalForm.get('message');
   }
 
-  get roleControl() {
+  get roleControl():AbstractControl|null {
     return this.principalForm.get('role');
   }
 
-  get principalControl() {
+  get principalControl():AbstractControl|null {
     return this.principalForm.get('principal');
   }
 
@@ -136,30 +140,30 @@ export class PrincipalComponent implements OnInit {
     return this.messageControl?.value as string|undefined;
   }
 
-  get dynamicFieldsControl() {
+  get dynamicFieldsControl():AbstractControl|null {
     return this.principalForm.get('userDynamicFields');
   }
 
   get customFields():{ [key:string]:any } {
-    return this.dynamicFieldsControl?.value;
+    return this.dynamicFieldsControl?.value as { [key:string]:any };
   }
 
-  get hasPrincipalSelected() {
+  get hasPrincipalSelected():boolean {
     return !!this.principal;
   }
 
-  get textLabel() {
+  get textLabel():string {
     if (this.type === PrincipalType.User && this.isNewPrincipal) {
       return this.text.principal.label.Email;
     }
     return this.text.principal.label[this.type];
   }
 
-  get isNewPrincipal() {
+  get isNewPrincipal():boolean {
     return this.hasPrincipalSelected && !(this.principal instanceof HalResource);
   }
 
-  get isMemberOfCurrentProject() {
+  get isMemberOfCurrentProject():boolean {
     return !!this.principalControl?.value?.memberships?.elements?.find((mem:any) => mem.project.id === this.project.id);
   }
 
@@ -170,7 +174,7 @@ export class PrincipalComponent implements OnInit {
     readonly cdRef:ChangeDetectorRef,
   ) {}
 
-  ngOnInit() {
+  ngOnInit():void {
     this.principalControl?.setValue(this.principalData.principal);
     this.roleControl?.setValue(this.roleData);
     this.messageControl?.setValue(this.messageData);
@@ -196,11 +200,11 @@ export class PrincipalComponent implements OnInit {
     }
   }
 
-  createNewFromInput(input:PrincipalLike) {
+  createNewFromInput(input:PrincipalLike):void {
     this.principalControl?.setValue(input);
   }
 
-  onSubmit($e:Event) {
+  onSubmit($e:Event):void {
     $e.preventDefault();
 
     if (this.dynamicForm) {
@@ -212,7 +216,7 @@ export class PrincipalComponent implements OnInit {
     }
   }
 
-  onValidatedSubmit() {
+  onValidatedSubmit():void {
     if (this.principalForm.invalid) {
       return;
     }
@@ -243,11 +247,11 @@ export class PrincipalComponent implements OnInit {
     this.save.emit({
       principalData: {
         customFields,
-        principal: this.principal!,
+        principal: this.principal as PrincipalLike,
       },
       isAlreadyMember: this.isMemberOfCurrentProject,
-      role: this.role!,
-      message: this.message!,
+      role: this.role as RoleResource,
+      message: this.message as string,
     });
   }
 }
