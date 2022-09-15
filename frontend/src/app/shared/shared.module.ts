@@ -89,6 +89,7 @@ import { OpLoadingProjectListComponent } from './components/searchable-project-l
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { UIRouterGlobals } from '@uirouter/core';
+import { A11yModule } from '@angular/cdk/a11y';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -119,6 +120,7 @@ export function bootstrapModule(injector:Injector):void {
     FormsModule,
     OpSpotModule,
     // Angular CDK
+    A11yModule,
     PortalModule,
     DragDropModule,
     DragulaModule,
@@ -144,6 +146,7 @@ export function bootstrapModule(injector:Injector):void {
     FormsModule,
     PortalModule,
     DragDropModule,
+    A11yModule,
     IconModule,
     AttributeHelpTextModule,
     NgSelectModule,

@@ -9,6 +9,10 @@
   [type]="type"
   (save)="onProjectSelectionSave($event)"
   (close)="closeMe()"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
 ></op-ium-project-selection>
 
 <op-ium-principal
@@ -22,6 +26,10 @@
   (save)="onPrincipalSave($event)"
   (back)="goTo(Steps.ProjectSelection)"
   (close)="closeMe()"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
 ></op-ium-principal>
 
 <op-ium-summary
@@ -35,6 +43,10 @@
   (save)="onSuccessfulSubmission($event)"
   (back)="goTo(Steps.Principal)"
   (close)="closeMe()"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
 ></op-ium-summary>
 
 <op-ium-success
@@ -45,4 +57,8 @@
   *ngIf="!loading && step === Steps.Success"
   class="spot-modal"
   (close)="closeWithPrincipal()"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
 ></op-ium-success>
