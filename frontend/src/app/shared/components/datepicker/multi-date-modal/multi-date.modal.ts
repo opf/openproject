@@ -527,6 +527,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
       // Active is on start or end, the other was missing
       this.deriveOtherField(activeField);
+
+      // Set the selected date on the datepicker
+      this.enforceManualChangesToDatepicker(selectedDate);
     }
   }
 

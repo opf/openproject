@@ -130,12 +130,6 @@ class DateEditField < EditField
     end
   end
 
-  def click_today(which: :start)
-    within_modal do
-      find("[data-qa-selector='datepicker-#{which}-date'] .form--field-extra-actions a", text: 'Today').click
-    end
-  end
-
   def set_value(value)
     if value.is_a?(Array)
       datepicker.clear!
