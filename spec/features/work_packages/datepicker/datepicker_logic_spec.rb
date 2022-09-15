@@ -686,7 +686,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  context 'when setting ignore NWD to true for a milesotone' do
+  context 'when setting ignore NWD to true for a milestone' do
     let(:date_attribute) { :date }
     let(:work_package) { milestone_wp }
     let(:current_attributes) do
@@ -711,6 +711,41 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       apply_and_expect_saved start_date: Date.parse('2022-06-19'),
                              due_date: Date.parse('2022-06-19'),
                              ignore_non_working_days: true
+    end
+  end
+
+  context 'when setting start and due date through today links' do
+    let(:current_attributes) do
+      {
+        start_date: nil,
+        due_date: nil,
+        duration: nil,
+        ignore_non_working_days: true
+      }
+    end
+
+    it 'allows to persist that value (Regression #44140)' do
+      datepicker.expect_start_date ''
+      datepicker.expect_due_date ''
+      datepicker.expect_duration ''
+
+      today = Time.zone.today
+      today_str = today.iso8601
+
+      # Setting start will set active to due
+      datepicker.set_today 'start'
+      datepicker.expect_start_date today_str
+      datepicker.expect_due_highlighted
+
+      datepicker.set_today 'due'
+      datepicker.expect_due_date today_str
+      datepicker.expect_start_highlighted
+
+      datepicker.expect_duration 1
+
+      apply_and_expect_saved start_date: today,
+                             due_date: today,
+                             duration: 1
     end
   end
 end

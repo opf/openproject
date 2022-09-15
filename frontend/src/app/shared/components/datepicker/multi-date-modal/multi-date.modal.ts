@@ -346,15 +346,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   setToday(key:DateKeys):void {
-    const today = parseDate(new Date());
-    this.dates[key] = this.timezoneService.formattedISODate(today);
+    this.datepickerChanged$.next([key, new Date()]);
 
-    if (today instanceof Date) {
-      this.enforceManualChangesToDatepicker(today);
-      this.toggleCurrentActivatedField();
-    } else {
-      this.enforceManualChangesToDatepicker();
-    }
+    const nextActive = key === 'start' ? 'end' : 'start';
+    this.setCurrentActivatedField(nextActive);
   }
 
   // eslint-disable-next-line class-methods-use-this
