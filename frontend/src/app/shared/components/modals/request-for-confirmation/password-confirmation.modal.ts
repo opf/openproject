@@ -45,19 +45,17 @@ export class PasswordConfirmationModalComponent extends ConfirmDialogModalCompon
 
   @ViewChild('passwordConfirmationField', { static: true }) passwordConfirmationField:ElementRef;
 
+  public additionalText = {
+    field_description: I18n.t('js.password_confirmation.field_description'),
+    confirm_button: I18n.t('js.button_confirm'),
+    password: I18n.t('js.label_password'),
+    cancel_button: I18n.t('js.button_cancel'),
+  };
 
   public ngOnInit():void {
     super.ngOnInit();
 
-    this.text = {
-      title: I18n.t('js.password_confirmation.title'),
-      field_description: I18n.t('js.password_confirmation.field_description'),
-      confirm_button: I18n.t('js.button_confirm'),
-      cancel_button: I18n.t('js.button_cancel'),
-      password: I18n.t('js.label_password'),
-    };
-
-
+    this.text.title = I18n.t('js.password_confirmation.title');
     this.closeOnEscape = false;
     this.closeOnOutsideClick = false;
     this.showClose = false;
