@@ -140,7 +140,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   private initializeChangeset(value:GridWidgetResource) {
     const schemaHref = 'customtext-schema';
     const grid:GridResource = value.grid;
-    const resourceSource = {
+    const resourceSource:HalSource = {
       text: value.options.text,
       getEditorContext: () => ({
         type: 'full',
@@ -149,12 +149,16 @@ export class CustomTextEditFieldService extends EditFieldHandler {
       canAddAttachments: value.grid.canAddAttachments as boolean,
       _links: {
         attachments: grid.attachments as { href?:string },
-        prepareAttachment: grid.prepareAttachment as { href?:string },
         schema: {
           href: schemaHref,
         },
       },
     };
+
+    if (grid.prepareAttachment as { href?:string }) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+      resourceSource._links.prepareAttachment = grid.prepareAttachment;
+    }
 
     const resource = this.halResource.createHalResource(resourceSource, true);
 
