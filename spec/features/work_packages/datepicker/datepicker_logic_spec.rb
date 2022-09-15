@@ -232,6 +232,74 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
+  describe 'when all values set, removing duration through icon (test case 6a)' do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse('2021-02-09'),
+        due_date: Date.parse('2021-02-12'),
+        duration: 3
+      }
+    end
+
+    it 'also unsets the due date' do
+      datepicker.expect_start_date '2021-02-09'
+      datepicker.expect_due_date '2021-02-12'
+      datepicker.expect_duration 3
+
+      # The spec clears faster than the due date is filled, wait a bit
+      sleep 1
+      datepicker.clear_duration_with_icon
+
+      datepicker.expect_start_date '2021-02-09'
+      datepicker.expect_due_date ''
+      datepicker.expect_duration nil
+    end
+  end
+
+  describe 'when all values set, removing duration and setting it again' do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse('2021-02-09'),
+        due_date: Date.parse('2021-02-12'),
+        duration: 3
+      }
+    end
+
+    it 'allows re-deriving duration' do
+      datepicker.expect_start_date '2021-02-09'
+      datepicker.expect_due_date '2021-02-12'
+      datepicker.expect_duration 3
+
+      # The spec clears faster than the due date is filled, wait a bit
+      sleep 1
+      datepicker.clear_duration_with_icon
+
+      datepicker.expect_start_date '2021-02-09'
+      datepicker.expect_due_date ''
+      datepicker.expect_duration nil
+
+      # Now select a date
+      datepicker.select_day 5
+
+      datepicker.expect_start_date '2021-02-05'
+      datepicker.expect_due_date '2021-02-09'
+      datepicker.expect_duration 3
+
+      # Clear again
+      sleep 1
+      datepicker.clear_duration_with_icon
+
+      datepicker.expect_start_date '2021-02-05'
+      datepicker.expect_due_date ''
+      datepicker.expect_duration nil
+
+      datepicker.select_day 8
+      datepicker.expect_start_date '2021-02-05'
+      datepicker.expect_due_date '2021-02-08'
+      datepicker.expect_duration 2
+    end
+  end
+
   describe 'when all values set, changing start date in calendar (test case 7)' do
     let(:current_attributes) do
       {

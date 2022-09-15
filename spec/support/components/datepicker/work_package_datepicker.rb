@@ -190,5 +190,13 @@ module Components
       # Focus a different field
       start_date_field.click
     end
+
+    def clear_duration_with_icon
+      duration_field.click
+
+      page
+        .find('[data-qa-selector="op-datepicker-modal--duration-field"] .spot-text-field--clear-button')
+        .click
+    end
   end
 end

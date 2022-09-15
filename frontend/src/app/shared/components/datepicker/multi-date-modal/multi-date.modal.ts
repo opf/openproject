@@ -388,7 +388,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   handleDurationFocusOut():void {
-    this.durationFocused = false;
+    setTimeout(() => {
+      this.durationFocused = false;
+    });
   }
 
   get displayedDuration():string {
@@ -553,9 +555,12 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     // Focus moves to finish date
     this.setCurrentActivatedField('end');
 
-    // If duration has value, derive end date from start and duration
     if (this.duration) {
+      // If duration has value, derive end date from start and duration
       this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+    } else if (this.dates.start && this.dates.end) {
+      // If start and due now have values, derive duration again
+      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
     }
   }
 
