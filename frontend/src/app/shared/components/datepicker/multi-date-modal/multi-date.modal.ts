@@ -209,7 +209,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     .durationChanges$
     .pipe(
       this.untilDestroyed(),
-      distinctUntilChanged(),
       debounceTime(500),
       map((value) => (value === '' ? null : parseInt(value, 10))),
       filter((val) => val !== this.duration),
