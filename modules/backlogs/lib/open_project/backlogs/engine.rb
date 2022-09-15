@@ -132,6 +132,7 @@ module OpenProject::Backlogs
                Version]
 
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
+    patch_with_namespace :WorkPackages, :UpdateAncestors, :Loader
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :DemoData, :ProjectSeeder
     patch_with_namespace :WorkPackages, :UpdateAncestorsService

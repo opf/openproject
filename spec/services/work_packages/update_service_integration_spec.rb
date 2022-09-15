@@ -549,6 +549,31 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
     end
   end
 
+  describe 'inheriting ignore_non_working_days' do
+    let(:attributes) { { ignore_non_working_days: true } }
+
+    before do
+      parent_work_package
+      grandparent_work_package
+      sibling1_work_package
+    end
+
+    it 'propagates the value up the ancestor chain' do
+      expect(subject)
+        .to be_success
+
+      # receives the provided value
+      expect(work_package.reload.ignore_non_working_days)
+        .to be_truthy
+
+      # parent and grandparent receive the value
+      expect(parent_work_package.reload.ignore_non_working_days)
+        .to be_truthy
+      expect(grandparent_work_package.reload.ignore_non_working_days)
+        .to be_truthy
+    end
+  end
+
   describe 'closing duplicates on closing status' do
     let(:status_closed) do
       create(:status,
