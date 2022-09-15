@@ -10,6 +10,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {
@@ -138,6 +139,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
    */
   private initializeChangeset(value:GridWidgetResource) {
     const schemaHref = 'customtext-schema';
+    const grid:GridResource = value.grid;
     const resourceSource = {
       text: value.options.text,
       getEditorContext: () => ({
@@ -146,7 +148,8 @@ export class CustomTextEditFieldService extends EditFieldHandler {
       } as ICKEditorContext),
       canAddAttachments: value.grid.canAddAttachments as boolean,
       _links: {
-        attachments: (value.grid as HalResource).attachments as { href?:string },
+        attachments: grid.attachments as { href?:string },
+        prepareAttachment: grid.prepareAttachment as { href?:string },
         schema: {
           href: schemaHref,
         },
