@@ -91,18 +91,21 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     Rails.logger.level = Logger::DEBUG
     Rails.logger.info "=" * 80
     Rails.logger.info "=" * 80
-    Rails.logger.info("== Browser test starting #{example.description} ==")
+    Rails.logger.info("=== Browser test starting #{example.description} ===")
     Rails.logger.info "=" * 80
-    Rails.logger.info("== login_as user ==")
+    Rails.logger.info("=== login_as user ===")
     login_as user
-    Rails.logger.info("== visit root_path ==")
+    Rails.logger.info("=== visit root_path ===")
     visit root_path
-    Rails.logger.info("== end of before block ==")
+
+    Rails.logger.info("=== sleep 3 ===")
+    sleep 3
+    Rails.logger.info("=== end of before block ===")
   end
 
   after do
     Rails.logger.level = Logger::INFO
-    Rails.logger.info("== Browser logs below ==")
+    Rails.logger.info("=== Browser logs below ===")
     Rails.logger.info(top_menu.get_browser_logs)
   rescue
     Rails.logger.info("getting logs failed :(")

@@ -35,7 +35,7 @@ module Components
       include ::Components::Autocompleter::AutocompleteHelpers
 
       def get_browser_logs
-        page.driver.browser.manage.instance_variable_get(:@bridge).log("browser")
+        "\n" + page.driver.browser.manage.instance_variable_get(:@bridge).log("browser").join("\n")
       end
 
       def toggle
