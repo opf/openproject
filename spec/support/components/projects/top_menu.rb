@@ -75,7 +75,7 @@ module Components
       end
 
       def autocompleter
-        page.find autocompleter_selector
+        page.find autocompleter_selector, wait: 10
       end
 
       def expect_result(name, disabled: false)
