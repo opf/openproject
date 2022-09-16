@@ -25,6 +25,6 @@ ru:
         open_location: 'Открыть файл в расположении'
         remove: "Удалить ссылку на файл"
         remove_confirmation: >
-          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
-        remove_short: "Remove link"
+          Вы уверены, что хотите удалить файл из этого пакета работ? Отсоединение не влияет на исходный файл и только удаляет соединение с этим рабочим пакетом.
+        remove_short: "Удалить ссылку"
         not_allowed_tooltip: "Войдите в Nextcloud для доступа к этому файлу"

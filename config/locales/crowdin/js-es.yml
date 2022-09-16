@@ -26,9 +26,9 @@ es:
       loading: "Cargando…"
       updating: "Actualizando…"
     attachments:
-      delete: "Delete attachment"
+      delete: "Eliminar archivo adjunto"
       delete_confirmation: |
-        Are you sure you want to delete this file? This action is not reversible.
+        ¿Estás seguro de que quieres eliminar este archivo? Esta acción es irreversible.
       draggable_hint: |
         Arrastre el campo del editor a una imagen alineada o un archivo adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
     autocomplete_select:
@@ -85,10 +85,10 @@ es:
     button_open_fullscreen: "Abrir en pantalla completa"
     button_show_cards: "Mostrar vista de tarjeta"
     button_show_list: "Mostrar vista de lista"
-    button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
+    button_show_table: "Mostrar vista de tabla"
+    button_show_gantt: "Mostrar diagrama de Gantt"
+    button_show_fullscreen: "Mostrar en pantalla completa"
+    button_more_actions: "Más acciones"
     button_quote: "presupuesto"
     button_save: "Guardar"
     button_settings: "Configuración"
@@ -547,9 +547,9 @@ es:
         prioritized: 'priorizar'
       facets:
         unread: 'No leídas'
-        unread_title: 'Show unread'
+        unread_title: 'Mostrar no leídos'
         all: 'Todos'
-        all_title: 'Show all'
+        all_title: 'Mostrar todos'
       center:
         and_more_users:
           one: 'y 1 más'
@@ -882,7 +882,7 @@ es:
       message_work_package_status_blocked: "El estado del paquete de trabajo no permite la escritura porque están asignados como estado y versión cerrada."
       placeholder_filter_by_text: "Asunto, descripción, comentarios, ..."
       filters:
-        title: 'Filter work packages'
+        title: 'Filtrar paquetes de trabajo'
       inline_create:
         title: 'Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista'
       create:

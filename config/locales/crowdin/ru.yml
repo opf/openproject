@@ -732,7 +732,7 @@ ru:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one working day needs to be specified.'
+              working_days_are_missing: 'По крайней мере один рабочий день должен быть указан.'
         time_entry:
           attributes:
             hours:
@@ -1964,7 +1964,7 @@ ru:
   label_workflow: "Рабочий поток"
   label_workflow_plural: "Рабочие потоки"
   label_workflow_summary: "Сводка"
-  label_working_days: "Working days"
+  label_working_days: "Рабочие дни"
   label_x_closed_work_packages_abbr:
     one: "1 закрыто"
     other: "%{count} закрыто"
@@ -2025,7 +2025,7 @@ ru:
       center: 'В центр уведомлений'
       see_in_center: 'Смотрите комментарий в центре уведомлений'
       settings: 'Изменить настройки электронной почты'
-    salutation: 'Hello %{user}!'
+    salutation: 'Здравствуйте, %{user}!'
     work_packages:
       created_at: 'Создано %{timestamp} пользователем %{user} '
       login_to_see_all: 'Войдите, чтобы увидеть все уведомления.'

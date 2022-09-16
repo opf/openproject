@@ -3,9 +3,9 @@ cs:
   js:
     team_planner:
       add_existing: 'Přidat existující'
-      add_existing_title: 'Add existing work packages'
-      create_label: 'Team planner'
-      create_title: 'Create new team planner'
+      add_existing_title: 'Přidat existující pracovní balíčky'
+      create_label: 'Týmový plánovač'
+      create_title: 'Vytvořit nový týmový plánovač'
       unsaved_title: 'Nepojmenovaný plánovač týmu'
       no_data: 'Přidejte řešitele k nastavení svého týmového plánovače.'
       add_assignee: 'Přidat řešitele'

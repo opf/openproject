@@ -728,7 +728,7 @@ es:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one working day needs to be specified.'
+              working_days_are_missing: 'Se necesita especificar al menos un día laborable.'
         time_entry:
           attributes:
             hours:
@@ -1928,7 +1928,7 @@ es:
   label_workflow: "Flujo de trabajo"
   label_workflow_plural: "Flujos de trabajo"
   label_workflow_summary: "Resumen"
-  label_working_days: "Working days"
+  label_working_days: "Días laborables"
   label_x_closed_work_packages_abbr:
     one: "1 cerrado"
     other: "%{count} cerrados"
@@ -2908,9 +2908,9 @@ es:
       title: "Eliminar el pauqete de trabajo"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Definir días considerados parte de la semana laboral.</b><br/> Los días que no están seleccionados se omiten al programar paquetes de trabajo (y no están incluidos en la cuenta de días). Estos pueden ser substituidos en los paquetes de trabajo.
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Cambiar qué días de la semana se consideran laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia.
   nothing_to_preview: "Nada para previsualizar"
   api_v3:
     attributes:
