@@ -135,12 +135,12 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       set_working_week_days('wednesday')
     end
 
-    it 'moves the follower start date backwards by consequence of the predecessor dates shift' do
+    it 'does not move the follower backwards' do
       job.perform_now(user_id: user.id)
       expect(WorkPackage.all).to match_schedule(<<~CHART)
-        days        | MTWTFSS |
-        predecessor |  XX     | working days work week
-        follower    |    XXX  | working days include weekends
+        days        | MTWTFSS  |
+        predecessor |  XX      | working days work week
+        follower    |     XXX  | working days include weekends
       CHART
     end
   end

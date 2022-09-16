@@ -290,34 +290,10 @@ describe WorkPackages::SetScheduleService, 'working days' do
           CHART
         end
 
-        it 'reschedules the follower to start after the non-working days' do
-          expect_schedule(subject.all_results, <<~CHART)
+        it 'does not move the follower' do
+          expect(subject.all_results).to match_schedule(<<~CHART)
                           |    MTWTFSS |
             work_package  | X          |
-            follower      |    XX      |
-          CHART
-        end
-      end
-
-      context 'on a day in the middle of working days' do
-        let_schedule(<<~CHART)
-          days          | MTWTFSS |
-          work_package  | X       |
-          follower      |  XX     | follows work_package
-        CHART
-
-        before do
-          change_schedule([work_package], <<~CHART)
-            days          | mtwtfssmtwtfssMTWTFSS |
-            work_package  |  X                    |
-          CHART
-        end
-
-        it 'reschedules the follower to move by the same delta of working days' do
-          expect_schedule(subject.all_results, <<~CHART)
-            days          | mtwtfssmtwtfssMTWTFSS |
-            work_package  |  X                    |
-            follower      |   XX                  |
           CHART
         end
       end
@@ -336,11 +312,10 @@ describe WorkPackages::SetScheduleService, 'working days' do
           CHART
         end
 
-        it 'reschedules follower to move backward by the same delta of working days' do
-          expect_schedule(subject.all_results, <<~CHART)
+        it 'does not move the follower' do
+          expect(subject.all_results).to match_schedule(<<~CHART)
                           |    MTWTFSS   |
             work_package  | X            |
-            follower      |       X      |
           CHART
         end
       end
@@ -356,39 +331,14 @@ describe WorkPackages::SetScheduleService, 'working days' do
         before do
           change_schedule([work_package], <<~CHART)
             days          | mtwtfssmtwtfssMTWTFSS |
-            work_package  |  X            _       |
-          CHART
-        end
-
-        it 'reschedules follower to move backward but not earlier than the other relation soonest start date' do
-          expect_schedule(subject.all_results, <<~CHART)
-            days          | mtwtfssmtwtfssMTWTFSS |
-            work_package  |  X                    |
-            follower      |            X..X       |
-          CHART
-        end
-      end
-
-      context 'with the follower having another relation limiting movement and only due date' do
-        let_schedule(<<~CHART)
-          days          | mtwtfssmtwtfssMTWTFSS |
-          work_package  |               X       |
-          follower      |                 ]     | follows work_package, follows annoyer with delay 2
-          annoyer       |    XX..XX             |
-        CHART
-
-        before do
-          change_schedule([work_package], <<~CHART)
-            days          | mtwtfssmtwtfssMTWTFSS |
             work_package  |  X                    |
           CHART
         end
 
-        it 'reschedules follower to start at the other relation soonest start date and keep its end date' do
+        it 'does not move the follower' do
           expect(subject.all_results).to match_schedule(<<~CHART)
             days          | mtwtfssmtwtfssMTWTFSS |
             work_package  |  X                    |
-            follower      |            X..XXX     |
           CHART
         end
       end
@@ -603,11 +553,10 @@ describe WorkPackages::SetScheduleService, 'working days' do
           CHART
         end
 
-        it 'reschedules follower without influence from the other predecessor' do
+        it 'does not move the follower' do
           expect(subject.all_results).to match_schedule(<<~CHART)
             days          | mtwtfssMTWTFSS |
             work_package  |   ]            |
-            follower      |    XX..X       |
           CHART
         end
       end
@@ -729,64 +678,10 @@ describe WorkPackages::SetScheduleService, 'working days' do
         CHART
       end
 
-      it 'reschedules follower and follower parent to start right after the moved predecessor' do
+      it 'does not reschedule the followers' do
         expect(subject.all_results).to match_schedule(<<~CHART)
           days            | mtwtfssMTWTFSS |
           work_package    |    ]           |
-          follower        |     X..X       |
-          follower_parent |     X..X       |
-        CHART
-      end
-    end
-
-    context 'when moving backwards with the parent having a predecessor limiting movement' do
-      let_schedule(<<~CHART)
-        days             | mtwtfssMTWTFSS |
-        work_package     |        ]       |
-        follower         |         XX     | follows work_package, child of follower_parent
-        follower_parent  |         XX     | follows predecessor with delay 2
-        predecessor      |  XX            |
-      CHART
-
-      before do
-        change_schedule([work_package], <<~CHART)
-          days         | mtwtfssMTWTFSS |
-          work_package |   ]            |
-        CHART
-      end
-
-      it 'constraints follower and follower parent to start after the predecessor limiting movement' do
-        expect(subject.all_results).to match_schedule(<<~CHART)
-          days            | mtwtfssMTWTFSS |
-          work_package    |   ]            |
-          follower        |        XX      |
-          follower_parent |        XX      |
-        CHART
-      end
-    end
-
-    context 'when moving backwards with the parent having another relation not limiting movement' do
-      let_schedule(<<~CHART)
-        days             |     mtwtfssMTWTFSS |
-        work_package     |            ]       |
-        follower         |             XXXX   | follows work_package, child of follower_parent
-        follower_parent  |             XXXX   | follows predecessor with delay 2
-        predecessor      | XX                 |
-      CHART
-
-      before do
-        change_schedule([work_package], <<~CHART)
-          days         | mtwtfssMTWTFSS |
-          work_package |  ]             |
-        CHART
-      end
-
-      it 'reschedules follower and follower parent to start right after the moved predecessor' do
-        expect(subject.all_results).to match_schedule(<<~CHART)
-          days            | mtwtfssMTWTFSS |
-          work_package    |  ]             |
-          follower        |   XXX..X       |
-          follower_parent |   XXX..X       |
         CHART
       end
     end
@@ -807,12 +702,10 @@ describe WorkPackages::SetScheduleService, 'working days' do
         CHART
       end
 
-      it 'reschedules follower to start right after the moved predecessor, and follower parent spans on its two children' do
+      it 'does not rechedule the followers or the other child' do
         expect(subject.all_results).to match_schedule(<<~CHART)
           days            | mtwtfssMTWTFSS |
           work_package    |  ]             |
-          follower        |   XX           |
-          follower_parent |   XXX..XXXXX   |
         CHART
       end
     end
@@ -1110,14 +1003,10 @@ describe WorkPackages::SetScheduleService, 'working days' do
         CHART
       end
 
-      it 'reschedules every follower backwards by the same delta' do
+      it 'does not reschedule any followers' do
         expect(subject.all_results).to match_schedule(<<~CHART)
-          days         | m     sMTWTFSSm     sm     sm   |
-          work_package |    ]                            |
-          follower1    |     X..XX                       |
-          follower2    |          XXX..X                 |
-          follower3    |                      XXXXX      |
-          follower4    |                              XX |
+          days         | m     sMTWTFSS |
+          work_package |    ]           |
         CHART
       end
     end
@@ -1170,14 +1059,10 @@ describe WorkPackages::SetScheduleService, 'working days' do
         CHART
       end
 
-      it 'reschedules every follower backwards by the same delta' do
+      it 'does not reschedule any followers' do
         expect(subject.all_results).to match_schedule(<<~CHART)
-          days         | m     sMTWTFSSm    |
-          work_package |   ]                |
-          follower1    |    XX..X           |
-          follower2    |         XXXX..X    |
-          follower3    |        XXX         |
-          follower4    |                XXX |
+          days         | m     sMTWTFSS |
+          work_package |   ]            |
         CHART
       end
     end
