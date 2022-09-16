@@ -108,7 +108,6 @@ describe 'Enterprise token', type: :feature, js: true do
 
         # Expect modal
         find('[data-qa-selector="confirmation-modal--confirmed"]').click
-        expect(textarea.value).to be_empty
         expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_delete))
 
         # Assume next request

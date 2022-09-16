@@ -11,8 +11,10 @@
 >
 </enterprise-active-saved-trial>
 
-<%= form_tag(enterprise_path, method: :delete) do %>
-  <confirm-form-submit></confirm-form-submit>
+<%= form_tag(enterprise_path,
+             method: :delete,
+             data: augmented_confirmation_dialog
+    ) do %>
   <%= styled_button_tag t(:button_delete),
                         method: :delete,
                         class: '-with-icon icon-delete' %>

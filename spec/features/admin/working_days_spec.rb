@@ -28,9 +28,10 @@
 
 require 'spec_helper'
 
-describe 'Working Days', type: :feature do
+describe 'Working Days', type: :feature, js: true do
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
   shared_let(:admin) { create :admin }
+  let(:dialog) { ::Components::ConfirmationDialog.new }
 
   before do
     login_as(admin)
@@ -46,11 +47,27 @@ describe 'Working Days', type: :feature do
     end
   end
 
+  it 'rejects the updates when cancelling the dialog' do
+    expect(Setting.working_days).to eq([1, 2, 3, 4, 5])
+    uncheck 'Monday'
+    uncheck 'Friday'
+
+    click_on 'Save'
+
+    dialog.cancel
+    expect(page).to have_no_selector('.flash.notice')
+
+    expect(Setting.working_days).to eq([1, 2, 3, 4, 5])
+  end
+
   it 'updates the values and saves the settings' do
     expect(Setting.working_days).to eq([1, 2, 3, 4, 5])
     uncheck 'Monday'
     uncheck 'Friday'
+
     click_on 'Save'
+
+    dialog.confirm
 
     expect(page).to have_selector('.flash.notice', text: 'Successful update.')
     expect(page).to have_unchecked_field 'Monday'
@@ -60,6 +77,8 @@ describe 'Working Days', type: :feature do
     expect(page).to have_checked_field 'Tuesday'
     expect(page).to have_checked_field 'Wednesday'
     expect(page).to have_checked_field 'Thursday'
+
+    RequestStore.clear!
     expect(Setting.working_days).to eq([2, 3, 4])
   end
 
@@ -71,6 +90,8 @@ describe 'Working Days', type: :feature do
     uncheck 'Friday'
 
     click_on 'Save'
+
+    dialog.confirm
 
     expect(page).to have_selector('.flash.error', text: 'At least one working day needs to be specified.')
     # Restore the checkboxes to their valid state

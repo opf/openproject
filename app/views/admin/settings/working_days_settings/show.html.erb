@@ -39,7 +39,16 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 </div>
 
-<%= styled_form_tag(admin_settings_working_days_path, method: :patch) do %>
+<%= styled_form_tag(
+      admin_settings_working_days_path,
+      method: :patch,
+      data: augmented_confirmation_dialog(
+        title: t('working_days.change_button'),
+        button_continue: t('working_days.change_button'),
+        text: "#{t('working_days.warning')}\n#{t(:text_are_you_sure_continue)}",
+        danger_zone: true
+      )
+    ) do %>
   <section class="form--section">
     <p>
       <%= t("working_days.info").html_safe %>
