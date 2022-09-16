@@ -71,7 +71,7 @@ module Components
       end
 
       def search_results
-        page.find autocompleter_results_selector
+        page.find autocompleter_results_selector, wait: 10
       end
 
       def autocompleter
