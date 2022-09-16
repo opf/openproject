@@ -42,11 +42,13 @@ export class SearchableProjectListService {
   ) { }
 
   public loadAllProjects():void {
+    console.log('%%% loadAllProjects');
     this.fetchingProjects$.next(true);
 
     getPaginatedResults<IProject>(
       (params) => {
         const collectionURL = listParamsString({ ...this.params, ...params });
+        console.log('%%% loadAllProjects : getPaginatedResults : about to run this.http.get()');
         return this.http.get<IHALCollection<IProject>>(this.apiV3Service.projects.path + collectionURL);
       },
     )
@@ -54,6 +56,7 @@ export class SearchableProjectListService {
         finalize(() => this.fetchingProjects$.next(false)),
       )
       .subscribe((projects) => {
+        console.log('%%% loadAllProjects : subscribe : received projects', JSON.stringify(projects, null, '  '));
         this.allProjects$.next(projects);
       });
   }

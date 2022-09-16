@@ -76,6 +76,9 @@ if [ "$1" == "run-features" ]; then
 	execute "bundle exec rake assets:precompile"
 	execute "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
 	if ! execute "time bundle exec rspec spec/features/projects/project_autocomplete_spec.rb" ; then
+    echo "##########################################"
+    echo "##########################################"
+    echo "##########################################"
 		execute "cat log/test.log"
 		cleanup
 		exit 1
