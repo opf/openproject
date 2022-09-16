@@ -92,7 +92,7 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     visit root_path
   end
 
-  it 'allows to filter and select projects' do
+  fit 'allows to filter and select projects' do
     top_menu.toggle
     top_menu.expect_open
 
@@ -164,19 +164,36 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     expect(page).to have_selector('.news-menu-item.selected')
   end
 
-  it 'navigates to the first project upon hitting enter in the search bar' do
+  fit 'trying to reproduce issue 1' do
+    puts "trying to reproduce issue 1"
     top_menu.toggle
     top_menu.expect_open
 
     # projects are displayed initially
     top_menu.expect_result project.name
+    # public project is displayed as it is public
+    top_menu.expect_result public_project.name
+  end
 
-    # Filter for projects
-    top_menu.search '<strong'
+  fit 'trying to reproduce issue 2' do
+    puts "trying to reproduce issue 2"
+    top_menu.toggle
+    top_menu.expect_open
 
-    # Visit a project
-    top_menu.autocompleter.send_keys :enter
+    # projects are displayed initially
+    top_menu.expect_result project.name
+    # public project is displayed as it is public
+    top_menu.expect_result public_project.name
+  end
 
-    top_menu.expect_current_project project2.name
+  fit 'trying to reproduce issue 3' do
+    puts "trying to reproduce issue 3"
+    top_menu.toggle
+    top_menu.expect_open
+
+    # projects are displayed initially
+    top_menu.expect_result project.name
+    # public project is displayed as it is public
+    top_menu.expect_result public_project.name
   end
 end

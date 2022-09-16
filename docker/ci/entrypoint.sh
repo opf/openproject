@@ -77,6 +77,7 @@ if [ "$1" == "run-features" ]; then
 	execute "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
 	if ! execute "time bundle exec rake parallel:features" ; then
 		execute "cat tmp/parallel_summary.log"
+		execute "cat log/test.log"
 		cleanup
 		exit 1
 	else

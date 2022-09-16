@@ -541,7 +541,7 @@ Settings::Definition.define do
       writable: false
 
   add :log_level,
-      default: 'info',
+      default: 'debug',
       writable: false
 
   add :log_requesting_user,
