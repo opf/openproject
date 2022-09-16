@@ -88,6 +88,9 @@
         &-icon
           margin-right: $spot-spacing-0-5
 
+    &-actions > &-action-button:not(:last-child)
+      margin-right: $spot-spacing-1
+
   &--file-list &--file-list-item &--file-list-item-action
     padding-left: 0
     padding-right: 0
@@ -132,6 +135,9 @@
   &--icon
     width: $spot-spacing-1-5
     height: $spot-spacing-1-5
+
+    &:not(:first-child)
+      margin-left: $spot-spacing-0-5
 
     &_pdf
       color: #B93A33

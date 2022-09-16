@@ -26,7 +26,7 @@
 
   <p
     *ngIf="showLinkFilesAction | async"
-    class="spot-body-small"
+    class="spot-body-small op-files-tab--file-list-actions"
   >
     <a
       class="spot-link op-files-tab--file-list-action-button"
@@ -34,6 +34,13 @@
     >
       <span class="spot-icon spot-icon_external-link"></span>
       <span [textContent]="text.actions.linkFile(storageType)"></span>
+    </a>
+    <a
+      class="spot-link op-files-tab--file-list-action-button"
+      (click)="openLinkFilesDialog()"
+    >
+      <span class="spot-icon spot-icon_add-link"></span>
+      <span [textContent]="text.actions.linkExisting"></span>
     </a>
   </p>
 </ng-container>
