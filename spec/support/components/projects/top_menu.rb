@@ -67,11 +67,11 @@ module Components
       end
 
       def search_results
-        page.find autocompleter_results_selector
+        page.find autocompleter_results_selector, wait: 10
       end
 
       def autocompleter
-        page.find autocompleter_selector
+        page.find autocompleter_selector, wait: 10
       end
 
       def expect_result(name, disabled: false)
