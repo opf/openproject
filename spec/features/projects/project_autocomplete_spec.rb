@@ -95,6 +95,7 @@ describe 'Projects autocomplete page', type: :feature, js: true do
   it 'allows to filter and select projects' do
     top_menu.toggle
     top_menu.expect_open
+    sleep 2
 
     # projects are displayed initially
     top_menu.expect_result project.name
