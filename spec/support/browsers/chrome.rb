@@ -15,6 +15,7 @@ def register_chrome(language, name: :"chrome_#{language}", override_time_zone: n
     else
       options.add_argument('--window-size=1920,1080')
       options.add_argument('--headless')
+      options.add_argument('--auto-open-devtools-for-tabs')
     end
 
     options.add_argument('--no-sandbox')

@@ -34,6 +34,10 @@ module Components
       include RSpec::Matchers
       include ::Components::Autocompleter::AutocompleteHelpers
 
+      def get_browser_logs
+        page.driver.browser.manage.logs.get(:browser)
+      end
+
       def toggle
         page.find('#projects-menu').click
       end

@@ -92,7 +92,18 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     visit root_path
   end
 
+  after do
+    Rails.logger.info("== Browser logs below ==")
+    Rails.logger.info(top_menu.get_browser_logs)
+  rescue
+    Rails.logger.info("getting logs failed :(")
+  end
+
   fit 'allows to filter and select projects' do
+    Rails.logger.info "=" * 80
+    Rails.logger.info "=" * 80
+    Rails.logger.info "original test"
+    Rails.logger.info "=" * 80
     top_menu.toggle
     top_menu.expect_open
 
@@ -165,7 +176,10 @@ describe 'Projects autocomplete page', type: :feature, js: true do
   end
 
   fit 'trying to reproduce issue 1' do
-    puts "trying to reproduce issue 1"
+    Rails.logger.info "=" * 80
+    Rails.logger.info "=" * 80
+    Rails.logger.info "trying to reproduce issue 1"
+    Rails.logger.info "=" * 80
     top_menu.toggle
     top_menu.expect_open
 
@@ -176,7 +190,10 @@ describe 'Projects autocomplete page', type: :feature, js: true do
   end
 
   fit 'trying to reproduce issue 2' do
-    puts "trying to reproduce issue 2"
+    Rails.logger.info "=" * 80
+    Rails.logger.info "=" * 80
+    Rails.logger.info "trying to reproduce issue 2"
+    Rails.logger.info "=" * 80
     top_menu.toggle
     top_menu.expect_open
 
@@ -187,7 +204,10 @@ describe 'Projects autocomplete page', type: :feature, js: true do
   end
 
   fit 'trying to reproduce issue 3' do
-    puts "trying to reproduce issue 3"
+    Rails.logger.info "=" * 80
+    Rails.logger.info "=" * 80
+    Rails.logger.info "trying to reproduce issue 3"
+    Rails.logger.info "=" * 80
     top_menu.toggle
     top_menu.expect_open
 
