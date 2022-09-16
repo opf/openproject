@@ -17,6 +17,7 @@
       ></op-datepicker-scheduling-toggle>
       <op-datepicker-working-days-toggle
         name="ignoreNonWorkingDays"
+        [disabled]="!ignoreNonWorkingDaysWritable"
         [(ngModel)]="ignoreNonWorkingDays"
         (ngModelChange)="changeNonWorkingDays()"
       ></op-datepicker-working-days-toggle>

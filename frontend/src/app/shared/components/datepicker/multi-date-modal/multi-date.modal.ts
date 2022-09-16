@@ -222,6 +222,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   private changeset:ResourceChangeset;
 
+  ignoreNonWorkingDaysWritable = true;
+
   private datePickerInstance:DatePicker;
 
   private formUpdates$ = new Subject<FieldUpdates>();
@@ -258,6 +260,16 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
     this.scheduleManually = !!this.changeset.value('scheduleManually');
     this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
+
+    // Ensure we get the writable values from the loaded form
+    void this
+      .changeset
+      .getForm()
+      .then((form) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        this.ignoreNonWorkingDaysWritable = !!form.schema.ignoreNonWorkingDays.writable;
+        this.cdRef.detectChanges();
+      });
 
     this.setDurationDaysFromUpstream(this.changeset.value('duration'));
 
