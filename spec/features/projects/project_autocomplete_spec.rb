@@ -84,15 +84,24 @@ describe 'Projects autocomplete page', type: :feature, js: true do
 
   include BecomeMember
 
-  before do
+  before do |example|
     ([project, project2, project3] + other_projects).each do |p|
       add_user_to_project! user:, project: p, role:
     end
+    Rails.logger.level = Logger::DEBUG
+    Rails.logger.info "=" * 80
+    Rails.logger.info "=" * 80
+    Rails.logger.info("== Browser test starting #{example.description} ==")
+    Rails.logger.info "=" * 80
+    Rails.logger.info("== login_as user ==")
     login_as user
+    Rails.logger.info("== visit root_path ==")
     visit root_path
+    Rails.logger.info("== end of before block ==")
   end
 
   after do
+    Rails.logger.level = Logger::INFO
     Rails.logger.info("== Browser logs below ==")
     Rails.logger.info(top_menu.get_browser_logs)
   rescue
@@ -100,10 +109,6 @@ describe 'Projects autocomplete page', type: :feature, js: true do
   end
 
   fit 'allows to filter and select projects' do
-    Rails.logger.info "=" * 80
-    Rails.logger.info "=" * 80
-    Rails.logger.info "original test"
-    Rails.logger.info "=" * 80
     top_menu.toggle
     top_menu.expect_open
 
@@ -176,24 +181,14 @@ describe 'Projects autocomplete page', type: :feature, js: true do
   end
 
   fit 'trying to reproduce issue 1' do
-    Rails.logger.info "=" * 80
-    Rails.logger.info "=" * 80
-    Rails.logger.info "trying to reproduce issue 1"
-    Rails.logger.info "=" * 80
     top_menu.toggle
     top_menu.expect_open
 
     # projects are displayed initially
     top_menu.expect_result project.name
-    # public project is displayed as it is public
-    top_menu.expect_result public_project.name
   end
 
   fit 'trying to reproduce issue 2' do
-    Rails.logger.info "=" * 80
-    Rails.logger.info "=" * 80
-    Rails.logger.info "trying to reproduce issue 2"
-    Rails.logger.info "=" * 80
     top_menu.toggle
     top_menu.expect_open
 
@@ -204,10 +199,6 @@ describe 'Projects autocomplete page', type: :feature, js: true do
   end
 
   fit 'trying to reproduce issue 3' do
-    Rails.logger.info "=" * 80
-    Rails.logger.info "=" * 80
-    Rails.logger.info "trying to reproduce issue 3"
-    Rails.logger.info "=" * 80
     top_menu.toggle
     top_menu.expect_open
 
