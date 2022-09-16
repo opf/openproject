@@ -75,8 +75,7 @@ if [ "$1" == "run-features" ]; then
 	execute "cd frontend; npm install ; cd -"
 	execute "bundle exec rake assets:precompile"
 	execute "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
-	if ! execute "time bundle exec rake parallel:features" ; then
-		execute "cat tmp/parallel_summary.log"
+	if ! execute "time bundle exec rspec spec/features/projects/project_autocomplete_spec.rb" ; then
 		execute "cat log/test.log"
 		cleanup
 		exit 1
