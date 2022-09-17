@@ -539,6 +539,7 @@ fil:
         progress: "Isinasagawa (%)"
         readonly: "Read only"
         schedule_manually: "Manual scheduling"
+        schedule_default: "Default scheduling"
         spent_hours: "Nauubos na oras"
         spent_time: "Nauubos na oras"
         subproject: "Kahaliling proyekto"
@@ -2562,6 +2563,7 @@ fil:
   text_access_token_hint: "Ang access token ay pinayagan kang pagbigyan ang external applications access sa pinagkukunan sa OpenProject."
   text_analyze: "Karagdagang pagsusuri: %{subject}"
   text_are_you_sure: "Sigurado ka ba?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Burahi ang work packaage at lahag ng batang work pckage?"
   text_assign_to_project: "Nakatalaga sa proyekto"
   text_form_configuration: >
@@ -2622,6 +2624,7 @@ fil:
   text_journal_set_to: "%{label} itinakda sa %{value}"
   text_journal_set_with_diff: "%{label} itinakda (%{link})"
   text_journal_label_value: "%{label} %{value}"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "Ang pinakabagong komento ay: %{note}"
   text_length_between: "Taas pagitan ng %{min} at %{max} na mga karakter."
   text_line_separated: "Maramihang halaga ang pinahintulutan (isang linya para sa bawat halaga)."
@@ -2912,6 +2915,7 @@ fil:
   working_days:
     info: >
       <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Walang mai-preview"

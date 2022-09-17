@@ -538,6 +538,7 @@ th:
         progress: "Progress (%)"
         readonly: "Read only"
         schedule_manually: "Manual scheduling"
+        schedule_default: "Default scheduling"
         spent_hours: "เวลาที่ใช้"
         spent_time: "เวลาที่ใช้"
         subproject: "โครงการย่อย"
@@ -2545,6 +2546,7 @@ th:
   text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
   text_analyze: "การวิเคราะห์เพิ่มเติม: %{subject}"
   text_are_you_sure: "คุณแน่ใจหรือไม่ ?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "ลบชุดภารกิจและ ชุดภารกิจย่อยที่เกี่ยวข้องทั้งหมดหรือไม่?"
   text_assign_to_project: "กำหนดไปยังโครงการ"
   text_form_configuration: >
@@ -2605,6 +2607,7 @@ th:
   text_journal_set_to: "กำหนดค่า %{label} เป็น %{value}"
   text_journal_set_with_diff: "มีการกำหนดค่า %{label} (%{link})"
   text_journal_label_value: "%{label} %{value}"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "ความคิดเห็นล่าสุดคือ: %{note}"
   text_length_between: "ความยาวระหว่าง %{min} จนถึง %{max} ตัวอักษร"
   text_line_separated: "อนุญาตให้มีหลายค่าได้ (หนึ่งค่าต่อหนึ่งบรรทัด)"
@@ -2893,6 +2896,7 @@ th:
   working_days:
     info: >
       <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "ไม่มีอะไรให้แสดงเป็นตัวอย่าง"

@@ -541,6 +541,7 @@ cs:
         progress: "Průběh (%)"
         readonly: "Pouze pro čtení"
         schedule_manually: "Manuální plánování"
+        schedule_default: "Default scheduling"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
         subproject: "Podprojekt"
@@ -2601,6 +2602,7 @@ cs:
   text_access_token_hint: "Přístupové tokeny vám umožňují udělit externím aplikacím přístup ke zdrojům v OpenProject."
   text_analyze: "Další analýza: %{subject}"
   text_are_you_sure: "Jste si jisti?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Smazat pracovní balíček a všechny podřízené pracovní balíčky?"
   text_assign_to_project: "Přiřadit k projektu"
   text_form_configuration: >
@@ -2661,6 +2663,7 @@ cs:
   text_journal_set_to: "%{label} nastaven na %{value}"
   text_journal_set_with_diff: "%{label} nastaven (%{link})"
   text_journal_label_value: "%{label} %{value}"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "Poslední komentář je: %{note}"
   text_length_between: "Délka mezi %{min} a %{max} znaky."
   text_line_separated: "Více hodnot povoleno (jeden řádek pro každou hodnotu)."
@@ -2954,6 +2957,7 @@ cs:
   working_days:
     info: >
       <b>Definujte dny považované za část pracovního týdne</b><br/> dny, které jsou při plánování pracovních balíčků označeny jsou přeskočeny (a nejsou zahrnuty do celkového denního počtu). Tyto mohou být přepsány na úrovni pracovního balíčku.
+    change_button: "Change working days"
     warning: >
       Změna, těch dnů v týdnu, které jsou považovány za pracovní dny, může ovlivnit datum zahájení a datum ukončení všech pracovních balíčků ve všech projektech v této instanci.
   nothing_to_preview: "Nic pro náhled"

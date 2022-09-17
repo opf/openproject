@@ -539,6 +539,7 @@ si:
         progress: "ප්රගතිය (%)"
         readonly: "Read only"
         schedule_manually: "Manual scheduling"
+        schedule_default: "Default scheduling"
         spent_hours: "වැය කළ කාලය"
         spent_time: "වැය කළ කාලය"
         subproject: "උප ව්යාපෘතිය"
@@ -2564,6 +2565,7 @@ si:
   text_access_token_hint: "ප්රවේශ ටෝකන ඔබට OpenProject හි සම්පත් සඳහා බාහිර යෙදුම් ප්රවේශය ලබා දීමට ඉඩ සලසයි."
   text_analyze: "තවදුරටත් විශ්ලේෂණය: %{subject}"
   text_are_you_sure: "ඔබට විශ්වාසද?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "වැඩ පැකේජය සහ සියලුම ළමා වැඩ පැකේජ මකන්න?"
   text_assign_to_project: "ව්යාපෘතියට පැවරීම"
   text_form_configuration: >
@@ -2624,6 +2626,7 @@ si:
   text_journal_set_to: "%{label} %{value}කිරීමට කට්ටලයක්"
   text_journal_set_with_diff: "%{label} කට්ටලයක් (%{link})"
   text_journal_label_value: "%{label} %{value}"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "නවතම අදහස් දැක්වීමෙන්: %{note}"
   text_length_between: "%{min} සහ %{max} අක්ෂර අතර දිග."
   text_line_separated: "බහු අගයන් අවසර දී ඇත (එක් එක් අගය සඳහා එක් රේඛාවක්)."
@@ -2914,6 +2917,7 @@ si:
   working_days:
     info: >
       <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "පෙරදසුන් කිරීමට කිසිවක් නැත"

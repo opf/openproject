@@ -540,6 +540,7 @@ ro:
         progress: "Progres (%)"
         readonly: "Read only"
         schedule_manually: "Programarea manuală"
+        schedule_default: "Default scheduling"
         spent_hours: "Timp consumat"
         spent_time: "Timp consumat"
         subproject: "Subproiect"
@@ -2582,6 +2583,7 @@ ro:
   text_access_token_hint: "Tichetele de acces permit aplicaţiilor externe accesul la resurse din OpenProject."
   text_analyze: "Continuare analiză: %{subject}"
   text_are_you_sure: "Sunteți sigur?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Doriți ștergerea pachetului de lucru și a tuturor pachetelor fii?"
   text_assign_to_project: "Alocare la proiect"
   text_form_configuration: >
@@ -2642,6 +2644,7 @@ ro:
   text_journal_set_to: "%{label} setat la %{value}"
   text_journal_set_with_diff: "%{label} setat (%{link})"
   text_journal_label_value: "%{label} %{value} adăugat"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "Ultimul comentariu este: %{note}"
   text_length_between: "Lungime între %{min} şi %{max} de caractere."
   text_line_separated: "Sunt permise valori multiple (un rând pentru fiecare valoare)."
@@ -2934,6 +2937,7 @@ ro:
   working_days:
     info: >
       <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Nimic de previzualizat"
