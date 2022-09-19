@@ -79,6 +79,7 @@ import {
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { castArray } from 'lodash';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
