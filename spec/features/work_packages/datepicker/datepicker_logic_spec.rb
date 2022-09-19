@@ -438,6 +438,28 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
+  describe 'when only finish date set, changing the start date to the future in the picker (Scenario 13 variation)' do
+    let(:current_attributes) do
+      {
+        start_date: nil,
+        due_date: Date.parse('2021-02-11'),
+        duration: nil
+      }
+    end
+
+    it 'unsets the finish date' do
+      datepicker.expect_start_date ''
+      datepicker.expect_due_date '2021-02-11'
+      datepicker.expect_duration ''
+
+      datepicker.set_start_date '2021-03-03'
+
+      datepicker.expect_start_date '2021-03-03'
+      datepicker.expect_due_date ''
+      datepicker.expect_duration ''
+    end
+  end
+
   describe 'when only start date set, changing the finish date to the past with today (Scenario 13a)' do
     let(:current_attributes) do
       {
