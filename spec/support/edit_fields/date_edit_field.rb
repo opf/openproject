@@ -29,6 +29,7 @@ class DateEditField < EditField
            :expect_due_date,
            :expect_duration,
            :set_duration,
+           :duration_field,
            :ignore_non_working_days, to: :datepicker
 
   def modal_selector
