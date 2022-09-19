@@ -7,6 +7,10 @@ import { isDirectory } from 'core-app/shared/components/file-links/file-link-ico
 export class SortFilesPipe implements PipeTransform {
   transform<T extends { mimeType?:string, name:string }>(array:T[]):T[] {
     return array.sort((a, b):number => {
+      if (isDirectory(a.mimeType) && isDirectory(b.mimeType)) {
+        return a.name.localeCompare(b.name);
+      }
+
       if (isDirectory(a.mimeType)) {
         return -1;
       }
@@ -15,7 +19,7 @@ export class SortFilesPipe implements PipeTransform {
         return 1;
       }
 
-      return a.name > b.name ? -1 : 1;
+      return a.name.localeCompare(b.name);
     });
   }
 }

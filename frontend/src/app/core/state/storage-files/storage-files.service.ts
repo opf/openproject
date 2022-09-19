@@ -63,6 +63,7 @@ export class StorageFilesResourceService extends ResourceCollectionService<IStor
         lastModifiedByName: 'Anakin Skywalker',
       },
       { id: 3, name: 'folder', mimeType: 'application/x-op-directory' },
+      { id: 4, name: 'directory', mimeType: 'application/x-op-directory' },
     ]);
   }
 }
