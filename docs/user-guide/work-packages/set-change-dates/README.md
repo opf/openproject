@@ -13,7 +13,7 @@ keywords: date picker start finish dates change modify update relations work pac
 | [Set start and finish dates](#set-start-and-finish-dates)    | How to set start and finish dates, and how to change them    |
 | [Duration and non-working days](#duration-and-non-working-days) | How to set duration, and how it affects start and finish dates |
 | [Scheduling mode](#scheduling-mode)                          | Enabling manual scheduling and what it does                  |
-| [Information and warning banners](#information-and-warning-banners) | What the different warning and information banners mean      |
+| [Information and warning ban ners](#information-and-warning-banners) | What the different warning and information banners mean      |
 
 ## Set start and finish dates
 
@@ -80,13 +80,15 @@ Certain work package types (such as Milestones) can only span one day and thus h
 
 ## Duration and Non-working days
 
-Starting with OpenProject 12.3, it is possible to manually input a duration for each work package and decide whether this duration should span working days only or all calendar days. 
+Starting with OpenProject 12.3, it is possible to manually input a duration for a work package and decide whether this duration should span working days only or all calendar days. 
 
 ### Working days
 
-The **working days only** switch is on by default 
+The **working days only** switch is on by default, and the date picker skips over the weekend (or the days defined as non-working days) when scheduling work packages and deriving duration. In those mode, work packages can also not start or finish on non-working days.
 
 > **Note:** Working dates are currently defined by the administrator of your OpenProject instance. By default, they are Monday to Friday, with Saturday and Sunday considered non-working. If you are an administrator, please read our [admin guide on working days](#link) (CHECKLINK).
+>
+> **Whening upgrading to 12.3 from a previous version:** Please note that this switch will be set to ***off*** for all existing work packages so as to preserve start and finish dates. However, the switch will be ***on*** by default for new work packages.
 
 ### Duration
 
@@ -94,22 +96,34 @@ The **working days only** switch is on by default
 
 The  **Duration** field is directly related to the start and finish dates, but does not require them. 
 
-When you set a start and finish date, the duration is automatically derived. For example, if a task is set to begin on Wednesday, 12 October, 2022 and finish on Friday, 14 October, 2022, it will automatically have a derived duration of 3 days.
+When you set a start and finish date, the duration is automatically derived. For example, if a task is set to begin on *Wednesday, 12 October, 2022* and finish on *Friday, 14 October, 2022*, will automatically have a derived duration of 3 days.
 
-Changing the duration when both start and finish dates exist will then update the finish date. In our example, if you change the duration to 4 days, one of two things can happen:
+> IMAGE
+
+Changing the duration when both start and finish dates are already set will then update the finish date. In our example, if you change the duration to 4 days, one of two things can happen:
 
 - *If the Working days only switch is **on***, the finish date is automatically set to Monday, 17 October, 2022 (since Saturday and Sunday are not working days)
 - *If the Working days only switch is **off***, the finish date is automatically set to Saturday, 15 October, 2022 (since all calendar days are included)
 
-Changing the start and finish dates will also affect duration. For example, in our example, if you change the start date to Monday, 10 October 2022 without changing the finish date of Friday, 14 October 2022, the duration is automatically updated to 5 days.
+Changing the start and finish dates will also affect duration. For example, in our example, if you change the start date to *Monday, 10 October 2022* without changing the finish date of *Friday, 14 October 2022*, the duration is automatically updated to 5 days.
 
-#### Duration only, without start and finish dates
+> IMAGE
 
-It is possible for a work package to have only duration info without any start or finish dates set. This is especially useful when you are planning a project and have a general estimation of how long a task or a phase will be, but do not have exact dates defined quite yet.
+It is also possible to derive start date using duration. For example, if you set the finish date *Friday, 14 October* and then set the duration to 3 days, the date picker will count backwards from the finish date and derive a start date of *Wednesday, 12 October.*
+
+> IMAGE
+
+#### Duration without start and finish dates
+
+It is possible for a work package to have only duration  without any start or finish dates set. 
 
 > **Note:** If you add even one date to a work package with duration, the other date is automatically derived; ot is not possible to have just one date (start *or* finish) and duration set. Please note also that if a work package with only duration derives its start date via a relation, the finish date is then also derived. 
+
+Setting only duration without start of finish dates useful especially when you have a general estimation of how long different tasks or phases of a project will take, but do not have exact dates defined quite yet.
+
+> **Pro tip:** This feature makes it possible to automatically derive an estimated start or finish date for entire project. 
 >
-> This also means that it is possible to automatically derive an estimated start or finish date for project. To do so, creating a series of work packages that represent the main phases and set the approximate duration for each. Link them all using follow/precedes relationships. Now, when you set an end date on the last one or a start date on the first one in the series, the start and end dates for all other work packages can be derived.
+> To do so, create a series of work packages that represent the main phases and set the approximate duration for each. Link them all using follow/precedes relationships. Now, when you set an end date on the last work package or a start date on the first one in the series, the start and end dates for all other work packages will be derived.
 
 
 
