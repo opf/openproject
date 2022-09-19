@@ -546,19 +546,25 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       return;
     }
 
-    // If both dates were already set, update approparitely
+    // If both dates are now set, ensure we update it accordingly
     if (this.dates.start && this.dates.end) {
       this.replaceDatesWithNewSelection(activeField, selectedDate);
-    } else {
-      // Set the current date field
-      this.dates[activeField] = this.timezoneService.formattedISODate(selectedDate);
-
-      // Active is on start or end, the other was missing
-      this.deriveOtherField(activeField);
-
-      // Set the selected date on the datepicker
-      this.enforceManualChangesToDatepicker(selectedDate);
+      return;
     }
+
+    // Set the current date field
+    this.dates[activeField] = this.timezoneService.formattedISODate(selectedDate);
+
+    // We may or may not have both fields set now
+    // If we have duration set, we derive the other field
+    if (this.duration) {
+      this.deriveMissingDateFromDuration(activeField);
+    } else if (this.dates.start && this.dates.end) {
+      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+    }
+
+    // Set the selected date on the datepicker
+    this.enforceManualChangesToDatepicker(selectedDate);
   }
 
   /**
@@ -596,19 +602,13 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
    * @param activeField The active field that was changed
    * @private
    */
-  private deriveOtherField(activeField:'start'|'end') {
-    if (this.duration) {
-      // Duration is set, derive the other field
-      if (activeField === 'start' && !!this.dates.start) {
-        this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
-      }
+  private deriveMissingDateFromDuration(activeField:'start'|'end') {
+    if (activeField === 'start' && !!this.dates.start) {
+      this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+    }
 
-      if (activeField === 'end' && !!this.dates.end) {
-        this.formUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
-      }
-    } else if (this.dates.start && this.dates.end) {
-      // Duration is not set but the other two, derive duration
-      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+    if (activeField === 'end' && !!this.dates.end) {
+      this.formUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
     }
   }
 
