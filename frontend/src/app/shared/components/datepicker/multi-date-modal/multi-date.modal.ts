@@ -122,6 +122,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   @InjectField() weekdayService:WeekdayService;
 
+  @InjectField() focusHelper:FocusHelperService;
+
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
   @ViewChild('durationField', { read: ElementRef }) durationField:ElementRef<HTMLElement>;
@@ -274,7 +276,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
     this.dates.start = this.changeset.value('startDate');
     this.dates.end = this.changeset.value('dueDate');
-    this.setCurrentActivatedField(this.initialActivatedField());
+    this.setCurrentActivatedField(this.initialActivatedField);
   }
 
   ngAfterViewInit():void {
@@ -285,6 +287,11 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         this.initializeDatepicker(date);
         this.onDataChange();
       });
+
+    // Autofocus duration if that's what activated us
+    if (this.initialActivatedField === 'duration') {
+      this.focusHelper.focus(this.durationField.nativeElement);
+    }
   }
 
   changeSchedulingMode():void {
@@ -659,7 +666,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     this.onDataUpdated.emit(output);
   }
 
-  private initialActivatedField():DateFields {
+  private get initialActivatedField():DateFields {
     switch (this.locals.fieldName) {
       case 'startDate':
         return 'start';
