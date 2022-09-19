@@ -19,7 +19,6 @@ import { SpotDocsComponent } from './spot-docs.component';
     UIRouterModule.forChild({ states: SPOT_DOCS_ROUTES }),
     FormsModule,
     CommonModule,
-    A11yModule,
   ],
   providers: [
     I18nService,

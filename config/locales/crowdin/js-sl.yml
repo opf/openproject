@@ -26,6 +26,9 @@ sl:
       loading: "Loading…"
       updating: "Updating…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Povlecite na urejevalno polje, da vstavite sliko ali referenčno prilogo. Med nadaljevanjem vlečenja se bodo odprla zaprta polja urejevalnika.
     autocomplete_select:
@@ -760,7 +763,6 @@ sl:
       activate_no: 'aktivirajte za odstranitev razvrščanja'
     text_work_packages_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbrane delovne pakete?"
     text_query_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbran pogled?"
-    text_attachment_destroy_confirmation: "Ali ste prepričani, da želite izbrisati to datoteko?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantogram'

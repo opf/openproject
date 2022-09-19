@@ -36,14 +36,14 @@ module OpenProject::Backlogs::Patches::UpdateAncestorsServicePatch
 
     ##
     # Overrides method in original UpdateAncestorsService.
-    def inherit_attributes(ancestor, attributes)
+    def inherit_attributes(ancestor, loader, attributes)
       super
 
-      inherit_remaining_hours(ancestor) if inherit?(attributes, :remaining_hours)
+      inherit_remaining_hours(ancestor, loader) if inherit?(attributes, :remaining_hours)
     end
 
-    def inherit_remaining_hours(ancestor)
-      ancestor.remaining_hours = all_remaining_hours(leaves_for_work_package(ancestor)).sum.to_f
+    def inherit_remaining_hours(ancestor, loader)
+      ancestor.remaining_hours = all_remaining_hours(loader.leaves_of(ancestor)).sum.to_f
       ancestor.remaining_hours = nil if ancestor.remaining_hours == 0.0
     end
 
@@ -53,10 +53,6 @@ module OpenProject::Backlogs::Patches::UpdateAncestorsServicePatch
 
     def attributes_justify_inheritance?(attributes)
       super || attributes.include?(:remaining_hours)
-    end
-
-    def selected_leaves_attributes
-      super + [:remaining_hours]
     end
   end
 end

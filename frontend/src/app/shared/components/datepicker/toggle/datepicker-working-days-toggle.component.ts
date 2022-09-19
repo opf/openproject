@@ -24,6 +24,8 @@ import {
 export class DatepickerWorkingDaysToggleComponent implements ControlValueAccessor {
   @Input() ignoreNonWorkingDays:boolean;
 
+  @Input() disabled = false;
+
   text = {
     ignoreNonWorkingDays: {
       title: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.title'),

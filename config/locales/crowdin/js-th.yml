@@ -26,6 +26,9 @@ th:
       loading: "Loading…"
       updating: "Updating…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         ลากมาฟิลด์เพื่อแก้ไขรูปภาพหรือเอกสารแนบอ้างอิง, ฟิลด์ตัวแก้ไขที่ถูกปิดจะเปิดขึ้นในขณะที่คุณทำการลากต่อไป
     autocomplete_select:
@@ -758,7 +761,6 @@ th:
       activate_no: 'activate to remove the sort'
     text_work_packages_destroy_confirmation: "คุณแน่ใจหรือไม่ว่าจะลบชุดภารกิจที่เลือก ?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    text_attachment_destroy_confirmation: "คุณแน่ใจหรือไม่ว่าจะไฟล์แนบ?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt chart'

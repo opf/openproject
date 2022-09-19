@@ -537,6 +537,7 @@ ko:
         progress: "진행률 (%)"
         readonly: "읽기 전용"
         schedule_manually: "수동 스케줄링"
+        schedule_default: "Default scheduling"
         spent_hours: "소비한 시간"
         spent_time: "소비한 시간"
         subproject: "하위 프로젝트"
@@ -2541,6 +2542,7 @@ ko:
   text_access_token_hint: "액세스 토큰을 사용하여 OpenProject의 리소스에 대한 외부 응용 프로그램 액세스 권한을 부여할 수 있습니다."
   text_analyze: "추가 분석: %{subject}"
   text_are_you_sure: "계속하시겠습니까?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "작업 패키지 및 모든 자식 작업 패키지를 삭제하시겠습니까?"
   text_assign_to_project: "프로젝트에 할당"
   text_form_configuration: >
@@ -2601,6 +2603,7 @@ ko:
   text_journal_set_to: "%{label}이(가) %{value}(으)로 설정됨"
   text_journal_set_with_diff: "%{label} 설정됨(%{link})"
   text_journal_label_value: "%{label} %{value}"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "최신 코멘트: %{note}"
   text_length_between: "%{min} ~ %{max}자 사이의 길이"
   text_line_separated: "여러 값이 허용됩니다(각 값에 대해 한 줄)."
@@ -2889,6 +2892,7 @@ ko:
   working_days:
     info: >
       <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "미리 볼 내용 없음"

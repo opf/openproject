@@ -26,6 +26,9 @@ ca:
       loading: "Carregant..."
       updating: "Actualitzant…"
     attachments:
+      delete: "Elimina fitxer adjunt"
+      delete_confirmation: |
+        Estàs segur que vols esborrar aquest fitxer adjunt? Aquesta acció és irreversible.
       draggable_hint: |
         Arrossega a l'editor per a pujar una imatge o referenciar un fitxer adjunt. Els camps tancats de l'editor seguiran oberts mentre se segueixi arrossegant.
     autocomplete_select:
@@ -82,10 +85,10 @@ ca:
     button_open_fullscreen: "Obrir vista en pantalla completa"
     button_show_cards: "Mostra la vista de targeta"
     button_show_list: "Mostrar la vista de llista"
-    button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
+    button_show_table: "Mostra la vista de taula"
+    button_show_gantt: "Mostra el diagrama de Gantt"
+    button_show_fullscreen: "Obrir en pantalla completa"
+    button_more_actions: "Més accions"
     button_quote: "Citar"
     button_save: "Desa"
     button_settings: "Configuració"
@@ -544,9 +547,9 @@ ca:
         prioritized: 'prioritzat'
       facets:
         unread: 'Sense llegir'
-        unread_title: 'Show unread'
+        unread_title: 'Mostrar no llegits'
         all: 'Totes'
-        all_title: 'Show all'
+        all_title: 'Mostrar tots'
       center:
         and_more_users:
           one: ' i 1 altre'
@@ -759,7 +762,6 @@ ca:
       activate_no: 'activeu per desactivar l''ordenació'
     text_work_packages_destroy_confirmation: "¿Estàs segur que vols eliminar el(s) paquet(s) de treball seleccionat(s)?"
     text_query_destroy_confirmation: "Estàs segur que vols eliminar la vista seleccionada?"
-    text_attachment_destroy_confirmation: "Estàs segur que vols eliminar el fitxer adjunt?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Diagrama de Gantt'
@@ -880,7 +882,7 @@ ca:
       message_work_package_status_blocked: "L'estat del paquet de treball no permet l'escriptura perquè el seu estat i versió estan tancats."
       placeholder_filter_by_text: "Assumpte, descripció, comentaris, ..."
       filters:
-        title: 'Filter work packages'
+        title: 'Filtrar paquets de treball'
       inline_create:
         title: 'Fes clic aquí per afegir un nou paquet de treball a aquesta llista'
       create:

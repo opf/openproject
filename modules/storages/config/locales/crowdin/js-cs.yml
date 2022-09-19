@@ -15,14 +15,16 @@ cs:
         live_data_error: "Chyba při načítání detailů souboru"
         live_data_error_description: >
           Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
-        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+        no_file_links: "Chcete-li propojit soubory s tímto pracovním balíčkem, proveďte to prostřednictvím %{storageType}."
         not_logged_in: >
-          To add a link, see or upload files related to this work package, please login to %{storageType}.
+          Chcete-li přidat odkaz nebo zobrazit soubory související s tímto pracovním balíčkem, přihlaste se do %{storageType}.
       file_links:
         download: "Stáhnout %{fileName}"
         no_permission: "Nemáte oprávnění k zobrazení tohoto souboru."
         open: 'Otevřít soubor v úložišti'
         open_location: 'Otevřít soubor v umístění'
         remove: "Odstranit odkaz na soubor"
-        remove_confirmation: "Jste si jisti, že chcete odlinkovat soubor od pracovního balíčku?"
+        remove_confirmation: >
+          Jste si jisti, že chcete odlinkovat soubor od tohoto pracovního balíčku? Toto nemá vliv na původní soubor a odstraní pouze připojení k tomuto pracovnímu balíčku.
+        remove_short: "Odstranit odkaz"
         not_allowed_tooltip: "Pro přístup k tomuto souboru se přihlaste do Nextcloudu"

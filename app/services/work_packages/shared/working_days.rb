@@ -61,18 +61,6 @@ module WorkPackages
         due_date
       end
 
-      def add_days(date, count)
-        while count > 0
-          date += 1
-          count -= 1 if working?(date)
-        end
-        while count < 0
-          date -= 1
-          count += 1 if working?(date)
-        end
-        date
-      end
-
       def soonest_working_day(date)
         return unless date
 
@@ -80,24 +68,6 @@ module WorkPackages
           date += 1
         end
         date
-      end
-
-      def delta(previous:, current:)
-        if current < previous
-          return -delta(previous: current, current: previous)
-        end
-
-        delta = 0
-        pos = last_pos = soonest_working_day(previous)
-
-        while pos < current
-          pos += 1
-          if working?(last_pos) && working?(pos)
-            delta += 1
-            last_pos = pos
-          end
-        end
-        delta
       end
 
       def working?(date)

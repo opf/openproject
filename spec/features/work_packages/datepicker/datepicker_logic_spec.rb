@@ -232,6 +232,74 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
+  describe 'when all values set, removing duration through icon (test case 6a)' do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse('2021-02-09'),
+        due_date: Date.parse('2021-02-12'),
+        duration: 3
+      }
+    end
+
+    it 'also unsets the due date' do
+      datepicker.expect_start_date '2021-02-09'
+      datepicker.expect_due_date '2021-02-12'
+      datepicker.expect_duration 3
+
+      # The spec clears faster than the due date is filled, wait a bit
+      sleep 1
+      datepicker.clear_duration_with_icon
+
+      datepicker.expect_start_date '2021-02-09'
+      datepicker.expect_due_date ''
+      datepicker.expect_duration nil
+    end
+  end
+
+  describe 'when all values set, removing duration and setting it again' do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse('2021-02-09'),
+        due_date: Date.parse('2021-02-12'),
+        duration: 3
+      }
+    end
+
+    it 'allows re-deriving duration' do
+      datepicker.expect_start_date '2021-02-09'
+      datepicker.expect_due_date '2021-02-12'
+      datepicker.expect_duration 3
+
+      # The spec clears faster than the due date is filled, wait a bit
+      sleep 1
+      datepicker.clear_duration_with_icon
+
+      datepicker.expect_start_date '2021-02-09'
+      datepicker.expect_due_date ''
+      datepicker.expect_duration nil
+
+      # Now select a date
+      datepicker.select_day 5
+
+      datepicker.expect_start_date '2021-02-05'
+      datepicker.expect_due_date '2021-02-09'
+      datepicker.expect_duration 3
+
+      # Clear again
+      sleep 1
+      datepicker.clear_duration_with_icon
+
+      datepicker.expect_start_date '2021-02-05'
+      datepicker.expect_due_date ''
+      datepicker.expect_duration nil
+
+      datepicker.select_day 8
+      datepicker.expect_start_date '2021-02-05'
+      datepicker.expect_due_date '2021-02-08'
+      datepicker.expect_duration 2
+    end
+  end
+
   describe 'when all values set, changing start date in calendar (test case 7)' do
     let(:current_attributes) do
       {
@@ -686,7 +754,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  context 'when setting ignore NWD to true for a milesotone' do
+  context 'when setting ignore NWD to true for a milestone' do
     let(:date_attribute) { :date }
     let(:work_package) { milestone_wp }
     let(:current_attributes) do
@@ -711,6 +779,41 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       apply_and_expect_saved start_date: Date.parse('2022-06-19'),
                              due_date: Date.parse('2022-06-19'),
                              ignore_non_working_days: true
+    end
+  end
+
+  context 'when setting start and due date through today links' do
+    let(:current_attributes) do
+      {
+        start_date: nil,
+        due_date: nil,
+        duration: nil,
+        ignore_non_working_days: true
+      }
+    end
+
+    it 'allows to persist that value (Regression #44140)' do
+      datepicker.expect_start_date ''
+      datepicker.expect_due_date ''
+      datepicker.expect_duration ''
+
+      today = Time.zone.today
+      today_str = today.iso8601
+
+      # Setting start will set active to due
+      datepicker.set_today 'start'
+      datepicker.expect_start_date today_str
+      datepicker.expect_due_highlighted
+
+      datepicker.set_today 'due'
+      datepicker.expect_due_date today_str
+      datepicker.expect_start_highlighted
+
+      datepicker.expect_duration 1
+
+      apply_and_expect_saved start_date: today,
+                             due_date: today,
+                             duration: 1
     end
   end
 end

@@ -26,6 +26,9 @@ ja:
       loading: "Loading…"
       updating: "Updating…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         インライン画像または参照添付ファイルをエディタ領域にドラッグします。
         ドラッグしつづけると閉じられたエディタ領域が開きます。
@@ -759,7 +762,6 @@ ja:
       activate_no: '並べ替えを削除'
     text_work_packages_destroy_confirmation: "選択したワークパッケージを削除してもよろしいですか？"
     text_query_destroy_confirmation: "選択したビューを削除してもよろしいですか？"
-    text_attachment_destroy_confirmation: "この添付ファイルを削除してよろしいですか。"
     timelines:
       quarter_label: '第%{quarter_number}四半期'
       gantt_chart: 'ガントチャート'

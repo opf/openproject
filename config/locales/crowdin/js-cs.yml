@@ -26,6 +26,9 @@ cs:
       loading: "Načítání…"
       updating: "Aktualizace..."
     attachments:
+      delete: "Smazat přílohu"
+      delete_confirmation: |
+        Opravdu chcete odstranit tento soubor? Tato akce není vratná.
       draggable_hint: |
         Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
     autocomplete_select:
@@ -82,10 +85,10 @@ cs:
     button_open_fullscreen: "Otevřít podrobnosti - fullscreen"
     button_show_cards: "Zobrazit zobrazení karty"
     button_show_list: "Zobrazit seznam"
-    button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
+    button_show_table: "Zobrazit jako tabulku"
+    button_show_gantt: "Zobrazit jako Gantt"
+    button_show_fullscreen: "Celá obrazovka"
+    button_more_actions: "Další akce"
     button_quote: "Citovat"
     button_save: "Uložit"
     button_settings: "Nastavení"
@@ -274,7 +277,7 @@ cs:
           one: "První kritérium třídění"
           two: "Druhé kritérium třídění"
           three: "Třetí kritérium třídění"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
+      upsale_for_more: "Pokročilé filtry vám umožní také filtrovat názvy souborů a obsah příloh pracovního balíčku. Pro použití této funkce přejděte na placenou verzi."
       upsale_link: 'Enterprise Edice'
     general_text_no: "ne"
     general_text_yes: "ano"
@@ -496,7 +499,7 @@ cs:
         next: 'Další'
         got_it: 'Rozumím'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'Menu nápovědy (?) poskytuje <b>další zdroje nápovědy</b>. Zde můžete najít uživatelskou příručku, užitečnou jak na videa a další. <br> Užijte si vaši práci s OpenProject!'
         members: 'Pozvěte nové <b>členy</b> , aby se připojili k vašemu projektu.'
         project_selection: 'Pro začátek klikněte na jeden z projektů s ukázkovými daty. <br> <b>Demo projekt</b> vyhovuje nejlepší pro klasické řízení projektu, zatímco projekt <b>Scrum</b> je lepší pro řízení projektu Agile'
         quick_add_button: 'Klikněte na ikonu plus (+) v záhlaví pro <b>vytvoření nového projektu</b> nebo pro <b>pozvání spolupracovníků</b>.'
@@ -528,7 +531,7 @@ cs:
           calendar: "Týdenní nebo dvoutýdenní plánovací tabule zobrazuje všechny pracovní balíčky přiřazené členům vašeho týmu.\n"
           add_assignee: 'Chcete-li začít, přidejte do plánovače týmu řešitele'
           add_existing: "Vyhledejte existující pracovní balíčky a přetáhněte je do plánovače týmu, abyste je okamžitě přiřadili členovi týmu a definovali datum zahájení a ukončení.\n"
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          card: 'Přetáhněte pracovní balíčky vodorovně, abyste je posunuli dozadu nebo dopředu v čase, Přetáhněte hrany pro změnu počátečního a koncového data a dokonce je přetáhněte svisle do jiného řádku pro jejich přiřazení jinému členovi.'
     notifications:
       title: "Oznámení"
       no_unread: "Žádná nepřečtená oznámení"
@@ -544,9 +547,9 @@ cs:
         prioritized: 'upřednostněno'
       facets:
         unread: 'Nepřečtené'
-        unread_title: 'Show unread'
+        unread_title: 'Zobrazit nepřečtené'
         all: 'Vše'
-        all_title: 'Show all'
+        all_title: 'Zobrazit vše'
       center:
         and_more_users:
           one: 'a 1 další'
@@ -748,7 +751,7 @@ cs:
     field_value_enter_prompt: "Zadejte hodnotu pro '%{field}'"
     project_menu_details: "Podrobnosti"
     scheduling:
-      title: 'Scheduling'
+      title: 'Plánování'
       manual: 'Manuální'
       default: 'Výchozí'
     sort:
@@ -761,7 +764,6 @@ cs:
       activate_no: 'odstranit řazení'
     text_work_packages_destroy_confirmation: "Jste si jisti, že chcete odstranit vybrané pracovní balíčky?"
     text_query_destroy_confirmation: "Jste si jisti, že chcete odstranit vybrané zobrazení?"
-    text_attachment_destroy_confirmation: "Jste si jisti, že chcete odstranit přílohu?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Ganttův diagram'
@@ -882,7 +884,7 @@ cs:
       message_work_package_status_blocked: "Stav pracovního balíčku nelze zapisovat kvůli stavu zavření a přiřazování uzavřené verze."
       placeholder_filter_by_text: "Předmět, popis, komentáře, ..."
       filters:
-        title: 'Filter work packages'
+        title: 'Filtrovat pracovní balíčky'
       inline_create:
         title: 'Klikněte zde pro přidání nového pracovního balíčku do tohoto seznamu'
       create:
@@ -1210,10 +1212,10 @@ cs:
       search_placeholder: 'Hledat projekt...'
       include_subprojects: 'Zahrnout všechny podprojekty'
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
+        include_all_selected: 'Projekt je již zahrnut, protože Zahrnout všechny podprojekty je povoleno.'
         current_project: 'Toto je aktuální projekt, ve kterém se nacházíte.'
         does_not_match_search: 'Projekt neodpovídá kritériím vyhledávání.'
-      no_results: 'No project matches your search criteria.'
+      no_results: 'Žádný projekt neodpovídá vašim kritériím vyhledávání.'
     forms:
       submit_success_message: 'Formulář byl úspěšně odeslán'
       load_error_message: 'Při načítání formuláře došlo k chybě'

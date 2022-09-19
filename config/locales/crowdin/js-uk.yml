@@ -26,6 +26,9 @@ uk:
       loading: "Завантаження…"
       updating: "Оновлення..."
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
     autocomplete_select:
@@ -761,7 +764,6 @@ uk:
       activate_no: 'активувати, щоб видалити сортування'
     text_work_packages_destroy_confirmation: "Ви впевнені у тому, що хочете видалити вибрані робочі пакети?"
     text_query_destroy_confirmation: "Ви дійсно бажаєте видалити вибраний вигляд?"
-    text_attachment_destroy_confirmation: "Ви впевнені, що бажаєте видалити вкладення?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Діаграма Ганта'

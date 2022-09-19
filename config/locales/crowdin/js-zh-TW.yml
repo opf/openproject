@@ -26,6 +26,9 @@ zh-TW:
       loading: "Loading…"
       updating: "Updating…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         在編輯器欄位上拖動到內聯圖像或引用附件。在繼續拖動時, 將打開已關閉的編輯器欄位。
     autocomplete_select:
@@ -757,7 +760,6 @@ zh-TW:
       activate_no: '啟動以移除排序'
     text_work_packages_destroy_confirmation: "你確定要刪除選定的工作項目嗎？"
     text_query_destroy_confirmation: "確實要刪除所選視圖嗎？"
-    text_attachment_destroy_confirmation: "你確定你想要刪除附件?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: '甘特圖'

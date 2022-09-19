@@ -26,6 +26,9 @@ lol:
       loading: "crwdns808268:0crwdne808268:0"
       updating: "crwdns808270:0crwdne808270:0"
     attachments:
+      delete: "crwdns833334:0crwdne833334:0"
+      delete_confirmation: |
+        crwdns833336:0crwdne833336:0
       draggable_hint: |
         crwdns786846:0crwdne786846:0
     autocomplete_select:
@@ -758,7 +761,6 @@ lol:
       activate_no: 'crwdns788034:0crwdne788034:0'
     text_work_packages_destroy_confirmation: "crwdns788036:0crwdne788036:0"
     text_query_destroy_confirmation: "crwdns788038:0crwdne788038:0"
-    text_attachment_destroy_confirmation: "crwdns788040:0crwdne788040:0"
     timelines:
       quarter_label: 'crwdns788042:0%{quarter_number}crwdne788042:0'
       gantt_chart: 'crwdns788044:0crwdne788044:0'

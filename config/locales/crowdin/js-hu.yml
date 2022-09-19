@@ -26,6 +26,9 @@ hu:
       loading: "Betöltés…"
       updating: "Frissítés..."
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Húzza át a szerkesztőmezőt a beillesztett képre vagy hivatkozási mellékletre. Zárt szerkesztőmezők nyílnak meg, amíg húzza.
     autocomplete_select:
@@ -759,7 +762,6 @@ hu:
       activate_no: 'aktiválva a rendezés törlése'
     text_work_packages_destroy_confirmation: "Biztosan törli a kijelölt feladatcsoportot?"
     text_query_destroy_confirmation: "Biztosan törli a kijelölt megjelenítést?"
-    text_attachment_destroy_confirmation: "Biztosan törli a mellékletet?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt-diagram'

@@ -3,9 +3,9 @@ ru:
   js:
     team_planner:
       add_existing: 'Добавить существующее'
-      add_existing_title: 'Add existing work packages'
-      create_label: 'Team planner'
-      create_title: 'Create new team planner'
+      add_existing_title: 'Добавить существующие пакеты работ'
+      create_label: 'Командный планировщик'
+      create_title: 'Создать новый командный планировщик'
       unsaved_title: 'Безымянный планировщик команды'
       no_data: 'Добавьте ответственных для создания планировщика вашей команды.'
       add_assignee: 'Добавить ответственного'

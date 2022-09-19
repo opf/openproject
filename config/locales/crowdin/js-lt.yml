@@ -26,6 +26,9 @@ lt:
       loading: "Įkeliama…"
       updating: "Atnaujinama…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
     autocomplete_select:
@@ -761,7 +764,6 @@ lt:
       activate_no: 'aktyvuoti, kad rikiavimas būtų pašalintas'
     text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
     text_query_destroy_confirmation: "Ar tikrai norite panaikinti pasirinktą vaizdą?"
-    text_attachment_destroy_confirmation: "Ar tikrai norite ištrinti priedą?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Ganto diagrama'

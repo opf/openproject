@@ -26,6 +26,9 @@ nl:
       loading: "Laden…"
       updating: "Bijwerken…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Sleep op het invoerveld naar in line afbeelding of verwijzing bijlage. Gesloten invoervelden wordt geopend terwijl u blijft slepen.
     autocomplete_select:
@@ -759,7 +762,6 @@ nl:
       activate_no: 'activeer om de sortering te verwijderen'
     text_work_packages_destroy_confirmation: "Weet u zeker dat u geselecteerd(e) werkpakket(ten) wilt verwijderen?"
     text_query_destroy_confirmation: "Weet u zeker dat u het geselecteerde overzicht wilt verwijderen?"
-    text_attachment_destroy_confirmation: "Weet u zeker dat u de bijlage wilt verwijderen?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt-grafiek'

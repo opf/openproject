@@ -95,7 +95,7 @@ cs:
     add_new: 'Přidat text nápovědy'
     edit: "Upravit text nápovědy pro %{attribute_caption}"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: 'Poskytněte další informace pro atributy (včetně vlastních polí) pracovních balíčků a projektů. Texty nápovědy se zobrazí, když uživatelé kliknou na symbol otazníku vedle vstupních polí v projektech a pracovních balíčcích.'
   auth_sources:
     index:
       no_results_content_title: Nyní neexistují žádné ověřovací režimy.
@@ -113,12 +113,12 @@ cs:
       name: Rozhodčí název spojení LDAP
       host: LDAP název hostitele nebo IP adresa
       login_map: Atribut klíč v LDAP, který se používá k identifikaci jedinečného přihlášení uživatele. Obvykle se jedná o `uid` nebo `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
+      generic_map: Klíč atributů v LDAP, který je namapován k atributu OpenProject `%{attribute}`
       admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        Zadejte DN systémového uživatele používaného pro přístup pouze ke čtení.
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
+        Příklad: uid=openproject,ou=system,dc=example,dc=com
       system_user_password: Vložte vázané heslo systémového uživatele
       base_dn: |
         Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
@@ -128,8 +128,8 @@ cs:
         Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
         This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+        OpenProject bude vždy filtrovat přihlašovací atribut, který poskytuje uživatel pro identifikaci záznamu. Pokud zde zadáte filtr,
+        bude spojen s AND. Ve výchozím nastavení se jako filtr použije catch-all (objectClass=*).
       onthefly_register: |
         Pokud zaškrtnete toto políčko, OpenProject automaticky vytvoří nové uživatele z jejich LDAP položek
         při prvním ověření OpenProject.
@@ -541,6 +541,7 @@ cs:
         progress: "Průběh (%)"
         readonly: "Pouze pro čtení"
         schedule_manually: "Manuální plánování"
+        schedule_default: "Default scheduling"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
         subproject: "Podprojekt"
@@ -733,7 +734,7 @@ cs:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one working day needs to be specified.'
+              working_days_are_missing: 'Je třeba uvést alespoň jeden pracovní den.'
         time_entry:
           attributes:
             hours:
@@ -755,12 +756,12 @@ cs:
               format: "%{message}"
             due_date:
               not_start_date: "není v počátečním datu, i když je to nutné pro milníky."
-              cannot_be_null: "can not be set to null as start date and duration are known."
+              cannot_be_null: "nelze nastavit na null, protože datum zahájení a trvání je známo "
             duration:
               larger_than_dates: "je větší než interval mezi datem zahájení a datem ukončení."
               smaller_than_dates: "je mwnší než interval mezi datem zahájení a datem ukončení."
-              not_available_for_milestones: "is not available for milestone typed work packages."
-              cannot_be_null: "can not be set to null as start date and finish date are known."
+              not_available_for_milestones: "není k dispozici pro pracovní balíčky uvedené v milnících."
+              cannot_be_null: "nelze nastavit na null jako datum zahájení a datum dokončení je známé."
             parent:
               cannot_be_milestone: "nemůže být milník."
               cannot_be_self_assigned: "nemůže být přiřazeno k sobě."
@@ -768,7 +769,7 @@ cs:
               not_a_valid_parent: "je neplatné."
             start_date:
               violates_relationships: "lze nastavit pouze na %{soonest_start} nebo později, aby nedošlo k porušování vztahů pracovního balíčku."
-              cannot_be_null: "can not be set to null as finish date and duration are known."
+              cannot_be_null: "nelze nastavit na null jako datum ukončení a doba trvání je známa."
             status_id:
               status_transition_invalid: "je neplatný, protože pro role aktuálního uživatele neexistuje žádný platný přechod."
               status_invalid_in_type: "je neplatná, protože aktuální stav neexistuje v tomto typu."
@@ -1295,7 +1296,7 @@ cs:
   error_enterprise_token_invalid_domain: "Enterprise Edition není aktivní. Doména Tvoje Enterprise tokenu (%{actual}) neodpovídá hostiteli systému (%{expected})."
   error_failed_to_delete_entry: 'Nepodařilo se odstranit tento záznam.'
   error_in_dependent: "Chyba při pokusu o změnu závislého objektu: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
-  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Chyba při pokusu o vytvoření závislého objektu: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neplatná vybraná hodnota."
   error_journal_attribute_not_present: "Deník neobsahuje atribut %{attribute}."
   error_pdf_export_too_many_columns: "Příliš mnoho sloupců vybraných pro PDF export. Snižte počet sloupců."
@@ -1406,7 +1407,7 @@ cs:
     admin:
       mail_notification: "E-mailová upozornění"
       mails_and_notifications: "E-maily & Notifikace"
-      aggregation: 'Aggregation'
+      aggregation: 'Agregace'
       api_and_webhooks: "API & Webhooky"
     quick_add:
       label: "Otevřít nabídku rychlého přidání"
@@ -1949,7 +1950,7 @@ cs:
   label_wiki_start: "Úvodní stránka"
   label_work_package: "Pracovní balíček"
   label_work_package_attachments: "Přílohy pracovních balíčků"
-  label_work_package_file_link_plural: "Work package file links"
+  label_work_package_file_link_plural: "Odkazy na souborů pracovních balíčků"
   label_work_package_category_new: "Nová kategorie"
   label_work_package_category_plural: "Kategorie pracovních balíčků"
   label_work_package_hierarchy: "Hierarchie pracovních balíčků"
@@ -1965,7 +1966,7 @@ cs:
   label_workflow: "Pracovní postup"
   label_workflow_plural: "Pracovní postupy"
   label_workflow_summary: "Souhrn"
-  label_working_days: "Working days"
+  label_working_days: "Pracovní dny"
   label_x_closed_work_packages_abbr:
     one: "1 uzavřeno"
     other: "%{count} uzavřených"
@@ -2026,7 +2027,7 @@ cs:
       center: 'Centrum oznámení'
       see_in_center: 'Zobrazit komentář v oznamovacím centru'
       settings: 'Změnit nastavení e-mailu'
-    salutation: 'Hello %{user}!'
+    salutation: 'Ahoj %{user}!'
     work_packages:
       created_at: 'Vytvořeno v %{timestamp} uživatelem %{user} '
       login_to_see_all: 'Přihlaste se pro zobrazení všech oznámení.'
@@ -2169,11 +2170,11 @@ cs:
   notice_successful_delete: "Úspěšné odstranění."
   notice_successful_update: "Úspěšná aktualizace."
   notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+    Úspěšná aktualizace. Vlastní pole aktivovaných typů jsou automaticky aktivována
+    na formuláři pracovního balíčku. <a href="%{url}" target="_blank">Viz více</a>.
   notice_successful_update_custom_fields_added_to_type: |
-    Successful update. The active custom fields are automatically activated for
-    the associated projects of this type.
+    Úspěšná aktualizace. Aktivní vlastní pole jsou automaticky aktivována pro
+    přidružené projekty tohoto typu.
   notice_to_many_principals_to_display: "Je zde příliš mnoho výsledků.\nNarrow down hledání zadáním jména nového člena (nebo skupiny)."
   notice_user_missing_authentication_method: Uživatel si ještě musí vybrat heslo nebo jiný způsob, jak se přihlásit.
   notice_user_invitation_resent: Pozvánka byla odeslána na %{email}.
@@ -2408,10 +2409,10 @@ cs:
     storage:
       not_available: "Pro tento repositář není k dispozici spotřeba úložiště disku."
       update_timeout: "Uchovávejte poslední požadované informace o úložišti po dobu N minut.\nPři počítání požadovaného místa na disku v úložišti může být nákladné, zvýšit tuto hodnotu, aby se snížil vliv na výkon."
-      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details: "Tajná hodnota klienta nebude po zavření tohoto okna přístupná. Zkopírujte tyto hodnoty do Nextcloud OpenProject Integration nastavení:"
       oauth_application_details_link_text: "Přejít na stránku nastavení"
-      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
-      setup_documentation_details_link_text: "File Storages setup"
+      setup_documentation_details: "Pokud potřebujete pomoci s nastavením nového úložiště souborů, prosím zkonzultujte dokumentaci: "
+      setup_documentation_details_link_text: "Nastavení úložiště souborů"
       show_warning_details: "Pro použití tohoto úložiště souborů nezapomeňte aktivovat modul a konkrétní úložiště v nastavení projektu každého požadovaného projektu."
     subversion:
       existing_title: "Existující repozitář Subversion"
@@ -2568,7 +2569,7 @@ cs:
       delay_minutes_explanation: "Odesílání e-mailu může být pozdrženo, aby bylo uživatelům s nakonfigurovaným v oznámení aplikace před odesláním pošty potvrzeno oznámení. Uživatelé, kteří si přečtou oznámení v aplikaci, nedostanou e-mail pro již přečtené oznámení."
     display:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Pokud jsou nastaveny možnosti buď "%{day_of_week_setting_name}" nebo "%{first_week_setting_name}", druhý je třeba nastavit také aby jste se vyhli nesrovnalostem na frontendu.
       first_week_of_year_text: >
         Vyberte datum ledna, které je obsaženo v prvním týdnu roku. Tato hodnota spolu s prvním dnem v týdnu určuje celkový počet týdnů v roce.
     projects:
@@ -2601,6 +2602,7 @@ cs:
   text_access_token_hint: "Přístupové tokeny vám umožňují udělit externím aplikacím přístup ke zdrojům v OpenProject."
   text_analyze: "Další analýza: %{subject}"
   text_are_you_sure: "Jste si jisti?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Smazat pracovní balíček a všechny podřízené pracovní balíčky?"
   text_assign_to_project: "Přiřadit k projektu"
   text_form_configuration: >
@@ -2661,6 +2663,7 @@ cs:
   text_journal_set_to: "%{label} nastaven na %{value}"
   text_journal_set_with_diff: "%{label} nastaven (%{link})"
   text_journal_label_value: "%{label} %{value}"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "Poslední komentář je: %{note}"
   text_length_between: "Délka mezi %{min} a %{max} znaky."
   text_line_separated: "Více hodnot povoleno (jeden řádek pro každou hodnotu)."
@@ -2930,7 +2933,7 @@ cs:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'Neshoda nastavení HTTPS'
       text_html: >
         Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
@@ -2953,9 +2956,10 @@ cs:
       title: "Odstranit pracovní balíček"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Definujte dny považované za část pracovního týdne</b><br/> dny, které jsou při plánování pracovních balíčků označeny jsou přeskočeny (a nejsou zahrnuty do celkového denního počtu). Tyto mohou být přepsány na úrovni pracovního balíčku.
+    change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Změna, těch dnů v týdnu, které jsou považovány za pracovní dny, může ovlivnit datum zahájení a datum ukončení všech pracovních balíčků ve všech projektech v této instanci.
   nothing_to_preview: "Nic pro náhled"
   api_v3:
     attributes:
@@ -2981,7 +2985,7 @@ cs:
       invalid_relation: "Vztah je neplatný."
       invalid_resource: "Pro vlastnost '%{property}' se očekává odkaz '%{expected}', ale dostal '%{actual}'."
       invalid_signal:
-        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        embed: "Požadované vložení %{invalid} není podporováno. Podporované vložení je %{supported}."
         select: "Požadovaný select %{invalid} není podporován. Podporovaný select je %{supported}."
       invalid_user_status_transition: "Stav aktuálního uživatelského účtu tuto operaci nepovoluje."
       missing_content_type: "není specifikováno"
@@ -3021,8 +3025,8 @@ cs:
         invalid_request:
           unknown: 'Požadavek chybí požadovaný parametr, obsahuje nepodporovanou hodnotu parametru nebo je jinak poškozený.'
           missing_param: 'Chybí potřebný parametr: %{value}.'
-          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+          request_not_authorized: 'Požadavek musí být autorizován. Požadovaný parametr pro autorizaci požadavku chybí nebo je neplatný.'
+        invalid_redirect_uri: "Požadované přesměrování uri je chybné nebo neodpovídá přesměrování URL klienta."
         unauthorized_client: 'Klient nemá oprávnění k provedení tohoto požadavku pomocí této metody.'
         access_denied: 'Vlastník zdroje nebo autorizační server požadavek zamítl.'
         invalid_scope: 'Požadovaný rozsah je neplatný, neznámý nebo nesprávný.'
@@ -3120,14 +3124,14 @@ cs:
       oauth_returned_json_error: "OAuth2 vrátil chybu JSON"
       oauth_returned_http_error: "OAuth2 vrátil chybu sítě"
       oauth_returned_standard_error: "OAuth2 vrátil interní chybu"
-      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
-      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
-      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      wrong_token_type_returned: "OAuth2 vrátil špatný typ tokenu, očekává se AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 nahlásil chybu. Obraťte se na správce systému."
+      oauth_client_not_found: "Klient OAuth2 nebyl nalezen v koncovém bodě 'callback' (redirect_uri)."
       refresh_token_called_without_existing_token: >
-        Internal error: Called refresh_token without a previously existing token.
-      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+        Vnitřní chyba: Volané obnovení_tokenu bez dříve existujícího tokenu.
+      refresh_token_updated_failed: "Chyba při aktualizaci OAuthClientTokenu"
       oauth_client_not_found_explanation: >
-        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+        Tato chyba se objeví po aktualizaci klient_id a klient_tajného v OpenProject, ale neaktualizovali pole 'Vrátit URI' v OAuth2.
       oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
       oauth_code_not_present_explanation: >
         This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
@@ -3135,14 +3139,14 @@ cs:
       oauth_state_not_present_explanation: >
         The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
       rack_oauth2:
-        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        client_secret_invalid: "Tajný klíč klienta je neplatný (klient_secret_invalid)"
         invalid_request: >
           OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
-        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
-        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_response: "OAuth2 Authorization Server poskytl neplatnou odpověď (invalid_response)"
+        invalid_grant: "Autorizační server OAuth2 vás žádá, abyste znovu autorizovali (invalid_grant)."
         invalid_client: "Autorizační server OAuth2 nerozpozná OpenProject (invalid_client)."
-        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
-        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        unauthorized_client: "Autorizační server OAuth2 odmítá typ grantu (neautorized_client)"
+        unsupported_grant_type: "Autorizační server OAuth2 vás žádá o opětovné autorizaci (unsupported_grant_type)."
         invalid_scope: "Nemáte oprávnění k přístupu k požadovanému zdroji (invalid_scope)."
   http:
     request:

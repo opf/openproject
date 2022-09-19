@@ -94,8 +94,9 @@ module Components
     ##
     # Expect the selected year
     def expect_year(value)
-      field = flatpickr_container.first('.cur-year')
-      expect(field.value.to_i).to eq(value.to_i)
+      expect(flatpickr_container).to have_selector('.cur-year') do |field|
+        field.value.to_i == value.to_i
+      end
     end
 
     ##

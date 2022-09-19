@@ -36,7 +36,8 @@ class WorkPackages::ScheduleDependency::Dependency
                 :schedule_dependency
 
   # Returns the work package ids that this work package directly depends on to
-  # determine its own dates.
+  # determine its own dates. This is used for the order of the dates
+  # computations.
   #
   # The dates of a work package depend on its descendants and predecessors
   # dates.
