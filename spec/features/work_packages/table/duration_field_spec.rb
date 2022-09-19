@@ -39,6 +39,6 @@ describe 'Duration field in the work package table',
 
     date_field.expect_duration_highlighted
     expect(page).to have_focus_on('[data-qa-selector="op-datepicker-modal--duration-field"] input[name="duration"]')
-    expect(container).to have_field('duration', with: '4', wait: 10)
+    expect(page).to have_field('duration', with: '4', wait: 10)
   end
 end
