@@ -49,6 +49,11 @@ class Settings::UpdateService < ::BaseServices::BaseContracted
       Setting[name] = derive_value(value)
     end
 
+    if params.has_key?(:working_days)
+      WorkPackages::ApplyWorkingDaysChangeJob
+        .perform_later(user_id: user.id)
+    end
+
     call
   end
 
