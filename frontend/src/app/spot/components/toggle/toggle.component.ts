@@ -29,7 +29,7 @@ export class SpotToggleComponent<T> implements ControlValueAccessor {
 
   @HostBinding('class.spot-toggle') public className = true;
 
-  @Output() checkedChange = new EventEmitter<boolean>();
+  @Output() valueChange = new EventEmitter<T>();
 
   @Input() options:SpotToggleOption<T>[] = [];
 
@@ -56,7 +56,7 @@ export class SpotToggleComponent<T> implements ControlValueAccessor {
 
   onChange = (_:T):void => {};
 
-  onTouched = (_:T):void => {};
+  onTouched: (t:T) => void = (_:T):void => {};
 
   registerOnChange(fn:(_:T) => void):void {
     this.onChange = fn;
