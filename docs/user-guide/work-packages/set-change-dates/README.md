@@ -8,22 +8,24 @@ keywords: date picker start finish dates change modify update relations work pac
 
 # Set and change start and finish dates of work packages
 
-| Feature                                                      | Documentation for                                         |
-| ------------------------------------------------------------ | --------------------------------------------------------- |
-| [Set start and finish dates](#set-start-and-finish-dates)    | How to set start and finish dates, and how to change them |
-| [Scheduling mode](#scheduling-mode)                          | Enabling manual scheduling and what it does               |
-| [Information and warning banners](#information-and-warning-banners) | What the different warning and information banners mean   |
+| Feature                                                      | Documentation for                                            |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Set start and finish dates](#set-start-and-finish-dates)    | How to set start and finish dates, and how to change them    |
+| [Duration and non-working days](#duration-and-non-working-days) | How to set duration, and how it affects start and finish dates |
+| [Scheduling mode](#scheduling-mode)                          | Enabling manual scheduling and what it does                  |
+| [Information and warning banners](#information-and-warning-banners) | What the different warning and information banners mean      |
 
 ## Set start and finish dates
 
 You can change the start and finish dates of work packages by opening the date picker. 
 
-![The standard date picker](standard-date-picker.png)
+![The standard date picker with different elements highlighted](standard-date-picker-legend.png)
 
-1. [Manual scheduling](#scheduling-mode) checkbox
-2. Start and finish date input fields
-3. Mini calendars for date range preview
-4. Save and cancel buttons
+1. [Manual scheduling](#scheduling-mode) switch
+2. Working days only switch
+3. Start date, finish date and duration input fields
+4. Mini calendars for date range preview
+5. Save and cancel buttons
 
 You can open the date picker for a work package from a number of different places:
 
@@ -60,11 +62,11 @@ Date changes are documented in the work package [Activity](../../activity/).
 
 - The date picker allows you to pick start and finish dates in the opposite order. Clicking on a start date and then moving backwards to click on an earlier date will then use that first date as the finish date and the second (earlier) date as the start date. 
 
-- Once you have selected your start and finish dates, you can adjust either field without resetting the other one by clicking on a new date near the previously selected date. This, however, depends on which date field is in focus. For example, clicking on a new start date that is 2 days earlier when the start date field is in focus simply replaces the original start date (conserving the finish date). However, clicking on that same date when the finish date field is in focus clears the finish date and uses the clicked date as the new start date. A second click then allows to select  the new finish date. 
+- Once you have selected your start and finish dates, you can adjust either field without resetting the other one by clicking on a new date near the previously selected date. This, however, depends on which date field is in focus. For example, clicking on a new start date that is 2 days earlier when the start date field is in focus simply replaces the original start date (conserving the finish date). However, clicking on that same date when the finish date field is in focus clears the finish date and uses the clicked date as the new start date. A second click then allows to select the new finish date. 
 
 ### One-day events
 
-If you want the work package to start and end on the same date, simply click the same date twice.
+If you want the work package to start and finish on the same date, simply click the same date twice.
 
 ![Date picker with the same start and finish dates](one-day-event.png)
 
@@ -75,15 +77,51 @@ Certain work package types (such as Milestones) can only span one day and thus h
 ![Milestones have datpickers with a single date field](milestone-datepicker.png)
 
 
+
+## Duration and Non-working days
+
+Starting with OpenProject 12.3, it is possible to manually input a duration for each work package and decide whether this duration should span working days only or all calendar days. 
+
+### Working days
+
+The **working days only** switch is on by default 
+
+> **Note:** Working dates are currently defined by the administrator of your OpenProject instance. By default, they are Monday to Friday, with Saturday and Sunday considered non-working. If you are an administrator, please read our [admin guide on working days](#link) (CHECKLINK).
+
+### Duration
+
+#### Duration when start and finish dates exist
+
+The  **Duration** field is directly related to the start and finish dates, but does not require them. 
+
+When you set a start and finish date, the duration is automatically derived. For example, if a task is set to begin on Wednesday, 12 October, 2022 and finish on Friday, 14 October, 2022, it will automatically have a derived duration of 3 days.
+
+Changing the duration when both start and finish dates exist will then update the finish date. In our example, if you change the duration to 4 days, one of two things can happen:
+
+- *If the Working days only switch is **on***, the finish date is automatically set to Monday, 17 October, 2022 (since Saturday and Sunday are not working days)
+- *If the Working days only switch is **off***, the finish date is automatically set to Saturday, 15 October, 2022 (since all calendar days are included)
+
+Changing the start and finish dates will also affect duration. For example, in our example, if you change the start date to Monday, 10 October 2022 without changing the finish date of Friday, 14 October 2022, the duration is automatically updated to 5 days.
+
+#### Duration only, without start and finish dates
+
+It is possible for a work package to have only duration info without any start or finish dates set. This is especially useful when you are planning a project and have a general estimation of how long a task or a phase will be, but do not have exact dates defined quite yet.
+
+> **Note:** If you add even one date to a work package with duration, the other date is automatically derived; ot is not possible to have just one date (start *or* finish) and duration set. Please note also that if a work package with only duration derives its start date via a relation, the finish date is then also derived. 
+>
+> This also means that it is possible to automatically derive an estimated start or finish date for project. To do so, creating a series of work packages that represent the main phases and set the approximate duration for each. Link them all using follow/precedes relationships. Now, when you set an end date on the last one or a start date on the first one in the series, the start and end dates for all other work packages can be derived.
+
+
+
 ## Scheduling mode
 
 ### Manual scheduling
 
-![Datepicker with a checkbox to enable manual scheduling](manual-scheduling-checkbox.png)
+![A switch on the date picker allows you to enable manual scheduling ](manual-scheduling-switch.png)
 
-Checking  "Manual scheduling" enables [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling-mode) for the work package. This ignores work package relations such that you're able to select any start and end dates, even ones that would normally be restricted due to follows/proceeds relationships. 
+Switching "Manual scheduling" on enables [manual scheduling mode](../../gantt-chart/scheduling/#manual-scheduling-mode) for the work package. This ignores work package relations such that you're able to select any start and end dates, even ones that would normally be restricted due to follows/proceeds relationships. 
 
-Manual scheduling also decouples the start and end dates of parent and children work packages. This means that the dates of parents are no longer constrained by those of the children, and children can be scheduled outside of the range of parent work packages. These relationships are completely ignored as far as scheduling is concerned.
+Manual scheduling also decouples the start and end dates of parent and children work packages. This means that the dates of parents are no longer constrained by those of the children, and children can be scheduled outside of the range of parent work packages. These relationships are completely ignored as far as scheduling is concerned, but are not removed (so they will still be visible in [Gantt view]()).
 
 Manual scheduling can be useful when you need to anchor a work package to fixed dates, for example because the dates of preceding or following work packages are not yet known. 
 
@@ -133,3 +171,4 @@ The information and warning banners also feature a **Show Relations** button. Cl
 
 > **Info**: This preview is intended to give a quick overview of only _direct_ relations that might affect scheduling options for the current work package. It does not show second-level relations (and above). To get a full overview, please use the project work package [list view](../work-package-views/#work-package-list-view) or [Gantt view](../../gantt-chart) with your desired [filter/view configuration](../work-package-table-configuration/).
 
+#### 
