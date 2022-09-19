@@ -33,8 +33,11 @@
     color: var(--header-item-font-color)
     font-size: var(--header-item-font-size)
     text-decoration: none
-    padding: 0 8px
     min-width: 0px
+    padding: 0 15px
+
+    @include breakpoint(680px down)
+      padding: 0 8px
 
     .op-app-menu--item_dropdown-open &,
     &:hover
