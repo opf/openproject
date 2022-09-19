@@ -79,6 +79,7 @@ import {
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { castArray } from 'lodash';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -121,6 +122,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   @InjectField() browserDetector:BrowserDetector;
 
   @InjectField() weekdayService:WeekdayService;
+
+  @InjectField() focusHelper:FocusHelperService;
 
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
@@ -209,7 +212,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     .durationChanges$
     .pipe(
       this.untilDestroyed(),
-      distinctUntilChanged(),
       debounceTime(500),
       map((value) => (value === '' ? null : parseInt(value, 10))),
       filter((val) => val !== this.duration),
@@ -221,6 +223,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   durationFocused = false;
 
   private changeset:ResourceChangeset;
+
+  ignoreNonWorkingDaysWritable = true;
 
   private datePickerInstance:DatePicker;
 
@@ -259,11 +263,21 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     this.scheduleManually = !!this.changeset.value('scheduleManually');
     this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
 
+    // Ensure we get the writable values from the loaded form
+    void this
+      .changeset
+      .getForm()
+      .then((form) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        this.ignoreNonWorkingDaysWritable = !!form.schema.ignoreNonWorkingDays.writable;
+        this.cdRef.detectChanges();
+      });
+
     this.setDurationDaysFromUpstream(this.changeset.value('duration'));
 
     this.dates.start = this.changeset.value('startDate');
     this.dates.end = this.changeset.value('dueDate');
-    this.setCurrentActivatedField(this.initialActivatedField());
+    this.setCurrentActivatedField(this.initialActivatedField);
   }
 
   ngAfterViewInit():void {
@@ -274,6 +288,11 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         this.initializeDatepicker(date);
         this.onDataChange();
       });
+
+    // Autofocus duration if that's what activated us
+    if (this.initialActivatedField === 'duration') {
+      this.focusHelper.focus(this.durationField.nativeElement);
+    }
   }
 
   changeSchedulingMode():void {
@@ -346,15 +365,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   setToday(key:DateKeys):void {
-    const today = parseDate(new Date());
-    this.dates[key] = this.timezoneService.formattedISODate(today);
+    this.datepickerChanged$.next([key, new Date()]);
 
-    if (today instanceof Date) {
-      this.enforceManualChangesToDatepicker(today);
-      this.toggleCurrentActivatedField();
-    } else {
-      this.enforceManualChangesToDatepicker();
-    }
+    const nextActive = key === 'start' ? 'end' : 'start';
+    this.setCurrentActivatedField(nextActive);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -388,7 +402,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   handleDurationFocusOut():void {
-    this.durationFocused = false;
+    setTimeout(() => {
+      this.durationFocused = false;
+    });
   }
 
   get displayedDuration():string {
@@ -532,6 +548,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
       // Active is on start or end, the other was missing
       this.deriveOtherField(activeField);
+
+      // Set the selected date on the datepicker
+      this.enforceManualChangesToDatepicker(selectedDate);
     }
   }
 
@@ -553,9 +572,12 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     // Focus moves to finish date
     this.setCurrentActivatedField('end');
 
-    // If duration has value, derive end date from start and duration
     if (this.duration) {
+      // If duration has value, derive end date from start and duration
       this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+    } else if (this.dates.start && this.dates.end) {
+      // If start and due now have values, derive duration again
+      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
     }
   }
 
@@ -645,7 +667,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     this.onDataUpdated.emit(output);
   }
 
-  private initialActivatedField():DateFields {
+  private get initialActivatedField():DateFields {
     switch (this.locals.fieldName) {
       case 'startDate':
         return 'start';

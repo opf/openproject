@@ -24,5 +24,7 @@ ko:
         open: '저장소의 파일 열기'
         open_location: '위치의 파일 열기'
         remove: "파일 링크 제거"
-        remove_confirmation: "작업 패키지에서 파일을 연결 해제하시겠습니까?"
+        remove_confirmation: >
+          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
+        remove_short: "Remove link"
         not_allowed_tooltip: "Please log in to Nextcloud to access this file"

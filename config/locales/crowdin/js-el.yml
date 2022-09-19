@@ -26,6 +26,9 @@ el:
       loading: "Loading…"
       updating: "Updating…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Σύρετε στο πεδίο επεξεργαστή για να ευθυγραμμίσετε συνημμένα εικόνας ή αναφοράς. Τα κλειστά πεδία επεξεργαστή θα ανοίξουν όσο συνεχίζετε να σέρνετε.
     autocomplete_select:
@@ -758,7 +761,6 @@ el:
       activate_no: 'ενεργοποιήστε για να αφαιρέσετε την ταξινόμηση'
     text_work_packages_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;"
     text_query_destroy_confirmation: "Είστε σίγουροι ότι θέλετε να διαγράψετε την επιλεγμένη προβολή;"
-    text_attachment_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το συνημμένο;"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Διάγραμμα Gantt'

@@ -122,7 +122,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       td.removeClass(editModeClassName);
 
       if (focus) {
-        this.FocusHelper.focusElement(cell);
+        this.FocusHelper.focus(cell[0]);
       }
     }
   }

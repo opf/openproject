@@ -133,36 +133,6 @@ RSpec.describe WorkPackages::Shared::AllDays do
     end
   end
 
-  describe '#add_days' do
-    it 'adds the number of days to the date' do
-      expect(subject.add_days(sunday_2022_07_31, 7)).to eq(Date.new(2022, 8, 7))
-    end
-
-    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: 0, expected: Date.new(2022, 6, 15)
-    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: 1, expected: Date.new(2022, 6, 16)
-    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: 10, expected: Date.new(2022, 6, 25)
-    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: 100, expected: Date.new(2022, 9, 23)
-    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: 365, expected: Date.new(2023, 6, 15)
-    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: -1, expected: Date.new(2022, 6, 14)
-    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: -10, expected: Date.new(2022, 6, 5)
-    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: -100, expected: Date.new(2022, 3, 7)
-    include_examples 'add_days returns date', date: Date.new(2022, 6, 15), count: -730, expected: Date.new(2020, 6, 15)
-
-    context 'with weekend days (Saturday and Sunday)', :weekend_saturday_sunday do
-      it 'adds the number of days to the date' do
-        expect(subject.add_days(sunday_2022_07_31, 7)).to eq(Date.new(2022, 8, 7))
-        expect(subject.add_days(sunday_2022_07_31, -7)).to eq(Date.new(2022, 7, 24))
-      end
-    end
-
-    context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
-      it 'adds the number of days to the date' do
-        expect(subject.add_days(Date.new(2022, 1, 1), 365)).to eq(Date.new(2023, 1, 1))
-        expect(subject.add_days(Date.new(2022, 1, 1), -365)).to eq(Date.new(2021, 1, 1))
-      end
-    end
-  end
-
   describe '#soonest_working_day' do
     it 'returns the given day' do
       expect(subject.soonest_working_day(sunday_2022_07_31)).to eq(sunday_2022_07_31)
@@ -181,25 +151,6 @@ RSpec.describe WorkPackages::Shared::AllDays do
     context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       it 'returns the given day' do
         expect(subject.soonest_working_day(Date.new(2022, 12, 25))).to eq(Date.new(2022, 12, 25))
-      end
-    end
-  end
-
-  describe '#delta' do
-    it 'returns the number of shift from one day to another between two dates' do
-      expect(subject.delta(previous: Date.new(2022, 8, 1), current: Date.new(2022, 8, 30))).to eq(29)
-      expect(subject.delta(previous: Date.new(2022, 8, 15), current: Date.new(2022, 8, 1))).to eq(-14)
-    end
-
-    context 'with weekend days (Saturday and Sunday)', :weekend_saturday_sunday do
-      it 'returns the same delta as without them' do
-        expect(subject.delta(previous: Date.new(2022, 8, 1), current: Date.new(2022, 8, 30))).to eq(29)
-      end
-    end
-
-    context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
-      it 'returns the same delta as without them' do
-        expect(subject.delta(previous: Date.new(2022, 12, 1), current: Date.new(2023, 1, 1))).to eq(31)
       end
     end
   end

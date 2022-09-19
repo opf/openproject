@@ -192,8 +192,7 @@ In the details view of the work package: Click on **More** (button with three do
 
 ### Can I group tasks into folders?
 
-There are no folders for work packages. I suggest either setting all work packages belonging together as children of the same parent work package (e.g. a Phase) or to create multiple projects for different topics. Alternatively you could use the [work package categories](../../projects/project-settings/work-package-categories) or a custom field to group work packages.   You can also indent hierarchy for for tasks to associate it with another work package like a phase, then they are relatete to the Pahase in the gantt chart.
-
+There are no folders for work packages. To group work packages, such as tasks, you can use the [filter and grouping options](../work-package-table-configuration/#work-package-table-configuration) and [save the filters](../work-package-table-configuration/#save-work-package-views). You can also define all related work packages as children of the same parent work package (e.g. a phase). You can indent the hierarchy for work packages in the work packages list (with a right mouse click -> *Indent hierarchy*) to add them as children to another work package, for example a phase. This will then also be displayed in the Gantt chart. Alternatively, you can use the [work package categories](../../projects/project-settings/work-package-categories/#manage-work-package-categories) or a custom field to filter and group work packages. Also, you can create multiple projects to group different topics.
 
 ## Custom fields
 

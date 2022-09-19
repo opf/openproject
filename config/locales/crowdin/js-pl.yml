@@ -26,6 +26,9 @@ pl:
       loading: "Ładowanie…"
       updating: "Aktualizowanie..."
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Przeciągaj w polu edytora, aby wstawić obraz lub załącznik referencyjny. Zamknięte pola edytora zostaną otwarte podczas przeciągania.
     autocomplete_select:
@@ -761,7 +764,6 @@ pl:
       activate_no: 'aktywuj, aby usunąć sortowanie'
     text_work_packages_destroy_confirmation: "Czy na pewno chcesz usunąć wybrane pakiety robocze?"
     text_query_destroy_confirmation: "Czy na pewno chcesz usunąć zaznaczony widok?"
-    text_attachment_destroy_confirmation: "Jesteś pewien, że chcesz usunąć ten załącznik?"
     timelines:
       quarter_label: 'Kwartał%{quarter_number}'
       gantt_chart: 'Wykres Gantta'

@@ -24,5 +24,7 @@ uk:
         open: 'Відкрити файл у сховищі'
         open_location: 'Відкрити файл у папці'
         remove: "Видалити посилання на файл"
-        remove_confirmation: "Справді видалити посилання на файл із пакета робіт?"
+        remove_confirmation: >
+          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
+        remove_short: "Remove link"
         not_allowed_tooltip: "Please log in to Nextcloud to access this file"

@@ -132,7 +132,7 @@ describe 'scheduling mode',
     work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
 
     # Changing the scheduling mode is journalized
-    work_packages_page.expect_activity_message("Manual scheduling activated")
+    work_packages_page.expect_activity_message("Default scheduling activated")
 
     expect_dates(wp, '2016-01-05', '2016-01-10')
     expect(wp.schedule_manually).to be_truthy
@@ -144,13 +144,13 @@ describe 'scheduling mode',
     # but the start date remains unchanged as its grandchild stays put.
     expect_dates(wp_parent, '2016-01-01', '2016-01-10')
 
-    # is moved backwards because of the follows relationship
+    # is moved forward because of the follows relationship
     expect_dates(wp_suc, '2016-01-11', '2016-01-15')
 
-    # is moved backwards because it is the parent of the successor
+    # is moved forward because it is the parent of the successor
     expect_dates(wp_suc_parent, '2016-01-11', '2016-01-15')
 
-    # is moved backwards as the whole hierarchy is moved backwards
+    # is moved forward as the whole hierarchy is moved forward
     expect_dates(wp_suc_child, '2016-01-11', '2016-01-15')
 
     # Switching back to automatic scheduling will lead to the work package
@@ -162,7 +162,7 @@ describe 'scheduling mode',
 
     work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
 
-    # Moved forward again as the child determines the dates again
+    # Moved backward again as the child determines the dates again
     expect_dates(wp, '2016-01-01', '2016-01-05')
     expect(wp.schedule_manually).to be_falsey
 
@@ -173,22 +173,22 @@ describe 'scheduling mode',
     # the interval is shortened again.
     expect_dates(wp_parent, '2016-01-01', '2016-01-05')
 
-    # is moved forward again because of the follows relationship
-    expect_dates(wp_suc, '2016-01-06', '2016-01-10')
+    # does not move backwards, as it just increases the gap between wp and wp_suc
+    expect_dates(wp_suc, '2016-01-11', '2016-01-15')
 
-    # is moved forward again because its child is also moved forward
-    expect_dates(wp_suc_parent, '2016-01-06', '2016-01-10')
+    # does not move backwards either
+    expect_dates(wp_suc_parent, '2016-01-11', '2016-01-15')
 
-    # is moved forward again because its parent is also moved forward
-    expect_dates(wp_suc_child, '2016-01-06', '2016-01-10')
+    # does not move backwards either because its parent did not move
+    expect_dates(wp_suc_child, '2016-01-11', '2016-01-15')
 
-    # Switching back to manual scheduling but this time forward will lead to the work package
+    # Switching back to manual scheduling but this time backward will lead to the work package
     # and all work packages that are dependent to be rescheduled again.
     combined_field.activate!(expect_open: false)
     combined_field.expect_active!
     combined_field.set_scheduling_mode manually: true
 
-    # The calendar needs some time to get initialised.
+    # The calendar needs some time to get initialized.
     sleep 2
     combined_field.expect_calendar
 
@@ -209,17 +209,18 @@ describe 'scheduling mode',
     # but the due date remains unchanged as its grandchild stays put.
     expect_dates(wp_parent, '2015-12-20', '2016-01-05')
 
-    # is moved forward because of the follows relationship
-    expect_dates(wp_suc, '2016-01-01', '2016-01-05')
+    # does not move backwards, as it just increases the gap between wp and wp_suc
+    expect_dates(wp_suc, '2016-01-11', '2016-01-15')
 
-    # is moved forward because it is the parent of the successor
-    expect_dates(wp_suc_parent, '2016-01-01', '2016-01-05')
+    # does not move backwards either
+    expect_dates(wp_suc_parent, '2016-01-11', '2016-01-15')
 
-    # is moved forward as the whole hierarchy is moved backwards
-    expect_dates(wp_suc_child, '2016-01-01', '2016-01-05')
+    # does not move backwards either because its parent did not move
+    expect_dates(wp_suc_child, '2016-01-11', '2016-01-15')
 
     # Switching back to automatic scheduling will lead to the work package
-    # and all work packages that are dependent to be rescheduled again.
+    # and all work packages that are dependent to be rescheduled again to
+    # satisfy wp follows wp_pre relation.
     combined_field.activate!(expect_open: false)
     combined_field.expect_active!
     combined_field.set_scheduling_mode manually: false
@@ -238,13 +239,13 @@ describe 'scheduling mode',
     # the interval is shortened again.
     expect_dates(wp_parent, '2016-01-01', '2016-01-05')
 
-    # is moved backwards again because of the follows relationship
-    expect_dates(wp_suc, '2016-01-06', '2016-01-10')
+    # does not move
+    expect_dates(wp_suc, '2016-01-11', '2016-01-15')
 
-    # is moved backwards again because its child is also moved forward
-    expect_dates(wp_suc_parent, '2016-01-06', '2016-01-10')
+    # does not move either
+    expect_dates(wp_suc_parent, '2016-01-11', '2016-01-15')
 
-    # is moved backwards again because its parent is also moved forward
-    expect_dates(wp_suc_child, '2016-01-06', '2016-01-10')
+    # does not move either because its parent did not move
+    expect_dates(wp_suc_child, '2016-01-11', '2016-01-15')
   end
 end

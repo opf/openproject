@@ -26,6 +26,9 @@ da:
       loading: "Loading…"
       updating: "Updating…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Træk på redigeringsfelt for at indsætte billede eller referencevedhæftning. Lukkede redigeringsfelter åbnes, mens du fortsætter med at trække.
     autocomplete_select:
@@ -758,7 +761,6 @@ da:
       activate_no: 'activate to remove the sort'
     text_work_packages_destroy_confirmation: "Er du sikker på, du vil slette de/den valgte arbejdspakke(r)?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    text_attachment_destroy_confirmation: "Sikker på, at du vil slette vedhæftningen?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt chart'

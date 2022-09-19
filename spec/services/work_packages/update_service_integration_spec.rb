@@ -465,7 +465,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
       # calculated
       # sibling1 not factored in as its estimated_hours are nil
       calculated_ratio = ((work_package.done_ratio * work_package.estimated_hours) +
-                          (sibling2_work_package.done_ratio * sibling2_work_package.estimated_hours)) /
+                          (sibling2_work_package.done_ratio * sibling2_work_package.estimated_hours)) / \
                          (work_package.done_ratio +
                           sibling2_work_package.done_ratio)
 
@@ -546,6 +546,31 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
       child_work_package.reload
       expect(child_work_package.estimated_hours)
         .to eql(child_attributes[:estimated_hours].to_f)
+    end
+  end
+
+  describe 'inheriting ignore_non_working_days' do
+    let(:attributes) { { ignore_non_working_days: true } }
+
+    before do
+      parent_work_package
+      grandparent_work_package
+      sibling1_work_package
+    end
+
+    it 'propagates the value up the ancestor chain' do
+      expect(subject)
+        .to be_success
+
+      # receives the provided value
+      expect(work_package.reload.ignore_non_working_days)
+        .to be_truthy
+
+      # parent and grandparent receive the value
+      expect(parent_work_package.reload.ignore_non_working_days)
+        .to be_truthy
+      expect(grandparent_work_package.reload.ignore_non_working_days)
+        .to be_truthy
     end
   end
 
@@ -746,159 +771,6 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
     end
     # rubocop:enable RSpec/ExampleLength
     # rubocop:enable RSpec/MultipleExpectations
-  end
-
-  describe 'rescheduling work packages forward follows/hierarchy relations' do
-    # layout
-    #                                                              other_work_package
-    #                                                                      +
-    #                                                                      |
-    #                                                                   follows (delay: 3 days)
-    #                                                                      |
-    #                   following_parent_work_package +-follows- following2_parent_work_package
-    #                                    |                                 |
-    #                                hierarchy                          hierarchy
-    #                                    |                                 |
-    #                                    +                                 +
-    # work_package +-follows- following_work_package             following2_work_package +-follows- following3_work_package
-    let(:work_package_attributes) do
-      { project_id: project.id,
-        type_id: type.id,
-        author_id: user.id,
-        status_id: status.id,
-        priority:,
-        start_date: Time.zone.today,
-        due_date: Time.zone.today + 5.days }
-    end
-    let(:attributes) do
-      {
-        start_date: Time.zone.today - 5.days,
-        due_date: Time.zone.today
-      }
-    end
-    let(:following_attributes) do
-      work_package_attributes.merge(parent: following_parent_work_package,
-                                    subject: 'following',
-                                    start_date: Time.zone.today + 6.days,
-                                    due_date: Time.zone.today + 20.days)
-    end
-    let(:following_work_package) do
-      create(:work_package,
-             following_attributes).tap do |wp|
-        create(:follows_relation, from: wp, to: work_package)
-      end
-    end
-    let(:following_parent_attributes) do
-      work_package_attributes.merge(subject: 'following_parent',
-                                    start_date: Time.zone.today + 6.days,
-                                    due_date: Time.zone.today + 20.days)
-    end
-    let(:following_parent_work_package) do
-      create(:work_package,
-             following_parent_attributes)
-    end
-    let(:other_attributes) do
-      work_package_attributes.merge(subject: 'other',
-                                    start_date: Time.zone.today + 10.days,
-                                    due_date: Time.zone.today + 18.days)
-    end
-    let(:other_work_package) do
-      create(:work_package,
-             other_attributes)
-    end
-    let(:following2_attributes) do
-      work_package_attributes.merge(parent: following2_parent_work_package,
-                                    subject: 'following2',
-                                    start_date: Time.zone.today + 24.days,
-                                    due_date: Time.zone.today + 28.days)
-    end
-    let(:following2_work_package) do
-      create(:work_package,
-             following2_attributes)
-    end
-    let(:following2_parent_attributes) do
-      work_package_attributes.merge(subject: 'following2_parent',
-                                    start_date: Time.zone.today + 24.days,
-                                    due_date: Time.zone.today + 28.days)
-    end
-    let(:following2_parent_work_package) do
-      following2 = create(:work_package,
-                          following2_parent_attributes).tap do |wp|
-        create(:follows_relation, from: wp, to: following_parent_work_package)
-      end
-
-      create(:relation,
-             relation_type: Relation::TYPE_FOLLOWS,
-             from: following2,
-             to: other_work_package,
-             delay: 3)
-
-      following2
-    end
-    let(:following3_attributes) do
-      work_package_attributes.merge(subject: 'following3',
-                                    start_date: Time.zone.today + 29.days,
-                                    due_date: Time.zone.today + 33.days)
-    end
-    let(:following3_work_package) do
-      create(:work_package,
-             following3_attributes).tap do |wp|
-        create(:follows_relation, from: wp, to: following2_work_package)
-      end
-    end
-
-    before do
-      work_package
-      other_work_package
-      following_parent_work_package
-      following_work_package
-      following2_parent_work_package
-      following2_work_package
-      following3_work_package
-    end
-
-    # rubocop:disable RSpec/ExampleLength
-    it 'propagates the changes to start/finish date along' do
-      expect(subject)
-        .to be_success
-
-      work_package.reload(select: %i(start_date due_date))
-      expect(work_package.start_date)
-        .to eql Time.zone.today - 5.days
-      expect(work_package.due_date)
-        .to eql Time.zone.today
-
-      following_work_package.reload(select: %i(start_date due_date))
-      expect(following_work_package.start_date)
-        .to eql Time.zone.today + 1.day
-      expect(following_work_package.due_date)
-        .to eql Time.zone.today + 15.days
-
-      following_parent_work_package.reload(select: %i(start_date due_date))
-      expect(following_parent_work_package.start_date)
-        .to eql Time.zone.today + 1.day
-      expect(following_parent_work_package.due_date)
-        .to eql Time.zone.today + 15.days
-
-      following2_parent_work_package.reload(select: %i(start_date due_date))
-      expect(following2_parent_work_package.start_date)
-        .to eql Time.zone.today + 22.days
-      expect(following2_parent_work_package.due_date)
-        .to eql Time.zone.today + 26.days
-
-      following2_work_package.reload(select: %i(start_date due_date))
-      expect(following2_work_package.start_date)
-        .to eql Time.zone.today + 22.days
-      expect(following2_work_package.due_date)
-        .to eql Time.zone.today + 26.days
-
-      following3_work_package.reload(select: %i(start_date due_date))
-      expect(following3_work_package.start_date)
-        .to eql Time.zone.today + 27.days
-      expect(following3_work_package.due_date)
-        .to eql Time.zone.today + 31.days
-    end
-    # rubocop:enable RSpec/ExampleLength
   end
 
   describe 'rescheduling work packages with a parent having a follows relation (Regression #43220)' do

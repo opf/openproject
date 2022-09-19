@@ -37,7 +37,7 @@ cs:
         enabled_text: 'Webhook vypouští payloads pro níže uvedené události.'
         disabled_text: 'Klikněte na tlačítko upravit pro aktivaci webhooku.'
       deliveries:
-        no_results_table: No deliveries have been made for this webhook in the past days.
+        no_results_table: Pro tento webhook nebyly provedeny žádné dodávky.
         title: 'Nedávné dodávky'
         time: 'Dodací doba'
       form:
@@ -60,4 +60,4 @@ cs:
           title: 'Vybrané projekty'
         secret:
           description: >
-            If set, this secret value is used by OpenProject to sign the webhook payload.
+            Je-li nastaveno, OpenProject používá tuto tajnou hodnotu k podpisu payloadu webhooku.

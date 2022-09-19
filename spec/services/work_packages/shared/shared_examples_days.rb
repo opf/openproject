@@ -76,25 +76,8 @@ RSpec.shared_examples 'due_date' do |start_date:, duration:, expected:|
   end
 end
 
-RSpec.shared_examples 'add_days returns date' do |date:, count:, expected:|
-  it "add_days(#{date.to_fs(:wday_date)}, #{count}) => #{expected.to_fs(:wday_date)}" do
-    expect(subject.add_days(date, count)).to eq(expected)
-  end
-end
-
 RSpec.shared_examples 'soonest working day' do |date:, expected:|
   it "soonest_working_day(#{date.to_fs(:wday_date)}) => #{expected.to_fs(:wday_date)}" do
     expect(subject.soonest_working_day(date)).to eq(expected)
-  end
-end
-
-RSpec.shared_examples 'delta' do |previous:, current:, expected:|
-  it "delta(previous: #{previous.to_fs(:wday_date)}, current: #{current.to_fs(:wday_date)}) => #{expected} days" do
-    expect(subject.delta(previous:, current:)).to eq(expected)
-  end
-
-  # check inverse: delta(a, b) == -delta(b, a)
-  it "delta(previous: #{current.to_fs(:wday_date)}, current: #{previous.to_fs(:wday_date)}) => #{-expected} days" do
-    expect(subject.delta(previous: current, current: previous)).to eq(-expected)
   end
 end

@@ -42,7 +42,7 @@ cs:
         action_text: >
           Tabule s filtrovanými seznamy v atributu %{attribute} . Přesunutí pracovních balíčků do jiných seznamů aktualizuje jejich atribut.
         action_text_subprojects: >
-          Boj s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem aktualizuje (pod)projekt.
+          Boj s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem aktualizuje podprojekt.
         action_text_subtasks: >
           Tabule s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem
         action_text_status: >

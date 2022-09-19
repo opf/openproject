@@ -26,6 +26,9 @@ si:
       loading: "Loading…"
       updating: "Updating…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         පේළිගත රූපය හෝ යොමු ඇමුණුමක් කර්තෘ ක්ෂේත්රය මත ඇදගෙන යන්න. ඔබ ඇදගෙන යන අතරතුර සංවෘත සංස්කාරක ක්ෂේත්ර විවෘත කරනු ඇත.
     autocomplete_select:
@@ -759,7 +762,6 @@ si:
       activate_no: 'වර්ග කිරීම ඉවත් කිරීමට සක්රිය'
     text_work_packages_destroy_confirmation: "ඔබ තෝරාගත් වැඩ පැකේජය (න්) මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
     text_query_destroy_confirmation: "තෝරාගත් දර්ශනය මකා දැමීමට ඔබට අවශ්යද?"
-    text_attachment_destroy_confirmation: "ඔබට ඇමුණුම මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'ගැන්ට් සටහන'

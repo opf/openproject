@@ -538,6 +538,7 @@ zh-TW:
         progress: "進度 (%)"
         readonly: "Read only"
         schedule_manually: "手動排程"
+        schedule_default: "Default scheduling"
         spent_hours: "耗時"
         spent_time: "耗時"
         subproject: "子專案"
@@ -2544,6 +2545,7 @@ zh-TW:
   text_access_token_hint: "存取權杖讓你能夠允許外部程式存取在 OpenProject 內的資源"
   text_analyze: "進一步分析: %{subject}"
   text_are_you_sure: "是否確定？"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "刪除工作項目以及所有子工作項目?"
   text_assign_to_project: "分配給專案"
   text_form_configuration: >
@@ -2604,6 +2606,7 @@ zh-TW:
   text_journal_set_to: "%{label} 設定為 %{value}"
   text_journal_set_with_diff: "%{label} 設定 (%{link})"
   text_journal_label_value: "%{label} %{value}"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "最新的評論是: %{note}"
   text_length_between: "長度須介於 %{min} 至 %{max} 個字元"
   text_line_separated: "允許多個值 (每行一個值)。"
@@ -2892,6 +2895,7 @@ zh-TW:
   working_days:
     info: >
       <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "沒有內容可預覽"

@@ -539,6 +539,7 @@
         progress: "Fremgang (%)"
         readonly: "Read only"
         schedule_manually: "Manual scheduling"
+        schedule_default: "Default scheduling"
         spent_hours: "Tid brukt"
         spent_time: "Tid brukt"
         subproject: "Underprosjekt"
@@ -2564,6 +2565,7 @@
   text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
   text_analyze: "Videre analyse: %{subject}"
   text_are_you_sure: "Er du sikker?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Slette arbeidspakken og alle underordnede arbeidspakker?"
   text_assign_to_project: "Tildel til prosjektet"
   text_form_configuration: >
@@ -2624,6 +2626,7 @@
   text_journal_set_to: "%{label} satt til %{value}"
   text_journal_set_with_diff: "%{label} angitt (%{link})"
   text_journal_label_value: "%{label} %{value}"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "The latest comment is: %{note}"
   text_length_between: "Lengde mellom %{min} og %{max} tegn."
   text_line_separated: "Flere verdier tillatt (en verdi pr. linje)."
@@ -2914,6 +2917,7 @@
   working_days:
     info: >
       <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Ingenting å forhåndsvise"

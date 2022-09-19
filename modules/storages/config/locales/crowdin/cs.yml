@@ -25,7 +25,7 @@ cs:
               minimal_nextcloud_version_unmet: "nesplňuje minimální požadavky na verzi (musí být Nextcloud 23 nebo vyšší)"
               not_nextcloud_server: "není Nextcloud server"
               op_application_not_installed: >
-                appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
+                Zdá se, že aplikace "OpenProject integration" není nainstalována. Prosím nainstalujte ji a zkuste to znovu.
               authorization_header_missing: >
                 is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
         storages/file_link:

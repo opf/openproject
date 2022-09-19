@@ -26,6 +26,9 @@ ko:
       loading: "로드 중…"
       updating: "업데이트 중…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
     autocomplete_select:
@@ -758,7 +761,6 @@ ko:
       activate_no: '정렬을 제거하기 위해 활성화합니다'
     text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
     text_query_destroy_confirmation: "선택한 보기를 삭제하시겠습니까?"
-    text_attachment_destroy_confirmation: "정말 이 첨부 파일을 삭제 하시겠습니까?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt 차트'

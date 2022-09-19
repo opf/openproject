@@ -24,5 +24,7 @@ nl:
         open: 'Open bestand in opslag'
         open_location: 'Open bestand op locatie'
         remove: "Bestandslink verwijderen"
-        remove_confirmation: "Weet u zeker dat u het bestand wilt ontkoppelen van het werkpakket?"
+        remove_confirmation: >
+          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
+        remove_short: "Remove link"
         not_allowed_tooltip: "Please log in to Nextcloud to access this file"

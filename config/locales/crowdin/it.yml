@@ -536,6 +536,7 @@ it:
         progress: "Avanzamento (%)"
         readonly: "Sola lettura"
         schedule_manually: "Programmazione manuale"
+        schedule_default: "Default scheduling"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
         subproject: "Sottoprogetto"
@@ -2561,6 +2562,7 @@ it:
   text_access_token_hint: "I token di accesso consentono di concedere ad applicazioni esterne l'accesso alle risorse in OpenProject."
   text_analyze: "Analizzare ulteriormente: %{subject}"
   text_are_you_sure: "Sei sicuro?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Eliminare la macro-attività e tutte le sue sotto-attività?"
   text_assign_to_project: "Assegna al progetto"
   text_form_configuration: >
@@ -2621,6 +2623,7 @@ it:
   text_journal_set_to: "%{label} impostato su %{value}"
   text_journal_set_with_diff: "insieme di %{label} (%{link})"
   text_journal_label_value: "%{label} %{value}"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "L'ultimo commento è: %{note}"
   text_length_between: "Lunghezza compresa tra %{min} e %{max} caratteri."
   text_line_separated: "Valori multipli consentiti (una linea per ogni valore)."
@@ -2911,6 +2914,7 @@ it:
   working_days:
     info: >
       <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Niente in anteprima"

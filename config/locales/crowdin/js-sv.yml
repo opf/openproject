@@ -26,6 +26,9 @@ sv:
       loading: "Loading…"
       updating: "Updating…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Dra på editorfältet för att infoga bild eller referensbilaga. Stängda editorfält kommer att öppnas medan du fortsätter att dra.
     autocomplete_select:
@@ -758,7 +761,6 @@ sv:
       activate_no: 'aktivera för att ta bort sortering'
     text_work_packages_destroy_confirmation: "Är du säker du vill ta bort det valda arbetspaket(paketen)?"
     text_query_destroy_confirmation: "Är du säker på att du vill ta bort den markerade vyn?"
-    text_attachment_destroy_confirmation: "Är du säker på att du vill ta bort denna bilaga?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt-schema'

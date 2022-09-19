@@ -29,6 +29,7 @@ class DateEditField < EditField
            :expect_due_date,
            :expect_duration,
            :set_duration,
+           :duration_field,
            :ignore_non_working_days, to: :datepicker
 
   def modal_selector
@@ -127,12 +128,6 @@ class DateEditField < EditField
 
       save! if save
       expect_state! open: (expect_failure || !save)
-    end
-  end
-
-  def click_today(which: :start)
-    within_modal do
-      find("[data-qa-selector='datepicker-#{which}-date'] .form--field-extra-actions a", text: 'Today').click
     end
   end
 

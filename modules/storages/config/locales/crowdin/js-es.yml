@@ -24,5 +24,7 @@ es:
         open: 'Abrir el fichero en almacenamiento'
         open_location: 'Abrir fichero en su ubicación'
         remove: "Eliminar vínculo de fichero"
-        remove_confirmation: "¿Estás seguro de que quieres desvincular el fichero del paquete de trabajo?"
+        remove_confirmation: >
+          ¿Está seguro que desea desvincular el archivo de este paquete de trabajo? Desvincular no afecta al archivo original, solo elimina la conexión a este paquete de trabajo.
+        remove_short: "Eliminar enlace"
         not_allowed_tooltip: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"

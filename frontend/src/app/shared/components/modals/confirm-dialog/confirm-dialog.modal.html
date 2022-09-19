@@ -1,11 +1,18 @@
 <div
-  class="spot-modal loading-indicator--location"
+  class="spot-modal op-confirm-dialog loading-indicator--location"
   data-indicator-name="modal"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
 >
   <div class="spot-modal--header">{{text.title}}</div>
+  <div class="spot-divider"></div>
 
   <div class="spot-modal--body">
-    <span [textContent]="text.text"></span>
+    <span class="op-confirm-dialog--text"
+          [textContent]="text.text"
+    ></span>
     <span *ngFor="let data of passedData">
       <br/>
       <strong>{{data}}</strong>
@@ -14,9 +21,11 @@
 
   <div class="spot-modal--footer spot-action-bar">
     <div class="spot-action-bar--right">
-      <button class="button button_no-margin spot-action-bar--action"
-              data-qa-selector="confirmation-modal--cancel"
-              (click)="closeMe($event)"
+      <button
+        type="button"
+        class="button button_no-margin spot-action-bar--action"
+        data-qa-selector="confirmation-modal--cancel"
+        (click)="closeMe($event)"
       >
         <op-icon
           *ngIf="icon.cancel as clazz"
@@ -30,10 +39,12 @@
           class="button--text"
         >{{text.button_cancel}}</span>
       </button>
-      <button class="button button_no-margin spot-action-bar--action"
-              data-qa-selector="confirmation-modal--confirmed"
-              [ngClass]="dangerHighlighting ? '-danger': '-highlight'"
-              (click)="confirmAndClose($event)"
+      <button
+        type="button"
+        class="button button_no-margin spot-action-bar--action"
+        data-qa-selector="confirmation-modal--confirmed"
+        [ngClass]="dangerHighlighting ? '-danger': '-highlight'"
+        (click)="confirmAndClose($event)"
       >
         <op-icon
           *ngIf="icon.continue as clazz"

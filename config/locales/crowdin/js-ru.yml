@@ -26,6 +26,9 @@ ru:
       loading: "Загрузка…"
       updating: "Обновление…"
     attachments:
+      delete: "Удалить вложение"
+      delete_confirmation: |
+        Вы уверены, что хотите удалить этот файл? Это действие необратимо.
       draggable_hint: |
         Перетащите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в течение перетаскивания.
     autocomplete_select:
@@ -82,10 +85,10 @@ ru:
     button_open_fullscreen: "Открыть полноэкранный просмотр"
     button_show_cards: "В виде карточек"
     button_show_list: "В виде списка"
-    button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
+    button_show_table: "Показать вид таблицы"
+    button_show_gantt: "Показать вид Gantt"
+    button_show_fullscreen: "Показать полноэкранный режим"
+    button_more_actions: "Другие действия"
     button_quote: "Цитировать"
     button_save: "Сохранить"
     button_settings: "Настройки"
@@ -543,9 +546,9 @@ ru:
         prioritized: 'пририотизировано'
       facets:
         unread: 'Непрочтено'
-        unread_title: 'Show unread'
+        unread_title: 'Показать непрочитанные'
         all: 'Bсе'
-        all_title: 'Show all'
+        all_title: 'Показать все'
       center:
         and_more_users:
           one: 'и еще 1'
@@ -760,7 +763,6 @@ ru:
       activate_no: 'активировать для удаления сортировки'
     text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакеты работ?"
     text_query_destroy_confirmation: "Уверены, что хотите удалить выбранное представление?"
-    text_attachment_destroy_confirmation: "Вы уверены, что вы хотите удалить вложение?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Диаграмма Гантта'
@@ -881,7 +883,7 @@ ru:
       message_work_package_status_blocked: "Статус пакета работ недоступен для записи из-за закрытого статуса и назначенной закрытой версии."
       placeholder_filter_by_text: "Тема, описание, комментарии, ..."
       filters:
-        title: 'Filter work packages'
+        title: 'Фильтровать пакеты работ'
       inline_create:
         title: 'Кликните здесь, чтобы добавить новый пакет работ в этот список'
       create:

@@ -172,10 +172,6 @@ import {
 } from 'core-app/features/homescreen/blocks/new-features.component';
 import { MainMenuToggleComponent, mainMenuToggleSelector } from 'core-app/core/main-menu/main-menu-toggle.component';
 import {
-  ConfirmFormSubmitController,
-  confirmFormSubmitSelector,
-} from 'core-app/shared/components/modals/confirm-form-submit/confirm-form-submit.directive';
-import {
   MainMenuResizerComponent,
   mainMenuResizerSelector,
 } from 'core-app/shared/components/resizer/resizer/main-menu-resizer.component';
@@ -232,7 +228,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: contentTabsSelector, cls: ContentTabsComponent },
   { selector: globalSearchTitleSelector, cls: GlobalSearchTitleComponent },
   { selector: copyToClipboardSelector, cls: CopyToClipboardDirective },
-  { selector: confirmFormSubmitSelector, cls: ConfirmFormSubmitController },
   { selector: mainMenuResizerSelector, cls: MainMenuResizerComponent },
   { selector: mainMenuToggleSelector, cls: MainMenuToggleComponent },
   { selector: globalSearchSelector, cls: GlobalSearchInputComponent },

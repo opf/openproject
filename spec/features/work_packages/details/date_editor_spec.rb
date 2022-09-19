@@ -61,6 +61,10 @@ describe 'date inplace editor',
     start_date.datepicker.expect_month 'January'
     start_date.datepicker.select_day '25'
 
+    start_date.datepicker.expect_start_date '2016-01-02'
+    start_date.datepicker.expect_due_date '2016-01-25'
+    start_date.datepicker.expect_duration 24
+
     start_date.save!
     start_date.expect_inactive!
     start_date.expect_state_text '2016-01-02 - 2016-01-25'
@@ -74,6 +78,10 @@ describe 'date inplace editor',
     start_date.datepicker.expect_month 'January'
     start_date.datepicker.select_day '1'
 
+    start_date.datepicker.expect_start_date '2016-01-01'
+    start_date.datepicker.expect_due_date '2016-01-02'
+    start_date.datepicker.expect_duration 2
+
     start_date.save!
     start_date.expect_inactive!
     start_date.expect_state_text '2016-01-01 - 2016-01-02'
@@ -83,7 +91,13 @@ describe 'date inplace editor',
     start_date.activate!
     start_date.expect_active!
 
-    start_date.click_today
+    start_date.datepicker.expect_start_date '2016-01-02'
+    start_date.datepicker.expect_year work_package.start_date.year
+    start_date.datepicker.expect_month work_package.start_date.strftime("%B")
+    start_date.datepicker.expect_day work_package.start_date.day
+
+    start_date.datepicker.set_today :start
+    start_date.datepicker.expect_start_date Time.zone.today.iso8601
 
     start_date.datepicker.expect_year Time.zone.today.year
     start_date.datepicker.expect_month Time.zone.today.strftime("%B")
@@ -110,6 +124,10 @@ describe 'date inplace editor',
       start_date.datepicker.expect_month 'January'
       start_date.datepicker.select_day '1'
 
+      start_date.datepicker.expect_start_date '2016-01-01'
+      start_date.datepicker.expect_due_date '2016-01-24'
+      start_date.datepicker.expect_duration 24
+
       start_date.save!
       start_date.expect_inactive!
       start_date.expect_state_text '2016-01-01 - 2016-01-24'
@@ -123,8 +141,13 @@ describe 'date inplace editor',
       start_date.datepicker.expect_month 'January'
       start_date.datepicker.select_day '3'
 
+      start_date.datepicker.expect_start_date '2016-01-03'
+
       # Since the focus shifts automatically, we can directly click again to modify the end date
       start_date.datepicker.select_day '21'
+
+      start_date.datepicker.expect_due_date '2016-01-21'
+      start_date.datepicker.expect_duration 19
 
       start_date.save!
       start_date.expect_inactive!
@@ -169,7 +192,10 @@ describe 'date inplace editor',
       start_date.activate!
       start_date.expect_active!
 
-      start_date.click_today
+      # Wait for the datepicker to be loaded
+      sleep 1
+      start_date.datepicker.set_today :start
+      start_date.datepicker.expect_start_date Time.zone.today.iso8601
 
       start_date.datepicker.expect_year Time.zone.today.year
       start_date.datepicker.expect_month Time.zone.today.strftime("%B")
