@@ -80,7 +80,7 @@ class CustomField < ApplicationRecord
 
   def default_value
     if list?
-      ids = custom_options.select(&:default_value).map(&:id)
+      ids = custom_options.where(default_value: true).pluck(:id)
 
       if multi_value?
         ids

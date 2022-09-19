@@ -52,6 +52,30 @@ module Queries::Filters::Shared
 
       protected
 
+      def where_condition
+        if filtered_for_default?
+          super + default_condition
+        else
+          super
+        end
+      end
+
+      def default_condition
+        case operator
+        when '='
+          " OR #{CustomValue.table_name}.value IS NULL"
+        when '!'
+          " AND #{CustomValue.table_name}.value IS NOT NULL"
+        else
+          ''
+        end
+      end
+
+      def filtered_for_default?
+        default_values = Array(custom_field.default_value).map(&:to_s)
+        (values & default_values) == values
+      end
+
       def type_strategy_class
         ::Queries::Filters::Strategies::CfListOptional
       end

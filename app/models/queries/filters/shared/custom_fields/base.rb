@@ -96,14 +96,13 @@ module Queries::Filters::Shared
 
       def where
         model_db_table = model.table_name
-        cv_db_table = CustomValue.table_name
 
         <<-SQL
           #{model_db_table}.id IN
           (SELECT #{model_db_table}.id
           FROM #{model_db_table}
           #{custom_field_context.where_subselect_joins(custom_field)}
-          WHERE #{operator_strategy.sql_for_field(values_replaced, cv_db_table, 'value')})
+          WHERE #{where_condition})
         SQL
       end
 
@@ -115,6 +114,11 @@ module Queries::Filters::Shared
       end
 
       protected
+
+      def where_condition
+        cv_db_table = CustomValue.table_name
+        operator_strategy.sql_for_field(values_replaced, cv_db_table, 'value')
+      end
 
       def type_strategy_class
         strategies[type] || strategies[:inexistent]

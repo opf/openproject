@@ -52,8 +52,9 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   end
   let(:query) { build_stubbed(:query, project:) }
   let(:cf_accessor) { "cf_#{custom_field.id}" }
+  let(:operator) { '=' }
   let(:instance) do
-    described_class.create!(name: cf_accessor, operator: '=', context: query)
+    described_class.create!(name: cf_accessor, operator:, context: query)
   end
   let(:instance_key) { nil }
 
@@ -107,7 +108,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'within a project' do
+    context 'when within a project' do
       it_behaves_like 'custom field type dependent validity'
     end
 
@@ -135,7 +136,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   end
 
   describe '#type' do
-    context 'integer' do
+    context 'when integer' do
       let(:cf_accessor) { "cf_#{int_wp_custom_field.id}" }
 
       it 'is integer for an integer' do
@@ -144,7 +145,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'float' do
+    context 'when float' do
       let(:cf_accessor) { "cf_#{float_wp_custom_field.id}" }
 
       it 'is integer for a float' do
@@ -153,7 +154,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'text' do
+    context 'when text' do
       let(:cf_accessor) { "cf_#{text_wp_custom_field.id}" }
 
       it 'is text for a text' do
@@ -162,7 +163,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'list optional' do
+    context 'when list optional' do
       let(:cf_accessor) { "cf_#{list_wp_custom_field.id}" }
 
       it 'is list_optional for a list' do
@@ -171,7 +172,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'user' do
+    context 'when user' do
       let(:cf_accessor) { "cf_#{user_wp_custom_field.id}" }
 
       it 'is list_optional for a user' do
@@ -180,7 +181,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'version' do
+    context 'when version' do
       let(:cf_accessor) { "cf_#{version_wp_custom_field.id}" }
 
       it 'is list_optional for a version' do
@@ -189,7 +190,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'version' do
+    context 'when date' do
       let(:cf_accessor) { "cf_#{date_wp_custom_field.id}" }
 
       it 'is date for a date' do
@@ -198,7 +199,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'bool' do
+    context 'when bool' do
       let(:cf_accessor) { "cf_#{bool_wp_custom_field.id}" }
 
       it 'is list for a bool' do
@@ -207,7 +208,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'string' do
+    context 'when string' do
       let(:cf_accessor) { "cf_#{string_wp_custom_field.id}" }
 
       it 'is string for a string' do
@@ -225,7 +226,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   end
 
   describe '#allowed_values' do
-    context 'integer' do
+    context 'when integer' do
       let(:cf_accessor) { "cf_#{int_wp_custom_field.id}" }
 
       it 'is nil for an integer' do
@@ -234,7 +235,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'float' do
+    context 'when float' do
       let(:cf_accessor) { "cf_#{float_wp_custom_field.id}" }
 
       it 'is integer for a float' do
@@ -243,7 +244,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'text' do
+    context 'when text' do
       let(:cf_accessor) { "cf_#{text_wp_custom_field.id}" }
 
       it 'is text for a text' do
@@ -252,7 +253,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'list' do
+    context 'when list' do
       let(:cf_accessor) { "cf_#{list_wp_custom_field.id}" }
 
       it 'is list_optional for a list' do
@@ -261,11 +262,11 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'user' do
+    context 'when user' do
       let(:cf_accessor) { "cf_#{user_wp_custom_field.id}" }
 
       it 'is list_optional for a user' do
-        bogus_return_value = ['user1', 'user2']
+        bogus_return_value = %w[user1 user2]
         allow(user_wp_custom_field)
           .to receive(:possible_values_options)
           .with(project)
@@ -277,11 +278,11 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'version' do
+    context 'when version' do
       let(:cf_accessor) { "cf_#{version_wp_custom_field.id}" }
 
       it 'is list_optional for a version' do
-        bogus_return_value = ['version1', 'version2']
+        bogus_return_value = %w[version1 version2]
         allow(version_wp_custom_field)
           .to receive(:possible_values_options)
           .with(project)
@@ -293,7 +294,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'date' do
+    context 'when date' do
       let(:cf_accessor) { "cf_#{date_wp_custom_field.id}" }
 
       it 'is nil for a date' do
@@ -302,7 +303,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'bool' do
+    context 'when bool' do
       let(:cf_accessor) { "cf_#{bool_wp_custom_field.id}" }
 
       it 'is list for a bool' do
@@ -312,7 +313,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'string' do
+    context 'when string' do
       let(:cf_accessor) { "cf_#{string_wp_custom_field.id}" }
 
       it 'is nil for a string' do
@@ -365,6 +366,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       before do
         query.project = nil
 
+        # rubocop:disable RSpec/MessageChain
         allow(WorkPackageCustomField)
           .to receive_message_chain(:filter, :for_all, :where, :not)
           .and_return([list_wp_custom_field,
@@ -374,6 +376,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
                        text_wp_custom_field,
                        date_wp_custom_field,
                        string_wp_custom_field])
+        # rubocop:enable RSpec/MessageChain
       end
 
       it 'returns a list with a filter for every custom field' do
@@ -397,7 +400,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     end
   end
 
-  context 'list cf' do
+  context 'when list cf' do
     describe '#ar_object_filter? / #value_objects' do
       let(:custom_field) { list_wp_custom_field }
 
@@ -428,33 +431,143 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
             .to match_array([custom_field.custom_options.last])
         end
       end
+
+      context 'when custom field has one default value' do
+        let(:default_value) do
+          custom_field.custom_options.first.tap do |co|
+            co.update! default_value: true
+          end
+        end
+
+        context 'when filtering for that value' do
+          before do
+            instance.values = [default_value.id.to_s]
+          end
+
+          it 'appends that to the conditions' do
+            expect(instance.where).to include 'OR custom_values.value IS NULL'
+          end
+        end
+
+        context 'when not filtering for that value' do
+          before do
+            instance.values = ['123451']
+          end
+
+          it 'appends that to the conditions' do
+            expect(instance.where).not_to include 'OR custom_values.value IS NULL'
+          end
+        end
+
+        context 'when excluding for that value' do
+          let(:operator) { '!' }
+
+          before do
+            instance.values = [default_value.id.to_s]
+          end
+
+          it 'appends that to the conditions' do
+            expect(instance.where).to include 'AND custom_values.value IS NOT NULL'
+          end
+        end
+
+        context 'when excluding for another value' do
+          let(:operator) { '!' }
+
+          before do
+            instance.values = ['123451']
+          end
+
+          it 'appends that to the conditions' do
+            expect(instance.where).not_to include 'AND custom_values.value IS NOT NULL'
+          end
+        end
+      end
+
+      context 'when custom field has multiple default values' do
+        before do
+          custom_field.update!(multi_value: true)
+          custom_field.custom_options.map do |co|
+            co.update! default_value: true
+            co
+          end
+        end
+
+        let(:default_values) do
+          custom_field.default_value
+        end
+
+        context 'when filtering for that value' do
+          before do
+            instance.values = default_values.map(&:to_s)
+          end
+
+          it 'appends that to the conditions' do
+            expect(instance.where).to include 'OR custom_values.value IS NULL'
+          end
+        end
+
+        context 'when not filtering for that value' do
+          before do
+            instance.values = ['123451']
+          end
+
+          it 'appends that to the conditions' do
+            expect(instance.where).not_to include 'OR custom_values.value IS NULL'
+          end
+        end
+
+        context 'when excluding for that value' do
+          let(:operator) { '!' }
+
+          before do
+            instance.values = default_values.map(&:to_s)
+          end
+
+          it 'appends that to the conditions' do
+            expect(instance.where).to include 'AND custom_values.value IS NOT NULL'
+          end
+        end
+
+        context 'when excluding for another value' do
+          let(:operator) { '!' }
+
+          before do
+            instance.values = ['123451']
+          end
+
+          it 'appends that to the conditions' do
+            expect(instance.where).not_to include 'AND custom_values.value IS NOT NULL'
+          end
+        end
+      end
     end
 
-    context 'bool cf' do
+    context 'when bool cf' do
       let(:custom_field) { bool_wp_custom_field }
 
       it_behaves_like 'non ar filter'
     end
 
-    context 'int cf' do
+    context 'when int cf' do
       let(:custom_field) { int_wp_custom_field }
 
       it_behaves_like 'non ar filter'
     end
 
-    context 'float cf' do
+    context 'when float cf' do
       let(:custom_field) { float_wp_custom_field }
 
       it_behaves_like 'non ar filter'
     end
 
-    context 'text cf' do
+    context 'when text cf' do
       let(:custom_field) { text_wp_custom_field }
 
       it_behaves_like 'non ar filter'
     end
 
-    context 'user cf' do
+    context 'when user cf' do
       let(:custom_field) { user_wp_custom_field }
 
       describe '#ar_object_filter?' do
@@ -484,7 +597,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'version cf' do
+    context 'when version cf' do
       let(:custom_field) { version_wp_custom_field }
 
       describe '#ar_object_filter?' do
@@ -514,13 +627,13 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
 
-    context 'date cf' do
+    context 'when date cf' do
       let(:custom_field) { date_wp_custom_field }
 
       it_behaves_like 'non ar filter'
     end
 
-    context 'string cf' do
+    context 'when string cf' do
       let(:custom_field) { string_wp_custom_field }
 
       it_behaves_like 'non ar filter'
