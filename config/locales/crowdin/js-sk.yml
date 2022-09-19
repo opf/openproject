@@ -26,6 +26,9 @@ sk:
       loading: "Loading…"
       updating: "Updating…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Pre vloženie obrázka alebo referenčnej prílohy presuňte súbor do editovateľného poľa. Uzavreté pole editora sa bude otvárať počas nepretržitého ťahania.
     autocomplete_select:
@@ -761,7 +764,6 @@ sk:
       activate_no: 'aktivovať odstránenie zoradenia'
     text_work_packages_destroy_confirmation: "Naozaj chcete odstrániť vybraný pracovný balíček(y)?"
     text_query_destroy_confirmation: "Naozaj chcete odstrániť vybraté zobrazenie?"
-    text_attachment_destroy_confirmation: "Naozaj chcete odstrániť prílohu?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Ganttov diagram'

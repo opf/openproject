@@ -135,6 +135,20 @@ module Components
       due_date_field.click
     end
 
+    def set_today(date)
+      key =
+        case date.to_s
+        when 'due'
+          'end'
+        else
+          date
+        end
+
+      page.within("[data-qa-selector='datepicker-#{key}-date']") do
+        find('a', text: 'Today').click
+      end
+    end
+
     def set_duration(value)
       focus_duration
       fill_in 'duration', with: value, fill_options: { clear: :backspace }
@@ -189,6 +203,14 @@ module Components
 
       # Focus a different field
       start_date_field.click
+    end
+
+    def clear_duration_with_icon
+      duration_field.click
+
+      page
+        .find('[data-qa-selector="op-datepicker-modal--duration-field"] .spot-text-field--clear-button')
+        .click
     end
   end
 end

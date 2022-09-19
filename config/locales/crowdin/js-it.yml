@@ -26,6 +26,9 @@ it:
       loading: "Caricamento…"
       updating: "Aggiornamento…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Trascina l'elemento nei campi dell'editor per allineare l'immagine o il riferimento allegato. I campi dell'editor chiusi verranno sbloccati durante il trascinamento.
     autocomplete_select:
@@ -759,7 +762,6 @@ it:
       activate_no: 'attivalo per rimuovere l''ordinamento'
     text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
     text_query_destroy_confirmation: "Sei sicuro di voler eliminare la vista selezionata?"
-    text_attachment_destroy_confirmation: "Sei sicuro di che voler eliminare l'allegato?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Diagramma di Gantt'

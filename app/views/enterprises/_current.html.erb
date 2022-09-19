@@ -11,15 +11,10 @@
 >
 </enterprise-active-saved-trial>
 
-<%= form_tag(enterprise_path, method: :delete) do %>
-  <%=
-  angular_component_tag 'confirm-form-submit',
-                        inputs: {
-                          dangerHighlighting: "true",
-                          modalTitle: t('admin.enterprise.delete_token_modal.title'),
-                          modalText: t('admin.enterprise.delete_token_modal.text')
-                        }
-  %>
+<%= form_tag(enterprise_path,
+             method: :delete,
+             data: augmented_confirmation_dialog
+    ) do %>
   <%= styled_button_tag t(:button_delete),
                         method: :delete,
                         class: '-with-icon icon-delete' %>

@@ -541,6 +541,7 @@ sk:
         progress: "Stav spracovania (%)"
         readonly: "Read only"
         schedule_manually: "Manuálne plánovanie"
+        schedule_default: "Default scheduling"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
         subproject: "Podprojekt"
@@ -2601,6 +2602,7 @@ sk:
   text_access_token_hint: "Prístupové tokeny umožňujú udeliť externých aplikácií prístup k zdrojom v OpenProject."
   text_analyze: "Ďalej analyzovať: %{subject}"
   text_are_you_sure: "Ste si istí?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Zmazať pracovný balíček a všetky podradené pracovné balíčky?"
   text_assign_to_project: "Priradiť k projektu"
   text_form_configuration: >
@@ -2661,6 +2663,7 @@ sk:
   text_journal_set_to: "%{label} nastavený na %{value}"
   text_journal_set_with_diff: "%{label} nastavený (%{link})"
   text_journal_label_value: "%{label} %{value}"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "Posledný komentár je: %{note}"
   text_length_between: "Dĺžka medzi %{min} až %{max} znakov."
   text_line_separated: "Je povolené zadať viaceré hodnoty (každú hodnotu na samostatný riadok)."
@@ -2955,6 +2958,7 @@ sk:
   working_days:
     info: >
       <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Nič na zobrazenie náhľadu"

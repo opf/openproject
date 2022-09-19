@@ -59,6 +59,7 @@ export interface ConfirmDialogOptions {
 
 @Component({
   templateUrl: './confirm-dialog.modal.html',
+  styleUrls: ['./confirm-dialog.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmDialogModalComponent extends OpModalComponent {

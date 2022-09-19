@@ -534,6 +534,7 @@ ja:
         progress: "進行状況 (%)"
         readonly: "Read only"
         schedule_manually: "手動スケジュール"
+        schedule_default: "Default scheduling"
         spent_hours: "作業時間の記録"
         spent_time: "作業時間の記録"
         subproject: "子プロジェクト"
@@ -2541,6 +2542,7 @@ ja:
   text_access_token_hint: "アクセストークンで、外部アプリケーションが OpenProject のリソースへのアクセスを許可することができます。"
   text_analyze: "さらに分析: %{subject}"
   text_are_you_sure: "よろしいですか？"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "仕事項目と子項目を削除してもよろしいですか？"
   text_assign_to_project: "プロジェクト自体に割り当てする"
   text_form_configuration: >
@@ -2601,6 +2603,7 @@ ja:
   text_journal_set_to: "%{label}を%{value}に設定"
   text_journal_set_with_diff: "%{label}を設定（%{link}）"
   text_journal_label_value: "%{label} %{value}"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "最新のコメント: %{note}"
   text_length_between: "長さは%{min}から%{max}文字までです。"
   text_line_separated: "(1行ごとに書くことで)複数の値を設定できます。"
@@ -2888,6 +2891,7 @@ ja:
   working_days:
     info: >
       <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "プレビューできるものは何もありません。"

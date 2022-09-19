@@ -535,6 +535,7 @@ ca:
         progress: "Progrés (%)"
         readonly: "Només lectura"
         schedule_manually: "Planificació manual"
+        schedule_default: "Default scheduling"
         spent_hours: "Temps invertit"
         spent_time: "Temps invertit"
         subproject: "Subprojecte"
@@ -727,7 +728,7 @@ ca:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one working day needs to be specified.'
+              working_days_are_missing: 'Com a mínim s''ha d''especificar un dia laboral.'
         time_entry:
           attributes:
             hours:
@@ -1927,7 +1928,7 @@ ca:
   label_workflow: "Flux de treball"
   label_workflow_plural: "Fluxos de treball"
   label_workflow_summary: "Resum"
-  label_working_days: "Working days"
+  label_working_days: "Dies laborals"
   label_x_closed_work_packages_abbr:
     one: "Un tancat"
     other: "%{count} tancats"
@@ -2553,6 +2554,7 @@ ca:
   text_access_token_hint: "Els token d'accés permeten que aplicacions externes accedeixin als recursos d'OpenProject."
   text_analyze: "Analitzar més en profunditat: %{subject}"
   text_are_you_sure: "N'estàs segur?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Vols suprimir el paquet de treball i tots els paquets de treball fills?"
   text_assign_to_project: "Assignar al projecte"
   text_form_configuration: >
@@ -2613,6 +2615,7 @@ ca:
   text_journal_set_to: "%{label} s'ha establert a %{value}"
   text_journal_set_with_diff: "%{label} canviat (%{link})"
   text_journal_label_value: "%{label} %{value}"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "L'últim comentari és: %{note}"
   text_length_between: "Longitud entre %{min} i %{max} caràcters."
   text_line_separated: "Es permeten diversos valors (una línia per cada valor)."
@@ -2902,9 +2905,10 @@ ca:
       title: "Suprimir el paquet de treball"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Defineix els dies que es consideren part de la setmana laboral.</b><br/> Els dies no seleccionats seran omesos en planificar paquets de treball (i no seran inclosos en contar dies). Aquests poden ser substituïts directament als paquets de treball.
+    change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Canviar quins dies de la setmana són laborals pot afectar les dates d'inici i final de tots els paquets de treball a tots els projectes en aquesta instància.
   nothing_to_preview: "Res per previsualitzar"
   api_v3:
     attributes:

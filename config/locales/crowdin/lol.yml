@@ -521,6 +521,7 @@ lol:
         progress: "crwdns495349:0crwdne495349:0"
         readonly: "crwdns819004:0crwdne819004:0"
         schedule_manually: "crwdns495351:0crwdne495351:0"
+        schedule_default: "crwdns833342:0crwdne833342:0"
         spent_hours: "crwdns495353:0crwdne495353:0"
         spent_time: "crwdns495355:0crwdne495355:0"
         subproject: "crwdns495357:0crwdne495357:0"
@@ -2533,6 +2534,7 @@ lol:
   text_access_token_hint: "crwdns499187:0crwdne499187:0"
   text_analyze: "crwdns499189:0%{subject}crwdne499189:0"
   text_are_you_sure: "crwdns499191:0crwdne499191:0"
+  text_are_you_sure_continue: "crwdns833344:0crwdne833344:0"
   text_are_you_sure_with_children: "crwdns499193:0crwdne499193:0"
   text_assign_to_project: "crwdns499195:0crwdne499195:0"
   text_form_configuration: >
@@ -2593,6 +2595,7 @@ lol:
   text_journal_set_to: "crwdns499285:0%{label}crwdnd499285:0%{value}crwdne499285:0"
   text_journal_set_with_diff: "crwdns499287:0%{label}crwdnd499287:0%{link}crwdne499287:0"
   text_journal_label_value: "crwdns499289:0%{label}crwdnd499289:0%{value}crwdne499289:0"
+  text_scheduling_label: "crwdns833346:0%{type}crwdne833346:0"
   text_latest_note: "crwdns499291:0%{note}crwdne499291:0"
   text_length_between: "crwdns499293:0%{min}crwdnd499293:0%{max}crwdne499293:0"
   text_line_separated: "crwdns499295:0crwdne499295:0"
@@ -2882,6 +2885,7 @@ lol:
   working_days:
     info: >
       crwdns833298:0crwdne833298:0
+    change_button: "crwdns833348:0crwdne833348:0"
     warning: >
       crwdns833300:0crwdne833300:0
   nothing_to_preview: "crwdns499773:0crwdne499773:0"

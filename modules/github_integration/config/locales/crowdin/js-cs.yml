@@ -25,15 +25,15 @@ cs:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull requests"
+        title: "Pull Requesty"
         copy_menu:
           label: Git snippets
           description: Kopírovat snippety gitu do schránky
         git_actions:
           branch_name: Název pobočky
           commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
+          cmd: Vytvořit větev s prázdným commitem
+          title: Rychlé snippety pro Git
           copy_success: '✅ Zkopírováno!'
           copy_error: '❌ Kopírování selhalo!'
       tab_prs:

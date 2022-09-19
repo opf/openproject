@@ -41,8 +41,12 @@
           opacity: 0.5
 
         &.disabled
+          color: $spot-color-basic-gray-3
           opacity: 0.5
           pointer-events: none
+
+          .op-files-tab--icon
+            color: $spot-color-basic-gray-3
 
         &:hover
           .op-files-tab--file-list-item-title
@@ -73,11 +77,6 @@
 
       &-floating-actions
         padding-right: 0
-
-      &-floating-wrapper
-        &_disabled:hover
-          background: none
-          cursor: not-allowed
 
       &-floating-text
         @include spot-body-small()

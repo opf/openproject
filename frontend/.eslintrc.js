@@ -87,6 +87,9 @@ module.exports = {
         // no param reassignment is a pain when trying to set props on elements
         "no-param-reassign": "off",
 
+        // destructuring doesn't always look better, only when object/array destructuring
+        "prefer-destructuring": "off",
+
         // No void at all collides with `@typescript-eslint/no-floating-promises` which wants us to handle each promise.
         // Until we do that, `void` is a good way to explicitly mark unhandled promises. 
         "no-void": ["error", { allowAsStatement: true }],

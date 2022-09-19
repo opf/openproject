@@ -103,7 +103,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 .op-toast
   @extend %toaster
-  z-index: 21
+  @include spot-z-index("toast")
   +toaster-layout($x: left, $y: top, $size: auto, $offset: rem-calc(0))
   +toaster-style($background: $nm-color-background, $color: var(--body-font-color), $padding: $nm-padding-box, $radius: $nm-border-radius)
   .toaster-icon

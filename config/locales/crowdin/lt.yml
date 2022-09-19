@@ -538,6 +538,7 @@ lt:
         progress: "Progresas (%)"
         readonly: "Read only"
         schedule_manually: "Rankinis laiko parinkimas"
+        schedule_default: "Default scheduling"
         spent_hours: "Praleista laiko"
         spent_time: "Praleista laiko"
         subproject: "Sub-projektas"
@@ -2597,6 +2598,7 @@ lt:
   text_access_token_hint: "Prieigos raktai leidžia išorinėms aplikacijoms pasiekti OpenProject resursus."
   text_analyze: "Toliau analizuoti: %{subject}"
   text_are_you_sure: "Ar esate įsitikinę?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Ištrinti darbų paketą ir visus jo vaikų paketus?"
   text_assign_to_project: "Priskirti projektui"
   text_form_configuration: >
@@ -2657,6 +2659,7 @@ lt:
   text_journal_set_to: "%{label} nustatytas į %{value}"
   text_journal_set_with_diff: "%{label} pasikeitė (%{link})"
   text_journal_label_value: "%{label} %{value}"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "Paskutinis komentaras: %{note}"
   text_length_between: "Ilgis tarp %{min} ir %{max} simbolių."
   text_line_separated: "Galimos kelios reikšmės (viena eilutė vienai reikšmei)."
@@ -2950,6 +2953,7 @@ lt:
   working_days:
     info: >
       <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Nėra ką rodyti"

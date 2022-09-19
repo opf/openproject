@@ -165,6 +165,11 @@ RSpec/ExampleLength:
     - 'spec/features/**/*.rb'
     - 'modules/*/spec/features/**/*.rb'
 
+# We have specs that have no expect(..) syntax,
+# but only helper classes that expect themselves
+RSpec/NoExpectationExample:
+  Enabled: false
+
 RSpec/DescribeClass:
   Enabled: true
   Exclude:

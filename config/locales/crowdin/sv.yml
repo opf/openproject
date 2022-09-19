@@ -538,6 +538,7 @@ sv:
         progress: "Progress (%)"
         readonly: "Read only"
         schedule_manually: "Manual scheduling"
+        schedule_default: "Default scheduling"
         spent_hours: "Förbrukad tid"
         spent_time: "Förbrukad tid"
         subproject: "Delprojekt"
@@ -2561,6 +2562,7 @@ sv:
   text_access_token_hint: "Åtkomstnycklar gör det möjligt för externa applikationer att komma åt OpenProject-resurser."
   text_analyze: "Vidare analys: %{subject}"
   text_are_you_sure: "Är du säker?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Ta bort arbetspaket och alla underarbetspaket?"
   text_assign_to_project: "Tilldela till projektet"
   text_form_configuration: >
@@ -2621,6 +2623,7 @@ sv:
   text_journal_set_to: "%{label} ange till %{value}"
   text_journal_set_with_diff: "%{label} anger (%{link})"
   text_journal_label_value: "%{label} %{value}"
+  text_scheduling_label: "%{type} activated"
   text_latest_note: "Den senaste kommentaren är: %{note}"
   text_length_between: "Längd mellan %{min} och %{max} tecken."
   text_line_separated: "Flera värden tillåtna (en rad för varje värde)."
@@ -2910,6 +2913,7 @@ sv:
   working_days:
     info: >
       <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
   nothing_to_preview: "Ingenting att förhandsgranska"

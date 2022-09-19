@@ -3,9 +3,9 @@ ca:
   js:
     team_planner:
       add_existing: 'Afegir existent'
-      add_existing_title: 'Add existing work packages'
-      create_label: 'Team planner'
-      create_title: 'Create new team planner'
+      add_existing_title: 'Afegir paquets de treball existents'
+      create_label: 'Planificador d''equips'
+      create_title: 'Crea un nou planificador d''equips'
       unsaved_title: 'Planificador d''equips sense nom'
       no_data: 'Afegeix usuaris assignats per tal de configurar el teu planificador d''equip.'
       add_assignee: 'Afegir assignats'

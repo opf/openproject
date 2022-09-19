@@ -3,7 +3,11 @@
 *.ts @opf/frontend
 
 # Backend rules
-*.rb @opf/backend
+/app/ @opf/backend
+/config/ @opf/backend
+/lib/ @opf/backend
+/lib_static/ @opf/backend
+/modules/ @opf/backend
 
 # docs rules
 /docs/ @opf/doc-writers

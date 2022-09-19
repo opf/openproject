@@ -33,6 +33,8 @@ export class SpotToggleComponent<T> implements ControlValueAccessor {
 
   @Input() options:SpotToggleOption<T>[] = [];
 
+  @Input() disabled = false;
+
   @Input() name = `spot-toggle-${+(new Date())}`;
 
   @Input() public value:T;

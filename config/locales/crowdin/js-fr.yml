@@ -26,6 +26,9 @@ fr:
       loading: "Chargement…"
       updating: "Mise à jour…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Faites glisser le champ de l'éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l'éditeur seront ouverts tant que vous continuer à faire glisser.
     autocomplete_select:
@@ -759,7 +762,6 @@ fr:
       activate_no: 'activer pour supprimer le tri'
     text_work_packages_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer le(s) lot(s) de travaux sélectionné(s) ?"
     text_query_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer la vue sélectionnée ?"
-    text_attachment_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer la pièce jointe ?"
     timelines:
       quarter_label: 'T%{quarter_number}'
       gantt_chart: 'Diagramme de Gantt'
