@@ -106,7 +106,7 @@ export class UserAutocompleterComponent extends UntilDestroyedMixin implements O
   // <label> tags that have `for=""` set
   @Input() public labelForId = '';
 
-  @Input() public appendTo = 'body';
+  @Input() public appendTo = '';
 
   @Input() public multiple = false;
 
