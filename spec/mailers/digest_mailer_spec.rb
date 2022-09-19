@@ -104,7 +104,7 @@ describe DigestMailer, type: :mailer do
     it 'includes the notifications grouped by work package' do
       time_stamp = journal.created_at.strftime('%m/%d/%Y, %I:%M %p')
       expect(mail_body)
-        .to have_text("Hello #{recipient.firstname}!")
+        .to have_text("Hello #{recipient.firstname}")
 
       expected_notification_subject = "#{work_package.type.name.upcase} #{work_package.subject}"
       expect(mail_body)

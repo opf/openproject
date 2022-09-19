@@ -12,8 +12,6 @@ import { FocusHelperService } from './focus-helper';
 export class AutofocusDirective implements AfterViewInit {
   @Input('opAutofocus') public condition:string|boolean = true;
 
-  @Input('opAutofocusPriority') priority?:number = 0;
-
   constructor(
     readonly FocusHelper:FocusHelperService,
     readonly elementRef:ElementRef,
@@ -30,8 +28,7 @@ export class AutofocusDirective implements AfterViewInit {
     // <my-input opAutofocus />
     //
     if (this.condition || this.condition === '') {
-      const element = jQuery(this.elementRef.nativeElement);
-      this.FocusHelper.focusElement(element, this.priority);
+      this.FocusHelper.focus(this.elementRef.nativeElement);
     }
   }
 }
