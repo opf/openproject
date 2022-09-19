@@ -438,6 +438,49 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
+  describe 'when only start date set, changing the finish date to the past with today (Scenario 13a)' do
+    let(:current_attributes) do
+      {
+        start_date: 2.days.from_now,
+        due_date: nil,
+        duration: nil,
+        ignore_non_working_days: true
+      }
+    end
+
+    it 'unsets the other two values' do
+      datepicker.expect_start_date 2.days.from_now.to_date.iso8601
+      datepicker.expect_due_date ''
+
+      datepicker.set_today :due
+
+      datepicker.expect_start_date ''
+      datepicker.expect_due_date Time.zone.today.iso8601
+      datepicker.expect_duration ''
+    end
+  end
+
+  describe 'when all values set, changing the finish date to the past with today (Scenario 13a)' do
+    let(:current_attributes) do
+      {
+        start_date: 2.days.from_now,
+        due_date: 3.days.from_now,
+        ignore_non_working_days: true
+      }
+    end
+
+    it 'unsets the other two values' do
+      datepicker.expect_start_date 2.days.from_now.to_date.iso8601
+      datepicker.expect_due_date 3.days.from_now.to_date.iso8601
+
+      datepicker.set_today :due
+
+      datepicker.expect_start_date ''
+      datepicker.expect_due_date Time.zone.today.iso8601
+      datepicker.expect_duration ''
+    end
+  end
+
   describe 'when all values set, changing the start date to the past in the picker (Scenario 14)' do
     let(:current_attributes) do
       {

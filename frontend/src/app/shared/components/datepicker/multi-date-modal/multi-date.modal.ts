@@ -53,7 +53,6 @@ import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
 import {
   debounceTime,
-  distinctUntilChanged,
   filter,
   map,
   switchMap,
@@ -79,6 +78,7 @@ import {
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { castArray } from 'lodash';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import DateOption = flatpickr.Options.DateOption;
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 
 export type DateKeys = 'start'|'end';
@@ -553,7 +553,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     }
 
     // Set the current date field
-    this.dates[activeField] = this.timezoneService.formattedISODate(selectedDate);
+    this.moveActiveDate(activeField, selectedDate);
 
     // We may or may not have both fields set now
     // If we have duration set, we derive the other field
@@ -612,6 +612,30 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     }
   }
 
+  /**
+   * Moves the active date to the given selected date.
+   *
+   * This is different from replaceDatesWithNewSelection as duration is prioritized higher in our case.
+   * @param activeField
+   * @param selectedDate
+   * @private
+   */
+  private moveActiveDate(activeField:DateKeys, selectedDate:Date) {
+    const parsedStartDate = this.dates.start ? parseDate(this.dates.start) as Date : null;
+
+    // Set the given field
+    this.dates[activeField] = this.timezoneService.formattedISODate(selectedDate);
+
+    // Special handling, moving finish date to before start date
+    if (activeField === 'end' && parsedStartDate && parsedStartDate > selectedDate) {
+      // Reset duration and start date
+      this.duration = null;
+      this.dates.start = null;
+      // Update finish date and mark as active in datepicker
+      this.enforceManualChangesToDatepicker(selectedDate);
+    }
+  }
+
   private replaceDatesWithNewSelection(activeField:DateFields, selectedDate:Date) {
     /**
      Overwrite flatpickr default behavior by not starting a new date range everytime but preserving either start or end date.
@@ -626,7 +650,14 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     const parsedEndDate = parseDate(this.dates.end || '') as Date;
 
     if (selectedDate < parsedStartDate) {
-      this.applyNewDates([selectedDate]);
+      if (activeField === 'start') {
+        // Set start, derive end from duration
+        this.applyNewDates([selectedDate]);
+      } else {
+        // Reset duration and end date
+        this.duration = null;
+        this.applyNewDates(['', selectedDate]);
+      }
     } else if (selectedDate > parsedEndDate) {
       if (activeField === 'end') {
         this.applyNewDates([parsedStartDate, selectedDate]);
@@ -643,7 +674,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     }
   }
 
-  private applyNewDates([start, end]:Date[]) {
+  private applyNewDates([start, end]:DateOption[]) {
     this.dates.start = start ? this.timezoneService.formattedISODate(start) : null;
     this.dates.end = end ? this.timezoneService.formattedISODate(end) : null;
 
