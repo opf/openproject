@@ -46,18 +46,31 @@ class Settings::UpdateService < ::BaseServices::BaseContracted
 
   def after_validate(params, call)
     params.each do |name, value|
-      Setting[name] = derive_value(value)
-    end
-
-    if params.has_key?(:working_days)
-      WorkPackages::ApplyWorkingDaysChangeJob
-        .perform_later(user_id: user.id)
+      set_setting_value(name, value)
     end
 
     call
   end
 
+  def after_perform(call)
+    super.tap do
+      params.each_key do |name|
+        run_on_change_callback(name)
+      end
+    end
+  end
+
   private
+
+  def set_setting_value(name, value)
+    Setting[name] = derive_value(value)
+  end
+
+  def run_on_change_callback(name)
+    if (definition = Settings::Definition[name]) && definition.on_change
+      definition.on_change.call
+    end
+  end
 
   def derive_value(value)
     case value

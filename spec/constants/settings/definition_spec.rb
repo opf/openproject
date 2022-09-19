@@ -970,4 +970,34 @@ describe Settings::Definition do
       end
     end
   end
+
+  describe '#on_change' do
+    include_context 'with clean definitions'
+
+    context 'for a definition with a callback' do
+      let(:callback) { -> { 'foobar ' } }
+
+      it 'includes the callback' do
+        described_class.add 'bogus',
+                            default: 1,
+                            format: :integer,
+                            on_change: callback
+
+        expect(described_class['bogus'].on_change)
+          .to eq callback
+      end
+    end
+
+    context 'for a definition without a callback' do
+      it 'includes the callback' do
+        described_class.add 'bogus',
+                            default: 1,
+                            format: :integer,
+                            on_change: nil
+
+        expect(described_class['bogus'].on_change)
+          .to be_nil
+      end
+    end
+  end
 end
