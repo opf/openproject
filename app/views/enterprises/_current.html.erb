@@ -13,7 +13,11 @@
 
 <%= form_tag(enterprise_path,
              method: :delete,
-             data: augmented_confirmation_dialog
+             data: augmented_confirmation_dialog(
+             danger_zone: true,
+             button_continue: t(:button_delete),
+             icon_continue: 'delete'
+            )
     ) do %>
   <%= styled_button_tag t(:button_delete),
                         method: :delete,
