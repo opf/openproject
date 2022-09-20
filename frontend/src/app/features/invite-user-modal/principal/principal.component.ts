@@ -145,7 +145,7 @@ export class PrincipalComponent implements OnInit {
   }
 
   get customFields():{ [key:string]:any } {
-    return this.dynamicFieldsControl?.value as { [key:string]:any };
+    return this.dynamicFieldsControl?.value;
   }
 
   get hasPrincipalSelected():boolean {
