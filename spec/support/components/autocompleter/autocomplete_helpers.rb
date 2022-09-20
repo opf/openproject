@@ -38,7 +38,7 @@ module Components::Autocompleter
       ##
       # Find the open dropdown
       list =
-        page.find(results_selector || '.ng-dropdown-panel-items')
+        page.find(results_selector || '.ng-dropdown-panel-items', wait: 10)
 
       scroll_to_element(list)
       list
