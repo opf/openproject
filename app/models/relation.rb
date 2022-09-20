@@ -99,6 +99,9 @@ class Relation < ApplicationRecord
   scope :of_work_package,
         ->(work_package) { where(from: work_package).or(where(to: work_package)) }
 
+  scope :follows_with_delay,
+        -> { follows.where("delay > 0") }
+
   validates :delay, numericality: { allow_nil: true }
 
   validates :to, uniqueness: { scope: :from }

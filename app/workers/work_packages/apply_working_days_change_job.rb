@@ -29,50 +29,55 @@
 class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
   queue_with_priority :above_normal
 
-  def perform(user_id:)
+  def perform(user_id:, working_days_changes:)
     user = User.find(user_id)
 
-    each_applicable_work_package do |work_package|
-      WorkPackages::UpdateService
-        .new(user:, model: work_package, contract_class: EmptyContract)
-        .call(duration: work_package.duration)
+    each_applicable_work_package(working_days_changes.keys) do |work_package|
+      apply_change_to_work_package(user, work_package)
+    end
+    each_applicable_follows_relation do |relation|
+      apply_change_to_relation(user, relation)
     end
   end
 
   private
 
-  def each_applicable_work_package
+  def apply_change_to_work_package(user, work_package)
+    WorkPackages::UpdateService
+      .new(user:, model: work_package, contract_class: EmptyContract)
+      .call(duration: work_package.duration) # trigger a recomputation of start and due date
+  end
+
+  def apply_change_to_relation(user, relation)
+    predecessor = relation.to
+    schedule_result = WorkPackages::SetScheduleService
+                        .new(user:, work_package: predecessor)
+                        .call
+
+    # The SetScheduleService does not save. It has to be done by the caller.
+    schedule_result.dependent_results.each do |dependent_result|
+      work_package = dependent_result.result
+      work_package.save
+    end
+  end
+
+  def each_applicable_work_package(days_of_week)
     WorkPackage
-      .where(ignore_non_working_days: false)
-      .where.not(start_date: nil, due_date: nil)
+      .covering_days_of_week(days_of_week)
       .order(WorkPackage.arel_table[:start_date].asc.nulls_first,
              WorkPackage.arel_table[:due_date].asc)
       .pluck(:id)
       .each do |id|
-        work_package = WorkPackage.find(id)
-        next unless dates_and_duration_mismatch?(work_package)
-
-        yield work_package
+        yield WorkPackage.find(id)
       end
   end
 
-  def dates_and_duration_mismatch?(work_package)
-    # precondition: ignore_non_working_days is false
-    non_working?(work_package.start_date) \
-      || non_working?(work_package.due_date) \
-      || wrong_duration?(work_package)
-  end
-
-  def non_working?(date)
-    date && !days.working?(date)
-  end
-
-  def wrong_duration?(work_package)
-    computed_duration = days.duration(work_package.start_date, work_package.due_date)
-    computed_duration && work_package.duration != computed_duration
-  end
-
-  def days
-    @days ||= WorkPackages::Shared::WorkingDays.new
+  def each_applicable_follows_relation
+    Relation
+      .follows_with_delay
+      .pluck(:id)
+      .each do |id|
+        yield Relation.find(id)
+      end
   end
 end
