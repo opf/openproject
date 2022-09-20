@@ -44,6 +44,14 @@ module ScheduleHelpers
       @follows_relations[from:, to:]
     end
 
+    def monday
+      Date.current.next_occurring(:monday)
+    end
+
+    %i[tuesday wednesday thursday friday saturday sunday].each do |day_name|
+      define_method(day_name) { monday.next_occurring(day_name) }
+    end
+
     private
 
     def normalize_name(name)

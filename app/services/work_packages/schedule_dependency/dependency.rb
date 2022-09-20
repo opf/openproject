@@ -52,10 +52,9 @@ class WorkPackages::ScheduleDependency::Dependency
   end
 
   def soonest_start_date
-    soonest_start = follows_relations
+    follows_relations
       .filter_map(&:successor_soonest_start)
       .max
-    WorkPackages::Shared::Days.for(work_package).soonest_working_day(soonest_start)
   end
 
   def start_date

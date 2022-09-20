@@ -38,7 +38,7 @@ module WorkPackage::SchedulingRules
   # will not violate the precedes relations (max(finish date, start date) + relation delay)
   # of this work package or its ancestors
   # e.g.
-  # AP(due_date: 2017/07/24)-precedes(delay: 1)-A
+  # AP(due_date: 2017/07/25)-precedes(delay: 0)-A
   #                                             |
   #                                           parent
   #                                             |
@@ -49,17 +49,16 @@ module WorkPackage::SchedulingRules
   # CP(due_date: 2017/07/25)-precedes(delay: 2)-C
   #
   # Then soonest_start for:
-  #   C is 2017/07/27
-  #   B is 2017/07/25
-  #   A is 2017/07/25
+  #   C is 2017/07/28
+  #   B is 2017/07/26
+  #   A is 2017/07/26
   def soonest_start
-    # eager load `to` to avoid n+1 on successor_soonest_start
+    # eager load `to` and `from` to avoid n+1 on successor_soonest_start
     @soonest_start ||=
       Relation
         .follows_non_manual_ancestors(self)
-        .includes(:to)
-        .map(&:successor_soonest_start)
-        .compact
+        .includes(:to, :from)
+        .filter_map(&:successor_soonest_start)
         .max
   end
 end

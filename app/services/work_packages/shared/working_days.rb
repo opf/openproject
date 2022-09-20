@@ -61,12 +61,20 @@ module WorkPackages
         due_date
       end
 
-      def soonest_working_day(date)
+      def soonest_working_day(date, delay: nil)
         return unless date
+
+        delay ||= 0
+
+        while delay > 0
+          delay -= 1 if working?(date)
+          date += 1
+        end
 
         until working?(date)
           date += 1
         end
+
         date
       end
 

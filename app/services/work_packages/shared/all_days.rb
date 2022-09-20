@@ -50,8 +50,9 @@ module WorkPackages
         start_date + duration - 1
       end
 
-      def soonest_working_day(date)
-        date
+      def soonest_working_day(date, delay: nil)
+        delay ||= 0
+        date + delay.days if date
       end
 
       def working?(_date)

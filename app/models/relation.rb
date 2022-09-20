@@ -131,8 +131,10 @@ class Relation < ApplicationRecord
   end
 
   def successor_soonest_start
-    if relation_type == TYPE_FOLLOWS && (to.start_date || to.due_date)
-      (to.due_date || to.start_date) + 1 + (delay || 0)
+    if follows? && (to.start_date || to.due_date)
+      days = WorkPackages::Shared::Days.for(from)
+      relation_start_date = (to.due_date || to.start_date) + 1.day
+      days.soonest_working_day(relation_start_date, delay:)
     end
   end
 
