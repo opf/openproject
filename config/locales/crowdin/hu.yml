@@ -1990,7 +1990,7 @@ hu:
       center: "Az értesítési központba\n"
       see_in_center: 'Lásd a megjegyzést az értesítési központban'
       settings: "E-mail beállítások módosítása\n"
-    salutation: 'Hello %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: '%{timestamp} időpontban %{user} létrehozta'
       login_to_see_all: "Jelentkezzen be az összes értesítés megtekintéséhez.\n"

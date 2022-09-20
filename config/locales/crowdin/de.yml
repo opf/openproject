@@ -1988,7 +1988,7 @@ de:
       center: 'Zur Benachrichtigungszentrale'
       see_in_center: 'Kommentar in Benachrichtigungszentrale öffnen'
       settings: 'E-Mail-Einstellungen ändern'
-    salutation: 'Hello %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Erstellt %{timestamp} von %{user} '
       login_to_see_all: 'Melden Sie sich an, um alle Benachrichtigungen zu sehen.'

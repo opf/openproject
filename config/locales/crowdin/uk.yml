@@ -2022,7 +2022,7 @@ uk:
       center: 'Центр сповіщень'
       see_in_center: 'Переглянути коментарі у центрі сповіщень'
       settings: 'Змінити налаштування електронної пошти'
-    salutation: 'Hello %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Створено о %{timestamp} користувачем %{user} '
       login_to_see_all: 'Увійдіть, щоб переглянути всі сповіщення.'

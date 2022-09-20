@@ -2027,7 +2027,7 @@ cs:
       center: 'Centrum oznámení'
       see_in_center: 'Zobrazit komentář v oznamovacím centru'
       settings: 'Změnit nastavení e-mailu'
-    salutation: 'Ahoj %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Vytvořeno v %{timestamp} uživatelem %{user} '
       login_to_see_all: 'Přihlaste se pro zobrazení všech oznámení.'

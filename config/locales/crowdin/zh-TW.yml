@@ -1976,7 +1976,7 @@ zh-TW:
       center: '顯示通知中心'
       see_in_center: 'See comment in notification center'
       settings: '更改電子郵件設定'
-    salutation: 'Hello %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: '登入以查看所有通知'

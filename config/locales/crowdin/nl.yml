@@ -1990,7 +1990,7 @@ nl:
       center: 'Naar meldingscentrum'
       see_in_center: 'Bekijk commentaar in notificatie center'
       settings: 'E-mailinstellingen wijzigen'
-    salutation: 'Hello %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Aangemaakt op %{timestamp} door %{user} '
       login_to_see_all: 'Log in om alle meldingen te zien.'

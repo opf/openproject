@@ -1989,7 +1989,7 @@ ca:
       center: 'Anar al Centre de notificacions'
       see_in_center: 'Veure el comentari en el centre de notificacions'
       settings: 'Canvia la configuració dels correus electrònics'
-    salutation: 'Hola %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Creat a les %{timestamp} per %{user}'
       login_to_see_all: 'Inicia sessió per veure totes les notificacions.'
