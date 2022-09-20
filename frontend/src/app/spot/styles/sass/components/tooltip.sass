@@ -8,6 +8,8 @@
     @include spot-z-index("tooltip", 1)
     pointer-events: none
     opacity: 0
+    height: 0
+    width: 0
 
     position: absolute
     min-width: $spot-spacing-10 + $spot-spacing-10
@@ -141,6 +143,8 @@
   &:hover &--body
     pointer-events: all
     opacity: 1
+    height: auto
+    width: auto
 
   &_dark &--body
     color: $spot-color-basic-white
