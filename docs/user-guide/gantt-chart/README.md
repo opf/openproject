@@ -48,8 +48,7 @@ To **change the order of an item** in the Gantt chart, click the **drag and drop
 
 ### How to change the duration of an element in the Gantt chart
 
-To change the duration of a work package in the Gantt chart view, hover over the work package in the Gantt chart and use the little arrows on its ends to adjust the start date or finish date. This will shorten or prolong its duration.
-To move a work package on the time line just click on it and drag and drop it to the desired point of time. This will change its start and finish date.
+To change the duration of a work package in the Gantt chart view, hover over the work package in the Gantt chart and use the little arrows on its ends to adjust the start date or finish date. This will shorten or prolong its duration. To move a work package on the time line just click on it and drag and drop it to the desired point of time. This will change its start and finish date.
 
 > **Note**: The Gantt chart will highlight non-working days with a darker background colour when you are zoomed in to a level that shows individual days. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the "Working days only" switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration).
 >

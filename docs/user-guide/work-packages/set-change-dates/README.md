@@ -86,7 +86,9 @@ Starting with OpenProject 12.3, it is possible to manually input a duration for 
 
 ![The "Working days only" switch on the datepicker](working-days-only-switch.png)
 
-The **working days only** switch is on by default, and the date picker skips over the weekend (or the days defined as non-working days) when scheduling work packages and deriving duration. In those mode, work packages can also not start or finish on non-working days.
+The **Working days only** switch is on by default, and the date picker skips over the weekend (or the days defined as non-working days) when scheduling work packages and deriving duration. In this mode, non-working days are marked with a darker colour and are not clickable. Work packages cannot start or finish on non-working days, and these days do not count towards the calculation of duration.
+
+Switching **Working days only** off will turn the previously disabled non-working days into regular working days, and make them available for scheduling. The duration will now take these days into account.
 
 > **Note:** Working dates are currently defined by the administrator of your OpenProject instance. By default, they are Monday to Friday, with Saturday and Sunday considered non-working. If you are an administrator, please read our [admin guide on working days](#link) (CHECKLINK).
 >
