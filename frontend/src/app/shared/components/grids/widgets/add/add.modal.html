@@ -1,5 +1,9 @@
 <div
   class="spot-modal loading-indicator--location"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
   data-indicator-name="modal"
 >
   <div class="spot-modal--header">{{text.title}}</div>
@@ -17,15 +21,20 @@
       opReferrer="grids#add-widget"
     ></op-enterprise-banner>
 
-    <div
-      *ngFor="let widget of selectable;trackBy: trackWidgetBy"
-      (click)="select($event, widget)"
-      [id]="widget.identifier"
-      [textContent]="widget.title"
-      class="grid--addable-widget"
-    ></div>
+    <ul class="spot-list">
+      <li
+        *ngFor="let widget of selectable;trackBy: trackWidgetBy"
+        class="spot-list--item">
+        <button
+          type="button"
+          class="spot-list--item-action"
+          (click)="select($event, widget)" 
+          [id]="widget.identifier"
+          [textContent]="widget.title"
+        ></button>
+      </li>
+    </ul>
   </div>
-
   <div class="spot-modal--footer spot-action-bar">
     <div class="spot-action-bar--right">
       <button
