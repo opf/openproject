@@ -32,4 +32,5 @@ import { IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.mo
 
 export interface IStorageFile extends IFileLinkOriginData {
   id:ID;
+
 }

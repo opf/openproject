@@ -6,12 +6,12 @@ get:
   tags:
     - File links
   description: |-
-    Gets a collection of file data from a storage. 
+    Gets a collection of files from a storage.
     
-    If no `root` context was given, the result is the content of the document root. With `root` context given, the
-    result contains the collections of file data from without the given root file id.
+    If no `root` context is given, the result is the content of the document root. With `root` context given, the
+    result contains the collections of files from within the given root file id.
     
-    If given `root` context is no directory, but a file, the collection contains this file data as a single element. 
+    If given `root` context is no directory, but a file, the collection contains this file as a single element.
   parameters:
     - name: id
       description: Storage id
@@ -21,12 +21,12 @@ get:
         type: integer
       example: 1337
     - name: root
-      description: Root file id
+      description: Root file identification
       in: query
       required: false
       schema:
         type: string
-      example: 53
+      example: '/my/data'
   responses:
     '200':
       description: OK
@@ -38,7 +38,7 @@ get:
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
+            $ref: '../components/schemas/error_response.yml'
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
@@ -48,4 +48,4 @@ get:
         - if the storage does not exist or the client does not have sufficient permissions to see it
 
           **Required permission:** view file links
-        - if the document root file id do not exist on the storage 
+        - if the document root file identification does not exist on the storage

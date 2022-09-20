@@ -1,0 +1,9 @@
+# Schema: StorageFileLocationModel
+---
+type: object
+required:
+  - location
+properties:
+  location:
+    type: string
+    description: Location identification for file in storage

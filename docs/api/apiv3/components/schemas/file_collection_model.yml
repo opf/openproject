@@ -14,11 +14,11 @@ allOf:
         properties:
           self:
             allOf:
-              - $ref: "./link.yml"
+              - $ref: './link.yml'
               - description: |-
-                  This file links collection
+                  This file collection
                   
-                  **Resource**: FileLinkCollectionReadModel
+                  **Resource**: FileCollectionModel
       _embedded:
         type: object
         required:
@@ -27,7 +27,7 @@ allOf:
           elements:
             type: array
             items:
-              $ref: './file_link_origin_data_model.yml'
+              $ref: './storage_file_model.yml'
 
 example:
   _type: Collection
@@ -39,6 +39,7 @@ example:
   _embedded:
     elements:
       - id: 1337
+        location: '/data/logo.png'
         name: logo.png
         mimeType: image/png
         size: 16042
@@ -47,6 +48,7 @@ example:
         createdByName: Luke Skywalker
         lastModifiedByName: Anakin Skywalker
       - id: 1338
+        location: '1338'
         name: README.md
         mimeType: text/markdown
         size: 3742
