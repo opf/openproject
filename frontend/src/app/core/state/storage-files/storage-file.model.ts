@@ -26,11 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ID } from '@datorama/akita';
-
 import { IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
 
-export interface IStorageFile extends IFileLinkOriginData {
-  id:ID;
-
+interface IStorageFileLocation {
+  location:string;
 }
+
+export interface IStorageFile extends IFileLinkOriginData, IStorageFileLocation {}
