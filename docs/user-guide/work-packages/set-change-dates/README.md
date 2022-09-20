@@ -1,17 +1,17 @@
 ---
 sidebar_navigation:
-  title: Set and change dates
+  title: Set and change dates and duration
   priority: 890
-description: How to use the date picker to set and update start and finish of work packages
-keywords: date picker start finish dates change modify update relations work package
+description: How to use the date picker to set and update the start date, finish date and duration of a work packages
+keywords: date picker start finish dates duration change modify update relations work package
 ---
 
-# Set and change start and finish dates of work packages
+# Set and change dates and duration of work packages
 
 | Feature                                                      | Documentation for                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Set start and finish dates](#set-start-and-finish-dates)    | How to set start and finish dates, and how to change them    |
-| [Duration and non-working days](#duration-and-non-working-days) | How to set duration, and how it affects start and finish dates |
+| [Working days and duration](#working-days-and-duration)      | How to set duration, and how it affects start and finish dates |
 | [Scheduling mode](#scheduling-mode)                          | Enabling manual scheduling and what it does                  |
 | [Information and warning ban ners](#information-and-warning-banners) | What the different warning and information banners mean      |
 
@@ -78,11 +78,13 @@ Certain work package types (such as Milestones) can only span one day and thus h
 
 
 
-## Duration and Non-working days
+## Working days and duration
 
-Starting with OpenProject 12.3, it is possible to manually input a duration for a work package and decide whether this duration should span working days only or all calendar days. 
+Starting with OpenProject 12.3, it is possible to manually input a duration for a work package and decide whether this duration should include working days only or all calendar days. 
 
 ### Working days
+
+![The "Working days only" switch on the datepicker](working-days-only-switch.png)
 
 The **working days only** switch is on by default, and the date picker skips over the weekend (or the days defined as non-working days) when scheduling work packages and deriving duration. In those mode, work packages can also not start or finish on non-working days.
 
@@ -92,11 +94,15 @@ The **working days only** switch is on by default, and the date picker skips ove
 
 ### Duration
 
+Duration is always expressed in days, and is the total number of days between the start and finish dates (inclusive). The **Duration** field is directly related to the start and finish dates, but does not require them. Changing one will change the other.
+
+![The Duration field is to the right of the Finish date](duration-field-focus.png)
+
+Duration can either be automatically derived from dates or entered manually. When the duration field is is focus, you can enter a number corresponding to days; you do you not need to type the word "days", this will automatically be added for you.
+
 #### Duration when start and finish dates exist
 
-The  **Duration** field is directly related to the start and finish dates, but does not require them. 
-
-When you set a start and finish date, the duration is automatically derived. For example, if a task is set to begin on *Wednesday, 12 October, 2022* and finish on *Friday, 14 October, 2022*, will automatically have a derived duration of 3 days.
+When you set a start and finish date, the duration is automatically derived. For example, if the start date is set to *Thursday, 12 October, 2022* and the finish date to *Friday, 14 October, 2022*, a duration of 3 days is derived.
 
 > IMAGE
 
@@ -105,11 +111,15 @@ Changing the duration when both start and finish dates are already set will then
 - *If the Working days only switch is **on***, the finish date is automatically set to Monday, 17 October, 2022 (since Saturday and Sunday are not working days)
 - *If the Working days only switch is **off***, the finish date is automatically set to Saturday, 15 October, 2022 (since all calendar days are included)
 
-Changing the start and finish dates will also affect duration. For example, in our example, if you change the start date to *Monday, 10 October 2022* without changing the finish date of *Friday, 14 October 2022*, the duration is automatically updated to 5 days.
+Changing the start and finish dates will also affect duration. In our example, if you change the start date to *Monday, 10 October 2022* without changing the finish date of *Friday, 14 October 2022*, the duration is automatically updated to 5 days.
 
 > IMAGE
 
-It is also possible to derive start date using duration. For example, if you set the finish date *Friday, 14 October* and then set the duration to 3 days, the date picker will count backwards from the finish date and derive a start date of *Wednesday, 12 October.*
+### Duration when only one date exists
+
+A work package cannot have one date and duration; the other one is automatically derived. This derived date can either be the start date or the finish date.
+
+For example, if you set the start date to *Wednesday, 12 October* and enter a duration of 3 days, a finish date of Friday, 14 October is automatically derived. Conversely, if you set the finish date *Friday, 14 October* and then set the duration to 3 days, the date picker will count backwards and derive a start date of *Wednesday, 12 October.*
 
 > IMAGE
 
