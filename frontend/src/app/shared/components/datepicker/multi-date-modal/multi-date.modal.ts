@@ -553,24 +553,49 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
    * If the duration field has a value:
    *  - start date is updated, derive end date, set end date active
    * If the duration field has no value:
-   *   - start_date is updated, no value is derived, set end date active
+   *   - If start date has a value, finish date is set
+   *   - Otherwise, start date is set
+   *   - Focus is set to the finish date
    *
    * @param selectedDate The date selected
    * @private
    */
   private durationActiveDateSelected(selectedDate:Date) {
-    // Click on datepicker always updates the start date
-    this.dates.start = this.timezoneService.formattedISODate(selectedDate);
+    const selectedIsoDate = this.timezoneService.formattedISODate(selectedDate);
 
-    // Focus moves to finish date
-    this.setCurrentActivatedField('end');
+    if (!this.duration && this.dates.start) {
+      // When duration is empty and start is set, update finish
+      this.setDaysInOrder(this.dates.start, selectedIsoDate);
 
-    if (this.duration) {
+      // Focus moves to start date
+      this.setCurrentActivatedField('start');
+    } else {
+      // Otherwise, the start date always gets updated
+      this.setDaysInOrder(selectedIsoDate, this.dates.end);
+
+      // Focus moves to finish date
+      this.setCurrentActivatedField('end');
+    }
+
+    if (this.dates.start && this.duration) {
       // If duration has value, derive end date from start and duration
       this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
     } else if (this.dates.start && this.dates.end) {
       // If start and due now have values, derive duration again
       this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+    }
+  }
+
+  private setDaysInOrder(start:string|null, end:string|null) {
+    const parsedStartDate = start ? parseDate(start) as Date : null;
+    const parsedEndDate = end ? parseDate(end) as Date : null;
+
+    if (parsedStartDate && parsedEndDate && parsedStartDate > parsedEndDate) {
+      this.dates.start = end;
+      this.dates.end = start;
+    } else {
+      this.dates.start = start;
+      this.dates.end = end;
     }
   }
 
