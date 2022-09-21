@@ -30,14 +30,61 @@ This component describes only the actual switch, without the label. For the full
 
 The selector field itself only has two states, *enabled* and *disabled*.
 
-export const Angular = ({ checked, disabled }) => ({
-  props: { checked, disabled },
-});
+export const Template = ({ checked, disabled }) => {
+  return {
+    props: { checked, disabled },
+    parameters: {
+      layout: 'centered',
+    },
+  };
+};
 
 <Canvas>
-  <Story name="Angular component">
-    {Angular.bind({ checked: true, disabled: false })}
+  <Story
+    name="Checked"
+    args={{
+      checked: true,
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
   </Story>
 </Canvas>
 
 <ArgsTable of={SpotSwitchComponent} />
+
+<Canvas>
+  <Story
+    name="Unchecked"
+    args={{
+      checked: false,
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story
+    name="Disabled"
+    args={{
+      checked: false,
+      disabled: true,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story
+    name="Disabled checked"
+    args={{
+      checked: true,
+      disabled: true,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
