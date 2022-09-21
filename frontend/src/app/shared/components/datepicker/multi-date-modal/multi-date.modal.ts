@@ -298,6 +298,12 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   changeSchedulingMode():void {
     this.initializeDatepicker();
+
+    // If removing manual scheduling on parent, reset ignoreNWD to original value
+    if (this.scheduleManually === false && !this.ignoreNonWorkingDaysWritable) {
+      this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
+    }
+
     this.cdRef.detectChanges();
   }
 
