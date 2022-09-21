@@ -535,7 +535,6 @@ ca:
         progress: "Progrés (%)"
         readonly: "Només lectura"
         schedule_manually: "Planificació manual"
-        schedule_default: "Default scheduling"
         spent_hours: "Temps invertit"
         spent_time: "Temps invertit"
         subproject: "Subprojecte"
@@ -1989,7 +1988,7 @@ ca:
       center: 'Anar al Centre de notificacions'
       see_in_center: 'Veure el comentari en el centre de notificacions'
       settings: 'Canvia la configuració dels correus electrònics'
-    salutation: 'Hola %{user}!'
+    salutation: 'Hola %{user}'
     work_packages:
       created_at: 'Creat a les %{timestamp} per %{user}'
       login_to_see_all: 'Inicia sessió per veure totes les notificacions.'
@@ -2554,7 +2553,7 @@ ca:
   text_access_token_hint: "Els token d'accés permeten que aplicacions externes accedeixin als recursos d'OpenProject."
   text_analyze: "Analitzar més en profunditat: %{subject}"
   text_are_you_sure: "N'estàs segur?"
-  text_are_you_sure_continue: "Are you sure you want to continue?"
+  text_are_you_sure_continue: "Estàs segur que vols continuar?"
   text_are_you_sure_with_children: "Vols suprimir el paquet de treball i tots els paquets de treball fills?"
   text_assign_to_project: "Assignar al projecte"
   text_form_configuration: >
@@ -2615,7 +2614,6 @@ ca:
   text_journal_set_to: "%{label} s'ha establert a %{value}"
   text_journal_set_with_diff: "%{label} canviat (%{link})"
   text_journal_label_value: "%{label} %{value}"
-  text_scheduling_label: "%{type} activated"
   text_latest_note: "L'últim comentari és: %{note}"
   text_length_between: "Longitud entre %{min} i %{max} caràcters."
   text_line_separated: "Es permeten diversos valors (una línia per cada valor)."
@@ -2906,7 +2904,7 @@ ca:
   working_days:
     info: >
       <b>Defineix els dies que es consideren part de la setmana laboral.</b><br/> Els dies no seleccionats seran omesos en planificar paquets de treball (i no seran inclosos en contar dies). Aquests poden ser substituïts directament als paquets de treball.
-    change_button: "Change working days"
+    change_button: "Canvia els dies laborals"
     warning: >
       Canviar quins dies de la setmana són laborals pot afectar les dates d'inici i final de tots els paquets de treball a tots els projectes en aquesta instància.
   nothing_to_preview: "Res per previsualitzar"

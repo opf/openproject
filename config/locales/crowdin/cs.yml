@@ -541,7 +541,6 @@ cs:
         progress: "Průběh (%)"
         readonly: "Pouze pro čtení"
         schedule_manually: "Manuální plánování"
-        schedule_default: "Default scheduling"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
         subproject: "Podprojekt"
@@ -2027,7 +2026,7 @@ cs:
       center: 'Centrum oznámení'
       see_in_center: 'Zobrazit komentář v oznamovacím centru'
       settings: 'Změnit nastavení e-mailu'
-    salutation: 'Ahoj %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Vytvořeno v %{timestamp} uživatelem %{user} '
       login_to_see_all: 'Přihlaste se pro zobrazení všech oznámení.'
@@ -2663,7 +2662,6 @@ cs:
   text_journal_set_to: "%{label} nastaven na %{value}"
   text_journal_set_with_diff: "%{label} nastaven (%{link})"
   text_journal_label_value: "%{label} %{value}"
-  text_scheduling_label: "%{type} activated"
   text_latest_note: "Poslední komentář je: %{note}"
   text_length_between: "Délka mezi %{min} a %{max} znaky."
   text_line_separated: "Více hodnot povoleno (jeden řádek pro každou hodnotu)."

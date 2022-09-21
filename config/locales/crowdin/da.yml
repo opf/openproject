@@ -537,7 +537,6 @@ da:
         progress: "Fremskridt (%)"
         readonly: "Read only"
         schedule_manually: "Manual scheduling"
-        schedule_default: "Default scheduling"
         spent_hours: "Anvendt tid"
         spent_time: "Anvendt tid"
         subproject: "Underprojekt"
@@ -1991,7 +1990,7 @@ da:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hello %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2622,7 +2621,6 @@ da:
   text_journal_set_to: "%{label} sat til %{value}"
   text_journal_set_with_diff: "%{label} sat (%{link})"
   text_journal_label_value: "%{label} %{value}"
-  text_scheduling_label: "%{type} activated"
   text_latest_note: "Den seneste kommentar er: %{note}"
   text_length_between: "Længde mellem %{min} og %{max} tegn."
   text_line_separated: "Flere værdier tilladt (én linje for hver værdi)."

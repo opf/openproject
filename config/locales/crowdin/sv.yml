@@ -538,7 +538,6 @@ sv:
         progress: "Progress (%)"
         readonly: "Read only"
         schedule_manually: "Manual scheduling"
-        schedule_default: "Default scheduling"
         spent_hours: "Förbrukad tid"
         spent_time: "Förbrukad tid"
         subproject: "Delprojekt"
@@ -1992,7 +1991,7 @@ sv:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hello %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2623,7 +2622,6 @@ sv:
   text_journal_set_to: "%{label} ange till %{value}"
   text_journal_set_with_diff: "%{label} anger (%{link})"
   text_journal_label_value: "%{label} %{value}"
-  text_scheduling_label: "%{type} activated"
   text_latest_note: "Den senaste kommentaren är: %{note}"
   text_length_between: "Längd mellan %{min} och %{max} tecken."
   text_line_separated: "Flera värden tillåtna (en rad för varje värde)."

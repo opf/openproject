@@ -536,7 +536,6 @@ es:
         progress: "Progreso (%)"
         readonly: "Solo lectura"
         schedule_manually: "Programación manual"
-        schedule_default: "Default scheduling"
         spent_hours: "Tiempo empleado"
         spent_time: "Tiempo empleado"
         subproject: "Subproyecto"
@@ -1990,7 +1989,7 @@ es:
       center: 'Al centro de notificaciones'
       see_in_center: 'Ver comentario en el centro de notificaciones'
       settings: 'Cambiar configuración de correo electrónico'
-    salutation: '¡Hola {user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Creado a las %{timestamp} por %{user} '
       login_to_see_all: 'Inicie sesión para ver todas las notificaciones.'
@@ -2622,7 +2621,6 @@ es:
   text_journal_set_to: "%{label} establecido al %{value}"
   text_journal_set_with_diff: "%{label} fijado (%{link})"
   text_journal_label_value: "%{label} %{value}"
-  text_scheduling_label: "%{type} activated"
   text_latest_note: "El último comentario es: %{note}"
   text_length_between: "Longitud entre %{min} y %{max} caracteres."
   text_line_separated: "Múltiples valores permitidos (una línea para cada valor)."

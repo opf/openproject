@@ -536,7 +536,6 @@ nl:
         progress: "Voortgang (%)"
         readonly: "Alleen lezen"
         schedule_manually: "Handmatige planning"
-        schedule_default: "Default scheduling"
         spent_hours: "Bestede tijd"
         spent_time: "Bestede tijd"
         subproject: "Subproject"
@@ -1990,7 +1989,7 @@ nl:
       center: 'Naar meldingscentrum'
       see_in_center: 'Bekijk commentaar in notificatie center'
       settings: 'E-mailinstellingen wijzigen'
-    salutation: 'Hello %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Aangemaakt op %{timestamp} door %{user} '
       login_to_see_all: 'Log in om alle meldingen te zien.'
@@ -2622,7 +2621,6 @@ nl:
   text_journal_set_to: "%{label} ingesteld op %{value}"
   text_journal_set_with_diff: "%{label} ingesteld (%{link})"
   text_journal_label_value: "%{label} %{value}"
-  text_scheduling_label: "%{type} activated"
   text_latest_note: "De laatste opmerking is: %{note}"
   text_length_between: "Lengte tussen %{min} en %{max} karakters."
   text_line_separated: "Meerdere waarden toegestaan (één regel voor elke waarde)."

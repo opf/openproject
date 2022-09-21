@@ -521,7 +521,6 @@ lol:
         progress: "crwdns495349:0crwdne495349:0"
         readonly: "crwdns819004:0crwdne819004:0"
         schedule_manually: "crwdns495351:0crwdne495351:0"
-        schedule_default: "crwdns833342:0crwdne833342:0"
         spent_hours: "crwdns495353:0crwdne495353:0"
         spent_time: "crwdns495355:0crwdne495355:0"
         subproject: "crwdns495357:0crwdne495357:0"
@@ -1970,7 +1969,7 @@ lol:
       center: 'crwdns498053:0crwdne498053:0'
       see_in_center: 'crwdns498055:0crwdne498055:0'
       settings: 'crwdns498057:0crwdne498057:0'
-    salutation: 'crwdns833148:0%{user}crwdne833148:0'
+    salutation: 'crwdns833368:0%{user}crwdne833368:0'
     work_packages:
       created_at: 'crwdns498063:0%{timestamp}crwdnd498063:0%{user}crwdne498063:0'
       login_to_see_all: 'crwdns498067:0crwdne498067:0'
@@ -2595,7 +2594,6 @@ lol:
   text_journal_set_to: "crwdns499285:0%{label}crwdnd499285:0%{value}crwdne499285:0"
   text_journal_set_with_diff: "crwdns499287:0%{label}crwdnd499287:0%{link}crwdne499287:0"
   text_journal_label_value: "crwdns499289:0%{label}crwdnd499289:0%{value}crwdne499289:0"
-  text_scheduling_label: "crwdns833346:0%{type}crwdne833346:0"
   text_latest_note: "crwdns499291:0%{note}crwdne499291:0"
   text_length_between: "crwdns499293:0%{min}crwdnd499293:0%{max}crwdne499293:0"
   text_line_separated: "crwdns499295:0crwdne499295:0"
