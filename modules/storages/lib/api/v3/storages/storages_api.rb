@@ -59,6 +59,8 @@ module API
             # The block will get called everytime a GET request is sent to this
             # route.
             get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::Storage).mount
+
+            mount API::V3::Storages::StorageFilesAPI
           end
         end
       end

@@ -33,7 +33,7 @@ import {
   ResourceCollectionService,
 } from 'core-app/core/state/resource-collection.service';
 import { StorageFilesStore } from 'core-app/core/state/storage-files/storage-files.store';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
@@ -50,12 +50,13 @@ export class StorageFilesResourceService extends ResourceCollectionService<IStor
     return new StorageFilesStore();
   }
 
-  // fetch(link:IHalResourceLink):void {
-  fetch():void {
-    // this.http
-    //   .get<[IStorageFile]>(link.href)
-    this.mockedFileList()
-      .pipe(map((fileList) => ({ _embedded: { elements: fileList } } as unknown as IHALCollection<IStorageFile>)))
+  fetch(link:IHalResourceLink):void {
+    this.http
+      .get<[IStorageFile]>(link.href)
+      .pipe(
+        map((fileList) => ({ _embedded: { elements: fileList } } as unknown as IHALCollection<IStorageFile>)),
+        // delay(5000),
+      )
       .subscribe((fileList) => insertCollectionIntoState(this.store, fileList, 'root'));
   }
 
@@ -63,36 +64,7 @@ export class StorageFilesResourceService extends ResourceCollectionService<IStor
     return this.collection('root');
   }
 
-  private mockedFileList():Observable<IStorageFile[]> {
-    return of([
-      {
-        id: 1,
-        name: 'image.png',
-        mimeType: 'image/png',
-        lastModifiedAt: '2022-09-16T12:00Z',
-        lastModifiedByName: 'Leia Organa',
-        location: '/data',
-      },
-      {
-        id: 2,
-        name: 'Readme.md',
-        mimeType: 'text/markdown',
-        lastModifiedAt: '2022-09-16T13:00Z',
-        lastModifiedByName: 'Anakin Skywalker',
-        location: '/data',
-      },
-      {
-        id: 3,
-        name: 'folder',
-        mimeType: 'application/x-op-directory',
-        location: '/data',
-      },
-      {
-        id: 4,
-        name: 'directory',
-        mimeType: 'application/x-op-directory',
-        location: '/data',
-      },
-    ]);
+  reset():void {
+    this.store.reset();
   }
 }

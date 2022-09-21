@@ -32,6 +32,7 @@ import {
   Component,
   ElementRef,
   Inject,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -42,12 +43,13 @@ import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.mod
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
+import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 
 @Component({
   templateUrl: 'file-picker-modal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilePickerModalComponent extends OpModalComponent implements OnInit {
+export class FilePickerModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   public loading$ = new BehaviorSubject<boolean>(true);
 
   public storageFiles$:Observable<IStorageFile[]>;
@@ -80,13 +82,25 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
 
   ngOnInit():void {
     super.ngOnInit();
-    this.storageFilesResourceService.fetch();
+
+    const filesLink:IHalResourceLink = {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
+      href: `${this.locals.storageLink.href}/files`,
+      title: 'Storage files',
+    };
+    this.storageFilesResourceService.fetch(filesLink);
 
     this.storageFiles$ = this.storageFilesResourceService.files();
 
     this.storageFiles$.subscribe(() => {
       this.loading$.next(false);
     });
+  }
+
+  ngOnDestroy():void {
+    super.ngOnDestroy();
+
+    this.storageFilesResourceService.reset();
   }
 
   public openStorageLocation():void {

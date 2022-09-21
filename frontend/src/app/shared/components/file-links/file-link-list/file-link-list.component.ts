@@ -157,6 +157,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     const locals = {
       storageType: this.storageType,
       storageLocation: this.storageFilesLocation,
+      storageLink: this.storage._links.self,
     };
     this.opModalService.show<FilePickerModalComponent>(FilePickerModalComponent, 'global', locals);
   }
