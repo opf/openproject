@@ -47,7 +47,7 @@ You can filter or group the notifications using the two areas in the left menu b
 2. You can filter by **project**, for example filter for notifications that originated from a specific project.
 
 3. You can also filter notifications for "**Unread**" or "**All**" (Read and Unread) notifications, and "**Mark all as read**". Please note that the "**Mark all as read**" button only marks notifications that are currently in view. You may have to ultimately press "**Mark all as read**" multiple times to mark all of your notifications as read if you have a lot of them. The red elliptical will update the number of unread messages in real-time, and eventually disappear when there are no more unread notifications.
-   To mark and individual message as read, click on the small envelope icon next to the blue notification bubble or use the bottom bar in the split screen details.
+   To mark an individual message as read, click on the small envelope icon next to the blue notification bubble or use the bottom bar in the split screen details.
 
    ![mark-as-read](mark-as-read.png)
 
