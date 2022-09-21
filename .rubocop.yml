@@ -176,6 +176,14 @@ RSpec/DescribeClass:
     - 'spec/features/**/*.rb'
     - 'modules/*/spec/features/**/*.rb'
 
+# dynamic finders cop clashes with capybara ID cop
+Rails/DynamicFindBy:
+  Enabled: true
+  Exclude:
+    - 'spec/features/**/*.rb'
+    - 'spec/support/**/*.rb'
+    - 'modules/*/spec/features/**/*.rb'
+
 # See RSpec/ExampleLength for why feature specs are excluded
 RSpec/MultipleExpectations:
   Max: 15
