@@ -80,8 +80,9 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
 
   ngOnInit():void {
     super.ngOnInit();
+    this.storageFilesResourceService.fetch();
 
-    this.storageFiles$ = this.storageFilesResourceService.getMockData();
+    this.storageFiles$ = this.storageFilesResourceService.files();
 
     this.storageFiles$.subscribe(() => {
       this.loading$.next(false);

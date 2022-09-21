@@ -35,6 +35,10 @@ import {
 import { StorageFilesStore } from 'core-app/core/state/storage-files/storage-files.store';
 import { Observable, of } from 'rxjs';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
+import { map } from 'rxjs/operators';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 
 @Injectable()
 export class StorageFilesResourceService extends ResourceCollectionService<IStorageFile> {
@@ -46,7 +50,20 @@ export class StorageFilesResourceService extends ResourceCollectionService<IStor
     return new StorageFilesStore();
   }
 
-  public getMockData():Observable<IStorageFile[]> {
+  // fetch(link:IHalResourceLink):void {
+  fetch():void {
+    // this.http
+    //   .get<[IStorageFile]>(link.href)
+    this.mockedFileList()
+      .pipe(map((fileList) => ({ _embedded: { elements: fileList } } as unknown as IHALCollection<IStorageFile>)))
+      .subscribe((fileList) => insertCollectionIntoState(this.store, fileList, 'root'));
+  }
+
+  files():Observable<IStorageFile[]> {
+    return this.collection('root');
+  }
+
+  private mockedFileList():Observable<IStorageFile[]> {
     return of([
       {
         id: 1,
