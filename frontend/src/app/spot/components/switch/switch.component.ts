@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -26,6 +27,7 @@ export const spotSwitchSelector = 'spot-switch';
     useExisting: forwardRef(() => SpotSwitchComponent),
     multi: true,
   }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpotSwitchComponent implements ControlValueAccessor {
   @HostBinding('class.spot-switch') public className = true;
@@ -56,18 +58,13 @@ export class SpotSwitchComponent implements ControlValueAccessor {
   }
 
   writeValue(value:SpotSwitchState):void {
-    // This is set in a timeout because the initial value is set before the template is ready,
-    // which causes the input nativeElement to not be available yet.
-    setTimeout(() => {
-      const input = this.input.nativeElement as HTMLInputElement;
-      if (value === null) {
-        input.indeterminate = true;
-      } else {
-        input.indeterminate = false;
-      }
+    this.checked = !!value;
+  }
 
-      this.checked = !!value;
-    });
+  onToggle(value:SpotSwitchState):void {
+    this.writeValue(value);
+    this.onChange(value);
+    this.onTouched(value);
   }
 
   onChange = (_:SpotSwitchState):void => {};

@@ -7,6 +7,7 @@ import {
   Input,
   Output,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -23,6 +24,7 @@ export type SpotCheckboxState = true|false|null;
     useExisting: forwardRef(() => SpotCheckboxComponent),
     multi: true,
   }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpotCheckboxComponent implements ControlValueAccessor {
   @HostBinding('class.spot-checkbox') public className = true;
@@ -51,11 +53,7 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
     // which causes the input nativeElement to not be available yet.
     setTimeout(() => {
       const input = this.input.nativeElement as HTMLInputElement;
-      if (value === null) {
-        input.indeterminate = true;
-      } else {
-        input.indeterminate = false;
-      }
+      input.indeterminate = value === null;
 
       this.checked = !!value;
     });
