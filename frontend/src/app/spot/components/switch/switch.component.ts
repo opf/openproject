@@ -12,11 +12,14 @@ import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 export type SpotSwitchState = boolean;
 
+export const spotSwitchSelector = 'spot-switch';
+
 @Component({
-  selector: 'spot-switch',
+  selector: spotSwitchSelector,
   templateUrl: './switch.component.html',
   providers: [{
     provide: NG_VALUE_ACCESSOR,
@@ -38,6 +41,12 @@ export class SpotSwitchComponent implements ControlValueAccessor {
   @Output() checkedChange = new EventEmitter<boolean>();
 
   @Input() public checked = false;
+
+  constructor(
+    public elementRef:ElementRef,
+  ) {
+    populateInputsFromDataset(this);
+  }
 
   onStateChange():void {
     const value = (this.input.nativeElement as HTMLInputElement).checked;

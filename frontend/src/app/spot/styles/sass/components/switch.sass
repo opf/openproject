@@ -1,3 +1,5 @@
+@use "sass:math"
+
 .spot-switch
   display: inline-flex
   justify-content: center
@@ -27,7 +29,7 @@
     align-items: center
     height: $spot-spacing-1 + $spot-spacing-0_25
     width: $spot-spacing-2 + $spot-spacing-0_25
-    border-radius: ($spot-spacing-1 + $spot-spacing-0_25) / 2
+    border-radius: math.div($spot-spacing-1 + $spot-spacing-0_25, 2)
     border: 1px solid $spot-color-basic-gray-3
     background-color: $spot-color-basic-gray-5
     cursor: pointer
