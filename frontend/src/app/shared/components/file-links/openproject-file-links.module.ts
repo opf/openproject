@@ -48,6 +48,9 @@ import {
   StorageFileListItemComponent,
 } from 'core-app/shared/components/file-links/storage-file-list-item/storage-file-list-item.component';
 import { SortFilesPipe } from 'core-app/shared/components/file-links/file-picker-modal/sort-files.pipe';
+import {
+  LoadingFileListComponent,
+} from 'core-app/shared/components/file-links/laoding-file-list/loading-file-list.component';
 
 @NgModule({
   imports: [
@@ -60,6 +63,7 @@ import { SortFilesPipe } from 'core-app/shared/components/file-links/file-picker
     FileLinkListComponent,
     FileLinkListItemComponent,
     FilePickerModalComponent,
+    LoadingFileListComponent,
     StorageInformationComponent,
     StorageFileListItemComponent,
     SortFilesPipe,

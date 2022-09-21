@@ -14,7 +14,7 @@
 
   <div class="spot-divider"></div>
 
-  <div class="spot-modal--body">
+  <div class="spot-modal--body spot-container">
     <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
       <ul
         class="spot-list spot-list_compact op-files-tab--file-list"
@@ -32,11 +32,11 @@
     </ng-container>
 
     <ng-template #loadingTemplate>
-      <op-loading-project-list></op-loading-project-list>
+      <op-loading-file-list></op-loading-file-list>
     </ng-template>
   </div>
 
-  <div class="spot-modal--footer spot-action-bar">
+  <div class="spot-action-bar">
     <div class="spot-action-bar--right">
       <button
         class="button button_no-margin spot-action-bar--action"
