@@ -130,7 +130,7 @@ module WorkPackages
       end
 
       def non_working_dates
-        @non_working_dates ||= Set.new(NonWorkingDay.pluck(:date))
+        @non_working_dates ||= RequestStore.fetch(:work_package_non_working_dates) { Set.new(NonWorkingDay.pluck(:date)) }
       end
     end
   end
