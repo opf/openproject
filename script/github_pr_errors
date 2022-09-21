@@ -4,6 +4,7 @@ require 'rubygems'
 require 'bundler'
 Bundler.setup(:default, :development)
 
+require 'colored2'
 require 'pathname'
 require 'json'
 require 'rest-client'
@@ -47,18 +48,26 @@ def get_json(path)
   JSON.parse(get_http(path))
 end
 
-def get_cached_json(path)
-  unique_name = path
+def path_to_cache_key(path)
+  path
     .gsub(/\?.*$/, '') # remove query parameter
     .gsub(/^#{GITHUB_API_OPENPROJECT_PREFIX}\/?/, '') # remove https://.../
     .gsub(/\W/, '_') # transform non alphanum chars
-  cached(unique_name) { get_json(path) }
 end
 
 def commit_message(workflow_run)
-  get_cached_json("commits/#{workflow_run['head_sha']}?per_page=1")
-    .then { |commit_response| commit_response["commit"]["message"] }
+  workflow_run['head_commit']
+    .then { |commit| commit["message"] }
     .then { |message| message.split("\n", 2).first }
+end
+
+def get_jobs(workflow_run)
+  workflow_run['jobs_url']
+  cache_key = [
+    path_to_cache_key(workflow_run['jobs_url']),
+    workflow_run['updated_at'].gsub(':', '')
+  ].join('_')
+  cached(cache_key) { get_json(workflow_run['jobs_url']) }
 end
 
 def get_log(job)
@@ -80,6 +89,37 @@ def cached(unique_name)
   end
 end
 
+def status_icon(job)
+  case job['status']
+  when "queued", "in_progress"
+    "●".yellow
+  else
+    case job['conclusion']
+    when "success"
+      "✓".green
+    when "failure"
+      "✗".red
+    else
+      "-"
+    end
+  end
+end
+
+def status_url(job)
+  return if job['conclusion'] == "success"
+
+  job['html_url'].white.dark
+end
+
+def status_line(job)
+  [
+    "#{status_icon(job)} #{job['name']}: #{job['conclusion'] || job['status']}",
+    status_url(job)
+  ].compact.join("  ")
+end
+
+##########
+
 warn "Looking for the last 'Test suite' workflow run in branch #{branch_name}"
 
 response = get_json "actions/runs?branch=#{CGI.escape(branch_name)}"
@@ -97,11 +137,12 @@ warn "  Commit message: #{commit_message(last_test_action)}"
 
 errors = []
 is_successful = true
-get_cached_json(last_test_action['jobs_url'])
+warn "  #{status_line(last_test_action)}"
+get_jobs(last_test_action)
   .then { |jobs_response| jobs_response['jobs'] }
-  .select { _1['conclusion'] == 'failure' }
   .sort_by { _1['name'] }
-  .each { warn "  #{_1['name']}: #{_1['conclusion']}" }
+  .each { |job| warn "    #{status_line(job)}" }
+  .select { _1['conclusion'] == 'failure' }
   .each do |job|
     is_successful = false
     get_log(job)
