@@ -213,7 +213,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     .pipe(
       this.untilDestroyed(),
       debounceTime(500),
-      map((value) => (value === '' ? null : parseInt(value, 10))),
+      map((value) => (value === '' ? null : Math.abs(parseInt(value, 10)))),
+      filter((val) => val === null || !Number.isNaN(val)),
       filter((val) => val !== this.duration),
     )
     .subscribe((value) => this.applyDurationChange(value));
