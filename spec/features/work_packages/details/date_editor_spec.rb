@@ -233,6 +233,17 @@ describe 'date inplace editor',
     start_date.expect_state_text "#{Time.zone.today.strftime('%Y-%m-%d')} - #{Time.zone.today.strftime('%Y-%m-%d')}"
   end
 
+  it 'can set a negative duration which gets transformed (Regression #44219)' do
+    start_date.activate!
+    start_date.expect_active!
+
+    start_date.datepicker.expect_visible
+    start_date.datepicker.set_duration -128
+    start_date.datepicker.focus_start_date
+
+    start_date.datepicker.expect_duration 128
+  end
+
   it 'saves the date when clearing and then confirming' do
     start_date.activate!
 
