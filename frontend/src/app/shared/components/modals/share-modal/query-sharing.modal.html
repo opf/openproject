@@ -7,14 +7,14 @@
   <div class="spot-divider"></div>
 
   <query-sharing-form
-    class="spot-modal--body"
+    class="spot-modal--body spot-container"
     [isSave]="false"
     (onChange)="setValues($event)"
     [isStarred]="isStarred"
     [isPublic]="isPublic">
   </query-sharing-form>
 
-  <div class="spot-modal--footer spot-action-bar">
+  <div class="spot-action-bar">
     <div class="spot-action-bar--right">
       <button class="button button_no-margin spot-action-bar--action"
               [textContent]="text.button_cancel"

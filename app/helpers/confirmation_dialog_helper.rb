@@ -36,7 +36,8 @@ module ConfirmationDialogHelper
     danger_zone: false,
     button_continue: nil,
     button_cancel: nil,
-    icon_continue: nil
+    icon_continue: nil,
+    divider: nil
   )
     {
       'augmented-confirm-dialog': {
@@ -47,6 +48,7 @@ module ConfirmationDialogHelper
           button_cancel:
         }.compact,
         dangerHighlighting: danger_zone,
+        divideContent: divider,
         icon: {
           continue: icon_continue
         }.compact

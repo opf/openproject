@@ -543,8 +543,10 @@ Currently selected value is {{ toggleValue }}
 
 <div class="spot-modal">
   <div class="spot-modal--header">Default size modal</div>
-  <div class="spot-modal--body">Here is some text in the body. Additionally this is a destructive action.</div>
-  <div class="spot-modal--footer spot-action-bar">
+  <div class="spot-modal--body spot-container">
+    <p class="spot-body-small">Here is some text in the body. Additionally this is a destructive action.</p>
+  </div>
+  <div class="spot-action-bar">
     <div class="spot-action-bar--right">
       <button class="spot-button spot-button_outlined spot-button_main spot-action-bar--action">
         Cancel
@@ -563,11 +565,11 @@ Currently selected value is {{ toggleValue }}
     <span>Wide modal</span>
   </div>
   <div class="spot-divider"></div>
-  <div class="spot-modal--body">
-    <p>Here is some text in the body.</p>
-    <p>But this modal has a mininmal height!</p>
+  <div class="spot-modal--body spot-container">
+    <p class="spot-body-small">Here is some text in the body.</p>
+    <p class="spot-body-small">But this modal has a minimal height!</p>
   </div>
-  <div class="spot-modal--footer spot-action-bar">
+  <div class="spot-action-bar">
     <div class="spot-action-bar--right">
       <span>Some explanatory text.</span>
       <button class="spot-button spot-button_main spot-action-bar--action">

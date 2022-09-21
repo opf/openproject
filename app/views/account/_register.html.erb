@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= I18n.t('onboarding.welcome', app_title: Setting.app_title) %>
     </div>
     <div class="spot-divider"></div>
-    <div class="spot-modal--body">
+    <div class="spot-modal--body spot-container">
       <h2><%= t(:label_register) %></h2>
       <section class="form--section">
         <% if @user.auth_source_id.nil? %>

@@ -5,7 +5,7 @@
 >
   <div class="spot-modal--header">{{text.title}}</div>
 
-  <div class="spot-modal--body">
+  <div class="spot-modal--body spot-container">
     <ng-container *ngIf="singleWorkPackage">
       <p>
         <span [textContent]="text.single_text"></span> 
@@ -63,7 +63,7 @@
     </div>
   </div>
 
-  <div class="spot-modal--footer spot-action-bar">
+  <div class="spot-action-bar">
     <div class="spot-action-bar--right">
       <button
         class="button button_no-margin spot-action-bar--action"

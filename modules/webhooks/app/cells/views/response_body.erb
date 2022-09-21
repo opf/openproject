@@ -11,7 +11,7 @@
       <%= log_entry.class.human_attribute_name('response_body') %>
     </div>
     <div class="spot-divider"></div>
-    <div class="spot-modal--body">
+    <div class="spot-modal--body spot-container">
       <h2>Headers</h2>
       <pre class="webhooks--response-headers"><%- log_entry.response_headers.each do |k, v| -%><strong><%= k -%></strong>:  <span><%= v -%></span><br/><%- end -%></pre>
       <hr/>
@@ -20,7 +20,7 @@
         <%= log_entry.response_body %>
       </pre>
     </div>
-    <div class="spot-modal--footer spot-action-bar">
+    <div class="spot-action-bar">
       <div class="spot-action-bar--right">
         <button
           class="button button_no-margin spot-action-bar--action"
