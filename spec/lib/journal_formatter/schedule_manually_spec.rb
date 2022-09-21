@@ -40,7 +40,9 @@ describe OpenProject::JournalFormatter::ScheduleManually do
   describe '#render' do
     describe 'with the first value being true, and the second false' do
       let(:expected) do
-        I18n.t(:text_scheduling_label, type: "<strong>Manual scheduling</strong>")
+        I18n.t(:text_journal_label_value,
+               label: "<strong>Manual scheduling</strong>",
+               value: 'deactivated')
       end
 
       it { expect(instance.render(key, [true, false])).to eq(expected) }
@@ -48,7 +50,9 @@ describe OpenProject::JournalFormatter::ScheduleManually do
 
     describe 'with the first value being false, and the second true' do
       let(:expected) do
-        I18n.t(:text_scheduling_label, type: "<strong>Default scheduling</strong>")
+        I18n.t(:text_journal_label_value,
+               label: "<strong>Manual scheduling</strong>",
+               value: 'activated')
       end
 
       it { expect(instance.render(key, [false, true])).to eq(expected) }

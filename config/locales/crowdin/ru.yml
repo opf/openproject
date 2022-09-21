@@ -540,7 +540,6 @@ ru:
         progress: "Прогресс (%)"
         readonly: "Только для чтения"
         schedule_manually: "Ручное планирование"
-        schedule_default: "Планирование по умолчанию"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
         subproject: "Подпроект"
@@ -2026,7 +2025,7 @@ ru:
       center: 'В центр уведомлений'
       see_in_center: 'Смотрите комментарий в центре уведомлений'
       settings: 'Изменить настройки электронной почты'
-    salutation: 'Hello %{user}'
+    salutation: 'Здравствуйте, %{user}'
     work_packages:
       created_at: 'Создано %{timestamp} пользователем %{user} '
       login_to_see_all: 'Войдите, чтобы увидеть все уведомления.'
@@ -2660,7 +2659,6 @@ ru:
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"
   text_journal_label_value: "%{label} %{value}"
-  text_scheduling_label: "%{type} активирован"
   text_latest_note: "Последний комментарий: %{note}"
   text_length_between: "Количество символов между %{min} и %{max} ."
   text_line_separated: "Допускается  несколько значений (одна строка для каждого значения)."

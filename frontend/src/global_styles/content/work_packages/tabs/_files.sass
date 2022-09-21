@@ -75,6 +75,10 @@
         height: $spot-spacing-1-5
         display: inline-block
 
+      &-floating-wrapper:not(&-floating-wrapper__disabled):hover &-text,
+      &-floating-wrapper:not(&-floating-wrapper__disabled):hover &-avatar
+        visibility: hidden
+
       &-floating-actions
         padding-right: 0
 
