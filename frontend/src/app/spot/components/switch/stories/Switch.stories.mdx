@@ -2,11 +2,11 @@ import { moduleMetadata } from '@storybook/angular';
 import { Canvas, Meta, Story, ArgsTable } from '@storybook/addon-docs';
 
 import { OpSpotModule } from '../../../spot.module';
-import { SpotCheckboxComponent } from '../checkbox.component';
+import { SpotSwitchComponent } from '../switch.component';
 
 <Meta 
-  title="Components/Checkbox"
-  component={SpotCheckboxComponent}
+  title="Components/Switch"
+  component={SpotSwitchComponent}
   decorators={[
     moduleMetadata({
       imports: [
@@ -22,9 +22,9 @@ import { SpotCheckboxComponent } from '../checkbox.component';
   }}
 />
 
-# Checkboxes
+# Switches
 
-This component describes only the actual checkbox, without the label. For the full component, please refer to Selector field component, which provides a label.
+This component describes only the actual switch, without the label. For the full component, please refer to Selector field component, which provides a label.
 
 ## States
 
@@ -40,4 +40,4 @@ export const Angular = ({ checked, disabled }) => ({
   </Story>
 </Canvas>
 
-<ArgsTable of={SpotCheckboxComponent} />
+<ArgsTable of={SpotSwitchComponent} />
