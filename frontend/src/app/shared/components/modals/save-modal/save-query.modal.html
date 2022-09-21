@@ -4,13 +4,13 @@
   name="modalSaveForm"
   (submit)="saveQueryAs($event)"
 >
-  <div class="spot-modal--header">{{text.save_as}}</div>
-
+  <h1 class="spot-modal--header">{{text.save_as}}</h1>
+  
   <div class="spot-divider"></div>
 
   <div
     name="modalSaveForm"
-    class="spot-modal--body spot-container form"
+    class="spot-modal--body spot-container"
   >
     <div class="form--field -required">
       <label class="form--label" for="save-query-name" [textContent]="text.label_name"></label>
@@ -28,17 +28,16 @@
         </div>
       </div>
     </div>
-
-    <section class="form--section">
-      <div class="spot-divider"></div>
-      <p>{{ text.label_visibility_settings }}</p> 
+    <div class="spot-divider"></div>
+    
+    <h2 class="spot-subheader-extra-small">{{ text.label_visibility_settings }}</h2>
+      
       <query-sharing-form
         [isSave]="true"
         (onChange)="setValues($event)"
         [isStarred]="isStarred"
         [isPublic]="isPublic">
       </query-sharing-form>
-    </section>
   </div>
 
   <div class="spot-action-bar">
