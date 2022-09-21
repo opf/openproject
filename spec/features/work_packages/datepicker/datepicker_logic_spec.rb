@@ -853,7 +853,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'sets finish date to selected date' do
+    it 'sets start date to selected date' do
       datepicker.expect_start_date ''
       datepicker.expect_due_date '2021-02-18'
       datepicker.expect_duration ''

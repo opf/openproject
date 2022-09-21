@@ -627,6 +627,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
    */
   private moveActiveDate(activeField:DateKeys, selectedDate:Date) {
     const parsedStartDate = this.dates.start ? parseDate(this.dates.start) as Date : null;
+    const parsedEndDate = this.dates.end ? parseDate(this.dates.end) as Date : null;
 
     // Set the given field
     this.dates[activeField] = this.timezoneService.formattedISODate(selectedDate);
@@ -636,6 +637,15 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       // Reset duration and start date
       this.duration = null;
       this.dates.start = null;
+      // Update finish date and mark as active in datepicker
+      this.enforceManualChangesToDatepicker(selectedDate);
+    }
+
+    // Special handling, moving start date to after finish date
+    if (activeField === 'start' && parsedEndDate && parsedEndDate < selectedDate) {
+      // Reset duration and start date
+      this.duration = null;
+      this.dates.end = null;
       // Update finish date and mark as active in datepicker
       this.enforceManualChangesToDatepicker(selectedDate);
     }
