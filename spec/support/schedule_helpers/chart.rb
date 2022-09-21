@@ -64,7 +64,7 @@ module ScheduleHelpers
     end
 
     def initialize
-      self.monday = next_monday
+      self.monday = Date.current.next_occurring(:monday)
       self.id_column_size = FIRST_CELL_TEXT.length
     end
 
@@ -228,12 +228,6 @@ module ScheduleHelpers
       else
         WorkPackages::Shared::WorkingDays.new
       end
-    end
-
-    def next_monday
-      date = Time.zone.today
-      date += 1.day while date.wday != 1
-      date
     end
 
     def predecessors_by_followers

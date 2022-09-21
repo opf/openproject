@@ -26,46 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-
-describe ScheduleHelpers::LetSchedule do
-  create_shared_association_defaults_for_work_package_factory
-
-  describe 'let_schedule' do
-    let_schedule(<<~CHART)
-      days      | MTWTFSS |
-      main      | XX      |
-      follower  |   XXX   | follows main with delay 2
-      child     |         | child of main
-    CHART
-
-    it 'creates let calls for each work package' do
-      expect([main, follower, child]).to all(be_an_instance_of(WorkPackage))
-      expect([main, follower, child]).to all(be_persisted)
-      expect(main).to have_attributes(
-        subject: 'main',
-        start_date: schedule.monday,
-        due_date: schedule.tuesday
-      )
-      expect(follower).to have_attributes(
-        subject: 'follower',
-        start_date: schedule.wednesday,
-        due_date: schedule.friday
-      )
-      expect(child).to have_attributes(
-        subject: 'child',
-        start_date: nil,
-        due_date: nil
-      )
+# Refinement to also remove SQL comments when using +String#squish+.
+#
+# To use it, add +using CoreExtensions::SquishSql+. Refinements are scoped.
+# See https://docs.ruby-lang.org/en/3.1/syntax/refinements_rdoc.html
+module CoreExtensions::SquishSql
+  refine String do
+    # Like +squish+ from ActiveSupport, and also removes single line sql
+    # comments.
+    #
+    #   <<~SQL.squish
+    #     -- select existing users from given IDs
+    #     SELECT id AS user_id
+    #     FROM users
+    #     WHERE id IN (:user_ids)
+    #   SQL
+    #   => "SELECT id as user_id FROM users WHERE id IN (:user_ids)"
+    def squish
+      dup.squish!
     end
 
-    it 'creates follows relations between work packages' do
-      expect(follower.follows_relations.count).to eq(1)
-      expect(follower.follows_relations.first.to).to eq(main)
-    end
-
-    it 'creates parent / child relations' do
-      expect(child.parent).to eq(main)
+    # Performs a destructive squish. See String#squish.
+    def squish!
+      gsub!(/[[:space:]]*--[^\r\n]*$/, " ")
+      super
     end
   end
 end

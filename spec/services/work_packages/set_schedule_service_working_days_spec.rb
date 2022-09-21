@@ -273,6 +273,29 @@ describe WorkPackages::SetScheduleService, 'working days' do
           CHART
         end
       end
+
+      context 'with the follower having a delay overlapping non-working days' do
+        let_schedule(<<~CHART)
+          days          | MTWTFSS |
+          work_package  | X       |
+          follower      |    XX   | follows work_package with delay 2
+        CHART
+
+        before do
+          change_schedule([work_package], <<~CHART)
+            days          | MTWTFSS |
+            work_package  |     X   |
+          CHART
+        end
+
+        it 'reschedules the follower to start after the non-working days and the delay' do
+          expect(subject.all_results).to match_schedule(<<~CHART)
+                          | MTWTFSSmtwt |
+            work_package  |     X       |
+            follower      |          XX |
+          CHART
+        end
+      end
     end
 
     context 'when predecessor moved backwards' do
@@ -1086,9 +1109,9 @@ describe WorkPackages::SetScheduleService, 'working days' do
 
       it 'schedules parent to start and end at soonest working start date and the child to start at the parent start' do
         expect(subject.all_results).to match_schedule(<<~CHART)
-          days         | MTWTFSS  |
-          work_package |        [ |
-          new_parent   |        X |
+          days         | MTWTFSS   |
+          work_package |         [ |
+          new_parent   |         X |
         CHART
       end
     end
@@ -1109,9 +1132,9 @@ describe WorkPackages::SetScheduleService, 'working days' do
       it 'schedules the moved work package to start at the parent soonest date and sets due date to keep the same duration ' \
          'and schedules the parent dates to match the child dates' do
         expect(subject.all_results).to match_schedule(<<~CHART)
-          days         | MTWTFSS     |
-          work_package |        XXXX |
-          new_parent   |        XXXX |
+          days         | MTWTFSS      |
+          work_package |         XXXX |
+          new_parent   |         XXXX |
         CHART
       end
     end
