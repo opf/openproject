@@ -278,7 +278,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
       setTimeout(() => {
         this.cdRef.detectChanges();
         const component = this.ngSelectInstance;
-        if (component && component.dropdownPanel) {
+        if (this.appendTo && component && component.dropdownPanel) {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-member-access,no-underscore-dangle
           (component.dropdownPanel as any)._updatePosition();
         }
