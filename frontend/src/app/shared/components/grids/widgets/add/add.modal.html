@@ -24,7 +24,8 @@
     <ul class="spot-list">
       <li
         *ngFor="let widget of selectable;trackBy: trackWidgetBy"
-        class="spot-list--item">
+        class="spot-list--item"
+        data-qa-selector="op-grid--addable-widget">
         <button
           type="button"
           class="spot-list--item-action"
