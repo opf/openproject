@@ -78,7 +78,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     datepicker.expect_visible
   end
 
-  context 'when only start_date set, updating duration (test case 1)' do
+  context 'when only start_date set, updating duration (scenario 1)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -104,7 +104,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when no values set, updating duration (test case 2)' do
+  describe 'when no values set, updating duration (scenario 2)' do
     let(:current_attributes) do
       {
         start_date: nil,
@@ -130,7 +130,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when only due date set, updating duration (test case 3)' do
+  describe 'when only due date set, updating duration (scenario 3)' do
     let(:current_attributes) do
       {
         start_date: nil,
@@ -156,7 +156,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, increasing duration (test case 4)' do
+  describe 'when all values set, increasing duration (scenario 4)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -182,7 +182,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, reducing duration (test case 5)' do
+  describe 'when all values set, reducing duration (scenario 5)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -208,7 +208,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, removing duration (test case 6)' do
+  describe 'when all values set, removing duration (scenario 6)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-09'),
@@ -232,7 +232,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, removing duration through icon (test case 6a)' do
+  describe 'when all values set, removing duration through icon (scenario 6a)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-09'),
@@ -300,7 +300,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, changing start date in calendar (test case 7)' do
+  describe 'when all values set, changing start date in calendar (scenario 7)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -350,7 +350,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, changing due date (test case 8)' do
+  describe 'when all values set, changing due date (scenario 8)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-09'),
@@ -372,7 +372,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when only duration set, setting finish date (test case 9)' do
+  describe 'when only duration set, setting finish date (scenario 9)' do
     let(:current_attributes) do
       {
         start_date: nil,
@@ -394,7 +394,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when only due date set, setting start date (test case 10)' do
+  describe 'when only due date set, setting start date (scenario 10)' do
     let(:current_attributes) do
       {
         start_date: nil,

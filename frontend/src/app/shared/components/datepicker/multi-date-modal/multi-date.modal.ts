@@ -76,7 +76,6 @@ import {
   setDates,
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
-import { castArray } from 'lodash';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import DateOption = flatpickr.Options.DateOption;
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
@@ -88,7 +87,7 @@ type StartUpdate = { startDate:string };
 type EndUpdate = { dueDate:string };
 type DurationUpdate = { duration:string|number|null };
 type DateUpdate = { date:string };
-type ActiveDateChange = [DateFields, null|Date|Date[]];
+type ActiveDateChange = [DateFields, null|Date|Date];
 
 export type FieldUpdates =
   StartUpdate
@@ -192,7 +191,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     .subscribe(([field, update]) => {
       // When clearing the one date, clear the others as well
       if (update !== null) {
-        this.handleDatePickerChange(field, castArray(update));
+        this.handleSingleDateUpdate(field, update);
       }
 
       // Clear active field and duration
@@ -474,9 +473,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
           this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
           this.ensureHoveredSelection(instance.calendarContainer);
         },
-        onChange: (dates:Date[]) => {
+        onChange: (dates:Date[], _datestr, instance) => {
+          const { latestSelectedDateObj } = instance as { latestSelectedDateObj:Date };
           const activeField = this.currentlyActivatedDateField;
-          this.datepickerChanged$.next([activeField, dates]);
+          this.datepickerChanged$.next([activeField, latestSelectedDateObj]);
 
           // The duration field is special in how it handles focus transitions
           // For start/due we just toggle here
@@ -518,26 +518,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     const dates = [startDate, endDate];
     setDates(dates, this.datePickerInstance, enforceDate);
     this.onDataChange();
-  }
-
-  private handleDatePickerChange(activeField:DateFields, dates:Date[]) {
-    if (dates.length === 2) {
-      this.handleMultiDateUpdate(activeField, dates);
-    } else {
-      this.handleSingleDateUpdate(activeField, dates[0]);
-    }
-  }
-
-  private handleMultiDateUpdate(activeField:DateFields, dates:Date[]) {
-    // Write the dates to the input fields
-    this.dates.start = this.timezoneService.formattedISODate(dates[0]);
-    this.dates.end = this.timezoneService.formattedISODate(dates[1]);
-
-    if (activeField === 'duration') {
-      this.durationActiveDateSelected(dates[0]);
-    } else if (this.dates.start && this.dates.end) {
-      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
-    }
   }
 
   private handleSingleDateUpdate(activeField:DateFields, selectedDate:Date) {
