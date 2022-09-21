@@ -28,17 +28,18 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+
 import {
   CollectionStore,
   ResourceCollectionService,
 } from 'core-app/core/state/resource-collection.service';
-import { StorageFilesStore } from 'core-app/core/state/storage-files/storage-files.store';
-import { Observable } from 'rxjs';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
-import { IHalResourceLink } from 'core-app/core/state/hal-resource';
-import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
-import { map } from 'rxjs/operators';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+import { StorageFilesStore } from 'core-app/core/state/storage-files/storage-files.store';
+import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
 
 @Injectable()
 export class StorageFilesResourceService extends ResourceCollectionService<IStorageFile> {
@@ -50,18 +51,19 @@ export class StorageFilesResourceService extends ResourceCollectionService<IStor
     return new StorageFilesStore();
   }
 
-  fetch(link:IHalResourceLink):void {
-    this.http
-      .get<[IStorageFile]>(link.href)
-      .pipe(
-        map((fileList) => ({ _embedded: { elements: fileList } } as unknown as IHALCollection<IStorageFile>)),
-        // delay(5000),
-      )
-      .subscribe((fileList) => insertCollectionIntoState(this.store, fileList, 'root'));
-  }
+  files(link:IHalResourceLink):Observable<IStorageFile[]> {
+    if (this.collectionExists(link.href)) {
+      return this.collection(link.href);
+    }
 
-  files():Observable<IStorageFile[]> {
-    return this.collection('root');
+    return this.http
+      .get<IHALCollection<IStorageFile>>(link.href)
+      .pipe(
+        tap((collection) => {
+          insertCollectionIntoState(this.store, collection, link.href);
+        }),
+        map((collection) => collection._embedded.elements),
+      );
   }
 
   reset():void {
