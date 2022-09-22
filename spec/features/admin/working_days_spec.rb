@@ -31,11 +31,18 @@ require 'spec_helper'
 describe 'Working Days', type: :feature, js: true do
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
   shared_let(:admin) { create :admin }
+  shared_let(:work_package) { create :work_package, start_date: Date.parse('2022-09-19'), due_date: Date.parse('2022-09-23') }
   let(:dialog) { ::Components::ConfirmationDialog.new }
 
+  current_user { admin }
+
   before do
-    login_as(admin)
     visit admin_settings_working_days_path
+  end
+
+  # Using this way instead of Setting.working_days as that is cached.
+  def working_days_setting
+    Setting.find_by(name: :working_days).value
   end
 
   it 'contains all defined days from the settings' do
@@ -48,26 +55,39 @@ describe 'Working Days', type: :feature, js: true do
   end
 
   it 'rejects the updates when cancelling the dialog' do
-    expect(Setting.working_days).to eq([1, 2, 3, 4, 5])
+    expect(working_days_setting).to eq([1, 2, 3, 4, 5])
+
     uncheck 'Monday'
     uncheck 'Friday'
 
     click_on 'Save'
 
-    dialog.cancel
+    perform_enqueued_jobs do
+      dialog.cancel
+    end
+
     expect(page).to have_no_selector('.flash.notice')
 
-    expect(Setting.working_days).to eq([1, 2, 3, 4, 5])
+    expect(working_days_setting).to eq([1, 2, 3, 4, 5])
+
+    expect(work_package.reload.start_date)
+      .to eql(Date.parse('2022-09-19'))
+
+    expect(work_package.due_date)
+      .to eql(Date.parse('2022-09-23'))
   end
 
   it 'updates the values and saves the settings' do
-    expect(Setting.working_days).to eq([1, 2, 3, 4, 5])
+    expect(working_days_setting).to eq([1, 2, 3, 4, 5])
+
     uncheck 'Monday'
     uncheck 'Friday'
 
     click_on 'Save'
 
-    dialog.confirm
+    perform_enqueued_jobs do
+      dialog.confirm
+    end
 
     expect(page).to have_selector('.flash.notice', text: 'Successful update.')
     expect(page).to have_unchecked_field 'Monday'
@@ -78,11 +98,16 @@ describe 'Working Days', type: :feature, js: true do
     expect(page).to have_checked_field 'Wednesday'
     expect(page).to have_checked_field 'Thursday'
 
-    RequestStore.clear!
-    expect(Setting.working_days).to eq([2, 3, 4])
+    expect(working_days_setting).to eq([2, 3, 4])
+
+    expect(work_package.reload.start_date)
+      .to eql(Date.parse('2022-09-20'))
+
+    expect(work_package.due_date)
+      .to eql(Date.parse('2022-09-28'))
   end
 
-  it 'shows error when no working days are set' do
+  it 'shows error when non working days are set' do
     uncheck 'Monday'
     uncheck 'Tuesday'
     uncheck 'Wednesday'
@@ -91,7 +116,9 @@ describe 'Working Days', type: :feature, js: true do
 
     click_on 'Save'
 
-    dialog.confirm
+    perform_enqueued_jobs do
+      dialog.confirm
+    end
 
     expect(page).to have_selector('.flash.error', text: 'At least one working day needs to be specified.')
     # Restore the checkboxes to their valid state
@@ -102,6 +129,12 @@ describe 'Working Days', type: :feature, js: true do
     expect(page).to have_checked_field 'Friday'
     expect(page).to have_unchecked_field 'Saturday'
     expect(page).to have_unchecked_field 'Sunday'
-    expect(Setting.working_days).to eq([1, 2, 3, 4, 5])
+    expect(working_days_setting).to eq([1, 2, 3, 4, 5])
+
+    expect(work_package.reload.start_date)
+      .to eql(Date.parse('2022-09-19'))
+
+    expect(work_package.due_date)
+      .to eql(Date.parse('2022-09-23'))
   end
 end

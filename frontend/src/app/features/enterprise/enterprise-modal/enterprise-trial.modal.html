@@ -3,7 +3,7 @@
 
   <div class="spot-divider"></div>
 
-  <div [ngSwitch]="openWindow()" class="spot-modal--body">
+  <div [ngSwitch]="openWindow()" class="spot-modal--body spot-container">
     <!-- first modal window -->
     <div *ngSwitchCase="1">
       <enterprise-trial-form></enterprise-trial-form>
@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <div class="spot-modal--footer spot-action-bar">
+  <div class="spot-action-bar">
     <div class="spot-action-bar--right">
       <div *ngIf="!eeTrialService.status || eeTrialService.cancelled; else mailSubmitted"
            class="spot-action-bar--right">

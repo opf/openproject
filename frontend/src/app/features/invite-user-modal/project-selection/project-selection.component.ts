@@ -57,6 +57,7 @@ export class ProjectSelectionComponent implements OnInit {
       required: this.I18n.t('js.invite_user_modal.type.required'),
     },
     nextButton: this.I18n.t('js.invite_user_modal.project.next_button'),
+    cancelButton: this.I18n.t('js.button_cancel'),
   };
 
   public typeOptions:IOpOptionListOption<string>[] = [

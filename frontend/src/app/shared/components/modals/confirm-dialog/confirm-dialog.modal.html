@@ -7,19 +7,23 @@
   [cdkTrapFocusAutoCapture]="true"
 >
   <div class="spot-modal--header">{{text.title}}</div>
-  <div class="spot-divider"></div>
 
-  <div class="spot-modal--body">
-    <span class="op-confirm-dialog--text"
+  <div *ngIf="divideContent" class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+    <span class="op-confirm-dialog--text spot-body-small"
           [textContent]="text.text"
     ></span>
-    <span *ngFor="let data of passedData">
+    <span
+      *ngFor="let data of passedData"
+      class="spot-body-small"
+    >
       <br/>
       <strong>{{data}}</strong>
     </span>
   </div>
 
-  <div class="spot-modal--footer spot-action-bar">
+  <div class="spot-action-bar">
     <div class="spot-action-bar--right">
       <button
         type="button"

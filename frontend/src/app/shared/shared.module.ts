@@ -76,7 +76,6 @@ import { AddSectionDropdownComponent } from './components/hide-section/add-secti
 import { HideSectionLinkComponent } from './components/hide-section/hide-section-link/hide-section-link.component';
 import { RemoteFieldUpdaterComponent } from './components/remote-field-updater/remote-field-updater.component';
 import { ShowSectionDropdownComponent } from './components/hide-section/show-section-dropdown.component';
-import { SlideToggleComponent } from './components/slide-toggle/slide-toggle.component';
 import { DynamicBootstrapModule } from './components/dynamic-bootstrap/dynamic-bootstrap.module';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
@@ -186,10 +185,6 @@ export function bootstrapModule(injector:Injector):void {
 
     DynamicModule,
 
-    // filter
-
-    SlideToggleComponent,
-
     OpOptionListComponent,
     OpSidemenuComponent,
     OpProjectIncludeComponent,
@@ -244,9 +239,6 @@ export function bootstrapModule(injector:Injector):void {
     EnterpriseBannerComponent,
 
     HomescreenNewFeaturesBlockComponent,
-
-    // filter
-    SlideToggleComponent,
 
     OpOptionListComponent,
     OpSidemenuComponent,

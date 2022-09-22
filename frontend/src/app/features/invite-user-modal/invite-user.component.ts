@@ -19,8 +19,6 @@ import { ProjectResource } from 'core-app/features/hal/resources/project-resourc
 enum Steps {
   ProjectSelection,
   Principal,
-  Role,
-  Message,
   Summary,
   Success,
 }
@@ -99,28 +97,17 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     this.goTo(Steps.Principal);
   }
 
-  onPrincipalSave({ principalData, isAlreadyMember }:{ principalData:PrincipalData, isAlreadyMember:boolean }):void {
+  onPrincipalSave({
+    principalData, isAlreadyMember, role, message,
+  }:{ principalData:PrincipalData, isAlreadyMember:boolean, role:RoleResource, message:string }):void {
     this.principalData = principalData;
+    this.role = role;
+    this.message = message;
     if (isAlreadyMember) {
       return this.closeWithPrincipal();
     }
 
-    return this.goTo(Steps.Role);
-  }
-
-  onRoleSave(role:RoleResource):void {
-    this.role = role;
-
-    if (this.type === PrincipalType.Placeholder) {
-      this.goTo(Steps.Summary);
-    } else {
-      this.goTo(Steps.Message);
-    }
-  }
-
-  onMessageSave({ message }:{ message:string }):void {
-    this.message = message;
-    this.goTo(Steps.Summary);
+    return this.goTo(Steps.Summary);
   }
 
   onSuccessfulSubmission($event:{ principal:HalResource }):void {

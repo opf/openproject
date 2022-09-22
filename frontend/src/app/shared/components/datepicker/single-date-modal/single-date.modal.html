@@ -8,7 +8,7 @@
 >
   <op-datepicker-banner [scheduleManually]="scheduleManually"></op-datepicker-banner>
 
-  <div class="spot-modal--body form -vertical">
+  <div class="spot-modal--body spot-container">
     <div class="op-datepicker-modal--toggle-actions-container">
       <op-datepicker-scheduling-toggle
         name="scheduleManually"
@@ -40,10 +40,13 @@
           </div>
         </div>
         <div class="form--field-extra-actions">
-          <a *ngIf="dateModalScheduling.isSchedulable"
-             (click)="setToday()"
-             [textContent]="text.today">
-          </a>
+          <button
+            type="button"
+            class="spot-link"
+            [ngClass]="{ 'op-datepicker-modal--hidden-link': !dateModalScheduling.isSchedulable }"
+            (click)="setToday()"
+            [textContent]="text.today">
+          </button>
         </div>
       </div>
     </div>
@@ -52,7 +55,7 @@
            hidden>
   </div>
 
-  <div class="spot-modal--footer spot-action-bar">
+  <div class="spot-action-bar">
     <div class="spot-action-bar--right">
       <button
         (click)="cancel()"

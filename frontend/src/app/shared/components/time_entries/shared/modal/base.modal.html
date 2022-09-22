@@ -9,7 +9,7 @@
 
   <div class="spot-divider"></div>
 
-  <div class="ngdialog-body spot-modal--body">
+  <div class="ngdialog-body spot-modal--body spot-container">
     <te-form #editForm
              [changeset]="changeset"
              [showWorkPackageField]="showWorkPackageField"
@@ -18,7 +18,7 @@
     </te-form>
   </div>
 
-  <div class="spot-modal--footer spot-action-bar">
+  <div class="spot-action-bar">
     <div class="spot-action-bar--left">
       <button class="button button_no-margin -danger spot-action-bar--action"
               *ngIf="deleteAllowed"

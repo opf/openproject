@@ -53,23 +53,13 @@ module Components
         # STEP 2: User name
         principal_step
 
-        # STEP 3: Role name
-        role_step
-
-        # STEP 4: Invite message
-        invitation_step unless placeholder?
-
-        # STEP 5: Confirmation screen
+        # STEP 3: Confirmation screen
         confirmation_step
 
-        # Step 6: Perform invite
+        # Step 4: Perform invite
         click_modal_button 'Send invitation'
 
-        if invite_user?
-          expect_text "Invite #{principal.mail} to #{project.name}"
-        else
-          expect_text "#{principal_name} was invited!"
-        end
+        expect_text "#{principal_name} was invited!"
 
         text =
           case principal
@@ -92,14 +82,14 @@ module Components
 
       def project_step(next_step: true, skip_autocomplete: false)
         expect_title 'Invite user'
-        autocomplete project.name unless skip_autocomplete
+        autocomplete '.ng-select-container', project.name unless skip_autocomplete
         select_type type
 
         click_next if next_step
       end
 
-      def open_select_in_step(query = '')
-        search_autocomplete modal_element.find('.ng-select-container'),
+      def open_select_in_step(selector, query = '')
+        search_autocomplete modal_element.find(selector),
                             query:,
                             results_selector: 'body'
       end
@@ -109,16 +99,17 @@ module Components
         sleep(0.1)
 
         if invite_user?
-          autocomplete principal_name, select_text: "Invite: #{principal_name}"
+          autocomplete "op-ium-principal-search", principal_name, select_text: "Invite: #{principal_name}"
         else
-          autocomplete principal_name
+          autocomplete 'op-ium-principal-search', principal_name
         end
-
+        autocomplete 'op-ium-role-search', role.name
+        invitation_message invite_message unless placeholder?
         click_next if next_step
       end
 
       def role_step(next_step: true)
-        autocomplete role.name
+        autocomplete 'op-ium-role-search', role.name
 
         click_next if next_step
       end
@@ -137,8 +128,8 @@ module Components
         end
       end
 
-      def autocomplete(query, select_text: query)
-        select_autocomplete modal_element.find('.ng-select-container'),
+      def autocomplete(selector, query, select_text: query)
+        select_autocomplete modal_element.find(selector),
                             query:,
                             select_text:,
                             results_selector: 'body'
