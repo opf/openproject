@@ -1,13 +1,11 @@
 <spot-form-field
   [label]="text.scheduling.title"
 >
-  <spot-toggle
+  <spot-switch
     slot="input"
-    [options]="schedulingOptions"
-    [value]="scheduleManually"
-    [name]="'scheduling'"
+    name="scheduling"
     [ngModel]="scheduleManually"
     (ngModelChange)="onToggle($event)"
     data-qa-selector="op-datepicker-modal--scheduling-action"
-  ></spot-toggle>
+  ></spot-switch>
 </spot-form-field>
