@@ -1229,7 +1229,6 @@ en:
         lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Next'
-        cancel_button: 'Cancel'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'
       type:
@@ -1258,7 +1257,6 @@ en:
         create_new_placeholder: 'Create new placeholder:'
         no_results_group: 'No groups were found'
         next_button: 'Next'
-        cancel_button: 'Cancel'
         required:
           user: 'Please select a user'
           placeholder: 'Please select a placeholder'
@@ -1283,7 +1281,6 @@ en:
 
       summary:
         next_button: 'Send invitation'
-        cancel_button: 'Cancel'
 
       success:
         title: '%{principal} was invited!'

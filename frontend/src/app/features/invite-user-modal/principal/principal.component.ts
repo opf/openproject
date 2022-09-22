@@ -80,7 +80,7 @@ export class PrincipalComponent implements OnInit {
       },
       backButton: this.I18n.t('js.invite_user_modal.back'),
       nextButton: this.I18n.t('js.invite_user_modal.principal.next_button'),
-      cancelButton: this.I18n.t('js.invite_user_modal.principal.cancel_button'),
+      cancelButton: this.I18n.t('js.button_cancel'),
     },
     role: {
       label: ():string => this.I18n.t('js.invite_user_modal.role.label', {
