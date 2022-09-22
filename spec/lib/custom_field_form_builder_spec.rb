@@ -230,7 +230,7 @@ describe CustomFieldFormBuilder do
       context 'which is required and a default value' do
         before do
           custom_field.is_required = true
-          custom_option.default_value = true
+          allow(custom_field).to receive(:default_value).and_return custom_option.id
         end
 
         it 'outputs element' do
