@@ -71,23 +71,6 @@ describe 'date inplace editor',
     start_date.expect_state_text '2016-01-02 - 2016-01-25'
   end
 
-  it 'reverses the dates if the selected date is before the current start date' do
-    start_date.activate!
-    start_date.expect_active!
-
-    start_date.datepicker.expect_year '2016'
-    start_date.datepicker.expect_month 'January'
-    start_date.datepicker.select_day '1'
-
-    start_date.datepicker.expect_start_date '2016-01-01'
-    start_date.datepicker.expect_due_date '2016-01-02'
-    start_date.datepicker.expect_duration 2
-
-    start_date.save!
-    start_date.expect_inactive!
-    start_date.expect_state_text '2016-01-01 - 2016-01-02'
-  end
-
   it 'can set "today" as a date via the provided link' do
     start_date.activate!
     start_date.expect_active!
