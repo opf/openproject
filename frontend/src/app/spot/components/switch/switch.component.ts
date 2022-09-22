@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -46,6 +47,7 @@ export class SpotSwitchComponent implements ControlValueAccessor {
 
   constructor(
     public elementRef:ElementRef,
+    public cdRef:ChangeDetectorRef,
   ) {
     populateInputsFromDataset(this);
   }
@@ -59,6 +61,7 @@ export class SpotSwitchComponent implements ControlValueAccessor {
 
   writeValue(value:SpotSwitchState):void {
     this.checked = !!value;
+    this.cdRef.markForCheck();
   }
 
   onToggle(value:SpotSwitchState):void {
