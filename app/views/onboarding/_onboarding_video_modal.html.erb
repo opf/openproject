@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
     <span><%= I18n.t('onboarding.welcome', app_title: Setting.app_title) %></span>
   </div>
   <div class="spot-divider"></div>
-  <div class="onboarding--main spot-modal--body">
+  <div class="onboarding--main spot-modal--body spot-container">
     <h2><%= I18n.t('onboarding.heading_getting_started') %></h2>
     <div class="onboarding--video-block">
       <div class="onboarding--video-text">
@@ -44,11 +44,10 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   </div>
 
-  <div class="onboarding--footer spot-modal--footer spot-action-bar">
+  <div class="onboarding--footer spot-action-bar">
     <div class="spot-action-bar--right">
-      <span><em><%= I18n.t('onboarding.text_show_again') %></em></span>
       <button
-        class="button button_no-margin -highlight spot-action-bar--action"
+        class="button button_no-margin spot-action-bar--action"
         dynamic-content-modal-close-button
         title=<%= t(:button_close) %>
       ><%= t(:button_close) %></button>

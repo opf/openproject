@@ -1,12 +1,16 @@
 <div
   class="spot-modal loading-indicator--location"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
   data-indicator-name="modal"
 >
   <div class="spot-modal--header">{{text.title}}</div>
 
   <div class="spot-divider"></div>
 
-  <div class="ngdialog-body spot-modal--body">
+  <div class="ngdialog-body spot-modal--body spot-container">
 
     <op-enterprise-banner
       *ngIf="eeShowBanners"
@@ -17,12 +21,31 @@
       opReferrer="grids#add-widget"
     ></op-enterprise-banner>
 
-    <div
-      *ngFor="let widget of selectable;trackBy: trackWidgetBy"
-      (click)="select($event, widget)"
-      [id]="widget.identifier"
-      [textContent]="widget.title"
-      class="grid--addable-widget"
-    ></div>
+    <ul class="spot-list">
+      <li
+        *ngFor="let widget of selectable;trackBy: trackWidgetBy"
+        class="spot-list--item"
+        data-qa-selector="op-grid--addable-widget">
+        <button
+          type="button"
+          class="spot-list--item-action"
+          (click)="select($event, widget)" 
+          [id]="widget.identifier"
+          [textContent]="widget.title"
+        ></button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button button_no-margin spot-action-bar--action"
+        (click)="closeMe()"
+        >
+        {{ text.cancel_button }}
+     </button>
+    </div>
   </div>
 </div>

@@ -7,12 +7,11 @@
     data-qa-selector="attribute-help-text--header"
   >
     <span class="spot-icon spot-icon_help1"></span>
-    <span [textContent]="helpText.attributeCaption"></span>
+    <span class="attribute-help-text--header-text" 
+          [textContent]="helpText.attributeCaption"></span>
   </div>
 
-  <div class="spot-divider"></div>
-
-  <div class="spot-modal--body">
+  <div class="spot-modal--body spot-container">
     <div
       class="op-uc-container op-uc-container__no-permalinks"
       [innerHtml]="helpText.helpText.html"
@@ -24,8 +23,15 @@
     ></attachments>
   </div>
 
-  <div class="spot-modal--footer spot-action-bar">
+  <div class="spot-action-bar">
     <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button button_no-margin spot-action-bar--action"
+        (click)="closeMe()"
+        >
+        {{ text.close }}
+      </button>
       <a
         class="help-text--edit-button button button_no-margin spot-action-bar--action"
         *ngIf="helpText.editText"

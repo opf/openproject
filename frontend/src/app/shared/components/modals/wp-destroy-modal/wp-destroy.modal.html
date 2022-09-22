@@ -1,22 +1,20 @@
 <div
-  class="spot-modal wp-table--configuration-modal loading-indicator--location"
+  class="spot-modal"
   data-indicator-name="modal"
   id="wp_destroy_modal"
 >
   <div class="spot-modal--header">{{text.title}}</div>
 
-  <div class="spot-divider"></div>
-
-  <div class="spot-modal--body">
+  <div class="spot-modal--body spot-container">
     <ng-container *ngIf="singleWorkPackage">
       <p>
-        <span [textContent]="text.text"></span>
-        <br/>
+        <span [textContent]="text.single_text"></span> 
         <strong>
-          {{ singleWorkPackage.type.name }}
-          #{{ singleWorkPackage.id }}
+          
           {{ singleWorkPackage.subject }}
+          #{{ singleWorkPackage.id }} 
         </strong>
+        ?
       </p>
       <div *ngIf="singleWorkPackageChildren && singleWorkPackageChildren.length > 0">
         <p class="danger-zone--warning">
@@ -38,7 +36,7 @@
     <ng-container *ngIf="workPackages.length > 1">
       <p class="danger-zone--warning">
         <span class="icon-context icon-error"></span>
-        <strong [textContent]="text.text"></strong>
+        <strong [textContent]="text.bulk_text"></strong>
       </p>
       <ul>
         <li *ngFor="let wp of workPackages">
@@ -65,7 +63,7 @@
     </div>
   </div>
 
-  <div class="spot-modal--footer spot-action-bar">
+  <div class="spot-action-bar">
     <div class="spot-action-bar--right">
       <button
         class="button button_no-margin spot-action-bar--action"
@@ -74,10 +72,11 @@
       ></button>
       <button
         class="button button_no-margin -danger spot-action-bar--action"
-        [textContent]="text.confirm"
         [attr.disabled]="busy || blockedDueToUnconfirmedChildren || undefined"
-        (click)="confirmDeletion($event)"
-      ></button>
+        (click)="confirmDeletion($event)">
+        <span class="spot-icon spot-icon_delete"></span>
+        {{ text.confirm }}
+      </button>
     </div>
   </div>
 </div>

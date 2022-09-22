@@ -73,15 +73,13 @@ describe 'Inviting user in project the current user is lacking permission in', t
     modal.expect_error_displayed I18n.t('js.invite_user_modal.project.lacking_permission')
 
     # Proceeding with a different project
-    modal.autocomplete(invite_project.name)
+    modal.autocomplete('.ng-select-container', invite_project.name)
     modal.click_next
 
     # Remaining steps
     modal.principal_step
-    modal.role_step
-    modal.invitation_step
 
-    modal.expect_text "Invite #{other_user.name} to #{invite_project.name}"
+    modal.expect_text "Invite user"
     modal.confirmation_step
 
     modal.click_modal_button 'Send invitation'
