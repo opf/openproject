@@ -8,6 +8,7 @@ import {
   Output,
   ViewChild,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -41,6 +42,10 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
 
   @Input() public checked = false;
 
+  constructor(
+    readonly cdRef:ChangeDetectorRef,
+  ) {}
+
   onStateChange():void {
     const value = (this.input.nativeElement as HTMLInputElement).checked;
     this.checkedChange.emit(value);
@@ -56,6 +61,7 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
       input.indeterminate = value === null;
 
       this.checked = !!value;
+      this.cdRef.detectChanges();
     });
   }
 

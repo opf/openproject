@@ -14,10 +14,8 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  tap,
   mergeMap,
   shareReplay,
-  skip,
   take,
 } from 'rxjs/operators';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
