@@ -12,13 +12,13 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'op-checkbox-field',
-  templateUrl: './checkbox-field.component.html',
+  selector: 'spot-selector-field',
+  templateUrl: './selector-field.component.html',
 })
-export class OpCheckboxFieldComponent {
+export class SpotSelectorFieldComponent {
   @HostBinding('class.spot-form-field') className = true;
 
-  @HostBinding('class.op-checkbox-field') classNameCheckbox = true;
+  @HostBinding('class.spot-selector-field') classNameCheckbox = true;
 
   @HostBinding('class.spot-form-field_invalid') get errorClassName():boolean {
     return this.showErrorMessage;
@@ -40,7 +40,7 @@ export class OpCheckboxFieldComponent {
 
   @ContentChild(NgControl) ngControl:NgControl;
 
-  internalID = `op-checkbox-field-${+new Date()}`;
+  internalID = `spot-selector-field-${+new Date()}`;
 
   get errorsID():string {
     return `${this.internalID}-errors`;

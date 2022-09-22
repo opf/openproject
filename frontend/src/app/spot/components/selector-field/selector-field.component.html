@@ -1,7 +1,7 @@
 <ng-container *ngIf="!hidden">
-  <label class="spot-form-field--label-wrap op-checkbox-field--label-wrap">
+  <label class="spot-form-field--label-wrap spot-selector-field--label-wrap">
     <div
-      class="spot-form-field--input op-checkbox-field--input"
+      class="spot-form-field--input spot-selecctor-field--input"
       [attr.aria-describedby]="describedByID"
     >
       <ng-content select="[slot=input]"></ng-content>
@@ -9,7 +9,7 @@
 
     <div
       *ngIf="label"
-      class="spot-form-field--label op-checkbox-field--label"
+      class="spot-form-field--label spot-selector-field--label"
     >
       <span
         *ngIf="showErrorMessage"

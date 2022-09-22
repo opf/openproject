@@ -15,6 +15,7 @@ import { SpotTooltipComponent } from './components/tooltip/tooltip.component';
 import { SpotFormFieldComponent } from './components/form-field/form-field.component';
 import { SpotFormBindingDirective } from './components/form-field/form-binding.directive';
 import { SpotDocsComponent } from './spot-docs.component';
+import { SpotSelectorFieldComponent } from 'core-app/spot/components/selector-field/selector-field.component';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { SpotDocsComponent } from './spot-docs.component';
     SpotFormFieldComponent,
     SpotFormBindingDirective,
     SpotTooltipComponent,
+    SpotSelectorFieldComponent,
   ],
   exports: [
     SpotCheckboxComponent,
@@ -48,6 +50,7 @@ import { SpotDocsComponent } from './spot-docs.component';
     SpotFormFieldComponent,
     SpotFormBindingDirective,
     SpotTooltipComponent,
+    SpotSelectorFieldComponent,
   ],
 })
 export class OpSpotModule { }

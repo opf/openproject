@@ -7,7 +7,7 @@
   <h5>{{ text.notifyImmediately.title }}</h5>
   <p>{{ text.notifyImmediately.description }}</p>
 
-  <op-checkbox-field [label]="text.mentioned.title">
+  <spot-selector-field [label]="text.mentioned.title">
       <input
         disabled
         checked
@@ -15,9 +15,9 @@
         slot="input"
       />
       <p slot="description">{{ text.mentioned.description }}</p>
-  </op-checkbox-field>
+  </spot-selector-field>
 
-  <op-checkbox-field
+  <spot-selector-field
     [label]="text.involved.title"
     [control]="form.get('involved')"
   >
@@ -28,12 +28,12 @@
       data-qa-global-notification-type="involved"
     />
     <p slot="description">{{ text.involved.description }}</p>
-  </op-checkbox-field>
+  </spot-selector-field>
 
   <h5>{{ text.alsoNotifyFor.title }}</h5>
   <p>{{ text.alsoNotifyFor.description }}</p>
 
-  <op-checkbox-field>
+  <spot-selector-field>
       <input
         disabled
         checked
@@ -41,9 +41,9 @@
         slot="input"
       />
       <p slot="description">{{ text.watched }}</p>
-  </op-checkbox-field>
+  </spot-selector-field>
 
-  <op-checkbox-field [control]="form.get('workPackageCreated')">
+  <spot-selector-field [control]="form.get('workPackageCreated')">
     <input
       slot="input"
       type="checkbox"
@@ -51,9 +51,9 @@
       data-qa-global-notification-type="work_package_created"
     />
     <p slot="description">{{ text.work_package_created }}</p>
-  </op-checkbox-field>
+  </spot-selector-field>
 
-  <op-checkbox-field [control]="form.get('workPackageProcessed')">
+  <spot-selector-field [control]="form.get('workPackageProcessed')">
     <input
       slot="input"
       type="checkbox"
@@ -61,9 +61,9 @@
       data-qa-global-notification-type="work_package_processed"
     />
     <p slot="description">{{ text.work_package_processed }}</p>
-  </op-checkbox-field>
+  </spot-selector-field>
 
-  <op-checkbox-field [control]="form.get('workPackageScheduled')">
+  <spot-selector-field [control]="form.get('workPackageScheduled')">
     <input
       slot="input"
       type="checkbox"
@@ -71,9 +71,9 @@
       data-qa-global-notification-type="work_package_scheduled"
     />
     <p slot="description">{{ text.work_package_scheduled }}</p>
-  </op-checkbox-field>
+  </spot-selector-field>
 
-  <op-checkbox-field [control]="form.get('workPackagePrioritized')">
+  <spot-selector-field [control]="form.get('workPackagePrioritized')">
     <input
       slot="input"
       type="checkbox"
@@ -81,9 +81,9 @@
       data-qa-global-notification-type="work_package_prioritized"
     />
     <p slot="description">{{ text.work_package_prioritized }}</p>
-  </op-checkbox-field>
+  </spot-selector-field>
 
-  <op-checkbox-field [control]="form.get('workPackageCommented')">
+  <spot-selector-field [control]="form.get('workPackageCommented')">
     <input
       slot="input"
       type="checkbox"
@@ -91,7 +91,7 @@
       data-qa-global-notification-type="work_package_commented"
     />
     <p slot="description">{{ text.work_package_commented }}</p>
-  </op-checkbox-field>
+  </spot-selector-field>
 
   <hr />
 

@@ -19,7 +19,7 @@
   ></formly-validation-message>
 </spot-form-field>
 
-<op-checkbox-field
+<spot-selector-field
   *ngIf="field.type === 'booleanInput'"
   [control]="field?.formControl"
   [label]="to?.label"
@@ -37,4 +37,4 @@
     [field]="field"
     slot="errors"
   ></formly-validation-message>
-</op-checkbox-field>
+</spot-selector-field>

@@ -4,7 +4,7 @@
     <p [textContent]="text.explanation"></p>
   </div>
 
-  <op-checkbox-field
+  <spot-selector-field
     [control]="form.get(setting)"
     *ngFor="let setting of alerts"
   >
@@ -14,5 +14,5 @@
       [formControlName]="setting"
     />
     <p slot="description">{{ text[setting] }}</p>
-  </op-checkbox-field>
+  </spot-selector-field>
 </ng-container>
