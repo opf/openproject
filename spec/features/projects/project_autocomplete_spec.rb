@@ -165,11 +165,13 @@ describe 'Projects autocomplete page', type: :feature, js: true do
   end
 
   it 'navigates to the first project upon hitting enter in the search bar' do
-    top_menu.toggle
-    top_menu.expect_open
+    retry_block do
+      top_menu.toggle unless top_menu.open?
+      top_menu.expect_open
 
-    # projects are displayed initially
-    top_menu.expect_result project.name
+      # projects are displayed initially
+      top_menu.expect_result project.name
+    end
 
     # Filter for projects
     top_menu.search '<strong'

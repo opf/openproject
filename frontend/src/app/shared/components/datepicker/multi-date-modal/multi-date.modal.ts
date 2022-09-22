@@ -79,6 +79,7 @@ import {
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { castArray } from 'lodash';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -121,6 +122,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   @InjectField() browserDetector:BrowserDetector;
 
   @InjectField() weekdayService:WeekdayService;
+
+  @InjectField() focusHelper:FocusHelperService;
 
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
@@ -210,7 +213,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     .pipe(
       this.untilDestroyed(),
       debounceTime(500),
-      map((value) => (value === '' ? null : parseInt(value, 10))),
+      map((value) => (value === '' ? null : Math.abs(parseInt(value, 10)))),
+      filter((val) => val === null || !Number.isNaN(val)),
       filter((val) => val !== this.duration),
     )
     .subscribe((value) => this.applyDurationChange(value));
@@ -274,7 +278,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
     this.dates.start = this.changeset.value('startDate');
     this.dates.end = this.changeset.value('dueDate');
-    this.setCurrentActivatedField(this.initialActivatedField());
+    this.setCurrentActivatedField(this.initialActivatedField);
   }
 
   ngAfterViewInit():void {
@@ -285,10 +289,21 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         this.initializeDatepicker(date);
         this.onDataChange();
       });
+
+    // Autofocus duration if that's what activated us
+    if (this.initialActivatedField === 'duration') {
+      this.focusHelper.focus(this.durationField.nativeElement);
+    }
   }
 
   changeSchedulingMode():void {
     this.initializeDatepicker();
+
+    // If removing manual scheduling on parent, reset ignoreNWD to original value
+    if (this.scheduleManually === false && !this.ignoreNonWorkingDaysWritable) {
+      this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
+    }
+
     this.cdRef.detectChanges();
   }
 
@@ -659,7 +674,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     this.onDataUpdated.emit(output);
   }
 
-  private initialActivatedField():DateFields {
+  private get initialActivatedField():DateFields {
     switch (this.locals.fieldName) {
       case 'startDate':
         return 'start';

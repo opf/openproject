@@ -535,7 +535,6 @@ el:
         progress: "Πρόοδος (%)"
         readonly: "Read only"
         schedule_manually: "Χειροκίνητος προγραμματισμός"
-        schedule_default: "Default scheduling"
         spent_hours: "Χρόνος που δαπανήθηκε"
         spent_time: "Χρόνος που δαπανήθηκε"
         subproject: "Υποέργο"
@@ -1989,7 +1988,7 @@ el:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hello %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2621,7 +2620,6 @@ el:
   text_journal_set_to: "Το %{label} ορίστηκε σε %{value}"
   text_journal_set_with_diff: "Το %{label} ορίστηκε (%{link})"
   text_journal_label_value: "%{label} %{value}"
-  text_scheduling_label: "%{type} activated"
   text_latest_note: "Το πιο πρόσφατο σχόλιο είναι: %{note}"
   text_length_between: "Μήκος μεταξύ %{min} και %{max} χαρακτήρων."
   text_line_separated: "Επιτρέπονται πολλαπλές τιμές (μία γραμμή για κάθε τιμή)."

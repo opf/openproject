@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { A11yModule } from '@angular/cdk/a11y';
 import { UIRouterModule } from '@uirouter/angular';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SPOT_DOCS_ROUTES } from './spot.routes';
 import { SpotCheckboxComponent } from './components/checkbox/checkbox.component';
 import { SpotToggleComponent } from './components/toggle/toggle.component';
@@ -18,6 +19,9 @@ import { SpotDocsComponent } from './spot-docs.component';
     UIRouterModule.forChild({ states: SPOT_DOCS_ROUTES }),
     FormsModule,
     CommonModule,
+  ],
+  providers: [
+    I18nService,
   ],
   declarations: [
     SpotDocsComponent,

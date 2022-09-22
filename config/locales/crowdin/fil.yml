@@ -539,7 +539,6 @@ fil:
         progress: "Isinasagawa (%)"
         readonly: "Read only"
         schedule_manually: "Manual scheduling"
-        schedule_default: "Default scheduling"
         spent_hours: "Nauubos na oras"
         spent_time: "Nauubos na oras"
         subproject: "Kahaliling proyekto"
@@ -1993,7 +1992,7 @@ fil:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hello %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2624,7 +2623,6 @@ fil:
   text_journal_set_to: "%{label} itinakda sa %{value}"
   text_journal_set_with_diff: "%{label} itinakda (%{link})"
   text_journal_label_value: "%{label} %{value}"
-  text_scheduling_label: "%{type} activated"
   text_latest_note: "Ang pinakabagong komento ay: %{note}"
   text_length_between: "Taas pagitan ng %{min} at %{max} na mga karakter."
   text_line_separated: "Maramihang halaga ang pinahintulutan (isang linya para sa bawat halaga)."

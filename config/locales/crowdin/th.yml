@@ -538,7 +538,6 @@ th:
         progress: "Progress (%)"
         readonly: "Read only"
         schedule_manually: "Manual scheduling"
-        schedule_default: "Default scheduling"
         spent_hours: "เวลาที่ใช้"
         spent_time: "เวลาที่ใช้"
         subproject: "โครงการย่อย"
@@ -1976,7 +1975,7 @@ th:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hello %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2607,7 +2606,6 @@ th:
   text_journal_set_to: "กำหนดค่า %{label} เป็น %{value}"
   text_journal_set_with_diff: "มีการกำหนดค่า %{label} (%{link})"
   text_journal_label_value: "%{label} %{value}"
-  text_scheduling_label: "%{type} activated"
   text_latest_note: "ความคิดเห็นล่าสุดคือ: %{note}"
   text_length_between: "ความยาวระหว่าง %{min} จนถึง %{max} ตัวอักษร"
   text_line_separated: "อนุญาตให้มีหลายค่าได้ (หนึ่งค่าต่อหนึ่งบรรทัด)"

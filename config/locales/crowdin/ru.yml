@@ -214,8 +214,8 @@ ru:
       completed: "Удаление проекта %{name} завершено"
       completed_text: "Запрос на удаление проекта '%{name}' был завершен."
     index:
-      open_as_gantt: 'Открыть в виде Gantt'
-      open_as_gantt_title: "Используйте эту кнопку для создания представления Гантта, фильтрующего пакеты работ, видимых на этой странице."
+      open_as_gantt: 'Открыть в виде диаграммы Ганта'
+      open_as_gantt_title: "Используйте эту кнопку для создания представления Ганта, фильтрующего пакеты работ, видимых на этой странице."
       open_as_gantt_title_admin: "Вы можете изменить настройки вида (такие как выбранные типы пакетов работ) в администрировании в настройках проекта."
       no_results_title_text: На данный момент проектов нет
       no_results_content_text: Создать новый проект
@@ -311,7 +311,7 @@ ru:
       reset: "Восстановить значения по умолчанию"
       type_color_text: |
         Выбранный цвет выделяет разные типы
-        в диаграммах Гантта или таблицах рабочих пакетов. Поэтому рекомендуется использовать сильный цвет.
+        в диаграммах Ганта или таблицах рабочих пакетов. Поэтому рекомендуется использовать насыщенный цвет.
   versions:
     overview:
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.
@@ -540,7 +540,6 @@ ru:
         progress: "Прогресс (%)"
         readonly: "Только для чтения"
         schedule_manually: "Ручное планирование"
-        schedule_default: "Default scheduling"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
         subproject: "Подпроект"
@@ -1624,7 +1623,7 @@ ru:
   label_force_user_language_to_default: "Язык, который пользователям нельзя установить как действующий по-умолчанию"
   label_form_configuration: "Настройка форм"
   label_gantt: "Гант"
-  label_gantt_chart: "Диаграмма Гантта"
+  label_gantt_chart: "Диаграмма Ганта"
   label_general: "Общие"
   label_generate_key: "Сгенерируйте ключ"
   label_git_path: "Путь к директории .git"
@@ -2026,7 +2025,7 @@ ru:
       center: 'В центр уведомлений'
       see_in_center: 'Смотрите комментарий в центре уведомлений'
       settings: 'Изменить настройки электронной почты'
-    salutation: 'Здравствуйте, %{user}!'
+    salutation: 'Здравствуйте, %{user}'
     work_packages:
       created_at: 'Создано %{timestamp} пользователем %{user} '
       login_to_see_all: 'Войдите, чтобы увидеть все уведомления.'
@@ -2520,8 +2519,8 @@ ru:
   setting_per_page_options: "Количество объектов на страницу"
   setting_plain_text_mail: "Обычный текст электронной почты (не HTML)"
   setting_protocol: "Протокол"
-  setting_project_gantt_query: "Вид Gantt портфолио проекта"
-  setting_project_gantt_query_text: "Вы можете изменить запрос, используемый для отображения графика Гантта на странице обзора проекта."
+  setting_project_gantt_query: "Портфолио проекта в виде диаграммы Ганта"
+  setting_project_gantt_query_text: "Вы можете изменить запрос, используемый для отображения графика Ганта на странице обзора проекта."
   setting_security_badge_displayed: "Отображать бейджик безопасности"
   setting_registration_footer: "Нижний колонтитул регистрации"
   setting_repositories_automatic_managed_vendor: "Автоматический тип поставщика репозитория"
@@ -2599,7 +2598,7 @@ ru:
   text_access_token_hint: "Маркеры доступа позволяют предоставить внешним приложениям доступ к ресурсам в OpenProject."
   text_analyze: "Дополнительный анализ: %{subject}"
   text_are_you_sure: "Вы уверены?"
-  text_are_you_sure_continue: "Are you sure you want to continue?"
+  text_are_you_sure_continue: "Вы уверены, что хотите продолжить?"
   text_are_you_sure_with_children: "Удалить пакет работ и все дочерние пакеты работ?"
   text_assign_to_project: "Назначить на проект"
   text_form_configuration: >
@@ -2660,7 +2659,6 @@ ru:
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"
   text_journal_label_value: "%{label} %{value}"
-  text_scheduling_label: "%{type} activated"
   text_latest_note: "Последний комментарий: %{note}"
   text_length_between: "Количество символов между %{min} и %{max} ."
   text_line_separated: "Допускается  несколько значений (одна строка для каждого значения)."
@@ -2954,7 +2952,7 @@ ru:
   working_days:
     info: >
       <b>Определить считаемые дни рабочей недели</b><br/> Дни, которые не выбраны, пропускаются при планировании пакетов работ (и не включены в число дней). Они могут быть переопределены на уровне рабочих пакетов.
-    change_button: "Change working days"
+    change_button: "Изменить рабочие дни"
     warning: >
       Изменение дней недели, считающихся рабочими днями, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае.
   nothing_to_preview: "Нет ничего для предосмотра"

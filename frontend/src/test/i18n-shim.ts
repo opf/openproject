@@ -1,4 +1,5 @@
 import { GlobalI18n } from 'core-app/core/i18n/i18n.service';
+import * as _ from 'lodash';
 
 export class I18nShim implements GlobalI18n {
   public defaultLocale = 'en';

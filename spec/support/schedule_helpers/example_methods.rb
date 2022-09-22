@@ -28,6 +28,31 @@
 
 module ScheduleHelpers
   module ExampleMethods
+    # Create work packages and relations from a visual chart representation.
+    #
+    # For instance:
+    #
+    #   create_schedule(<<~CHART)
+    #     days       | MTWTFSS   |
+    #     main       | XX        |
+    #     follower   |   XXX     | follows main
+    #     start_only |  [        |
+    #     due_only   |    ]      |
+    #   CHART
+    #
+    # is equivalent to:
+    #
+    #   create(:work_package, subject: 'main', start_date: next_monday, due_date: next_monday + 1.day)
+    #   create(:work_package, subject: 'follower', start_date: next_monday + 2.days, due_date: next_monday + 4.days) }
+    #   create(:work_package, subject: 'start_only', start_date: next_monday + 1.day) }
+    #   create(:work_package, subject: 'due_only', due_date: next_monday + 3.days) }
+    #   create(:follows_relation, from: follower, to: main, delay: 0) }
+    #
+    def create_schedule(chart_representation)
+      chart = Chart.for(chart_representation)
+      ScheduleBuilder.from_chart(chart, self)
+    end
+
     # Change the given work packages according to the given chart representation.
     # Work packages are changed without being saved.
     #

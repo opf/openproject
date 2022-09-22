@@ -536,7 +536,6 @@ uk:
         progress: "Прогрес (%)"
         readonly: "Лише читання"
         schedule_manually: "Ручне планування"
-        schedule_default: "Default scheduling"
         spent_hours: "Трудовитрати"
         spent_time: "Трудовитрати"
         subproject: "Підпроект"
@@ -2022,7 +2021,7 @@ uk:
       center: 'Центр сповіщень'
       see_in_center: 'Переглянути коментарі у центрі сповіщень'
       settings: 'Змінити налаштування електронної пошти'
-    salutation: 'Hello %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Створено о %{timestamp} користувачем %{user} '
       login_to_see_all: 'Увійдіть, щоб переглянути всі сповіщення.'
@@ -2656,7 +2655,6 @@ uk:
   text_journal_set_to: "Параметр %{label} змінився на %{value}"
   text_journal_set_with_diff: "%{label} встановлено (%{link})"
   text_journal_label_value: "%{label} %{value}"
-  text_scheduling_label: "%{type} activated"
   text_latest_note: "Останній коментар: %{note}"
   text_length_between: "Довжина між %{min} і %{max} символів."
   text_line_separated: "Дозволено кілька значень (по одному значенню в рядок)."
