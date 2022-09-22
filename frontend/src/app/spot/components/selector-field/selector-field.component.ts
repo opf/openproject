@@ -26,6 +26,8 @@ export class SpotSelectorFieldComponent {
 
   @Input() label = '';
 
+  @Input() reverseLabel = false;
+
   @Input() hidden = false;
 
   @Input() required = false;
