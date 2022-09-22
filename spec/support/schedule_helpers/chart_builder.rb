@@ -119,7 +119,19 @@ module ScheduleHelpers
       when /^working days include weekends$/
         chart.set_ignore_non_working_days(name, true)
       else
-        raise "unable to parse property #{property.inspect} for line #{name.inspect}"
+        spell_checker = DidYouMean::SpellChecker.new(
+          dictionary: [
+            "follows :wp",
+            "follows :wp with delay :int",
+            "child of :wp",
+            "duration :int",
+            "working days work week",
+            "working days include weekends"
+          ]
+        )
+        suggestions = spell_checker.correct(property).map(&:inspect).join(' ')
+        did_you_mean = " Did you mean #{suggestions} instead?" if suggestions.present?
+        raise "unable to parse property #{property.inspect} for line #{name.inspect}.#{did_you_mean}"
       end
     end
 

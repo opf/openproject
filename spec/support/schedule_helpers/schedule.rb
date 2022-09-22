@@ -26,46 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-
-describe ScheduleHelpers::LetSchedule do
-  create_shared_association_defaults_for_work_package_factory
-
-  describe 'let_schedule' do
-    let_schedule(<<~CHART)
-      days      | MTWTFSS |
-      main      | XX      |
-      follower  |   XXX   | follows main with delay 2
-      child     |         | child of main
-    CHART
-
-    it 'creates let calls for each work package' do
-      expect([main, follower, child]).to all(be_an_instance_of(WorkPackage))
-      expect([main, follower, child]).to all(be_persisted)
-      expect(main).to have_attributes(
-        subject: 'main',
-        start_date: schedule.monday,
-        due_date: schedule.tuesday
-      )
-      expect(follower).to have_attributes(
-        subject: 'follower',
-        start_date: schedule.wednesday,
-        due_date: schedule.friday
-      )
-      expect(child).to have_attributes(
-        subject: 'child',
-        start_date: nil,
-        due_date: nil
-      )
+module ScheduleHelpers
+  class Schedule
+    def initialize(work_packages, follows_relations)
+      @work_packages = work_packages
+      @follows_relations = follows_relations
     end
 
-    it 'creates follows relations between work packages' do
-      expect(follower.follows_relations.count).to eq(1)
-      expect(follower.follows_relations.first.to).to eq(main)
+    def work_package(name)
+      name = normalize_name(name)
+      @work_packages[name]
     end
 
-    it 'creates parent / child relations' do
-      expect(child.parent).to eq(main)
+    def follows_relation(from:, to:)
+      from = normalize_name(from)
+      to = normalize_name(to)
+      @follows_relations[from:, to:]
+    end
+
+    def monday
+      Date.current.next_occurring(:monday)
+    end
+
+    %i[tuesday wednesday thursday friday saturday sunday].each do |day_name|
+      define_method(day_name) { monday.next_occurring(day_name) }
+    end
+
+    private
+
+    def normalize_name(name)
+      symbolic_name = name.to_sym
+      return symbolic_name if @work_packages.has_key?(symbolic_name)
+
+      spell_checker = DidYouMean::SpellChecker.new(dictionary: @work_packages.keys.map(&:to_s))
+      suggestions = spell_checker.correct(name).map(&:inspect).join(' ')
+      did_you_mean = " Did you mean #{suggestions} instead?" if suggestions.present?
+      raise "No work package with name #{name.inspect} in schedule.#{did_you_mean}"
     end
   end
 end

@@ -142,15 +142,32 @@ RSpec.describe WorkPackages::Shared::AllDays do
       expect(subject.soonest_working_day(nil)).to be_nil
     end
 
+    context 'with delay' do
+      it 'returns the soonest working day from the given day, after a configurable delay of working days' do
+        expect(subject.soonest_working_day(sunday_2022_07_31, delay: nil)).to eq(sunday_2022_07_31)
+        expect(subject.soonest_working_day(sunday_2022_07_31, delay: 0)).to eq(sunday_2022_07_31)
+        expect(subject.soonest_working_day(sunday_2022_07_31, delay: 1)).to eq(Date.new(2022, 8, 1))
+      end
+    end
+
     context 'with weekend days (Saturday and Sunday)', :weekend_saturday_sunday do
       it 'returns the given day' do
         expect(subject.soonest_working_day(sunday_2022_07_31)).to eq(sunday_2022_07_31)
+      end
+
+      context 'with delay' do
+        include_examples 'soonest working day with delay', date: Date.new(2022, 1, 1), delay: 30, expected: Date.new(2022, 1, 31)
       end
     end
 
     context 'with some non working days (Christmas 2022-12-25 and new year\'s day 2023-01-01)', :christmas_2022_new_year_2023 do
       it 'returns the given day' do
         expect(subject.soonest_working_day(Date.new(2022, 12, 25))).to eq(Date.new(2022, 12, 25))
+      end
+
+      context 'with delay' do
+        include_examples 'soonest working day with delay', date: Date.new(2022, 12, 24), delay: 7,
+                                                           expected: Date.new(2022, 12, 31)
       end
     end
   end

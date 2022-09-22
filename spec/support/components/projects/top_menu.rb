@@ -35,19 +35,23 @@ module Components
       include ::Components::Autocompleter::AutocompleteHelpers
 
       def toggle
-        page.find('#projects-menu').click
+        page.find_by_id('projects-menu').click
+      end
+
+      def open?
+        page.has_selector?(autocompleter_selector)
       end
 
       def expect_current_project(name)
-        expect(page).to have_selector('#projects-menu', text: name)
+        page.find_by_id('projects-menu', text: name)
       end
 
       def expect_open
-        expect(page).to have_selector(autocompleter_selector)
+        page.find(autocompleter_selector)
       end
 
       def expect_closed
-        expect(page).to have_no_selector(autocompleter_selector)
+        page.raise_if_found(autocompleter_selector)
       end
 
       def search(query)
@@ -77,9 +81,9 @@ module Components
       def expect_result(name, disabled: false)
         within search_results do
           if disabled
-            expect(page).to have_selector(autocompleter_item_disabled_title_selector, text: name)
+            page.find(autocompleter_item_disabled_title_selector, text: name)
           else
-            expect(page).to have_selector(autocompleter_item_title_selector, text: name)
+            page.find(autocompleter_item_title_selector, text: name)
           end
         end
       end

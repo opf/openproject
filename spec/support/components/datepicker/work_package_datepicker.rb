@@ -132,7 +132,7 @@ module Components
     end
 
     def focus_duration
-      due_date_field.click
+      duration_field.click
     end
 
     def set_today(date)
@@ -172,6 +172,21 @@ module Components
         .click
 
       expect_scheduling_mode(val)
+    end
+
+    def ignore_non_working_days_toggle
+      container
+        .find('[data-qa-selector="op-datepicker-modal--include-non-working-days"]')
+    end
+
+    def expect_ignore_non_working_days_disabled
+      expect(ignore_non_working_days_toggle)
+        .to have_selector('[data-qa-selector="spot-toggle--option"][data-qa-disabled]', count: 2)
+    end
+
+    def expect_ignore_non_working_days_enabled
+      page.raise_if_found('[data-qa-selector="op-datepicker-modal--include-non-working-days"] ' \
+                          '[data-qa-selector="spot-toggle--option"][data-qa-disabled]')
     end
 
     def expect_ignore_non_working_days(val)
