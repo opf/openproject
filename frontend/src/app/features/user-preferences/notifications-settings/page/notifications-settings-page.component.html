@@ -17,21 +17,31 @@
         slot="input"
       />
       <p slot="description">{{ text.mentioned.description }}</p>
-  </spot-selector-field>
-
-  <spot-selector-field
-    class="op-notifications-settings--bold-label"
-    [label]="text.involved.title"
-    [control]="form.get('involved')"
+  </op-checkbox-field>
+ 
+  <op-checkbox-field
+    [label]="text.assignee"
+    [control]="form.get('assignee')"
   >
     <input
       slot="input"
       type="checkbox"
-      formControlName="involved"
-      data-qa-global-notification-type="involved"
+      formControlName="assignee"
+      data-qa-global-notification-type="assignee"
     />
-    <p slot="description">{{ text.involved.description }}</p>
-  </spot-selector-field>
+  </op-checkbox-field>
+
+  <op-checkbox-field
+    [label]="text.responsible"
+    [control]="form.get('responsible')"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="responsible"
+      data-qa-global-notification-type="responsible"
+    />
+  </op-checkbox-field>
 
   <h5>{{ text.alsoNotifyFor.title }}</h5>
   <p>{{ text.alsoNotifyFor.description }}</p>
