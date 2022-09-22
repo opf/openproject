@@ -30,16 +30,6 @@ This component describes only the actual checkbox, without the label. For the fu
 
 The selector field itself only has two states, *enabled* and *disabled*.
 
-export const HTML = require('!!raw-loader!./CheckboxHTML.html').default;
-
-<Canvas>
-  <Story name="HTML Template">
-    {{ template: HTML }}
-  </Story>
-</Canvas>
-
-<ArgsTable of={SpotCheckboxComponent} />
-
 export const Angular = ({ checked, disabled }) => ({
   props: { checked, disabled },
 });
@@ -49,3 +39,5 @@ export const Angular = ({ checked, disabled }) => ({
     {Angular.bind({ checked: true, disabled: false })}
   </Story>
 </Canvas>
+
+<ArgsTable of={SpotCheckboxComponent} />

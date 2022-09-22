@@ -59,7 +59,8 @@ export function populateInputsFromDataset(instance:DatasetInputsDecorated):any {
     .find((key:string) => typeof (cstr[key] as ɵDirectiveDef<unknown>).declaredInputs === 'object');
 
   if (!declaredInputsParentKey) {
-    throw new Error('Could not find declared inputs for component');
+    console.warn('Could not find declared inputs for component');
+    return;
   }
 
   const input = cstr[declaredInputsParentKey] as ɵDirectiveDef<unknown>;

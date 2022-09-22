@@ -76,7 +76,6 @@ import { AddSectionDropdownComponent } from './components/hide-section/add-secti
 import { HideSectionLinkComponent } from './components/hide-section/hide-section-link/hide-section-link.component';
 import { RemoteFieldUpdaterComponent } from './components/remote-field-updater/remote-field-updater.component';
 import { ShowSectionDropdownComponent } from './components/hide-section/show-section-dropdown.component';
-import { SlideToggleComponent } from './components/slide-toggle/slide-toggle.component';
 import { DynamicBootstrapModule } from './components/dynamic-bootstrap/dynamic-bootstrap.module';
 import { OpCheckboxFieldComponent } from './components/forms/checkbox-field/checkbox-field.component';
 import { OpFormFieldComponent } from './components/forms/form-field/form-field.component';
@@ -189,10 +188,6 @@ export function bootstrapModule(injector:Injector):void {
 
     DynamicModule,
 
-    // filter
-
-    SlideToggleComponent,
-
     OpCheckboxFieldComponent,
     OpFormFieldComponent,
     OpFormBindingDirective,
@@ -250,9 +245,6 @@ export function bootstrapModule(injector:Injector):void {
     EnterpriseBannerComponent,
 
     HomescreenNewFeaturesBlockComponent,
-
-    // filter
-    SlideToggleComponent,
 
     OpCheckboxFieldComponent,
     OpFormFieldComponent,
