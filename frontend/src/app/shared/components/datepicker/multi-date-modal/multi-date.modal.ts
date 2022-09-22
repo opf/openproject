@@ -213,7 +213,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     .pipe(
       this.untilDestroyed(),
       debounceTime(500),
-      map((value) => (value === '' ? null : parseInt(value, 10))),
+      map((value) => (value === '' ? null : Math.abs(parseInt(value, 10)))),
+      filter((val) => val === null || !Number.isNaN(val)),
       filter((val) => val !== this.duration),
     )
     .subscribe((value) => this.applyDurationChange(value));
@@ -297,6 +298,12 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   changeSchedulingMode():void {
     this.initializeDatepicker();
+
+    // If removing manual scheduling on parent, reset ignoreNWD to original value
+    if (this.scheduleManually === false && !this.ignoreNonWorkingDaysWritable) {
+      this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
+    }
+
     this.cdRef.detectChanges();
   }
 

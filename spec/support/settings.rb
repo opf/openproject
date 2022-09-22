@@ -58,7 +58,7 @@ def set_week_days(*days, working: true)
   end
 end
 
-def reset_working_week_days(*days)
+def set_work_week(*days)
   week_days = get_week_days(*days)
   Setting.working_days = week_days
 end

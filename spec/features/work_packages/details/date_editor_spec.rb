@@ -45,6 +45,7 @@ describe 'date inplace editor',
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
 
   let(:start_date) { work_packages_page.edit_field(:combinedDate) }
+  let(:datepicker) { start_date.datepicker }
 
   before do
     login_as(user)
@@ -231,6 +232,17 @@ describe 'date inplace editor',
     start_date.save!
     start_date.expect_inactive!
     start_date.expect_state_text "#{Time.zone.today.strftime('%Y-%m-%d')} - #{Time.zone.today.strftime('%Y-%m-%d')}"
+  end
+
+  it 'can set a negative duration which gets transformed (Regression #44219)' do
+    start_date.activate!
+    start_date.expect_active!
+
+    start_date.datepicker.expect_visible
+    start_date.datepicker.set_duration -128
+    start_date.datepicker.focus_start_date
+
+    start_date.datepicker.expect_duration 128
   end
 
   it 'saves the date when clearing and then confirming' do
@@ -442,6 +454,32 @@ describe 'date inplace editor',
 
         wp_table.expect_work_package_listed child
         wp_timeline.expect_timeline!
+      end
+
+      it 'allows switching to manual scheduling to set the ignore NWD (Regression #43933)' do
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+                                      text: 'Automatically scheduled. Dates are derived from relations.')
+
+        # Expect ignore NWD disabled
+        datepicker.expect_ignore_non_working_days_disabled
+        datepicker.expect_ignore_non_working_days 'Include weekends'
+
+        # When toggling manually scheduled
+        start_date.set_scheduling_mode manually: true
+        datepicker.expect_ignore_non_working_days_enabled
+        datepicker.ignore_non_working_days 'Work week'
+        datepicker.expect_ignore_non_working_days 'Work week'
+
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
+                                      text: 'Manual scheduling enabled, all relations ignored.')
+
+        # Reset when disabled
+        start_date.set_scheduling_mode manually: false
+        datepicker.expect_ignore_non_working_days_disabled
+        datepicker.expect_ignore_non_working_days 'Include weekends'
+
+        expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+                                      text: 'Automatically scheduled. Dates are derived from relations.')
       end
     end
   end

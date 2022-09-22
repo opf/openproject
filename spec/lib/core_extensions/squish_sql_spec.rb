@@ -28,44 +28,20 @@
 
 require 'spec_helper'
 
-describe ScheduleHelpers::LetSchedule do
-  create_shared_association_defaults_for_work_package_factory
+describe CoreExtensions::SquishSql do
+  using described_class
 
-  describe 'let_schedule' do
-    let_schedule(<<~CHART)
-      days      | MTWTFSS |
-      main      | XX      |
-      follower  |   XXX   | follows main with delay 2
-      child     |         | child of main
-    CHART
+  it 'removes single line SQL comments' do
+    sql = <<~SQL.squish
+      -- select existing users from given IDs
+      --
+      -- another comment
+      SELECT id as user_id
+        -- this comment is removed too
+      FROM users
+      WHERE id IN (:user_ids)
+    SQL
 
-    it 'creates let calls for each work package' do
-      expect([main, follower, child]).to all(be_an_instance_of(WorkPackage))
-      expect([main, follower, child]).to all(be_persisted)
-      expect(main).to have_attributes(
-        subject: 'main',
-        start_date: schedule.monday,
-        due_date: schedule.tuesday
-      )
-      expect(follower).to have_attributes(
-        subject: 'follower',
-        start_date: schedule.wednesday,
-        due_date: schedule.friday
-      )
-      expect(child).to have_attributes(
-        subject: 'child',
-        start_date: nil,
-        due_date: nil
-      )
-    end
-
-    it 'creates follows relations between work packages' do
-      expect(follower.follows_relations.count).to eq(1)
-      expect(follower.follows_relations.first.to).to eq(main)
-    end
-
-    it 'creates parent / child relations' do
-      expect(child.parent).to eq(main)
-    end
+    expect(sql).to eq("SELECT id as user_id FROM users WHERE id IN (:user_ids)")
   end
 end
