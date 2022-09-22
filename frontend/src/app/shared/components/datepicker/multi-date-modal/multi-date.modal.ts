@@ -474,8 +474,18 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
           this.ensureHoveredSelection(instance.calendarContainer);
         },
         onChange: (dates:Date[], _datestr, instance) => {
-          const { latestSelectedDateObj } = instance as { latestSelectedDateObj:Date };
           const activeField = this.currentlyActivatedDateField;
+
+          // When two values are passed from datepicker and we don't have duration set,
+          // just take the range provided by them
+          if (dates.length === 2 && !this.duration) {
+            this.setDatesAndDeriveDuration(dates[0], dates[1]);
+            this.toggleCurrentActivatedField();
+            return;
+          }
+
+          // Update with the same flow as entering a value
+          const { latestSelectedDateObj } = instance as { latestSelectedDateObj:Date };
           this.datepickerChanged$.next([activeField, latestSelectedDateObj]);
 
           // The duration field is special in how it handles focus transitions
@@ -518,6 +528,14 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     const dates = [startDate, endDate];
     setDates(dates, this.datePickerInstance, enforceDate);
     this.onDataChange();
+  }
+
+  private setDatesAndDeriveDuration(newStart:Date, newEnd:Date) {
+    this.dates.start = this.timezoneService.formattedISODate(newStart);
+    this.dates.end = this.timezoneService.formattedISODate(newEnd);
+
+    // Derive duration
+    this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
   }
 
   private handleSingleDateUpdate(activeField:DateFields, selectedDate:Date) {
