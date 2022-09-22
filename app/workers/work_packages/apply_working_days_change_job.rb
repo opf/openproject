@@ -29,10 +29,10 @@
 class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
   queue_with_priority :above_normal
 
-  def perform(user_id:, working_days_changes:)
+  def perform(user_id:, previous_working_days:)
     user = User.find(user_id)
 
-    each_applicable_work_package(working_days_changes.keys) do |work_package|
+    each_applicable_work_package(previous_working_days) do |work_package|
       apply_change_to_work_package(user, work_package)
     end
     each_applicable_follows_relation do |relation|
@@ -61,15 +61,25 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
     end
   end
 
-  def each_applicable_work_package(days_of_week)
+  def each_applicable_work_package(previous_working_days)
+    changed_days = changed_days(previous_working_days)
     WorkPackage
-      .covering_days_of_week(days_of_week)
+      .covering_days_of_week(changed_days)
       .order(WorkPackage.arel_table[:start_date].asc.nulls_first,
              WorkPackage.arel_table[:due_date].asc)
       .pluck(:id)
       .each do |id|
         yield WorkPackage.find(id)
       end
+  end
+
+  def changed_days(previous_working_days)
+    previous = Set.new(previous_working_days)
+    current = Set.new(Setting.working_days)
+
+    # `^` is a Set method returning a new set containing elements exclusive to
+    # each other
+    (previous ^ current).to_a
   end
 
   def each_applicable_follows_relation
