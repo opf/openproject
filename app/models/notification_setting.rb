@@ -3,6 +3,9 @@ class NotificationSetting < ApplicationRecord
   ASSIGNEE = :assignee
   RESPONSIBLE = :responsible
   MENTIONED = :mentioned
+  START_DATE = :start_date
+  DUE_DATE = :due_date
+  OVERDUE = :overdue
   WORK_PACKAGE_CREATED = :work_package_created
   WORK_PACKAGE_COMMENTED = :work_package_commented
   WORK_PACKAGE_PROCESSED = :work_package_processed
@@ -23,6 +26,9 @@ class NotificationSetting < ApplicationRecord
       ASSIGNEE,
       RESPONSIBLE,
       MENTIONED,
+      START_DATE,
+      DUE_DATE,
+      OVERDUE,
       WORK_PACKAGE_CREATED,
       WORK_PACKAGE_COMMENTED,
       WORK_PACKAGE_PROCESSED,
@@ -50,4 +56,9 @@ class NotificationSetting < ApplicationRecord
 
   include Scopes::Scoped
   scopes :applicable
+
+  validates :start_date, :due_date, :overdue, numericality: { only_integer: true,
+                                                              allow_nil: true,
+                                                              greater_than_or_equal_to: 0,
+                                                              less_than_or_equal_to: 168 }
 end

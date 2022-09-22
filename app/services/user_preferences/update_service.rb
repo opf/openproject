@@ -50,7 +50,10 @@ module UserPreferences
       return service_call if notifications.nil?
 
       inserted = persist_notifications
-      remove_other_notifications(inserted)
+
+      if inserted.present?
+        remove_other_notifications(inserted)
+      end
 
       service_call
     end
@@ -93,6 +96,9 @@ module UserPreferences
                         assignee
                         responsible
                         mentioned
+                        start_date
+                        due_date
+                        overdue
                         work_package_commented
                         work_package_created
                         work_package_processed
@@ -107,7 +113,7 @@ module UserPreferences
                         membership_added
                         membership_updated]
           },
-          validate: false
+          validate: true
         ).ids
     end
   end
