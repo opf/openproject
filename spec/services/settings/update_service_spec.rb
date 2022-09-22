@@ -47,8 +47,9 @@ describe Settings::UpdateService do
                     call: nil)
   end
   let(:setting_name) { :a_setting_name }
-  let(:setting_value) { 'a_setting_value' }
-  let(:params) { { setting_name => setting_value } }
+  let(:new_setting_value) { 'a_new_setting_value' }
+  let(:previous_setting_value) { 'the_previous_setting_value' }
+  let(:params) { { setting_name => new_setting_value } }
 
   before do
     # stub a setting definition
@@ -59,6 +60,12 @@ describe Settings::UpdateService do
       .to receive(:[])
             .with(setting_name)
             .and_return(setting_definition)
+    allow(Setting)
+      .to receive(:[])
+          .and_call_original
+    allow(Setting)
+      .to receive(:[]).with(setting_name)
+          .and_return(previous_setting_value)
     allow(Setting)
       .to receive(:[]=)
 
@@ -80,14 +87,14 @@ describe Settings::UpdateService do
 
         expect(Setting)
           .to have_received(:[]=)
-              .with(setting_name, setting_value)
+              .with(setting_name, new_setting_value)
       end
 
       it 'calls the on_change handler' do
         instance.call(params)
 
         expect(definition_on_change)
-          .to have_received(:call)
+          .to have_received(:call).with(previous_setting_value)
       end
     end
 
