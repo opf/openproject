@@ -1,16 +1,14 @@
-<div class="form--field">
-  <label class="form--label">
-    {{ text.ignoreNonWorkingDays.title }}
-  </label>
-  <div class="form--field-container">
-    <spot-toggle
-      [disabled]="disabled"
-      [options]="ignoreNonWorkingDaysOptions"
-      [value]="ignoreNonWorkingDays"
-      [name]="'include-non-working-days'"
-      [ngModel]="ignoreNonWorkingDays"
-      (ngModelChange)="onToggle($event)"
-      data-qa-selector="op-datepicker-modal--include-non-working-days"
-    ></spot-toggle>
-  </div>
-</div>
+<spot-form-field
+  [label]="text.ignoreNonWorkingDays.title"
+>
+  <spot-toggle
+    slot="input"
+    [disabled]="disabled"
+    [options]="ignoreNonWorkingDaysOptions"
+    [value]="ignoreNonWorkingDays"
+    [name]="'include-non-working-days'"
+    [ngModel]="ignoreNonWorkingDays"
+    (ngModelChange)="onToggle($event)"
+    data-qa-selector="op-datepicker-modal--include-non-working-days"
+  ></spot-toggle>
+</spot-form-field>
