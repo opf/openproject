@@ -47,7 +47,7 @@
       <div
         slot="errors"
         class="op-form-field--error"
-        *ngIf="principalControl?.touched && principalControl?.invalid"
+        *ngIf="principalControl?.invalid"
       >
         {{ text.principal.required[type] }}
       </div>
@@ -78,7 +78,7 @@
       <div
         slot="errors"
         class="op-form-field--error"
-        *ngIf="roleControl?.touched && roleControl?.invalid"
+        *ngIf="roleControl?.invalid"
         >
           {{ text.role.required }}
         </div>
