@@ -1,6 +1,7 @@
-<spot-switch
-  id="div-values-{{filter.id}}"
-  [checked]="value"
-  name="v[{{filter.name}}]"
-  (checkedChanged)="onFilterUpdated($event)"
-></spot-switch>
+<label id="div-values-{{filter.id}}">
+  <spot-switch
+    name="v[{{filter.name}}]"
+    [ngModel]="value"
+    (ngModelChange)="onFilterUpdated($event)"
+  ></spot-switch>
+</label>
