@@ -132,7 +132,7 @@ module Components
     end
 
     def focus_duration
-      due_date_field.click
+      duration_field.click
     end
 
     def set_today(date)
