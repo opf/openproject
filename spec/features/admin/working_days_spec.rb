@@ -31,7 +31,13 @@ require 'spec_helper'
 describe 'Working Days', type: :feature, js: true do
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
   shared_let(:admin) { create :admin }
-  shared_let(:work_package) { create :work_package, start_date: Date.parse('2022-09-19'), due_date: Date.parse('2022-09-23') }
+  let_schedule(<<~CHART)
+    days                  | MTWTFSSmtwtfss |
+    earliest_work_package | XXXXX          |
+    second_work_package   |    XX..XX      |
+    follower              |          XXX   | follows earliest_work_package, follows second_work_package
+  CHART
+
   let(:dialog) { ::Components::ConfirmationDialog.new }
 
   current_user { admin }
@@ -70,11 +76,12 @@ describe 'Working Days', type: :feature, js: true do
 
     expect(working_days_setting).to eq([1, 2, 3, 4, 5])
 
-    expect(work_package.reload.start_date)
-      .to eql(Date.parse('2022-09-19'))
-
-    expect(work_package.due_date)
-      .to eql(Date.parse('2022-09-23'))
+    expect_schedule(WorkPackage.all, <<~CHART)
+      days                  | MTWTFSSmtwtfss |
+      earliest_work_package | XXXXX          |
+      second_work_package   |    XX..XX      |
+      follower              |          XXX   |
+    CHART
   end
 
   it 'updates the values and saves the settings' do
@@ -100,11 +107,19 @@ describe 'Working Days', type: :feature, js: true do
 
     expect(working_days_setting).to eq([2, 3, 4])
 
-    expect(work_package.reload.start_date)
-      .to eql(Date.parse('2022-09-20'))
+    expect_schedule(WorkPackage.all, <<~CHART)
+      days                  | MTWTFSSmtwtfssmtwt  |
+      earliest_work_package |  XXX....XX          |
+      second_work_package   |    X....XXX         |
+      follower              |                XXX  |
+    CHART
 
-    expect(work_package.due_date)
-      .to eql(Date.parse('2022-09-28'))
+    [earliest_work_package,
+     second_work_package,
+     follower].each do |work_package|
+      expect(work_package.journals.last.notes)
+        .to include("Working days changed")
+    end
   end
 
   it 'shows error when non working days are set' do
@@ -131,10 +146,11 @@ describe 'Working Days', type: :feature, js: true do
     expect(page).to have_unchecked_field 'Sunday'
     expect(working_days_setting).to eq([1, 2, 3, 4, 5])
 
-    expect(work_package.reload.start_date)
-      .to eql(Date.parse('2022-09-19'))
-
-    expect(work_package.due_date)
-      .to eql(Date.parse('2022-09-23'))
+    expect_schedule(WorkPackage.all, <<~CHART)
+      days                  | MTWTFSSmtwtfss |
+      earliest_work_package | XXXXX          |
+      second_work_package   |    XX..XX      |
+      follower              |          XXX   |
+    CHART
   end
 end
