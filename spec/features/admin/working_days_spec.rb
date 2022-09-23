@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe 'Working Days', type: :feature, js: true do
+  create_shared_association_defaults_for_work_package_factory
+
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
   shared_let(:admin) { create :admin }
   let_schedule(<<~CHART)
@@ -117,12 +119,14 @@ describe 'Working Days', type: :feature, js: true do
     [earliest_work_package,
      second_work_package,
      follower].each do |work_package|
+      expect(work_package.journals.count)
+        .to eq 2
       expect(work_package.journals.last.notes)
-        .to include("Working days changed")
+        .to include("Working days changed (Monday is now non-working, Friday is now non-working).")
     end
   end
 
-  it 'shows error when non working days are set' do
+  it 'shows error when non working days are all unset' do
     uncheck 'Monday'
     uncheck 'Tuesday'
     uncheck 'Wednesday'

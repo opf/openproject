@@ -32,11 +32,17 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
   def perform(user_id:, previous_working_days:)
     user = User.find(user_id)
 
-    each_applicable_work_package(previous_working_days) do |work_package|
-      apply_change_to_work_package(user, work_package)
-    end
-    each_applicable_follows_relation do |relation|
-      apply_change_to_relation(user, relation)
+    User.execute_as user do
+      updated_work_packages = []
+
+      each_applicable_work_package(previous_working_days) do |work_package|
+        updated_work_packages += apply_change_to_work_package(user, work_package).all_results
+      end
+      each_applicable_follows_relation do |relation|
+        updated_work_packages += apply_change_to_relation(user, relation)
+      end
+
+      set_journal_notice(updated_work_packages, previous_working_days)
     end
   end
 
@@ -55,9 +61,11 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
                         .call
 
     # The SetScheduleService does not save. It has to be done by the caller.
-    schedule_result.dependent_results.each do |dependent_result|
+    schedule_result.dependent_results.map do |dependent_result|
       work_package = dependent_result.result
       work_package.save
+
+      work_package
     end
   end
 
@@ -89,5 +97,20 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
       .each do |id|
         yield Relation.find(id)
       end
+  end
+
+  def set_journal_notice(updated_work_packages, previous_working_days)
+    day_changes = changed_days(previous_working_days).index_with { |day| Setting.working_days.include?(day) }
+
+    updated_work_packages.uniq.each do |work_package|
+      changes = day_changes.collect { |day, working| working_day_change_message(day, working) }
+
+      work_package.journal_notes = "Working days changed (#{changes.join(', ')})."
+      work_package.save
+    end
+  end
+
+  def working_day_change_message(day, working)
+    "#{I18n.t('date.day_names')[day]} is now #{working ? 'working' : 'non-working'}"
   end
 end
