@@ -27,7 +27,7 @@ de:
               op_application_not_installed: >
                 scheint die App "OpenProject Integration" nicht installiert zu haben. Bitte installieren Sie diese zuerst und versuchen es danach erneut.
               authorization_header_missing: >
-                ist nicht vollständig eingerichtet. Die Nextcloud Instanz erhält nicht den "Authorization"-Header, was für eine auf Bearer Token basierende Autorisierung von API-Anfragen notwendig ist. Bitte überprüfen Sie Ihre HTTP-Server-Konfiguration.
+                ist nicht vollständig eingerichtet. Die Nextcloud-Instanz erhält nicht den HTTP "Authorization" Header. Dieser ist jedoch für eine auf Bearer-Token basierende Autorisierung von API-Anfragen notwendig. Bitte überprüfen Sie die HTTP-Server-Konfiguration Ihres Nextcloud-Servers.
         storages/file_link:
           attributes:
             origin_id:
