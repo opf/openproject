@@ -1,0 +1,18 @@
+.spot-breadcrumbs
+  @include spot-caption()
+
+  display: flex
+  flex-direction: row
+  align-items: baseline
+
+  &--crumb
+    &-action-item
+      flex-shrink: 1
+
+    &-divider
+      width: $spot-spacing-1-5
+      height: $spot-spacing-1-5
+      font-size: 0.5rem
+
+    &:not(:first-child)
+      margin-left: $spot-spacing-0-25

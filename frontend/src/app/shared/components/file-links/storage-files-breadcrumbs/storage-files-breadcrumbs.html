@@ -1,0 +1,23 @@
+<div
+  class="spot-breadcrumbs--crumb"
+  *ngFor="let crumb of viewModel.crumbs; let last = last"
+>
+  <ng-container *ngIf="!last; else lastCrumb">
+    <button
+      type="button"
+      class="spot-link spot-breadcrumbs--crumb-action-item"
+    >
+      <span *ngIf="crumb.icon" class="spot-icon spot-icon_{{crumb.icon}}"></span>
+      <span [textContent]="crumb.text"></span>
+    </button>
+
+    <span class="spot-breadcrumbs--crumb-divider spot-icon spot-icon_arrow-right5"></span>
+  </ng-container>
+
+  <ng-template #lastCrumb>
+    <span
+      class="spot-breadcrumbs--crumb-action-item"
+      [textContent]="crumb.text"
+    ></span>
+  </ng-template>
+</div>

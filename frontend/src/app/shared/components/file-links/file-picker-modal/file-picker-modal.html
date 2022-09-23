@@ -17,6 +17,8 @@
 
   <div class="spot-modal--body spot-container">
     <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+      <op-storage-files-breadcrumbs [viewModel]="breadCrumbs"></op-storage-files-breadcrumbs>
+
       <ul
         class="spot-list spot-list_compact op-file-list"
         data-qa-selector="op-files-picker-modal--file-list"

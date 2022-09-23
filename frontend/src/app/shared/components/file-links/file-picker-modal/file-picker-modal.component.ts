@@ -44,6 +44,9 @@ import { OpModalComponent } from 'core-app/shared/components/modal/modal.compone
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+import {
+  StorageFilesBreadcrumbs,
+} from 'core-app/shared/components/file-links/storage-files-breadcrumbs/storage-files-breadcrumbs';
 
 @Component({
   templateUrl: 'file-picker-modal.html',
@@ -53,6 +56,14 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
   public loading$ = new BehaviorSubject<boolean>(true);
 
   public storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
+
+  public breadCrumbs = new StorageFilesBreadcrumbs(
+    [
+      { text: 'abc', icon: 'nextcloud-circle', navigate: () => {} },
+      { text: 'def', navigate: () => {} },
+      { text: 'ghi', navigate: () => {} },
+    ],
+  );
 
   public text = {
     header: this.i18n.t('js.storages.file_links.select'),
