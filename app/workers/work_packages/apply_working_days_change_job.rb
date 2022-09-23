@@ -101,16 +101,23 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
 
   def set_journal_notice(updated_work_packages, previous_working_days)
     day_changes = changed_days(previous_working_days).index_with { |day| Setting.working_days.include?(day) }
+    journal_note = journal_notice_text(day_changes)
 
     updated_work_packages.uniq.each do |work_package|
-      changes = day_changes.collect { |day, working| working_day_change_message(day, working) }
-
-      work_package.journal_notes = "Working days changed (#{changes.join(', ')})."
+      work_package.journal_notes = journal_note
       work_package.save
     end
   end
 
+  def journal_notice_text(day_changes)
+    I18n.with_locale(Setting.default_language) do
+      I18n.t(:'working_days.journal_note.changed',
+             changes: day_changes.collect { |day, working| working_day_change_message(day, working) }.join(', '))
+    end
+  end
+
   def working_day_change_message(day, working)
-    "#{I18n.t('date.day_names')[day]} is now #{working ? 'working' : 'non-working'}"
+    I18n.t(:"working_days.journal_note.days.#{working ? :working : :non_working}",
+           day: I18n.t('date.day_names')[day])
   end
 end

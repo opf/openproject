@@ -116,14 +116,11 @@ describe 'Working Days', type: :feature, js: true do
       follower              |                XXX  |
     CHART
 
-    [earliest_work_package,
-     second_work_package,
-     follower].each do |work_package|
-      expect(work_package.journals.count)
-        .to eq 2
-      expect(work_package.journals.last.notes)
-        .to include("Working days changed (Monday is now non-working, Friday is now non-working).")
-    end
+    # The updated work packages will have a journal entry informing about the change
+    wp_page = Pages::FullWorkPackage.new(earliest_work_package)
+    wp_page.visit!
+
+    wp_page.expect_comment(text: "Working days changed (Monday is now non-working, Friday is now non-working).")
   end
 
   it 'shows error when non working days are all unset' do

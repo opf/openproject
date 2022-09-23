@@ -96,7 +96,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
          wp_start_only,
          wp_due_only]
       end
-      let(:journal_notice) { "Working days changed (Wednesday is now non-working)." }
+      let(:journal_notice) { "**Working days** changed (Wednesday is now non-working)." }
     end
   end
 
@@ -123,7 +123,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       let(:changed_work_packages) do
         [work_package]
       end
-      let(:journal_notice) { "Working days changed (Wednesday is now non-working)." }
+      let(:journal_notice) { "**Working days** changed (Wednesday is now non-working)." }
     end
   end
 
@@ -149,7 +149,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       let(:changed_work_packages) do
         [work_package]
       end
-      let(:journal_notice) { "Working days changed (Saturday is now working)." }
+      let(:journal_notice) { "**Working days** changed (Saturday is now working)." }
     end
   end
 
@@ -177,7 +177,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       let(:changed_work_packages) do
         [predecessor, follower]
       end
-      let(:journal_notice) { "Working days changed (Wednesday is now non-working)." }
+      let(:journal_notice) { "**Working days** changed (Wednesday is now non-working)." }
     end
   end
 
@@ -208,7 +208,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       let(:unchanged_work_packages) do
         [predecessor]
       end
-      let(:journal_notice) { "Working days changed (Wednesday is now non-working)." }
+      let(:journal_notice) { "**Working days** changed (Wednesday is now non-working)." }
     end
   end
 
@@ -297,7 +297,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       let(:unchanged_work_packages) do
         [follower]
       end
-      let(:journal_notice) { "Working days changed (Wednesday is now working)." }
+      let(:journal_notice) { "**Working days** changed (Wednesday is now working)." }
     end
   end
 
@@ -406,7 +406,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         [wp1, wp2, wp3]
       end
       let(:journal_notice) do
-        "Working days changed (Tuesday is now non-working, Wednesday is now non-working, Friday is now non-working)."
+        "**Working days** changed (Tuesday is now non-working, Wednesday is now non-working, Friday is now non-working)."
       end
     end
   end
@@ -449,7 +449,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         [wp1, wp2, wp3]
       end
       let(:journal_notice) do
-        "Working days changed (Tuesday is now non-working, Wednesday is now non-working, Friday is now non-working)."
+        "**Working days** changed (Tuesday is now non-working, Wednesday is now non-working, Friday is now non-working)."
       end
     end
   end
@@ -487,7 +487,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         [wp2]
       end
       let(:journal_notice) do
-        "Working days changed (Tuesday is now working, Wednesday is now working, Friday is now working)."
+        "**Working days** changed (Tuesday is now working, Wednesday is now working, Friday is now working)."
       end
     end
   end
@@ -522,7 +522,32 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         [wp1, wp2, wp3]
       end
       let(:journal_notice) do
-        "Working days changed (Tuesday is now non-working, Wednesday is now non-working, Friday is now non-working)."
+        "**Working days** changed (Tuesday is now non-working, Wednesday is now non-working, Friday is now non-working)."
+      end
+    end
+  end
+
+  context 'when having a non english default language', with_settings: { default_language: :fr } do
+    let_schedule(<<~CHART)
+      days          | fssMTWTFSS |
+      work_package  | X▓▓XX   ░░ |
+    CHART
+
+    before do
+      set_working_week_days('saturday')
+    end
+
+    # Not interested in the scheduling changes in this spec
+    it_behaves_like 'journal updates with note' do
+      let(:changed_work_packages) do
+        [work_package]
+      end
+      let(:journal_notice) do
+        I18n.with_locale(:fr) do
+          I18n.t(:'working_days.journal_note.changed',
+                 changes: I18n.t(:'working_days.journal_note.days.working',
+                                 day: I18n.t('date.day_names')[6]))
+        end
       end
     end
   end
