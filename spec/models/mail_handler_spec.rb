@@ -252,6 +252,89 @@ describe MailHandler, type: :model do
     end
   end
 
+  shared_context 'with a new work package with attributes' do
+    let(:permissions) { %i[add_work_packages assign_versions work_package_assigned] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let!(:feature_type) do
+      create(:type,
+             name: 'Feature request').tap do |type|
+        project.types << type
+      end
+    end
+    let!(:stock_category) do
+      project.categories.create(name: 'Stock management')
+    end
+    let!(:urgent_priority) do
+      create(:priority_urgent)
+    end
+    let!(:high_priority) do
+      create(:priority_high)
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('wp_with_attributes.eml', **submit_options)
+    end
+  end
+
+  shared_context 'with a new work package with attributes with additional spaces' do
+    let(:permissions) { %i[add_work_packages assign_versions work_package_assigned] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let!(:feature_type) do
+      create(:type,
+             name: 'Feature request').tap do |type|
+        project.types << type
+      end
+    end
+    let!(:stock_category) do
+      project.categories.create(name: 'Stock management')
+    end
+    let!(:urgent_priority) do
+      create(:priority_urgent)
+    end
+    let!(:high_priority) do
+      create(:priority_high)
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('wp_with_spaces_between_attribute_and_separator.eml', **submit_options)
+    end
+  end
+
+  shared_context 'with a new work package with attachment' do
+    # The edit_work_packages is currently wrongfully needed as the work package
+    # is created first and only then the attachment is added.
+    let(:permissions) { %i[add_work_packages edit_work_packages] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('wp_with_attachment.eml', **submit_options)
+    end
+  end
+
   describe '#receive' do
     shared_examples_for 'work package created' do
       it 'creates the work package' do
@@ -678,6 +761,90 @@ describe MailHandler, type: :model do
         it 'assigns cc and author as watcher' do
           expect(subject.watcher_users)
             .to match_array([user, cc_user])
+        end
+      end
+
+      context 'for a wp overriding attributes' do
+        include_context 'with a new work package with attributes'
+        let(:submit_options) { { allow_override: 'type,category,priority' } }
+
+        it_behaves_like 'work package created'
+
+        it 'sets the provided attributes' do
+          expect(subject.project)
+            .to eql project
+
+          expect(subject.type)
+            .to eql feature_type
+
+          expect(subject.category)
+            .to eql stock_category
+
+          expect(subject.priority)
+            .to eql urgent_priority
+        end
+      end
+
+      context 'for a wp overriding attributes partially' do
+        include_context 'with a new work package with attributes'
+        let(:submit_options) { { issue: { priority: 'High' }, allow_override: ['type'] } }
+
+        it_behaves_like 'work package created'
+
+        it 'sets the provided attributes only to the extend allowed and uses default' do
+          expect(subject.project)
+            .to eql project
+
+          expect(subject.type)
+            .to eql feature_type
+
+          expect(subject.category)
+            .to be_nil
+
+          expect(subject.priority)
+            .to eql high_priority
+        end
+      end
+
+      context 'for a wp overriding attributes with spaces between attribute and separator' do
+        include_context 'with a new work package with attributes with additional spaces'
+        let(:submit_options) { { allow_override: 'type,category,priority' } }
+
+        it_behaves_like 'work package created'
+
+        it 'sets the provided attributes' do
+          expect(subject.project)
+            .to eql project
+
+          expect(subject.type)
+            .to eql feature_type
+
+          expect(subject.category)
+            .to eql stock_category
+
+          expect(subject.priority)
+            .to eql urgent_priority
+        end
+      end
+
+      context 'for a wp with attachment' do
+        include_context 'with a new work package with attachment'
+        let(:submit_options) { { issue: { project: 'onlinestore' } } }
+
+        it_behaves_like 'work package created'
+
+        it 'adds the attachment' do
+          expect(subject.attachments.count)
+            .to be 1
+
+          expect(subject.attachments.first.filename)
+            .to eql 'Paella.jpg'
+
+          expect(subject.attachments.first.content_type)
+            .to eql 'image/jpeg'
+
+          expect(subject.attachments.first.filesize)
+            .to be 10790
         end
       end
     end
