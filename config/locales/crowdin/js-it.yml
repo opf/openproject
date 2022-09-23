@@ -1056,12 +1056,14 @@ it:
       button_save: "Salva"
       button_submit: "Invia"
       button_cancel: "Annulla"
+      button_delete: "Delete"
       form_submit:
         title: 'Conferma per continuare'
         text: 'Eseguire questa azione?'
       destroy_work_package:
         title: "Conferma l'eliminazione di %{label}"
-        text: "Eliminare i seguenti %{label} ?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "Questa macro-attività ha %{childUnits}:"
         confirm_deletion_children: "Prendo atto che TUTTI i discendenti delle macro-attività elencate verranno eliminati in modo ricorsivo."
         deletes_children: "Tutte le macro-attività ed i relativi discendenti verranno eliminati ricorsivamente."
@@ -1179,13 +1181,13 @@ it:
       role:
         label: 'Ruolo in %{project}'
         no_roles_found: 'Nessun ruolo è stato trovato'
-        description: 'Questo è il ruolo che %{principal} riceverà una volta unitosi al progetto. Il ruolo definisce che azioni possono intraprendere e che informazioni possono vedere. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Scopri di più sui ruoli e sulle autorizzazioni. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Sei pregato di selezionare un ruolo'
         next_button: 'Prossimo'
       message:
         label: 'Messaggio di invito'
-        description: 'Invieremo un''email a %{principal}, a cui puoi aggiungere qui un messaggio personale. Una spiegazione per l''invito potrebbe essere utile o forse qualche informazione sul progetto per aiutarli a iniziare.'
-        next_button: 'Revisiona l''invito'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Invia invito'
       success:

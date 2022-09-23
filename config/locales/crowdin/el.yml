@@ -66,6 +66,9 @@ el:
     enterprise:
       upgrade_to_ee: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
       add_token: "Ανεβάστε ενα token υποστήριξης έκδοσης για επιχειρήσεις"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Αντικαταστήστε το τρέχον token υποστήριξης"
       order: "Παραγγείλτε το Enterprise on-premises Edition"
       paste: "Επικολλήστε ένα token υποστήριξης Έκδοσης για Επιχειρήσεις"
@@ -2166,8 +2169,7 @@ el:
           tb: "TB"
   onboarding:
     heading_getting_started: "Λάβετε μια επισκόπηση"
-    text_getting_started_description: "Λάβετε μια γρήγορη επισκόπηση της διαχείρισης έργων και της ομαδικής συνεργασίας με το OpenProject."
-    text_show_again: "Μπορείτε να επανεκκινήσετε αυτό το βίντεο από το μενού βοήθειας"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Παρακαλούμε επιλέξτε την γλώσσα σας"
   permission_add_work_package_notes: "Προσθήκη σημειώσεων"

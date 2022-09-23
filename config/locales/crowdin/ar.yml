@@ -66,6 +66,9 @@ ar:
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "استبدال رمز الدعم الحالي الخاص بك"
       order: "Order Enterprise on-premises Edition"
       paste: "ألصق رمز دعم نسخة الطبعة النهائية الخاصة بك"
@@ -2242,8 +2245,7 @@ ar:
           tb: "تيرا بايت"
   onboarding:
     heading_getting_started: "Get an overview"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
-    text_show_again: "يمكنك إعادة تشغيل هذا الفيديو من قائمة المساعدة"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "إضافة ملاحظات"

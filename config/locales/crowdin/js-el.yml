@@ -1055,12 +1055,14 @@ el:
       button_save: "Αποθήκευση"
       button_submit: "Υποβολή"
       button_cancel: "Ακύρωση"
+      button_delete: "Delete"
       form_submit:
         title: 'Επιβεβαιώστε για να συνεχίσετε'
         text: 'Είστε βέβαιοι ότι θέλετε να προβείτε αυτήν την ενέργεια;'
       destroy_work_package:
         title: "Επιβεβαίωση διαγραφής του %{label}"
-        text: "Είστε βέβαιοι ότι θέλετε να διαγράψετε τα ακόλουθα %{label};"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "Το πακέτο εργασίας έχει %{childUnits}:"
         confirm_deletion_children: "Αναγνωρίζω ότι ΌΛΟΙ οι απόγονοι από τα αναφερόμενα πακέτα εργασίας θα αφαιρεθούν αναδρομικά."
         deletes_children: "Όλα τα παιδιά πακέτα εργασίας και οι απόγονοι τους επίσης θα διαγραφούν αναδρομικά."
@@ -1178,13 +1180,13 @@ el:
       role:
         label: 'Ρόλος στο %{project}'
         no_roles_found: 'Δεν βρέθηκε κανένας ρόλος'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Παρακαλούμε επιλέξτε ένα ρόλο'
         next_button: 'Επόμενο'
       message:
         label: 'Μήνυμα πρόσκλησης'
-        description: 'Θα στείλουμε ένα email στο %{principal}, στο οποίο μπορείτε να προσθέσετε ένα προσωπικό μήνυμα εδώ. Μια επεξήγηση για την πρόσκληση θα ήταν χρήσιμη, ή ίσως κάποια πληροφορία σχετικά με το έργο για να τους βοηθήσει να ξεκινήσουν.'
-        next_button: 'Προεπισκόπηση πρόσκλησης'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Αποστολή πρόσκλησης'
       success:

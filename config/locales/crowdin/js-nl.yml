@@ -1056,12 +1056,14 @@ nl:
       button_save: "Opslaan"
       button_submit: "Verzenden"
       button_cancel: "Annuleren"
+      button_delete: "Delete"
       form_submit:
         title: 'Bevestigen om verder te gaan'
         text: 'Weet u zeker dat u deze actie wilt uitvoeren?'
       destroy_work_package:
         title: "Bevestig verwijdering van %{label}"
-        text: "Weet u zeker dat u werkpakket %{label} wilt verwijderen?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "Het werkpakket heeft %{childUnits}:"
         confirm_deletion_children: "Ik erken dat alle onderliggende werkpakketten van de weergegeven werkpakketten verwijderd worden."
         deletes_children: "Alle onderliggende werkpakketten en hun nakomelingen ook worden verwijderd."
@@ -1179,13 +1181,13 @@ nl:
       role:
         label: 'Rol in %{project}'
         no_roles_found: 'Geen rollen gevonden'
-        description: 'Dit is de rol die %{principal} zal ontvangen wanneer ze deelnemen aan uw project. De rol bepaalt welke acties zij mogen ondernemen en welke informatie zij mogen zien. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Meer informatie over rollen en rechten. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Selecteer een rol'
         next_button: 'Volgende'
       message:
         label: 'Uitnodigings bericht'
-        description: 'We sturen een e-mail naar %{principal}, waar u hier een persoonlijk bericht kunt toevoegen. Een verklaring voor de uitnodiging zou nuttig kunnen zijn, of misschien wat informatie over het project om hen te helpen aan de slag te gaan.'
-        next_button: 'Uitnodiging controleren'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Verstuur uitnodiging'
       success:

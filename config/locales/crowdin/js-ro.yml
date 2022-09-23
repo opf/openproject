@@ -1056,12 +1056,14 @@ ro:
       button_save: "Salvare"
       button_submit: "Trimitere"
       button_cancel: "Anulare"
+      button_delete: "Delete"
       form_submit:
         title: 'Confirmați pentru a continua'
         text: 'Sunteți sigur/ă că doriți să realizați această acțiune?'
       destroy_work_package:
         title: "Confirmați ștergerea %{label}"
-        text: "Sunteți sigur/ă că doriți să ștergeți %{label}?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "Pachetul de lucru conține %{childUnits}:"
         confirm_deletion_children: "Recunosc că TOȚI descendenții pachetelor de lucru enumerate vor fi eliminați în mod recursiv."
         deletes_children: "De asemenea, toate pachetele de lucru minore și descendenții acestora vor fi șterse în mod recursiv."
@@ -1181,13 +1183,13 @@ ro:
       role:
         label: 'Rolul în %{project}'
         no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Vă rugăm să selectați un rol'
         next_button: 'Înainte'
       message:
         label: 'Mesaj invitație'
-        description: 'Vom trimite un e-mail către %{principal}, la care puteți adăuga un mesaj personal aici. Ar putea fi utilă o explicație pentru invitație sau poate câteva informații despre proiect pentru a-i ajuta să înceapă.'
-        next_button: 'Invitație de revizuire'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Trimite invitație'
       success:

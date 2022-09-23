@@ -66,6 +66,9 @@ es:
     enterprise:
       upgrade_to_ee: "Actualizar a Enterprise Edition"
       add_token: "Cargue el token de soporte de versión corporativa"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Reemplace su token de apoyo actual"
       order: "Solicitar Enterprise on-premises Edition"
       paste: "Pegue su token de apoyo de versión corporativa"
@@ -2167,8 +2170,7 @@ es:
           tb: "TB"
   onboarding:
     heading_getting_started: "Obtener información general"
-    text_getting_started_description: "Obtenga información general rápida sobre la administración de proyectos y la colaboración en equipo con OpenProject."
-    text_show_again: "Puede reiniciar este vídeo en el menú ayuda"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Bienvenido a %{app_title}"
     select_language: "Seleccione su idioma"
   permission_add_work_package_notes: "Añadir notas"

@@ -1057,12 +1057,14 @@ sl:
       button_save: "Shrani"
       button_submit: "Potrdi"
       button_cancel: "Prekliči"
+      button_delete: "Delete"
       form_submit:
         title: 'Potrdite za nadaljevanje'
         text: 'Ali ste prepričani, da želite to izvesti?'
       destroy_work_package:
         title: "Potrdite izbris %{label}"
-        text: "Ali ste prepričani, da želite izbrisati naslednje %{label} ?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "Ta delavni paket ima %{childUnits}:"
         confirm_deletion_children: "Zavedam se, da bodo VSI potomci naštetih delovnih paketov rekurzivno odstranjeni."
         deletes_children: "Vsi delovni paketi in njihovi potomci bodo tudi rekurzivno izbrisani."
@@ -1184,13 +1186,13 @@ sl:
       role:
         label: 'Vloge v %{project}'
         no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Izberite vlogo'
         next_button: 'Naprej'
       message:
         label: 'Sporočilo s povabilom'
-        description: 'Poslali bomo e-mail %{principal}, kateremu tukaj lahko dodate osebno sporočilo. Razlaga za povabilo bi lahko bila uporabna, ali pa vsaj nekaj informacij o projektu za lažji začetek.'
-        next_button: 'Preglej povabilo'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Pošlji povabilo'
       success:

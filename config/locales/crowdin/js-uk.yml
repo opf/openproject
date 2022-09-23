@@ -1058,12 +1058,14 @@ uk:
       button_save: "Зберегти"
       button_submit: "Підтвердити"
       button_cancel: "Скасувати"
+      button_delete: "Delete"
       form_submit:
         title: 'Підтвердьте продовження'
         text: 'Дійсно виконати цю дію?'
       destroy_work_package:
         title: "Підтвердьте видалення %{label}"
-        text: "Дійсно видалити наступне %{label} ?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "Робочий пакет має %{childUnits}"
         confirm_deletion_children: "Я визнаю, що <b>ВСІ</b> нащадки перерахованих робочих пакетів будуть рекурсивно видалені."
         deletes_children: "Всі дочірні робочі пакети та їх нащадки також будуть рекурсивно видалені."
@@ -1185,13 +1187,13 @@ uk:
       role:
         label: 'Ролі у проєкті «%{project}»'
         no_roles_found: 'Ролей не знайдено'
-        description: 'Це роль, яку користувач %{principal} отримає в разі приєднання до вашого проєкту. Роль визначає, які дії йому дозволено та яку інформацію він може бачити. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Дізнатися більше про ролі й дозволи. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Виберіть роль'
         next_button: 'Далі'
       message:
         label: 'Повідомлення із запрошенням'
-        description: 'Ми надішлемо електронний лист користувачу %{principal}, у яке ви можете додати особисте повідомлення. Радимо додати пояснення про запрошення або, можливо, деяку інформацію про проєкт, щоб простити користувачу початок роботи.'
-        next_button: 'Переглянути запрошення'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Надіслати запрошення'
       success:

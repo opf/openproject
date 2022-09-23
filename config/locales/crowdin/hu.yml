@@ -66,6 +66,9 @@ hu:
     enterprise:
       upgrade_to_ee: "Frissítés a Vállalati Verzióra"
       add_token: "Töltse fel a Vállalati Verzió támogatási tokenjét"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "A jelenlegi támogatási token lecserélése"
       order: "Vállalati verzió megrendelése"
       paste: "Illessze be a Vállalati Verzió támogatási tokentjét"
@@ -2167,8 +2170,7 @@ hu:
           tb: "TB"
   onboarding:
     heading_getting_started: "Áttekintés"
-    text_getting_started_description: "Gyors áttekintés a projekt menedzsmentről és csapatmunkáról az OpenProjecttel."
-    text_show_again: "Újra tudod indítani ezt a videót a segítség menüből"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Üdvözli a %{app_title}"
     select_language: "Kéjük válasszon nyelvet"
   permission_add_work_package_notes: "Megjegyzések hozzáadása"

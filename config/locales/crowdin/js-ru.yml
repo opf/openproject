@@ -1057,12 +1057,14 @@ ru:
       button_save: "Сохранить"
       button_submit: "Отправить"
       button_cancel: "Отмена"
+      button_delete: "Delete"
       form_submit:
         title: 'Подтвердите продолжение'
         text: 'Вы действительно хотите выполнить это действие?'
       destroy_work_package:
         title: "Подтвердите удаление %{label}"
-        text: "Вы уверены, что хотите удалить следующую %{label} ?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "Пакет работ имеет %{childUnits}:"
         confirm_deletion_children: "Я понимаю, что ВСЕ производные элементы указанных пакетов работ будут рекурсивно удалены."
         deletes_children: "Все дочерние пакеты работ и их потомки также будут рекурсивно удалены."
@@ -1184,13 +1186,13 @@ ru:
       role:
         label: 'Роль в %{project}'
         no_roles_found: 'Роли не найдены'
-        description: 'Это роль, которую %{principal} получит когда он присоединится к вашему проекту. Роль определяет, какие действия ему разрешены и какую информацию он может видеть. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Узнайте больше о ролях и разрешениях. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Пожалуйста, выберите роль'
         next_button: 'Следующие'
       message:
         label: 'Сообщение о приглашении'
-        description: 'Мы отправим письмо на адрес %{principal}, в которое вы можете добавить личное сообщение здесь. Может быть полезным объяснить причину приглашения или, возможно, добавить немного информации о проекте, чтобы помочь им начать работу.'
-        next_button: 'Просмотреть приглашение'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Отправить приглашение'
       success:

@@ -1058,12 +1058,14 @@ sk:
       button_save: "Uložiť"
       button_submit: "Odoslať"
       button_cancel: "Zrušíť"
+      button_delete: "Delete"
       form_submit:
         title: 'Potvrdiť a pokračovať'
         text: 'Ste si istý, že chcete vykonať túto akciu?'
       destroy_work_package:
         title: "Potvrďte zmazanie %{label}"
-        text: "Ste si istí, že chcete zmazať %{label}?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "Pracovný balíček má %{childUnits}:"
         confirm_deletion_children: "Potvrdzujem, že všetky podriadené prvky pracovných balíčkov, ktoré sú tu uvedené, budú odstránené rekurzívne."
         deletes_children: "Všetky podradené pracovné balíčky a s nimi súvisiace budú rekurzívne odstránené."
@@ -1185,13 +1187,13 @@ sk:
       role:
         label: 'Role in %{project}'
         no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Please select a role'
         next_button: 'Ďalšie'
       message:
         label: 'Invitation message'
-        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review invitation'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Poslať pozvánku'
       success:

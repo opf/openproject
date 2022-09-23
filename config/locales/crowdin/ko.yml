@@ -66,6 +66,9 @@ ko:
     enterprise:
       upgrade_to_ee: "Enterprise Edition으로 업그레이드"
       add_token: "Enterprise Edition 지원 토큰을 업로드하세요."
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "당신의 현재 지원 토큰을 바꾸세요."
       order: "Enterprise on-premises Edition 주문하기"
       paste: "당신의 Enterprise Edition 지원 토큰을 붙여넣으세요."
@@ -2150,8 +2153,7 @@ ko:
           tb: "TB"
   onboarding:
     heading_getting_started: "개요 가져오기"
-    text_getting_started_description: "OpenProject로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다."
-    text_show_again: "도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다."
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "%{app_title}입니다."
     select_language: "언어를 선택하세요."
   permission_add_work_package_notes: "메모 추가"

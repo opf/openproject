@@ -1058,12 +1058,14 @@ lt:
       button_save: "Įrašyti"
       button_submit: "Pateikti"
       button_cancel: "Nutraukti"
+      button_delete: "Delete"
       form_submit:
         title: 'Norėdami tęsti, patvirtinkite'
         text: 'Ar tikrai norite atlikti šį veiksmą?'
       destroy_work_package:
         title: "Patvirtinkite, jog %{label} ištrinamas"
-        text: "Ar Jūs tikrai norite, kad %{label} būtų ištrintas?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "Darbų paketas turi %{childUnits}:"
         confirm_deletion_children: "Aš sutinku, kad VISI šio darbų paketo palikuoniai bus rekursiškai ištrinti."
         deletes_children: "Visi darbų paketo vaikai ir jų palikuoniai taip pat bus rekursiškai ištrinti."
@@ -1185,13 +1187,13 @@ lt:
       role:
         label: 'Vaidmuo projekte %{project}'
         no_roles_found: 'Nerasta jokių vaidmenų'
-        description: 'Tai yra vaidmuo, kurį %{principal} gaus, kai prisijungs prie jūsų projekto. Vaidmuo nurodo, kokius veiksmus leidžiama atlikti ir kokią informaciją galima matyti. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Sužinokite daugiau apie vaidmenis ir teises. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Prašome parinkti vaidmenį'
         next_button: 'Kitas'
       message:
         label: 'Kvietimo pranešimas'
-        description: 'Mes siųsime el. pašto laišką %{principal}, į kurį jūs galite pridėti asmeninį pranešimą. Paaiškinimas, kodėl šis pranešimas buvo atsiųstas, galėtų būti naudingas gavėjui. Taipogi šiek tiek informacijos apie projektą galbūt galėtų padėti pradėti darbą su projektu.'
-        next_button: 'Peržiūrėti kvietimą'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Siųsti pakvietimą'
       success:

@@ -1056,12 +1056,14 @@ hu:
       button_save: "Mentés"
       button_submit: "Küldés"
       button_cancel: "Mégsem"
+      button_delete: "Delete"
       form_submit:
         title: 'Megerősítés a folytatáshoz'
         text: 'Biztosan végre szeretné hajtani ezt a műveletet?'
       destroy_work_package:
         title: "Jóváhagyja %{label} törlését"
-        text: "Biztosan törölni akarja %{label}-t?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "A feladatcsoportnak van %{childUnits}:"
         confirm_deletion_children: "Tudomásul veszem, hogy a felsorolt munkacsomagok MINDEN leszármazottja rekurzív módon eltávolításra kerül.\n"
         deletes_children: "Minden al feladatcsoportot és leszármazottait is rekurzívan törli."
@@ -1179,13 +1181,13 @@ hu:
       role:
         label: 'Szerepek a %{project}'
         no_roles_found: 'Nem található szerepkör.'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Kérjük, válasszon szerepet'
         next_button: ' Következő'
       message:
         label: 'Meghívó üzenet'
-        description: 'Küldünk egy e-mailt a %{principal} címre, amelyhez itt hozzáadhat egy személyes üzenetet. Hasznos lehet egy magyarázat a meghívóhoz, vagy esetleg egy kis információ a projekttel kapcsolatban, hogy segítsen az elindulásban.'
-        next_button: 'Meghívó ellenőrzése'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Meghívó küldése'
       success:

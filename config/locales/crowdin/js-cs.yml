@@ -1058,12 +1058,14 @@ cs:
       button_save: "Uložit"
       button_submit: "Potvrdit"
       button_cancel: "Zrušit"
+      button_delete: "Delete"
       form_submit:
         title: 'Potvrdit a pokračovat'
         text: 'Opravdu chcete provést tuto akci?'
       destroy_work_package:
         title: "Potvrdit smazání %{label}"
-        text: "Opravdu chcete odstranit %{label}?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "Pracovní balíček má %{childUnits}:"
         confirm_deletion_children: "Jsem si vědom, že všechny potomky uvedených pracovních balíčků budou rekurzivně odstraněny."
         deletes_children: "Všechny podřízené pracovní balíčky a jejich potomci budou také rekurzivně odstraněny."
@@ -1185,13 +1187,13 @@ cs:
       role:
         label: 'Role v %{project}'
         no_roles_found: 'Nebyly nalezeny žádné role.'
-        description: 'Toto je role, kterou %{principal} obdrží, když se připojí k vašemu projektu. Role vymezuje, které změny mohou vykonávat a jaké informace mohou vidět. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Další informace o rolích a oprávněních. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Vyberte prosím roli'
         next_button: 'Další'
       message:
         label: 'Pozvánka'
-        description: 'Pošleme e-mail na %{principal}, ke kterému zde můžete přidat osobní zprávu. Vysvětlení pozvánky by mohlo být užitečné nebo možná trochu informací o projektu, které by jim pomohly začít.'
-        next_button: 'Zkontrolovat pozvánku'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Odeslat pozvánku'
       success:

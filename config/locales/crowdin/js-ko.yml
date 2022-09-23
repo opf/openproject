@@ -1055,12 +1055,14 @@ ko:
       button_save: "저장"
       button_submit: "제출"
       button_cancel: "취소"
+      button_delete: "Delete"
       form_submit:
         title: '계속하려면 확인하세요'
         text: '정말로 이 작업을 수행하기를 원하시나요?'
       destroy_work_package:
         title: "%{label} 삭제 확인"
-        text: "다음 %{label}을(를) 삭제하시겠습니까?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "작업 패키지에 %{childUnits}이(가) 있습니다."
         confirm_deletion_children: "나는 작업 패키지의 모든 하위 목록이 재귀적으로 제거되는 것을 인정합니다."
         deletes_children: "모든 하위 작업 패키지 및 그 하위 항목도 재귀적으로 삭제됩니다."
@@ -1176,13 +1178,13 @@ ko:
       role:
         label: '%{project} 내 역할'
         no_roles_found: '역할이 없습니다'
-        description: '%{principal}이(가) 프로젝트에 참여할 때 받게 되는 역할입니다. 역할은 수행할 수 있는 작업과 볼 수 있는 정보를 정의합니다. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> 역할과 권한에 대해 자세히 알아보세요. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: '역할을 선택하십시오'
         next_button: '다음'
       message:
         label: '초대 메시지'
-        description: '곧 %{principal} 측으로 이메일을 전송할 것입니다. 여기에 개인 메시지를 추가할 수도 있습니다. 초대에 관한 유용한 설명을 넣거나, 프로젝트를 시작할 때 도움이 되는 정보를 넣어 보십시오.'
-        next_button: '초대 검토'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: '초대장 보내기'
       success:

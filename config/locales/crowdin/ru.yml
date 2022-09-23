@@ -66,6 +66,9 @@ ru:
     enterprise:
       upgrade_to_ee: "Обновить до корпоративной версии"
       add_token: "Загрузите маркер поддержки корпоративной версии"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Замените ваш текущий маркер поддержки"
       order: "Обновление до корпоративной версии"
       paste: "Вставьте ваш маркер поддержки корпоративной версии"
@@ -2207,8 +2210,7 @@ ru:
           tb: "TБ"
   onboarding:
     heading_getting_started: "Обзор"
-    text_getting_started_description: "Быстрый просмотр управления проектом и и команды сопровождения с OpenProject."
-    text_show_again: "Вы можете перезапустить это видео из меню «Справка»"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Добро пожаловать в %{app_title}"
     select_language: "Пожалуйста, выберите язык"
   permission_add_work_package_notes: "Добавлять комментарии"

@@ -1054,12 +1054,14 @@ zh-TW:
       button_save: "儲存"
       button_submit: "提交"
       button_cancel: "取消"
+      button_delete: "Delete"
       form_submit:
         title: '確認以繼續'
         text: '確定要執行此操作嗎？'
       destroy_work_package:
         title: "確認刪除 %{label}"
-        text: "您確定要刪除以下 %{label}？"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "此工作項目包含 %{childUnits}:"
         confirm_deletion_children: "我確認列出的工作項目的所有細項全部都將被刪除。"
         deletes_children: "所有子工作項目及其子項目也全部將被刪除。"
@@ -1175,13 +1177,13 @@ zh-TW:
       role:
         label: 'Role in %{project}'
         no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Please select a role'
         next_button: '下一個'
       message:
         label: 'Invitation message'
-        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review invitation'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: '發送邀請'
       success:

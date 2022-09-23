@@ -1054,12 +1054,14 @@ vi:
       button_save: "Lưu"
       button_submit: "Gửi"
       button_cancel: "Hủy"
+      button_delete: "Delete"
       form_submit:
         title: 'Xác nhận để tiếp tục'
         text: 'Bạn có thực sự muốn thực hiện thao tác này?'
       destroy_work_package:
         title: "Xác nhận xóa %{label}"
-        text: "Are you sure you want to delete the following %{label} ?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "The work package has %{childUnits}:"
         confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
         deletes_children: "Các gói công việc con cũng sẽ bị xóa theo."
@@ -1175,13 +1177,13 @@ vi:
       role:
         label: 'Vai trò trong %{project}'
         no_roles_found: 'Không tìm thấy vai trò nào'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Vui lòng chọn một vai trò'
         next_button: 'Tiếp'
       message:
         label: 'Lời mời'
-        description: 'Chúng tôi sẽ gửi email đến %{principal}, bạn có thể thêm một tin nhắn cá nhân ở đây. Một lời giải thích cho lời mời có thể hữu ích, hoặc có lẽ một chút thông tin liên quan đến dự án để giúp họ hiểu thêm.'
-        next_button: 'Xem lại lời mời'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Gửi lời mời'
       success:

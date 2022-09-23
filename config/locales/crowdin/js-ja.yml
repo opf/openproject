@@ -1056,12 +1056,14 @@ ja:
       button_save: "保存"
       button_submit: "適用"
       button_cancel: "キャンセル"
+      button_delete: "Delete"
       form_submit:
         title: '続行の確認'
         text: 'この操作を実行してもよろしいですか？'
       destroy_work_package:
         title: "%{label} の削除を確認"
-        text: "次の %{label} を削除してもよろしいですか?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "ワークパッケージは %{childUnits} あります。"
         confirm_deletion_children: "列挙された作業項目のすべての子孫が再帰的に削除されることを承認します。"
         deletes_children: "すべての子作業項目とその子孫も再帰的に削除されます。"
@@ -1177,13 +1179,13 @@ ja:
       role:
         label: '%{project} でのロール'
         no_roles_found: 'ロールが見つかりません'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'ロールを選択してください'
         next_button: '次へ'
       message:
         label: '招待メッセージ'
-        description: '私たちは %{principal} にメールを送りますが、ここで個人的なメッセージを追加することができます。招待状の説明があれば便利ですし、プロジェクトに関するちょっとした情報があれば、彼らの助けになるでしょう。'
-        next_button: '招待状を確認'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: '招待状を送信'
       success:

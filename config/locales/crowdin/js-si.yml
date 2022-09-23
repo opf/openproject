@@ -1056,12 +1056,14 @@ si:
       button_save: "සුරකින්න"
       button_submit: "ඉදිරිපත් කරන්න"
       button_cancel: "අවලංගු කරන්න"
+      button_delete: "Delete"
       form_submit:
         title: 'දිගටම කරගෙන යාමට තහවුරු කරන්න'
         text: 'ඔබට මෙම ක්රියාව කිරීමට අවශ්ය බව ඔබට විශ්වාසද?'
       destroy_work_package:
         title: "%{label}මකාදැමීම තහවුරු කරන්න"
-        text: "ඔබට පහත සඳහන් %{label} මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "වැඩ පැකේජයට %{childUnits}ඇත:"
         confirm_deletion_children: "ලැයිස්තුගත වැඩ පැකේජ වලින් පැවත එන සියලුම දෙනා නැවත නැවතත් ඉවත් කරන බව මම පිළිගනිමි."
         deletes_children: "සියලුම ළමා වැඩ පැකේජ සහ ඔවුන්ගෙන් පැවත එන්නන් ද නැවත නැවතත් මකා දැමෙනු ඇත."
@@ -1179,13 +1181,13 @@ si:
       role:
         label: 'Role in %{project}'
         no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Please select a role'
         next_button: 'ඊළඟ'
       message:
         label: 'Invitation message'
-        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review invitation'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'ආරාධනය යවන්න'
       success:

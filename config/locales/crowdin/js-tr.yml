@@ -1056,12 +1056,14 @@ tr:
       button_save: "Kaydet"
       button_submit: "Gönder"
       button_cancel: "İptal etmek"
+      button_delete: "Delete"
       form_submit:
         title: 'Devam etmek için onaylayın'
         text: 'Bu işlemi gerçekleştirmek istediğinizden emin misiniz?'
       destroy_work_package:
         title: "%{label} için silme işlimini onaylayın"
-        text: "%{label} silinecek. Emin misiniz?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "İş paketi %{childUnits} alt paketlerine sahip:"
         confirm_deletion_children: "Listelenen iş paketlerinin TÜM soylarının tekrar tekrar kaldırılacağını kabul ediyorum."
         deletes_children: "Tüm çocuk iş paketleri ve torunları da tekrar tekrar silinir."
@@ -1179,13 +1181,13 @@ tr:
       role:
         label: 'rol %{project}'
         no_roles_found: 'Hiç rol bulunamadı.'
-        description: 'Bu, projenize katıldıklarında %{prencipal}''in alacağı roldür. Rol, hangi eylemleri gerçekleştirmelerine ve hangi bilgileri görmelerine izin verildiğini tanımlar. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Roller ve izinler hakkında daha fazla bilgi edinin . </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Lütfen bir rol seçin.'
         next_button: 'Sonraki'
       message:
         label: 'Davet Mesajı'
-        description: '%{principal} adresine burada kişisel bir mesaj ekleyebileceğiniz bir e-posta göndereceğiz. Davet için bir açıklama yararlı olabilir ya da başlamalarına yardımcı olmak için projeyle ilgili biraz bilgi olabilir.'
-        next_button: 'Daveti incele'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Davet gönder'
       success:
