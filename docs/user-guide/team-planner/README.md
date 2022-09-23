@@ -53,11 +53,15 @@ How to navigate the team planner - the numbers below correspond with the above i
 1. The top header: Click on the top header (where it says **Team planner** in the picture above) to edit the name of your new team planning calendar. The top header is in edit mode by default, so you can just click right on the text. This is where you can give the new team planning calendar its new name. Your new name gets saved automatically by exiting the top header (by clicking somewhere else, for example).
 2. Use the **+ add existing** button to add an existing work package to your view. Note: You cannot create new work packages from the team planner module. Create new work packages in the work package module, then select them in the team planner.
 3. Add a new team member to you planning calendar using the **+ add assignee**.
-3. **Include projects** filter: By default, this filter will only include the current project you are in. You can select additional projects as you see fit by pressing this filter button and check-marking additional projects. The number in the grey bubble inside of this button will indicate the number of projects that are currently selected inside of the filter.
-4. There is a filter button by which you can focus what is displayed on your calendar (for example, only certain team members or work packages).
-5. This switches you team planning calendar to full screen mode.
-6. Saving, renaming and saving a copy (saving as), or deleting can also be accomplished using the **[⋮]** button. This is also where you can modify the visibility options. Select **public** to allow others in your organization that are members of your respective project to see your planning calendar. If **public** is not selected, the calendar is **private** and can only be seen by you, not other members.
-7. By default the planning calendar only shows the current week. Use these buttons to toggle between the 1-week and 2-week view.
+4. **Include projects** filter: By default, this filter will only include the current project you are in. You can select additional projects as you see fit by pressing this filter button and check-marking additional projects. The number in the grey bubble inside of this button will indicate the number of projects that are currently selected inside of the filter.
+5. There is a filter button by which you can focus what is displayed on your calendar (for example, only certain team members or work packages).
+6. This switches you team planning calendar to full screen mode.
+7. Saving, renaming and saving a copy (saving as), or deleting can also be accomplished using the **[⋮]** button. This is also where you can modify the visibility options. Select **public** to allow others in your organization that are members of your respective project to see your planning calendar. If **public** is not selected, the calendar is **private** and can only be seen by you, not other members.
+8. By default the planning calendar only shows the current week. Use these buttons to toggle between the 1-week and 2-week view.
+
+> **Note**: The team planner will highlight non-working days in the calendar with a darker background colour. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the "Working days only" switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration).
+>
+> Work packages can also expand and retract in width depending on how many non-working days are spanned (for example, a 3-day task starting on Thursday and ending on Monday will spread across 5 calendar days;  dragging that same work package so that it starts on a Tuesday and ends on a Thursday means that it will spread across 3 calendar days. In both cases, the duration remains 3 days.
 
 ## Getting started
 
@@ -81,9 +85,13 @@ Next, add specific work packages to your planner. You can do this by either addi
 
 Click on the cell in the team planner grid that corresponds to the preferred assignee and start date.
 
+> **Note:** You can also click and drag across a date range to create a work package that spans those dates. The first square will be the start date and the last 
+>
+> one the finish date.
+
 ![Add new work package](add-new-work-package.png)
 
-After you clicked, the **new work package dialog** will automatically open. Here you can set a variety of information pertaining to your work package, such as the (1) type, (2) one or more additional people, (3) the assignee (by default the person or group which you selected in the team planner grid), (4) the accountable person, as well as a variety of other settings, such as start and end dates, time and cost estimates, and more as you scroll further down the dialog.
+After you click, the **new work package dialog** will automatically open. Here you can set a variety of information pertaining to your work package, such as the (1) type, (2) one or more additional people, (3) the assignee (by default the person or group which you selected in the team planner grid), (4) the accountable person, as well as a variety of other settings, such as start and end dates, time and cost estimates, and more as you scroll further down the dialog.
 
 ![New work package dialog](new-work-package-details.png)
 
@@ -91,7 +99,7 @@ After you clicked, the **new work package dialog** will automatically open. Here
 
 **To add an existing work package**: 
 
-Press the **+ add existing" button** we introduced in step 2 of the main view overview. Once you press the **+ add existing** button, start typing the name of the work package you are looking to add. Once found, drag & drop the work package strip. Should the work package have a duration exceeding the current 1 or 2 week view, a horizontal scroll bar will display, with which it is possible to scroll to the end date of the longest running work package.
+Press the **+ add existing" button** we introduced in step 2 of the main view overview. Once you press the **+ add existing** button, start typing the name of the work package you are looking to add. Once found, drag & drop the work package strip. Should the work package have a duration exceeding the current 1 or 2 week view, small arrows will indicate this, with an indication of the date that is outside of the current view, so you don't have to scroll all the way to the start or the end for this information.
 
 Additional features: You can change the status of a work package, and enter the work package strip detailed view by pressing the info button **(i)** on each respective strip.
 
