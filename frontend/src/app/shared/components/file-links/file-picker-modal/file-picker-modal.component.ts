@@ -59,9 +59,13 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
 
   public breadCrumbs = new StorageFilesBreadcrumbs(
     [
-      { text: 'abc', icon: 'nextcloud-circle', navigate: () => {} },
-      { text: 'def', navigate: () => {} },
-      { text: 'ghi', navigate: () => {} },
+      { text: 'OpenProject Nextcloud', icon: 'nextcloud-circle', navigate: () => {} },
+      { text: 'Shared', navigate: () => {} },
+      { text: 'A very long directory name', navigate: () => {} },
+      { text: 'Another very long directory name', navigate: () => {} },
+      { text: 'Yet another very long directory name', navigate: () => {} },
+      { text: 'And yet another very long directory name', navigate: () => {} },
+      { text: 'data', navigate: () => {} },
     ],
   );
 
