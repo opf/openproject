@@ -873,7 +873,7 @@ GEM
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
-    rubocop-rspec (2.13.1)
+    rubocop-rspec (2.13.2)
       rubocop (~> 1.33)
     ruby-duration (3.2.3)
       activesupport (>= 3.0.0)
