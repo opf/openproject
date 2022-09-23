@@ -28,47 +28,12 @@
 
 module API
   module V3
-    module Storages
+    module StorageFiles
       class StorageFilesAPI < ::API::OpenProjectAPI
         resources :files do
           get do
-            {
-              count: 4,
-              total: 4,
-              _embedded: {
-                elements:
-                  [
-                    {
-                      id: 1,
-                      name: 'image.png',
-                      mimeType: 'image/png',
-                      lastModifiedAt: '2022-09-16T12:00Z',
-                      lastModifiedByName: 'Leia Organa',
-                      location: '/data'
-                    },
-                    {
-                      id: 2,
-                      name: 'Readme.md',
-                      mimeType: 'text/markdown',
-                      lastModifiedAt: '2022-09-16T13:00Z',
-                      lastModifiedByName: 'Anakin Skywalker',
-                      location: '/data'
-                    },
-                    {
-                      id: 3,
-                      name: 'folder',
-                      mimeType: 'application/x-op-directory',
-                      location: '/data'
-                    },
-                    {
-                      id: 4,
-                      name: 'directory',
-                      mimeType: 'application/x-op-directory',
-                      location: '/data'
-                    }
-                  ]
-              }
-            }
+            files = ::Storages::StorageFile.all
+            StorageFileCollectionRepresenter.new(files, self_link: api_v3_paths.storage_files(@storage.id), current_user:)
           end
         end
       end

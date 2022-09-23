@@ -103,6 +103,8 @@ module OpenProject::Storages
         ::Queries::Register.register(::Queries::Storages::FileLinks::FileLinkQuery) do
           filter ::Queries::Storages::FileLinks::Filter::StorageFilter
         end
+
+        #::Queries::Register.register(::Queries::Storages::StorageFiles::StorageFileQuery)
       end
     end
 
@@ -110,6 +112,10 @@ module OpenProject::Storages
     # and the return value is a string.
     add_api_path :storage do |storage_id|
       "#{root}/storages/#{storage_id}"
+    end
+
+    add_api_path :storage_files do |storage_id|
+      "#{root}/storages/#{storage_id}/files"
     end
 
     add_api_path :file_links do |work_package_id|
