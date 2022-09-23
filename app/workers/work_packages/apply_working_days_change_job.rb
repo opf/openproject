@@ -75,8 +75,7 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
     for_each_work_package_in_scope(WorkPackage
                                    .covering_days_of_week(changed_days)
                                    .order(WorkPackage.arel_table[:start_date].asc.nulls_first,
-                                          WorkPackage.arel_table[:due_date].asc)
-                                   .pluck(:id),
+                                          WorkPackage.arel_table[:due_date].asc),
                                    &)
   end
 
@@ -92,8 +91,7 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
   def each_applicable_predecessor(excluded, &)
     for_each_work_package_in_scope(WorkPackage
                                     .where(id: Relation.follows_with_delay.select(:to_id))
-                                    .where.not(id: excluded)
-                                    .pluck(:id),
+                                    .where.not(id: excluded),
                                    &)
   end
 
@@ -101,7 +99,10 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
     day_changes = changed_days(previous_working_days).index_with { |day| Setting.working_days.include?(day) }
     journal_note = journal_notice_text(day_changes)
 
-    for_each_work_package_in_scope(updated_work_package_ids.uniq) do |work_package|
+    WorkPackage
+      .where(id: updated_work_package_ids.uniq)
+      .in_batches
+      .each_record do |work_package|
       work_package.journal_notes = journal_note
       work_package.save
     end
@@ -120,7 +121,7 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
   end
 
   def for_each_work_package_in_scope(scope)
-    scope.each do |id|
+    scope.pluck(:id).each do |id|
       yield WorkPackage.find(id)
     end
   end
