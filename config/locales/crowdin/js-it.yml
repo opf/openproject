@@ -297,15 +297,15 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Non dovrai più cercare file senza fine! Con la nuova <b>integrazione Nextcloud</b> in OpenProject 12.2, ora puoi trovare i file direttamente nella rispettiva macro-attività e avere sempre la versione corretta a portata di mano.</li> <li>Abbiamo introdotto il <b>a nuovo selettore di date</b> con una nuova modalità di input e un banner informativo che include un pulsante per mostrare le relazioni nel diagramma di Gantt.</li> <li>Abbiamo aggiunto la possibilità di <b>registrare il tempo per altri utenti.</li> <li> b></li> <li>Contrassegna le notifiche come lette anche al di fuori del centro notifiche.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Non dovrai più cercare file senza fine! Con la nuova <b>integrazione Nextcloud</b> in OpenProject 12.2, ora puoi trovare i file direttamente nella rispettiva macro-attività e avere sempre la versione corretta a portata di mano.</li> <li>Abbiamo introdotto il <b>nuovo selettore di date</b> con una nuova modalità di input e un banner informativo che include un pulsante per mostrare le relazioni nel diagramma di Gantt.</li> <li>Abbiamo aggiunto la possibilità di <b>registrare il tempo per altri utenti.</li> <li> b></li> <li>Contrassegna le notifiche come lette anche al di fuori del centro notifiche.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
     label_activate: "Attiva"
     label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"

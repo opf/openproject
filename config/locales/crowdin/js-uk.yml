@@ -297,15 +297,15 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Випуск містить низку нових функцій і поліпшень: <br> <ul class="%{list_styling_class}"> <li>Забудьте про нескінченний пошук файлів! Завдяки новій <b>інтеграції Nextcloud</b> в OpenProject 12.2 ви можете знаходити файли у відповідних пакетах робіт і завжди мати під рукою правильну версію. </li> <li>Ми представили <b>новий засіб вибору дат</b> з оновленою поведінкою введення та інформаційним банером із кнопкою, що дає змогу переглядати зв’язки в режимі діаграми Ганта.</li> <li>Ми додали можливість <b>реєструвати час для інших користувачів.</b></li> <li>Позначати сповіщення як прочитані можна також за межами центру сповіщень.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Випуск містить низку нових функцій і поліпшень: <br> <ul class="%{list_styling_class}"> <li>Забудьте про нескінченний пошук файлів! Завдяки новій <b>інтеграції Nextcloud</b> в OpenProject 12.2 ви можете знаходити файли у відповідних пакетах робіт і завжди мати під рукою правильну версію. </li> <li>Ми представили <b>новий засіб вибору дат</b> з оновленою поведінкою введення та інформаційним банером із кнопкою, що дає змогу переглядати зв’язки в режимі діаграми Ганта.</li> <li>Ми додали можливість <b>реєструвати час для інших користувачів.</b></li> <li>Позначати сповіщення як прочитані можна також за межами центру сповіщень.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
     label_activate: "Активувати"
     label_assignee: 'Виконавець'
     label_add_column_after: "Додати стовпець після"

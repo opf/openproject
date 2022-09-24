@@ -297,15 +297,15 @@ tr:
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/openproject-11-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Sürüm, çeşitli yeni özellikler ve iyileştirmeler içeriyor: <br> <ul class="%{list_styling_class}"> <li>Artık sonsuza kadar dosya aramaya gerek yok! OpenProject 12.2'deki yeni <b>Nextcloud entegrasyonu</b> ile artık dosyaları doğrudan ilgili çalışma paketinde bulabilir ve her zaman doğru sürüme sahip olabilirsiniz.</li> <li><b>a güncellenmiş giriş davranışına sahip yeni tarih seçici</b> ve Gantt şemasındaki ilişkileri göstermek için bir düğme içeren bir bilgi başlığı.</li> <li><b>Diğer kullanıcılar için zaman kaydetme olanağı ekledik.</b> b></li> <li>Bildirimleri, bildirim merkezinin dışında da okundu olarak işaretleyin.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/openproject-11-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Sürüm, çeşitli yeni özellikler ve iyileştirmeler içeriyor: <br> <ul class="%{list_styling_class}"> <li>Artık sonsuza dek dosya aramaya gerek yok! OpenProject 12.2'deki yeni <b>Nextcloud entegrasyonu</b> ile artık dosyaları doğrudan ilgili çalışma paketinde bulabilir ve her zaman doğru sürüme sahip olabilirsiniz.</li> <li><b>a güncellenmiş giriş davranışına sahip yeni tarih seçici</b> ve Gantt şemasındaki ilişkileri göstermek için bir düğme içeren bir bilgi başlığı.</li> <li><b>Diğer kullanıcılar için zaman kaydetme olanağı ekledik.</b> b></li> <li>Bildirimleri, bildirim merkezinin dışında da okundu olarak işaretleyin.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
     label_activate: "Etkinleştir"
     label_assignee: 'Atanan'
     label_add_column_after: "Sonrasına sütun ekle"

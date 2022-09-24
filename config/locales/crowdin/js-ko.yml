@@ -297,15 +297,15 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>더 이상 끝없이 파일을 검색할 필요가 없습니다! OpenProject 12.2의 새로운 <b>Nextcloud 통합</b>을 통해 이제 해당 작업 패키지에서 직접 파일을 찾고 항상 올바른 버전을 손쉽게 사용할 수 있습니다.</li> <li>업데이트된 입력 동작 및 Gantt 차트에서 관계를 표시하는 버튼이 포함된 정보 배너가 있는 <b>새로운 날짜 선택기</b>가 도입되었습니다.</li> <li><b>다른 사용자의 시간을 기록</b>할 수 있는 기능이 추가되었습니다.</li> <li>알림 센터 외부에서도 알림을 읽은 상태로 표시할 수 있습니다.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>더 이상 끝없이 파일을 검색할 필요가 없습니다! OpenProject 12.2의 새로운 <b>Nextcloud 통합</b>을 통해 이제 해당 작업 패키지에서 직접 파일을 찾고 항상 올바른 버전을 손쉽게 사용할 수 있습니다.</li> <li>업데이트된 입력 동작 및 Gantt 차트에서 관계를 표시하는 버튼이 포함된 정보 배너가 있는 <b>새로운 날짜 선택기</b>가 도입되었습니다.</li> <li><b>다른 사용자의 시간을 기록</b>할 수 있는 기능이 추가되었습니다.</li> <li>알림 센터 외부에서도 알림을 읽은 상태로 표시할 수 있습니다.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
     label_activate: "활성화"
     label_assignee: '담당자'
     label_add_column_after: "다음 뒤에 열 추가"

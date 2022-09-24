@@ -296,15 +296,15 @@ lol:
           learn_about: "crwdns787258:0crwdne787258:0"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: crwdns825714:0crwdne825714:0
+              learn_about_link: crwdns834162:0crwdne834162:0
               new_features_html: >
-                crwdns825716:0%{list_styling_class}crwdne825716:0
+                crwdns834164:0%{list_styling_class}crwdne834164:0
             bim:
-              learn_about_link: crwdns825718:0crwdne825718:0
+              learn_about_link: crwdns834166:0crwdne834166:0
               new_features_html: >
-                crwdns825720:0%{list_styling_class}crwdne825720:0
+                crwdns834168:0%{list_styling_class}crwdne834168:0
     label_activate: "crwdns787268:0crwdne787268:0"
     label_assignee: 'crwdns809580:0crwdne809580:0'
     label_add_column_after: "crwdns787270:0crwdne787270:0"
