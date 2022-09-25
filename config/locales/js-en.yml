@@ -397,6 +397,7 @@ en:
     label_edit_status: "Edit the status of the work package"
     label_email: "Email"
     label_equals: "is"
+    label_equals_exactly: "are all"
     label_expand: "Expand"
     label_expanded: "expanded"
     label_expand_all: "Expand all"

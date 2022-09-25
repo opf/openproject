@@ -26,17 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Filters::Strategies
-  class CfListOptional < ListOptional
-    private
+module Queries::Operators
+  class BooleanExactly < Base
+    label 'equals_exactly'
+    set_symbol '=='
 
-    def operator_map
-      super_value = super.dup
-      super_value['!*'] = ::Queries::Operators::NoneOrBlank
-      super_value['*'] = ::Queries::Operators::AllAndNonBlank
-      super_value['=='] = ::Queries::Operators::BooleanExactly
-
-      super_value
+    def self.sql_for_field(values, db_table, db_field)
+      "1=1 GROUP BY work_packages.id having array_agg(#{db_table}.#{db_field}) = '{" +
+        values.map { |val| "\"#{connection.quote_string(val)}\"" }.join(',') + '}\''
     end
   end
 end

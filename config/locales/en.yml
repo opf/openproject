@@ -1649,6 +1649,7 @@ en:
   label_environment: "Environment"
   label_estimates_and_time: "Estimates and time"
   label_equals: "is"
+  label_equals_exactly: "are all"
   label_everywhere: "everywhere"
   label_example: "Example"
   label_import: "Import"
