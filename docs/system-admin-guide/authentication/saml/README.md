@@ -242,6 +242,9 @@ Use the key `attribute_statements` to provide mappings for attributes returned b
 **a) Attribute mapping example for configration.yml**
 
 ```yaml
+default:
+  # <-- other configuration -->
+    mysaml1:
       # <-- other configuration -->
       # Attribute map in SAML
       attribute_statements:
@@ -292,6 +295,9 @@ That means the response should contain attribute names 'mail', etc. as configure
 If you have URN or OID attribute identifiers, you can modify the request as follows:
 
 ```yaml
+default:
+  # <-- other configuration -->
+    mysaml1:
       # <-- other configuration -->
       # Modify the request attribute sent in the request
       # These oids are exemplary, but will often be identical,
