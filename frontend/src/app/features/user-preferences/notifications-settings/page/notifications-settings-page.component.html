@@ -33,64 +33,71 @@
   <h5>{{ text.alsoNotifyFor.title }}</h5>
   <p>{{ text.alsoNotifyFor.description }}</p>
 
-  <spot-selector-field>
+  <spot-selector-field
+    [label]="text.watched"
+    [control]="form.get('watched')"
+  >
       <input
         disabled
         checked
         type="checkbox"
         slot="input"
       />
-      <p slot="description">{{ text.watched }}</p>
   </spot-selector-field>
 
-  <spot-selector-field [control]="form.get('workPackageCreated')">
+  <spot-selector-field
+    [label]="text.work_package_created"
+    [control]="form.get('workPackageCreated')">
     <input
       slot="input"
       type="checkbox"
       formControlName="workPackageCreated"
       data-qa-global-notification-type="work_package_created"
     />
-    <p slot="description">{{ text.work_package_created }}</p>
   </spot-selector-field>
 
-  <spot-selector-field [control]="form.get('workPackageProcessed')">
+  <spot-selector-field
+    [label]="text.work_package_processed"
+    [control]="form.get('workPackageProcessed')">
     <input
       slot="input"
       type="checkbox"
       formControlName="workPackageProcessed"
       data-qa-global-notification-type="work_package_processed"
     />
-    <p slot="description">{{ text.work_package_processed }}</p>
   </spot-selector-field>
 
-  <spot-selector-field [control]="form.get('workPackageScheduled')">
+  <spot-selector-field
+    [label]="text.work_package_scheduled"
+    [control]="form.get('workPackageScheduled')">
     <input
       slot="input"
       type="checkbox"
       formControlName="workPackageScheduled"
       data-qa-global-notification-type="work_package_scheduled"
     />
-    <p slot="description">{{ text.work_package_scheduled }}</p>
   </spot-selector-field>
 
-  <spot-selector-field [control]="form.get('workPackagePrioritized')">
+  <spot-selector-field
+    [label]="text.work_package_prioritized"
+    [control]="form.get('workPackagePrioritized')">
     <input
       slot="input"
       type="checkbox"
       formControlName="workPackagePrioritized"
       data-qa-global-notification-type="work_package_prioritized"
     />
-    <p slot="description">{{ text.work_package_prioritized }}</p>
   </spot-selector-field>
 
-  <spot-selector-field [control]="form.get('workPackageCommented')">
+  <spot-selector-field
+    [label]="text.work_package_commented"
+    [control]="form.get('workPackageCommented')">
     <input
       slot="input"
       type="checkbox"
       formControlName="workPackageCommented"
       data-qa-global-notification-type="work_package_commented"
     />
-    <p slot="description">{{ text.work_package_commented }}</p>
   </spot-selector-field>
 
   <hr />
