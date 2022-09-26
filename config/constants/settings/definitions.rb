@@ -515,11 +515,6 @@ Settings::Definition.define do
       default: nil,
       writable: false
 
-  add :ldap_auth_source_tls_options,
-      format: :string,
-      default: nil,
-      writable: false
-
   # Allow users to manually sync groups in a different way
   # than the provided job using their own cron
   add :ldap_groups_disable_sync_job,
