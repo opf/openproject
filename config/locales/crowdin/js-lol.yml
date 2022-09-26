@@ -296,15 +296,15 @@ lol:
           learn_about: "crwdns787258:0crwdne787258:0"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: crwdns825714:0crwdne825714:0
+              learn_about_link: crwdns834162:0crwdne834162:0
               new_features_html: >
-                crwdns825716:0%{list_styling_class}crwdne825716:0
+                crwdns834164:0%{list_styling_class}crwdne834164:0
             bim:
-              learn_about_link: crwdns825718:0crwdne825718:0
+              learn_about_link: crwdns834166:0crwdne834166:0
               new_features_html: >
-                crwdns825720:0%{list_styling_class}crwdne825720:0
+                crwdns834168:0%{list_styling_class}crwdne834168:0
     label_activate: "crwdns787268:0crwdne787268:0"
     label_assignee: 'crwdns809580:0crwdne809580:0'
     label_add_column_after: "crwdns787270:0crwdne787270:0"
@@ -1055,12 +1055,14 @@ lol:
       button_save: "crwdns788522:0crwdne788522:0"
       button_submit: "crwdns788524:0crwdne788524:0"
       button_cancel: "crwdns788526:0crwdne788526:0"
+      button_delete: "crwdns834144:0crwdne834144:0"
       form_submit:
         title: 'crwdns788528:0crwdne788528:0'
         text: 'crwdns788530:0crwdne788530:0'
       destroy_work_package:
         title: "crwdns788532:0%{label}crwdne788532:0"
-        text: "crwdns788534:0%{label}crwdne788534:0"
+        single_text: "crwdns834146:0crwdne834146:0"
+        bulk_text: "crwdns834148:0%{label}crwdne834148:0"
         has_children: "crwdns788536:0%{childUnits}crwdne788536:0"
         confirm_deletion_children: "crwdns788538:0crwdne788538:0"
         deletes_children: "crwdns788540:0crwdne788540:0"
@@ -1178,13 +1180,13 @@ lol:
       role:
         label: 'crwdns788708:0%{project}crwdne788708:0'
         no_roles_found: 'crwdns788710:0crwdne788710:0'
-        description: 'crwdns810810:0%{principal}crwdne810810:0'
+        description: 'crwdns834150:0crwdne834150:0'
         required: 'crwdns788714:0crwdne788714:0'
         next_button: 'crwdns788716:0crwdne788716:0'
       message:
         label: 'crwdns788718:0crwdne788718:0'
-        description: 'crwdns788720:0%{principal}crwdne788720:0'
-        next_button: 'crwdns788722:0crwdne788722:0'
+        description: 'crwdns834152:0crwdne834152:0'
+        next_button: 'crwdns834154:0crwdne834154:0'
       summary:
         next_button: 'crwdns788724:0crwdne788724:0'
       success:

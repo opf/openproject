@@ -66,6 +66,9 @@ si:
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "ව්යවසාය සංස්කරණය සහාය ටෝකනය උඩුගත කරන්න"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "ඔබගේ වර්තමාන ආධාරක ටෝකනය ප්රතිස්ථාපනය කරන්න"
       order: "Order Enterprise on-premises Edition"
       paste: "ඔබගේ ව්යවසාය සංස්කරණය සහාය ටෝකනය අලවන්න"
@@ -2171,8 +2174,7 @@ si:
           tb: "ටෙ.බ."
   onboarding:
     heading_getting_started: "දළ විශ්ලේෂණයක් ලබා ගන්න"
-    text_getting_started_description: "OpenProject සමඟ ව්යාපෘති කළමනාකරණය සහ කණ්ඩායම් සහයෝගීතාව පිළිබඳ ඉක්මන් දළ විශ්ලේෂණයක් ලබා ගන්න."
-    text_show_again: "ඔබට උදව් මෙනුවෙන් මෙම වීඩියෝව නැවත ආරම්භ කළ හැකිය"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "කරුණාකර ඔබේ භාෂාව තෝරන්න"
   permission_add_work_package_notes: "සටහන් එකතු කරන්න"

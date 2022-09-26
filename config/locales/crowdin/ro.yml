@@ -66,6 +66,9 @@ ro:
     enterprise:
       upgrade_to_ee: "Achiziționați versiunea Enterprise"
       add_token: "Încărcați un token de suport Enterprise Edition"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Înlocuiți tokenul de suport actual"
       order: "Comandați versiunea Enterprise"
       paste: "Lipiți token-ul de suport Enterprise Edition"
@@ -2189,8 +2192,7 @@ ro:
           tb: "TB"
   onboarding:
     heading_getting_started: "Obțineți o prezentare generală"
-    text_getting_started_description: "Obțineți o viziune de ansamblu asupra administrării unui proiect și a activității echipelor folosind OpenProject."
-    text_show_again: "Poate reporni acest videoclip din meniul de ajutor"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Vă rugăm să selectați limba dvs"
   permission_add_work_package_notes: "Adăugare note"

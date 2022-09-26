@@ -66,6 +66,9 @@ sl:
     enterprise:
       upgrade_to_ee: "Nadgradite v Enterprise Edition"
       add_token: "Naloži Enterprise Edition  podporni žeton"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Zamenjajte svoj trenutni podporni žeton"
       order: "Order Enterprise verzija na lokaciji"
       paste: "Prilepite vaš Enterprise Edition podporni žeton."
@@ -2206,8 +2209,7 @@ sl:
           tb: "TB"
   onboarding:
     heading_getting_started: "Pridobite pregled"
-    text_getting_started_description: "Pridobite hiter pregled nad projektnim managementom ter skupinskim delovanjem z OpenProject"
-    text_show_again: "Ta video lahko ponovno zaženete preko menija za pomoč"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Prosimo izberite jezik"
   permission_add_work_package_notes: "Dodaj zapiske"

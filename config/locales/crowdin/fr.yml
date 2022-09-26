@@ -66,6 +66,9 @@ fr:
     enterprise:
       upgrade_to_ee: "Passer à la version Entreprise"
       add_token: "Charger une licence de la version Entreprise"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Remplacer votre licence actuelle"
       order: "Commander l'édition Enterprise autohebergé"
       paste: "Coller votre licence de la version Entreprise"
@@ -2171,8 +2174,7 @@ fr:
           tb: "To"
   onboarding:
     heading_getting_started: "Avoir une vue d’ensemble"
-    text_getting_started_description: "Obtenez un aperçu rapide de la gestion de projets et de la collaboration en équipe avec OpenProject."
-    text_show_again: "Vous pouvez relancer cette vidéo au départ du menu d'aide"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Bienvenue sur %{app_title}"
     select_language: "Veuillez sélectionner votre langue"
   permission_add_work_package_notes: "Ajouter des notes"

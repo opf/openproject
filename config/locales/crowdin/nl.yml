@@ -66,6 +66,9 @@ nl:
     enterprise:
       upgrade_to_ee: "Upgrade naar de Enterprise Edition"
       add_token: "Uploadeneen Enterprise Edition ondersteuningstoken"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Uw huidige ondersteuningstoken vervangen"
       order: "Order Enterprise on premises Edition"
       paste: "Plak uw Enterprise Edition ondersteuningstoken"
@@ -2167,8 +2170,7 @@ nl:
           tb: "TB"
   onboarding:
     heading_getting_started: "Krijg een overzicht"
-    text_getting_started_description: "Krijg een overzicht van project management en team samenwerking met OpenProject."
-    text_show_again: "U kunt deze video van het helpmenu opnieuw starten"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welkom bij %{app_title}"
     select_language: "Gelieve uw taal te kiezen"
   permission_add_work_package_notes: "Notities toevoegen"

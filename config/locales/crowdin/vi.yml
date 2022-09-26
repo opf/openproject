@@ -66,6 +66,9 @@ vi:
     enterprise:
       upgrade_to_ee: "Nâng cấp lên bản cho doanh nghiệp"
       add_token: "Upload an Enterprise Edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Thay thế support token hiện tại của bạn"
       order: "Order Enterprise on-premises Edition"
       paste: "Dán Enterprise Edition support token của bạn"
@@ -2154,8 +2157,7 @@ vi:
           tb: "TB"
   onboarding:
     heading_getting_started: "Get an overview"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
-    text_show_again: "Bạn có thể khởi động lại video này từ trình đơn trợ giúp"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Add notes"

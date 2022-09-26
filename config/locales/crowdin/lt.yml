@@ -66,6 +66,9 @@ lt:
     enterprise:
       upgrade_to_ee: "Pagerinti į „Enterprise Edition“ versiją"
       add_token: "Įkelti „Enterprise Edition“ paramos raktą"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Pakeisti savo esamą paramos raktą"
       order: "Užsisakykite Enterprise on-premises Edition"
       paste: "Įklijuokite savo „Enterprise Edition“ paramos raktą"
@@ -2206,8 +2209,7 @@ lt:
           tb: "TB"
   onboarding:
     heading_getting_started: "Gauti aprašymą"
-    text_getting_started_description: "Gauti greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject."
-    text_show_again: "Jūs galite paleisti šį video iš naujo iš pagalbos meniu"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Jus sveikina %{app_title}"
     select_language: "Pasirinkite kalbą"
   permission_add_work_package_notes: "Pridėti pastabų"

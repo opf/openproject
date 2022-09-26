@@ -66,6 +66,9 @@ fi:
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Korvata nykyisen tukea poletti"
       order: "Order Enterprise on-premises Edition"
       paste: "Paste your Enterprise Edition support token"
@@ -2171,8 +2174,7 @@ fi:
           tb: "Tt"
   onboarding:
     heading_getting_started: "Yleiskatsaus"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
-    text_show_again: "Voit käynnistää tämä videon uudelleen ohjeet-valikosta"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Valitse kieli"
   permission_add_work_package_notes: "Lisää kommentteja"

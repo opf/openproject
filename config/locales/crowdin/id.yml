@@ -66,6 +66,9 @@ id:
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Unggah sebuah token bantuan edisi enterprise"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Gantilah token bantuan yang sedang digunakan"
       order: "Pesan Edisi Perusahaan di tempat"
       paste: "Tempelkan token pendukung Edisi Perusahaan Anda"
@@ -2149,8 +2152,7 @@ id:
           tb: "TB"
   onboarding:
     heading_getting_started: "Mendapatkan gambaran"
-    text_getting_started_description: "Mendapatkan gambaran singkat mengenai manajemen proyek dan tim kolaborasi bersama OpenProject."
-    text_show_again: "You can restart this video from the help menu"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Tambahkan catatan"

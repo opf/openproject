@@ -66,6 +66,9 @@ ja:
     enterprise:
       upgrade_to_ee: "エンタープライズ版にアップグレード"
       add_token: "エンタープライズ版サポートのトークンをアップロード"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "現在のサポート トークンを置き換え"
       order: "オンプレミス版 Enterprise Edition を注文する"
       paste: "エンタープライズ版サポートのトークンを貼り付け"
@@ -2148,8 +2151,7 @@ ja:
           tb: "TB"
   onboarding:
     heading_getting_started: "概要を取得"
-    text_getting_started_description: "OpenProject のプロジェクト管理とチームコラボレーションの簡単な概要を取得します。"
-    text_show_again: "ヘルプメニューからこのビデオを再度開始することができます。"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "言語を選択してください"
   permission_add_work_package_notes: "注記の追加"

@@ -26,9 +26,9 @@ pl:
       loading: "Ładowanie…"
       updating: "Aktualizowanie..."
     attachments:
-      delete: "Delete attachment"
+      delete: "Usuń załącznik"
       delete_confirmation: |
-        Are you sure you want to delete this file? This action is not reversible.
+        Czy na pewno chcesz usunąć ten plik? Ta akcja nie jest odwracalna.
       draggable_hint: |
         Przeciągaj w polu edytora, aby wstawić obraz lub załącznik referencyjny. Zamknięte pola edytora zostaną otwarte podczas przeciągania.
     autocomplete_select:
@@ -85,10 +85,10 @@ pl:
     button_open_fullscreen: "Otwórz widok pełnoekranowy"
     button_show_cards: "Pokaż widok karty"
     button_show_list: "Pokaż widok listy"
-    button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
+    button_show_table: "Pokaż widok tabeli"
+    button_show_gantt: "Pokaż widok wykresu Gantta"
+    button_show_fullscreen: "Pokaż widok pełnoekranowy"
+    button_more_actions: "Więcej działań"
     button_quote: "Cytat"
     button_save: "Zapisz"
     button_settings: "Ustawienia"
@@ -297,15 +297,15 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Wersja ta zawiera wiele nowych funkcji i ulepszeń: <br> <ul class="%{list_styling_class}"> <li> Koniec z niekończącym się wyszukiwaniem plików! Dzięki nowej <b>integracji z Nextcloud</b> w OpenProject 12.2 możesz teraz znaleźć pliki bezpośrednio w odpowiednim pakiecie roboczym i zawsze mieć poprawną wersję pod ręką. </li> <li>Wprowadziliśmy <b>nowy selektor dat</b> z zaktualizowanym sposobem wprowadzania danych oraz baner informacyjny, który zawiera przycisk do pokazywania relacji na wykresie Gantta.</li> <li>Dodaliśmy możliwość <b>rejestrowania czasu dla innych użytkowników.</b></li> <li>Oznaczaj powiadomienia jako przeczytane również poza centrum powiadomień.</li> </ul>.
+                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Określ swój globalny tydzień pracy (weekendy i dni wolne od pracy).</li> <li>Oblicz czas trwania w oparciu o daty rozpoczęcia i zakończenia oraz możliwość uwzględnienia dni wolnych od pracy (weekendów) w harmonogramie.</li> <li>Dodaj znaczące podpowiedzi do najistotniejszych działań.</li> <li>Kopiowanie projektu skopiuje również linki do plików dołączone do wszystkich pakietów roboczych.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Wersja ta zawiera wiele nowych funkcji i ulepszeń: <br> <ul class="%{list_styling_class}"> <li> Koniec z niekończącym się wyszukiwaniem plików! Dzięki nowej <b>integracji z Nextcloud</b> w OpenProject 12.2 możesz teraz znaleźć pliki bezpośrednio w odpowiednim pakiecie roboczym i zawsze mieć poprawną wersję pod ręką. </li> <li>Wprowadziliśmy <b>nowy selektor dat</b> z zaktualizowanym sposobem wprowadzania danych oraz baner informacyjny, który zawiera przycisk do pokazywania relacji na wykresie Gantta.</li> <li>Dodaliśmy możliwość <b>rejestrowania czasu dla innych użytkowników.</b></li> <li>Oznaczaj powiadomienia jako przeczytane również poza centrum powiadomień.</li> </ul>.
+                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Określ swój globalny tydzień pracy (weekendy i dni wolne od pracy).</li> <li>Oblicz czas trwania w oparciu o daty rozpoczęcia i zakończenia oraz możliwość uwzględnienia dni wolnych od pracy (weekendów) w harmonogramie.</li> <li>Dodaj znaczące podpowiedzi do najistotniejszych działań.</li> <li>Kopiowanie projektu skopiuje również linki do plików dołączone do wszystkich pakietów roboczych.</li> </ul>
     label_activate: "Aktywuj"
     label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"
@@ -547,9 +547,9 @@ pl:
         prioritized: 'priorytetowo'
       facets:
         unread: 'Nieprzeczytane'
-        unread_title: 'Show unread'
+        unread_title: 'Pokaż nieprzeczytane'
         all: 'Wszystko'
-        all_title: 'Show all'
+        all_title: 'Pokaż wszystkie'
       center:
         and_more_users:
           one: 'i 1 inny'
@@ -884,7 +884,7 @@ pl:
       message_work_package_status_blocked: "Nie można zapisać stanu pakietu roboczego ze względu na jego zamknięty stan i przypisaną mu zamkniętą wersję."
       placeholder_filter_by_text: "Przedmiot, opis, komentarze, ..."
       filters:
-        title: 'Filter work packages'
+        title: 'Filtruj pakiety robocze'
       inline_create:
         title: 'Kliknij tutaj, aby dodać nowy pakiet prac do tej listy'
       create:
@@ -1058,12 +1058,14 @@ pl:
       button_save: "Zapisz"
       button_submit: "Prześlij"
       button_cancel: "Anuluj"
+      button_delete: "Usuń"
       form_submit:
         title: 'Potwierdź, aby kontynuować'
         text: 'Czy na pewno chcesz wykonać tę akcję?'
       destroy_work_package:
         title: "Potwierdź usunięcie %{label}"
-        text: "Czy na pewno chcesz usunąć następujący %{label}?"
+        single_text: "Czy na pewno chcesz usunąć pakiet roboczy"
+        bulk_text: "Czy na pewno chcesz usunąć %{label}?"
         has_children: "Pakiet roboczy zawiera %{childUnits}:"
         confirm_deletion_children: "Potwierdzam, że WSZYSTKIE elementy potomne pakietów roboczych z listy będą rekurencyjnie usuwane."
         deletes_children: "Wszystkie pakiety podrzędne i ich elementy potomne również będą rekursywnie usuwane."
@@ -1185,13 +1187,13 @@ pl:
       role:
         label: 'Rola w %{project}'
         no_roles_found: 'Nie znaleziono żadnych ról'
-        description: 'To jest rola, którą %{principal} otrzyma po dołączeniu do projektu. Rola określa działania, które można podjąć i widoczne informacje. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Dowiedz się więcej o rolach i uprawnieniach. </a>'
+        description: 'To jest rola, jaką użytkownik otrzyma po dołączeniu do projektu. Rola określa, jakie działania mogą zostać podjęte i jakie informacje będą widoczne. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Dowiedz się więcej o rolach i uprawnieniach. </a>'
         required: 'Wybierz rolę'
         next_button: 'Następny'
       message:
         label: 'Wiadomość z zaproszeniem'
-        description: 'Wyślemy do %{principal} wiadomość e-mail, do której możesz tutaj dodać prywatną wiadomość. Może to być wyjaśnienie zaproszenia lub ułatwiające rozpoczęcie pracy informacje na temat projektu.'
-        next_button: 'Przejrzyj zaproszenie'
+        description: 'Wyślemy e-mail do użytkownika, do którego możesz dodać osobistą wiadomość tutaj. Przydałoby się wyjaśnienie dotyczące zaproszenia lub trochę informacji dotyczących projektu, aby ułatwić mu początek.'
+        next_button: 'Następny'
       summary:
         next_button: 'Wyślij zaproszenie'
       success:
@@ -1212,7 +1214,7 @@ pl:
       search_placeholder: 'Wyszukaj projekt...'
       include_subprojects: 'Uwzględnij wszystkie podprojekty'
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
+        include_all_selected: 'Projekt już uwzględniony, ponieważ włączenie wszystkich podprojektów jest włączone.'
         current_project: 'To jest bieżący projekt, w którym jesteś.'
         does_not_match_search: 'Projekt nie spełnia kryteriów wyszukiwania.'
       no_results: 'Żaden projekt nie spełnia kryteriów wyszukiwania.'

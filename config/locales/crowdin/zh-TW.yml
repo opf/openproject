@@ -66,6 +66,9 @@ zh-TW:
     enterprise:
       upgrade_to_ee: "升級到企業版"
       add_token: "上傳企業版support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "替換當前 support token"
       order: "Order Enterprise on-premises Edition"
       paste: "貼上您的企業版support token"
@@ -2151,8 +2154,7 @@ zh-TW:
           tb: "TB"
   onboarding:
     heading_getting_started: "取得概覽"
-    text_getting_started_description: "用 OpenProject 取得專案管理和團隊協作的快速概覽。"
-    text_show_again: "您可以從 \"説明\" 功能表中重新開啟此影片"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "請選擇您的語言"
   permission_add_work_package_notes: "增加註釋"
