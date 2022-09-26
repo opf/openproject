@@ -37,14 +37,14 @@ describe ProjectsController, type: :routing do
     end
 
     it do
-      expect(get('/projects.atom')).to route_to(
-        controller: 'projects', action: 'index', format: 'atom'
+      expect(get('/projects.csv')).to route_to(
+        controller: 'projects', action: 'index', format: 'csv'
       )
     end
 
     it do
-      expect(get('/projects.xml')).to route_to(
-        controller: 'projects', action: 'index', format: 'xml'
+      expect(get('/projects.xls')).to route_to(
+        controller: 'projects', action: 'index', format: 'xls'
       )
     end
   end
