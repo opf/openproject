@@ -29,15 +29,8 @@ export class DatepickerWorkingDaysToggleComponent implements ControlValueAccesso
   text = {
     ignoreNonWorkingDays: {
       title: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.title'),
-      yes: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.true'),
-      no: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.false'),
     },
   };
-
-  ignoreNonWorkingDaysOptions = [
-    { value: false, title: this.text.ignoreNonWorkingDays.no },
-    { value: true, title: this.text.ignoreNonWorkingDays.yes },
-  ];
 
   constructor(
     private I18n:I18nService,
@@ -63,7 +56,7 @@ export class DatepickerWorkingDaysToggleComponent implements ControlValueAccesso
   }
 
   writeValue(val:boolean):void {
-    this.ignoreNonWorkingDays = val;
+    this.ignoreNonWorkingDays = !val;
     this.cdRef.markForCheck();
   }
 }

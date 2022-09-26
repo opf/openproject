@@ -5,6 +5,7 @@
   >
     <div
       class="spot-form-field--input spot-selector-field--input"
+      [ngClass]="{ 'spot-selector-field--input_reversed': reverseLabel }"
       [attr.aria-describedby]="describedByID"
     >
       <ng-content select="[slot=input]"></ng-content>

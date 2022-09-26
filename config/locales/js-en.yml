@@ -818,9 +818,7 @@ en:
     project_menu_details: "Details"
 
     scheduling:
-      title: 'Scheduling'
-      manual: 'Manual'
-      default: 'Default'
+      manual: 'Manual scheduling'
 
     sort:
       sorted_asc: 'Ascending sort applied, '
@@ -932,9 +930,7 @@ en:
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
         ignore_non_working_days:
-          title: 'Working days'
-          false: 'Work week'
-          true: 'Include weekends'
+          title: 'Working days only'
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"

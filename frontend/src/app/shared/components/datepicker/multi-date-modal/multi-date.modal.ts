@@ -137,16 +137,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
     days: (count:number):string => this.I18n.t('js.units.day', { count }),
-    scheduling: {
-      title: this.I18n.t('js.scheduling.title'),
-      manual: this.I18n.t('js.scheduling.manual'),
-      default: this.I18n.t('js.scheduling.default'),
-    },
-    ignoreNonWorkingDays: {
-      title: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.title'),
-      yes: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.true'),
-      no: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.false'),
-    },
   };
 
   onDataUpdated = new EventEmitter<string>();
