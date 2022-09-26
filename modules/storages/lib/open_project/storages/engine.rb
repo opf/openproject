@@ -103,8 +103,6 @@ module OpenProject::Storages
         ::Queries::Register.register(::Queries::Storages::FileLinks::FileLinkQuery) do
           filter ::Queries::Storages::FileLinks::Filter::StorageFilter
         end
-
-        #::Queries::Register.register(::Queries::Storages::StorageFiles::StorageFileQuery)
       end
     end
 

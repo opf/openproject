@@ -42,6 +42,17 @@ class Storages::StorageFile
         mimeType: 'application/x-op-directory',
         location: '/data'
       }
-    ].map { |obj| ::Storages::StorageFile.new(obj[:id], obj[:name], obj[:mimeType], nil, obj[:lastModifiedAt], nil, obj[:lastModifiedByName], obj[:location]) }
+    ].map do |obj|
+      ::Storages::StorageFile.new(
+        obj[:id],
+        obj[:name],
+        obj[:mimeType],
+        nil,
+        obj[:lastModifiedAt],
+        nil,
+        obj[:lastModifiedByName],
+        obj[:location]
+      )
+    end
   end
 end

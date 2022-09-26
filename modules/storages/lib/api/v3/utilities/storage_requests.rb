@@ -57,7 +57,7 @@ class API::V3::Utilities::StorageRequests
   def files_query
     case @storage.provider_type
     when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-      ->() do
+      -> do
         ::API::V3::Utilities::StorageInteraction::NextcloudStorageQuery.new.files
       end
     else
