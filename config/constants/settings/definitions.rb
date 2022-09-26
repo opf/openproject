@@ -537,8 +537,9 @@ Settings::Definition.define do
       writable: false
 
   add :ldap_tls_options,
+      format: :hash,
       default: {},
-      writable: false
+      writable: true
 
   add :log_level,
       default: 'info',
