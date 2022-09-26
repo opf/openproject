@@ -1,6 +1,4 @@
 .spot-selector-field
-  line-height: 1.6rem
-
   &--label-wrap
     display: grid
     grid-template-columns: auto 1fr
@@ -12,20 +10,17 @@
   &--input
     grid-area: input
     align-self: start
-    padding-right: 1rem
+    padding-right: 0.5rem
     margin-bottom: 0
-    margin-top: 0.1rem
     display: flex
 
     &_reversed
-      padding-left: 1rem
+      padding-left: 0.5rem
       padding-right: 0
 
-  @media #{$spot-mq-mobile}
-    &--input_reversed
-      // Push input to end of grid
-      justify-self: end
-
+      @media #{$spot-mq-mobile}
+        // Push input to end of grid
+        justify-self: end
 
   &--label
     grid-area: label

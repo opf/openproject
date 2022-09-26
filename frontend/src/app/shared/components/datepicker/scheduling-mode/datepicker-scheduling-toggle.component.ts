@@ -24,7 +24,7 @@ import {
 export class DatepickerSchedulingToggleComponent implements ControlValueAccessor {
   text = {
     scheduling: {
-      title: this.I18n.t('js.scheduling.manual')
+      title: this.I18n.t('js.scheduling.manual'),
     },
   };
 
