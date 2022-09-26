@@ -1,9 +1,16 @@
+@import '../../app/spot/styles/sass/variables'
+
 @media screen and (max-width: 679px)
   .op-datepicker-modal
     height: initial
     max-width: 300px
     &--dates-container
       grid-template-columns: 1fr 1fr
+
+    &--toggle-actions-container
+      display: grid
+      grid-template-columns: 1fr
+      grid-row-gap: $spot-spacing-1
 
     &--date-form
       &:only-child

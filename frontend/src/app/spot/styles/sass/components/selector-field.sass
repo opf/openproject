@@ -21,6 +21,12 @@
       padding-left: 1rem
       padding-right: 0
 
+  @media #{$spot-mq-mobile}
+    &--input_reversed
+      // Push input to end of grid
+      justify-self: end
+
+
   &--label
     grid-area: label
     margin-bottom: 0
