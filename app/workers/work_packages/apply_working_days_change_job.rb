@@ -117,7 +117,7 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
 
   def working_day_change_message(day, working)
     I18n.t(:"working_days.journal_note.days.#{working ? :working : :non_working}",
-           day: I18n.t('date.day_names')[day])
+           day: WeekDay.find_by!(day:).name)
   end
 
   def for_each_work_package_in_scope(scope)

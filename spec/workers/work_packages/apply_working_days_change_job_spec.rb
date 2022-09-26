@@ -551,4 +551,25 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       end
     end
   end
+
+  context 'when turning Sunday into a non working day' do
+    let_schedule(<<~CHART)
+      days          | MTWTFSSm |
+      work_package  |     X▓▓X |
+    CHART
+
+    before do
+      set_working_week_days('Sunday')
+    end
+
+    # Not interested in the scheduling changes in this spec
+    it_behaves_like 'journal updates with note' do
+      let(:changed_work_packages) do
+        [work_package]
+      end
+      let(:journal_notice) do
+        "**Working days** changed (Sunday is now working)."
+      end
+    end
+  end
 end
