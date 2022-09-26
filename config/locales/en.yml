@@ -75,6 +75,9 @@ en:
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Replace your current support token"
       order: "Order Enterprise on-premises Edition"
       paste: "Paste your Enterprise Edition support token"
@@ -797,6 +800,7 @@ en:
           attributes:
             base:
               working_days_are_missing: 'At least one working day needs to be specified.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -2268,8 +2272,7 @@ en:
 
   onboarding:
     heading_getting_started: "Get an overview"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
-    text_show_again: "You can restart this video from the help menu"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
 

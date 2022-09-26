@@ -142,9 +142,9 @@ import {
   WorkPackageQuickinfoMacroComponent,
 } from 'core-app/shared/components/fields/macros/work-package-quickinfo-macro.component';
 import {
-  SlideToggleComponent,
-  slideToggleSelector,
-} from 'core-app/shared/components/slide-toggle/slide-toggle.component';
+  SpotSwitchComponent,
+  spotSwitchSelector,
+} from 'core-app/spot/components/switch/switch.component';
 import { BackupComponent, backupSelector } from 'core-app/core/setup/globals/components/admin/backup.component';
 import {
   EnterpriseBaseComponent,
@@ -250,7 +250,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: attributeLabelMacro, cls: AttributeLabelMacroComponent, embeddable: true },
   { selector: quickInfoMacroSelector, cls: WorkPackageQuickinfoMacroComponent, embeddable: true },
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
-  { selector: slideToggleSelector, cls: SlideToggleComponent },
+  { selector: spotSwitchSelector, cls: SpotSwitchComponent },
   { selector: backupSelector, cls: BackupComponent },
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
   { selector: ianMenuSelector, cls: IanMenuComponent },

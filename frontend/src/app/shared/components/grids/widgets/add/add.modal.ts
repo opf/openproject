@@ -19,6 +19,7 @@ export class AddGridWidgetModalComponent extends OpModalComponent {
     close_popup: this.i18n.t('js.button_close'),
     upsale_link: this.i18n.t('js.grid.upsale.link'),
     upsale_text: this.i18n.t('js.grid.upsale.text'),
+    cancel_button: this.i18n.t('js.button_cancel'),
     more_info_link: enterpriseDocsUrl.graphWidgets,
   };
 

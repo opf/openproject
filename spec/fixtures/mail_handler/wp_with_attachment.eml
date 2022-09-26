@@ -4,7 +4,7 @@ Received: from osiris ([127.0.0.1])
 	with hMailServer ; Sat, 21 Jun 2008 15:53:25 +0200
 Message-ID: <002301c8d3a6$2cdf6950$0a00a8c0@osiris>
 From: "John Smith" <jsmith@somenet.foo>
-To: <redmine@somenet.foo>
+To: <openproject@somenet.foo>
 Subject: Ticket created by email with attachment
 Date: Sat, 21 Jun 2008 15:53:25 +0200
 MIME-Version: 1.0

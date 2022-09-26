@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -15,6 +16,7 @@ import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-he
 @Component({
   selector: 'spot-drop-modal',
   templateUrl: './drop-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpotDropModalComponent implements OnDestroy {
   @HostBinding('class.spot-drop-modal') public className = true;

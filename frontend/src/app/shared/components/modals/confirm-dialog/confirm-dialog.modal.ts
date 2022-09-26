@@ -55,6 +55,7 @@ export interface ConfirmDialogOptions {
   closeByDocument?:boolean;
   passedData?:string[];
   dangerHighlighting?:boolean;
+  divideContent?:boolean;
 }
 
 @Component({
@@ -64,6 +65,8 @@ export interface ConfirmDialogOptions {
 })
 export class ConfirmDialogModalComponent extends OpModalComponent {
   public showClose:boolean;
+
+  public divideContent:boolean;
 
   public confirmed = false;
 
@@ -98,6 +101,7 @@ export class ConfirmDialogModalComponent extends OpModalComponent {
     this.closeOnEscape = _.defaultTo(this.options.closeByEscape, true);
     this.closeOnOutsideClick = _.defaultTo(this.options.closeByDocument, true);
     this.showClose = _.defaultTo(this.options.showClose, true);
+    this.divideContent = _.defaultTo(this.options.divideContent, false);
     // override default texts and icons if any
     this.text = _.defaults(this.options.text, this.text);
     this.icon = _.defaults(this.options.icon, this.icon);

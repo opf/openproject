@@ -296,15 +296,15 @@ pt:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                A versão atual contém vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Chega de buscas infinitas por arquivos! Com nossa nova <b>integração com Nextcloud</b> no OpenProject 12.2, agora você  pode encontrar arquivos diretamente no respetivo pacote de trabalho e sempre ter a versão correta na ponta de seus dedos.</li> <li>Acrescentámos <b>um novo seletor de data</b> com um comportamento de entrada atualizado, e uma barra de informações que conta com um botão para a exibição de relações no gráfico de Gantt.</li> <li>Adicionámos a possibilidade de <b>registrar hora para outros usuários.</b></li> <li>Marcar notificações como lidas também fora do centro de notificações.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                A versão atual contém vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Chega de buscas infinitas por arquivos! Com nossa nova <b>integração com Nextcloud</b> no OpenProject 12.2, agora você  pode encontrar arquivos diretamente no respetivo pacote de trabalho e sempre ter a versão correta na ponta de seus dedos.</li> <li>Acrescentámos <b>um novo seletor de data</b> com um comportamento de entrada atualizado, e uma barra de informações que conta com um botão para a exibição de relações no gráfico de Gantt.</li> <li>Adicionámos a possibilidade de <b>registrar hora para outros usuários.</b></li> <li>Marcar notificações como lidas também fora do centro de notificações.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
     label_activate: "Ativar"
     label_assignee: 'Atribuído para'
     label_add_column_after: "Adicionar coluna depois"
@@ -1055,12 +1055,14 @@ pt:
       button_save: "Salvar"
       button_submit: "Enviar"
       button_cancel: "Cancelar"
+      button_delete: "Delete"
       form_submit:
         title: 'Confirme para continuar'
         text: 'Tem certeza de que deseja executar esta ação?'
       destroy_work_package:
         title: "Confirmar exclusão do %{label}"
-        text: "Você tem certeza que deseja excluir o seguinte %{label}?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "O pacote de trabalho tem %{childUnits}:"
         confirm_deletion_children: "Tenho conhecimento que TODOS os descendentes dos pacotes de trabalho listados serão removidos recursivamente."
         deletes_children: "Todos os pacotes de trabalho filhos e seus descendentes também serão excluídos recursivamente."
@@ -1178,13 +1180,13 @@ pt:
       role:
         label: 'Papel em %{project}'
         no_roles_found: 'Nenhum papel encontrado'
-        description: 'Este é o papel que %{principal} receberá quando ingressar no seu projeto. O papel define quais ações ele pode realizar e quais informações pode ver. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Saiba mais sobre papéis e permissões . </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Selecione um papel'
         next_button: 'Próxima'
       message:
         label: 'Mensagem de convite'
-        description: 'Enviaremos um e-mail para %{principal}, no qual você pode adicionar uma mensagem pessoal. Uma explicação para o convite pode ajudar, ou talvez algumas informações sobre o projeto para que ele/ela possa começar.'
-        next_button: 'Revisar convite'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Enviar convite'
       success:

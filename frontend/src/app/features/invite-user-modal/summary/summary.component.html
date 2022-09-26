@@ -7,7 +7,7 @@
 
   <div class="spot-divider"></div>
 
-  <div class="spot-modal--body op-form">
+  <div class="spot-modal--body spot-container">
     <op-form-field [label]="text.projectLabel">
       <p slot="input">{{ project.name }}</p>
     </op-form-field>
@@ -27,13 +27,24 @@
     </op-form-field>
   </div>
 
-  <div class="spot-modal--footer spot-action-bar">
-    <div class="spot-action-bar--right">
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--left">
       <button
         type="button"
         class="button button_no-margin spot-action-bar--action"
         (click)="back.emit()"
-      >{{ text.backButton }}</button>
+        >
+        <op-icon icon-classes="button--icon icon-arrow-left1"></op-icon>
+        {{ text.backButton }}
+      </button>
+    </div>
+
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button button_no-margin spot-action-bar--action"
+        (click)="close.emit()"
+      >{{ text.cancelButton }}</button>
       <button
         class="button button_no-margin -highlight spot-action-bar--action"
       >{{ text.nextButton() }}</button>

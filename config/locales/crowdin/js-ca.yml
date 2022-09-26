@@ -297,15 +297,15 @@ ca:
           learn_about: "Més informació sobre les noves funcions"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                La nova versió inclou vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>S'ha acabat la cerca infinita de fitxers! Amb la nova <b>integració de Nextcloud</b> a OpenProject 12.2, ara podràs trobar els teus fitxers directament en els respectius paquets de treball i sempre tenir la versió correcta a les teves mans.</li> <li>Hem introduït <b>un nou selector de dates</b> amb un comportament actualitzat i un bàner informatiu que inclou un botó per veure les relacions a la gràfica Gantt.</li> <li>Hem afegit la possibilitat de <b>registrar temps per altres usuaris.</b></li> <li>Marca com a llegides notificacions també fora del centre de notificacions.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                La nova versió inclou vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>S'ha acabat la cerca infinita de fitxers! Amb la nova <b>integració de Nextcloud</b> a OpenProject 12.2, ara podràs trobar els teus fitxers directament en els respectius paquets de treball i sempre tenir la versió correcta a les teves mans.</li> <li>Hem introduït <b>un nou selector de dates</b> amb un comportament actualitzat i un bàner informatiu que inclou un botó per veure les relacions a la gràfica Gantt.</li> <li>Hem afegit la possibilitat de <b>registrar temps per altres usuaris.</b></li> <li>Marca com a llegides notificacions també fora del centre de notificacions.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Assignat a'
     label_add_column_after: "Afegir una columna després"
@@ -1056,12 +1056,14 @@ ca:
       button_save: "Desa"
       button_submit: "Sotmetre"
       button_cancel: "Cancel·la"
+      button_delete: "Delete"
       form_submit:
         title: 'Confirma per continuar'
         text: 'Estàs segur que vols realitzar aquesta acció?'
       destroy_work_package:
         title: "Confirma l'eliminació de %{label}"
-        text: "Estàs segur que vols eliminar el següent element %{label}?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "Aquest paquet de treball té %{childUnits}:"
         confirm_deletion_children: "Entenc que TOTS els descendents dels paquets de treball llistats seran eliminats recursivament."
         deletes_children: "Tots els paquets de treball fills i els seus descendents també seran eliminats recursivament."
@@ -1179,13 +1181,13 @@ ca:
       role:
         label: 'Rol en %{project}'
         no_roles_found: 'No s''ha trobat cap rol'
-        description: 'Aquest és el rol que els %{principal} rebran quan s''uneixin al teu projecte. El rol defineix quines accions els hi són permeses i quina informació poden veure. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Més informació sobre rols i permisos. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Si us plau, selecciona un rol'
         next_button: 'Següent'
       message:
         label: 'Missatge d''invitació'
-        description: 'Enviarem un correu electrònic a %{principal}, al qual pots afegir un missatge personal aquí. Una explicació per a la invitació pot ser útil, o potser una mica d''informació amb relació al projecte per ajudar als usuaris a començar.'
-        next_button: 'Revisa la invitació'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Enviar la invitació'
       success:

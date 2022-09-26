@@ -66,6 +66,9 @@ sv:
     enterprise:
       upgrade_to_ee: "Uppgradera till Enterprise Edition"
       add_token: "Ladda upp en Enterprise Edition support-nyckel"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Ersätta din nuvarande support-nyckel"
       order: "Order Enterprise on-premises Edition"
       paste: "Klistra in din Enterprise Edition support-nyckel"
@@ -2170,8 +2173,7 @@ sv:
           tb: "TB"
   onboarding:
     heading_getting_started: "Få en översikt"
-    text_getting_started_description: "Få en snabb överblick över projektledning och samarbete med OpenProject."
-    text_show_again: "Du kan starta om denna video från hjälpmenyn"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Välj ditt språk"
   permission_add_work_package_notes: "Lägg till anteckningar"

@@ -66,6 +66,9 @@ cs:
     enterprise:
       upgrade_to_ee: "Upgradovat na Enterprise Edition"
       add_token: "Nahrát podpůrný token Enterprise Edition"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Nahradit aktuální podpůrný token"
       order: "Upgradovat na Enterprise Edition on premises"
       paste: "Vložte svůj podpůrný token Enterprise Edition"
@@ -2208,8 +2211,7 @@ cs:
           tb: "TB"
   onboarding:
     heading_getting_started: "Získejte přehled"
-    text_getting_started_description: "Získejte rychlý přehled o řízení projektu a týmové spolupráci s OpenProject."
-    text_show_again: "Toto video můžete restartovat z menu nápovědy"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Vítejte v %{app_title}"
     select_language: "Vyberte prosím svůj jazyk"
   permission_add_work_package_notes: "Přidat poznámky"

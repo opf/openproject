@@ -66,6 +66,9 @@ fil:
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "I-upload ang isang Enterprise Edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Palitan ang iyong kasulukuyang support token"
       order: "Order Enterprise on-premises Edition"
       paste: "Idikit ang iyong Enterprise Editoon ng support token"
@@ -2171,8 +2174,7 @@ fil:
           tb: "TB"
   onboarding:
     heading_getting_started: "Kumuha ng isang buod"
-    text_getting_started_description: "Kumuha ng isang mabilisang buod ng project management at pakikipagtulungan ng koponan sa OpenProject."
-    text_show_again: "Maari mong i-restart amg video na ito mula sa tulong ng pagpipilian"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Magdagdag ng mga talaan"

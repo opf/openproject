@@ -21,8 +21,6 @@
     display: grid
     grid-template-columns: 1fr 1fr 150px
     grid-column-gap: $spot-spacing-1
-    // avoid a jump when the today link is hidden in disabled mode
-    min-height: 90px
 
   &--date-field
     &_current,
@@ -36,3 +34,6 @@
   &--action
     &:last-of-type
       margin-right: 0
+
+  &--hidden-link
+    visibility: hidden

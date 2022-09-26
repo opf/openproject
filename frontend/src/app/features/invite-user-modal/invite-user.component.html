@@ -9,41 +9,28 @@
   [type]="type"
   (save)="onProjectSelectionSave($event)"
   (close)="closeMe()"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
 ></op-ium-project-selection>
 
 <op-ium-principal
   *ngIf="!loading && step === Steps.Principal"
   class="spot-modal"
   [project]="project"
+  [roleData]="role"
+  [messageData]="message"
   [principalData]="principalData"
   [type]="type"
   (save)="onPrincipalSave($event)"
   (back)="goTo(Steps.ProjectSelection)"
   (close)="closeMe()"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
 ></op-ium-principal>
-
-<op-ium-role
-  *ngIf="!loading && step === Steps.Role"
-  class="spot-modal"
-  [role]="role"
-  [principal]="principalData.principal"
-  [project]="project"
-  [type]="type"
-  (save)="onRoleSave($event)"
-  (back)="goTo(Steps.Principal)"
-  (close)="closeMe()"
-></op-ium-role>
-
-<op-ium-message
-  *ngIf="!loading && step === Steps.Message"
-  class="spot-modal"
-  [message]="message"
-  [principal]="principalData.principal"
-  [project]="project"
-  (save)="onMessageSave($event)"
-  (back)="goTo(Steps.Role)"
-  (close)="closeMe()"
-></op-ium-message>
 
 <op-ium-summary
   *ngIf="!loading && step === Steps.Summary"
@@ -54,8 +41,12 @@
   [role]="role"
   [message]="message"
   (save)="onSuccessfulSubmission($event)"
-  (back)="goTo(this.type === 'placeholder' ? Steps.Role : Steps.Message)"
+  (back)="goTo(Steps.Principal)"
   (close)="closeMe()"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
 ></op-ium-summary>
 
 <op-ium-success
@@ -66,4 +57,8 @@
   *ngIf="!loading && step === Steps.Success"
   class="spot-modal"
   (close)="closeWithPrincipal()"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
 ></op-ium-success>

@@ -132,7 +132,7 @@ module Components
     end
 
     def focus_duration
-      due_date_field.click
+      duration_field.click
     end
 
     def set_today(date)
@@ -145,7 +145,7 @@ module Components
         end
 
       page.within("[data-qa-selector='datepicker-#{key}-date']") do
-        find('a', text: 'Today').click
+        find('button', text: 'Today').click
       end
     end
 

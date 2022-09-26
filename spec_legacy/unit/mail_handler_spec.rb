@@ -32,64 +32,6 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
-  it 'adds work package with attributes override' do
-    issue = submit_email('ticket_with_attributes.eml', allow_override: 'type,category,priority')
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
-    assert_equal Project.find(2), issue.project
-    assert_equal 'Feature request', issue.type.to_s
-    assert_equal 'Stock management', issue.category.to_s
-    assert_equal 'Urgent', issue.priority.to_s
-    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
-  end
-
-  it 'adds work package with partial attributes override' do
-    issue = submit_email('ticket_with_attributes.eml', issue: { priority: 'High' }, allow_override: ['type'])
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
-    assert_equal Project.find(2), issue.project
-    assert_equal 'Feature request', issue.type.to_s
-    assert_nil issue.category
-    assert_equal 'High', issue.priority.to_s
-    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
-  end
-
-  it 'adds work package with spaces between attribute and separator' do
-    issue = submit_email('ticket_with_spaces_between_attribute_and_separator.eml', allow_override: 'type,category,priority')
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
-    assert_equal Project.find(2), issue.project
-    assert_equal 'Feature request', issue.type.to_s
-    assert_equal 'Stock management', issue.category.to_s
-    assert_equal 'Urgent', issue.priority.to_s
-    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
-  end
-
-  it 'adds work package with attachment to specific project' do
-    issue = submit_email('ticket_with_attachment.eml', issue: { project: 'onlinestore' })
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert_equal 'Ticket created by email with attachment', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
-    assert_equal Project.find(2), issue.project
-    assert_equal 'This is  a new ticket with attachments', issue.description
-    # Attachment properties
-    assert_equal 1, issue.attachments.size
-    assert_equal 'Paella.jpg', issue.attachments.first.filename
-    assert_equal 'image/jpeg', issue.attachments.first.content_type
-    assert_equal 10790, issue.attachments.first.filesize
-  end
-
   it 'adds work package with custom fields' do
     issue = submit_email('ticket_with_custom_fields.eml', issue: { project: 'onlinestore' })
     assert issue.is_a?(WorkPackage)

@@ -31,7 +31,7 @@ Work packages can be displayed in a projects timeline, e.g. as a milestone or a 
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Work packages views](work-package-views)                    | What is the difference between the work packages views: list view, split screen view, details view? |
 | [Create a work package](create-work-package)                 | How to create a new work package in OpenProject              |
-| [Set and change dates](set-change-dates)                     | How to set and change start and finish dates of work packages in OpenProject |
+| [Set and change dates and duration](set-change-dates)                     | How to set and change the start date, finish date and duration of a work package |
 | [Edit work package](edit-work-package)                       | How to edit a work package in OpenProject                    |
 | [Copy, move, delete](copy-move-delete)                       | How to copy, move, delete a work package                     |
 | [Work package table configuration](work-package-table-configuration) | How to configure the work package table (columns, filters, group by, etc.) |

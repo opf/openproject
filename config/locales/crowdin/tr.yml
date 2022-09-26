@@ -66,6 +66,9 @@ tr:
     enterprise:
       upgrade_to_ee: "Enterprise Edition sürümüne geçin"
       add_token: "Enterprise Editon versiyonu destek anahtarını yükleyin"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Geçerli destek anahtarını değiştirin"
       order: "Enterprise on-premises Edition sipariş edin"
       paste: "Enterprise Editon versiyonu destek anahtarını yapıştırın"
@@ -2171,8 +2174,7 @@ tr:
           tb: "TB"
   onboarding:
     heading_getting_started: "Genel görünümü al"
-    text_getting_started_description: "OpenProject ile takım çalışması ve proje yönetimi konusuna genel bir bakış."
-    text_show_again: "Bu videoyu Yardım menüsünden yeniden başlatabilirsiniz"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Lütfen dilinizi seçin"
   permission_add_work_package_notes: "Not eklemek"

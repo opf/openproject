@@ -43,7 +43,7 @@ describe LdapAuthSource, type: :model do
   end
 
   describe 'overriding tls_options',
-           with_config: { ldap_tls_options: { ca_file: '/path/to/ca/file' } } do
+           with_settings: { ldap_tls_options: { ca_file: '/path/to/ca/file' } } do
     it 'sets the encryption options for start_tls' do
       ldap = LdapAuthSource.new tls_mode: :start_tls
       expect(ldap.send(:ldap_encryption)).to eq(method: :start_tls, tls_options: { 'ca_file' => '/path/to/ca/file' })

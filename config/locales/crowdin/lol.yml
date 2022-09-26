@@ -66,6 +66,9 @@ lol:
     enterprise:
       upgrade_to_ee: "crwdns494769:0crwdne494769:0"
       add_token: "crwdns494771:0crwdne494771:0"
+      delete_token_modal:
+        text: "crwdns834138:0crwdne834138:0"
+        title: "crwdns834140:0crwdne834140:0"
       replace_token: "crwdns494773:0crwdne494773:0"
       order: "crwdns494775:0crwdne494775:0"
       paste: "crwdns494777:0crwdne494777:0"
@@ -2142,8 +2145,7 @@ lol:
           tb: "crwdns498515:0crwdne498515:0"
   onboarding:
     heading_getting_started: "crwdns498517:0crwdne498517:0"
-    text_getting_started_description: "crwdns498519:0crwdne498519:0"
-    text_show_again: "crwdns498521:0crwdne498521:0"
+    text_getting_started_description: "crwdns834142:0crwdne834142:0"
     welcome: "crwdns762264:0%{app_title}crwdne762264:0"
     select_language: "crwdns498525:0crwdne498525:0"
   permission_add_work_package_notes: "crwdns498527:0crwdne498527:0"

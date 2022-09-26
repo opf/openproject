@@ -86,7 +86,7 @@ describe 'Work package filtering by bool custom field', js: true do
 
     # Turn the added filter to the "true" value.
     # Ideally this would be the default.
-    page.find("#div-values-customField#{bool_cf.id} label").click
+    page.find("#div-values-customField#{bool_cf.id} [data-qa-selector='spot-switch-handle']").click
 
     wp_table.ensure_work_package_not_listed!(work_package_false, work_package_without, work_package_other_type)
     wp_table.expect_work_package_listed(work_package_true)
@@ -103,7 +103,7 @@ describe 'Work package filtering by bool custom field', js: true do
     filters.open
 
     # Inverting the filter
-    page.find("#div-values-customField#{bool_cf.id} label").click
+    page.find("#div-values-customField#{bool_cf.id} [data-qa-selector='spot-switch-handle']").click
 
     wp_table.ensure_work_package_not_listed!(work_package_true)
     wp_table.expect_work_package_listed(work_package_false, work_package_without, work_package_other_type)

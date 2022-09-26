@@ -78,7 +78,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     datepicker.expect_visible
   end
 
-  context 'when only start_date set, updating duration (test case 1)' do
+  context 'when only start_date set, updating duration (scenario 1)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -104,7 +104,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when no values set, updating duration (test case 2)' do
+  describe 'when no values set, updating duration (scenario 2)' do
     let(:current_attributes) do
       {
         start_date: nil,
@@ -130,7 +130,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when only due date set, updating duration (test case 3)' do
+  describe 'when only due date set, updating duration (scenario 3)' do
     let(:current_attributes) do
       {
         start_date: nil,
@@ -156,7 +156,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, increasing duration (test case 4)' do
+  describe 'when all values set, increasing duration (scenario 4)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -182,7 +182,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, reducing duration (test case 5)' do
+  describe 'when all values set, reducing duration (scenario 5)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -208,7 +208,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, removing duration (test case 6)' do
+  describe 'when all values set, removing duration (scenario 6)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-09'),
@@ -232,7 +232,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, removing duration through icon (test case 6a)' do
+  describe 'when all values set, removing duration through icon (scenario 6a)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-09'),
@@ -300,7 +300,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, changing start date in calendar (test case 7)' do
+  describe 'when all values set, changing start date in calendar (scenario 7)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-08'),
@@ -350,7 +350,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when all values set, changing due date (test case 8)' do
+  describe 'when all values set, changing due date (scenario 8)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-09'),
@@ -372,7 +372,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when only duration set, setting finish date (test case 9)' do
+  describe 'when only duration set, setting finish date (scenario 9)' do
     let(:current_attributes) do
       {
         start_date: nil,
@@ -394,7 +394,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'when only due date set, setting start date (test case 10)' do
+  describe 'when only due date set, setting start date (scenario 10)' do
     let(:current_attributes) do
       {
         start_date: nil,
@@ -434,6 +434,71 @@ describe 'Datepicker modal logic test cases (WP #43539)',
 
       datepicker.expect_start_date '2021-03-03'
       datepicker.expect_due_date ''
+      datepicker.expect_duration ''
+    end
+  end
+
+  describe 'when only finish date set, changing the start date to the future in the picker (Scenario 13 variation)' do
+    let(:current_attributes) do
+      {
+        start_date: nil,
+        due_date: Date.parse('2021-02-11'),
+        duration: nil
+      }
+    end
+
+    it 'unsets the finish date' do
+      datepicker.expect_start_date ''
+      datepicker.expect_due_date '2021-02-11'
+      datepicker.expect_duration ''
+
+      datepicker.set_start_date '2021-03-03'
+
+      datepicker.expect_start_date '2021-03-03'
+      datepicker.expect_due_date ''
+      datepicker.expect_duration ''
+    end
+  end
+
+  describe 'when only start date set, changing the finish date to the past with today (Scenario 13a)' do
+    let(:current_attributes) do
+      {
+        start_date: 2.days.from_now,
+        due_date: nil,
+        duration: nil,
+        ignore_non_working_days: true
+      }
+    end
+
+    it 'unsets the other two values' do
+      datepicker.expect_start_date 2.days.from_now.to_date.iso8601
+      datepicker.expect_due_date ''
+
+      datepicker.set_today :due
+
+      datepicker.expect_start_date ''
+      datepicker.expect_due_date Time.zone.today.iso8601
+      datepicker.expect_duration ''
+    end
+  end
+
+  describe 'when all values set, changing the finish date to the past with today (Scenario 13a)' do
+    let(:current_attributes) do
+      {
+        start_date: 2.days.from_now,
+        due_date: 3.days.from_now,
+        ignore_non_working_days: true
+      }
+    end
+
+    it 'unsets the other two values' do
+      datepicker.expect_start_date 2.days.from_now.to_date.iso8601
+      datepicker.expect_due_date 3.days.from_now.to_date.iso8601
+
+      datepicker.set_today :due
+
+      datepicker.expect_start_date ''
+      datepicker.expect_due_date Time.zone.today.iso8601
       datepicker.expect_duration ''
     end
   end
@@ -649,7 +714,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
-  describe 'When all values set, clear the due date (Scenario 21a)' do
+  describe 'When all values set, clear the due date (Scenario 21b)' do
     let(:current_attributes) do
       {
         start_date: Date.parse('2021-02-20'),
@@ -672,6 +737,142 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       apply_and_expect_saved duration: nil,
                              start_date: Date.parse('2021-02-20'),
                              due_date: nil,
+                             ignore_non_working_days: true
+    end
+  end
+
+  describe 'When only start date set, duration in focus, select earlier date (Scenario 22a)' do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse('2021-02-18'),
+        due_date: nil,
+        duration: nil,
+        ignore_non_working_days: true
+      }
+    end
+
+    it 'sets start date to selected value, finish date to start date' do
+      datepicker.expect_start_date '2021-02-18'
+      datepicker.expect_due_date ''
+      datepicker.expect_duration ''
+
+      datepicker.focus_duration
+      datepicker.expect_duration_highlighted
+
+      sleep 1
+
+      datepicker.select_day 17
+      datepicker.expect_start_date '2021-02-17'
+      datepicker.expect_due_date '2021-02-18'
+      datepicker.expect_duration 2
+
+      datepicker.expect_start_highlighted
+
+      apply_and_expect_saved duration: 2,
+                             start_date: Date.parse('2021-02-17'),
+                             due_date: Date.parse('2021-02-18'),
+                             ignore_non_working_days: true
+    end
+  end
+
+  describe 'When only start date set, duration in focus, select later date (Scenario 22b)' do
+    let(:current_attributes) do
+      {
+        start_date: Date.parse('2021-02-18'),
+        due_date: nil,
+        duration: nil,
+        ignore_non_working_days: true
+      }
+    end
+
+    it 'sets finish date to selected date' do
+      datepicker.expect_start_date '2021-02-18'
+      datepicker.expect_due_date ''
+      datepicker.expect_duration ''
+
+      datepicker.focus_duration
+      datepicker.expect_duration_highlighted
+
+      sleep 1
+
+      datepicker.select_day 19
+      datepicker.expect_start_date '2021-02-18'
+      datepicker.expect_due_date '2021-02-19'
+      datepicker.expect_duration 2
+
+      datepicker.expect_start_highlighted
+
+      apply_and_expect_saved duration: 2,
+                             start_date: Date.parse('2021-02-18'),
+                             due_date: Date.parse('2021-02-19'),
+                             ignore_non_working_days: true
+    end
+  end
+
+  describe 'When only due date set, duration in focus, select later date (Scenario 23a)' do
+    let(:current_attributes) do
+      {
+        start_date: nil,
+        due_date: Date.parse('2021-02-18'),
+        duration: nil,
+        ignore_non_working_days: true
+      }
+    end
+
+    it 'sets due date to selected value, start to finish date, focus on finish' do
+      datepicker.expect_start_date ''
+      datepicker.expect_due_date '2021-02-18'
+      datepicker.expect_duration ''
+
+      datepicker.focus_duration
+      datepicker.expect_duration_highlighted
+
+      sleep 1
+
+      datepicker.select_day 19
+      datepicker.expect_start_date '2021-02-18'
+      datepicker.expect_due_date '2021-02-19'
+      datepicker.expect_duration 2
+
+      datepicker.expect_due_highlighted
+
+      apply_and_expect_saved duration: 2,
+                             start_date: Date.parse('2021-02-18'),
+                             due_date: Date.parse('2021-02-19'),
+                             ignore_non_working_days: true
+    end
+  end
+
+  describe 'When only due date set, duration in focus, select earlier date (Scenario 23b)' do
+    let(:current_attributes) do
+      {
+        start_date: nil,
+        due_date: Date.parse('2021-02-18'),
+        duration: nil,
+        ignore_non_working_days: true
+      }
+    end
+
+    it 'sets start date to selected date' do
+      datepicker.expect_start_date ''
+      datepicker.expect_due_date '2021-02-18'
+      datepicker.expect_duration ''
+
+      datepicker.focus_duration
+      datepicker.expect_duration_highlighted
+
+      sleep 1
+
+      datepicker.select_day 17
+      datepicker.expect_start_date '2021-02-17'
+      datepicker.expect_due_date '2021-02-18'
+      datepicker.expect_duration 2
+
+      datepicker.expect_due_highlighted
+
+      apply_and_expect_saved duration: 2,
+                             start_date: Date.parse('2021-02-17'),
+                             due_date: Date.parse('2021-02-18'),
                              ignore_non_working_days: true
     end
   end

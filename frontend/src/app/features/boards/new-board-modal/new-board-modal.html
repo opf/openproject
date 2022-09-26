@@ -6,7 +6,7 @@
 
   <div class="spot-divider"></div>
 
-  <div class="spot-modal--body">
+  <div class="spot-modal--body spot-container">
     <p
       *ngIf="eeShowBanners"
     >
@@ -27,5 +27,17 @@
         (create)="createBoard($event)">
       </tile-view>
     </section>
+  </div>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button button_no-margin spot-action-bar--action"
+        (click)="closeMe()"
+        >
+        {{ text.cancel_button }}
+     </button>
+    </div>
   </div>
 </div>

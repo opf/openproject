@@ -27,6 +27,7 @@
 //++
 
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit,
 } from '@angular/core';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
@@ -36,6 +37,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   templateUrl: './dynamic-content.modal.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicContentModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   // override superclass
@@ -58,6 +60,10 @@ export class DynamicContentModalComponent extends OpModalComponent implements On
       .find('.dynamic-content-modal--wrapper')
       .addClass(this.locals.modalClassName)
       .append(this.locals.modalBody);
+
+    const modal = document.querySelector('.spot-modal') as HTMLElement;
+    const closeButton = modal.querySelector('[dynamic-content-modal-close-button]') as HTMLMetaElement;
+    closeButton.addEventListener('click', () => this.closeMe());
   }
 
   ngOnDestroy():void {

@@ -27,7 +27,7 @@
       max-width: calc(100vw - 6rem)
 
   &_wide
-    width: 70rem
+    width: 60rem
     min-height: 40vh
 
   &--header
@@ -37,6 +37,9 @@
     padding: $spot-spacing-1 $spot-spacing-1 0
     position: relative
     align-items: center
+
+    + .spot-divider
+      margin-top: $spot-spacing-1
 
     > .spot-icon
       width: $spot-spacing-1-5
@@ -59,13 +62,9 @@
 
     display: flex
     flex-direction: column
-    padding: 1rem
     flex-grow: 1
     flex-shrink: 1
     overflow-y: auto
 
     &:focus
       outline-style: none
-
-  &--footer
-    width: 100%

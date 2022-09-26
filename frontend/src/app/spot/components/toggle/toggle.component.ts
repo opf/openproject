@@ -1,5 +1,6 @@
 import {
   ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   forwardRef,
@@ -22,6 +23,7 @@ export interface SpotToggleOption<T> {
     useExisting: forwardRef(() => SpotToggleComponent),
     multi: true,
   }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpotToggleComponent<T> implements ControlValueAccessor {
   // TODO: These old styles will need to be replaced
