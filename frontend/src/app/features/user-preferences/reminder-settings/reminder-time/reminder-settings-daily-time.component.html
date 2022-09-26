@@ -7,13 +7,14 @@
       <p [textContent]="text.explanation"></p>
   </div>
 
-  <spot-selector-field [control]="form.get('enabled')">
+  <spot-selector-field
+    [label]="text.enable"
+    [control]="form.get('enabled')">
     <input
       slot="input"
       type="checkbox"
       formControlName="enabled"
     />
-    <p slot="description">{{ text.enable }}</p>
   </spot-selector-field>
 
   <div

@@ -4,6 +4,7 @@
 >
   <spot-selector-field
     class="op-pause-reminders--checkbox"
+    [label]="text.label"
     [control]="form.get('enabled')"
   >
     <input
@@ -11,7 +12,6 @@
       type="checkbox"
       formControlName="enabled"
     />
-    <p slot="description">{{ text.label }}</p>
   </spot-selector-field>
 
   <op-range-date-picker
