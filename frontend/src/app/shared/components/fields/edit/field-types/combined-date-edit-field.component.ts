@@ -27,7 +27,6 @@
 //++
 
 import {
-  ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
@@ -47,7 +46,6 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
            class="op-input"
            type="text" />
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CombinedDateEditFieldComponent extends DateEditFieldComponent implements OnInit, OnDestroy {
   @InjectField() readonly timezoneService:TimezoneService;
@@ -106,7 +104,7 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
       .closingEvent
       .pipe(take(1))
       .subscribe(() => {
-        this.initialize();
+        this.resetDates();
         this.handler.handleUserSubmit();
       });
   }
@@ -117,6 +115,10 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
 
     // this breaks the preceived abstraction of the edit fields. But the date picker
     // is already highly specific to start and due Date.
+    this.dates = `${this.currentStartDate} - ${this.currentDueDate}`;
+  }
+
+  protected resetDates():void {
     this.dates = `${this.currentStartDate} - ${this.currentDueDate}`;
   }
 
