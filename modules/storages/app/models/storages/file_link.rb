@@ -67,7 +67,7 @@ class Storages::FileLink < ApplicationRecord
   # A standard Rails custom query:
   # https://www.rubyguides.com/2019/10/scopes-in-ruby-on-rails/
   # Purpose: limit to FileLink visible by given user.
-  # Used by: FileLinksAPI#visible_file_links_scope and WorkPackagesFileLinksAPI#visible_file_links_scope
+  # Used by: FileLinksAPI#visible_file_links and WorkPackagesFileLinksAPI#visible_file_links
   scope :visible, ->(user = User.current) {
     # join projects through the container, and filter on projects visible from
     # the user

@@ -27,7 +27,7 @@
 #++
 
 # Helper for open and download links for a file link object.
-module API::V3::FileLinks::StorageUrlHelper
+module API::V3::Utilities::StorageUrlHelper
   def storage_url_open_file(file_link, open_location: false)
     location_flag = ActiveModel::Type::Boolean.new.cast(open_location) ? 0 : 1
 
@@ -46,7 +46,7 @@ module API::V3::FileLinks::StorageUrlHelper
     client_token = get_oauth_client_token(user:, oauth_client:)
     return client_token if client_token.failure?
 
-    direct_download_response = make_direct_download oauth_client:,
+    direct_download_response = make_direct_download storage:,
                                                     access_token: client_token.result.access_token,
                                                     file_id: file_link.origin_id
     return direct_download_response if direct_download_response.failure?
@@ -70,9 +70,9 @@ module API::V3::FileLinks::StorageUrlHelper
     client_token.success? ? client_token : ServiceResult.failure(result: I18n.t('http.request.missing_authorization'))
   end
 
-  def make_direct_download(oauth_client:, access_token:, file_id:)
-    response = API::V3::Storages::StorageRequestFactory
-                 .new(oauth_client:)
+  def make_direct_download(storage:, access_token:, file_id:)
+    response = API::V3::Storages::StorageRequests
+                 .new(storage:)
                  .download_command
                  .call(access_token:, file_id:)
 

@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module StorageFiles
-      class StorageFilesAPI < ::API::OpenProjectAPI
-        resources :files do
-          get do
-            files = ::Storages::StorageFile.all
-            StorageFileCollectionRepresenter.new(files, self_link: api_v3_paths.storage_files(@storage.id), current_user:)
-          end
-        end
+module API::V3::StorageFiles
+  class StorageFilesAPI < ::API::OpenProjectAPI
+    resources :files do
+      get do
+        files_query = ::API::V3::Utilities::StorageRequests.new(storage: @storage).files_query
+
+        ::API::V3::StorageFiles::StorageFileCollectionRepresenter.new(
+          files_query.call,
+          self_link: api_v3_paths.storage_files(@storage.id), current_user:
+        )
       end
     end
   end

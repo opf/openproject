@@ -26,11 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module StorageFiles
-      class StorageFileCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-      end
-    end
+module API::V3::StorageFiles
+  class StorageFileCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
   end
 end

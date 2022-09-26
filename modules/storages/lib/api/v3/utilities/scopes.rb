@@ -26,21 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::StorageFiles
-  class StorageFileRepresenter < ::API::Decorators::Single
-    include API::Decorators::DateProperty
+module API::V3::Utilities::Scopes
+  def visible_storages
+    ::Storages::Storage.visible(current_user)
+  end
 
-    property :id
-    property :name
-    property :mime_type
-    date_time_property :created_at
-    date_time_property :last_modified_at
-    property :created_by_name
-    property :last_modified_by_name
-    property :location
-
-    def _type
-      'StorageFile'
-    end
+  def visible_file_links
+    ::Storages::FileLink.visible(current_user)
   end
 end
