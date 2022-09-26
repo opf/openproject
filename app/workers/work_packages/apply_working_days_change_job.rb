@@ -36,10 +36,10 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
       updated_work_package_ids = []
 
       each_applicable_work_package(previous_working_days) do |work_package|
-        updated_work_package_ids += apply_change_to_work_package(user, work_package).map(&:id)
+        updated_work_package_ids.concat(apply_change_to_work_package(user, work_package).pluck(:id))
       end
       each_applicable_predecessor(updated_work_package_ids) do |work_package|
-        updated_work_package_ids += apply_change_to_predecessor(user, work_package).map(&:id)
+        updated_work_package_ids.concat(apply_change_to_predecessor(user, work_package).pluck(:id))
       end
 
       set_journal_notice(updated_work_package_ids, previous_working_days)
