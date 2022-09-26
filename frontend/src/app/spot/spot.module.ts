@@ -16,6 +16,7 @@ import { SpotFormFieldComponent } from './components/form-field/form-field.compo
 import { SpotFormBindingDirective } from './components/form-field/form-binding.directive';
 import { SpotDocsComponent } from './spot-docs.component';
 import { SpotSelectorFieldComponent } from 'core-app/spot/components/selector-field/selector-field.component';
+import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { SpotSelectorFieldComponent } from 'core-app/spot/components/selector-fi
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    AttributeHelpTextModule,
   ],
 
   providers: [
