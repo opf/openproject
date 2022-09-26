@@ -1196,7 +1196,7 @@ pl:
       search_placeholder: 'Wyszukaj projekt...'
       include_subprojects: 'Uwzględnij wszystkie podprojekty'
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
+        include_all_selected: 'Projekt już uwzględniony, ponieważ włączenie wszystkich podprojektów jest włączone.'
         current_project: 'To jest bieżący projekt, w którym jesteś.'
         does_not_match_search: 'Projekt nie spełnia kryteriów wyszukiwania.'
       no_results: 'Żaden projekt nie spełnia kryteriów wyszukiwania.'
