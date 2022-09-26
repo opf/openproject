@@ -50,13 +50,14 @@ export class DatepickerWorkingDaysToggleComponent implements ControlValueAccesso
   }
 
   onToggle(value:boolean):void {
-    this.writeValue(value);
-    this.onChange(value);
-    this.onTouched(value);
+    const ignoreNonWorkingDays = !value;
+    this.writeValue(ignoreNonWorkingDays);
+    this.onChange(ignoreNonWorkingDays);
+    this.onTouched(ignoreNonWorkingDays);
   }
 
   writeValue(val:boolean):void {
-    this.ignoreNonWorkingDays = !val;
+    this.ignoreNonWorkingDays = val;
     this.cdRef.markForCheck();
   }
 }
