@@ -15,7 +15,8 @@ shared_examples 'notification settings workflow' do
       settings_page.add_project project_alt
 
       # Set settings for project email
-      settings_page.configure_global involved: true,
+      settings_page.configure_global assignee: true,
+                                     responsible: true,
                                      work_package_commented: true,
                                      work_package_created: true,
                                      work_package_processed: true,
@@ -24,7 +25,8 @@ shared_examples 'notification settings workflow' do
 
       # Set settings for project email
       settings_page.configure_project project: project,
-                                      involved: true,
+                                      assignee: true,
+                                      responsible: true,
                                       work_package_commented: false,
                                       work_package_created: false,
                                       work_package_processed: false,
@@ -39,7 +41,8 @@ shared_examples 'notification settings workflow' do
       expect(notification_settings.where(project:).count).to eq 1
 
       project_settings = notification_settings.find_by(project:)
-      expect(project_settings.involved).to be_truthy
+      expect(project_settings.assignee).to be_truthy
+      expect(project_settings.responsible).to be_truthy
       expect(project_settings.mentioned).to be_truthy
       expect(project_settings.watched).to be_truthy
       expect(project_settings.work_package_commented).to be_falsey

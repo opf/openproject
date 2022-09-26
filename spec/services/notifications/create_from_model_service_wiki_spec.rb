@@ -72,10 +72,10 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
         end
       end
 
-      context 'with the user having registered for involved notifications' do
+      context 'with the user having registered for assignee and responsible notifications' do
         let(:recipient_notification_settings) do
           [
-            build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+            build(:notification_setting, **notification_settings_all_false.merge(assignee: true, responsible: true))
           ]
         end
 
@@ -165,10 +165,10 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
         end
       end
 
-      context 'with the user having registered for involved notifications' do
+      context 'with the user having registered for assignee and responsible notifications' do
         let(:recipient_notification_settings) do
           [
-            build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+            build(:notification_setting, **notification_settings_all_false.merge(assignee: true, responsible: true))
           ]
         end
 

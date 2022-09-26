@@ -9,7 +9,6 @@ import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
@@ -30,10 +29,8 @@ export class NotificationSettingsTableComponent {
       title: this.I18n.t('js.notifications.settings.reasons.mentioned.title'),
       description: this.I18n.t('js.notifications.settings.reasons.mentioned.description'),
     },
-    involved_header: {
-      title: this.I18n.t('js.notifications.settings.reasons.involved.title'),
-      description: this.I18n.t('js.notifications.settings.reasons.involved.description'),
-    },
+    assignee: this.I18n.t('js.notifications.settings.reasons.assignee'),
+    responsible: this.I18n.t('js.notifications.settings.reasons.responsible'),
     watched_header: this.I18n.t('js.notifications.settings.reasons.watched'),
     work_package_commented_header: this.I18n.t('js.notifications.settings.reasons.work_package_commented'),
     work_package_created_header: this.I18n.t('js.notifications.settings.reasons.work_package_created'),
@@ -55,7 +52,8 @@ export class NotificationSettingsTableComponent {
   addProjectSettings(project:HalSourceLink):void {
     this.settings.push(new FormGroup({
       project: new FormControl(project),
-      involved: new FormControl(false),
+      assignee: new FormControl(false),
+      responsible: new FormControl(false),
       workPackageCreated: new FormControl(false),
       workPackageProcessed: new FormControl(false),
       workPackageScheduled: new FormControl(false),

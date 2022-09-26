@@ -1071,7 +1071,7 @@ describe MailHandler, type: :model do
           assignee = create(:user,
                             member_in_project: project,
                             member_with_permissions: %i(view_work_packages),
-                            notification_settings: [build(:notification_setting, involved: true)])
+                            notification_settings: [build(:notification_setting, assignee: true, responsible: true)])
 
           work_package.update_column(:assigned_to_id, assignee.id)
 
