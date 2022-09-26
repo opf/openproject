@@ -27,10 +27,6 @@
 //++
 
 .op-tab-content
-  &--container
-    .op-files-tab--storage-info-box:not(:last-child)
-      margin-bottom: $spot-spacing-1
-
   &--tab-section
     margin-bottom: $spot-spacing-2
 
@@ -41,6 +37,12 @@
 
         &--file-list .op-files-tab--file-list-item:first-child
           margin-top: 0
+
+    .op-files-tab--storage-info-box:not(:last-child)
+      margin-bottom: $spot-spacing-1
+
+    .op-files-tab--file-list-actions
+      margin-top: $spot-spacing-0-75
 
   &--header
     border-bottom: 1px solid #ddd
