@@ -26,7 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { take } from 'rxjs/operators';
@@ -42,6 +47,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
            class="op-input"
            type="text" />
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CombinedDateEditFieldComponent extends DateEditFieldComponent implements OnInit, OnDestroy {
   @InjectField() readonly timezoneService:TimezoneService;
@@ -56,7 +62,7 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
 
   private modal:OpModalComponent;
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
 
     this.handler
@@ -69,12 +75,12 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy():void {
     super.ngOnDestroy();
     this.modal?.closeMe();
   }
 
-  public handleClick() {
+  public handleClick():void {
     this.showDatePickerModal();
   }
 
@@ -100,12 +106,13 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
       .closingEvent
       .pipe(take(1))
       .subscribe(() => {
+        this.initialize();
         this.handler.handleUserSubmit();
       });
   }
 
   // Overwrite super in order to set the inital dates.
-  protected initialize() {
+  protected initialize():void {
     super.initialize();
 
     // this breaks the preceived abstraction of the edit fields. But the date picker

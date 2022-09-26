@@ -209,12 +209,6 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
   }
 
   cancel():void {
-    this.dates = {
-      date: '',
-      start: '',
-      end: '',
-    };
-    this.onDataChange();
     this.closeMe();
   }
 
