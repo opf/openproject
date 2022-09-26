@@ -552,7 +552,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
     end
   end
 
-  context 'when turning Sunday into a non working day' do
+  context 'when turning Sunday into a working day' do
     let_schedule(<<~CHART)
       days          | MTWTFSSm |
       work_package  |     X▓▓X |
