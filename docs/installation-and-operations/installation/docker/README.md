@@ -266,7 +266,7 @@ First, add a `.env` file with some variable:
 OPENPROJECT_HTTPS=true
 ```
 
-And then you'll need to pass the environment variable to the respective containers you want to set it one. For most OpenProject environment variables, this will be for `x-op-app`:
+And then you'll need to pass the environment variable to the respective containers you want to set it on. For most OpenProject environment variables, this will be for `x-op-app`:
 
 ```yaml
 version: "3.7"
