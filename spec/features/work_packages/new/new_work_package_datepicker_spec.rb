@@ -50,7 +50,7 @@ describe 'New work package datepicker',
 
   it 'can open and select the datepicker' do
     date_field.input_element.click
-    date_field.ignore_non_working_days true
+    date_field.toggle_ignore_non_working_days
 
     start = (Time.zone.today - 1.day).iso8601
     date_field.focus_start_date
