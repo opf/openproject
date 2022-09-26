@@ -163,7 +163,7 @@ class LdapAuthSource < AuthSource
 
     {
       method: tls_mode.to_sym,
-      tls_options: OpenProject::Configuration.ldap_tls_options.with_indifferent_access
+      tls_options: Setting.ldap_tls_options.with_indifferent_access
     }
   end
 
