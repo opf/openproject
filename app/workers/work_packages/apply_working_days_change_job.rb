@@ -33,11 +33,15 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
   def perform(user_id:, previous_working_days:)
     user = User.find(user_id)
 
-    each_applicable_work_package(previous_working_days) do |work_package|
-      apply_change_to_work_package(user, work_package)
-    end
-    each_applicable_follows_relation do |relation|
-      apply_change_to_relation(user, relation)
+    User.execute_as user do
+      updated_work_package_ids = collect_id_for_each(applicable_work_package(previous_working_days)) do |work_package|
+        apply_change_to_work_package(user, work_package)
+      end
+      updated_work_package_ids += collect_id_for_each(applicable_predecessor(updated_work_package_ids)) do |predecessor|
+        apply_change_to_predecessor(user, predecessor)
+      end
+
+      set_journal_notice(updated_work_package_ids, previous_working_days)
     end
   end
 
@@ -47,31 +51,30 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
     WorkPackages::UpdateService
       .new(user:, model: work_package, contract_class: EmptyContract)
       .call(duration: work_package.duration) # trigger a recomputation of start and due date
+      .all_results
   end
 
-  def apply_change_to_relation(user, relation)
-    predecessor = relation.to
+  def apply_change_to_predecessor(user, predecessor)
     schedule_result = WorkPackages::SetScheduleService
                         .new(user:, work_package: predecessor)
                         .call
 
     # The SetScheduleService does not save. It has to be done by the caller.
-    schedule_result.dependent_results.each do |dependent_result|
+    schedule_result.dependent_results.map do |dependent_result|
       work_package = dependent_result.result
       work_package.save
+
+      work_package
     end
   end
 
-  def each_applicable_work_package(previous_working_days)
+  def applicable_work_package(previous_working_days)
     changed_days = changed_days(previous_working_days)
+
     WorkPackage
       .covering_days_of_week(changed_days)
       .order(WorkPackage.arel_table[:start_date].asc.nulls_first,
              WorkPackage.arel_table[:due_date].asc)
-      .pluck(:id)
-      .each do |id|
-        yield WorkPackage.find(id)
-      end
   end
 
   def changed_days(previous_working_days)
@@ -83,12 +86,40 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
     (previous ^ current).to_a
   end
 
-  def each_applicable_follows_relation
-    Relation
-      .follows_with_delay
-      .pluck(:id)
-      .each do |id|
-        yield Relation.find(id)
-      end
+  def applicable_predecessor(excluded)
+    WorkPackage
+      .where(id: Relation.follows_with_delay.select(:to_id))
+      .where.not(id: excluded)
+  end
+
+  def set_journal_notice(updated_work_package_ids, previous_working_days)
+    day_changes = changed_days(previous_working_days).index_with { |day| Setting.working_days.include?(day) }
+    journal_note = journal_notice_text(day_changes)
+
+    WorkPackage
+      .where(id: updated_work_package_ids.uniq)
+      .in_batches
+      .each_record do |work_package|
+      work_package.journal_notes = journal_note
+      work_package.save
+    end
+  end
+
+  def journal_notice_text(day_changes)
+    I18n.with_locale(Setting.default_language) do
+      I18n.t(:'working_days.journal_note.changed',
+             changes: day_changes.collect { |day, working| working_day_change_message(day, working) }.join(', '))
+    end
+  end
+
+  def working_day_change_message(day, working)
+    I18n.t(:"working_days.journal_note.days.#{working ? :working : :non_working}",
+           day: WeekDay.find_by!(day:).name)
+  end
+
+  def collect_id_for_each(scope)
+    scope.pluck(:id).map do |id|
+      yield(WorkPackage.find(id)).pluck(:id)
+    end.flatten
   end
 end

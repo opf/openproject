@@ -422,6 +422,11 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
         .to eql(sibling2_attributes[:start_date])
       expect(sibling2_work_package.due_date)
         .to eql(sibling2_attributes[:due_date])
+
+      expect(subject.all_results)
+        .to match_array([work_package,
+                         parent_work_package,
+                         grandparent_work_package])
     end
   end
 
@@ -485,6 +490,12 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
       sibling2_work_package.reload
       expect(sibling2_work_package.done_ratio)
         .to eql(sibling2_attributes[:done_ratio])
+
+      # Returns changed work packages
+      expect(subject.all_results)
+        .to match_array([work_package,
+                         parent_work_package,
+                         grandparent_work_package])
     end
   end
 
@@ -546,6 +557,12 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
       child_work_package.reload
       expect(child_work_package.estimated_hours)
         .to eql(child_attributes[:estimated_hours].to_f)
+
+      # Returns changed work packages
+      expect(subject.all_results)
+        .to match_array([work_package,
+                         parent_work_package,
+                         grandparent_work_package])
     end
   end
 
@@ -571,6 +588,12 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
         .to be_truthy
       expect(grandparent_work_package.reload.ignore_non_working_days)
         .to be_truthy
+
+      # Returns changed work packages
+      expect(subject.all_results)
+        .to match_array([work_package,
+                         parent_work_package,
+                         grandparent_work_package])
     end
   end
 
@@ -768,6 +791,16 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
         .to eql Time.zone.today + 32.days
       expect(following3_sibling_work_package.due_date)
         .to eql Time.zone.today + 36.days
+
+      # Returns changed work packages
+      expect(subject.all_results)
+        .to match_array([work_package,
+                         following_parent_work_package,
+                         following_work_package,
+                         following2_parent_work_package,
+                         following2_work_package,
+                         following3_parent_work_package,
+                         following3_work_package])
     end
     # rubocop:enable RSpec/ExampleLength
     # rubocop:enable RSpec/MultipleExpectations
@@ -816,6 +849,10 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
 
       expect(work_package.reload.slice(:start_date, :due_date).symbolize_keys)
         .to eq(expected_child_dates)
+
+      expect(subject.all_results.uniq)
+        .to match_array([work_package,
+                         parent_work_package])
     end
   end
 
@@ -918,6 +955,11 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
         .to eql work_package_attributes[:start_date]
       expect(new_parent_work_package.due_date)
         .to eql new_sibling_attributes[:due_date]
+
+      expect(subject.all_results.uniq)
+        .to match_array([work_package,
+                         former_parent_work_package,
+                         new_parent_work_package])
     end
   end
 
@@ -995,6 +1037,10 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
         .to eql new_parent_predecessor_attributes[:due_date] + 1.day
       expect(new_parent_work_package.due_date)
         .to eql new_parent_predecessor_attributes[:due_date] + 4.days
+
+      expect(subject.all_results.uniq)
+        .to match_array([work_package,
+                         new_parent_work_package])
     end
   end
 
@@ -1064,6 +1110,10 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
         .to eql sibling_attributes[:start_date]
       expect(parent_work_package.due_date)
         .to eql sibling_attributes[:due_date]
+
+      expect(subject.all_results.uniq)
+        .to match_array([work_package,
+                         parent_work_package])
     end
   end
 

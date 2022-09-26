@@ -39,6 +39,28 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
   # This must run before any working days are changed, hence the `let!` form
   let!(:previous_working_days) { work_week }
 
+  shared_examples_for 'journal updates with note' do
+    let(:changed_work_packages) { [] }
+    let(:unchanged_work_packages) { [] }
+    let(:journal_notice) { raise 'need to specify note' }
+
+    it 'adds journal entries to changed work packages' do
+      job.perform_now(user_id: user.id, previous_working_days:)
+
+      changed_work_packages.each do |work_package|
+        expect(work_package.journals.count)
+          .to eq 2
+        expect(work_package.journals.last.notes)
+          .to include(journal_notice)
+      end
+
+      unchanged_work_packages.each do |work_package|
+        expect(work_package.journals.count)
+          .to eq 1
+      end
+    end
+  end
+
   context 'when a work package includes a date that is now a non-working day' do
     let_schedule(<<~CHART)
       days                  | MTWTFSS |
@@ -65,6 +87,17 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         wp_due_only           |   ░] ░░ |
       CHART
     end
+
+    it_behaves_like 'journal updates with note' do
+      let(:changed_work_packages) do
+        [work_package,
+         work_package_on_start,
+         work_package_on_due,
+         wp_start_only,
+         wp_due_only]
+      end
+      let(:journal_notice) { "**Working days** changed (Wednesday is now non-working)." }
+    end
   end
 
   context 'when a work package was scheduled to start on a date that is now a non-working day' do
@@ -85,6 +118,13 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         work_package |   ░XX░░ |
       CHART
     end
+
+    it_behaves_like 'journal updates with note' do
+      let(:changed_work_packages) do
+        [work_package]
+      end
+      let(:journal_notice) { "**Working days** changed (Wednesday is now non-working)." }
+    end
   end
 
   context 'when a work package includes a date that is no more a non-working day' do
@@ -103,6 +143,13 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         days          | fssMTWTFSS |
         work_package  | XX▓X     ░ |
       CHART
+    end
+
+    it_behaves_like 'journal updates with note' do
+      let(:changed_work_packages) do
+        [work_package]
+      end
+      let(:journal_notice) { "**Working days** changed (Saturday is now working)." }
     end
   end
 
@@ -125,6 +172,13 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         follower    |   ░ XXX | working days include weekends
       CHART
     end
+
+    it_behaves_like 'journal updates with note' do
+      let(:changed_work_packages) do
+        [predecessor, follower]
+      end
+      let(:journal_notice) { "**Working days** changed (Wednesday is now non-working)." }
+    end
   end
 
   context 'when a follower has a predecessor with delay covering a day that is now a non-working day' do
@@ -145,6 +199,16 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         predecessor | XX░  ░░ |
         follower    |   ░ X░░ |
       CHART
+    end
+
+    it_behaves_like 'journal updates with note' do
+      let(:changed_work_packages) do
+        [follower]
+      end
+      let(:unchanged_work_packages) do
+        [predecessor]
+      end
+      let(:journal_notice) { "**Working days** changed (Wednesday is now non-working)." }
     end
   end
 
@@ -167,6 +231,12 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         follower    |   ░  ░░ |
       CHART
     end
+
+    it_behaves_like 'journal updates with note' do
+      let(:unchanged_work_packages) do
+        [predecessor, follower]
+      end
+    end
   end
 
   context 'when a follower has a predecessor with delay covering multiple days with different working changes' do
@@ -184,19 +254,25 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
 
     it 'correctly handles the changes' do
       job.perform_now(user_id: user.id, previous_working_days:)
-      expect(WorkPackage.all).to match_schedule(<<~CHART)
+      expect_schedule(WorkPackage.all, <<~CHART)
         days        | MTWTFSS |
         predecessor | X░   ░░ |
         follower    |  ░  X░░ |
       CHART
     end
+
+    it_behaves_like 'journal updates with note' do
+      let(:unchanged_work_packages) do
+        [predecessor, follower]
+      end
+    end
   end
 
   context 'when a follower has a predecessor with dates covering a day that is now a working day' do
     let_schedule(<<~CHART)
-      days        | MTWTFSS  |
-      predecessor |  X▓X ░░  | working days work week
-      follower    |   ░ XXX  | working days include weekends, follows predecessor
+      days        | MTWTFSS |
+      predecessor |  X▓X ░░ | working days work week
+      follower    |   ░ XXX | working days include weekends, follows predecessor
     CHART
     let(:work_week) { set_work_week('monday', 'tuesday', 'thursday', 'friday') }
 
@@ -206,6 +282,22 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
 
     it 'does not move the follower backwards' do
       job.perform_now(user_id: user.id, previous_working_days:)
+
+      expect_schedule(WorkPackage.all, <<~CHART)
+        days        | MTWTFSS |
+        predecessor |  XX  ░░ |
+        follower    |     XXX |
+      CHART
+    end
+
+    it_behaves_like 'journal updates with note' do
+      let(:changed_work_packages) do
+        [predecessor]
+      end
+      let(:unchanged_work_packages) do
+        [follower]
+      end
+      let(:journal_notice) { "**Working days** changed (Wednesday is now working)." }
     end
   end
 
@@ -229,6 +321,12 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         follower    |    XX░░ |
       CHART
     end
+
+    it_behaves_like 'journal updates with note' do
+      let(:unchanged_work_packages) do
+        [predecessor, follower]
+      end
+    end
   end
 
   context 'when a work package has working days include weekends, and includes a date that is now a non-working day' do
@@ -248,6 +346,12 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         work_package | XXXX ░░ | working days include weekends
       CHART
     end
+
+    it_behaves_like 'journal updates with note' do
+      let(:unchanged_work_packages) do
+        [work_package]
+      end
+    end
   end
 
   context 'when a work package only has a duration' do
@@ -263,6 +367,12 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
     it 'does not change anything' do
       job.perform_now(user_id: user.id, previous_working_days:)
       expect(work_package.duration).to eq(3)
+    end
+
+    it_behaves_like 'journal updates with note' do
+      let(:unchanged_work_packages) do
+        [work_package]
+      end
     end
   end
 
@@ -289,6 +399,15 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         wp2  |  ░░ ░░░ ░░X░░░ ░░ ░░░  |
         wp3  | X▓▓X▓▓▓X░░ ░░░ ░░ ░░░  |
       CHART
+    end
+
+    it_behaves_like 'journal updates with note' do
+      let(:changed_work_packages) do
+        [wp1, wp2, wp3]
+      end
+      let(:journal_notice) do
+        "**Working days** changed (Tuesday is now non-working, Wednesday is now non-working, Friday is now non-working)."
+      end
     end
   end
 
@@ -324,6 +443,15 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         wp3  |  ░░ ░░░ ░░X |
       CHART
     end
+
+    it_behaves_like 'journal updates with note' do
+      let(:changed_work_packages) do
+        [wp1, wp2, wp3]
+      end
+      let(:journal_notice) do
+        "**Working days** changed (Tuesday is now non-working, Wednesday is now non-working, Friday is now non-working)."
+      end
+    end
   end
 
   context 'when having multiple work packages following each other, and having days becoming working days' do
@@ -350,6 +478,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       CHART
       expect(WorkPackage.pluck(:lock_version)).to all(be <= 1)
     end
+
+    it_behaves_like 'journal updates with note' do
+      let(:changed_work_packages) do
+        [wp1, wp3]
+      end
+      let(:unchanged_work_packages) do
+        [wp2]
+      end
+      let(:journal_notice) do
+        "**Working days** changed (Tuesday is now working, Wednesday is now working, Friday is now working)."
+      end
+    end
   end
 
   context 'when having multiple work packages following each other and first one only has a due date' do
@@ -375,6 +515,61 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         wp2  |  ░░ ░░░X▓▓X░░░ ░░ ░░░  |
         wp3  |  ░░]░░░ ░░ ░░░ ░░ ░░░  |
       CHART
+    end
+
+    it_behaves_like 'journal updates with note' do
+      let(:changed_work_packages) do
+        [wp1, wp2, wp3]
+      end
+      let(:journal_notice) do
+        "**Working days** changed (Tuesday is now non-working, Wednesday is now non-working, Friday is now non-working)."
+      end
+    end
+  end
+
+  context 'when having a non english default language', with_settings: { default_language: :fr } do
+    let_schedule(<<~CHART)
+      days          | fssMTWTFSS |
+      work_package  | X▓▓XX   ░░ |
+    CHART
+
+    before do
+      set_working_week_days('saturday')
+    end
+
+    # Not interested in the scheduling changes in this spec
+    it_behaves_like 'journal updates with note' do
+      let(:changed_work_packages) do
+        [work_package]
+      end
+      let(:journal_notice) do
+        I18n.with_locale(:fr) do
+          I18n.t(:'working_days.journal_note.changed',
+                 changes: I18n.t(:'working_days.journal_note.days.working',
+                                 day: I18n.t('date.day_names')[6]))
+        end
+      end
+    end
+  end
+
+  context 'when turning Sunday into a working day' do
+    let_schedule(<<~CHART)
+      days          | MTWTFSSm |
+      work_package  |     X▓▓X |
+    CHART
+
+    before do
+      set_working_week_days('Sunday')
+    end
+
+    # Not interested in the scheduling changes in this spec
+    it_behaves_like 'journal updates with note' do
+      let(:changed_work_packages) do
+        [work_package]
+      end
+      let(:journal_notice) do
+        "**Working days** changed (Sunday is now working)."
+      end
     end
   end
 

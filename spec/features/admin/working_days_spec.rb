@@ -29,9 +29,17 @@
 require 'spec_helper'
 
 describe 'Working Days', type: :feature, js: true do
+  create_shared_association_defaults_for_work_package_factory
+
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
   shared_let(:admin) { create :admin }
-  shared_let(:work_package) { create :work_package, start_date: Date.parse('2022-09-19'), due_date: Date.parse('2022-09-23') }
+  let_schedule(<<~CHART)
+    days                  | MTWTFSSmtwtfss |
+    earliest_work_package | XXXXX          |
+    second_work_package   |    XX..XX      |
+    follower              |          XXX   | follows earliest_work_package, follows second_work_package
+  CHART
+
   let(:dialog) { ::Components::ConfirmationDialog.new }
 
   current_user { admin }
@@ -70,11 +78,12 @@ describe 'Working Days', type: :feature, js: true do
 
     expect(working_days_setting).to eq([1, 2, 3, 4, 5])
 
-    expect(work_package.reload.start_date)
-      .to eql(Date.parse('2022-09-19'))
-
-    expect(work_package.due_date)
-      .to eql(Date.parse('2022-09-23'))
+    expect_schedule(WorkPackage.all, <<~CHART)
+      days                  | MTWTFSSmtwtfss |
+      earliest_work_package | XXXXX          |
+      second_work_package   |    XX..XX      |
+      follower              |          XXX   |
+    CHART
   end
 
   it 'updates the values and saves the settings' do
@@ -100,14 +109,21 @@ describe 'Working Days', type: :feature, js: true do
 
     expect(working_days_setting).to eq([2, 3, 4])
 
-    expect(work_package.reload.start_date)
-      .to eql(Date.parse('2022-09-20'))
+    expect_schedule(WorkPackage.all, <<~CHART)
+      days                  | MTWTFSSmtwtfssmtwt  |
+      earliest_work_package |  XXX....XX          |
+      second_work_package   |    X....XXX         |
+      follower              |                XXX  |
+    CHART
 
-    expect(work_package.due_date)
-      .to eql(Date.parse('2022-09-28'))
+    # The updated work packages will have a journal entry informing about the change
+    wp_page = Pages::FullWorkPackage.new(earliest_work_package)
+    wp_page.visit!
+
+    wp_page.expect_comment(text: "Working days changed (Monday is now non-working, Friday is now non-working).")
   end
 
-  it 'shows error when non working days are set' do
+  it 'shows error when non working days are all unset' do
     uncheck 'Monday'
     uncheck 'Tuesday'
     uncheck 'Wednesday'
@@ -131,11 +147,12 @@ describe 'Working Days', type: :feature, js: true do
     expect(page).to have_unchecked_field 'Sunday'
     expect(working_days_setting).to eq([1, 2, 3, 4, 5])
 
-    expect(work_package.reload.start_date)
-      .to eql(Date.parse('2022-09-19'))
-
-    expect(work_package.due_date)
-      .to eql(Date.parse('2022-09-23'))
+    expect_schedule(WorkPackage.all, <<~CHART)
+      days                  | MTWTFSSmtwtfss |
+      earliest_work_package | XXXXX          |
+      second_work_package   |    XX..XX      |
+      follower              |          XXX   |
+    CHART
   end
 
   it 'shows an error when a previous change to the working days configuration isn\'t processed yet' do
