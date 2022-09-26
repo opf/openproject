@@ -800,6 +800,7 @@ en:
           attributes:
             base:
               working_days_are_missing: 'At least one working day needs to be specified.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:

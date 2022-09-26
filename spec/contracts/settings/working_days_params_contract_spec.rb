@@ -37,6 +37,13 @@ describe Settings::WorkingDaysParamsContract do
   let(:contract) do
     described_class.new(setting, current_user, params:)
   end
+  let(:apply_job_scheduled) { false }
+
+  before do
+    allow(WorkPackages::ApplyWorkingDaysChangeJob)
+      .to receive(:scheduled?)
+            .and_return(apply_job_scheduled)
+  end
 
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
@@ -44,5 +51,12 @@ describe Settings::WorkingDaysParamsContract do
     let(:params) { { working_days: [] } }
 
     include_examples 'contract is invalid', base: :working_days_are_missing
+  end
+
+  context 'with an ApplyWorkingDaysChangeJob already existing' do
+    let(:params) { { working_days: [1, 2, 3] } }
+    let(:apply_job_scheduled) { true }
+
+    include_examples 'contract is invalid', base: :previous_working_day_changes_unprocessed
   end
 end

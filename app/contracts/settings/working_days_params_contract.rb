@@ -31,12 +31,19 @@ module Settings
     include RequiresAdminGuard
 
     validate :working_days_are_present
+    validate :unique_job
 
     protected
 
     def working_days_are_present
       if working_days.empty?
         errors.add :base, :working_days_are_missing
+      end
+    end
+
+    def unique_job
+      if WorkPackages::ApplyWorkingDaysChangeJob.scheduled?
+        errors.add :base, :previous_working_day_changes_unprocessed
       end
     end
 
