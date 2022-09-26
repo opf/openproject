@@ -819,7 +819,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       }
     end
 
-    it 'sets due date to selected value, start to finish date, focus on finish' do
+    it 'sets due date to selected value, start to finish date, focus on start' do
       datepicker.expect_start_date ''
       datepicker.expect_due_date '2021-02-18'
       datepicker.expect_duration ''
@@ -834,7 +834,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_due_date '2021-02-19'
       datepicker.expect_duration 2
 
-      datepicker.expect_due_highlighted
+      datepicker.expect_start_highlighted
 
       apply_and_expect_saved duration: 2,
                              start_date: Date.parse('2021-02-18'),
@@ -868,7 +868,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_due_date '2021-02-18'
       datepicker.expect_duration 2
 
-      datepicker.expect_due_highlighted
+      datepicker.expect_start_highlighted
 
       apply_and_expect_saved duration: 2,
                              start_date: Date.parse('2021-02-17'),
@@ -902,7 +902,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_due_date '2021-02-10'
       datepicker.expect_duration 4
 
-      # Focus is on finish date
+      # Focus is on start date
       datepicker.expect_due_highlighted
       datepicker.select_day 15
 
