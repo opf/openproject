@@ -33,13 +33,11 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
     user = User.find(user_id)
 
     User.execute_as user do
-      updated_work_package_ids = []
-
-      each_applicable_work_package(previous_working_days) do |work_package|
-        updated_work_package_ids.concat(apply_change_to_work_package(user, work_package).pluck(:id))
+      updated_work_package_ids = each_applicable_work_package(previous_working_days) do |work_package|
+        apply_change_to_work_package(user, work_package)
       end
-      each_applicable_predecessor(updated_work_package_ids) do |work_package|
-        updated_work_package_ids.concat(apply_change_to_predecessor(user, work_package).pluck(:id))
+      updated_work_package_ids += each_applicable_predecessor(updated_work_package_ids) do |work_package|
+        apply_change_to_predecessor(user, work_package)
       end
 
       set_journal_notice(updated_work_package_ids, previous_working_days)
@@ -121,8 +119,8 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
   end
 
   def for_each_work_package_in_scope(scope)
-    scope.pluck(:id).each do |id|
-      yield WorkPackage.find(id)
-    end
+    scope.pluck(:id).map do |id|
+      yield(WorkPackage.find(id)).pluck(:id)
+    end.flatten
   end
 end
