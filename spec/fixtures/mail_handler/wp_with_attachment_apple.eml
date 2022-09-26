@@ -1,13 +1,13 @@
 From JSmith@somenet.foo  Mon Jun 27 06:55:56 2011
 Return-Path: <JSmith@somenet.foo>
-X-Original-To: redmine@somenet.foo
-Delivered-To: redmine@somenet.foo
+X-Original-To: openproject@somenet.foo
+Delivered-To: openproject@somenet.foo
 From: John Smith <JSmith@somenet.foo>
 Mime-Version: 1.0 (Apple Message framework v1084)
 Content-Type: multipart/alternative; boundary=Apple-Mail-3-163265085
 Subject: Test attaching images to tickets by HTML mail
 Date: Mon, 27 Jun 2011 16:55:46 +0300
-To: redmine@somenet.foo
+To: openproject@somenet.foo
 Message-Id: <7ABE3636-07E8-47C9-90A1-FCB1AA894DA1@somenet.foo>
 X-Mailer: Apple Mail (2.1084)
 
