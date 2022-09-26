@@ -266,7 +266,34 @@ First, add a `.env` file with some variable:
 OPENPROJECT_HTTPS=true
 ```
 
-And the  `docker-compose` command will automatically pick it up. You can also specify multiple files if you have different configurations you want to test.
+And then you'll need to pass the environment variable to the respective containers you want to set it one. For most OpenProject environment variables, this will be for `x-op-app`:
+
+```yaml
+version: "3.7"
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  pgdata:
+  opdata:
+
+x-op-restart-policy: &restart_policy
+  restart: unless-stopped
+x-op-image: &image
+  image: openproject/community:${TAG:-12}
+x-op-app: &app
+  <<: [*image, *restart_policy]
+  environment:
+    OPENPROJECT_HTTPS: ${OPENPROJECT_HTTPS}
+    # ... more environment variables
+
+# configuration cut off at this point. 
+# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/12/compose/docker-compose.yml
+```
+
+
 
 Let's say you have a `.env.prod`  file with some production-specific configuration. Then, start the services with that special env file specified.
 
