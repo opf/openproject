@@ -137,4 +137,22 @@ describe 'Working Days', type: :feature, js: true do
     expect(work_package.due_date)
       .to eql(Date.parse('2022-09-23'))
   end
+
+  it 'shows an error when a previous change to the working days configuration isn\'t processed yet' do
+    # Have a job already scheduled
+    # Attempting to set the job via simply using the UI would require to change the test setup of how
+    # delayed jobs are handled.
+    ActiveJob::QueueAdapters::DelayedJobAdapter
+      .new
+      .enqueue(WorkPackages::ApplyWorkingDaysChangeJob.new(user_id: 5, previous_working_days: []))
+
+    uncheck 'Tuesday'
+    click_on 'Save'
+
+    # Not executing the background jobs
+    dialog.confirm
+
+    expect(page).to have_selector('.flash.error',
+                                  text: 'The previous changes to the working days configuration have not been applied yet.')
+  end
 end
