@@ -4,11 +4,12 @@ import {
   Component,
   Input,
   OnInit,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
-  FormGroup,
   FormArray,
   FormControl,
+  FormGroup,
 } from '@angular/forms';
 import { take } from 'rxjs/internal/operators/take';
 import { UIRouterGlobals } from '@uirouter/core';
@@ -43,6 +44,8 @@ interface IFullNotificationSettingsValue extends IToastSettingsValue {
 @Component({
   selector: myNotificationsPageComponentSelector,
   templateUrl: './notifications-settings-page.component.html',
+  styleUrls: ['./notifications-settings-page.component.sass'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationsSettingsPageComponent extends UntilDestroyedMixin implements OnInit {

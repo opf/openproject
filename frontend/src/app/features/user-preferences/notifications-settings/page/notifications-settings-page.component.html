@@ -7,7 +7,9 @@
   <h5>{{ text.notifyImmediately.title }}</h5>
   <p>{{ text.notifyImmediately.description }}</p>
 
-  <spot-selector-field [label]="text.mentioned.title">
+  <spot-selector-field
+    class="op-notifications-settings--bold-label"
+    [label]="text.mentioned.title">
       <input
         disabled
         checked
@@ -18,6 +20,7 @@
   </spot-selector-field>
 
   <spot-selector-field
+    class="op-notifications-settings--bold-label"
     [label]="text.involved.title"
     [control]="form.get('involved')"
   >
