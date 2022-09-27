@@ -752,17 +752,14 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private handleDateClicked(info:DateSelectArg) {
-    const startDay = new Date(info.start).getDate();
-    const endDay = new Date(info.end).getDate();
-    const duration = endDay - startDay;
-    const ignoreNonWorkingDays = duration !== 1 ? false : this.weekdayService.isNonWorkingDay(info.start);
+    const nonWorkingDays = this.weekdayService.isNonWorkingDay(info.start) || this.weekdayService.isNonWorkingDay(info.end);
 
     this.openNewSplitCreate(
       info.startStr,
       // end date is exclusive
       this.workPackagesCalendar.getEndDateFromTimestamp(info.endStr),
       info.resource?.id || '',
-      ignoreNonWorkingDays,
+      nonWorkingDays,
     );
   }
 
