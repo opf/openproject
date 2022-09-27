@@ -179,45 +179,14 @@ describe ScheduleHelpers::ExampleMethods do
       end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
     end
 
-    it 'raises an error if no work package exists for a given name' do
-      expect do
-        expect_schedule([main], <<~CHART)
-                  | MTWTFSS |
-          unknown | XX      |
-        CHART
-      end.to raise_error(ArgumentError, "unable to find WorkPackage :unknown")
-    end
-
-    it 'checks against the given work packages rather than the ones from the let! definitions' do
-      expect do
-        expect_schedule([], <<~CHART)
-                | MTWTFSS |
-          main  | XX      |
-        CHART
-      end.not_to raise_error
-    end
-
-    it 'uses the work package from the let! definitions if it is not given as parameter' do
-      a_modified_instance_of_main = WorkPackage.find(main.id)
-      a_modified_instance_of_main.due_date += 2.days
+    it 'raises an error if a work package name in the chart cannot be found in the given work packages' do
       expect do
         expect_schedule([main], <<~CHART)
                 | MTWTFSS |
           main  | XX      |
+          other |   XXXX  |
         CHART
-      end.not_to raise_error
-      expect do
-        expect_schedule([a_modified_instance_of_main], <<~CHART)
-                | MTWTFSS |
-          main  | XXXX    |
-        CHART
-      end.not_to raise_error
-      expect do
-        expect_schedule([], <<~CHART)
-                | MTWTFSS |
-          main  | XX      |
-        CHART
-      end.not_to raise_error
+      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
     end
   end
 end
