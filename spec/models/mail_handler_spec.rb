@@ -39,6 +39,7 @@ describe MailHandler, type: :model do
     # there is a default work package priority to save any work packages
     priority_low
     anno_user
+    User.system
 
     allow(UserMailer)
       .to receive(:incoming_email_error)
@@ -1516,66 +1517,6 @@ describe MailHandler, type: :model do
       it 'removes the irrelevant lines' do
         expect(handler.send(:cleaned_up_text_body)).to eq("Subject:foo\nDescription:bar")
         expect(handler).to have_received(:cleaned_up_text_body)
-      end
-    end
-  end
-
-  describe '.new_user_from_attributes' do
-    context 'with sufficient information' do
-      # [address, name] => [login, firstname, lastname]
-      {
-        ['jsmith@example.net', nil] => %w[jsmith@example.net jsmith -],
-        %w[jsmith@example.net John] => %w[jsmith@example.net John -],
-        ['jsmith@example.net', 'John Smith'] => %w[jsmith@example.net John Smith],
-        ['jsmith@example.net', 'John Paul Smith'] => ['jsmith@example.net', 'John', 'Paul Smith'],
-        ['jsmith@example.net', 'AVeryLongFirstnameThatNoLongerExceedsTheMaximumLength Smith'] =>
-          %w[jsmith@example.net AVeryLongFirstnameThatNoLongerExceedsTheMaximumLength Smith],
-        ['jsmith@example.net', 'John AVeryLongLastnameThatNoLongerExceedsTheMaximumLength'] =>
-          %w[jsmith@example.net John AVeryLongLastnameThatNoLongerExceedsTheMaximumLength]
-      }.each do |(provided_mail, provided_fullname), (expected_login, expected_firstname, expected_lastname)|
-        it 'returns a valid user' do
-          user = described_class.new_user_from_attributes(provided_mail, provided_fullname)
-
-          expect(user)
-            .to be_valid
-          expect(user.mail)
-            .to eq provided_mail
-          expect(user.login)
-            .to eq expected_login
-          expect(user.firstname)
-            .to eq expected_firstname
-          expect(user.lastname)
-            .to eq expected_lastname
-        end
-      end
-    end
-
-    context 'with min password length',
-            with_legacy_settings: { password_min_length: 15 } do
-      it 'respects minimum password length' do
-        user = described_class.new_user_from_attributes('jsmith@example.net')
-
-        expect(user)
-          .to be_valid
-
-        expect(user.password.length)
-          .to be 15
-      end
-    end
-
-    context 'when the attributes are invalid',
-            with_legacy_settings: { password_min_length: 15 } do
-      it 'respects minimum password length' do
-        user = described_class.new_user_from_attributes('foo&bar@example.net')
-
-        expect(user)
-          .to be_valid
-
-        expect(user.login)
-          .to match /^user[a-f0-9]+$/
-
-        expect(user.mail)
-          .to eq 'foo&bar@example.net'
       end
     end
   end
