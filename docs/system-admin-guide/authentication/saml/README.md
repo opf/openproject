@@ -347,16 +347,15 @@ default:
       # <-- other configuration -->
       certificate: "-----BEGIN CERTIFICATE-----\n .... certificate contents ....\n-----END CERTIFICATE-----"
       private_key: "-----BEGIN PRIVATE KEY-----\n .... private key contents ....\n-----END PRIVATE KEY-----"
-      security: {
+      security:
         # Whether SP and idP should sign requests and assertions
-        authn_requests_signed: true,
-        want_assertions_signed: true,
+        authn_requests_signed: true
+        want_assertions_signed: true
         # Whether the idP should encrypt assertions
-        want_assertions_signed: false,
-        embed_sign: true,
-        signature_method: 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
-        digest_method: 'http://www.w3.org/2001/04/xmlenc#sha256',
-      }
+        want_assertions_signed: false
+        embed_sign: true
+        signature_method: 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256'
+        digest_method: 'http://www.w3.org/2001/04/xmlenc#sha256'
 ```
 
 
