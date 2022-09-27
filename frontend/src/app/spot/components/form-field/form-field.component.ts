@@ -1,34 +1,28 @@
 import {
-  Component,
-  ContentChild,
-  HostBinding,
-  Input,
-  Optional,
+  Component, ContentChild, HostBinding, Input, Optional,
 } from '@angular/core';
-import {
-  AbstractControl,
-  FormGroupDirective,
-  NgControl,
-} from '@angular/forms';
+import { AbstractControl, FormGroupDirective, NgControl } from '@angular/forms';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
+/* eslint-disable-next-line change-detection-strategy/on-push */
 @Component({
-  selector: 'op-checkbox-field',
-  templateUrl: './checkbox-field.component.html',
+  selector: 'spot-form-field',
+  templateUrl: './form-field.component.html',
 })
-export class OpCheckboxFieldComponent {
-  @HostBinding('class.op-form-field') className = true;
+export class SpotFormFieldComponent {
+  @HostBinding('class.spot-form-field') className = true;
 
-  @HostBinding('class.op-checkbox-field') classNameCheckbox = true;
-
-  @HostBinding('class.op-form-field_invalid') get errorClassName():boolean {
+  @HostBinding('class.spot-form-field_invalid') get errorClassName():boolean {
     return this.showErrorMessage;
   }
 
   @Input() label = '';
 
-  @Input() hidden = false;
+  @Input() noWrapLabel = false;
 
   @Input() required = false;
+
+  @Input() hidden = false;
 
   @Input() showValidationErrorOn:'change' | 'blur' | 'submit' | 'never' = 'submit';
 
@@ -40,7 +34,11 @@ export class OpCheckboxFieldComponent {
 
   @ContentChild(NgControl) ngControl:NgControl;
 
-  internalID = `op-checkbox-field-${+new Date()}`;
+  internalID = `spot-form-field-${+new Date()}`;
+
+  text = {
+    invalid: this.I18n.t('js.label_invalid'),
+  };
 
   get errorsID():string {
     return `${this.internalID}-errors`;
@@ -64,7 +62,7 @@ export class OpCheckboxFieldComponent {
     }
 
     if (this.showValidationErrorOn === 'submit') {
-      return this.formControl.invalid && this.formGroupDirective?.submitted;
+      return this.formControl.invalid && this._formGroupDirective?.submitted;
     } if (this.showValidationErrorOn === 'blur') {
       return this.formControl.invalid && this.formControl.touched;
     } if (this.showValidationErrorOn === 'change') {
@@ -75,6 +73,7 @@ export class OpCheckboxFieldComponent {
   }
 
   constructor(
-    @Optional() private formGroupDirective:FormGroupDirective,
+    @Optional() private _formGroupDirective:FormGroupDirective,
+    readonly I18n:I18nService,
   ) {}
 }

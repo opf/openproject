@@ -74,9 +74,7 @@ describe 'Datepicker logic on parents',
     end
 
     it 'disables the non working days options' do
-      expect(page)
-        .to have_selector('[data-qa-selector="spot-toggle--option"][data-qa-disabled]',
-                          count: 2)
+      datepicker.expect_ignore_non_working_days_disabled
     end
   end
 end

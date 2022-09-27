@@ -54,7 +54,7 @@ export class SummaryComponent {
     }),
     messageLabel: this.I18n.t('js.invite_user_modal.message.label'),
     backButton: this.I18n.t('js.invite_user_modal.back'),
-    cancelButton: this.I18n.t('js.invite_user_modal.summary.cancel_button'),
+    cancelButton: this.I18n.t('js.button_cancel'),
     nextButton: ():string => this.I18n.t('js.invite_user_modal.summary.next_button', {
       type: this.type,
       principal: this.principal,

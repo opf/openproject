@@ -322,7 +322,7 @@ describe 'date inplace editor',
       expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-info"]')
 
       # When toggling manually scheduled
-      start_date.set_scheduling_mode manually: true
+      start_date.toggle_scheduling_mode
 
       expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-warning"]')
       expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-info"]')
@@ -347,7 +347,7 @@ describe 'date inplace editor',
                                       wait: 5)
 
         # When toggling manually scheduled
-        start_date.set_scheduling_mode manually: false
+        start_date.toggle_scheduling_mode
 
         # Expect new banner info
         expect(page)
@@ -375,7 +375,7 @@ describe 'date inplace editor',
                             wait: 5)
 
         # When toggling manually scheduled
-        start_date.set_scheduling_mode manually: true
+        start_date.toggle_scheduling_mode
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                                       text: 'Manual scheduling enabled, all relations ignored.')
@@ -404,7 +404,7 @@ describe 'date inplace editor',
                                       text: 'Manual scheduling enabled, all relations ignored.')
 
         # When toggling manually scheduled
-        start_date.set_scheduling_mode manually: false
+        start_date.toggle_scheduling_mode
 
         # Expect banner to switch
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
@@ -427,7 +427,7 @@ describe 'date inplace editor',
                                       text: 'Automatically scheduled. Dates are derived from relations.')
 
         # When toggling manually scheduled
-        start_date.set_scheduling_mode manually: true
+        start_date.toggle_scheduling_mode
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                                       text: 'Manual scheduling enabled, all relations ignored.')
@@ -439,30 +439,41 @@ describe 'date inplace editor',
         wp_timeline.expect_timeline!
       end
 
-      it 'allows switching to manual scheduling to set the ignore NWD (Regression #43933)' do
-        expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
-                                      text: 'Automatically scheduled. Dates are derived from relations.')
+      context 'when parent is not manually scheduled, child has workdays only set' do
+        let(:schedule_manually) { false }
+        let!(:child) do
+          create :work_package,
+                 project:,
+                 ignore_non_working_days: false,
+                 start_date: Date.parse('2022-09-27'),
+                 due_date: Date.parse('2022-09-29')
+        end
 
-        # Expect ignore NWD disabled
-        datepicker.expect_ignore_non_working_days_disabled
-        datepicker.expect_ignore_non_working_days 'Include weekends'
+        it 'allows switching to manual scheduling to set the ignore NWD (Regression #43933)' do
+          expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+                                        text: 'Automatically scheduled. Dates are derived from relations.')
 
-        # When toggling manually scheduled
-        start_date.set_scheduling_mode manually: true
-        datepicker.expect_ignore_non_working_days_enabled
-        datepicker.ignore_non_working_days 'Work week'
-        datepicker.expect_ignore_non_working_days 'Work week'
+          # Expect "Working days only" to be checked
+          datepicker.expect_ignore_non_working_days_disabled
+          datepicker.expect_ignore_non_working_days false, disabled: true
 
-        expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
-                                      text: 'Manual scheduling enabled, all relations ignored.')
+          # When toggling manually scheduled
+          start_date.toggle_scheduling_mode
+          datepicker.expect_ignore_non_working_days_enabled
+          datepicker.toggle_ignore_non_working_days
+          datepicker.expect_ignore_non_working_days true
 
-        # Reset when disabled
-        start_date.set_scheduling_mode manually: false
-        datepicker.expect_ignore_non_working_days_disabled
-        datepicker.expect_ignore_non_working_days 'Include weekends'
+          expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
+                                        text: 'Manual scheduling enabled, all relations ignored.')
 
-        expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
-                                      text: 'Automatically scheduled. Dates are derived from relations.')
+          # Reset when disabled
+          start_date.toggle_scheduling_mode
+          datepicker.expect_ignore_non_working_days_disabled
+          datepicker.expect_ignore_non_working_days false, disabled: true
+
+          expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+                                        text: 'Automatically scheduled. Dates are derived from relations.')
+        end
       end
     end
   end
@@ -491,7 +502,7 @@ describe 'date inplace editor',
                                       text: 'Manual scheduling enabled, all relations ignored.')
 
         # When toggling manually scheduled
-        start_date.set_scheduling_mode manually: false
+        start_date.toggle_scheduling_mode
 
         # Expect new banner info
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
@@ -514,7 +525,7 @@ describe 'date inplace editor',
                                       text: 'Available start and finish dates are limited by relations.')
 
         # When toggling manually scheduled
-        start_date.set_scheduling_mode manually: true
+        start_date.toggle_scheduling_mode
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                                       text: 'Manual scheduling enabled, all relations ignored.')
@@ -546,7 +557,7 @@ describe 'date inplace editor',
                                       text: 'Manual scheduling enabled, all relations ignored.')
 
         # When toggling manually scheduled
-        start_date.set_scheduling_mode manually: false
+        start_date.toggle_scheduling_mode
 
         expect(page)
           .to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
@@ -570,7 +581,7 @@ describe 'date inplace editor',
                             text: 'Changing these dates will affect dates of related work packages.')
 
         # When toggling manually scheduled
-        start_date.set_scheduling_mode manually: true
+        start_date.toggle_scheduling_mode
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                                       text: 'Manual scheduling enabled, all relations ignored.')

@@ -7,7 +7,7 @@
   <div class="spot-divider"></div>
 
   <div class="spot-modal--body spot-container">
-    <op-form-field
+    <spot-form-field
       [label]="text.project.label"
       required
     >
@@ -28,7 +28,7 @@
 
       <div
         slot="errors"
-        class="op-form-field--error"
+        class="spot-form-field--error"
         *ngIf="projectControl.errors?.required"
       >
         {{ text.project.required }}
@@ -36,14 +36,14 @@
 
       <div
         slot="errors"
-        class="op-form-field--error"
+        class="spot-form-field--error"
         *ngIf="projectControl.errors?.lackingPermission"
       >
         {{ text.project.lackingPermission }}
       </div>
-    </op-form-field>
+    </spot-form-field>
 
-    <op-form-field>
+    <spot-form-field>
       <op-option-list
         [options]="typeOptions"
         formControlName="type"
@@ -52,14 +52,14 @@
 
       <div
         *ngIf="projectAndTypeForm?.dirty && typeControl?.invalid"
-        class="op-form-field--errors"
+        class="spot-form-field--errors"
         slot="errors"
       >
-        <div class="op-form-field--error">
+        <div class="spot-form-field--error">
           {{ text.type.required }}
         </div>
       </div>
-    </op-form-field>
+    </spot-form-field>
   </div>
 
   <div class="spot-action-bar">

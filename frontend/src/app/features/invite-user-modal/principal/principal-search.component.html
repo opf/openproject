@@ -1,6 +1,6 @@
 <ng-select
   appendTo=".spot-modal-overlay"
-  [formControl]="principalControl"
+  [formControl]="spotFormBinding"
   [addTag]="showAddTag ? createNewFromInput.bind(this) : false"
   [typeahead]="input$"
   [items]="items$ | async"

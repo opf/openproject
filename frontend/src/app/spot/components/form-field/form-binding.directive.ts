@@ -3,18 +3,19 @@ import {
   FormArray, FormControl, FormGroup, NgControl,
 } from '@angular/forms';
 
-export const formControlBinding:any = {
+export const formControlBinding = {
   provide: NgControl,
-  useExisting: forwardRef(() => OpFormBindingDirective),
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  useExisting: forwardRef(() => SpotFormBindingDirective),
 };
 
 @Directive({
-  selector: '[opFormBinding]',
+  selector: '[spotFormBinding]',
   providers: [formControlBinding],
   exportAs: 'ngForm',
 })
-export class OpFormBindingDirective extends NgControl {
-  @Input('opFormBinding') form!:FormControl|FormGroup|FormArray;
+export class SpotFormBindingDirective extends NgControl {
+  @Input('spotFormBinding') form!:FormControl|FormGroup|FormArray;
 
   get control():FormControl|FormGroup|FormArray {
     return this.form;

@@ -1,4 +1,4 @@
-<op-form-field
+<spot-form-field
   *ngIf="field.type !== 'booleanInput'"
   [control]="field?.formControl"
   [label]="to?.label"
@@ -13,13 +13,13 @@
   <ng-container #fieldComponent slot="input"></ng-container>
 
   <formly-validation-message
-    class="op-form-field--error"
+    class="spot-form-field--error"
     [field]="field"
     slot="errors"
   ></formly-validation-message>
-</op-form-field>
+</spot-form-field>
 
-<op-checkbox-field
+<spot-selector-field
   *ngIf="field.type === 'booleanInput'"
   [control]="field?.formControl"
   [label]="to?.label"
@@ -33,8 +33,8 @@
   <ng-container #fieldComponent slot="input"></ng-container>
 
   <formly-validation-message
-    class="op-form-field--error"
+    class="spot-form-field--error"
     [field]="field"
     slot="errors"
   ></formly-validation-message>
-</op-checkbox-field>
+</spot-selector-field>

@@ -161,55 +161,44 @@ module Components
       expect(container).to have_selector('[data-qa-selector="op-datepicker-modal--duration-field"][data-qa-highlighted]')
     end
 
-    def expect_scheduling_mode(val)
-      container
-        .find('[data-qa-selector="spot-toggle--option"][data-qa-active-toggle]', text: val.to_s.camelize)
+    def expect_scheduling_mode(manually)
+      if manually
+        expect(container).to have_checked_field('scheduling', visible: :all)
+      else
+        expect(container).to have_unchecked_field('scheduling', visible: :all)
+      end
     end
 
-    def set_scheduling_mode(val)
-      container
-        .find('[data-qa-selector="spot-toggle--option"]', text: val.to_s.camelize)
-        .click
-
-      expect_scheduling_mode(val)
+    def toggle_scheduling_mode
+      find('label', text: 'Manual scheduling').click
     end
 
-    def ignore_non_working_days_toggle
-      container
-        .find('[data-qa-selector="op-datepicker-modal--include-non-working-days"]')
+    def scheduling_mode_input
+      container.find_field 'scheduling', visible: :all
+    end
+
+    def ignore_non_working_days_input
+      container.find_field 'weekdays_only', visible: :all
     end
 
     def expect_ignore_non_working_days_disabled
-      expect(ignore_non_working_days_toggle)
-        .to have_selector('[data-qa-selector="spot-toggle--option"][data-qa-disabled]', count: 2)
+      expect(container).to have_field('weekdays_only', disabled: true)
     end
 
     def expect_ignore_non_working_days_enabled
-      page.raise_if_found('[data-qa-selector="op-datepicker-modal--include-non-working-days"] ' \
-                          '[data-qa-selector="spot-toggle--option"][data-qa-disabled]')
+      expect(container).to have_field('weekdays_only', disabled: false)
     end
 
-    def expect_ignore_non_working_days(val)
-      text = ignore_non_working_days_option(val)
-
-      container
-        .find('[data-qa-selector="spot-toggle--option"][data-qa-active-toggle]', text:)
-    end
-
-    def ignore_non_working_days(val)
-      text = ignore_non_working_days_option(val)
-
-      container
-        .find('[data-qa-selector="spot-toggle--option"]', text:)
-        .click
-    end
-
-    def ignore_non_working_days_option(val)
+    def expect_ignore_non_working_days(val, disabled: false)
       if val
-        'Include weekends'
+        expect(container).to have_unchecked_field('weekdays_only', disabled:)
       else
-        'Work week'
+        expect(container).to have_checked_field('weekdays_only', disabled:)
       end
+    end
+
+    def toggle_ignore_non_working_days
+      find('label', text: 'Working days only').click
     end
 
     def clear_duration

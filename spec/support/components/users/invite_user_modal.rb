@@ -174,14 +174,14 @@ module Components
       def expect_error_displayed(message)
         within_modal do
           expect(page)
-            .to have_selector('.op-form-field--error', text: message)
+            .to have_selector('.spot-form-field--error', text: message)
         end
       end
 
       def expect_help_displayed(message)
         within_modal do
           expect(page)
-            .to have_selector('.op-form-field--help-text', text: message)
+            .to have_selector('.spot-form-field--help-text', text: message)
         end
       end
     end

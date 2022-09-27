@@ -24,18 +24,11 @@ import {
 export class DatepickerSchedulingToggleComponent implements ControlValueAccessor {
   text = {
     scheduling: {
-      title: this.I18n.t('js.scheduling.title'),
-      manual: this.I18n.t('js.scheduling.manual'),
-      default: this.I18n.t('js.scheduling.default'),
+      title: this.I18n.t('js.scheduling.manual'),
     },
   };
 
   @Input() scheduleManually:boolean;
-
-  schedulingOptions = [
-    { value: false, title: this.text.scheduling.default },
-    { value: true, title: this.text.scheduling.manual },
-  ];
 
   constructor(
     private I18n:I18nService,
