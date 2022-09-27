@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UIRouterModule } from '@uirouter/angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
