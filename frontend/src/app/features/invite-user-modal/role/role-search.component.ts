@@ -1,15 +1,14 @@
 import {
   Component,
-  OnInit,
-  Input,
   ElementRef,
-  ChangeDetectionStrategy,
+  Input,
+  OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {
+  combineLatest,
   Observable,
   Subject,
-  combineLatest,
 } from 'rxjs';
 import {
   debounceTime,
@@ -62,7 +61,7 @@ export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
     );
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     const filters = new ApiV3FilterBuilder();
     filters.add('grantable', '=', true);
     filters.add('unit', '=', ['project']);
