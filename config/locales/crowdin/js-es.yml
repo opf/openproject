@@ -749,9 +749,7 @@ es:
     field_value_enter_prompt: "Introduzca un valor para '%{field}'"
     project_menu_details: "Detalles"
     scheduling:
-      title: 'Planificación'
-      manual: 'Manual'
-      default: 'Por defecto'
+      manual: 'Programación manual'
     sort:
       sorted_asc: 'Orden ascendiente aplicado, '
       sorted_dsc: 'Orden descendiente aplicado, '
@@ -859,9 +857,7 @@ es:
         click_on_show_relations_to_open_gantt: 'Haga clic en "%{button_name}" para la vista general de GANTT.'
         show_relations: 'Mostrar relaciones'
         ignore_non_working_days:
-          title: 'Días laborables'
-          false: 'Semana laboral'
-          true: 'Incluir fines de semana'
+          title: 'Working days only'
       description_filter: "Filtro"
       description_enter_text: "Introducir texto"
       description_options_hide: "Ocultar opciones"
@@ -1186,7 +1182,7 @@ es:
         next_button: 'Siguiente'
       message:
         label: 'Mensaje de invitación'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
         next_button: 'Siguiente'
       summary:
         next_button: 'Enviar invitación'

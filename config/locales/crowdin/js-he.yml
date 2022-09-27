@@ -751,9 +751,7 @@ he:
     field_value_enter_prompt: "הזן ערך עבור '%{field}'"
     project_menu_details: "פרטים"
     scheduling:
-      title: 'Scheduling'
-      manual: 'Manual'
-      default: 'Default'
+      manual: 'Manual scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -861,9 +859,7 @@ he:
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
         ignore_non_working_days:
-          title: 'Working days'
-          false: 'Work week'
-          true: 'Include weekends'
+          title: 'Working days only'
       description_filter: "סינון"
       description_enter_text: "הזן טקסט"
       description_options_hide: "הסתר אפשרויות"
@@ -1192,7 +1188,7 @@ he:
         next_button: 'הבא'
       message:
         label: 'Invitation message'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
         next_button: 'Next'
       summary:
         next_button: 'Send invitation'

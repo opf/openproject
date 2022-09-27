@@ -749,9 +749,7 @@ ca:
     field_value_enter_prompt: "Introduïu un valor per a '%{field}'"
     project_menu_details: "Detalls"
     scheduling:
-      title: 'Planificació'
-      manual: 'Manual'
-      default: 'Per defecte'
+      manual: 'Planificació manual'
     sort:
       sorted_asc: 'Ordre ascendent aplicat,'
       sorted_dsc: 'Ordre descendent aplicat,'
@@ -859,9 +857,7 @@ ca:
         click_on_show_relations_to_open_gantt: 'Fes clic a "%{button_name}" per obtenir una visió general GANTT.'
         show_relations: 'Mostra les relacions'
         ignore_non_working_days:
-          title: 'Dies laborals'
-          false: 'Setmana laboral'
-          true: 'Inclou caps de setmana'
+          title: 'Working days only'
       description_filter: "Filtre"
       description_enter_text: "Introduïu text"
       description_options_hide: "Amagar opcions"
@@ -1186,7 +1182,7 @@ ca:
         next_button: 'Següent'
       message:
         label: 'Missatge d''invitació'
-        description: 'Enviarem un correu electrònic a l''usuari, al qual pots afegir un missatge personal aquí. Una explicació per a la invitació pot ser útil, o potser una mica d''informació amb relació al projecte per ajudar als usuaris a començar.'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
         next_button: 'Següent'
       summary:
         next_button: 'Enviar la invitació'

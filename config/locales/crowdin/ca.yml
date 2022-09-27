@@ -731,7 +731,7 @@ ca:
           attributes:
             base:
               working_days_are_missing: 'Com a mínim s''ha d''especificar un dia laboral.'
-              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
+              previous_working_day_changes_unprocessed: 'Els canvis anteriors a la configuració de dies laborals encara no s''han aplicat.'
         time_entry:
           attributes:
             hours:
@@ -2911,10 +2911,10 @@ ca:
     warning: >
       Canviar quins dies de la setmana són laborals pot afectar les dates d'inici i final de tots els paquets de treball a tots els projectes en aquesta instància.
     journal_note:
-      changed: _**Working days** changed (%{changes})._
+      changed: _**Dies laborals"" han canviat (%{changes})._
       days:
-        working: "%{day} is now working"
-        non_working: "%{day} is now non-working"
+        working: "%{day} és ara laboral"
+        non_working: "%{day} és ara no laboral"
   nothing_to_preview: "Res per previsualitzar"
   api_v3:
     attributes:

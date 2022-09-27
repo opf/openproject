@@ -748,9 +748,7 @@ lol:
     field_value_enter_prompt: "crwdns788014:0%{field}crwdne788014:0"
     project_menu_details: "crwdns788016:0crwdne788016:0"
     scheduling:
-      title: 'crwdns831846:0crwdne831846:0'
-      manual: 'crwdns831848:0crwdne831848:0'
-      default: 'crwdns831850:0crwdne831850:0'
+      manual: 'crwdns834246:0crwdne834246:0'
     sort:
       sorted_asc: 'crwdns788022:0crwdne788022:0'
       sorted_dsc: 'crwdns788024:0crwdne788024:0'
@@ -858,9 +856,7 @@ lol:
         click_on_show_relations_to_open_gantt: 'crwdns818666:0%{button_name}crwdne818666:0'
         show_relations: 'crwdns818668:0crwdne818668:0'
         ignore_non_working_days:
-          title: 'crwdns832338:0crwdne832338:0'
-          false: 'crwdns832340:0crwdne832340:0'
-          true: 'crwdns832342:0crwdne832342:0'
+          title: 'crwdns834248:0crwdne834248:0'
       description_filter: "crwdns788192:0crwdne788192:0"
       description_enter_text: "crwdns788194:0crwdne788194:0"
       description_options_hide: "crwdns788196:0crwdne788196:0"
@@ -1185,7 +1181,7 @@ lol:
         next_button: 'crwdns788716:0crwdne788716:0'
       message:
         label: 'crwdns788718:0crwdne788718:0'
-        description: 'crwdns834152:0crwdne834152:0'
+        description: 'crwdns834250:0crwdne834250:0'
         next_button: 'crwdns834154:0crwdne834154:0'
       summary:
         next_button: 'crwdns788724:0crwdne788724:0'

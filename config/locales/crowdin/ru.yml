@@ -736,7 +736,7 @@ ru:
           attributes:
             base:
               working_days_are_missing: 'По крайней мере один рабочий день должен быть указан.'
-              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
+              previous_working_day_changes_unprocessed: 'Предыдущие изменения конфигурации рабочих дней еще не были применены.'
         time_entry:
           attributes:
             hours:
@@ -2959,10 +2959,10 @@ ru:
     warning: >
       Изменение дней недели, считающихся рабочими днями, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае.
     journal_note:
-      changed: _**Working days** changed (%{changes})._
+      changed: _**Рабочие дни** изменены (%{changes})._
       days:
-        working: "%{day} is now working"
-        non_working: "%{day} is now non-working"
+        working: "%{day} сейчас работает"
+        non_working: "%{day} теперь не работает"
   nothing_to_preview: "Нет ничего для предосмотра"
   api_v3:
     attributes:

@@ -750,9 +750,7 @@ ru:
     field_value_enter_prompt: "Введите значение для '%{field} ' '"
     project_menu_details: "Детали"
     scheduling:
-      title: 'Планирование'
-      manual: 'Вручную'
-      default: 'По умолчанию'
+      manual: 'Ручное планирование'
     sort:
       sorted_asc: 'Сортировка по возрастанию применяется, '
       sorted_dsc: 'Применяется сортировка по убыванию, '
@@ -860,9 +858,7 @@ ru:
         click_on_show_relations_to_open_gantt: 'Нажмите на "%{button_name}" для просмотра в виде диаграммы Ганта.'
         show_relations: 'Показать взаимосвязи'
         ignore_non_working_days:
-          title: 'Рабочие дни'
-          false: 'Рабочая неделя'
-          true: 'Включая выходные дни'
+          title: 'Working days only'
       description_filter: "Фильтр"
       description_enter_text: "Введите текст"
       description_options_hide: "Скрыть параметры"
@@ -1191,7 +1187,7 @@ ru:
         next_button: 'Следующие'
       message:
         label: 'Сообщение о приглашении'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
         next_button: 'Далее'
       summary:
         next_button: 'Отправить приглашение'
