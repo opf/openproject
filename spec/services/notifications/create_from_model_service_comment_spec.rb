@@ -73,10 +73,20 @@ describe Notifications::CreateFromModelService, 'comment', with_settings: { jour
         end
       end
 
-      context 'with the user having registered for assignee and responsible notifications' do
+      context 'with the user having registered for assignee notifications' do
         let(:recipient_notification_settings) do
           [
-            build(:notification_setting, **notification_settings_all_false.merge(assignee: true, responsible: true))
+            build(:notification_setting, **notification_settings_all_false.merge(assignee: true))
+          ]
+        end
+
+        it_behaves_like 'creates no notification'
+      end
+
+      context 'with the user having registered for responsible notifications' do
+        let(:recipient_notification_settings) do
+          [
+            build(:notification_setting, **notification_settings_all_false.merge(responsible: true))
           ]
         end
 

@@ -17,9 +17,9 @@
         slot="input"
       />
       <p slot="description">{{ text.mentioned.description }}</p>
-  </op-checkbox-field>
+  </spot-selector-field>
  
-  <op-checkbox-field
+  <spot-selector-field
     [label]="text.assignee"
     [control]="form.get('assignee')"
   >
@@ -29,9 +29,9 @@
       formControlName="assignee"
       data-qa-global-notification-type="assignee"
     />
-  </op-checkbox-field>
+  </spot-selector-field>
 
-  <op-checkbox-field
+  <spot-selector-field
     [label]="text.responsible"
     [control]="form.get('responsible')"
   >
@@ -41,7 +41,7 @@
       formControlName="responsible"
       data-qa-global-notification-type="responsible"
     />
-  </op-checkbox-field>
+  </spot-selector-field>
 
   <h5>{{ text.alsoNotifyFor.title }}</h5>
   <p>{{ text.alsoNotifyFor.description }}</p>
