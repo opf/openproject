@@ -47,10 +47,20 @@ describe ScheduleHelpers::Chart do
   end
 
   describe '#first_day' do
-    context 'without work packages' do
-      it 'returns the first day represented on the graph, which is next Monday' do
-        expect(chart.first_day).to eq(monday)
-      end
+    it 'returns the first day represented on the graph, which is next Monday' do
+      expect(chart.first_day).to eq(monday)
+    end
+
+    it 'can be set to an earlier date by setting the origin monday to an earlier date' do
+      expect(chart.first_day).to eq(monday)
+
+      # no change when origin is moved forward
+      expect { chart.monday = monday + 14.days }
+        .not_to change(chart, :first_day)
+
+      # change when origin is moved backward
+      expect { chart.monday = monday - 14.days }
+        .to change(chart, :first_day).to(monday - 14.days)
     end
 
     context 'with work packages' do
@@ -70,25 +80,23 @@ describe ScheduleHelpers::Chart do
         expect(chart.first_day).to eq(monday - 6.days)
       end
     end
-
-    it 'can be set to an earlier date by setting the origin monday to an earlier date' do
-      expect(chart.first_day).to eq(monday)
-
-      # no change when origin is moved forward
-      expect { chart.monday = monday + 14.days }
-        .not_to change(chart, :first_day)
-
-      # change when origin is moved backward
-      expect { chart.monday = monday - 14.days }
-        .to change(chart, :first_day).to(monday - 14.days)
-    end
   end
 
   describe '#last_day' do
-    context 'without work packages' do
-      it 'returns the last day represented on the graph, which is the Sunday following origin Monday' do
-        expect(chart.last_day).to eq(sunday)
-      end
+    it 'returns the last day represented on the graph, which is the Sunday following origin Monday' do
+      expect(chart.last_day).to eq(sunday)
+    end
+
+    it 'can be set to an later date by setting the origin Monday to a later date' do
+      expect(chart.last_day).to eq(sunday)
+
+      # no change when origin is moved backward
+      expect { chart.monday = monday - 14.days }
+        .not_to change(chart, :last_day)
+
+      # change when origin is moved forward
+      expect { chart.monday = monday + 14.days }
+        .to change(chart, :last_day).to(sunday + 14.days)
     end
 
     context 'with work packages' do
@@ -105,17 +113,33 @@ describe ScheduleHelpers::Chart do
         expect(chart.last_day).to eq(monday + 20.days)
       end
     end
+  end
 
-    it 'can be set to an later date by setting the origin Monday to a later date' do
-      expect(chart.last_day).to eq(sunday)
+  describe '#compact_dates' do
+    it 'makes the chart dates fit with the work packages dates' do
+      chart.add_work_package(subject: 'wp1', start_date: friday - 21.days, due_date: tuesday - 14.days)
+      chart.add_work_package(subject: 'wp2', start_date: wednesday - 14.days)
+      chart.add_work_package(subject: 'wp3', due_date: thursday - 14.days)
+      chart.add_work_package(subject: 'wp4', due_date: thursday - 14.days)
 
-      # no change when origin is moved backward
-      expect { chart.monday = monday - 14.days }
-        .not_to change(chart, :last_day)
+      expect { chart.compact_dates }
+        .to change { [chart.monday, chart.first_day, chart.last_day] }
+            .from([monday, friday - 21.days, sunday])
+            .to([monday - 14.days, friday - 21.days, sunday - 14.days])
+    end
 
-      # change when origin is moved forward
-      expect { chart.monday = monday + 14.days }
-        .to change(chart, :last_day).to(sunday + 14.days)
+    it 'does nothing if there are no work packages' do
+      expect { chart.compact_dates }
+        .not_to change { [chart.monday, chart.first_day, chart.last_day] }
+    end
+
+    it 'does nothing if none of the work packages have any dates' do
+      chart.add_work_package(subject: 'wp1')
+      chart.add_work_package(subject: 'wp2')
+      chart.add_work_package(subject: 'wp3')
+
+      expect { chart.compact_dates }
+        .not_to change { [chart.monday, chart.first_day, chart.last_day] }
     end
   end
 
