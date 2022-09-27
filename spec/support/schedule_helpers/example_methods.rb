@@ -50,7 +50,7 @@ module ScheduleHelpers
     #
     def create_schedule(chart_representation)
       chart = Chart.for(chart_representation)
-      ScheduleBuilder.from_chart(chart, self)
+      ScheduleBuilder.from_chart(chart)
     end
 
     # Change the given work packages according to the given chart representation.
