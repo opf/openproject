@@ -332,7 +332,7 @@ default:
   # <-- other configuration -->
     mysaml1:
       # <-- other configuration -->
-      certificate: "-----BEGIN CERTIFICATE-----\n .... certificate contents ....\n-----END CERTIFICATE-----",
+      certificate: "-----BEGIN CERTIFICATE-----\n .... certificate contents ....\n-----END CERTIFICATE-----"
       private_key: "-----BEGIN PRIVATE KEY-----\n .... private key contents ....\n-----END PRIVATE KEY-----"
 ```
 
@@ -345,8 +345,8 @@ default:
   # <-- other configuration -->
     mysaml1:
       # <-- other configuration -->
-      certificate: "-----BEGIN CERTIFICATE-----\n .... certificate contents ....\n-----END CERTIFICATE-----",
-      private_key: "-----BEGIN PRIVATE KEY-----\n .... private key contents ....\n-----END PRIVATE KEY-----",
+      certificate: "-----BEGIN CERTIFICATE-----\n .... certificate contents ....\n-----END CERTIFICATE-----"
+      private_key: "-----BEGIN PRIVATE KEY-----\n .... private key contents ....\n-----END PRIVATE KEY-----"
       security: {
         # Whether SP and idP should sign requests and assertions
         authn_requests_signed: true,
