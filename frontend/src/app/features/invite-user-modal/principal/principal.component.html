@@ -70,7 +70,7 @@
         slot="input"
       ></op-ium-role-search>
       <p
-        class="op-form-field--description"
+        class="spot-form-field--description"
         slot="help-text"
         [innerHtml]="text.role.description()"
       ></p>
@@ -84,7 +84,7 @@
         </div>
     </spot-form-field>
 
-    <op-form-field
+    <spot-form-field
       [label]="text.message.label"
       *ngIf="type !== PrincipalType.Placeholder"
     >
@@ -96,10 +96,12 @@
         #input>
       </textarea>
 
-      <p class="op-form-field--description" slot="description">
-        {{ text.message.description() }}
+      <p 
+        class="spot-form-field--description" 
+        slot="help-text"
+        [innerHtml]="text.message.description()">
       </p>
-    </op-form-field>
+    </spot-form-field>
   </div>
 
   <div class="spot-action-bar">
