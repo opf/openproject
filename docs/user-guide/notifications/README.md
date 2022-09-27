@@ -46,18 +46,33 @@ You can filter or group the notifications using the two areas in the left menu b
 
 2. You can filter by **project**, for example filter for notifications that originated from a specific project.
 
-3. You can also filter notifications for "**Unread**" or "**All**" (Read and Unread) notifications, and "**Mark all as read**". Please note that the "**Mark all as read**" button only marks notifications that are currently in view. You may have to ultimately press "**Mark all as read**" multiple times to mark all of your notifications as read if you have a lot of them. The red elliptical will update the number of unread messages in real-time, and eventually disappear when there are no more unread notifications.
-   To mark an in-app message as read, click on the small envelope icon next to the blue notification bubble or use the bottom bar in the split screen details.
-
-   ![mark-as-read](mark-as-read.png)
-
-   ![notifications-bottom-bar](notifications-bottom-bar.png)
+3. You can also filter notifications for "**Unread**" or "**All**" (Read and Unread) notifications. There you can also mark all messages as read.
 
 4. The [**Notification settings**](./notification-settings) button will bring you to your personal notification settings to configure your notification preferences.
 
 5. When selecting any of the notifications, you can also view more **details in the split screen**, for example comments members made regarding a specific work package. Unread messages are indicated by a blue bubble. You can even edit directly in this view.
 
 In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To fine-tune Email Reminders, [click here](../../getting-started/my-account/#email-reminders).
+
+## Mark in-app notifications as read
+
+To mark in-app notifications as read, there are several options in the notification center:
+
+- To mark a single message as read, all you need to do is click on the envelope icon, on the right side of the message line.
+
+![mark-as-read](mark-as-read.png)
+
+- You can also use the button "Mark as read" on the buttom of the splitscreen view of a work package in the notification center to set an individual message as read.
+
+   ![notifications-bottom-bar](notifications-bottom-bar-4292960.png)
+
+- Or set the message right in the work package full screen view by clicking on the envelope icon in the upper right corner of the details view.
+
+![notification-full-screen-view-work-package](notification-full-screen-view-work-package.png)
+
+- To mark all messages as read click on the "**Mark all as read**" button. Please note that the "**Mark all as read**" button only marks notifications that are currently in view. You may have to ultimately press "**Mark all as read**" multiple times to mark all of your notifications as read if you have a lot of them. The red elliptical will update the number of unread messages in real-time, and eventually disappear when there are no more unread notifications.
+
+  ![notification-center-mark-all-as-read](notification-center-mark-all-as-read-4293156.png)
 
 ## In-app notifications outside the notification centre
 
