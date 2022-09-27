@@ -1,0 +1,28 @@
+import { moduleMetadata } from '@storybook/angular';
+import { Canvas, Meta, Story, ArgsTable } from '@storybook/addon-docs';
+
+import { OpSpotModule } from '../../../spot.module';
+import { SpotFormFieldComponent } from '../form-field.component';
+
+<Meta
+  title="Patterns/Form Field"
+  component={SpotFormFieldComponent}
+  decorators={[
+    moduleMetadata({
+      imports: [
+        OpSpotModule,
+      ],
+    }),
+  ]}
+  parameters={{
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=1805%3A6650',
+    },
+  }}
+/>
+
+
+# Form Field
+
+<ArgsTable of={SpotFormFieldComponent} />

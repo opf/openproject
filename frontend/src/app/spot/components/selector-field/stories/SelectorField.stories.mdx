@@ -1,10 +1,12 @@
 import { moduleMetadata } from '@storybook/angular';
-import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Canvas, Meta, Story, ArgsTable } from '@storybook/addon-docs';
 
-import { OpSpotModule } from '../app/spot/spot.module';
+import { OpSpotModule } from '../../../spot.module';
+import { SpotSelectorFieldComponent } from '../selector-field.component';
 
 <Meta
   title="Patterns/Selector Field"
+  component={SpotSelectorFieldComponent}
   decorators={[
     moduleMetadata({
       imports: [
@@ -31,6 +33,8 @@ The selector field consists of either a checkbox or a radio button along with a 
 
 Checkboxes offer the possibility to make multiple selections. 
 Radio buttons require the user to choose only one from a list of options.
+
+<ArgsTable of={SpotSelectorFieldComponent} />
 
 ## Behaviour
 
