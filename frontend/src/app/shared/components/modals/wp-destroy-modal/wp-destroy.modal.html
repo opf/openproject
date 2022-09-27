@@ -8,13 +8,9 @@
   <div class="spot-modal--body spot-container">
     <ng-container *ngIf="singleWorkPackage">
       <p>
-        <span [textContent]="text.single_text"></span> 
-        <strong>
-          
-          {{ singleWorkPackage.subject }}
-          #{{ singleWorkPackage.id }} 
-        </strong>
-        ?
+        <span [textContent]="text.single_text"></span>
+        <strong> {{ singleWorkPackage.subject }} #{{ singleWorkPackage.id }}</strong>
+        <span>?</span>
       </p>
       <div *ngIf="singleWorkPackageChildren && singleWorkPackageChildren.length > 0">
         <p class="danger-zone--warning">
