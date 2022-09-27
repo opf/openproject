@@ -5,7 +5,7 @@ Received: from osiris ([127.0.0.1])
 Message-ID: <000501c8d452$a95cd7e0$0a00a8c0@osiris>
 From: "John Smith" <JSmith@somenet.foo>
 To: <openproject@somenet.foo>
-Subject: New ticket on a given project
+Subject: New ticket on a given project with a very long subject line which exceeds 255 chars and should not be ignored but chopped off. And if the subject line is still not long enough, we just add more text. And more text. Wow, this is really annoying. Especially, if you have nothing to say...
 Date: Sun, 22 Jun 2008 12:28:07 +0200
 MIME-Version: 1.0
 Content-Type: text/plain;
@@ -54,7 +54,4 @@ Status: Resolved
 due date: 2010-12-31
 Start Date:2010-01-01
 Assigned to: John Smith
-version: alpha
-estimated hours: 2.5
-done ratio: 30
 

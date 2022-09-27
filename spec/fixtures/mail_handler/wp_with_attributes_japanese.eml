@@ -1,6 +1,6 @@
 Message-ID: <001101ca9762$293d68c0$0600a8c0@osiris>
 From: "jsmith" <jsmith@somenet.foo>
-To: <redmine@somenet.foo>
+To: <openproject@somenet.foo>
 Subject: Japanese Character pattern matching
 Date: Sun, 17 Jan 2010 11:45:18 +0100
 MIME-Version: 1.0
@@ -21,7 +21,7 @@ Content-Transfer-Encoding: quoted-printable
 It should be noted that I am receiving emails using pop and the patch in =
 Issue #2420 but I don't think the problem lies with this.
 
-When I try and send emails to the redmine server with Japanese =
+When I try and send emails to the OpenProject server with Japanese =
 characters in them it appears to work apart from the pattern matching.
 
 For example if I send an email with the following keywords.
@@ -49,7 +49,7 @@ title=3D"Fetching emails from an POP server (New)"=20
 href=3D"http://www.redmine.org/issues/2420">#2420</A> but I don't think =
 the=20
 problem lies with this.</P>
-<P>When I try and send emails to the redmine server with Japanese =
+<P>When I try and send emails to the OpenProject server with Japanese =
 characters in=20
 them it appears to work apart from the pattern matching.</P>
 <P>For example if I send an email with the following keywords.</P>
