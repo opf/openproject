@@ -21,4 +21,7 @@ module.exports = {
     previewMdx2: true,
     modernInlineRender: true,
   },
+  staticDirs: [
+    { from: '../src/stories/assets', to: '/assets' },
+  ],
 };
