@@ -1056,14 +1056,14 @@ es:
       button_save: "Guardar"
       button_submit: "Enviar"
       button_cancel: "Cancelar"
-      button_delete: "Delete"
+      button_delete: "Eliminar"
       form_submit:
         title: 'Confirme para continuar'
         text: '¿Seguro que desea realizar esta acción?'
       destroy_work_package:
         title: "Confirmar la eliminación de %{label}"
-        single_text: "Are you sure you want to delete the work package"
-        bulk_text: "Are you sure you want to delete the following %{label}?"
+        single_text: "Está seguro que desea eliminar este paquete de trabajo"
+        bulk_text: "¿Estás seguro de que quiere eliminar el siguiente %{label}?"
         has_children: "El paquete de trabajo tiene %{childUnits}:"
         confirm_deletion_children: "Reconozco que TODOS los descendientes de los paquetes de trabajo enumerados se eliminarán recursivamente."
         deletes_children: "También se eliminarán de forma recursiva todos los sub-paquetes de trabajo y sus descendientes."
@@ -1187,7 +1187,7 @@ es:
       message:
         label: 'Mensaje de invitación'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
-        next_button: 'Next'
+        next_button: 'Siguiente'
       summary:
         next_button: 'Enviar invitación'
       success:

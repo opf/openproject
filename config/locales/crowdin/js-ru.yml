@@ -300,11 +300,11 @@ ru:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Определите вашу глобальную рабочую неделю (выходные и нерабочие дни недели).</li> <li>Вычисляйте длительность на основе дат начала и окончания и возможности учета нерабочих дней (выходных) в планировании.</li> <li>Добавление значимых подсказок в наиболее важные действия.</li> <li>Копирование проекта также скопирует ссылки на файлы, прикрепленные ко всем пакетам работ.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Определите вашу глобальную рабочую неделю (выходные и нерабочие дни недели).</li> <li>Вычисляйте длительность на основе дат начала и окончания и возможности учета нерабочих дней (выходных) в планировании.</li> <li>Добавление значимых подсказок в наиболее важные действия.</li> <li>Копирование проекта также скопирует ссылки на файлы, прикрепленные ко всем пакетам работ.</li> </ul>
     label_activate: "Активировать"
     label_assignee: 'Ответственный'
     label_add_column_after: "Добавить столбец после"
@@ -1057,14 +1057,14 @@ ru:
       button_save: "Сохранить"
       button_submit: "Отправить"
       button_cancel: "Отмена"
-      button_delete: "Delete"
+      button_delete: "Удалить"
       form_submit:
         title: 'Подтвердите продолжение'
         text: 'Вы действительно хотите выполнить это действие?'
       destroy_work_package:
         title: "Подтвердите удаление %{label}"
-        single_text: "Are you sure you want to delete the work package"
-        bulk_text: "Are you sure you want to delete the following %{label}?"
+        single_text: "Вы уверены, что хотите удалить пакет работ"
+        bulk_text: "Вы уверены, что хотите удалить следующие %{label}?"
         has_children: "Пакет работ имеет %{childUnits}:"
         confirm_deletion_children: "Я понимаю, что ВСЕ производные элементы указанных пакетов работ будут рекурсивно удалены."
         deletes_children: "Все дочерние пакеты работ и их потомки также будут рекурсивно удалены."
@@ -1186,13 +1186,13 @@ ru:
       role:
         label: 'Роль в %{project}'
         no_roles_found: 'Роли не найдены'
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Это роль, которую пользователь получит при присоединении к вашему проекту. Роль определяет, какие действия им разрешено принимать и какую информацию они могут видеть. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Узнайте больше о ролях и разрешениях. </a>'
         required: 'Пожалуйста, выберите роль'
         next_button: 'Следующие'
       message:
         label: 'Сообщение о приглашении'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
-        next_button: 'Next'
+        next_button: 'Далее'
       summary:
         next_button: 'Отправить приглашение'
       success:
