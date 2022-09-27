@@ -10,7 +10,6 @@ import { BehaviorSubject } from 'rxjs';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 
 @Injectable()
@@ -119,7 +118,8 @@ export class CalendarDragDropService {
 
     const startDate = moment(workPackage.startDate);
     const dueDate = moment(workPackage.dueDate);
-    const diff = dueDate.diff(startDate, 'days') + 1;
+    const duration = Number(moment.duration(workPackage.duration).asDays().toFixed(0));
+    const diff = duration > 0 ? duration : dueDate.diff(startDate, 'days') + 1;
 
     return {
       id: `${workPackage.href as string}-external`,
