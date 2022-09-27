@@ -3,8 +3,9 @@ import {
   FormArray, FormControl, FormGroup, NgControl,
 } from '@angular/forms';
 
-export const formControlBinding:any = {
+export const formControlBinding = {
   provide: NgControl,
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   useExisting: forwardRef(() => SpotFormBindingDirective),
 };
 

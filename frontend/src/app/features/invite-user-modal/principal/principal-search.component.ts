@@ -42,7 +42,7 @@ interface NgSelectPrincipalOption {
   templateUrl: './principal-search.component.html',
 })
 export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnInit {
-  @Input('spotFormBinding') principalControl:FormControl;
+  @Input() spotFormBinding:FormControl;
 
   @Input() type:PrincipalType;
 

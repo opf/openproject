@@ -77,7 +77,7 @@
 
       <div
         slot="errors"
-        class="op-form-field--error"
+        class="spot-form-field--error"
         *ngIf="roleControl?.invalid"
         >
           {{ text.role.required }}
@@ -96,7 +96,7 @@
         #input>
       </textarea>
 
-      <p class="op-form-field--description" slot="help-text">
+      <p class="op-form-field--description" slot="description">
         {{ text.message.description() }}
       </p>
     </op-form-field>
