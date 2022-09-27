@@ -181,7 +181,7 @@ module Components
       def expect_help_displayed(message)
         within_modal do
           expect(page)
-            .to have_selector('.spot-form-field--help-text', text: message)
+            .to have_text(message)
         end
       end
     end

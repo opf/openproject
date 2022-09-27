@@ -42,9 +42,9 @@
           (focusin)="setCurrentActivatedField('start')"
         ></spot-text-field>
         <button
-          slot="help-text"
+          slot="action"
           type="button"
-          class="spot-link"
+          class="spot-link op-datepicker-modal--today-link"
           [ngClass]="{ 'op-datepicker-modal--hidden-link': !showTodayLink() }"
           (click)="setToday('start')"
           [textContent]="text.today">
@@ -68,9 +68,9 @@
           (focusin)="setCurrentActivatedField('end')"
         ></spot-text-field>
         <button
-          slot="help-text"
+          slot="action"
           type="button"
-          class="spot-link"
+          class="spot-link op-datepicker-modal--today-link"
           [ngClass]="{ 'op-datepicker-modal--hidden-link': !showTodayLink() }"
           (click)="setToday('end')"
           [textContent]="text.today">
