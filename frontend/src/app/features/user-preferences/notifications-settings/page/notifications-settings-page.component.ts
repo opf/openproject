@@ -4,7 +4,6 @@ import {
   Component,
   Input,
   OnInit,
-  ViewEncapsulation,
 } from '@angular/core';
 import {
   FormArray,
@@ -44,8 +43,6 @@ interface IFullNotificationSettingsValue extends IToastSettingsValue {
 @Component({
   selector: myNotificationsPageComponentSelector,
   templateUrl: './notifications-settings-page.component.html',
-  styleUrls: ['./notifications-settings-page.component.sass'],
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationsSettingsPageComponent extends UntilDestroyedMixin implements OnInit {
