@@ -136,7 +136,7 @@ describe 'Working Days', type: :feature, js: true do
       dialog.confirm
     end
 
-    expect(page).to have_selector('.flash.error', text: 'At least one working day needs to be specified.')
+    expect(page).to have_selector('.flash.error', text: 'At least one day of the week must be defined as a working day.')
     # Restore the checkboxes to their valid state
     expect(page).to have_checked_field 'Monday'
     expect(page).to have_checked_field 'Tuesday'
