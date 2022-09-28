@@ -428,15 +428,14 @@ fieldset.form--fieldset
     display: block
 
   &.-horizontal
-    flex-wrap: wrap
-    &> *
-      // This is a clever hack imitating container queries.
-      // As soon as the width of the items goes above 50rem, `flex-basis`
-      // turns negative, which makes all elements occupy a row together
-      // instead of a column
-      // https://blog.logrocket.com/what-are-container-queries-in-css/
-      flex-basis: calc((50rem - 100%) * 999)
-      flex-grow: 1
+    flex-direction: column
+    
+    @include breakpoint(1080px up)
+      flex-direction: row
+      flex-wrap: wrap
+
+      > *:last-child
+        margin-right: auto
 
   .form--field.-visible-overflow &
     overflow: visible
