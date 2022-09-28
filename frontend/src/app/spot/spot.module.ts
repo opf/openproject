@@ -27,7 +27,6 @@ import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-he
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    AttributeHelpTextModule,
   ],
 
   providers: [

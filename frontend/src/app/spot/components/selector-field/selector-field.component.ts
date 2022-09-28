@@ -36,10 +36,6 @@ export class SpotSelectorFieldComponent {
 
   @Input() control?:AbstractControl;
 
-  @Input() helpTextAttribute?:string;
-
-  @Input() helpTextAttributeScope?:string;
-
   @ContentChild(NgControl) ngControl:NgControl;
 
   internalID = `spot-selector-field-${+new Date()}`;
