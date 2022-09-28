@@ -430,6 +430,11 @@ fieldset.form--fieldset
   &.-horizontal
     flex-wrap: wrap
     &> *
+      // This is a clever hack imitating container queries.
+      // As soon as the width of the items goes above 50rem, `flex-basis`
+      // turns negative, which makes all elements occupy a row together
+      // instead of a column
+      // https://blog.logrocket.com/what-are-container-queries-in-css/
       flex-basis: calc((50rem - 100%) * 999)
       flex-grow: 1
 
@@ -819,6 +824,10 @@ input[readonly].-clickable
   &.-required:after
     @extend %required-star
     padding: 0 0.325rem 0 0
+
+  .form--check-box
+    top: -1px
+    position: relative
 
 .form--field-affix
   flex: 0 0 auto

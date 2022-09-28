@@ -48,13 +48,14 @@ See COPYRIGHT and LICENSE files for more details.
         text: "#{t('working_days.warning')}\n#{t(:text_are_you_sure_continue)}",
         danger_zone: true,
         divider: true
-      )
+      ),
+      class: 'op-working-days-admin-settings'
     ) do %>
   <section class="form--section">
     <p>
       <%= t("working_days.info").html_safe %>
     </p>
-    <div class="form--field" id="setting_working_days">
+    <div class="form--field op-working-days-admin-settings--day-selectors" id="setting_working_days">
       <%= setting_multiselect :working_days,
             I18n.t('date.day_names').rotate.zip(WeekDay::DAY_RANGE),
             direction: :horizontal,
