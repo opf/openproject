@@ -44,7 +44,7 @@
         <button
           slot="action"
           type="button"
-          class="spot-link op-datepicker-modal--today-link"
+          class="spot-link"
           [ngClass]="{ 'op-datepicker-modal--hidden-link': !showTodayLink() }"
           (click)="setToday('start')"
           [textContent]="text.today">
@@ -70,7 +70,7 @@
         <button
           slot="action"
           type="button"
-          class="spot-link op-datepicker-modal--today-link"
+          class="spot-link"
           [ngClass]="{ 'op-datepicker-modal--hidden-link': !showTodayLink() }"
           (click)="setToday('end')"
           [textContent]="text.today">
