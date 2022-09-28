@@ -55,14 +55,11 @@ export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent
         this.dates = dates;
         this.cdRef.detectChanges();
       });
+  }
 
-    this
-      .modal
-      .closingEvent
-      .subscribe(() => {
-        this.resetDates();
-        void this.handler.handleUserSubmit();
-      });
+  protected onModalClosed():void {
+    this.resetDates();
+    super.onModalClosed();
   }
 
   // Overwrite super in order to set the initial dates.
