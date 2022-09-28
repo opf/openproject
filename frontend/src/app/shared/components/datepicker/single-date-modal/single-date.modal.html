@@ -23,32 +23,27 @@
     </div>
 
     <div class="op-datepicker-modal--dates-container">
-      <div class="form--field op-datepicker-modal--date-form">
-        <label class="form--label"
-               [textContent]="text.date">
-        </label>
-        <div class="form--field-container">
-          <div class="form--text-field-container op-datepicker-modal--date-container">
-            <spot-text-field
-              name="date"
-              class="op-datepicker-modal--date-field"
-              [ngClass]="{ 'op-datepicker-modal--date-field_current': this.dateModalScheduling.isSchedulable }"
-              [(ngModel)]="date"
-              (ngModelChange)="dateChangedManually$.next()"
-              [showClearButton]="true"
-            ></spot-text-field>
-          </div>
-        </div>
-        <div class="form--field-extra-actions">
-          <button
-            type="button"
-            class="spot-link"
-            [ngClass]="{ 'op-datepicker-modal--hidden-link': !dateModalScheduling.isSchedulable }"
-            (click)="setToday()"
-            [textContent]="text.today">
-          </button>
-        </div>
-      </div>
+      <spot-form-field
+        [label]="text.date"
+        >
+        <spot-text-field
+          slot="input"
+          name="date"
+          class="op-datepicker-modal--date-field"
+          [ngClass]="{ 'op-datepicker-modal--date-field_current': this.dateModalScheduling.isSchedulable }"
+          [(ngModel)]="date"
+          (ngModelChange)="dateChangedManually$.next()"
+          [showClearButton]="true"
+        ></spot-text-field>
+        <button
+          slot="action"
+          type="button"
+          class="spot-link"
+          [ngClass]="{ 'op-datepicker-modal--hidden-link': !dateModalScheduling.isSchedulable }"
+          (click)="setToday()"
+          [textContent]="text.today">
+        </button>
+      </spot-form-field>
     </div>
 
     <input id="flatpickr-input"
