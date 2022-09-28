@@ -30,11 +30,14 @@ module API::V3::StorageFiles
   class StorageFilesAPI < ::API::OpenProjectAPI
     resources :files do
       get do
-        files_query = ::API::V3::Utilities::StorageRequests.new(storage: @storage).files_query
+        files_query = ::API::V3::Utilities::StorageRequests
+                        .new(storage: @storage)
+                        .files_query(user: current_user)
 
         ::API::V3::StorageFiles::StorageFileCollectionRepresenter.new(
           files_query.call,
-          self_link: api_v3_paths.storage_files(@storage.id), current_user:
+          self_link: api_v3_paths.storage_files(@storage.id),
+          current_user:
         )
       end
     end

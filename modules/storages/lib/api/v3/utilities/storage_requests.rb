@@ -54,14 +54,18 @@ class API::V3::Utilities::StorageRequests
     end
   end
 
-  def files_query
-    case @storage.provider_type
-    when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-      -> do
-        ::API::V3::Utilities::StorageInteraction::NextcloudStorageQuery.new.files
-      end
-    else
-      raise ArgumentError
+  def files_query(user:)
+    query = ::API::V3::Utilities::StorageInteraction::StorageQueries
+              .new(
+                uri: URI(@storage.host),
+                provider_type: @storage.provider_type,
+                user:,
+                oauth_client: @oauth_client
+              )
+              .files_query
+
+    -> do
+      query.files
     end
   end
 end

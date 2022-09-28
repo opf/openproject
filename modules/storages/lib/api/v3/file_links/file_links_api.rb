@@ -49,9 +49,10 @@ class API::V3::FileLinks::FileLinksAPI < ::API::OpenProjectAPI
       get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::FileLink).mount
 
       # A helper is used to define the behaviour at DELETE /api/v3/file_links/:file_link_id
-      delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::Storages::FileLink,
-                                                          process_service: ::Storages::FileLinks::DeleteService)
-                                                     .mount
+      delete &::API::V3::Utilities::Endpoints::Delete.new(
+        model: ::Storages::FileLink,
+        process_service: ::Storages::FileLinks::DeleteService
+      ).mount
 
       # Additional API definitions are mounted under the current namespace, hence they are
       # appended to /api/v3/file_links/:file_link_id/...
