@@ -41,7 +41,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
                     }
                   })
   end
-  let(:notification_setting) { build(:notification_setting) }
+  let(:notification_setting) { build(:notification_setting, overdue: 24) }
   let(:user) { build_stubbed(:user, preference:) }
   let(:representer) { described_class.new(preference, current_user: user) }
 

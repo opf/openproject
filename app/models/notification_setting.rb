@@ -56,9 +56,4 @@ class NotificationSetting < ApplicationRecord
 
   include Scopes::Scoped
   scopes :applicable
-
-  validates :start_date, :due_date, :overdue, numericality: { only_integer: true,
-                                                              allow_nil: true,
-                                                              greater_than_or_equal_to: 0,
-                                                              less_than_or_equal_to: 168 }
 end

@@ -50,10 +50,7 @@ module UserPreferences
       return service_call if notifications.nil?
 
       inserted = persist_notifications
-
-      if inserted.present?
-        remove_other_notifications(inserted)
-      end
+      remove_other_notifications(inserted)
 
       service_call
     end
@@ -113,7 +110,7 @@ module UserPreferences
                         membership_added
                         membership_updated]
           },
-          validate: true
+          validate: false
         ).ids
     end
   end
