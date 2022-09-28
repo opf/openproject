@@ -15,7 +15,7 @@ Users can book their time or units spent on an activity within a project directl
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Logging time](#logging-time-in-the-work-package-view)       | How to log time to work package.                             |
+| [Logging time](#logging-time-in-the-work-package-view)       | How to log time to a work package.                           |
 | [Logging time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package.      |
 | [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package.                   |
 | [Delete time entries](#delete-time-entries)                  | How to delete time entries logged to a work package.         |
