@@ -717,6 +717,7 @@ lol:
           attributes:
             base:
               working_days_are_missing: 'crwdns833294:0crwdne833294:0'
+              previous_working_day_changes_unprocessed: 'crwdns834170:0crwdne834170:0'
         time_entry:
           attributes:
             hours:
@@ -2888,6 +2889,11 @@ lol:
     change_button: "crwdns833348:0crwdne833348:0"
     warning: >
       crwdns833300:0crwdne833300:0
+    journal_note:
+      changed: crwdns834172:0%{changes}crwdne834172:0
+      days:
+        working: "crwdns834174:0%{day}crwdne834174:0"
+        non_working: "crwdns834176:0%{day}crwdne834176:0"
   nothing_to_preview: "crwdns499773:0crwdne499773:0"
   api_v3:
     attributes:

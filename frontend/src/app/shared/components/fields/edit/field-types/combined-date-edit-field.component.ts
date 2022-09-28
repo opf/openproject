@@ -26,10 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { DatePickerEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-picker-edit-field.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
@@ -40,7 +37,6 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
            class="op-input"
            type="text" />
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent {
   dates = '';
@@ -61,12 +57,18 @@ export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent
       });
   }
 
+  protected onModalClosed():void {
+    this.resetDates();
+    super.onModalClosed();
+  }
+
   // Overwrite super in order to set the initial dates.
   protected initialize():void {
     super.initialize();
+    this.resetDates();
+  }
 
-    // this breaks the preceived abstraction of the edit fields. But the date picker
-    // is already highly specific to start and due Date.
+  protected resetDates():void {
     this.dates = `${this.currentStartDate} - ${this.currentDueDate}`;
   }
 

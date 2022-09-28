@@ -25,7 +25,7 @@
 <%= labelled_tabular_form_for @oauth_application, url: '/' do |f| -%>
   <fieldset class="form--fieldset">
     <div class="form--field">
-      <label class="form--label"><%= t('storages.label_oauth_client_id') %></label>
+      <label class="form--label"><%= Storages::Admin::LABEL_OAUTH_CLIENT_ID %></label>
 
       <div class="form--field-container">
         <div class="form--text-field-container -wide">
@@ -54,7 +54,7 @@
     </div>
 
     <div class="form--field">
-      <label class="form--label"><%= t('storages.label_oauth_client_secret') %></label>
+      <label class="form--label"><%= Storages::Admin::LABEL_OAUTH_CLIENT_SECRET %></label>
 
       <div class="form--field-container">
         <div class="form--text-field-container -wide">

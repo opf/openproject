@@ -10,6 +10,5 @@
   <% else %>
     <%= styled_button_tag t("storages.buttons.save_and_continue_setup"), class: "-highlight -with-icon icon-checkmark" %>
   <% end %>
-  <%= link_to t("storages.buttons.cancel"), admin_settings_storages_path, class: 'button -with-icon icon-close' %>
-  <%#= styled_button_tag t("storages.buttons.cancel"), class: "-with-icon icon-close" %>
+  <%= link_to t(:button_cancel), admin_settings_storages_path, class: 'button -with-icon icon-close' %>
 <% end %>

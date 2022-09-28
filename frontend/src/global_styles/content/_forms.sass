@@ -427,6 +427,12 @@ fieldset.form--fieldset
   &.-vertical
     display: block
 
+  &.-horizontal
+    flex-wrap: wrap
+    &> *
+      flex-basis: calc((50rem - 100%) * 999)
+      flex-grow: 1
+
   .form--field.-visible-overflow &
     overflow: visible
 

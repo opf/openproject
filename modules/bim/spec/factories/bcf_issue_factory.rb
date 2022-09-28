@@ -111,15 +111,19 @@ FactoryBot.define do
     labels { [] }
     sequence(:index)
 
+    transient do
+      vp_snapshot { nil }
+    end
+
     factory :bcf_issue_with_viewpoint do
-      after(:create) do |issue|
-        create(:bcf_viewpoint, issue:)
+      after(:create) do |issue, evaluator|
+        create(:bcf_viewpoint, issue:, snapshot: evaluator.vp_snapshot)
       end
     end
 
     factory :bcf_issue_with_comment do
-      after(:create) do |issue|
-        viewpoint = create(:bcf_viewpoint, issue:)
+      after(:create) do |issue, evaluator|
+        viewpoint = create(:bcf_viewpoint, issue:, snapshot: evaluator.vp_snapshot)
         create(:bcf_comment, issue:, viewpoint:)
       end
     end

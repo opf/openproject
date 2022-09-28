@@ -734,6 +734,7 @@ pl:
           attributes:
             base:
               working_days_are_missing: 'Należy określić co najmniej jeden dzień roboczy.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -2956,6 +2957,11 @@ pl:
     change_button: "Zmień dni robocze"
     warning: >
       Zmiana, które dni tygodnia są uważane za dni robocze, może w tym przypadku wpłynąć na dni rozpoczęcia i zakończenia wszystkich pakietów roboczych we wszystkich projektach.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:

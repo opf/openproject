@@ -121,7 +121,7 @@ module WorkPackages
 
         # WeekDay day of the week is stored as ISO, meaning Monday is 1 and Sunday is 7.
         # Ruby Date#wday value for Sunday is 0 and it goes until 6 Saturday.
-        # To accomodate both versions 0-6, 1-7, an array of 8 elements is created
+        # To accommodate both versions 0-6, 1-7, an array of 8 elements is created
         # where array[0] = array[7] = value for Sunday
         #
         # Since Setting.working_days can be empty, the initial array is

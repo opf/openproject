@@ -147,4 +147,11 @@ shared_examples "watcher job" do |action|
       [build_stubbed(:notification_setting, mentioned: true, involved: false, watched: false)]
     end
   end
+
+  it_behaves_like 'does not notify the watcher' do
+    # Regression test for notification settings being empty
+    let(:notification_settings) do
+      []
+    end
+  end
 end

@@ -1,5 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
+/* eslint-disable-next-line change-detection-strategy/on-push */
 @Component({
   selector: 'spot-docs',
   templateUrl: './spot-docs.component.html',
@@ -15,6 +17,15 @@ export class SpotDocsComponent {
 
   textFieldValue = 'ngModel value';
 
+  usernameForm = new FormGroup({
+    username: new FormControl('', [
+      /* eslint-disable-next-line @typescript-eslint/unbound-method */
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(5),
+    ]),
+  });
+
   dropModalOpen = false;
 
   dropModalAlignment = 'bottom-left';
@@ -29,11 +40,12 @@ export class SpotDocsComponent {
     { value: 3, title: '3' },
   ];
 
-  onRemoveChip() {
+  onRemoveChip():void {
+    /* eslint-disable-next-line no-alert */
     alert('Remove chip');
   }
 
-  checkboxValueString() {
+  checkboxValueString():string {
     if (this.checkboxValue === null) {
       return 'null (indeterminate)';
     }
@@ -43,5 +55,10 @@ export class SpotDocsComponent {
     }
 
     return 'false (unchecked)';
+  }
+
+  onUsernameSubmit():void {
+    /* eslint-disable-next-line no-alert */
+    alert(this.usernameForm.get('username')?.value);
   }
 }

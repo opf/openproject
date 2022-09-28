@@ -749,9 +749,7 @@ tr:
     field_value_enter_prompt: "'%{field}' için bir değer girin"
     project_menu_details: "Detaylar"
     scheduling:
-      title: 'Scheduling'
-      manual: 'Manual'
-      default: 'Varsayılan'
+      manual: 'Manuel zamanlamayı etkinleştir'
     sort:
       sorted_asc: 'Artan sıralama, uygulandı, '
       sorted_dsc: 'Azalan sırılama uygulandı, '
@@ -859,9 +857,7 @@ tr:
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'İlişkileri göster'
         ignore_non_working_days:
-          title: 'Çalışma Günleri'
-          false: 'Çalışma Haftası'
-          true: 'Include weekends'
+          title: 'Working days only'
       description_filter: "Filtre"
       description_enter_text: "Metin girin"
       description_options_hide: "Seçenekleri gizle"
@@ -1186,7 +1182,7 @@ tr:
         next_button: 'Sonraki'
       message:
         label: 'Davet Mesajı'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
         next_button: 'Next'
       summary:
         next_button: 'Davet gönder'

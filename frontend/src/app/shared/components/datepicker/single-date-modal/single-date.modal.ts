@@ -103,26 +103,11 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     date: this.I18n.t('js.work_packages.properties.date'),
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
-    scheduling: {
-      title: this.I18n.t('js.scheduling.title'),
-      manual: this.I18n.t('js.scheduling.manual'),
-      default: this.I18n.t('js.scheduling.default'),
-    },
-    ignoreNonWorkingDays: {
-      title: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.title'),
-      yes: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.true'),
-      no: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.false'),
-    },
   };
 
   onDataUpdated = new EventEmitter<string>();
 
   scheduleManually = false;
-
-  schedulingOptions = [
-    { value: true, title: this.text.scheduling.manual },
-    { value: false, title: this.text.scheduling.default },
-  ];
 
   ignoreNonWorkingDays = false;
 

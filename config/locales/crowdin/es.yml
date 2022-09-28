@@ -67,8 +67,8 @@ es:
       upgrade_to_ee: "Actualizar a Enterprise Edition"
       add_token: "Cargue el token de soporte de versión corporativa"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
-        title: "Delete token"
+        text: "¿Está seguro que desea eliminar el token actual de la edición Enterpise usado?"
+        title: "Eliminar token"
       replace_token: "Reemplace su token de apoyo actual"
       order: "Solicitar Enterprise on-premises Edition"
       paste: "Pegue su token de apoyo de versión corporativa"
@@ -732,6 +732,7 @@ es:
           attributes:
             base:
               working_days_are_missing: 'Se necesita especificar al menos un día laborable.'
+              previous_working_day_changes_unprocessed: 'Los cambios anteriores en la configuración de días laborables no se han aplicado aún.'
         time_entry:
           attributes:
             hours:
@@ -1992,7 +1993,7 @@ es:
       center: 'Al centro de notificaciones'
       see_in_center: 'Ver comentario en el centro de notificaciones'
       settings: 'Cambiar configuración de correo electrónico'
-    salutation: 'Hello %{user}'
+    salutation: 'Hola %{user}'
     work_packages:
       created_at: 'Creado a las %{timestamp} por %{user} '
       login_to_see_all: 'Inicie sesión para ver todas las notificaciones.'
@@ -2170,7 +2171,7 @@ es:
           tb: "TB"
   onboarding:
     heading_getting_started: "Obtener información general"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
+    text_getting_started_description: "Obtenga un resumen rápido sobre la gestión de proyectos y la colaboración en equipo con OpenProject. Puedes volver a ver este video des del menú de ayuda."
     welcome: "Bienvenido a %{app_title}"
     select_language: "Seleccione su idioma"
   permission_add_work_package_notes: "Añadir notas"
@@ -2562,7 +2563,7 @@ es:
   text_access_token_hint: "Los tokens de acceso te permiten dar permisos de acceso sobre los recursos de OpenProject a aplicaciones externas."
   text_analyze: "Análisis futuro: %{subject}"
   text_are_you_sure: "¿Estás seguro?"
-  text_are_you_sure_continue: "Are you sure you want to continue?"
+  text_are_you_sure_continue: "¿Seguro que quiere continuar?"
   text_are_you_sure_with_children: "¿Eliminar el paquete de trabajo y todos sus paquetes dependientes?"
   text_assign_to_project: "Asignar al proyecto"
   text_form_configuration: >
@@ -2912,9 +2913,14 @@ es:
   working_days:
     info: >
       <b>Definir días considerados parte de la semana laboral.</b><br/> Los días que no están seleccionados se omiten al programar paquetes de trabajo (y no están incluidos en la cuenta de días). Estos pueden ser substituidos en los paquetes de trabajo.
-    change_button: "Change working days"
+    change_button: "Cambiar los días laborables"
     warning: >
       Cambiar qué días de la semana se consideran laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia.
+    journal_note:
+      changed: _**Días laborales** cambiados (%{changes})._
+      days:
+        working: "%{day} es ahora laboral"
+        non_working: "%{day} es ahora no laboral"
   nothing_to_preview: "Nada para previsualizar"
   api_v3:
     attributes:

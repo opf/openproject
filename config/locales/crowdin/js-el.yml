@@ -748,9 +748,7 @@ el:
     field_value_enter_prompt: "Εισαγωγή τιμής για το '%{field}'"
     project_menu_details: "Λεπτομέρειες"
     scheduling:
-      title: 'Scheduling'
-      manual: 'Manual'
-      default: 'Default'
+      manual: 'Χειροκίνητος προγραμματισμός'
     sort:
       sorted_asc: 'Εφαρμόστηκε αύξουσα ταξινόμηση, '
       sorted_dsc: 'Εφαρμόστηκε φθίνουσα ταξινόμηση, '
@@ -858,9 +856,7 @@ el:
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
         ignore_non_working_days:
-          title: 'Working days'
-          false: 'Work week'
-          true: 'Include weekends'
+          title: 'Working days only'
       description_filter: "Φίλτρο"
       description_enter_text: "Εισάγετε κείμενο"
       description_options_hide: "Απόκρυψη επιλογών"
@@ -1185,7 +1181,7 @@ el:
         next_button: 'Επόμενο'
       message:
         label: 'Μήνυμα πρόσκλησης'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
         next_button: 'Next'
       summary:
         next_button: 'Αποστολή πρόσκλησης'

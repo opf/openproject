@@ -7,13 +7,13 @@
   <div class="spot-divider"></div>
 
   <div class="spot-modal--body spot-container">
-    <op-form-field
+    <spot-form-field
       [label]="textLabel"
       required
     >
       <op-ium-principal-search
         *ngIf="!(hasPrincipalSelected && isNewPrincipal)"
-        [opFormBinding]="principalControl"
+        [spotFormBinding]="principalControl"
         [type]="type"
         [project]="project"
         slot="input"
@@ -46,12 +46,12 @@
 
       <div
         slot="errors"
-        class="op-form-field--error"
+        class="spot-form-field--error"
         *ngIf="principalControl?.invalid"
       >
         {{ text.principal.required[type] }}
       </div>
-    </op-form-field>
+    </spot-form-field>
 
     <op-dynamic-form
       *ngIf="isNewPrincipal && type === PrincipalType.User && userDynamicFieldConfig.schema"
@@ -61,34 +61,34 @@
       [handleSubmit]="false"
     ></op-dynamic-form>
 
-    <op-form-field
+    <spot-form-field
       [label]="text.role.label()"
       required
     >
       <op-ium-role-search
-        [opFormBinding]="roleControl"
+        [spotFormBinding]="roleControl"
         slot="input"
       ></op-ium-role-search>
       <p
-        class="op-form-field--description"
-        slot="help-text"
+        class="spot-form-field--description"
+        slot="action"
         [innerHtml]="text.role.description()"
       ></p>
-    
+
       <div
         slot="errors"
-        class="op-form-field--error"
+        class="spot-form-field--error"
         *ngIf="roleControl?.invalid"
         >
           {{ text.role.required }}
         </div>
-    </op-form-field>
+    </spot-form-field>
 
-    <op-form-field 
+    <spot-form-field
       [label]="text.message.label"
       *ngIf="type !== PrincipalType.Placeholder"
     >
-    
+
       <textarea
         class="op-input op-ium-invite-message-field"
         [formControl]="messageControl"
@@ -96,10 +96,12 @@
         #input>
       </textarea>
 
-      <p class="op-form-field--description" slot="help-text">
-        {{ text.message.description() }}
+      <p 
+        class="spot-form-field--description" 
+        slot="action"
+        [innerHtml]="text.message.description()">
       </p>
-    </op-form-field>
+    </spot-form-field>
   </div>
 
   <div class="spot-action-bar">

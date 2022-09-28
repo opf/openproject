@@ -77,9 +77,6 @@ import { HideSectionLinkComponent } from './components/hide-section/hide-section
 import { RemoteFieldUpdaterComponent } from './components/remote-field-updater/remote-field-updater.component';
 import { ShowSectionDropdownComponent } from './components/hide-section/show-section-dropdown.component';
 import { DynamicBootstrapModule } from './components/dynamic-bootstrap/dynamic-bootstrap.module';
-import { OpCheckboxFieldComponent } from './components/forms/checkbox-field/checkbox-field.component';
-import { OpFormFieldComponent } from './components/forms/form-field/form-field.component';
-import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
@@ -188,9 +185,6 @@ export function bootstrapModule(injector:Injector):void {
 
     DynamicModule,
 
-    OpCheckboxFieldComponent,
-    OpFormFieldComponent,
-    OpFormBindingDirective,
     OpOptionListComponent,
     OpSidemenuComponent,
     OpProjectIncludeComponent,
@@ -246,9 +240,6 @@ export function bootstrapModule(injector:Injector):void {
 
     HomescreenNewFeaturesBlockComponent,
 
-    OpCheckboxFieldComponent,
-    OpFormFieldComponent,
-    OpFormBindingDirective,
     OpOptionListComponent,
     OpSidemenuComponent,
     OpProjectIncludeComponent,

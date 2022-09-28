@@ -28,8 +28,8 @@
 
 module ScheduleHelpers
   class ScheduleBuilder
-    def self.from_chart(chart, rspec_example)
-      creator = new(chart, rspec_example)
+    def self.from_chart(chart)
+      creator = new(chart)
       chart.work_package_names.each do |name|
         creator.create_work_package(name)
         creator.create_follows_relations(name)
@@ -39,9 +39,8 @@ module ScheduleHelpers
 
     attr_reader :chart, :work_packages, :follows_relations
 
-    def initialize(chart, rspec_example)
+    def initialize(chart)
       @chart = chart
-      @rspec_example = rspec_example
       @work_packages = {}
       @follows_relations = {}
     end
@@ -52,17 +51,17 @@ module ScheduleHelpers
           .work_package_attributes(name)
           .excluding(:name)
           .merge(parent: parent_of(name))
-        @rspec_example.create(:work_package, attributes)
+        FactoryBot.create(:work_package, attributes)
       end
     end
 
     def create_follows_relations(follower)
       chart.predecessors_by_follower(follower).each do |predecessor|
         follows_relations[from: follower, to: predecessor] =
-          @rspec_example.create(:follows_relation,
-                                from: create_work_package(follower),
-                                to: create_work_package(predecessor),
-                                delay: chart.delay_between(predecessor:, follower:))
+          FactoryBot.create(:follows_relation,
+                            from: create_work_package(follower),
+                            to: create_work_package(predecessor),
+                            delay: chart.delay_between(predecessor:, follower:))
       end
     end
 

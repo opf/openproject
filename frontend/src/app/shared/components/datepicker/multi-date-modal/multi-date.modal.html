@@ -24,95 +24,78 @@
     </div>
 
     <div class="op-datepicker-modal--dates-container">
-      <div class="op-form-field op-datepicker-modal--date-form"
-           data-qa-selector="datepicker-start-date"
+      <spot-form-field
+        [label]="text.startDate"
+        data-qa-selector="datepicker-start-date"
       >
-        <label class="form--label"
-               [textContent]="text.startDate">
-        </label>
-        <div class="form--field-container">
-          <div class="form--text-field-container op-datepicker-modal--date-container">
-            <spot-text-field
-              name="startDate"
-              data-qa-selector="op-datepicker-modal--start-date-field"
-              class="op-datepicker-modal--date-field"
-              [attr.data-qa-highlighted]="showFieldAsActive('start') || undefined"
-              [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('start')}"
-              [ngModel]="dates.start"
-              (ngModelChange)="startDateChanged$.next($event)"
-              [disabled]="!isSchedulable"
-              [showClearButton]="currentlyActivatedDateField === 'start'"
-              (focusin)="setCurrentActivatedField('start')"
-            ></spot-text-field>
-          </div>
-        </div>
-        <div class="form--field-extra-actions">
-          <button
-            type="button"
-            class="spot-link"
-            [ngClass]="{ 'op-datepicker-modal--hidden-link': !showTodayLink() }"
-            (click)="setToday('start')"
-            [textContent]="text.today">
-          </button>
-        </div>
-      </div>
-      <div class="op-form-field op-datepicker-modal--date-form"
-           data-qa-selector="datepicker-end-date"
+        <spot-text-field
+          slot="input"
+          name="startDate"
+          data-qa-selector="op-datepicker-modal--start-date-field"
+          class="op-datepicker-modal--date-field"
+          [attr.data-qa-highlighted]="showFieldAsActive('start') || undefined"
+          [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('start')}"
+          [ngModel]="dates.start"
+          (ngModelChange)="startDateChanged$.next($event)"
+          [disabled]="!isSchedulable"
+          [showClearButton]="currentlyActivatedDateField === 'start'"
+          (focusin)="setCurrentActivatedField('start')"
+        ></spot-text-field>
+        <button
+          slot="action"
+          type="button"
+          class="spot-link"
+          [ngClass]="{ 'op-datepicker-modal--hidden-link': !showTodayLink() }"
+          (click)="setToday('start')"
+          [textContent]="text.today">
+        </button>
+      </spot-form-field>
+      <spot-form-field
+        [label]="text.startDate"
+        data-qa-selector="datepicker-end-date"
       >
-        <label class="form--label"
-               [textContent]="text.endDate">
-        </label>
-        <div class="form--field-container">
-          <div class="form--text-field-container op-datepicker-modal--date-container">
-            <spot-text-field
-              name="endDate"
-              data-qa-selector="op-datepicker-modal--end-date-field"
-              class="op-datepicker-modal--date-field"
-              [attr.data-qa-highlighted]=" showFieldAsActive('end') || undefined"
-              [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('end')}"
-              [ngModel]="dates.end"
-              (ngModelChange)="endDateChanged$.next($event)"
-              [disabled]="!isSchedulable"
-              [showClearButton]="currentlyActivatedDateField === 'end'"
-              (focusin)="setCurrentActivatedField('end')"
-            ></spot-text-field>
-          </div>
-        </div>
-        <div class="form--field-extra-actions">
-          <button
-            type="button"
-            class="spot-link"
-            [ngClass]="{ 'op-datepicker-modal--hidden-link': !showTodayLink() }"
-            (click)="setToday('end')"
-            [textContent]="text.today">
-          </button>
-        </div>
-      </div>
-      <div class="op-form-field op-datepicker-modal--date-form"
-           data-qa-selector="datepicker-duration"
+        <spot-text-field
+          slot="input"
+          name="endDate"
+          data-qa-selector="op-datepicker-modal--end-date-field"
+          class="op-datepicker-modal--date-field"
+          [attr.data-qa-highlighted]="showFieldAsActive('end') || undefined"
+          [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('end')}"
+          [ngModel]="dates.end"
+          (ngModelChange)="endDateChanged$.next($event)"
+          [disabled]="!isSchedulable"
+          [showClearButton]="currentlyActivatedDateField === 'end'"
+          (focusin)="setCurrentActivatedField('end')"
+        ></spot-text-field>
+        <button
+          slot="action"
+          type="button"
+          class="spot-link"
+          [ngClass]="{ 'op-datepicker-modal--hidden-link': !showTodayLink() }"
+          (click)="setToday('end')"
+          [textContent]="text.today">
+        </button>
+      </spot-form-field>
+      <spot-form-field
+        [label]="text.duration"
+        data-qa-selector="datepicker-duration"
       >
-        <label class="form--label"
-               [textContent]="text.duration">
-        </label>
-        <div class="form--field-container">
-          <div class="form--text-field-container op-datepicker-modal--date-container">
-            <spot-text-field
-              #durationField
-              name="duration"
-              data-qa-selector="op-datepicker-modal--duration-field"
-              class="op-datepicker-modal--date-field"
-              [attr.data-qa-highlighted]=" showFieldAsActive('duration') || undefined"
-              [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('duration')}"
-              [ngModel]="durationFocused ? duration : displayedDuration"
-              [showClearButton]="durationFocused"
-              (ngModelChange)="durationChanges$.next($event)"
-              [disabled]="!isSchedulable"
-              (focusin)="handleDurationFocusIn()"
-              (focusout)="handleDurationFocusOut()"
-            ></spot-text-field>
-          </div>
-        </div>
-      </div>
+        <spot-text-field
+          #durationField
+          slot="input"
+          name="duration"
+          data-qa-selector="op-datepicker-modal--duration-field"
+          class="op-datepicker-modal--date-field"
+          [attr.data-qa-highlighted]=" showFieldAsActive('duration') || undefined"
+          [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('duration')}"
+          [ngModel]="durationFocused ? duration : displayedDuration"
+          [showClearButton]="durationFocused"
+          (ngModelChange)="durationChanges$.next($event)"
+          [disabled]="!isSchedulable"
+          (focusin)="handleDurationFocusIn()"
+          (focusout)="handleDurationFocusOut()"
+        ></spot-text-field>
+      </spot-form-field>
     </div>
 
     <input id="flatpickr-input"

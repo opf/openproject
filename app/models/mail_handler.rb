@@ -105,7 +105,7 @@ class MailHandler < ActionMailer::Base
       when 'accept'
         @user = User.anonymous
       when 'create'
-        @user, password = MailHandler.create_user_from_email(email)
+        @user, password = MailHandler::UserCreator.create_user_from_email(email)
         if @user
           log "[#{@user.login}] account created"
           UserMailer.account_information(@user, password).deliver_later
@@ -431,52 +431,6 @@ class MailHandler < ActionMailer::Base
 
   def self.full_sanitizer
     @full_sanitizer ||= Rails::Html::FullSanitizer.new
-  end
-
-  # Returns a User from an email address and a full name
-  def self.new_user_from_attributes(email_address, fullname = nil)
-    user = User.new
-    user.mail = email_address
-    user.login = user.mail
-    user.random_password!
-    user.language = Setting.default_language
-
-    names = fullname.blank? ? email_address.gsub(/@.*\z/, '').split('.') : fullname.split
-    user.firstname = names.shift
-    user.lastname = names.join(' ')
-    user.lastname = '-' if user.lastname.blank?
-
-    unless user.valid?
-      user.login = "user#{SecureRandom.hex(6)}" if user.errors[:login].present?
-      user.firstname = '-' if user.errors[:firstname].present?
-      user.lastname = '-' if user.errors[:lastname].present?
-    end
-
-    user
-  end
-
-  # Creates a user account for the +email+ sender
-  def self.create_user_from_email(email)
-    from = email.header['from'].to_s
-    addr = from
-    name = nil
-    if m = from.match(/\A"?(.+?)"?\s+<(.+@.+)>\z/)
-      addr = m[2]
-      name = m[1]
-    end
-    if addr.present?
-      user = new_user_from_attributes(addr, name)
-      password = user.password
-      if user.save
-        [user, password]
-      else
-        log "failed to create User: #{user.errors.full_messages}", :error
-        nil
-      end
-    else
-      log 'failed to create User: no FROM address found', :error
-      nil
-    end
   end
 
   def allow_override_option(options)

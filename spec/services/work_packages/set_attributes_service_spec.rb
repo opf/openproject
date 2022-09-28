@@ -276,12 +276,9 @@ describe WorkPackages::SetAttributesService,
 
   context 'with the actual contract' do
     let(:invalid_wp) do
-      wp = create(:work_package)
-      wp.start_date = Time.zone.today + 5.days
-      wp.due_date = Time.zone.today
-      wp.save!(validate: false)
-
-      wp
+      build(:work_package, subject: '').tap do |wp|
+        wp.save!(validate: false)
+      end
     end
     let(:user) { build_stubbed(:admin) }
     let(:instance) do
@@ -290,9 +287,9 @@ describe WorkPackages::SetAttributesService,
                           contract_class:)
     end
 
-    context 'with a current invalid start date' do
+    context 'with a currently invalid subject' do
       let(:call_attributes) { attributes }
-      let(:attributes) { { start_date: Time.zone.today - 5.days } }
+      let(:attributes) { { subject: 'ABC' } }
       let(:contract_valid) { true }
 
       subject { instance.call(call_attributes) }

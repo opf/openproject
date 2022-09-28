@@ -42,7 +42,6 @@ lt:
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
-      cancel: "Cancel"
     page_titles:
       project_settings:
         index: "Šiame projekte prieinamos failų saugyklos."
@@ -81,8 +80,6 @@ lt:
     label_storage: "Saugykla"
     label_storages: "Saugyklos"
     no_results: "Dar nenustatyta jokia saugykla"
-    label_oauth_client_id: "OAuth Client ID"
-    label_oauth_client_secret: "OAuth Client Secret"
     provider_types:
       label: "Tiekėjo tipas"
       nextcloud:

@@ -751,9 +751,7 @@ pl:
     field_value_enter_prompt: "Wprowadź wartość dla '%{field}'"
     project_menu_details: "Szczegóły"
     scheduling:
-      title: 'Planowanie'
-      manual: 'Ręcznie'
-      default: 'Domyślnie'
+      manual: 'Planowanie ręczne'
     sort:
       sorted_asc: 'Zastosowano sortowanie rosnące, '
       sorted_dsc: 'Zastosowano sortowanie malejące, '
@@ -861,9 +859,7 @@ pl:
         click_on_show_relations_to_open_gantt: 'Kliknij "%{button_name}", aby wyświetlić wykres GANTTa.'
         show_relations: 'Pokaż relacje'
         ignore_non_working_days:
-          title: 'Dni robocze'
-          false: 'Tydzień pracy'
-          true: 'Dołącz weekendy'
+          title: 'Working days only'
       description_filter: "Filtr"
       description_enter_text: "Wpisz tekst"
       description_options_hide: "Ukryj opcje"
@@ -1192,7 +1188,7 @@ pl:
         next_button: 'Następny'
       message:
         label: 'Wiadomość z zaproszeniem'
-        description: 'Wyślemy e-mail do użytkownika, do którego możesz dodać osobistą wiadomość tutaj. Przydałoby się wyjaśnienie dotyczące zaproszenia lub trochę informacji dotyczących projektu, aby ułatwić mu początek.'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
         next_button: 'Następny'
       summary:
         next_button: 'Wyślij zaproszenie'

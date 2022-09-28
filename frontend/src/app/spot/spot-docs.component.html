@@ -429,6 +429,82 @@ Currently selected value is {{ toggleValue }}
       class="spot-icon spot-icon_bell"
     ></span>
   </spot-text-field>
+
+  <spot-text-field
+    placeholder="Disabled"
+    [disabled]="true"
+  >
+    <span
+      slot="before"
+      class="spot-icon spot-icon_bell"
+    ></span>
+  </spot-text-field>
+</section>
+
+<h1>Form Field</h1>
+
+<section class="space-children">
+  <spot-form-field label="Some input">
+    <spot-text-field
+      slot="input"
+      [(ngModel)]="textFieldValue"
+    ></spot-text-field>
+
+    <p
+      slot="description"
+      class="spot-form-field--description"
+    >This is a description for the form field</p>
+  </spot-form-field>
+
+  <form
+    [formGroup]="usernameForm"
+    (ngSubmit)="onUsernameSubmit()"
+  >
+    <spot-form-field
+      label="Validated input"
+      [required]="true"
+    >
+      <spot-text-field
+        slot="input"
+        formControlName="username"
+      >
+        <span
+          slot="before"
+          class="spot-icon spot-icon_user"
+        ></span>
+      </spot-text-field>
+
+      <p
+        slot="description"
+        class="spot-form-field--description"
+      >
+        This field has validation; try typing in it. The current value is "{{ usernameForm.get('username')!.value }}"
+      </p>
+
+      <p
+        slot="errors"
+        class="spot-form-field--error"
+        *ngIf="usernameForm.get('username')!.errors?.required"
+      >
+        This field is required
+      </p>
+
+      <p
+        slot="errors"
+        class="spot-form-field--error"
+        *ngIf="usernameForm.get('username')!.errors?.minlength"
+      >
+        A username must have at least 3 characters
+      </p>
+      <p
+        slot="errors"
+        class="spot-form-field--error"
+        *ngIf="usernameForm.get('username')!.errors?.maxlength"
+      >
+        A username must have at most 5 characters
+      </p>
+    </spot-form-field>
+  </form>
 </section>
 
 <h1>Drop Modal</h1>

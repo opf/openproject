@@ -751,9 +751,7 @@ cs:
     field_value_enter_prompt: "Zadejte hodnotu pro '%{field}'"
     project_menu_details: "Podrobnosti"
     scheduling:
-      title: 'Plánování'
-      manual: 'Manuální'
-      default: 'Výchozí'
+      manual: 'Manuální plánování'
     sort:
       sorted_asc: 'Použito vzestupné řazení, '
       sorted_dsc: 'Použité sestupně '
@@ -861,9 +859,7 @@ cs:
         click_on_show_relations_to_open_gantt: 'Klikněte na "%{button_name}pro přehled GANTT.'
         show_relations: 'Zobrazit vztahy'
         ignore_non_working_days:
-          title: 'Pracovní dny'
-          false: 'Pracovní týden'
-          true: 'Zahrnout víkendy'
+          title: 'Working days only'
       description_filter: "Filtr"
       description_enter_text: "Zadejte text"
       description_options_hide: "Skrýt možnosti"
@@ -1192,7 +1188,7 @@ cs:
         next_button: 'Další'
       message:
         label: 'Pozvánka'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the rpoject to help them get started.'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
         next_button: 'Next'
       summary:
         next_button: 'Odeslat pozvánku'

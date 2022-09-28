@@ -124,7 +124,7 @@ describe 'scheduling mode',
     # work package is manually scheduled
     combined_field.activate!(expect_open: false)
     combined_field.expect_active!
-    combined_field.set_scheduling_mode manually: true
+    combined_field.toggle_scheduling_mode
     combined_field.update(%w[2016-01-05 2016-01-10], save: false)
     combined_field.expect_duration 6
     combined_field.save!
@@ -157,7 +157,7 @@ describe 'scheduling mode',
     # and all work packages that are dependent to be rescheduled again.
     combined_field.activate!(expect_open: false)
     combined_field.expect_active!
-    combined_field.set_scheduling_mode manually: false
+    combined_field.toggle_scheduling_mode
     combined_field.save!
 
     work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
@@ -186,7 +186,7 @@ describe 'scheduling mode',
     # and all work packages that are dependent to be rescheduled again.
     combined_field.activate!(expect_open: false)
     combined_field.expect_active!
-    combined_field.set_scheduling_mode manually: true
+    combined_field.toggle_scheduling_mode
 
     # The calendar needs some time to get initialized.
     sleep 2
@@ -223,7 +223,7 @@ describe 'scheduling mode',
     # satisfy wp follows wp_pre relation.
     combined_field.activate!(expect_open: false)
     combined_field.expect_active!
-    combined_field.set_scheduling_mode manually: false
+    combined_field.toggle_scheduling_mode
     combined_field.save!
 
     work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'

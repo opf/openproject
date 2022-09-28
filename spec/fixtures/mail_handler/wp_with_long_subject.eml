@@ -1,11 +1,11 @@
-Return-Path: <jsmith@somenet.foo>
+Return-Path: <JSmith@somenet.foo>
 Received: from osiris ([127.0.0.1])
 	by OSIRIS
 	with hMailServer ; Sun, 22 Jun 2008 12:28:07 +0200
 Message-ID: <000501c8d452$a95cd7e0$0a00a8c0@osiris>
-From: "John Smith" <jsmith@somenet.foo>
-To: <redmine@somenet.foo>
-Subject: New ticket on a given project
+From: "John Smith" <JSmith@somenet.foo>
+To: <openproject@somenet.foo>
+Subject: New ticket on a given project with a very long subject line which exceeds 255 chars and should not be ignored but chopped off. And if the subject line is still not long enough, we just add more text. And more text. Wow, this is really annoying. Especially, if you have nothing to say...
 Date: Sun, 22 Jun 2008 12:28:07 +0200
 MIME-Version: 1.0
 Content-Type: text/plain;
@@ -26,9 +26,21 @@ in urna sed tellus aliquet lobortis. Morbi scelerisque tortor in dolor. Cras
 sagittis odio eu lacus. Aliquam sem tortor, consequat sit amet, vestibulum
 id, iaculis at, lectus. Fusce tortor libero, congue ut, euismod nec, luctus
 eget, eros. Pellentesque tortor enim, feugiat in, dignissim eget, tristique
-sed, mauris. Pellentesque habitant morbi tristique senectus et netus et
+sed, mauris --- Pellentesque habitant morbi tristique senectus et netus et
 malesuada fames ac turpis egestas. Quisque sit amet libero. In hac habitasse
 platea dictumst.
+
+--- This line starts with a delimiter and should not be stripped
+
+This paragraph is before delimiters.
+
+BREAK
+
+This paragraph is between delimiters.
+
+---
+
+This paragraph is after the delimiter so it shouldn't appear.
 
 Nulla et nunc. Duis pede. Donec et ipsum. Nam ut dui tincidunt neque
 sollicitudin iaculis. Duis vitae dolor. Vestibulum eget massa. Sed lorem.
@@ -37,7 +49,9 @@ dictum et, ligula. Sed erat nibh, gravida in, accumsan non, placerat sed,
 massa. Sed sodales, ante fermentum ultricies sollicitudin, massa leo
 pulvinar dui, a gravida orci mi eget odio. Nunc a lacus.
 
-Projekt: onlinestore
-Type: Feature request
-Kategorie: Stock management
-Priorität: Urgent
+Project: onlinestore
+Status: Resolved
+due date: 2010-12-31
+Start Date:2010-01-01
+Assigned to: John Smith
+
