@@ -42,7 +42,6 @@ pl:
       replace_provider_type_oauth: "Zastąp %{provider_type} OAuth"
       save_and_continue_setup: "Zapisz i kontynuuj konfigurację"
       save_and_complete_setup: "Zapisz i zakończ konfigurację"
-      cancel: "Anuluj"
     page_titles:
       project_settings:
         index: "Magazyny plików dostępne w tym projekcie"
@@ -81,8 +80,6 @@ pl:
     label_storage: "Magazyn"
     label_storages: "Magazyny"
     no_results: "Brak skonfigurowanych magazynów."
-    label_oauth_client_id: "ID klienta OAuth"
-    label_oauth_client_secret: "Klucz klienta OAuth"
     provider_types:
       label: "Typ dostawcy"
       nextcloud:

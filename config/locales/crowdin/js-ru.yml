@@ -858,7 +858,7 @@ ru:
         click_on_show_relations_to_open_gantt: 'Нажмите на "%{button_name}" для просмотра в виде диаграммы Ганта.'
         show_relations: 'Показать взаимосвязи'
         ignore_non_working_days:
-          title: 'Working days only'
+          title: 'Только рабочие дни'
       description_filter: "Фильтр"
       description_enter_text: "Введите текст"
       description_options_hide: "Скрыть параметры"
