@@ -36,6 +36,10 @@ WORKDIR $APP_PATH
 COPY docker/prod/setup ./docker/prod/setup
 RUN ./docker/prod/setup/preinstall.sh
 
+# set irb default config for app (docker run -it ...) and root (docker exec -it ...) users
+RUN ln -s /app/docker/prod/setup/.irbrc /home/$APP_USER/
+RUN ln -s /app/docker/prod/setup/.irbrc /root/
+
 COPY Gemfile ./Gemfile
 COPY Gemfile.* ./
 COPY modules ./modules
