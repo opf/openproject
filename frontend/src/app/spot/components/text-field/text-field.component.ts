@@ -49,12 +49,22 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
   @Input() @HostBinding('class.spot-text-field_disabled') public disabled = false;
 
   /**
-   * 
+   * By default, we show a small "x" inside the input on the right hand side if
+   * some value has been set. This is a button that clears the input. Setting this option
+   * to false will not show this clear button.
    */
   @Input() showClearButton = true;
 
+  /**
+   * The placeholder text.
+   * This should never be a label replacement, since placeholders are not properly accessible.
+   */
   @Input() public placeholder = '';
 
+  /**
+   * If you're not using Angular Reactive Forms (Which you should be using!)
+   * then you can manually set the value via this input.
+   */
   @Input() public value = '';
 
   valueChanged(value:string):void {
