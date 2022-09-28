@@ -68,7 +68,7 @@ de:
       add_token: "Enterprise-Edition Support Token hochladen"
       delete_token_modal:
         text: "Are you sure you want to remove the current Enterprise Edition token used?"
-        title: "Delete token"
+        title: "Token löschen"
       replace_token: "Aktuellen Enterprise-Edition Support Token ersetzen"
       order: "Enterprise on-premises bestellen"
       paste: "Enterprise-Edition Support Token hier einfügen"
@@ -527,8 +527,8 @@ de:
         end_deletion: "Ende des Löschvorgangs"
         ignore_non_working_days: "Nicht-Arbeitstage ignorieren"
         include_non_working_days:
-          title: 'Working days'
-          false: 'working days only'
+          title: 'Werktage'
+          false: 'Nur Werktage'
           true: 'include non-working days'
         parent: "Übergeordnetes Arbeitspaket"
         parent_issue: "Übergeordnetes Arbeitspaket"

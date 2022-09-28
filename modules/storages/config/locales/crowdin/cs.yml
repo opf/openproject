@@ -42,7 +42,6 @@ cs:
       replace_provider_type_oauth: "Nahradit %{provider_type} OAuth"
       save_and_continue_setup: "Uložit a pokračovat v nastavení"
       save_and_complete_setup: "Uložit a dokončit nastavení"
-      cancel: "Zrušit"
     page_titles:
       project_settings:
         index: "Úložiště souborů v tomto projektu"
@@ -81,8 +80,6 @@ cs:
     label_storage: "Úložiště"
     label_storages: "Úložiště"
     no_results: "Zatím nejsou nastaveny žádné úložiště."
-    label_oauth_client_id: "OAuth ID klienta"
-    label_oauth_client_secret: "OAuth Client Secret"
     provider_types:
       label: "Typ poskytovatele"
       nextcloud:

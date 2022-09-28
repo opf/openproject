@@ -856,7 +856,7 @@ de:
         click_on_show_relations_to_open_gantt: 'Klicken Sie auf "%{button_name}" für eine GANTT-Übersicht.'
         show_relations: 'Beziehungen anzeigen'
         ignore_non_working_days:
-          title: 'Working days only'
+          title: 'Nur Werktage'
       description_filter: "Filter"
       description_enter_text: "Text eingeben"
       description_options_hide: "Optionen ausblenden"
@@ -914,7 +914,7 @@ de:
         description: "Beschreibung"
         date: "Datum"
         dueDate: "Endtermin"
-        duration: "Duration"
+        duration: "Dauer"
         estimatedTime: "Geschätzter Aufwand"
         spentTime: "Aufgewendete Zeit"
         category: "Kategorie"

@@ -732,7 +732,7 @@ es:
           attributes:
             base:
               working_days_are_missing: 'Se necesita especificar al menos un día laborable.'
-              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
+              previous_working_day_changes_unprocessed: 'Los cambios anteriores en la configuración de días laborables no se han aplicado aún.'
         time_entry:
           attributes:
             hours:
@@ -2917,10 +2917,10 @@ es:
     warning: >
       Cambiar qué días de la semana se consideran laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia.
     journal_note:
-      changed: _**Working days** changed (%{changes})._
+      changed: _**Días laborales** cambiados (%{changes})._
       days:
-        working: "%{day} is now working"
-        non_working: "%{day} is now non-working"
+        working: "%{day} es ahora laboral"
+        non_working: "%{day} es ahora no laboral"
   nothing_to_preview: "Nada para previsualizar"
   api_v3:
     attributes:
