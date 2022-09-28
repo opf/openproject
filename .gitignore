@@ -118,7 +118,11 @@ node_modules/
 plaintext.yml
 structure.sql
 
-# Local development docker 
+# Local development
+# used by dotenv
+/.env.*.local
+
+# Local development docker
 /.env
 /docker-compose.override.yml
 
