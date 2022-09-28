@@ -67,9 +67,11 @@ describe 'Project templates', type: :feature, js: true do
     let!(:wiki_page) { create(:wiki_page_with_content, wiki: template.wiki) }
 
     let!(:role) do
-      create(:role, permissions: %i[view_project view_work_packages copy_projects add_subprojects add_project])
+      create(:role, permissions: %i[view_project view_work_packages copy_projects add_subprojects])
     end
-    let!(:current_user) { create(:user, member_in_projects: [template, other_project], member_through_role: role) }
+    let!(:global_permissions) do
+      %i[add_project]
+    end
     let(:status_field_selector) { 'ckeditor-augmented-textarea[textarea-selector="#project_status_explanation"]' }
     let(:status_description) { ::Components::WysiwygEditor.new status_field_selector }
 
@@ -82,8 +84,11 @@ describe 'Project templates', type: :feature, js: true do
     let(:status_field) { ::FormFields::SelectFormField.new :status }
     let(:parent_field) { ::FormFields::SelectFormField.new :parent }
 
-    before do
-      login_as current_user
+    current_user do
+      create(:user,
+             member_in_projects: [template, other_project],
+             member_through_role: role,
+             global_permissions:)
     end
 
     it 'can instantiate the project with the copy permission' do
