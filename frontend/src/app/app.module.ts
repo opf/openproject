@@ -32,6 +32,7 @@ import {
   Injector,
   NgModule,
 } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { States } from 'core-app/core/states/states.service';
@@ -168,6 +169,9 @@ export function initializeServices(injector:Injector) {
 
     // Angular Forms
     ReactiveFormsModule,
+
+    // Angular Http Client
+    HttpClientModule,
 
     // Augmenting Module
     OpenprojectAugmentingModule,
