@@ -10,7 +10,7 @@
   <fieldset class="form--fieldset">
     <div class="form--field -required">
       <%= f.text_field :client_id,
-                       label: t('storages.label_oauth_client_id'),
+                       label: Storages::Admin::LABEL_OAUTH_CLIENT_ID,
                        required: true,
                        size: 40,
                        container_class: '-wide' %>
@@ -23,7 +23,7 @@
     </div>
     <div class="form--field -required">
       <%= f.text_field :client_secret,
-                       label: t('storages.label_oauth_client_secret'),
+                       label: Storages::Admin::LABEL_OAUTH_CLIENT_SECRET,
                        required: true,
                        size: 40,
                        container_class: '-wide' %>

@@ -42,7 +42,6 @@ tr:
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
-      cancel: "İptal"
     page_titles:
       project_settings:
         index: "File storages available in this project"
@@ -81,8 +80,6 @@ tr:
     label_storage: "Depolama"
     label_storages: "Depolamalar"
     no_results: "Henüz bir depo kurulmadı."
-    label_oauth_client_id: "OAuth İstemci Kimliği"
-    label_oauth_client_secret: "OAuth Client Secret"
     provider_types:
       label: "Sağlayıcı türü"
       nextcloud:

@@ -42,7 +42,6 @@ ca:
       replace_provider_type_oauth: "Substitueix l'OAuth de %{provider_type}"
       save_and_continue_setup: "Desar i continua la configuració"
       save_and_complete_setup: "Desar i completa la configuració"
-      cancel: "Cancel·la"
     page_titles:
       project_settings:
         index: "Emmagatzematges de fitxers no disponibles en aquest projecte"
@@ -81,8 +80,6 @@ ca:
     label_storage: "Emmagatzematge"
     label_storages: "Emmagatzematges"
     no_results: "No s'han configurat emmagatzematges encara."
-    label_oauth_client_id: "OAuth ID del client"
-    label_oauth_client_secret: "OAuth secreta del client"
     provider_types:
       label: "Tipus de proveïdor"
       nextcloud:

@@ -168,8 +168,8 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       job.perform_now(user_id: user.id, previous_working_days:)
       expect(WorkPackage.all).to match_schedule(<<~CHART)
         days        | MTWTFSS |
-        predecessor |  X▓X ░░ | working days work week
-        follower    |   ░ XXX | working days include weekends
+        predecessor |  X▓X ░░ |
+        follower    |   ░ XXX |
       CHART
     end
 
@@ -343,7 +343,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       job.perform_now(user_id: user.id, previous_working_days:)
       expect(WorkPackage.all).to match_schedule(<<~CHART)
         days         | MTWTFSS |
-        work_package | XXXX ░░ | working days include weekends
+        work_package | XXXX ░░ |
       CHART
     end
 

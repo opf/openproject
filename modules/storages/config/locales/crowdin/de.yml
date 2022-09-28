@@ -42,7 +42,6 @@ de:
       replace_provider_type_oauth: "Ersetze %{provider_type} OAuth"
       save_and_continue_setup: "Speichern und Setup fortsetzen"
       save_and_complete_setup: "Speichern und Setup abschließen"
-      cancel: "Abbrechen"
     page_titles:
       project_settings:
         index: "Dateispeicher in diesem Projekt verfügbar"
@@ -81,8 +80,6 @@ de:
     label_storage: "Speicher"
     label_storages: "Speicher"
     no_results: "Noch kein Speicher eingerichtet."
-    label_oauth_client_id: "OAuth-Client-ID"
-    label_oauth_client_secret: "OAuth Client Geheimcode"
     provider_types:
       label: "Anbieter-Typ"
       nextcloud:

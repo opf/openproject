@@ -857,7 +857,7 @@ ca:
         click_on_show_relations_to_open_gantt: 'Fes clic a "%{button_name}" per obtenir una visió general GANTT.'
         show_relations: 'Mostra les relacions'
         ignore_non_working_days:
-          title: 'Working days only'
+          title: 'Només dies laborables'
       description_filter: "Filtre"
       description_enter_text: "Introduïu text"
       description_options_hide: "Amagar opcions"
@@ -1182,7 +1182,7 @@ ca:
         next_button: 'Següent'
       message:
         label: 'Missatge d''invitació'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
+        description: 'Enviarem un correu electrònic a l''usuari, al qual pots afegir un missatge personal aquí. Una explicació per a la invitació pot ser útil, o potser una mica d''informació amb relació al projecte per ajudar als usuaris a començar.'
         next_button: 'Següent'
       summary:
         next_button: 'Enviar la invitació'

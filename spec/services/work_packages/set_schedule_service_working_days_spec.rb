@@ -246,6 +246,9 @@ describe WorkPackages::SetScheduleService, 'working days' do
           expect_schedule(subject.all_results, <<~CHART)
                           | MTWTFSS       |
             work_package  | XXXXX..X      |
+          CHART
+          expect_schedule([follower], <<~CHART)
+                          | MTWTFSS       |
             follower      |          XXX  |
           CHART
         end
@@ -386,6 +389,9 @@ describe WorkPackages::SetScheduleService, 'working days' do
           expect_schedule(subject.all_results, <<~CHART)
             days          | MTWTFSS |
             work_package  |         |
+          CHART
+          expect_schedule([follower], <<~CHART)
+            days          | MTWTFSS |
             follower      |   XXX   |
           CHART
         end
@@ -409,6 +415,9 @@ describe WorkPackages::SetScheduleService, 'working days' do
           expect_schedule(subject.all_results, <<~CHART)
             days          | MTWTFSS |
             work_package  |         |
+          CHART
+          expect_schedule([follower], <<~CHART)
+            days          | MTWTFSS |
             follower      |     ]   |
           CHART
         end

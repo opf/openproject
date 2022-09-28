@@ -42,7 +42,6 @@ fr:
       replace_provider_type_oauth: "Remplacer OAuth %{provider_type}"
       save_and_continue_setup: "Enregistrer et continuer la configuration"
       save_and_complete_setup: "Enregistrer et terminer la configuration"
-      cancel: "Annuler"
     page_titles:
       project_settings:
         index: "Stockages de fichiers disponibles dans ce projet"
@@ -81,8 +80,6 @@ fr:
     label_storage: "Stockage"
     label_storages: "Stockages"
     no_results: "Aucun stockage configuré pour le moment."
-    label_oauth_client_id: "ID client OAuth"
-    label_oauth_client_secret: "Secret client OAuth"
     provider_types:
       label: "Type de fournisseur"
       nextcloud:

@@ -79,9 +79,6 @@
       &-floating-wrapper:not(&-floating-wrapper__disabled):hover &-avatar
         visibility: hidden
 
-      &-floating-actions
-        padding-right: 0
-
       &-floating-text
         @include spot-body-small()
 
@@ -90,7 +87,13 @@
         color: var(--primary-color)
 
         &-icon
-          margin-right: $spot-spacing-0-5
+          margin-right: $spot-spacing-0-25
+
+  &--file-list &--file-list-item &--file-list-item-floating-actions
+    padding-right: 0
+
+  &--file-list &--file-list-item &--file-list-item-floating-text
+    padding-right: $spot-spacing-0-5
 
   &--file-list &--file-list-item &--file-list-item-action
     padding-left: 0
