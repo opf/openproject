@@ -247,6 +247,11 @@ module OpenProject
               status_read_only: {
                 href: 'https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-status/#create-a-new-work-package-status'
               }
+            },
+            storage_docs: {
+              setup: {
+                href: 'https://www.openproject.org/docs/system-admin-guide/integrations/nextcloud/'
+              }
             }
           }
         end

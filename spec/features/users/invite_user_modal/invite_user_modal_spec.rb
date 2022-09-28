@@ -181,7 +181,7 @@ describe 'Invite user modal', type: :feature, js: true do
 
           it 'does not show the invite user option' do
             modal.project_step
-            ngselect = modal.open_select_in_step principal.mail
+            ngselect = modal.open_select_in_step 'op-ium-principal-search', query: principal.mail
             expect(ngselect).to have_text "No users were found"
             expect(ngselect).not_to have_text "Invite: #{principal.mail}"
           end
@@ -205,7 +205,7 @@ describe 'Invite user modal', type: :feature, js: true do
           end
 
           it 'disables projects for which you do not have rights' do
-            ngselect = modal.open_select_in_step
+            ngselect = modal.open_select_in_step '.ng-select-container'
             expect(ngselect).to have_text "#{project_no_permissions.name}\nYou are not allowed to invite members to this project"
           end
         end
@@ -216,7 +216,7 @@ describe 'Invite user modal', type: :feature, js: true do
           let(:current_user) { create :admin }
 
           it 'disables projects for which you do not have rights' do
-            ngselect = modal.open_select_in_step
+            ngselect = modal.open_select_in_step '.ng-select-container'
             expect(ngselect).to have_no_text archived_project
           end
         end
@@ -243,7 +243,7 @@ describe 'Invite user modal', type: :feature, js: true do
               it 'does not allow to invite a new placeholder' do
                 modal.project_step
 
-                modal.open_select_in_step 'SOME NEW PLACEHOLDER'
+                modal.open_select_in_step 'op-ium-principal-search', query: 'SOME NEW PLACEHOLDER'
 
                 expect(page)
                   .to have_text I18n.t('js.invite_user_modal.principal.no_results_placeholder')

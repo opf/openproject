@@ -66,6 +66,9 @@ nl:
     enterprise:
       upgrade_to_ee: "Upgrade naar de Enterprise Edition"
       add_token: "Uploadeneen Enterprise Edition ondersteuningstoken"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Uw huidige ondersteuningstoken vervangen"
       order: "Order Enterprise on premises Edition"
       paste: "Plak uw Enterprise Edition ondersteuningstoken"
@@ -525,6 +528,10 @@ nl:
         end_insertion: "Einde van het invoegen"
         end_deletion: "Einde van de verwijdering"
         ignore_non_working_days: "Negeer niet-werkdagen"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Bovenliggend werkpakket"
         parent_issue: "Bovenliggend werkpakket"
         parent_work_package: "Bovenliggend werkpakket"
@@ -721,6 +728,11 @@ nl:
           attributes:
             permissions:
               dependency_missing: "moet ook '%{dependency}' omvatten als '%{permission}' is geselecteerd."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -742,10 +754,12 @@ nl:
               format: "%{message}"
             due_date:
               not_start_date: "is niet op begindatum, hoewel dit voor mijlpalen vereist is."
+              cannot_be_null: "kan niet worden ingesteld op nul omdat de begindatum en -duur bekend zijn."
             duration:
               larger_than_dates: "is groter dan het interval tussen start en afloopdatum."
               smaller_than_dates: "is kleiner dan de interval tussen start en afloopdatum."
               not_available_for_milestones: "is niet beschikbaar voor milestone typte werkpakketten."
+              cannot_be_null: "kan niet worden ingesteld op nul als begindatum en einddatum bekend zijn."
             parent:
               cannot_be_milestone: "kan geen mijlpaal zijn."
               cannot_be_self_assigned: "kan niet aan zichzelf worden toegewezen."
@@ -753,6 +767,7 @@ nl:
               not_a_valid_parent: "is ongeldig."
             start_date:
               violates_relationships: "kan enkel naar %{soonest_start} worden gezet of later met de bedoeling de relaties van het werkpakket niet te schenden."
+              cannot_be_null: "kan niet worden ingesteld op nul omdat de einddatum en duur bekend zijn."
             status_id:
               status_transition_invalid: "is ongeldig omdat geen geldige overgang van de oude naar de nieuwe status voor de huidige gebruikersrollen bestaat."
               status_invalid_in_type: "is ongeldig omdat de huidige status niet in dit type bestaat."
@@ -1749,6 +1764,7 @@ nl:
   label_project_new: "Nieuw project"
   label_project_plural: "Projecten"
   label_project_settings: "Project Instellingen"
+  label_project_storage_plural: "Opslagplaatsen"
   label_projects_storage_information: "%{count} projecten die %{storage}-schijfopslag gebruiken"
   label_project_view_all: "Bekijk alle projecten"
   label_project_show_details: "Toon project details"
@@ -1900,6 +1916,7 @@ nl:
   label_wiki_start: "Startpagina"
   label_work_package: "Werkpakket"
   label_work_package_attachments: "Werkpakket bijlagen"
+  label_work_package_file_link_plural: "Werkpakket bestandskoppelingen"
   label_work_package_category_new: "Nieuwe categorie"
   label_work_package_category_plural: "Werkpakket categorieën"
   label_work_package_hierarchy: "Werkpakket hiërarchie"
@@ -1915,6 +1932,7 @@ nl:
   label_workflow: "Werkstroom"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Samenvatting"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 gesloten"
     other: "%{count} gesloten"
@@ -1975,7 +1993,7 @@ nl:
       center: 'Naar meldingscentrum'
       see_in_center: 'Bekijk commentaar in notificatie center'
       settings: 'E-mailinstellingen wijzigen'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Aangemaakt op %{timestamp} door %{user} '
       login_to_see_all: 'Log in om alle meldingen te zien.'
@@ -2153,8 +2171,7 @@ nl:
           tb: "TB"
   onboarding:
     heading_getting_started: "Krijg een overzicht"
-    text_getting_started_description: "Krijg een overzicht van project management en team samenwerking met OpenProject."
-    text_show_again: "U kunt deze video van het helpmenu opnieuw starten"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welkom bij %{app_title}"
     select_language: "Gelieve uw taal te kiezen"
   permission_add_work_package_notes: "Notities toevoegen"
@@ -2355,6 +2372,8 @@ nl:
       update_timeout: "Houd de laatste vereiste vrije schijfruimte voor een repository voor N minuten. Als het tellen van de vereiste schijfruimte van een repository kostbaar is, verhoog dit getal om invloed op de prestaties verminderen."
       oauth_application_details: "De klantgeheim waarde zal niet meer toegankelijk zijn nadat u dit venster sluit. Kopieer deze waarden in de Nextcloud OpenProject integratie-instellingen:"
       oauth_application_details_link_text: "Ga naar instellingen pagina"
+      setup_documentation_details: "Als u hulp nodig heeft bij het configureren van een nieuw bestand controleer dan de documentatie: "
+      setup_documentation_details_link_text: "Bestandsopslag setup"
       show_warning_details: "Als u deze bestandsopslag wilt gebruiken, moet u de module en de specifieke opslag activeren in de projectinstellingen van elk gewenst project."
     subversion:
       existing_title: "Bestaande Subversion-repository"
@@ -2544,6 +2563,7 @@ nl:
   text_access_token_hint: "Toegangstokens kunnen u externe toepassingen toegang verlenen tot bronnen in OpenProject."
   text_analyze: "Verdere analyse: %{subject}"
   text_are_you_sure: "Weet u het zeker?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Verwijder werk pakket en alle kinderen daarvan?"
   text_assign_to_project: "Wijs aan project toe"
   text_form_configuration: >
@@ -2737,7 +2757,6 @@ nl:
       noneSelection: "(geen)"
       outline: "Uitbreiding van de eerste schets"
       parent: "Toon subprojecten van"
-      work_package_filters: "Filter werkpakketten"
       work_package_responsible: "Toon werkpakketten met verantwoordelijk"
       work_package_assignee: "Toon werkpakketten met uitvoerder"
       types: "Typen weergeven"
@@ -2891,6 +2910,17 @@ nl:
     destroy:
       info: "Het verwijderen van het werkpakket is een onomkeerbare actie."
       title: "Werkpakket verwijderen"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Niets om te bekijken"
   api_v3:
     attributes:

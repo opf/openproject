@@ -37,7 +37,7 @@ describe 'date inplace editor',
          with_settings: { date_format: '%Y-%m-%d' },
          js: true, selenium: true do
   let(:project) { create :project_with_types, public: true }
-  let(:work_package) { create :work_package, project:, start_date: Date.parse('2016-01-02') }
+  let(:work_package) { create :work_package, project:, start_date: Date.parse('2016-01-02'), duration: nil }
   let(:user) { create :admin }
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -45,6 +45,7 @@ describe 'date inplace editor',
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
 
   let(:start_date) { work_packages_page.edit_field(:combinedDate) }
+  let(:datepicker) { start_date.datepicker }
 
   before do
     login_as(user)
@@ -58,35 +59,32 @@ describe 'date inplace editor',
     start_date.expect_active!
 
     start_date.datepicker.expect_year '2016'
-    start_date.datepicker.expect_month 'January', true
+    start_date.datepicker.expect_month 'January'
     start_date.datepicker.select_day '25'
+
+    start_date.datepicker.expect_start_date '2016-01-02'
+    start_date.datepicker.expect_due_date '2016-01-25'
+    start_date.datepicker.expect_duration 24
 
     start_date.save!
     start_date.expect_inactive!
     start_date.expect_state_text '2016-01-02 - 2016-01-25'
   end
 
-  it 'reverses the dates if the selected date is before the current start date' do
-    start_date.activate!
-    start_date.expect_active!
-
-    start_date.datepicker.expect_year '2016'
-    start_date.datepicker.expect_month 'January', true
-    start_date.datepicker.select_day '1'
-
-    start_date.save!
-    start_date.expect_inactive!
-    start_date.expect_state_text '2016-01-01 - 2016-01-02'
-  end
-
   it 'can set "today" as a date via the provided link' do
     start_date.activate!
     start_date.expect_active!
 
-    start_date.click_today
+    start_date.datepicker.expect_start_date '2016-01-02'
+    start_date.datepicker.expect_year work_package.start_date.year
+    start_date.datepicker.expect_month work_package.start_date.strftime("%B")
+    start_date.datepicker.expect_day work_package.start_date.day
+
+    start_date.datepicker.set_today :start
+    start_date.datepicker.expect_start_date Time.zone.today.iso8601
 
     start_date.datepicker.expect_year Time.zone.today.year
-    start_date.datepicker.expect_month Time.zone.today.strftime("%B"), true
+    start_date.datepicker.expect_month Time.zone.today.strftime("%B")
     start_date.datepicker.expect_day Time.zone.today.day
 
     start_date.save!
@@ -102,17 +100,21 @@ describe 'date inplace editor',
              due_date: Date.parse('2016-01-25')
     end
 
-    it 'selecting a date before the current start date will change the start date' do
+    it 'selecting a date before the current start date will move the finish date' do
       start_date.activate!
       start_date.expect_active!
 
       start_date.datepicker.expect_year '2016'
-      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.expect_month 'January'
       start_date.datepicker.select_day '1'
+
+      start_date.datepicker.expect_start_date '2016-01-01'
+      start_date.datepicker.expect_due_date '2016-01-24'
+      start_date.datepicker.expect_duration 24
 
       start_date.save!
       start_date.expect_inactive!
-      start_date.expect_state_text '2016-01-01 - 2016-01-25'
+      start_date.expect_state_text '2016-01-01 - 2016-01-24'
     end
 
     it 'selecting a date in between changes the date that is currently in focus' do
@@ -120,11 +122,16 @@ describe 'date inplace editor',
       start_date.expect_active!
 
       start_date.datepicker.expect_year '2016'
-      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.expect_month 'January'
       start_date.datepicker.select_day '3'
+
+      start_date.datepicker.expect_start_date '2016-01-03'
 
       # Since the focus shifts automatically, we can directly click again to modify the end date
       start_date.datepicker.select_day '21'
+
+      start_date.datepicker.expect_due_date '2016-01-21'
+      start_date.datepicker.expect_duration 19
 
       start_date.save!
       start_date.expect_inactive!
@@ -136,11 +143,11 @@ describe 'date inplace editor',
       start_date.expect_active!
 
       start_date.datepicker.expect_year '2016'
-      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.expect_month 'January'
 
       # Focus the end date field
       start_date.activate_due_date_within_modal
-      start_date.datepicker.set_date '2016-03-01', true
+      start_date.datepicker.set_date '2016-03-01'
 
       # Since the end date is focused, the date will become the new end date
       start_date.save!
@@ -152,8 +159,8 @@ describe 'date inplace editor',
       start_date.expect_active!
 
       start_date.datepicker.expect_year '2016'
-      start_date.datepicker.expect_month 'January', true
-      start_date.datepicker.set_date '2016-04-01', true
+      start_date.datepicker.expect_month 'January'
+      start_date.datepicker.set_date '2016-04-01'
 
       # This will set the new start and unset the end date
       start_date.save!
@@ -163,16 +170,19 @@ describe 'date inplace editor',
   end
 
   context 'with the start date empty' do
-    let(:work_package) { create :work_package, project:, start_date: nil }
+    let(:work_package) { create :work_package, project:, start_date: nil, duration: nil }
 
     it 'can set "today" as a date via the provided link' do
       start_date.activate!
       start_date.expect_active!
 
-      start_date.click_today
+      # Wait for the datepicker to be loaded
+      sleep 1
+      start_date.datepicker.set_today :start
+      start_date.datepicker.expect_start_date Time.zone.today.iso8601
 
       start_date.datepicker.expect_year Time.zone.today.year
-      start_date.datepicker.expect_month Time.zone.today.strftime("%B"), true
+      start_date.datepicker.expect_month Time.zone.today.strftime("%B")
       start_date.datepicker.expect_day Time.zone.today.day
 
       start_date.save!
@@ -189,27 +199,43 @@ describe 'date inplace editor',
     sleep 2
     start_date.datepicker.expect_visible
 
-    # Set the due date
-    start_date.datepicker.set_date Time.zone.today, true
+    # Expect due date to be focused as it is empty
+    start_date.expect_due_highlighted
+    start_date.set_active_date Time.zone.today
+
+    # Wait for duration to be derived
+    start_date.expect_duration /\d+ days/
 
     # As the to be selected date is automatically toggled,
     # we can directly set the start date afterwards to the same day
-    start_date.datepicker.set_date Time.zone.today, true
+    start_date.expect_start_highlighted
+    start_date.set_active_date Time.zone.today
+    start_date.expect_duration 1
 
     start_date.save!
     start_date.expect_inactive!
     start_date.expect_state_text "#{Time.zone.today.strftime('%Y-%m-%d')} - #{Time.zone.today.strftime('%Y-%m-%d')}"
   end
 
+  it 'can set a negative duration which gets transformed (Regression #44219)' do
+    start_date.activate!
+    start_date.expect_active!
+
+    start_date.datepicker.expect_visible
+    start_date.datepicker.set_duration -128
+    start_date.datepicker.focus_start_date
+
+    start_date.datepicker.expect_duration 128
+  end
+
   it 'saves the date when clearing and then confirming' do
     start_date.activate!
-
-    sleep 1
 
     start_date.input_element.click
     start_date.clear with_backspace: true
     start_date.input_element.send_keys :backspace
 
+    sleep 1
     start_date.save!
 
     work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
@@ -232,7 +258,7 @@ describe 'date inplace editor',
     work_packages_page.accept_alert_dialog! if work_packages_page.has_alert_dialog?
 
     # Ensure no modal survives
-    expect(page).to have_no_selector('.op-modal')
+    expect(page).to have_no_selector('.spot-modal')
   end
 
   context 'with a date custom field' do
@@ -296,9 +322,7 @@ describe 'date inplace editor',
       expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-info"]')
 
       # When toggling manually scheduled
-      start_date.expect_scheduling_mode manually: false
       start_date.toggle_scheduling_mode
-      start_date.expect_scheduling_mode manually: true
 
       expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-warning"]')
       expect(page).to have_no_selector('[data-qa-selector="op-modal-banner-info"]')
@@ -323,9 +347,7 @@ describe 'date inplace editor',
                                       wait: 5)
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: true
         start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: false
 
         # Expect new banner info
         expect(page)
@@ -353,9 +375,7 @@ describe 'date inplace editor',
                             wait: 5)
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: false
         start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: true
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                                       text: 'Manual scheduling enabled, all relations ignored.')
@@ -384,9 +404,7 @@ describe 'date inplace editor',
                                       text: 'Manual scheduling enabled, all relations ignored.')
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: true
         start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: false
 
         # Expect banner to switch
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
@@ -409,9 +427,7 @@ describe 'date inplace editor',
                                       text: 'Automatically scheduled. Dates are derived from relations.')
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: false
         start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: true
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                                       text: 'Manual scheduling enabled, all relations ignored.')
@@ -421,6 +437,43 @@ describe 'date inplace editor',
 
         wp_table.expect_work_package_listed child
         wp_timeline.expect_timeline!
+      end
+
+      context 'when parent is not manually scheduled, child has workdays only set' do
+        let(:schedule_manually) { false }
+        let!(:child) do
+          create :work_package,
+                 project:,
+                 ignore_non_working_days: false,
+                 start_date: Date.parse('2022-09-27'),
+                 due_date: Date.parse('2022-09-29')
+        end
+
+        it 'allows switching to manual scheduling to set the ignore NWD (Regression #43933)' do
+          expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+                                        text: 'Automatically scheduled. Dates are derived from relations.')
+
+          # Expect "Working days only" to be checked
+          datepicker.expect_ignore_non_working_days_disabled
+          datepicker.expect_ignore_non_working_days false, disabled: true
+
+          # When toggling manually scheduled
+          start_date.toggle_scheduling_mode
+          datepicker.expect_ignore_non_working_days_enabled
+          datepicker.toggle_ignore_non_working_days
+          datepicker.expect_ignore_non_working_days true
+
+          expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
+                                        text: 'Manual scheduling enabled, all relations ignored.')
+
+          # Reset when disabled
+          start_date.toggle_scheduling_mode
+          datepicker.expect_ignore_non_working_days_disabled
+          datepicker.expect_ignore_non_working_days false, disabled: true
+
+          expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
+                                        text: 'Automatically scheduled. Dates are derived from relations.')
+        end
       end
     end
   end
@@ -449,9 +502,7 @@ describe 'date inplace editor',
                                       text: 'Manual scheduling enabled, all relations ignored.')
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: true
         start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: false
 
         # Expect new banner info
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-info"] span',
@@ -474,9 +525,7 @@ describe 'date inplace editor',
                                       text: 'Available start and finish dates are limited by relations.')
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: false
         start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: true
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                                       text: 'Manual scheduling enabled, all relations ignored.')
@@ -508,9 +557,7 @@ describe 'date inplace editor',
                                       text: 'Manual scheduling enabled, all relations ignored.')
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: true
         start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: false
 
         expect(page)
           .to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
@@ -534,9 +581,7 @@ describe 'date inplace editor',
                             text: 'Changing these dates will affect dates of related work packages.')
 
         # When toggling manually scheduled
-        start_date.expect_scheduling_mode manually: false
         start_date.toggle_scheduling_mode
-        start_date.expect_scheduling_mode manually: true
 
         expect(page).to have_selector('[data-qa-selector="op-modal-banner-warning"] span',
                                       text: 'Manual scheduling enabled, all relations ignored.')
@@ -550,13 +595,13 @@ describe 'date inplace editor',
       start_date.expect_active!
 
       start_date.datepicker.expect_year '2016'
-      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.expect_month 'January'
       start_date.datepicker.select_day '25'
 
       sleep 2
 
       start_date.datepicker.expect_year '2016'
-      start_date.datepicker.expect_month 'January', true
+      start_date.datepicker.expect_month 'January'
       start_date.datepicker.expect_day '25'
 
       start_date.save!

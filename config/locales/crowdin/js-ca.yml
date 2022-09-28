@@ -26,6 +26,9 @@ ca:
       loading: "Carregant..."
       updating: "Actualitzant…"
     attachments:
+      delete: "Elimina fitxer adjunt"
+      delete_confirmation: |
+        Estàs segur que vols esborrar aquest fitxer adjunt? Aquesta acció és irreversible.
       draggable_hint: |
         Arrossega a l'editor per a pujar una imatge o referenciar un fitxer adjunt. Els camps tancats de l'editor seguiran oberts mentre se segueixi arrossegant.
     autocomplete_select:
@@ -82,11 +85,15 @@ ca:
     button_open_fullscreen: "Obrir vista en pantalla completa"
     button_show_cards: "Mostra la vista de targeta"
     button_show_list: "Mostrar la vista de llista"
+    button_show_table: "Mostra la vista de taula"
+    button_show_gantt: "Mostra el diagrama de Gantt"
+    button_show_fullscreen: "Obrir en pantalla completa"
+    button_more_actions: "Més accions"
     button_quote: "Citar"
     button_save: "Desa"
     button_settings: "Configuració"
     button_uncheck_all: "Desmarca-ho tot"
-    button_update: "Actualitzar"
+    button_update: "Actualitza"
     button_export-pdf: "Descarregar PDF"
     button_export-atom: "Descarregar Atom"
     button_create: "Crear"
@@ -290,15 +297,15 @@ ca:
           learn_about: "Més informació sobre les noves funcions"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                La nova versió inclou vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>S'ha acabat la cerca infinita de fitxers! Amb la nova <b>integració de Nextcloud</b> a OpenProject 12.2, ara podràs trobar els teus fitxers directament en els respectius paquets de treball i sempre tenir la versió correcta a les teves mans.</li> <li>Hem introduït <b>un nou selector de dates</b> amb un comportament actualitzat i un bàner informatiu que inclou un botó per veure les relacions a la gràfica Gantt.</li> <li>Hem afegit la possibilitat de <b>registrar temps per altres usuaris.</b></li> <li>Marca com a llegides notificacions també fora del centre de notificacions.</li> </ul>
+                Aquesta versió conté vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>Defineix la teva setmana laboral (caps de setmana i dies no laborals de la setmana).</li> <li>Calcula la duració basada en les dates d'inici i final i amb la possibilitat de considerar dies no laborals (caps de setmana) en planificar.</li> <li>S'han afegit texts d'ajuda a les accions més essencials.</li> <li>En copiar un projecte també es copiaran els enllaços de fitxers adjunts de tots els paquets de treball.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                La nova versió inclou vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>S'ha acabat la cerca infinita de fitxers! Amb la nova <b>integració de Nextcloud</b> a OpenProject 12.2, ara podràs trobar els teus fitxers directament en els respectius paquets de treball i sempre tenir la versió correcta a les teves mans.</li> <li>Hem introduït <b>un nou selector de dates</b> amb un comportament actualitzat i un bàner informatiu que inclou un botó per veure les relacions a la gràfica Gantt.</li> <li>Hem afegit la possibilitat de <b>registrar temps per altres usuaris.</b></li> <li>Marca com a llegides notificacions també fora del centre de notificacions.</li> </ul>
+                Aquesta versió conté vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>Defineix la teva setmana laboral (caps de setmana i dies no laborals de la setmana).</li> <li>Calcula la duració basada en les dates d'inici i final i amb la possibilitat de considerar dies no laborals (caps de setmana) en planificar.</li> <li>S'han afegit texts d'ajuda a les accions més essencials.</li> <li>En copiar un projecte també es copiaran els enllaços de fitxers adjunts de tots els paquets de treball.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Assignat a'
     label_add_column_after: "Afegir una columna després"
@@ -540,7 +547,9 @@ ca:
         prioritized: 'prioritzat'
       facets:
         unread: 'Sense llegir'
+        unread_title: 'Mostrar no llegits'
         all: 'Totes'
+        all_title: 'Mostrar tots'
       center:
         and_more_users:
           one: ' i 1 altre'
@@ -609,6 +618,7 @@ ca:
       default: '-'
       subject: 'Introdueixi l''assumpte aquí'
       selection: 'Si us plau, selecciona'
+      description: 'Descripció: Fes clic per editar...'
       relation_description: 'Fes clic per afegir una descripció per aquesta relació'
     project:
       required_outside_context: >
@@ -654,7 +664,7 @@ ca:
           label: 'Pausa els correu electrònic recordatori temporalment'
           first_day: 'Primer dia'
           last_day: 'Últim dia'
-    text_are_you_sure: "N'estas segur?"
+    text_are_you_sure: "N'esteu segur?"
     text_data_lost: "Totes les dades entrades es perdran."
     types:
       attribute_groups:
@@ -740,7 +750,6 @@ ca:
     project_menu_details: "Detalls"
     scheduling:
       manual: 'Planificació manual'
-      automatic: 'Planificació automàtica'
     sort:
       sorted_asc: 'Ordre ascendent aplicat,'
       sorted_dsc: 'Ordre descendent aplicat,'
@@ -751,7 +760,6 @@ ca:
       activate_no: 'activeu per desactivar l''ordenació'
     text_work_packages_destroy_confirmation: "¿Estàs segur que vols eliminar el(s) paquet(s) de treball seleccionat(s)?"
     text_query_destroy_confirmation: "Estàs segur que vols eliminar la vista seleccionada?"
-    text_attachment_destroy_confirmation: "Estàs segur que vols eliminar el fitxer adjunt?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Diagrama de Gantt'
@@ -848,6 +856,8 @@ ca:
         changing_dates_affects_follow_relations: "Canviar aquestes dates afectarà les dates dels paquets de treball relacionats."
         click_on_show_relations_to_open_gantt: 'Fes clic a "%{button_name}" per obtenir una visió general GANTT.'
         show_relations: 'Mostra les relacions'
+        ignore_non_working_days:
+          title: 'Working days only'
       description_filter: "Filtre"
       description_enter_text: "Introduïu text"
       description_options_hide: "Amagar opcions"
@@ -867,6 +877,8 @@ ca:
       message_work_package_read_only: "El paquet de treball està bloquejat en aquest estat. Cap atribut excepte l'estat es pot modificar."
       message_work_package_status_blocked: "L'estat del paquet de treball no permet l'escriptura perquè el seu estat i versió estan tancats."
       placeholder_filter_by_text: "Assumpte, descripció, comentaris, ..."
+      filters:
+        title: 'Filtrar paquets de treball'
       inline_create:
         title: 'Fes clic aquí per afegir un nou paquet de treball a aquesta llista'
       create:
@@ -903,6 +915,7 @@ ca:
         description: "Descripció"
         date: "Data"
         dueDate: "Data final"
+        duration: "Durada"
         estimatedTime: "Temps estimat"
         spentTime: "Temps utilitzat"
         category: "Categoria"
@@ -934,7 +947,6 @@ ca:
       placeholders:
         default: "-"
         date: "Seleccionar data"
-        formattable: "%{name}: Clica aquí per editar..."
       query:
         column_names: "Columnes"
         group_by: "Agrupa els resultats per"
@@ -1040,12 +1052,14 @@ ca:
       button_save: "Desa"
       button_submit: "Sotmetre"
       button_cancel: "Cancel·la"
+      button_delete: "Elimina"
       form_submit:
         title: 'Confirma per continuar'
         text: 'Estàs segur que vols realitzar aquesta acció?'
       destroy_work_package:
         title: "Confirma l'eliminació de %{label}"
-        text: "Estàs segur que vols eliminar el següent element %{label}?"
+        single_text: "Estàs segur que vols eliminar aquest paquet de treball"
+        bulk_text: "Estàs segur que vols eliminar el següent %{label}?"
         has_children: "Aquest paquet de treball té %{childUnits}:"
         confirm_deletion_children: "Entenc que TOTS els descendents dels paquets de treball llistats seran eliminats recursivament."
         deletes_children: "Tots els paquets de treball fills i els seus descendents també seran eliminats recursivament."
@@ -1163,13 +1177,13 @@ ca:
       role:
         label: 'Rol en %{project}'
         no_roles_found: 'No s''ha trobat cap rol'
-        description: 'Aquest és el rol que els %{principal} rebran quan s''uneixin al teu projecte. El rol defineix quines accions els hi són permeses i quina informació poden veure. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Més informació sobre rols i permisos. </a>'
+        description: 'Aquest és el rol que l''usuari rebrà quan s''uneixin al teu projecte. El rol defineix quines accions els hi són permeses i quina informació poden veure. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Més informació sobre rols i permisos. </a>'
         required: 'Si us plau, selecciona un rol'
         next_button: 'Següent'
       message:
         label: 'Missatge d''invitació'
-        description: 'Enviarem un correu electrònic a %{principal}, al qual pots afegir un missatge personal aquí. Una explicació per a la invitació pot ser útil, o potser una mica d''informació amb relació al projecte per ajudar als usuaris a començar.'
-        next_button: 'Revisa la invitació'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
+        next_button: 'Següent'
       summary:
         next_button: 'Enviar la invitació'
       success:

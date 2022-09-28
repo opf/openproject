@@ -26,96 +26,49 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { take } from 'rxjs/operators';
-import { DateEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-edit-field/date-edit-field.component';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { DatePickerModalComponent } from 'core-app/shared/components/datepicker/datepicker.modal';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { Component } from '@angular/core';
+import { DatePickerEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-picker-edit-field.component';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Component({
   template: `
     <input [value]="dates"
-           (click)="handleClick()"
+           (click)="showDatePickerModal()"
            class="op-input"
            type="text" />
   `,
 })
-export class CombinedDateEditFieldComponent extends DateEditFieldComponent implements OnInit, OnDestroy {
-  @InjectField() readonly timezoneService:TimezoneService;
-
-  @InjectField() opModalService:OpModalService;
-
+export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent {
   dates = '';
 
   text_no_start_date = this.I18n.t('js.label_no_start_date');
 
   text_no_due_date = this.I18n.t('js.label_no_due_date');
 
-  private modal:OpModalComponent;
+  public showDatePickerModal():void {
+    super.showDatePickerModal();
 
-  ngOnInit():void {
-    super.ngOnInit();
-
-    this.handler
-      .$onUserActivate
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe(() => {
-        this.showDatePickerModal();
-      });
-  }
-
-  ngOnDestroy():void {
-    super.ngOnDestroy();
-    this.modal?.closeMe();
-  }
-
-  public handleClick():void {
-    this.showDatePickerModal();
-  }
-
-  private showDatePickerModal():void {
-    const modal = this.modal = this
-      .opModalService
-      .show(DatePickerModalComponent, this.injector, { changeset: this.change, fieldName: this.name }, true);
-
-    setTimeout(() => {
-      const modalElement = jQuery(modal.elementRef.nativeElement).find('.op-datepicker-modal');
-      const field = jQuery(this.elementRef.nativeElement);
-      modal.reposition(modalElement, field);
-    });
-
-    modal
+    this
+      .modal
       .onDataUpdated
       .subscribe((dates:string) => {
         this.dates = dates;
         this.cdRef.detectChanges();
       });
 
-    modal
+    this
+      .modal
       .closingEvent
-      .pipe(take(1))
       .subscribe(() => {
         this.resetDates();
-        this.handler.handleUserSubmit();
+        void this.handler.handleUserSubmit();
       });
   }
 
-  // Overwrite super in order to set the inital dates.
+  // Overwrite super in order to set the initial dates.
   protected initialize():void {
     super.initialize();
-
-    // this breaks the preceived abstraction of the edit fields. But the date picker
-    // is already highly specific to start and due Date.
-    this.dates = `${this.currentStartDate} - ${this.currentDueDate}`;
+    this.resetDates();
   }
 
   protected resetDates():void {
@@ -123,10 +76,10 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
   }
 
   protected get currentStartDate():string {
-    return this.resource.startDate || this.text_no_start_date;
+    return ((this.resource && (this.resource as WorkPackageResource).startDate) || this.text_no_start_date) as string;
   }
 
   protected get currentDueDate():string {
-    return this.resource.dueDate || this.text_no_due_date;
+    return ((this.resource && (this.resource as WorkPackageResource).dueDate) || this.text_no_due_date) as string;
   }
 }

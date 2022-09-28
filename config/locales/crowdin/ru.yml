@@ -66,6 +66,9 @@ ru:
     enterprise:
       upgrade_to_ee: "Обновить до корпоративной версии"
       add_token: "Загрузите маркер поддержки корпоративной версии"
+      delete_token_modal:
+        text: "Вы уверены, что хотите удалить текущий токен корпоративной версии?"
+        title: "Удалить токен"
       replace_token: "Замените ваш текущий маркер поддержки"
       order: "Обновление до корпоративной версии"
       paste: "Вставьте ваш маркер поддержки корпоративной версии"
@@ -529,6 +532,10 @@ ru:
         end_insertion: "Завершение вставки"
         end_deletion: "Завершение удаления"
         ignore_non_working_days: "Игнорировать нерабочие дни"
+        include_non_working_days:
+          title: 'Рабочие дни'
+          false: 'только рабочие дни'
+          true: 'включить нерабочие дни'
         parent: "Родитель"
         parent_issue: "Родитель"
         parent_work_package: "Родитель"
@@ -725,6 +732,11 @@ ru:
           attributes:
             permissions:
               dependency_missing: "включите также '%{dependency}', так как выбрано '%{permission}'."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'По крайней мере один рабочий день должен быть указан.'
+              previous_working_day_changes_unprocessed: 'Предыдущие изменения конфигурации рабочих дней еще не были применены.'
         time_entry:
           attributes:
             hours:
@@ -746,10 +758,12 @@ ru:
               format: "%{message}"
             due_date:
               not_start_date: "не дата начала, но нужна для вех."
+              cannot_be_null: "не может быть установлен в null как дата начала и продолжительность известны."
             duration:
               larger_than_dates: "больше, чем интервал между началом и датой окончания."
               smaller_than_dates: "меньше интервала между началом и датой окончания."
               not_available_for_milestones: "не доступен для пакетов работ с набором вех."
+              cannot_be_null: "не может быть установлен в null как дата начала и дата окончания известны."
             parent:
               cannot_be_milestone: "не может служить вехой."
               cannot_be_self_assigned: "не может быть присвоено самому себе."
@@ -757,6 +771,7 @@ ru:
               not_a_valid_parent: "неверно."
             start_date:
               violates_relationships: "может быть установлено лишь в %{soonest_start} или позднее и без нарушения взаимосвязи рабочих пакетов."
+              cannot_be_null: "не может быть установлен в null как дата окончания и продолжительность известны."
             status_id:
               status_transition_invalid: "недопустимо, так как  для текущих ролей пользователя нет правильного перехода от старого этапа к новому."
               status_invalid_in_type: "недопустимо, так как текущего статуса в этом типе нет."
@@ -1785,6 +1800,7 @@ ru:
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
   label_project_settings: "Настройки проекта"
+  label_project_storage_plural: "Хранилища"
   label_projects_storage_information: "%{count} проектов используют %{storage} дискового пространства"
   label_project_view_all: "Просмотреть все проекты"
   label_project_show_details: "Показать детали проекта"
@@ -1936,6 +1952,7 @@ ru:
   label_wiki_start: "Начальная страница"
   label_work_package: "Пакет работ"
   label_work_package_attachments: "Вложения пакета работ"
+  label_work_package_file_link_plural: "Ссылки на файл пакета работ"
   label_work_package_category_new: "Новая категория"
   label_work_package_category_plural: "Категории пакета работ"
   label_work_package_hierarchy: "Иерархия пакета работ"
@@ -1951,6 +1968,7 @@ ru:
   label_workflow: "Рабочий поток"
   label_workflow_plural: "Рабочие потоки"
   label_workflow_summary: "Сводка"
+  label_working_days: "Рабочие дни"
   label_x_closed_work_packages_abbr:
     one: "1 закрыто"
     other: "%{count} закрыто"
@@ -2011,7 +2029,7 @@ ru:
       center: 'В центр уведомлений'
       see_in_center: 'Смотрите комментарий в центре уведомлений'
       settings: 'Изменить настройки электронной почты'
-    salutation: 'Привет, %{user}!'
+    salutation: 'Здравствуйте, %{user}'
     work_packages:
       created_at: 'Создано %{timestamp} пользователем %{user} '
       login_to_see_all: 'Войдите, чтобы увидеть все уведомления.'
@@ -2193,8 +2211,7 @@ ru:
           tb: "TБ"
   onboarding:
     heading_getting_started: "Обзор"
-    text_getting_started_description: "Быстрый просмотр управления проектом и и команды сопровождения с OpenProject."
-    text_show_again: "Вы можете перезапустить это видео из меню «Справка»"
+    text_getting_started_description: "Получите быстрый обзор управления проектом и сотрудничества команды с OpenProject. Вы можете перезапустить это видео в меню справки."
     welcome: "Добро пожаловать в %{app_title}"
     select_language: "Пожалуйста, выберите язык"
   permission_add_work_package_notes: "Добавлять комментарии"
@@ -2393,6 +2410,8 @@ ru:
       update_timeout: "Хранить последнюю информацию о дисковом пространстве, необходимом для репозитория, N минут. Так как подсчет необходимого для репозитория дискового пространства могут быть дорогостоящим, увеличить это значение для снижения его влияния на производительность."
       oauth_application_details: "Секретное значение клиента не будет доступно после закрытия этого окна. Пожалуйста, скопируйте это значение в настройки интеграции Nextcloud OpenProject:"
       oauth_application_details_link_text: "Перейти на страницу настроек"
+      setup_documentation_details: "Если вам нужна помощь в настройке нового хранилища файлов, пожалуйста, проверьте документацию: "
+      setup_documentation_details_link_text: "Настройка файловых хранилищ"
       show_warning_details: "Для использования этого хранилища файлов не забудьте активировать модуль и определенное хранилище в настройках проекта каждого желаемого проекта."
     subversion:
       existing_title: "Существующий репозиторий Subversion"
@@ -2582,6 +2601,7 @@ ru:
   text_access_token_hint: "Маркеры доступа позволяют предоставить внешним приложениям доступ к ресурсам в OpenProject."
   text_analyze: "Дополнительный анализ: %{subject}"
   text_are_you_sure: "Вы уверены?"
+  text_are_you_sure_continue: "Вы уверены, что хотите продолжить?"
   text_are_you_sure_with_children: "Удалить пакет работ и все дочерние пакеты работ?"
   text_assign_to_project: "Назначить на проект"
   text_form_configuration: >
@@ -2777,7 +2797,6 @@ ru:
       noneSelection: "(нет)"
       outline: "Первоначальная схема детализации"
       parent: "Показывать подпроекты"
-      work_package_filters: "Фильтровать пакеты работ"
       work_package_responsible: "Показать пакеты работ с подотчетными"
       work_package_assignee: "Показать пакеты работ с назначениями"
       types: "Показать типы"
@@ -2933,6 +2952,17 @@ ru:
     destroy:
       info: "Удаление рабочего пакета – действие необратимое."
       title: "Удалить пакет работ"
+  working_days:
+    info: >
+      <b>Определить считаемые дни рабочей недели</b><br/> Дни, которые не выбраны, пропускаются при планировании пакетов работ (и не включены в число дней). Они могут быть переопределены на уровне рабочих пакетов.
+    change_button: "Изменить рабочие дни"
+    warning: >
+      Изменение дней недели, считающихся рабочими днями, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае.
+    journal_note:
+      changed: _**Рабочие дни** изменены (%{changes})._
+      days:
+        working: "%{day} сейчас работает"
+        non_working: "%{day} теперь не работает"
   nothing_to_preview: "Нет ничего для предосмотра"
   api_v3:
     attributes:

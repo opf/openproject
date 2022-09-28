@@ -47,13 +47,13 @@ module OpenProject
 
       it 'returns a date in the user timezone for a utc timestamp' do
         Time.zone = 'UTC'
-        time = Time.zone.local(2013, 0o6, 30, 23, 59)
+        time = Time.zone.local(2013, 6, 30, 23, 59)
         expect(format_time_as_date(time, format)).to eq '01/07/2013'
       end
 
       it 'returns a date in the user timezone for a non-utc timestamp' do
         Time.zone = 'Berlin'
-        time = Time.zone.local(2013, 0o6, 30, 23, 59)
+        time = Time.zone.local(2013, 6, 30, 23, 59)
         expect(format_time_as_date(time, format)).to eq '01/07/2013'
       end
     end
@@ -63,14 +63,14 @@ module OpenProject
 
       it 'returns a date in the local system timezone for a utc timestamp' do
         Time.zone = 'UTC'
-        time = Time.zone.local(2013, 0o6, 30, 23, 59)
-        allow(time).to receive(:localtime).and_return(ActiveSupport::TimeZone['Athens'].local(2013, 0o7, 0o1, 0o1, 59))
+        time = Time.zone.local(2013, 6, 30, 23, 59)
+        allow(time).to receive(:localtime).and_return(ActiveSupport::TimeZone['Athens'].local(2013, 7, 1, 1, 59))
         expect(format_time_as_date(time, format)).to eq '01/07/2013'
       end
 
       it 'returns a date in the original timezone for a non-utc timestamp' do
         Time.zone = 'Berlin'
-        time = Time.zone.local(2013, 0o6, 30, 23, 59)
+        time = Time.zone.local(2013, 6, 30, 23, 59)
         expect(format_time_as_date(time, format)).to eq '30/06/2013'
       end
     end

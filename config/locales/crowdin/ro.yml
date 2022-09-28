@@ -66,6 +66,9 @@ ro:
     enterprise:
       upgrade_to_ee: "Achiziționați versiunea Enterprise"
       add_token: "Încărcați un token de suport Enterprise Edition"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Înlocuiți tokenul de suport actual"
       order: "Comandați versiunea Enterprise"
       paste: "Lipiți token-ul de suport Enterprise Edition"
@@ -529,6 +532,10 @@ ro:
         end_insertion: "Sfârșit de inserare"
         end_deletion: "Sfârșit de ștergere"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Părinte"
         parent_issue: "Părinte"
         parent_work_package: "Părinte"
@@ -725,6 +732,11 @@ ro:
           attributes:
             permissions:
               dependency_missing: "trebuie să includă și \"%{dependency}\", deoarece este selectat \"%{permission}\"."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -746,10 +758,12 @@ ro:
               format: "%{message}"
             due_date:
               not_start_date: "nu este în data de început, deși acest lucru este necesar pentru repere de etapă."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "nu poate fi un reper de etapă."
               cannot_be_self_assigned: "nu poate fi atribuit singur."
@@ -757,6 +771,7 @@ ro:
               not_a_valid_parent: "este invalid."
             start_date:
               violates_relationships: "poate fi setată doar pe %{soonest_start} sau mai târziu pentru a nu viola relațiile între pachetele de lucru."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "este invalid, deoarece nu există nici o tranziție validă din vechea în noua stare pentru rolurile utilizatorului curent."
               status_invalid_in_type: "nu este valabilă deoarece starea curentă nu există în acest tip."
@@ -1769,6 +1784,7 @@ ro:
   label_project_new: "Proiect nou"
   label_project_plural: "Proiecte"
   label_project_settings: "Setările proiectului"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} proiecte folosind %{storage} spațiu pe disc"
   label_project_view_all: "Vizualizare toate proiectele"
   label_project_show_details: "Arată detaliile proietului"
@@ -1920,6 +1936,7 @@ ro:
   label_wiki_start: "Pagină de start"
   label_work_package: "Pachet de lucru"
   label_work_package_attachments: "Anexe la pachetul de lucru"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Categorie nouă"
   label_work_package_category_plural: "Categorii de pachete de lucru"
   label_work_package_hierarchy: "Ierarhia pachetelor de lucru"
@@ -1935,6 +1952,7 @@ ro:
   label_workflow: "Flux de lucru"
   label_workflow_plural: "Fluxuri de lucru"
   label_workflow_summary: "Descriere"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "unul închis"
     other: "%{count} închise"
@@ -1995,7 +2013,7 @@ ro:
       center: 'Centrul de notificare'
       see_in_center: 'Vezi comentariul în centrul de notificări'
       settings: 'Modificare setări e-mail'
-    salutation: 'Salut %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Creat la %{timestamp} de %{user} '
       login_to_see_all: 'Autentifică-te pentru a vedea toate notificările.'
@@ -2175,8 +2193,7 @@ ro:
           tb: "TB"
   onboarding:
     heading_getting_started: "Obțineți o prezentare generală"
-    text_getting_started_description: "Obțineți o viziune de ansamblu asupra administrării unui proiect și a activității echipelor folosind OpenProject."
-    text_show_again: "Poate reporni acest videoclip din meniul de ajutor"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Vă rugăm să selectați limba dvs"
   permission_add_work_package_notes: "Adăugare note"
@@ -2377,6 +2394,8 @@ ro:
       update_timeout: "Păstraţi informaţia referitoare la spaţiul de stocare necesar pentru un repo timp de N minute. \nDeoarece măsurarea spațiului necesar pentru un repo poate fi costisitoare, creșteți această valoare pentru a reduce impactul în performanță."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Repo Subversion existent"
@@ -2566,6 +2585,7 @@ ro:
   text_access_token_hint: "Tichetele de acces permit aplicaţiilor externe accesul la resurse din OpenProject."
   text_analyze: "Continuare analiză: %{subject}"
   text_are_you_sure: "Sunteți sigur?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Doriți ștergerea pachetului de lucru și a tuturor pachetelor fii?"
   text_assign_to_project: "Alocare la proiect"
   text_form_configuration: >
@@ -2760,7 +2780,6 @@ ro:
       noneSelection: "(nimic)"
       outline: "Extindere contur inițial"
       parent: "Afișare subproiecte ale"
-      work_package_filters: "Filtrare pachete de lucru"
       work_package_responsible: "Afișați pachetele de lucru cu responsabilități"
       work_package_assignee: "Afișare pachete de lucru cu executant"
       types: "Afișare tipuri"
@@ -2916,6 +2935,17 @@ ro:
     destroy:
       info: "Ştergerea pachetul de lucru este o acţiune ireversibilă."
       title: "Ştergere a pachetului de lucru"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Nimic de previzualizat"
   api_v3:
     attributes:

@@ -1,25 +1,33 @@
 import {
   Component,
-  OnInit,
-  Input,
   ElementRef,
+  Input,
+  OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, Subject, combineLatest } from 'rxjs';
 import {
-  debounceTime, distinctUntilChanged, filter, map,
+  combineLatest,
+  Observable,
+  Subject,
+} from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
 } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
+/* eslint-disable-next-line change-detection-strategy/on-push */
 @Component({
   selector: 'op-ium-role-search',
   templateUrl: './role-search.component.html',
 })
 export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
-  @Input('opFormBinding') roleControl:FormControl;
+  @Input() spotFormBinding:FormControl;
 
   public input$ = new Subject<string|null>();
 
@@ -53,7 +61,7 @@ export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
     );
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     const filters = new ApiV3FilterBuilder();
     filters.add('grantable', '=', true);
     filters.add('unit', '=', ['project']);

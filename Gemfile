@@ -78,7 +78,7 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.23.0'
+gem 'commonmarker', '~> 0.23.6'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -88,7 +88,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.29.0'
+gem 'rouge', '~> 3.30.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 6.0.0'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -129,7 +129,7 @@ gem 'rack-protection', '~> 2.2.0'
 gem 'rack-attack', '~> 6.6.0'
 
 # CSP headers
-gem 'secure_headers', '~> 6.3.0'
+gem 'secure_headers', '~> 6.4.0'
 
 # Browser detection for incompatibility checks
 gem 'browser', '~> 5.3.0'
@@ -200,9 +200,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 gem 'validate_url'
 
 # Sentry error reporting
-gem "sentry-delayed_job", '~> 5.3.0'
-gem "sentry-rails", '~> 5.3.0'
-gem "sentry-ruby", '~> 5.3.0'
+gem "sentry-delayed_job", '~> 5.4.0'
+gem "sentry-rails", '~> 5.4.0'
+gem "sentry-ruby", '~> 5.4.0'
 
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
@@ -299,11 +299,11 @@ group :development, :test do
   gem 'lefthook', require: false
 
   # Brakeman scanner
-  gem 'brakeman', '~> 5.2.0'
+  gem 'brakeman', '~> 5.3.0'
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.12.0', require: false
+gem 'bootsnap', '~> 1.13.0', require: false
 
 # API gems
 gem 'grape', '~> 1.6.0'

@@ -3,7 +3,9 @@ nl:
   js:
     team_planner:
       add_existing: 'Bestaande toevoegen'
-      title: 'Team planner'
+      add_existing_title: 'Add existing work packages'
+      create_label: 'Team planner'
+      create_title: 'Create new team planner'
       unsaved_title: 'Naamloze teamplanner'
       no_data: 'Voeg taakontvangers toe om uw team planner op te zetten.'
       add_assignee: 'Voeg verantwoordelijke toe'

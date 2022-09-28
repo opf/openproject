@@ -66,6 +66,9 @@ eo:
     enterprise:
       upgrade_to_ee: "Promocii al Entreprena Eldono"
       add_token: "Alŝutu la subtenĵetono de la Entreprena Eldono"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Anstataŭigu vian nunan subtenĵetonon"
       order: "Order Enterprise on-premises Edition"
       paste: "Algluu vian Entrepreneldonan subtenĵetonon"
@@ -528,6 +531,10 @@ eo:
         end_insertion: "Fino de enmeto"
         end_deletion: "Fino de forigo"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Patro"
         parent_issue: "Patro"
         parent_work_package: "Patro"
@@ -724,6 +731,11 @@ eo:
           attributes:
             permissions:
               dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -745,10 +757,12 @@ eo:
               format: "%{message}"
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "Ĝi ne povas esti mejloŝtono."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -756,6 +770,7 @@ eo:
               not_a_valid_parent: "Ĝi ne estas valida."
             start_date:
               violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
               status_invalid_in_type: "is invalid because the current status does not exist in this type."
@@ -1752,6 +1767,7 @@ eo:
   label_project_new: "Nova projekto"
   label_project_plural: "Projektoj"
   label_project_settings: "Projektaj agordoj"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} projektoj uzas %{storage} da diskospaco"
   label_project_view_all: "Vidi ĉiujn projektojn"
   label_project_show_details: "Montri projektajn detalojn"
@@ -1903,6 +1919,7 @@ eo:
   label_wiki_start: "Start page"
   label_work_package: "Laborpakaĵo"
   label_work_package_attachments: "Work package attachments"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "New category"
   label_work_package_category_plural: "Work package categories"
   label_work_package_hierarchy: "Work package hierarchy"
@@ -1918,6 +1935,7 @@ eo:
   label_workflow: "Laborfluo"
   label_workflow_plural: "Laborfluoj"
   label_workflow_summary: "Resumo"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 fermita"
     other: "%{count} fermitaj"
@@ -1978,7 +1996,7 @@ eo:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2157,8 +2175,7 @@ eo:
           tb: "TB"
   onboarding:
     heading_getting_started: "Get an overview"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
-    text_show_again: "You can restart this video from the help menu"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Add notes"
@@ -2359,6 +2376,8 @@ eo:
       update_timeout: "Keep the last required disk space information for a repository for N minutes.\nAs counting the required disk space of a repository may be costly, increase this value to reduce performance impact."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Existing Subversion repository"
@@ -2548,6 +2567,7 @@ eo:
   text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Are you sure?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
   text_assign_to_project: "Assign to the project"
   text_form_configuration: >
@@ -2741,7 +2761,6 @@ eo:
       noneSelection: "(neniu)"
       outline: "Initial outline expansion"
       parent: "Show subprojects of"
-      work_package_filters: "Filter work packages"
       work_package_responsible: "Show work packages with accountable"
       work_package_assignee: "Show work packages with assignee"
       types: "Show types"
@@ -2896,6 +2915,17 @@ eo:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Nothing to preview"
   api_v3:
     attributes:

@@ -26,6 +26,9 @@ zh-TW:
       loading: "Loading…"
       updating: "Updating…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         在編輯器欄位上拖動到內聯圖像或引用附件。在繼續拖動時, 將打開已關閉的編輯器欄位。
     autocomplete_select:
@@ -82,6 +85,10 @@ zh-TW:
     button_open_fullscreen: "開啟全螢幕檢視"
     button_show_cards: "顯示卡片檢視"
     button_show_list: "列表檢視"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "引言"
     button_save: "儲存"
     button_settings: "設定"
@@ -289,15 +296,15 @@ zh-TW:
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
     label_activate: "啟用"
     label_assignee: 'Assignee'
     label_add_column_after: "在後面增加一欄"
@@ -539,7 +546,9 @@ zh-TW:
         prioritized: 'prioritized'
       facets:
         unread: 'Unread'
+        unread_title: 'Show unread'
         all: '全部'
+        all_title: 'Show all'
       center:
         and_more_users:
           other: 'and %{count} others'
@@ -607,6 +616,7 @@ zh-TW:
       default: '-'
       subject: '在此輸入主旨'
       selection: '請選擇'
+      description: 'Description: Click to edit...'
       relation_description: '按一下以便為此關係添加描述'
     project:
       required_outside_context: >
@@ -738,7 +748,6 @@ zh-TW:
     project_menu_details: "詳細資料"
     scheduling:
       manual: '手動排程'
-      automatic: '自動排程'
     sort:
       sorted_asc: '已套用升冪排序， '
       sorted_dsc: '已套用降冪排序， '
@@ -749,7 +758,6 @@ zh-TW:
       activate_no: '啟動以移除排序'
     text_work_packages_destroy_confirmation: "你確定要刪除選定的工作項目嗎？"
     text_query_destroy_confirmation: "確實要刪除所選視圖嗎？"
-    text_attachment_destroy_confirmation: "你確定你想要刪除附件?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: '甘特圖'
@@ -846,6 +854,8 @@ zh-TW:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        ignore_non_working_days:
+          title: 'Working days only'
       description_filter: "篩選器"
       description_enter_text: "輸入文字"
       description_options_hide: "隱藏選項"
@@ -865,6 +875,8 @@ zh-TW:
       message_work_package_read_only: "工作包被鎖定在此狀態。任何屬性以外的狀態都不能更改。"
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "主旨, 描述, 評論 ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: '點擊添加新的工作項目到此清單'
       create:
@@ -901,6 +913,7 @@ zh-TW:
         description: "說明"
         date: "日期"
         dueDate: "完成日期"
+        duration: "Duration"
         estimatedTime: "預估時間"
         spentTime: "耗時"
         category: "類別"
@@ -932,7 +945,6 @@ zh-TW:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Click to edit..."
       query:
         column_names: "欄"
         group_by: "分組依據"
@@ -1038,12 +1050,14 @@ zh-TW:
       button_save: "儲存"
       button_submit: "提交"
       button_cancel: "取消"
+      button_delete: "Delete"
       form_submit:
         title: '確認以繼續'
         text: '確定要執行此操作嗎？'
       destroy_work_package:
         title: "確認刪除 %{label}"
-        text: "您確定要刪除以下 %{label}？"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "此工作項目包含 %{childUnits}:"
         confirm_deletion_children: "我確認列出的工作項目的所有細項全部都將被刪除。"
         deletes_children: "所有子工作項目及其子項目也全部將被刪除。"
@@ -1159,13 +1173,13 @@ zh-TW:
       role:
         label: 'Role in %{project}'
         no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Please select a role'
         next_button: '下一個'
       message:
         label: 'Invitation message'
-        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review invitation'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: '發送邀請'
       success:

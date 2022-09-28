@@ -66,6 +66,9 @@ ar:
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "استبدال رمز الدعم الحالي الخاص بك"
       order: "Order Enterprise on-premises Edition"
       paste: "ألصق رمز دعم نسخة الطبعة النهائية الخاصة بك"
@@ -532,6 +535,10 @@ ar:
         end_insertion: "نهاية الإدراج"
         end_deletion: "نهاية الحذف"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "الجذر"
         parent_issue: "الجذر"
         parent_work_package: "الجذر"
@@ -728,6 +735,11 @@ ar:
           attributes:
             permissions:
               dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -749,10 +761,12 @@ ar:
               format: "%{message}"
             due_date:
               not_start_date: "ليس في تاريخ البدء، وعلى الرغم من أن هذا المطلوب للمعالم."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "لا يمكن أن يكون معلما."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -760,6 +774,7 @@ ar:
               not_a_valid_parent: "غير صالح."
             start_date:
               violates_relationships: "يمكن فقط تعيينه إلى %{soonest_start} أو في وقت لاحق حتى لا يتعارض مع علاقات حزمة العمل."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "غير مسموح لأن لا انتقال صالح موجود من القديم إلى مركز جديد للأدوار للمستخدم الحالي."
               status_invalid_in_type: "is invalid because the current status does not exist in this type."
@@ -1819,6 +1834,7 @@ ar:
   label_project_new: "مشروع جديد"
   label_project_plural: "المشاريع"
   label_project_settings: "إعدادات المشروع"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "مشاريع%{count} باستخدام التخزين %{storage} على القرص"
   label_project_view_all: "عرض جميع المشاريع"
   label_project_show_details: "Show project details"
@@ -1970,6 +1986,7 @@ ar:
   label_wiki_start: "صفحة البداية"
   label_work_package: "مجموعة العمل"
   label_work_package_attachments: "Work package attachments"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "فئة جديدة"
   label_work_package_category_plural: "فئات مجموعة العمل"
   label_work_package_hierarchy: "التسلسل الهرمي لمجموعة العمل"
@@ -1985,6 +2002,7 @@ ar:
   label_workflow: "سير العمل"
   label_workflow_plural: "تدفقات العمل"
   label_workflow_summary: "مُلخّص"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 مغلقة"
     other: "%{count} مغلق"
@@ -2041,7 +2059,7 @@ ar:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2228,8 +2246,7 @@ ar:
           tb: "تيرا بايت"
   onboarding:
     heading_getting_started: "Get an overview"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
-    text_show_again: "يمكنك إعادة تشغيل هذا الفيديو من قائمة المساعدة"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "إضافة ملاحظات"
@@ -2428,6 +2445,8 @@ ar:
       update_timeout: "الاحتفاظ بآخر المعلومات مساحة القرص المطلوبة لمستودع لدقائق ن. العد القرص المطلوب مساحة مستودع قد يكون مكلفاً، بزيادة هذه القيمة الحد من تأثير على الأداء."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "مستودع التخريب موجود"
@@ -2617,6 +2636,7 @@ ar:
   text_access_token_hint: "رموز الوصول المميزة تسمح لك لمنح الوصول إلى تطبيقات خارجية للموارد في open project."
   text_analyze: "تحليل أبعد: %{subject}"
   text_are_you_sure: "هل أنت متأكد؟"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "حذف مجموعة العمل وكافة حزم عمل الأطفال؟"
   text_assign_to_project: "المخصصة للمشروع"
   text_form_configuration: >
@@ -2814,7 +2834,6 @@ ar:
       noneSelection: "(بلا)"
       outline: "توسيع المخطط الأولى"
       parent: "إظهار المشاريع الفرعية من"
-      work_package_filters: "تصفية مجموعات العمل"
       work_package_responsible: "Show work packages with accountable"
       work_package_assignee: "إظهار حزم العمل مع المحال إليه"
       types: "إظهار أنواع"
@@ -2973,6 +2992,17 @@ ar:
     destroy:
       info: "حذف مجموعة العمل إجراء لا رجعة فيه."
       title: "حذف حزمة العمل"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "لا شيء للمعاينة"
   api_v3:
     attributes:

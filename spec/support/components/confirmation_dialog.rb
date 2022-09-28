@@ -31,10 +31,8 @@ module Components
     include Capybara::DSL
     include RSpec::Matchers
 
-    def initialize; end
-
     def container
-      '.op-modal'
+      '.spot-modal'
     end
 
     def expect_open
@@ -43,13 +41,13 @@ module Components
 
     def confirm
       page.within(container) do
-        page.find('.confirm-form-submit--continue').click
+        page.find('[data-qa-selector="confirmation-modal--confirmed"]').click
       end
     end
 
     def cancel
       page.within(container) do
-        page.find('.confirm-form-submit--cancel').click
+        page.find('[data-qa-selector="confirmation-modal--cancel"]').click
       end
     end
   end

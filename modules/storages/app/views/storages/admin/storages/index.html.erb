@@ -13,4 +13,19 @@
   </li>
 <% end %>
 
+<div class="op-toast -info -with-bottom-spacing">
+  <div class="op-toast--content">
+    <p>
+      <%= t('repositories.storage.setup_documentation_details') %>
+      <a
+        href="<%= ::OpenProject::Static::Links[:storage_docs][:setup][:href] %>"
+        target="_blank"
+        class="spot-link"
+      >
+        <%= t('repositories.storage.setup_documentation_details_link_text') %>
+      </a>
+    </p>
+  </div>
+</div>
+
 <%= rails_cell ::Storages::StoragesTableCell, @storages %>

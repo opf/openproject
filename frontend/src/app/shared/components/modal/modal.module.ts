@@ -4,7 +4,6 @@ import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { OpModalService } from './modal.service';
 import { OpModalWrapperAugmentService } from './modal-wrapper-augment.service';
-import { OpModalHeaderComponent } from './modal-header.component';
 import { OpModalBannerComponent } from 'core-app/shared/components/modal/modal-banner/modal-banner.component';
 
 @NgModule({
@@ -14,7 +13,6 @@ import { OpModalBannerComponent } from 'core-app/shared/components/modal/modal-b
     IconModule,
   ],
   exports: [
-    OpModalHeaderComponent,
     OpModalBannerComponent,
   ],
   providers: [
@@ -22,9 +20,7 @@ import { OpModalBannerComponent } from 'core-app/shared/components/modal/modal-b
     OpModalWrapperAugmentService,
   ],
   declarations: [
-    OpModalHeaderComponent,
     OpModalBannerComponent,
-
   ],
 })
 export class OpenprojectModalModule { }

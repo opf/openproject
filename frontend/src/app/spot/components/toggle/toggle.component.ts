@@ -1,4 +1,6 @@
 import {
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   forwardRef,
@@ -21,6 +23,7 @@ export interface SpotToggleOption<T> {
     useExisting: forwardRef(() => SpotToggleComponent),
     multi: true,
   }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpotToggleComponent<T> implements ControlValueAccessor {
   // TODO: These old styles will need to be replaced
@@ -28,31 +31,34 @@ export class SpotToggleComponent<T> implements ControlValueAccessor {
 
   @HostBinding('class.spot-toggle') public className = true;
 
-  @Output() checkedChange = new EventEmitter<boolean>();
+  @Output() valueChange = new EventEmitter<T>();
 
   @Input() options:SpotToggleOption<T>[] = [];
 
+  @Input() disabled = false;
+
   @Input() name = `spot-toggle-${+(new Date())}`;
 
-  @Input('value') public _value:T;
+  @Input() public value:T;
 
-  public get value():T {
-    return this._value;
+  constructor(
+    private cdRef:ChangeDetectorRef,
+  ) {}
+
+  writeValue(value:T):void {
+    this.value = value;
+    this.cdRef.markForCheck();
   }
 
-  public set value(value:T) {
-    this._value = value;
+  onToggle(value:T):void {
+    this.writeValue(value);
     this.onChange(value);
     this.onTouched(value);
   }
 
-  writeValue(value:T):void {
-    this.value = value;
-  }
-
   onChange = (_:T):void => {};
 
-  onTouched = (_:T):void => {};
+  onTouched: (t:T) => void = (_:T):void => {};
 
   registerOnChange(fn:(_:T) => void):void {
     this.onChange = fn;

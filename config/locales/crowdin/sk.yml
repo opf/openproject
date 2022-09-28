@@ -66,6 +66,9 @@ sk:
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Nahrajte token podpory Enterprise Edition"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Nahraďte aktuálny token podpory"
       order: "Order Enterprise on-premises Edition"
       paste: "Vložte token podpory Enterprise Edition"
@@ -530,6 +533,10 @@ sk:
         end_insertion: "Koniec vkladania"
         end_deletion: "Koniec odstraňovania"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Nadradený balíček"
         parent_issue: "Nadradený balíček"
         parent_work_package: "Nadradený balíček"
@@ -726,6 +733,11 @@ sk:
           attributes:
             permissions:
               dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -747,10 +759,12 @@ sk:
               format: "%{message}"
             due_date:
               not_start_date: "nemá rovnakú hodnotu ako dátum začiatku, aj keď je to požadované pre pracovné balíčky typu \"míľnik\"."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "nemôže byť previazaný na pracovný balíček typu \"míľnik\"."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -758,6 +772,7 @@ sk:
               not_a_valid_parent: "je neplatný."
             start_date:
               violates_relationships: "možno nastaviť na %{soonest_start} alebo neskôr, aby neboli narušené väzby v pracovnom balíčku."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "je neplatný, pretože neexistuje žiadny platný prechod zo starého na nový stav v prípade aktuálne pridelených rolí používateľa."
               status_invalid_in_type: "je neplatná, pretože súčasný stav neexistuje v tomto type."
@@ -1786,6 +1801,7 @@ sk:
   label_project_new: "Nový projekt"
   label_project_plural: "Projekty"
   label_project_settings: "Nastavenia projektu"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "projekty %{count} využívajú celkom %{storage} diskového priestoru"
   label_project_view_all: "Zobraziť všetky projekty"
   label_project_show_details: "Zobraziť detaily projektu"
@@ -1937,6 +1953,7 @@ sk:
   label_wiki_start: "Úvodná stránka"
   label_work_package: "Pracovný balíček"
   label_work_package_attachments: "Prílohy pracovného balíčka"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Nová kategória"
   label_work_package_category_plural: "kategórie pracovných balíčkov"
   label_work_package_hierarchy: "Hierarchia Pracovného balíčka"
@@ -1952,6 +1969,7 @@ sk:
   label_workflow: "Pracovný postup"
   label_workflow_plural: "Pracovné postupy"
   label_workflow_summary: "Zhrnutie"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 uzatvorený"
     other: "%{count} uzatvorených"
@@ -2012,7 +2030,7 @@ sk:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2194,8 +2212,7 @@ sk:
           tb: "TB"
   onboarding:
     heading_getting_started: "Získajte prehľad"
-    text_getting_started_description: "Získajte rýchly prehľad o riadení projektov a tímovej spolupráci s OpenProject."
-    text_show_again: "Môžete spustiť toto video z ponuky Pomocník"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Prosím vyberte Váš jazyk"
   permission_add_work_package_notes: "Pridať poznámky"
@@ -2396,6 +2413,8 @@ sk:
       update_timeout: "Uchovávajte posledné požadované informácie o diskovom priestore pre úložisko po dobu minúty N.\nKeď je potrebné počítať požadovaný priestor na disku úložiska, môžete túto hodnotu zvýšiť, aby sa znížil vplyv na výkon."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Existujúce úložisko Subversion (verzia softvéru a kontrola revízie)"
@@ -2585,6 +2604,7 @@ sk:
   text_access_token_hint: "Prístupové tokeny umožňujú udeliť externých aplikácií prístup k zdrojom v OpenProject."
   text_analyze: "Ďalej analyzovať: %{subject}"
   text_are_you_sure: "Ste si istí?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Zmazať pracovný balíček a všetky podradené pracovné balíčky?"
   text_assign_to_project: "Priradiť k projektu"
   text_form_configuration: >
@@ -2780,7 +2800,6 @@ sk:
       noneSelection: "(žiadny)"
       outline: "Rozbaľte primárny osnovu"
       parent: "Zobraziť podprojekty z"
-      work_package_filters: "Filter pracovných balíčkov"
       work_package_responsible: "Zobraziť pracovné balíčky so zodpovednou osobou"
       work_package_assignee: "Zobraziť pracovné balíčky s priradenou osobou"
       types: "Zobraziť typy"
@@ -2937,6 +2956,17 @@ sk:
     destroy:
       info: "Odstránenie pracovného balíka je nevratná akcia."
       title: "Odstrániť pracovný balík"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Nič na zobrazenie náhľadu"
   api_v3:
     attributes:

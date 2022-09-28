@@ -252,6 +252,179 @@ describe MailHandler, type: :model do
     end
   end
 
+  shared_context 'with a new work package with attributes' do
+    let(:permissions) { %i[add_work_packages assign_versions work_package_assigned] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let!(:feature_type) do
+      create(:type,
+             name: 'Feature request').tap do |type|
+        project.types << type
+      end
+    end
+    let!(:stock_category) do
+      project.categories.create(name: 'Stock management')
+    end
+    let!(:urgent_priority) do
+      create(:priority_urgent)
+    end
+    let!(:high_priority) do
+      create(:priority_high)
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('wp_with_attributes.eml', **submit_options)
+    end
+  end
+
+  shared_context 'with a new work package with attributes with additional spaces' do
+    let(:permissions) { %i[add_work_packages assign_versions work_package_assigned] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let!(:feature_type) do
+      create(:type,
+             name: 'Feature request').tap do |type|
+        project.types << type
+      end
+    end
+    let!(:stock_category) do
+      project.categories.create(name: 'Stock management')
+    end
+    let!(:urgent_priority) do
+      create(:priority_urgent)
+    end
+    let!(:high_priority) do
+      create(:priority_high)
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('wp_with_spaces_between_attribute_and_separator.eml', **submit_options)
+    end
+  end
+
+  shared_context 'with a new work package with attachment' do
+    # The edit_work_packages is currently wrongfully needed as the work package
+    # is created first and only then the attachment is added.
+    let(:permissions) { %i[add_work_packages edit_work_packages] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('wp_with_attachment.eml', **submit_options)
+    end
+  end
+
+  shared_context 'with a new work package with attachment in apple format' do
+    # The edit_work_packages is currently wrongfully needed as the work package
+    # is created first and only then the attachment is added.
+    let(:permissions) { %i[add_work_packages edit_work_packages] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('wp_with_attachment_apple.eml', **submit_options)
+    end
+  end
+
+  shared_context 'with a new work package with a custom field' do
+    let(:permissions) { %i[add_work_packages] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let!(:custom_field) do
+      create(:string_wp_custom_field, name: 'Searchable field').tap do |cf|
+        project.work_package_custom_fields << cf
+        project.types.first.custom_fields << cf
+      end
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('wp_with_custom_field.eml', **submit_options)
+    end
+  end
+
+  shared_context 'with a new work package with invalid attributes' do
+    let(:permissions) { %i[add_work_packages] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('wp_with_invalid_attributes.eml', **submit_options)
+    end
+  end
+
+  shared_context 'with a new work package with localized attributes' do
+    let(:permissions) { %i[add_work_packages] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             language: 'de',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let(:submit_options) { {} }
+
+    let!(:feature_type) do
+      create(:type,
+             name: 'Feature request').tap do |type|
+        project.types << type
+      end
+    end
+    let!(:stock_category) do
+      project.categories.create(name: 'Stock management')
+    end
+    let!(:urgent_priority) do
+      create(:priority_urgent)
+    end
+
+    subject do
+      submit_email('wp_with_localized_attributes.eml', **submit_options)
+    end
+  end
+
   describe '#receive' do
     shared_examples_for 'work package created' do
       it 'creates the work package' do
@@ -680,6 +853,171 @@ describe MailHandler, type: :model do
             .to match_array([user, cc_user])
         end
       end
+
+      context 'for a wp overriding attributes' do
+        include_context 'with a new work package with attributes'
+        let(:submit_options) { { allow_override: 'type,category,priority' } }
+
+        it_behaves_like 'work package created'
+
+        it 'sets the provided attributes' do
+          expect(subject.project)
+            .to eql project
+
+          expect(subject.type)
+            .to eql feature_type
+
+          expect(subject.category)
+            .to eql stock_category
+
+          expect(subject.priority)
+            .to eql urgent_priority
+        end
+      end
+
+      context 'for a wp overriding attributes partially' do
+        include_context 'with a new work package with attributes'
+        let(:submit_options) { { issue: { priority: 'High' }, allow_override: ['type'] } }
+
+        it_behaves_like 'work package created'
+
+        it 'sets the provided attributes only to the extend allowed and uses default' do
+          expect(subject.project)
+            .to eql project
+
+          expect(subject.type)
+            .to eql feature_type
+
+          expect(subject.category)
+            .to be_nil
+
+          expect(subject.priority)
+            .to eql high_priority
+        end
+      end
+
+      context 'for a wp overriding attributes with spaces between attribute and separator' do
+        include_context 'with a new work package with attributes with additional spaces'
+        let(:submit_options) { { allow_override: 'type,category,priority' } }
+
+        it_behaves_like 'work package created'
+
+        it 'sets the provided attributes' do
+          expect(subject.project)
+            .to eql project
+
+          expect(subject.type)
+            .to eql feature_type
+
+          expect(subject.category)
+            .to eql stock_category
+
+          expect(subject.priority)
+            .to eql urgent_priority
+        end
+      end
+
+      context 'for a wp with attachment' do
+        include_context 'with a new work package with attachment'
+        let(:submit_options) { { issue: { project: 'onlinestore' } } }
+
+        it_behaves_like 'work package created'
+
+        it 'adds the attachment' do
+          expect(subject.attachments.count)
+            .to be 1
+
+          expect(subject.attachments.first.filename)
+            .to eql 'Paella.jpg'
+
+          expect(subject.attachments.first.content_type)
+            .to eql 'image/jpeg'
+
+          expect(subject.attachments.first.filesize)
+            .to be 10790
+        end
+      end
+
+      context 'for a wp with attachment in apple format' do
+        include_context 'with a new work package with attachment in apple format'
+        let(:submit_options) { { issue: { project: 'onlinestore' } } }
+
+        it_behaves_like 'work package created'
+
+        it 'adds the attachment' do
+          expect(subject.attachments.count)
+            .to be 1
+
+          expect(subject.attachments.first.filename)
+            .to eql 'paella.jpg'
+
+          expect(subject.attachments.first.content_type)
+            .to eql 'image/jpeg'
+
+          expect(subject.attachments.first.filesize)
+            .to be 10790
+        end
+      end
+
+      context 'for a wp with a custom field value' do
+        include_context 'with a new work package with a custom field'
+        let(:submit_options) { { issue: { project: 'onlinestore' } } }
+
+        it_behaves_like 'work package created'
+
+        it 'sets the custom field value and removes it from the text' do
+          expect(subject.custom_value_attributes)
+            .to eql(custom_field.id => 'Value for a custom field')
+
+          expect(subject.description)
+            .not_to include 'searchable field'
+        end
+      end
+
+      context 'for a wp with invalid attributes' do
+        include_context 'with a new work package with invalid attributes'
+        let(:submit_options) { { issue: { project: 'onlinestore' }, allow_override: 'type,category,priority' } }
+
+        it_behaves_like 'work package created'
+
+        it 'ignores the invalid attributes and set default ones where possible' do
+          expect(subject.assigned_to)
+            .to be_nil
+
+          expect(subject.start_date)
+            .to be_nil
+
+          expect(subject.due_date)
+            .to be_nil
+
+          expect(subject.done_ratio)
+            .to be 0
+
+          expect(subject.priority)
+            .to eql priority_low
+        end
+      end
+
+      context 'for a wp with localized attributes' do
+        include_context 'with a new work package with localized attributes'
+        let(:submit_options) { { allow_override: 'type,category,priority' } }
+
+        it_behaves_like 'work package created'
+
+        it 'sets the provided attributes' do
+          expect(subject.project)
+            .to eql project
+
+          expect(subject.type)
+            .to eql feature_type
+
+          expect(subject.category)
+            .to eql stock_category
+
+          expect(subject.priority)
+            .to eql urgent_priority
+        end
+      end
     end
 
     context 'when sending a reply to work package mail' do
@@ -785,7 +1123,7 @@ describe MailHandler, type: :model do
             .to include 'The text of the reply.'
         end
 
-        it 'alters the attributes', with_flag: { work_packages_duration_field_active: true } do
+        it 'alters the attributes' do
           subject
 
           expect(work_package.journals.reload.last.details)
@@ -794,7 +1132,7 @@ describe MailHandler, type: :model do
               "status_id" => [original_status.id, resolved_status.id],
               "assigned_to_id" => [nil, other_user.id],
               "start_date" => [nil, Date.parse("Fri, 01 Jan 2010")],
-              "duration" => [1, 365],
+              "duration" => [nil, 365],
               "custom_fields_#{float_cf.id}" => [nil, "52.6"]
             )
         end
@@ -851,6 +1189,30 @@ describe MailHandler, type: :model do
             value = work_package.custom_values.where(custom_field_id: custom_field.id).pick(:value)
 
             expect(value).to eq option.id.to_s
+          end
+        end
+      end
+
+      context 'when receiving an auto reply' do
+        include_context 'with a reply to a wp mention with quotes above' do
+          [
+            'X-Auto-Response-Suppress: OOF',
+            'Auto-Submitted: auto-replied',
+            'Auto-Submitted: Auto-Replied',
+            'Auto-Submitted: auto-generated'
+          ].each do |header|
+            subject do
+              raw = File.read(File.join("#{File.dirname(__FILE__)}/../fixtures/mail_handler",
+                                        'wp_reply_with_quoted_reply_above.eml'))
+              raw = "#{header}\n#{raw}"
+
+              described_class.receive(raw)
+            end
+
+            it 'does not update the work package' do
+              expect { subject }
+                .not_to change(Journal, :count)
+            end
           end
         end
       end

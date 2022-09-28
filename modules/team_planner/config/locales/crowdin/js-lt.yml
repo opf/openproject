@@ -3,7 +3,9 @@ lt:
   js:
     team_planner:
       add_existing: 'Pridėti esamą'
-      title: 'Komandos planas'
+      add_existing_title: 'Add existing work packages'
+      create_label: 'Team planner'
+      create_title: 'Create new team planner'
       unsaved_title: 'Nepavadintas komandos planas'
       no_data: 'Komandos plano sudarymui pridėkite paskirtųjų.'
       add_assignee: 'Pridėti paskirtąjį'

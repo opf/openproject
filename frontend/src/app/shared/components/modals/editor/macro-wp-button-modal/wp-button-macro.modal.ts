@@ -95,14 +95,14 @@ export class WpButtonMacroModalComponent extends OpModalComponent implements Aft
       });
   }
 
-  public applyAndClose(evt:JQuery.TriggeredEvent) {
+  public applyAndClose(evt:Event):void {
     this.changed = true;
     this.classes = this.buttonStyle ? 'button' : '';
     this.type = this.selectedType;
     this.closeMe(evt);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit():void {
     this.typeSelect.nativeElement.focus();
   }
 }

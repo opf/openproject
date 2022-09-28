@@ -24,7 +24,7 @@ export class ApiV3WorkPackageForm extends ApiV3FormResource {
    * @param payload: The payload to be sent to the backend
    * @returns A work package form resource prefilled with the provided payload.
    */
-  public forPayload(payload:HalSource):Observable<FormResource> {
+  public forPayload(payload:Partial<HalSource>):Observable<FormResource> {
     return this.post(payload);
   }
 }

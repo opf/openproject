@@ -32,127 +32,12 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
-  it 'adds work package with attributes override' do
-    issue = submit_email('ticket_with_attributes.eml', allow_override: 'type,category,priority')
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
-    assert_equal Project.find(2), issue.project
-    assert_equal 'Feature request', issue.type.to_s
-    assert_equal 'Stock management', issue.category.to_s
-    assert_equal 'Urgent', issue.priority.to_s
-    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
-  end
-
-  it 'adds work package with partial attributes override' do
-    issue = submit_email('ticket_with_attributes.eml', issue: { priority: 'High' }, allow_override: ['type'])
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
-    assert_equal Project.find(2), issue.project
-    assert_equal 'Feature request', issue.type.to_s
-    assert_nil issue.category
-    assert_equal 'High', issue.priority.to_s
-    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
-  end
-
-  it 'adds work package with spaces between attribute and separator' do
-    issue = submit_email('ticket_with_spaces_between_attribute_and_separator.eml', allow_override: 'type,category,priority')
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
-    assert_equal Project.find(2), issue.project
-    assert_equal 'Feature request', issue.type.to_s
-    assert_equal 'Stock management', issue.category.to_s
-    assert_equal 'Urgent', issue.priority.to_s
-    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
-  end
-
-  it 'adds work package with attachment to specific project' do
-    issue = submit_email('ticket_with_attachment.eml', issue: { project: 'onlinestore' })
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert_equal 'Ticket created by email with attachment', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
-    assert_equal Project.find(2), issue.project
-    assert_equal 'This is  a new ticket with attachments', issue.description
-    # Attachment properties
-    assert_equal 1, issue.attachments.size
-    assert_equal 'Paella.jpg', issue.attachments.first.filename
-    assert_equal 'image/jpeg', issue.attachments.first.content_type
-    assert_equal 10790, issue.attachments.first.filesize
-  end
-
-  it 'adds work package with custom fields' do
-    issue = submit_email('ticket_with_custom_fields.eml', issue: { project: 'onlinestore' })
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert_equal 'New ticket with custom field values', issue.subject
-    assert_equal 'Value for a custom field', issue.custom_value_for(CustomField.find_by(name: 'Searchable field')).value
-    assert !issue.description.match(/^searchable field:/i)
-  end
-
-  context 'without default start_date', with_legacy_settings: { work_package_startdate_is_adddate: false } do
-    it 'adds work package with invalid attributes' do
-      issue = submit_email('ticket_with_invalid_attributes.eml', allow_override: 'type,category,priority')
-      assert issue.is_a?(WorkPackage)
-      assert !issue.new_record?
-      issue.reload
-      assert_nil issue.assigned_to
-      assert_nil issue.start_date
-      assert_nil issue.due_date
-      assert_equal 0, issue.done_ratio
-      assert_equal 'Normal', issue.priority.to_s
-      assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
-    end
-  end
-
-  it 'adds work package with localized attributes' do
-    User.find_by_mail('jsmith@somenet.foo').update_attribute 'language', 'de'
-
-    issue = submit_email('ticket_with_localized_attributes.eml', allow_override: 'type,category,priority')
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert_equal 'New ticket on a given project', issue.subject
-    assert_equal User.find_by_login('jsmith'), issue.author
-    assert_equal Project.find(2), issue.project
-    assert_equal 'Feature request', issue.type.to_s
-    assert_equal 'Stock management', issue.category.to_s
-    assert_equal 'Urgent', issue.priority.to_s
-    assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
-  end
-
   it 'adds work package with japanese keywords' do
     type = ::Type.create!(name: '開発')
     Project.find(1).types << type
     issue = submit_email('japanese_keywords_iso_2022_jp.eml', issue: { project: 'ecookbook' }, allow_override: 'type')
     assert_kind_of WorkPackage, issue
     assert_equal type, issue.type
-  end
-
-  it 'adds from apple mail' do
-    issue = submit_email(
-      'apple_mail_with_attachment.eml',
-      issue: { project: 'ecookbook' }
-    )
-    assert_kind_of WorkPackage, issue
-    assert_equal 1, issue.attachments.size
-
-    attachment = issue.attachments.first
-    assert_equal 'paella.jpg', attachment.filename
-    assert_equal 10790, attachment.filesize
-    assert File.exist?(attachment.diskfile)
-    assert_equal 10790, File.size(attachment.diskfile)
-    assert_equal 'caaf384198bcbc9563ab5c058acd73cd', attachment.digest
   end
 
   it 'adds work package with iso 8859 1 subject' do
@@ -162,23 +47,6 @@ describe MailHandler, type: :model, with_settings: { report_incoming_email_error
     )
     assert_kind_of WorkPackage, issue
     assert_equal 'Testmail from Webmail: ä ö ü...', issue.subject
-  end
-
-  it 'ignores auto replied emails' do
-    expect_any_instance_of(MailHandler).not_to receive(:dispatch)
-    [
-      'X-Auto-Response-Suppress: OOF',
-      'Auto-Submitted: auto-replied',
-      'Auto-Submitted: Auto-Replied',
-      'Auto-Submitted: auto-generated'
-    ].each do |header|
-      raw = IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
-      raw = header + "\n" + raw
-
-      assert_no_difference 'WorkPackage.count' do
-        assert_equal false, MailHandler.receive(raw), "email with #{header} header was not ignored"
-      end
-    end
   end
 
   it 'strips tags of html only emails' do

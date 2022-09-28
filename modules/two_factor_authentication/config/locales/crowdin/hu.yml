@@ -136,8 +136,6 @@ hu:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS kézbesítése sikertelen.'
       voice_delivery_failed: 'MessageBird hívás sikertelen'
-    restdt:
-      delivery_failed_with_code: 'A token kézbesítése nem sikerült.(Hibakód %{code})'
     strategies:
       totp: 'Hitelesítő alkalmazás'
       sns: 'Amazon SNS'

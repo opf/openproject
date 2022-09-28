@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe ::API::V3::Days::DayCollectionRepresenter do
-  let!(:week_days) { create(:week_days) }
   let(:days) do
     [
       build(:day, date: Date.new(2022, 12, 27)),

@@ -182,7 +182,7 @@ module Pages
       else
         open_and_fill_add_list_modal query
         page.find('.ng-option', text: option, wait: 10).click
-        page.find('.confirm-form-submit--submit').click
+        page.find('[data-qa-selector="confirmation-modal--confirmed"]').click
       end
     end
 
@@ -341,7 +341,7 @@ module Pages
     def open_and_fill_add_list_modal(name)
       open_add_list_modal
       sleep(0.1)
-      page.find('.op-modal .new-list--action-select input').set(name)
+      page.find('.spot-modal .new-list--action-select input').set(name)
     end
 
     def open_add_list_modal
@@ -350,7 +350,7 @@ module Pages
     end
 
     def add_list_modal_shows_warning(value, with_link: false)
-      within page.find('.op-modal') do
+      within page.find('.spot-modal') do
         warning = '.op-toast.-warning'
         link = '.op-toast--content a'
 

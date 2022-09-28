@@ -87,7 +87,7 @@ RSpec.describe 'Query menu items', js: true do
     it 'can be added', js: true, selenium: true do
       visit_index_page(query)
 
-      click_on 'Settings'
+      click_on 'More actions'
       click_on I18n.t('js.toolbar.settings.visibility_settings')
       check 'Favored'
       click_on 'Save'

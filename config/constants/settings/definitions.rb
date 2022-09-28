@@ -515,11 +515,6 @@ Settings::Definition.define do
       default: nil,
       writable: false
 
-  add :ldap_auth_source_tls_options,
-      format: :string,
-      default: nil,
-      writable: false
-
   # Allow users to manually sync groups in a different way
   # than the provided job using their own cron
   add :ldap_groups_disable_sync_job,
@@ -537,8 +532,9 @@ Settings::Definition.define do
       writable: false
 
   add :ldap_tls_options,
+      format: :hash,
       default: {},
-      writable: false
+      writable: true
 
   add :log_level,
       default: 'info',
@@ -986,9 +982,13 @@ Settings::Definition.define do
   add :work_package_startdate_is_adddate,
       default: false
 
-  add :work_packages_duration_field_active,
-      default: Rails.env.development?,
-      format: :boolean
+  add :working_days,
+      format: :array,
+      allowed: Array(1..7),
+      default: Array(1..5), # Sat, Sun being non-working days
+      on_change: ->(previous_working_days) do
+        WorkPackages::ApplyWorkingDaysChangeJob.perform_later(user_id: User.current.id, previous_working_days:)
+      end
 
   add :youtube_channel,
       default: 'https://www.youtube.com/c/OpenProjectCommunity',

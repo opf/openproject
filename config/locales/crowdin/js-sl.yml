@@ -26,6 +26,9 @@ sl:
       loading: "Loading…"
       updating: "Updating…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Povlecite na urejevalno polje, da vstavite sliko ali referenčno prilogo. Med nadaljevanjem vlečenja se bodo odprla zaprta polja urejevalnika.
     autocomplete_select:
@@ -82,6 +85,10 @@ sl:
     button_open_fullscreen: "Odptri celozaslonski pogled"
     button_show_cards: "Prikaži kard pogled"
     button_show_list: "Prikaži list pogled"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Citiraj"
     button_save: "Shrani"
     button_settings: "Nastavitve"
@@ -289,15 +296,15 @@ sl:
           learn_about: "Preberite več o novostih"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
     label_activate: "Aktiviraj"
     label_assignee: 'Assignee'
     label_add_column_after: "Dodaj stolpec za"
@@ -539,7 +546,9 @@ sl:
         prioritized: 'prioritized'
       facets:
         unread: 'Unread'
+        unread_title: 'Show unread'
         all: 'Vse'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 'and 1 other'
@@ -610,6 +619,7 @@ sl:
       default: '-'
       subject: 'Vnesite temo tukaj'
       selection: 'Prosimo izberite'
+      description: 'Description: Click to edit...'
       relation_description: 'Kliknite, da dodate opis za to povezavo'
     project:
       required_outside_context: >
@@ -741,7 +751,6 @@ sl:
     project_menu_details: "Podrobnosti"
     scheduling:
       manual: 'Ročno razvrščanje.'
-      automatic: 'Samodejno razvrščanje'
     sort:
       sorted_asc: 'Uporabljeno je naraščajoče razvrščanje, '
       sorted_dsc: 'Uporabljeno je padajoče razvrščanje, '
@@ -752,7 +761,6 @@ sl:
       activate_no: 'aktivirajte za odstranitev razvrščanja'
     text_work_packages_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbrane delovne pakete?"
     text_query_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbran pogled?"
-    text_attachment_destroy_confirmation: "Ali ste prepričani, da želite izbrisati to datoteko?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantogram'
@@ -849,6 +857,8 @@ sl:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
+        ignore_non_working_days:
+          title: 'Working days only'
       description_filter: "Filtriraj"
       description_enter_text: "Vnesite besedilo"
       description_options_hide: "Skrij možnosti"
@@ -868,6 +878,8 @@ sl:
       message_work_package_read_only: "Delovni paket je zaklenjen v tem stanju. Spremenite lahko samo stanje. "
       message_work_package_status_blocked: "Stanja delovnega paketa ni mogoče napisati zaradi zaprtega stanja in dodeljene zaprte različice."
       placeholder_filter_by_text: "Subjekt, opis, komentarji,... "
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Za dodajanje novega delovnega paketa kliknite tukaj'
       create:
@@ -904,6 +916,7 @@ sl:
         description: "Opis"
         date: "Datum"
         dueDate: "Končni datum"
+        duration: "Duration"
         estimatedTime: "Predvideni čas"
         spentTime: "Porabljen čas"
         category: "Kategorija"
@@ -935,7 +948,6 @@ sl:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Kliknite za urejanje..."
       query:
         column_names: "Stolpci"
         group_by: "Rezultati grupirani po"
@@ -1041,12 +1053,14 @@ sl:
       button_save: "Shrani"
       button_submit: "Potrdi"
       button_cancel: "Prekliči"
+      button_delete: "Delete"
       form_submit:
         title: 'Potrdite za nadaljevanje'
         text: 'Ali ste prepričani, da želite to izvesti?'
       destroy_work_package:
         title: "Potrdite izbris %{label}"
-        text: "Ali ste prepričani, da želite izbrisati naslednje %{label} ?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "Ta delavni paket ima %{childUnits}:"
         confirm_deletion_children: "Zavedam se, da bodo VSI potomci naštetih delovnih paketov rekurzivno odstranjeni."
         deletes_children: "Vsi delovni paketi in njihovi potomci bodo tudi rekurzivno izbrisani."
@@ -1168,13 +1182,13 @@ sl:
       role:
         label: 'Vloge v %{project}'
         no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Izberite vlogo'
         next_button: 'Naprej'
       message:
         label: 'Sporočilo s povabilom'
-        description: 'Poslali bomo e-mail %{principal}, kateremu tukaj lahko dodate osebno sporočilo. Razlaga za povabilo bi lahko bila uporabna, ali pa vsaj nekaj informacij o projektu za lažji začetek.'
-        next_button: 'Preglej povabilo'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Pošlji povabilo'
       success:

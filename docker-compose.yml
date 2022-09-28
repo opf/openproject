@@ -90,6 +90,17 @@ services:
     depends_on:
       - backend
 
+  storybook:
+    build:
+      <<: *frontend-build
+    command: "npm run storybook:serve"
+    volumes:
+      - ".:/home/dev/openproject"
+    ports:
+      - "6006:6006"
+    networks:
+      - network
+
   db:
     image: postgres:13
     <<: *restart_policy
@@ -246,3 +257,6 @@ services:
       # in case we want multiple sessions per container
       NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
       NODE_MAX_SESSION: "${CI_JOBS:-4}"
+
+
+# Volumes below here

@@ -66,6 +66,9 @@ pl:
     enterprise:
       upgrade_to_ee: "Uaktualnij do wersji Enterprise"
       add_token: "Wyślij swój token wsparcia edycji Enterprise"
+      delete_token_modal:
+        text: "Czy na pewno chcesz usunąć używany token edycji Enterprise?"
+        title: "Usuń token"
       replace_token: "Wymień swój obecny token wsparcia"
       order: "Zamów wersję Enterprise On-Premises"
       paste: "Wklej swój token wsparcia edycji Enterprise"
@@ -527,6 +530,10 @@ pl:
         end_insertion: "Koniec wstawiania"
         end_deletion: "Koniec usuwania"
         ignore_non_working_days: "Ignoruj dni wolne od pracy"
+        include_non_working_days:
+          title: 'Dni robocze'
+          false: 'tylko dni robocze'
+          true: 'włącz dni wolne od pracy'
         parent: "Rodzic"
         parent_issue: "Rodzic"
         parent_work_package: "Rodzic"
@@ -723,6 +730,11 @@ pl:
           attributes:
             permissions:
               dependency_missing: "musi również uwzględniać wybór '%{dependency}' jako '%{permission}'."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'Należy określić co najmniej jeden dzień roboczy.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -744,10 +756,12 @@ pl:
               format: "%{message}"
             due_date:
               not_start_date: "nie jest w dniu rozpoczęcia, chociaż jest to wymagane dla Kamieni Milowych."
+              cannot_be_null: "nie można ustawić na wartość zero, ponieważ data rozpoczęcia i czas trwania są znane."
             duration:
               larger_than_dates: "jest większy niż interwał między datą rozpoczęcia i zakończenia."
               smaller_than_dates: "jest krótszy niż interwał między datą rozpoczęcia i zakończenia."
               not_available_for_milestones: "nie jest dostępny dla pakietów prac wpisywanych jako \"kamienie milowe\"."
+              cannot_be_null: "nie można ustawić na wartość zero, ponieważ data rozpoczęcia, zakończenia i czas trwania są znane."
             parent:
               cannot_be_milestone: "nie może być kamieniem milowym."
               cannot_be_self_assigned: "nie może być przypisany do siebie."
@@ -755,6 +769,7 @@ pl:
               not_a_valid_parent: "jest nieprawidłowe."
             start_date:
               violates_relationships: "aby nie naruszyć relacji pakietu pracy, należy ustawić datę %{soonest_start} lub późniejszą."
+              cannot_be_null: "nie można ustawić na wartość zero, ponieważ data zakończenia i czas trwania są znane."
             status_id:
               status_transition_invalid: "jest niewłaściwy z powodu braku prawidłowego przekształcenia ze starego do nowego statusu dla aktualnej roli użytkownika."
               status_invalid_in_type: "jest nieprawidłowy, ponieważ bieżący stan nie istnieje w tym typie."
@@ -1783,6 +1798,7 @@ pl:
   label_project_new: "Nowy projekt"
   label_project_plural: "Projekty"
   label_project_settings: "Ustawienia projektu"
+  label_project_storage_plural: "Magazyny"
   label_projects_storage_information: "%{count} projektów zużywających %{storage} przestrzeni dyskowej"
   label_project_view_all: "Zobacz wszystkie projekty"
   label_project_show_details: "Pokaż szczegóły projektu"
@@ -1934,6 +1950,7 @@ pl:
   label_wiki_start: "Strona startowa"
   label_work_package: "Zadanie"
   label_work_package_attachments: "Załączniki pakietu roboczego"
+  label_work_package_file_link_plural: "Linki do plików pakietu roboczego"
   label_work_package_category_new: "Nowa kategoria"
   label_work_package_category_plural: "Kategorie pakietów roboczych"
   label_work_package_hierarchy: "Hierarchia zadań"
@@ -1949,6 +1966,7 @@ pl:
   label_workflow: "Przepływ pracy"
   label_workflow_plural: "Przepływ zadań"
   label_workflow_summary: "Podsumowanie"
+  label_working_days: "Dni robocze"
   label_x_closed_work_packages_abbr:
     one: "1 zamknięty"
     other: "Liczba zamkniętych: %{count}"
@@ -2009,7 +2027,7 @@ pl:
       center: 'Do centrum powiadomień'
       see_in_center: 'Zobacz komentarz w centrum powiadomień'
       settings: 'Zmień ustawienia poczty elektronicznej'
-    salutation: 'Cześć %{user}!'
+    salutation: 'Witaj %{user}'
     work_packages:
       created_at: 'Utworzono %{timestamp}, autor %{user} '
       login_to_see_all: 'Zaloguj się, aby zobaczyć wszystkie powiadomienia.'
@@ -2191,8 +2209,7 @@ pl:
           tb: "TB"
   onboarding:
     heading_getting_started: "Zobacz szybki przegląd"
-    text_getting_started_description: "Spójrz na szybki przegląd zarządzania projektem i pracą zespołową w OpenProject."
-    text_show_again: "Możesz zresetować to wideo w menu pomocy"
+    text_getting_started_description: "Uzyskaj szybki przegląd zarządzania projektem i współpracy zespołu w OpenProject. Możesz zrestartować ten film z menu pomocy."
     welcome: "Witamy w %{app_title}"
     select_language: "Wybierz język"
   permission_add_work_package_notes: "Dodawanie notatek"
@@ -2391,6 +2408,8 @@ pl:
       update_timeout: "Zachowaj informacje o ostatnim wymaganym dla repozytorium miejscu na dysku przez N minut. Ponieważ obliczenie wymaganej dla repozytorium przestrzeni dysku może być kosztowne, powiększ tę wartość, aby pomniejszyć wpływ na wydajność."
       oauth_application_details: "Wartość kod klienta nie będzie ponownie dostępna po zamknięciu tego okna. Skopiuj tę wartości do ustawień Nextcloud OpenProject Integration:"
       oauth_application_details_link_text: "Przejdź do ustawień"
+      setup_documentation_details: "Jeśli potrzebujesz pomocy w konfiguracji nowego magazynu plików, sprawdź dokumentację: "
+      setup_documentation_details_link_text: "Konfiguracja magazynów plików"
       show_warning_details: "Aby wykorzystać ten magazyn plików należy aktywować moduł i konkretny magazyn w ustawieniach projektu dla każdego żądanego projektu."
     subversion:
       existing_title: "Istniejące repozytorium Subversion"
@@ -2580,6 +2599,7 @@ pl:
   text_access_token_hint: "Tokeny dostępu umożliwiają zewnętrznym aplikacjom dostęp do zasobów w OpenProject."
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Jesteś pewien?"
+  text_are_you_sure_continue: "Czy na pewno chcesz kontynuować?"
   text_are_you_sure_with_children: "Usunąć pakiet roboczy i wszystkie podrzędne pakiety?"
   text_assign_to_project: "Przypisz do projektu"
   text_form_configuration: >
@@ -2775,7 +2795,6 @@ pl:
       noneSelection: "(brak)"
       outline: "Initial outline expansion"
       parent: "Pokaż projekty podrzędne z"
-      work_package_filters: "Filtruj pakiety robocze"
       work_package_responsible: "Pokaż pakiety robocze z osobą odpowiedzialną"
       work_package_assignee: "Pokaż pakiety robocze z przypisanym"
       types: "Pokaż typy"
@@ -2932,6 +2951,17 @@ pl:
     destroy:
       info: "Usunięcie Zestawu zadań jest czynnością nieodwracalną."
       title: "Usuń Zestawy zadań"
+  working_days:
+    info: >
+      <b>Zdefiniuj dni uważane za część tygodnia pracy</b><br/> Dni, które nie zostały wybrane, są pomijane podczas planowania zadań (i nie są uwzględnione w liczniku dni). Mogą one zostać zastąpione na poziomie pakietu roboczego.
+    change_button: "Zmień dni robocze"
+    warning: >
+      Zmiana, które dni tygodnia są uważane za dni robocze, może w tym przypadku wpłynąć na dni rozpoczęcia i zakończenia wszystkich pakietów roboczych we wszystkich projektach.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:

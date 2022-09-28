@@ -37,7 +37,7 @@ describe 'Team planner working days', type: :feature, js: true do
   include_context 'with team planner full access'
 
   context 'with week days defined' do
-    let!(:week_days) { create :week_days }
+    let!(:week_days) { week_with_saturday_and_sunday_as_weekend }
 
     it 'renders sat and sun as non working' do
       team_planner.visit!
@@ -72,13 +72,7 @@ describe 'Team planner working days', type: :feature, js: true do
   end
 
   context 'with all days marked as weekend' do
-    let!(:week_days) do
-      days = create(:week_days)
-
-      WeekDay.update_all(working: false)
-
-      days
-    end
+    let!(:week_days) { week_with_no_working_days }
 
     it 'renders all as non working' do
       team_planner.visit!

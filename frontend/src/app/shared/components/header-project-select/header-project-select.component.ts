@@ -38,11 +38,11 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { combineLatest } from 'rxjs';
 import {
   debounceTime,
-  map,
   filter,
-  take,
+  map,
   mergeMap,
   shareReplay,
+  take,
 } from 'rxjs/operators';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { insertInList } from 'core-app/shared/components/project-include/insert-in-list';

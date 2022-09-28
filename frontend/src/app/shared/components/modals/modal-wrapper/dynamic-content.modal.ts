@@ -27,6 +27,7 @@
 //++
 
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit,
 } from '@angular/core';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
@@ -36,6 +37,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   templateUrl: './dynamic-content.modal.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicContentModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   // override superclass
@@ -50,7 +52,7 @@ export class DynamicContentModalComponent extends OpModalComponent implements On
     super(locals, cdRef, elementRef);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
 
     // Append the dynamic body
@@ -59,19 +61,12 @@ export class DynamicContentModalComponent extends OpModalComponent implements On
       .addClass(this.locals.modalClassName)
       .append(this.locals.modalBody);
 
-    // Register click listeners
-    // This registers both on the close button in the modal header, as well as on any
-    // other elements you have added the dynamic-content-modal--close-button class.
-    jQuery(document.body)
-      .on('click.opdynamicmodal',
-        '.op-modal--close-button, [dynamic-content-modal-close-button]',
-        (evt:JQuery.TriggeredEvent) => {
-          this.closeMe(evt);
-        });
+    const modal = document.querySelector('.spot-modal') as HTMLElement;
+    const closeButton = modal.querySelector('[dynamic-content-modal-close-button]') as HTMLMetaElement;
+    closeButton.addEventListener('click', () => this.closeMe());
   }
 
-  ngOnDestroy() {
-    jQuery(document.body).off('click.opdynamicmodal');
+  ngOnDestroy():void {
     super.ngOnDestroy();
   }
 }

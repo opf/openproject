@@ -48,17 +48,6 @@ module Shared
       service_chain << service
     end
 
-    # Roll back the context on all used services
-    def rollback!
-      return false if @rolled_back
-
-      service_chain.reverse_each do |service|
-        Rails.logger.debug { "[Service state] Rolling back execution of #{service}." }
-        service.rollback
-      end
-      @rolled_back = true
-    end
-
     # Remembered service calls this context was used against
     def service_chain
       @service_chain ||= []

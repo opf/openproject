@@ -47,6 +47,9 @@ import { PrincipalRendererService } from 'core-app/shared/components/principal/p
 import {
   getIconForMimeType,
 } from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
+import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
+import { ConfirmDialogOptions } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
+import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -73,6 +76,8 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
   viewAllowed:boolean;
 
+  tooltipAllignment:SpotDropAlignmentOption = SpotDropAlignmentOption.TopLeft;
+
   text = {
     title: {
       openFile: this.i18n.t('js.storages.file_links.open'),
@@ -83,12 +88,16 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
     floatingText: {
       noViewPermission: this.i18n.t('js.storages.file_links.no_permission'),
     },
+    removalTitle: this.i18n.t('js.storages.file_links.remove'),
+    removalButtonLabel: this.i18n.t('js.storages.file_links.remove_short'),
     removalConfirmation: this.i18n.t('js.storages.file_links.remove_confirmation'),
+    notAllowdTooltipText: this.i18n.t('js.storages.file_links.not_allowed_tooltip'),
   };
 
   constructor(
     private readonly i18n:I18nService,
     private readonly timezoneService:TimezoneService,
+    private readonly confirmDialogService:ConfirmDialogService,
     private readonly principalRendererService:PrincipalRendererService,
   ) {}
 
@@ -132,8 +141,19 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
   }
 
   public confirmRemoveFileLink():void {
-    if (window.confirm(this.text.removalConfirmation)) {
-      this.removeFileLink.emit();
-    }
+    const options:ConfirmDialogOptions = {
+      text: {
+        text: this.text.removalConfirmation,
+        title: this.text.removalTitle,
+        button_continue: this.text.removalButtonLabel,
+      },
+      icon: {
+        continue: 'remove-link',
+      },
+    };
+    void this.confirmDialogService
+      .confirm(options)
+      .then(() => { this.removeFileLink.emit(); })
+      .catch(() => { /* confirmation rejected */ });
   }
 }

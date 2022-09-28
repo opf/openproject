@@ -120,8 +120,7 @@ module API
           schema :duration,
                  type: 'Duration',
                  required: false,
-                 writable: false,
-                 show_if: ->(*) { !represented.milestone? && OpenProject::FeatureDecisions.work_packages_duration_field_active? }
+                 show_if: ->(*) { !represented.milestone? }
 
           schema :schedule_manually,
                  type: 'Boolean',
@@ -130,9 +129,7 @@ module API
 
           schema :ignore_non_working_days,
                  type: 'Boolean',
-                 required: false,
-                 writable: false,
-                 show_if: ->(*) { OpenProject::FeatureDecisions.work_packages_duration_field_active? }
+                 required: false
 
           schema :start_date,
                  type: 'Date',

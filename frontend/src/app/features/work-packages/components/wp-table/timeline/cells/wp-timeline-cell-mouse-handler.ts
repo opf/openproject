@@ -39,16 +39,11 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { take } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { WorkPackageCellLabels } from './wp-timeline-cell';
-import { TimelineCellRenderer } from './timeline-cell-renderer';
+import { WorkPackageCellLabels } from './wp-timeline-cell-labels';
+import { MouseDirection, TimelineCellRenderer } from './timeline-cell-renderer';
 import { RenderInfo } from '../wp-timeline';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import Moment = moment.Moment;
-
-export const classNameBar = 'bar';
-export const classNameLeftHandle = 'leftHandle';
-export const classNameRightHandle = 'rightHandle';
-export const classNameBarLabel = 'bar-label';
 
 export function registerWorkPackageMouseHandler(this:void,
   injector:Injector,
@@ -68,7 +63,6 @@ export function registerWorkPackageMouseHandler(this:void,
   let mouseDownStartDay:number|null = null; // also flag to signal active drag'n'drop
   renderInfo.change = halEditing.changeFor(renderInfo.workPackage);
 
-  let dateStates:any;
   let placeholderForEmptyCell:HTMLElement;
   const jBody = jQuery('body');
 
@@ -83,9 +77,10 @@ export function registerWorkPackageMouseHandler(this:void,
   // handles initial creation of start/due values
   cell.onmousemove = handleMouseMoveOnEmptyCell;
 
-  function applyDateValues(renderInfo:RenderInfo, dates:{ [name:string]:Moment }) {
-    // Let the renderer decide which fields we change
-    renderer.assignDateValues(renderInfo.change, labels, dates);
+  function applyRendererMoveChanges(dayUnderCursor:Moment, days:number, direction:MouseDirection) {
+    const moved = renderer.onDaysMoved(renderInfo.change, dayUnderCursor, days, direction);
+    renderer.assignDateValues(renderInfo.change, labels, moved);
+    renderer.update(bar, labels, renderInfo);
   }
 
   function getCursorOffsetInDaysFromLeft(renderInfo:RenderInfo, ev:MouseEvent) {
@@ -114,22 +109,20 @@ export function registerWorkPackageMouseHandler(this:void,
     }
 
     // Determine what attributes of the work package should be changed
-    const direction = renderer.onMouseDown(ev, null, renderInfo, labels, bar);
+    const direction = renderer.onMouseDown(ev, null, renderInfo, labels);
 
     jBody.on('mousemove.timelinecell', createMouseMoveFn(direction));
     jBody.on('keyup.timelinecell', keyPressFn);
     jBody.on('mouseup.timelinecell', () => deactivate(false));
   }
 
-  function createMouseMoveFn(direction:'left'|'right'|'both'|'create'|'dragright') {
+  function createMouseMoveFn(direction:MouseDirection) {
     return (ev:JQuery.MouseMoveEvent) => {
       const days = getCursorOffsetInDaysFromLeft(renderInfo, ev.originalEvent!) - mouseDownStartDay!;
       const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
       const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
 
-      dateStates = renderer.onDaysMoved(renderInfo.change, dayUnderCursor, days, direction);
-      applyDateValues(renderInfo, dateStates);
-      renderer.update(bar, labels, renderInfo);
+      applyRendererMoveChanges(dayUnderCursor, days, direction);
     };
   }
 
@@ -147,17 +140,21 @@ export function registerWorkPackageMouseHandler(this:void,
       return;
     }
 
-    const isEditable = (wp.isLeaf || wp.scheduleManually) && renderer.canMoveDates(wp);
+    // placeholder logic
+    placeholderForEmptyCell?.remove();
+    placeholderForEmptyCell = renderer.displayPlaceholderUnderCursor(ev, renderInfo);
+
+    const isEditable = (wp.isLeaf || wp.scheduleManually)
+      && renderer.canMoveDates(wp)
+      && !renderer.cursorOrDatesAreNonWorking(ev, renderInfo);
 
     if (!isEditable) {
       cell.style.cursor = 'not-allowed';
       return;
     }
 
-    // placeholder logic
+    // display placeholder only if the timeline is editable
     cell.style.cursor = '';
-    placeholderForEmptyCell && placeholderForEmptyCell.remove();
-    placeholderForEmptyCell = renderer.displayPlaceholderUnderCursor(ev, renderInfo);
     cell.appendChild(placeholderForEmptyCell);
 
     // abort if mouse leaves cell
@@ -168,18 +165,22 @@ export function registerWorkPackageMouseHandler(this:void,
     // create logic
     cell.onmousedown = (ev) => {
       placeholderForEmptyCell.remove();
-      bar.style.pointerEvents = 'none';
+
       ev.preventDefault();
 
-      const offsetDayStart = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
-      const clickStart = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayStart, 'days');
+      if (renderer.cursorOrDatesAreNonWorking(ev, renderInfo)) {
+        return;
+      }
+
+      bar.style.pointerEvents = 'none';
+
+      const [clickStart, offsetDayStart] = renderer.cursorDateAndDayOffset(ev, renderInfo);
       const dateForCreate = clickStart.format('YYYY-MM-DD');
-      const mouseDownType = renderer.onMouseDown(ev, dateForCreate, renderInfo, labels, bar);
+      const mouseDownType = renderer.onMouseDown(ev, dateForCreate, renderInfo, labels);
       renderer.update(bar, labels, renderInfo);
 
       if (mouseDownType === 'create') {
         deactivate(false);
-        ev.preventDefault();
         return;
       }
 
@@ -194,15 +195,15 @@ export function registerWorkPackageMouseHandler(this:void,
     };
   }
 
-  function mouseMoveOnEmptyCellFn(offsetDayStart:number, mouseDownType:any) {
+  function mouseMoveOnEmptyCellFn(offsetDayStart:number, mouseDownType:MouseDirection) {
     return (ev:JQuery.MouseMoveEvent) => {
+      placeholderForEmptyCell.remove();
       const relativePosition = Math.abs(cell.getBoundingClientRect().x - ev.clientX);
       const offsetDayCurrent = Math.floor(relativePosition / renderInfo.viewParams.pixelPerDay);
       const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
       const widthInDays = offsetDayCurrent - offsetDayStart;
-      const moved = renderer.onDaysMoved(renderInfo.change, dayUnderCursor, widthInDays, mouseDownType);
-      renderer.assignDateValues(renderInfo.change, labels, moved);
-      renderer.update(bar, labels, renderInfo);
+
+      applyRendererMoveChanges(dayUnderCursor, widthInDays, mouseDownType);
     };
   }
 
@@ -220,10 +221,12 @@ export function registerWorkPackageMouseHandler(this:void,
     jBody.off('.emptytimelinecell');
     workPackageTimeline.resetCursor();
     mouseDownStartDay = null;
-    dateStates = {};
 
-    // const renderInfo = getRenderInfo();
-    if (cancelled || renderInfo.change.isEmpty()) {
+    // Cancel changes if the startDate or dueDate are not allowed
+    const { startDate, dueDate } = renderInfo.change.projectedResource;
+    const invalidDates = renderer.cursorOrDatesAreNonWorking([moment(startDate), moment(dueDate)], renderInfo);
+
+    if (cancelled || renderInfo.change.isEmpty() || invalidDates) {
       cancelChange();
     } else {
       const stopAndRefresh = () => {

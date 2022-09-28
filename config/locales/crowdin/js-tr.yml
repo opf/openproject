@@ -26,6 +26,9 @@ tr:
       loading: "Yükleniyor…"
       updating: "Güncelleniyor..."
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
     autocomplete_select:
@@ -82,6 +85,10 @@ tr:
     button_open_fullscreen: "Tam ekran görünümünü aç"
     button_show_cards: "Kart görünümünü göster"
     button_show_list: "Liste görünümünü göster"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Alıntı"
     button_save: "Kayıt etmek"
     button_settings: "Ayarlar"
@@ -290,15 +297,15 @@ tr:
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/openproject-11-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Sürüm, çeşitli yeni özellikler ve iyileştirmeler içeriyor: <br> <ul class="%{list_styling_class}"> <li>Artık sonsuza kadar dosya aramaya gerek yok! OpenProject 12.2'deki yeni <b>Nextcloud entegrasyonu</b> ile artık dosyaları doğrudan ilgili çalışma paketinde bulabilir ve her zaman doğru sürüme sahip olabilirsiniz.</li> <li><b>a güncellenmiş giriş davranışına sahip yeni tarih seçici</b> ve Gantt şemasındaki ilişkileri göstermek için bir düğme içeren bir bilgi başlığı.</li> <li><b>Diğer kullanıcılar için zaman kaydetme olanağı ekledik.</b> b></li> <li>Bildirimleri, bildirim merkezinin dışında da okundu olarak işaretleyin.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/openproject-11-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Sürüm, çeşitli yeni özellikler ve iyileştirmeler içeriyor: <br> <ul class="%{list_styling_class}"> <li>Artık sonsuza dek dosya aramaya gerek yok! OpenProject 12.2'deki yeni <b>Nextcloud entegrasyonu</b> ile artık dosyaları doğrudan ilgili çalışma paketinde bulabilir ve her zaman doğru sürüme sahip olabilirsiniz.</li> <li><b>a güncellenmiş giriş davranışına sahip yeni tarih seçici</b> ve Gantt şemasındaki ilişkileri göstermek için bir düğme içeren bir bilgi başlığı.</li> <li><b>Diğer kullanıcılar için zaman kaydetme olanağı ekledik.</b> b></li> <li>Bildirimleri, bildirim merkezinin dışında da okundu olarak işaretleyin.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
     label_activate: "Etkinleştir"
     label_assignee: 'Atanan'
     label_add_column_after: "Sonrasına sütun ekle"
@@ -540,7 +547,9 @@ tr:
         prioritized: 'öncelik verildi'
       facets:
         unread: 'okunmamış'
+        unread_title: 'Show unread'
         all: 'Hepsi'
+        all_title: 'Show all'
       center:
         and_more_users:
           one: 've 1 diğer'
@@ -609,6 +618,7 @@ tr:
       default: '-'
       subject: 'Buraya konuyu girin'
       selection: 'Lütfen seçin'
+      description: 'Description: Click to edit...'
       relation_description: 'Bu ilişkiye açıklama eklemek için tıklayın'
     project:
       required_outside_context: >
@@ -740,7 +750,6 @@ tr:
     project_menu_details: "Detaylar"
     scheduling:
       manual: 'Manuel zamanlamayı etkinleştir'
-      automatic: 'Otomatik zamanlama çizelgesi'
     sort:
       sorted_asc: 'Artan sıralama, uygulandı, '
       sorted_dsc: 'Azalan sırılama uygulandı, '
@@ -751,7 +760,6 @@ tr:
       activate_no: 'sıralamayı kaldırmak için etkinleştir'
     text_work_packages_destroy_confirmation: "Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?"
     text_query_destroy_confirmation: "Seçilen görünümü silmek istediğinizden emin misiniz?"
-    text_attachment_destroy_confirmation: "Eki silmek istediğinizden emin misiniz?"
     timelines:
       quarter_label: 'Ç%{quarter_number}'
       gantt_chart: 'Gantt görünümü'
@@ -848,6 +856,8 @@ tr:
         changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'İlişkileri göster'
+        ignore_non_working_days:
+          title: 'Working days only'
       description_filter: "Filtre"
       description_enter_text: "Metin girin"
       description_options_hide: "Seçenekleri gizle"
@@ -867,6 +877,8 @@ tr:
       message_work_package_read_only: "İş paketi bu durum içinde kilitli. Durumu haricinde başka bir özelliği değiştirilemez."
       message_work_package_status_blocked: "İş paketi durumu, kapalı durum ve kapalı sürüm tahsis edildiğinden dolayı yazılamaz."
       placeholder_filter_by_text: "Konu, açıklama, yorumlar, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Listeden yeni bir iş paketi eklemek için buraya tıklayınız'
       create:
@@ -903,6 +915,7 @@ tr:
         description: "Açıklama"
         date: "Tarih"
         dueDate: "Bitiş tarihi"
+        duration: "Süre"
         estimatedTime: "Tahmini süre"
         spentTime: "Harcanan zaman"
         category: "Kategori"
@@ -934,7 +947,6 @@ tr:
       placeholders:
         default: "-"
         date: "Tarih seçin"
-        formattable: "%{name}: Düzenlemek için tıklayın ..."
       query:
         column_names: "Sütunlar"
         group_by: "Sonuçları grupla"
@@ -1040,12 +1052,14 @@ tr:
       button_save: "Kaydet"
       button_submit: "Gönder"
       button_cancel: "İptal etmek"
+      button_delete: "Delete"
       form_submit:
         title: 'Devam etmek için onaylayın'
         text: 'Bu işlemi gerçekleştirmek istediğinizden emin misiniz?'
       destroy_work_package:
         title: "%{label} için silme işlimini onaylayın"
-        text: "%{label} silinecek. Emin misiniz?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "İş paketi %{childUnits} alt paketlerine sahip:"
         confirm_deletion_children: "Listelenen iş paketlerinin TÜM soylarının tekrar tekrar kaldırılacağını kabul ediyorum."
         deletes_children: "Tüm çocuk iş paketleri ve torunları da tekrar tekrar silinir."
@@ -1163,13 +1177,13 @@ tr:
       role:
         label: 'rol %{project}'
         no_roles_found: 'Hiç rol bulunamadı.'
-        description: 'Bu, projenize katıldıklarında %{prencipal}''in alacağı roldür. Rol, hangi eylemleri gerçekleştirmelerine ve hangi bilgileri görmelerine izin verildiğini tanımlar. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Roller ve izinler hakkında daha fazla bilgi edinin . </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Lütfen bir rol seçin.'
         next_button: 'Sonraki'
       message:
         label: 'Davet Mesajı'
-        description: '%{principal} adresine burada kişisel bir mesaj ekleyebileceğiniz bir e-posta göndereceğiz. Davet için bir açıklama yararlı olabilir ya da başlamalarına yardımcı olmak için projeyle ilgili biraz bilgi olabilir.'
-        next_button: 'Daveti incele'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Davet gönder'
       success:

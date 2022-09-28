@@ -151,8 +151,8 @@ class WorkPackages::ScheduleDependency
     # preload unmoving predecessors, as they influence the computation of Relation#successor_soonest_start
     known_work_packages.concat(fetch_unmoving_predecessors)
 
-    # rehydrate the predecessors of follows relations
-    rehydrate_predecessors_of_follows_relations
+    # rehydrate the predecessors and followers of follows relations
+    rehydrate_follows_relations
   end
 
   # Returns all the descendants of moved and moving work packages that are not
@@ -184,9 +184,13 @@ class WorkPackages::ScheduleDependency
     self.known_follows_relations = Relation.follows.where(from_id: known_work_packages.map(&:id))
   end
 
-  # rehydrate the #to member of the preloaded follows relations, to
-  # prevent triggering additional database requests.
-  def rehydrate_predecessors_of_follows_relations
-    known_follows_relations.each { |relation| relation.to = work_package_by_id(relation.to_id) }
+  # rehydrate the #to and #from members of the preloaded follows relations, to
+  # prevent triggering additional database requests when computing soonest
+  # start.
+  def rehydrate_follows_relations
+    known_follows_relations.each do |relation|
+      relation.from = work_package_by_id(relation.from_id)
+      relation.to = work_package_by_id(relation.to_id)
+    end
   end
 end

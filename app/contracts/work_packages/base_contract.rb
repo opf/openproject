@@ -82,27 +82,24 @@ module WorkPackages
     attribute :schedule_manually
     attribute :ignore_non_working_days,
               writable: ->(*) {
-                OpenProject::FeatureDecisions.work_packages_duration_field_active?
+                !automatically_scheduled_parent?
               }
 
     attribute :start_date,
               writable: ->(*) {
-                model.leaf? || model.schedule_manually?
+                !automatically_scheduled_parent?
               } do
       validate_after_soonest_start(:start_date)
     end
 
     attribute :due_date,
               writable: ->(*) {
-                model.leaf? || model.schedule_manually?
+                !automatically_scheduled_parent?
               } do
       validate_after_soonest_start(:due_date)
     end
 
-    attribute :duration,
-              writable: ->(*) {
-                OpenProject::FeatureDecisions.work_packages_duration_field_active?
-              }
+    attribute :duration
 
     attribute :budget
 
@@ -144,6 +141,8 @@ module WorkPackages
     validate :validate_duration_integer
     validate :validate_duration_matches_dates
     validate :validate_duration_constraint_for_milestone
+
+    validate :validate_duration_and_dates_are_not_derivable
 
     def initialize(work_package, user, options: {})
       super
@@ -250,15 +249,14 @@ module WorkPackages
     end
 
     def validate_parent_exists
-      if model.parent.is_a?(WorkPackage::InexistentWorkPackage)
-
+      if model.parent.is_a?(WorkPackage::InexistentWorkPackage) ||
+        (model.parent_id && model.parent.nil?)
         errors.add :parent, :does_not_exist
       end
     end
 
     def validate_parent_not_self
       if model.parent == model
-
         errors.add :parent, :cannot_be_self_assigned
       end
     end
@@ -349,6 +347,19 @@ module WorkPackages
       if model.is_milestone? && model.duration != 1
         errors.add :duration, :not_available_for_milestones
       end
+    end
+
+    def validate_duration_and_dates_are_not_derivable
+      %i[start_date due_date duration].each do |field|
+        if not_set_but_others_are_present?(field)
+          errors.add field, :cannot_be_null
+        end
+      end
+    end
+
+    def not_set_but_others_are_present?(field)
+      other_fields = %i[start_date due_date duration].without(field)
+      model[field].nil? && model.values_at(*other_fields).all?(&:present?)
     end
 
     def readonly_attributes_unchanged
@@ -463,9 +474,11 @@ module WorkPackages
     end
 
     def calculated_duration
-      return nil unless model.due_date && model.start_date
+      @calculated_duration ||= WorkPackages::Shared::Days.for(model).duration(model.start_date, model.due_date)
+    end
 
-      model.due_date - model.start_date + 1
+    def automatically_scheduled_parent?
+      !model.leaf? && !model.schedule_manually?
     end
   end
 end

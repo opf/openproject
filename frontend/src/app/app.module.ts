@@ -70,7 +70,6 @@ import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/c
 import { DynamicContentModalComponent } from 'core-app/shared/components/modals/modal-wrapper/dynamic-content.modal';
 import { PasswordConfirmationModalComponent } from 'core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal';
 import { WpPreviewModalComponent } from 'core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal';
-import { ConfirmFormSubmitController } from 'core-app/shared/components/modals/confirm-form-submit/confirm-form-submit.directive';
 import { OpHeaderProjectSelectComponent } from 'core-app/shared/components/header-project-select/header-project-select.component';
 import { OpHeaderProjectSelectListComponent } from 'core-app/shared/components/header-project-select/list/header-project-select-list.component';
 
@@ -222,7 +221,6 @@ export function initializeServices(injector:Injector) {
 
     // Form configuration
     OpDragScrollDirective,
-    ConfirmFormSubmitController,
   ],
 })
 export class OpenProjectModule {

@@ -71,6 +71,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
         {
           // Card View
           linkText: this.I18n.t('js.views.card'),
+          title: this.I18n.t('js.button_show_cards'),
           icon: 'icon-view-card',
           onClick: (evt:any) => {
             this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayCardRepresentation);
@@ -89,6 +90,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
         {
           // List View
           linkText: this.I18n.t('js.views.list'),
+          title: this.I18n.t('js.button_show_table'),
           icon: 'icon-view-list',
           onClick: (evt:any) => {
             this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
@@ -106,6 +108,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
         {
           // List View with enabled Gantt
           linkText: this.I18n.t('js.views.timeline'),
+          title: this.I18n.t('js.button_show_gantt'),
           icon: 'icon-view-timeline',
           onClick: (evt:any) => {
             if (!this.wpTableTimeline.isVisible) {

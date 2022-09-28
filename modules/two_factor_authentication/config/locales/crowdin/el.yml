@@ -133,8 +133,6 @@ el:
     message_bird:
       sms_delivery_failed: 'Η παράδοση του MessageBird SMS απέτυχε.'
       voice_delivery_failed: 'Η φωνητική κλήση MessageBird απέτυχε.'
-    restdt:
-      delivery_failed_with_code: 'Η παράδοση του token απέτυχε. (Κωδικός σφάλματος %{code})'
     strategies:
       totp: 'Εφαρμογή ταυτοποίησης'
       sns: 'Amazon SNS'

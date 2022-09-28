@@ -400,6 +400,9 @@ fieldset.form--fieldset
       line-height: $base-line-height
       padding-right: 0.325rem
 
+  &.-bold
+    font-weight: bold
+
   &.-top
     align-self: flex-start
     line-height: 2.15rem
@@ -865,6 +868,9 @@ input[readonly].-clickable
     &:last-of-type
       border-top-right-radius: 2px
       border-bottom-right-radius: 2px
+
+    &:focus-within
+      @include spot-focus
 
 .form--list
   display: flex

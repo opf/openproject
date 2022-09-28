@@ -77,8 +77,7 @@ Lint/Void:
   Enabled: false
 
 Lint/AmbiguousBlockAssociation:
-  IgnoredMethods: [change]
-
+  AllowedMethods: [change]
 
 Metrics/ClassLength:
   Enabled: false
@@ -124,6 +123,9 @@ Naming/PredicateName:
   ForbiddenPrefixes:
     - is_
 
+Naming/VariableNumber:
+  AllowedPatterns:
+    - '\w_20\d\d' # allow dates like christmas_2022 or date_2034_04_12
 
 # There are valid cases in which to use methods like:
 # * update_all
@@ -163,10 +165,23 @@ RSpec/ExampleLength:
     - 'spec/features/**/*.rb'
     - 'modules/*/spec/features/**/*.rb'
 
+# We have specs that have no expect(..) syntax,
+# but only helper classes that expect themselves
+RSpec/NoExpectationExample:
+  Enabled: false
+
 RSpec/DescribeClass:
   Enabled: true
   Exclude:
     - 'spec/features/**/*.rb'
+    - 'modules/*/spec/features/**/*.rb'
+
+# dynamic finders cop clashes with capybara ID cop
+Rails/DynamicFindBy:
+  Enabled: true
+  Exclude:
+    - 'spec/features/**/*.rb'
+    - 'spec/support/**/*.rb'
     - 'modules/*/spec/features/**/*.rb'
 
 # See RSpec/ExampleLength for why feature specs are excluded
@@ -207,6 +222,7 @@ RSpec/NamedSubject:
 RSpec/ContextWording:
   Prefixes:
     - as
+    - 'on'
     - when
     - with
     - without
@@ -277,6 +293,9 @@ Style/EvenOdd:
 
 Style/FormatString:
   Enabled: false
+
+Style/FormatStringToken:
+  AllowedMethods: [redirect]
 
 Style/GlobalVars:
   Enabled: false

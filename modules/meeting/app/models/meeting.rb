@@ -99,6 +99,10 @@ class Meeting < ApplicationRecord
     end
   end
 
+  def start_time=(value)
+    super value&.to_datetime
+  end
+
   def start_month
     start_time.month
   end
@@ -239,7 +243,7 @@ class Meeting < ApplicationRecord
   end
 
   ##
-  # Determines whether new raw values werde provided.
+  # Determines whether new raw values were provided.
   def parse_start_time?
     !(changed & %w(start_date start_time_hour)).empty?
   end

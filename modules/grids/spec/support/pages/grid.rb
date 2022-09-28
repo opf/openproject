@@ -36,7 +36,7 @@ module Pages
           .to have_content(I18n.t('js.grid.add_widget'))
 
         SeleniumHubWaiter.wait
-        page.find('.grid--addable-widget', text: Regexp.new("^#{name}$")).click
+        page.find('[data-qa-selector="op-grid--addable-widget"]', text: Regexp.new("^#{name}$")).click
       end
     end
 
@@ -83,7 +83,7 @@ module Pages
       area.hover
       area.find('.grid--widget-add', visible: :all).click
 
-      within('.op-modal', &)
+      within('.spot-modal', &)
     end
 
     def expect_widget_adding_prohibited_generally(row_number = 1, column_number = 1)
@@ -100,7 +100,7 @@ module Pages
           .to have_content(I18n.t('js.grid.add_widget'))
 
         expect(page)
-          .not_to have_selector('.grid--addable-widget', text: Regexp.new("^#{name}$"))
+          .not_to have_selector('[data-qa-selector="op-grid--addable-widget"]', text: Regexp.new("^#{name}$"))
       end
     end
   end

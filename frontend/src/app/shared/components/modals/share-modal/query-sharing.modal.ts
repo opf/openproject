@@ -94,7 +94,7 @@ export class QuerySharingModalComponent extends OpModalComponent implements OnIn
     return jQuery('#work-packages-settings-button');
   }
 
-  public saveQuery($event:JQuery.TriggeredEvent) {
+  public saveQuery($event:Event):void {
     if (this.isBusy) {
       return;
     }

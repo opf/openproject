@@ -66,6 +66,9 @@ pt:
     enterprise:
       upgrade_to_ee: "Atualizar para a Enterprise Edition"
       add_token: "Fazer upload de um token de suporte Enterprise Edition"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Substitua seu token atual de suporte"
       order: "Encomendar a Edição Enterprise on-premises"
       paste: "Cole seu token de suporte Enterprise Edition"
@@ -527,6 +530,10 @@ pt:
         end_insertion: "Final da inserção"
         end_deletion: "Final da exclusão"
         ignore_non_working_days: "Ignorar dias feriados e fim de semana"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Pai"
         parent_issue: "Pai"
         parent_work_package: "Pai"
@@ -723,6 +730,11 @@ pt:
           attributes:
             permissions:
               dependency_missing: "também precisa incluir '%{dependency}', já que '%{permission}' está selecionado."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one working day needs to be specified.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -744,10 +756,12 @@ pt:
               format: "%{message}"
             due_date:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "é maior que o intervalo entre a data de início e de fim."
               smaller_than_dates: "é menor que o intervalo entre a data de início e a data de término."
               not_available_for_milestones: "Não está disponível para pacotes de trabalho do tipo marco"
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "não pode ser um marco."
               cannot_be_self_assigned: "não pode ser atribuído a ele mesmo."
@@ -755,6 +769,7 @@ pt:
               not_a_valid_parent: "é inválido."
             start_date:
               violates_relationships: "somente pode ser definida como %{soonest_start} ou posterior para não violar as relações de trabalho do pacote."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "é inválido porque não existe transição válida da antiga para a nova situação para o papel do usuário atual."
               status_invalid_in_type: "é inválido porque não existe a situação atual neste tipo."
@@ -1751,6 +1766,7 @@ pt:
   label_project_new: "Novo projeto"
   label_project_plural: "Projetos"
   label_project_settings: "Configurações do projeto"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} projetos usando %{storage} de armazenamento em disco"
   label_project_view_all: "Ver todos os projetos"
   label_project_show_details: "Mostrar detalhes do projeto"
@@ -1902,6 +1918,7 @@ pt:
   label_wiki_start: "Página inicial"
   label_work_package: "Pacote de trabalho"
   label_work_package_attachments: "Anexos de pacote de trabalho"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Nova categoria"
   label_work_package_category_plural: "Categorias de pacote de trabalho"
   label_work_package_hierarchy: "Hierarquia de pacotes de trabalho"
@@ -1917,6 +1934,7 @@ pt:
   label_workflow: "Fluxo de Trabalho"
   label_workflow_plural: "Fluxos de trabalho"
   label_workflow_summary: "Sumário"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 fechado"
     other: "%{count} fechados"
@@ -1977,7 +1995,7 @@ pt:
       center: 'Para o centro de notificação'
       see_in_center: 'Ver comentário no centro de notificações'
       settings: 'Alterar configurações de e-mail'
-    salutation: 'Olá, %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Criado em %{timestamp} por %{user}'
       login_to_see_all: 'Faça o login para ver todas as notificações.'
@@ -2154,8 +2172,7 @@ pt:
           tb: "TB"
   onboarding:
     heading_getting_started: "Obter visão geral"
-    text_getting_started_description: "Obter visão geral do gerenciamento de projetos e colaboração de equipe com o OpenProject."
-    text_show_again: "Você pode reiniciar este vídeo através do menu ajuda"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Bem-vindo ao %{app_title}"
     select_language: "Por favor, selecione seu idioma"
   permission_add_work_package_notes: "Adicionar anotações"
@@ -2356,6 +2373,8 @@ pt:
       update_timeout: "Manter as últimas informações de espaço em disco necessário para um repositório por N minutos. Como contar o espaço em disco necessário de um repositório pode ser custoso, aumente este valor para reduzir o impacto no desempenho."
       oauth_application_details: "O valor secreto do cliente não poderá ser acessado novamente após esta janela ser fechada. Copie estes valores nas configurações de Integração do Nextcloud OpenProject:"
       oauth_application_details_link_text: "Ir para a página de configurações"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "Para usar este armazenamento de arquivos, lembre-se de ativar o módulo e o armazenamento específico nas configurações de projeto de cada projeto desejado."
     subversion:
       existing_title: "Repositório Subversion existente"
@@ -2545,6 +2564,7 @@ pt:
   text_access_token_hint: "Tokens de acesso permitem que você conceda acesso de aplicativos externos a recursos no OpenProject."
   text_analyze: "Analisar mais: %{subject}"
   text_are_you_sure: "Você tem certeza?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Excluir o pacote de trabalho e todos os pacotes de trabalho filhos?"
   text_assign_to_project: "Atribuir ao projeto"
   text_form_configuration: >
@@ -2738,7 +2758,6 @@ pt:
       noneSelection: "(nenhum)"
       outline: "Expansão do esboço inicial"
       parent: "Visualizar subprojetos de"
-      work_package_filters: "Filtro de pacotes de trabalho"
       work_package_responsible: "Mostrar os pacotes de trabalho com responsável"
       work_package_assignee: "Mostrar os pacotes de trabalho com seus responsáveis"
       types: "Mostrar tipos"
@@ -2892,6 +2911,17 @@ pt:
     destroy:
       info: "Excluir o pacote de trabalho é uma ação irreversível."
       title: "Excluir o pacote de trabalho"
+  working_days:
+    info: >
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Nada para visualizar"
   api_v3:
     attributes:
