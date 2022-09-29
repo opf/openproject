@@ -79,9 +79,12 @@ module LdapGroups
     def add_members_to_group(new_users)
       user_ids = new_users.map { |user| user_id(user) }
 
+      # Ensure we use pluck to get the current DB version of user_ids
+      current_user_ids = group.group_users.pluck(:user_id)
+
       call = Groups::UpdateService
         .new(user: User.current, model: group)
-        .call(user_ids: group.user_ids + user_ids)
+        .call(user_ids: (current_user_ids + user_ids).uniq)
 
       call.on_success do
         Rails.logger.debug "[LDAP groups] Added users #{user_ids} to #{group.name}"
@@ -94,9 +97,12 @@ module LdapGroups
     end
 
     def remove_members_from_group(user_ids)
+      # Ensure we use pluck to get the current DB version of user_ids
+      current_user_ids = group.group_users.pluck(:user_id)
+
       call = Groups::UpdateService
         .new(user: User.system, model: group)
-        .call(user_ids: group.user_ids - user_ids)
+        .call(user_ids: current_user_ids - user_ids)
 
       call.on_success do
         Rails.logger.debug "[LDAP groups] Removed users #{user_ids} from #{group.name}"
