@@ -136,6 +136,47 @@ FactoryBot.define do
       end
     end
 
+    factory :group_custom_field, class: 'GroupCustomField' do
+      sequence(:name) { |n| "User Custom Field #{n}" }
+      type { 'GroupCustomField' }
+
+      factory :boolean_group_custom_field do
+        name { 'BooleanGroupCustomField' }
+        field_format { 'bool' }
+      end
+
+      factory :integer_group_custom_field do
+        name { 'IntegerGroupCustomField' }
+        field_format { 'int' }
+      end
+
+      factory :text_group_custom_field do
+        name { 'TextGroupCustomField' }
+        field_format { 'text' }
+      end
+
+      factory :string_group_custom_field do
+        name { 'StringGroupCustomField' }
+        field_format { 'string' }
+      end
+
+      factory :float_group_custom_field do
+        name { 'FloatGroupCustomField' }
+        field_format { 'float' }
+      end
+
+      factory :list_group_custom_field do
+        name { 'ListGroupCustomField' }
+        field_format { 'list' }
+        possible_values { ['1', '2', '3', '4', '5', '6', '7'] }
+      end
+
+      factory :date_group_custom_field do
+        name { 'DateGroupCustomField' }
+        field_format { 'date' }
+      end
+    end
+
     factory :wp_custom_field, class: 'WorkPackageCustomField' do
       sequence(:name) { |n| "Work package custom field #{n}" }
       type { 'WorkPackageCustomField' }
@@ -208,8 +249,44 @@ FactoryBot.define do
     end
 
     factory :time_entry_custom_field, class: 'TimeEntryCustomField' do
-      field_format { 'text' }
-      sequence(:name) { |n| "TimeEntryCustomField #{n}" }
+      sequence(:name) { |n| "User Custom Field #{n}" }
+      type { 'TimeEntryCustomField' }
+
+      factory :boolean_time_entry_custom_field do
+        name { 'BooleanTimeEntryCustomField' }
+        field_format { 'bool' }
+      end
+
+      factory :integer_time_entry_custom_field do
+        name { 'IntegerTimeEntryCustomField' }
+        field_format { 'int' }
+      end
+
+      factory :text_time_entry_custom_field do
+        name { 'TextTimeEntryCustomField' }
+        field_format { 'text' }
+      end
+
+      factory :string_time_entry_custom_field do
+        name { 'StringTimeEntryCustomField' }
+        field_format { 'string' }
+      end
+
+      factory :float_time_entry_custom_field do
+        name { 'FloatTimeEntryCustomField' }
+        field_format { 'float' }
+      end
+
+      factory :list_time_entry_custom_field do
+        name { 'ListTimeEntryCustomField' }
+        field_format { 'list' }
+        possible_values { ['A', 'B'] }
+      end
+
+      factory :date_time_entry_custom_field do
+        name { 'DateTimeEntryCustomField' }
+        field_format { 'date' }
+      end
     end
 
     factory :version_custom_field, class: 'VersionCustomField' do
