@@ -30,37 +30,6 @@ require_relative '../legacy_spec_helper'
 describe Version, type: :model do
   fixtures :all
 
-  it 'creates' do
-    (v = Version.new.tap do |v|
-      v.attributes = { project: Project.find(1), name: '1.1', effective_date: '2011-03-25' }
-    end)
-    assert v.save
-    assert_equal 'open', v.status
-  end
-
-  it 'invalids effective date validation' do
-    (v = Version.new.tap do |v|
-      v.attributes = { project: Project.find(1), name: '1.1', effective_date: '99999-01-01' }
-    end)
-    assert !v.save
-    assert_includes v.errors[:effective_date], I18n.t('activerecord.errors.messages.not_a_date')
-  end
-
-  describe '#start_date' do
-    context 'with a value saved' do
-      it 'is the value' do
-        project = Project.find(1)
-        (v = Version.new.tap do |v|
-          v.attributes = { project:, name: 'Progress', start_date: '2010-01-05' }
-        end).save!
-
-        add_work_package(v, estimated_hours: 10, start_date: '2010-03-01')
-
-        assert_equal '2010-01-05', v.start_date.to_s
-      end
-    end
-  end
-
   it 'progresses should be 0 with no assigned issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
@@ -143,36 +112,6 @@ describe Version, type: :model do
     add_work_package(v, estimated_hours: 40, done_ratio: 10)
     assert_progress_equal ((25.0 * 0.2) + (25.0 * 1) + (10.0 * 0.3) + (40.0 * 0.1)) / 100.0 * 100, v.completed_percent
     assert_progress_equal 25.0 / 100.0 * 100, v.closed_percent
-  end
-
-  describe '#estimated_hours' do
-    before do
-      (@version = Version.new.tap do |v|
-        v.attributes = { project_id: 1, name: '#estimated_hours' }
-      end).save!
-    end
-
-    it 'returns 0 with no assigned issues' do
-      assert_equal 0, @version.estimated_hours
-    end
-
-    it 'returns 0 with no estimated hours' do
-      add_work_package(@version)
-      assert_equal 0, @version.estimated_hours
-    end
-
-    it 'returns the sum of estimated hours' do
-      add_work_package(@version, estimated_hours: 2.5)
-      add_work_package(@version, estimated_hours: 5)
-      assert_equal 7.5, @version.estimated_hours
-    end
-
-    it 'returns the sum of leaves estimated hours' do
-      parent = add_work_package(@version)
-      add_work_package(@version, estimated_hours: 2.5, parent_id: parent.id)
-      add_work_package(@version, estimated_hours: 5, parent_id: parent.id)
-      assert_equal 7.5, @version.estimated_hours
-    end
   end
 
   private

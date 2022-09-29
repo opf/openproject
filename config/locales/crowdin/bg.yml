@@ -734,7 +734,7 @@ bg:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one working day needs to be specified.'
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
               previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
@@ -2917,7 +2917,7 @@ bg:
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.

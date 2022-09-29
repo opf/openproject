@@ -733,7 +733,7 @@ pl:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'Należy określić co najmniej jeden dzień roboczy.'
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
               previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
@@ -2953,7 +2953,7 @@ pl:
       title: "Usuń Zestawy zadań"
   working_days:
     info: >
-      <b>Zdefiniuj dni uważane za część tygodnia pracy</b><br/> Dni, które nie zostały wybrane, są pomijane podczas planowania zadań (i nie są uwzględnione w liczniku dni). Mogą one zostać zastąpione na poziomie pakietu roboczego.
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
     change_button: "Zmień dni robocze"
     warning: >
       Zmiana, które dni tygodnia są uważane za dni robocze, może w tym przypadku wpłynąć na dni rozpoczęcia i zakończenia wszystkich pakietów roboczych we wszystkich projektach.

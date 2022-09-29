@@ -731,7 +731,7 @@ es:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'Se necesita especificar al menos un día laborable.'
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
               previous_working_day_changes_unprocessed: 'Los cambios anteriores en la configuración de días laborables no se han aplicado aún.'
         time_entry:
           attributes:
@@ -2912,7 +2912,7 @@ es:
       title: "Eliminar el pauqete de trabajo"
   working_days:
     info: >
-      <b>Definir días considerados parte de la semana laboral.</b><br/> Los días que no están seleccionados se omiten al programar paquetes de trabajo (y no están incluidos en la cuenta de días). Estos pueden ser substituidos en los paquetes de trabajo.
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
     change_button: "Cambiar los días laborables"
     warning: >
       Cambiar qué días de la semana se consideran laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia.

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormlyModule } from '@ngx-formly/core';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TextInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/text-input/text-input.component';
 import { IntegerInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/integer-input/integer-input.component';
@@ -21,11 +20,13 @@ import { DynamicFieldGroupWrapperComponent } from 'core-app/shared/components/dy
 import { FormattableControlModule } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.module';
 import { OPSharedModule } from 'core-app/shared/shared.module';
 import { UserInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/user-input/user-input.component';
+import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    AttributeHelpTextModule,
     FormlyModule.forRoot({
       types: [
         { name: 'booleanInput', component: BooleanInputComponent },
@@ -49,7 +50,6 @@ import { UserInputComponent } from 'core-app/shared/components/dynamic-forms/com
         },
       ],
     }),
-    HttpClientModule,
     OPSharedModule,
 
     // Input dependencies

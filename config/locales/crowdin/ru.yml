@@ -735,7 +735,7 @@ ru:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'По крайней мере один рабочий день должен быть указан.'
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
               previous_working_day_changes_unprocessed: 'Предыдущие изменения конфигурации рабочих дней еще не были применены.'
         time_entry:
           attributes:
@@ -2954,7 +2954,7 @@ ru:
       title: "Удалить пакет работ"
   working_days:
     info: >
-      <b>Определить считаемые дни рабочей недели</b><br/> Дни, которые не выбраны, пропускаются при планировании пакетов работ (и не включены в число дней). Они могут быть переопределены на уровне рабочих пакетов.
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
     change_button: "Изменить рабочие дни"
     warning: >
       Изменение дней недели, считающихся рабочими днями, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае.

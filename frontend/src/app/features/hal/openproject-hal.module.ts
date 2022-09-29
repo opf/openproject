@@ -31,7 +31,6 @@ import {
   ErrorHandler,
   NgModule,
 } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { HalAwareErrorHandler } from 'core-app/features/hal/services/hal-aware-error-handler';
 import { initializeHalResourceConfig } from 'core-app/features/hal/services/hal-resource.config';
@@ -41,7 +40,6 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
   ],
   providers: [
     { provide: ErrorHandler, useClass: HalAwareErrorHandler },
