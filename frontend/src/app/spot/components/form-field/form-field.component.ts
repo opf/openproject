@@ -28,10 +28,6 @@ export class SpotFormFieldComponent {
 
   @Input() control?:AbstractControl;
 
-  @Input() helpTextAttribute?:string;
-
-  @Input() helpTextAttributeScope?:string;
-
   @ContentChild(NgControl) ngControl:NgControl;
 
   internalID = `spot-form-field-${+new Date()}`;
