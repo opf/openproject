@@ -16,11 +16,4 @@ Your Enterprise cloud data is backed up continuously and retained for 30 days. W
 
 ## Backup via GUI
 
-*For a single source of truth, we moved this information* 
-
 **Please navigate to the [System admin guide Backup page](../../../system-admin-guide/backup/)**
-
-
-
-
-
