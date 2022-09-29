@@ -716,7 +716,7 @@ lol:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'crwdns833294:0crwdne833294:0'
+              working_days_are_missing: 'crwdns834282:0crwdne834282:0'
               previous_working_day_changes_unprocessed: 'crwdns834170:0crwdne834170:0'
         time_entry:
           attributes:
@@ -2885,7 +2885,7 @@ lol:
       title: "crwdns499771:0crwdne499771:0"
   working_days:
     info: >
-      crwdns833298:0crwdne833298:0
+      crwdns834284:0crwdne834284:0
     change_button: "crwdns833348:0crwdne833348:0"
     warning: >
       crwdns833300:0crwdne833300:0

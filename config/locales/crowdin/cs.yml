@@ -736,7 +736,7 @@ cs:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'Je třeba uvést alespoň jeden pracovní den.'
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
               previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
@@ -2957,7 +2957,7 @@ cs:
       title: "Odstranit pracovní balíček"
   working_days:
     info: >
-      <b>Definujte dny považované za část pracovního týdne</b><br/> dny, které jsou při plánování pracovních balíčků označeny jsou přeskočeny (a nejsou zahrnuty do celkového denního počtu). Tyto mohou být přepsány na úrovni pracovního balíčku.
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
     change_button: "Change working days"
     warning: >
       Změna, těch dnů v týdnu, které jsou považovány za pracovní dny, může ovlivnit datum zahájení a datum ukončení všech pracovních balíčků ve všech projektech v této instanci.
