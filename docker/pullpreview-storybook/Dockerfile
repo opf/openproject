@@ -16,6 +16,6 @@ RUN mkdir -p /srv
 COPY --from=build /build/frontend/storybook-static /srv/storybook
 WORKDIR /srv/storybook
 CMD caddy file-server \
-  -root /srv/storybook \
-  -listen 0.0.0.0:8080
+  --root /srv/storybook \
+  --listen 0.0.0.0:8080
 
