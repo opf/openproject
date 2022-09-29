@@ -50,6 +50,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { of } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
@@ -73,6 +74,7 @@ describe('WorkPackage', () => {
     TestBed.configureTestingModule({
       imports: [
         OpenprojectHalModule,
+        HttpClientTestingModule,
       ],
       providers: [
         HalResourceService,
