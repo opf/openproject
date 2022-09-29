@@ -26,6 +26,15 @@ import { SpotToggleComponent } from '../toggle.component';
 
 Some text here.
 
+export const Template = ({ name, value, options }) => {
+  return {
+    props: { name, value, options },
+    parameters: {
+      layout: 'centered',
+    },
+  };
+};
+
 <Canvas>
   <Story
     name="Preset value"
@@ -42,15 +51,6 @@ Some text here.
 </Canvas>
 
 <ArgsTable of={SpotToggleComponent} />
-
-export const Template = ({ name, value, options }) => {
-  return {
-    props: { name, value, options },
-    parameters: {
-      layout: 'centered',
-    },
-  };
-};
 
 <Canvas>
   <Story
