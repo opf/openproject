@@ -4,7 +4,7 @@ module API::V3::Utilities::StorageInteraction
       @uri = base_uri
       @token = token
       @token_refresh = token_refresh
-      @base_path = "/remote.php/dav/files/#{@token.origin_user_id}/"
+      @base_path = "/remote.php/dav/files/#{@token.send('origin_user_id')}/"
     end
 
     def files
@@ -14,7 +14,7 @@ module API::V3::Utilities::StorageInteraction
       result = @token_refresh.call do
         response = http.propfind(
           @base_path,
-          nil,
+          requested_properties,
           {
             'Depth' => '1',
             'Authorization' => "Bearer #{@token.access_token}"
@@ -33,6 +33,23 @@ module API::V3::Utilities::StorageInteraction
 
     private
 
+    def requested_properties
+      Nokogiri::XML::Builder.new do |xml|
+        xml['d'].propfind(
+          'xmlns:d' => 'DAV:',
+          'xmlns:oc' => 'http://owncloud.org/ns'
+        ) do
+          xml['d'].send('prop') do
+            xml['oc'].send('fileid')
+            xml['oc'].send('size')
+            xml['d'].send('getcontenttype')
+            xml['d'].send('getlastmodified')
+            xml['oc'].send('owner-display-name')
+          end
+        end
+      end.to_xml
+    end
+
     def parse_response(response)
       return response unless response.success
 
@@ -46,39 +63,63 @@ module API::V3::Utilities::StorageInteraction
       name = name(file_element)
 
       ::Storages::StorageFile.new(
-        nil,
+        id(file_element),
         CGI.unescape(name),
+        size(file_element),
         mime_type(file_element),
         nil,
         last_modified_at(file_element),
-        nil,
+        created_by(file_element),
         nil,
         "/#{name}"
       )
     end
 
-    def name(response)
-      response
-        .xpath('d:href')
+    def id(element)
+      element
+        .xpath('.//oc:fileid')
+        .map(&:inner_text)
+        .reject(&:empty?)
         .first
-        .inner_text
+    end
+
+    def name(element)
+      element
+        .xpath('d:href')
+        .map(&:inner_text)
+        .first
         .delete_prefix(@base_path)
         .delete_suffix('/')
     end
 
-    def mime_type(response)
-      response
-        .xpath('.//d:getcontenttype')
+    def size(element)
+      element
+        .xpath('.//oc:size')
+        .map(&:inner_text)
+        .map { |e| Integer(e) }
         .first
-        .inner_text
-    rescue NoMethodError
-      'application/x-op-directory'
     end
 
-    def last_modified_at(response)
-      response
+    def mime_type(element)
+      element
+        .xpath('.//d:getcontenttype')
+        .map(&:inner_text)
+        .reject(&:empty?)
+        .first || 'application/x-op-directory'
+    end
+
+    def last_modified_at(element)
+      element
         .xpath('.//d:getlastmodified')
         .map { |e| DateTime.parse(e) }
+        .first
+    end
+
+    def created_by(element)
+      element
+        .xpath('.//oc:owner-display-name')
+        .map(&:inner_text)
+        .reject(&:empty?)
         .first
     end
   end

@@ -87,10 +87,10 @@ export class StorageFileListItemComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    if (this.storageFile.lastModifiedByName) {
+    if (this.storageFile.createdByName) {
       this.principalRendererService.render(
         this.avatar.nativeElement,
-        { name: this.storageFile.lastModifiedByName, href: '/external_users/1' },
+        { name: this.storageFile.createdByName, href: '/external_users/1' },
         { hide: true, link: false },
         { hide: false, size: 'mini' },
       );

@@ -32,6 +32,7 @@ module API::V3::StorageFiles
 
     property :id
     property :name
+    property :size
     property :mime_type
     date_time_property :created_at
     date_time_property :last_modified_at
