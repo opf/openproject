@@ -4,6 +4,9 @@ import { Canvas, Meta, Story } from '@storybook/addon-docs';
 import { OpSpotModule } from '../app/spot/spot.module';
 import { SbActionBarExample } from './ActionBar.example';
 import { SbActionBarLeftButtonsExample } from './ActionBarLeftButtons.example';
+import { SbActionBarTransparentExample } from './ActionBarTransparent.example';
+import { SbActionBarNoSideOptionExample } from './ActionBarNoSideOption.example';
+import { SbActionBarMoreButtonsExample } from './ActionBarMoreButtons.example';
 
 <Meta
   title="Patterns/Action Bar"
@@ -26,7 +29,7 @@ import { SbActionBarLeftButtonsExample } from './ActionBarLeftButtons.example';
 
 > Example of action bar in a modal
 
-The action bar is generally used at the bottom of modals to present the user with a set of actions. These actions are often relative to choices or selections made in the containing modal. 
+The action bar is generally used at the bottom of modals to present the user with a set of actions. These actions are often relative to choices or selections made in the containing modal.
 
 The most common choices are "Save/apply" and "Cancel".  At least one button (Cancel) is the absolute minimum.
 
@@ -69,7 +72,11 @@ The button set can be moved to the left, placing the side action on the right. T
 
 **Transparent background**
 
-> Example
+<Canvas>
+  <Story name="Transparent">
+    {{ component: SbActionBarTransparentExample }}
+  </Story>
+</Canvas>
 
 The transparent background is useful for when having the action bar in grey (default) does not work visually. The transparent version will simply take the background colour of the element in which it is contained, usually white.
 
@@ -77,15 +84,23 @@ The transparent background is useful for when having the action bar in grey (def
 
 **Side options**
 
-> Example without side option
+<Canvas>
+  <Story name="No side option">
+    {{ component: SbActionBarNoSideOptionExample }}
+  </Story>
+</Canvas>
 
 The side option is, as the name suggests, optional.
 
 **More buttons**
 
-> Example with three buttons: Watch, Mark as read, More
+<Canvas>
+  <Story name="More buttons">
+    {{ component: SbActionBarMoreButtonsExample }}
+  </Story>
+</Canvas>
 
-The action bar can also be composed of up to three action buttons. Should there be more than three actions to be made available to the user, the third button will be a “More” button opens a drop-down with additional options. 
+The action bar can also be composed of up to three action buttons. Should there be more than three actions to be made available to the user, the third button will be a “More” button opens a drop-down with additional options.
 
 ## Behaviour
 
@@ -95,12 +110,12 @@ When the action bar is use as a toolbar with more three buttons (or with a “Mo
 
 ## Line breaks and wrapping
 
-When the text is too long, the button set will remain in one line, and the side option (if present) will move to a new line. 
+When the text is too long, the button set will remain in one line, and the side option (if present) will move to a new line.
 
 If the text in the side option is too long, that will itself also wrap in mutliple lines.
 
 ## Margins, Padding and Styling
 
 The action bar normally no external margin and usually spans the full length of the parent element.
- 
+
 It has 16px left/right padding and 12 px top/bottom padding, with 16 px spacing between the two buttons in the button set.
