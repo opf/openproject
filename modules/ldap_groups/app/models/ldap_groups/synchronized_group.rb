@@ -33,7 +33,7 @@ module LdapGroups
         # create synchronized group memberships
         memberships = new_users.to_a.map { |user| { group_id: id, user_id: user_id(user) } }
         # Bulk insert the memberships to improve performance
-        ::LdapGroups::Membership.insert_all memberships
+        ::LdapGroups::Membership.insert_all memberships, unique_by: %i[user_id group_id]
 
         # add users to users collection of internal group
         add_members_to_group(new_users)
@@ -51,7 +51,7 @@ module LdapGroups
 
       self.class.transaction do
         # 1) Delete synchronized group MEMBERSHIPS from collection.
-        users.delete users.where(user: user_ids).select(:id)
+        users.delete users.where(user_id: user_ids).select(:id)
 
         # 2) Remove users from the internal group
         remove_members_from_group(user_ids)
@@ -72,7 +72,7 @@ module LdapGroups
     end
 
     def remove_all_members
-      remove_members! User.find(users.pluck(:user_id))
+      remove_members! users.pluck(:user_id)
     end
 
     # rubocop:disable Metrics/AbcSize
