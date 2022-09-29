@@ -1,5 +1,5 @@
 x-sender: <jsmith@somenet.foo>
-x-receiver: <redmine@somenet.foo>
+x-receiver: <openproject@somenet.foo>
 Received: from [127.0.0.1] ([127.0.0.1]) by somenet.foo with Quick 'n Easy Mail Server SMTP (1.0.0.0);
 	Sun, 14 Dec 2008 16:18:06 GMT
 Message-ID: <494531B9.1070709@somenet.foo>

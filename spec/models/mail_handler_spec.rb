@@ -39,6 +39,7 @@ describe MailHandler, type: :model do
     # there is a default work package priority to save any work packages
     priority_low
     anno_user
+    User.system
 
     allow(UserMailer)
       .to receive(:incoming_email_error)
@@ -316,6 +317,29 @@ describe MailHandler, type: :model do
     end
   end
 
+  shared_context 'with a new work package with attributes in japanese' do
+    let(:permissions) { %i[add_work_packages] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let!(:japanese_type) do
+      create(:type,
+             name: '開発').tap do |type|
+        project.types << type
+      end
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('wp_with_attributes_japanese.eml', **submit_options)
+    end
+  end
+
   shared_context 'with a new work package with attachment' do
     # The edit_work_packages is currently wrongfully needed as the work package
     # is created first and only then the attachment is added.
@@ -422,6 +446,73 @@ describe MailHandler, type: :model do
 
     subject do
       submit_email('wp_with_localized_attributes.eml', **submit_options)
+    end
+  end
+
+  shared_context 'with a new work package with iso 8859 1 subject' do
+    let(:permissions) { %i[add_work_packages] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             language: 'de',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('wp_with_iso_8859_1_subject.eml', **submit_options)
+    end
+  end
+
+  shared_context 'with a new work package with long subject' do
+    let(:permissions) { %i[add_work_packages] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             language: 'de',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('wp_with_long_subject.eml', **submit_options)
+    end
+  end
+
+  shared_context 'with a new work package with html only description' do
+    let(:permissions) { %i[add_work_packages] }
+    let!(:user) do
+      create(:user,
+             mail: 'JSmith@somenet.foo',
+             firstname: 'John',
+             lastname: 'Smith',
+             language: 'de',
+             member_in_project: project,
+             member_with_permissions: permissions)
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('wp_with_html_only_description.eml', **submit_options)
+    end
+  end
+
+  shared_context 'with a new work package with the sender fullname in utf-8' do
+    let(:submit_options) { {} }
+
+    before do
+      Role.non_member.update_attribute :permissions, [:add_work_packages]
+      project.update_attribute :public, true
+    end
+
+    subject do
+      submit_email('wp_with_utf8_fullname_of_sender.eml', **submit_options)
     end
   end
 
@@ -617,6 +708,22 @@ describe MailHandler, type: :model do
               found_user = User.find_by(login:)
               expect(work_package.author).to eq(found_user)
               expect(found_user).to be_check_password(password)
+            end.to change(User, :count).by(1)
+          end
+        end
+
+        context 'with unknown_user: \'create\' and an utf8 encoded fullname' do
+          include_context 'with a new work package with the sender fullname in utf-8'
+          let(:submit_options) { { issue: { project: 'onlinestore' }, unknown_user: 'create' } }
+
+          it_behaves_like 'work package created'
+
+          it 'adds the user with decoded fullname' do
+            expect do
+              expect(subject.author).to be_active
+              expect(subject.author.mail).to eq('foo@example.org')
+              expect(subject.author.firstname).to eq("\xc3\x84\xc3\xa4".force_encoding('UTF-8'))
+              expect(subject.author.lastname).to eq("\xc3\x96\xc3\xb6".force_encoding('UTF-8'))
             end.to change(User, :count).by(1)
           end
         end
@@ -917,6 +1024,18 @@ describe MailHandler, type: :model do
         end
       end
 
+      context 'for a wp overriding attributes in japanese' do
+        include_context 'with a new work package with attributes in japanese'
+        let(:submit_options) { { issue: { project: 'onlinestore' }, allow_override: 'type' } }
+
+        it_behaves_like 'work package created'
+
+        it 'sets the provided attributes' do
+          expect(subject.type)
+            .to eql japanese_type
+        end
+      end
+
       context 'for a wp with attachment' do
         include_context 'with a new work package with attachment'
         let(:submit_options) { { issue: { project: 'onlinestore' } } }
@@ -1016,6 +1135,49 @@ describe MailHandler, type: :model do
 
           expect(subject.priority)
             .to eql urgent_priority
+        end
+      end
+
+      context 'for a wp with iso 8859 1 subject' do
+        include_context 'with a new work package with iso 8859 1 subject'
+        let(:submit_options) { { issue: { project: 'onlinestore' } } }
+
+        it_behaves_like 'work package created'
+
+        it 'sets the subject' do
+          expect(subject.subject)
+            .to eql 'Testmail from Webmail: ä ö ü...'
+        end
+      end
+
+      context 'for a wp with long subject' do
+        include_context 'with a new work package with long subject'
+        let(:submit_options) { { issue: { project: 'onlinestore' } } }
+
+        it_behaves_like 'work package created'
+
+        it 'sets the subject' do
+          original_subject = <<~MSG.squish
+            New ticket on a given project with a very long subject line
+            which exceeds 255 chars and should not be ignored but chopped off.
+            And if the subject line is still not long enough, we just add more text.
+            And more text. Wow, this is really annoying. Especially, if you have nothing to say...
+          MSG
+
+          expect(subject.subject)
+            .to eql original_subject[0, 255]
+        end
+      end
+
+      context 'for a wp with html only description' do
+        include_context 'with a new work package with html only description'
+        let(:submit_options) { { issue: { project: 'onlinestore' } } }
+
+        it_behaves_like 'work package created'
+
+        it 'sets the description' do
+          expect(subject.description)
+            .to eql 'This is a html-only email.'
         end
       end
     end

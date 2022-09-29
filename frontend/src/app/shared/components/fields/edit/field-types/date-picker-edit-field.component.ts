@@ -84,7 +84,11 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
       .closingEvent
       .pipe(take(1))
       .subscribe(() => {
-        void this.handler.handleUserSubmit();
+        this.onModalClosed();
       });
+  }
+
+  protected onModalClosed():void {
+    void this.handler.handleUserSubmit();
   }
 }
