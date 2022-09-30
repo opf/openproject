@@ -48,9 +48,9 @@ pt:
         main-menu-hover-font-color: "Fonte do menu principal ao passar o mouse"
         main-menu-border-color: "Margem do menu principal"
       custom_colors: "Cores personalizadas"
-      customize: "Personalize sua instalação do OpenProject com seu próprio logotipo e cores."
+      customize: "Personalize a instalação de seu OpenProject com seu logotipo e cores."
       enterprise_notice: "Como um 'Obrigado!' especial a sua contribuição financeira para desenvolver o OpenProject, esse pequeno recurso está disponível somente para assinantes do suporte da versão Enterprise Edition."
-      enterprise_more_info: "Nota: o logotipo usado será acessível ao público."
+      enterprise_more_info: "Obs.: o logotipo usado pode ser acessado publicamente."
       manage_colors: "Editar opções de seleção de cor"
       instructions:
         alternative-color: "Cor de destaque forte, normalmente usada para o botão mais importante na tela."
@@ -173,7 +173,7 @@ pt:
     execute: 'Executar %{name}'
     upsale:
       title: 'Ações personalizadas'
-      description: 'Ações personalizadas são atalhos de um clique para um conjunto de ações pré-definidas que você pode disponibilizar em certos pacotes de trabalho com base no status, papel, tipo ou projeto.'
+      description: 'As ações personalizadas são atalhos de clique único para um conjunto de ações pré-definidas que você pode disponibilizar em certos pacotes de trabalho com base no estado, função, tipo ou projeto.'
   custom_fields:
     text_add_new_custom_field: >
       Para adicionar campos personalizados a um projeto é necessário criá-los primeiro para depois adicioná-los a este projeto.
@@ -272,7 +272,7 @@ pt:
     upsale:
       title: Usuários de espaço reservado
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        Usuários reservados são uma maneira de atribuir pacotes de trabalho aos usuários que não fazem parte do seu projeto. Eles podem ser úteis em vários cenários; por exemplo, se você precisa acompanhar as tarefas de uma fonte que ainda não foi nomeada ou disponibilizada, ou, se você não deseja dar a esta pessoa acesso ao OpenProject, mas ainda deseja acompanhar as tarefas atribuídas a ela.
   prioritiies:
     edit:
       priority_color_text: |
@@ -526,14 +526,14 @@ pt:
         duration: "Duração"
         end_insertion: "Final da inserção"
         end_deletion: "Final da exclusão"
-        ignore_non_working_days: "Ignorar dias feriados e fim de semana"
+        ignore_non_working_days: "Ignorar dias não-úteis"
         parent: "Pai"
         parent_issue: "Pai"
         parent_work_package: "Pai"
         priority: "Prioridade"
         progress: "Progresso (%)"
         readonly: "Somente leitura"
-        schedule_manually: "Agendamento manual"
+        schedule_manually: "Planjamento manual"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"
         subproject: "Subprojeto"
@@ -745,9 +745,9 @@ pt:
             due_date:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
             duration:
-              larger_than_dates: "é maior que o intervalo entre a data de início e de fim."
-              smaller_than_dates: "é menor que o intervalo entre a data de início e a data de término."
-              not_available_for_milestones: "Não está disponível para pacotes de trabalho do tipo marco"
+              larger_than_dates: "é maior que o intervalo entre a data de início e de conclusão."
+              smaller_than_dates: "é menor que o intervalo entre a data de início e de conclusão."
+              not_available_for_milestones: "não está disponível para pacotes de trabalho do tipo marco"
             parent:
               cannot_be_milestone: "não pode ser um marco."
               cannot_be_self_assigned: "não pode ser atribuído a ele mesmo."
@@ -1161,11 +1161,11 @@ pt:
   default_status_new: "Novo"
   default_status_on_hold: "Em espera"
   default_status_rejected: "Rejeitado"
-  default_status_scheduled: "Agendado"
+  default_status_scheduled: "Planejado"
   default_status_specified: "Especificado"
   default_status_tested: "Testado"
   default_status_test_failed: "Falha no teste"
-  default_status_to_be_scheduled: "A agendar"
+  default_status_to_be_scheduled: "A ser planejado"
   default_priority_low: "Baixa"
   default_priority_normal: "Normal"
   default_priority_high: "Alta"
@@ -1606,7 +1606,7 @@ pt:
   label_index_by_title: "Índice por título"
   label_information: "Informação"
   label_information_plural: "Informações"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: 'Guias de instalação'
   label_integer: "Número inteiro"
   label_internal: "Interno"
   label_introduction_video: "Vídeo de introdução"
@@ -2093,7 +2093,7 @@ pt:
   notice_email_sent: "Um e-mail foi enviado para %{value}"
   notice_failed_to_save_work_packages: "Falha ao salvar %{count} pacote(s) de trabalho de um total de %{total} selecionado: %{ids}."
   notice_failed_to_save_members: "Falha ao salvar o(s) membro(s): %{errors}."
-  notice_deletion_scheduled: "A exclusão foi programada e foi realizada de forma assíncrona."
+  notice_deletion_scheduled: "A exclusão foi planejada e foi realizada de forma assíncrona."
   notice_file_not_found: "A página que você estava tentando acessar não existe ou foi removida."
   notice_forced_logout: "Você foi automaticamente desconectado após %{ttl_time} minutos de inatividade."
   notice_internal_server_error: "Ocorreu um erro na página que você está tentando acessar. Se você continuar a ter problemas, por favor contate o %{app_title} administrador para obter assistência."
@@ -2400,7 +2400,7 @@ pt:
   setting_smtp_authentication: "Autenticação SMTP"
   setting_smtp_user_name: "Usuário SMTP"
   setting_smtp_password: "Senha SMTP"
-  setting_smtp_domain: "Domínio SMTP"
+  setting_smtp_domain: "Domínio SMTP HELO"
   setting_activity_days_default: "Dias exibidos na atividade de projeto"
   setting_app_subtitle: "Subtítulo do aplicativo"
   setting_app_title: "Título da aplicação"
@@ -2871,9 +2871,9 @@ pt:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'Configuração do modo HTTPS  incompatível'
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        Seu aplicativo está em execução com o modo HTTPS definido para <code>%{set_protocol}</code>, mas esta é uma solicitação <code>%{actual_protocol}</code>. Isto resultará em erros! Você precisará definir os seguintes valores de configuração: <code>%{setting_value}</code>. Consulte <a href="%{more_info_path}">a documentação de instalação</a> sobre como definir esta configuração.
     hostname_mismatch:
       title: 'Incompatibilidade de configuração do anfitrião'
       text_html: >
@@ -3054,34 +3054,34 @@ pt:
       oauth_returned_json_error: "OAuth2 retornou um erro JSON"
       oauth_returned_http_error: "OAuth2 retornou um erro de rede"
       oauth_returned_standard_error: "OAuth2 retornou um erro interno"
-      wrong_token_type_returned: "OAuth2 retornou um tipo errado de token, esperando AccessToken::Portador"
+      wrong_token_type_returned: "OAuth2 retornou um tipo errado de token, aguardando AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 comunicou um erro. Entre em contato com o administrador do sistema."
       oauth_client_not_found: "Cliente OAuth2 não encontrado no ponto de extremidade 'callback' (redirect_uri)."
       refresh_token_called_without_existing_token: >
-        Erro interno: Atualizar token sem um token existente anteriormente.
+        Erro interno: refresh_token chamada sem um token existente.
       refresh_token_updated_failed: "Erro durante a atualização do OAuthClientToken"
       oauth_client_not_found_explanation: >
-        Este erro aparece depois que você atualizou o client_id e client_secret no OpenProject, mas não atualizou o campo 'Return URI' no provedor OAuth2.
-      oauth_code_not_present: "O código OAuth2 não foi encontrado no parâmetro 'callback' (redirect_uri)."
+        Este erro é exibido após você atualizar o client_id e client_secret no OpenProject, mas não atualizar o campo 'Return URI' no provedor OAuth2.
+      oauth_code_not_present: "OAuth2 'code' não encontrado no ponto de extremidade 'callback' (redirect_uri)."
       oauth_code_not_present_explanation: >
-        Este erro aparece se você selecionou o parâmetro response_type errado no provedor OAuth2. A resposta _type deve ser 'código' ou similar.
-      oauth_state_not_present: "OAuth2 'state' não encontrado no endpoint 'callback' (redirect_uri)."
+        Este erro é exibido quando você seleciona o response_type incorreto no provedor OAuth2. Resposta _type deve ser 'code' ou similar.
+      oauth_state_not_present: "OAuth2 'state' não encontrado no ponto de extremidade 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
-        O 'state' é usado para indicar ao OpenProject onde continuar após uma autorização OAuth2 bem-sucedida. Um 'state' ausente é um erro interno que pode aparecer durante a configuração. Por favor contate o administrador do sistema.
+        O 'state' é utilizado para indicar ao OpenProject onde continuar após uma autorização OAuth2 bem-sucedida. Um 'state' ausente é um erro interno que pode aparecer durante a configuração. Entre em contate com seu administrador de sistema.
       rack_oauth2:
         client_secret_invalid: "Segredo do cliente inválido (client_secret_invalid)"
         invalid_request: >
-          O Servidor de Autorização do OAuth2 respondeu com 'invalid_request'. Este erro aparece se você tentar autorizar várias vezes ou em caso de problemas técnicos.
-        invalid_response: "O Servidor de Autorização OAuth2 forneceu uma resposta inválida (invalid_response)"
-        invalid_grant: "O Servidor de Autorização OAuth2 pede a você para reautorizar (invalid_grant)."
-        invalid_client: "O Servidor de Autorização OAuth2 não reconhece o OpenProject (invalid_client)."
-        unauthorized_client: "O Servidor de Autorização OAuth2 rejeita o tipo de concessão (unauthorized_client)"
-        unsupported_grant_type: "O Servidor de Autorização OAuth2 pede a você para reautorizar (unported_grant_type)."
-        invalid_scope: "Você não tem permissão para acessar o recurso solicitado (invalid_scope)."
+          O Servidor de Autorização do OAuth2 respondeu com 'invalid_request'. Este erro aparece se você realizar várias tentativas de autorização ou em caso de problemas técnicos.
+        invalid_response: "O Servidor de Autorização do OAuth2 forneceu uma resposta inválida (invalid_response)"
+        invalid_grant: "O Servidor de Autorização do OAuth2 solicita que você autorize novamente (invalid_grant)."
+        invalid_client: "O Servidor de Autorização do OAuth2 não reconhece o OpenProject (invalid_client)."
+        unauthorized_client: "O Servidor de Autorização do OAuth2 rejeita o tipo de concessão (unauthorized_client)"
+        unsupported_grant_type: "O Servidor de Autorização do OAuth2 solicita que você autorize novamente (unported_grant_type)."
+        invalid_scope: "Você não possui permissão para acessar o recurso solicitado (invalid_scope)."
   http:
     request:
-      failed_authorization: "A solicitação do lado do servidor falhou ao se autorizar."
-      missing_authorization: "A solicitação do lado do servidor falhou devido à falta de informações de autorização."
+      failed_authorization: "A solicitação do servidor não conseguiu se autorizar."
+      missing_authorization: "A solicitação do servidor não foi concluída devido à falta de informações de autorização."
     response:
       unexpected: "Resposta inesperada recebida."
   you: você
