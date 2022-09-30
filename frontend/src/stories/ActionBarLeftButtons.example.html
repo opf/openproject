@@ -10,9 +10,14 @@
     >Save</button>
   </div>
   <div class="spot-action-bar--right">
-    <label class="spot-action-bar--action">
-      Remember this choice
-      <spot-checkbox></spot-checkbox>
-    </label>
+    <spot-selector-field
+      class="spot-action-bar--action"
+      [label]="'Remember this choice'"
+    >
+      <spot-checkbox
+        slot="input"
+        class="spot-checkbox"
+      ></spot-checkbox>
+    </spot-selector-field>
   </div>
 </div>

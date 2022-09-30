@@ -1,11 +1,14 @@
 <div class="spot-action-bar spot-action-bar_transparent">
   <div class="spot-action-bar--left">
-    <a
-      class="spot-link spot-action-bar--action"
-      href="#"
+    <spot-selector-field
+      class="spot-action-bar--action"
+      [label]="'Remember this choice'"
     >
-      <span>Side action</span>
-    </a>
+      <spot-checkbox
+        slot="input"
+        class="spot-checkbox"
+      ></spot-checkbox>
+    </spot-selector-field>
   </div>
   <div class="spot-action-bar--right">
     <button
