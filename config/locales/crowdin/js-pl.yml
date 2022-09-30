@@ -859,7 +859,7 @@ pl:
         click_on_show_relations_to_open_gantt: 'Kliknij "%{button_name}", aby wyświetlić wykres GANTTa.'
         show_relations: 'Pokaż relacje'
         ignore_non_working_days:
-          title: 'Working days only'
+          title: 'Tylko dni robocze'
       description_filter: "Filtr"
       description_enter_text: "Wpisz tekst"
       description_options_hide: "Ukryj opcje"
@@ -1188,7 +1188,7 @@ pl:
         next_button: 'Następny'
       message:
         label: 'Wiadomość z zaproszeniem'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
+        description: 'Wyślemy do użytkownika wiadomość e-mail, do której możesz tutaj dodać prywatną wiadomość. Może to być wyjaśnienie zaproszenia lub ułatwiające rozpoczęcie pracy informacje na temat projektu.'
         next_button: 'Następny'
       summary:
         next_button: 'Wyślij zaproszenie'

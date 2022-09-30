@@ -78,14 +78,10 @@ RSpec.configure do |config|
 
   config.before(:suite) do |_example|
     Delayed::Worker.delay_jobs = false
-
-    OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'
   end
 
   config.before(:each) do
     reset_global_state!
-
-    initialize_attachments
 
     I18n.locale = 'en'
   end

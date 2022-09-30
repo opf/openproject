@@ -26,9 +26,9 @@ pt:
       loading: "Carregando…"
       updating: "Atualizando…"
     attachments:
-      delete: "Delete attachment"
+      delete: "Excluir anexo"
       delete_confirmation: |
-        Are you sure you want to delete this file? This action is not reversible.
+        Tem certeza de que deseja excluir este arquivo? Esta ação é irreversível.
       draggable_hint: |
         Arraste sobre o campo do editor para incorporar uma imagem ou referenciar um anexo. Campos do editor fechados serão abertos enquanto você continuar arrastando.
     autocomplete_select:
@@ -85,10 +85,10 @@ pt:
     button_open_fullscreen: "Abrir visualização em tela cheia"
     button_show_cards: "Mostrar cartão"
     button_show_list: "Mostrar lista"
-    button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
+    button_show_table: "Mostra exibição de tabela"
+    button_show_gantt: "Mostra exibição de Gantt"
+    button_show_fullscreen: "Mostra exibição em tela cheia"
+    button_more_actions: "Mais ações"
     button_quote: "Citar"
     button_save: "Salvar"
     button_settings: "Configurações"
@@ -158,7 +158,7 @@ pt:
           language_hint: 'Informe a linguagem de formatação que será usada para destacar (se suportado).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Choose macro'
+          chose_macro: 'Escolher macro'
         toc: 'Tabela de conteúdos'
         toolbar_help: 'Clique para selecionar o widget e mostrar a barra de ferramentas. Clique duas vezes para editar o widget'
         wiki_page_include:
@@ -211,7 +211,7 @@ pt:
             label_expires_at: "Expira em"
             receive_newsletter: Quero receber o <a target="_blank" href="%{link}">boletim informativo</a> do OpenProject.
             taken_domain: Pode haver somente uma avaliação ativa por domínio.
-            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            domain_mismatch: O nome do host da solicitação atual não corresponde ao nome do host configurado. Verifique novamente as configurações de seu sistema.
             taken_email: Cada usuário pode criar somente uma avaliação.
           email_not_received: "Não recebeu um e-mail? Você pode reenviá-lo através do link à direita."
           try_another_email: "Ou tente com outro endereço de e-mail."
@@ -238,7 +238,7 @@ pt:
             professional_support: "Suporte profissional"
             professional_support_text: "Receba suporte confiável de alto nível de engenheiros sênior, com conhecimento especializado sobre a gestão do OpenProject em ambientes de negócios críticos."
           button_start_trial: "Iniciar avaliação gratuita"
-          button_upgrade: "Atualizar agora"
+          button_upgrade: "Faça o upgrade agora"
           button_book_now: "Reservar agora"
           confidence: >
             Fornecemos toda a segurança de um software de gestão de projetos de classe empresarial, testado e com suporte - com código aberto e mente aberta.
@@ -300,11 +300,11 @@ pt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                A versão possui vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Defina sua semana de trabalho global (finais de semana e dias não-úteis da semana).</li> <li>Calcule a duração com base nas datas de início e conclusão e da possibilidade de considerar dias não-úteis (finais de semana) no planejamento.</li> <li>Adicione dicas de ferramentas úteis às ações mais importantes.</li> <li>Copiar um projeto também copiará os links de arquivos para todos os pacotes de trabalho.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                A versão possui vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Defina sua semana de trabalho global (finais de semana e dias não-úteis da semana).</li> <li>Calcule a duração com base nas datas de início e conclusão e da possibilidade de considerar dias não-úteis (finais de semana) no planejamento.</li> <li>Adicione dicas de ferramentas úteis às ações mais importantes.</li> <li>Copiar um projeto também copiará os links de arquivos para todos os pacotes de trabalho.</li> </ul>
     label_activate: "Ativar"
     label_assignee: 'Atribuído para'
     label_add_column_after: "Adicionar coluna depois"
@@ -409,7 +409,7 @@ pt:
     label_per_page: "Por página:"
     label_please_wait: "Por favor, aguarde"
     label_project: "Projeto"
-    label_project_list: "Lista de Projetos"
+    label_project_list: "Lista de projetos"
     label_project_plural: "Projetos"
     label_visibility_settings: "Configurações de visibilidade"
     label_quote_comment: "Citar este comentário"
@@ -498,7 +498,7 @@ pt:
         next: 'Próxima'
         got_it: 'Entendi'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'O menu Ajuda (?) oferece <b>recursos adicionais de ajuda</b>. Aqui você pode encontrar um guia do usuário, vídeos de ajuda úteis e muito mais. <br> Desfrute de seu trabalho com o OpenProject!'
         members: 'Convide novos <b>membros</b> para participar de seu projeto.'
         project_selection: 'Clique em um dos projetos de demonstração que preparamos. Os dados de demonstração atualmente estão disponíveis somente em inglês. <br> O geral <b>projeto demo</b> é mais adequado para gerenciamento de projeto clássico, enquanto o <b>projeto Scrum</b> é melhor para gerenciamento de projeto ágil.'
         quick_add_button: 'Clique no ícone mais (+) no menu de navegação para <b>criar um novo projeto</b> ou para <b>convidar colegas de trabalho</b>.'
@@ -539,16 +539,16 @@ pt:
         watched: 'observado'
         assigned: 'atribuído'
         responsible: 'responsável'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'criado'
+        scheduled: 'planejado'
+        commented: 'comentado'
+        processed: 'processado'
+        prioritized: 'priorizado'
       facets:
         unread: 'Não lido'
-        unread_title: 'Show unread'
+        unread_title: 'Mostrar não lidas'
         all: 'Todos'
-        all_title: 'Show all'
+        all_title: 'Mostrar todas'
       center:
         and_more_users:
           one: 'e 1 outro'
@@ -591,7 +591,7 @@ pt:
           work_package_created: 'Novos pacotes de trabalho'
           work_package_processed: 'Todas as mudanças de situação'
           work_package_prioritized: 'Todas as mudanças de prioridade'
-          work_package_scheduled: 'Todas as mudanças de data'
+          work_package_scheduled: 'Todas as alterações de data'
         global:
           immediately:
             title: 'Notifique-me imediatamente'
@@ -617,7 +617,7 @@ pt:
       default: '-'
       subject: 'Informe o assunto aqui'
       selection: 'Por favor selecione'
-      description: 'Description: Click to edit...'
+      description: 'Descrição: Clique em editar...'
       relation_description: 'Clique para adicionar a descrição para esta relação'
     project:
       required_outside_context: >
@@ -748,7 +748,7 @@ pt:
     field_value_enter_prompt: "Insira um valor para '%{field}'"
     project_menu_details: "Detalhes"
     scheduling:
-      manual: 'Agendamento manual'
+      manual: 'Planejamento manual'
     sort:
       sorted_asc: 'Ordenação crescente aplicada, '
       sorted_dsc: 'Ordenação decrescente aplicada, '
@@ -770,7 +770,7 @@ pt:
         farRight: 'Extrema direita'
         showNone: '-- Sem rótulo --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Selecione os atributos que você deseja que sejam exibidos nas respectivas posições do gráfico de Gantt em todos os momentos. esteja ciente de que ao passar sobre um elemento, seus marcadores de data serão exibidos ao invés destes atributos.
       button_activate: 'Exibir gráfico de Gantt'
       button_deactivate: 'Ocultar gráfico de Gantt'
       cancel: Cancelar
@@ -849,14 +849,14 @@ pt:
       comment_updated: "O comentário foi atualizado com sucesso."
       confirm_edit_cancel: "Tem certeza que deseja cancelar a edição do pacote de trabalho?"
       datepicker_modal:
-        automatically_scheduled_parent: "Agendado automaticamente. As datas são derivadas das vinculações."
-        manually_scheduled: "Agendamento manual habilitado, todas as vinculações ignoradas."
-        start_date_limited_by_relations: "Datas de início e término disponíveis são limitadas pelas vinculações."
-        changing_dates_affects_follow_relations: "Alterar essas datas afetará datas de pacotes de trabalho relacionados."
-        click_on_show_relations_to_open_gantt: 'Clique em "%{button_name}" para a visão geral do GANTT.'
-        show_relations: 'Mostrar vinculos'
+        automatically_scheduled_parent: "Planejado automaticamente. As datas são derivadas das relações."
+        manually_scheduled: "Planejamento manual habilitado, todas as relações são ignoradas."
+        start_date_limited_by_relations: "As datas de início e de conclusão disponíveis são limitadas pelas relações."
+        changing_dates_affects_follow_relations: "A alteração dessas datas afetará as datas de pacotes de trabalho relacionados."
+        click_on_show_relations_to_open_gantt: 'Clique em "%{button_name}" para ter uma visão geral do GANTT.'
+        show_relations: 'Mostrar relações'
         ignore_non_working_days:
-          title: 'Working days only'
+          title: 'Apenas dias úteis'
       description_filter: "Filtro"
       description_enter_text: "Inserir texto"
       description_options_hide: "Ocultar opções"
@@ -877,7 +877,7 @@ pt:
       message_work_package_status_blocked: "A situação do pacote de trabalho não é gravável devido a situação fechada e a versão fechada."
       placeholder_filter_by_text: "Assunto, descrição, comentários, ..."
       filters:
-        title: 'Filter work packages'
+        title: 'Filtrar pacotes de trabalho'
       inline_create:
         title: 'Clique aqui para adicionar um novo pacote de trabalho a esta lista'
       create:
@@ -914,7 +914,7 @@ pt:
         description: "Descrição"
         date: "Data"
         dueDate: "Data de conclusão"
-        duration: "Duration"
+        duration: "Duração"
         estimatedTime: "Tempo estimado"
         spentTime: "Tempo gasto"
         category: "Categoria"
@@ -972,8 +972,8 @@ pt:
           duplicate_query_title: "O nome desta visão já existe. Modificar assim mesmo?"
         text_no_results: "Nenhuma visão correspondente foi encontrada."
       scheduling:
-        is_parent: "As datas deste pacote de trabalho são deduzidas automaticamente de seus filhos. Ative o 'Agendamento manual' para definir as datas."
-        is_switched_from_manual_to_automatic: "As datas deste pacote de trabalho podem precisar ser recalculadas após mudar de agendamento manual para automático devido a relações com outros pacotes de trabalho."
+        is_parent: "As datas deste pacote de trabalho são deduzidas automaticamente de seus filhos. Ative o 'Planejamento manual' para definir as datas."
+        is_switched_from_manual_to_automatic: "As datas deste pacote de trabalho podem precisar ser recalculadas após a alteração de planejamento manual para automático devido a relações com outros pacotes de trabalho."
       table:
         configure_button: 'Configurar a tabela de pacote de trabalho'
         summary: "Tabela com linhas de pacote de trabalho e colunas com atributos do pacote de trabalho."
@@ -1051,14 +1051,14 @@ pt:
       button_save: "Salvar"
       button_submit: "Enviar"
       button_cancel: "Cancelar"
-      button_delete: "Delete"
+      button_delete: "Excluir"
       form_submit:
         title: 'Confirme para continuar'
         text: 'Tem certeza de que deseja executar esta ação?'
       destroy_work_package:
         title: "Confirmar exclusão do %{label}"
-        single_text: "Are you sure you want to delete the work package"
-        bulk_text: "Are you sure you want to delete the following %{label}?"
+        single_text: "Tem certeza de que deseja excluir o pacote de trabalho?"
+        bulk_text: "Você tem certeza de que deseja excluir o seguinte %{label}?"
         has_children: "O pacote de trabalho tem %{childUnits}:"
         confirm_deletion_children: "Tenho conhecimento que TODOS os descendentes dos pacotes de trabalho listados serão removidos recursivamente."
         deletes_children: "Todos os pacotes de trabalho filhos e seus descendentes também serão excluídos recursivamente."
@@ -1176,13 +1176,13 @@ pt:
       role:
         label: 'Papel em %{project}'
         no_roles_found: 'Nenhum papel encontrado'
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Esta é a função que o usuário receberá ao ingressar em seu projeto. A função define quais ações  podem ser realizadas e quais informações podem ser visualizadas. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Saiba mais sobre as funções e permissões. </a>'
         required: 'Selecione um papel'
         next_button: 'Próxima'
       message:
         label: 'Mensagem de convite'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        description: 'Enviaremos um e-mail para o usuário, à qual você pode adicionar uma mensagem pessoal por aqui. Uma explicação para o convite pode se útil, ou talvez algumas informações sobre o projeto para ajudá-lo a começar.'
+        next_button: 'Avançar'
       summary:
         next_button: 'Enviar convite'
       success:
@@ -1203,7 +1203,7 @@ pt:
       search_placeholder: 'Pesquisar projetos...'
       include_subprojects: 'Incluir todos os subprojetos'
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
+        include_all_selected: 'Como a opção Incluir todos os sub-projetos está habilitada, o projeto já foi incluído.'
         current_project: 'Este é o projeto atual em que você está.'
         does_not_match_search: 'O projeto não corresponde ao critério de pesquisa'
       no_results: 'Nenhum projeto corresponde ao seu critério de busca.'

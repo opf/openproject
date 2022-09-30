@@ -3,9 +3,9 @@ uk:
   js:
     team_planner:
       add_existing: 'Додати наявний'
-      add_existing_title: 'Add existing work packages'
-      create_label: 'Team planner'
-      create_title: 'Create new team planner'
+      add_existing_title: 'Додати наявні пакети робіт'
+      create_label: 'Командний планувальник'
+      create_title: 'Створити новий командний планувальник'
       unsaved_title: 'Командний планувальник без назви'
       no_data: 'Додайте виконавців, щоб налаштувати свій командний планувальник.'
       add_assignee: 'Додати виконавця'
