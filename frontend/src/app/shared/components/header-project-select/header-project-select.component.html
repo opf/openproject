@@ -70,25 +70,19 @@
       <div class="spot-action-bar">
         <div class="spot-action-bar--right">
           <a
-            class="button button_no-margin spot-action-bar--action"
+            class="button spot-action-bar--action"
             [href]="allProjectsPath()"
           >
-            <i class="button--icon spot-icon spot-icon_unordered-list"></i>
-            <span
-              class="button--text"
-              [textContent]="text.project.list"
-            ></span>
+            <span class="spot-icon spot-icon_unordered-list"></span>
+            <span [textContent]="text.project.list"></span>
           </a>
           <a
             *ngIf="canCreateNewProjects$ | async"
-            class="button button_no-margin -alt-highlight spot-action-bar--action"
+            class="button -alt-highlight spot-action-bar--action"
             [href]="newProjectPath()"
           >
-            <i class="button--icon spot-icon spot-icon_add"></i>
-            <span
-              class="button--text"
-              [textContent]="text.project.singular"
-            ></span>
+            <span class="spot-icon spot-icon_add"></span>
+            <span [textContent]="text.project.singular"></span>
           </a>
         </div>
       </div>

@@ -49,6 +49,7 @@ module.exports = {
           "error",
           { "type": "element", "prefix": ["op", "spot"], "style": "kebab-case" }
         ],
+        "@angular-eslint/component-class-suffix": ["error", { "suffixes": ["Component", "Example"] }],
 
         // Warn when new components are being created without OnPush
         "change-detection-strategy/on-push": "error",

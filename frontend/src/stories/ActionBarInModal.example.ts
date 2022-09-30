@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  templateUrl: './ActionBarLeftButtons.example.html',
+  templateUrl: './ActionBarInModal.example.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SbActionBarLeftButtonsExample { }
+export class SbActionBarInModalExample {}
