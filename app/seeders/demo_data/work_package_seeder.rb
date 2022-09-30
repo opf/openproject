@@ -146,7 +146,11 @@ module DemoData
     end
 
     def set_time_tracking_attributes!(wp_attr, attributes)
-      wp_attr.merge!(TimeTrackingAttributes.for(attributes))
+      wp_attr.merge!(time_tracking_attributes(attributes))
+    end
+
+    def time_tracking_attributes(attributes)
+      TimeTrackingAttributes.for(attributes)
     end
 
     def set_backlogs_attributes!(wp_attr, attributes)
