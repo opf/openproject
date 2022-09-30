@@ -3,6 +3,7 @@ import { Canvas, Meta, Story } from '@storybook/addon-docs';
 
 import { OpSpotModule } from '../app/spot/spot.module';
 import { SbActionBarExample } from './ActionBar.example';
+import { SbActionBarInModalExample } from './ActionBarInModal.example';
 import { SbActionBarLeftButtonsExample } from './ActionBarLeftButtons.example';
 import { SbActionBarTransparentExample } from './ActionBarTransparent.example';
 import { SbActionBarNoSideOptionExample } from './ActionBarNoSideOption.example';
@@ -27,7 +28,11 @@ import { SbActionBarMoreButtonsExample } from './ActionBarMoreButtons.example';
 
 # Action Bar
 
-> Example of action bar in a modal
+<Canvas>
+  <Story name="Example in Modal">
+    {{ component: SbActionBarInModalExample }}
+  </Story>
+</Canvas>
 
 The action bar is generally used at the bottom of modals to present the user with a set of actions. These actions are often relative to choices or selections made in the containing modal.
 
