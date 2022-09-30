@@ -38,6 +38,8 @@ The action bar is generally used at the bottom of modals to present the user wit
 
 The most common choices are "Save/apply" and "Cancel".  At least one button (Cancel) is the absolute minimum.
 
+Above, you see an action bar embedded inside a modal dialogue.
+
 ## Composition
 
 The action bar is composed of:
@@ -67,15 +69,18 @@ There are however alternative variants:
 
 **Left buttons**
 
+The button set can be moved to the left, placing the side action on the right. This should be used sparingly and only if absolutely necessary.
+
 <Canvas>
   <Story name="Left Buttons">
     {{ component: SbActionBarLeftButtonsExample }}
   </Story>
 </Canvas>
 
-The button set can be moved to the left, placing the side action on the right. This should be used sparingly and only if absolutely necessary.
 
 **Transparent background**
+
+The transparent background is useful for when having the action bar in grey (default) does not work visually. The transparent version will simply take the background colour of the element in which it is contained, usually white.
 
 <Canvas>
   <Story name="Transparent">
@@ -83,11 +88,12 @@ The button set can be moved to the left, placing the side action on the right. T
   </Story>
 </Canvas>
 
-The transparent background is useful for when having the action bar in grey (default) does not work visually. The transparent version will simply take the background colour of the element in which it is contained, usually white.
 
 ## Options
 
 **Side options**
+
+The side option is, as the name suggests, optional. An action bar can simply be empty on one side, like so:
 
 <Canvas>
   <Story name="No side option">
@@ -95,9 +101,9 @@ The transparent background is useful for when having the action bar in grey (def
   </Story>
 </Canvas>
 
-The side option is, as the name suggests, optional.
-
 **More buttons**
+
+The action bar can also be composed of up to three action buttons. Should there be more than three actions to be made available to the user, the third button will be a “More” button opens a drop-down with additional options.
 
 <Canvas>
   <Story name="More buttons">
@@ -105,7 +111,6 @@ The side option is, as the name suggests, optional.
   </Story>
 </Canvas>
 
-The action bar can also be composed of up to three action buttons. Should there be more than three actions to be made available to the user, the third button will be a “More” button opens a drop-down with additional options.
 
 ## Behaviour
 
