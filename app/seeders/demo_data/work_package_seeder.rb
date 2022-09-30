@@ -149,9 +149,9 @@ module DemoData
       start_date = calculate_start_date(attributes[:start])
 
       wp_attr[:start_date] = start_date
-      wp_attr[:due_date] = calculate_due_date(start_date, attributes[:duration]) if start_date && attributes[:duration]
-      wp_attr[:duration] = attributes[:duration] || 1
-      wp_attr[:done_ratio] = attributes[:done_ratio].to_i if attributes[:done_ratio]
+      wp_attr[:due_date] = calculate_due_date(start_date, attributes[:duration])
+      wp_attr[:ignore_non_working_days] = calculate_ignore_non_working_days(wp_attr)
+      wp_attr[:duration] = calculate_duration(wp_attr)
       wp_attr[:estimated_hours] = attributes[:estimated_hours].to_i if attributes[:estimated_hours]
     end
 
@@ -205,10 +205,26 @@ module DemoData
       Time.zone.today.monday + (days_ahead || 0).days
     end
 
-    # Returns the due date based on the starting date and the duration
-    # but ensures that the due date cannot be before the start date.
+    # Returns the due date based on the starting date and the duration.
     def calculate_due_date(date, duration)
-      [date + ((duration || 0) - 1).days, date].max
+      WorkPackages::Shared::AllDays.new.due_date(date, duration)
+    end
+
+    def calculate_ignore_non_working_days(work_package_attributes)
+      work_package_attributes
+        .values_at(:start_date, :due_date)
+        .compact
+        .any? { |date| working_days.non_working?(date) }
+    end
+
+    def calculate_duration(work_package_attributes)
+      start_date, due_date, ignore_non_working_days = work_package_attributes.values_at(:start_date, :due_date, :ignore_non_working_days)
+      days = WorkPackages::Shared::Days.for_ignore_non_working_days(ignore_non_working_days)
+      days.duration(start_date, due_date)
+    end
+
+    def working_days
+      @working_days ||= WorkPackages::Shared::WorkingDays.new
     end
   end
 end

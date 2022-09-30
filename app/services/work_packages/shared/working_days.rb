@@ -82,6 +82,10 @@ module WorkPackages
         working_week_day?(date) && working_specific_date?(date)
       end
 
+      def non_working?(date)
+        !working?(date)
+      end
+
       private
 
       def assert_strictly_positive_duration(duration)

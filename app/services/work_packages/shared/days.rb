@@ -31,7 +31,11 @@ module WorkPackages
     class Days
       # Returns the right day computation instance for the given instance.
       def self.for(work_package)
-        work_package.ignore_non_working_days ? AllDays.new : WorkingDays.new
+        for_ignore_non_working_days(work_package.ignore_non_working_days)
+      end
+
+      def self.for_ignore_non_working_days(ignore_non_working_days)
+        ignore_non_working_days ? AllDays.new : WorkingDays.new
       end
     end
   end
