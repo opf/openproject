@@ -28,14 +28,30 @@
 
 module API::V3::StorageFiles
   class StorageFilesAPI < ::API::OpenProjectAPI
+    helpers do
+      def handle_files_error(files)
+        case files.result
+        when :not_found
+          raise API::Errors::NotFound.new
+        when :not_authorized
+          raise API::Errors::Unauthorized.new
+        else
+          raise API::Errors::InternalError.new
+        end
+      end
+    end
+
     resources :files do
       get do
-        files_query = ::API::V3::Utilities::StorageRequests
-                        .new(storage: @storage)
-                        .files_query(user: current_user)
+        files = ::API::V3::Utilities::StorageRequests
+                  .new(storage: @storage)
+                  .files_query(user: current_user)
+                  .call
+                  .on_failure { |r| handle_files_error(r) }
+                  .result
 
         ::API::V3::StorageFiles::StorageFileCollectionRepresenter.new(
-          files_query.call,
+          files,
           self_link: api_v3_paths.storage_files(@storage.id),
           current_user:
         )

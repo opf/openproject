@@ -21,14 +21,10 @@ module API::V3::Utilities::StorageInteraction
           }
         )
 
-        if %w[401 403].include?(response.code)
-          ServiceResult.failure(result: :not_authorized)
-        else
-          ServiceResult.success(result: response.body)
-        end
+        response.is_a?(Net::HTTPSuccess) ? ServiceResult.success(result: response.body) : error(response)
       end
 
-      parse_response(result)
+      storage_files(result)
     end
 
     private
@@ -50,13 +46,24 @@ module API::V3::Utilities::StorageInteraction
       end.to_xml
     end
 
-    def parse_response(response)
-      return response unless response.success
+    def error(response)
+      case response
+      when Net::HTTPNotFound
+        ServiceResult.failure(result: :not_found)
+      when Net::HTTPUnauthorized
+        ServiceResult.failure(result: :not_authorized)
+      else
+        ServiceResult.failure(result: :error)
+      end
+    end
 
-      Nokogiri::XML(response.result)
-        .xpath('//d:response')
-        .drop(1) # drop current directory
-        .map { |file_element| storage_file(file_element) }
+    def storage_files(response)
+      response.map do |xml|
+        Nokogiri::XML(xml)
+          .xpath('//d:response')
+          .drop(1) # drop current directory
+          .map { |file_element| storage_file(file_element) }
+      end
     end
 
     def storage_file(file_element)
