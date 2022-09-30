@@ -37,7 +37,7 @@ uk:
         enabled_text: 'Вебгук випускатиме корисні дані для визначених подій нижче.'
         disabled_text: 'Натисніть кнопку редагування, щоб активувати вебгук.'
       deliveries:
-        no_results_table: No deliveries have been made for this webhook in the past days.
+        no_results_table: Для цього вебгуку не виконано жодної доставки.
         title: 'Останні події'
         time: 'Час доставки'
       form:

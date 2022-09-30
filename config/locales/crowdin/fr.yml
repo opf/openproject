@@ -67,8 +67,8 @@ fr:
       upgrade_to_ee: "Passer à la version Entreprise"
       add_token: "Charger une licence de la version Entreprise"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
-        title: "Delete token"
+        text: "Voulez-vous vraiment supprimer le jeton actuel de l'édition Enterprise ?"
+        title: "Supprimer le jeton"
       replace_token: "Remplacer votre licence actuelle"
       order: "Commander l'édition Enterprise autohebergé"
       paste: "Coller votre licence de la version Entreprise"
@@ -734,8 +734,8 @@ fr:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
-              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
+              working_days_are_missing: 'Au moins un jour de la semaine doit être défini comme jour de travail.'
+              previous_working_day_changes_unprocessed: 'Les modifications précédentes de la configuration des jours ouvrables n''ont pas encore été appliquées.'
         time_entry:
           attributes:
             hours:
@@ -1935,7 +1935,7 @@ fr:
   label_workflow: "Flux de travail"
   label_workflow_plural: "Flux de travail"
   label_workflow_summary: "Résumé"
-  label_working_days: "Working days"
+  label_working_days: "Journées de travail"
   label_x_closed_work_packages_abbr:
     one: "1 fermée"
     other: "%{count} fermées"
@@ -1996,7 +1996,7 @@ fr:
       center: 'Vers le centre de notifications'
       see_in_center: 'Voir le commentaire dans le centre de notifications'
       settings: 'Modifier les paramètres d''e-mail'
-    salutation: 'Hello %{user}'
+    salutation: 'Bonjour %{user}'
     work_packages:
       created_at: 'Créé le %{timestamp} par %{user} '
       login_to_see_all: 'Connectez-vous pour voir toutes les notifications.'

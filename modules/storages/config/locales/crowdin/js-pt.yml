@@ -25,6 +25,6 @@ pt:
         open_location: 'Abrir arquivo no local'
         remove: "Remover link de arquivo"
         remove_confirmation: >
-          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
-        remove_short: "Remove link"
-        not_allowed_tooltip: "Please log in to Nextcloud to access this file"
+          tem certeza de que deseja desvincular o arquivo deste pacote de trabalho? A desvinculação não afeta o arquivo original e só remove a conexão com este pacote de trabalho.
+        remove_short: "Remover link"
+        not_allowed_tooltip: "Faça o login no Nextcloud para acessar este arquivo"
