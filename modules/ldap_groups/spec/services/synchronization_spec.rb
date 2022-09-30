@@ -284,15 +284,18 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
         synced_foo
       end
 
-      it 'ignores users that are already in the group' do
-        # Outputs that nothing was added to sync group
-        expect(Rails.logger).to receive(:info).with("[LDAP groups] No users to remove for cn=foo,ou=groups,dc=example,dc=com")
-        expect(Rails.logger).to receive(:info).with("[LDAP groups] No new users to add for cn=foo,ou=groups,dc=example,dc=com")
+      it 'takes over users that are in LDAP' do
+        membership = LdapGroups::Membership.find_by user: user_aa729, group: group_foo
+        expect(membership).not_to be_present
 
         subject
 
-        # Does not add to synced group since added manually
-        expect(synced_foo.users.count).to eq(0)
+        # Adds a membership for that user
+        expect(synced_foo.reload.users.count).to eq(1)
+        expect(group_foo.group_users.count).to eq(1)
+
+        membership = LdapGroups::Membership.find_by user: user_aa729, group: synced_foo
+        expect(membership).to be_present
       end
     end
   end
