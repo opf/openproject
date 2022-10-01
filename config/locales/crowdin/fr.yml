@@ -2175,7 +2175,7 @@ fr:
           tb: "To"
   onboarding:
     heading_getting_started: "Avoir une vue d’ensemble"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
+    text_getting_started_description: "Obtenez un aperçu rapide de la gestion de projet et de la collaboration en équipe avec OpenProject. Vous pouvez redémarrer cette vidéo à partir du menu d'aide."
     welcome: "Bienvenue sur %{app_title}"
     select_language: "Veuillez sélectionner votre langue"
   permission_add_work_package_notes: "Ajouter des notes"
@@ -2567,7 +2567,7 @@ fr:
   text_access_token_hint: "Les jetons d'accès vous permettent d'octroyer aux applications externes un accès aux ressources dans OpenProject."
   text_analyze: "Analyse suivante: %{subject}"
   text_are_you_sure: "Êtes-vous sûr ?"
-  text_are_you_sure_continue: "Are you sure you want to continue?"
+  text_are_you_sure_continue: "Voulez-vous vraiment continuer ?"
   text_are_you_sure_with_children: "Supprimer le lot de travaux et tous les lots de travaux enfants ?"
   text_assign_to_project: "Assigner le projet"
   text_form_configuration: >
@@ -2916,15 +2916,15 @@ fr:
       title: "Supprimer le lot de travaux"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
-    change_button: "Change working days"
+      <b>Définissez les jours ouvrables de la semaine</b><br/> Les jours non ouvrables sont ignorés lors de la planification des lots de travaux et sont exclus lors du calcul de la durée. Cela peut être remplacé au niveau du lot de travaux.
+    change_button: "Changer les jours ouvrables"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      La modification des jours de la semaine considérés comme des jours de travail peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas.
     journal_note:
-      changed: _**Working days** changed (%{changes})._
+      changed: _**Jours ouvrables** modifiés (%{changes})._
       days:
-        working: "%{day} is now working"
-        non_working: "%{day} is now non-working"
+        working: "%{day} est maintenant un jour ouvrable"
+        non_working: "%{day} est maintenant un jour non ouvrable"
   nothing_to_preview: "Rien à afficher en apperçu"
   api_v3:
     attributes:

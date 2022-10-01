@@ -26,9 +26,9 @@ fr:
       loading: "Chargement…"
       updating: "Mise à jour…"
     attachments:
-      delete: "Delete attachment"
+      delete: "Supprimer la pièce jointe"
       delete_confirmation: |
-        Are you sure you want to delete this file? This action is not reversible.
+        Voulez-vous vraiment supprimer ce fichier ? Cette action est irréversible.
       draggable_hint: |
         Faites glisser le champ de l'éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l'éditeur seront ouverts tant que vous continuer à faire glisser.
     autocomplete_select:
@@ -85,10 +85,10 @@ fr:
     button_open_fullscreen: "Ouvrir l'affichage plein écran"
     button_show_cards: "Afficher la vue carte"
     button_show_list: "Afficher la vue liste"
-    button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
+    button_show_table: "Afficher la vue du tableau"
+    button_show_gantt: "Afficher la vue Gantt"
+    button_show_fullscreen: "Afficher la vue plein écran"
+    button_more_actions: "Plus d'actions"
     button_quote: "Citer"
     button_save: "Enregistrer"
     button_settings: "Paramètres"
@@ -301,11 +301,11 @@ fr:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Définissez votre semaine de travail globale (week-ends et jours non ouvrables de la semaine).</li> <li>Calculez la durée en fonction des dates de début et de fin et de la possibilité de considérer les jours non ouvrables (week-ends) dans la planification.</li> <li>Ajoutez des infobulles utiles aux actions les plus essentielles.</li> <li>La copie d'un projet copiera également les liens des fichiers attachés dans tous les lots de travaux.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Définissez votre semaine de travail globale (week-ends et jours non ouvrables de la semaine).</li> <li>Calculez la durée en fonction des dates de début et de fin et de la possibilité de considérer les jours non ouvrables (week-ends) dans la planification.</li> <li>Ajoutez des infobulles utiles aux actions les plus essentielles.</li> <li>La copie d'un projet copiera également les liens des fichiers attachés dans tous les lots de travaux.</li> </ul>
     label_activate: "Activer"
     label_assignee: 'Responsable'
     label_add_column_after: "Ajouter une colonne au-dessus"
@@ -547,9 +547,9 @@ fr:
         prioritized: 'priorisé'
       facets:
         unread: 'Non lu'
-        unread_title: 'Show unread'
+        unread_title: 'Afficher les messages non lus'
         all: 'Toutes'
-        all_title: 'Show all'
+        all_title: 'Afficher tout'
       center:
         and_more_users:
           one: 'et 1 autre'
@@ -857,7 +857,7 @@ fr:
         click_on_show_relations_to_open_gantt: 'Cliquez sur « %{button_name} » pour avoir une vue d''ensemble de GANTT.'
         show_relations: 'Afficher les relations'
         ignore_non_working_days:
-          title: 'Working days only'
+          title: 'Jours ouvrés seulement'
       description_filter: "Filtrer"
       description_enter_text: "Saisir texte"
       description_options_hide: "Masquer les options"
@@ -878,7 +878,7 @@ fr:
       message_work_package_status_blocked: "Le statut du lot de travail n'est pas modifiable en raison de la fermeture du statut et de la version assignés."
       placeholder_filter_by_text: "Objet, description, commentaires, ..."
       filters:
-        title: 'Filter work packages'
+        title: 'Filtrer les lots de travaux'
       inline_create:
         title: 'Cliquez ici pour ajouter un nouveau lot de travaux à cette liste'
       create:
@@ -1052,14 +1052,14 @@ fr:
       button_save: "Enregistrer"
       button_submit: "Envoyer"
       button_cancel: "Annuler"
-      button_delete: "Delete"
+      button_delete: "Supprimer"
       form_submit:
         title: 'Confirmez pour continuer'
         text: 'Êtes-vous sûr de vouloir effectuer cette action ?'
       destroy_work_package:
         title: "Confirmer la suppression de %{label}"
-        single_text: "Are you sure you want to delete the work package"
-        bulk_text: "Are you sure you want to delete the following %{label}?"
+        single_text: "Voulez-vous vraiment supprimer le lot de travaux"
+        bulk_text: "Voulez-vous vraiment supprimer le %{label} suivant ?"
         has_children: "Le lot de travaux a %{childUnits} :"
         confirm_deletion_children: "Je reconnais que TOUS les descendants des lots de travaux de la liste seront supprimés récursivement."
         deletes_children: "Tous les lots de travaux enfants et leurs descendants seront également supprimés récursivement."
@@ -1177,13 +1177,13 @@ fr:
       role:
         label: 'Rôle dans %{project}'
         no_roles_found: 'Aucun rôle trouvé.'
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'C''est le rôle que l''utilisateur recevra quand il rejoindra votre projet. Le rôle définit quelles actions il est autorisé à entreprendre et quelles informations il peut voir. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> En savoir plus sur les rôles et les permissions. </a>'
         required: 'Veuillez sélectionner un rôle'
         next_button: 'Suivante'
       message:
         label: 'Message d''invitation'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        description: 'Nous enverrons un e-mail à l''utilisateur, auquel vous pourrez ajouter un message personnel ici. Une explication concernant l''invitation pourrait être utile, ou peut-être quelques informations concernant le projet pour les aider à démarrer.'
+        next_button: 'Suivant'
       summary:
         next_button: 'Envoyer une invitation'
       success:

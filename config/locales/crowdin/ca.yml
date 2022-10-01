@@ -730,7 +730,7 @@ ca:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              working_days_are_missing: 'Almenys un dia de la setmana s''ha de definir com a dia laborable.'
               previous_working_day_changes_unprocessed: 'Els canvis anteriors a la configuració de dies laborals encara no s''han aplicat.'
         time_entry:
           attributes:
@@ -2906,7 +2906,7 @@ ca:
       title: "Suprimir el paquet de treball"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Defineix els dies laborals de la setmana</b><br/> Els dies no laborals s'ometen en planificar paquets de treball i estan exclosos en calcular duracions. Aquests poden ser ignorats en nivell de paquets de treball.
     change_button: "Canvia els dies laborals"
     warning: >
       Canviar quins dies de la setmana són laborals pot afectar les dates d'inici i final de tots els paquets de treball a tots els projectes en aquesta instància.
