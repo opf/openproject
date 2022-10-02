@@ -25,6 +25,6 @@ it:
         open_location: 'Apri file nella posizione'
         remove: "Rimuovi collegamento al file"
         remove_confirmation: >
-          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
-        remove_short: "Remove link"
-        not_allowed_tooltip: "Please log in to Nextcloud to access this file"
+          Vuoi davvero scollegare il file da questa macro-attività? Lo scollegamento non influisce sul file originale e rimuove solo la connessione a questa macro-attività.
+        remove_short: "Rimuovi collegamento"
+        not_allowed_tooltip: "Accedi a Nextcloud per accedere a questo file"
