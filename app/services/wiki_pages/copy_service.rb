@@ -29,6 +29,7 @@
 class WikiPages::CopyService
   include ::Shared::ServiceContext
   include Contracted
+  include ::Copy::Concerns::CopyAttachments
 
   attr_accessor :user,
                 :model,
@@ -40,18 +41,24 @@ class WikiPages::CopyService
     self.contract_class = contract_class
   end
 
-  def call(send_notifications: true, **attributes)
+  def call(send_notifications: true, attachments: true, **attributes)
     in_context(model, send_notifications) do
-      copy(attributes)
+      copy(attributes, attachments)
     end
   end
 
   protected
 
-  def copy(attribute_override)
+  def copy(attribute_override, attachments)
     attributes = copied_attributes(attribute_override)
 
-    create(attributes)
+    copied_call = create(attributes)
+
+    if copied_call.success? && attachments
+      copy_attachments('WikiPage', from_id: model.id, to_id: copied_call.result.id)
+    end
+
+    copied_call
   end
 
   def create(attributes)

@@ -74,7 +74,8 @@ module Projects::Copy
                      .new(user:, model: source_page, contract_class: WikiPages::CopyContract)
                      .call(wiki: target.wiki,
                            parent_id: new_parent_id,
-                           send_notifications: ActionMailer::Base.perform_deliveries)
+                           send_notifications: ActionMailer::Base.perform_deliveries,
+                           attachments: copy_attachments?)
 
       if service_call.success?
         service_call.result
@@ -124,6 +125,10 @@ module Projects::Copy
           copy.save
         end
       end
+    end
+
+    def copy_attachments?
+      (params.dig(:params, :only) || []).any? { |k| k.to_sym == :wiki_page_attachments }
     end
   end
 end
