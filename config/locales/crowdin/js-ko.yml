@@ -151,7 +151,7 @@ ko:
           language_hint: '강조 표시(지원되는 경우)에 사용할 서식 언어를 입력하세요.'
         dropdown:
           macros: '매크로'
-          chose_macro: 'Choose macro'
+          chose_macro: '매크로 선택'
         toc: '목차'
         toolbar_help: '위젯을 선택하고 도구 모음을 표시하려면 클릭하세요. 위젯을 편집하려면 두 번 클릭하세요.'
         wiki_page_include:
@@ -205,7 +205,7 @@ ko:
             label_expires_at: "에서 만료됨"
             receive_newsletter: OpenProject <a target="_blank" href="%{link}">뉴스레터</a>를 받아 보겠습니다.
             taken_domain: 도메인당 하나의 활성 평가판만 있어야 합니다.
-            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            domain_mismatch: 현재 요청 호스트 이름이 구성된 호스트 이름과 일치하지 않습니다. 시스템 설정을 다시 확인하세요.
             taken_email: 각 사용자는 하나의 평가판만 생성할 수 있습니다.
           email_not_received: "이메일을 받지 못하셨나요? 오른쪽의 링크로 이메일을 재전송할 수 있습니다. "
           try_another_email: "또는 다른 이메일 주소로 시도해보세요."
@@ -492,7 +492,7 @@ ko:
         next: '다음'
         got_it: '확인'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: '도움말(?) 메뉴에서 <b>기타 도움말 리소스</b>가 제공됩니다. 여기에서 사용자 가이드와 유용한 사용 방법 동영상 등을 찾아볼 수 있습니다. <br> OpenProject로 즐겁게 작업하세요!'
         members: '프로젝트에 참여할 새로운 <b>멤버</b>를 초대하세요.'
         project_selection: '준비된 데모 프로젝트 중 하나를 클릭하세요. 데모 데이터는 현재 영어로만 제공됩니다. <br> 일반 <b>데모 프로젝트</b>는 클래식 프로젝트 관리에 최적이지만, 애자일 프로젝트 관리에는 <b>스크럼 프로젝트</b>가 더 적합합니다.'
         quick_add_button: '헤더 탐색에서 더하기(+) 아이콘을 클릭하여 <b>새 프로젝트를 생성</b>하거나 <b>동료를 초대</b>하세요.'
@@ -533,11 +533,11 @@ ko:
         watched: '지켜본'
         assigned: '할당됨'
         responsible: '담당'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: '생성됨'
+        scheduled: '예약됨'
+        commented: '코멘트 작성됨'
+        processed: '처리됨'
+        prioritized: '우선 순위 지정됨'
       facets:
         unread: '읽지 않음'
         all: '모두'
@@ -762,7 +762,7 @@ ko:
         farRight: '맨 오른쪽'
         showNone: '-- 레이블 없음 --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          항상 Gantt 차트의 각 위치에 표시할 특성을 선택하세요. 요소를 가리키면 해당 특성 대신 날짜 레이블이 표시됩니다.
       button_activate: 'Gantt 차트 표시'
       button_deactivate: 'Gantt 차트 숨기기'
       cancel: 취소
@@ -1187,7 +1187,7 @@ ko:
       search_placeholder: '프로젝트 검색...'
       include_subprojects: '모든 하위 프로젝트 포함'
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
+        include_all_selected: '''모든 하위 프로젝트 포함''이 활성화되어 있으므로 프로젝트가 이미 포함되어 있습니다.'
         current_project: '작업 중인 현재 프로젝트입니다.'
         does_not_match_search: '프로젝트가 검색 기준과 일치하지 않습니다.'
       no_results: '검색 기준과 일치하는 프로젝트가 없습니다.'

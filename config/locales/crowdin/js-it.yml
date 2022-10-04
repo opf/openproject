@@ -151,7 +151,7 @@ it:
           language_hint: 'Specifica il linguaggio di formattazione che verrà utilizzato per evidenziare (se supportato).'
         dropdown:
           macros: 'Macro'
-          chose_macro: 'Choose macro'
+          chose_macro: 'Scegli macro'
         toc: 'Indice'
         toolbar_help: 'Clicca per selezionare widget e visualizzare la barra degli strumenti. Fai doppio clic per modificare i widget'
         wiki_page_include:
@@ -205,7 +205,7 @@ it:
             label_expires_at: "Scade il"
             receive_newsletter: Voglio ricevere la <a target="_blank" href="%{link}">newsletter</a> di OpenProject.
             taken_domain: Puoi avere solo una prova attiva per ogni dominio.
-            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            domain_mismatch: Il nome host della richiesta attuale non corrisponde al nome host configurato. Controlla le impostazioni di sistema.
             taken_email: Ogni utente può creare solo una prova.
           email_not_received: "Non hai ricevuto l'e-mail? Puoi inviarla di nuovo tramite il link qui a destra."
           try_another_email: "O provare con un altro indirizzo email."
@@ -492,7 +492,7 @@ it:
         next: 'Prossimo'
         got_it: 'Capito'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'Il menu Aiuto (?) fornisce <b>ulteriori risorse di aiuto</b>. Qui puoi trovare una guida utente, video utili e altro ancora. <br> Goditi il tuo lavoro con OpenProject!'
         members: 'Invita nuovi <b>membri</b> per entrare al tuo progetto.'
         project_selection: 'Clicca su uno dei progetti demo che abbiamo preparato. I dati demo sono attualmente disponibili solo in inglese. <br> Il <b>progetto demo</b> generale si adatta meglio alla gestione dei progetti classica, mentre il <b>progetto Scrum</b> è migliore per la gestione agile dei progetti.'
         quick_add_button: 'Clicca sull''icona più (+) nella navigazione dell''intestazione per <b>creare un nuovo progetto</b> o per <b>invitare colleghi</b>.'
@@ -533,11 +533,11 @@ it:
         watched: 'guardato'
         assigned: 'assegnato'
         responsible: 'responsabile'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'creato'
+        scheduled: 'programmato'
+        commented: 'commentato'
+        processed: 'elaborato'
+        prioritized: 'prioritizzato'
       facets:
         unread: 'Non Letta'
         all: 'Tutti'
@@ -763,7 +763,7 @@ it:
         farRight: 'Estrema destra'
         showNone: '-- Nessuna etichetta --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Seleziona gli attributi che desideri mostrare nelle rispettive posizioni del diagramma di Gantt in ogni momento. Nota che al passaggio del mouse su un elemento, verranno visualizzate le etichette delle date anziché questi attributi.
       button_activate: 'Mostra Diagramma di Gantt'
       button_deactivate: 'Nascondi Diagramma di Gantt'
       cancel: Annulla
@@ -1190,7 +1190,7 @@ it:
       search_placeholder: 'Cerca progetto...'
       include_subprojects: 'Includi tutti i sotto-progetti'
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
+        include_all_selected: 'Il progetto già stato incluso poiché è abilitata l''opzione Includi tutti i sotto-progetti.'
         current_project: 'Questo è il progetto corrente in cui ti trovi.'
         does_not_match_search: 'Il progetto non corrisponde ai criteri di ricerca.'
       no_results: 'Nessun progetto corrisponde ai tuoi criteri di ricerca'

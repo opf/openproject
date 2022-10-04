@@ -151,7 +151,7 @@ pt:
           language_hint: 'Informe a linguagem de formatação que será usada para destacar (se suportado).'
         dropdown:
           macros: 'Macros'
-          chose_macro: 'Choose macro'
+          chose_macro: 'Escolher macro'
         toc: 'Tabela de conteúdos'
         toolbar_help: 'Clique para selecionar o widget e mostrar a barra de ferramentas. Clique duas vezes para editar o widget'
         wiki_page_include:
@@ -204,7 +204,7 @@ pt:
             label_expires_at: "Expira em"
             receive_newsletter: Quero receber o <a target="_blank" href="%{link}">boletim informativo</a> do OpenProject.
             taken_domain: Pode haver somente uma avaliação ativa por domínio.
-            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            domain_mismatch: O nome do host da solicitação atual não corresponde ao nome do host configurado. Verifique novamente as configurações de seu sistema.
             taken_email: Cada usuário pode criar somente uma avaliação.
           email_not_received: "Não recebeu um e-mail? Você pode reenviá-lo através do link à direita."
           try_another_email: "Ou tente com outro endereço de e-mail."
@@ -231,7 +231,7 @@ pt:
             professional_support: "Suporte profissional"
             professional_support_text: "Receba suporte confiável de alto nível de engenheiros sênior, com conhecimento especializado sobre a gestão do OpenProject em ambientes de negócios críticos."
           button_start_trial: "Iniciar avaliação gratuita"
-          button_upgrade: "Atualizar agora"
+          button_upgrade: "Faça o upgrade agora"
           button_book_now: "Reservar agora"
           confidence: >
             Fornecemos toda a segurança de um software de gestão de projetos de classe empresarial, testado e com suporte - com código aberto e mente aberta.
@@ -402,7 +402,7 @@ pt:
     label_per_page: "Por página:"
     label_please_wait: "Por favor, aguarde"
     label_project: "Projeto"
-    label_project_list: "Lista de Projetos"
+    label_project_list: "Lista de projetos"
     label_project_plural: "Projetos"
     label_visibility_settings: "Configurações de visibilidade"
     label_quote_comment: "Citar este comentário"
@@ -491,7 +491,7 @@ pt:
         next: 'Próxima'
         got_it: 'Entendi'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'O menu Ajuda (?) oferece <b>recursos adicionais de ajuda</b>. Aqui você pode encontrar um guia do usuário, vídeos de ajuda úteis e muito mais. <br> Desfrute de seu trabalho com o OpenProject!'
         members: 'Convide novos <b>membros</b> para participar de seu projeto.'
         project_selection: 'Clique em um dos projetos de demonstração que preparamos. Os dados de demonstração atualmente estão disponíveis somente em inglês. <br> O geral <b>projeto demo</b> é mais adequado para gerenciamento de projeto clássico, enquanto o <b>projeto Scrum</b> é melhor para gerenciamento de projeto ágil.'
         quick_add_button: 'Clique no ícone mais (+) no menu de navegação para <b>criar um novo projeto</b> ou para <b>convidar colegas de trabalho</b>.'
@@ -532,11 +532,11 @@ pt:
         watched: 'observado'
         assigned: 'atribuído'
         responsible: 'responsável'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'criado'
+        scheduled: 'planejado'
+        commented: 'comentado'
+        processed: 'processado'
+        prioritized: 'priorizado'
       facets:
         unread: 'Não lido'
         all: 'Todos'
@@ -582,7 +582,7 @@ pt:
           work_package_created: 'Novos pacotes de trabalho'
           work_package_processed: 'Todas as mudanças de situação'
           work_package_prioritized: 'Todas as mudanças de prioridade'
-          work_package_scheduled: 'Todas as mudanças de data'
+          work_package_scheduled: 'Todas as alterações de data'
         global:
           immediately:
             title: 'Notifique-me imediatamente'
@@ -738,8 +738,8 @@ pt:
     field_value_enter_prompt: "Insira um valor para '%{field}'"
     project_menu_details: "Detalhes"
     scheduling:
-      manual: 'Agendamento manual'
-      automatic: 'Agendamento automático'
+      manual: 'Planejamento manual'
+      automatic: 'Planejamento automático'
     sort:
       sorted_asc: 'Ordenação crescente aplicada, '
       sorted_dsc: 'Ordenação decrescente aplicada, '
@@ -762,7 +762,7 @@ pt:
         farRight: 'Extrema direita'
         showNone: '-- Sem rótulo --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Selecione os atributos que você deseja que sejam exibidos nas respectivas posições do gráfico de Gantt em todos os momentos. esteja ciente de que ao passar sobre um elemento, seus marcadores de data serão exibidos ao invés destes atributos.
       button_activate: 'Exibir gráfico de Gantt'
       button_deactivate: 'Ocultar gráfico de Gantt'
       cancel: Cancelar
@@ -841,12 +841,12 @@ pt:
       comment_updated: "O comentário foi atualizado com sucesso."
       confirm_edit_cancel: "Tem certeza que deseja cancelar a edição do pacote de trabalho?"
       datepicker_modal:
-        automatically_scheduled_parent: "Agendado automaticamente. As datas são derivadas das vinculações."
-        manually_scheduled: "Agendamento manual habilitado, todas as vinculações ignoradas."
-        start_date_limited_by_relations: "Datas de início e término disponíveis são limitadas pelas vinculações."
-        changing_dates_affects_follow_relations: "Alterar essas datas afetará datas de pacotes de trabalho relacionados."
-        click_on_show_relations_to_open_gantt: 'Clique em "%{button_name}" para a visão geral do GANTT.'
-        show_relations: 'Mostrar vinculos'
+        automatically_scheduled_parent: "Planejado automaticamente. As datas são derivadas das relações."
+        manually_scheduled: "Planejamento manual habilitado, todas as relações são ignoradas."
+        start_date_limited_by_relations: "As datas de início e de conclusão disponíveis são limitadas pelas relações."
+        changing_dates_affects_follow_relations: "A alteração dessas datas afetará as datas de pacotes de trabalho relacionados."
+        click_on_show_relations_to_open_gantt: 'Clique em "%{button_name}" para ter uma visão geral do GANTT.'
+        show_relations: 'Mostrar relações'
       description_filter: "Filtro"
       description_enter_text: "Inserir texto"
       description_options_hide: "Ocultar opções"
@@ -960,8 +960,8 @@ pt:
           duplicate_query_title: "O nome desta visão já existe. Modificar assim mesmo?"
         text_no_results: "Nenhuma visão correspondente foi encontrada."
       scheduling:
-        is_parent: "As datas deste pacote de trabalho são deduzidas automaticamente de seus filhos. Ative o 'Agendamento manual' para definir as datas."
-        is_switched_from_manual_to_automatic: "As datas deste pacote de trabalho podem precisar ser recalculadas após mudar de agendamento manual para automático devido a relações com outros pacotes de trabalho."
+        is_parent: "As datas deste pacote de trabalho são deduzidas automaticamente de seus filhos. Ative o 'Planejamento manual' para definir as datas."
+        is_switched_from_manual_to_automatic: "As datas deste pacote de trabalho podem precisar ser recalculadas após a alteração de planejamento manual para automático devido a relações com outros pacotes de trabalho."
       table:
         configure_button: 'Configurar a tabela de pacote de trabalho'
         summary: "Tabela com linhas de pacote de trabalho e colunas com atributos do pacote de trabalho."
@@ -1189,7 +1189,7 @@ pt:
       search_placeholder: 'Pesquisar projetos...'
       include_subprojects: 'Incluir todos os subprojetos'
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
+        include_all_selected: 'Como a opção Incluir todos os sub-projetos está habilitada, o projeto já foi incluído.'
         current_project: 'Este é o projeto atual em que você está.'
         does_not_match_search: 'O projeto não corresponde ao critério de pesquisa'
       no_results: 'Nenhum projeto corresponde ao seu critério de busca.'

@@ -48,7 +48,7 @@ cs:
       destroy:
         title: 'Odstranit synchronizovanou skupinu %{name}'
         confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
-        info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
+        info: "Poznámka: Samotná OpenProject skupina a členové přidaní mimo tuto LDAP synchronizaci nebudou odstraněni."
         verification: "Zadejte název skupiny %{name} pro ověření odstranění."
       help_text_html: |
         This module allows you to set up a synchronization between LDAP and OpenProject groups.

@@ -273,7 +273,7 @@ ko:
     upsale:
       title: 플레이스홀더 사용자
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        플레이스홀더 사용자는 해당 프로젝트에 속하지 않은 사용자에게 작업 패키지를 할당하는 방법으로, 다양한 시나리오에서 유용할 수 있습니다. 예를 들어, 아직 명명되지 않았거나 사용 가능하지 않은 리소스에 대한 작업을 추적해야 하거나, 해당 개인에게 OpenProject에 대한 액세스 권한을 부여하고 싶지 않지만 이들에게 할당된 작업을 추적하려는 경우에 유용합니다.
   prioritiies:
     edit:
       priority_color_text: |
@@ -1589,7 +1589,7 @@ ko:
   label_index_by_title: "제목별 색인"
   label_information: "정보"
   label_information_plural: "정보"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: '설치 가이드'
   label_integer: "정수"
   label_internal: "내부"
   label_introduction_video: "소개 동영상"
@@ -2850,9 +2850,9 @@ ko:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'HTTPS 모드 설정 불일치'
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        애플리케이션이 <code>%{set_protocol}</code>로 설정된 HTTPS 모드로 실행되고 있지만, 이 요청은 <code>%{actual_protocol}</code> 요청입니다. 이 경우에는 오류가 발생합니다! 다음 구성 값을 설정해야 합니다: <code>%{setting_value}</code>. 이 구성을 설정하는 방법은 <a href="%{more_info_path}">설치 설명서</a>를 참조하세요.
     hostname_mismatch:
       title: '호스트 이름 설정 불일치'
       text_html: >
