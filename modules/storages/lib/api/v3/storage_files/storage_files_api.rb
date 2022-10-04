@@ -43,18 +43,24 @@ module API::V3::StorageFiles
 
     resources :files do
       get do
-        files = ::API::V3::Utilities::StorageRequests
-                  .new(storage: @storage)
-                  .files_query(user: current_user)
-                  .call
-                  .on_failure { |r| handle_files_error(r) }
-                  .result
+        ::API::V3::Utilities::StorageRequests
+          .new(storage: @storage)
+          .files_query(user: current_user)
+          .match(
+            on_success: ->(query) {
+              files = query
+                        .call
+                        .on_failure { |r| handle_files_error(r) }
+                        .result
 
-        ::API::V3::StorageFiles::StorageFileCollectionRepresenter.new(
-          files,
-          self_link: api_v3_paths.storage_files(@storage.id),
-          current_user:
-        )
+              ::API::V3::StorageFiles::StorageFileCollectionRepresenter.new(
+                files,
+                self_link: api_v3_paths.storage_files(@storage.id),
+                current_user:
+              )
+            },
+            on_failure: ->(error) { handle_files_error(error) }
+          )
       end
     end
   end

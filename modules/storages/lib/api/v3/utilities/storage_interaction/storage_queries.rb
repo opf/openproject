@@ -13,14 +13,17 @@ module API::V3::Utilities::StorageInteraction
         connection_manager = ::OAuthClients::ConnectionManager.new(user: @user, oauth_client: @oauth_client)
         connection_manager.get_access_token.match(
           on_success: ->(token) do
-            ::API::V3::Utilities::StorageInteraction::NextcloudStorageQuery.new(
-              base_uri: @uri,
-              origin_user_id: token.send(:origin_user_id),
-              token: token.send(:access_token),
-              with_refreshed_token: connection_manager.method(:with_refreshed_token).to_proc
+            ServiceResult.success(
+              result:
+                ::API::V3::Utilities::StorageInteraction::NextcloudStorageQuery.new(
+                  base_uri: @uri,
+                  origin_user_id: token.send(:origin_user_id),
+                  token: token.send(:access_token),
+                  with_refreshed_token: connection_manager.method(:with_refreshed_token).to_proc
+                )
             )
           end,
-          on_failure: -> do
+          on_failure: ->(_) do
             ServiceResult.failure(result: :not_authorized)
           end
         )

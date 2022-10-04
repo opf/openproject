@@ -64,7 +64,6 @@ class API::V3::Utilities::StorageRequests
         oauth_client: @oauth_client
       )
       .files_query
-      .method(:files)
-      .to_proc
+      .map { |query| query.method(:files).to_proc }
   end
 end

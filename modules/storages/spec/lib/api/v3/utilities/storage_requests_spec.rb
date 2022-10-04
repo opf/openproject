@@ -89,8 +89,8 @@ describe API::V3::Utilities::StorageRequests, webmock: true do
   let(:storage) do
     storage = instance_double(::Storages::Storage)
     allow(storage).to receive(:oauth_client).and_return(instance_double(OAuthClient))
-    allow(storage).to receive(:host).and_return(url)
     allow(storage).to receive(:provider_type).and_return(::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD)
+    allow(storage).to receive(:host).and_return(url)
     storage
   end
 
@@ -108,7 +108,7 @@ describe API::V3::Utilities::StorageRequests, webmock: true do
     token
   end
 
-  subject { described_class.new(storage:).files_query(user:) }
+  subject { described_class.new(storage:) }
 
   before do
     allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
@@ -117,10 +117,56 @@ describe API::V3::Utilities::StorageRequests, webmock: true do
   end
 
   describe 'files_query' do
-    it 'must return a list of files when called' do
-      result = subject.call
-      expect(result.success).to be_truthy
-      expect(result.result.size).to eq(2)
+    describe 'with Nextcloud storage type selected' do
+      it 'must return a list of files when called' do
+        subject
+          .files_query(user:)
+          .match(
+            on_success: ->(q) do
+              result = q.call
+              expect(result.success).to be_truthy
+              expect(result.result.size).to eq(2)
+            end,
+            on_failure: ->(_) do
+              raise "Files query could not be created."
+            end
+          )
+      end
+
+      # test if results are correct
     end
+
+    describe 'with not supported storage type selected' do
+      before do
+        allow(storage).to receive(:provider_type).and_return('not_supported_storage_type'.freeze)
+      end
+
+      it 'must raise ArgumentError' do
+        expect { subject.files_query(user:) }.to raise_error(ArgumentError)
+      end
+    end
+
+    describe 'with missing OAuth token' do
+      before do
+        allow(connection_manager).to receive(:get_access_token).and_return(ServiceResult.failure)
+      end
+
+      it 'must return ":not_authorized" ServiceResult if OAuth token is missing' do
+        expect(subject.files_query(user:)).to be_failure
+      end
+    end
+
+    #
+    # it 'must return ":not_authorized" ServiceResult if outbound request returns "401 Not Authorized"' do
+    #
+    # end
+    #
+    # it 'must return ":not_found" ServiceResult if outbound request cannot find ressource' do
+    #
+    # end
+    #
+    # it 'must return ":error" ServiceResult if outbound request is not successful' do
+    #
+    # end
   end
 end

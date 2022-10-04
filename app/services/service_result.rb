@@ -173,7 +173,7 @@ class ServiceResult
     if success?
       on_success.call(result)
     else
-      on_failure.call
+      on_failure.call(result)
     end
   end
 
