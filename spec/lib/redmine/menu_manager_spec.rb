@@ -81,6 +81,13 @@ describe Redmine::MenuManager do
                       :authentication,
                       :announcements)
       end
+
+      it 'has children defined for the authentication item' do
+        expect(described_class.items(:admin_menu).find { |item| item.name == :authentication }.map(&:name))
+          .to include(:authentication_settings,
+                      :ldap_authentication,
+                      :oauth_applications)
+      end
     end
   end
 end
