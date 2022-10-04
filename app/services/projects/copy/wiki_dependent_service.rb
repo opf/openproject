@@ -28,6 +28,8 @@
 
 module Projects::Copy
   class WikiDependentService < Dependency
+    include AttachmentCopier
+
     def self.human_name
       I18n.t(:label_wiki_page_plural)
     end
@@ -125,10 +127,6 @@ module Projects::Copy
           copy.save
         end
       end
-    end
-
-    def copy_attachments?
-      (params.dig(:params, :only) || []).any? { |k| k.to_sym == :wiki_page_attachments }
     end
   end
 end

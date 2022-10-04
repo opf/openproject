@@ -32,11 +32,14 @@ module Projects::Copy
   #
   # This is currently employed to turn the attachment dependent services into NoCreate services as attachment
   # handling has been moved into the create services e.g. of WorkPackage and WikiPage.
-  module NoCreate
+  module AttachmentCopier
     protected
 
-    def copy_dependency(params:)
-      # Not actually doing any copying.
+    def copy_attachments?
+      attachment_dependent_service = self.class.name.gsub('sDependentService', 'AttachmentsDependentService').constantize
+
+      (params.dig(:params, :only) || [])
+        .any? { |k| k.to_s == attachment_dependent_service.identifier }
     end
   end
 end

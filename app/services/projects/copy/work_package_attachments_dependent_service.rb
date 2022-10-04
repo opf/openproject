@@ -28,7 +28,7 @@
 
 module Projects::Copy
   class WorkPackageAttachmentsDependentService < Dependency
-    include ::Projects::Copy::NoCreate
+    include ::Projects::Copy::NoCopier
 
     def self.human_name
       I18n.t(:label_work_package_attachments)

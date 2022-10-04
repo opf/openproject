@@ -28,6 +28,8 @@
 
 module Projects::Copy
   class WorkPackagesDependentService < Dependency
+    include AttachmentCopier
+
     def self.human_name
       I18n.t(:label_work_package_plural)
     end
@@ -174,10 +176,6 @@ module Projects::Copy
            (Setting.cross_project_work_package_relations? && source_relation.from_id),
          new_wp_id]
       end
-    end
-
-    def copy_attachments?
-      (params.dig(:params, :only) || []).any? { |k| k.to_sym == :work_package_attachments }
     end
   end
 end
