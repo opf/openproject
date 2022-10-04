@@ -33,17 +33,15 @@ import {
   Input,
 } from '@angular/core';
 
-import {
-  StorageFilesBreadcrumbs,
-} from 'core-app/shared/components/file-links/storage-files-breadcrumbs/storage-files-breadcrumbs';
+import { Breadcrumbs } from 'core-app/shared/components/breadcrumbs/breadcrumbs';
 
 @Component({
-  selector: 'op-storage-files-breadcrumbs',
-  templateUrl: './storage-files-breadcrumbs.html',
+  selector: 'op-breadcrumbs',
+  templateUrl: './breadcrumbs.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StorageFilesBreadcrumbsComponent {
+export class BreadcrumbsComponent {
   @HostBinding('class.spot-breadcrumbs') className = true;
 
-  @Input() viewModel:StorageFilesBreadcrumbs;
+  @Input() viewModel:Breadcrumbs;
 }

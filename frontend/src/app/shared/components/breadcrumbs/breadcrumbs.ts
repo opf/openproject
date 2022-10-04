@@ -26,14 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export interface StorageFilesBreadcrumb {
+export interface Breadcrumb {
   text:string;
   icon?:string;
   navigate?:() => void;
 }
 
-export class StorageFilesBreadcrumbs {
+export class Breadcrumbs {
   constructor(
-    public readonly crumbs:StorageFilesBreadcrumb[],
+    public readonly crumbs:Breadcrumb[],
   ) { }
 }

@@ -51,9 +51,6 @@ import { SortFilesPipe } from 'core-app/shared/components/file-links/file-picker
 import {
   LoadingFileListComponent,
 } from 'core-app/shared/components/file-links/laoding-file-list/loading-file-list.component';
-import {
-  StorageFilesBreadcrumbsComponent,
-} from 'core-app/shared/components/file-links/storage-files-breadcrumbs/storage-files-breadcrumbs.component';
 
 @NgModule({
   imports: [
@@ -69,7 +66,6 @@ import {
     LoadingFileListComponent,
     StorageInformationComponent,
     StorageFileListItemComponent,
-    StorageFilesBreadcrumbsComponent,
     SortFilesPipe,
   ],
   exports: [
