@@ -32,6 +32,7 @@ class API::V3::Utilities::StorageRequests
     @oauth_client = storage.oauth_client
   end
 
+  # The download_command is actually a query and should be refactored
   def download_command
     ->(access_token:, file_id:) do
       request_url = File.join(@oauth_client.integration.host, '/ocs/v2.php/apps/dav/api/v1/direct')
@@ -55,17 +56,15 @@ class API::V3::Utilities::StorageRequests
   end
 
   def files_query(user:)
-    query = ::API::V3::Utilities::StorageInteraction::StorageQueries
-              .new(
-                uri: URI(@storage.host),
-                provider_type: @storage.provider_type,
-                user:,
-                oauth_client: @oauth_client
-              )
-              .files_query
-
-    -> do
-      query.files
-    end
+    ::API::V3::Utilities::StorageInteraction::StorageQueries
+      .new(
+        uri: URI(@storage.host),
+        provider_type: @storage.provider_type,
+        user:,
+        oauth_client: @oauth_client
+      )
+      .files_query
+      .method(:files)
+      .to_proc
   end
 end

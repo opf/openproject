@@ -168,6 +168,13 @@ module OAuthClients
       yield_service_result
     end
 
+    def with_refreshed_token(&)
+      token = get_existing_token
+      return ServiceResult.failure(result: :not_authorized) if token.blank?
+
+      request_with_token_refresh(token, &)
+    end
+
     private
 
     # Check if a OAuthClientToken already exists and return nil otherwise.

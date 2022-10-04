@@ -1,23 +1,24 @@
 module API::V3::Utilities::StorageInteraction
   class NextcloudStorageQuery
-    def initialize(base_uri:, token:, token_refresh:)
+    def initialize(base_uri:, origin_user_id:, token:, with_refreshed_token:)
       @uri = base_uri
+      @origin_user_id = origin_user_id
       @token = token
-      @token_refresh = token_refresh
-      @base_path = "/remote.php/dav/files/#{@token.send('origin_user_id')}/"
+      @with_refreshed_token = with_refreshed_token
+      @base_path = "/remote.php/dav/files/#{@origin_user_id}/"
     end
 
     def files
       http = Net::HTTP.new(@uri.host, @uri.port)
       http.use_ssl = @uri.scheme == 'https'
 
-      result = @token_refresh.call do
+      result = @with_refreshed_token.call do
         response = http.propfind(
           @base_path,
           requested_properties,
           {
             'Depth' => '1',
-            'Authorization' => "Bearer #{@token.access_token}"
+            'Authorization' => "Bearer #{@token}"
           }
         )
 
