@@ -82,9 +82,9 @@ Certain work package types (such as Milestones) can only span one day and thus h
 
 Starting with OpenProject 12.3, it is possible to manually input a duration for a work package and decide whether this duration should include working days only or all calendar days. 
 
-> **Note:** Working dates are currently defined by the administrator of your OpenProject instance. By default, they are Monday to Friday, with Saturday and Sunday considered non-working. If you are an administrator, please read our [admin guide on working days](#link) (CHECKLINK).
+> **Note:** Working dates are currently defined by the administrator of your OpenProject instance. By default, they are Monday to Friday, with Saturday and Sunday considered non-working. If you are an administrator, please read our [admin guide on working days](../../../system-admin-guide/working-days/)
 >
-> **Whening upgrading to 12.3 from a previous version:** Please note that this switch will be set to ***off*** for all existing work packages so as to preserve start and finish dates. However, the switch will be ***on*** by default for new work packages.
+> **When upgrading to 12.3 from a previous version:** Please note that this switch will be set to ***off*** for all existing work packages so as to preserve start and finish dates. However, the switch will be ***on*** by default for new work packages.
 
 ### Working days
 
@@ -104,9 +104,9 @@ Duration can either be automatically derived from dates or entered manually. Whe
 
 #### Duration when start and finish dates exist
 
-When you set a start and a finish date, the duration is automatically derived. For example, if the start date is set to *Thursday, 12 October, 2022* and the finish date to *Friday, 14 October, 2022*, a duration of 3 days is derived.
+When you set a start and a finish date, the duration is automatically derived. For example, if the start date is set to *Wednesday, 12 October, 2022* and the finish date to *Friday, 14 October, 2022*, a duration of 3 days is derived.
 
-> Screenshot to-be-added
+![A duration of 3 days automatically derived from the start and finish dates](datepicker-3-days.png)
 
 Changing the duration when both start and finish dates are already set will then update the finish date. In our example, if you change the duration to 4 days, one of two things can happen:
 
@@ -115,7 +115,7 @@ Changing the duration when both start and finish dates are already set will then
 
 Changing the start and finish dates will also affect duration. In our example, if you change the start date to *Monday, 10 October 2022* without changing the finish date of *Friday, 14 October 2022*, the duration is automatically updated to 5 days.
 
-> Screenshot to-be-added
+![A duration of 5 days automatically derived from the start and finish dates](datepicker-5-days.png)
 
 ### Duration when only one date exists
 

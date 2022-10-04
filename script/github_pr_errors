@@ -14,13 +14,15 @@ GITHUB_API_OPENPROJECT_PREFIX = "https://api.github.com/repos/opf/openproject"
 RAILS_ROOT = Pathname.new(__dir__).dirname
 SPEC_PATTERN = %r{^\S+ (?:rspec (\S+) #.+|An error occurred while loading (\S+)\.\r?)$}
 
-# current branch
-branch_name = `git rev-parse --abbrev-ref HEAD`.strip
-
 if !ENV['GITHUB_USERNAME']
   raise "Missing GITHUB_USERNAME env"
 elsif !ENV['GITHUB_TOKEN']
   raise "Missing GITHUB_TOKEN env, go to https://github.com/settings/tokens and create one with 'repo' access"
+end
+
+# Returns current branch
+def branch_name
+  @branch_name ||= `git rev-parse --abbrev-ref HEAD`.strip
 end
 
 def get_http(path)
@@ -39,9 +41,24 @@ def get_http(path)
   ).execute
 
   response.to_str
+rescue RestClient::ExceptionWithResponse => e
+  warn error_details(e)
+  exit(1)
 rescue StandardError => e
-  warn "Failed to perform API request #{url}: #{e} #{e.message}"
+  warn "Failed to perform API request GET #{url}: #{e}"
   exit 1
+end
+
+def error_details(rest_client_exception_with_response)
+  response = rest_client_exception_with_response.response
+  error = JSON.parse(response.body)
+
+  parts = []
+  parts << "Failed to perform API request #{response.request.method.upcase} #{response.request.url}: #{rest_client_exception_with_response}"
+  parts << "  #{error['message']}"
+  parts << "  See #{error['documentation_url']}"
+  parts += rest_client_exception_with_response.backtrace.map { "    #{_1}" }
+  parts.join("\n")
 end
 
 def get_json(path)
@@ -118,17 +135,29 @@ def status_line(job)
   ].compact.join("  ")
 end
 
+def last_with_status(workflow_runs, status)
+  workflow_runs
+    .select { |entry| entry['status'] == status }
+    .max_by { |entry| entry['run_number'] }
+end
+
+def get_last_test_action
+  test_workflow_runs =
+    get_json("actions/runs?branch=#{CGI.escape(branch_name)}")
+      .then { |response| response['workflow_runs'] }
+      .select { |entry| entry['name'] == 'Test suite' }
+
+  last_completed = last_with_status(test_workflow_runs, 'completed')
+  last_in_progress = last_with_status(test_workflow_runs, 'in_progress')
+
+  last_completed || last_in_progress
+end
+
 ##########
 
 warn "Looking for the last 'Test suite' workflow run in branch #{branch_name}"
 
-response = get_json "actions/runs?branch=#{CGI.escape(branch_name)}"
-
-last_test_action =
-  response['workflow_runs']
-    .select { |entry| entry['name'] == 'Test suite' }
-    .reject { |entry| entry['status'] == 'in_progress' }
-    .max_by { |entry| entry['run_number'] }
+last_test_action = get_last_test_action
 
 raise "No action run found for branch #{branch_name}" unless last_test_action
 

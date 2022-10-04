@@ -67,8 +67,8 @@ it:
       upgrade_to_ee: "Aggiorna a Enterprise Edition"
       add_token: "Carica un token di assistenza per Enterprise Edition"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
-        title: "Delete token"
+        text: "Vuoi davvero rimuovere il token Enterprise Edition attualmente utilizzato?"
+        title: "Elimina token"
       replace_token: "Sostituisci il token di assistenza attuale"
       order: "Ordina l'edizione Enterprise on-premises"
       paste: "Incolla il tuo token di assistenza per Enterprise Edition"
@@ -273,7 +273,7 @@ it:
     upsale:
       title: Utenti segnaposto
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        Gli utenti segnaposto sono un modo per assegnare macro-attività a utenti che non fanno parte del tuo progetto. Possono essere utili in una vasta gamma di scenari: ad esempio, quando occorre tenere traccia delle attività per una risorsa che non è ancora nominata o disponibile, o se non si desidera concedere a quella persona l'accesso a OpenProject ma si desidera comunque tenere traccia delle attività assegnate.
   prioritiies:
     edit:
       priority_color_text: |
@@ -529,9 +529,9 @@ it:
         end_deletion: "Fine cancellazione"
         ignore_non_working_days: "Ignora giorni non lavorativi"
         include_non_working_days:
-          title: 'Working days'
-          false: 'working days only'
-          true: 'include non-working days'
+          title: 'Giorni lavorativi'
+          false: 'solo giorni lavorativi'
+          true: 'includi giorni non lavorativi'
         parent: "Superiore"
         parent_issue: "Superiore"
         parent_work_package: "Superiore"
@@ -731,8 +731,8 @@ it:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
-              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
+              working_days_are_missing: 'Almeno un giorno della settimana deve essere impostato giorno lavorativo.'
+              previous_working_day_changes_unprocessed: 'Le modifiche precedenti alla configurazione dei giorni lavorativi non sono ancora state applicate.'
         time_entry:
           attributes:
             hours:
@@ -754,12 +754,12 @@ it:
               format: "%{message}"
             due_date:
               not_start_date: "non è sulla data di inizio, nonostante sia obbligatorio per i traguardi."
-              cannot_be_null: "can not be set to null as start date and duration are known."
+              cannot_be_null: "non può essere impostato a nulla poiché la data d'inizio e la durata sono note."
             duration:
               larger_than_dates: "è più grande dell'intervallo tra la data di inizio e quella di fine."
               smaller_than_dates: "è inferiore all'intervallo tra la data di inizio e quella di fine."
               not_available_for_milestones: "non è disponibile per le macro-attività con pietre miliari digitate."
-              cannot_be_null: "can not be set to null as start date and finish date are known."
+              cannot_be_null: "non può essere impostato a nulla poiché le date d'inizio e di fine sono note."
             parent:
               cannot_be_milestone: "non può essere un traguardo."
               cannot_be_self_assigned: "non può essere assegnato a se stesso."
@@ -767,7 +767,7 @@ it:
               not_a_valid_parent: "non è valido."
             start_date:
               violates_relationships: "può essere impostata solo su %{soonest_start} o successiva per non violare le relazioni dei pacchetti di lavoro."
-              cannot_be_null: "can not be set to null as finish date and duration are known."
+              cannot_be_null: "non può essere impostato a nulla poiché la data di fine e la durata sono note."
             status_id:
               status_transition_invalid: "non è valido perché non esiste alcuna transizione valida dal vecchio al nuovo status sulla base del ruolo dell'utente attuale."
               status_invalid_in_type: "non è valido perché lo stato attuale non esiste per questo tipo."
@@ -1619,7 +1619,7 @@ it:
   label_index_by_title: "Indicizza per titolo"
   label_information: "Informazioni"
   label_information_plural: "Informazioni"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: 'Guide all''installazione'
   label_integer: "Intero"
   label_internal: "Interno"
   label_introduction_video: "Video introduttivo"
@@ -1764,7 +1764,7 @@ it:
   label_project_new: "Nuovo progetto"
   label_project_plural: "Progetti"
   label_project_settings: "Impostazioni progetto"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "Archivi"
   label_projects_storage_information: "%{count} progetti per %{storage} di spazio di archiviazione su disco"
   label_project_view_all: "Vedi tutti i progetti"
   label_project_show_details: "Mostra dettagli progetto"
@@ -1916,7 +1916,7 @@ it:
   label_wiki_start: "Pagina iniziale"
   label_work_package: "Macro-attività"
   label_work_package_attachments: "Allegati macro-attività"
-  label_work_package_file_link_plural: "Work package file links"
+  label_work_package_file_link_plural: "Collegamenti file macro-attività"
   label_work_package_category_new: "Nuova categoria"
   label_work_package_category_plural: "Categorie della macro-attività"
   label_work_package_hierarchy: "Gerarchia Macro-attività"
@@ -1932,7 +1932,7 @@ it:
   label_workflow: "Flusso di lavoro"
   label_workflow_plural: "Flussi di lavoro"
   label_workflow_summary: "Sommario"
-  label_working_days: "Working days"
+  label_working_days: "Giorni lavorativi"
   label_x_closed_work_packages_abbr:
     one: "1 chiuso"
     other: "%{count} chiusi"
@@ -1993,7 +1993,7 @@ it:
       center: 'Al centro notifiche'
       see_in_center: 'Vedi commento nel centro notifiche'
       settings: 'Modifica impostazioni email'
-    salutation: 'Hello %{user}'
+    salutation: 'Ciao %{user}'
     work_packages:
       created_at: 'Creato il %{timestamp} da %{user} '
       login_to_see_all: 'Accedi per visualizzare tutte le notifiche.'
@@ -2172,7 +2172,7 @@ it:
           tb: "TB"
   onboarding:
     heading_getting_started: "Fatti un'idea"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
+    text_getting_started_description: "Fai una rapida panoramica della gestione dei progetti e della collaborazione in team con OpenProject. Puoi riavviare questo video dal menu di aiuto."
     welcome: "Benvenuto in %{app_title}"
     select_language: "Per favore seleziona la tua lingua"
   permission_add_work_package_notes: "Aggiungi nota"
@@ -2373,8 +2373,8 @@ it:
       update_timeout: "Mantieni l'ultima informazione sullo spazio su disco richiesto per un archivio di progetto per N minuti.\nPoichè il calcolo dello spazio su disco richiesto per un archivio di progetto può essere un'attività costosa, aumentare questo intervallo riduce l'impatto sulle prestazioni."
       oauth_application_details: "Il valore segreto del client non sarà nuovamente accessibile dopo aver chiuso questa finestra. Copia questi valori nelle impostazioni d'integrazione di Nextcloud OpenProject:"
       oauth_application_details_link_text: "Vai alla pagina delle impostazioni"
-      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
-      setup_documentation_details_link_text: "File Storages setup"
+      setup_documentation_details: "Se hai bisogno di aiuto per configurare un nuovo archivio file, controlla la documentazione: "
+      setup_documentation_details_link_text: "Configurazione archivi file"
       show_warning_details: "Per utilizzare questo archivio di file ricordarsi di attivare il modulo e l'archivio specifico nelle impostazioni del progetto di ogni progetto desiderato."
     subversion:
       existing_title: "Archivio Subversion preesistente"
@@ -2564,7 +2564,7 @@ it:
   text_access_token_hint: "I token di accesso consentono di concedere ad applicazioni esterne l'accesso alle risorse in OpenProject."
   text_analyze: "Analizzare ulteriormente: %{subject}"
   text_are_you_sure: "Sei sicuro?"
-  text_are_you_sure_continue: "Are you sure you want to continue?"
+  text_are_you_sure_continue: "Vuoi davvero continuare?"
   text_are_you_sure_with_children: "Eliminare la macro-attività e tutte le sue sotto-attività?"
   text_assign_to_project: "Assegna al progetto"
   text_form_configuration: >
@@ -2891,9 +2891,9 @@ it:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'Configurazione HTTPS errata'
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        La tua applicazione è in esecuzione con la modalità HTTPS impostata su <code>%{set_protocol}</code>, ma la richiesta è una richiesta <code>%{actual_protocol}</code>. Ciò comporterà errori! Dovrai impostare il seguente valore di configurazione: <code>%{setting_value}</code>. Controlla <a href="%{more_info_path}">la documentazione d'installazione</a> per impostare correttamente questa configurazione.
     hostname_mismatch:
       title: 'Mancata corrispondenza delle impostazioni del nome host'
       text_html: >
@@ -2914,15 +2914,15 @@ it:
       title: "Eliminare la macro-attività"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
-    change_button: "Change working days"
+      <b>Definisci i giorni lavorativi della settimana</b><br/> I giorni non lavorativi vengono saltati quando si pianificano le macro-attività e vengono esclusi quando si calcola la durata. Questa impostazione può essere sovrascritta a livello di macro-attività.
+    change_button: "Cambia giorni lavorativi"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Cambiare quali giorni della settimana sono considerati giorni lavorativi può influenzare l'inizio e la fine di tutte le macro-attività in tutti i progetti in questo caso.
     journal_note:
-      changed: _**Working days** changed (%{changes})._
+      changed: _**Giorni lavorativi** cambiati (%{changes})._
       days:
-        working: "%{day} is now working"
-        non_working: "%{day} is now non-working"
+        working: "%{day} ora è lavorativo"
+        non_working: "%{day} ora non è lavorativo"
   nothing_to_preview: "Niente in anteprima"
   api_v3:
     attributes:

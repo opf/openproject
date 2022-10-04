@@ -3,9 +3,9 @@ ko:
   js:
     team_planner:
       add_existing: '기존 항목 추가'
-      add_existing_title: 'Add existing work packages'
-      create_label: 'Team planner'
-      create_title: 'Create new team planner'
+      add_existing_title: '기존 작업 패키지 추가'
+      create_label: '팀 플래너'
+      create_title: '새로운 팀 플래너 만들기'
       unsaved_title: '이름 없는 팀 플래너'
       no_data: '담당자를 추가하여 팀 플래너를 설정하세요.'
       add_assignee: '담당자 추가'

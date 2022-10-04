@@ -27,40 +27,22 @@
     <div class="spot-action-bar--right">
       <button
         type="button"
-        class="button button_no-margin spot-action-bar--action"
+        class="button spot-action-bar--action"
         data-qa-selector="confirmation-modal--cancel"
         (click)="closeMe($event)"
       >
-        <op-icon
-          *ngIf="icon.cancel as clazz"
-          icon-classes="button--icon spot-icon spot-icon_{{clazz}}"
-          class="op-icon--wrapper">
-          <i
-            class="button--icon spot-icon spot-icon_{{clazz}}"
-          ></i>
-        </op-icon>
-        <span
-          class="button--text"
-        >{{text.button_cancel}}</span>
+        <span *ngIf="icon.cancel as clazz" class="spot-icon spot-icon_{{clazz}}"></span>
+        <span>{{text.button_cancel}}</span>
       </button>
       <button
         type="button"
-        class="button button_no-margin spot-action-bar--action"
+        class="button spot-action-bar--action"
         data-qa-selector="confirmation-modal--confirmed"
         [ngClass]="dangerHighlighting ? '-danger': '-highlight'"
         (click)="confirmAndClose($event)"
       >
-        <op-icon
-          *ngIf="icon.continue as clazz"
-          icon-classes="button--icon spot-icon spot-icon_{{clazz}}"
-          class="op-icon--wrapper">
-          <i
-            class="button--icon spot-icon spot-icon_{{clazz}}"
-          ></i>
-        </op-icon>
-        <span
-          class="button--text"
-        >{{text.button_continue}}</span>
+        <span *ngIf="icon.continue as clazz" class="spot-icon spot-icon_{{clazz}}"></span>
+        <span>{{text.button_continue}}</span>
       </button>
     </div>
   </div>
