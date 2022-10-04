@@ -71,16 +71,21 @@ describe API::V3::Utilities::StorageRequests, webmock: true do
       '</d:propstat>' \
       '</d:response>' \
       '<d:response>' \
-      '<d:href>/remote.php/dav/files/admin/Nextcloud%20intro.mp4</d:href>' \
+      '<d:href>/remote.php/dav/files/admin/Documents/</d:href>' \
       '<d:propstat>' \
       '<d:prop>' \
-      '<d:getcontenttype>video/mp4</d:getcontenttype>' \
       '<d:getlastmodified>Tue, 06 Sep 2022 06:43:56 GMT</d:getlastmodified>' \
-      '<oc:fileid>13</oc:fileid>' \
+      '<oc:fileid>8</oc:fileid>' \
       '<oc:owner-display-name>admin</oc:owner-display-name>' \
-      '<oc:size>3963036</oc:size>' \
+      '<oc:size>399534</oc:size>' \
       '</d:prop>' \
       '<d:status>HTTP/1.1 200 OK</d:status>' \
+      '</d:propstat>' \
+      '<d:propstat>' \
+      '<d:prop>' \
+      '<d:getcontenttype/>' \
+      '</d:prop>' \
+      '<d:status>HTTP/1.1 404 Not Found</d:status>' \
       '</d:propstat>' \
       '</d:response>' \
       '</d:multistatus>'
@@ -122,18 +127,50 @@ describe API::V3::Utilities::StorageRequests, webmock: true do
         subject
           .files_query(user:)
           .match(
-            on_success: ->(q) do
-              result = q.call
-              expect(result.success).to be_truthy
+            on_success: ->(query) do
+              result = query.call
+              expect(result).to be_success
               expect(result.result.size).to eq(2)
             end,
-            on_failure: ->(_) do
-              raise "Files query could not be created."
+            on_failure: ->(error) do
+              raise "Files query could not be created: #{error}"
             end
           )
       end
 
-      # test if results are correct
+      it 'must return a named directory' do
+        subject
+          .files_query(user:)
+          .match(
+            on_success: ->(query) do
+              result = query.call
+              expect(result).to be_success
+              expect(result.result[1].name).to eq('Documents')
+              expect(result.result[1].mime_type).to eq('application/x-op-directory')
+              expect(result.result[1].id).to eq('8')
+            end,
+            on_failure: ->(error) do
+              raise "Files query could not be created: #{error}"
+            end
+          )
+      end
+
+      it 'must return a named file' do
+        subject
+          .files_query(user:)
+          .match(
+            on_success: ->(query) do
+              result = query.call
+              expect(result).to be_success
+              expect(result.result[0].name).to eq('Nextcloud Manual.pdf')
+              expect(result.result[0].mime_type).to eq('application/pdf')
+              expect(result.result[0].id).to eq('7')
+            end,
+            on_failure: ->(error) do
+              raise "Files query could not be created: #{error}"
+            end
+          )
+      end
     end
 
     describe 'with not supported storage type selected' do
@@ -151,22 +188,36 @@ describe API::V3::Utilities::StorageRequests, webmock: true do
         allow(connection_manager).to receive(:get_access_token).and_return(ServiceResult.failure)
       end
 
-      it 'must return ":not_authorized" ServiceResult if OAuth token is missing' do
+      it 'must return ":not_authorized" ServiceResult' do
         expect(subject.files_query(user:)).to be_failure
       end
     end
 
-    #
-    # it 'must return ":not_authorized" ServiceResult if outbound request returns "401 Not Authorized"' do
-    #
-    # end
-    #
-    # it 'must return ":not_found" ServiceResult if outbound request cannot find ressource' do
-    #
-    # end
-    #
-    # it 'must return ":error" ServiceResult if outbound request is not successful' do
-    #
-    # end
+    shared_examples_for 'outbound is failing' do |code = 500, symbol = :error|
+      describe "with outbound request returning #{code}" do
+        before do
+          stub_request(:propfind, "#{url}/remote.php/dav/files/#{origin_user_id}/").to_return(status: code)
+        end
+
+        it "must return :#{symbol} ServiceResult" do
+          subject
+            .files_query(user:)
+            .match(
+              on_success: ->(query) do
+                result = query.call
+                expect(result).to be_failure
+                expect(result.result).to be(symbol)
+              end,
+              on_failure: ->(error) do
+                raise "Files query could not be created: #{error}"
+              end
+            )
+        end
+      end
+    end
+
+    it_behaves_like 'outbound is failing', 404, :not_found
+    it_behaves_like 'outbound is failing', 401, :not_authorized
+    it_behaves_like 'outbound is failing', 500, :error
   end
 end
