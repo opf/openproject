@@ -36,6 +36,7 @@ module Projects
         ::Projects::Copy::VersionsDependentService,
         ::Projects::Copy::CategoriesDependentService,
         ::Projects::Copy::WorkPackagesDependentService,
+        ::Projects::Copy::WorkPackageAttachmentsDependentService,
         ::Projects::Copy::WikiDependentService,
         ::Projects::Copy::WikiPageAttachmentsDependentService,
         ::Projects::Copy::ForumsDependentService,
