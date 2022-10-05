@@ -30,6 +30,8 @@ module Projects::Copy
   class WikiDependentService < Dependency
     include AttachmentCopier
 
+    attachment_dependent_service ::Projects::Copy::WikiPageAttachmentsDependentService
+
     def self.human_name
       I18n.t(:label_wiki_page_plural)
     end

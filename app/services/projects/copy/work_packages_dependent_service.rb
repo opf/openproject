@@ -30,6 +30,8 @@ module Projects::Copy
   class WorkPackagesDependentService < Dependency
     include AttachmentCopier
 
+    attachment_dependent_service ::Projects::Copy::WorkPackageAttachmentsDependentService
+
     def self.human_name
       I18n.t(:label_work_package_plural)
     end

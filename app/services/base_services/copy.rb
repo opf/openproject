@@ -39,7 +39,9 @@ module BaseServices
     ##
     # collect copyable associated modules
     def self.copyable_dependencies
-      copy_dependencies.map do |service_cls|
+      copy_dependencies
+        .flat_map { |dependency| [dependency] + dependency.copy_dependencies }
+        .map do |service_cls|
         {
           identifier: service_cls.identifier,
           name_source: -> { service_cls.human_name },
