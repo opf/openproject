@@ -4,6 +4,7 @@
   <div class="spot-modal--header">
     <span class="spot-modal--header_title">{{text.header}}</span>
     <button
+      type="button"
       class="button button_no-margin"
       (click)="openStorageLocation()"
     >
@@ -39,12 +40,14 @@
   <div class="spot-action-bar">
     <div class="spot-action-bar--right">
       <button
-        class="button button_no-margin spot-action-bar--action"
+        type="button"
+        class="button spot-action-bar--action"
         [textContent]="text.buttons.cancel"
         (click)="closeMe()"
       ></button>
       <button
-        class="button -highlight button_no-margin spot-action-bar--action"
+        type="button"
+        class="button -highlight spot-action-bar--action"
         [ngClass]="{ '-highlight': selectedFileCount > 0 }"
         [disabled]="selectedFileCount === 0"
         (click)="createSelectedFileLinks()"
