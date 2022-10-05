@@ -1,16 +1,17 @@
 import { HttpClientModule } from '@angular/common/http';
-import { Injector, Input } from '@angular/core';
-
-import { TestBed } from '@angular/core/testing';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { Input } from '@angular/core';
 import { StateService } from '@uirouter/angular';
-import { WorkPackageTabsService } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
+import { TestBed } from '@angular/core/testing';
+
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import {
+  WorkPackageTabsService,
+} from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
 import { TabComponent } from '../../components/wp-tab-wrapper/tab';
 
 describe('WpTabsService', () => {
   let service:WorkPackageTabsService;
   const workPackage:any = { id: 1234 };
-  let injector:Injector;
 
   class TestComponent implements TabComponent {
     @Input() public workPackage:WorkPackageResource;
@@ -39,11 +40,10 @@ describe('WpTabsService', () => {
         { provide: StateService, useValue: { includes: () => false } },
       ],
     });
+    TestBed.resetTestingModule();
     service = TestBed.inject(WorkPackageTabsService);
     (service as any).registeredTabs = [];
     service.register(displayableTab, notDisplayableTab);
-
-    injector = TestBed.inject(Injector);
   });
 
   describe('displayableTabs()', () => {
