@@ -93,7 +93,7 @@ ru:
     button_save: "Сохранить"
     button_settings: "Настройки"
     button_uncheck_all: "Снять все отметки"
-    button_update: "Обновление"
+    button_update: "Обновить"
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
     button_create: "Создать"
@@ -772,7 +772,7 @@ ru:
         farRight: 'Крайний справа'
         showNone: '-- Не метка --'
         description: >
-          Укажите атрибуты, которые вы бы хотели видеть в диаграмме Ганта всегда. Заметьте, что при наведении указателя мыши на элемент, вместо этих атрибутов будет показана их даты.
+          Укажите атрибуты, которые вы бы хотели видеть в диаграмме Ганта всегда. Обратите внимание, что при наведении указателя мыши на элемент, вместо этих атрибутов будут показаны даты.
       button_activate: 'Показать диаграмму Ганта'
       button_deactivate: 'Скрыть диаграмму Ганта'
       cancel: Отмена
@@ -1187,7 +1187,7 @@ ru:
         next_button: 'Следующие'
       message:
         label: 'Сообщение о приглашении'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
+        description: 'Мы отправим пользователю электронное письмо, к которому вы можете что-нибудь добавить. Приглашение облегчит им начало работы, если у них будет немного информации о проекте.'
         next_button: 'Далее'
       summary:
         next_button: 'Отправить приглашение'
