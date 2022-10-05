@@ -43,6 +43,8 @@
           (ngModelChange)="startDateChanged$.next($event)"
           [disabled]="!isSchedulable"
           [showClearButton]="currentlyActivatedDateField === 'start'"
+          [pattern]="datePattern"
+          inputmode="numeric"
           (focusin)="setCurrentActivatedField('start')"
         ></spot-text-field>
         <button
@@ -69,6 +71,8 @@
           (ngModelChange)="endDateChanged$.next($event)"
           [disabled]="!isSchedulable"
           [showClearButton]="currentlyActivatedDateField === 'end'"
+          [pattern]="datePattern"
+          inputmode="numeric"
           (focusin)="setCurrentActivatedField('end')"
         ></spot-text-field>
         <button
@@ -94,6 +98,8 @@
           [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('duration')}"
           [ngModel]="durationFocused ? duration : displayedDuration"
           [showClearButton]="durationFocused"
+          pattern="\d*"
+          inputmode="numeric"
           (ngModelChange)="durationChanges$.next($event)"
           [disabled]="!isSchedulable"
           (focusin)="handleDurationFocusIn()"

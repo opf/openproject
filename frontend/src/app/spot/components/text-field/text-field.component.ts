@@ -67,6 +67,10 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
    */
   @Input() public value = '';
 
+  @Input() public pattern:string|undefined;
+
+  @Input() public inputmode:string = 'text';
+
   valueChanged(value:string):void {
     this.writeValue(value);
     this.onChange(value);

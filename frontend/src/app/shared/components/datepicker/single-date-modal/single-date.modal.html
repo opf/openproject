@@ -38,6 +38,8 @@
           [(ngModel)]="date"
           (ngModelChange)="dateChangedManually$.next()"
           [showClearButton]="true"
+          [pattern]="datePattern"
+          inputmode="numeric"
         ></spot-text-field>
         <button
           slot="action"

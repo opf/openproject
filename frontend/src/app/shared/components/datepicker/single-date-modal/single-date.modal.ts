@@ -114,6 +114,8 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
 
   htmlId = '';
 
+  datePattern = '[0-9]{4}-[0-9]{2}-[0-9]{2}';
+
   date:string|null = null;
 
   dateChangedManually$ = new Subject<void>();

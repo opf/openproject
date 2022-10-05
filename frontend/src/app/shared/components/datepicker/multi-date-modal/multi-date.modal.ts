@@ -151,6 +151,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   htmlId = '';
 
+  datePattern = '[0-9]{4}-[0-9]{2}-[0-9]{2}';
+
   dates:{ [key in DateKeys]:string|null } = {
     start: null,
     end: null,
