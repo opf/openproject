@@ -54,7 +54,7 @@ describe('WpTabsService', () => {
 
   describe('getTab()', () => {
     it('returns the displayable tab with the correct identifier', () => {
-      expect(service.getTab('displayable-test-tab', workPackage)?.id).toEqual('displayable-test-ta');
+      expect(service.getTab('displayable-test-tab', workPackage)?.id).toEqual('displayable-test-tab');
       expect(service.getTab('non-existing-tab', workPackage)).toEqual(undefined);
       expect(service.getTab('non-displayable-test-tab', workPackage)).toEqual(undefined);
     });
@@ -68,7 +68,7 @@ describe('WpTabsService', () => {
       const displayableTabs = service.getDisplayableTabs(workPackage);
 
       expect(displayableTabs).toHaveSize(1);
-      expect(displayableTabs).toContain(notDisplayableTab);
+      expect(displayableTabs[0].id).toEqual(notDisplayableTab.id);
     });
   });
 });
