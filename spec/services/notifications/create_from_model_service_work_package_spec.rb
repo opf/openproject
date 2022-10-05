@@ -103,7 +103,7 @@ describe Notifications::CreateFromModelService,
     let(:user_property) { :assigned_to }
     let(:recipient_notification_settings) do
       [
-        build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+        build(:notification_setting, **notification_settings_all_false.merge(assignee: true))
       ]
     end
 
@@ -147,10 +147,10 @@ describe Notifications::CreateFromModelService,
       it_behaves_like 'creates no notification'
     end
 
-    context 'when assignee has all in app notifications enabled but only involved for mail' do
+    context 'when assignee has all in app notifications enabled but only assignee for mail' do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+          build(:notification_setting, **notification_settings_all_false.merge(assignee: true))
         ]
       end
 
@@ -194,7 +194,7 @@ describe Notifications::CreateFromModelService,
     let(:user_property) { :responsible }
     let(:recipient_notification_settings) do
       [
-        build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+        build(:notification_setting, **notification_settings_all_false.merge(responsible: true))
       ]
     end
 

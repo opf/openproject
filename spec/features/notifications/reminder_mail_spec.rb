@@ -36,7 +36,8 @@ describe "Reminder email sending", type: :feature, js: true do
       },
       notification_settings: [
         build(:notification_setting,
-              involved: true,
+              assignee: true,
+              responsible: true,
               watched: true,
               mentioned: true,
               work_package_commented: true,

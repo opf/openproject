@@ -53,7 +53,8 @@ module Pages
 
       def expect_global_represented(setting)
         %i[
-          involved
+          assignee
+          responsible
           work_package_commented
           work_package_created
           work_package_processed

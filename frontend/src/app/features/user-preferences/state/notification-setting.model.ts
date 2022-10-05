@@ -3,7 +3,8 @@ import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 export interface INotificationSetting {
   _links:{ project:HalSourceLink };
   watched:boolean;
-  involved:boolean;
+  assignee:boolean;
+  responsible:boolean;
   mentioned:boolean;
   workPackageCommented:boolean;
   workPackageCreated:boolean;
@@ -28,7 +29,8 @@ export function buildNotificationSetting(project:null|HalSourceLink, params:Part
         title: project?.title,
       },
     },
-    involved: true,
+    assignee: true,
+    responsible: true,
     mentioned: true,
     watched: true,
     workPackageCommented: true,

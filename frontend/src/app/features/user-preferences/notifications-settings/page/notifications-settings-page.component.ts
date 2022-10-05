@@ -21,7 +21,8 @@ import { INotificationSetting } from 'core-app/features/user-preferences/state/n
 export const myNotificationsPageComponentSelector = 'op-notifications-page';
 
 interface IToastSettingsValue {
-  involved:boolean;
+  assignee:boolean;
+  responsible:boolean;
   workPackageCreated:boolean;
   workPackageProcessed:boolean;
   workPackageScheduled:boolean;
@@ -49,7 +50,8 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   @Input() userId:string;
 
   public form = new FormGroup({
-    involved: new FormControl(false),
+    assignee: new FormControl(false),
+    responsible: new FormControl(false),
     workPackageCreated: new FormControl(false),
     workPackageProcessed: new FormControl(false),
     workPackageScheduled: new FormControl(false),
@@ -71,10 +73,6 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       title: this.I18n.t('js.notifications.settings.reasons.mentioned.title'),
       description: this.I18n.t('js.notifications.settings.reasons.mentioned.description'),
     },
-    involved: {
-      title: this.I18n.t('js.notifications.settings.reasons.involved.title'),
-      description: this.I18n.t('js.notifications.settings.reasons.involved.description'),
-    },
     watched: this.I18n.t('js.notifications.settings.reasons.watched'),
     work_package_commented: this.I18n.t('js.notifications.settings.reasons.work_package_commented'),
     work_package_created: this.I18n.t('js.notifications.settings.reasons.work_package_created'),
@@ -86,6 +84,8 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       title: this.I18n.t('js.notifications.settings.project_specific.title'),
       description: this.I18n.t('js.notifications.settings.project_specific.description'),
     },
+    assignee: this.I18n.t('js.notifications.settings.reasons.assignee'),
+    responsible: this.I18n.t('js.notifications.settings.reasons.responsible'),
   };
 
   constructor(
@@ -116,7 +116,8 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
           return;
         }
 
-        this.form.get('involved')?.setValue(settings.involved);
+        this.form.get('assignee')?.setValue(settings.assignee);
+        this.form.get('responsible')?.setValue(settings.responsible);
         this.form.get('workPackageCreated')?.setValue(settings.workPackageCreated);
         this.form.get('workPackageProcessed')?.setValue(settings.workPackageProcessed);
         this.form.get('workPackageScheduled')?.setValue(settings.workPackageScheduled);
@@ -139,7 +140,8 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
           )
           .forEach((setting) => projectSettings.push(new FormGroup({
             project: new FormControl(setting._links.project),
-            involved: new FormControl(setting.involved),
+            assignee: new FormControl(setting.assignee),
+            responsible: new FormControl(setting.responsible),
             workPackageCreated: new FormControl(setting.workPackageCreated),
             workPackageProcessed: new FormControl(setting.workPackageProcessed),
             workPackageScheduled: new FormControl(setting.workPackageScheduled),
@@ -161,7 +163,8 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       _links: { project: { href: null } },
       watched: true,
       mentioned: true,
-      involved: notificationSettings.involved,
+      assignee: notificationSettings.assignee,
+      responsible: notificationSettings.responsible,
       workPackageCreated: notificationSettings.workPackageCreated,
       workPackageProcessed: notificationSettings.workPackageProcessed,
       workPackageScheduled: notificationSettings.workPackageScheduled,
@@ -173,7 +176,8 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       _links: { project: { href: settings.project.href } },
       watched: true,
       mentioned: true,
-      involved: settings.involved,
+      assignee: settings.assignee,
+      responsible: settings.responsible,
       workPackageCreated: settings.workPackageCreated,
       workPackageProcessed: settings.workPackageProcessed,
       workPackageScheduled: settings.workPackageScheduled,

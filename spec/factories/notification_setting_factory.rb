@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :notification_setting do
-    involved { true }
+    assignee { true }
+    responsible { true }
     mentioned { true }
     watched { true }
     work_package_commented { false }

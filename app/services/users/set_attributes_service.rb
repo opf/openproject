@@ -62,7 +62,7 @@ module Users
     end
 
     def initialize_notification_settings
-      model.notification_settings.build(involved: true, mentioned: true, watched: true)
+      model.notification_settings.build(assignee: true, responsible: true, mentioned: true, watched: true)
     end
 
     # rubocop:disable Metrics/AbcSize

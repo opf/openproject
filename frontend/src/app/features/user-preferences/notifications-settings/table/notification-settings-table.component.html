@@ -30,15 +30,29 @@
       </tr>
       <tr>
         <th class="op-table--cell op-table--cell_soft-heading">
-          <h5>{{ text.involved_header.title }}</h5>
-          <p>{{ text.involved_header.description }}</p>
+          <h5>{{ text.assignee }}</h5>
         </th>
         <ng-container *ngFor="let item of settings.controls">
           <td class="op-table--cell" [formGroup]="item">
             <input
               type="checkbox"
-              formControlName="involved"
-              data-qa-project-notification-type="involved" 
+              formControlName="assignee"
+              data-qa-project-notification-type="assignee" 
+              [attr.data-qa-project]="item.controls.project.value.title" 
+            />
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          <h5>{{ text.responsible }}</h5>
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="responsible"
+              data-qa-project-notification-type="responsible" 
               [attr.data-qa-project]="item.controls.project.value.title" 
             />
           </td>
