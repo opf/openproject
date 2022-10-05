@@ -268,7 +268,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
     end
 
     context 'custom value' do
-      let(:custom_field) { build_stubbed(:time_entry_custom_field) }
+      let(:custom_field) { build_stubbed(:text_time_entry_custom_field) }
       let(:path) { "customField#{custom_field.id}" }
 
       before do
