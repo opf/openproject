@@ -464,6 +464,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         showMonths: this.deviceService.isMobile ? 1 : 2,
         inline: true,
         onReady: (_date, _datestr, instance) => {
+          instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
           this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
           this.ensureHoveredSelection(instance.calendarContainer);
         },
