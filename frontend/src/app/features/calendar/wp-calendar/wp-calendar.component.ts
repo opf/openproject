@@ -314,10 +314,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   }
 
   private handleDateClicked(info:DateSelectArg) {
-    const startDay = new Date(info.start).getDate();
-    const endDay = new Date(info.end).getDate();
-    const duration = endDay - startDay;
-    const nonWorkingDays = duration !== 1 ? false : this.weekdayService.isNonWorkingDay(info.start);
+    const due = moment(info.endStr).subtract(1, 'day').toDate();
+    const nonWorkingDays = this.weekdayService.isNonWorkingDay(info.start) || this.weekdayService.isNonWorkingDay(due);
 
     const defaults = {
       startDate: info.startStr,

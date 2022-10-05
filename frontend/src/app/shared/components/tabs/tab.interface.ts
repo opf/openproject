@@ -4,7 +4,7 @@ import { Injector } from '@angular/core';
 export interface TabDefinition {
   /** Internal identifier of the tab */
   id:string;
-  /** Human readable name */
+  /** Human-readable name */
   name:string;
   /** Manual URL to link to if set */
   path?:string;

@@ -69,7 +69,7 @@ describe BackupJob, type: :model do
       allow(job).to receive(:arguments).and_return arguments
       allow(job).to receive(:job_id).and_return job_id
 
-      expect(Open3).to receive(:capture3).and_return [nil, "Dump failed", db_dump_process_status]
+      allow(Open3).to receive(:capture3).and_return [nil, "Dump failed", db_dump_process_status]
 
       allow_any_instance_of(BackupJob)
         .to receive(:tmp_file_name).with("openproject", ".sql").and_return("/tmp/openproject.sql")
@@ -83,6 +83,31 @@ describe BackupJob, type: :model do
 
     def perform
       job.perform **arguments.first
+    end
+
+    describe '#pg_env' do
+      subject { job.pg_env }
+
+      context 'when config has user reference, not username (regression #44251)' do
+        let(:config_double) do
+          {
+            adapter: :postgresql,
+            password: "blabla",
+            database: "test",
+            user: "foobar"
+          }
+        end
+
+        before do
+          allow(job).to receive(:database_config).and_return(config_double)
+        end
+
+        it 'still sets a PGUSER' do
+          expect(subject['PGUSER']).to eq 'foobar'
+          expect(subject['PGPASSWORD']).to eq 'blabla'
+          expect(subject['PGDATABASE']).to eq 'test'
+        end
+      end
     end
 
     context "with a failed database dump" do
@@ -175,7 +200,7 @@ describe BackupJob, type: :model do
       allow_any_instance_of(LocalFileUploader).to receive(:cached?).and_return(true)
       allow_any_instance_of(LocalFileUploader)
         .to receive(:local_file)
-        .and_return(File.new(dummy_path))
+              .and_return(File.new(dummy_path))
     end
 
     after do
