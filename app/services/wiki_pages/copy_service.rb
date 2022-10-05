@@ -41,24 +41,21 @@ class WikiPages::CopyService
     self.contract_class = contract_class
   end
 
-  def call(send_notifications: true, attachments: true, **attributes)
+  def call(send_notifications: true, copy_attachments: true, **attributes)
     in_context(model, send_notifications) do
-      copy(attributes, attachments)
+      copy(attributes, copy_attachments)
     end
   end
 
   protected
 
-  def copy(attribute_override, attachments)
+  def copy(attribute_override, copy_attachments)
     attributes = copied_attributes(attribute_override)
 
-    copied_call = create(attributes)
-
-    if copied_call.success? && attachments
-      copy_attachments('WikiPage', from_id: model.id, to_id: copied_call.result.id)
+    create(attributes)
+      .on_success do |call|
+      copy_wiki_page_attachments(call.result) if copy_attachments
     end
-
-    copied_call
   end
 
   def create(attributes)
@@ -80,5 +77,9 @@ class WikiPages::CopyService
   def writable_attributes
     instantiate_contract(model, user)
       .writable_attributes
+  end
+
+  def copy_wiki_page_attachments(copy)
+    copy_attachments('WikiPage', from_id: model.id, to_id: copy.id)
   end
 end

@@ -79,7 +79,7 @@ module Projects::Copy
                      .call(wiki: target.wiki,
                            parent_id: new_parent_id,
                            send_notifications: ActionMailer::Base.perform_deliveries,
-                           attachments: copy_attachments?)
+                           copy_attachments: copy_attachments?)
 
       if service_call.success?
         service_call.result

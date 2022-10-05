@@ -116,7 +116,7 @@ describe WikiPages::CopyService, 'integration', type: :model do
         end
 
         context 'when specifying to not copy attachments' do
-          let(:attributes) { { attachments: false } }
+          let(:attributes) { { copy_attachments: false } }
 
           it 'copies the attachment' do
             expect(copy.attachments.length)

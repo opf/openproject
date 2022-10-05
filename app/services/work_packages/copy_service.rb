@@ -41,27 +41,23 @@ class WorkPackages::CopyService
     self.contract_class = contract_class
   end
 
-  def call(send_notifications: true, attachments: true, **attributes)
+  def call(send_notifications: true, copy_attachments: true, **attributes)
     in_context(work_package, send_notifications) do
-      copy(attributes, attachments, send_notifications)
+      copy(attributes, copy_attachments, send_notifications)
     end
   end
 
   protected
 
-  def copy(attribute_override, attachments, send_notifications)
+  def copy(attribute_override, copy_attachments, send_notifications)
     copied = create(work_package,
                     attribute_override,
                     send_notifications)
-
-    if copied.success?
-      remove_author_watcher(copied.result)
-      copy_watchers(copied.result)
-
-      if attachments
-        copy_attachments('WorkPackage', from_id: work_package.id, to_id: copied.result.id)
+      .on_success do |copy_call|
+        remove_author_watcher(copy_call.result)
+        copy_watchers(copy_call.result)
+        copy_work_package_attachments(copy_call.result) if copy_attachments
       end
-    end
 
     copied.state.copied_from_work_package_id = work_package&.id
 
@@ -106,5 +102,9 @@ class WorkPackages::CopyService
     work_package.watcher_users.each do |user|
       copied.add_watcher(user) if user.active?
     end
+  end
+
+  def copy_work_package_attachments(copy)
+    copy_attachments('WorkPackage', from_id: work_package.id, to_id: copy.id)
   end
 end
