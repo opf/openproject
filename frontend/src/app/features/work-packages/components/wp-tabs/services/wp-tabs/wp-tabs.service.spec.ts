@@ -32,6 +32,7 @@ describe('WpTabsService', () => {
   };
 
   beforeEach(() => {
+    TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule,
@@ -40,7 +41,6 @@ describe('WpTabsService', () => {
         { provide: StateService, useValue: { includes: () => false } },
       ],
     });
-    TestBed.resetTestingModule();
     service = TestBed.inject(WorkPackageTabsService);
     (service as any).registeredTabs = [];
     service.register(displayableTab, notDisplayableTab);
