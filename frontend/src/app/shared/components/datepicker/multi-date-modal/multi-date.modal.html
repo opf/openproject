@@ -4,6 +4,10 @@
   [attr.id]="htmlId"
   #modalContainer
   data-indicator-name="modal"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
   (submit)="save($event)"
 >
   <op-datepicker-banner [scheduleManually]="scheduleManually"></op-datepicker-banner>
