@@ -244,6 +244,7 @@ export class ReminderSettingsDailyTimeComponent implements OnInit {
   private static dateForHour(hour:number) {
     const date = new Date();
     date.setTime(1000 * 60 * 60 * (hour - 1));
+    date.setMinutes(0);
 
     return date;
   }
