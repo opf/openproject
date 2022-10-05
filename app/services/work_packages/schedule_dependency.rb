@@ -93,6 +93,8 @@ class WorkPackages::ScheduleDependency
   end
 
   def descendants(work_package)
+    # Avoid using WorkPackage.with_ancestors to save database requests.
+    # All needed data is already loaded.
     @descendants ||= {}
     @descendants[work_package] ||= begin
       children = children_by_parent_id(work_package.id)
@@ -101,21 +103,32 @@ class WorkPackages::ScheduleDependency
     end
   end
 
+  # Get relations of type follows for which the given work package is a direct
+  # follower, or an indirect follower (through parent and/or children).
+  #
+  # Used by +Dependency#dependent_ids+ to get work packages that must be
+  # scheduled prior to the given work package.
   def follows_relations(work_package)
     @follows_relations ||= {}
-    @follows_relations[work_package] ||= begin
-      line = [work_package] + ancestors(work_package) + descendants(work_package)
-      @follows_relations_by_from_id ||= known_follows_relations.group_by(&:from_id)
-      @follows_relations_by_from_id
-        .fetch_values(*line.map(&:id)) { [] }
-        .flatten
-    end
+    @follows_relations[work_package] ||= all_direct_and_indirect_follows_relations_for(work_package)
   end
 
   private
 
   attr_accessor :known_follows_relations,
                 :moved_work_packages
+
+  def all_direct_and_indirect_follows_relations_for(work_package)
+    family = ancestors(work_package) + [work_package] + descendants(work_package)
+    follows_relations_by_follower_id
+      .fetch_values(*family.pluck(:id)) { [] }
+      .flatten
+      .uniq
+  end
+
+  def follows_relations_by_follower_id
+    @follows_relations_by_follower_id ||= known_follows_relations.group_by(&:from_id)
+  end
 
   def create_dependencies
     moving_work_packages.index_with { |work_package| Dependency.new(work_package, self) }
@@ -168,6 +181,7 @@ class WorkPackages::ScheduleDependency
     WorkPackage
       .with_ancestor(known_work_packages)
       .where.not(id: known_work_packages.map(&:id))
+      .distinct
   end
 
   # Load all the predecessors of follows relations that are not already loaded.

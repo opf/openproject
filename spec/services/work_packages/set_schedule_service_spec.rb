@@ -73,14 +73,7 @@ describe WorkPackages::SetScheduleService do
   let(:parent_follower1_due_date) { follower1_due_date }
 
   let(:parent_following_work_package1) do
-    work_package = create_follower(parent_follower1_start_date,
-                                   parent_follower1_due_date,
-                                   {})
-
-    following_work_package1.parent = work_package
-    following_work_package1.save
-
-    work_package
+    create_parent(following_work_package1)
   end
 
   let(:follower_sibling_work_package) do
@@ -107,6 +100,16 @@ describe WorkPackages::SetScheduleService do
     end
 
     work_package
+  end
+
+  def create_parent(child, start_date: child.start_date, due_date: child.due_date)
+    create(:work_package,
+           subject: "parent of #{child.subject}",
+           start_date:,
+           due_date:).tap do |parent|
+             child.parent = parent
+             child.save
+           end
   end
 
   def create_child(parent, start_date, due_date)
@@ -834,6 +837,36 @@ describe WorkPackages::SetScheduleService do
         expect(work_package.start_date).to eql(Time.zone.today + 1.day)
         expect(work_package.due_date).to eql(Time.zone.today + 2.days)
       end
+    end
+  end
+
+  context 'with deep hierarchy of work packages' do
+    before do
+      work_package.due_date = Time.zone.today - 5.days
+    end
+
+    def create_hierarchy(parent, nb_children_by_levels)
+      nb_children, *remaining_levels = nb_children_by_levels
+      children = create_list(:work_package, nb_children, parent:)
+      if remaining_levels.any?
+        children.each do |child|
+          create_hierarchy(child, remaining_levels)
+        end
+      end
+    end
+
+    it 'does not fail with a SystemStackError (regression #43894)' do
+      parent = create(:work_package, start_date: Date.current, due_date: Date.current)
+      hierarchy = [1, 1, 1, 1, 2, 4, 4, 4]
+      create_hierarchy(parent, hierarchy)
+
+      # The bug triggers when moving work package is in the middle of the
+      # hierarchy
+      work_package.parent = parent.children.first.children.first.children.first
+      work_package.save
+
+      expect { instance.call(attributes) }
+        .not_to raise_error
     end
   end
 end
