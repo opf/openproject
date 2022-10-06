@@ -46,7 +46,6 @@ import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.servi
 import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
-import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
@@ -77,8 +76,9 @@ import {
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
-import DateOption = flatpickr.Options.DateOption;
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+import { DeviceService } from 'core-app/core/browser/device.service';
+import DateOption = flatpickr.Options.DateOption;
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -118,7 +118,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   @InjectField() dateModalRelations:DateModalRelationsService;
 
-  @InjectField() browserDetector:BrowserDetector;
+  @InjectField() deviceService:DeviceService;
 
   @InjectField() weekdayService:WeekdayService;
 
@@ -150,6 +150,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   currentlyActivatedDateField:DateFields;
 
   htmlId = '';
+
+  datePattern = '[0-9]{4}-[0-9]{2}-[0-9]{2}';
 
   dates:{ [key in DateKeys]:string|null } = {
     start: null,
@@ -369,6 +371,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   // eslint-disable-next-line class-methods-use-this
   reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>):void {
+    if (this.deviceService.isMobile) {
+      return;
+    }
+
     element.position({
       my: 'left top',
       at: 'left bottom',
@@ -457,9 +463,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       [this.dates.start || '', this.dates.end || ''],
       {
         mode: 'range',
-        showMonths: this.browserDetector.isMobile ? 1 : 2,
+        showMonths: this.deviceService.isMobile ? 1 : 2,
         inline: true,
         onReady: (_date, _datestr, instance) => {
+          instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
           this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
           this.ensureHoveredSelection(instance.calendarContainer);
         },

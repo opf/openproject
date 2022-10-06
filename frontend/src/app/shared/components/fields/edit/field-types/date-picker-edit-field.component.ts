@@ -39,12 +39,15 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
 import { SingleDateModalComponent } from 'core-app/shared/components/datepicker/single-date-modal/single-date.modal';
 import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/multi-date-modal/multi-date.modal';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Directive()
 export abstract class DatePickerEditFieldComponent extends EditFieldComponent implements OnInit, OnDestroy {
   @InjectField() readonly timezoneService:TimezoneService;
 
   @InjectField() opModalService:OpModalService;
+
+  @InjectField() deviceService:DeviceService;
 
   protected modal:SingleDateModalComponent|MultiDateModalComponent;
 
@@ -70,7 +73,12 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
     const component = this.change.schema.isMilestone ? SingleDateModalComponent : MultiDateModalComponent;
     this.modal = this
       .opModalService
-      .show<SingleDateModalComponent|MultiDateModalComponent>(component, this.injector, { changeset: this.change, fieldName: this.name }, true);
+      .show<SingleDateModalComponent|MultiDateModalComponent>(
+        component,
+        this.injector,
+        { changeset: this.change, fieldName: this.name },
+        !this.deviceService.isMobile,
+      );
 
     const { modal } = this;
 
