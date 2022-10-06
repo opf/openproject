@@ -584,9 +584,8 @@ nl:
           mentioned:
             title: 'Ik ben @vermeld'
             description: 'Ontvang een melding elke keer dat iemand mij ergens noemt'
-          involved:
-            title: 'Toegewezen aan mij of verantwoordelijk'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
           watched: 'Updates van bekeken artikelen'
           work_package_commented: 'Alle nieuwe reacties'
           work_package_created: 'Nieuwe werkpakketten'

@@ -586,9 +586,8 @@ pl:
           mentioned:
             title: '@wzmianka o mnie'
             description: 'Otrzymuj powiadomienie za każdym razem, gdy pojawi się o tobie wzmianka gdziekolwiek'
-          involved:
-            title: 'Przypisane do mnie lub moja odpowiedzialność'
-            description: 'Otrzymuj powiadomienia o wszystkich czynnościach w pakietach roboczych, do których jesteś przypisany lub za które ponosisz odpowiedzialność'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
           watched: 'Aktualizacje obserwowanych pozycji'
           work_package_commented: 'Wszystkie nowe komentarze'
           work_package_created: 'Nowe pakiety robocze'

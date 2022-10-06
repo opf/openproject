@@ -584,9 +584,8 @@ fr:
           mentioned:
             title: 'Je suis @mentionné'
             description: 'Recevoir une notification chaque fois que quelqu''un me mentionne n''importe où'
-          involved:
-            title: 'Assigné à moi ou responsable'
-            description: 'Recevez des notifications pour toutes les activités sur les lots de travaux qui vous ont été assignés'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
           watched: 'Mises à jour sur les éléments surveillés'
           work_package_commented: 'Tous les nouveaux commentaires'
           work_package_created: 'Nouveaux lots de travaux'
@@ -1202,7 +1201,7 @@ fr:
         all: 'Tous les projets'
         selected: 'Uniquement la sélection'
       search_placeholder: 'Rechercher un projet...'
-      include_subprojects: 'Inclure tous les sous-projets'
+      include_subprojects: 'inclure tous les sous-projets'
       tooltip:
         include_all_selected: 'Projet déjà inclus puisque Include tous les sous-projets sont activés.'
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'

@@ -23,10 +23,10 @@ lol:
   js:
     work_packages:
       property_groups:
-        costs: "crwdns548075:0crwdne548075:0"
+        costs: "crwdns499999:0crwdne499999:0"
       properties:
-        overallCosts: "crwdns548077:0crwdne548077:0"
-        spentUnits: "crwdns548079:0crwdne548079:0"
-    button_log_costs: "crwdns548081:0crwdne548081:0"
-    label_hour: "crwdns548083:0crwdne548083:0"
-    label_hours: "crwdns548085:0crwdne548085:0"
+        overallCosts: "crwdns500001:0crwdne500001:0"
+        spentUnits: "crwdns500003:0crwdne500003:0"
+    button_log_costs: "crwdns500005:0crwdne500005:0"
+    label_hour: "crwdns500007:0crwdne500007:0"
+    label_hours: "crwdns500009:0crwdne500009:0"

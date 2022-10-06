@@ -584,9 +584,8 @@ hu:
           mentioned:
             title: 'Megemlítettek'
             description: 'Értesítés fogadása minden alkalommal, amikor bárki bárhol megemlít'
-          involved:
-            title: 'Hozzám vagy a felelőshöz rendelve'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
           watched: 'Updates on watched items'
           work_package_commented: 'Új megjegyzések'
           work_package_created: 'Új munkacsomagok'

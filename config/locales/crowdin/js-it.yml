@@ -584,9 +584,8 @@ it:
           mentioned:
             title: 'Ricevo una @menzione'
             description: 'Ricevi una notifica ogni volta che qualcuno ti menziona ovunque'
-          involved:
-            title: 'Assegnato a me o responsabile'
-            description: 'Ricevi notifiche per tutte le attività sui pacchetti di lavoro di cui sei assegnatario o responsabile.'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
           watched: 'Aggiornamenti sugli elementi osservati'
           work_package_commented: 'Tutti i nuovi commenti'
           work_package_created: 'Nuove macro-attività'

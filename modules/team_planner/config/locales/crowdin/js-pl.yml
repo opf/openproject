@@ -15,6 +15,7 @@ pl:
       today: 'Dzisiaj'
       drag_here_to_remove: 'Przeciągnij tutaj, aby usunąć przypisaną osobę oraz daty rozpoczęcia i zakończenia.'
       cannot_drag_here: 'Nie można usunąć pakietu roboczego ze względu na uprawnienia lub ograniczenia edycji.'
+      cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'
       quick_add:
         empty_state: 'Użyj pola wyszukiwania w celu znalezienia pakietów roboczych i przeciągnięcia ich do planisty, aby przypisać je do kogoś i zdefiniować daty rozpoczęcia i zakończenia.'
         search_placeholder: 'Wyszukaj...'
