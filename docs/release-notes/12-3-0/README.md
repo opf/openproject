@@ -14,11 +14,11 @@ We have now released [OpenProject 12.3.0](https://community.openproject.com/vers
 
 This release **improves the scheduling of work packages significantly** and will consequently save you a lot of time and make your scheduling more accurate.
 
-With OpenProject 12.3, administrators can define the [global work week](/docs/system-admin-guide/working-days/#working-days). That means which days of the week are working days and which are non-working days. The default setting for the work week is Monday-Friday. But you can set it according to your needs and define work week and weekends as needed.
+With OpenProject 12.3, administrators can define the [global work week](../../system-admin-guide/working-days/#working-days). That means which days of the week are working days and which are non-working days. The default setting for the work week is Monday-Friday. But you can set it according to your needs and define work week and weekends as needed.
 
-OpenProject 12.3 also adds [duration](/docs/user-guide/work-packages/set-change-dates/#duration) to work packages. Thereby, the duration is bound to the start and the finish date.
+OpenProject 12.3 also adds [duration](../../user-guide/work-packages/set-change-dates/#duration) to work packages. Thereby, the duration is bound to the start and the finish date.
 
-With the introduction of the work week and duration, consequently also the [date picker got improved](/docs/user-guide/work-packages/set-change-dates/#working-days). You will now see the duration as well as a switch to consider "Working days only" for your planning. 
+With the introduction of the work week and duration, consequently also the [date picker got improved](../../user-guide/work-packages/set-change-dates/#working-days). You will now see the duration as well as a switch to consider "Working days only" for your planning. 
 
 Addtionally, this release launches **meaningful tool tips to the most essential actions**, and **when copying a project, all file links attached to work packages will be copied as well**.
 
@@ -32,7 +32,7 @@ This helps you to create more accurate project schedules and avoid having start 
 
 ![work-week-admin-view](work-week-admin-5063871.png)
 
-You can find out [how to set working and non-working days](/docs/system-admin-guide/working-days/#working-days) and [how to schedule your work packages within and without working and non-working days](/docs/user-guide/work-packages/set-change-dates/#working-days) in our documentation.
+You can find out [how to set working and non-working days](../../system-admin-guide/working-days/#working-days) and [how to schedule your work packages within and without working and non-working days](../../user-guide/work-packages/set-change-dates/#working-days) in our documentation.
 
 ## Duration of work packages
 
@@ -42,7 +42,7 @@ The duration is always expressed in days and is the number of days between start
 
 ![changing duration in the duration field and seeing how the dates change in the calendar](duration.gif)
 
-Find out more on [how to make best use of the duration for your scheduling](/docs/user-guide/work-packages/set-change-dates/#duration) in our documentation.
+Find out more on [how to make best use of the duration for your scheduling](../../user-guide/work-packages/set-change-dates/#duration) in our documentation.
 
 ## Upgrade of the date picker
 
@@ -58,7 +58,7 @@ By moving the switch and deactivate the “Working days only”, non-working day
 
 ![setting start and finish date and switching from working days only to include weekends](working-days-only.gif)
 
-The functionality of the "Working days only" switch is well [documented](/docs/user-guide/work-packages/set-change-dates/#working-days).
+The functionality of the "Working days only" switch is well [documented](../../user-guide/work-packages/set-change-dates/#working-days).
 
 ### Please note the impact on the scheduling of all work packages 
 
