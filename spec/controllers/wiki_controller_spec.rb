@@ -105,17 +105,147 @@ describe WikiController, type: :controller do
     end
 
     describe 'show' do
-      let(:get_page) { get :show, params: { project_id: project, id: 'wiki' } }
+      let(:permissions) { %w[view_wiki_pages] }
+      let(:user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
 
-      describe 'with an empty wiki and no permission to edit' do
-        let(:view_role) { create :role, permissions: %w[view_wiki_pages] }
-        let(:user) { create(:user, member_in_project: project, member_through_role: view_role) }
+      current_user { user }
 
-        it 'visiting the start page redirects to index' do
-          login_as user
-          get_page
+      before do
+        get_page
+      end
+
+      context 'when querying for an existing page' do
+        let(:get_page) { get :show, params: { project_id: project, id: existing_page.title } }
+
+        it 'is a success' do
+          expect(response)
+            .to have_http_status(:ok)
+        end
+
+        it 'renders the show template' do
+          expect(response)
+            .to render_template(:show)
+        end
+
+        it 'assigns the page' do
+          expect(assigns[:page])
+            .to eql existing_page
+        end
+
+        it 'assigns the content' do
+          expect(assigns[:content])
+            .to eql existing_content
+        end
+      end
+
+      context 'when querying for the wiki root page with edit permissions' do
+        let(:get_page) { get :show, params: { project_id: project, id: 'wiki' } }
+        let(:permissions) { %w[view_wiki_pages edit_wiki_pages] }
+
+        it 'is a success' do
+          expect(response)
+            .to have_http_status(:ok)
+        end
+
+        it 'renders the new template' do
+          expect(response)
+            .to render_template(:new)
+        end
+
+        it 'assigns a new page that is unpersisted' do
+          expect(assigns[:page])
+            .to be_a WikiPage
+
+          expect(assigns[:page])
+            .to be_new_record
+        end
+
+        it 'assigns a new content that is unpersisted' do
+          expect(assigns[:content])
+            .to be_a WikiContent
+
+          expect(assigns[:content])
+            .to be_new_record
+        end
+      end
+
+      context 'when querying for an unexisting page with edit permissions' do
+        let(:get_page) { get :show, params: { project_id: project, id: 'new_page' } }
+        let(:permissions) { %w[view_wiki_pages edit_wiki_pages] }
+
+        it 'is a success' do
+          expect(response)
+            .to have_http_status(:ok)
+        end
+
+        it 'renders the new template' do
+          expect(response)
+            .to render_template(:new)
+        end
+
+        it 'assigns a new page that is unpersisted' do
+          expect(assigns[:page])
+            .to be_a WikiPage
+
+          expect(assigns[:page])
+            .to be_new_record
+        end
+
+        it 'assigns a new content that is unpersisted' do
+          expect(assigns[:content])
+            .to be_a WikiContent
+
+          expect(assigns[:content])
+            .to be_new_record
+        end
+      end
+
+      context 'when querying for no specific page' do
+        let(:get_page) do
+          project.wiki.update_column(:start_page, existing_page.title)
+
+          get :show, params: { project_id: project }
+        end
+
+        it 'is a success' do
+          expect(response)
+            .to have_http_status(:ok)
+        end
+
+        it 'renders the show template' do
+          expect(response)
+            .to render_template(:show)
+        end
+
+        it 'assigns the wiki start page' do
+          expect(assigns[:page])
+            .to eql existing_page
+        end
+
+        it 'assigns the wiki start page content' do
+          expect(assigns[:content])
+            .to eql existing_content
+        end
+      end
+
+      context 'when querying for the wiki root page without edit permissions' do
+        let(:get_page) { get :show, params: { project_id: project, id: 'wiki' } }
+
+        it 'redirects to index' do
           expect(response).to redirect_to action: :index
+        end
+
+        it 'shows a flash info' do
           expect(flash[:info]).to include I18n.t('wiki.page_not_editable_index')
+        end
+      end
+
+      context 'when querying for a non existing page without edit permissions' do
+        let(:get_page) { get :show, params: { project_id: project, id: 'new_page' } }
+
+        it 'returns 404' do
+          expect(response)
+            .to have_http_status(:not_found)
         end
       end
     end

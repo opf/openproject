@@ -45,44 +45,6 @@ describe WikiController, type: :controller do
     wiki.find_page(wiki.start_page) || wiki.pages.first
   end
 
-  it 'shows start page' do
-    get :show, params: { project_id: 'ecookbook' }
-    assert_response :success
-    assert_template 'show'
-    assert_select 'h1', content: /CookBook documentation/
-
-    # child_pages macro
-    assert_select 'ul',
-                  attributes: { class: 'pages-hierarchy' },
-                  child: {
-                    tag: 'li',
-                    child: {
-                      tag: 'a',
-                      attributes: { href: '/projects/ecookbook/wiki/Page_with_an_inline_image' },
-                      content: 'Page with an inline image'
-                    }
-                  }
-  end
-
-  it 'shows page with name' do
-    get :show, params: { project_id: 1, id: 'Another page' }
-    assert_response :success
-    assert_template 'show'
-    assert_select 'h1', content: /Another page/
-  end
-
-  it 'shows unexistent page without edit right' do
-    get :show, params: { project_id: 1, id: 'Unexistent page' }
-    assert_response 404
-  end
-
-  it 'shows unexistent page with edit right' do
-    session[:user_id] = 2
-    get :show, params: { project_id: 1, id: 'Unexistent page' }
-    assert_response :success
-    assert_template 'new'
-  end
-
   it 'histories with one version' do
     create :wiki_content_journal,
            journable_id: 2,
