@@ -12,8 +12,6 @@ import SpotDropAlignmentOption from '../../../drop-alignment-options';
   templateUrl: './DropModalList.component.html',
 })
 export class SbDropModalListComponent {
-  @HostBinding('class.spot-drop-modal') public className = true;
-
   @Input() public alignment:SpotDropAlignmentOption = SpotDropAlignmentOption.BottomLeft;
 
   @Input('open') public dropModalOpen = false;

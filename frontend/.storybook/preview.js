@@ -1,15 +1,13 @@
 import { setCompodocJson } from "@storybook/addon-docs/angular";
-import { addParameters } from '@storybook/client-api';
 import { themes } from '@storybook/theming';
 import docJson from "../documentation.json";
 
 setCompodocJson(docJson);
 
-addParameters({
-  viewMode: 'docs',
-});
-
 export const parameters = {
+  parameters: {
+    viewMode: 'docs',
+  },
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
     matchers: {

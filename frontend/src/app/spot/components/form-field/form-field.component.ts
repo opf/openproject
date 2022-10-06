@@ -16,17 +16,48 @@ export class SpotFormFieldComponent {
     return this.showErrorMessage;
   }
 
+  /**
+   * The text label of the input
+   */
   @Input() label = '';
 
+  /**
+   * By default, the label wraps the input. For some input types this
+   * leads to unwanted behavior because clicking in the input might focus
+   * unrelated elements.
+   *
+   * One example of an input like is the CKEditor rich text editor.
+   *
+   * Setting noWrapLabel to `true` causes the label not to wrap the input.
+   * This might slighly reduce the label functionality (e.g. clicking the label
+   * does not focus the input) but is still preferred over more broken behavior.
+   */
   @Input() noWrapLabel = false;
 
+  /**
+   * Whether this input is required
+   */
   @Input() required = false;
 
-  @Input() hidden = false;
-
+  /**
+   * When to show validation errors. To remain consistent, you will almost never need to change this.
+   * However, for some inputs or usecases it might be useful to show the validation error anyway.
+   */
   @Input() showValidationErrorOn:'change' | 'blur' | 'submit' | 'never' = 'submit';
 
+  /**
+   * The control of the input. This can be any interface that is compatible with `AbstractControl`,
+   * but will almost always be a `FormControl`.
+   *
+   * The control is used to show disabled and invalid states.
+   */
   @Input() control?:AbstractControl;
+
+  /**
+   * Hides the input. This is a utility input for usage of `spot-form-field` in dynamic forms.
+   * Outisde of dynamic forms, you should be hiding inputs via `*ngIf` or other methods.
+   */
+  @Input() hidden = false;
 
   @ContentChild(NgControl) ngControl:NgControl;
 
