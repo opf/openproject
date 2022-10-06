@@ -805,7 +805,7 @@ GEM
     recaptcha (5.12.3)
       json
     redcarpet (3.5.1)
-    regexp_parser (2.5.0)
+    regexp_parser (2.6.0)
     representable (3.2.0)
       declarative (< 0.1.0)
       trailblazer-option (>= 0.1.1, < 0.2.0)
