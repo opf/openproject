@@ -43,7 +43,7 @@ describe('WpTabsService', () => {
     });
     service = TestBed.inject(WorkPackageTabsService);
     (service as any).registeredTabs = [];
-    service.register(displayableTab, notDisplayableTab);
+    service.register({ ...displayableTab }, { ...notDisplayableTab });
   });
 
   describe('displayableTabs()', () => {

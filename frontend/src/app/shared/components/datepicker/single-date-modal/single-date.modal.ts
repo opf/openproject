@@ -71,6 +71,7 @@ import {
   setDates,
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Component({
   templateUrl: './single-date.modal.html',
@@ -93,7 +94,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
 
   @InjectField() dateModalRelations:DateModalRelationsService;
 
-  @InjectField() browserDetector:BrowserDetector;
+  @InjectField() deviceService:DeviceService;
 
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
@@ -112,6 +113,8 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
   ignoreNonWorkingDays = false;
 
   htmlId = '';
+
+  datePattern = '[0-9]{4}-[0-9]{2}-[0-9]{2}';
 
   date:string|null = null;
 
@@ -245,6 +248,10 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
 
   // eslint-disable-next-line class-methods-use-this
   reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>):void {
+    if (this.deviceService.isMobile) {
+      return;
+    }
+
     element.position({
       my: 'left top',
       at: 'left bottom',
@@ -261,9 +268,10 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
       this.date || '',
       {
         mode: 'single',
-        showMonths: this.browserDetector.isMobile ? 1 : 2,
+        showMonths: this.deviceService.isMobile ? 1 : 2,
         inline: true,
-        onReady: () => {
+        onReady: (_date, _datestr, instance) => {
+          instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
           this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
         },
         onChange: (dates:Date[]) => {
