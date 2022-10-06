@@ -15,6 +15,7 @@ lt:
       today: 'Šiandien'
       drag_here_to_remove: 'Pertempkite čia, kad išimtumėte paskirtąjį ir pradžios bei pabaigos datas.'
       cannot_drag_here: 'Darbo paketo negalima pašalinti dėl teisių ar keitimo apribojimų.'
+      cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'
       quick_add:
         empty_state: 'Naudokite paieškos lauką darbo paketų paieškai, nutempkite juos į planą, kad priskirtumėte kažkam ir nustatytumėte pradžios bei pabaigos datas.'
         search_placeholder: 'Ieškoti...'

@@ -15,6 +15,7 @@ de:
       today: 'Heute'
       drag_here_to_remove: 'Hierher ziehen, um den zugewiesenen Benutzer zu entfernen und die Start- und Enddaten zu löschen.'
       cannot_drag_here: 'Das Arbeitspaket kann aufgrund von Berechtigungen oder Beschränkungen nicht entfernt werden.'
+      cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'
       quick_add:
         empty_state: 'Benutzen Sie das Suchfeld, um Arbeitspakete zu finden und ziehen Sie sie in den Planer, um sie Nutzern zuzuweisen und Start- und Enddaten zu setzen.'
         search_placeholder: 'Suchen...'

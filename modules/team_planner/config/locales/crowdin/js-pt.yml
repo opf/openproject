@@ -15,6 +15,7 @@ pt:
       today: 'Hoje'
       drag_here_to_remove: 'Arraste aqui para remover o responsável e as datas de início e término.'
       cannot_drag_here: 'Não é possível remover o pacote de trabalho devido a permissões ou restrições de edição.'
+      cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'
       quick_add:
         empty_state: 'Use o campo de pesquisa para encontrar pacotes de trabalho e arraste-os para o planejador para atribuí-los para alguém e definir as datas de início e término.'
         search_placeholder: 'Pesquisar...'

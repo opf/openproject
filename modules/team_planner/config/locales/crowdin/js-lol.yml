@@ -15,6 +15,7 @@ lol:
       today: 'crwdns810774:0crwdne810774:0'
       drag_here_to_remove: 'crwdns810776:0crwdne810776:0'
       cannot_drag_here: 'crwdns810778:0crwdne810778:0'
+      cannot_drag_to_non_working_day: 'crwdns834620:0crwdne834620:0'
       quick_add:
         empty_state: 'crwdns810780:0crwdne810780:0'
         search_placeholder: 'crwdns810782:0crwdne810782:0'

@@ -15,6 +15,7 @@ ca:
       today: 'Avui'
       drag_here_to_remove: 'Arrossega aquí per eliminar l''usuari assignat i les dates d''inici i final.'
       cannot_drag_here: 'No s''ha pogut eliminar el paquet de treball a causa dels permisos o les restriccions d''edició.'
+      cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'
       quick_add:
         empty_state: 'Utilitza el camp de cerca per trobar els paquets de treball i arrossegar-los dins del planificador d''equips i assignar-los a algú i definir les dates d''inici i final. '
         search_placeholder: 'Cerca...'
