@@ -427,7 +427,7 @@ GEM
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
       railties (>= 3.2)
-    dry-container (0.10.1)
+    dry-container (0.11.0)
       concurrent-ruby (~> 1.0)
     dry-core (0.8.1)
       concurrent-ruby (~> 1.0)
@@ -612,7 +612,7 @@ GEM
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
-    loofah (2.18.0)
+    loofah (2.19.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -1000,7 +1000,7 @@ GEM
       activerecord (>= 4.2)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.6.0)
+    zeitwerk (2.6.1)
 
 PLATFORMS
   ruby
