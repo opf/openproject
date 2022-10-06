@@ -24,6 +24,13 @@
   </ng-container>
 
   <div
+    class="spot-form-field--description"
+    [id]="descriptionID"
+  >
+    <ng-content select="[slot=description]"></ng-content>
+  </div>
+
+  <div
     class="spot-form-field--errors"
     *ngIf="showErrorMessage"
     [id]="errorsID"
@@ -31,21 +38,12 @@
     <ng-content select="[slot=errors]"></ng-content>
   </div>
 
-  <div
-    class="spot-form-field--action"
-  >
+  <div class="spot-form-field--actions">
     <ng-content select="[slot=action]"></ng-content>
   </div>
 </ng-container>
 
 <ng-template #inputTemplate>
-  <div
-    class="spot-form-field--description"
-    [id]="descriptionID"
-  >
-    <ng-content select="[slot=description]"></ng-content>
-  </div>
-
   <div
     class="spot-form-field--input"
     [attr.aria-describedby]="describedByID"

@@ -26,10 +26,16 @@
       color: $spot-color-basic-black
 
   &--help-text
-    padding-left: $spot-spacing-0-25
+    padding-left: $spot-spacing-0_25
 
-  &--action
+  &--actions
     @include spot-body-small
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+
+    > *
+      margin-right: $spot-spacing-0_5
 
   &--input
     margin-bottom: $spot-spacing-0_25
