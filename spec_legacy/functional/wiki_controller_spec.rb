@@ -232,11 +232,6 @@ describe WikiController, type: :controller do
     end
   end
 
-  it 'does not found' do
-    get :show, params: { project_id: 999 }
-    assert_response 404
-  end
-
   it 'protects page' do
     page = WikiPage.find_by(wiki_id: 1, title: 'Another page')
     assert !page.protected?
@@ -253,22 +248,6 @@ describe WikiController, type: :controller do
     post :protect, params: { project_id: 1, id: page.title, protected: '0' }
     assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'cookbook-documentation'
     assert !page.reload.protected?
-  end
-
-  it 'shows page with edit link' do
-    session[:user_id] = 2
-    get :show, params: { project_id: 1 }
-    assert_response :success
-    assert_template 'show'
-    assert_select 'a', attributes: { href: '/projects/1/wiki/CookBook+documentation/edit' }
-  end
-
-  it 'shows page without edit link' do
-    session[:user_id] = 4
-    get :show, params: { project_id: 1 }
-    assert_response :success
-    assert_template 'show'
-    assert_select('a', { attributes: { href: '/projects/1/wiki/CookBook+documentation/edit' } }, false)
   end
 
   it 'edits unprotected page' do
