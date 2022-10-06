@@ -639,10 +639,8 @@ GEM
     mustermann-grape (1.0.2)
       mustermann (>= 1.0.0)
     nap (1.1.0)
-    net-imap (0.2.3)
-      digest
+    net-imap (0.3.1)
       net-protocol
-      strscan
     net-ldap (0.17.1)
     net-pop (0.1.1)
       digest
@@ -938,7 +936,6 @@ GEM
     stackprof (0.2.21)
     stringex (2.8.5)
     stringio (3.0.2)
-    strscan (3.0.4)
     structured_warnings (0.4.0)
     svg-graph (2.2.1)
     swd (1.3.0)
