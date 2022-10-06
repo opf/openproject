@@ -67,9 +67,16 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
    */
   @Input() public value = '';
 
+  /**
+   * The html input (Regexp) pattern to provide hints to keyboards what layout to use
+   * and to aid in validation.
+   */
   @Input() public pattern:string|undefined;
 
-  @Input() public inputmode:string = 'text';
+  /**
+   * The html inputmode to hint virtual keyboard layouts.
+   */
+  @Input() public inputmode:'text'|'decimal'|'numeric'|'tel'|'search'|'email'|'url' = 'text';
 
   valueChanged(value:string):void {
     this.writeValue(value);
