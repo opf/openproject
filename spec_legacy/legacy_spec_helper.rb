@@ -55,6 +55,11 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
+  # Clear fixtures so that normal specs can run without needing truncation
+  config.after(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
   config.include LegacyAssertionsAndHelpers
   config.include ActiveSupport::Testing::Assertions
   config.include Shoulda::Context::Assertions
