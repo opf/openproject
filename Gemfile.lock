@@ -619,7 +619,7 @@ GEM
     marcel (1.0.2)
     matrix (0.4.2)
     messagebird-rest (1.4.2)
-    meta-tags (2.17.0)
+    meta-tags (2.18.0)
       actionpack (>= 3.2.0, < 7.1)
     method_source (1.0.0)
     mime-types (3.4.1)
@@ -1067,7 +1067,7 @@ DEPENDENCIES
   livingstyleguide (~> 2.1.0)
   lograge (~> 0.12.0)
   matrix (~> 0.4.2)
-  meta-tags (~> 2.17.0)
+  meta-tags (~> 2.18.0)
   mini_magick (~> 4.11.0)
   multi_json (~> 1.15.0)
   my_page!
