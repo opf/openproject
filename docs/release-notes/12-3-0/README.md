@@ -20,37 +20,55 @@ OpenProject 12.3 also adds [duration](/docs/user-guide/work-packages/set-change-
 
 With the introduction of the work week and duration, consequently also the [date picker got improved](/docs/user-guide/work-packages/set-change-dates/#working-days). You will now see the duration as well as a switch to consider "Working days only" for your planning. 
 
-Addtionally, this release launches the possibility **to add meaningful tool tips to the most essential actions**, and **when copying a project, all file links attached to work packages will be copied as well**.
+Addtionally, this release launches **meaningful tool tips to the most essential actions**, and **when copying a project, all file links attached to work packages will be copied as well**.
 
 As always, this release also contains many more improvements and bug fixes. We recommend updating to the newest version as soon as possible.
 
 ## Introduction of the global work week
 
-OpenProject 12.3 allows the administrator to specify working and non-working days on an overall instance-level and consequently define a work week. This helps you to create more accurate project schedules and avoid having start or finish date of a work packages on a weekend. Non-working days are displayed grey in the calendar and work packages cannot be scheduled to start or finish on those days. The default value for non-working days is set to Saturday and Sunday, but of course it can be adjusted.
+OpenProject 12.3 gives the administrator the possibility to specify working and non-working days on an overall instance-level and consequently define a global work week. 
 
-![warning in date picker](date-picker-warning.png)
+This helps you to create more accurate project schedules and avoid having start or finish date of a work packages on a weekend. Non-working days are displayed grey in the calendar and work packages cannot be scheduled to start or finish on those days. The default value for non-working days is set to Saturday and Sunday, but you set them as needed.
 
-You can find out more [how to use the Nextcloud integration](../../user-guide/nextcloud-integration/) as well as the [how to setup the Nextcloud integration](../../system-admin-guide/integrations/nextcloud/) in our documentation.
+![work-week-admin-view](work-week-admin-5063871.png)
 
-## Contextual information and warnings when scheduling work packages
+You can find out [how to set working and non-working days](/docs/system-admin-guide/working-days/#working-days) and [how to schedule your work packages within and without working and non-working days](/docs/user-guide/work-packages/set-change-dates/#working-days) in our documentation.
 
-For OpenProject 12.2, the team has worked on **improving the date picker** to give you more clarity when scheduling work packages. To choose [automatic or manual scheduling mode](../../user-guide/gantt-chart/scheduling/), the selection box moved to the top of the date picker to be more visible. We are also introducing information and warning banners that provide important contextual information before modifying dates of work packages that have relations with other work packages. 
+## Duration of work packages
 
-*Blue banners* will indicate information that maybe be helpful (such as if the work package's dates are automatically derived from relations, or if available date ranges are limited by relations) and *orange banners* will warn of possible consequences to other work packages (existing relations being ignored as a result of enabling manual scheduling, or the dates of related work packages changing as a result of changes to the current work package). 
+OpenProject 12.3 introduces the duration of work packages. Schedule your work packages faster by using the new duration field.
 
-Additionally, a new "**Show relations**" on these banners allows you to quickly generate a Gantt view showing all directly related work packages in hierarchy view, so you can preview which work packages might be affected before making a change.
+The duration is always expressed in days and is the number of days between start and finish dates (inclusive). It is directly related to the start and finish dates, but does not require both of them. You can define a start date for a work package, enter the duration in working days and the finish date will automatically be set. Also, you can enter duration and finish date and the start date will be set. In all cases, the duration is consistent with the start and the finish date. Updating dates will update the duration, and updating duration will update your finish date.
 
-![warning in date picker](date-picker-warning.png)
+![changing duration in the duration field and seeing how the dates change in the calendar](duration.gif)
 
-Find out more about how to set and change dates with the [improved date picker](../../user-guide/work-packages/set-change-dates/) in our documentation.
+Find out more on [how to make best use of the duration for your scheduling](/docs/user-guide/work-packages/set-change-dates/#duration) in our documentation.
 
-## Improved navigation bar
+## Upgrade of the date picker
 
-When you open the project drop down from the header menu to view all projects, you are now also able to create new projects, simply by clicking on **+ Project**.
+With the addition of duration and introduction of the global work week, the date picker got updated to reflect these changes. You will now find a duration field and a working days only switch.
 
-To view all available projects, simply click on the **Projects list** button at the bottom of the modal.
+The duration field is obviously there to indicate the duration of a work package and to assist with setting start or finish date.
 
-![improved project selection](improved-navigation-bar.png)
+With the working days only switch you can decide to either stick to the set work week or to include weekends. 
+
+By default the **Working days only** switch is activated and the work week, as defined in the administration settings, is used to define the duration. Consequently, non-working days are not included in the calculation of the duration. These non-working days show in grey in the calendar and are not clickable.
+
+By moving the switch and deactivate the “Working days only”, non-working days will be included in the calculation of the duration. You can now also select non-working days as start or finish dates of work packages. Hence, all days appear the same in the calendar and all are clickable.
+
+![setting start and finish date and switching from working days only to include weekends](working-days-only.gif)
+
+The functionality of the "Working days only" switch is well [documented](/docs/user-guide/work-packages/set-change-dates/#working-days).
+
+### Please note the impact on the scheduling of all work packages 
+
+These changes to scheduling will not impact work packages created before the release of OpenProject 12.3 or before the upgrade to OpenProject 12.3. For the work packages created before OpenProject 12.3, the setting will have automatically turned-off the switch for “Working days only”. This is important to not change any existing dates for work packages. However, for new work packages, the switch will be set by default to “Working days only”.
+
+## Tool tips for most essential actions
+
+The new and additional tool tips in the OpenProject application will make the navigation easier for users that are not yet very familiar with OpenProject. The tool tips make clear what happens when the user clicks on a certain button.  
+
+![hover over select a project and tool tip view all projects comes up](tool tip.png)
 
 ##  List of all bug fixes and changes
 
