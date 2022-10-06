@@ -497,7 +497,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             // DnD configuration
             editable: true,
             droppable: true,
-            eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
+            eventResize: (resizeInfo:EventResizeDoneArg) => {
+              const due = moment(resizeInfo.event.endStr).subtract(1, 'day').toDate();
+              const start = moment(resizeInfo.event.startStr).toDate();
+              const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
+              if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.weekdayService.isNonWorkingDay(due))) {
+                this.toastService.addError(this.text.cannot_drag_to_non_working_day);
+                resizeInfo?.revert();
+                return;
+              }
+              void this.updateEvent(resizeInfo);
+            },
             eventResizeStart: (resizeInfo:EventResizeDoneArg) => {
               const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
               if (!wp.ignoreNonWorkingDays) {
@@ -521,10 +531,26 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               this.draggingItem$.next(undefined);
               this.removeBackGroundEvents();
             },
-            eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
-            eventReceive: async (dropInfo:EventReceiveArg) => {
-              await this.updateEvent(dropInfo);
+            eventDrop: (dropInfo:EventDropArg) => {
+              const start = moment(dropInfo.event.startStr).toDate();
               const wp = dropInfo.event.extendedProps.workPackage as WorkPackageResource;
+              if (!wp.ignoreNonWorkingDays && this.weekdayService.isNonWorkingDay(start)) {
+                this.toastService.addError(this.text.cannot_drag_to_non_working_day);
+                dropInfo?.revert();
+                return;
+              }
+              void this.updateEvent(dropInfo);
+            },
+            eventReceive: async (dropInfo:EventReceiveArg) => {
+              const due = moment(dropInfo.event.endStr).subtract(1, 'day').toDate();
+              const start = moment(dropInfo.event.startStr).toDate();
+              const wp = dropInfo.event.extendedProps.workPackage as WorkPackageResource;
+              if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.weekdayService.isNonWorkingDay(due))) {
+                this.toastService.addError(this.text.cannot_drag_to_non_working_day);
+                dropInfo?.revert();
+                return;
+              }
+              await this.updateEvent(dropInfo);
               this.actions$.dispatch(teamPlannerEventAdded({ workPackage: wp.id as string }));
             },
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -813,13 +839,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   private async updateEvent(info:EventResizeDoneArg|EventDropArg|EventReceiveArg):Promise<void> {
     const changeset = this.workPackagesCalendar.updateDates(info);
-    const due = moment(info.event.endStr).subtract(1, 'day').toDate();
-    const start = moment(info.event.startStr).toDate();
-    if (!changeset.projectedResource.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.weekdayService.isNonWorkingDay(due))) {
-      this.toastService.addError(this.text.cannot_drag_to_non_working_day);
-      info?.revert();
-      return;
-    }
     const resource = info.event.getResources()[0];
     if (resource) {
       changeset.setValue('assignee', { href: resource.id });
