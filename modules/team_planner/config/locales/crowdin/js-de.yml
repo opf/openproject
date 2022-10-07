@@ -3,7 +3,7 @@ de:
   js:
     team_planner:
       add_existing: 'Bestehende hinzufügen'
-      add_existing_title: 'Add existing work packages'
+      add_existing_title: 'Vorhandenes Arbeitspaket hinzufügen'
       create_label: 'Team planner'
       create_title: 'Create new team planner'
       unsaved_title: 'Unbenannter Teamplaner'

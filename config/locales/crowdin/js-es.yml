@@ -584,8 +584,8 @@ es:
           mentioned:
             title: 'Estoy @mencionado'
             description: 'Recibir una notificación cada vez que un usuario me mencione'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
+          assignee: 'Asignado a'
+          responsible: 'Responsable'
           watched: 'Actualizaciones en elementos observados'
           work_package_commented: 'Todos los nuevos comentarios'
           work_package_created: 'Nuevos paquetes de trabajo'

@@ -584,8 +584,8 @@ ca:
           mentioned:
             title: 'He estat @mencionat'
             description: 'Rep una notificació cada vegada que algú em menciona a qualsevol lloc'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
+          assignee: 'Assignat a'
+          responsible: 'Responsable'
           watched: 'Actualitzacions en elements observats'
           work_package_commented: 'Tots els nous comentaris'
           work_package_created: 'Paquets de treball nou'
