@@ -88,7 +88,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.30.0'
+gem 'rouge', '~> 4.0.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 6.0.0'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -120,7 +120,7 @@ gem 'daemons'
 gem 'delayed_cron_job', '~> 0.9.0'
 gem 'delayed_job_active_record', '~> 4.1.5'
 
-gem 'rack-protection', '~> 2.2.0'
+gem 'rack-protection', '~> 3.0.0'
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
 # It allows whitelisting, blacklisting, throttling, and tracking based
@@ -157,7 +157,7 @@ gem 'matrix', '~> 0.4.2'
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.1.4'
 
-gem 'meta-tags', '~> 2.17.0'
+gem 'meta-tags', '~> 2.18.0'
 
 gem "paper_trail", "~> 12.3"
 
@@ -235,7 +235,7 @@ group :test do
   gem 'capybara', '~> 3.37.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 4.0'
-  gem 'webdrivers', '~> 5.0.0'
+  gem 'webdrivers', '~> 5.2.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
