@@ -34,43 +34,6 @@ describe Project, type: :model do
     User.current = nil
   end
 
-  it { is_expected.to validate_presence_of :name }
-
-  context 'associations' do
-    it { is_expected.to have_many :members                                       }
-    it { is_expected.to have_many(:users).through(:members)                      }
-    it { is_expected.to have_many :member_principals                             }
-    it { is_expected.to have_many(:principals).through(:member_principals)       }
-    it { is_expected.to have_many :enabled_modules                               }
-    it { is_expected.to have_many :work_packages                                 }
-    it { is_expected.to have_many(:work_package_changes).through(:work_packages) }
-    it { is_expected.to have_many :versions                                      }
-    it { is_expected.to have_many :time_entries                                  }
-    it { is_expected.to have_many :queries                                       }
-    it { is_expected.to have_many :news                                          }
-    it { is_expected.to have_many :categories                                    }
-    it { is_expected.to have_many :forums                                        }
-    it { is_expected.to have_many(:changesets).through(:repository)              }
-
-    it { is_expected.to have_one :repository                                     }
-    it { is_expected.to have_one :wiki                                           }
-
-    it { is_expected.to have_and_belong_to_many :types                           }
-    it { is_expected.to have_and_belong_to_many :work_package_custom_fields      }
-  end
-
-  it 'memberses should be active users' do
-    Project.all.each do |project|
-      assert_nil project.members.detect { |m| !(m.principal.is_a?(User) && m.principal.active?) }
-    end
-  end
-
-  it 'userses should be active users' do
-    Project.all.each do |project|
-      assert_nil project.users.detect { |u| !(u.is_a?(User) && u.active?) }
-    end
-  end
-
   it 'parents' do
     p = Project.find(6).parent
     assert p.is_a?(Project)

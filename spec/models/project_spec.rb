@@ -192,6 +192,38 @@ describe Project, type: :model do
     end
   end
 
+  describe '#members' do
+    let(:role) { create(:role) }
+    let(:active_user) { create(:user) }
+    let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
+
+    let(:inactive_user) { create(:user, status: Principal.statuses[:locked]) }
+    let!(:inactive_member) { create(:member, project:, user: inactive_user, roles: [role]) }
+
+    it 'only includes active members' do
+      expect(project.members)
+        .to eq [active_member]
+    end
+  end
+
+  include_examples 'creates an audit trail on destroy' do
+    subject { create(:attachment) }
+  end
+
+  describe '#users' do
+    let(:role) { create(:role) }
+    let(:active_user) { create(:user) }
+    let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
+
+    let(:inactive_user) { create(:user, status: Principal.statuses[:locked]) }
+    let!(:inactive_member) { create(:member, project:, user: inactive_user, roles: [role]) }
+
+    it 'only includes active users' do
+      expect(project.users)
+        .to eq [active_user]
+    end
+  end
+
   include_examples 'creates an audit trail on destroy' do
     subject { create(:attachment) }
   end
