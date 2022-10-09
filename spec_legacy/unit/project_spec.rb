@@ -34,37 +34,6 @@ describe Project, type: :model do
     User.current = nil
   end
 
-  it 'parents' do
-    p = Project.find(6).parent
-    assert p.is_a?(Project)
-    assert_equal 5, p.id
-  end
-
-  it 'ancestorses' do
-    a = Project.find(6).ancestors
-    assert a.first.is_a?(Project)
-    assert_equal [1, 5], a.map(&:id).sort
-  end
-
-  it 'roots' do
-    r = Project.find(6).root
-    assert r.is_a?(Project)
-    assert_equal 1, r.id
-  end
-
-  it 'childrens' do
-    c = Project.find(1).children
-    assert c.first.is_a?(Project)
-    # ignore ordering, since it depends on database collation configuration
-    # and may order lowercase/uppercase chars in a different order
-    assert_equal [3, 4, 5], c.map(&:id).sort!
-  end
-
-  it 'descendantses' do
-    d = Project.find(1).descendants.pluck(:id)
-    assert_equal [3, 4, 5, 6], d.sort
-  end
-
   it 'userses by role' do
     users_by_role = Project.find(1).users_by_role
     assert_kind_of Hash, users_by_role
@@ -123,16 +92,5 @@ describe Project, type: :model do
     project.reload
     # Ids should be preserved
     assert_equal project.enabled_module_ids.sort, modules.map(&:id).sort
-  end
-
-  it 'closes completed versions' do
-    Version.update_all("status = 'open'")
-    project = Project.find(1)
-    refute_nil project.versions.detect { |v| v.completed? && v.status == 'open' }
-    refute_nil project.versions.detect { |v| !v.completed? && v.status == 'open' }
-    project.close_completed_versions
-    project.reload
-    assert_nil project.versions.detect { |v| v.completed? && v.status != 'closed' }
-    refute_nil project.versions.detect { |v| !v.completed? && v.status == 'open' }
   end
 end

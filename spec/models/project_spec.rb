@@ -227,4 +227,98 @@ describe Project, type: :model do
   include_examples 'creates an audit trail on destroy' do
     subject { create(:attachment) }
   end
+
+  describe '#close_completed_versions' do
+    let!(:completed_version) do
+      create(:version, project:, effective_date: Date.parse('2000-01-01')).tap do |v|
+        create(:work_package, version: v, status: create(:closed_status))
+      end
+    end
+    let!(:ineffective_version) do
+      create(:version, project:, effective_date: Date.current + 1.day).tap do |v|
+        create(:work_package, version: v, status: create(:closed_status))
+      end
+    end
+    let!(:version_with_open_wps) do
+      create(:version, project:, effective_date: Date.parse('2000-01-01')).tap do |v|
+        create(:work_package, version: v)
+      end
+    end
+
+    before do
+      project.close_completed_versions
+    end
+
+    it 'closes the completed version' do
+      expect(completed_version.reload.status)
+        .to eq 'closed'
+    end
+
+    it 'keeps the version with the not yet reached date open' do
+      expect(ineffective_version.reload.status)
+        .to eq 'open'
+    end
+
+    it 'keeps the version with open work packages open' do
+      expect(version_with_open_wps.reload.status)
+        .to eq 'open'
+    end
+  end
+
+  describe 'hierarchy methods' do
+    shared_let(:root_project) { create(:project) }
+    shared_let(:parent_project) { create(:project, parent: root_project) }
+    shared_let(:child_project1) { create(:project, parent: parent_project) }
+    shared_let(:child_project2) { create(:project, parent: parent_project) }
+
+    describe '#parent' do
+      it 'returns the parent' do
+        expect(parent_project.parent)
+          .to eq root_project
+      end
+    end
+
+    describe '#root' do
+      it 'returns the root of the hierarchy' do
+        expect(child_project1.root)
+          .to eq root_project
+      end
+    end
+
+    describe '#ancestors' do
+      it 'returns the ancestors of the work package' do
+        expect(child_project1.ancestors)
+          .to eq [root_project, parent_project]
+      end
+
+      it 'returns empty array if there are no ancestors' do
+        expect(root_project.ancestors)
+          .to be_empty
+      end
+    end
+
+    describe '#desendants' do
+      it 'returns the descendants of the work package' do
+        expect(root_project.descendants)
+          .to eq [parent_project, child_project1, child_project2]
+      end
+
+      it 'returns empty array if there are no descendants' do
+        expect(child_project2.descendants)
+          .to be_empty
+      end
+    end
+
+    describe '#children' do
+      it 'returns the children of the work package' do
+        expect(parent_project.children)
+          .to eq [child_project1, child_project2]
+      end
+
+      it 'returns empty array if there are no descendants' do
+        expect(child_project2.children)
+          .to be_empty
+      end
+    end
+  end
 end
