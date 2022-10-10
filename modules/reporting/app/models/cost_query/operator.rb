@@ -50,7 +50,7 @@ class CostQuery::Operator < Report::Operator
     def modify(query, field, *values)
       p_ids = []
       values.each do |value|
-        p_ids += ([value] << Project.find(value).descendants.map { |p| p.id })
+        p_ids += ([value] << Project.find(value).descendants.map(&:id))
       end
       "=".to_operator.modify query, field, p_ids
     rescue ActiveRecord::RecordNotFound
@@ -62,7 +62,9 @@ class CostQuery::Operator < Report::Operator
     def modify(query, field, *values)
       p_ids = []
       values.each do |value|
-        p_ids += ([value] << Project.find(value).descendants.map { |p| p.id })
+        value.to_s.split(',').each do |id|
+          p_ids += ([id] << Project.find(id).descendants.map(&:id))
+        end
       end
       "!".to_operator.modify query, field, p_ids
     rescue ActiveRecord::RecordNotFound
