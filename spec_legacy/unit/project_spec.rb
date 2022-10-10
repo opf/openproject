@@ -34,14 +34,6 @@ describe Project, type: :model do
     User.current = nil
   end
 
-  it 'userses by role' do
-    users_by_role = Project.find(1).users_by_role
-    assert_kind_of Hash, users_by_role
-    role = Role.find(1)
-    assert_kind_of Array, users_by_role[role]
-    assert users_by_role[role].include?(User.find(2))
-  end
-
   it 'rolleds up types' do
     parent = Project.find(1)
     parent.types = ::Type.find([1, 2])
