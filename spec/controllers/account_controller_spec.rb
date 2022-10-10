@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-describe AccountController, type: :controller do
+describe AccountController,
+         skip_2fa_stage: true, # Prevent redirects to 2FA stage
+         type: :controller do
   class UserHook < OpenProject::Hook::ViewListener
     attr_reader :registered_user, :first_login_user
 
