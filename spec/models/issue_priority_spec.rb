@@ -153,14 +153,15 @@ describe IssuePriority, type: :model do
     it 'changes if a new default priority is created' do
       described_class.create(name: 'New default', is_default: true)
 
-      expect(default_priority)
+      expect(default_priority.reload)
         .not_to be_is_default
     end
 
     it 'changes if an existing priority is assigned default' do
-      priority.update(is_default: true)
+      new_default_priority = create(:priority)
+      new_default_priority.update(is_default: true)
 
-      expect(default_priority)
+      expect(default_priority.reload)
         .not_to be_is_default
     end
   end
