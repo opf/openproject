@@ -55,13 +55,13 @@ describe Project, type: :model do
   end
 
   describe '#archived?' do
-    context 'if active' do
+    context 'if archived' do
       it 'is true' do
         expect(project).not_to be_archived
       end
     end
 
-    context 'if not active' do
+    context 'if not archived' do
       let(:active) { false }
 
       it 'is false' do
@@ -318,6 +318,57 @@ describe Project, type: :model do
       it 'returns empty array if there are no descendants' do
         expect(child_project2.children)
           .to be_empty
+      end
+    end
+  end
+
+  describe '#rolled_up_types' do
+    let!(:parent) do
+      create(:project, types: [parent_type]).tap do |p|
+        project.update_attribute(:parent, p)
+      end
+    end
+    let!(:child1) { create(:project, parent: project, types: [child1_type, shared_type]) }
+    let!(:child2) { create(:project, parent: project, types: [child2_type], active: false) }
+
+    let!(:unused_type) { create(:type) }
+    let!(:parent_type) { create(:type) }
+    let!(:child1_type) { create(:type) }
+    let!(:child2_type) { create(:type) }
+    let!(:shared_type) { create(:type) }
+
+    let!(:project_type) do
+      create(:type).tap do |t|
+        project.types = [t, shared_type]
+      end
+    end
+
+    it 'includes all types of active projects starting from receiver down to the leaves' do
+      project.reload
+
+      expect(project.rolled_up_types)
+        .to eq [child1_type, project_type, shared_type].sort_by(&:position)
+    end
+  end
+
+  describe '#enabled_module_names=', with_settings: { default_projects_modules: %w(work_package_tracking repository) } do
+    context 'when assigning a new value' do
+      let(:new_value) { %w(work_package_tracking news) }
+
+      subject do
+        project.enabled_module_names = new_value
+      end
+
+      it 'sets the value' do
+        subject
+
+        expect(project.reload.enabled_module_names.sort)
+          .to eql new_value.sort
+      end
+
+      it 'keeps already assigned modules intact (same id)' do
+        expect { subject }
+          .not_to change { project.reload.enabled_modules.find { |em| em.name == 'work_package_tracking' }.id }
       end
     end
   end

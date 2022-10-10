@@ -98,70 +98,12 @@ describe User, type: :model do
     assert_equal 1, @admin.errors.count
   end
 
-  context 'User#try_to_login' do
-    it 'fall-backs to case-insensitive if user login is not found as-typed.' do
-      user = User.try_to_login('AdMin', 'adminADMIN!')
-      assert_kind_of User, user
-      assert_equal 'admin', user.login
-    end
-
-    it 'selects the exact matching user first' do
-      case_sensitive_user = create(:user, login: 'changed', password: 'adminADMIN!',
-                                          password_confirmation: 'adminADMIN!')
-      # bypass validations to make it appear like existing data
-      case_sensitive_user.update_attribute(:login, 'ADMIN')
-
-      user = User.try_to_login('ADMIN', 'adminADMIN!')
-      assert_kind_of User, user
-      assert_equal 'ADMIN', user.login
-    end
-  end
-
-  it 'passwords' do
-    user = User.try_to_login('admin', 'adminADMIN!')
-    assert_kind_of User, user
-    assert_equal 'admin', user.login
-    user.password = 'newpassPASS!'
-    assert user.save
-
-    user = User.try_to_login('admin', 'newpassPASS!')
-    assert_kind_of User, user
-    assert_equal 'admin', user.login
-  end
-
   it 'names format' do
     assert_equal 'Smith, John', @jsmith.name(:lastname_coma_firstname)
     Setting.user_format = :firstname_lastname
     assert_equal 'John Smith', @jsmith.reload.name
     Setting.user_format = :username
     assert_equal 'jsmith', @jsmith.reload.name
-  end
-
-  it 'locks' do
-    user = User.try_to_login('jsmith', 'jsmith')
-    assert_equal @jsmith, user
-
-    @jsmith.status = User.statuses[:locked]
-    assert @jsmith.save
-
-    user = User.try_to_login('jsmith', 'jsmith')
-    assert_equal nil, user
-  end
-
-  describe '.try_to_login' do
-    context 'with good credentials' do
-      it 'returns the user' do
-        user = User.try_to_login('admin', 'adminADMIN!')
-        assert_kind_of User, user
-        assert_equal 'admin', user.login
-      end
-    end
-
-    context 'with wrong credentials' do
-      it 'returns nil' do
-        assert_nil User.try_to_login('admin', 'foo')
-      end
-    end
   end
 
   it 'returns existing or new anonymous' do
@@ -223,11 +165,5 @@ describe User, type: :model do
     assert !@jsmith.wants_comments_in_reverse_order?
     @jsmith.pref.comments_sorting = 'desc'
     assert @jsmith.wants_comments_in_reverse_order?
-  end
-
-  it 'finds by mail should be case insensitive' do
-    u = User.find_by_mail('JSmith@somenet.foo')
-    refute_nil u
-    assert_equal 'jsmith@somenet.foo', u.mail
   end
 end

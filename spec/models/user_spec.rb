@@ -596,6 +596,106 @@ describe User, type: :model do
     end
   end
 
+  describe '.try_to_login' do
+    let(:password) { 'pwd123Password!' }
+    let(:login) { 'the_login' }
+    let(:status) { described_class.statuses[:active] }
+
+    let!(:user) do
+      create(:user,
+             password:,
+             password_confirmation: password,
+             login:,
+             status:)
+    end
+
+    context 'with good credentials' do
+      it 'returns the user' do
+        expect(described_class.try_to_login(login, password))
+          .to eq user
+      end
+    end
+
+    context 'with wrong password' do
+      it 'returns the user' do
+        expect(described_class.try_to_login(login, "#{password}!"))
+          .to be_nil
+      end
+    end
+
+    context 'with wrong case in login' do
+      it 'returns the user' do
+        expect(described_class.try_to_login('The_login', password))
+          .to eq user
+      end
+    end
+
+    context 'with wrong characters in login' do
+      it 'returns nil' do
+        expect(described_class.try_to_login(login[0..-2], password))
+          .to be_nil
+      end
+    end
+
+    context 'with the user being locked' do
+      let(:status) { described_class.statuses[:locked] }
+
+      it 'returns nil' do
+        expect(described_class.try_to_login(login, "#{password}!"))
+          .to be_nil
+      end
+    end
+
+    context 'with the user\'s password being changed' do
+      let(:new_password) { 'newPWD12%abc' }
+
+      before do
+        user.password = new_password
+        user.save!
+      end
+
+      it 'returns the user' do
+        expect(described_class.try_to_login(login, new_password))
+          .to eq user
+      end
+    end
+  end
+
+  describe '.find_by_mail' do
+    let(:mail) { 'the@mail.org' }
+    let!(:user) { create :user, mail: }
+
+    context 'with the exact mail' do
+      it 'finds the user' do
+        expect(described_class.find_by_mail(mail))
+          .to eq user
+      end
+    end
+
+    context 'with the mail address in uppercase' do
+      it 'finds the user' do
+        expect(described_class.find_by_mail(mail.upcase))
+          .to eq user
+      end
+    end
+
+    context 'with a different mail address' do
+      it 'is nil' do
+        expect(described_class.find_by_mail(mail[1..-2]))
+          .to be_nil
+      end
+    end
+
+    context 'with a mail suffix in the address' do
+      let(:mail) { 'the+other@mail.org' }
+
+      it 'finds the user' do
+        expect(described_class.find_by_mail('the@mail.org'))
+          .to eq user
+      end
+    end
+  end
+
   include_examples 'creates an audit trail on destroy' do
     subject { create(:attachment) }
   end

@@ -606,7 +606,7 @@ class User < Principal
     separators = Regexp.escape(Setting.mail_suffix_separators)
     recipient, domain = mail.split('@').map { |part| Regexp.escape(part) }
     skip_suffix_check = recipient.nil? || Setting.mail_suffix_separators.empty? || recipient.match?(/.+[#{separators}].+/)
-    regexp = "#{recipient}([#{separators}][^@]+)*@#{domain}"
+    regexp = "^#{recipient}([#{separators}][^@]+)*@#{domain}$"
 
     [skip_suffix_check, regexp]
   end
