@@ -236,6 +236,19 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(cost_query('projects', 'id', '!_child_projects', project1.id, project2.id).size).to eq(2)
     end
 
+    it "does !_child_projects on multiple projects as a string" do
+      expect(cost_query('projects', 'id', '!_child_projects', "#{project1.id}, #{project2.id}").size).to eq(0)
+      p1_c1 = create_project parent: project1
+      p2_c1 = create_project parent: project2
+      create_project
+      expect(cost_query('projects', 'id', '!_child_projects', "#{project1.id}, #{project2.id}").size).to eq(1)
+      p1_c1_c1 = create_project parent: p1_c1
+      create_project parent: p1_c1_c1
+      create_project parent: p2_c1
+      create_project
+      expect(cost_query('projects', 'id', '!_child_projects', "#{project1.id}, #{project2.id}").size).to eq(2)
+    end
+
     it "does =n" do
       # we have a time_entry with costs==4.2 and a cost_entry with costs==2.3 in our fixtures
       expect(query_on_entries('costs', '=n', 4.2).size).to eq(Entry.all.select { |e| e.costs == 4.2 }.count)
