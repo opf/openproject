@@ -586,9 +586,8 @@ cs:
           mentioned:
             title: 'Jsem @zmíněn'
             description: 'Dostat upozornění, kdykoli mě někdo kdekoli zmíní'
-          involved:
-            title: 'Přiřazeno mně nebo jsem Odpovědný'
-            description: 'Přijímat oznámení pro všechny aktivity v pracovních balíčcích, pro které jsem ŘeŠitel nebo Zodpovědný'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
           watched: 'Aktualizace u sledovaných položek'
           work_package_commented: 'Všechny nové komentáře'
           work_package_created: 'Nový pracovní balíček'

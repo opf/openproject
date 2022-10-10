@@ -164,54 +164,6 @@ describe User, type: :model do
     end
   end
 
-  if ldap_configured?
-    describe '#try_to_login using LDAP' do
-      context 'with failed connection to the LDAP server' do
-        it 'returns nil' do
-          @auth_source = LdapAuthSource.find(1)
-          allow_any_instance_of(AuthSource).to receive(:initialize_ldap_con).and_raise(Net::LDAP::Error, 'Cannot connect')
-
-          assert_equal nil, User.try_to_login('edavis', 'wrong')
-        end
-      end
-
-      context 'with an unsuccessful authentication' do
-        it 'returns nil' do
-          assert_equal nil, User.try_to_login('edavis', 'wrong')
-        end
-      end
-
-      context 'on the fly registration' do
-        before do
-          @auth_source = LdapAuthSource.find(1)
-        end
-
-        context 'with a successful authentication' do
-          it "creates a new user account if it doesn't exist" do
-            assert_difference('User.count') do
-              user = User.try_to_login('edavis', '123456')
-              assert !user.admin?
-            end
-          end
-
-          it 'retrieves existing user' do
-            user = User.try_to_login('edavis', '123456')
-            user.admin = true
-            user.save!
-
-            assert_no_difference('User.count') do
-              user = User.try_to_login('edavis', '123456')
-              assert user.admin?
-            end
-          end
-        end
-      end
-    end
-
-  else
-    puts 'Skipping LDAP tests.'
-  end
-
   it 'returns existing or new anonymous' do
     anon = User.anonymous
     assert !anon.new_record?

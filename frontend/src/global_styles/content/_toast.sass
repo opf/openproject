@@ -295,6 +295,8 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 // Use same styles for flash messages
 .flash, #errorExplanation
+  // Always above the toast
+  @include spot-z-index("toast", 1)
   border-radius: $nm-border-radius
   border-style: solid
   border-width: rem-calc(1)
@@ -304,7 +306,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   box-shadow: rem-calc(1px 2px 3px) rgba(0, 0, 0, 0.2)
   margin-bottom: 0.1875rem
   margin-top: 0.5rem
-  z-index: 15
 
   &.ng-leave
     @include animation(0.5s fade-out)

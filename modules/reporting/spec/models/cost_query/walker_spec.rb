@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
 describe CostQuery, type: :model, reporting_query_helper: true do
   minimal_query
@@ -40,12 +40,12 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
   describe Report::Transformer do
     it "walks down row_first" do
-      @query.group_by :work_package_id
-      @query.column :tweek
-      @query.row :project_id
-      @query.row :user_id
+      query.group_by :work_package_id
+      query.column :tweek
+      query.row :project_id
+      query.row :user_id
 
-      result = @query.transformer.row_first.values.first
+      result = query.transformer.row_first.values.first
       %i[user_id project_id tweek].each do |field|
         expect(result.fields).to include(field)
         result = result.values.first
@@ -53,12 +53,12 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     it "walks down column_first" do
-      @query.group_by :work_package_id
-      @query.column :tweek
-      @query.row :project_id
-      @query.row :user_id
+      query.group_by :work_package_id
+      query.column :tweek
+      query.row :project_id
+      query.row :user_id
 
-      result = @query.transformer.column_first.values.first
+      result = query.transformer.column_first.values.first
       %i[tweek work_package_id].each do |field|
         expect(result.fields).to include(field)
         result = result.values.first

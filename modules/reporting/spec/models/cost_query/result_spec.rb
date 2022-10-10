@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
 describe CostQuery, type: :model, reporting_query_helper: true do
   before do
@@ -105,23 +105,23 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     it "computes count correctly" do
-      expect(@query.result.count).to eq(Entry.count)
+      expect(query.result.count).to eq(Entry.count)
     end
 
     it "computes units correctly" do
-      expect(@query.result.units).to eq(Entry.all.map { |e| e.units }.sum)
+      expect(query.result.units).to eq(Entry.all.map(&:units).sum)
     end
 
     it "computes real_costs correctly" do
-      expect(@query.result.real_costs).to eq(Entry.all.map { |e| e.overridden_costs || e.costs }.sum)
+      expect(query.result.real_costs).to eq(Entry.all.map { |e| e.overridden_costs || e.costs }.sum)
     end
 
     it "computes count for DirectResults" do
-      expect(@query.result.values[0].count).to eq(1)
+      expect(query.result.values[0].count).to eq(1)
     end
 
     it "computes units for DirectResults" do
-      id_sorted = @query.result.values.sort_by { |r| r[:id] }
+      id_sorted = query.result.values.sort_by { |r| r[:id] }
       te_result = id_sorted.select { |r| r[:type] == TimeEntry.to_s }.first
       ce_result = id_sorted.select { |r| r[:type] == CostEntry.to_s }.first
       expect(te_result.units.to_s).to eq("1.0")
@@ -129,7 +129,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     it "computes real_costs for DirectResults" do
-      id_sorted = @query.result.values.sort_by { |r| r[:id] }
+      id_sorted = query.result.values.sort_by { |r| r[:id] }
       [CostEntry].each do |type|
         result = id_sorted.select { |r| r[:type] == type.to_s }.first
         first = type.all.first
@@ -138,18 +138,18 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     it "is a column if created with CostQuery.column" do
-      @query.column :project_id
-      expect(@query.result.type).to eq(:column)
+      query.column :project_id
+      expect(query.result.type).to eq(:column)
     end
 
     it "is a row if created with CostQuery.row" do
-      @query.row :project_id
-      expect(@query.result.type).to eq(:row)
+      query.row :project_id
+      expect(query.result.type).to eq(:row)
     end
 
     it "shows the type :direct for its direct results" do
-      @query.column :project_id
-      expect(@query.result.first.first.type).to eq(:direct)
+      query.column :project_id
+      expect(query.result.first.first.type).to eq(:direct)
     end
   end
 end

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 require File.join(File.dirname(__FILE__), '..', '..', 'support', 'custom_field_filter')
 
 describe CostQuery, type: :model, reporting_query_helper: true do
@@ -75,75 +75,80 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
   describe CostQuery::GroupBy do
     it "computes group_by on projects" do
-      @query.group_by :project_id
-      expect(@query.result.size).to eq(2)
+      query.group_by :project_id
+      expect(query.result.size).to eq(2)
     end
 
     it "keeps own and all parents' group fields in all_group_fields" do
-      @query.group_by :project_id
-      @query.group_by :work_package_id
-      @query.group_by :cost_type_id
-      expect(@query.all_group_fields).to eq(%w[entries.cost_type_id])
-      expect(@query.child.all_group_fields).to eq(%w[entries.cost_type_id entries.work_package_id])
-      expect(@query.child.child.all_group_fields).to eq(%w[entries.cost_type_id entries.work_package_id entries.project_id])
+      query.group_by :project_id
+      query.group_by :work_package_id
+      query.group_by :cost_type_id
+      expect(query.all_group_fields).to eq(%w[entries.cost_type_id])
+      expect(query.child.all_group_fields).to eq(%w[entries.cost_type_id entries.work_package_id])
+      expect(query.child.child.all_group_fields).to eq(%w[entries.cost_type_id entries.work_package_id entries.project_id])
     end
 
     it "computes group_by WorkPackage" do
-      @query.group_by :work_package_id
-      expect(@query.result.size).to eq(2)
+      query.group_by :work_package_id
+      expect(query.result.size).to eq(2)
     end
 
     it "computes group_by CostType" do
-      @query.group_by :cost_type_id
+      query.group_by :cost_type_id
       # type 'Labor' for time entries, 2 different cost types
-      expect(@query.result.size).to eq(3)
+      expect(query.result.size).to eq(3)
     end
 
     it "computes group_by Activity" do
-      @query.group_by :activity_id
+      query.group_by :activity_id
       # "-1" for time entries, 2 different cost activities
-      expect(@query.result.size).to eq(3)
+      expect(query.result.size).to eq(3)
     end
 
     it "computes group_by Date (day)" do
-      @query.group_by :spent_on
-      expect(@query.result.size).to eq(2)
+      query.group_by :spent_on
+      expect(query.result.size).to eq(2)
     end
 
     it "computes group_by Date (week)" do
-      @query.group_by :tweek
-      expect(@query.result.size).to eq(2)
+      query.group_by :tweek
+      expect(query.result.size).to eq(2)
     end
 
     it "computes group_by Date (month)" do
-      @query.group_by :tmonth
-      expect(@query.result.size).to eq(2)
+      query.group_by :tmonth
+      expect(query.result.size).to eq(2)
     end
 
     it "computes group_by Date (year)" do
-      @query.group_by :tyear
-      expect(@query.result.size).to eq(2)
+      query.group_by :tyear
+      expect(query.result.size).to eq(2)
     end
 
     it "computes group_by User" do
-      @query.group_by :user_id
-      expect(@query.result.size).to eq(4)
+      query.group_by :user_id
+      expect(query.result.size).to eq(4)
+    end
+
+    it "computes group_by Author" do
+      query.group_by :author_id
+      expect(query.result.size).to eq(2)
     end
 
     it "computes group_by Type" do
-      @query.group_by :type_id
-      expect(@query.result.size).to eq(1)
+      query.group_by :type_id
+      expect(query.result.size).to eq(1)
     end
 
     it "computes group_by Budget" do
-      @query.group_by :budget_id
-      expect(@query.result.size).to eq(1)
+      query.group_by :budget_id
+      expect(query.result.size).to eq(1)
     end
 
     it "computes multiple group_by" do
-      @query.group_by :project_id
-      @query.group_by :user_id
-      sql_result = @query.result
+      query.group_by :project_id
+      query.group_by :user_id
+      sql_result = query.result
 
       expect(sql_result.size).to eq(4)
       # for each user the number of projects should be correct
@@ -159,9 +164,9 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
     # TODO: ?
     it "computes multiple group_by with joins" do
-      @query.group_by :project_id
-      @query.group_by :type_id
-      sql_result = @query.result
+      query.group_by :project_id
+      query.group_by :type_id
+      sql_result = query.result
       expect(sql_result.size).to eq(1)
       # for each type the number of projects should be correct
       sql_sizes = []
@@ -175,39 +180,39 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     end
 
     it "compute count correct with lots of group_by" do
-      @query.group_by :project_id
-      @query.group_by :work_package_id
-      @query.group_by :cost_type_id
-      @query.group_by :activity_id
-      @query.group_by :spent_on
-      @query.group_by :tweek
-      @query.group_by :type_id
-      @query.group_by :tmonth
-      @query.group_by :tyear
+      query.group_by :project_id
+      query.group_by :work_package_id
+      query.group_by :cost_type_id
+      query.group_by :activity_id
+      query.group_by :spent_on
+      query.group_by :tweek
+      query.group_by :type_id
+      query.group_by :tmonth
+      query.group_by :tyear
 
-      expect(@query.result.count).to eq(8)
+      expect(query.result.count).to eq(8)
     end
 
     it "accepts row as a specialised group_by" do
-      @query.row :project_id
-      expect(@query.chain.type).to eq(:row)
+      query.row :project_id
+      expect(query.chain.type).to eq(:row)
     end
 
     it "accepts column as a specialised group_by" do
-      @query.column :project_id
-      expect(@query.chain.type).to eq(:column)
+      query.column :project_id
+      expect(query.chain.type).to eq(:column)
     end
 
     it "has type :column as a default" do
-      @query.group_by :project_id
-      expect(@query.chain.type).to eq(:column)
+      query.group_by :project_id
+      expect(query.chain.type).to eq(:column)
     end
 
     it "aggregates a third group_by which owns at least 2 sub results" do
-      @query.group_by :tweek
-      @query.group_by :project_id
-      @query.group_by :user_id
-      sql_result = @query.result
+      query.group_by :tweek
+      query.group_by :project_id
+      query.group_by :user_id
+      sql_result = query.result
 
       expect(sql_result.size).to eq(4)
       # for each user the number of projects should be correct
@@ -243,7 +248,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       before do
         check_cache
-        CostQuery::GroupBy.all.merge CostQuery::GroupBy::CustomFieldEntries.all
+        CostQuery::GroupBy.all.merge described_class.all
       end
 
       def check_cache
@@ -287,7 +292,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       it "includes custom fields classes in CustomFieldEntries.all" do
-        expect(CostQuery::GroupBy::CustomFieldEntries.all)
+        expect(described_class.all)
           .to include(group_by_class_name_string(custom_field).constantize)
       end
 
@@ -301,8 +306,8 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
         check_cache
 
-        @query.group_by "custom_field_#{custom_field2.id}".to_sym
-        footprint = @query.result.each_direct_result.map { |c| [c.count, c.units.to_i] }.sort
+        query.group_by "custom_field_#{custom_field2.id}".to_sym
+        footprint = query.result.each_direct_result.map { |c| [c.count, c.units.to_i] }.sort
         expect(footprint).to eq([[8, 8]])
       end
     end

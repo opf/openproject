@@ -88,7 +88,10 @@ class RootSeeder < Seeder
   ##
   # Clears some schema caches and column information.
   def reset_active_record!
-    ActiveRecord::Base.descendants.each do |klass|
+    ActiveRecord::Base
+      .descendants
+      .reject(&:abstract_class?)
+      .each do |klass|
       klass.connection.schema_cache.clear!
       klass.reset_column_information
     end

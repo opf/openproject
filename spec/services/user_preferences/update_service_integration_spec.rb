@@ -60,7 +60,8 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
             {
               project_id: nil,
               watched: false,
-              involved: true,
+              assignee: true,
+              responsible: true,
               work_package_commented: false,
               work_package_created: true,
               work_package_processed: true,
@@ -76,7 +77,8 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
 
         expect(default_ian.watched).to be true
         expect(default_ian.mentioned).to be true
-        expect(default_ian.involved).to be true
+        expect(default_ian.assignee).to be true
+        expect(default_ian.responsible).to be true
         expect(default_ian.work_package_commented).to be true
         expect(default_ian.work_package_created).to be true
         expect(default_ian.work_package_processed).to be true
@@ -87,7 +89,8 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
         expect(subject.first.project_id).to be_nil
         expect(subject.first.mentioned).to be false
         expect(subject.first.watched).to be false
-        expect(subject.first.involved).to be true
+        expect(default_ian.assignee).to be true
+        expect(default_ian.responsible).to be true
         expect(subject.first.work_package_commented).to be false
         expect(subject.first.work_package_created).to be true
         expect(subject.first.work_package_processed).to be true

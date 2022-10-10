@@ -583,9 +583,8 @@ lol:
           mentioned:
             title: 'crwdns787742:0crwdne787742:0'
             description: 'crwdns787744:0crwdne787744:0'
-          involved:
-            title: 'crwdns787746:0crwdne787746:0'
-            description: 'crwdns787748:0crwdne787748:0'
+          assignee: 'crwdns834614:0crwdne834614:0'
+          responsible: 'crwdns834616:0crwdne834616:0'
           watched: 'crwdns787750:0crwdne787750:0'
           work_package_commented: 'crwdns787752:0crwdne787752:0'
           work_package_created: 'crwdns787754:0crwdne787754:0'

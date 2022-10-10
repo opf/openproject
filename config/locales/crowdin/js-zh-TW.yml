@@ -582,9 +582,8 @@ zh-TW:
           mentioned:
             title: 'I am @mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          involved:
-            title: '分配給我或由我負責'
-            description: '對所有分配給我或由我負責的工作包接收所有活動通知'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
           watched: 'Updates on watched items'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'

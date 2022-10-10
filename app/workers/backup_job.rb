@@ -249,14 +249,21 @@ class BackupJob < ::ApplicationJob
   end
 
   def pg_env
-    config = ActiveRecord::Base.connection_db_config.configuration_hash
     entries = pg_env_to_connection_config.map do |key, config_key|
-      value = config[config_key].to_s
+      possible_keys = Array(config_key)
+      value = possible_keys
+        .lazy
+        .filter_map { |key| database_config[key] }
+        .first
 
-      [key.to_s, value] if value.present?
+      [key.to_s, value.to_s] if value.present?
     end
 
     entries.compact.to_h
+  end
+
+  def database_config
+    @database_config ||= ActiveRecord::Base.connection_db_config.configuration_hash
   end
 
   ##
@@ -265,7 +272,7 @@ class BackupJob < ::ApplicationJob
     {
       PGHOST: :host,
       PGPORT: :port,
-      PGUSER: :username,
+      PGUSER: %i[username user],
       PGPASSWORD: :password,
       PGDATABASE: :database
     }

@@ -27,6 +27,8 @@
 #++
 
 class CostQuery::GroupBy::AuthorId < Report::GroupBy::Base
+  join_table WorkPackage
+
   def self.label
     WorkPackage.human_attribute_name(:author)
   end

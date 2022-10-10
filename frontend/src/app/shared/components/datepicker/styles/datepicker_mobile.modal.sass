@@ -2,8 +2,13 @@
 
 @media screen and (max-width: 679px)
   .op-datepicker-modal
-    height: initial
-    max-width: 300px
+    // Use same width as spot-modal mobile
+    width: calc(100vw - 2rem)
+    margin-bottom: 0
+
+    &--flatpickr-instance
+      align-self: center
+
     &--dates-container
       grid-template-columns: 1fr 1fr
 
