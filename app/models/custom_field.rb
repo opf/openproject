@@ -292,7 +292,7 @@ class CustomField < ApplicationRecord
         project.principals
       else
         Principal
-          .in_visible_project_or_me(User.current)
+          .visible
       end
     end
   end

@@ -195,6 +195,7 @@ describe CustomField, type: :model do
     let(:project) { build_stubbed(:project) }
     let(:user1) { build_stubbed(:user) }
     let(:user2) { build_stubbed(:user) }
+    let(:invited_user) { create(:user, status: :invited, firstname: "Invited", lastname: "User") }
 
     context 'for a user custom field' do
       before do
@@ -206,6 +207,10 @@ describe CustomField, type: :model do
         allow(Principal)
           .to receive(:in_visible_project_or_me)
           .and_return([user2])
+
+        allow(Principal)
+          .to receive(:visible)
+          .and_return([user1, user2, invited_user])
       end
 
       context 'for a project' do
@@ -229,7 +234,7 @@ describe CustomField, type: :model do
       context 'for nil' do
         it 'returns all principles visible to me' do
           expect(field.possible_values_options)
-            .to match_array [[user2.name, user2.id.to_s]]
+            .to match_array [[user1.name, user1.id.to_s], [user2.name, user2.id.to_s], [invited_user.name, invited_user.id.to_s]]
         end
       end
     end
