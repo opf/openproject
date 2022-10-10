@@ -68,7 +68,9 @@ These changes to scheduling will not impact work packages created before the rel
 
 The new and additional tool tips in the OpenProject application will make the navigation easier for users that are not yet very familiar with OpenProject. The tool tips make clear what happens when the user clicks on a certain button.  
 
-![hover over select a project and tool tip view all projects comes up](tool tip.png)
+![hover over select a project and tool tip view all projects comes up](tool-tip.png)
+
+
 
 ##  List of all bug fixes and changes
 
