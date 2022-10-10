@@ -6,9 +6,9 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  FormGroup,
   FormArray,
   FormControl,
+  FormGroup,
 } from '@angular/forms';
 import { take } from 'rxjs/internal/operators/take';
 import { UIRouterGlobals } from '@uirouter/core';

@@ -67,15 +67,13 @@ export class EstimatedTimeDisplayField extends DisplayField {
     }
 
     element.classList.add('split-time-field');
-    const actual:number = this.value ? this.timezoneService.toHours(this.value) : 0;
-
-    if (actual !== 0) {
+    if (this.value) {
       this.renderActual(element, displayText);
     }
 
     const derived = this.derivedValue;
     if (derived && this.timezoneService.toHours(derived) !== 0) {
-      this.renderDerived(element, this.derivedValueString, actual !== 0);
+      this.renderDerived(element, this.derivedValueString, !!this.value);
     }
   }
 
@@ -113,9 +111,6 @@ export class EstimatedTimeDisplayField extends DisplayField {
     const { value } = this;
     const derived = this.derivedValue;
 
-    const valueEmpty = !value || this.timezoneService.toHours(value) === 0;
-    const derivedEmpty = !derived || this.timezoneService.toHours(derived) === 0;
-
-    return valueEmpty && derivedEmpty;
+    return !value && !derived;
   }
 }

@@ -135,8 +135,6 @@ sl:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS dostava ni uspela.'
       voice_delivery_failed: 'MessageBird glasovni klic ni uspel.'
-    restdt:
-      delivery_failed_with_code: "\nDostava žetona ni uspela. (Koda napake %{code})"
     strategies:
       totp: 'Aplikacija za preverjanje avtenčnosti '
       sns: 'Amazon SNS'

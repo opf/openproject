@@ -85,10 +85,8 @@ describe 'Query selection', type: :feature do
       filters.open
       filters.expect_filter_by 'Assignee', 'is', ['me']
       filters.expect_filter_by 'Progress (%)', '>=', ['10'], 'percentageDone'
-    end
 
-    it 'shows filter count within toggle button', js: true do
-      expect(find_button('Activate Filter')).to have_text /2$/
+      expect(page).to have_selector('[data-qa-selector="wp-filter-button"] .badge', text: '2')
     end
   end
 

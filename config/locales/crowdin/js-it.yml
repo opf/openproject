@@ -26,6 +26,9 @@ it:
       loading: "Caricamento…"
       updating: "Aggiornamento…"
     attachments:
+      delete: "Elimina allegato"
+      delete_confirmation: |
+        Vuoi davvero eliminare questo file? Quest’azione è irreversibile.
       draggable_hint: |
         Trascina l'elemento nei campi dell'editor per allineare l'immagine o il riferimento allegato. I campi dell'editor chiusi verranno sbloccati durante il trascinamento.
     autocomplete_select:
@@ -82,6 +85,10 @@ it:
     button_open_fullscreen: "Apri la visualizzazione a schermo intero"
     button_show_cards: "Mostra la visualizzazione a schede"
     button_show_list: "Mostra la visualizzazione a elenco"
+    button_show_table: "Mostra la visualizzazione a tabella"
+    button_show_gantt: "Mostra la visualizzazione Gantt"
+    button_show_fullscreen: "Mostra la visualizzazione a schermo intero"
+    button_more_actions: "Altre azioni"
     button_quote: "Cita"
     button_save: "Salva"
     button_settings: "Impostazioni"
@@ -290,15 +297,15 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Non dovrai più cercare file senza fine! Con la nuova <b>integrazione Nextcloud</b> in OpenProject 12.2, ora puoi trovare i file direttamente nella rispettiva macro-attività e avere sempre la versione corretta a portata di mano.</li> <li>Abbiamo introdotto il <b>a nuovo selettore di date</b> con una nuova modalità di input e un banner informativo che include un pulsante per mostrare le relazioni nel diagramma di Gantt.</li> <li>Abbiamo aggiunto la possibilità di <b>registrare il tempo per altri utenti.</li> <li> b></li> <li>Contrassegna le notifiche come lette anche al di fuori del centro notifiche.</li> </ul>
+                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Definisci la tua settimana lavorativa globale (fine settimana e giorni non lavorativi della settimana).</li> <li>Calcola la durata in base alle date d'inizio e di fine e alla possibilità di considerare i giorni non lavorativi (fine settimana) nella pianificazione.</li> <li>Aggiungi suggerimenti significativi alle azioni più importanti.</li> <li>La copia di un progetto copierà anche i link dei file allegati a tutte le macro-attività.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Questa versione contiene diverse nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Non dovrai più cercare file senza fine! Con la nuova <b>integrazione Nextcloud</b> in OpenProject 12.2, ora puoi trovare i file direttamente nella rispettiva macro-attività e avere sempre la versione corretta a portata di mano.</li> <li>Abbiamo introdotto il <b>nuovo selettore di date</b> con una nuova modalità di input e un banner informativo che include un pulsante per mostrare le relazioni nel diagramma di Gantt.</li> <li>Abbiamo aggiunto la possibilità di <b>registrare il tempo per altri utenti.</li> <li> b></li> <li>Contrassegna le notifiche come lette anche al di fuori del centro notifiche.</li> </ul>
+                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Definisci la tua settimana lavorativa globale (fine settimana e giorni non lavorativi della settimana).</li> <li>Calcola la durata in base alle date d'inizio e di fine e alla possibilità di considerare i giorni non lavorativi (fine settimana) nella pianificazione.</li> <li>Aggiungi suggerimenti significativi alle azioni più importanti.</li> <li>La copia di un progetto copierà anche i link dei file allegati a tutte le macro-attività.</li> </ul>
     label_activate: "Attiva"
     label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"
@@ -540,7 +547,9 @@ it:
         prioritized: 'prioritizzato'
       facets:
         unread: 'Non Letta'
+        unread_title: 'Mostra non letti'
         all: 'Tutti'
+        all_title: 'Mostra tutto'
       center:
         and_more_users:
           one: 'e 1 altro'
@@ -609,6 +618,7 @@ it:
       default: '-'
       subject: 'Inserisci l''oggetto qui'
       selection: 'Si prega di selezionare'
+      description: 'Descrizione: Clicca per modificare...'
       relation_description: 'Clicca per aggiungere una descrizione per la relazione'
     project:
       required_outside_context: >
@@ -740,7 +750,6 @@ it:
     project_menu_details: "Dettagli"
     scheduling:
       manual: 'Programmazione manuale'
-      automatic: 'Programmazione automatica'
     sort:
       sorted_asc: 'Ordinamento crescente applicato, '
       sorted_dsc: 'Ordinamento decrescente applicato, '
@@ -751,7 +760,6 @@ it:
       activate_no: 'attivalo per rimuovere l''ordinamento'
     text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
     text_query_destroy_confirmation: "Sei sicuro di voler eliminare la vista selezionata?"
-    text_attachment_destroy_confirmation: "Sei sicuro di che voler eliminare l'allegato?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Diagramma di Gantt'
@@ -848,6 +856,8 @@ it:
         changing_dates_affects_follow_relations: "La modifica di queste date influenzerà le date delle relative macro-attività."
         click_on_show_relations_to_open_gantt: 'Clicca su "%{button_name}" per la panoramica GANTT.'
         show_relations: 'Visualizza relazioni'
+        ignore_non_working_days:
+          title: 'Solo giorni lavorativi'
       description_filter: "Filtro"
       description_enter_text: "Inserisci testo"
       description_options_hide: "Nascondi opzioni"
@@ -867,6 +877,8 @@ it:
       message_work_package_read_only: "Il pacchetto di lavoro è bloccato in questo stato. Nessun attributo eccetto lo stato può essere alterato."
       message_work_package_status_blocked: "Lo stato della macro-attività non è scrivibile a causa dello stato chiuso e della versione chiusa assegnata."
       placeholder_filter_by_text: "Oggetto, descrizione, commenti, ..."
+      filters:
+        title: 'Filtra le macro-attività'
       inline_create:
         title: 'Clicca qui per aggiungere un nuovo work package a questa lista'
       create:
@@ -903,6 +915,7 @@ it:
         description: "Descrizione"
         date: "Data"
         dueDate: "Data di fine"
+        duration: "Durata"
         estimatedTime: "Tempo stimato"
         spentTime: "Tempo speso"
         category: "Categoria"
@@ -934,7 +947,6 @@ it:
       placeholders:
         default: "-"
         date: "Seleziona data"
-        formattable: "%{name}: Clicca per modificare..."
       query:
         column_names: "Colonne"
         group_by: "Raggruppa i risultati per"
@@ -1040,12 +1052,14 @@ it:
       button_save: "Salva"
       button_submit: "Invia"
       button_cancel: "Annulla"
+      button_delete: "Elimina"
       form_submit:
         title: 'Conferma per continuare'
         text: 'Eseguire questa azione?'
       destroy_work_package:
         title: "Conferma l'eliminazione di %{label}"
-        text: "Eliminare i seguenti %{label} ?"
+        single_text: "Vuoi davvero eliminare questa macro-attività?"
+        bulk_text: "Eliminare il seguente %{label}?"
         has_children: "Questa macro-attività ha %{childUnits}:"
         confirm_deletion_children: "Prendo atto che TUTTI i discendenti delle macro-attività elencate verranno eliminati in modo ricorsivo."
         deletes_children: "Tutte le macro-attività ed i relativi discendenti verranno eliminati ricorsivamente."
@@ -1163,13 +1177,13 @@ it:
       role:
         label: 'Ruolo in %{project}'
         no_roles_found: 'Nessun ruolo è stato trovato'
-        description: 'Questo è il ruolo che %{principal} riceverà una volta unitosi al progetto. Il ruolo definisce che azioni possono intraprendere e che informazioni possono vedere. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Scopri di più sui ruoli e sulle autorizzazioni. </a>'
+        description: 'Questo è il ruolo che l''utente riceverà una volta unitosi al progetto. Il ruolo definisce che azioni possono intraprendere e che informazioni possono vedere. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Scopri di più sui ruoli e sulle autorizzazioni. </a>'
         required: 'Sei pregato di selezionare un ruolo'
         next_button: 'Prossimo'
       message:
         label: 'Messaggio di invito'
-        description: 'Invieremo un''email a %{principal}, a cui puoi aggiungere qui un messaggio personale. Una spiegazione per l''invito potrebbe essere utile o forse qualche informazione sul progetto per aiutarli a iniziare.'
-        next_button: 'Revisiona l''invito'
+        description: 'Invieremo un''email all''utente, a cui puoi aggiungere qui un messaggio personale. Una spiegazione per l''invito potrebbe essere utile o forse qualche informazione sul progetto per aiutarli a iniziare.'
+        next_button: 'Avanti'
       summary:
         next_button: 'Invia invito'
       success:

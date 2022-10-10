@@ -48,12 +48,6 @@ module WithReversibleState
     end
 
     ##
-    # Rollback changes made
-    def rollback
-      # Nothing to do by default
-    end
-
-    ##
     # Assign state to the service result
     def assign_state
       yield.tap do |call|

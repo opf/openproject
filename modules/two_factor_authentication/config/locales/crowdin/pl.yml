@@ -136,8 +136,6 @@ pl:
     message_bird:
       sms_delivery_failed: 'MessageBird – dostarczenie wiadomości SMS nie powiodło się.'
       voice_delivery_failed: 'MessageBird – połączenie głosowe nie powiodło się.'
-    restdt:
-      delivery_failed_with_code: 'Błąd dostarczania tokenu. (Kod błędu %{code})'
     strategies:
       totp: 'Aplikacja do uwierzytelniania'
       sns: 'Amazon SNS'

@@ -94,6 +94,7 @@ module WorkPackage::Journalized
     register_on_journal_formatter(:attachment, /attachments_?\d+/)
     register_on_journal_formatter(:custom_field, /custom_fields_\d+/)
     register_on_journal_formatter(:cost_association, 'budget_id')
+    register_on_journal_formatter(:ignore_non_working_days, 'ignore_non_working_days')
 
     # Joined
     register_on_journal_formatter :named_association, :parent_id, :project_id,

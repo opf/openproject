@@ -42,7 +42,6 @@ lol:
       replace_provider_type_oauth: "crwdns824058:0%{provider_type}crwdne824058:0"
       save_and_continue_setup: "crwdns824060:0crwdne824060:0"
       save_and_complete_setup: "crwdns824062:0crwdne824062:0"
-      cancel: "crwdns824064:0crwdne824064:0"
     page_titles:
       project_settings:
         index: "crwdns810710:0crwdne810710:0"
@@ -81,8 +80,6 @@ lol:
     label_storage: "crwdns810748:0crwdne810748:0"
     label_storages: "crwdns810750:0crwdne810750:0"
     no_results: "crwdns810752:0crwdne810752:0"
-    label_oauth_client_id: "crwdns824082:0crwdne824082:0"
-    label_oauth_client_secret: "crwdns824084:0crwdne824084:0"
     provider_types:
       label: "crwdns810754:0crwdne810754:0"
       nextcloud:

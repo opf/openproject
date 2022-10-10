@@ -115,6 +115,7 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -280,6 +281,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   text = {
     add_existing: this.I18n.t('js.team_planner.add_existing'),
+    add_existing_title: this.I18n.t('js.team_planner.add_existing_title'),
     assignee: this.I18n.t('js.label_assignee'),
     add_assignee: this.I18n.t('js.team_planner.add_assignee'),
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
@@ -291,6 +293,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     cannot_drag_here: this.I18n.t('js.team_planner.cannot_drag_here'),
     updating: this.I18n.t('js.ajax.updating'),
     successful_update: this.I18n.t('js.notice_successful_update'),
+    cannot_drag_to_non_working_day: this.I18n.t('js.team_planner.cannot_drag_to_non_working_day'),
   };
 
   principals$ = this.principalIds$
@@ -326,6 +329,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly actions$:ActionsService,
     readonly toastService:ToastService,
     readonly loadingIndicatorService:LoadingIndicatorService,
+    readonly weekdayService:WeekdayService,
     readonly deviceService:DeviceService,
   ) {
     super();
@@ -493,7 +497,24 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             // DnD configuration
             editable: true,
             droppable: true,
-            eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
+            eventResize: (resizeInfo:EventResizeDoneArg) => {
+              const due = moment(resizeInfo.event.endStr).subtract(1, 'day').toDate();
+              const start = moment(resizeInfo.event.startStr).toDate();
+              const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
+              if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.weekdayService.isNonWorkingDay(due))) {
+                this.toastService.addError(this.text.cannot_drag_to_non_working_day);
+                resizeInfo?.revert();
+                return;
+              }
+              void this.updateEvent(resizeInfo);
+            },
+            eventResizeStart: (resizeInfo:EventResizeDoneArg) => {
+              const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
+              if (!wp.ignoreNonWorkingDays) {
+                this.addBackgroundEventsForNonWorkingDays();
+              }
+            },
+            eventResizeStop: () => this.removeBackGroundEvents(),
             eventDragStart: (dragInfo:EventDragStartArg) => {
               if (dragInfo.event.source?.id === 'skeleton') {
                 return;
@@ -510,10 +531,26 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               this.draggingItem$.next(undefined);
               this.removeBackGroundEvents();
             },
-            eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
-            eventReceive: async (dropInfo:EventReceiveArg) => {
-              await this.updateEvent(dropInfo);
+            eventDrop: (dropInfo:EventDropArg) => {
+              const start = moment(dropInfo.event.startStr).toDate();
               const wp = dropInfo.event.extendedProps.workPackage as WorkPackageResource;
+              if (!wp.ignoreNonWorkingDays && this.weekdayService.isNonWorkingDay(start)) {
+                this.toastService.addError(this.text.cannot_drag_to_non_working_day);
+                dropInfo?.revert();
+                return;
+              }
+              void this.updateEvent(dropInfo);
+            },
+            eventReceive: async (dropInfo:EventReceiveArg) => {
+              const due = moment(dropInfo.event.endStr).subtract(1, 'day').toDate();
+              const start = moment(dropInfo.event.startStr).toDate();
+              const wp = dropInfo.event.extendedProps.workPackage as WorkPackageResource;
+              if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.weekdayService.isNonWorkingDay(due))) {
+                this.toastService.addError(this.text.cannot_drag_to_non_working_day);
+                dropInfo?.revert();
+                return;
+              }
+              await this.updateEvent(dropInfo);
               this.actions$.dispatch(teamPlannerEventAdded({ workPackage: wp.id as string }));
             },
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -742,11 +779,15 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private handleDateClicked(info:DateSelectArg) {
+    const due = moment(info.endStr).subtract(1, 'day').toDate();
+    const nonWorkingDays = this.weekdayService.isNonWorkingDay(info.start) || this.weekdayService.isNonWorkingDay(due);
+
     this.openNewSplitCreate(
       info.startStr,
       // end date is exclusive
       this.workPackagesCalendar.getEndDateFromTimestamp(info.endStr),
       info.resource?.id || '',
+      nonWorkingDays,
     );
   }
 
@@ -756,7 +797,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     'document:teamPlannerSelectDate',
     ['$event.detail.start', '$event.detail.end', '$event.detail.assignee'],
   )
-  openNewSplitCreate(start:string, end:string, resourceHref:string):void {
+  openNewSplitCreate(start:string, end:string, resourceHref:string, nonWorkingDays:boolean):void {
     const defaults = {
       startDate: start,
       dueDate: end,
@@ -765,6 +806,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           href: resourceHref,
         },
       },
+      ignoreNonWorkingDays: nonWorkingDays,
     };
 
     void this.$state.go(
@@ -797,7 +839,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   private async updateEvent(info:EventResizeDoneArg|EventDropArg|EventReceiveArg):Promise<void> {
     const changeset = this.workPackagesCalendar.updateDates(info);
-
     const resource = info.event.getResources()[0];
     if (resource) {
       changeset.setValue('assignee', { href: resource.id });
@@ -898,7 +939,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       )
       .subscribe(([assignable, principals]) => {
         const api = this.ucCalendar.getApi();
-
+        if (!wp.ignoreNonWorkingDays) {
+          this.addBackgroundEventsForNonWorkingDays();
+        }
         const eventBase = {
           start: moment().subtract('1', 'month').toDate(),
           end: moment().add('1', 'month').toDate(),
@@ -921,5 +964,25 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .getEvents()
       .filter((el) => el.source?.id === 'background')
       .forEach((el) => el.remove());
+  }
+
+  private addBackgroundEventsForNonWorkingDays() {
+    const api = this.ucCalendar.getApi();
+    let currentStartDate = this.ucCalendar.getApi().view.activeStart;
+    const currentEndDate = this.ucCalendar.getApi().view.activeEnd;
+    const nonWorkingDays = new Array<{ start:Date|string, end:Date|string }>();
+
+    while (currentStartDate.toString() !== currentEndDate.toString()) {
+      if (this.weekdayService.isNonWorkingDay(currentStartDate)) {
+        nonWorkingDays.push({
+          start: moment(currentStartDate).format('YYYY-MM-DD'),
+          end: moment(currentStartDate).add('1', 'day').format('YYYY-MM-DD'),
+        });
+      }
+      currentStartDate = moment(currentStartDate).add('1', 'day').toDate();
+    }
+    nonWorkingDays.forEach((day) => {
+      api.addEvent({ ...day }, 'background');
+    });
   }
 }

@@ -66,6 +66,9 @@ es:
     enterprise:
       upgrade_to_ee: "Actualizar a Enterprise Edition"
       add_token: "Cargue el token de soporte de versión corporativa"
+      delete_token_modal:
+        text: "¿Está seguro que desea eliminar el token actual de la edición Enterpise usado?"
+        title: "Eliminar token"
       replace_token: "Reemplace su token de apoyo actual"
       order: "Solicitar Enterprise on-premises Edition"
       paste: "Pegue su token de apoyo de versión corporativa"
@@ -525,6 +528,10 @@ es:
         end_insertion: "Final de la inserción"
         end_deletion: "Final de la eliminación"
         ignore_non_working_days: "Ignorar días festivos"
+        include_non_working_days:
+          title: 'Días laborables'
+          false: 'solo días laborables'
+          true: 'incluir días no laborables'
         parent: "Padre"
         parent_issue: "Padre"
         parent_work_package: "Padre"
@@ -721,6 +728,11 @@ es:
           attributes:
             permissions:
               dependency_missing: "también es necesario incluir «%{dependency}», ya que está seleccionada la opción «%{permission}»."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'Al menos un día de la semana debe definirse como laboral.'
+              previous_working_day_changes_unprocessed: 'Los cambios anteriores en la configuración de días laborables no se han aplicado aún.'
         time_entry:
           attributes:
             hours:
@@ -742,10 +754,12 @@ es:
               format: "%{message}"
             due_date:
               not_start_date: "no es en fecha de inicio, aunque esto es necesario para hitos."
+              cannot_be_null: "no puede establecerse como nulo, ya que la fecha de inicio y la duración son conocidas."
             duration:
               larger_than_dates: "es más largo que el intervalo entre la fecha de inicio y la final."
               smaller_than_dates: "es más corto que el intervalo entre la fecha de inicio y la final."
               not_available_for_milestones: "no está disponible para paquetes de trabajo con estilo hitos."
+              cannot_be_null: "no puede establecerse como nulo, ya que la fecha de inicio y final son conocidas."
             parent:
               cannot_be_milestone: "no puede ser un hito."
               cannot_be_self_assigned: "no se puede asignar a su propio usuario."
@@ -753,6 +767,7 @@ es:
               not_a_valid_parent: "no es válido."
             start_date:
               violates_relationships: "sólo se puede establecer a %{soonest_start} o posterior para que no se violen las relaciones de los paquetes de trabajo."
+              cannot_be_null: "no puede establecerse como nulo, ya que la fecha final y la duración son conocidas."
             status_id:
               status_transition_invalid: "no es válido porque no existe ninguna transición desde el estado antiguo al nuevo para los roles del usuario actual."
               status_invalid_in_type: "no es válido porque el estado actual no existe en este tipo."
@@ -1749,6 +1764,7 @@ es:
   label_project_new: "Nuevo proyecto"
   label_project_plural: "Proyectos"
   label_project_settings: "Configuración del proyecto"
+  label_project_storage_plural: "Almacenamiento"
   label_projects_storage_information: "%{count} proyectos utilizando %{storage} de almacenamiento en disco"
   label_project_view_all: "Ver todos los proyectos"
   label_project_show_details: "Mostrar los detalles del proyecto"
@@ -1900,6 +1916,7 @@ es:
   label_wiki_start: "Página de inicio"
   label_work_package: "Paquete de trabajo"
   label_work_package_attachments: "Datos adjuntos de paquete de trabajo"
+  label_work_package_file_link_plural: "Enlaces de archivo de paquete de trabajo"
   label_work_package_category_new: "Nueva categoría"
   label_work_package_category_plural: "Categorías de paquete de trabajo"
   label_work_package_hierarchy: "Jerarquía del paquete de trabajo"
@@ -1915,6 +1932,7 @@ es:
   label_workflow: "Flujo de trabajo"
   label_workflow_plural: "Flujos de trabajo"
   label_workflow_summary: "Resumen"
+  label_working_days: "Días laborables"
   label_x_closed_work_packages_abbr:
     one: "1 cerrado"
     other: "%{count} cerrados"
@@ -1975,7 +1993,7 @@ es:
       center: 'Al centro de notificaciones'
       see_in_center: 'Ver comentario en el centro de notificaciones'
       settings: 'Cambiar configuración de correo electrónico'
-    salutation: '¡Hola, %{user}!'
+    salutation: 'Hola %{user}'
     work_packages:
       created_at: 'Creado a las %{timestamp} por %{user} '
       login_to_see_all: 'Inicie sesión para ver todas las notificaciones.'
@@ -2153,8 +2171,7 @@ es:
           tb: "TB"
   onboarding:
     heading_getting_started: "Obtener información general"
-    text_getting_started_description: "Obtenga información general rápida sobre la administración de proyectos y la colaboración en equipo con OpenProject."
-    text_show_again: "Puede reiniciar este vídeo en el menú ayuda"
+    text_getting_started_description: "Obtenga un resumen rápido sobre la gestión de proyectos y la colaboración en equipo con OpenProject. Puedes volver a ver este video des del menú de ayuda."
     welcome: "Bienvenido a %{app_title}"
     select_language: "Seleccione su idioma"
   permission_add_work_package_notes: "Añadir notas"
@@ -2355,6 +2372,8 @@ es:
       update_timeout: "Mantener la última información de espacio de disco requerida para un repositorio de N minutos. Contar el espacio de disco requerido de un repositorio puede ser costoso, aumente este valor para reducir el impacto en el rendimiento."
       oauth_application_details: "La clave secreta de cliente no será accesible una vez se cierre esta ventana. Por favor, copie estos valores en la configuración de la integración de OpenProject en Nextcloud:"
       oauth_application_details_link_text: "Ir a la página de configuración"
+      setup_documentation_details: "Si necesita ayuda para configurar un nuevo almacenamiento de archivos, compruebe la documentación: "
+      setup_documentation_details_link_text: "Configuración de almacenamiento de archivos"
       show_warning_details: "Para utilizar este almacenamiento recuerde activar el módulo y el almacenamiento específico en la configuración de cada proyecto deseado."
     subversion:
       existing_title: "Subversion existentes de repositorio"
@@ -2544,6 +2563,7 @@ es:
   text_access_token_hint: "Los tokens de acceso te permiten dar permisos de acceso sobre los recursos de OpenProject a aplicaciones externas."
   text_analyze: "Análisis futuro: %{subject}"
   text_are_you_sure: "¿Estás seguro?"
+  text_are_you_sure_continue: "¿Seguro que quiere continuar?"
   text_are_you_sure_with_children: "¿Eliminar el paquete de trabajo y todos sus paquetes dependientes?"
   text_assign_to_project: "Asignar al proyecto"
   text_form_configuration: >
@@ -2737,7 +2757,6 @@ es:
       noneSelection: "(ninguno)"
       outline: "Extensión del esquema inicial"
       parent: "Mostrar los subproyectos de"
-      work_package_filters: "Filtro de paquetes de trabajo"
       work_package_responsible: "Mostrar paquetes de trabajo con responsable"
       work_package_assignee: "Mostrar paquetes con asignado"
       types: "Mostrar tipos"
@@ -2891,6 +2910,17 @@ es:
     destroy:
       info: "La eliminación del paquete de trabajo no se puede deshacer."
       title: "Eliminar el pauqete de trabajo"
+  working_days:
+    info: >
+      <b>Defina los días laborables de la semana</b><br/> Los días no laborables se omiten al planificar los paquetes de trabajo y se excluyen al calcular la duración. Esto se puede anular a nivel de paquete de trabajo.
+    change_button: "Cambiar los días laborables"
+    warning: >
+      Cambiar qué días de la semana se consideran laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia.
+    journal_note:
+      changed: _**Días laborales** cambiados (%{changes})._
+      days:
+        working: "%{day} es ahora laboral"
+        non_working: "%{day} es ahora no laboral"
   nothing_to_preview: "Nada para previsualizar"
   api_v3:
     attributes:

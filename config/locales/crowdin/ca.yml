@@ -66,6 +66,9 @@ ca:
     enterprise:
       upgrade_to_ee: "Actualitza a l'edició Enterprise"
       add_token: "Puja un token de suport de l'Enterprise Edition"
+      delete_token_modal:
+        text: "Estàs segur que vols eliminar el token de l'edició Enterprise utilitzat?"
+        title: "Eliminar el token"
       replace_token: "Substitueix el teu token de suport actual"
       order: "Ordena l'edició Enterpise on-premises"
       paste: "Enganxa el teu token de suport de l'edició Enterprise"
@@ -524,6 +527,10 @@ ca:
         end_insertion: "Final de la inserció"
         end_deletion: "Final de la supressió"
         ignore_non_working_days: "Ignora dies no laborals"
+        include_non_working_days:
+          title: 'Dies laborals'
+          false: 'només dies laborables'
+          true: 'inclou dies no laborables'
         parent: "Pare"
         parent_issue: "Pare"
         parent_work_package: "Pare"
@@ -720,6 +727,11 @@ ca:
           attributes:
             permissions:
               dependency_missing: "també ha d'incloure \"%{dependency}\" ja que \"%{permission}\" està seleccionat."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'Almenys un dia de la setmana s''ha de definir com a dia laborable.'
+              previous_working_day_changes_unprocessed: 'Els canvis anteriors a la configuració de dies laborals encara no s''han aplicat.'
         time_entry:
           attributes:
             hours:
@@ -741,10 +753,12 @@ ca:
               format: "%{message}"
             due_date:
               not_start_date: "no és la data d'inici, tot i que és necessari per a les fites."
+              cannot_be_null: "no es pot assignar com a nul, ja que la data d'inici i la duració són conegudes."
             duration:
               larger_than_dates: "és més llarg que l'interval entre la data d'inici i la data final."
               smaller_than_dates: "és més curt que l'interval entre la data d'inici i la data final."
               not_available_for_milestones: "no està disponible pels paquets de treball de classe fita."
+              cannot_be_null: "no es pot assignar com a nul, ja que la data d'inici i final són conegudes."
             parent:
               cannot_be_milestone: "no pot ser una fita."
               cannot_be_self_assigned: "no pot ser assignat a si mateix."
@@ -752,6 +766,7 @@ ca:
               not_a_valid_parent: "no és vàlid."
             start_date:
               violates_relationships: "només es pot posar a %{soonest_start} o més tard per tal de no es violar les relacions del paquet de treball."
+              cannot_be_null: "no es pot assignar com a nul, ja que la data final i la duració són conegudes."
             status_id:
               status_transition_invalid: "no és vàlida perquè no hi ha una transició vàlida des d'estat antic a nou estat per al rol de l'usuari actual."
               status_invalid_in_type: "és invàlid perquè l'estat actual no existeix en aquesta classe."
@@ -1748,6 +1763,7 @@ ca:
   label_project_new: "Nou projecte"
   label_project_plural: "Projectes"
   label_project_settings: "Configuració del projecte"
+  label_project_storage_plural: "Emmagatzematges"
   label_projects_storage_information: "%{count} projectes utilitzen %{storage} d'emmagatzematge a disc"
   label_project_view_all: "Veure tots els projectes"
   label_project_show_details: "Mostra detalls del projecte"
@@ -1899,6 +1915,7 @@ ca:
   label_wiki_start: "Pàgina d'inici"
   label_work_package: "Paquet de treball"
   label_work_package_attachments: "Fitxers adjunts del paquet de treball"
+  label_work_package_file_link_plural: "Enllaços de fitxer del paquet de treball"
   label_work_package_category_new: "Nova categoria"
   label_work_package_category_plural: "Categories de paquet de treball"
   label_work_package_hierarchy: "Jerarquia del paquet de treball"
@@ -1914,6 +1931,7 @@ ca:
   label_workflow: "Flux de treball"
   label_workflow_plural: "Fluxos de treball"
   label_workflow_summary: "Resum"
+  label_working_days: "Dies laborals"
   label_x_closed_work_packages_abbr:
     one: "Un tancat"
     other: "%{count} tancats"
@@ -1974,7 +1992,7 @@ ca:
       center: 'Anar al Centre de notificacions'
       see_in_center: 'Veure el comentari en el centre de notificacions'
       settings: 'Canvia la configuració dels correus electrònics'
-    salutation: 'Hola %{user}!'
+    salutation: 'Hola %{user}'
     work_packages:
       created_at: 'Creat a les %{timestamp} per %{user}'
       login_to_see_all: 'Inicia sessió per veure totes les notificacions.'
@@ -2148,8 +2166,7 @@ ca:
           tb: "TB"
   onboarding:
     heading_getting_started: "Obté una visió general"
-    text_getting_started_description: "Obté una visió general ràpida de la gestió de projectes i col·laboració d'equips amb OpenProject."
-    text_show_again: "Pots reprendre aquest vídeo des del menú d'ajuda"
+    text_getting_started_description: "Obté una visió general ràpida de la gestió de projectes i col·laboració d'equips amb OpenProject. Pots tornar a veure aquest vídeo des del menú d'ajuda."
     welcome: "Benvingut a %{app_title}"
     select_language: "Si us plau, selecciona el teu idioma"
   permission_add_work_package_notes: "Afegir notes"
@@ -2348,6 +2365,8 @@ ca:
       update_timeout: "Mantenir la darrera informació d'espai de disc necessari per a un dipòsit durant N minuts. Ja que comptar l'espai de disc necessari per un repostori pot ser costós, augmenteu aquest valor per reduir l'impacte en el rendiment."
       oauth_application_details: "El valor secret de client no serà accessible de nou un cop tanquis aquesta pestanya. Si us plau, còpia aquests valors a la configuració de \"Nextcloud OpenProject Integration\":"
       oauth_application_details_link_text: "Ves a la pàgina de configuracions"
+      setup_documentation_details: "Si necessites ajuda configurant un nou emmagatzematge de fitxer si us plau, comprova la nostra documentació:"
+      setup_documentation_details_link_text: "Configuració d'emmagatzematge de fitxers"
       show_warning_details: "Per tal d'utilitzar aquest emmagatzematge de fitxers recorda activar el mòdul i l'emmagatzematge específic a la configuració del projecte desitjat."
     subversion:
       existing_title: "Repositori de Subversion existent"
@@ -2537,6 +2556,7 @@ ca:
   text_access_token_hint: "Els token d'accés permeten que aplicacions externes accedeixin als recursos d'OpenProject."
   text_analyze: "Analitzar més en profunditat: %{subject}"
   text_are_you_sure: "N'estàs segur?"
+  text_are_you_sure_continue: "Estàs segur que vols continuar?"
   text_are_you_sure_with_children: "Vols suprimir el paquet de treball i tots els paquets de treball fills?"
   text_assign_to_project: "Assignar al projecte"
   text_form_configuration: >
@@ -2730,7 +2750,6 @@ ca:
       noneSelection: "(cap)"
       outline: "Expansió de l'esquema inicial"
       parent: "Mostra els subprojectes de"
-      work_package_filters: "Filtrar paquets de treball"
       work_package_responsible: "Mostra els paquets de treball amb responsable"
       work_package_assignee: "Mostra els paquest de treball amb assignat"
       types: "Mostra el tipus"
@@ -2885,6 +2904,17 @@ ca:
     destroy:
       info: "Suprimir el paquet de treball és una acció irreversible."
       title: "Suprimir el paquet de treball"
+  working_days:
+    info: >
+      <b>Defineix els dies laborals de la setmana</b><br/> Els dies no laborals s'ometen en planificar paquets de treball i estan exclosos en calcular duracions. Aquests poden ser ignorats en nivell de paquets de treball.
+    change_button: "Canvia els dies laborals"
+    warning: >
+      Canviar quins dies de la setmana són laborals pot afectar les dates d'inici i final de tots els paquets de treball a tots els projectes en aquesta instància.
+    journal_note:
+      changed: _**Dies laborals"" han canviat (%{changes})._
+      days:
+        working: "%{day} és ara laboral"
+        non_working: "%{day} és ara no laboral"
   nothing_to_preview: "Res per previsualitzar"
   api_v3:
     attributes:

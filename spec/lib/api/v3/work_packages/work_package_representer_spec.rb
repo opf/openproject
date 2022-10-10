@@ -298,7 +298,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
-      describe 'duration', with_flag: { work_packages_duration_field_active: true } do
+      describe 'duration' do
         let(:duration) { 6 }
 
         it { is_expected.to be_json_eql('P6D'.to_json).at_path('duration') }
@@ -318,15 +318,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             expect(subject).not_to have_json_path('duration')
           end
         end
-
-        context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
-          it 'with no duration' do
-            expect(subject).not_to have_json_path('duration')
-          end
-        end
       end
 
-      describe 'ignoreNonWorkingDays', with_flag: { work_packages_duration_field_active: true } do
+      describe 'ignoreNonWorkingDays' do
         let(:ignore_non_working_days) { true }
 
         context 'with the value being `true`' do
@@ -337,12 +331,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:ignore_non_working_days) { false }
 
           it { is_expected.to be_json_eql(false.to_json).at_path('ignoreNonWorkingDays') }
-        end
-
-        context 'when the feature flag is off', with_flag: { work_packages_duration_field_active: false } do
-          it 'has no ignoreNonWorkingDays' do
-            expect(subject).not_to have_json_path('ignoreNonWorkingDays')
-          end
         end
       end
 
@@ -1388,7 +1376,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   end
 
   describe 'parsing' do
-    describe 'duration', with_flag: { work_packages_duration_field_active: true } do
+    describe 'duration' do
       subject { representer }
 
       it 'parses form iso8601 format' do

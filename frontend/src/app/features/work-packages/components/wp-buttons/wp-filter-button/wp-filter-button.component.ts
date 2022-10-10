@@ -49,6 +49,8 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
 
   public iconClass = 'icon-filter';
 
+  public title = this.I18n.t('js.work_packages.filters.title');
+
   constructor(
     readonly I18n:I18nService,
     protected cdRef:ChangeDetectorRef,

@@ -66,6 +66,9 @@ si:
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "ව්යවසාය සංස්කරණය සහාය ටෝකනය උඩුගත කරන්න"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "ඔබගේ වර්තමාන ආධාරක ටෝකනය ප්රතිස්ථාපනය කරන්න"
       order: "Order Enterprise on-premises Edition"
       paste: "ඔබගේ ව්යවසාය සංස්කරණය සහාය ටෝකනය අලවන්න"
@@ -528,6 +531,10 @@ si:
         end_insertion: "ඇතුළත් කිරීමේ අවසානය"
         end_deletion: "මකාදැමීමේ අවසානය"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "මාපිය"
         parent_issue: "මාපිය"
         parent_work_package: "මාපිය"
@@ -724,6 +731,11 @@ si:
           attributes:
             permissions:
               dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -745,10 +757,12 @@ si:
               format: "%{message}"
             due_date:
               not_start_date: "සන්ධිස්ථාන සඳහා මෙය අවශ්ය වුවද ආරම්භක දිනයේ නොවේ."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "සන්ධිස්ථානයක් විය නොහැක."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -756,6 +770,7 @@ si:
               not_a_valid_parent: "අවලංගුයි."
             start_date:
               violates_relationships: "වැඩ පැකේජයේ සබඳතා උල්ලංඝනය නොකිරීමට %{soonest_start} හෝ පසුව පමණක් සැකසිය හැකිය."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "වර්තමාන පරිශීලකයාගේ භූමිකාවන් සඳහා පැරණි සිට නව තත්ත්වය දක්වා වලංගු සංක්රාන්තියක් නොපවතින බැවින් වලංගු නොවේ."
               status_invalid_in_type: "මෙම වර්ගයේ වර්තමාන තත්ත්වය නොපවතින බැවින් එය වලංගු නොවේ."
@@ -1752,6 +1767,7 @@ si:
   label_project_new: "නව ව්යාපෘතිය"
   label_project_plural: "ව්‍යාපෘති"
   label_project_settings: "ව්යාපෘති සැකසුම්"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{storage} තැටි ගබඩාව භාවිතා කරමින් ව්යාපෘති%{count} ක්"
   label_project_view_all: "සියලුම ව්යාපෘති බලන්න"
   label_project_show_details: "ව්යාපෘති විස්තර පෙන්වන්න"
@@ -1903,6 +1919,7 @@ si:
   label_wiki_start: "ආරම්භක පිටුව"
   label_work_package: "වැඩ පැකේජය"
   label_work_package_attachments: "වැඩ පැකේජ ඇමුණුම්"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "නව ප්රවර්ගය"
   label_work_package_category_plural: "වැඩ පැකේජ කාණ්ඩ"
   label_work_package_hierarchy: "වැඩ පැකේජය ධූරාවලිය"
@@ -1918,6 +1935,7 @@ si:
   label_workflow: "කාර්ය ප්රවාහ"
   label_workflow_plural: "වැඩ ප්රවාහ"
   label_workflow_summary: "සාරාංශය"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 වසා"
     other: "%{count} වසා"
@@ -1978,7 +1996,7 @@ si:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2157,8 +2175,7 @@ si:
           tb: "ටෙ.බ."
   onboarding:
     heading_getting_started: "දළ විශ්ලේෂණයක් ලබා ගන්න"
-    text_getting_started_description: "OpenProject සමඟ ව්යාපෘති කළමනාකරණය සහ කණ්ඩායම් සහයෝගීතාව පිළිබඳ ඉක්මන් දළ විශ්ලේෂණයක් ලබා ගන්න."
-    text_show_again: "ඔබට උදව් මෙනුවෙන් මෙම වීඩියෝව නැවත ආරම්භ කළ හැකිය"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "කරුණාකර ඔබේ භාෂාව තෝරන්න"
   permission_add_work_package_notes: "සටහන් එකතු කරන්න"
@@ -2359,6 +2376,8 @@ si:
       update_timeout: "එන් විනාඩි සඳහා ගබඩාවක් සඳහා අවසන් අවශ්ය තැටි ඉඩ තොරතුරු තබා ගන්න.\nගබඩාවේ අවශ්ය තැටි අවකාශය ගණන් කිරීම මිල අධික විය හැකි බැවින්, කාර්ය සාධන බලපෑම අඩු කිරීම සඳහා මෙම අගය වැඩි කරන්න."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "දැනට පවතින අනුකරණ ගබඩාව"
@@ -2548,6 +2567,7 @@ si:
   text_access_token_hint: "ප්රවේශ ටෝකන ඔබට OpenProject හි සම්පත් සඳහා බාහිර යෙදුම් ප්රවේශය ලබා දීමට ඉඩ සලසයි."
   text_analyze: "තවදුරටත් විශ්ලේෂණය: %{subject}"
   text_are_you_sure: "ඔබට විශ්වාසද?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "වැඩ පැකේජය සහ සියලුම ළමා වැඩ පැකේජ මකන්න?"
   text_assign_to_project: "ව්යාපෘතියට පැවරීම"
   text_form_configuration: >
@@ -2741,7 +2761,6 @@ si:
       noneSelection: "(කිසිවක් නැත)"
       outline: "මූලික ලුහුඬු සටහන් පුළුල් කිරීම"
       parent: "උප ව්යාපෘති පෙන්වන්න"
-      work_package_filters: "පෙරහන් වැඩ පැකේජ"
       work_package_responsible: "වගවීම සහිත වැඩ පැකේජ පෙන්වන්න"
       work_package_assignee: "ඇසිග්නි සමඟ වැඩ පැකේජ පෙන්වන්න"
       types: "වර්ග පෙන්වන්න"
@@ -2896,6 +2915,17 @@ si:
     destroy:
       info: "වැඩ පැකේජය මකා දැමීම ආපසු හැරවිය නොහැකි ක්රියාවකි."
       title: "වැඩ පැකේජය මකන්න"
+  working_days:
+    info: >
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "පෙරදසුන් කිරීමට කිසිවක් නැත"
   api_v3:
     attributes:

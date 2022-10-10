@@ -24,4 +24,7 @@ lol:
         open: 'crwdns824128:0crwdne824128:0'
         open_location: 'crwdns824130:0crwdne824130:0'
         remove: "crwdns824132:0crwdne824132:0"
-        remove_confirmation: "crwdns824882:0crwdne824882:0"
+        remove_confirmation: >
+          crwdns834602:0crwdne834602:0
+        remove_short: "crwdns834604:0crwdne834604:0"
+        not_allowed_tooltip: "crwdns834606:0crwdne834606:0"

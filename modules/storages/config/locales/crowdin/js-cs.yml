@@ -24,4 +24,7 @@ cs:
         open: 'Otevřít soubor v úložišti'
         open_location: 'Otevřít soubor v umístění'
         remove: "Odstranit odkaz na soubor"
-        remove_confirmation: "Jste si jisti, že chcete odlinkovat soubor od pracovního balíčku?"
+        remove_confirmation: >
+          Jste si jisti, že chcete odlinkovat soubor od tohoto pracovního balíčku? Toto nemá vliv na původní soubor a odstraní pouze připojení k tomuto pracovnímu balíčku.
+        remove_short: "Odstranit odkaz"
+        not_allowed_tooltip: "Pro přístup k tomuto souboru se přihlaste do Nextcloudu"

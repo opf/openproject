@@ -26,6 +26,9 @@ pl:
       loading: "Ładowanie…"
       updating: "Aktualizowanie..."
     attachments:
+      delete: "Usuń załącznik"
+      delete_confirmation: |
+        Czy na pewno chcesz usunąć ten plik? Ta akcja nie jest odwracalna.
       draggable_hint: |
         Przeciągaj w polu edytora, aby wstawić obraz lub załącznik referencyjny. Zamknięte pola edytora zostaną otwarte podczas przeciągania.
     autocomplete_select:
@@ -82,6 +85,10 @@ pl:
     button_open_fullscreen: "Otwórz widok pełnoekranowy"
     button_show_cards: "Pokaż widok karty"
     button_show_list: "Pokaż widok listy"
+    button_show_table: "Pokaż widok tabeli"
+    button_show_gantt: "Pokaż widok wykresu Gantta"
+    button_show_fullscreen: "Pokaż widok pełnoekranowy"
+    button_more_actions: "Więcej działań"
     button_quote: "Cytat"
     button_save: "Zapisz"
     button_settings: "Ustawienia"
@@ -290,15 +297,15 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Wersja ta zawiera wiele nowych funkcji i ulepszeń: <br> <ul class="%{list_styling_class}"> <li> Koniec z niekończącym się wyszukiwaniem plików! Dzięki nowej <b>integracji z Nextcloud</b> w OpenProject 12.2 możesz teraz znaleźć pliki bezpośrednio w odpowiednim pakiecie roboczym i zawsze mieć poprawną wersję pod ręką. </li> <li>Wprowadziliśmy <b>nowy selektor dat</b> z zaktualizowanym sposobem wprowadzania danych oraz baner informacyjny, który zawiera przycisk do pokazywania relacji na wykresie Gantta.</li> <li>Dodaliśmy możliwość <b>rejestrowania czasu dla innych użytkowników.</b></li> <li>Oznaczaj powiadomienia jako przeczytane również poza centrum powiadomień.</li> </ul>.
+                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Określ swój globalny tydzień pracy (weekendy i dni wolne od pracy).</li> <li>Oblicz czas trwania w oparciu o daty rozpoczęcia i zakończenia oraz możliwość uwzględnienia dni wolnych od pracy (weekendów) w harmonogramie.</li> <li>Dodaj znaczące podpowiedzi do najistotniejszych działań.</li> <li>Kopiowanie projektu skopiuje również linki do plików dołączone do wszystkich pakietów roboczych.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Wersja ta zawiera wiele nowych funkcji i ulepszeń: <br> <ul class="%{list_styling_class}"> <li> Koniec z niekończącym się wyszukiwaniem plików! Dzięki nowej <b>integracji z Nextcloud</b> w OpenProject 12.2 możesz teraz znaleźć pliki bezpośrednio w odpowiednim pakiecie roboczym i zawsze mieć poprawną wersję pod ręką. </li> <li>Wprowadziliśmy <b>nowy selektor dat</b> z zaktualizowanym sposobem wprowadzania danych oraz baner informacyjny, który zawiera przycisk do pokazywania relacji na wykresie Gantta.</li> <li>Dodaliśmy możliwość <b>rejestrowania czasu dla innych użytkowników.</b></li> <li>Oznaczaj powiadomienia jako przeczytane również poza centrum powiadomień.</li> </ul>.
+                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Określ swój globalny tydzień pracy (weekendy i dni wolne od pracy).</li> <li>Oblicz czas trwania w oparciu o daty rozpoczęcia i zakończenia oraz możliwość uwzględnienia dni wolnych od pracy (weekendów) w harmonogramie.</li> <li>Dodaj znaczące podpowiedzi do najistotniejszych działań.</li> <li>Kopiowanie projektu skopiuje również linki do plików dołączone do wszystkich pakietów roboczych.</li> </ul>
     label_activate: "Aktywuj"
     label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"
@@ -540,7 +547,9 @@ pl:
         prioritized: 'priorytetowo'
       facets:
         unread: 'Nieprzeczytane'
+        unread_title: 'Pokaż nieprzeczytane'
         all: 'Wszystko'
+        all_title: 'Pokaż wszystkie'
       center:
         and_more_users:
           one: 'i 1 inny'
@@ -611,6 +620,7 @@ pl:
       default: '-'
       subject: 'Wpisz tutaj temat'
       selection: 'Proszę wybrać'
+      description: 'Opis: Kliknij, aby edytować...'
       relation_description: 'Kliknij, aby dodać opis do tej relacji'
     project:
       required_outside_context: >
@@ -742,7 +752,6 @@ pl:
     project_menu_details: "Szczegóły"
     scheduling:
       manual: 'Planowanie ręczne'
-      automatic: 'Planowanie automatyczne'
     sort:
       sorted_asc: 'Zastosowano sortowanie rosnące, '
       sorted_dsc: 'Zastosowano sortowanie malejące, '
@@ -753,7 +762,6 @@ pl:
       activate_no: 'aktywuj, aby usunąć sortowanie'
     text_work_packages_destroy_confirmation: "Czy na pewno chcesz usunąć wybrane pakiety robocze?"
     text_query_destroy_confirmation: "Czy na pewno chcesz usunąć zaznaczony widok?"
-    text_attachment_destroy_confirmation: "Jesteś pewien, że chcesz usunąć ten załącznik?"
     timelines:
       quarter_label: 'Kwartał%{quarter_number}'
       gantt_chart: 'Wykres Gantta'
@@ -850,6 +858,8 @@ pl:
         changing_dates_affects_follow_relations: "Zmiana tych dat wpłynie na daty powiązanych pakietów roboczych."
         click_on_show_relations_to_open_gantt: 'Kliknij "%{button_name}", aby wyświetlić wykres GANTTa.'
         show_relations: 'Pokaż relacje'
+        ignore_non_working_days:
+          title: 'Tylko dni robocze'
       description_filter: "Filtr"
       description_enter_text: "Wpisz tekst"
       description_options_hide: "Ukryj opcje"
@@ -869,6 +879,8 @@ pl:
       message_work_package_read_only: "Pakiet roboczy jest zablokowany w tym stanie. Nie można zmienić żadnego atrybutu innego niż stan."
       message_work_package_status_blocked: "Nie można zapisać stanu pakietu roboczego ze względu na jego zamknięty stan i przypisaną mu zamkniętą wersję."
       placeholder_filter_by_text: "Przedmiot, opis, komentarze, ..."
+      filters:
+        title: 'Filtruj pakiety robocze'
       inline_create:
         title: 'Kliknij tutaj, aby dodać nowy pakiet prac do tej listy'
       create:
@@ -905,6 +917,7 @@ pl:
         description: "Opis"
         date: "Data"
         dueDate: "Data zakończenia"
+        duration: "Czas trwania"
         estimatedTime: "Szacowany czas"
         spentTime: "Czas pracy"
         category: "Kategoria"
@@ -936,7 +949,6 @@ pl:
       placeholders:
         default: "-"
         date: "Wybierz datę"
-        formattable: "%{name}: kliknij, aby edytować..."
       query:
         column_names: "Kolumny"
         group_by: "Grupuj wyniki"
@@ -1042,12 +1054,14 @@ pl:
       button_save: "Zapisz"
       button_submit: "Prześlij"
       button_cancel: "Anuluj"
+      button_delete: "Usuń"
       form_submit:
         title: 'Potwierdź, aby kontynuować'
         text: 'Czy na pewno chcesz wykonać tę akcję?'
       destroy_work_package:
         title: "Potwierdź usunięcie %{label}"
-        text: "Czy na pewno chcesz usunąć następujący %{label}?"
+        single_text: "Czy na pewno chcesz usunąć pakiet roboczy"
+        bulk_text: "Czy na pewno chcesz usunąć %{label}?"
         has_children: "Pakiet roboczy zawiera %{childUnits}:"
         confirm_deletion_children: "Potwierdzam, że WSZYSTKIE elementy potomne pakietów roboczych z listy będą rekurencyjnie usuwane."
         deletes_children: "Wszystkie pakiety podrzędne i ich elementy potomne również będą rekursywnie usuwane."
@@ -1169,13 +1183,13 @@ pl:
       role:
         label: 'Rola w %{project}'
         no_roles_found: 'Nie znaleziono żadnych ról'
-        description: 'To jest rola, którą %{principal} otrzyma po dołączeniu do projektu. Rola określa działania, które można podjąć i widoczne informacje. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Dowiedz się więcej o rolach i uprawnieniach. </a>'
+        description: 'To jest rola, jaką użytkownik otrzyma po dołączeniu do projektu. Rola określa, jakie działania mogą zostać podjęte i jakie informacje będą widoczne. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Dowiedz się więcej o rolach i uprawnieniach. </a>'
         required: 'Wybierz rolę'
         next_button: 'Następny'
       message:
         label: 'Wiadomość z zaproszeniem'
-        description: 'Wyślemy do %{principal} wiadomość e-mail, do której możesz tutaj dodać prywatną wiadomość. Może to być wyjaśnienie zaproszenia lub ułatwiające rozpoczęcie pracy informacje na temat projektu.'
-        next_button: 'Przejrzyj zaproszenie'
+        description: 'Wyślemy do użytkownika wiadomość e-mail, do której możesz tutaj dodać prywatną wiadomość. Może to być wyjaśnienie zaproszenia lub ułatwiające rozpoczęcie pracy informacje na temat projektu.'
+        next_button: 'Następny'
       summary:
         next_button: 'Wyślij zaproszenie'
       success:

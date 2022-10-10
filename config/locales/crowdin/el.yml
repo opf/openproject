@@ -66,6 +66,9 @@ el:
     enterprise:
       upgrade_to_ee: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
       add_token: "Ανεβάστε ενα token υποστήριξης έκδοσης για επιχειρήσεις"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Αντικαταστήστε το τρέχον token υποστήριξης"
       order: "Παραγγείλτε το Enterprise on-premises Edition"
       paste: "Επικολλήστε ένα token υποστήριξης Έκδοσης για Επιχειρήσεις"
@@ -524,6 +527,10 @@ el:
         end_insertion: "Λήξη της εισαγωγής"
         end_deletion: "Λήξη της διαγραφής"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Γονέας"
         parent_issue: "Γονέας"
         parent_work_package: "Γονέας"
@@ -720,6 +727,11 @@ el:
           attributes:
             permissions:
               dependency_missing: "πρέπει επίσης να συμπεριληφθεί το '%{dependency}' καθώς το '%{permission}' είναι επιλεγμένο."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -741,10 +753,12 @@ el:
               format: "%{message}"
             due_date:
               not_start_date: "δεν είναι στην ημερομηνία έναρξης, παρόλο που απαιτείται από τα ορόσημα."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "δεν μπορεί να είναι ορόσημο."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -752,6 +766,7 @@ el:
               not_a_valid_parent: "δεν είναι έγκυρο."
             start_date:
               violates_relationships: "μπορεί μόνο να οριστεί στις %{soonest_start} ή αργότερα ώστε να μην παραβιάζει τις σχέσεις του πακέτου εργασίας."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "δεν είναι έγκυρο γιατί δεν υπάρχει έγκυρη μετάβαση από την παλιά στην νέα κατάσταση για τους ρόλους του τρέχοντα χρήστη."
               status_invalid_in_type: "δεν είναι έγκυρο γιατί η τρέχουσα κατάσταση δεν υπάρχει σε αυτό τον τύπο."
@@ -1748,6 +1763,7 @@ el:
   label_project_new: "Νέο έργο"
   label_project_plural: "Έργα"
   label_project_settings: "Ρυθμίσεις έργου"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} έργα χρησιμοποιούν %{storage} από τον χώρο αποθήκευσης του δίσκου"
   label_project_view_all: "Εμφάνιση όλων των έργων"
   label_project_show_details: "Εμφάνιση λεπτομερειών έργου"
@@ -1899,6 +1915,7 @@ el:
   label_wiki_start: "Σελίδα έναρξης"
   label_work_package: "Εργασία"
   label_work_package_attachments: "Συνημμένα πακέτου εργασίας"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Νέα κατηγορία"
   label_work_package_category_plural: "Κατηγορίες πακέτου εργασίας"
   label_work_package_hierarchy: "Ιεραρχία πακέτου εργασίας"
@@ -1914,6 +1931,7 @@ el:
   label_workflow: "Ροή εργασιών"
   label_workflow_plural: "Ροές εργασίας"
   label_workflow_summary: "Περίληψη"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 κλειστό"
     other: "%{count} κλειστά"
@@ -1974,7 +1992,7 @@ el:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2152,8 +2170,7 @@ el:
           tb: "TB"
   onboarding:
     heading_getting_started: "Λάβετε μια επισκόπηση"
-    text_getting_started_description: "Λάβετε μια γρήγορη επισκόπηση της διαχείρισης έργων και της ομαδικής συνεργασίας με το OpenProject."
-    text_show_again: "Μπορείτε να επανεκκινήσετε αυτό το βίντεο από το μενού βοήθειας"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Παρακαλούμε επιλέξτε την γλώσσα σας"
   permission_add_work_package_notes: "Προσθήκη σημειώσεων"
@@ -2354,6 +2371,8 @@ el:
       update_timeout: "Διατήρηση των τελευταίων πληροφοριών απαιτούμενου χώρου δίσκου για ένα αποθετήριο για Ν λεπτά.\nΚαθώς η μέτρηση του απαιτούμενου χώρου δίσκου για ένα αποθετήριο μπορεί να κοστίζει, αυξήστε αυτή την τιμή για να μειώσετε την επίπτωση στην επίδοση."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Υπάρχον αποθετήριο Subversion"
@@ -2543,6 +2562,7 @@ el:
   text_access_token_hint: "Τα tokens πρόσβασης σας επιτρέπουν να δώσετε πρόσβαση σε εξωτερικές εφαρμογές σε πόρους μέσα στο OpenProject."
   text_analyze: "Περαιτέρω ανάλυση: %{subject}"
   text_are_you_sure: "Είστε σίγουρος/η;"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Διαγραφή πακέτου εργασίας και όλων των πακέτων-παιδιά;"
   text_assign_to_project: "Ανάθεση στο έργο"
   text_form_configuration: >
@@ -2736,7 +2756,6 @@ el:
       noneSelection: "(κανένα)"
       outline: "Αρχική επέκταση περιγράμματος"
       parent: "Εμφάνιση υποέργων του"
-      work_package_filters: "Φιλτράρισμα πακέτων εργασίας"
       work_package_responsible: "Εμφάνιση πακέτων εργασίας για τα οποία είμαι υπόλογος"
       work_package_assignee: "Εμφάνιση πακέτων εργασίας που έχουν ανατεθεί"
       types: "Εμφάνιση τύπων"
@@ -2890,6 +2909,17 @@ el:
     destroy:
       info: "Η διαγραφή του πακέτου εργασίας είναι μια μη αναστρέψιμη ενέργεια."
       title: "Διαγραφή του πακέτου εργασίας"
+  working_days:
+    info: >
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Δεν υπάρχει κάτι για προεπισκόπηση"
   api_v3:
     attributes:

@@ -136,8 +136,6 @@ tr:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS gönderimi başarısız oldu.'
       voice_delivery_failed: 'MessageBird sesli arama başarısız oldu.'
-    restdt:
-      delivery_failed_with_code: 'Jeton gönderimi başarısız. (Hata kodu %{code})'
     strategies:
       totp: 'Kimlik doğrulayıcı uygulama'
       sns: 'Amazon SNS'

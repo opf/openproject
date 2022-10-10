@@ -1,14 +1,18 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
+require 'bundler'
+Bundler.setup(:default, :development)
+
+require 'colored2'
 require 'pathname'
 require 'json'
 require 'rest-client'
 require 'pry'
-require 'zip'
-require 'tempfile'
 
-# current branch
-branch_name = `git rev-parse --abbrev-ref HEAD`.strip
+GITHUB_API_OPENPROJECT_PREFIX = "https://api.github.com/repos/opf/openproject"
+RAILS_ROOT = Pathname.new(__dir__).dirname
+SPEC_PATTERN = %r{^\S+ (?:rspec (\S+) #.+|An error occurred while loading (\S+)\.\r?)$}
 
 if !ENV['GITHUB_USERNAME']
   raise "Missing GITHUB_USERNAME env"
@@ -16,12 +20,17 @@ elsif !ENV['GITHUB_TOKEN']
   raise "Missing GITHUB_TOKEN env, go to https://github.com/settings/tokens and create one with 'repo' access"
 end
 
-def get_http(path, json: true)
+# Returns current branch
+def branch_name
+  @branch_name ||= `git rev-parse --abbrev-ref HEAD`.strip
+end
+
+def get_http(path)
   url =
     if path.start_with?('http')
       path
     else
-      "https://api.github.com/repos/opf/openproject/#{path}"
+      "#{GITHUB_API_OPENPROJECT_PREFIX}/#{path}"
     end
 
   response = RestClient::Request.new(
@@ -31,47 +40,155 @@ def get_http(path, json: true)
     password: ENV.fetch('GITHUB_TOKEN')
   ).execute
 
-  if json
-    JSON.parse(response.to_str)
-  else
-    response.to_str
-  end
+  response.to_str
+rescue RestClient::ExceptionWithResponse => e
+  warn error_details(e)
+  exit(1)
 rescue StandardError => e
-  warn "Failed to perform API request #{url}: #{e} #{e.message}"
+  warn "Failed to perform API request GET #{url}: #{e}"
+  exit 1
 end
 
-warn "Looking for the last action in branch #{branch_name}"
+def error_details(rest_client_exception_with_response)
+  response = rest_client_exception_with_response.response
+  error = JSON.parse(response.body)
 
-response = get_http "actions/runs?branch=#{CGI.escape(branch_name)}"
+  parts = []
+  parts << "Failed to perform API request #{response.request.method.upcase} #{response.request.url}: #{rest_client_exception_with_response}"
+  parts << "  #{error['message']}"
+  parts << "  See #{error['documentation_url']}"
+  parts += rest_client_exception_with_response.backtrace.map { "    #{_1}" }
+  parts.join("\n")
+end
 
-last_test_action =
-  response['workflow_runs']
-    .select { |entry| entry['name'] == 'Test suite' }
-    .max_by { |entry| entry['run_number'] }
+def get_json(path)
+  JSON.parse(get_http(path))
+end
 
-raise "No action run found for branch #{branch_name}" unless last_test_action
+def path_to_cache_key(path)
+  path
+    .gsub(/\?.*$/, '') # remove query parameter
+    .gsub(/^#{GITHUB_API_OPENPROJECT_PREFIX}\/?/, '') # remove https://.../
+    .gsub(/\W/, '_') # transform non alphanum chars
+end
 
-log_response = get_http last_test_action['logs_url'], json: false
-errors = []
+def commit_message(workflow_run)
+  workflow_run['head_commit']
+    .then { |commit| commit["message"] }
+    .then { |message| message.split("\n", 2).first }
+end
 
-# rubyzip needs a file to read with general purpose bit set
-Tempfile.open('logs.zip') do |file|
-  file.write log_response
-  file.close
+def get_jobs(workflow_run)
+  workflow_run['jobs_url']
+  cache_key = [
+    path_to_cache_key(workflow_run['jobs_url']),
+    workflow_run['updated_at'].gsub(':', '')
+  ].join('_')
+  cached(cache_key) { get_json(workflow_run['jobs_url']) }
+end
 
-  zip = Zip::File.open(file)
-  zip.each do |entry|
-    next unless entry.file?
+def get_log(job)
+  cached("job_#{job['id']}.log") do
+    get_http("actions/jobs/#{job['id']}/logs")
+  end
+end
 
-    log = entry.get_input_stream.read
-    log.scan(/^\S+ rspec (\S+) #.+$/) do |match|
-      errors << match
+def cached(unique_name)
+  cached_file = RAILS_ROOT.join("tmp/github_pr_errors/#{unique_name}")
+  if cached_file.file?
+    content = cached_file.read
+    content.start_with?("---") ? YAML::load(content) : content
+  else
+    content = yield
+    cached_file.dirname.mkpath
+    cached_file.write(content.is_a?(String) ? content : YAML::dump(content))
+    content
+  end
+end
+
+def status_icon(job)
+  case job['status']
+  when "queued", "in_progress"
+    "●".yellow
+  else
+    case job['conclusion']
+    when "success"
+      "✓".green
+    when "failure"
+      "✗".red
+    else
+      "-"
     end
   end
 end
 
-if errors.empty?
+def status_url(job)
+  return if job['conclusion'] == "success"
+
+  job['html_url'].white.dark
+end
+
+def status_line(job)
+  [
+    "#{status_icon(job)} #{job['name']}: #{job['conclusion'] || job['status']}",
+    status_url(job)
+  ].compact.join("  ")
+end
+
+def last_with_status(workflow_runs, status)
+  workflow_runs
+    .select { |entry| entry['status'] == status }
+    .max_by { |entry| entry['run_number'] }
+end
+
+def get_last_test_action
+  test_workflow_runs =
+    get_json("actions/runs?branch=#{CGI.escape(branch_name)}")
+      .then { |response| response['workflow_runs'] }
+      .select { |entry| entry['name'] == 'Test suite' }
+
+  last_completed = last_with_status(test_workflow_runs, 'completed')
+  last_in_progress = last_with_status(test_workflow_runs, 'in_progress')
+
+  last_completed || last_in_progress
+end
+
+##########
+
+warn "Looking for the last 'Test suite' workflow run in branch #{branch_name}"
+
+last_test_action = get_last_test_action
+
+raise "No action run found for branch #{branch_name}" unless last_test_action
+
+warn "  Commit SHA: #{last_test_action['head_sha']}"
+warn "  Commit message: #{commit_message(last_test_action)}"
+
+errors = []
+is_successful = true
+warn "  #{status_line(last_test_action)}"
+get_jobs(last_test_action)
+  .then { |jobs_response| jobs_response['jobs'] }
+  .sort_by { _1['name'] }
+  .each { |job| warn "    #{status_line(job)}" }
+  .select { _1['conclusion'] == 'failure' }
+  .each do |job|
+    is_successful = false
+    get_log(job)
+      .scan(SPEC_PATTERN)
+      .flatten
+      .compact
+      .uniq
+      .sort
+      .each do |match|
+      errors << match
+    end
+  end
+
+if is_successful
+  warn "All jobs successful 🎉"
+elsif errors.empty?
   warn "No rspec errors found :-/"
 else
-  puts errors.flatten.uniq.join(" ")
+  puts errors.map { "'#{_1}'" }.join(" ")
 end

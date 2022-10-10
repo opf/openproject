@@ -697,9 +697,9 @@ describe WorkPackage, type: :model do
 
   describe '#ignore_non_working_days' do
     context 'for a new record' do
-      it 'is true' do
+      it 'is false' do
         expect(described_class.new.ignore_non_working_days)
-          .to be true
+          .to be false
       end
     end
   end

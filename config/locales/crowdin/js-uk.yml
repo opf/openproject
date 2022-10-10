@@ -26,6 +26,9 @@ uk:
       loading: "Завантаження…"
       updating: "Оновлення..."
     attachments:
+      delete: "Видалити вкладення"
+      delete_confirmation: |
+        Справді видалити цей файл? Цю дію не можна скасувати.
       draggable_hint: |
         Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
     autocomplete_select:
@@ -82,6 +85,10 @@ uk:
     button_open_fullscreen: "Відкрити на весь екран"
     button_show_cards: "Показати подання картки"
     button_show_list: "Показати подання списку"
+    button_show_table: "Показати подання таблиці"
+    button_show_gantt: "Показати подання Ґанта"
+    button_show_fullscreen: "Показати на весь екран"
+    button_more_actions: "Інші дії"
     button_quote: "Цитата"
     button_save: "Зберегти"
     button_settings: "Налаштування"
@@ -290,15 +297,15 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Випуск містить низку нових функцій і поліпшень: <br> <ul class="%{list_styling_class}"> <li>Забудьте про нескінченний пошук файлів! Завдяки новій <b>інтеграції Nextcloud</b> в OpenProject 12.2 ви можете знаходити файли у відповідних пакетах робіт і завжди мати під рукою правильну версію. </li> <li>Ми представили <b>новий засіб вибору дат</b> з оновленою поведінкою введення та інформаційним банером із кнопкою, що дає змогу переглядати зв’язки в режимі діаграми Ганта.</li> <li>Ми додали можливість <b>реєструвати час для інших користувачів.</b></li> <li>Позначати сповіщення як прочитані можна також за межами центру сповіщень.</li> </ul>
+                Цей випуск містить кілька нових і поліпшених функцій. <br><ul class="%{list_styling_class}"><li>Визначення робочого тижня на глобальному рівні (вихідні й неробочі дні тижня).</li> <li>Обчислення тривалості за датами початку й закінчення та можливість враховувати неробочі дні (вихідні) під час планування.</li> <li>Додавання змістовних підказок до найважливіших дій.</li> <li>Копіювання посилань на файли, вкладені в усі пакети робіт, одночасно з копіюванням проєкту.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Випуск містить низку нових функцій і поліпшень: <br> <ul class="%{list_styling_class}"> <li>Забудьте про нескінченний пошук файлів! Завдяки новій <b>інтеграції Nextcloud</b> в OpenProject 12.2 ви можете знаходити файли у відповідних пакетах робіт і завжди мати під рукою правильну версію. </li> <li>Ми представили <b>новий засіб вибору дат</b> з оновленою поведінкою введення та інформаційним банером із кнопкою, що дає змогу переглядати зв’язки в режимі діаграми Ганта.</li> <li>Ми додали можливість <b>реєструвати час для інших користувачів.</b></li> <li>Позначати сповіщення як прочитані можна також за межами центру сповіщень.</li> </ul>
+                Цей випуск містить кілька нових і поліпшених функцій. <br><ul class="%{list_styling_class}"><li>Визначення робочого тижня на глобальному рівні (вихідні й неробочі дні тижня).</li> <li>Обчислення тривалості за датами початку й закінчення та можливість враховувати неробочі дні (вихідні) під час планування.</li> <li>Додавання змістовних підказок до найважливіших дій.</li> <li>Копіювання посилань на файли, вкладені в усі пакети робіт, одночасно з копіюванням проєкту.</li> </ul>
     label_activate: "Активувати"
     label_assignee: 'Виконавець'
     label_add_column_after: "Додати стовпець після"
@@ -540,7 +547,9 @@ uk:
         prioritized: 'надано пріоритет'
       facets:
         unread: 'Непрочитані'
+        unread_title: 'Показати непрочитані'
         all: 'Всі'
+        all_title: 'Показати всі'
       center:
         and_more_users:
           one: 'і ще 1'
@@ -611,6 +620,7 @@ uk:
       default: '-'
       subject: 'Введіть тему тут'
       selection: 'Будь ласка, виберіть'
+      description: 'Опис. Натисніть, щоб змінити…'
       relation_description: 'Нажмите, чтобы добавить описание для этой связи'
     project:
       required_outside_context: >
@@ -742,7 +752,6 @@ uk:
     project_menu_details: "Детальніше"
     scheduling:
       manual: 'Ручне планування'
-      automatic: 'Автоматичне планування'
     sort:
       sorted_asc: 'Застосовується сортування за зростанням,'
       sorted_dsc: 'Застосовується сортування за спаданням,'
@@ -753,7 +762,6 @@ uk:
       activate_no: 'активувати, щоб видалити сортування'
     text_work_packages_destroy_confirmation: "Ви впевнені у тому, що хочете видалити вибрані робочі пакети?"
     text_query_destroy_confirmation: "Ви дійсно бажаєте видалити вибраний вигляд?"
-    text_attachment_destroy_confirmation: "Ви впевнені, що бажаєте видалити вкладення?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Діаграма Ганта'
@@ -850,6 +858,8 @@ uk:
         changing_dates_affects_follow_relations: "Змінення цих дат вплине на дати пов’язаних пакетів робіт."
         click_on_show_relations_to_open_gantt: 'Натисніть кнопку «%{button_name}», щоб перейти в режим GANTT.'
         show_relations: 'Показати зв’язки'
+        ignore_non_working_days:
+          title: 'Лише робочі дні'
       description_filter: "Фільтр"
       description_enter_text: "Введіть текст"
       description_options_hide: "Сховати опції"
@@ -869,6 +879,8 @@ uk:
       message_work_package_read_only: "Робочий пакет заблоковано в цьому статусі. Атрибут, відмінний від статусу, може бути змінений."
       message_work_package_status_blocked: "Пакет робіт недоступний для запису, оскільки призначено закритий статус або закриту версію."
       placeholder_filter_by_text: "Тема, опис, коментарі, ..."
+      filters:
+        title: 'Фільтрувати пакети робіт'
       inline_create:
         title: 'Клацніть тут, щоб додати до цього списку новий пакет робіт'
       create:
@@ -905,6 +917,7 @@ uk:
         description: "Опис"
         date: "Дата"
         dueDate: "Дата закінчення"
+        duration: "Тривалість"
         estimatedTime: "Час (приблизно)"
         spentTime: "Трудовитрати"
         category: "Категорія"
@@ -936,7 +949,6 @@ uk:
       placeholders:
         default: "-"
         date: "Виберіть дату"
-        formattable: "%{name}: натисніть, щоб редагувати..."
       query:
         column_names: "Стовпці"
         group_by: "Групувати результати по"
@@ -1042,12 +1054,14 @@ uk:
       button_save: "Зберегти"
       button_submit: "Підтвердити"
       button_cancel: "Скасувати"
+      button_delete: "Видалити"
       form_submit:
         title: 'Підтвердьте продовження'
         text: 'Дійсно виконати цю дію?'
       destroy_work_package:
         title: "Підтвердьте видалення %{label}"
-        text: "Дійсно видалити наступне %{label} ?"
+        single_text: "Справді видалити цей пакет робіт?"
+        bulk_text: "Справді видалити %{label} нижче?"
         has_children: "Робочий пакет має %{childUnits}"
         confirm_deletion_children: "Я визнаю, що <b>ВСІ</b> нащадки перерахованих робочих пакетів будуть рекурсивно видалені."
         deletes_children: "Всі дочірні робочі пакети та їх нащадки також будуть рекурсивно видалені."
@@ -1169,13 +1183,13 @@ uk:
       role:
         label: 'Ролі у проєкті «%{project}»'
         no_roles_found: 'Ролей не знайдено'
-        description: 'Це роль, яку користувач %{principal} отримає в разі приєднання до вашого проєкту. Роль визначає, які дії йому дозволено та яку інформацію він може бачити. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Дізнатися більше про ролі й дозволи. </a>'
+        description: 'Це роль, яку користувач отримає в разі приєднання до вашого проєкту. Роль визначає, які дії йому дозволено та яку інформацію він може бачити. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Дізнатися більше про ролі й дозволи. </a>'
         required: 'Виберіть роль'
         next_button: 'Далі'
       message:
         label: 'Повідомлення із запрошенням'
-        description: 'Ми надішлемо електронний лист користувачу %{principal}, у яке ви можете додати особисте повідомлення. Радимо додати пояснення про запрошення або, можливо, деяку інформацію про проєкт, щоб простити користувачу початок роботи.'
-        next_button: 'Переглянути запрошення'
+        description: 'Ми надішлемо електронний лист користувачу, у яке ви можете додати особисте повідомлення. Радимо додати пояснення про запрошення або, можливо, деяку інформацію про проєкт, щоб спростити користувачу початок роботи.'
+        next_button: 'Далі'
       summary:
         next_button: 'Надіслати запрошення'
       success:

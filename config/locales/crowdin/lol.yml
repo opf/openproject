@@ -66,6 +66,9 @@ lol:
     enterprise:
       upgrade_to_ee: "crwdns796392:0crwdne796392:0"
       add_token: "crwdns796394:0crwdne796394:0"
+      delete_token_modal:
+        text: "crwdns834510:0crwdne834510:0"
+        title: "crwdns834512:0crwdne834512:0"
       replace_token: "crwdns796396:0crwdne796396:0"
       order: "crwdns796398:0crwdne796398:0"
       paste: "crwdns796400:0crwdne796400:0"
@@ -510,6 +513,10 @@ lol:
         end_insertion: "crwdns796966:0crwdne796966:0"
         end_deletion: "crwdns796968:0crwdne796968:0"
         ignore_non_working_days: "crwdns823906:0crwdne823906:0"
+        include_non_working_days:
+          title: 'crwdns834514:0crwdne834514:0'
+          false: 'crwdns834516:0crwdne834516:0'
+          true: 'crwdns834518:0crwdne834518:0'
         parent: "crwdns796972:0crwdne796972:0"
         parent_issue: "crwdns796974:0crwdne796974:0"
         parent_work_package: "crwdns796976:0crwdne796976:0"
@@ -706,6 +713,11 @@ lol:
           attributes:
             permissions:
               dependency_missing: "crwdns797244:0%{dependency}crwdnd797244:0%{permission}crwdne797244:0"
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'crwdns834520:0crwdne834520:0'
+              previous_working_day_changes_unprocessed: 'crwdns834522:0crwdne834522:0'
         time_entry:
           attributes:
             hours:
@@ -727,10 +739,12 @@ lol:
               format: "crwdns830342:0%{message}crwdne830342:0"
             due_date:
               not_start_date: "crwdns797256:0crwdne797256:0"
+              cannot_be_null: "crwdns834524:0crwdne834524:0"
             duration:
               larger_than_dates: "crwdns823910:0crwdne823910:0"
               smaller_than_dates: "crwdns823912:0crwdne823912:0"
               not_available_for_milestones: "crwdns823914:0crwdne823914:0"
+              cannot_be_null: "crwdns834526:0crwdne834526:0"
             parent:
               cannot_be_milestone: "crwdns797258:0crwdne797258:0"
               cannot_be_self_assigned: "crwdns797260:0crwdne797260:0"
@@ -738,6 +752,7 @@ lol:
               not_a_valid_parent: "crwdns797264:0crwdne797264:0"
             start_date:
               violates_relationships: "crwdns797266:0%{soonest_start}crwdne797266:0"
+              cannot_be_null: "crwdns834528:0crwdne834528:0"
             status_id:
               status_transition_invalid: "crwdns797268:0crwdne797268:0"
               status_invalid_in_type: "crwdns797270:0crwdne797270:0"
@@ -1729,6 +1744,7 @@ lol:
   label_project_new: "crwdns798984:0crwdne798984:0"
   label_project_plural: "crwdns798986:0crwdne798986:0"
   label_project_settings: "crwdns798988:0crwdne798988:0"
+  label_project_storage_plural: "crwdns834530:0crwdne834530:0"
   label_projects_storage_information: "crwdns798990:0%{count}crwdnd798990:0%{storage}crwdne798990:0"
   label_project_view_all: "crwdns798992:0crwdne798992:0"
   label_project_show_details: "crwdns798994:0crwdne798994:0"
@@ -1880,6 +1896,7 @@ lol:
   label_wiki_start: "crwdns799288:0crwdne799288:0"
   label_work_package: "crwdns799290:0crwdne799290:0"
   label_work_package_attachments: "crwdns799292:0crwdne799292:0"
+  label_work_package_file_link_plural: "crwdns834532:0crwdne834532:0"
   label_work_package_category_new: "crwdns799294:0crwdne799294:0"
   label_work_package_category_plural: "crwdns799296:0crwdne799296:0"
   label_work_package_hierarchy: "crwdns799298:0crwdne799298:0"
@@ -1895,6 +1912,7 @@ lol:
   label_workflow: "crwdns799318:0crwdne799318:0"
   label_workflow_plural: "crwdns799320:0crwdne799320:0"
   label_workflow_summary: "crwdns799322:0crwdne799322:0"
+  label_working_days: "crwdns834534:0crwdne834534:0"
   label_x_closed_work_packages_abbr:
     one: "crwdns799324:0crwdne799324:0"
     other: "crwdns799326:0%{count}crwdne799326:0"
@@ -1955,7 +1973,7 @@ lol:
       center: 'crwdns799404:0crwdne799404:0'
       see_in_center: 'crwdns799406:0crwdne799406:0'
       settings: 'crwdns799408:0crwdne799408:0'
-    salutation: 'crwdns799410:0%{user}crwdne799410:0'
+    salutation: 'crwdns834536:0%{user}crwdne834536:0'
     work_packages:
       created_at: 'crwdns799412:0%{timestamp}crwdnd799412:0%{user}crwdne799412:0'
       login_to_see_all: 'crwdns799414:0crwdne799414:0'
@@ -2128,8 +2146,7 @@ lol:
           tb: "crwdns799680:0crwdne799680:0"
   onboarding:
     heading_getting_started: "crwdns799682:0crwdne799682:0"
-    text_getting_started_description: "crwdns799684:0crwdne799684:0"
-    text_show_again: "crwdns799686:0crwdne799686:0"
+    text_getting_started_description: "crwdns834538:0crwdne834538:0"
     welcome: "crwdns810566:0%{app_title}crwdne810566:0"
     select_language: "crwdns799690:0crwdne799690:0"
   permission_add_work_package_notes: "crwdns799692:0crwdne799692:0"
@@ -2328,6 +2345,8 @@ lol:
       update_timeout: "crwdns800024:0crwdne800024:0"
       oauth_application_details: "crwdns823932:0crwdne823932:0"
       oauth_application_details_link_text: "crwdns823934:0crwdne823934:0"
+      setup_documentation_details: "crwdns834540:0crwdne834540:0"
+      setup_documentation_details_link_text: "crwdns834542:0crwdne834542:0"
       show_warning_details: "crwdns824146:0crwdne824146:0"
     subversion:
       existing_title: "crwdns800026:0crwdne800026:0"
@@ -2517,6 +2536,7 @@ lol:
   text_access_token_hint: "crwdns800356:0crwdne800356:0"
   text_analyze: "crwdns800358:0%{subject}crwdne800358:0"
   text_are_you_sure: "crwdns800360:0crwdne800360:0"
+  text_are_you_sure_continue: "crwdns834544:0crwdne834544:0"
   text_are_you_sure_with_children: "crwdns800362:0crwdne800362:0"
   text_assign_to_project: "crwdns800364:0crwdne800364:0"
   text_form_configuration: >
@@ -2710,7 +2730,6 @@ lol:
       noneSelection: "crwdns800690:0crwdne800690:0"
       outline: "crwdns800692:0crwdne800692:0"
       parent: "crwdns800694:0crwdne800694:0"
-      work_package_filters: "crwdns800696:0crwdne800696:0"
       work_package_responsible: "crwdns800698:0crwdne800698:0"
       work_package_assignee: "crwdns800700:0crwdne800700:0"
       types: "crwdns800702:0crwdne800702:0"
@@ -2864,6 +2883,17 @@ lol:
     destroy:
       info: "crwdns800940:0crwdne800940:0"
       title: "crwdns800942:0crwdne800942:0"
+  working_days:
+    info: >
+      crwdns834546:0crwdne834546:0
+    change_button: "crwdns834548:0crwdne834548:0"
+    warning: >
+      crwdns834550:0crwdne834550:0
+    journal_note:
+      changed: crwdns834552:0%{changes}crwdne834552:0
+      days:
+        working: "crwdns834554:0%{day}crwdne834554:0"
+        non_working: "crwdns834556:0%{day}crwdne834556:0"
   nothing_to_preview: "crwdns800944:0crwdne800944:0"
   api_v3:
     attributes:

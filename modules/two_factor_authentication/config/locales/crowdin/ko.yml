@@ -136,8 +136,6 @@ ko:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS 배달이 실패했습니다.'
       voice_delivery_failed: 'MessageBird 음성 통화가 실패했습니다.'
-    restdt:
-      delivery_failed_with_code: '토큰 배달이 실패했습니다(오류 코드 %{code}).'
     strategies:
       totp: '인증자 애플리케이션'
       sns: 'Amazon SNS'

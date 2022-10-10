@@ -66,6 +66,9 @@ fr:
     enterprise:
       upgrade_to_ee: "Passer à la version Entreprise"
       add_token: "Charger une licence de la version Entreprise"
+      delete_token_modal:
+        text: "Voulez-vous vraiment supprimer le jeton actuel de l'édition Enterprise ?"
+        title: "Supprimer le jeton"
       replace_token: "Remplacer votre licence actuelle"
       order: "Commander l'édition Enterprise autohebergé"
       paste: "Coller votre licence de la version Entreprise"
@@ -528,6 +531,10 @@ fr:
         end_insertion: "Fin de l’insertion"
         end_deletion: "Fin de la suppression"
         ignore_non_working_days: "Ignorer les jours non ouvrables"
+        include_non_working_days:
+          title: 'Journées de travail'
+          false: 'jours ouvrés seulement'
+          true: 'Inclure les jours non travaillés'
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -724,6 +731,11 @@ fr:
           attributes:
             permissions:
               dependency_missing: "doit également inclure '%{dependency}' car'%{permission}' est sélectionné."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'Au moins un jour de la semaine doit être défini comme jour de travail.'
+              previous_working_day_changes_unprocessed: 'Les modifications précédentes de la configuration des jours ouvrables n''ont pas encore été appliquées.'
         time_entry:
           attributes:
             hours:
@@ -745,10 +757,12 @@ fr:
               format: "%{message}"
             due_date:
               not_start_date: "n'est pas identique à la date de début, bien que cela soit requis pour les jalons."
+              cannot_be_null: "ne peut pas être défini à NULL car la date de début et la durée sont connues."
             duration:
               larger_than_dates: "est plus grand que l'intervalle entre la date de début et la date de fin."
               smaller_than_dates: "est plus petit que l'intervalle entre la date de début et la date de fin."
               not_available_for_milestones: "n'est pas disponible pour les lots de travaux de type jalon."
+              cannot_be_null: "ne peut pas être défini à NULL car la date de début et la date de fin sont connues."
             parent:
               cannot_be_milestone: "ne peut pas être un jalon."
               cannot_be_self_assigned: "ne peut pas être assigné à lui-même."
@@ -756,6 +770,7 @@ fr:
               not_a_valid_parent: "est invalide."
             start_date:
               violates_relationships: "peut uniquement valoir %{soonest_start} ou une date ultérieure afin de ne pas violer les relations du lot de travaux."
+              cannot_be_null: "ne peut pas être défini à NULL car la date de fin et la durée sont connues."
             status_id:
               status_transition_invalid: "n'est pas valide, car aucune transition valide n'existe de l'ancien vers le nouveau statut pour les rôles de l'utilisateur actuel."
               status_invalid_in_type: "est invalide car le statut actuel n’existe pas dans ce type."
@@ -1752,6 +1767,7 @@ fr:
   label_project_new: "Nouveau projet"
   label_project_plural: "Projets"
   label_project_settings: "Paramètres du projet"
+  label_project_storage_plural: "Stockages"
   label_projects_storage_information: "%{count} projets utilisant %{storage} d'espace disque"
   label_project_view_all: "Afficher tous les projets"
   label_project_show_details: "Afficher les détails du projet"
@@ -1903,6 +1919,7 @@ fr:
   label_wiki_start: "Page d'accueil"
   label_work_package: "Lot de travaux"
   label_work_package_attachments: "Pièces jointes du lot de travaux"
+  label_work_package_file_link_plural: "Liens des fichiers du lot de travaux"
   label_work_package_category_new: "Nouvelle catégorie"
   label_work_package_category_plural: "Catégories de Lots de Travaux"
   label_work_package_hierarchy: "Hiérarchie du lot de travaux"
@@ -1918,6 +1935,7 @@ fr:
   label_workflow: "Flux de travail"
   label_workflow_plural: "Flux de travail"
   label_workflow_summary: "Résumé"
+  label_working_days: "Journées de travail"
   label_x_closed_work_packages_abbr:
     one: "1 fermée"
     other: "%{count} fermées"
@@ -1978,7 +1996,7 @@ fr:
       center: 'Vers le centre de notifications'
       see_in_center: 'Voir le commentaire dans le centre de notifications'
       settings: 'Modifier les paramètres d''e-mail'
-    salutation: 'Bonjour %{user} !'
+    salutation: 'Bonjour %{user}'
     work_packages:
       created_at: 'Créé le %{timestamp} par %{user} '
       login_to_see_all: 'Connectez-vous pour voir toutes les notifications.'
@@ -2157,8 +2175,7 @@ fr:
           tb: "To"
   onboarding:
     heading_getting_started: "Avoir une vue d’ensemble"
-    text_getting_started_description: "Obtenez un aperçu rapide de la gestion de projets et de la collaboration en équipe avec OpenProject."
-    text_show_again: "Vous pouvez relancer cette vidéo au départ du menu d'aide"
+    text_getting_started_description: "Obtenez un aperçu rapide de la gestion de projet et de la collaboration en équipe avec OpenProject. Vous pouvez redémarrer cette vidéo à partir du menu d'aide."
     welcome: "Bienvenue sur %{app_title}"
     select_language: "Veuillez sélectionner votre langue"
   permission_add_work_package_notes: "Ajouter des notes"
@@ -2359,6 +2376,8 @@ fr:
       update_timeout: "Garder les dernières informations de l'espace disque requis pour un dépôt pendant N minutes.\nEtant donné que l'opération de comptabilisation de l'espace disque requis pour un dépôt peut être coûteuse, augmentez cette valeur pour réduire l'impact sur les performances."
       oauth_application_details: "La valeur secrète du client ne sera plus accessible après la fermeture de cette fenêtre. Veuillez copier ces valeurs dans les paramètres d'intégration Nextcloud OpenProject :"
       oauth_application_details_link_text: "Aller à la page des paramètres"
+      setup_documentation_details: "Si vous avez besoin d'aide pour configurer un nouveau stockage de fichiers, veuillez vérifier la documentation : "
+      setup_documentation_details_link_text: "Configuration du stockage des fichiers"
       show_warning_details: "Pour utiliser ce stockage de fichiers, n'oubliez pas d'activer le module et le stockage spécifique dans les paramètres du projet de chaque projet souhaité."
     subversion:
       existing_title: "Dépôt Subversion existant"
@@ -2548,6 +2567,7 @@ fr:
   text_access_token_hint: "Les jetons d'accès vous permettent d'octroyer aux applications externes un accès aux ressources dans OpenProject."
   text_analyze: "Analyse suivante: %{subject}"
   text_are_you_sure: "Êtes-vous sûr ?"
+  text_are_you_sure_continue: "Voulez-vous vraiment continuer ?"
   text_are_you_sure_with_children: "Supprimer le lot de travaux et tous les lots de travaux enfants ?"
   text_assign_to_project: "Assigner le projet"
   text_form_configuration: >
@@ -2741,7 +2761,6 @@ fr:
       noneSelection: "(none)"
       outline: "Expansion de ligne par défaut"
       parent: "Afficher sous-projets de"
-      work_package_filters: "Filtrer les Lots de Travaux"
       work_package_responsible: "Afficher les lots de travaux avec le responsable"
       work_package_assignee: "Afficher les Lots de Travaux assignés à"
       types: "Afficher types"
@@ -2895,6 +2914,17 @@ fr:
     destroy:
       info: "La suppression du lot de travaux est une action irréversible."
       title: "Supprimer le lot de travaux"
+  working_days:
+    info: >
+      <b>Définissez les jours ouvrables de la semaine</b><br/> Les jours non ouvrables sont ignorés lors de la planification des lots de travaux et sont exclus lors du calcul de la durée. Cela peut être remplacé au niveau du lot de travaux.
+    change_button: "Changer les jours ouvrables"
+    warning: >
+      La modification des jours de la semaine considérés comme des jours de travail peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas.
+    journal_note:
+      changed: _**Jours ouvrables** modifiés (%{changes})._
+      days:
+        working: "%{day} est maintenant un jour ouvrable"
+        non_working: "%{day} est maintenant un jour non ouvrable"
   nothing_to_preview: "Rien à afficher en apperçu"
   api_v3:
     attributes:

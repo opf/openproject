@@ -72,8 +72,8 @@ messages_004:
   parent_id:
   forum_id: 1
 messages_005:
-  created_at: <%= 3.days.ago.to_date.to_fs(:db) %>
-  updated_at: <%= 3.days.ago.to_date.to_fs(:db) %>
+  created_at: <%= 3.days.ago %>
+  updated_at: <%= 3.days.ago %>
   subject: 'RE: post 2'
   id: 5
   replies_count: 0
@@ -83,8 +83,8 @@ messages_005:
   parent_id: 4
   forum_id: 1
 messages_006:
-  created_at: <%= 2.days.ago.to_date.to_fs(:db) %>
-  updated_at: <%= 2.days.ago.to_date.to_fs(:db) %>
+  created_at: <%= 2.days.ago %>
+  updated_at: <%= 2.days.ago %>
   subject: 'RE: post 2'
   id: 6
   replies_count: 0
@@ -94,8 +94,8 @@ messages_006:
   parent_id: 4
   forum_id: 1
 messages_007:
-  created_at: <%= 2.days.ago.to_date.to_fs(:db) %>
-  updated_at: <%= 2.days.ago.to_date.to_fs(:db) %>
+  created_at: <%= 2.days.ago %>
+  updated_at: <%= 2.days.ago %>
   subject: 'Message on a private project'
   id: 7
   replies_count: 0

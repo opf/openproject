@@ -24,4 +24,7 @@ pt:
         open: 'Abrir arquivo no armazenamento'
         open_location: 'Abrir arquivo no local'
         remove: "Remover link de arquivo"
-        remove_confirmation: "Tem certeza de que deseja desvincular o arquivo do pacote de trabalho?"
+        remove_confirmation: >
+          tem certeza de que deseja desvincular o arquivo deste pacote de trabalho? A desvinculação não afeta o arquivo original e só remove a conexão com este pacote de trabalho.
+        remove_short: "Remover link"
+        not_allowed_tooltip: "Faça o login no Nextcloud para acessar este arquivo"

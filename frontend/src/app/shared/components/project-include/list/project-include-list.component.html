@@ -1,27 +1,27 @@
 <li
-  class="spot-list--item"
-  *ngFor="let project of projects; index as i; first as isFirst; last as isLast"
+  class="spot-list--item op-project-include-list--item"
+  *ngFor="let project of projects; index as i; first as isFirst"
   data-qa-selector="op-project-include-list--item"
   [attr.data-list-selector]="projectListItemIdentifier"
 >
-  <label
-    tabindex="-1"
-    class="spot-list--item-action op-project-include-list--item-action"
-    (keydown.space)="changeSelected(project)"
-    [ngClass]="{
-      'spot-list--item-action_disabled': project.disabled,
-      'spot-list--item-action_active': (searchableProjectListService.activeItemID$ | async) === project.id
-    }"
-    [attr.data-list-selector]="projectListActionIdentifier"
-    [attr.data-list-disabled]="project.disabled || undefined"
+  <spot-tooltip
+    class="op-project-include-list--tooltip spot-list--item-floating-wrapper"
+    [alignment]="getTooltipAlignment(isFirst)"
+    [disabled]="!project.disabled"
+    [dark]="true"
   >
-    <spot-tooltip
-      class="op-project-include-list--tooltip"
-      [alignment]="getTooltipAlignment(project, isFirst, isLast)"
-      [disabled]="!project.disabled"
-      [dark]="true"
-    >
-      <ng-container slot="trigger">
+    <ng-container slot="trigger">
+      <label
+        tabindex="-1"
+        class="spot-list--item-action op-project-include-list--item-action"
+        (keydown.space)="changeSelected(project)"
+        [ngClass]="{
+          'spot-list--item-action_disabled': project.disabled,
+          'spot-list--item-action_active': (searchableProjectListService.activeItemID$ | async) === project.id
+        }"
+        [attr.data-list-selector]="projectListActionIdentifier"
+        [attr.data-list-disabled]="project.disabled || undefined"
+      >
         <spot-checkbox
           [tabindex]="-1"
           [checked]="isChecked(project.href) || (includeSubprojects && parentChecked)"
@@ -36,23 +36,23 @@
           [opSearchHighlight]="searchText"
           [title]="project.name"
         >{{ project.name }}</div>
-      </ng-container>
+      </label>
+    </ng-container>
 
-      <p
-        slot="body"
-        class="spot-body-small"
-      >
-        <span *ngIf="project.href === currentProjectHref else otherMessages">{{ text.current_project }}</span>
+    <p
+      slot="body"
+      class="spot-body-small"
+    >
+      <span *ngIf="project.href === currentProjectHref else otherMessages">{{ text.current_project }}</span>
 
-        <ng-template #otherMessages>
-          <span *ngIf="includeSubprojects && parentChecked else searchMatch">{{ text.include_all_selected }}</span>
-          <ng-template #searchMatch>
-            <span *ngIf="project.disabled">{{ text.does_not_match_search }}</span>
-          </ng-template>
-        </ng-template> 
-      </p>
-    </spot-tooltip>
-  </label>
+      <ng-template #otherMessages>
+        <span *ngIf="includeSubprojects && parentChecked else searchMatch">{{ text.include_all_selected }}</span>
+        <ng-template #searchMatch>
+          <span *ngIf="project.disabled">{{ text.does_not_match_search }}</span>
+        </ng-template>
+      </ng-template> 
+    </p>
+  </spot-tooltip>
 
   <ul
     *ngIf="project.children.length"

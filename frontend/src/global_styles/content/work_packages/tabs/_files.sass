@@ -27,65 +27,59 @@
 //++
 
 .op-files-tab
-  .op-files-tab--file-upload
+  &--file-upload
     margin-top: $spot-spacing-0-75
 
-  .op-tab-content--tab-section_no-header
-    // Remove any top margin of the top most elements, if the header is not displayed.
-    .op-files-tab--file-upload
-      margin-top: 0
-
-    .op-files-tab--file-list .op-files-tab--file-list-item:first-child
-      margin-top: 0
-
-  .op-files-tab--file-list
+  &--file-list
     margin-bottom: $spot-spacing-0-75
 
-    .op-files-tab--file-list-item
-      .op-files-tab--file-list-item-action
-        padding-left: 0
-        padding-right: 0
+    &-item
+      &-action
         text-decoration: none
 
         &.view-not-allowed
           opacity: 0.5
 
         &.disabled
+          color: $spot-color-basic-gray-3
           opacity: 0.5
           pointer-events: none
+
+          .op-files-tab--icon
+            color: $spot-color-basic-gray-3
 
         &:hover
           .op-files-tab--file-list-item-title
             text-decoration: underline
 
-        .op-files-tab--file-list-item-title
-          @include spot-body-small
+      &-title
+        @include spot-body-small
 
-          line-height: $spot-spacing-1-5
-          word-break: normal
-          @include text-shortener
-          padding-right: $spot_spacing-0-5
+        line-height: $spot-spacing-1-5
+        word-break: normal
+        @include text-shortener
+        padding-right: $spot_spacing-0-5
 
-        .op-files-tab--file-list-item-text
-          @include spot-caption()
+      &-text
+        @include spot-caption()
 
-          color: $spot-color-basic-gray-3
-          flex-shrink: 0
+        line-height: 1.5rem
+        color: $spot-color-basic-gray-3
+        flex-shrink: 0
 
-          &:not(:last-child)
-            margin-right: $spot-spacing-0-5
+        &:not(:last-child)
+          margin-right: $spot-spacing-0-5
 
-      .op-files-tab--file-list-item-avatar
+      &-avatar
+        width: $spot-spacing-1-5
+        height: $spot-spacing-1-5
         display: inline-block
 
-      .op-files-tab--file-list-item-floating-actions
-        padding-right: 0
+      &-floating-wrapper:not(&-floating-wrapper__disabled):hover &-text,
+      &-floating-wrapper:not(&-floating-wrapper__disabled):hover &-avatar
+        visibility: hidden
 
-      .op-files-tab--file-list-item-floating-wrapper
-        &_disabled:hover
-          background: none
-
-      .op-files-tab--file-list-item-floating-text
+      &-floating-text
         @include spot-body-small()
 
         padding-right: $spot-spacing-0-25
@@ -93,7 +87,17 @@
         color: var(--primary-color)
 
         &-icon
-          margin-right: $spot-spacing-0-5
+          margin-right: $spot-spacing-0-25
+
+  &--file-list &--file-list-item &--file-list-item-floating-actions
+    padding-right: 0
+
+  &--file-list &--file-list-item &--file-list-item-floating-text
+    padding-right: $spot-spacing-0-5
+
+  &--file-list &--file-list-item &--file-list-item-action
+    padding-left: 0
+    padding-right: 0
 
   &--storage-info-box
     margin-top: 0.875rem
@@ -134,6 +138,7 @@
 
   &--icon
     width: $spot-spacing-1-5
+    height: $spot-spacing-1-5
 
     &_pdf
       color: #B93A33

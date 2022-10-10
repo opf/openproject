@@ -31,16 +31,34 @@ import { from } from 'rxjs';
 import { StateService } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WpTabDefinition } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab';
-import { WorkPackageRelationsTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/relations-tab/relations-tab.component';
-import { WorkPackageOverviewTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/overview-tab/overview-tab.component';
-import { WorkPackageActivityTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-tab.component';
-import { WorkPackageWatchersTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
-import { WorkPackageFilesTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/files-tab/op-files-tab.component';
+import {
+  WorkPackageRelationsTabComponent,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/relations-tab/relations-tab.component';
+import {
+  WorkPackageOverviewTabComponent,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/overview-tab/overview-tab.component';
+import {
+  WorkPackageActivityTabComponent,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-tab.component';
+import {
+  WorkPackageWatchersTabComponent,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
+import {
+  WorkPackageFilesTabComponent,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/files-tab/op-files-tab.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { workPackageWatchersCount } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-watchers-count.function';
-import { workPackageRelationsCount } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-relations-count.function';
-import { workPackageNotificationsCount } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-notifications-count.function';
-import { workPackageFilesCount } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-files-count.function';
+import {
+  workPackageWatchersCount,
+} from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-watchers-count.function';
+import {
+  workPackageRelationsCount,
+} from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-relations-count.function';
+import {
+  workPackageNotificationsCount,
+} from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-notifications-count.function';
+import {
+  workPackageFilesCount,
+} from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-files-count.function';
 
 @Injectable({
   providedIn: 'root',
@@ -67,6 +85,13 @@ export class WorkPackageTabsService {
     ];
   }
 
+  patchTabCondition(id:string, displayable:(workPackage:WorkPackageResource, $state:StateService) => boolean):void {
+    const tabDefinition = this.registeredTabs.find((tab) => tab.id === id);
+    if (tabDefinition) {
+      tabDefinition.displayable = displayable;
+    }
+  }
+
   getDisplayableTabs(workPackage:WorkPackageResource):WpTabDefinition[] {
     return this
       .tabs
@@ -78,7 +103,7 @@ export class WorkPackageTabsService {
           ...tab,
           counter: tab.count
             ? (injector:Injector) => tab.count!(workPackage, injector || this.injector) // eslint-disable-line @typescript-eslint/no-non-null-assertion
-            : (_:Injector) => from([0]), // eslint-disable-line @typescript-eslint/no-unused-vars
+            : (_:Injector) => from([0]),
         }),
       );
   }

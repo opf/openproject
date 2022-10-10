@@ -238,7 +238,8 @@ module OpenProject::Plugins
       end
 
       def add_api_attribute(on:,
-                            ar_name:, writable_for: %i[create update],
+                            ar_name:,
+                            writable_for: %i[create update],
                             writable: true,
                             &block)
         config.to_prepare do

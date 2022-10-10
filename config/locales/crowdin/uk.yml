@@ -66,6 +66,9 @@ uk:
     enterprise:
       upgrade_to_ee: "Перейти на Enterprise Edition"
       add_token: "Завантажте маркер підтримки для Enterprise Edition"
+      delete_token_modal:
+        text: "Вилучити поточний маркер Enterprise Edition?"
+        title: "Видалити маркер"
       replace_token: "Замініть поточний маркер підтримки"
       order: "Замовити локальний корпоративний випуск"
       paste: "Вставте маркер підтримки для Enterprise Edition"
@@ -525,6 +528,10 @@ uk:
         end_insertion: "Кінець вставки"
         end_deletion: "Кінець видалення"
         ignore_non_working_days: "Ігнорувати неробочі дні"
+        include_non_working_days:
+          title: 'Робочі дні'
+          false: 'лише робочі дні'
+          true: 'включати неробочі дні'
         parent: "Джерело"
         parent_issue: "Джерело"
         parent_work_package: "Джерело"
@@ -721,6 +728,11 @@ uk:
           attributes:
             permissions:
               dependency_missing: "потрібно також вказати '%{dependency}' оскільки вибрано '%{permission}'."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'Принаймні один день тижня має бути визначено як робочий.'
+              previous_working_day_changes_unprocessed: 'Попередні зміни конфігурації робочих днів ще не застосовано.'
         time_entry:
           attributes:
             hours:
@@ -742,10 +754,12 @@ uk:
               format: "%{message}"
             due_date:
               not_start_date: "не на дату початку, хоча це потрібно для етапів."
+              cannot_be_null: "не може мати нульове значення, оскільки задано дату початку й тривалість."
             duration:
               larger_than_dates: "більша за інтервал між датами початку й закінчення."
               smaller_than_dates: "менша за інтервал між датами початку й закінчення."
               not_available_for_milestones: "недоступна для пакетів робіт типу «віха»."
+              cannot_be_null: "не може мати нульове значення, оскільки задано дату закінчення й тривалість."
             parent:
               cannot_be_milestone: "не може бути важливою подією."
               cannot_be_self_assigned: "– не можна призначити собі."
@@ -753,6 +767,7 @@ uk:
               not_a_valid_parent: "зазначено невірно"
             start_date:
               violates_relationships: "може бути встановлено лише для %{soonest_start} або пізнішої версії, щоб не порушувати зв'язки робочого пакету."
+              cannot_be_null: "не може мати нульове значення, оскільки задано дату початку й тривалість."
             status_id:
               status_transition_invalid: "є недійсним оскільки немає дійсного переходу від старого до нового статусу ролей поточного користувача."
               status_invalid_in_type: "недійсний, оскільки поточного стану не існує в цьому типі."
@@ -1781,6 +1796,7 @@ uk:
   label_project_new: "Новий проект"
   label_project_plural: "Проекти"
   label_project_settings: "Налаштування проекту"
+  label_project_storage_plural: "Сховища"
   label_projects_storage_information: "%{count} використання проектів %{storage} дискового сховища"
   label_project_view_all: "Переглянути всi проекти"
   label_project_show_details: "Показати деталі проекту"
@@ -1932,6 +1948,7 @@ uk:
   label_wiki_start: "Початкова сторінка"
   label_work_package: "Пакет робіт"
   label_work_package_attachments: "Додатки до робочого пакету"
+  label_work_package_file_link_plural: "Посилання на файл робочого пакета"
   label_work_package_category_new: "Нова категорія"
   label_work_package_category_plural: "Категорії робочих пакетів"
   label_work_package_hierarchy: "Ієрархія робочих пакетів"
@@ -1947,6 +1964,7 @@ uk:
   label_workflow: "Робочий процес"
   label_workflow_plural: "Робочі процеси"
   label_workflow_summary: "Резюме"
+  label_working_days: "Робочі дні"
   label_x_closed_work_packages_abbr:
     one: "1 закрита"
     other: "%{count} закритих"
@@ -2007,7 +2025,7 @@ uk:
       center: 'Центр сповіщень'
       see_in_center: 'Переглянути коментарі у центрі сповіщень'
       settings: 'Змінити налаштування електронної пошти'
-    salutation: 'Привіт, %{user}!'
+    salutation: 'Добрий день, %{user}!'
     work_packages:
       created_at: 'Створено о %{timestamp} користувачем %{user} '
       login_to_see_all: 'Увійдіть, щоб переглянути всі сповіщення.'
@@ -2187,8 +2205,7 @@ uk:
           tb: "ТБ"
   onboarding:
     heading_getting_started: "Отримати огляд"
-    text_getting_started_description: "Отримати короткий огляд управління проектами та командної співпраці з OpenProject."
-    text_show_again: "Ви можете перезапустити це відео з меню довідки"
+    text_getting_started_description: "Отримайте стислий огляд управління проєктами та командної роботи в OpenProject. Це відео можна переглянути знову в меню довідки."
     welcome: "Вітаємо в додатку %{app_title}"
     select_language: "Будь ласка, виберіть мову"
   permission_add_work_package_notes: "Додати нотатки"
@@ -2389,6 +2406,8 @@ uk:
       update_timeout: "Зберігайте останню необхідну інформацію про дисковий простір для сховища протягом N хвилин.\nОскільки підрахунок необхідного дискового простору сховища може бути довгим, збільште це значення, щоб зменшити вплив продуктивності."
       oauth_application_details: "Секретний ключ клієнта стане недоступним, коли ви закриєте це вікно. Скопіюйте це значення в налаштування інтеграції Nextcloud OpenProject:"
       oauth_application_details_link_text: "Перейти на сторінку налаштувань"
+      setup_documentation_details: "Якщо потрібна допомога з налаштуванням сховища нових файлів, ознайомтеся з документацією: "
+      setup_documentation_details_link_text: "Налаштування файлових сховищ"
       show_warning_details: "Щоб користуватися цим файловим сховищем, активуйте модуль і визначене сховище в налаштуваннях кожного потрібного проєкту."
     subversion:
       existing_title: "Існуюче сховище Subversion"
@@ -2578,6 +2597,7 @@ uk:
   text_access_token_hint: "Маркери доступу дозволяють надавати зовнішнім програмам доступ до ресурсів у OpenProject."
   text_analyze: "Подальший аналіз: %{subject}"
   text_are_you_sure: "Ви впевненені?"
+  text_are_you_sure_continue: "Хочете продовжити?"
   text_are_you_sure_with_children: "Видалити робочий пакет і всі дочірні робочі пакети?"
   text_assign_to_project: "Призначити на проект"
   text_form_configuration: >
@@ -2773,7 +2793,6 @@ uk:
       noneSelection: "(нічого)"
       outline: "Початковий план розширення"
       parent: "Показати підпроекти"
-      work_package_filters: "Фільтрувати робочі пакети"
       work_package_responsible: "Покажіть робочі пакети з підзвітністю"
       work_package_assignee: "Покажіть робочі пакети з уповноваженими"
       types: "Показати типи"
@@ -2929,6 +2948,17 @@ uk:
     destroy:
       info: "Видалення робочого пакету є незворотною дією."
       title: "Видаліть робочий пакет"
+  working_days:
+    info: >
+      <b>Визначити робочі дні тижня</b><br/> Неробочі дні пропускаються під час планування пакетів робіт і виключаються під час визначення тривалості. Цей параметр можна перевизначити на рівні пакетів робіт.
+    change_button: "Змінити робочі дні"
+    warning: >
+      Змінення робочих днів тижня може вплинути на дні початку й закінчення для всіх пакетів робіт в усіх проєктах цього екземпляра.
+    journal_note:
+      changed: _**Робочі дні** змінено (%{changes})._
+      days:
+        working: "%{day} зараз робочий"
+        non_working: "%{day} зараз неробочий"
   nothing_to_preview: "Нічого для перегляду"
   api_v3:
     attributes:

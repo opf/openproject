@@ -84,6 +84,7 @@ en:
                   - status
                   - start_date
                   - due_date
+                  - duration
                   - assigned_to
               - name: Milestones
                 type: :default_type_milestone
@@ -383,8 +384,8 @@ en:
               - subject: New website
                 status: :default_status_specified
                 type: :default_type_epic
-                start: 26
-                duration: 1
+                start: 0
+                duration: 29
                 children:
                   - subject: Newsletter registration form
                     status: :default_status_in_progress
@@ -402,14 +403,14 @@ en:
                     version: Sprint 1
                     position: 2
                     story_points: 3
-                    start: 26
+                    start: 28
                     duration: 1
                     children:
                       - subject: Create wireframes for new landing page
                         status: :default_status_in_progress
                         type: :default_type_task
                         version: Sprint 1
-                        start: 26
+                        start: 28
                         duration: 1
               - subject: Contact form
                 status: :default_status_specified

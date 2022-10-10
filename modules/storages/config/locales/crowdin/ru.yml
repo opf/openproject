@@ -42,7 +42,6 @@ ru:
       replace_provider_type_oauth: "Заменить %{provider_type} OAuth"
       save_and_continue_setup: "Сохранить и продолжить установку"
       save_and_complete_setup: "Сохранить и завершить установку"
-      cancel: "Отменить"
     page_titles:
       project_settings:
         index: "Файловые хранилища, доступные в этом проекте"
@@ -81,8 +80,6 @@ ru:
     label_storage: "Хранилище"
     label_storages: "Хранилища"
     no_results: "Хранилища пока не настроены."
-    label_oauth_client_id: "OAuth ID клиента"
-    label_oauth_client_secret: "Секрет клиента OAuth"
     provider_types:
       label: "Тип поставщика"
       nextcloud:

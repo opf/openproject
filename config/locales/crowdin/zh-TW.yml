@@ -66,6 +66,9 @@ zh-TW:
     enterprise:
       upgrade_to_ee: "升級到企業版"
       add_token: "上傳企業版support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "替換當前 support token"
       order: "Order Enterprise on-premises Edition"
       paste: "貼上您的企業版support token"
@@ -527,6 +530,10 @@ zh-TW:
         end_insertion: "結束插入"
         end_deletion: "結束刪除"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "上層目錄："
         parent_issue: "上層目錄："
         parent_work_package: "上層目錄："
@@ -723,6 +730,11 @@ zh-TW:
           attributes:
             permissions:
               dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -744,10 +756,12 @@ zh-TW:
               format: "%{message}"
             due_date:
               not_start_date: "不在開始的日期，儘管它是里程碑所必需的。"
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "不可以成為一個里程碑"
               cannot_be_self_assigned: "不能指派給自己"
@@ -755,6 +769,7 @@ zh-TW:
               not_a_valid_parent: "不正確。"
             start_date:
               violates_relationships: "只能設置為 %{soonest_start} 或更晚，才不會違反工作包的關聯。"
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "無效，因為目前使用者的角色沒有從舊狀態到新狀態的有效過度狀態"
               status_invalid_in_type: "無效, 因為此類型中不存在目前狀態。"
@@ -1735,6 +1750,7 @@ zh-TW:
   label_project_new: "新增專案"
   label_project_plural: "專案"
   label_project_settings: "專案設定"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} 個專案，使用了 %{storage} 磁碟空間"
   label_project_view_all: "檢視所有專案"
   label_project_show_details: "顯示專案詳細資訊"
@@ -1886,6 +1902,7 @@ zh-TW:
   label_wiki_start: "開始頁面"
   label_work_package: "工作項目"
   label_work_package_attachments: "工作項目附件"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "新增類別"
   label_work_package_category_plural: "工作項目類別"
   label_work_package_hierarchy: "工作包層次結構"
@@ -1901,6 +1918,7 @@ zh-TW:
   label_workflow: "工作流程"
   label_workflow_plural: "工作流程"
   label_workflow_summary: "大綱"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
     other: "%{count} 個已結案"
@@ -1961,7 +1979,7 @@ zh-TW:
       center: '顯示通知中心'
       see_in_center: 'See comment in notification center'
       settings: '更改電子郵件設定'
-    salutation: '嘿 %{user}'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: '登入以查看所有通知'
@@ -2137,8 +2155,7 @@ zh-TW:
           tb: "TB"
   onboarding:
     heading_getting_started: "取得概覽"
-    text_getting_started_description: "用 OpenProject 取得專案管理和團隊協作的快速概覽。"
-    text_show_again: "您可以從 \"説明\" 功能表中重新開啟此影片"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "請選擇您的語言"
   permission_add_work_package_notes: "增加註釋"
@@ -2339,6 +2356,8 @@ zh-TW:
       update_timeout: "替一個版本庫維持最後需要的磁碟空間資訊 N 分鐘。\n計算一個版本庫的所需磁碟空間也許要消耗很多效能，增加這個值來降低效能的影響。"
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "現有的 Subversion 版本庫"
@@ -2528,6 +2547,7 @@ zh-TW:
   text_access_token_hint: "存取權杖讓你能夠允許外部程式存取在 OpenProject 內的資源"
   text_analyze: "進一步分析: %{subject}"
   text_are_you_sure: "是否確定？"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "刪除工作項目以及所有子工作項目?"
   text_assign_to_project: "分配給專案"
   text_form_configuration: >
@@ -2720,7 +2740,6 @@ zh-TW:
       noneSelection: "（無）"
       outline: "初始大綱擴展"
       parent: "顯示子專案屬於"
-      work_package_filters: "篩選的工作項目"
       work_package_responsible: "顯示帶有負責執行者的工作項目"
       work_package_assignee: "顯示帶有負責執行者的工作項目"
       types: "顯示類型"
@@ -2874,6 +2893,17 @@ zh-TW:
     destroy:
       info: "刪除工作項目是一個不可逆的動作"
       title: "刪除工作項目"
+  working_days:
+    info: >
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "沒有內容可預覽"
   api_v3:
     attributes:

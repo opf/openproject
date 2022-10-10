@@ -27,6 +27,7 @@
 //++
 
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Input,
@@ -61,7 +62,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import interactionPlugin, { EventResizeDoneArg } from '@fullcalendar/interaction';
+import interactionPlugin, { EventDragStartArg, EventDragStopArg, EventResizeDoneArg } from '@fullcalendar/interaction';
 import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -72,9 +73,11 @@ import {
   OpWorkPackagesCalendarService,
 } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
 
 @Component({
   templateUrl: './wp-calendar.template.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./wp-calendar.sass'],
   selector: 'op-wp-calendar',
   providers: [
@@ -96,6 +99,10 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
 
   private alreadyLoaded = false;
 
+  text = {
+    cannot_drag_to_non_working_day: this.I18n.t('js.team_planner.cannot_drag_to_non_working_day'),
+  };
+
   constructor(
     readonly states:States,
     readonly $state:StateService,
@@ -107,12 +114,14 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     readonly i18n:I18nService,
     readonly toastService:ToastService,
     private sanitizer:DomSanitizer,
+    private I18n:I18nService,
     private configuration:ConfigurationService,
     readonly calendar:OpCalendarService,
     readonly workPackagesCalendar:OpWorkPackagesCalendarService,
     readonly currentProject:CurrentProjectService,
     readonly halEditing:HalResourceEditingService,
     readonly halNotification:HalResourceNotificationService,
+    readonly weekdayService:WeekdayService,
   ) {
     super();
   }
@@ -166,8 +175,21 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     const additionalOptions:{ [key:string]:unknown } = {
       height: '100%',
       headerToolbar: this.buildHeader(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      events: this.calendarEventsFunction.bind(this),
+      eventSources: [
+        {
+          id: 'work_packages',
+          events: this.calendarEventsFunction.bind(this) as unknown,
+        },
+        {
+          events: [],
+          id: 'background',
+          color: 'red',
+          background: 'red',
+          textColor: 'white',
+          display: 'background',
+          editable: false,
+        },
+      ],
       plugins: [
         dayGridPlugin,
         interactionPlugin,
@@ -179,11 +201,51 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       editable: true,
       eventDidMount: (evt:CalendarViewEvent) => {
         const { el, event } = evt;
+        if (event.source?.id === 'background') {
+          return;
+        }
         const workPackage = event.extendedProps.workPackage as WorkPackageResource;
         el.dataset.workPackageId = workPackage.id as string;
       },
-      eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
-      eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
+      eventResize: (resizeInfo:EventResizeDoneArg) => {
+        const due = moment(resizeInfo.event.endStr).subtract(1, 'day').toDate();
+        const start = moment(resizeInfo.event.startStr).toDate();
+        const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
+        if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.weekdayService.isNonWorkingDay(due))) {
+          this.toastService.addError(this.text.cannot_drag_to_non_working_day);
+          resizeInfo?.revert();
+          return;
+        }
+        void this.updateEvent(resizeInfo);
+      },
+      eventDrop: (dropInfo:EventDropArg) => {
+        const start = moment(dropInfo.event.startStr).toDate();
+        const wp = dropInfo.event.extendedProps.workPackage as WorkPackageResource;
+        if (!wp.ignoreNonWorkingDays && this.weekdayService.isNonWorkingDay(start)) {
+          this.toastService.addError(this.text.cannot_drag_to_non_working_day);
+          dropInfo?.revert();
+          return;
+        }
+        void this.updateEvent(dropInfo);
+      },
+      eventResizeStart: (resizeInfo:EventResizeDoneArg) => {
+        const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
+        if (!wp.ignoreNonWorkingDays) {
+          this.addBackgroundEventsForNonWorkingDays();
+        }
+      },
+      eventResizeStop: () => this.removeBackGroundEvents(),
+      eventDragStart: (dragInfo:EventDragStartArg) => {
+        const wp = dragInfo.event.extendedProps.workPackage as WorkPackageResource;
+        if (!wp.ignoreNonWorkingDays) {
+          this.addBackgroundEventsForNonWorkingDays();
+        }
+      },
+      eventDragStop: (dragInfo:EventDragStopArg) => {
+        const { el } = dragInfo;
+        el.style.removeProperty('pointer-events');
+        this.removeBackGroundEvents();
+      },
       eventClick: (evt:EventClickArg) => {
         const workPackageId = (evt.event.extendedProps.workPackage as WorkPackageResource).id as string;
         // Currently the calendar widget is shown on multiple pages,
@@ -276,9 +338,13 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   }
 
   private handleDateClicked(info:DateSelectArg) {
+    const due = moment(info.endStr).subtract(1, 'day').toDate();
+    const nonWorkingDays = this.weekdayService.isNonWorkingDay(info.start) || this.weekdayService.isNonWorkingDay(due);
+
     const defaults = {
       startDate: info.startStr,
       dueDate: this.workPackagesCalendar.getEndDateFromTimestamp(info.endStr),
+      ignoreNonWorkingDays: nonWorkingDays,
     };
 
     void this.$state.go(
@@ -288,5 +354,34 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         tabIdentifier: 'overview',
       },
     );
+  }
+
+  private removeBackGroundEvents() {
+    this
+      .ucCalendar
+      .getApi()
+      .getEvents()
+      .filter((el) => el.source?.id === 'background')
+      .forEach((el) => el.remove());
+  }
+
+  private addBackgroundEventsForNonWorkingDays() {
+    const api = this.ucCalendar.getApi();
+    let currentStartDate = this.ucCalendar.getApi().view.activeStart;
+    const currentEndDate = this.ucCalendar.getApi().view.activeEnd;
+    const nonWorkingDays = new Array<{ start:Date|string, end:Date|string }>();
+
+    while (currentStartDate.toString() !== currentEndDate.toString()) {
+      if (this.weekdayService.isNonWorkingDay(currentStartDate)) {
+        nonWorkingDays.push({
+          start: moment(currentStartDate).format('YYYY-MM-DD'),
+          end: moment(currentStartDate).add('1', 'day').format('YYYY-MM-DD'),
+        });
+      }
+      currentStartDate = moment(currentStartDate).add('1', 'day').toDate();
+    }
+    nonWorkingDays.forEach((day) => {
+      api.addEvent({ ...day }, 'background');
+    });
   }
 }

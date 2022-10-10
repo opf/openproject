@@ -39,9 +39,5 @@ module OpenProject
     #     release_date = Date.new(2022,01,01)
     #     Setting.feature_your_module_active || Date.today > release_date
     #   end
-
-    def self.work_packages_duration_field_active?
-      Setting.work_packages_duration_field_active
-    end
   end
 end

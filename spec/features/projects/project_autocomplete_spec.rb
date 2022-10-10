@@ -156,20 +156,24 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     visit project_news_index_path(project2)
     expect(page).to have_selector('.news-menu-item.selected')
 
-    top_menu.toggle
-    top_menu.expect_open
-    top_menu.search_and_select 'Plain project'
+    retry_block do
+      top_menu.toggle
+      top_menu.expect_open
+      top_menu.search_and_select 'Plain project'
+    end
 
     expect(page).to have_current_path(project_news_index_path(project), ignore_query: true)
     expect(page).to have_selector('.news-menu-item.selected')
   end
 
   it 'navigates to the first project upon hitting enter in the search bar' do
-    top_menu.toggle
-    top_menu.expect_open
+    retry_block do
+      top_menu.toggle unless top_menu.open?
+      top_menu.expect_open
 
-    # projects are displayed initially
-    top_menu.expect_result project.name
+      # projects are displayed initially
+      top_menu.expect_result project.name
+    end
 
     # Filter for projects
     top_menu.search '<strong'

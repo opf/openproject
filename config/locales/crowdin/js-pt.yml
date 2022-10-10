@@ -26,6 +26,9 @@ pt:
       loading: "Carregando…"
       updating: "Atualizando…"
     attachments:
+      delete: "Excluir anexo"
+      delete_confirmation: |
+        Tem certeza de que deseja excluir este arquivo? Esta ação é irreversível.
       draggable_hint: |
         Arraste sobre o campo do editor para incorporar uma imagem ou referenciar um anexo. Campos do editor fechados serão abertos enquanto você continuar arrastando.
     autocomplete_select:
@@ -82,6 +85,10 @@ pt:
     button_open_fullscreen: "Abrir visualização em tela cheia"
     button_show_cards: "Mostrar cartão"
     button_show_list: "Mostrar lista"
+    button_show_table: "Mostra exibição de tabela"
+    button_show_gantt: "Mostra exibição de Gantt"
+    button_show_fullscreen: "Mostra exibição em tela cheia"
+    button_more_actions: "Mais ações"
     button_quote: "Citar"
     button_save: "Salvar"
     button_settings: "Configurações"
@@ -289,15 +296,15 @@ pt:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                A versão atual contém vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Chega de buscas infinitas por arquivos! Com nossa nova <b>integração com Nextcloud</b> no OpenProject 12.2, agora você  pode encontrar arquivos diretamente no respetivo pacote de trabalho e sempre ter a versão correta na ponta de seus dedos.</li> <li>Acrescentámos <b>um novo seletor de data</b> com um comportamento de entrada atualizado, e uma barra de informações que conta com um botão para a exibição de relações no gráfico de Gantt.</li> <li>Adicionámos a possibilidade de <b>registrar hora para outros usuários.</b></li> <li>Marcar notificações como lidas também fora do centro de notificações.</li> </ul>
+                A versão possui vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Defina sua semana de trabalho global (finais de semana e dias não-úteis da semana).</li> <li>Calcule a duração com base nas datas de início e conclusão e da possibilidade de considerar dias não-úteis (finais de semana) no planejamento.</li> <li>Adicione dicas de ferramentas úteis às ações mais importantes.</li> <li>Copiar um projeto também copiará os links de arquivos para todos os pacotes de trabalho.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                A versão atual contém vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Chega de buscas infinitas por arquivos! Com nossa nova <b>integração com Nextcloud</b> no OpenProject 12.2, agora você  pode encontrar arquivos diretamente no respetivo pacote de trabalho e sempre ter a versão correta na ponta de seus dedos.</li> <li>Acrescentámos <b>um novo seletor de data</b> com um comportamento de entrada atualizado, e uma barra de informações que conta com um botão para a exibição de relações no gráfico de Gantt.</li> <li>Adicionámos a possibilidade de <b>registrar hora para outros usuários.</b></li> <li>Marcar notificações como lidas também fora do centro de notificações.</li> </ul>
+                A versão possui vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Defina sua semana de trabalho global (finais de semana e dias não-úteis da semana).</li> <li>Calcule a duração com base nas datas de início e conclusão e da possibilidade de considerar dias não-úteis (finais de semana) no planejamento.</li> <li>Adicione dicas de ferramentas úteis às ações mais importantes.</li> <li>Copiar um projeto também copiará os links de arquivos para todos os pacotes de trabalho.</li> </ul>
     label_activate: "Ativar"
     label_assignee: 'Atribuído para'
     label_add_column_after: "Adicionar coluna depois"
@@ -539,7 +546,9 @@ pt:
         prioritized: 'priorizado'
       facets:
         unread: 'Não lido'
+        unread_title: 'Mostrar não lidas'
         all: 'Todos'
+        all_title: 'Mostrar todas'
       center:
         and_more_users:
           one: 'e 1 outro'
@@ -608,6 +617,7 @@ pt:
       default: '-'
       subject: 'Informe o assunto aqui'
       selection: 'Por favor selecione'
+      description: 'Descrição: Clique em editar...'
       relation_description: 'Clique para adicionar a descrição para esta relação'
     project:
       required_outside_context: >
@@ -739,7 +749,6 @@ pt:
     project_menu_details: "Detalhes"
     scheduling:
       manual: 'Planejamento manual'
-      automatic: 'Planejamento automático'
     sort:
       sorted_asc: 'Ordenação crescente aplicada, '
       sorted_dsc: 'Ordenação decrescente aplicada, '
@@ -750,7 +759,6 @@ pt:
       activate_no: 'ative para remover a ordenação'
     text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
     text_query_destroy_confirmation: "Tem certeza que deseja excluir a visão selecionada?"
-    text_attachment_destroy_confirmation: "Tem certeza de que deseja excluir o anexo?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gráfico de Gantt'
@@ -847,6 +855,8 @@ pt:
         changing_dates_affects_follow_relations: "A alteração dessas datas afetará as datas de pacotes de trabalho relacionados."
         click_on_show_relations_to_open_gantt: 'Clique em "%{button_name}" para ter uma visão geral do GANTT.'
         show_relations: 'Mostrar relações'
+        ignore_non_working_days:
+          title: 'Apenas dias úteis'
       description_filter: "Filtro"
       description_enter_text: "Inserir texto"
       description_options_hide: "Ocultar opções"
@@ -866,6 +876,8 @@ pt:
       message_work_package_read_only: "Pacote de trabalho está bloqueado na presente situação. Nenhum atributo que não seja a situação pode ser alterado."
       message_work_package_status_blocked: "A situação do pacote de trabalho não é gravável devido a situação fechada e a versão fechada."
       placeholder_filter_by_text: "Assunto, descrição, comentários, ..."
+      filters:
+        title: 'Filtrar pacotes de trabalho'
       inline_create:
         title: 'Clique aqui para adicionar um novo pacote de trabalho a esta lista'
       create:
@@ -902,6 +914,7 @@ pt:
         description: "Descrição"
         date: "Data"
         dueDate: "Data de conclusão"
+        duration: "Duração"
         estimatedTime: "Tempo estimado"
         spentTime: "Tempo gasto"
         category: "Categoria"
@@ -933,7 +946,6 @@ pt:
       placeholders:
         default: "-"
         date: "Selecionar data"
-        formattable: "%{name}: Clique para editar..."
       query:
         column_names: "Colunas"
         group_by: "Agrupar resultados por"
@@ -1039,12 +1051,14 @@ pt:
       button_save: "Salvar"
       button_submit: "Enviar"
       button_cancel: "Cancelar"
+      button_delete: "Excluir"
       form_submit:
         title: 'Confirme para continuar'
         text: 'Tem certeza de que deseja executar esta ação?'
       destroy_work_package:
         title: "Confirmar exclusão do %{label}"
-        text: "Você tem certeza que deseja excluir o seguinte %{label}?"
+        single_text: "Tem certeza de que deseja excluir o pacote de trabalho?"
+        bulk_text: "Você tem certeza de que deseja excluir o seguinte %{label}?"
         has_children: "O pacote de trabalho tem %{childUnits}:"
         confirm_deletion_children: "Tenho conhecimento que TODOS os descendentes dos pacotes de trabalho listados serão removidos recursivamente."
         deletes_children: "Todos os pacotes de trabalho filhos e seus descendentes também serão excluídos recursivamente."
@@ -1162,13 +1176,13 @@ pt:
       role:
         label: 'Papel em %{project}'
         no_roles_found: 'Nenhum papel encontrado'
-        description: 'Este é o papel que %{principal} receberá quando ingressar no seu projeto. O papel define quais ações ele pode realizar e quais informações pode ver. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Saiba mais sobre papéis e permissões . </a>'
+        description: 'Esta é a função que o usuário receberá ao ingressar em seu projeto. A função define quais ações  podem ser realizadas e quais informações podem ser visualizadas. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Saiba mais sobre as funções e permissões. </a>'
         required: 'Selecione um papel'
         next_button: 'Próxima'
       message:
         label: 'Mensagem de convite'
-        description: 'Enviaremos um e-mail para %{principal}, no qual você pode adicionar uma mensagem pessoal. Uma explicação para o convite pode ajudar, ou talvez algumas informações sobre o projeto para que ele/ela possa começar.'
-        next_button: 'Revisar convite'
+        description: 'Enviaremos um e-mail para o usuário, à qual você pode adicionar uma mensagem pessoal por aqui. Uma explicação para o convite pode se útil, ou talvez algumas informações sobre o projeto para ajudá-lo a começar.'
+        next_button: 'Avançar'
       summary:
         next_button: 'Enviar convite'
       success:

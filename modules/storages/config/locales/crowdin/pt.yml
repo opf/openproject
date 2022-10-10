@@ -42,7 +42,6 @@ pt:
       replace_provider_type_oauth: "Substituir OAuth %{provider_type}"
       save_and_continue_setup: "Salvar e continuar configuração"
       save_and_complete_setup: "Salvar e concluir configuração"
-      cancel: "Cancelar"
     page_titles:
       project_settings:
         index: "Armazenamento de arquivos disponíveis neste projeto"
@@ -81,8 +80,6 @@ pt:
     label_storage: "Armazenamento"
     label_storages: "Armazenamentos"
     no_results: "Ainda não há armazenamento configurado."
-    label_oauth_client_id: "ID do cliente Oauth2"
-    label_oauth_client_secret: "Cliente Secreto OAuth"
     provider_types:
       label: "Tipo de provedor"
       nextcloud:

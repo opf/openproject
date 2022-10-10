@@ -66,6 +66,9 @@ lt:
     enterprise:
       upgrade_to_ee: "Pagerinti į „Enterprise Edition“ versiją"
       add_token: "Įkelti „Enterprise Edition“ paramos raktą"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Pakeisti savo esamą paramos raktą"
       order: "Užsisakykite Enterprise on-premises Edition"
       paste: "Įklijuokite savo „Enterprise Edition“ paramos raktą"
@@ -527,6 +530,10 @@ lt:
         end_insertion: "Įterpimo pabaigoje"
         end_deletion: "Ištrynimo pabaigoje"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Tėvas"
         parent_issue: "Tėvas"
         parent_work_package: "Tėvas"
@@ -723,6 +730,11 @@ lt:
           attributes:
             permissions:
               dependency_missing: "taipogi reikia įtraukti „%{dependency}“ kai parinktas „%{permission}“."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -744,10 +756,12 @@ lt:
               format: "%{message}"
             due_date:
               not_start_date: "nėra pradžios data, nors tai reikalinga svarbiems etapams."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "negali būti svarbus etapas."
               cannot_be_self_assigned: "negalima priskirti sau pačiam"
@@ -755,6 +769,7 @@ lt:
               not_a_valid_parent: " netinkamas."
             start_date:
               violates_relationships: "negali būti nustatyta į %{soonest_start} ar vėliau, kad nepažeistų darbų paketo ryšių."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "netinkamas, nes nėra tinkamo perėjimo iš senos į naują būseną esamiems naudotojų vaidmenims."
               status_invalid_in_type: "yra netinkamas, nes dabartinė būsena neegzistuoja šiame tipe."
@@ -1783,6 +1798,7 @@ lt:
   label_project_new: "Naujas projektas"
   label_project_plural: "Projektai"
   label_project_settings: "Projekto nustatymai"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} projektai(-as, -ų) naudoja %{storage} disko vietos"
   label_project_view_all: "Peržiūrėti visus projektus"
   label_project_show_details: "Rodyti detalią projekto informaciją"
@@ -1934,6 +1950,7 @@ lt:
   label_wiki_start: "Pradžios puslapis"
   label_work_package: "Darbų paketas"
   label_work_package_attachments: "Darbų paketo prisegti failai"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Nauja kategorija"
   label_work_package_category_plural: "Darbų paketo kategorijos"
   label_work_package_hierarchy: "Darbų paketo hierarchija"
@@ -1949,6 +1966,7 @@ lt:
   label_workflow: "Darbų eiga"
   label_workflow_plural: "Darbų eigos"
   label_workflow_summary: "Santrauka"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 uždarytas"
     other: "%{count} uždaryti (-as, -ų)"
@@ -2009,7 +2027,7 @@ lt:
       center: 'Į pranešimų centrą'
       see_in_center: 'Žiūrėkite komentarą pranešimų centre'
       settings: 'Keisti e-pašto nustatymus'
-    salutation: 'Labas, %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Sukūrė %{user} %{timestamp} '
       login_to_see_all: 'Prisijunkite, norėdami pamatyti visus pranešimus.'
@@ -2192,8 +2210,7 @@ lt:
           tb: "TB"
   onboarding:
     heading_getting_started: "Gauti aprašymą"
-    text_getting_started_description: "Gauti greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject."
-    text_show_again: "Jūs galite paleisti šį video iš naujo iš pagalbos meniu"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Jus sveikina %{app_title}"
     select_language: "Pasirinkite kalbą"
   permission_add_work_package_notes: "Pridėti pastabų"
@@ -2392,6 +2409,8 @@ lt:
       update_timeout: "Laikyti paskiausią reikalingą disko vietos informaciją repozitorijai N minutes (-ių). Kadangi reikalingos vietos repozitorijai skaičiavimas gali būti reiklus resursams, minučių reikšmės didinimas gali stipriai sumažinti sistemos našumą."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Esama Subversion repozitorija"
@@ -2581,6 +2600,7 @@ lt:
   text_access_token_hint: "Prieigos raktai leidžia išorinėms aplikacijoms pasiekti OpenProject resursus."
   text_analyze: "Toliau analizuoti: %{subject}"
   text_are_you_sure: "Ar esate įsitikinę?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Ištrinti darbų paketą ir visus jo vaikų paketus?"
   text_assign_to_project: "Priskirti projektui"
   text_form_configuration: >
@@ -2776,7 +2796,6 @@ lt:
       noneSelection: "(nėra)"
       outline: "Pirminio plano plėtra"
       parent: "Rodyti sub-projektus"
-      work_package_filters: "Filtruoti darbų paketus"
       work_package_responsible: "Rodyti darbo paketus su atsakingais"
       work_package_assignee: "Rodyti darbų paketus su vykdančiuoju asmeniu"
       types: "Rodyti tipus"
@@ -2932,6 +2951,17 @@ lt:
     destroy:
       info: "Darbų paketo ištrynimas yra negrįžtamas veiksmas."
       title: "Ištrinti darbų paketą"
+  working_days:
+    info: >
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Nėra ką rodyti"
   api_v3:
     attributes:

@@ -58,6 +58,7 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
   transitionUnregisterFn:Function;
 
   text = {
+    title: this.I18n.t('js.work_packages.create.title'),
     createWithDropdown: this.I18n.t('js.work_packages.create.button'),
     createButton: this.I18n.t('js.label_work_package'),
     explanation: this.I18n.t('js.label_create_work_package'),

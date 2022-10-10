@@ -66,6 +66,9 @@ fil:
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "I-upload ang isang Enterprise Edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Palitan ang iyong kasulukuyang support token"
       order: "Order Enterprise on-premises Edition"
       paste: "Idikit ang iyong Enterprise Editoon ng support token"
@@ -528,6 +531,10 @@ fil:
         end_insertion: "Katapusan na"
         end_deletion: "Katapusan ng pagbubura"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Magulang"
         parent_issue: "Magulang"
         parent_work_package: "Magulang"
@@ -724,6 +731,11 @@ fil:
           attributes:
             permissions:
               dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -745,10 +757,12 @@ fil:
               format: "%{message}"
             due_date:
               not_start_date: "hindi sa petsa ng pagsisimula, kahit naa ito ay kinakailangan para sa mga milestone."
+              cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
               smaller_than_dates: "is smaller than the interval between the start and the finish date."
               not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "hindi maaring maging isang milestone."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -756,6 +770,7 @@ fil:
               not_a_valid_parent: "ay hindi balido."
             start_date:
               violates_relationships: "nakatakda lamang sa %{soonest_start} o mamaya bilang hindi lumalabag sa relasyon ng mga work package."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "ay invalid dahil walang valid na transisyon na umiiral mula sa luma hanggang sa bagong estado para sa mga role ng kasalukuyang user."
               status_invalid_in_type: "is invalid because the current status does not exist in this type."
@@ -1752,6 +1767,7 @@ fil:
   label_project_new: "Bagong proyekto"
   label_project_plural: "Mga proyekto"
   label_project_settings: "Ang mga setting ng proyekto"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "Ang %{count} proyekto gamit ang %{storage} lalagyan ng disk"
   label_project_view_all: "Tingnan lahat ang mga proyekto"
   label_project_show_details: "Ipakita ang mga detalye ng proyekto"
@@ -1903,6 +1919,7 @@ fil:
   label_wiki_start: "Simulan ang pahina"
   label_work_package: "Work package"
   label_work_package_attachments: "Nakakalakip na pahinag trabaho"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Bagong kategorya"
   label_work_package_category_plural: "Ang mga katergorya ng work package"
   label_work_package_hierarchy: "Hierarchy ng work package"
@@ -1918,6 +1935,7 @@ fil:
   label_workflow: "Daloy ng trabaho"
   label_workflow_plural: "Daloy ng trabaho"
   label_workflow_summary: "Buod"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "Isa ang isinara"
     other: "%{count} ang isinara"
@@ -1978,7 +1996,7 @@ fil:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2157,8 +2175,7 @@ fil:
           tb: "TB"
   onboarding:
     heading_getting_started: "Kumuha ng isang buod"
-    text_getting_started_description: "Kumuha ng isang mabilisang buod ng project management at pakikipagtulungan ng koponan sa OpenProject."
-    text_show_again: "Maari mong i-restart amg video na ito mula sa tulong ng pagpipilian"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Magdagdag ng mga talaan"
@@ -2357,6 +2374,8 @@ fil:
       update_timeout: "Panatilihin ang huling kailangang espasyo disk impormasyon para sa repositoryo ng N minuto.\nBilang pagbibilang ang kailangang espasyo ng disk ng repositoryo ay maaring gastos, palakihin ang hakaga na ito upang mabawasan ang epekto ng pagganap."
       oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
       oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Umiiral na subversion respository"
@@ -2546,6 +2565,7 @@ fil:
   text_access_token_hint: "Ang access token ay pinayagan kang pagbigyan ang external applications access sa pinagkukunan sa OpenProject."
   text_analyze: "Karagdagang pagsusuri: %{subject}"
   text_are_you_sure: "Sigurado ka ba?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Burahi ang work packaage at lahag ng batang work pckage?"
   text_assign_to_project: "Nakatalaga sa proyekto"
   text_form_configuration: >
@@ -2739,7 +2759,6 @@ fil:
       noneSelection: "(wala)"
       outline: "Paunang pagpapalawak ng balangkas"
       parent: "Ipakita ang mga subproject sa"
-      work_package_filters: "I-filter ang mga package na gawain"
       work_package_responsible: "Show work packages with accountable"
       work_package_assignee: "Ipakita ang mga itinalagang package na gawain"
       types: "Ipakita ang mga uri"
@@ -2894,6 +2913,17 @@ fil:
     destroy:
       info: "Ang pagtanggal ng work package ay isang hindi maibabalik na pagkilos."
       title: "Tanggalin ang work package"
+  working_days:
+    info: >
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Walang mai-preview"
   api_v3:
     attributes:

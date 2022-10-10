@@ -36,7 +36,7 @@ describe 'Enterprise token', type: :feature, js: true do
     token = OpenProject::Token.new
     token.subscriber = 'Foobar'
     token.mail = 'foo@example.org'
-    token.starts_at = Date.today
+    token.starts_at = Time.zone.today
     token.expires_at = nil
     token.domain = Setting.host_name
 
@@ -67,7 +67,7 @@ describe 'Enterprise token', type: :feature, js: true do
       expect(page).to have_selector('span.errorSpan #enterprise_token_encoded_token')
     end
 
-    context 'assuming valid input' do
+    context 'with valid input' do
       before do
         allow(OpenProject::Token).to receive(:import).and_return(token_object)
       end
@@ -82,7 +82,7 @@ describe 'Enterprise token', type: :feature, js: true do
         expect(page.all('.attributes-key-value--key').map(&:text))
           .to eq ['Subscriber', 'Email', 'Domain', 'Maximum active users', 'Starts at', 'Expires at']
         expect(page.all('.attributes-key-value--value').map(&:text))
-          .to eq ['Foobar', 'foo@example.org', Setting.host_name, 'Unlimited', format_date(Date.today), 'Unlimited']
+          .to eq ['Foobar', 'foo@example.org', Setting.host_name, 'Unlimited', format_date(Time.zone.today), 'Unlimited']
 
         expect(page).to have_selector('.button.icon-delete', text: I18n.t(:button_delete))
 
@@ -107,8 +107,7 @@ describe 'Enterprise token', type: :feature, js: true do
         click_on "Delete"
 
         # Expect modal
-        find('.confirm-form-submit--continue').click
-        expect(textarea.value).to be_empty
+        find('[data-qa-selector="confirmation-modal--confirmed"]').click
         expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_delete))
 
         # Assume next request

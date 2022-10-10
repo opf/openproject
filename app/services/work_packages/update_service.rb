@@ -41,11 +41,13 @@ class WorkPackages::UpdateService < ::BaseServices::Update
 
   def update_related_work_packages(service_call)
     update_ancestors([service_call.result]).each do |ancestor_service_call|
-      service_call.merge!(ancestor_service_call)
+      ancestor_service_call.dependent_results.each do |ancestor_dependent_service_call|
+        service_call.add_dependent!(ancestor_dependent_service_call)
+      end
     end
 
     update_related(service_call.result).each do |related_service_call|
-      service_call.merge!(related_service_call)
+      service_call.add_dependent!(related_service_call)
     end
   end
 

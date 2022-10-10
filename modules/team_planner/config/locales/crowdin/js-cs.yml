@@ -3,7 +3,9 @@ cs:
   js:
     team_planner:
       add_existing: 'Přidat existující'
-      title: 'Týmový plánovač'
+      add_existing_title: 'Přidat existující pracovní balíčky'
+      create_label: 'Týmový plánovač'
+      create_title: 'Vytvořit nový týmový plánovač'
       unsaved_title: 'Nepojmenovaný plánovač týmu'
       no_data: 'Přidejte řešitele k nastavení svého týmového plánovače.'
       add_assignee: 'Přidat řešitele'
@@ -13,6 +15,7 @@ cs:
       today: 'Dnes'
       drag_here_to_remove: 'Přetažením sem odstraníte pověřenou osobu a datum začátku a ukončení.'
       cannot_drag_here: 'Pracovní balíček nelze odstranit kvůli oprávněním nebo úpravám omezení.'
+      cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'
       quick_add:
         empty_state: 'Použijte vyhledávací pole pro nalezení pracovních balíčků a přetáhněte je do plánovače, aby někomu přiřadil a definoval datum začátku a konce.'
         search_placeholder: 'Hledat...'

@@ -1054,7 +1054,7 @@ describe AccountController, type: :controller do
 
       context 'with an expired token' do
         before do
-          token.update_column :expires_on, Date.today - 1.day
+          token.update_column :expires_on, 1.day.ago
 
           post :activate, params: activation_params
         end

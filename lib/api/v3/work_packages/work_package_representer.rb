@@ -104,7 +104,7 @@ module API
         end
 
         link :copy,
-             cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented.project) } do
+             cache_if: -> { add_work_packages_allowed? } do
           next if represented.new_record?
 
           {
@@ -114,7 +114,7 @@ module API
         end
 
         link :pdf,
-             cache_if: -> { current_user_allowed_to(:export_work_packages, context: represented.project) } do
+             cache_if: -> { export_work_packages_allowed? } do
           next if represented.new_record?
 
           {
@@ -125,7 +125,7 @@ module API
         end
 
         link :atom,
-             cache_if: -> { current_user_allowed_to(:export_work_packages, context: represented.project) } do
+             cache_if: -> { export_work_packages_allowed? } do
           next if represented.new_record? || !Setting.feeds_enabled?
 
           {
@@ -248,7 +248,7 @@ module API
         end
 
         link :addChild,
-             cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented.project) } do
+             cache_if: -> { add_work_packages_allowed? } do
           next if represented.milestone? || represented.new_record?
 
           {
@@ -396,19 +396,14 @@ module API
 
         property :duration,
                  exec_context: :decorator,
-                 if: ->(represented:, **) {
-                   !represented.milestone? && OpenProject::FeatureDecisions.work_packages_duration_field_active?
-                 },
+                 if: ->(represented:, **) { !represented.milestone? },
                  getter: ->(*) do
                    datetime_formatter.format_duration_from_hours(represented.duration_in_hours,
                                                                  allow_nil: true)
                  end,
                  render_nil: true
 
-        property :ignore_non_working_days,
-                 if: ->(*) {
-                   OpenProject::FeatureDecisions.work_packages_duration_field_active?
-                 }
+        property :ignore_non_working_days
 
         property :spent_time,
                  exec_context: :decorator,
@@ -555,13 +550,35 @@ module API
           super
         end
 
+        # Permissions
         def current_user_watcher?
-          represented.watchers.any? { |w| w.user_id == current_user.id }
+          @current_user_watcher ||= represented.watchers.any? { |w| w.user_id == current_user.id }
         end
 
         def current_user_update_allowed?
-          current_user_allowed_to(:edit_work_packages, context: represented.project) ||
-            current_user_allowed_to(:assign_versions, context: represented.project)
+          @current_user_update_allowed ||=
+            current_user_allowed_to(:edit_work_packages, context: represented.project) ||
+              current_user_allowed_to(:assign_versions, context: represented.project)
+        end
+
+        def view_time_entries_allowed?
+          @view_time_entries_allowed ||=
+            current_user_allowed_to(:view_time_entries, context: represented.project) ||
+              current_user_allowed_to(:view_own_time_entries, context: represented.project)
+        end
+
+        def view_budgets_allowed?
+          @view_budgets_allowed ||= current_user_allowed_to(:view_budgets, context: represented.project)
+        end
+
+        def export_work_packages_allowed?
+          @export_work_packages_allowed ||=
+            current_user_allowed_to(:export_work_packages, context: represented.project)
+        end
+
+        def add_work_packages_allowed?
+          @add_work_packages_allowed ||=
+            current_user_allowed_to(:add_work_packages, context: represented.project)
         end
 
         def relations
@@ -604,7 +621,7 @@ module API
 
         def ordered_custom_actions
           # As the custom actions are sometimes set as an array
-          represented.custom_actions(current_user).to_a.sort_by(&:position)
+          @ordered_custom_actions ||= represented.custom_actions(current_user).to_a.sort_by(&:position)
         end
 
         # Attachments need to be eager loaded for the description
@@ -627,15 +644,6 @@ module API
            represented.cache_checksum,
            Setting.work_package_done_ratio,
            Setting.feeds_enabled?]
-        end
-
-        def view_time_entries_allowed?
-          current_user_allowed_to(:view_time_entries, context: represented.project) ||
-            current_user_allowed_to(:view_own_time_entries, context: represented.project)
-        end
-
-        def view_budgets_allowed?
-          current_user_allowed_to(:view_budgets, context: represented.project)
         end
 
         def load_complete_model(model)

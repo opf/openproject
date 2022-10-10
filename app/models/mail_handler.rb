@@ -105,7 +105,7 @@ class MailHandler < ActionMailer::Base
       when 'accept'
         @user = User.anonymous
       when 'create'
-        @user, password = MailHandler.create_user_from_email(email)
+        @user, password = MailHandler::UserCreator.create_user_from_email(email)
         if @user
           log "[#{@user.login}] account created"
           UserMailer.account_information(@user, password).deliver_later
@@ -338,18 +338,31 @@ class MailHandler < ActionMailer::Base
 
   # Destructively extracts the value for +attr+ in +text+
   # Returns nil if no matching keyword found
-  def extract_keyword!(text, attr, format = nil)
-    keys = [attr.to_s.humanize]
-    keys << all_attribute_translations(user.language)[attr] if user && user.language.present?
-    keys << all_attribute_translations(Setting.default_language)[attr] if Setting.default_language.present?
+  def extract_keyword!(text, attr, format)
+    keys = human_attr_translations(attr)
+             .compact_blank
+             .uniq
+             .map { |k| Regexp.escape(k) }
 
-    keys.reject!(&:blank?)
-    keys.map! do |k|
-      Regexp.escape(k)
+    value = nil
+
+    text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(?<value>#{format || '.+'})\s*$/i) do |_|
+      value = Regexp.last_match[:value]&.strip
+
+      ''
     end
-    format ||= '.+'
-    text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(#{format})\s*$/i, '')
-    $2&.strip
+
+    value
+  end
+
+  def human_attr_translations(attr)
+    keys = [attr.to_s.humanize]
+
+    [user&.language, Setting.default_language].compact_blank.each do |lang|
+      keys << all_attribute_translations(lang)[attr]
+    end
+
+    keys
   end
 
   def target_project
@@ -376,7 +389,7 @@ class MailHandler < ActionMailer::Base
       'due_date' => wp_due_date_from_keywords,
       'estimated_hours' => wp_estimated_hours_from_keywords,
       'done_ratio' => wp_done_ratio_from_keyword
-    }.delete_if { |_, v| v.blank? }
+    }.compact_blank!
   end
 
   # Returns a Hash of issue custom field values extracted from keywords in the email body
@@ -420,52 +433,6 @@ class MailHandler < ActionMailer::Base
     @full_sanitizer ||= Rails::Html::FullSanitizer.new
   end
 
-  # Returns a User from an email address and a full name
-  def self.new_user_from_attributes(email_address, fullname = nil)
-    user = User.new
-    user.mail = email_address
-    user.login = user.mail
-    user.random_password!
-    user.language = Setting.default_language
-
-    names = fullname.blank? ? email_address.gsub(/@.*\z/, '').split('.') : fullname.split
-    user.firstname = names.shift
-    user.lastname = names.join(' ')
-    user.lastname = '-' if user.lastname.blank?
-
-    unless user.valid?
-      user.login = "user#{SecureRandom.hex(6)}" if user.errors[:login].present?
-      user.firstname = '-' if user.errors[:firstname].present?
-      user.lastname = '-' if user.errors[:lastname].present?
-    end
-
-    user
-  end
-
-  # Creates a user account for the +email+ sender
-  def self.create_user_from_email(email)
-    from = email.header['from'].to_s
-    addr = from
-    name = nil
-    if m = from.match(/\A"?(.+?)"?\s+<(.+@.+)>\z/)
-      addr = m[2]
-      name = m[1]
-    end
-    if addr.present?
-      user = new_user_from_attributes(addr, name)
-      password = user.password
-      if user.save
-        [user, password]
-      else
-        log "failed to create User: #{user.errors.full_messages}", :error
-        nil
-      end
-    else
-      log 'failed to create User: no FROM address found', :error
-      nil
-    end
-  end
-
   def allow_override_option(options)
     if options[:allow_override].is_a?(String)
       options[:allow_override].split(',').map(&:strip)
@@ -476,7 +443,7 @@ class MailHandler < ActionMailer::Base
 
   # Removes the email body of text after the truncation configurations.
   def cleanup_body(body)
-    delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).reject(&:blank?).map { |s| Regexp.escape(s) }
+    delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).compact_blank.map { |s| Regexp.escape(s) }
     unless delimiters.empty?
       regex = Regexp.new("^[> ]*(#{delimiters.join('|')})\s*[\r\n].*", Regexp::MULTILINE)
       body = body.gsub(regex, '')
@@ -492,7 +459,7 @@ class MailHandler < ActionMailer::Base
   end
 
   def ignored_filenames
-    @ignored_filenames ||= Setting.mail_handler_ignore_filenames.to_s.split(/[\r\n]+/).reject(&:blank?)
+    @ignored_filenames ||= Setting.mail_handler_ignore_filenames.to_s.split(/[\r\n]+/).compact_blank
   end
 
   def ignored_filename?(filename)

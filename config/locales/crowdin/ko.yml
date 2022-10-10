@@ -66,6 +66,9 @@ ko:
     enterprise:
       upgrade_to_ee: "Enterprise Edition으로 업그레이드"
       add_token: "Enterprise Edition 지원 토큰을 업로드하세요."
+      delete_token_modal:
+        text: "사용된 현재 Enterprise Edition 토큰을 제거하시겠습니까?"
+        title: "토큰 제거"
       replace_token: "당신의 현재 지원 토큰을 바꾸세요."
       order: "Enterprise on-premises Edition 주문하기"
       paste: "당신의 Enterprise Edition 지원 토큰을 붙여넣으세요."
@@ -526,6 +529,10 @@ ko:
         end_insertion: "삽입 끝"
         end_deletion: "삭제 끝"
         ignore_non_working_days: "휴무일 무시"
+        include_non_working_days:
+          title: '근무일'
+          false: '근무일만'
+          true: '휴무일 포함'
         parent: "부모"
         parent_issue: "부모"
         parent_work_package: "부모"
@@ -722,6 +729,11 @@ ko:
           attributes:
             permissions:
               dependency_missing: "'%{permission}'이(가) 선택되었으므로 '%{dependency}'도 포함해야 합니다."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: '적어도 일주일의 하루는 근무일로 정의해야 합니다.'
+              previous_working_day_changes_unprocessed: '근무일 구성에 대한 이전 변경 사항이 아직 적용되지 않았습니다.'
         time_entry:
           attributes:
             hours:
@@ -743,10 +755,12 @@ ko:
               format: "%{message}"
             due_date:
               not_start_date: "마일스톤에서 요구하지만, 시작 날짜가 없음"
+              cannot_be_null: "시작 날짜와 기간을 알고 있으므로 null로 설정할 수 없습니다."
             duration:
               larger_than_dates: "시작 날짜와 완료 날짜 사이의 간격보다 큽니다."
               smaller_than_dates: "시작 날짜와 완료 날짜 사이의 간격보다 작습니다."
               not_available_for_milestones: "마일스톤 유형 작업 패키지에 사용할 수 없습니다."
+              cannot_be_null: "시작 날짜와 완료 날짜를 알고 있으므로 null로 설정할 수 없습니다."
             parent:
               cannot_be_milestone: "마일스톤에 포함될 수 없음"
               cannot_be_self_assigned: "- 자신에게 할당할 수 없습니다."
@@ -754,6 +768,7 @@ ko:
               not_a_valid_parent: "은(는) 올바르지 않은 값입니다"
             start_date:
               violates_relationships: "은(는) %{soonest_start} 이상으로만 설정할 수 있습니다. 작업 패키지의 관계를 위반하지 않도록 하기 위해서입니다."
+              cannot_be_null: "완료 날짜와 기간을 알고 있으므로 null로 설정할 수 없습니다."
             status_id:
               status_transition_invalid: "현재 사용자 역할이 새 상태로 바르게 전환될 수 없으므로 유효 하지 않음"
               status_invalid_in_type: "- 유효하지 않습니다. 현재 상태가 이 유형에서 존재하지 않기 때문입니다."
@@ -1734,6 +1749,7 @@ ko:
   label_project_new: "새 프로젝트"
   label_project_plural: "프로젝트"
   label_project_settings: "프로젝트 설정"
+  label_project_storage_plural: "저장소"
   label_projects_storage_information: "%{count} 개의 프로젝트가 %{storage} 디스크 스토리지를 사용 중"
   label_project_view_all: "모든 프로젝트 보기"
   label_project_show_details: "프로젝트 세부 정보 표시"
@@ -1885,6 +1901,7 @@ ko:
   label_wiki_start: "시작 페이지"
   label_work_package: "작업 패키지"
   label_work_package_attachments: "작업 패키지 첨부 파일"
+  label_work_package_file_link_plural: "작업 패키지 파일 링크"
   label_work_package_category_new: "새 카테고리"
   label_work_package_category_plural: "작업 패키지 카테고리"
   label_work_package_hierarchy: "작업 패키지 계층 구조"
@@ -1900,6 +1917,7 @@ ko:
   label_workflow: "워크플로"
   label_workflow_plural: "워크플로"
   label_workflow_summary: "요약"
+  label_working_days: "근무일"
   label_x_closed_work_packages_abbr:
     one: "1개 닫힘"
     other: "%{count}개 닫힘"
@@ -1960,7 +1978,7 @@ ko:
       center: '알림 센터로'
       see_in_center: '알림 센터의 코멘트 보기'
       settings: '이메일 설정 변경'
-    salutation: '안녕하세요, %{user} 님!'
+    salutation: '안녕하세요, %{user} 님'
     work_packages:
       created_at: '%{timestamp}, %{user} 님이 생성함 '
       login_to_see_all: '로그인하여 모든 알림을 확인하세요.'
@@ -2136,8 +2154,7 @@ ko:
           tb: "TB"
   onboarding:
     heading_getting_started: "개요 가져오기"
-    text_getting_started_description: "OpenProject로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다."
-    text_show_again: "도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다."
+    text_getting_started_description: "OpenProject로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다. 도움말 메뉴에서 이 동영상을 다시 시작할 수 있습니다."
     welcome: "%{app_title}입니다."
     select_language: "언어를 선택하세요."
   permission_add_work_package_notes: "메모 추가"
@@ -2336,6 +2353,8 @@ ko:
       update_timeout: "N분 동안 리포지토리의 마지막 필요한 디스크 공간 정보를 유지하세요.\n리포지토리의 필요한 디스크 저장소 공간 계산에는 비용이 많이 소요될 수 있으므로, 이 값을 늘려 성능 영향을 줄이세요."
       oauth_application_details: "이 창을 닫으면 클라이언트 비밀 값에 다시 액세스할 수 없습니다. 다음 값을 Nextcloud OpenProject Integration 설정에 복사하세요:"
       oauth_application_details_link_text: "설정 페이지로 이동"
+      setup_documentation_details: "새 파일 저장소를 구성하는 데 도움이 필요하면 설명서를 확인하세요. "
+      setup_documentation_details_link_text: "파일 저장소 설정"
       show_warning_details: "이 파일 저장소를 사용하려면 원하는 각 프로젝트의 프로젝트 설정에서 모듈과 특정 저장소를 활성화해야 합니다."
     subversion:
       existing_title: "기존 Subversion 리포지토리"
@@ -2525,6 +2544,7 @@ ko:
   text_access_token_hint: "액세스 토큰을 사용하여 OpenProject의 리소스에 대한 외부 응용 프로그램 액세스 권한을 부여할 수 있습니다."
   text_analyze: "추가 분석: %{subject}"
   text_are_you_sure: "계속하시겠습니까?"
+  text_are_you_sure_continue: "계속하시겠습니까?"
   text_are_you_sure_with_children: "작업 패키지 및 모든 자식 작업 패키지를 삭제하시겠습니까?"
   text_assign_to_project: "프로젝트에 할당"
   text_form_configuration: >
@@ -2717,7 +2737,6 @@ ko:
       noneSelection: "(없음)"
       outline: "초기 윤곽 확장"
       parent: "다음의 하위 프로젝트 표시"
-      work_package_filters: "작업 패키지 필터링"
       work_package_responsible: "담당하는 작업 패키지 표시"
       work_package_assignee: "작업 패키지와 담당자 표시"
       types: "유형 표시"
@@ -2871,6 +2890,17 @@ ko:
     destroy:
       info: "작업 패키지 삭제는 취소할 수 없는 작업입니다."
       title: "작업 패키지 삭제"
+  working_days:
+    info: >
+      <b>일주일의 근무일 정의</b><br/> 휴무일은 작업 패키지를 예약할 때 건너뛰고 기간을 계산할 때 제외됩니다. 작업 패키지 수준에서 재정의할 수 있습니다.
+    change_button: "근무일 변경"
+    warning: >
+      근무일로 간주되는 요일을 변경하면 이 인스턴스의 모든 프로젝트에 있는 모든 작업 패키지의 시작 날짜 및 완료 날짜에 영향을 미칠 수 있습니다.
+    journal_note:
+      changed: _**근무일**이 변경되었습니다(%{changes})._
+      days:
+        working: "%{day}은(는) 이제 근무일입니다."
+        non_working: "%{day}은(는) 이제 휴무일입니다."
   nothing_to_preview: "미리 볼 내용 없음"
   api_v3:
     attributes:

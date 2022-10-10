@@ -338,6 +338,31 @@ describe 'new work package', js: true do
       expect(wp.assigned_to).to eq user
     end
 
+    it 'resets the dates when opening the datepicker and cancelling (Regression #44152)' do
+      create_work_package_globally(type_task, project.name)
+      expect(page).to have_selector(safeguard_selector, wait: 10)
+
+      # Open datepicker
+      date_field = wp_page.edit_field(:combinedDate)
+      date_field.input_element.click
+
+      # Select date
+      datepicker = date_field.datepicker
+      start = (Time.zone.today - 1.day).iso8601
+      datepicker.focus_start_date
+      datepicker.set_date start
+
+      due = (Time.zone.today + 1.day).iso8601
+      datepicker.focus_due_date
+      datepicker.set_date due
+
+      date_field.expect_value "#{start} - #{due}"
+
+      # Cancel
+      date_field.cancel_by_click
+      date_field.expect_value 'no start date - no finish date'
+    end
+
     context 'with a project without type_bug' do
       let!(:project_without_bug) do
         create(:project, name: 'Unrelated project', types: [type_task])
@@ -450,11 +475,7 @@ describe 'new work package', js: true do
       date_field.expect_value("#{parent.start_date} - #{parent.due_date}")
 
       date_field.input_element.click
-      sleep 1
-      date_field.clear with_backspace: true
-      date_field.input_element.send_keys :backspace
-
-      date_field.save!
+      date_field.update ['', parent.due_date]
 
       subject = split_create_page.edit_field(:subject)
       subject.set_value 'Child'

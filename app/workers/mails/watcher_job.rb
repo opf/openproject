@@ -61,6 +61,8 @@ class Mails::WatcherJob < Mails::DeliverJob
                .applicable(watcher.watchable.project)
                .first
 
+    return false if settings.nil?
+
     settings.watched
   end
 

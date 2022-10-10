@@ -119,8 +119,7 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
     this.currentPartition = state.data?.partition || '-split';
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected staticQueryName(query:QueryResource):string {
+  protected staticQueryName(_query:QueryResource):string {
     return this.text.unsaved_title;
   }
 

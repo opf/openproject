@@ -29,10 +29,12 @@
 module Settings
   class Definition
     ENV_PREFIX = 'OPENPROJECT_'.freeze
+    AR_BOOLEAN_TYPE = ActiveRecord::Type::Boolean.new
 
     attr_accessor :name,
                   :format,
-                  :env_alias
+                  :env_alias,
+                  :on_change
 
     attr_writer :value,
                 :allowed
@@ -42,7 +44,8 @@ module Settings
                    format: nil,
                    writable: true,
                    allowed: nil,
-                   env_alias: nil)
+                   env_alias: nil,
+                   on_change: nil)
       self.name = name.to_s
       @default = default.is_a?(Hash) ? default.deep_stringify_keys : default
       @default.freeze
@@ -51,6 +54,7 @@ module Settings
       self.writable = writable
       self.allowed = allowed
       self.env_alias = env_alias
+      self.on_change = on_change
     end
 
     def default
@@ -130,12 +134,14 @@ module Settings
       # @param [nil] env_alias Alternative for the default env name to also look up. E.g. with the alias set to
       #  `OPENPROJECT_2FA` for a definition with the name `two_factor_authentication`, the value is fetched
       #  from the ENV OPENPROJECT_2FA as well.
+      # @param [nil] on_change A callback lambda to be triggered whenever the setting is stored to the database.
       def add(name,
               default:,
               format: nil,
               writable: true,
               allowed: nil,
-              env_alias: nil)
+              env_alias: nil,
+              on_change: nil)
         return if @by_name.present? && @by_name[name.to_s].present?
 
         @by_name = nil
@@ -145,7 +151,8 @@ module Settings
                          default:,
                          writable:,
                          allowed:,
-                         env_alias:)
+                         env_alias:,
+                         on_change:)
 
         override_value(definition)
 
@@ -389,7 +396,7 @@ module Settings
       when :float
         value.to_f
       when :boolean
-        ActiveRecord::Type::Boolean.new.cast(value)
+        AR_BOOLEAN_TYPE.cast(value)
       when :symbol
         value.to_sym
       else

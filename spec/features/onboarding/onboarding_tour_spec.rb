@@ -97,7 +97,7 @@ describe 'onboarding tour for new users', js: true do
         expect(page).to have_text 'Please select your language'
 
         # Cancel language selection
-        click_button('Close popup')
+        page.find('.spot-modal-overlay').click
 
         # The tutorial appears
         expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true

@@ -42,9 +42,9 @@ $nm-color-success-border: #35c53f
 $nm-color-success-icon: #35c53f
 $nm-color-success-background: #d8fdd1
 
-$nm-color-warning-border: #b5b078
-$nm-color-warning-icon: #333
-$nm-color-warning-background: #f4f4aa
+$nm-color-warning-border: #ef9e56
+$nm-color-warning-icon: #ef9e56
+$nm-color-warning-background: #ffe6c6
 
 $nm-color-info-icon: #333
 
@@ -71,7 +71,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   color: $nm-color-success-icon
 
 %nm-icon-warning
-  @include icon-mixin-attention
+  @include icon-mixin-warning
   color: $nm-color-warning-icon
 
 %nm-icon-info
@@ -103,7 +103,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 .op-toast
   @extend %toaster
-  z-index: 21
+  @include spot-z-index("toast")
   +toaster-layout($x: left, $y: top, $size: auto, $offset: rem-calc(0))
   +toaster-style($background: $nm-color-background, $color: var(--body-font-color), $padding: $nm-padding-box, $radius: $nm-border-radius)
   .toaster-icon
@@ -295,6 +295,8 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 // Use same styles for flash messages
 .flash, #errorExplanation
+  // Always above the toast
+  @include spot-z-index("toast", 1)
   border-radius: $nm-border-radius
   border-style: solid
   border-width: rem-calc(1)
@@ -304,7 +306,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   box-shadow: rem-calc(1px 2px 3px) rgba(0, 0, 0, 0.2)
   margin-bottom: 0.1875rem
   margin-top: 0.5rem
-  z-index: 15
 
   &.ng-leave
     @include animation(0.5s fade-out)
