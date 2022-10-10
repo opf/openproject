@@ -63,6 +63,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   project?:{ href:string, title:string, showUrl:string };
 
   text = {
+    and: this.I18n.t('js.notifications.center.label_actor_and'),
     and_other_singular: this.I18n.t('js.notifications.center.and_more_users.one'),
     and_other_plural: (count:number):string => this.I18n.t('js.notifications.center.and_more_users.other',
       { count }),

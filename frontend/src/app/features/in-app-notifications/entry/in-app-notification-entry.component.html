@@ -93,17 +93,23 @@
         [textContent]="relativeTime$ | async"
       ></div>
       <div>
-        <op-principal
-          class="op-ian-item--actors"
-          [principal]="actors[0]"
-          [hideName]="false"
-          [hideAvatar]="true"
-          [link]="!isMobile()"
-        ></op-principal>
+        <ng-container *ngFor ="let actor of actors | slice:0:3; let last = last">
+          <span *ngIf="last && actors.length > 1 && actors.length < 4">
+            {{ text.and }}
+          </span>
+          <op-principal
+            class="op-ian-item--actors"
+            [principal]="actor"
+            [hideName]="false"
+            [hideAvatar]="true"
+            [link]="!isMobile()"
+          ></op-principal>
+          <span *ngIf="!last && actors.length > 2" [textContent]="', '"></span>
+        </ng-container>
         <span
-          *ngIf="actors.length > 1"
+          *ngIf="actors.length > 3"
         >
-          {{ text_for_additional_authors(actors.length - 1) }}
+          {{ text_for_additional_authors(actors.length - 3) }}
         </span>
       </div>
     </div>
