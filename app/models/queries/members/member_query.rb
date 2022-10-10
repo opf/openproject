@@ -31,6 +31,7 @@ class Queries::Members::MemberQuery < Queries::BaseQuery
     Member
   end
 
+  # Convert the Query into an ActiveRecord Relation
   def results
     super
       .includes(:roles, { principal: :preference }, :member_roles)
