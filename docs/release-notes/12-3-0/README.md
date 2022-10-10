@@ -30,7 +30,7 @@ OpenProject 12.3 gives the administrator the possibility to specify working and 
 
 This helps you to create more accurate project schedules and avoid having start or finish date of a work packages on a weekend. Non-working days are displayed grey in the calendar and work packages cannot be scheduled to start or finish on those days. The default value for non-working days is set to Saturday and Sunday, but you set them as needed.
 
-![work-week-admin-view](work-week-admin-5063871.png)
+![work-week-administration](work-week-administration.png)
 
 You can find out [how to set working and non-working days](../../system-admin-guide/working-days/#working-days) and [how to schedule your work packages within and without working and non-working days](../../user-guide/work-packages/set-change-dates/#working-days) in our documentation.
 
@@ -114,6 +114,7 @@ The new and additional tool tips in the OpenProject application will make the na
 
 A big thanks to community members for reporting bugs, helping us identify issues and providing fixes.
 
+- A very special thanks to the City of Cologne for sponsoring the feature development of work week and work package duration.
 - Special thanks for reporting and finding bugs go to Stuart Malt, Herbert Cruz, Matthias Weber, Alexander Seitz, Daniel Hug, Christian Noack, Christina Vechkanova, Noel Lublovary, Hans-Gerd Sandhagen, Sky Racer.
 - A big thank you to every other dedicated user who has [reported bugs](../../development/report-a-bug) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - A big thank you to all the dedicated users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
