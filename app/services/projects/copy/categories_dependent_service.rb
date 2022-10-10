@@ -29,7 +29,7 @@
 module Projects::Copy
   class CategoriesDependentService < Dependency
     def self.human_name
-      I18n.t(:label_work_package_category_plural)
+      I18n.t(:'projects.copy.work_package_categories')
     end
 
     def source_count

@@ -124,7 +124,7 @@ describe 'Project templates', type: :feature, js: true do
       expect(page).to have_selector('[data-qa-field-name="sendNotifications"]')
 
       # And allows to deselect copying the members.
-      uncheck 'Members'
+      uncheck I18n.t(:'projects.copy.members')
 
       page.find('button:not([disabled])', text: 'Save').click
 
