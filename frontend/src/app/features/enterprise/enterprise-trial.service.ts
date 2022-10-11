@@ -27,7 +27,7 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -42,8 +42,6 @@ import {
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { UntypedFormGroup } from '@angular/forms';
-import { input } from 'reactivestates';
 import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
 import { EnterpriseTrialStore } from 'core-app/features/enterprise/enterprise-trial.store';
 import { GonType } from 'core-app/core/gon/gon.service';

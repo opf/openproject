@@ -104,8 +104,8 @@ export class PrincipalComponent implements OnInit {
     principal: new UntypedFormControl(null, [Validators.required]),
     userDynamicFields: new UntypedFormGroup({}),
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    role: new FormControl(null, [Validators.required]),
-    message: new FormControl(''),
+    role: new UntypedFormControl(null, [Validators.required]),
+    message: new UntypedFormControl(''),
   });
 
   public userDynamicFieldConfig:{

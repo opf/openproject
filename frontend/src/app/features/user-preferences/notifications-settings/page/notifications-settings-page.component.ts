@@ -66,7 +66,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   public eeShowBanners = false;
 
   public form = new UntypedFormGroup({
-    assignee: new FormControl(false),
+    assignee: new UntypedFormControl(false),
     responsible: new UntypedFormControl(false),
     workPackageCreated: new UntypedFormControl(false),
     workPackageProcessed: new UntypedFormControl(false),
@@ -210,7 +210,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
           .forEach((setting) => projectSettings.push(new UntypedFormGroup({
             project: new UntypedFormControl(setting._links.project),
             assignee: new UntypedFormControl(setting.assignee),
-            responsible: new FormControl(setting.responsible),
+            responsible: new UntypedFormControl(setting.responsible),
             workPackageCreated: new UntypedFormControl(setting.workPackageCreated),
             workPackageProcessed: new UntypedFormControl(setting.workPackageProcessed),
             workPackageScheduled: new UntypedFormControl(setting.workPackageScheduled),

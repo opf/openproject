@@ -11,7 +11,10 @@ import {
 import { FormlyForm } from '@ngx-formly/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { catchError, finalize } from 'rxjs/operators';
+import {
+  catchError,
+  finalize,
+} from 'rxjs/operators';
 import { HalSource } from 'core-app/features/hal/resources/hal-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { DynamicFieldsService } from 'core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service';
@@ -19,7 +22,11 @@ import { UntypedFormGroup } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
-import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from '../../typings';
+import {
+  IDynamicFieldGroupConfig,
+  IOPDynamicFormSettings,
+  IOPFormlyFieldSettings,
+} from '../../typings';
 import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
