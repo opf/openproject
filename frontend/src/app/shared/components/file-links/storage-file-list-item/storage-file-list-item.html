@@ -21,9 +21,12 @@
     [textContent]="infoTimestampText"
   ></span>
 
-  <div
-    #avatar
+  <op-principal
     *ngIf="showDetails"
     class="op-file-list--item-avatar"
-  ></div>
+    [principal]="principal"
+    [hideName]="true"
+    [size]="'mini'"
+    [link]="false"
+  ></op-principal>
 </label>

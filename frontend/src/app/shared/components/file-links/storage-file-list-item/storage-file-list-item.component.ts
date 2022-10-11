@@ -27,7 +27,6 @@
 //++
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -39,12 +38,12 @@ import {
 
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
-import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 import {
   getIconForMimeType,
 } from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { isDirectory } from 'core-app/shared/components/file-links/file-link-icons/file-icons.helper';
+import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -52,7 +51,7 @@ import { isDirectory } from 'core-app/shared/components/file-links/file-link-ico
   templateUrl: './storage-file-list-item.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StorageFileListItemComponent implements OnInit, AfterViewInit {
+export class StorageFileListItemComponent implements OnInit {
   @Input() public storageFile:IStorageFile;
 
   @Input() public selected = false;
@@ -67,10 +66,19 @@ export class StorageFileListItemComponent implements OnInit, AfterViewInit {
 
   showDetails:boolean;
 
-  constructor(
-    private readonly timezoneService:TimezoneService,
-    private readonly principalRendererService:PrincipalRendererService,
-  ) {}
+  get principal():PrincipalLike {
+    return this.storageFile.createdByName
+      ? {
+        name: this.storageFile.createdByName,
+        href: '/external_users/1',
+      }
+      : {
+        name: 'Not Available',
+        href: '/placeholder_users/1',
+      };
+  }
+
+  constructor(private readonly timezoneService:TimezoneService) {}
 
   ngOnInit():void {
     if (this.storageFile.lastModifiedAt) {
@@ -80,27 +88,5 @@ export class StorageFileListItemComponent implements OnInit, AfterViewInit {
     this.fileLinkIcon = getIconForMimeType(this.storageFile.mimeType);
 
     this.showDetails = !isDirectory(this.storageFile.mimeType);
-  }
-
-  ngAfterViewInit():void {
-    if (!this.showDetails) {
-      return;
-    }
-
-    if (this.storageFile.createdByName) {
-      this.principalRendererService.render(
-        this.avatar.nativeElement,
-        { name: this.storageFile.createdByName, href: '/external_users/1' },
-        { hide: true, link: false },
-        { hide: false, size: 'mini' },
-      );
-    } else {
-      this.principalRendererService.render(
-        this.avatar.nativeElement,
-        { name: 'Not Available', href: '/placeholder_users/1' },
-        { hide: true, link: false },
-        { hide: false, size: 'mini' },
-      );
-    }
   }
 }
