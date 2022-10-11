@@ -33,6 +33,7 @@ import {
 } from '@datorama/akita';
 import { Observable } from 'rxjs';
 import {
+  catchError,
   filter,
   finalize,
   map,
@@ -50,14 +51,52 @@ import { omit } from 'lodash';
 import isDefinedEntity from 'core-app/core/state/is-defined-entity';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+} from '@angular/common/http';
+import {
+  Injectable,
+  Injector,
+} from '@angular/core';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 
 export type CollectionStore<T> = EntityStore<CollectionState<T>>;
 
+@Injectable()
 export abstract class ResourceCollectionService<T extends { id:ID }> {
   protected store:CollectionStore<T> = this.createStore();
 
   protected query = new QueryEntity(this.store);
+
+  constructor(
+    readonly injector:Injector,
+    readonly http:HttpClient,
+    readonly apiV3Service:ApiV3Service,
+    readonly toastService:ToastService,
+  ) {
+  }
+
+  /**
+   * Require the results for the given filter params
+   * Returns a cached set if it was loaded already.
+   *
+   * @param params List params to require
+   * @private
+   */
+  public require(params:ApiV3ListParameters):Observable<T[]> {
+    const key = collectionKey(params);
+    if (this.collectionExists(key) || this.collectionLoading(key)) {
+      return this.loadedCollection(key);
+    }
+
+    return this
+      .fetchCollection(params)
+      .pipe(
+        switchMap(() => this.loadedCollection(key)),
+      );
+  }
 
   /**
    * Retrieve a collection from the store
@@ -173,24 +212,50 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
   }
 
   /**
+   * Fetch a given collection, returning only its results
+   */
+  fetchResults(params:ApiV3ListParameters|string):Observable<T[]> {
+    return this
+      .fetchCollection(params)
+      .pipe(
+        map((collection) => collection._embedded.elements),
+      );
+  }
+
+  /**
+   * Fetch a given collection, ensuring it is being flagged as loaded
+   */
+  fetchCollection(params:ApiV3ListParameters|string):Observable<IHALCollection<T>> {
+    const key = typeof params === 'string' ? params : collectionKey(params);
+
+    setCollectionLoading(this.store, key, true);
+
+    return this
+      .http
+      .get<IHALCollection<T>>(this.basePath() + key)
+      .pipe(
+        tap((collection) => insertCollectionIntoState(this.store, collection, key)),
+        finalize(() => setCollectionLoading(this.store, key, false)),
+        catchError((error:unknown) => {
+          this.handleCollectionLoadingError(error as HttpErrorResponse, key);
+          throw error;
+        }),
+      );
+  }
+
+  /**
    * Create a new instance of this resource service's underyling store.
    * @protected
    */
   protected abstract createStore():CollectionStore<T>;
 
   /**
-   * Fetch a given collection, ensuring it is being flagged as loaded
+   * Base path for this collection
+   * @protected
    */
-  protected fetchCollection(http:HttpClient, basePath:string, params:ApiV3ListParameters):Observable<IHALCollection<T>> {
-    const key = collectionKey(params);
+  protected abstract basePath():string;
 
-    setCollectionLoading(this.store, key, true);
-
-    return http
-      .get<IHALCollection<T>>(basePath + key)
-      .pipe(
-        tap((collection) => insertCollectionIntoState(this.store, collection, key)),
-        finalize(() => setCollectionLoading(this.store, key, false)),
-      );
+  protected handleCollectionLoadingError(error:HttpErrorResponse, _collectionKey:string):void {
+    this.toastService.addError(error);
   }
 }
