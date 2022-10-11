@@ -506,7 +506,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                 resizeInfo?.revert();
                 return;
               }
-              void this.updateEvent(resizeInfo);
+              void this.updateEvent(resizeInfo, false);
             },
             eventResizeStart: (resizeInfo:EventResizeDoneArg) => {
               const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
@@ -539,18 +539,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                 dropInfo?.revert();
                 return;
               }
-              void this.updateEvent(dropInfo);
+              void this.updateEvent(dropInfo, true);
             },
             eventReceive: async (dropInfo:EventReceiveArg) => {
-              const due = moment(dropInfo.event.endStr).subtract(1, 'day').toDate();
               const start = moment(dropInfo.event.startStr).toDate();
               const wp = dropInfo.event.extendedProps.workPackage as WorkPackageResource;
-              if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.weekdayService.isNonWorkingDay(due))) {
+              if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start))) {
                 this.toastService.addError(this.text.cannot_drag_to_non_working_day);
                 dropInfo?.revert();
                 return;
               }
-              await this.updateEvent(dropInfo);
+              await this.updateEvent(dropInfo, true);
               this.actions$.dispatch(teamPlannerEventAdded({ workPackage: wp.id as string }));
             },
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -837,8 +836,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     return id !== globalDraggingId;
   }
 
-  private async updateEvent(info:EventResizeDoneArg|EventDropArg|EventReceiveArg):Promise<void> {
-    const changeset = this.workPackagesCalendar.updateDates(info);
+  private async updateEvent(info:EventResizeDoneArg|EventDropArg|EventReceiveArg, dragged:boolean):Promise<void> {
+    const changeset = this.workPackagesCalendar.updateDates(info, dragged);
     const resource = info.event.getResources()[0];
     if (resource) {
       changeset.setValue('assignee', { href: resource.id });
