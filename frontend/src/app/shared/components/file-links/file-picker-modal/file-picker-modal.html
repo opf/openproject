@@ -18,13 +18,13 @@
   <div class="spot-modal--body spot-container">
     <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
       <ul
-        class="spot-list spot-list_compact op-files-tab--file-list"
+        class="spot-list spot-list_compact op-file-list"
         data-qa-selector="op-files-picker-modal--file-list"
       >
         <li
           *ngFor="let file of storageFiles$ | async | sortFiles; let i = index;"
-          class="spot-list--item op-files-tab--file-list-item"
-          data-qa-selector="op-files-tab--file-list-item"
+          class="spot-list--item op-file-list--item"
+          data-qa-selector="op-file-list--item"
           op-storage-file-list-item
           [storageFile]="file"
           (changeSelection)="changeSelection(file)"

@@ -12,18 +12,18 @@
   <span
     [textContent]="storageFile.name"
     [title]="storageFile.name"
-    class="spot-list--item-title op-files-tab--file-list-item-title"
+    class="spot-list--item-title op-file-list--item-title"
   ></span>
 
   <span
     *ngIf="showDetails"
-    class="op-files-tab--file-list-item-text"
+    class="op-file-list--item-text"
     [textContent]="infoTimestampText"
   ></span>
 
   <div
     #avatar
     *ngIf="showDetails"
-    class="op-files-tab--file-list-item-avatar"
+    class="op-file-list--item-avatar"
   ></div>
 </label>

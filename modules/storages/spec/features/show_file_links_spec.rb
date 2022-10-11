@@ -75,8 +75,8 @@ describe 'Showing of file links in work package', type: :feature, js: true do
   context 'if work package has associated file links' do
     it "must show associated file links" do
       expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]', count: 2)
-      expect(page.find('[data-qa-selector="op-files-tab--file-list"]'))
-        .to have_selector('[data-qa-selector="op-files-tab--file-list-item"]', text: file_link.origin_name, count: 1)
+      expect(page.find('[data-qa-selector="file-list"]'))
+        .to have_selector('[data-qa-selector="file-list--item"]', text: file_link.origin_name, count: 1)
     end
   end
 
