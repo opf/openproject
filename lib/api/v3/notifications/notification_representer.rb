@@ -43,6 +43,21 @@ module API
 
         property :reason
 
+        property :message,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   next unless represented.reason == 'date_alert'
+
+                   changes = represented.journal.get_changes
+                   if changes[:start_date]
+                     [{ startDate: datetime_formatter.format_date(changes[:start_date].last) }]
+                   elsif changes[:due_date]
+                     [{ dueDate: datetime_formatter.format_date(changes[:due_date].last) }]
+                   else
+                     []
+                   end
+                 end
+
         date_time_property :created_at
 
         date_time_property :updated_at

@@ -12,10 +12,42 @@ properties:
     minimum: 1
   reason:
     type: string
-    description: The reason for the notification (such as mentioned, involved, watched)
+    description: The reason for the notification
+    enum:
+      - assigned
+      - commented
+      - created
+      - date_alert
+      - mentioned
+      - prioritized
+      - processed
+      - responsible
+      - subscribed
+      - scheduled
+      - watched
   readIAN:
     type: boolean
     description: Whether the notification is marked as read
+  message:
+    type: array
+    items:
+      allOf:
+        - type: object
+          properties:
+            property:
+              type: string
+              description: |-
+                The name of the message's property. It can vary based on the reason provided.
+                For example, the "date_alert" reason can be associated with either a "startDate" or a "dueDate".
+            value:
+              type: string
+              description: |-
+                The value associated with the property, it can hold any arbitrary string
+                or a datetime value in ISO 8601 format.
+        - description: |-
+            It provides additional information on constructing a user friendly message.
+            One or more properties can be associated with a message, their number can vary depending
+            on the reason provided.
   createdAt:
     type: string
     format: date-time
@@ -100,6 +132,9 @@ example:
   id: 1
   readIAN: false
   reason: mentioned
+  message:
+    - property: 'startDate'
+      value: '2022-04-06'
   createdAt: '2022-04-05T14:38:28Z'
   updatedAt: '2022-04-06T09:03:24Z'
   _embedded:

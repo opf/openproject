@@ -17,21 +17,21 @@ allOf:
               - $ref: "./link.yml"
               - description: |-
                   This notification collection
-                  
+
                   **Resource**: NotificationCollectionModel
           jumpTo:
             allOf:
               - $ref: "./link.yml"
               - description: |-
                   The notification collection at another offset
-                  
+
                   **Resource**: NotificationCollectionModel
           changeSize:
             allOf:
               - $ref: "./link.yml"
               - description: |-
                   The notification collection with another size
-                  
+
                   **Resource**: NotificationCollectionModel
       _embedded:
         type: object
@@ -58,7 +58,12 @@ example:
       - _hint: Notification resource shortened for brevity
         id: 2
         readIAN: false
-        reason: mentioned
+        reason: date_alert
+        message:
+          - property: 'startDate'
+            value: '2022-10-05'
+          - property: 'stopDate'
+            value: '2022-10-10'
     _links:
       self:
         href: '/api/v3/notifications?offset=1&pageSize=20'

@@ -39,6 +39,7 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
   let(:recipient) { build_stubbed(:user) }
   let(:journal) { nil }
   let(:actor) { nil }
+  let(:reason) { :mentioned }
   let(:notification) do
     build_stubbed :notification,
                   recipient:,
@@ -46,6 +47,7 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
                   resource:,
                   journal:,
                   actor:,
+                  reason:,
                   read_ian:
   end
   let(:representer) do
@@ -111,6 +113,45 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
 
     it_behaves_like 'datetime property', :updatedAt do
       let(:value) { notification.updated_at }
+    end
+
+    it 'is expected to not have a message' do
+      expect(subject).not_to have_json_path('message')
+    end
+
+    context 'when the reason is date alert' do
+      let(:journal) { resource.journals.last }
+      let(:reason) { :date_alert }
+
+      context 'when the startDate is happening soon' do
+        before do
+          journal.data.update!(start_date: Date.tomorrow)
+        end
+
+        it_behaves_like 'date property', 'message/0/startDate' do
+          let(:value) { Date.tomorrow }
+        end
+      end
+
+      context 'when the dueDate is happening soon' do
+        before do
+          journal.data.update!(due_date: Date.tomorrow)
+        end
+
+        it_behaves_like 'date property', 'message/0/dueDate' do
+          let(:value) { Date.tomorrow }
+        end
+      end
+
+      context 'when the dueDate is in the past (overdue)' do
+        before do
+          journal.data.update!(due_date: Date.yesterday)
+        end
+
+        it_behaves_like 'date property', 'message/0/dueDate' do
+          let(:value) { Date.yesterday }
+        end
+      end
     end
   end
 
