@@ -209,6 +209,15 @@ ru:
     ignore_filenames: >
       Укажите список имен для игнорирования при обработке вложений для входящих почтовых сообщений (например, подписей или значков). Введите одно имя файла в строке.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Удаление было запланировано и исполнено в фоновом режиме. О результатах вы будете уведомлены."
       schedule_failed: "Проект удален быть не может: %{errors}"
@@ -1952,7 +1961,6 @@ ru:
   label_wiki_start: "Начальная страница"
   label_work_package: "Пакет работ"
   label_work_package_attachments: "Вложения пакета работ"
-  label_work_package_file_link_plural: "Ссылки на файл пакета работ"
   label_work_package_category_new: "Новая категория"
   label_work_package_category_plural: "Категории пакета работ"
   label_work_package_hierarchy: "Иерархия пакета работ"

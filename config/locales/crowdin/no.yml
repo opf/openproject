@@ -210,6 +210,15 @@
     ignore_filenames: >
       Angi en liste over navn som skal ignoreres når vedlegg for innkommende meldinger (f.eks. signaturer eller ikoner). Angi ett filnavn per linje.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Prosjektet kan ikke slettes: %{errors}"
@@ -1919,7 +1928,6 @@
   label_wiki_start: "Startside"
   label_work_package: "Arbeidspakke"
   label_work_package_attachments: "Work package attachments"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Ny kategori"
   label_work_package_category_plural: "Kategorier for arbeidspakker"
   label_work_package_hierarchy: "Work package hierarchy"

@@ -212,6 +212,15 @@ vi:
     ignore_filenames: >
       Chỉ định danh sách các tên cần bỏ qua khi xử lý tệp đính kèm cho thư đến (ví dụ: chữ ký hoặc biểu tượng). Nhập một tên tệp trên mỗi dòng.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Dự án không thể bị xóa: %{errors}"
@@ -1904,7 +1913,6 @@ vi:
   label_wiki_start: "Trang bắt đầu"
   label_work_package: "Work Package"
   label_work_package_attachments: "Phần đính kèm công việc"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Danh mục mới"
   label_work_package_category_plural: "Các thể loại work package"
   label_work_package_hierarchy: "Phân cấp công việc"

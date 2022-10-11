@@ -210,6 +210,15 @@ ne:
     ignore_filenames: >
       आगामी मेलहरूका लागि अनुलग्नकहरू प्रशोधन गर्दा उपेक्षा गर्न नामहरूको सूची निर्दिष्ट गर्नुहोस् (जस्तै, हस्ताक्षरहरू वा प्रतिमाहरू)। प्रति रेखा एक फाइलको नाम प्रविष्ट गर्नुहोस्।
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "परियोजना मेटिने छैन: %{errors}"
@@ -1919,7 +1928,6 @@ ne:
   label_wiki_start: "Start page"
   label_work_package: "Work package"
   label_work_package_attachments: "Work package attachments"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "New category"
   label_work_package_category_plural: "Work package categories"
   label_work_package_hierarchy: "Work package hierarchy"
