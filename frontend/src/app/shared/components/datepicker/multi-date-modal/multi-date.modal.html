@@ -43,8 +43,6 @@
           (ngModelChange)="startDateChanged$.next($event)"
           [disabled]="!isSchedulable"
           [showClearButton]="currentlyActivatedDateField === 'start'"
-          [pattern]="datePattern"
-          inputmode="numeric"
           (focusin)="setCurrentActivatedField('start')"
         ></spot-text-field>
         <button
@@ -71,8 +69,6 @@
           (ngModelChange)="endDateChanged$.next($event)"
           [disabled]="!isSchedulable"
           [showClearButton]="currentlyActivatedDateField === 'end'"
-          [pattern]="datePattern"
-          inputmode="numeric"
           (focusin)="setCurrentActivatedField('end')"
         ></spot-text-field>
         <button
