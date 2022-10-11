@@ -110,11 +110,13 @@ export class TimelineCellRenderer {
    * For generic work packages, assigns start and finish date.
    *
    */
-  public assignDateValues(change:WorkPackageChangeset,
+  public assignDateValues(
+    change:WorkPackageChangeset,
     labels:WorkPackageCellLabels,
-    dates:any):void {
-    this.assignDate(change, 'startDate', dates.startDate);
-    this.assignDate(change, 'dueDate', dates.dueDate);
+    dates:CellDateMovement,
+  ):void {
+    this.assignDate(change, 'startDate', dates.startDate as moment.Moment);
+    this.assignDate(change, 'dueDate', dates.dueDate as moment.Moment);
 
     this.updateLabels(true, labels, change);
   }
