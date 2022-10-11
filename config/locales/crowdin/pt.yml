@@ -209,6 +209,15 @@ pt:
     ignore_filenames: >
       Especifique uma lista de nomes para ignorar quando processar anexos para mensagens recebidas (por exemplo, assinaturas ou ícones). Digite um nome de arquivo por linha.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Exclusão foi agendada e será realizada em segundo plano. Você será notificado do resultado."
       schedule_failed: "Projeto não pode ser excluído: %{errors}"
@@ -1918,7 +1927,6 @@ pt:
   label_wiki_start: "Página inicial"
   label_work_package: "Pacote de trabalho"
   label_work_package_attachments: "Anexos de pacote de trabalho"
-  label_work_package_file_link_plural: "Links de arquivos do pacote de trabalho"
   label_work_package_category_new: "Nova categoria"
   label_work_package_category_plural: "Categorias de pacote de trabalho"
   label_work_package_hierarchy: "Hierarquia de pacotes de trabalho"

@@ -206,6 +206,15 @@ el:
     ignore_filenames: >
       Καθορίστε μια λίστα με τα ονόματα που πρέπει να αγνοήσετε όταν επεξεργάζεστε συνημμένα για εισερχόμενα email (π.χ. υπογραφές ή εικονίδια). Εισάγετε ένα όνομα αρχείου ανά γραμμή.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Η διαγραφή έχει προγραμματιστεί και εκτελείται στο παρασκήνιο. Θα ειδοποιηθείτε για το αποτέλεσμα."
       schedule_failed: "Το έργο δεν μπορεί να διαγραφεί: %{errors}"
@@ -1915,7 +1924,6 @@ el:
   label_wiki_start: "Σελίδα έναρξης"
   label_work_package: "Εργασία"
   label_work_package_attachments: "Συνημμένα πακέτου εργασίας"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Νέα κατηγορία"
   label_work_package_category_plural: "Κατηγορίες πακέτου εργασίας"
   label_work_package_hierarchy: "Ιεραρχία πακέτου εργασίας"

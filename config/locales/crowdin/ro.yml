@@ -210,6 +210,15 @@ ro:
     ignore_filenames: >
       Specificați o listă de nume care trebuie ignorate la procesarea atașamentelor pentru mesajele primite (de exemplu, semnături sau pictograme). Introduceți un nume de fișier pe linie.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Ștergerea a fost programată și se efectuează în fundal. Veți fi notificat cu privire la rezultat."
       schedule_failed: "Proiectul nu poate fi șters: %{errors}"
@@ -1936,7 +1945,6 @@ ro:
   label_wiki_start: "Pagină de start"
   label_work_package: "Pachet de lucru"
   label_work_package_attachments: "Anexe la pachetul de lucru"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Categorie nouă"
   label_work_package_category_plural: "Categorii de pachete de lucru"
   label_work_package_hierarchy: "Ierarhia pachetelor de lucru"

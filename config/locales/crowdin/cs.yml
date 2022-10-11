@@ -210,6 +210,15 @@ cs:
     ignore_filenames: >
       Zadejte seznam názvů, které budou ignorovány při zpracování příloh pro příchozí poštu (např. podpisy nebo ikony). Zadejte jeden název souboru na řádek.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Odstranění bylo naplánováno a je dokončeno na pozadí. Výsledek vám bude oznámen."
       schedule_failed: "Projekt nelze odstranit: %{errors}"
@@ -1953,7 +1962,6 @@ cs:
   label_wiki_start: "Úvodní stránka"
   label_work_package: "Pracovní balíček"
   label_work_package_attachments: "Přílohy pracovních balíčků"
-  label_work_package_file_link_plural: "Odkazy na souborů pracovních balíčků"
   label_work_package_category_new: "Nová kategorie"
   label_work_package_category_plural: "Kategorie pracovních balíčků"
   label_work_package_hierarchy: "Hierarchie pracovních balíčků"

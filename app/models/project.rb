@@ -258,17 +258,6 @@ class Project < ApplicationRecord
     @assignable_versions ||= shared_versions.references(:project).with_status_open.order_by_semver_name.to_a
   end
 
-  # Returns a hash of project users grouped by role
-  def users_by_role
-    members.includes(:principal, :roles).inject({}) do |h, m|
-      m.roles.each do |r|
-        h[r] ||= []
-        h[r] << m.principal
-      end
-      h
-    end
-  end
-
   # Returns an AR scope of all custom fields enabled for project's work packages
   # (explicitly associated custom fields and custom fields enabled for all projects)
   def all_work_package_custom_fields

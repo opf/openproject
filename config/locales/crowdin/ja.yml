@@ -208,6 +208,15 @@ ja:
     ignore_filenames: >
       受信メールの添付ファイルを処理するとき、無視する名前の一覧を指定します (例えば、署名またはアイコン)。1 行につき 1 つのファイル名を入力してください。
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "削除がスケジュールされ、バックグラウンドで実行されます。結果は通知されます。"
       schedule_failed: "プロジェクトを削除できません: %{errors}"
@@ -1898,7 +1907,6 @@ ja:
   label_wiki_start: "開始ページ"
   label_work_package: "ワーク パッケージ"
   label_work_package_attachments: "ワークパッケージの添付ファイル"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "新規カテゴリ"
   label_work_package_category_plural: "ワークパッケージのカテゴリ"
   label_work_package_hierarchy: "ワークパッケージの階層"

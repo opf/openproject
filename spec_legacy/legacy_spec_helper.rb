@@ -34,7 +34,6 @@ require 'fileutils'
 require 'rspec/mocks'
 require 'factory_bot_rails'
 
-require_relative './support/legacy_file_helpers'
 require_relative './support/legacy_assertions'
 
 require 'rspec/rails'

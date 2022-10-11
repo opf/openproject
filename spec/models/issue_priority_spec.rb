@@ -28,8 +28,10 @@
 require 'spec_helper'
 
 describe IssuePriority, type: :model do
+  shared_let(:priority) { create(:priority) }
+  shared_let(:default_priority) { create(:default_priority) }
+
   let(:stubbed_priority) { build_stubbed(:priority) }
-  let(:priority) { create(:priority) }
 
   describe '.ancestors' do
     it 'is an enumeration' do
@@ -88,6 +90,99 @@ describe IssuePriority, type: :model do
 
       expect(new_priority.work_packages.reload)
         .to match_array [work_package3, work_package1]
+    end
+  end
+
+  describe '#in_use?' do
+    context 'with a work package that uses the priority' do
+      let!(:work_package) { create(:work_package, priority:) }
+
+      it 'is true' do
+        expect(priority)
+          .to be_in_use
+      end
+    end
+
+    context 'without a work package that uses the priority' do
+      it 'is false' do
+        expect(priority)
+          .not_to be_in_use
+      end
+    end
+  end
+
+  describe '.default' do
+    it 'returns the default priority' do
+      expect(described_class.default)
+        .to eq default_priority
+    end
+
+    it 'changes if a new default priority is created' do
+      new_default = described_class.create(name: 'New default', is_default: true)
+
+      expect(described_class.default)
+        .to eq new_default
+    end
+
+    it 'does not change if a new non default priority is created' do
+      described_class.create(name: 'New default', is_default: false)
+
+      expect(described_class.default)
+        .to eq default_priority
+    end
+
+    it 'is nil if the default priority looses the default flag' do
+      default_priority.update(is_default: false)
+
+      expect(described_class.default)
+        .to be_nil
+    end
+  end
+
+  describe '#default?' do
+    it 'is true for a default priority' do
+      expect(default_priority)
+        .to be_is_default
+    end
+
+    it 'is false for a non default priority' do
+      expect(priority)
+        .not_to be_is_default
+    end
+
+    it 'changes if a new default priority is created' do
+      described_class.create(name: 'New default', is_default: true)
+
+      expect(default_priority.reload)
+        .not_to be_is_default
+    end
+
+    it 'changes if an existing priority is assigned default' do
+      new_default_priority = create(:priority)
+      new_default_priority.update(is_default: true)
+
+      expect(default_priority.reload)
+        .not_to be_is_default
+    end
+  end
+
+  describe '.destroy' do
+    let!(:work_package) { create(:work_package, priority:) }
+
+    context 'with reassign' do
+      it 'reassigns the work packages' do
+        priority.destroy(default_priority)
+
+        expect(WorkPackage.where(priority: default_priority))
+          .to eq [work_package]
+      end
+    end
+
+    context 'without reassign' do
+      it 'raises an error as it is in use' do
+        expect { priority.destroy }
+          .to raise_error RuntimeError
+      end
     end
   end
 end

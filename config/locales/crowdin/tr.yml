@@ -210,6 +210,15 @@ tr:
     ignore_filenames: >
       Gelen postalar için ekleri işlerken yok sayılacak adların bir listesini belirtin (örneğin, imzalar veya simgeler). Her satıra bir dosya adı girin.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Silme planlandı ve arka planda gerçekleştirilir. Sonuçtan haberdar edileceksiniz."
       schedule_failed: "Proje silinemiyor: %{errors}"
@@ -1919,7 +1928,6 @@ tr:
   label_wiki_start: "Başlangıç sayfası"
   label_work_package: "İş paketi"
   label_work_package_attachments: "İş paketi ekleri"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Yeni kategori"
   label_work_package_category_plural: "İş paketi kategorileri"
   label_work_package_hierarchy: "İş paketi hiyerarşisi"

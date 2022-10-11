@@ -210,6 +210,15 @@ zh-TW:
     ignore_filenames: >
       請列出從郵箱下載文檔時需要忽視的的名稱（比如：簽名或頭像）。請把檔案名稱分別列入每個各一行。
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "專案無法刪除: %{errors}"
@@ -1902,7 +1911,6 @@ zh-TW:
   label_wiki_start: "開始頁面"
   label_work_package: "工作項目"
   label_work_package_attachments: "工作項目附件"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "新增類別"
   label_work_package_category_plural: "工作項目類別"
   label_work_package_hierarchy: "工作包層次結構"

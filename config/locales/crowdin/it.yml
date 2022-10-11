@@ -207,6 +207,15 @@ it:
     ignore_filenames: >
       Specifica un elenco di nomi da ignorare durante l'elaborazione di allegati per posta in arrivo (ad esempio firme o icone). Immettere un nome file per riga.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "L'eliminazione è stata programmata e verrà eseguita in background. Verrai avvisato del risultato."
       schedule_failed: "Il progetto non può essere eliminato: %{errors}"
@@ -1916,7 +1925,6 @@ it:
   label_wiki_start: "Pagina iniziale"
   label_work_package: "Macro-attività"
   label_work_package_attachments: "Allegati macro-attività"
-  label_work_package_file_link_plural: "Collegamenti file macro-attività"
   label_work_package_category_new: "Nuova categoria"
   label_work_package_category_plural: "Categorie della macro-attività"
   label_work_package_hierarchy: "Gerarchia Macro-attività"

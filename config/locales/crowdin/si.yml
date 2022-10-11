@@ -210,6 +210,15 @@ si:
     ignore_filenames: >
       ලැබෙන මේල් සඳහා ඇමුණුම් සැකසීමේදී නොසලකා හැරීමට නම් ලැයිස්තුවක් සඳහන් කරන්න (උදා: අත්සන් හෝ අයිකන). එක් පේළියකට එක් ගොනු නාමයක් ඇතුළත් කරන්න.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "ව්යාපෘතිය මකා දැමිය නොහැක: %{errors}"
@@ -1919,7 +1928,6 @@ si:
   label_wiki_start: "ආරම්භක පිටුව"
   label_work_package: "වැඩ පැකේජය"
   label_work_package_attachments: "වැඩ පැකේජ ඇමුණුම්"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "නව ප්රවර්ගය"
   label_work_package_category_plural: "වැඩ පැකේජ කාණ්ඩ"
   label_work_package_hierarchy: "වැඩ පැකේජය ධූරාවලිය"

@@ -210,6 +210,15 @@ sv:
     ignore_filenames: >
       Specificera en lista med namn att ignorera när bilagor för inkommande e-post bearbetas (t. ex. signaturer och ikoner). Ange ett filnamn per rad.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Projektet kan inte tas bort: %{errors}"
@@ -1918,7 +1927,6 @@ sv:
   label_wiki_start: "Startsida"
   label_work_package: "Arbetspaket"
   label_work_package_attachments: "Bilagor till arbetspaket"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Ny kategori"
   label_work_package_category_plural: "Arbetspaketkategorier"
   label_work_package_hierarchy: "Arbetspaketshierarki"

@@ -209,6 +209,15 @@ sl:
     ignore_filenames: >
       Določite seznam imen, ki jih ne upoštevate pri obdelavi prilog za dohodne pošte (npr. podpise ali ikone). Vnesite eno ime datoteke v vrstico.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Izbris je predviden in se izvaja v ozadju. Obveščeni boste o rezultatih."
       schedule_failed: "Projekta ni mogoče izbrisati: %{errors}"
@@ -1950,7 +1959,6 @@ sl:
   label_wiki_start: "Začetna stran"
   label_work_package: "Zahtevek"
   label_work_package_attachments: "Priloge delovnega paketa"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Nova kategorija"
   label_work_package_category_plural: "Kategorije delovnih paketov"
   label_work_package_hierarchy: "Hierarhija delovnega paketa"
