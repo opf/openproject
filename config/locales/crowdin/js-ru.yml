@@ -550,6 +550,7 @@ ru:
         all: 'Bсе'
         all_title: 'Показать все'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: 'и еще 1'
           few: 'и %{count} других'

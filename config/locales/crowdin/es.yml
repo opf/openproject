@@ -209,13 +209,13 @@ es:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
-      overviews: 'Project overview'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      members: 'Miembros del proyecto'
+      overviews: 'Visión general del proyecto'
+      queries: 'Paquetes de trabajo: vistas guardadas'
+      wiki_page_attachments: 'Páginas wiki: archivos adjuntos'
+      work_package_attachments: 'Paquetes de trabajo: archivos adjuntos'
+      work_package_categories: 'Paquetes de trabajo: categorías'
+      work_package_file_links: 'Paquetes de trabajo: enlaces de archivos'
     delete:
       scheduled: "Se ha programado la eliminación y se ejecutará en segundo plano. Recibirá una notificación con el resultado."
       schedule_failed: "El proyecto no puede ser eliminado: %{errors}"

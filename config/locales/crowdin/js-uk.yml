@@ -551,6 +551,7 @@ uk:
         all: 'Всі'
         all_title: 'Показати всі'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: 'і ще 1'
           few: 'і ще %{count}'

@@ -551,6 +551,7 @@ es:
         all: 'Todos'
         all_title: 'Mostrar todos'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: 'y 1 más'
           other: 'y %{count} más'

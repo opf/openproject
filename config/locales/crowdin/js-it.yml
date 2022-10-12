@@ -551,6 +551,7 @@ it:
         all: 'Tutti'
         all_title: 'Mostra tutto'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: 'e 1 altro'
           other: 'e altri %{count}'

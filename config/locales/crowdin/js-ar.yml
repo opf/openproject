@@ -551,6 +551,7 @@ ar:
         all: 'الجميع'
         all_title: 'Show all'
       center:
+        label_actor_and: 'and'
         and_more_users:
           zero: 'and %{count} others'
           one: 'and 1 other'

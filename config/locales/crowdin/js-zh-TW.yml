@@ -550,6 +550,7 @@ zh-TW:
         all: '全部'
         all_title: 'Show all'
       center:
+        label_actor_and: 'and'
         and_more_users:
           other: 'and %{count} others'
         no_results:

@@ -211,13 +211,13 @@ ru:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
-      overviews: 'Project overview'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      members: 'Участники проекта'
+      overviews: 'Обзор проекта'
+      queries: 'Пакеты работ: сохраненные виды'
+      wiki_page_attachments: 'Вики-страницы: вложения'
+      work_package_attachments: 'Пакеты работ: вложения'
+      work_package_categories: 'Пакеты работ: категории'
+      work_package_file_links: 'Пакеты работ: ссылки на файлы'
     delete:
       scheduled: "Удаление было запланировано и исполнено в фоновом режиме. О результатах вы будете уведомлены."
       schedule_failed: "Проект удален быть не может: %{errors}"

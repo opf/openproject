@@ -551,6 +551,7 @@ hu:
         all: 'Mind'
         all_title: 'Show all'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: "és 1 másik\n"
           other: 'és %{count} egyéb'

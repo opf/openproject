@@ -551,6 +551,7 @@ ne:
         all: 'All'
         all_title: 'Show all'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: 'and 1 other'
           other: 'and %{count} others'

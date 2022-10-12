@@ -551,6 +551,7 @@ pl:
         all: 'Wszystko'
         all_title: 'Pokaż wszystkie'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: 'i 1 inny'
           few: 'i %{count} inne'
@@ -586,8 +587,8 @@ pl:
           mentioned:
             title: '@wzmianka o mnie'
             description: 'Otrzymuj powiadomienie za każdym razem, gdy pojawi się o tobie wzmianka gdziekolwiek'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
+          assignee: 'Przypisana osoba'
+          responsible: 'Osoba odpowiedzialna'
           watched: 'Aktualizacje obserwowanych pozycji'
           work_package_commented: 'Wszystkie nowe komentarze'
           work_package_created: 'Nowe pakiety robocze'
