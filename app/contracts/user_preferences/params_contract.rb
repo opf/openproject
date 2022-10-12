@@ -28,15 +28,16 @@
 
 module UserPreferences
   class ParamsContract < ::ParamsContract
-    AVAILABLE_DATE = [nil, 12, 24, 78, 168].freeze
+    AVAILABLE_DATE = [nil, 0, 24, 72, 168].freeze
+    AVAILABLE_OVERDUE_DATE = [nil, 0, 72, 168].freeze
 
     validate :only_one_global_setting,
              if: -> { notifications.present? }
     validate :global_email_alerts,
              if: -> { notifications.present? }
-    validate :global_setting_start_date_due_date_overdue,
+    validate :global_date_alerts,
              if: -> { notifications.present? }
-    validate :project_notifications_start_date_due_date_overdue,
+    validate :project_date_alerts,
              if: -> { notifications.present? }
 
     protected
@@ -53,31 +54,23 @@ module UserPreferences
       end
     end
 
-    def global_setting_start_date_due_date_overdue
-      return unless stores_all_date_fields?(global_notifications)
-
+    def global_date_alerts
       if any_of_date_fields_fail_validation?(global_notifications)
         errors.add :notification_settings, :wrong_date
       end
     end
 
-    def project_notifications_start_date_due_date_overdue
-      return unless stores_all_date_fields?(project_notifications)
-
+    def project_date_alerts
       if any_of_date_fields_fail_validation?(project_notifications)
         errors.add :notification_settings, :wrong_date
       end
     end
 
-    def stores_all_date_fields?(notifications_type)
-      notifications_type.all? { |setting| setting.key?(:start_date) && setting.key?(:due_date) && setting.key?(:overdue) }
-    end
-
     def any_of_date_fields_fail_validation?(notifications_type)
       notifications_type.any? do |setting|
-        setting.slice(:start_date, :due_date, :overdue).detect do |_, date|
+        setting.slice(:start_date, :due_date).detect do |_, date|
           AVAILABLE_DATE.exclude?(date)
-        end
+        end || AVAILABLE_OVERDUE_DATE.exclude?(setting[:overdue])
       end
     end
 

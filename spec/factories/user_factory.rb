@@ -58,10 +58,11 @@ FactoryBot.define do
       user.pref.save if factory.preferences.present?
 
       if user.notification_settings.empty?
-        date_settings = [NotificationSetting::START_DATE, NotificationSetting::DUE_DATE, NotificationSetting::OVERDUE]
+        date_settings = [NotificationSetting::START_DATE, NotificationSetting::DUE_DATE,
+                         NotificationSetting::OVERDUE].index_with(0)
         all_true = NotificationSetting.all_settings.reject { |setting| date_settings.include?(setting) }.index_with(true)
         user.notification_settings = [
-          create(:notification_setting, user:, **all_true.merge(date_settings.index_with(24)))
+          create(:notification_setting, user:, **all_true.merge(date_settings))
         ]
       end
 

@@ -34,7 +34,7 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
   subject(:generated) { representer.to_json }
 
   let(:project) { build_stubbed :project }
-  let(:notification_setting) { build_stubbed(:notification_setting, overdue: 24, project:) }
+  let(:notification_setting) { build_stubbed(:notification_setting, overdue: 0, project:) }
 
   let(:representer) do
     described_class.create notification_setting,
