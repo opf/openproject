@@ -126,25 +126,25 @@ shared_examples "watcher job" do |action|
 
   it_behaves_like 'notifies the watcher' do
     let(:notification_settings) do
-      [build_stubbed(:notification_setting, mentioned: false, involved: false, watched: true)]
+      [build_stubbed(:notification_setting, mentioned: false, assignee: false, responsible: false, watched: true)]
     end
   end
 
   it_behaves_like 'notifies the watcher' do
     let(:notification_settings) do
-      [build_stubbed(:notification_setting, mentioned: false, involved: false, watched: true)]
+      [build_stubbed(:notification_setting, mentioned: false, assignee: false, responsible: false, watched: true)]
     end
   end
 
   it_behaves_like 'does not notify the watcher' do
     let(:notification_settings) do
-      [build_stubbed(:notification_setting, mentioned: false, involved: true, watched: false)]
+      [build_stubbed(:notification_setting, mentioned: false, assignee: true, responsible: true, watched: false)]
     end
   end
 
   it_behaves_like 'does not notify the watcher' do
     let(:notification_settings) do
-      [build_stubbed(:notification_setting, mentioned: true, involved: false, watched: false)]
+      [build_stubbed(:notification_setting, mentioned: true, assignee: false, responsible: false, watched: false)]
     end
   end
 

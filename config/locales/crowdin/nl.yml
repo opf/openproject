@@ -67,8 +67,8 @@ nl:
       upgrade_to_ee: "Upgrade naar de Enterprise Edition"
       add_token: "Uploadeneen Enterprise Edition ondersteuningstoken"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
-        title: "Delete token"
+        text: "Weet u zeker dat u de huidige gebruikte Enterprise Edition token wilt verwijderen?"
+        title: "Verwijder token"
       replace_token: "Uw huidige ondersteuningstoken vervangen"
       order: "Order Enterprise on premises Edition"
       paste: "Plak uw Enterprise Edition ondersteuningstoken"
@@ -207,6 +207,15 @@ nl:
     ignore_filenames: >
       Geef een lijst van namen op om te negeren bij het verwerken van bijlagen voor inkomende mails (bijv. handtekeningen of iconen). Voer één bestandsnaam per regel in.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project leden'
+      overviews: 'Project overzicht'
+      queries: 'Werkpakketten: opgeslagen weergaven'
+      wiki_page_attachments: 'Wiki pagina''s: bijlagen'
+      work_package_attachments: 'Werkpakketten: bijlagen'
+      work_package_categories: 'Werkpakketten: categorieën'
+      work_package_file_links: 'Werkpakketten: bestandslinks'
     delete:
       scheduled: "Het verwijderen is gepland en wordt op de achtergrond uitgevoerd. U wordt op de hoogte gebracht van het resultaat."
       schedule_failed: "Project kan niet worden verwijderd: %{errors}"
@@ -529,9 +538,9 @@ nl:
         end_deletion: "Einde van de verwijdering"
         ignore_non_working_days: "Negeer niet-werkdagen"
         include_non_working_days:
-          title: 'Working days'
-          false: 'working days only'
-          true: 'include non-working days'
+          title: 'Werkdagen'
+          false: 'Alleen werkdagen'
+          true: 'inclusief niet-werkdagen'
         parent: "Bovenliggend werkpakket"
         parent_issue: "Bovenliggend werkpakket"
         parent_work_package: "Bovenliggend werkpakket"
@@ -731,8 +740,8 @@ nl:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
-              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
+              working_days_are_missing: 'Ten minste één dag van de week moet worden gedefinieerd als een werkdag.'
+              previous_working_day_changes_unprocessed: 'De vorige wijzigingen in de configuratie van de werkdagen zijn nog niet toegepast.'
         time_entry:
           attributes:
             hours:
@@ -1916,7 +1925,6 @@ nl:
   label_wiki_start: "Startpagina"
   label_work_package: "Werkpakket"
   label_work_package_attachments: "Werkpakket bijlagen"
-  label_work_package_file_link_plural: "Werkpakket bestandskoppelingen"
   label_work_package_category_new: "Nieuwe categorie"
   label_work_package_category_plural: "Werkpakket categorieën"
   label_work_package_hierarchy: "Werkpakket hiërarchie"
@@ -1932,7 +1940,7 @@ nl:
   label_workflow: "Werkstroom"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Samenvatting"
-  label_working_days: "Working days"
+  label_working_days: "Werkdagen"
   label_x_closed_work_packages_abbr:
     one: "1 gesloten"
     other: "%{count} gesloten"
@@ -1993,7 +2001,7 @@ nl:
       center: 'Naar meldingscentrum'
       see_in_center: 'Bekijk commentaar in notificatie center'
       settings: 'E-mailinstellingen wijzigen'
-    salutation: 'Hello %{user}'
+    salutation: 'Hallo %{user}'
     work_packages:
       created_at: 'Aangemaakt op %{timestamp} door %{user} '
       login_to_see_all: 'Log in om alle meldingen te zien.'
@@ -2171,7 +2179,7 @@ nl:
           tb: "TB"
   onboarding:
     heading_getting_started: "Krijg een overzicht"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
+    text_getting_started_description: "Krijg een snel overzicht van projectbeheer en teamsamenwerking met OpenProject. U kunt deze video opnieuw starten vanuit het helpmenu."
     welcome: "Welkom bij %{app_title}"
     select_language: "Gelieve uw taal te kiezen"
   permission_add_work_package_notes: "Notities toevoegen"
@@ -2563,7 +2571,7 @@ nl:
   text_access_token_hint: "Toegangstokens kunnen u externe toepassingen toegang verlenen tot bronnen in OpenProject."
   text_analyze: "Verdere analyse: %{subject}"
   text_are_you_sure: "Weet u het zeker?"
-  text_are_you_sure_continue: "Are you sure you want to continue?"
+  text_are_you_sure_continue: "Weet u zeker dat u wilt doorgaan?"
   text_are_you_sure_with_children: "Verwijder werk pakket en alle kinderen daarvan?"
   text_assign_to_project: "Wijs aan project toe"
   text_form_configuration: >
@@ -2912,15 +2920,15 @@ nl:
       title: "Werkpakket verwijderen"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
-    change_button: "Change working days"
+      <b>Definieer de werkdagen van de week</b><br/> Niet-werkdagen worden overgeslagen bij het plannen van werkpakketten en worden uitgesloten bij het berekenen van de duur. Dit kan op werkpakketniveau worden overschreven.
+    change_button: "Wijzig werkdagen"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Veranderen van welke dagen van de week als werkdagen worden beschouwd, kan van invloed zijn op de begin- en einddagen van alle werkpakketten in deze instantie.
     journal_note:
-      changed: _**Working days** changed (%{changes})._
+      changed: _**Werkdagen** veranderd (%{changes})._
       days:
-        working: "%{day} is now working"
-        non_working: "%{day} is now non-working"
+        working: "%{day} werkt nu"
+        non_working: "%{day} is nu niet actief"
   nothing_to_preview: "Niets om te bekijken"
   api_v3:
     attributes:

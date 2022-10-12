@@ -210,6 +210,15 @@ fr:
     ignore_filenames: >
       Spécifiez une liste de noms à ignorer lors du traitement des pièces jointes aux messages entrants (par exemple, signatures ou icônes). Entrez un nom de fichier par ligne.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "La suppression a été planifiée et est effectuée en arrière-plan. Vous serez notifié du résultat."
       schedule_failed: "Le projet ne peut pas être supprimé : %{errors}"
@@ -532,9 +541,9 @@ fr:
         end_deletion: "Fin de la suppression"
         ignore_non_working_days: "Ignorer les jours non ouvrables"
         include_non_working_days:
-          title: 'Journées de travail'
+          title: 'Jours ouvrés'
           false: 'jours ouvrés seulement'
-          true: 'Inclure les jours non travaillés'
+          true: 'Inclure les jours non ouvrés'
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -1919,7 +1928,6 @@ fr:
   label_wiki_start: "Page d'accueil"
   label_work_package: "Lot de travaux"
   label_work_package_attachments: "Pièces jointes du lot de travaux"
-  label_work_package_file_link_plural: "Liens des fichiers du lot de travaux"
   label_work_package_category_new: "Nouvelle catégorie"
   label_work_package_category_plural: "Catégories de Lots de Travaux"
   label_work_package_hierarchy: "Hiérarchie du lot de travaux"

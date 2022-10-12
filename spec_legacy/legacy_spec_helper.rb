@@ -34,7 +34,6 @@ require 'fileutils'
 require 'rspec/mocks'
 require 'factory_bot_rails'
 
-require_relative './support/legacy_file_helpers'
 require_relative './support/legacy_assertions'
 
 require 'rspec/rails'
@@ -52,6 +51,11 @@ RSpec.configure do |config|
   config.use_instantiated_fixtures  = false
 
   config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  # Clear fixtures so that normal specs can run without needing truncation
+  config.after(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end
 

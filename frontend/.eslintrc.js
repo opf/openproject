@@ -96,6 +96,10 @@ module.exports = {
         // Until we do that, `void` is a good way to explicitly mark unhandled promises. 
         "no-void": ["error", { allowAsStatement: true }],
 
+        // Disable no-use for functions and classes
+        "no-use-before-define": ["error", { "functions": false, "classes": false }],
+        "@typescript-eslint/no-use-before-define": ["error", { "functions": false, "classes": false }],
+
         /*
         // Disable use before define, as irrelevant for TS interfaces
         "no-use-before-define": "off",

@@ -550,6 +550,7 @@ pt:
         all: 'Todos'
         all_title: 'Mostrar todas'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: 'e 1 outro'
           other: 'e %{count} outros'
@@ -583,9 +584,8 @@ pt:
           mentioned:
             title: 'Eu sou @mencionado'
             description: 'Receber uma notificação sempre que alguém me mencionar'
-          involved:
-            title: 'Atribuído a mim ou responsável'
-            description: 'Receba notificações para todas as atividades nos pacotes de trabalho atribuídos a mim ou de minha responsabilidade'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
           watched: 'Atualizações em itens observados'
           work_package_commented: 'Todos os novos comentários'
           work_package_created: 'Novos pacotes de trabalho'

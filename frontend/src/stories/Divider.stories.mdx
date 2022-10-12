@@ -1,5 +1,7 @@
 import { Meta, Story, Canvas } from '@storybook/addon-docs';
-import tokens from '../app/spot/styles/tokens/dist/tokens.json';
+
+import { SbDividerSoftExample } from './DividerSoft.example';
+import { SbDividerStrongExample } from './DividerStrong.example';
 
 <Meta title="Components/Divider" />
 
@@ -27,14 +29,20 @@ A divider can be soft or strong. The correct one to use depends on the structure
 
 1 px, Grey-5 (#E0E0E0)
 
-> Example
+<Canvas>
+  <Story name="Soft">
+    {{ component: SbDividerSoftExample }}
+  </Story>
+</Canvas>
 
 **Strong**
 
 1px, Grey-4 (#CCCCCC)
 
+<Canvas>
+  <Story name="Strong">
+    {{ component: SbDividerStrongExample }}
+  </Story>
+</Canvas>
+
 _Example: In the work package details view, the main three-way split (top header, left-side description, right-side split screen) is done using strong dividers, but on the Activity tab, dates are separated with soft ones._
-
-## Margins and Spacing
-
-The divider itself does inherently have margin and spacing. They can however be given margins within containing elements (like a modal) if necessary.

@@ -551,6 +551,7 @@ hu:
         all: 'Mind'
         all_title: 'Show all'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: "és 1 másik\n"
           other: 'és %{count} egyéb'
@@ -584,9 +585,8 @@ hu:
           mentioned:
             title: 'Megemlítettek'
             description: 'Értesítés fogadása minden alkalommal, amikor bárki bárhol megemlít'
-          involved:
-            title: 'Hozzám vagy a felelőshöz rendelve'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
           watched: 'Updates on watched items'
           work_package_commented: 'Új megjegyzések'
           work_package_created: 'Új munkacsomagok'

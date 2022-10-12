@@ -198,6 +198,15 @@ lol:
     ignore_filenames: >
       crwdns494927:0crwdne494927:0
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'crwdns835410:0crwdne835410:0'
+      overviews: 'crwdns835412:0crwdne835412:0'
+      queries: 'crwdns835414:0crwdne835414:0'
+      wiki_page_attachments: 'crwdns835416:0crwdne835416:0'
+      work_package_attachments: 'crwdns835418:0crwdne835418:0'
+      work_package_categories: 'crwdns835420:0crwdne835420:0'
+      work_package_file_links: 'crwdns835422:0crwdne835422:0'
     delete:
       scheduled: "crwdns494929:0crwdne494929:0"
       schedule_failed: "crwdns494931:0%{errors}crwdne494931:0"
@@ -1896,7 +1905,6 @@ lol:
   label_wiki_start: "crwdns497855:0crwdne497855:0"
   label_work_package: "crwdns497857:0crwdne497857:0"
   label_work_package_attachments: "crwdns497859:0crwdne497859:0"
-  label_work_package_file_link_plural: "crwdns830182:0crwdne830182:0"
   label_work_package_category_new: "crwdns497861:0crwdne497861:0"
   label_work_package_category_plural: "crwdns497863:0crwdne497863:0"
   label_work_package_hierarchy: "crwdns497865:0crwdne497865:0"

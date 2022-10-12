@@ -102,18 +102,4 @@ describe Redmine::I18n do
       end.not_to raise_error
     end
   end
-
-  it 'fallbacks' do
-    ::I18n.backend.store_translations(:en, untranslated: 'Untranslated string')
-    ::I18n.locale = 'en'
-    assert_equal 'Untranslated string', I18n.t(:untranslated)
-    ::I18n.locale = 'de'
-    assert_equal 'Untranslated string', I18n.t(:untranslated)
-
-    ::I18n.backend.store_translations(:de, untranslated: 'Keine Übersetzung')
-    ::I18n.locale = 'en'
-    assert_equal 'Untranslated string', I18n.t(:untranslated)
-    ::I18n.locale = 'de'
-    assert_equal 'Keine Übersetzung', I18n.t(:untranslated)
-  end
 end

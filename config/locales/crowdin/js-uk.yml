@@ -551,6 +551,7 @@ uk:
         all: 'Всі'
         all_title: 'Показати всі'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: 'і ще 1'
           few: 'і ще %{count}'
@@ -586,9 +587,8 @@ uk:
           mentioned:
             title: 'Мене @згадано'
             description: 'Отримувати сповіщення щоразу, коли хтось згадує мене де завгодно'
-          involved:
-            title: 'Призначено мені або відповідальній особі'
-            description: 'Отримувати сповіщення про всі дії щодо пакетів робіт, які я виконую або за які несу відповідальність'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
           watched: 'Оновлення щодо відстежуваних елементів'
           work_package_commented: 'Усі нові коментарі'
           work_package_created: 'Нові пакети робіт'

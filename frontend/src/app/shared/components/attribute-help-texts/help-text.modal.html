@@ -18,6 +18,7 @@
     ></div>
 
     <attachments
+      *ngIf="helpText && helpText.attachments.elements.length > 0"
       [resource]="helpText"
       data-allow-uploading="false"
     ></attachments>

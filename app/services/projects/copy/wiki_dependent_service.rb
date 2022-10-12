@@ -28,6 +28,10 @@
 
 module Projects::Copy
   class WikiDependentService < Dependency
+    include AttachmentCopier
+
+    attachment_dependent_service ::Projects::Copy::WikiPageAttachmentsDependentService
+
     def self.human_name
       I18n.t(:label_wiki_page_plural)
     end
@@ -74,7 +78,8 @@ module Projects::Copy
                      .new(user:, model: source_page, contract_class: WikiPages::CopyContract)
                      .call(wiki: target.wiki,
                            parent_id: new_parent_id,
-                           send_notifications: ActionMailer::Base.perform_deliveries)
+                           send_notifications: ActionMailer::Base.perform_deliveries,
+                           copy_attachments: copy_attachments?)
 
       if service_call.success?
         service_call.result

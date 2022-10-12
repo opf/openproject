@@ -29,7 +29,7 @@
 module Projects::Copy
   class FileLinksDependentService < ::Copy::Dependency
     def self.human_name
-      I18n.t(:label_work_package_file_link_plural)
+      I18n.t(:'projects.copy.work_package_file_links')
     end
 
     def source_count

@@ -209,6 +209,15 @@ ru:
     ignore_filenames: >
       Укажите список имен для игнорирования при обработке вложений для входящих почтовых сообщений (например, подписей или значков). Введите одно имя файла в строке.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Участники проекта'
+      overviews: 'Обзор проекта'
+      queries: 'Пакеты работ: сохраненные виды'
+      wiki_page_attachments: 'Вики-страницы: вложения'
+      work_package_attachments: 'Пакеты работ: вложения'
+      work_package_categories: 'Пакеты работ: категории'
+      work_package_file_links: 'Пакеты работ: ссылки на файлы'
     delete:
       scheduled: "Удаление было запланировано и исполнено в фоновом режиме. О результатах вы будете уведомлены."
       schedule_failed: "Проект удален быть не может: %{errors}"
@@ -735,7 +744,7 @@ ru:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              working_days_are_missing: 'По крайней мере один день недели должен быть определен как рабочий.'
               previous_working_day_changes_unprocessed: 'Предыдущие изменения конфигурации рабочих дней еще не были применены.'
         time_entry:
           attributes:
@@ -1952,7 +1961,6 @@ ru:
   label_wiki_start: "Начальная страница"
   label_work_package: "Пакет работ"
   label_work_package_attachments: "Вложения пакета работ"
-  label_work_package_file_link_plural: "Ссылки на файл пакета работ"
   label_work_package_category_new: "Новая категория"
   label_work_package_category_plural: "Категории пакета работ"
   label_work_package_hierarchy: "Иерархия пакета работ"
@@ -2954,7 +2962,7 @@ ru:
       title: "Удалить пакет работ"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Определить рабочие дни недели</b><br/> Нерабочие дни пропускаются при планировании пакетов работ и исключаются при расчете продолжительности. Это можно переопределить на уровне рабочих пакетов.
     change_button: "Изменить рабочие дни"
     warning: >
       Изменение дней недели, считающихся рабочими днями, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае.

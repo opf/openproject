@@ -551,6 +551,7 @@ lt:
         all: 'Visi'
         all_title: 'Show all'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: 'ir dar 1'
           few: 'ir dar %{count}'
@@ -586,9 +587,8 @@ lt:
           mentioned:
             title: 'Aš @paminėtas'
             description: 'Gauti pranešimą kiekvieną kartą, kai kas nors mane bet kur pamini'
-          involved:
-            title: 'Priskirta man arba atsakingas'
-            description: 'Gauti pranešimus apie visus veiksmus su darbų paketais, kuriuose aš arba paskirtasis, arba atsakingas'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
           watched: 'Stebimų elementų pakeitimai'
           work_package_commented: 'Visi nauji komentarai'
           work_package_created: 'Nauji darbų paketai'

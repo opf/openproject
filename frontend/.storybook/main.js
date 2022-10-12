@@ -19,7 +19,7 @@ module.exports = {
   },
   features: {
     previewMdx2: true,
-    modernInlineRender: true,
+    // modernInlineRender: true,
   },
   staticDirs: [
     { from: '../src/stories/assets', to: '/assets' },

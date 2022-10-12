@@ -22,6 +22,7 @@ import {
   FormGroupDirective,
 } from '@angular/forms';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'op-reminder-settings-daily-time',
@@ -242,9 +243,10 @@ export class ReminderSettingsDailyTimeComponent implements OnInit {
   }
 
   private static dateForHour(hour:number) {
-    const date = new Date();
-    date.setTime(1000 * 60 * 60 * (hour - 1));
+    const currentTime = new Date();
+    currentTime.setTime(1000 * 60 * 60 * (hour - 1));
+    const convertTimeObject = new Date(moment(currentTime).utc().hours(hour).format('YYYY-MM-DDTHH:mm:ss'));
 
-    return date;
+    return convertTimeObject;
   }
 }

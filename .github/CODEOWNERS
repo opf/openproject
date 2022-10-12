@@ -1,14 +1,3 @@
-# Frontend rules
-*.js @opf/frontend
-*.ts @opf/frontend
-
-# Backend rules
-/app/ @opf/backend
-/config/ @opf/backend
-/lib/ @opf/backend
-/lib_static/ @opf/backend
-/modules/ @opf/backend
-
 # docs rules
 /docs/ @opf/doc-writers
 
@@ -16,4 +5,4 @@
 /docs/development @opf/tech-writers 
 /docs/installation-and-operations @opf/tech-writers 
 /docs/system-admin-guide @opf/tech-writers 
-/docs/api @opf/tech-writers @opf/backend
+/docs/api @opf/tech-writers

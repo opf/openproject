@@ -210,6 +210,15 @@ eo:
     ignore_filenames: >
       Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "La projekto ne povas esti forigita: %{errors}"
@@ -1919,7 +1928,6 @@ eo:
   label_wiki_start: "Start page"
   label_work_package: "Laborpakaĵo"
   label_work_package_attachments: "Work package attachments"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "New category"
   label_work_package_category_plural: "Work package categories"
   label_work_package_hierarchy: "Work package hierarchy"

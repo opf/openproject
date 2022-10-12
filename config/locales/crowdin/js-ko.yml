@@ -551,6 +551,7 @@ ko:
         all: '모두'
         all_title: '모두 표시'
       center:
+        label_actor_and: 'and'
         and_more_users:
           other: '외 %{count}건'
         no_results:
@@ -583,9 +584,8 @@ ko:
           mentioned:
             title: '내가 @멘션되었습니다'
             description: '어디에서든 누군가가 나를 멘션할 때마다 알림 받기'
-          involved:
-            title: '내게 할당되거나 내가 담당함'
-            description: '내게 할당되거나 내가 담당하는 작업 패키지의 모든 활동에 대한 알림을 받습니다.'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
           watched: '지켜보는 항목에 대한 업데이트'
           work_package_commented: '모든 새로운 코멘트'
           work_package_created: '새 작업 패키지'

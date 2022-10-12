@@ -209,6 +209,15 @@ hu:
     ignore_filenames: >
       Adja meg azoknak a neveknek a listáját, amelyeket figyelmen kívül kell hagyni a bejövő levelek mellékleteinek feldolgozásakor (pl. Aláírások vagy ikonok). Írjon be egy fájlnevet soronként.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "A törlés ütemezésre került, és a háttérben történik. Értesítést kap az eredményről.\n"
       schedule_failed: "A projektet nem lehet törölni: %{errors}"
@@ -1916,7 +1925,6 @@ hu:
   label_wiki_start: "Kezdő oldal"
   label_work_package: "Feladatcsoport"
   label_work_package_attachments: "Munkacsomag mellékletek"
-  label_work_package_file_link_plural: "Munkacsomag fájlhivatkozások"
   label_work_package_category_new: "Új kategória"
   label_work_package_category_plural: "Munkacsomag kategóriák"
   label_work_package_hierarchy: "Feladatcsoport hierarchia"

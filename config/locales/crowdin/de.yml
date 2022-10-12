@@ -207,6 +207,15 @@ de:
     ignore_filenames: >
       Geben Sie eine Liste von Dateinamen an, die beim Verarbeiten von Anhängen für eingehende Mails (z.B. Signaturen oder Symbole) ignoriert werden sollen. Geben Sie einen Dateinamen pro Zeile ein.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Die Löschung wurde geplant und wird im Hintergrund durchgeführt. Sie werden über das Ergebnis informiert."
       schedule_failed: "Projekt kann nicht gelöscht werden: %{errors}"
@@ -1914,7 +1923,6 @@ de:
   label_wiki_start: "Hauptseite"
   label_work_package: "Arbeitspaket"
   label_work_package_attachments: "Anhänge des Arbeitspakets"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Neue Kategorie"
   label_work_package_category_plural: "Arbeitspaket-Kategorien"
   label_work_package_hierarchy: "Arbeitspakethierarchie"
@@ -1930,7 +1938,7 @@ de:
   label_workflow: "Workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Zusammenfassung"
-  label_working_days: "Working days"
+  label_working_days: "Werktage"
   label_x_closed_work_packages_abbr:
     one: "1 geschlossen"
     other: "%{count} geschlossen"

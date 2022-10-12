@@ -551,6 +551,7 @@ ca:
         all: 'Totes'
         all_title: 'Mostrar tots'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: ' i 1 altre'
           other: ' i %{count} altres'
@@ -584,9 +585,8 @@ ca:
           mentioned:
             title: 'He estat @mencionat'
             description: 'Rep una notificació cada vegada que algú em menciona a qualsevol lloc'
-          involved:
-            title: 'Assignat a mi o responsable'
-            description: 'Rep notificacions per a totes les activitats en paquets de treball pels quals soc assignat o responsable.'
+          assignee: 'Assignat a'
+          responsible: 'Responsable'
           watched: 'Actualitzacions en elements observats'
           work_package_commented: 'Tots els nous comentaris'
           work_package_created: 'Paquets de treball nou'

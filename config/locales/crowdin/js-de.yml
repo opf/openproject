@@ -550,6 +550,7 @@ de:
         all: 'Alle'
         all_title: 'Show all'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: 'und ein weiterer'
           other: 'und %{count} weitere'
@@ -583,9 +584,8 @@ de:
           mentioned:
             title: 'Wenn ich @erwähnt werde'
             description: 'Jedes Mal eine Benachrichtigung erhalten, wenn ich irgendwo erwähnt werde'
-          involved:
-            title: 'Mir zugewiesen oder verantwortlich'
-            description: 'Benachrichtigungen für Aktivitäten auf Arbeitspaketen erhalten, wenn ich zugewiesen oder verantwortlich bin'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
           watched: 'Aktualisierungen auf beobachteten Objekten'
           work_package_commented: 'Alle neuen Kommentare'
           work_package_created: 'Neue Arbeitspakete'

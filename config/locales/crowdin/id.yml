@@ -207,6 +207,15 @@ id:
     ignore_filenames: >
       Tentukan daftar nama yang harus diabaikan ketika memproses lampiran untuk surat masuk (mis., Tanda tangan atau ikon). Masukkan satu nama file per baris.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Proyek tidak dapat dihapus: %{errors}"
@@ -1899,7 +1908,6 @@ id:
   label_wiki_start: "Homepage"
   label_work_package: "Paket-Penugasan"
   label_work_package_attachments: "Lampiran paket kerja"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Kategori Baru"
   label_work_package_category_plural: "Kategori Paket-Penugasan"
   label_work_package_hierarchy: "Work package hierarchy"

@@ -207,6 +207,15 @@ lt:
     ignore_filenames: >
       Nurodykite sąrašą, kurį reikia ignoruoti apdorojant įeinančių laiškų priedus (pvz. parašus ar piešinius). Įveskite po vieną failo pavadinimą eilutėje.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Naikinimas suplanuotas ir vykdomas fone. Jums bus pranešta apie rezultatą."
       schedule_failed: "Projekto negalima ištrinti: %{errors}"
@@ -1950,7 +1959,6 @@ lt:
   label_wiki_start: "Pradžios puslapis"
   label_work_package: "Darbų paketas"
   label_work_package_attachments: "Darbų paketo prisegti failai"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Nauja kategorija"
   label_work_package_category_plural: "Darbų paketo kategorijos"
   label_work_package_hierarchy: "Darbų paketo hierarchija"

@@ -52,7 +52,8 @@ shared_context 'with a mentioned work package being updated again' do
            notification_settings: [
              build(:notification_setting,
                    mentioned: true,
-                   involved: true)
+                   assignee: true,
+                   responsible: true)
            ],
            member_in_project: project,
            member_through_role: role

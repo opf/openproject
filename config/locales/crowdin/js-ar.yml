@@ -551,6 +551,7 @@ ar:
         all: 'الجميع'
         all_title: 'Show all'
       center:
+        label_actor_and: 'and'
         and_more_users:
           zero: 'and %{count} others'
           one: 'and 1 other'
@@ -588,9 +589,8 @@ ar:
           mentioned:
             title: 'I am @mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
           watched: 'Updates on watched items'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'

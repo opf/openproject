@@ -207,6 +207,15 @@ ca:
     ignore_filenames: >
       Especifica una llista de noms per a ignorar quan es processin adjuncions per a correus electrònics entrants (p.e. signatures o icones). Introduïu un nom de fitxer per línia.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Membres del projecte'
+      overviews: 'Visió general del projecte'
+      queries: 'Paquets de treball: vistes guardades'
+      wiki_page_attachments: 'Pàgines wiki: fitxers adjunts'
+      work_package_attachments: 'Paquets de treball: fitxers adjunts'
+      work_package_categories: 'Paquets de treball: categories'
+      work_package_file_links: 'Paquets de treball: enllaços de fitxers'
     delete:
       scheduled: "L'eliminació s'ha planificat i s'efectuarà de fons. Sereu notificats del resultat."
       schedule_failed: "El projecte no es pot eliminar: %{errors}"
@@ -1915,7 +1924,6 @@ ca:
   label_wiki_start: "Pàgina d'inici"
   label_work_package: "Paquet de treball"
   label_work_package_attachments: "Fitxers adjunts del paquet de treball"
-  label_work_package_file_link_plural: "Enllaços de fitxer del paquet de treball"
   label_work_package_category_new: "Nova categoria"
   label_work_package_category_plural: "Categories de paquet de treball"
   label_work_package_hierarchy: "Jerarquia del paquet de treball"
