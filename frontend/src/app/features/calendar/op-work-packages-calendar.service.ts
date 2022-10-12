@@ -420,7 +420,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   updateDates(resizeInfo:EventResizeDoneArg|EventDropArg|EventReceiveArg, dragged?:boolean):ResourceChangeset<WorkPackageResource> {
     const workPackage = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
     const changeset = this.halEditing.edit(workPackage);
-    if (!workPackage.ignoreNonWorkingDays && dragged) {
+    if (!workPackage.ignoreNonWorkingDays && workPackage.duration && dragged) {
       changeset.setValue('duration', workPackage.duration);
     } else {
       const due = moment(resizeInfo.event.endStr)
