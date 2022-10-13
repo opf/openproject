@@ -34,6 +34,45 @@ module API
 
         NotificationSetting.all_settings.each do |setting|
           property setting
+
+          property :start_date,
+                   exec_context: :decorator,
+                   getter: ->(*) do
+                     datetime_formatter.format_duration_from_hours(represented.overdue,
+                                                                   allow_nil: true)
+                   end
+
+          property :due_date,
+                   exec_context: :decorator,
+                   getter: ->(*) do
+                     datetime_formatter.format_duration_from_hours(represented.overdue,
+                                                                   allow_nil: true)
+                   end
+
+          property :overdue,
+                   exec_context: :decorator,
+                   getter: ->(*) do
+                     datetime_formatter.format_duration_from_hours(represented.overdue,
+                                                                   allow_nil: true)
+                   end
+
+          def start_date=(value)
+            represented.start_date = datetime_formatter.parse_duration_to_days(value,
+                                                                               'start_date',
+                                                                               allow_nil: true)
+          end
+
+          def due_date=(value)
+            represented.due_date = datetime_formatter.parse_duration_to_days(value,
+                                                                             'due_date',
+                                                                             allow_nil: true)
+          end
+
+          def overdue=(value)
+            represented.overdue = datetime_formatter.parse_duration_to_days(value,
+                                                                            'startDate',
+                                                                            allow_nil: true)
+          end
         end
 
         associated_resource :project,
