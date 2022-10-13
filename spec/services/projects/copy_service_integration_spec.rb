@@ -744,6 +744,34 @@ describe Projects::CopyService, 'integration', type: :model do
           expect(cv.map(&:formatted_value)).to contain_exactly('A', 'B')
         end
       end
+
+      context 'with disabled work package custom field' do
+        it 'is still disabled in the copy' do
+          custom_field = create(:text_wp_custom_field)
+          create(:type_task,
+                 projects: [source],
+                 custom_fields: [custom_field])
+
+          expect(subject).to be_success
+
+          expect(source.work_package_custom_fields).to eq([])
+          expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
+        end
+      end
+
+      context 'with enabled work package custom field' do
+        it 'is still enabled in the copy' do
+          custom_field = create(:text_wp_custom_field, projects: [source])
+          create(:type_task,
+                 projects: [source],
+                 custom_fields: [custom_field])
+
+          expect(subject).to be_success
+
+          expect(source.work_package_custom_fields).to eq([custom_field])
+          expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
+        end
+      end
     end
   end
 end
