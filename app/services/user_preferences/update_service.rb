@@ -93,6 +93,9 @@ module UserPreferences
                         assignee
                         responsible
                         mentioned
+                        start_date
+                        due_date
+                        overdue
                         work_package_commented
                         work_package_created
                         work_package_processed
