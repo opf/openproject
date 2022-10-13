@@ -15,7 +15,7 @@ it:
       today: 'Oggi'
       drag_here_to_remove: 'Trascina qui per rimuovere l''assegnatario e le date di inizio e fine.'
       cannot_drag_here: 'Impossibile rimuovere la macro-attività a causa di permessi o restrizioni di modifica.'
-      cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'
+      cannot_drag_to_non_working_day: 'Questa macro-attività non può iniziare/finire in un giorno non lavorativo.'
       quick_add:
         empty_state: 'Utilizzare il campo di ricerca per trovare macro-attività e trascinarle nel planner per assegnarle a qualcuno e definire le date di inizio e di fine.'
         search_placeholder: 'Cerca...'
