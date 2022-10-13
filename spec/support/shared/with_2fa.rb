@@ -26,30 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-
-describe AuthSourceSSO,
-         skip_2fa_stage: true, # Prevent redirects to 2FA stage
-         type: :rails_request do
-  let(:sso_config) do
-    {
-      header: "X-Remote-User",
-      optional: true
-    }
-  end
-
-  let(:auth_source) { create(:auth_source) }
-  let(:user) { create(:user, login: 'bob', auth_source:) }
-
-  before do
-    allow(OpenProject::Configuration)
-      .to receive(:auth_source_sso)
-            .and_return(sso_config)
-
-    get '/projects?foo=bar', headers: { 'X-Remote-User' => user.login }
-  end
-
-  it 'redirects the user to that URL' do
-    expect(response).to redirect_to '/projects?foo=bar'
+RSpec.configure do |config|
+  config.before do |example|
+    if example.metadata[:skip_2fa_stage]
+      allow(::OpenProject::TwoFactorAuthentication::TokenStrategyManager)
+        .to receive(:enabled?)
+        .and_return false
+    end
   end
 end

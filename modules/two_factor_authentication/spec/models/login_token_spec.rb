@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe TwoFactorAuthentication::LoginToken, with_2fa_ee: true do
+describe TwoFactorAuthentication::LoginToken do
   before do
     @user = build_stubbed(:user, login: "john", password: "doe")
     allow(@user).to receive(:new_record?).and_return(false)

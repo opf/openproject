@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'timecop'
 
-describe ::TwoFactorAuthentication::Device::Totp, with_2fa_ee: true, type: :model do
+describe ::TwoFactorAuthentication::Device::Totp, type: :model do
   let(:user) { create :user }
   let(:channel) { :totp }
 
