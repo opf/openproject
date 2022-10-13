@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +27,9 @@
 #++
 
 module TextFormattingHelper
+  include OpenProject::TextFormatting
   extend Forwardable
+
   def_delegators :current_formatting_helper,
                  :wikitoolbar_for
 
@@ -74,6 +74,29 @@ module TextFormattingHelper
       paths.send(object.class.name.underscore.singularize, object.id)
     else
       project_preview_context(object, project)
+    end
+  end
+
+  def truncate_formatted_text(text, length: 120)
+    # rubocop:disable Rails/OutputSafety
+    stripped_text = strip_tags(format_text(text.to_s)).html_safe
+
+    if length
+      truncate_multiline(stripped_text)
+    else
+      stripped_text
+    end
+      .strip
+      .gsub(/[\r\n]+/, '<br />')
+      .html_safe
+    # rubocop:enable Rails/OutputSafety
+  end
+
+  def truncate_multiline(string)
+    if string.to_s =~ /\A(.{120}).*?$/m
+      "#{$1}..."
+    else
+      string
     end
   end
 end

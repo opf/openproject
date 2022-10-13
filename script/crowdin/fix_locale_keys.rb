@@ -18,7 +18,7 @@ Dir.glob('**/config/locales/crowdin/*.yml').each do |crowdin_file|
   end
 
   # Read the language code from the YML index
-  if language_key.nil? || language_key.length > 5
+  if language_key.nil?
     raise "Failed to detect language from #{crowdin_file}"
   end
 
@@ -33,5 +33,8 @@ Dir.glob('**/config/locales/crowdin/*.yml').each do |crowdin_file|
   next if crowdin_file == new_filepath
 
   puts "Renaming #{crowdin_file} to #{new_filepath}"
-  FileUtils.mv crowdin_file, new_filepath
+  FileUtils.mv crowdin_file,
+               new_filepath,
+               force: true,
+               verbose: true
 end

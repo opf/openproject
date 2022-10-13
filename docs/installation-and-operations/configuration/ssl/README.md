@@ -14,7 +14,7 @@ SSL configuration can be applied on the first installation, or at any time by re
 sudo openproject reconfigure
 ```
 
-You will be prompted with the same dialogs than on the [initial configuration](../../installation/packaged/#step-3-apache2-web-server) guide. This assumes that you select the **install** option when the **server/autoinstall** dialog appears, and that you have certificate and key files available on your server at a path you know.
+You will be prompted with the same dialogs than on the [initial configuration](../../installation/packaged/#step-3-apache2-web-server-and-ssl-termination) guide. This assumes that you select the **install** option when the **server/autoinstall** dialog appears, and that you have certificate and key files available on your server at a path you know.
 
 ## Docker-based installation
 
@@ -56,7 +56,6 @@ This requires your OpenProject server to be reachable using a domain name (e.g. 
 
         sudo certbot renew --dry-run
 
-<div class="alert alert-warning" role="alert">
 
 ## External SSL termination
 
@@ -66,20 +65,20 @@ Please ensure that if you're proxying to the openproject server, you set the HOS
 
 On your outer proxying server, set these commands:
 
-- In Apache2, set the `ProxyPreserveHost On`directive 
+- In Apache2, set the `ProxyPreserveHost On` directive 
 
 - In NginX, use the following value: `proxy_set_header X-Forwarded-Host $host:$server_port;`
 
   
 
-If you're terminating SSL on the outer server, you need to set the `X-Forwarded-Proto https`header to let OpenProject know that the request is HTTPS, even though its been terminated earlier in the request on the outer server.
+If you're terminating SSL on the outer server, you need to set the `X-Forwarded-Proto https` header to let OpenProject know that the request is HTTPS, even though it has been terminated earlier in the request on the outer server.
 
 - In Apache2, use `RequestHeader set "X-Forwarded-Proto" https`
 - In Nginx, use `proxy_set_header X-Forwarded-Proto https;`
 
 
 
-Finally, to let OpenProject know that it should create links with 'https' when no request is available (for example, when sending emails), you need to set the Protocol setting of OpenProject to `https`. You will find this setting on your system settings or via the rails console with `Setting.protocol = 'https'`
+Finally, to let OpenProject know that it should create links with 'https' when no request is available (for example, when sending emails), you need to set the Protocol setting of OpenProject to `https`. You can set this configuration by setting the ENV `OPENPROJECT_HTTPS=true`.
 
 
 _<sup>1</sup> In the packaged installation this means you selected "no" when asked for SSL in the configuration wizard but at the same time take care of SSL termination elsewhere. This can be a manual Apache setup on the same server (not recommended) or an external server, for instance._

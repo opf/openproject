@@ -61,7 +61,7 @@ module Members
         row: self,
         params: controller.params,
         roles: table.available_roles,
-        context: { controller: controller }
+        context: { controller: }
       )
     end
 

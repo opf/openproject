@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,15 +42,10 @@ module Projects
         ::Projects::Copy::ForumsDependentService,
         ::Projects::Copy::QueriesDependentService,
         ::Projects::Copy::BoardsDependentService,
-        ::Projects::Copy::OverviewDependentService
+        ::Projects::Copy::OverviewDependentService,
+        ::Projects::Copy::StoragesDependentService,
+        ::Projects::Copy::FileLinksDependentService
       ]
-    end
-
-    ##
-    # In case a rollback is needed,
-    # destroy the copied project again.
-    def rollback
-      state.project&.destroy
     end
 
     protected
@@ -88,7 +81,7 @@ module Projects
 
       # Assign additional params from user
       call = Projects::SetAttributesService
-        .new(user: user,
+        .new(user:,
              model: target,
              contract_class: Projects::CopyContract,
              contract_options: { copy_source: source, validate_model: true })

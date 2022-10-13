@@ -4,7 +4,7 @@ end_of_line = lf
 indent_size = 2
 ij_continuation_indent_size = 2
 indent_style = space
-insert_final_newline = false
+insert_final_newline = true
 max_line_length = 120
 tab_width = 2
 ij_formatter_off_tag = @formatter:off
@@ -291,9 +291,6 @@ ij_javascript_while_on_new_line = false
 ij_javascript_wrap_comments = false
 
 [{*.sht,*.html,*.shtm,*.shtml,*.htm,*.ng}]
-indent_size = 2
-tab_width = 2
-ij_continuation_indent_size = 2
 ij_html_add_new_line_before_tags = body,div,p,form,h1,h2,h3
 ij_html_align_attributes = true
 ij_html_align_text = false
@@ -355,6 +352,7 @@ ij_json_wrap_long_lines = false
 [{rcov,spec,rake,rails,spork,capfile,gemfile,rakefile,guardfile,isolate,vagrantfile,Puppetfile,*.jbuilder,*.rbw,*.gemspec,*.thor,*.ru,*.rb,*.rake}]
 indent_size = 2
 tab_width = 2
+trim_trailing_whitespace=true
 ij_continuation_indent_size = 2
 ij_ruby_align_group_field_declarations = false
 ij_ruby_align_multiline_parameters = true

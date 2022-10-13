@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +35,7 @@ def scan_repositories(path)
   repositories.each do |repo|
     # Repository may be suffixed by '.git' and the like
     identifier = repo.basename.to_s.split('.')[0]
-    missing << identifier if Project.find_by(identifier: identifier).nil?
+    missing << identifier if Project.find_by(identifier:).nil?
   end
 
   missing
@@ -69,7 +67,7 @@ namespace :scm do
 
       unless Dir.exists?(managed)
         warn "WARNING: Managed repository path set to '#{managed}'," \
-                     " but does not exist for SCM vendor #{vendor}!"
+             " but does not exist for SCM vendor #{vendor}!"
         next
       end
 

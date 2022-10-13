@@ -1,0 +1,28 @@
+.spot-icon 
+  display: inline-flex
+  justify-content: center
+  align-items: center
+
+  &::before 
+    font-family: "openproject-icon-font"
+    font-style: normal
+    font-weight: normal
+    font-variant: normal
+    font-size: inherit
+    text-transform: none
+    text-decoration: none
+    display: block
+    speak: none
+    line-height: 1
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+
+{{#each codepoints}}
+
+@mixin spot-icon-{{@key}} 
+  content: "\\{{this}}"
+
+.spot-icon_{{@key}}:before 
+  content: "\\{{this}}"
+
+{{/each}}

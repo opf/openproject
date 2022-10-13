@@ -3,7 +3,6 @@ sidebar_navigation:
   title: OpenProject First Look
   priority: 1
 description: Beta testing OpenProject
-robots: index, follow
 keywords: first look, beta testing
 ---
 # OpenProject First Look

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +33,7 @@ class Seeder
         seed_data!
       end
     else
-      puts "   *** #{not_applicable_message}"
+      Rails.logger.debug { "   *** #{not_applicable_message}" }
     end
   end
 
@@ -54,27 +52,20 @@ class Seeder
   protected
 
   def print_status(message)
-    print message
+    Rails.logger.info message
 
-    return unless block_given?
-
-    yield
-    puts
+    yield if block_given?
   end
 
   ##
   # Translate the given string with the fixed interpolation for base_url
   # Deep interpolation is required in order for interpolations on hashes to work!
-  def translate_with_base_url(string)
-    I18n.t(string, deep_interpolation: true, base_url: "{{opSetting:base_url}}")
+  def translate_with_base_url(string, **i18n_options)
+    I18n.t(string, deep_interpolation: true, base_url: "{{opSetting:base_url}}", **i18n_options)
   end
 
   def edition_data_for(key)
-    data = translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.#{key}")
-
-    return nil if data.is_a?(String) && data.start_with?("translation missing")
-
-    data
+    translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.#{key}", default: nil)
   end
 
   def demo_data_for(key)
@@ -89,7 +80,7 @@ class Seeder
     I18n.exists?("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{project}.#{key}")
   end
 
-  def without_notifications(&block)
-    Journal::NotificationConfiguration.with(false, &block)
+  def without_notifications(&)
+    Journal::NotificationConfiguration.with(false, &)
   end
 end

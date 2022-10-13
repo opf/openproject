@@ -1,0 +1,16 @@
+<!-- Standard Ruby view, please see the controller for comments -->
+<div class="op-toast -info">
+  <div class="op-toast--content">
+    <p>
+      <strong><%= t(:'storages.instructions.no_storage_set_up') %></strong>
+    </p>
+    <p>
+      <% if User.current.admin? %>
+        <%= t(:"storages.instructions.setting_up_storages") %>
+        <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>.
+      <% else %>
+        <%= t(:"storages.instructions.setting_up_storages_non_admin") %>
+      <% end %>
+    </p>
+  </div>
+</div>

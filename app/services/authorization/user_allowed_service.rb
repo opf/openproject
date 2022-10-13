@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,15 +41,13 @@ class Authorization::UserAllowedService
   # Context can be:
   # * a project : returns true if user is allowed to do the specified action on this project
   # * a group of projects : returns true if user is allowed on every project
-  # * nil with options[:global] set : check if user has at least one role allowed for this action,
+  # * nil with +global+ set to +true+ : check if user has at least one role allowed for this action,
   #   or falls back to Non Member / Anonymous permissions depending if the user is logged
-  def call(action, context, options = {})
-    if supported_context?(context, options)
-      ServiceResult.new(success: true,
-                        result: allowed_to?(action, context, options))
+  def call(action, context, global: false)
+    if supported_context?(context, global:)
+      allowed_to?(action, context, global:)
     else
-      ServiceResult.new(success: false,
-                        result: false)
+      false
     end
   end
 
@@ -63,25 +59,21 @@ class Authorization::UserAllowedService
 
   attr_accessor :project_role_cache
 
-  def allowed_to?(action, context, options = {})
+  def allowed_to?(action, context, global: false)
     action = normalize_action(action)
 
-    if context.nil? && options[:global]
-      allowed_to_globally?(action, options)
+    if context.nil? && global
+      allowed_to_globally?(action)
     elsif context.is_a? Project
-      allowed_to_in_project?(action, context, options)
+      allowed_to_in_project?(action, context)
     elsif context.respond_to?(:to_a)
-      context = context.to_a
-      # Authorize if user is authorized on every element of the array
-      context.present? && context.all? do |project|
-        allowed_to?(action, project, options)
-      end
+      allowed_to_in_all_projects?(action, context)
     else
       false
     end
   end
 
-  def allowed_to_in_project?(action, project, _options = {})
+  def allowed_to_in_project?(action, project)
     if project_authorization_cache.cached?(action)
       return project_authorization_cache.allowed?(action, project)
     end
@@ -93,18 +85,26 @@ class Authorization::UserAllowedService
     # Inactive users are never authorized
     return false unless authorizable_user?
     # Admin users are authorized for anything else
-    return true if user.admin?
+    # unless the permission is explicitly flagged not to be granted to admins.
+    return true if granted_to_admin?(action)
 
     has_authorized_role?(action, project)
   end
 
+  # Authorize if user is authorized on every element of the array
+  def allowed_to_in_all_projects?(action, projects)
+    projects.present? && Array(projects).all? do |project|
+      allowed_to?(action, project)
+    end
+  end
+
   # Is the user allowed to do the specified action on any project?
-  # See allowed_to? for the actions and valid options.
-  def allowed_to_globally?(action, _options = {})
+  # See allowed_to? for the action parameter description.
+  def allowed_to_globally?(action)
     # Inactive users are never authorized
     return false unless authorizable_user?
     # Admin users are always authorized
-    return true if user.admin?
+    return true if granted_to_admin?(action)
 
     has_authorized_role?(action)
   end
@@ -114,6 +114,12 @@ class Authorization::UserAllowedService
   # with the exception of a temporary-granted system user
   def authorizable_user?
     !user.locked? || user.is_a?(SystemUser)
+  end
+
+  # Admin users are granted every permission unless the
+  # permission explicitly disables it.
+  def granted_to_admin?(action)
+    user.admin? && OpenProject::AccessControl.grant_to_admin?(action)
   end
 
   def has_authorized_role?(action, project = nil)
@@ -131,14 +137,14 @@ class Authorization::UserAllowedService
   def normalize_action(action)
     if action.is_a?(Hash) && action[:controller] && action[:controller].to_s.starts_with?('/')
       action = action.dup
-      action[:controller] = action[:controller][1..-1]
+      action[:controller] = action[:controller][1..]
     end
 
     action
   end
 
-  def supported_context?(context, options)
-    (context.nil? && options[:global]) ||
+  def supported_context?(context, global:)
+    (context.nil? && global) ||
       context.is_a?(Project) ||
       (!context.nil? && context.respond_to?(:to_a))
   end

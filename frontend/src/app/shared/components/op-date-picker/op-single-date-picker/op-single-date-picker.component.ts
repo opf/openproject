@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,6 +34,7 @@ import { AbstractDatePickerDirective } from 'core-app/shared/components/op-date-
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 
+/* eslint-disable-next-line change-detection-strategy/on-push */
 @Component({
   selector: 'op-single-date-picker',
   templateUrl: './op-single-date-picker.component.html',
@@ -84,11 +85,11 @@ export class OpSingleDatePickerComponent extends AbstractDatePickerDirective {
     }
 
     this.datePickerInstance = new DatePicker(
+      this.injector,
       `#${this.id}`,
       initialValue,
       options,
       null,
-      this.configurationService,
     );
   }
 }

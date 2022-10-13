@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,12 +46,16 @@ module OpenProject::Reporting
         permission :save_private_cost_reports, { cost_reports: edit_actions }
       end
 
-      # register additional permissions for viewing time and cost entries through the CostReportsController
-      view_actions.each do |action|
-        OpenProject::AccessControl.permission(:view_time_entries).controller_actions << "cost_reports/#{action}"
-        OpenProject::AccessControl.permission(:view_own_time_entries).controller_actions << "cost_reports/#{action}"
-        OpenProject::AccessControl.permission(:view_cost_entries).controller_actions << "cost_reports/#{action}"
-        OpenProject::AccessControl.permission(:view_own_cost_entries).controller_actions << "cost_reports/#{action}"
+      Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl.map do
+          # register additional permissions for viewing time and cost entries through the CostReportsController
+          view_actions.each do |action|
+            OpenProject::AccessControl.permission(:view_time_entries).controller_actions << "cost_reports/#{action}"
+            OpenProject::AccessControl.permission(:view_own_time_entries).controller_actions << "cost_reports/#{action}"
+            OpenProject::AccessControl.permission(:view_cost_entries).controller_actions << "cost_reports/#{action}"
+            OpenProject::AccessControl.permission(:view_own_cost_entries).controller_actions << "cost_reports/#{action}"
+          end
+        end
       end
 
       # menu extensions
@@ -62,10 +66,10 @@ module OpenProject::Reporting
            if: Proc.new {
              (User.current.logged? || !Setting.login_required?) &&
                (
-               User.current.allowed_to?(:view_time_entries, nil, global: true) ||
-                 User.current.allowed_to?(:view_own_time_entries, nil, global: true) ||
-                 User.current.allowed_to?(:view_cost_entries, nil, global: true) ||
-                 User.current.allowed_to?(:view_own_cost_entries, nil, global: true)
+               User.current.allowed_to_globally?(:view_time_entries) ||
+                 User.current.allowed_to_globally?(:view_own_time_entries) ||
+                 User.current.allowed_to_globally?(:view_cost_entries) ||
+                 User.current.allowed_to_globally?(:view_own_cost_entries)
              )
            }
 
@@ -95,15 +99,13 @@ module OpenProject::Reporting
       require_relative 'patches/to_date_patch'
     end
 
-    config.to_prepare do
-      require_dependency 'report/walker'
-      require_dependency 'report/transformer'
-      require_dependency 'widget/table/entry_table'
-      require_dependency 'widget/settings_patch'
-      require_dependency 'cost_query/group_by'
+    initializer 'reporting.configuration' do
+      ::Settings::Definition.add 'cost_reporting_cache_filter_classes',
+                                 default: true,
+                                 format: :boolean
     end
 
-    patches %i[CustomFieldsController OpenProject::Configuration]
+    patches %i[CustomFieldsController]
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
   end

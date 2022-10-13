@@ -7,12 +7,5 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
   templateUrl: './select-input.component.html',
   styleUrls: ['./select-input.component.scss'],
 })
-export class SelectInputComponent extends FieldType implements OnInit {
-  projectId:string|undefined;
-
-  public ngOnInit():void {
-    if (this.model?.project) {
-      this.projectId = idFromLink(this.model.project?.href);
-    }
-  }
+export class SelectInputComponent extends FieldType {
 }

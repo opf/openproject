@@ -3,22 +3,21 @@ sidebar_navigation:
   title: FAQ
   priority: 950
 description: Frequently asked questions for OpenProject (FAQ)
-robots: index, follow
 keywords: FAQ, introduction, tutorial, project management software, frequently asked questions, help
 ---
 # Frequently asked questions (FAQ) for OpenProject
 
 Welcome to the central overview of frequently asked questions for OpenProject.
 
-| Topic                                                        | Content                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Learn more about OpenProject](#learn-more-about-openproject) | General questions about OpenProject, security, setup and much more |
-| [How to ... in OpenProject?](#how-to--in-openproject)        | Questions about how to achieve certain outcomes in OpenProject that do not fit elsewhere |
-| [FAQ regarding features](#faq-regarding-features)            | Information about frequent feature requests                  |
-| [FAQ regarding OpenProject BIM edition](#faq-regarding-openproject-bim-edition) | Questions concerning the additional BCF module for OpenProject and the BIM edition |
-| [Migration](#migration)                                      | Questions regarding migrating to OpenProject from e.g. Bitnami or from other OpenProject versions |
-| [Other](#other)                                              | Additional questions, e.g. about contribution, training, support |
-| [Topic-specific FAQ](#topic-specific-faq)                    | Links to other FAQ sections                                  |
+| Topic                                                                           | Content                                                                                           |
+|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| [Learn more about OpenProject](#learn-more-about-openproject)                   | General questions about OpenProject, security, setup and much more                                |
+| [How to ... in OpenProject](#how-to--in-openproject)                            | Questions about how to achieve certain outcomes in OpenProject that do not fit elsewhere          |
+| [FAQ regarding features](#faq-regarding-features)                               | Information about frequent feature requests                                                       |
+| [FAQ regarding OpenProject BIM edition](#faq-regarding-openproject-bim-edition) | Questions concerning the additional BCF module for OpenProject and the BIM edition                |
+| [Migration](#migration)                                                         | Questions regarding migrating to OpenProject from e.g. Bitnami or from other OpenProject versions |
+| [Other](#other)                                                                 | Additional questions, e.g. about contribution, training, support                                  |
+| [Topic-specific FAQ](#topic-specific-faq)                                       | Links to other FAQ sections                                                                       |
 
 
 ## Learn more about OpenProject
@@ -41,7 +40,7 @@ The system requirements can be found [here](../installation-and-operations/syste
 
 Apart from using OpenProject in the cloud (OpenProject Enterprise cloud) OpenProject can be installed in two different ways: The packaged installation of OpenProject is the recommended way to install and maintain OpenProject using DEB or RPM packages. There's also a Docker based installation option.
 
-### How can I learn more about OpenProject and how to use it?
+### How can I learn more about OpenProject?
 
 Here are resources to get to know OpenProject:
 
@@ -64,7 +63,7 @@ Terms and conditions regarding GPLv3 are available at [https://www.gnu.org/licen
 
 ### Is OpenProject free of charge?
 
-We offer three different versions of OpenProject. Please get an overview of the different OpenProject Editions [here](https://www.openproject.org/pricing/#compare).
+We offer three different versions of OpenProject. Please get an overview of the different OpenProject Editions [here](https://www.openproject.org/pricing/#features).
 
 The (on-premise) OpenProject Community edition is completely free. The Enterprise cloud and Enterprise on-premises edition offer premium features, hosting and support and thus we are charging for it. Nevertheless, we offer free 14 days trials for the Enterprise versions so that you can get to know their benefits. If you prefer to use the free OpenProject Community edition, you can follow these [installation instructions](https://www.openproject.org/download-and-installation/), please note that you need a Linux server to install the Community edition. It is always possible to upgrade from the Community to the Enterprise cloud and Enterprise on-premises edition – check out the premium features [here](https://www.openproject.org/enterprise-edition/#premium-features).
 
@@ -86,7 +85,7 @@ However, if you're still using an old OpenProject subscription there may be limi
 
 In the Community Edition and in the Enterprise on-premises edition you can use the standard LDAP authentication. However, the Enterprise on-premises edition also includes LDAP group synchronization. This allows you to synchronize group members from LDAP with groups in OpenProject. The respective documentation can be found [here](../system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/#synchronize-ldap-and-openproject-groups-premium-feature).
 
-## How to ... in OpenProject?
+## How to ... in OpenProject
 
 Most of this kind of questions will be answered in the respective sections for each topic (see links below). However, there may be some FAQ that do not really fit elsewhere:
 
@@ -142,11 +141,11 @@ The projects overview is not optimized for export via PDF, yet. Nevertheless, yo
 
 ### How can I receive the OpenProject newsletter?
 
-Please go to https://www.openproject.org/newsletter/ and submit your data to receive our newsletter. Another option would be to agree to receive the newsletter when creating your account.
+Please go to [openproject.org/newsletter/](https://www.openproject.org/newsletter/) and submit your data to receive our newsletter. Another option would be to agree to receive the newsletter when creating your account.
 
 ## FAQ regarding features
 
-Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community Edition [here](https://www.openproject.org/pricing/#compare). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](https://community.openproject.com).
+Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community Edition [here](https://www.openproject.org/pricing/#features). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](https://community.openproject.com).
 
 ### Is it possible to use multiple languages in OpenProject?
 
@@ -262,11 +261,11 @@ For more information please contact us.
 
 ### How can I migrate from Community Edition or Enterprise on-premises to Enterprise cloud?
 
-We will need a database dump from you which we will upload to your new Enterprise cloud. Please contact us to plan the migration and get more instructions.
+We will need a [backup](../system-admin-guide/backup) of your OpenProject Installation which we will restore to your new Enterprise cloud. Please calculate with a downtime of approximately 60 minutes in regular cases. We generally Please contact us to plan the migration and get more instructions.
 
 ### How can I migrate from Enterprise cloud to Enterprise on-premises?
 
-We will provide a database dump which you can upload into your Enterprise on-premises edition. This way you can keep all your data.
+We will need a [backup](../system-admin-guide/backup) which we will restore into your Enterprise on-premises edition. Please calculate with a downtime of approximately 60 minutes in regular cases. This way you can keep all your data.
 
 ### How can I migrate from Community Edition to Enterprise on-premises?
 
@@ -276,9 +275,9 @@ If you [book Enterprise on-premises](../enterprise-guide/enterprise-on-premises-
 
 If you cancel your subscription for Enterprise on-premises you will be downgraded to Community Edition automatically as soon as the subscription period ends. You can keep all your data but won't be able to use the [premium features](https://www.openproject.org/de/enterprise-edition/#premium-features) and won't be eligible for support any more.
 
-### Where can I find information on additional migrations (e.g. from MySQL to PostgreSQL)?
+### How can I migrate from an old version of OpenProject to the latest version?
 
-Please have a look at [this section](../installation-and-operations/misc).
+OpenProject changed the database from MySQL (rarely also MariaDB) in older Versions and used PostgreSQL 10 afterwards. With the relase of version 12 OpenProject introduced the PostgreSQL 13 database. For further information on several database migrations, please have a look at [this section](../installation-and-operations/misc).
 
 ## Other
 
@@ -288,7 +287,7 @@ We welcome everybody willing to help make OpenProject better. There are a lot of
 
 If you want to code, a good starting point would be to make yourself familiar with the [basic approaches for developing](../development/) in OpenProject and opening a pull request on GitHub referencing an existing bug report or feature request. Find our GitHub page [here](https://github.com/opf/openproject).
 
-If in doubt on how you should start, you can also just [contact us](https://www.openproject.org/contact-us/).
+If in doubt on how you should start, you can also just [contact us](https://www.openproject.org/contact/).
 
 ### How can I receive support?
 
@@ -296,7 +295,7 @@ We offer our Professional Support for Enterprise on-premises users and Enterpris
 
 If you use the Community Edition please feel free to use our [forums](https://community.openproject.org/projects/openproject/forums) for exchange with other users.
 
-To learn more about OpenProject and how its features work please have a look at [this FAQ](#how-can-i-learn-more-about-openproject-and-how-to-use-it).
+To learn more about OpenProject and how its features work please have a look at [this FAQ](#how-can-i-learn-more-about-openproject).
 
 ### Do you support Univention users?
 

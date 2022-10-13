@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,14 +31,14 @@
 # the code base.
 module OpenProject::ActiveModelErrorsPatch
   def symbols_and_messages_for(attribute)
-    symbols = details[attribute].map { |e| e[:error] }
+    symbols = details[attribute].pluck(:error)
     messages = full_messages_for(attribute)
 
     symbols.zip(messages)
   end
 
   def symbols_for(attribute)
-    details[attribute].map { |r| r[:error] }
+    details[attribute].pluck(:error)
   end
 end
 

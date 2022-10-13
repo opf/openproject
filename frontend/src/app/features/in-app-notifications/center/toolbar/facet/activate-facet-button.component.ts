@@ -17,11 +17,15 @@ export class ActivateFacetButtonComponent {
       unread: this.I18n.t('js.notifications.facets.unread'),
       all: this.I18n.t('js.notifications.facets.all'),
     },
+    facet_titles: {
+      unread: this.I18n.t('js.notifications.facets.unread_title'),
+      all: this.I18n.t('js.notifications.facets.all_title'),
+    },
   };
 
   availableFacets = Object.keys(IAN_FACET_FILTERS);
 
-  activeFacet$ = this.storeService.query.activeFacet$;
+  activeFacet$ = this.storeService.activeFacet$;
 
   constructor(
     private I18n:I18nService,

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ import { StateService } from '@uirouter/core';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -48,6 +48,9 @@ import { AttachmentCollectionResource } from 'core-app/features/hal/resources/at
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { of } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
@@ -62,24 +65,30 @@ describe('WorkPackage', () => {
     workPackage = halResourceService.createHalResourceOfType('WorkPackage', { ...source });
   };
 
+  const WeekdayServiceStub = {
+    loadWeekdays: () => of(true),
+  };
+
   beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       imports: [
         OpenprojectHalModule,
+        HttpClientTestingModule,
       ],
       providers: [
         HalResourceService,
         States,
         TimezoneService,
         WorkPackagesActivityService,
+        { provide: WeekdayService, useValue: WeekdayServiceStub },
         ConfigurationService,
         OpenProjectFileUploadService,
         OpenProjectDirectFileUploadService,
         LoadingIndicatorService,
         PathHelperService,
         I18nService,
-        APIV3Service,
+        ApiV3Service,
         { provide: HalResourceNotificationService, useValue: { handleRawError: () => false } },
         { provide: WorkPackageNotificationService, useValue: {} as any },
         { provide: WorkPackageCreateService, useValue: {} },
@@ -121,13 +130,13 @@ describe('WorkPackage', () => {
       expect(workPackage.canAddAttachments).toEqual(false);
     });
 
-    it('when the work work package has no `addAttachment` link and is not new', () => {
+    it('when the work package has no `addAttachment` link and is not new', () => {
       workPackage.$source.id = 69;
       workPackage.$links.addAttachment = null as any;
       expect(workPackage.canAddAttachments).toEqual(false);
     });
 
-    it('when the work work package has an `addAttachment` link', () => {
+    it('when the work package has an `addAttachment` link', () => {
       workPackage.$links.addAttachment = <any> _.noop;
       expect(workPackage.canAddAttachments).toEqual(true);
     });

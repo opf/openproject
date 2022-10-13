@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,6 @@ module API
       module Endpoints
         class SqlShow
           def initialize(model:)
-
             self.model = model
           end
 
@@ -60,9 +59,8 @@ module API
           def render(scope)
             ::API::V3::Utilities::SqlRepresenterWalker
               .new(scope.limit(1),
-                   embed: {},
-                   select: { '*' => {} },
-                   current_user: User.current)
+                   current_user: User.current,
+                   url_query: { select: { '*' => {} } })
               .walk(render_representer)
           end
 

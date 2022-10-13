@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -31,9 +29,9 @@
 class PlaceholderUser < Principal
   alias_attribute(:name, :lastname)
 
-  validates_presence_of(:name)
-  validates_uniqueness_of(:name)
-  validates_length_of :name, maximum: 256
+  validates(:name, presence: true)
+  validates(:name, uniqueness: true)
+  validates :name, length: { maximum: 256 }
 
   include ::Associations::Groupable
 

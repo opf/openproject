@@ -42,8 +42,7 @@ tr:
         group_name_attribute_text: 'OpenProject grup adını ayarlamak için kullanılan LDAP grubunun niteliğini girin.'
         filter_string_text: 'OpenProject ile senkronize etmek için LDAP''nizdeki grupları döndüren RFC4515 LDAP filtresini girin.'
         base_dn_text: >
-          Bu filtre için kullanmak üzere arama tabanı DN'sini girin. Seçilen LDAP bağlantısının temel DN'sinin altında olması gerekir.
-          Bağlantının temel DN'sini yeniden kullanmak için bu seçeneği boş bırakın
+          Bu filtre için kullanmak üzere arama tabanı DN'sini girin. Seçilen LDAP bağlantısının temel DN'sinin altında olması gerekir. Bağlantının temel DN'sini yeniden kullanmak için bu seçeneği boş bırakın
     synchronized_groups:
       add_new: 'Senkronize LDAP grubu ekle'
       destroy:
@@ -67,4 +66,6 @@ tr:
           Bu seçeneği etkinleştirirseniz, bulunan kullanıcılar da otomatik olarak OpenProject'te oluşturulur. Bu olmadan, yalnızca OpenProject'teki mevcut hesaplar gruplara eklenecektir.
         dn_text: 'LDAP''ye grubun tam DN''sini girin'
         group_text: 'LDAP grubunun üyelerinin senkronize edileceği mevcut bir OpenProject grubunu seçin.'
+      upsale:
+        description: 'Kullanıcıları yönetmek, izinlerini değiştirmek ve gruplar arasında kullanıcı yönetimini kolaylaştırmak için senkronize LDAP gruplarından yararlanın.'
 

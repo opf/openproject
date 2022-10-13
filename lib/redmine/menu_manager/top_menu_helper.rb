@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +53,7 @@ module Redmine::MenuManager::TopMenuHelper
   def render_notification_top_menu_node
     return ''.html_safe unless User.current.logged?
 
-    content_tag('li', class: 'op-app-menu--item') do
+    content_tag('li', class: 'op-app-menu--item', title: I18n.t('mail.notification.center')) do
       tag('op-in-app-notification-bell')
     end
   end
@@ -104,7 +104,7 @@ module Redmine::MenuManager::TopMenuHelper
         title: User.current.name,
         icon: (avatar.present? ? 'overridden-by-avatar' : 'icon-user')
       },
-      items: items,
+      items:,
       options: { drop_down_id: 'user-menu', menu_item_class: 'last-child' }
     )
   end
@@ -117,7 +117,7 @@ module Redmine::MenuManager::TopMenuHelper
         'account/login'
       end
 
-    render partial: partial
+    render partial:
   end
 
   def render_module_top_menu_node(items = more_top_menu_items)
@@ -125,7 +125,7 @@ module Redmine::MenuManager::TopMenuHelper
       render_menu_dropdown_with_items(
         label: '',
         label_options: { icon: 'icon-menu', title: I18n.t('label_modules') },
-        items: items,
+        items:,
         options: { drop_down_id: 'more-menu', drop_down_class: 'drop-down--modules ', menu_item_class: 'hidden-for-mobile' }
       )
     end

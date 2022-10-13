@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +44,7 @@ class UserMailer < ApplicationMailer
     User.execute_as user do
       @download_url = admin_backups_url
 
-      send_mail(recipient,
+      send_mail(user,
                 I18n.t("mail_subject_backup_ready"))
     end
   end
@@ -226,6 +224,27 @@ class UserMailer < ApplicationMailer
     send_mail(admin, t("mail_user_activation_limit_reached.subject"))
   end
 
+  ##
+  # E-Mail sent to a user when they tried sending an email to OpenProject to create or update
+  # a work package, or forum message for instance.
+  #
+  # @param [User] user User who sent the email
+  # @param [Object] mail The mail object prepared by the mail handler
+  # @param [Array<String>] logs List of logs collected during processing of the email
+  def incoming_email_error(user, mail, logs)
+    @user = user
+    @logs = logs
+    @mail_from = mail[:from]
+    @received_at = DateTime.now
+    @incoming_text = mail[:text]
+    @quote = mail[:quote]
+
+    headers['References'] = ["<#{mail[:message_id]}>"]
+    headers['In-Reply-To'] = ["<#{mail[:message_id]}>"]
+
+    send_mail user, mail[:subject].present? ? "Re: #{mail[:subject]}" : I18n.t("mail_subject_incoming_email_error")
+  end
+
   private
 
   def open_project_wiki_headers(wiki_content)
@@ -240,4 +259,3 @@ class UserMailer < ApplicationMailer
                          'Type' => 'Forum'
   end
 end
-

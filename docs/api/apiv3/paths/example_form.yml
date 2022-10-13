@@ -89,6 +89,8 @@ post:
     '400':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -106,6 +108,8 @@ post:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -115,9 +119,13 @@ post:
       description: Returned if the client does not have sufficient permissions to
         modify the associated resource.
       headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
     '409':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -127,6 +135,8 @@ post:
       description: Returned if underlying resource was changed since the client requested
         the form. This is determined using the `lockVersion` property.
       headers: {}
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
   tags:
   - Forms
   description: This is an example of how a form might look like. Note that this endpoint

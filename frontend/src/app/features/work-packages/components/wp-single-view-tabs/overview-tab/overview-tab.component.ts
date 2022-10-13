@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ import { StateService } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './overview-tab.html',
@@ -46,7 +46,7 @@ export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin {
 
   public constructor(readonly I18n:I18nService,
     readonly $state:StateService,
-    readonly apiV3Service:APIV3Service) {
+    readonly apiV3Service:ApiV3Service) {
     super();
 
     this.workPackageId = this.$state.params.workPackageId;

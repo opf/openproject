@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,26 +32,26 @@ module PasswordHelper
   ##
   # Decorate the form_for helper with the request-for-confirmation directive
   # when the user is internally authenticated.
-  def password_confirmation_form_for(record, options = {}, &block)
+  def password_confirmation_form_for(record, options = {}, &)
     if password_confirmation_required?
       options.reverse_merge!(html: {})
       data = options[:html].fetch(:data, {})
       options[:html][:data] = password_confirmation_data_attribute(data)
     end
 
-    form_for(record, options, &block)
+    form_for(record, options, &)
   end
 
   ##
   # Decorate the form_tag helper with the request-for-confirmation directive
   # when the user is internally authenticated.
-  def password_confirmation_form_tag(url_for_options = {}, options = {}, &block)
+  def password_confirmation_form_tag(url_for_options = {}, options = {}, &)
     if password_confirmation_required?
       data = options.fetch(:data, {})
       options[:data] = password_confirmation_data_attribute(data)
     end
 
-    form_tag(url_for_options, options, &block)
+    form_tag(url_for_options, options, &)
   end
 
   def password_confirmation_data_attribute(with_data = {})

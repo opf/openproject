@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +57,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
     ::OpenProject.logger.error e
     attachment.destroy
   ensure
-    File.unlink(local_file.path) if File.exist?(local_file.path)
+    FileUtils.rm_rf(local_file.path)
   end
 
   def set_attributes_from_file(attachment, local_file)
@@ -89,7 +87,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
     options = derive_contract_options(whitelist)
     ::Attachments::CreateContract.new attachment,
                                       attachment.author,
-                                      options: options
+                                      options:
   end
 
   def derive_contract_options(whitelist)
@@ -134,7 +132,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
   def attachment_created_event(attachment)
     OpenProject::Notifications.send(
       OpenProject::Events::ATTACHMENT_CREATED,
-      attachment: attachment
+      attachment:
     )
   end
 end

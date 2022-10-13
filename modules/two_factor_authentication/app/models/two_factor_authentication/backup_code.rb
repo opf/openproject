@@ -1,5 +1,3 @@
-require_dependency 'token/hashed_token'
-
 module TwoFactorAuthentication
   class BackupCode < ::Token::HashedToken
     class << self
@@ -9,7 +7,7 @@ module TwoFactorAuthentication
         transaction do
           where(user_id: user.id).delete_all
           10.times do
-            code = new(user: user)
+            code = new(user:)
             code.save!
             backup_codes << code.plain_value
           end

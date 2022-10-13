@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,18 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, InjectFlags, OnInit } from '@angular/core';
+import {
+  Component,
+  InjectFlags,
+  OnInit,
+} from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SelectAutocompleterRegisterService } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
-import { from } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import {
+  map,
+  tap,
+} from 'rxjs/operators';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
@@ -68,6 +75,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   public referenceOutputs:{ [key:string]:Function } = {
     onCreate: (newElement:HalResource) => this.onCreate(newElement),
     onChange: (value:HalResource) => this.onChange(value),
+    onAddNew: (value:HalResource) => this.onNewValueAdded(value),
     onKeydown: (event:JQuery.TriggeredEvent) => this.handler.handleUserKeydown(event, true),
     onOpen: () => this.onOpen(),
     onClose: () => this.onClose(),
@@ -80,14 +88,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   public set selectedOption(val:ValueOption|HalResource) {
-    // The InviteUserModal gives us a resource that is not in availableOptions yet,
-    // but we also don't want to wait for a refresh of the options every time we want to
-    // select an option, so if we get a HalResource we trust it exists
-    if (val instanceof HalResource) {
-      this.value = val;
-      return;
-    }
-
     const option = _.find(this.availableOptions, (o) => o.href === val.href);
 
     // Special case 'null' value, which angular
@@ -96,10 +96,8 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       option.href = null;
     }
 
-    this.value = option;
+    this.value = option || val;
   }
-
-  public showAddNewButton:boolean;
 
   protected valuesLoaded = false;
 
@@ -137,12 +135,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     };
 
     this.valuesLoadingPromise = this.change.getForm().then(() => this.initialValueLoading());
-
-    this.initializeShowAddButton();
-  }
-
-  initializeShowAddButton() {
-    this.showAddNewButton = this.schema.type === 'User';
   }
 
   protected initialValueLoading() {
@@ -160,7 +152,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     this.addEmptyOption();
   }
 
-  protected loadValues(query?:string) {
+  protected loadValues(query?:string):Observable<HalResource[]> {
     const { allowedValues } = this.schema;
 
     if (Array.isArray(allowedValues)) {
@@ -200,7 +192,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     return this.fetchAllowedValueQuery(query);
   }
 
-  protected fetchAllowedValueQuery(query?:string) {
+  protected fetchAllowedValueQuery(query?:string):Promise<CollectionResource> {
     return this.schema.allowedValues.$link.$fetch(this.allowedValuesFilter(query)) as Promise<CollectionResource>;
   }
 
@@ -244,6 +236,16 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       this.selectedOption = emptyOption;
       this.handler.handleUserSubmit();
     }
+  }
+
+  private async onNewValueAdded(value:HalResource|undefined|null) {
+    if (!value) {
+      return;
+    }
+
+    await this.change.getForm(true);
+
+    this.onChange(value);
   }
 
   private addEmptyOption() {

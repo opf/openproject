@@ -71,8 +71,8 @@ sv:
       text_2fa_enabled: 'Vid varje inloggning, kommer användaren att uppmanas att ange en OTP-token från hans eller hennes 2FA standardenhet.'
       text_2fa_disabled: "Användaren ställde inte in en 2FA enhet genom sidan 'Mitt konto'"
     upsale:
-      title: 'Tvåfaktorsautentisering är en enterprise-funktion'
-      description: 'Stärk dina inre eller yttre autentiseringsmekanismer med en andra faktor.'
+      title: 'Two-factor authentication'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: Inga reservkoder finns för detta konto.
       singular: Reservkod
@@ -132,8 +132,6 @@ sv:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS leverans misslyckades.'
       voice_delivery_failed: 'MessageBird röstsamtal misslyckades.'
-    restdt:
-      delivery_failed_with_code: 'Token leverans misslyckades. (Felkod %{code})'
     strategies:
       totp: 'Autentiseringsprogram'
       sns: 'Amazon SNS'

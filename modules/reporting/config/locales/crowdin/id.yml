@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -22,7 +22,7 @@
 id:
   button_save_as: "Simpan sebagai..."
   comments: "Komentar"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Waktu dan biaya"
   label_cost_report: "Laporan biaya"
   label_cost_report_plural: "Pelaporan biaya"
   description_drill_down: "Lihat detail"
@@ -60,16 +60,16 @@ id:
   label_units: "Units"
   label_week_reporting: "Minggu (spent)"
   label_year_reporting: "Tahun (Spent)"
-  label_count: "Count"
-  label_filter: "Filter"
-  label_filter_add: "Add Filter"
-  label_filter_plural: "Filter"
+  label_count: "Hitung"
+  label_filter: "Penyaring"
+  label_filter_add: "Tambahkan Penyaring"
+  label_filter_plural: "Penyaring"
   label_group_by: "Pengelompokan"
-  label_group_by_add: "Add Group-by Attribute"
-  label_inactive: "«inactive»"
+  label_group_by_add: "Tambahkan grup-oleh Atribut"
+  label_inactive: "«tidak aktif»"
   label_no: "No"
-  label_none: "(no data)"
-  label_no_reports: "There are no cost reports yet."
+  label_none: "(tidak ada data)"
+  label_no_reports: "Tidak ada laporan biaya."
   label_report: "Laporan"
   label_yes: "Yes"
   load_query_question: "Proses laporan memiliki %{size} cell dan akan memakan waktu yang relatif lama. Apakah anda ingin melanjutkan?"
@@ -83,5 +83,5 @@ id:
   validation_failure_integer: "validasi bilangan bulat gagal"
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_columns: "Kolom terpilih"
+      selected_rows: "Baris terpilih"

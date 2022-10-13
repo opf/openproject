@@ -1,7 +1,8 @@
 <button id="work-packages-settings-button"
-        title="{{ text.button_settings }}"
+        [title]="text.more_actions"
         class="button last work-packages-settings-button toolbar-icon"
         opSettingsContextMenu
-        opSettingsContextMenu-query="query">
+        opSettingsContextMenu-query="query"
+        [hideTableOptions]="hideTableOptions">
   <op-icon icon-classes="button--icon icon-show-more"></op-icon>
 </button>

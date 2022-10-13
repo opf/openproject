@@ -26,7 +26,13 @@ get:
       + created_at: filters memberships based on the time the membership was created.
 
       + updated_at: filters memberships based on the time the membership was updated last.
-    example: '[{ "name": { "operator": "=", "values": ["A User"] }" }]'
+    examples:
+      name-filter:
+        summary: Filtering on the name of the principal
+        value: '[{ "name": { "operator": "=", "values": ["A User"] }" }]'
+      global-memberships:
+        summary: Get memberships for global roles
+        value: '[{ "project": { "operator": "!*", "values": null }" }]'
     in: query
     name: filters
     required: false
@@ -127,20 +133,12 @@ post:
       description: Created
       headers: {}
     '400':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-                message: The request body was not a single JSON object.
-      description: Occurs when the client did not send a valid JSON object in the
-        request body.
-      headers: {}
+      $ref: "../components/responses/invalid_request_body.yml"
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -152,9 +150,15 @@ post:
 
         **Required permission:** Manage members
       headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
     '422':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:

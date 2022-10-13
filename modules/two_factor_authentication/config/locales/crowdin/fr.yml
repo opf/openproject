@@ -71,8 +71,8 @@ fr:
       text_2fa_enabled: 'Lors de chaque connexion, cet utilisateur sera demandé d’entrer un jeton OTP de son appareil 2FA par défaut.'
       text_2fa_disabled: "L’utilisateur n’a pas défini un appareil 2FA via sa page \"Mon compte\""
     upsale:
-      title: 'L''authentification à deux facteurs est une fonctionnalité destinée aux entreprises'
-      description: 'Renforcez vos mécanismes d''authentification interne ou externe avec un deuxième facteur.'
+      title: 'Authentification à deux facteurs'
+      description: 'Renforcez la sécurité de votre instance OpenProject en offrant (ou en forçant) une authentification à deux facteurs à tous les membres du projet.'
     backup_codes:
       none_found: Aucun code de sauvegarde n’existe pour ce compte.
       singular: Code de sauvegarde
@@ -132,8 +132,6 @@ fr:
     message_bird:
       sms_delivery_failed: 'La distribution du SMS MessageBird a échoué.'
       voice_delivery_failed: 'L''appel vocal MessageBird a échoué.'
-    restdt:
-      delivery_failed_with_code: 'Remise du jeton a échoué. (Error code %{code})'
     strategies:
       totp: 'Application authentificatrice'
       sns: 'Amazon SNS'

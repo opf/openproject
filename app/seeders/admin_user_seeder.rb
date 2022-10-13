@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,13 +60,13 @@ class AdminUserSeeder < Seeder
   end
 
   def force_password_change?
-    Rails.env != 'development' && !force_password_change_disabled?
+    !Rails.env.development? && !force_password_change_disabled?
   end
 
   def force_password_change_disabled?
     off_values = ["off", "false", "no", "0"]
 
-    off_values.include? ENV[force_password_change_env_switch_name]
+    off_values.include? ENV.fetch(force_password_change_env_switch_name, nil)
   end
 
   def force_password_change_env_switch_name

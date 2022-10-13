@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,7 +45,6 @@ class WorkPackagePolicy < BasePolicy
     # copying multiple work packages.
     {
       edit: edit_allowed?(work_package),
-      log_time: log_time_allowed?(work_package),
       move: move_allowed?(work_package),
       copy: move_allowed?(work_package),
       duplicate: copy_allowed?(work_package), # duplicating is another form of copying
@@ -62,14 +61,6 @@ class WorkPackagePolicy < BasePolicy
     end
 
     @edit_cache[work_package.project]
-  end
-
-  def log_time_allowed?(work_package)
-    @log_time_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_to?(:log_time, project)
-    end
-
-    @log_time_cache[work_package.project]
   end
 
   def move_allowed?(work_package)

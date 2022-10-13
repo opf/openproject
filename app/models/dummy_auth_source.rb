@@ -20,7 +20,7 @@ class DummyAuthSource < AuthSource
   def find_registered_user(login)
     registered_login?(login) &&
       User
-        .find_by(login: login)
+        .find_by(login:)
         .attributes
         .slice("firstname", "lastname", "mail")
         .merge(auth_source_id: id)
@@ -50,7 +50,7 @@ class DummyAuthSource < AuthSource
   end
 
   def registered_login?(login)
-    not users.where(login: login).empty? # empty? to use EXISTS query
+    not users.where(login:).empty? # empty? to use EXISTS query
   end
 
   # Does this auth source backend allow password changes?

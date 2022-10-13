@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,12 @@
 //++
 
 import {
-  ChangeDetectorRef, Component, ElementRef, Inject, ViewChild,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
@@ -41,11 +46,14 @@ import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { ITileViewEntry } from '../tile-view/tile-view.component';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 
 @Component({
   templateUrl: './new-board-modal.html',
 })
-export class NewBoardModalComponent extends OpModalComponent {
+export class NewBoardModalComponent extends OpModalComponent implements OnInit {
   @ViewChild('actionAttributeSelect', { static: true }) actionAttributeSelect:ElementRef;
 
   public showClose = true;
@@ -56,7 +64,9 @@ export class NewBoardModalComponent extends OpModalComponent {
 
   public inFlight = false;
 
-  public text:any = {
+  public eeShowBanners = false;
+
+  public text = {
     close_popup: this.I18n.t('js.close_popup_title'),
 
     free_board: this.I18n.t('js.boards.board_type.free'),
@@ -69,10 +79,16 @@ export class NewBoardModalComponent extends OpModalComponent {
     select_attribute: this.I18n.t('js.boards.board_type.select_attribute'),
     select_board_type: this.I18n.t('js.boards.board_type.select_board_type'),
     placeholder: this.I18n.t('js.placeholders.selection'),
+
+    teaser_text: this.I18n.t('js.boards.upsale.teaser_text'),
+    upgrade_to_ee_text: this.I18n.t('js.boards.upsale.upgrade'),
+    more_info_ee_link: enterpriseDocsUrl.boards,
+    cancel_button: this.I18n.t('js.button_cancel'),
   };
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly elementRef:ElementRef,
     readonly cdRef:ChangeDetectorRef,
     readonly state:StateService,
     readonly boardService:BoardService,
@@ -80,12 +96,20 @@ export class NewBoardModalComponent extends OpModalComponent {
     readonly halNotification:HalResourceNotificationService,
     readonly loadingIndicatorService:LoadingIndicatorService,
     readonly I18n:I18nService,
-    readonly boardActionRegistry:BoardActionsRegistryService) {
+    readonly boardActionRegistry:BoardActionsRegistryService,
+    readonly bannersService:BannersService,
+    readonly toastService:ToastService,
+  ) {
     super(locals, cdRef, elementRef);
     this.initiateTiles();
   }
 
-  public createBoard(attribute:string) {
+  ngOnInit():void {
+    super.ngOnInit();
+    this.eeShowBanners = this.bannersService.eeShowBanners;
+  }
+
+  public createBoard(attribute:string):void {
     if (attribute === 'basic') {
       this.createFree();
     } else {
@@ -111,7 +135,12 @@ export class NewBoardModalComponent extends OpModalComponent {
     this.create({ type: 'free' });
   }
 
-  private createAction(attribute:string) {
+  private createAction(attribute:string):void {
+    if (this.eeShowBanners) {
+      this.toastService.addError(this.I18n.t('js.upsale.ee_only'));
+      return;
+    }
+
     this.create({ type: 'action', attribute });
   }
 

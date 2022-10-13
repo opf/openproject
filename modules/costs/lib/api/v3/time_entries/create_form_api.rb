@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ module API
       class CreateFormAPI < ::API::OpenProjectAPI
         resource :form do
           after_validation do
-            authorize :log_time, global: true
+            authorize_any %i[log_time log_own_time], global: true
           end
 
           post &::API::V3::Utilities::Endpoints::CreateForm

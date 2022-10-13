@@ -1,0 +1,30 @@
+#English strings go here
+nl:
+  js:
+    storages:
+      link_files_in_storage: "Koppel bestanden aan %{storageType}"
+      login: "%{storageType} login"
+      login_to: "Inloggen op %{storageType}"
+      no_connection: "Geen %{storageType} verbinding"
+      open_storage: "%{storageType} openen"
+      types:
+        nextcloud: "Nextcloud"
+      information:
+        connection_error: >
+          Sommige %{storageType} instellingen werken niet. Neem contact op met uw %{storageType} beheerder.
+        live_data_error: "Fout bij ophalen bestand details"
+        live_data_error_description: >
+          Sommige %{storageType} gegevens konden niet worden opgehaald. Probeer deze pagina te herladen of neem contact op met uw %{storageType} beheerder.
+        no_file_links: "Om bestanden te koppelen aan dit werkpakket, doe het via %{storageType}."
+        not_logged_in: >
+          Om een link toetevoegen, bekijk of upload bestanden gerelateerd aan dit werkpakket, log dan in op %{storageType}.
+      file_links:
+        download: "Downloaden %{fileName}"
+        no_permission: "U heeft geen toestemming om dit bestand te bekijken."
+        open: 'Open bestand in opslag'
+        open_location: 'Open bestand op locatie'
+        remove: "Bestandslink verwijderen"
+        remove_confirmation: >
+          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
+        remove_short: "Remove link"
+        not_allowed_tooltip: "Please log in to Nextcloud to access this file"

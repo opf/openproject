@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,13 +39,12 @@ class Repository < ApplicationRecord
 
   # Managed repository lifetime
   after_create :create_managed_repository, if: Proc.new { |repo| repo.managed? }
-  after_destroy :delete_managed_repository, if: Proc.new { |repo| repo.managed? }
-
   # Raw SQL to delete changesets and changes in the database
   # has_many :changesets, dependent: :destroy is too slow for big repositories
   before_destroy :clear_changesets
+  after_destroy :delete_managed_repository, if: Proc.new { |repo| repo.managed? }
 
-  validates_length_of :password, maximum: 255, allow_nil: true
+  validates :password, length: { maximum: 255, allow_nil: true }
   validate :validate_enabled_scm, on: :create
 
   def file_changes
@@ -120,13 +117,9 @@ class Repository < ApplicationRecord
     self.class.vendor
   end
 
-  def supports_cat?
-    scm.supports_cat?
-  end
+  delegate :supports_cat?, to: :scm
 
-  def supports_annotate?
-    scm.supports_annotate?
-  end
+  delegate :supports_annotate?, to: :scm
 
   def supports_all_revisions?
     true
@@ -161,17 +154,11 @@ class Repository < ApplicationRecord
     end
   end
 
-  def branches
-    scm.branches
-  end
+  delegate :branches, to: :scm
 
-  def tags
-    scm.tags
-  end
+  delegate :tags, to: :scm
 
-  def default_branch
-    scm.default_branch
-  end
+  delegate :default_branch, to: :scm
 
   def properties(path, identifier = nil)
     scm.properties(path, identifier)
@@ -181,13 +168,11 @@ class Repository < ApplicationRecord
     scm.cat(path, identifier)
   end
 
-  def diff(path, rev, rev_to)
-    scm.diff(path, rev, rev_to)
-  end
+  delegate :diff, to: :scm
 
   def diff_format_revisions(cs, cs_to, sep = ':')
     text = ''
-    text << cs_to.format_identifier + sep if cs_to
+    text << (cs_to.format_identifier + sep) if cs_to
     text << cs.format_identifier if cs
     text
   end
@@ -274,19 +259,19 @@ class Repository < ApplicationRecord
   # It will return nil if the committer is not yet mapped and if no User
   # with the same username or email was found
   def find_committer_user(committer)
-    unless committer.blank?
+    if committer.present?
       @found_committer_users ||= {}
       return @found_committer_users[committer] if @found_committer_users.has_key?(committer)
 
       user = nil
-      c = changesets.includes(:user).references(:users).find_by(committer: committer)
+      c = changesets.includes(:user).references(:users).find_by(committer:)
       if c && c.user
         user = c.user
       elsif committer.strip =~ /\A([^<]+)(<(.*)>)?\z/
         username = $1.strip
         email = $3
         u = User.by_login(username).first
-        u ||= User.find_by_mail(email) unless email.blank?
+        u ||= User.find_by_mail(email) if email.present?
         user = u
       end
       @found_committer_users[committer] = user
@@ -296,14 +281,14 @@ class Repository < ApplicationRecord
 
   def repo_log_encoding
     encoding = log_encoding.to_s.strip
-    encoding.blank? ? 'UTF-8' : encoding
+    encoding.presence || 'UTF-8'
   end
 
   # Fetches new changesets for all repositories of active projects
   # Can be called periodically by an external script
   # eg. ruby script/runner "Repository.fetch_changesets"
   def self.fetch_changesets
-    Project.active.has_module(:repository).includes(:repository).each do |project|
+    Project.active.has_module(:repository).includes(:repository).find_each do |project|
       if project.repository
         begin
           project.repository.fetch_changesets
@@ -316,7 +301,7 @@ class Repository < ApplicationRecord
 
   # scan changeset comments to find related and fixed work packages for all repositories
   def self.scan_changesets_for_work_package_ids
-    all.each(&:scan_changesets_for_work_package_ids)
+    all.find_each(&:scan_changesets_for_work_package_ids)
   end
 
   ##
@@ -360,7 +345,7 @@ class Repository < ApplicationRecord
 
     if klass.nil?
       raise OpenProject::SCM::Exceptions::RepositoryBuildError.new(
-        I18n.t('repositories.errors.disabled_or_unknown_vendor', vendor: vendor)
+        I18n.t('repositories.errors.disabled_or_unknown_vendor', vendor:)
       )
     else
       klass
@@ -375,7 +360,7 @@ class Repository < ApplicationRecord
     else
       raise OpenProject::SCM::Exceptions::RepositoryBuildError.new(
         I18n.t('repositories.errors.disabled_or_unknown_type',
-               type: type,
+               type:,
                vendor: repository.vendor)
       )
     end

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% content_for :header_tags do %>
   <% provision_gon_for_ifc_model(@ifc_models, @shown_model_ids) %>
-  <%= include_gon(nonce: content_security_policy_script_nonce) %>
 <% end %>
 
 <% unconverted = @shown_ifc_models.reject(&:converted?) %>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,6 +51,8 @@ class UpdateQueryFromParamsService
 
     apply_display_representation(params)
 
+    apply_include_subprojects(params)
+
     disable_hierarchy_when_only_grouped_by(params)
 
     if valid_subset
@@ -58,10 +60,9 @@ class UpdateQueryFromParamsService
     end
 
     if query.valid?
-      ServiceResult.new(success: true,
-                        result: query)
+      ServiceResult.success(result: query)
     else
-      ServiceResult.new(errors: query.errors)
+      ServiceResult.failure(errors: query.errors)
     end
   end
 
@@ -110,6 +111,10 @@ class UpdateQueryFromParamsService
 
   def apply_display_representation(params)
     query.display_representation = params[:display_representation] if params.key?(:display_representation)
+  end
+
+  def apply_include_subprojects(params)
+    query.include_subprojects = params[:include_subprojects] if params.key?(:include_subprojects)
   end
 
   def disable_hierarchy_when_only_grouped_by(params)

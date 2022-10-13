@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,24 +27,21 @@
 #++
 
 module Queries::Members
-  query = Queries::Members::MemberQuery
-  filter_ns = Queries::Members::Filters
+  ::Queries::Register.register(MemberQuery) do
+    filter Filters::NameFilter
+    filter Filters::AnyNameAttributeFilter
+    filter Filters::ProjectFilter
+    filter Filters::StatusFilter
+    filter Filters::BlockedFilter
+    filter Filters::GroupFilter
+    filter Filters::RoleFilter
+    filter Filters::PrincipalFilter
+    filter Filters::CreatedAtFilter
+    filter Filters::UpdatedAtFilter
 
-  Queries::Register.filter query, filter_ns::NameFilter
-  Queries::Register.filter query, filter_ns::AnyNameAttributeFilter
-  Queries::Register.filter query, filter_ns::ProjectFilter
-  Queries::Register.filter query, filter_ns::StatusFilter
-  Queries::Register.filter query, filter_ns::BlockedFilter
-  Queries::Register.filter query, filter_ns::GroupFilter
-  Queries::Register.filter query, filter_ns::RoleFilter
-  Queries::Register.filter query, filter_ns::PrincipalFilter
-  Queries::Register.filter query, filter_ns::CreatedAtFilter
-  Queries::Register.filter query, filter_ns::UpdatedAtFilter
-
-  order_ns = Queries::Members::Orders
-
-  Queries::Register.order query, order_ns::DefaultOrder
-  Queries::Register.order query, order_ns::NameOrder
-  Queries::Register.order query, order_ns::EmailOrder
-  Queries::Register.order query, order_ns::StatusOrder
+    order Orders::DefaultOrder
+    order Orders::NameOrder
+    order Orders::EmailOrder
+    order Orders::StatusOrder
+  end
 end

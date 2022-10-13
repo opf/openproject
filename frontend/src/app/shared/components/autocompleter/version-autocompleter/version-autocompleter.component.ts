@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ import {
 } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { VersionResource } from 'core-app/features/hal/resources/version-resource';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -50,7 +50,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
     readonly currentProject:CurrentProjectService,
     readonly cdRef:ChangeDetectorRef,
     readonly pathHelper:PathHelperService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly halNotification:HalResourceNotificationService,
   ) {
     super(injector);

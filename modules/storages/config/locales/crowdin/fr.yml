@@ -1,0 +1,92 @@
+#English strings go here
+fr:
+  permission_view_file_links: "Voir les liens des fichiers"
+  permission_manage_file_links: "Gérer les liens de fichiers"
+  permission_manage_storages_in_project: "Gérer les stockages de fichiers dans le projet"
+  project_module_storages: "Stockages de fichiers"
+  activerecord:
+    models:
+      storages/storage: "Stockage"
+    attributes:
+      storages/storage:
+        name: "Nom"
+        creator: "Créateur"
+        provider_type: "Type de fournisseur"
+      storages/file_link:
+        origin_id: "Id d'origine"
+    errors:
+      messages:
+        not_linked_to_project: "n'est pas lié au projet."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "ne peut pas être connecté."
+              minimal_nextcloud_version_unmet: "ne répond pas aux exigences minimales de version (doit être Nextcloud 23 ou supérieur)"
+              not_nextcloud_server: "n'est pas un serveur Nextcloud"
+              op_application_not_installed: >
+                semble ne pas avoir installé l'application "Intégration OpenProject" . Veuillez d'abord l'installer puis réessayer.
+              authorization_header_missing: >
+                n'est pas entièrement configuré. L'instance Nextcloud ne reçoit pas l'en-tête "Authorization", ce qui est nécessaire pour une autorisation basée sur un jeton Bearer des requêtes API. Veuillez vérifier la configuration de votre serveur HTTP.
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "ne peut être que numérique ou un uuid."
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Trop d'éléments créés à la fois. %{max} attendu au maximum, obtenu %{actual}."
+  storages:
+    buttons:
+      done_continue_setup: "Terminé. Poursuivre la configuration"
+      replace_openproject_oauth: "Remplacer OAuth OpenProject"
+      replace_provider_type_oauth: "Remplacer OAuth %{provider_type}"
+      save_and_continue_setup: "Enregistrer et continuer la configuration"
+      save_and_complete_setup: "Enregistrer et terminer la configuration"
+    page_titles:
+      project_settings:
+        index: "Stockages de fichiers disponibles dans ce projet"
+        new: "Ajouter un stockage de fichiers à ce projet"
+    instructions:
+      type: "Veuillez vous assurer que vous avez les privilèges d'administration dans votre instance Nextcloud et que l'application suivante est installée avant de procéder à l'installation :"
+      type_link_text: "« Intégration OpenProject »"
+      name: "Donnez à votre stockage un nom pour que les utilisateurs puissent se différencier entre plusieurs stockages."
+      host: "Veuillez ajouter l'adresse d'hôte de votre stockage, y compris le https://. Il ne doit pas dépasser 255 caractères."
+      no_storage_set_up: "Aucun stockage de fichiers configuré pour le moment."
+      setting_up_additional_storages: "Pour configurer des stockages de fichiers supplémentaires, veuillez visiter"
+      setting_up_additional_storages_non_admin: "Les administrateurs peuvent configurer des stockages de fichiers supplémentaires dans Administration / Stockages de fichiers."
+      setting_up_storages: "Pour configurer des stockages de fichiers, veuillez visiter"
+      setting_up_storages_non_admin: "Les administrateurs peuvent configurer des stockages de fichiers dans Administration / Stockages de fichiers."
+      all_available_storages_already_added: "Tous les stockages disponibles sont déjà ajoutés au projet."
+      copy_from: "Copier cette valeur depuis"
+      nextcloud:
+        integration: "Administration Nextcloud / OpenProject"
+    delete_warning:
+      storage: >
+        Voulez-vous vraiment supprimer ce stockage ? Cela supprimera également le stockage de tous les projets où il est utilisé. De plus, il supprimera également tous les liens des lots de travaux vers les fichiers stockés dans ce stockage.
+      project_storage: >
+        Voulez-vous vraiment supprimer ce stockage de fichier de ce projet ? Cela supprimera aussi tous les liens vers des fichiers stockés dans ce stockage pour ce projet.
+    label_creator: "Créateur"
+    label_file_link: "Lien du fichier"
+    label_file_links: "Liens de fichier"
+    label_name: "Nom"
+    label_host: "URL de l'hôte"
+    label_oauth_breadcrumb:
+      openproject: "OAuth OpenProject"
+      nextcloud: "OAuth Nextcloud"
+    label_oauth_application_details: "Détails de l'application OAuth"
+    label_oauth_client_details: "Détails du client OAuth"
+    label_provider_type: "Type de fournisseur"
+    label_new_storage: "Nouveau stockage"
+    label_storage: "Stockage"
+    label_storages: "Stockages"
+    no_results: "Aucun stockage configuré pour le moment."
+    provider_types:
+      label: "Type de fournisseur"
+      nextcloud:
+        name: "Nextcloud"
+        name_placeholder: "par ex. Nextcloud"
+        default_name: "Mon Nextcloud"
+    confirm_replace_oauth_application: "Êtes-vous sûr ? Tous les utilisateurs devront réautoriser OpenProject."
+    confirm_replace_oauth_client: "Êtes-vous sûr ? Tous les utilisateurs devront réautoriser sur le stockage."
+    oauth_client_details_missing: "Pour terminer la configuration, veuillez ajouter les identifiants du client OAuth depuis votre espace de stockage."
+    notice_oauth_application_replaced: "L'application OAuth OpenProject a bien été remplacée."

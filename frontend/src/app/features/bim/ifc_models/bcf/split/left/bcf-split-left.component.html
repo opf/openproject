@@ -1,0 +1,7 @@
+<op-ifc-viewer
+  *ngIf="showViewer$ | async"
+></op-ifc-viewer>
+
+<op-bcf-list
+  *ngIf="(showViewer$ | async) === false"
+></op-bcf-list>

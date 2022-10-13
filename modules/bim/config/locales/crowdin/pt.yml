@@ -88,11 +88,11 @@ pt:
               ifc_attachment_missing: "Nenhum arquivo ifc anexado."
               invalid_ifc_file: "O arquivo fornecido não é um arquivo IFC válido."
         bim/bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps não é gravável pois ainda não está implementado."
+          bitmaps_not_writable: "bitmaps não são graváveis, pois ainda não estão implementados."
           index_not_integer: "o índice não é um inteiro."
           invalid_clipping_planes: "clipping_planes é inválido."
           invalid_components: "componentes inválidos."
-          invalid_lines: "linhas inválidas."
+          invalid_lines: "linhas são inválidas."
           invalid_orthogonal_camera: "orthogonal_camera é inválido."
           invalid_perspective_camera: "perspective_camera é inválida."
           mismatching_guid: "O guid no json_viewpoint não coincide com o guid do modelo."

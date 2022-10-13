@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +49,7 @@ module API
           end
 
           def filter_param(key, operator, values)
-            { key => { operator: operator, values: values } }.with_indifferent_access
+            { key => { operator:, values: } }.with_indifferent_access
           end
         end
 

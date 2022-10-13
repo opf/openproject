@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -79,8 +79,7 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
   }
 
   // Disable show viewpoint functionality
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  showViewpoint(workPackage:WorkPackageResource, index:number):void {
+  showViewpoint(_workPackage:WorkPackageResource, _index:number):void {
 
   }
 

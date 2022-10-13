@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ import { StateService } from '@uirouter/core';
 import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 
 @Injectable()
@@ -42,7 +42,7 @@ export class WorkPackageRelationsHierarchyService {
     protected halEvents:HalEventsService,
     protected notificationService:WorkPackageNotificationService,
     protected pathHelper:PathHelperService,
-    protected apiV3Service:APIV3Service) {
+    protected apiV3Service:ApiV3Service) {
 
   }
 

@@ -1,5 +1,7 @@
 class EnableCurrentProjectCustomFieldsColumns < ActiveRecord::Migration[6.0]
   def up
+    return unless Setting.exists?(name: 'enabled_projects_column')
+
     columns = Setting.enabled_projects_columns
     cf_columns = ProjectCustomField.pluck(:id).map { |id| "cf_#{id}" }
 

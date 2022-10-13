@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -60,14 +60,14 @@ ar:
   label_budget_plural: "الميزانيات"
   label_budget_id: "الميزانية #%{id}"
   label_deliverable: "الميزانية"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: 'مثال، %{decimal}'
   label_view_all_budgets: "عرض جميع الميزانيات"
   label_yes: "نعم"
-  notice_budget_conflict: "مجموعات العمل يجب أن تكون لنفس المشروع."
+  notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "لا يوجد ميزانيات متاحة."
   permission_edit_budgets: "تحرير الميزانية"
   permission_view_budgets: "عرض الميزانيات"
   project_module_budgets: "الميزانيات"
-  text_budget_reassign_to: "Reassign them to this budget:"
-  text_budget_delete: "Delete the budget from all work packages"
-  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"
+  text_budget_reassign_to: "إعادة تعيينهم إلى هذه الميزانية:"
+  text_budget_delete: "حذف الميزانية من جميع مجموعات العمل"
+  text_budget_destroy_assigned_wp: "هناك %{count} مجموعة عمل تم تعيينها لهذه الميزانية. ماذا تريد أن تفعل؟"

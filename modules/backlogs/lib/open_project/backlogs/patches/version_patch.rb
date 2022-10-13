@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,8 +25,6 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
-require_dependency 'version'
 
 module OpenProject::Backlogs::Patches::VersionPatch
   def self.included(base)
@@ -67,18 +65,16 @@ module OpenProject::Backlogs::Patches::VersionPatch
 
     def ==(other)
       super ||
-        other.is_a?(self.class) &&
+        (other.is_a?(self.class) &&
           id.present? &&
-          other.id == id
+          other.id == id)
     end
 
     def eql?(other)
       self == other
     end
 
-    def hash
-      id.hash
-    end
+    delegate :hash, to: :id
 
     private
 

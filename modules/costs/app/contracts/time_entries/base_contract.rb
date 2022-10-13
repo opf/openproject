@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,6 +45,11 @@ module TimeEntries
     validate :validate_project_is_set
     validate :validate_work_package
 
+    validates :spent_on,
+              date: { before_or_equal_to: Proc.new { Date.new(9999, 12, 31) },
+                      allow_blank: true },
+              unless: Proc.new { spent_on.blank? }
+
     attribute :project_id
     attribute :work_package_id
     attribute :activity_id do
@@ -60,12 +63,14 @@ module TimeEntries
     attribute :tyear
     attribute :tmonth
     attribute :tweek
+    attribute :user_id,
+              permission: :log_time
 
     def assignable_activities
-      if !model.project
-        TimeEntryActivity.none
-      else
+      if model.project
         TimeEntryActivity.active_in_project(model.project)
+      else
+        TimeEntryActivity.none
       end
     end
 
@@ -104,6 +109,10 @@ module TimeEntries
 
     def work_package_not_in_project?
       model.work_package && model.project != model.work_package.project
+    end
+
+    def validate_logged_by_current_user
+      errors.add :logged_by_id, :not_current_user if model.logged_by != logged_by
     end
   end
 end

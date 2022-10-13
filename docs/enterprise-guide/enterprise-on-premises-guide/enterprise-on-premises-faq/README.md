@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Enterprise on-premises FAQ
   priority: 001
 description: Frequently asked questions regarding Enterprise on-premises
-robots: index, follow
 keywords: Enterprise on-premises FAQ, enterprise edition, self-hosted
 ---
 
@@ -20,7 +19,7 @@ If you do not yet have an own Community installation, the easiest way to test Op
 
 The Enterprise on-premises edition is an upgrade of the self-hosted Community Edition. When you are already using the Community Edition, you can purchase an Enterprise on-premises edition license to upgrade to the Enterprise on-premises edition. To do this, follow these steps:
 
-1. Navigate to https://www.openproject.org/enterprise-edition/.
+1. Navigate to [www.openproject.org/enterprise-edition/](https://www.openproject.org/enterprise-edition/).
 2. Click on the "Book now" button.
 3. Follow the steps to purchase the Enterprise on-premises edition license. You will then receive an Enterprise on-premises edition license key by email which you can use to upgrade your Community Edition to the Enterprise on-premises edition. 
 
@@ -62,7 +61,7 @@ To downgrade to the Community edition you will simply need to cancel the paid En
 
 ## Can I migrate from the hosted Enterprise cloud edition to a self-hosted Community or Enterprise on-premises edition?
 
-Yes. If you want to switch from a hosted version of OpenProject (Enterprise cloud edition) to a self-hosted version (Community edition or Enterprise on-premises) we can provide you a full dump of your data. Since this requires manual effort for us, we may charge for this service . Please [contact us](https://www.openproject.org/contact-us/) to get a quotation.
+Yes. If you want to switch from a hosted version of OpenProject (Enterprise cloud edition) to a self-hosted version (Community edition or Enterprise on-premises) we can provide you a full dump of your data. Since this requires manual effort for us, we may charge for this service . Please [contact us](https://www.openproject.org/contact/) to get a quotation.
 
 ## I can't login via SSO to update my Enterprise on-premises token. What do I do?
 

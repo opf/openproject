@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,10 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, Input, OnInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
@@ -35,6 +38,16 @@ import {
   ToastService,
   ToastType,
 } from './toast.service';
+import { UploadInProgress } from 'core-app/core/file-upload/op-file-upload.service';
+import {
+  BehaviorSubject,
+  Observable,
+} from 'rxjs';
+import {
+  finalize,
+  timeout,
+} from 'rxjs/operators';
+import { take } from 'rxjs/internal/operators/take';
 
 @Component({
   templateUrl: './toast.component.html',
@@ -54,27 +67,48 @@ export class ToastComponent implements OnInit {
 
   public show = false;
 
+  public canBeHidden = false;
+
+  public removable = true;
+
+  public loading$ = new BehaviorSubject<boolean>(false);
+
   constructor(readonly I18n:I18nService,
     readonly toastService:ToastService) {
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     this.type = this.toast.type;
+
+    this.removable = !['upload', 'loading'].includes(this.type);
+
+    if (this.type === 'upload') {
+      const data = this.data as UploadInProgress[];
+      this.removable = false;
+      this.canBeHidden = data && data.length > 5;
+    }
+
+    if (this.type === 'loading') {
+      this.removable = false;
+      this.loading$.next(true);
+      (this.data as Observable<unknown>)
+        .pipe(
+          take(1),
+          timeout(20000),
+          finalize(() => {
+            this.loading$.next(false);
+            this.remove();
+          }),
+        )
+        .subscribe();
+    }
   }
 
-  public get data() {
+  public get data():unknown {
     return this.toast.data;
   }
 
-  public canBeHidden() {
-    return this.data && this.data.length > 5;
-  }
-
-  public removable() {
-    return this.toast.type !== 'upload';
-  }
-
-  public remove() {
+  public remove():void {
     this.toastService.remove(this.toast);
   }
 
@@ -82,23 +116,19 @@ export class ToastComponent implements OnInit {
    * Execute the link callback from content.link.target
    * and close this toaster.
    */
-  public executeTarget() {
+  public executeTarget():void {
     if (this.toast.link) {
       this.toast.link.target();
       this.remove();
     }
   }
 
-  public onUploadError(message:string) {
-    this.remove();
-  }
-
-  public onUploadSuccess() {
+  public onUploadSuccess():void {
     this.uploadCount += 1;
   }
 
-  public get uploadText() {
+  public get uploadText():string {
     return this.I18n.t('js.label_upload_counter',
-      { done: this.uploadCount, count: this.data.length });
+      { done: this.uploadCount, count: (this.data as UploadInProgress[]).length });
   }
 }

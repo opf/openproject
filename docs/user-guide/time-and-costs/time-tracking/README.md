@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Time tracking
   priority: 799
 description: Time tracking in OpenProject
-robots: index, follow
 keywords: time tracking, logging time, define rate, labor costs
 ---
 
@@ -11,26 +10,25 @@ keywords: time tracking, logging time, define rate, labor costs
 
 Users can book their time or units spent on an activity within a project directly on work packages,  which gives a clear indication of how much effort the project activities require. You can either log time in the work package view or via a commit message.
 
-<div class="alert alert-info" role="alert">
-**Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
-</div>
+> **Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
 
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Logging time](#logging-time-in-the-work-package-view)       | How to log time to work packages?                            |
-| [Logging time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package?      |
-| [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package?                   |
-| [Delete time entries](#delete-time-entries)                  | How to delete time entries logged to a work package?         |
-| [Spent time widget on the My Page](#spent-time-widget-on-the-my-page) | How to easily track and display spent time in the spent time widget on the MyPage? |
-| [Track time with Toggl](./toggl-integration)                 | How to track spent time with Toggl integration?              |
+| [Logging time](#logging-time-in-the-work-package-view)       | How to log time to a work package.                           |
+| [Logging time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package.      |
+| [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package.                   |
+| [Delete time entries](#delete-time-entries)                  | How to delete time entries logged to a work package.         |
+| [Logging and editing time for other users](#logging-and-editing-time-for-other-users) | How to log time to work packages.                            |
+| [Spent time widget on the My Page](#spent-time-widget-on-the-my-page) | How to easily track and display spent time in the spent time widget on the MyPage. |
+| [Track time with Toggl](./toggl-integration)                 | How to track spent time with Toggl integration.              |
 
 
 ## Logging time in the work package view
 
 In order to log spent hours for a certain activity, open the details of the corresponding work package. Select **Log time** from the **More functions** drop down menu, the icon with the three dots in the top right of the work packages details. Or use the **Log time** icon next to **Spent time**.
 
-![time-logging-work-package](time-logging-work-package.png)
+![Log time from a work package](log-time-work-package.png)
 
 You will be directed to the detailed view to log time where you can edit the following:
 
@@ -44,7 +42,6 @@ You will be directed to the detailed view to log time where you can edit the fol
 
 The aggregated time spent on a work package is shown in the work package details view.
 
-![spent-time-work-package](spent-time-work-package.png)
 
 ## Logging time via commit message
 
@@ -56,7 +53,7 @@ To log time to a work package via a commit message you need to use  the followin
 
 To edit logged time, click in the amount of the **Spent time** in the work packages details view.
 
-![edit-logged-time](edit-logged-time-1305994.png)
+![Click on the number of spent time to edit](edit-logged-time.png)
 
 This will bring you to the time tracking report where you will see all time entries to this work package.
 
@@ -74,7 +71,30 @@ In the list of time entries, click on the **Delete** icon next to a time entry t
 
 ![image-20201005143324624](image-20201005143324624.png)
 
+## Logging and editing time for other users
 
+Starting with OpenProject 12.2, users with certain roles are able to log and edit time for other users. 
+
+> To enable this functionality, an administrator has to accord this privilege to a particular role in the **Roles and Permissions** section under **Users and Permissions** in the administrator settings.
+>
+> There are two new permissions that can be enabled.
+>
+> - *Log time for other users* allows users with that role to log time on behalf of other users
+> - *Edit time logs* for other users allows users with that role to modify and adjust time logged for other users
+
+[Permissions to log and edit time for others](permissions-log-time-others.png)
+
+Once the permissions have been granted, you will notice subtle differences in the interface.
+
+The **Log time** modal now has a new field called "User", that allows you to select a user other than yourself:
+
+[Log time now has a user field](log-time-with-user-field.png)
+
+When accessing cost reports, you will see a new column titled "Logged by". The author of the logged time can be different from the user for whom the time is logged:
+
+[Logged by field](cost-report-logged-by.png)
+
+A user with permissions to edit time logged by other users can edit each entry as they would their own. The "Logged by" field will always display the name of the user who made the last edit.
 
 ## Track labor costs
 
@@ -92,14 +112,14 @@ See more information about the My spent time widget on the [MyPage](../../../get
 
 You can define an hourly rate to **track labor costs per user**. You will need system admin permissions for this. Please navigate to the user profile, e.g. by clicking on a hyper link of the user name on a work package.
 
- ![User-profile](User-profile.png)
+![User-profile](User-profile.png)
 
 You will be directed to the user's profile page.
 
 Here, you can click the **Edit button** on the top right corner of the user profile page.
 
- ![User-profile-edit](User-profile-edit.png)
+![User-profile-edit](User-profile-edit.png)
 
-Alternatively, you can navigate to *Administration -> Users & Permissions -> Users* and click on the respective user name.
+Alternatively, you can navigate to *Administration -> Users and permissions -> Users* and click on the respective user name.
 
 Click on the **Rate history** tab. Find out [here](../../../system-admin-guide/users-permissions/users/#rate-history) how to continue. 

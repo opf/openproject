@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
 import { OpenProjectFileUploadService, UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -54,7 +54,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
 
     private pathHelper:PathHelperService;
 
-    private apiV3Service:APIV3Service;
+    private apiV3Service:ApiV3Service;
 
     private config:ConfigurationService;
 
@@ -230,7 +230,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
       }
 
       if (!this.apiV3Service) {
-        this.apiV3Service = this.injector.get(APIV3Service);
+        this.apiV3Service = this.injector.get(ApiV3Service);
       }
 
       super.$initialize(source);

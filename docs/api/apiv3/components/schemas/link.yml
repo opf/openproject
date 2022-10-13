@@ -20,15 +20,11 @@ properties:
     default: GET
     description: The HTTP verb to use when requesting the resource
   payload:
-    type: string
+    type: object
     description: The payload to send in the request to achieve the desired result
   identifier:
     type: string
     description: "\tAn optional unique identifier to the link object"
-examples:
-- href: 
-- href: "/api/v3/work_packages"
+example:
+  href: "/api/v3/work_packages"
   method: POST
-- href: "/api/v3/examples/{example_id}"
-  templated: true
-- href: urn:openproject-org:api:v3:undisclosed

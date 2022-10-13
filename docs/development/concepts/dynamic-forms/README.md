@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Dynamically generated forms
 description: An introduction on how to generate forms from an API form object
-robots: index, follow
 keywords: concept, forms, dynamic forms, schemas
 ---
 
@@ -93,11 +92,11 @@ The form has four important segments:
 
 Using the dynamic form is incredibly easy once you have a backend that provides a form resource with an embedded schema.
 
-Take a look at the [ProjectSettingsComponent](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/projects/components/projects/projects.component.html) that renders the settings form. You can simply use the `<op-dynamic-form>` component to render the form and pass it the `formUrl` or `resourcePath` + `resourceId` inputs.
+Take a look at the [ProjectSettingsComponent](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/projects/components/projects/projects.component.html) that renders the settings form. You can simply use the `<op-dynamic-form>` component to render the form and pass it the `formUrl` or `resourcePath` + `resourceId` inputs.
 
 The dynamic form component will request the form for you, render the form, and handle any saving and validation.
 
-In case of the projects component, there is a `fieldsSettingsPipe` that allows you to override parts of the rendering. For projects, [it is used](https://github.com/opf/openproject/blob/4700b77033c0161bb66986de253f0f4bccb8388e/frontend/src/app/modules/projects/components/projects/projects.component.ts#L31-L44) hiding the `identifier` field of the project which is handled by the backend.
+In case of the projects component, there is a `fieldsSettingsPipe` that allows you to override parts of the rendering. For projects, [it is used](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/projects/components/projects/projects.component.ts#L34-L44) hiding the `identifier` field of the project which is handled by the backend.
 
 
 

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -139,15 +137,17 @@ namespace :redmine do
     END_DESC
 
     task receive_imap: :environment do
-      imap_options = { host: ENV['host'],
-                       port: ENV['port'],
-                       ssl: ENV['ssl'],
-                       ssl_verification: !['0', 'false', 'f'].include?(ENV['ssl_verification']),
-                       username: ENV['username'],
-                       password: ENV['password'],
-                       folder: ENV['folder'],
-                       move_on_success: ENV['move_on_success'],
-                       move_on_failure: ENV['move_on_failure'] }
+      imap_options = {
+        host: ENV.fetch('host', nil),
+        port: ENV.fetch('port', nil),
+        ssl: ActiveRecord::Type::Boolean.new.cast(ENV.fetch('ssl', true)),
+        ssl_verification: ActiveRecord::Type::Boolean.new.cast(ENV.fetch('ssl_verification', true)),
+        username: ENV.fetch('username', nil),
+        password: ENV.fetch('password', nil),
+        folder: ENV.fetch('folder', nil),
+        move_on_success: ActiveRecord::Type::Boolean.new.cast(ENV.fetch('move_on_success', nil)),
+        move_on_failure: ActiveRecord::Type::Boolean.new.cast(ENV.fetch('move_on_failure', nil))
+      }
 
       Redmine::IMAP.check(imap_options, options_from_env)
     end
@@ -169,12 +169,12 @@ namespace :redmine do
     END_DESC
 
     task receive_pop3: :environment do
-      pop_options = { host: ENV['host'],
-                      port: ENV['port'],
-                      apop: ENV['apop'],
-                      username: ENV['username'],
-                      password: ENV['password'],
-                      delete_unprocessed: ENV['delete_unprocessed'] }
+      pop_options = { host: ENV.fetch('host', nil),
+                      port: ENV.fetch('port', nil),
+                      apop: ENV.fetch('apop', nil),
+                      username: ENV.fetch('username', nil),
+                      password: ENV.fetch('password', nil),
+                      delete_unprocessed: ENV.fetch('delete_unprocessed', nil) }
 
       Redmine::POP3.check(pop_options, options_from_env)
     end
@@ -206,7 +206,7 @@ namespace :redmine do
 
     def options_from_env
       { issue: {} }.tap do |options|
-        default_fields = (ENV['default_fields'] || '').split
+        default_fields = ENV.fetch('default_fields', '').split
         default_fields |= %w[project status type category priority assigned_to version]
         default_fields.each { |field| options[:issue][field.to_sym] = ENV[field] if ENV[field] }
 

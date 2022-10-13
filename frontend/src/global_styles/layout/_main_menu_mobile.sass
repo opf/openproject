@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,14 +28,14 @@
 
 @include breakpoint(680px down)
   .main-menu
+    @include spot-z-index("main-menu")
     position: fixed
-    z-index: 12
     border-bottom: 1px solid var(--main-menu-border-color)
     border: none
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
     min-width: 75vw
 
-  #main-menu-toggle 
+  #main-menu-toggle
     .icon-hamburger
       display: none
     .icon-close
@@ -44,7 +44,7 @@
   .hidden-navigation
     .main-menu
       display: none
-    #main-menu-toggle 
+    #main-menu-toggle
       .icon-hamburger
         display: block
       .icon-close
@@ -76,4 +76,4 @@
       bottom: 0
       right: 0
       opacity: .4
-      z-index: 11
+      @include spot-z-index("main-menu", -1)

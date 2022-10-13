@@ -1,6 +1,3 @@
-require_dependency 'token/hashed_token'
-require_dependency 'token/expirable_token'
-
 module TwoFactorAuthentication
   class LoginToken < ::Token::HashedToken
     include ::Token::ExpirableToken

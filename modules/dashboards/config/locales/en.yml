@@ -1,6 +1,5 @@
 en:
   dashboards:
     label: 'Dashboards'
-    menu_badge: 'Alpha'
 
   project_module_dashboards: 'Dashboards'

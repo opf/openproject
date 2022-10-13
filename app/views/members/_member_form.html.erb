@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -44,12 +44,14 @@ See COPYRIGHT and LICENSE files for more details.
           %>
           <%= styled_label_tag :member_user_ids, user_id_title %>
 
-          <%= hidden_field_tag "member[user_ids][]", nil  %>
-          <members-autocompleter data-update-input="member[user_ids][]"
-                                 data-url="<%= autocomplete_for_member_project_members_path +  '.json' %>"
-                                 data-append-to="body"
-                                 data-multiple="true">
-          </members-autocompleter>
+          <%= angular_component_tag 'op-members-autocompleter',
+                                    inputs: {
+                                      name: "member[user_ids][]",
+                                      url: autocomplete_for_member_project_members_path + '.json',
+                                      appendTo: "body",
+                                      multiple: true
+                                    }
+          %>
         </div>
       </div>
       <div class="grid-content medium-8 small-12 -flex -with-button">

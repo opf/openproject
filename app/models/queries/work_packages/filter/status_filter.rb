@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,6 +65,10 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
     true
   end
 
+  def joins
+    :status
+  end
+
   private
 
   def all_statuses
@@ -80,17 +82,13 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
   def operator_strategy
     super_value = super
 
-    if !super_value
-      case operator
-      when 'o'
-        Queries::Operators::OpenWorkPackages
-      when 'c'
-        Queries::Operators::ClosedWorkPackages
-      when '*'
-        Queries::Operators::All
-      end
-    else
-      super_value
-    end
+    super_value || case operator
+                   when 'o'
+                     Queries::Operators::OpenWorkPackages
+                   when 'c'
+                     Queries::Operators::ClosedWorkPackages
+                   when '*'
+                     Queries::Operators::All
+                   end
   end
 end

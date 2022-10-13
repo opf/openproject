@@ -5,7 +5,6 @@ sidebar_navigation:
   title: Repository
   priority: 700
 description: Manage repositories with SVN or GIT in OpenProject.
-robots: index, follow
 keywords: svn, git, repository management
 ---
 
@@ -13,9 +12,8 @@ keywords: svn, git, repository management
 
 **Repository** is defined as a document management system that allows users to manage files and folders via different version control system (SVN or Git).
 
-<div class="alert alert-info" role="alert">
-**Note**: in order to use Repository functionality please make sure that the Repository module is [activated in the project settings](../projects/project-settings/modules/).
-</div>
+> **Note**: Repositories are currently only available for the packaged-based on-premises installations. In order to use Repository functionality please make sure that the Repository module is [activated in the project settings](../projects/project-settings/modules/).
+
 
 ## Repository browser view
 
@@ -27,7 +25,7 @@ In order to be able to edit files and to upload the updated versions to reposito
 
 ![User-guide_repository](User-guide_repository.png)
 
-Below the list of files you can see the latest revisions and the changing comments. If you select a specific file, you will see the list its revisions.
+Below the list of files you can see the latest revisions and the changing comments. If you select a specific file, you will see the list of its revisions.
 
 You can create a comparison of two versions to see the changes made for specific files. Please keep in mind that this comparison option is available for single files, so a specific file has to be selected, not a folder. Hint: the comparison only works for plain Text Files (e.g. xml, yaml, json, html, etc.) and not for Binary Files (e.g. pdf, ppt, doc, images, audio- or archive files, etc.).
 
@@ -40,10 +38,10 @@ You can create a comparison of two versions to see the changes made for specific
 The data contained in a project repository can be downloaded to your computer using one of several clients, for example [Tortoise SVN](https://tortoisesvn.net/) for Subversion, and the [git client](https://git-scm.com/) or [one of the recommended GUI clients](https://git-scm.com/downloads/guis) for Git.
 
 The specifics of working of the selected version control client may vary. Please refer to the documentation of your version control software client for more information.
-If you choose to use Tortoise SVN, you will find a good guide [here](https://tortoisesvn.net/docs/TortoiseSVN_en/tsvn-dug.html).
+If you choose to use Tortoise SVN, you will find a good guide [here](https://tortoisesvn.net/docs/release/TortoiseSVN_en/tsvn-dug.html).
 For Git, we recommend the [Pro Git guide](https://git-scm.com/book/en/v2).
 
-The specifics of working of the selected version control client may vary. Please refer to the documentation of your version control software client for more information. If you choose to use Tortoise SVN, you will find a good guide [here](https://tortoisesvn.net/docs/TortoiseSVN_en/tsvn-dug.html).
+The specifics of working of the selected version control client may vary. Please refer to the documentation of your version control software client for more information. If you choose to use Tortoise SVN, you will find a good guide [here](https://tortoisesvn.net/docs/release/TortoiseSVN_en/tsvn-dug.html).
 
 ## Referencing work packages
 

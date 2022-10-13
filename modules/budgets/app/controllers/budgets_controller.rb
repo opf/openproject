@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -227,7 +227,7 @@ class BudgetsController < ApplicationController
   end
 
   def find_optional_project
-    @project = Project.find(params[:project_id]) unless params[:project_id].blank?
+    @project = Project.find(params[:project_id]) if params[:project_id].present?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -283,7 +283,7 @@ class BudgetsController < ApplicationController
     reassign_to = budget_exists ? reassign_to_id : nil
 
     WorkPackage
-      .where(budget_id: budget_id)
+      .where(budget_id:)
       .update_all(budget_id: reassign_to, updated_at: DateTime.now)
   end
 end

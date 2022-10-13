@@ -1,5 +1,4 @@
 si:
   dashboards:
     label: 'උපකරණ පුවරු'
-    menu_badge: 'Alpha'
   project_module_dashboards: 'උපකරණ පුවරු'

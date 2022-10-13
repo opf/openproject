@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -25,15 +25,15 @@ cs:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull requests"
+        title: "Pull Requesty"
         copy_menu:
           label: Git snippets
-          description: Copy git snippets to clipboard
+          description: Kopírovat snippety gitu do schránky
         git_actions:
           branch_name: Název pobočky
           commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
+          cmd: Vytvořit větev s prázdným commitem
+          title: Rychlé snippety pro Git
           copy_success: '✅ Zkopírováno!'
           copy_error: '❌ Kopírování selhalo!'
       tab_prs:

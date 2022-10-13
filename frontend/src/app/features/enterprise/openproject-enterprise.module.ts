@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +37,7 @@ import { EETrialWaitingComponent } from 'core-app/features/enterprise/enterprise
 import { EEActiveTrialComponent } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-trial.component';
 import { EEActiveSavedTrialComponent } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FreeTrialButtonComponent } from 'core-app/features/enterprise/free-trial-button/free-trial-button.component';
 
 @NgModule({
   imports: [
@@ -48,6 +49,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   providers: [
     EnterpriseTrialService,
   ],
+  exports: [
+    FreeTrialButtonComponent,
+  ],
   declarations: [
     EnterpriseBaseComponent,
     EnterpriseTrialModalComponent,
@@ -55,6 +59,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     EETrialWaitingComponent,
     EEActiveTrialComponent,
     EEActiveSavedTrialComponent,
+    FreeTrialButtonComponent,
   ],
 })
 export class OpenprojectEnterpriseModule {

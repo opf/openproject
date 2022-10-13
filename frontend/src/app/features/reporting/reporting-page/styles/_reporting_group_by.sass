@@ -21,6 +21,8 @@
   padding-left: 14px
   margin-left: 18px
   min-width: 145px
+  display: flex
+  align-items: center
 
 fieldset.collapsible.header_collapsible legend.in_row
   width: inherit
@@ -31,8 +33,8 @@ fieldset.collapsible.header_collapsible legend.in_row
 
 .group-by--label
   margin: 0px
-  padding: 0px 18px 0 0
   min-width: 60px
+  max-width: 110px
   text-align: center
   white-space: nowrap
   font-weight: bold
@@ -40,6 +42,8 @@ fieldset.collapsible.header_collapsible legend.in_row
   height: 36px
   line-height: 36px
   cursor: move
+  overflow: hidden
+  text-overflow: ellipsis
 
 .group-by--selected-element:after, .group-by--selected-element:before
   border: solid transparent
@@ -77,6 +81,7 @@ fieldset.collapsible.header_collapsible legend.in_row
   line-height: normal
   cursor: pointer
   color: #FFFFFF
+  padding: 0 0 0 5px
 
 .group-by--remove:hover
   background-color: #3493B3 !important
@@ -86,6 +91,7 @@ fieldset.collapsible.header_collapsible legend.in_row
 .group-by--control
   margin: 0
   padding: 0
+  max-width: 200px
 
 .group-by--selected-elements
   background-color: #EEE

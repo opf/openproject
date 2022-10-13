@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +29,6 @@
 class GroupsController < ApplicationController
   include GroupsHelper
   layout 'admin'
-
-  helper_method :gon
 
   before_action :require_admin, except: %i[show]
   before_action :find_group, only: %i[destroy update show create_memberships destroy_membership
@@ -75,8 +71,6 @@ class GroupsController < ApplicationController
   # GET /groups/1/edit
   def edit
     @group = Group.includes(:members, :users).find(params[:id])
-
-    set_filters_for_user_autocompleter
   end
 
   # POST /groups
@@ -131,7 +125,7 @@ class GroupsController < ApplicationController
         flash[:info] = I18n.t(:notice_deletion_scheduled)
         redirect_to(action: :index)
       end
-      format.xml { head 202 }
+      format.xml { head :accepted }
     end
   end
 
@@ -154,7 +148,7 @@ class GroupsController < ApplicationController
   end
 
   def create_memberships
-    membership_params = permitted_params.group_membership[:new_membership]
+    membership_params = permitted_params.group_membership[:membership]
 
     service_call = Members::CreateService
                    .new(user: current_user)
@@ -176,12 +170,13 @@ class GroupsController < ApplicationController
   end
 
   def destroy_membership
+    member = Member.find(params[:membership_id])
     Members::DeleteService
-      .new(model: Member.find(params[:membership_id]), user: current_user)
+      .new(model: member, user: current_user)
       .call
 
     flash[:notice] = I18n.t :notice_successful_delete
-    redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships'
+    redirect_to controller: '/groups', action: 'edit', id: @group, tab: redirected_to_tab(member)
   end
 
   protected
@@ -222,7 +217,15 @@ class GroupsController < ApplicationController
       flash[:error] = service_call.errors.full_messages.join("\n")
     end
 
-    redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships'
+    redirect_to controller: '/groups', action: 'edit', id: @group, tab: redirected_to_tab(service_call.result)
+  end
+
+  def redirected_to_tab(membership)
+    if membership.project
+      'memberships'
+    else
+      'global_roles'
+    end
   end
 
   def respond_users_altered(service_call)

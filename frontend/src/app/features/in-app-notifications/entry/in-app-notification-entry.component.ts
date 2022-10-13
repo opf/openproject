@@ -11,7 +11,7 @@ import {
   Observable,
   timer,
 } from 'rxjs';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -24,7 +24,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { take } from 'rxjs/internal/operators/take';
 import { StateService } from '@uirouter/angular';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
+import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 
@@ -38,9 +38,9 @@ import { DeviceService } from 'core-app/core/browser/device.service';
 export class InAppNotificationEntryComponent implements OnInit {
   @HostBinding('class.op-ian-item') className = true;
 
-  @Input() notification:InAppNotification;
+  @Input() notification:INotification;
 
-  @Input() aggregatedNotifications:InAppNotification[];
+  @Input() aggregatedNotifications:INotification[];
 
   workPackage$:Observable<WorkPackageResource>|null = null;
 
@@ -68,12 +68,13 @@ export class InAppNotificationEntryComponent implements OnInit {
       { count }),
     loading: this.I18n.t('js.ajax.loading'),
     placeholder: this.I18n.t('js.placeholders.default'),
+    mark_as_read: this.I18n.t('js.notifications.center.mark_as_read'),
     updated_by_at: (age:string):string => this.I18n.t('js.notifications.center.text_update_date',
       { date: age }),
   };
 
   constructor(
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly I18n:I18nService,
     readonly storeService:IanCenterService,
     readonly timezoneService:TimezoneService,
@@ -134,7 +135,7 @@ export class InAppNotificationEntryComponent implements OnInit {
     event.stopPropagation();
   }
 
-  markAsRead(event:MouseEvent, notifications:InAppNotification[]):void {
+  markAsRead(event:MouseEvent, notifications:INotification[]):void {
     event.stopPropagation();
     this.storeService.markAsRead(notifications.map((el) => el.id));
   }

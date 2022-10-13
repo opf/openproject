@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,8 +41,8 @@ module API
                                                        :bcf_comment)
 
             Activities::ActivityCollectionRepresenter.new(journals,
-                                                          self_link: self_link,
-                                                          current_user: current_user)
+                                                          self_link:,
+                                                          current_user:)
           end
 
           params do
@@ -60,7 +60,7 @@ module API
                              send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
 
             if result.success?
-              Activities::ActivityRepresenter.new(work_package.journals.last, current_user: current_user)
+              Activities::ActivityRepresenter.new(work_package.journals.last, current_user:)
             else
               fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
             end

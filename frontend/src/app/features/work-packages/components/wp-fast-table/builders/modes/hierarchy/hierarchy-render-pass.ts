@@ -12,7 +12,7 @@ import { WorkPackageViewHierarchies } from 'core-app/features/work-packages/rout
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { additionalHierarchyRowClassName, SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
@@ -20,7 +20,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
   @InjectField() states:States;
 
-  @InjectField() apiV3Service:APIV3Service;
+  @InjectField() apiV3Service:ApiV3Service;
 
   @InjectField() wpTableHierarchies:WorkPackageViewHierarchiesService;
 
@@ -105,7 +105,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     // Cases for wp
     // 1. No wp.ancestors in table -> Render them immediately (defer=false)
-    // 2. Parent in table -> deffered[parent] = wp
+    // 2. Parent in table -> defered[parent] = wp
     // 3. Parent not in table BUT a ancestor in table
     // -> deferred[a ancestor] = parent
     // -> deferred[parent] = wp

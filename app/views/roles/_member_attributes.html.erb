@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,9 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<div class="form--field">
-  <%= f.check_box :assignable %>
-</div>
 <% if role.new_record? && roles.any? %>
   <div class="form--field">
     <%= styled_label_tag :copy_workflow_from, t(:label_copy_workflow_from) %>

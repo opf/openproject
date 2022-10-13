@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +29,7 @@
 require 'open_project/scm/adapters/git'
 
 class Repository::Git < Repository
-  validates_presence_of :url
+  validates :url, presence: true
   validate :validity_of_local_url
 
   def self.scm_adapter_class
@@ -107,13 +105,9 @@ class Repository::Git < Repository
     revision[0, 8]
   end
 
-  def branches
-    scm.branches
-  end
+  delegate :branches, to: :scm
 
-  def tags
-    scm.tags
-  end
+  delegate :tags, to: :scm
 
   def find_changeset_by_name(name)
     return nil if name.nil? || name.empty?
@@ -136,7 +130,7 @@ class Repository::Git < Repository
     c = changesets.order(Arel.sql('committed_on DESC')).first
     since = (c ? c.committed_on - 7.days : nil)
 
-    revisions = scm.revisions('', nil, nil, all: true, since: since, reverse: true)
+    revisions = scm.revisions('', nil, nil, all: true, since:, reverse: true)
     return if revisions.nil? || revisions.empty?
 
     recent_changesets = changesets.where(['committed_on >= ?', since])
@@ -164,7 +158,7 @@ class Repository::Git < Repository
           if changeset.save
             rev.paths.each do |file|
               Change.create(
-                changeset: changeset,
+                changeset:,
                 action: file[:action],
                 path: file[:path]
               )
@@ -176,7 +170,7 @@ class Repository::Git < Repository
   end
 
   def latest_changesets(path, rev, limit = 10)
-    revisions = scm.revisions(path, nil, rev, limit: limit, all: false)
+    revisions = scm.revisions(path, nil, rev, limit:, all: false)
     return [] if revisions.nil? || revisions.empty?
 
     changesets.where(['scmid IN (?)', revisions.map!(&:scmid)])

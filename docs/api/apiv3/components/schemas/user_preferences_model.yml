@@ -17,21 +17,21 @@ example:
   timeZone: "Europe/Berlin"
   warnOnLeavingUnsaved: true
   notifications:
-    watched: false
-    involved: true
-    mentioned: false
-    newsAdded: false,
-    newsCommented: false
-    documentAdded: false
-    forumMessages: false
-    wikiPageAdded: false
-    wikiPageUpdated: false
-    membershipAdded: false
-    membershipUpdated: false
-    workPackageCommented: false
-    workPackageProcessed: false
-    workPackagePrioritized: false
-    workPackageScheduled: false
-    _links:
-      project:
-        href: null
+    - watched: false
+      involved: true
+      mentioned: false
+      newsAdded: false,
+      newsCommented: false
+      documentAdded: false
+      forumMessages: false
+      wikiPageAdded: false
+      wikiPageUpdated: false
+      membershipAdded: false
+      membershipUpdated: false
+      workPackageCommented: false
+      workPackageProcessed: false
+      workPackagePrioritized: false
+      workPackageScheduled: false
+      _links:
+        project:
+          href: null

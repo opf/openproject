@@ -4,22 +4,22 @@ zh-TW:
       ldap_groups/synchronized_group:
         dn: '獨特名'
         auth_source: 'LDAP 連線'
-        sync_users: 'Sync users'
+        sync_users: '同步使用者'
       ldap_groups/synchronized_filter:
         filter_string: '簡約登入目錄制約(LDAP)篩選'
         auth_source: 'LDAP 連線'
         group_name_attribute: "群組名字屬性"
-        sync_users: 'Sync users'
-        base_dn: "Search base DN"
+        sync_users: '同步使用者'
+        base_dn: "搜尋基礎 DN"
     models:
-      ldap_groups/synchronized_group: 'Synchronized LDAP group'
+      ldap_groups/synchronized_group: '同步的 LDAP 群組'
       ldap_groups/synchronized_filter: 'LDAP群組同步篩選'
     errors:
       models:
         ldap_groups/synchronized_filter:
-          must_contain_base_dn: "Filter base DN must be contained within the LDAP connection's base DN"
+          must_contain_base_dn: "搜尋基礎 DN 須包含在 LDAP 連接的基礎 DN 中"
   ldap_groups:
-    label_menu_item: 'LDAP group synchronization'
+    label_menu_item: 'LDAP 群組同步'
     label_group_key: 'LDAP group filter key'
     label_synchronize: '同步'
     settings:
@@ -30,9 +30,9 @@ zh-TW:
       singular: 'LDAP群組同步篩選'
       plural: 'LDAP群組同步篩選'
       label_n_groups_found:
-        one: "1 group found by the filter"
-        other: "%{count} groups found by the filter"
-        zero: "No groups were found by the filter"
+        one: "篩選器找到了 1 個群組"
+        other: "篩選器找到了 %{count} 個群組"
+        zero: "篩選器找不到任何群組"
       destroy:
         title: '移除同步篩選 %{name}'
         confirmation: "如果繼續,本同步篩選 %{name} 和藉此創建的群組 %{groups_count} 將會刪除"
@@ -40,15 +40,14 @@ zh-TW:
         verification: "輸入篩選名稱 %{name} 以確定刪除"
       form:
         group_name_attribute_text: '輸入用於設定OpenProject群組名的LDAP群組屬性'
-        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
+        filter_string_text: '輸入 RFC4515 LDAP 篩選器，以返回 LDAP 中的群組同步至 OpenProject。'
         base_dn_text: >
-          Enter the search base DN to use for this filter. It needs to be below the base DN of the selected LDAP connection.
-          Leave this option empty to reuse the base DN of the connection
+          輸入用於此篩選器的搜尋基礎 DN，它必須在所選的 LDAP 連接的基礎 DN 之下。將此選項留空以使用連接的基礎 DN
     synchronized_groups:
-      add_new: 'Add synchronized LDAP group'
+      add_new: '新增同步的 LDAP 群組'
       destroy:
-        title: 'Remove synchronized group %{name}'
-        confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
+        title: '移除同步的群組 %{name}'
+        confirmation: "如繼續，將移除同步的群組 %{name} 和所有透過該群組同步的全部 %{users_count} 個用戶。"
         info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
         verification: "Enter the group's name %{name} to verify the deletion."
       help_text_html: |
@@ -59,12 +58,14 @@ zh-TW:
         <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please see our documentation on this topic</a>.
       no_results: '找不到同步的群組。'
       no_members: '這個群組還沒有同步的成員。'
-      plural: 'Synchronized LDAP groups'
-      singular: 'Synchronized LDAP group'
+      plural: '同步的 LDAP 群組'
+      singular: '同步的 LDAP 群組'
       form:
-        auth_source_text: 'Select which LDAP connection should be used.'
+        auth_source_text: '選擇要使用的 LDAP 連接。'
         sync_users_text: >
           If you enable this option, found users will also be automatically created in OpenProject. Without it, only existing accounts in OpenProject will be added to groups.
-        dn_text: 'Enter the full DN of the group in LDAP'
+        dn_text: '輸入 LDAP 中群組的完成 DN'
         group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+      upsale:
+        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
 

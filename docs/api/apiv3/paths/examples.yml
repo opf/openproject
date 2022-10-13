@@ -13,13 +13,13 @@ get:
     schema:
       type: string
   - description: ''
-    example: 'true'
+    example: true
     in: query
     name: showSums
     required: false
     schema:
-      default: 'false'
-      type: string
+      default: false
+      type: boolean
   responses:
     '200':
       description: OK

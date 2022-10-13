@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Translations
 description: Get an overview of how translations are being used in OpenProject, and how they end up in the frontend
-robots: index, follow
 keywords: translations, I18n, localization, locales, languages
 ---
 
@@ -74,7 +73,7 @@ expect(page).to have_selector('button', text: I18n.t('work_packages.my_specific_
 
 
 
-The Rails guide on translations will give advanced examples on variable interpolation and the like: https://guides.rubyonrails.org/i18n.html
+The Rails guide on translations will give advanced examples on variable interpolation and the like: [guides.rubyonrails.org/i18n](https://guides.rubyonrails.org/i18n.html)
 
 
 
@@ -98,7 +97,7 @@ js:
 
 
 
-You will then need to access the Angular [ `I18nService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/common/i18n/i18n.service.ts) that provides access to the `I18n.js` helper. Right now, there is also a window global `I18n` that works, but it is not recommended to use that wherever you can inject the service instead.
+You will then need to access the Angular [ `I18nService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/core/i18n/i18n.service.ts) that provides access to the `I18n.js` helper. Right now, there is also a window global `I18n` that works, but it is not recommended to use that wherever you can inject the service instead.
 
 
 
@@ -127,4 +126,4 @@ Then you can use them as below in your template:
 
 
 
-For more information on formatting and other helpers of the `I18n.js` library, see https://github.com/fnando/i18n-js
+For more information on formatting and other helpers of the `I18n.js` library, see [github.com/fnando/i18n-js](https://github.com/fnando/i18n-js)

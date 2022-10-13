@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +28,8 @@
 
 class Category < ApplicationRecord
   belongs_to :project
-  belongs_to :assigned_to, class_name: 'Principal', foreign_key: 'assigned_to_id'
-  has_many :work_packages, foreign_key: 'category_id', dependent: :nullify
+  belongs_to :assigned_to, class_name: 'Principal'
+  has_many :work_packages, dependent: :nullify
 
   validates :name,
             uniqueness: { scope: [:project_id], case_sensitive: false },

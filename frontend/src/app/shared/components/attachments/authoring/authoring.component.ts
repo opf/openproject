@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,58 +26,46 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input, OnInit } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import {
+  ChangeDetectionStrategy, Component, Input, OnInit,
+} from '@angular/core';
+import { Moment } from 'moment-timezone';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { IUser } from 'core-app/core/state/principals/user.model';
 
 @Component({
   templateUrl: './authoring.component.html',
   styleUrls: ['./authoring.component.sass'],
-  selector: 'authoring',
+  selector: 'op-authoring',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthoringComponent implements OnInit {
-  // scope: { createdOn: '=', author: '=', showAuthorAsLink: '=', project: '=', activity: '=' },
-  @Input('createdOn') createdOn:string;
+  @Input() createdOn:string;
 
-  @Input('author') author:HalResource;
+  @Input() author:IUser;
 
-  @Input('showAuthorAsLink') showAuthorAsLink:boolean;
+  @Input() showAuthorAsLink:boolean;
 
-  @Input('project') project:any;
+  public createdOnTime:Moment;
 
-  @Input('activity') activity:any;
+  public timeago:string;
 
-  public createdOnTime:any;
+  public time:string;
 
-  public timeago:any;
-
-  public time:any;
-
-  public userLink:string;
-
-  public constructor(readonly PathHelper:PathHelperService,
-    readonly I18n:I18nService,
-    readonly timezoneService:TimezoneService) {
-
+  public get authorName():string {
+    return (this.author && this.author.name) || '';
   }
 
-  ngOnInit() {
+  public get authorLink():string {
+    return (this.author && this.PathHelper.userPath(this.author.id)) || '';
+  }
+
+  public constructor(readonly PathHelper:PathHelperService, readonly timezoneService:TimezoneService) { }
+
+  ngOnInit():void {
     this.createdOnTime = this.timezoneService.parseDatetime(this.createdOn);
     this.timeago = this.createdOnTime.fromNow();
     this.time = this.createdOnTime.format('LLL');
-    this.userLink = this.PathHelper.userPath(idFromLink(this.author.href));
-  }
-
-  public activityFromPath(from:any) {
-    let path = this.PathHelper.projectActivityPath(this.project);
-
-    if (from) {
-      path += `?from=${from}`;
-    }
-
-    return path;
   }
 }

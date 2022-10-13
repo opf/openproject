@@ -15,5 +15,8 @@
     "src/**/*.ts",
     "**/*.d.ts",
     "app/core/augmenting/dynamic-scripts/*.ts"
+  ],
+  "exclude": [
+    "**/*.stories.*"
   ]
 }

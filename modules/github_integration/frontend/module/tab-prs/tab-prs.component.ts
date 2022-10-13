@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 import { IGithubPullRequestResource } from "../../../../../../../../modules/github_integration/frontend/module/typings";
@@ -46,7 +46,7 @@ export class TabPrsComponent implements OnInit {
 
   constructor(
     readonly I18n:I18nService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly halResourceService:HalResourceService,
     readonly changeDetector:ChangeDetectorRef,
   ) {}

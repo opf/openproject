@@ -129,5 +129,5 @@ Note that the tabindex has to be set manually on the `<span>` and not the contai
 
 ```
 <h2>Title</h2>
-<p>Lorem <span style="text-decoration: underline;" class="tooltip--top" data-tooltip="this is actully not a real latin text">ipsum</span> dolor sit amet, consectetur adipisicing elit. Facere quibusdam sit voluptas illo error reiciendis non nisi necessitatibus architecto beatae, ea quos <span style="text-decoration: underline;" class=" tooltip--top" data-tooltip="Sounds like an endboss in a JRPG, doesn't it?">sint</span> consectetur repellat aliquid. Ducimus provident totam pariatur.</p>
+<p>Lorem <span style="text-decoration: underline;" class="tooltip--top" data-tooltip="this is actually not a real latin text">ipsum</span> dolor sit amet, consectetur adipisicing elit. Facere quibusdam sit voluptas illo error reiciendis non nisi necessitatibus architecto beatae, ea quos <span style="text-decoration: underline;" class=" tooltip--top" data-tooltip="Sounds like an endboss in a JRPG, doesn't it?">sint</span> consectetur repellat aliquid. Ducimus provident totam pariatur.</p>
 ```

@@ -2,14 +2,13 @@
 el:
   js:
     boards:
+      create_new: 'Create new board'
       label_unnamed_board: 'Ανώνυμος πίνακας'
       label_unnamed_list: 'Ανώνυμη λίστα'
       label_board_type: 'Τύπος πίνακα'
       upsale:
-        teaser_text: 'Βελτιώστε την agile διαχείριση έργων σας με την ευέλικτη προβολή Πινάκων. Δημιουργήστε όσους πίνακες επιθυμείτε για οτιδήποτε θέλετε να παρακολουθείτε.'
-        upgrade_to_ee_text: 'Οι πίνακες είναι λειτουργία της Έκδοσης για Επιχειρήσεις. Παρακαλούμε αναβαθμίστε σε πλάνο επί πληρωμή.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Αναβαθμίστε τώρα'
-        personal_demo: 'Contact us for a demo'
       lists:
         delete: 'Διαγραφή λίστας'
       version:

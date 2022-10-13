@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +29,7 @@
 require 'open3'
 namespace :packager do
   def shell_setup(cmd, raise_on_error: true)
-    out_and_err, status = Open3.capture2e(ENV['APP_NAME'], *cmd)
+    out_and_err, status = Open3.capture2e(ENV.fetch('APP_NAME', nil), *cmd)
 
     if status.exitstatus != 0 && raise_on_error
       raise "Aborting packager setup due to error in installation. Output: #{out_and_err}"
@@ -52,7 +50,7 @@ namespace :packager do
     # 2. user requested frontend compilation with RECOMPILE_ANGULAR_ASSETS
     if ENV['RECOMPILE_RAILS_ASSETS'] == 'true' || ENV['RECOMPILE_ANGULAR_ASSETS'] == 'true'
       Rake::Task['assets:precompile'].invoke
-      FileUtils.chmod_R 'a+rx', "#{ENV['APP_HOME']}/public/assets/"
+      FileUtils.chmod_R 'a+rx', "#{ENV.fetch('APP_HOME', nil)}/public/assets/"
 
       # Unset rails request to recompile
       # but keep RECOMPILE_ANGULAR_ASSETS as it's user defined
@@ -64,22 +62,24 @@ namespace :packager do
 
     # Persist configuration
     Setting.sys_api_enabled = 1
-    Setting.sys_api_key = ENV['SYS_API_KEY']
+    Setting.sys_api_key = ENV.fetch('SYS_API_KEY', nil)
     Setting.host_name = ENV.fetch('SERVER_HOSTNAME', Setting.host_name)
 
+    # SERVER_PROTOCOL is set by the packager apache2 addon
+    # other SERVER_PROTOCOL_xxx variables can be manually set by user
     if ENV['SERVER_PROTOCOL_HTTPS_NO_HSTS']
-      # Allow setting only the Setting.protocol without enabling FORCE__SSL
-      # due to external proxy configuration
-      Setting.protocol = 'https'
-      shell_setup(['config:unset', "OPENPROJECT_RAILS__FORCE__SSL"])
+      # Allow setting only HTTPS setting without enabling FORCE__SSL
+      # due to external proxy configuration. This avoids activation of HSTS headers.
+      shell_setup(['config:set', "OPENPROJECT_HTTPS=true"])
+      shell_setup(['config:set', "OPENPROJECT_HSTS=false"])
     elsif ENV['SERVER_PROTOCOL_FORCE_HTTPS'] || ENV.fetch('SERVER_PROTOCOL', Setting.protocol) == 'https'
       # Allow overriding the protocol setting from ENV
       # to allow instances where SSL is terminated earlier to respect that setting
-      Setting.protocol = 'https'
-      shell_setup(['config:set', "OPENPROJECT_RAILS__FORCE__SSL=true"])
+      shell_setup(['config:set', "OPENPROJECT_HTTPS=true"])
+      shell_setup(['config:set', "OPENPROJECT_HSTS=true"])
     else
-      Setting.protocol = 'http'
-      shell_setup(['config:unset', "OPENPROJECT_RAILS__FORCE__SSL"])
+      shell_setup(['config:set', "OPENPROJECT_HTTPS=false"])
+      shell_setup(['config:set', "OPENPROJECT_HSTS=false"])
     end
 
     # Run customization step, if it is defined.
@@ -92,8 +92,8 @@ namespace :packager do
 
   namespace :setup do
     task :relative_root do
-      old_relative_root = ENV['RAILS_RELATIVE_URL_ROOT'] || ''
-      relative_root = ENV['SERVER_PATH_PREFIX'] || '/'
+      old_relative_root = ENV.fetch('RAILS_RELATIVE_URL_ROOT', '')
+      relative_root = ENV.fetch('SERVER_PATH_PREFIX', '/')
 
       if relative_root != '/' || "#{old_relative_root}/" != relative_root
         # Rails expects relative root not to have a trailing slash,
@@ -105,23 +105,23 @@ namespace :packager do
     end
 
     task :scm do
-      svn_path = ENV['SVN_REPOSITORIES'] || ''
-      git_path = ENV['GIT_REPOSITORIES'] || ''
+      svn_path = ENV.fetch('SVN_REPOSITORIES', '')
+      git_path = ENV.fetch('GIT_REPOSITORIES', '')
 
       # SCM configuration may have been skipped
       if svn_path.present? || git_path.present?
-        base_url = URI::Generic.build(scheme: ENV['SERVER_PROTOCOL'], host: ENV['SERVER_HOSTNAME'])
-        prefix = ENV['SERVER_PATH_PREFIX']
+        base_url = URI::Generic.build(scheme: ENV.fetch('SERVER_PROTOCOL', nil), host: ENV.fetch('SERVER_HOSTNAME', nil))
+        prefix = ENV.fetch('SERVER_PATH_PREFIX', nil)
 
         checkout_data = Setting.repository_checkout_data
         if svn_path.present?
           # migrate previous repositories with reposman to managed
           Rake::Task['scm:migrate:managed'].invoke("file://#{svn_path}")
-          checkout_data['subversion'] = { 'enabled' => 1, 'base_url' => URI.join(base_url, prefix, 'svn') }
+          checkout_data['subversion'] = { 'enabled' => 1, 'base_url' => URI.join(base_url, prefix, 'svn').to_s }
         end
 
         if git_path.present?
-          checkout_data['git'] = { 'enabled' => 1, 'base_url' => URI.join(base_url, prefix, 'git') }
+          checkout_data['git'] = { 'enabled' => 1, 'base_url' => URI.join(base_url, prefix, 'git').to_s }
         end
 
         Setting.repository_checkout_data = checkout_data

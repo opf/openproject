@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,8 +36,7 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def call(attributes)
-    modified = update_ancestors(attributes)
-    modified += update_former_ancestors(attributes)
+    modified = update_current_and_former_ancestors(attributes)
 
     set_journal_note(modified)
 
@@ -48,7 +45,7 @@ class WorkPackages::UpdateAncestorsService
       modified.all? { |wp| wp.save(validate: false) }
     end
 
-    result = ServiceResult.new(success: success, result: work_package)
+    result = ServiceResult.new(success:, result: work_package)
 
     modified.each do |wp|
       result.add_dependent!(ServiceResult.new(success: !wp.changed?, result: wp))
@@ -59,34 +56,30 @@ class WorkPackages::UpdateAncestorsService
 
   private
 
-  def update_ancestors(attributes)
-    work_package.ancestors.includes(:status).select do |ancestor|
-      inherit_attributes(ancestor, attributes)
+  def update_current_and_former_ancestors(attributes)
+    WorkPackages::UpdateAncestors::Loader
+      .new(work_package, (%i(parent_id parent) & attributes).any?)
+      .select do |ancestor, loader|
+        inherit_attributes(ancestor, loader, attributes)
 
-      ancestor.changed?
-    end
+        ancestor.changed?
+      end
   end
 
-  def update_former_ancestors(attributes)
-    return [] unless (%i(parent_id parent) & attributes).any? && previous_parent_id
-
-    parent = WorkPackage.find(previous_parent_id)
-
-    ([parent] + parent.ancestors).each do |ancestor|
-      inherit_attributes!(ancestor)
-    end.select(&:changed?)
-  end
-
-  def inherit_attributes!(ancestor)
-    # pass :parent to force update of all inherited attributes
-    inherit_attributes(ancestor, %i(parent))
-  end
-
-  def inherit_attributes(ancestor, attributes)
+  def inherit_attributes(ancestor, loader, attributes)
     return unless attributes_justify_inheritance?(attributes)
 
-    derive_estimated_hours(ancestor) if inherit?(attributes, :estimated_hours)
-    inherit_done_ratio(ancestor) if inherit?(attributes, :done_ratio)
+    # Estimated hours need to be calculated before the done_ratio below.
+    # The aggregation only depends on estimated hours.
+    derive_estimated_hours(ancestor, loader) if inherit?(attributes, :estimated_hours)
+
+    # Progress (done_ratio or also: percentDone) depends on both
+    # the completion of sub-WPs, as well as the estimated hours
+    # as a weight factor. So changes in estimated hours also have
+    # to trigger a recalculation of done_ratio.
+    inherit_done_ratio(ancestor, loader) if inherit?(attributes, :done_ratio) || inherit?(attributes, :estimated_hours)
+
+    inherit_ignore_non_working_days(ancestor, loader) if inherit?(attributes, :ignore_non_working_days)
   end
 
   def inherit?(attributes, attribute)
@@ -99,23 +92,35 @@ class WorkPackages::UpdateAncestorsService
     end
   end
 
-  def inherit_done_ratio(ancestor)
+  def inherit_done_ratio(ancestor, loader)
     return if WorkPackage.done_ratio_disabled?
 
     return if WorkPackage.use_status_for_done_ratio? && ancestor.status && ancestor.status.default_done_ratio
 
     # done ratio = weighted average ratio of leaves
-    ratio = aggregate_done_ratio(ancestor)
+    ancestor.done_ratio = (aggregate_done_ratio(ancestor, loader) || 0).round
+  end
 
-    if ratio
-      ancestor.done_ratio = ratio.round
+  # Sets the ignore_non_working_days to true if any ancestor has its value set to true.
+  # If there is no value returned from the descendants, that means that the work package in
+  # question no longer has a descendant. But since we are in the service going up the ancestor chain,
+  # such a work package is the former parent. The property of such a work package is reset to `false`.
+  def inherit_ignore_non_working_days(work_package, loader)
+    return if work_package.schedule_manually
+
+    descendant_value = ignore_non_working_days_of_descendants(work_package, loader)
+
+    if descendant_value.nil?
+      descendant_value = work_package.ignore_non_working_days
     end
+
+    work_package.ignore_non_working_days = descendant_value
   end
 
   ##
   # done ratio = weighted average ratio of leaves
-  def aggregate_done_ratio(work_package)
-    leaves = leaves_for_work_package(work_package)
+  def aggregate_done_ratio(work_package, loader)
+    leaves = loader.leaves_of(work_package)
 
     leaves_count = leaves.size
 
@@ -160,42 +165,10 @@ class WorkPackages::UpdateAncestorsService
     summands.sum
   end
 
-  def derive_estimated_hours(work_package)
-    descendants = descendants_for_work_package(work_package)
+  def derive_estimated_hours(work_package, loader)
+    descendants = loader.descendants_of(work_package)
 
     work_package.derived_estimated_hours = not_zero(all_estimated_hours(descendants).sum.to_f)
-  end
-
-  def descendants_for_work_package(work_package)
-    @descendants ||= Hash.new do |hash, wp|
-      hash[wp] = related_for_work_package(wp, :descendants)
-    end
-
-    @descendants[work_package]
-  end
-
-  def leaves_for_work_package(work_package)
-    @leaves ||= Hash.new do |hash, wp|
-      hash[wp] = related_for_work_package(wp, :leaves).each do |leaf|
-        # Mimic work package by implementing the closed? interface
-        leaf.send(:'closed?=', leaf.is_closed)
-      end
-    end
-
-    @leaves[work_package]
-  end
-
-  def related_for_work_package(work_package, relation_type)
-    scope = work_package
-            .send(relation_type)
-
-    if send("#{relation_type}_joins")
-      scope = scope.joins(send("#{relation_type}_joins"))
-    end
-
-    scope
-      .pluck(*send("selected_#{relation_type}_attributes"))
-      .map { |p| OpenStruct.new(send("selected_#{relation_type}_attributes").zip(p).to_h) }
   end
 
   def not_zero(value)
@@ -208,45 +181,17 @@ class WorkPackages::UpdateAncestorsService
       .reject { |hours| hours.to_f.zero? }
   end
 
-  ##
-  # Get the previous parent ID
-  # This could either be +parent_id_was+ if parent was changed
-  # (when work_package was saved/destroyed)
-  # Or the set parent before saving
-  def previous_parent_id
-    if work_package.parent_id.nil? && work_package.parent_id_was
-      work_package.parent_id_was
-    else
-      previous_change_parent_id
-    end
-  end
-
-  def previous_change_parent_id
-    previous = work_package.previous_changes
-
-    previous_parent_changes = (previous[:parent_id] || previous[:parent])
-
-    previous_parent_changes ? previous_parent_changes.first : nil
-  end
-
   def attributes_justify_inheritance?(attributes)
-    (%i(estimated_hours done_ratio parent parent_id status status_id) & attributes).any?
+    (%i(estimated_hours done_ratio parent parent_id status status_id ignore_non_working_days) & attributes).any?
   end
 
-  def selected_descendants_attributes
-    # By having the id in here, we can avoid DISTINCT queries squashing duplicate values
-    %i(id estimated_hours)
-  end
+  def ignore_non_working_days_of_descendants(ancestor, loader)
+    children = loader
+                 .children_of(ancestor)
+                 .reject(&:schedule_manually)
 
-  def descendants_joins
-    nil
-  end
-
-  def selected_leaves_attributes
-    %i(id done_ratio derived_estimated_hours estimated_hours is_closed)
-  end
-
-  def leaves_joins
-    :status
+    if children.any?
+      children.any?(&:ignore_non_working_days)
+    end
   end
 end

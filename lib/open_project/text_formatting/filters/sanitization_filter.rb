@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +29,7 @@
 module OpenProject::TextFormatting
   module Filters
     class SanitizationFilter < HTML::Pipeline::SanitizationFilter
-      def whitelist
+      def allowlist
         base = super
 
         Sanitize::Config.merge(
@@ -44,7 +42,9 @@ module OpenProject::TextFormatting
             # mentions
             'mention' => %w[data-type data-text data-id class],
             # add styles to tables
-            'figure' => ['class', 'style'],
+            'figure' => %w[class style],
+            # allow inline image styles
+            'img' => %w[src alt longdesc style],
             'table' => ['style'],
             'th' => ['style'],
             'tr' => ['style'],

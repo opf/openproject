@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +34,7 @@ module Attachments
       super params.except :content_type
     end
 
-    def set_default_attributes(params)
+    def set_default_attributes(_params)
       model.author = user if model.author.nil?
     end
   end

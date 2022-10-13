@@ -2,14 +2,13 @@
 lol:
   js:
     boards:
+      create_new: 'crwdns810798:0crwdne810798:0'
       label_unnamed_board: 'crwdns548291:0crwdne548291:0'
       label_unnamed_list: 'crwdns548293:0crwdne548293:0'
       label_board_type: 'crwdns548295:0crwdne548295:0'
       upsale:
-        teaser_text: 'crwdns548297:0crwdne548297:0'
-        upgrade_to_ee_text: 'crwdns548299:0crwdne548299:0'
+        teaser_text: 'crwdns825454:0crwdne825454:0'
         upgrade: 'crwdns548301:0crwdne548301:0'
-        personal_demo: 'crwdns548303:0crwdne548303:0'
       lists:
         delete: 'crwdns548305:0crwdne548305:0'
       version:

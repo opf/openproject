@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -58,92 +58,13 @@ div.autocomplete
 #parent_issue_candidates ul li, #related_issue_candidates ul li
   width: 500px
 
-
-/** jquery-ui autocomplete */
-
-.ui-autocomplete
-  position: absolute
-  top: 0
-  left: 0
-  cursor: default
-  margin: 0
-  list-style: none
-  z-index: 10000
-
-  .ui-menu-item
-    border-bottom: 1px solid var(--content-default-border-color)
-
-  a
-    color: var(--body-font-color)
-    padding-left: 5px
-
-  .ui-menu-item-wrapper
-    word-break: break-word
-    padding: 10px 5px
-
-    // Necessary for iOS to recognize as clickable
-    cursor: pointer
-
-    &.ui-state-active,
-    &.selected
-      border: none
-      a
-        color: var(--drop-down-selected-font-color)
-
-    &.ui-state-active
-      background: var(--drop-down-hover-bg-color)
-    &.selected:not(.ui-state-active)
-      background: var(--drop-down-selected-bg-color)
-
-  &.-inplace
-    position: relative
-    border: none
-    padding-top: 15px
-    line-height: 1.6
-    font-size: 1rem
-
-    .ui-menu-item
-      border-bottom: none
-
-    .ui-menu-item-wrapper
-      padding: 4px 10px
-
-.ui-autocomplete--input
-  // Error highlighting
-  &.-error, &.-error:hover, &.-error:focus
-    background: $nm-color-error-background
-    border-color: var(--content-form-danger-zone-bg-color)
-
-mark.ui-autocomplete-match
-  background: none
-  color: var(--primary-color)
-  text-decoration: underline
-  font-weight: bold !important
-
-// Loading indicator
-.ui-autocomplete--loading
-  background: white
-  z-index: 200
-  border: 1px solid #ccc
-  border-top: none
-  padding: 5px
-  // Position bottom of input
-  position: absolute
-  // With same width as input
-  width: 100%
-
-.ui-autocomplete--category
-  padding: 0
-  font-weight: bold
-  text-transform: uppercase
-
-
 // -------------------------- ng-select --------------------------
 .ng-select
   width: 100%
   font-size: 14px
 
   .ng-value-container
+    min-height: 2rem
     width: calc(100% - 30px)
 
     // Override OPs default padding for inputs which looks strange in the autocompleter
@@ -151,6 +72,7 @@ mark.ui-autocomplete-match
       padding-left: 0px
 
   .ng-select-container
+    border-radius: 2px
     z-index: auto !important
     height: 30px !important
     min-height: 30px !important
@@ -160,6 +82,7 @@ mark.ui-autocomplete-match
 
       .ng-placeholder
         top: 1px !important
+        @include text-shortener
 
       input
         height: 100%
@@ -182,10 +105,30 @@ mark.ui-autocomplete-match
 .ng-dropdown-panel
   z-index: 9500 !important
 
+  // Overrides for the ng-footer-tmp option
+  .ng-footer-text
+    font-size: 0.9rem
+    padding: 5px
+    font-style: italic
+
+.ng-option-label
+  vertical-align: top
+
 .ng-option
   font-size: 14px
   line-height: 22px
+
+  .op-avatar
+    margin-right: 8px
+
+  &.ng-option-marked
+    background-color: $spot-color-basic-gray-6 !important
+
+.ng-dropdown-footer
+  padding: 0 !important
+
+.ng-placeholder
+  line-height: 2rem
+
 .work-package-table--container .ng-dropdown-panel
   z-index: auto !important
-
-

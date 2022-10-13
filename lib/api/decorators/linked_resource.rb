@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,12 +69,12 @@ module API
 
           property name,
                    exec_context: :decorator,
-                   getter: getter,
-                   setter: setter,
+                   getter:,
+                   setter:,
                    if: show_if,
                    skip_render: ->(*) { !embed_links || (skip_render && instance_exec(&skip_render)) },
                    linked_resource: true,
-                   embedded: embedded,
+                   embedded:,
                    uncacheable: true
         end
 
@@ -93,12 +91,12 @@ module API
 
           property name,
                    exec_context: :decorator,
-                   getter: getter,
-                   setter: setter,
+                   getter:,
+                   setter:,
                    if: show_if,
                    skip_render: ->(*) { !embed_links || (skip_render && instance_exec(&skip_render)) },
                    linked_resource: true,
-                   embedded: embedded,
+                   embedded:,
                    uncacheable: true
         end
 
@@ -109,9 +107,9 @@ module API
 
           resource(name,
                    getter: ->(*) {},
-                   setter: setter,
+                   setter:,
                    link: getter,
-                   show_if: show_if,
+                   show_if:,
                    embedded: false)
         end
 
@@ -133,17 +131,17 @@ module API
                                 getter: associated_resource_default_getter(name, representer),
                                 setter: associated_resource_default_setter(name, as, v3_path),
                                 link: associated_resource_default_link(name,
-                                                                       v3_path: v3_path,
-                                                                       skip_link: skip_link,
-                                                                       undisclosed: undisclosed,
+                                                                       v3_path:,
+                                                                       skip_link:,
+                                                                       undisclosed:,
                                                                        title_attribute: link_title_attribute))
 
           resource((as || name),
-                   getter: getter,
-                   setter: setter,
-                   link: link,
-                   uncacheable_link: uncacheable_link,
-                   skip_render: skip_render)
+                   getter:,
+                   setter:,
+                   link:,
+                   uncacheable_link:,
+                   skip_render:)
         end
 
         def link_attr(name, uncacheable)
@@ -159,7 +157,7 @@ module API
 
           ->(*) do
             if embed_links && represented.send(name)
-              representer.create(represented.send(name), current_user: current_user)
+              representer.create(represented.send(name), current_user:)
             end
           end
         end
@@ -193,8 +191,8 @@ module API
                 .new(represented,
                      path: v3_path,
                      property_name: name,
-                     title_attribute: title_attribute,
-                     getter: getter)
+                     title_attribute:,
+                     getter:)
                 .to_hash
             end
           end
@@ -210,15 +208,15 @@ module API
                                  getter: associated_resources_default_getter(name, representer),
                                  setter: associated_resources_default_setter(name, v3_path),
                                  link: associated_resources_default_link(name,
-                                                                         v3_path: v3_path,
-                                                                         skip_link: skip_link,
+                                                                         v3_path:,
+                                                                         skip_link:,
                                                                          title_attribute: link_title_attribute))
 
           resources(as,
-                    getter: getter,
-                    setter: setter,
-                    link: link,
-                    skip_render: skip_render)
+                    getter:,
+                    setter:,
+                    link:,
+                    skip_render:)
         end
 
         def associated_resources_default_getter(name,
@@ -228,7 +226,7 @@ module API
 
           ->(*) do
             represented.send(name)&.map do |associated|
-              representer.new(associated, current_user: current_user)
+              representer.create(associated, current_user:)
             end
           end
         end
@@ -264,7 +262,7 @@ module API
                      property_name: :itself,
                      path: v3_path,
                      getter: :id,
-                     title_attribute: title_attribute)
+                     title_attribute:)
                 .to_hash
             end
           end

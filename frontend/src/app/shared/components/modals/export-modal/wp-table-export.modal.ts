@@ -43,6 +43,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
     title: this.I18n.t('js.label_export'),
     closePopup: this.I18n.t('js.close_popup_title'),
     exportPreparing: this.I18n.t('js.label_export_preparing'),
+    cancelButton: this.I18n.t('js.button_cancel'),
   };
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,

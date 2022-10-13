@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -41,10 +41,11 @@ const attributeSelector = '[invite-user-modal-augment]';
  */
 @Injectable({ providedIn: 'root' })
 export class OpInviteUserModalAugmentService {
-  constructor(@Inject(DOCUMENT) protected documentElement:Document,
+  constructor(
+    @Inject(DOCUMENT) protected documentElement:Document,
     protected opModalService:OpModalService,
-    protected currentProjectService:CurrentProjectService) {
-  }
+    protected currentProjectService:CurrentProjectService,
+  ) { }
 
   /**
    * Create initial listeners for Rails-rendered modals

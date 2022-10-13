@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,14 +32,14 @@ module API
       class QueryCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
         def initialize(models, self_link:, current_user:)
           super(models.includes(::API::V3::Queries::QueryRepresenter.to_eager_load),
-                self_link: self_link,
-                current_user: current_user)
+                self_link:,
+                current_user:)
         end
 
         collection :elements,
                    getter: ->(*) {
                      represented.each(&:valid_subset!).map do |model|
-                       element_decorator.create(model, current_user: current_user)
+                       element_decorator.create(model, current_user:)
                      end
                    },
                    exec_context: :decorator,

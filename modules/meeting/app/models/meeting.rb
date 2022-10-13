@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ class Meeting < ApplicationRecord
   self.table_name = 'meetings'
 
   belongs_to :project
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  belongs_to :author, class_name: 'User'
   has_one :agenda, dependent: :destroy, class_name: 'MeetingAgenda'
   has_one :minutes, dependent: :destroy, class_name: 'MeetingMinutes'
   has_many :contents, -> { readonly }, class_name: 'MeetingContent'
@@ -99,6 +99,10 @@ class Meeting < ApplicationRecord
     end
   end
 
+  def start_time=(value)
+    super value&.to_datetime
+  end
+
   def start_month
     start_time.month
   end
@@ -122,7 +126,7 @@ class Meeting < ApplicationRecord
   def author=(user)
     super
     # Don't add the author as participant if we already have some through nested attributes
-    participants.build(user: user, invited: true) if new_record? && participants.empty? && user
+    participants.build(user:, invited: true) if new_record? && participants.empty? && user
   end
 
   # Returns true if usr or current user is allowed to view the meeting
@@ -239,7 +243,7 @@ class Meeting < ApplicationRecord
   end
 
   ##
-  # Determines whether new raw values werde provided.
+  # Determines whether new raw values were provided.
   def parse_start_time?
     !(changed & %w(start_date start_time_hour)).empty?
   end

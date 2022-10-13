@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,6 +27,7 @@
 //++
 
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class ActivityEntryInfo {
   public date = this.activityDate(this.activity);
@@ -38,24 +39,28 @@ export class ActivityEntryInfo {
   constructor(public timezoneService:TimezoneService,
     public isReversed:boolean,
     public activities:any[],
-    public activity:any,
+    public activity:HalResource,
     public index:number) {
   }
 
-  public number(forceReverse = false) {
+  public number(forceReverse = false):number {
     return this.orderedIndex(this.index, forceReverse);
   }
 
-  public get href() {
-    return this.activity.href;
+  public get href():string {
+    return this.activity.href as string;
   }
 
-  public get identifier() {
-    return `${this.href}-${this.version}`;
+  public get identifier():string {
+    return `${this.href}-${this.version}-${this.updatedAt}`;
   }
 
-  public get version() {
-    return this.activity.version;
+  public get version():number {
+    return this.activity.version as number;
+  }
+
+  public get updatedAt():string {
+    return this.activity.updatedAt as string;
   }
 
   public isInitial(forceReverse = false) {

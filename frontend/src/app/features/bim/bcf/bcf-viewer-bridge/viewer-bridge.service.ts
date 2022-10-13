@@ -10,20 +10,11 @@ export abstract class ViewerBridgeService {
   @InjectField() state:StateService;
 
   /**
-   * Determine whether a viewer should be shown,
-   * wether 'bim.partitioned.split' state/route should be activated
+   * Determine whether a viewer should be shown
    */
   abstract shouldShowViewer:boolean;
 
-  /**
-   * Check if we are on a router state where there is a place
-   * where the viewer could be shown
-   */
-  get routeWithViewer():boolean {
-    return this.state.includes('bim.partitioned.split');
-  }
-
-  constructor(readonly injector:Injector) {}
+  protected constructor(readonly injector:Injector) {}
 
   /**
    * Get a viewpoint from the viewer
@@ -32,7 +23,6 @@ export abstract class ViewerBridgeService {
 
   /**
    * Show the given viewpoint JSON in the viewer
-   * @param viewpoint
    */
   abstract showViewpoint(workPackage:WorkPackageResource, index:number):void;
 

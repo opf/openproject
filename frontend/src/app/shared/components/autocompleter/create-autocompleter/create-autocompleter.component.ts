@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ import { AddTagFn } from '@ng-select/ng-select/lib/ng-select.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { Subject } from 'rxjs';
-import { PrincipalHelper } from 'core-app/shared/components/principal/principal-helper';
+import { typeFromHref } from 'core-app/shared/components/principal/principal-helper';
 import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { filter } from 'rxjs/operators';
 
@@ -83,8 +83,6 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @Input() public hideSelected = false;
 
-  @Input() public showAddNewButton:boolean;
-
   @Output() public onChange = new EventEmitter<HalResource>();
 
   @Output() public onKeydown = new EventEmitter<JQuery.TriggeredEvent>();
@@ -95,11 +93,9 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @Output() public onAfterViewInit = new EventEmitter<this>();
 
-  @Output() public onAddNew = new EventEmitter<this>();
+  @Output() public onAddNew = new EventEmitter<HalResource>();
 
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
-
-  @InjectField() readonly opInviteUserModalService:OpInviteUserModalService;
 
   @InjectField() readonly I18n:I18nService;
 
@@ -125,16 +121,6 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   ngAfterViewInit() {
     this.onAfterViewInit.emit(this);
-    if (this.opInviteUserModalService) {
-      this.opInviteUserModalService.close
-        .pipe(
-          this.untilDestroyed(),
-          filter((user) => !!user),
-        )
-        .subscribe((user:HalResource) => {
-          this.onChange.emit(user);
-        });
-    }
   }
 
   public openSelect() {
@@ -192,9 +178,5 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   public focusInputField() {
     this.ngSelectComponent && this.ngSelectComponent.focus();
-  }
-
-  public isPrincipal(item:CreateAutocompleterValueOption) {
-    return item.href && PrincipalHelper.typeFromHref(item.href) !== null;
   }
 }

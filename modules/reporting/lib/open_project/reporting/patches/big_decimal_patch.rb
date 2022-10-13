@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,22 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Reporting::Patches::BigDecimalPatch
-  class BigDecimal
-    def to_d; self end
-  end
+module OpenProject
+  module Reporting
+    module Patches
+      module BigDecimalPatch
+        class BigDecimal
+          def to_d
+            self
+          end
+        end
 
-  class Integer
-    def to_d; to_f.to_d end
-  end
+        class Integer
+          delegate :to_d, to: :to_f
+        end
 
-  class String
-    def to_d
-      BigDecimal self
+        class String
+          def to_d
+            BigDecimal self
+          end
+        end
+
+        class NilClass
+          def to_d
+            0
+          end
+        end
+      end
     end
-  end
-
-  class NilClass
-    def to_d; 0 end
   end
 end

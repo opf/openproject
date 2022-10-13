@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Work package categories
   priority: 500
 description: Manage work package categories.
-robots: index, follow
 keywords: work package categories
 ---
 # Manage work package categories

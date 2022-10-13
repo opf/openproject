@@ -71,8 +71,8 @@ de:
       text_2fa_enabled: 'Bei jedem Login werden dieser Nutzer aufgefordert, ein Einmalpasswort aus seinem Standardgerät für 2FA einzugeben.'
       text_2fa_disabled: "Der Nutzer hat kein 2FA-Gerät über seine Kontoseite registriert"
     upsale:
-      title: 'Zwei-Faktor-Authentifizierung ist Bestandteil der Enterprise-Edition'
-      description: 'Stärken Sie Ihre interne oder externe Authentifizierung mittels Zwei-Faktor-Authentifizierung.'
+      title: 'Zwei-Faktor-Authentifizierung'
+      description: 'Stärken Sie die Sicherheit Ihrer OpenProject Instanz, indem Sie allen Projektmitgliedern eine Zwei-Faktor-Authentifizierung anbieten (oder durchsetzen).'
     backup_codes:
       none_found: Keine 2FA Backup-Codes für dieses Konto gefunden.
       singular: 2FA Backup-Code
@@ -133,8 +133,6 @@ de:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS Zustellung fehlgeschlagen.'
       voice_delivery_failed: 'MessageBird Anruf fehlgeschlagen.'
-    restdt:
-      delivery_failed_with_code: 'Einmalpasswort-Zustellung fehlgeschlagen. (Fehler %{code})'
     strategies:
       totp: 'Authentifikator-Anwendung'
       sns: 'Amazon SNS'

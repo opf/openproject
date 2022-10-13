@@ -4,12 +4,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import {
-  UserAutocompleteItem,
+  IUserAutocompleteItem,
   UserAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
 import { URLParamsEncoder } from 'core-app/features/hal/services/url-params-encoder';
 
-export const membersAutocompleterSelector = 'members-autocompleter';
+export const membersAutocompleterSelector = 'op-members-autocompleter';
 
 @Component({
   templateUrl: '../user-autocompleter/user-autocompleter.component.html',
@@ -20,9 +20,9 @@ export class MembersAutocompleterComponent extends UserAutocompleterComponent {
 
   @InjectField() pathHelper:PathHelperService;
 
-  protected getAvailableUsers(url:string, searchTerm:any):Observable<UserAutocompleteItem[]> {
+  public getAvailableUsers(searchTerm:string):Observable<IUserAutocompleteItem[]> {
     return this.http
-      .get<UserAutocompleteItem[]>(url,
+      .get<IUserAutocompleteItem[]>(this.url,
       {
         params: new HttpParams({ encoder: new URLParamsEncoder(), fromObject: { q: searchTerm } }),
         responseType: 'json',

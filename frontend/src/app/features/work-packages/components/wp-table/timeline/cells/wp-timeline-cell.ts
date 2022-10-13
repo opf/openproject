@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -38,29 +38,9 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { registerWorkPackageMouseHandler } from './wp-timeline-cell-mouse-handler';
 import { TimelineMilestoneCellRenderer } from './timeline-milestone-cell-renderer';
 import { TimelineCellRenderer } from './timeline-cell-renderer';
+import { WorkPackageCellLabels } from './wp-timeline-cell-labels';
 import { RenderInfo } from '../wp-timeline';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
-
-export const classNameLeftLabel = 'labelLeft';
-export const classNameRightContainer = 'containerRight';
-export const classNameRightLabel = 'labelRight';
-export const classNameLeftHoverLabel = 'labelHoverLeft';
-export const classNameRightHoverLabel = 'labelHoverRight';
-export const classNameHoverStyle = '-label-style';
-export const classNameFarRightLabel = 'labelFarRight';
-export const classNameShowOnHover = 'show-on-hover';
-export const classNameHideOnHover = 'hide-on-hover';
-
-export class WorkPackageCellLabels {
-  constructor(public readonly center:HTMLDivElement|null,
-    public readonly left:HTMLDivElement,
-    public readonly leftHover:HTMLDivElement|null,
-    public readonly right:HTMLDivElement,
-    public readonly rightHover:HTMLDivElement|null,
-    public readonly farRight:HTMLDivElement,
-    public readonly withAlternativeLabels?:boolean) {
-  }
-}
 
 export class WorkPackageTimelineCell {
   @InjectField() halEditing:HalResourceEditingService;

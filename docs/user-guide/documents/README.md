@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Documents
   priority: 770
 description: Upload documents in OpenProject.
-robots: index, follow
 keywords: documents
 ---
 
@@ -21,9 +20,7 @@ Name the document and add a short description. After you have uploaded the file,
 
 The uploaded documents are visible to all project members who have the necessary permission.
 
-<div class="alert alert-info" role="alert">
-**Note**: There is no versioning of documents. It is simply and upload of documents to the respective project.
-</div>
+> **Note**: There is no versioning of documents. It is simply and upload of documents to the respective project.
 
 ## Edit or delete a project document
 

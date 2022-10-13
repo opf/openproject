@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +29,19 @@
 module AngularHelper
   ##
   # Create a component element tag with the given attributes
+  #
+  # Allow setting dynamic inputs for components with the populateInputsFromDataset functionality
+  # by using inputs: { inputName: value }
   def angular_component_tag(component, options = {})
-    options[:class] = options.fetch(:class, '') + ' op-angular-component'
-    tag(component, options)
+    inputs = (options.delete(:inputs) || {})
+               .transform_keys { |k| k.to_s.underscore.dasherize }
+               .transform_values(&:to_json)
+
+    options[:data] = options.fetch(:data, {}).merge(inputs)
+    options[:class] ||= [options[:class], 'op-angular-component']
+                          .compact
+                          .join(' ')
+
+    content_tag(component, '', options)
   end
 end

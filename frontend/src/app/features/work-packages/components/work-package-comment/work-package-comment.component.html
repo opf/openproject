@@ -5,6 +5,7 @@
 
     <div
         class="work-package--details--long-field work-packages--activity--add-comment hide-when-print"
+        [ngClass]="{'work-packages--activity--add-comment_top': showAbove} "
         #commentContainer
         *ngIf="canAddComment"
     >
@@ -19,6 +20,7 @@
         <div
             *ngIf="!active"
             (dragover)="startDragOverActivation($event)"
+            (dragenter)="startDragOverActivation($event)"
         >
           <button
               class="work-package-comment inline-edit--display-field"

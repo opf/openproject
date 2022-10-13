@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,7 @@
 
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
@@ -40,6 +41,7 @@ describe('ToastService', () => {
     TestBed.configureTestingModule({
       imports: [
         OpenprojectHalModule,
+        HttpClientTestingModule,
       ],
       providers: [
         { provide: ConfigurationService, useValue: { autoHidePopups: () => true } },

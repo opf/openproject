@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -71,13 +71,13 @@ export class WikiIncludePageMacroModalComponent extends OpModalComponent impleme
     // We could provide an autocompleter here to get correct page names
   }
 
-  public applyAndClose(evt:JQuery.TriggeredEvent) {
+  public applyAndClose(evt:Event):void {
     this.changed = true;
     this.page = this.selectedPage;
     this.closeMe(evt);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit():void {
     this.selectedPageInput.nativeElement.focus();
   }
 }

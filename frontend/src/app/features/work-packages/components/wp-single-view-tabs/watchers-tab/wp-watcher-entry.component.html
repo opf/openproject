@@ -2,15 +2,14 @@
   <span class="op-wp-watcher--form form--selected-value">
     <op-principal
       [principal]="watcher"
-      data-link="true"
-      data-principal-type="user"
-      data-size="avatar-mini"
+      [link]="true"
+      size="mini"
       data-qa-selector="op-wp-watcher-name"
     ></op-principal>
   </span>
   <button
     type="button"
-    class="op-link form--selected-value--remover"
+    class="spot-link form--selected-value--remover"
     [title]="text.remove"
     (click)="remove()"
   >

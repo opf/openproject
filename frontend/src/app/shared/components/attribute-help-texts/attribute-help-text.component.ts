@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +37,7 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { AttributeHelpTextsService } from './attribute-help-text.service';
 import { AttributeHelpTextModalComponent } from './attribute-help-text.modal';
 
@@ -57,7 +58,7 @@ export class AttributeHelpTextComponent implements OnInit {
   @Input() public attributeScope:string;
 
   // Load single id entry if given
-  @Input() public helpTextId?:string;
+  @Input() public helpTextId?:string|number;
 
   public exists = false;
 
@@ -67,22 +68,18 @@ export class AttributeHelpTextComponent implements OnInit {
     close: this.I18n.t('js.button_close'),
   };
 
-  constructor(protected elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     protected attributeHelpTexts:AttributeHelpTextsService,
     protected opModalService:OpModalService,
     protected cdRef:ChangeDetectorRef,
     protected injector:Injector,
-    protected I18n:I18nService) {
+    protected I18n:I18nService,
+  ) {
+    populateInputsFromDataset(this);
   }
 
   ngOnInit() {
-    const element:HTMLElement = this.elementRef.nativeElement;
-    // Fall back to values provided by data
-    this.helpTextId = this.helpTextId || element.dataset.helpTextId!;
-    this.attribute = this.attribute || element.dataset.attribute!;
-    this.attributeScope = this.attributeScope || element.dataset.attributeScope!;
-    this.additionalLabel = this.additionalLabel || element.dataset.additionalLabel!;
-
     if (this.helpTextId) {
       this.exists = true;
     } else {

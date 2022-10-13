@@ -7,11 +7,11 @@
 
   <ng-container *ngIf="renderTable">
     <!-- Filter container (if requested) -->
-    <filter-container *ngIf="configuration.withFilters"
+    <op-filter-container *ngIf="configuration.withFilters"
                       [showFilterButton]="configuration.showFilterButton"
                       [filterButtonText]="configuration.filterButtonText">
 
-    </filter-container>
+    </op-filter-container>
 
     <!-- TABLE + TIMELINE horizontal split -->
     <wp-table *ngIf="!configuration.isCardView"

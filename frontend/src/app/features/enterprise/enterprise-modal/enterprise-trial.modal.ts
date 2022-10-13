@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -113,6 +113,10 @@ export class EnterpriseTrialModalComponent extends OpModalComponent implements A
     // refresh page to show enterprise trial
     if (this.eeTrialService.trialStarted || this.eeTrialService.confirmed) {
       window.location.reload();
+    }
+    else if (this.eeTrialService.mailSubmitted) {
+      window.location.reload();
+      return;
     }
     this.eeTrialService.modalOpen = false;
   }

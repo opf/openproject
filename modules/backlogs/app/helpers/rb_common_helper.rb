@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,8 +75,8 @@ module RbCommonHelper
     r1, g1, b1 = break_color c1
     r2, g2, b2 = break_color c2
     cont_diff = (r1 - r2).abs + (g1 - g2).abs + (b1 - b2).abs # Color contrast
-    bright1 = (r1 * 299 + g1 * 587 + b1 * 114) / 1000
-    bright2 = (r2 * 299 + g2 * 587 + b2 * 114) / 1000
+    bright1 = ((r1 * 299) + (g1 * 587) + (b1 * 114)) / 1000
+    bright2 = ((r2 * 299) + (g2 * 587) + (b2 * 114)) / 1000
     brt_diff = (bright1 - bright2).abs # Color brightness diff
     [cont_diff, brt_diff]
   end
@@ -170,7 +170,7 @@ module RbCommonHelper
   def date_string_with_milliseconds(d, add = 0)
     return '' if d.blank?
 
-    d.strftime('%B %d, %Y %H:%M:%S') + '.' + (d.to_f % 1 + add).to_s.split('.')[1]
+    d.strftime('%B %d, %Y %H:%M:%S') + '.' + ((d.to_f % 1) + add).to_s.split('.')[1]
   end
 
   def remaining_hours(item)
@@ -209,7 +209,7 @@ module RbCommonHelper
     link_to(I18n.t('backlogs.show_burndown_chart'),
             backlogs_project_sprint_burndown_chart_path(project.identifier, sprint),
             class: 'show_burndown_chart button',
-            target: :_blank)
+            target: :_blank, rel: :noopener)
   end
 
   private
@@ -223,11 +223,9 @@ module RbCommonHelper
   end
 
   def work_package_status_for_id(id)
-    @all_work_package_status_by_id ||= begin
-      all_work_package_status.inject({}) do |mem, status|
-        mem[status.id] = status
-        mem
-      end
+    @all_work_package_status_by_id ||= all_work_package_status.inject({}) do |mem, status|
+      mem[status.id] = status
+      mem
     end
 
     @all_work_package_status_by_id[id]
@@ -253,11 +251,9 @@ module RbCommonHelper
   end
 
   def backlogs_types_by_id
-    @backlogs_types_by_id ||= begin
-      backlogs_types.inject({}) do |mem, type|
-        mem[type.id] = type
-        mem
-      end
+    @backlogs_types_by_id ||= backlogs_types.inject({}) do |mem, type|
+      mem[type.id] = type
+      mem
     end
   end
 
@@ -270,11 +266,9 @@ module RbCommonHelper
   end
 
   def story_types_by_id
-    @story_types_by_id ||= begin
-      story_types.inject({}) do |mem, type|
-        mem[type.id] = type
-        mem
-      end
+    @story_types_by_id ||= story_types.inject({}) do |mem, type|
+      mem[type.id] = type
+      mem
     end
   end
 

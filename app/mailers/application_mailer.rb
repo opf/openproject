@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,7 +43,7 @@ class ApplicationMailer < ActionMailer::Base
 
   class << self
     # Activates/deactivates email deliveries during +block+
-    def with_deliveries(temporary_state = true, &_block)
+    def with_deliveries(temporary_state = true, &)
       old_state = ActionMailer::Base.perform_deliveries
       ActionMailer::Base.perform_deliveries = temporary_state
       yield
@@ -123,7 +121,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def send_mail(user, subject)
     with_locale_for(user) do
-      mail to: user.mail, subject: subject
+      mail to: user.mail, subject:
     end
   end
 
@@ -142,12 +140,12 @@ class ApplicationMailer < ActionMailer::Base
                        else
                          "#{object.class.name.demodulize.underscore}-#{object.id}"
                        end
-    hash = 'op'\
-           '.'\
-           "#{object_reference}"\
-           '.'\
-           "#{Time.current.strftime('%Y%m%d%H%M%S')}"\
-           '.'\
+    hash = 'op' \
+           '.' \
+           "#{object_reference}" \
+           '.' \
+           "#{Time.current.strftime('%Y%m%d%H%M%S')}" \
+           '.' \
            "#{recipient.id}"
 
     "#{hash}@#{header_host_value}"
@@ -162,8 +160,8 @@ class ApplicationMailer < ActionMailer::Base
   # It in fact is aimed not not so that similar messages (i.e. those belonging to the same
   # work package and journal) end up being grouped together.
   def references_value(object)
-    hash = 'op'\
-           '.'\
+    hash = 'op' \
+           '.' \
            "#{object.class.name.demodulize.underscore}-#{object.id}"
 
     "#{hash}@#{header_host_value}"
@@ -173,38 +171,5 @@ class ApplicationMailer < ActionMailer::Base
     host = Setting.mail_from.to_s.gsub(%r{\A.*@}, '')
     host = "#{::Socket.gethostname}.openproject" if host.empty?
     host
-  end
-end
-
-##
-# Interceptors
-#
-# These are registered in config/initializers/register_mail_interceptors.rb
-#
-# Unfortunately, this results in changes on the interceptor classes during development mode
-# not being reflected until a server restart.
-
-class DefaultHeadersInterceptor
-  def self.delivering_email(mail)
-    mail.headers(default_headers)
-  end
-
-  def self.default_headers
-    {
-      'X-Mailer' => 'OpenProject',
-      'X-OpenProject-Host' => Setting.host_name,
-      'X-OpenProject-Site' => Setting.app_title,
-      'Precedence' => 'bulk',
-      'Auto-Submitted' => 'auto-generated'
-    }
-  end
-end
-
-class DoNotSendMailsWithoutReceiverInterceptor
-  def self.delivering_email(mail)
-    receivers = [mail.to, mail.cc, mail.bcc]
-    # the above fields might be empty arrays (if entries have been removed
-    # by another interceptor) or nil, therefore checking for blank?
-    mail.perform_deliveries = false if receivers.all?(&:blank?)
   end
 end

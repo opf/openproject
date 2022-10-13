@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -81,8 +79,8 @@ module BasicData
           statuses_for_type.each do |old_status|
             statuses_for_type.each do |new_status|
               [manager.id, member.id].each do |role_id|
-                Workflow.create type_id: type_id,
-                                role_id: role_id,
+                Workflow.create type_id:,
+                                role_id:,
                                 old_status_id: old_status.id,
                                 new_status_id: new_status.id
               end

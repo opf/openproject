@@ -7,14 +7,15 @@
       <p [textContent]="text.explanation"></p>
   </div>
 
-  <op-checkbox-field [control]="form.get('enabled')">
+  <spot-selector-field
+    [label]="text.enable"
+    [control]="form.get('enabled')">
     <input
       slot="input"
       type="checkbox"
       formControlName="enabled"
     />
-    <p slot="description">{{ text.enable }}</p>
-  </op-checkbox-field>
+  </spot-selector-field>
 
   <div
     *ngFor="let time of selectedTimes; index as i; trackBy: index"
@@ -50,7 +51,7 @@
       </option>
     </select>
     <button
-      class="op-link op-reminder-settings-daily-time--remove"
+      class="spot-link op-reminder-settings-daily-time--remove"
       type="button"
       *ngIf="timeRemovable$ | async"
       (click)="removeTime(selectedTimes, i)"

@@ -1,0 +1,8 @@
+#English strings go here
+tr:
+  js:
+    calendar:
+      create_new: 'Yeni takvim oluştur'
+      title: 'Takvim'
+      too_many: 'Toplamda %{count} iş paketi var, ancak sadece  %{max} gösterilebilir.'
+      unsaved_title: 'İsimsiz takvim'

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +33,7 @@ module OpenProject
 
     def self.tsv_where(table_name, column_name, value, concatenation: :and, normalization: :text)
       if OpenProject::Database.allows_tsv?
-        column = "\"#{table_name.to_s}\".\"#{column_name.to_s}_tsv\""
+        column = "\"#{table_name}\".\"#{column_name}_tsv\""
         query = tokenize(value, concatenation, normalization)
         language = OpenProject::Configuration.main_content_language
 

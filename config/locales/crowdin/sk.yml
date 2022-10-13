@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -48,8 +48,9 @@ sk:
         main-menu-hover-font-color: "Main menu font on hover"
         main-menu-border-color: "Main menu border"
       custom_colors: "Vlastné farby"
-      customize: "Prispôsobte si inštaláciu OpenProject s vlastným logom. Poznámka: Toto logo bude verejne prístupné."
+      customize: "Customize your OpenProject installation with your own logo and colors."
       enterprise_notice: "Ďakujeme vám za finančnú podporu pri vývoji OpenProject, táto funkcia je k dispozícii iba v spojení s predplatným Enterprise Edition."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Upraviť možnosti výberu farieb"
       instructions:
         alternative-color: "Strong accent color, typically used for the most important button on a screen."
@@ -65,6 +66,9 @@ sk:
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Nahrajte token podpory Enterprise Edition"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Nahraďte aktuálny token podpory"
       order: "Order Enterprise on-premises Edition"
       paste: "Vložte token podpory Enterprise Edition"
@@ -73,6 +77,15 @@ sk:
       start_trial: 'Start free trial'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Zobraziť do
     is_active: aktuálne zobrazené
@@ -84,6 +97,8 @@ sk:
     show_preview: 'Ukázať náhľad'
     add_new: 'Pridať text pomocníka'
     edit: "Upraviť text pomocníka pre %{attribute_caption}"
+    enterprise:
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Momentálne nie sú žiadne metódy overovania identity.
@@ -161,8 +176,8 @@ sk:
     edit: 'Upraviť vlastnú akciu %{name}'
     execute: 'Spustiť %{name}'
     upsale:
-      title: 'Vlastné akcie sú len pre verziu Enterprise Edition'
-      description: 'Vlastné akcie zjednodušujú každodennú prácu kombináciou sady jednotlivých krokov do jedného tlačidla.'
+      title: 'Custom actions'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       Ak chcete priradiť nové vlastné pole do projektu, je potrebné ich vytvoriť ako prvé. Následne je ich možné pridať v tomto projekte.
@@ -255,14 +270,13 @@ sk:
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Placeholder users
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -292,6 +306,8 @@ sk:
     edit:
       settings: "Nastavenia"
       form_configuration: "Konfigurácia formulára"
+      more_info_text_html: >
+        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekty"
       enabled_projects: "Povolené projekty"
       edit_query: "Upraviť tabuľku"
@@ -452,9 +468,12 @@ sk:
         code: 'Stav'
         explanation: 'Status description'
         codes:
+          not_started: 'Not started'
           on_track: 'Na dobrej ceste'
           at_risk: 'V riziku'
           off_track: 'Na zlej ceste'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Stĺpce"
         relations_to_type_column: "Vzťahy k %{type}"
@@ -465,7 +484,6 @@ sk:
       repository:
         url: "URL adresa"
       role:
-        assignable: "Pracovné balíčky môžu byť pridelené užívateľom a skupinám, ktoré majú v príslušnom projekte túto úlohu"
         permissions: "Oprávnenia"
       time_entry:
         activity: "Činnosť"
@@ -511,20 +529,27 @@ sk:
         begin_deletion: "Začiatok odstraňovania"
         children: "Dielčie prvky"
         done_ratio: "Stav spracovania (%)"
+        duration: "Duration"
         end_insertion: "Koniec vkladania"
         end_deletion: "Koniec odstraňovania"
-        version: "Verzia"
+        ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Nadradený balíček"
         parent_issue: "Nadradený balíček"
         parent_work_package: "Nadradený balíček"
         priority: "Priorita"
         progress: "Stav spracovania (%)"
+        readonly: "Read only"
         schedule_manually: "Manuálne plánovanie"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
         subproject: "Podprojekt"
         time_entries: "Zaprotokoluj čas"
         type: "Typ"
+        version: "Verzia"
         watcher: "Pozorovateľ"
       'doorkeeper/application':
         uid: "ID klienta"
@@ -556,6 +581,7 @@ sk:
         even: "musí byť párne."
         exclusion: "patrí medzi vyhradené výrazy."
         file_too_large: "je príliš veľká (maximálna veľkosť je %{count} bytov)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "musí byť väčšie ako %{count}."
@@ -590,6 +616,8 @@ sk:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "nie je možné zmazať."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "má chybnú dĺžku (správne má byť %{count} znakov)."
       models:
         attachment:
@@ -621,7 +649,7 @@ sk:
               fragment_present: 'nemôže obsahovať fragment.'
               invalid_uri: 'musí byť platný identifikátor URI.'
               relative_uri: 'musí byť absolútna URI.'
-              secured_uri: 'musí byť HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'je zakázané na serveri.'
             scopes:
               not_match_configured: "nezodpovedá dostupným rozsahom."
@@ -705,6 +733,11 @@ sk:
           attributes:
             permissions:
               dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -722,8 +755,16 @@ sk:
         work_package:
           is_not_a_valid_target_for_time_entries: "Pracovný balík #%{id} nepredstavuje platný cieľ pre pridelené položky času."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "nemá rovnakú hodnotu ako dátum začiatku, aj keď je to požadované pre pracovné balíčky typu \"míľnik\"."
+              cannot_be_null: "can not be set to null as start date and duration are known."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "nemôže byť previazaný na pracovný balíček typu \"míľnik\"."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -731,6 +772,7 @@ sk:
               not_a_valid_parent: "je neplatný."
             start_date:
               violates_relationships: "možno nastaviť na %{soonest_start} alebo neskôr, aby neboli narušené väzby v pracovnom balíčku."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "je neplatný, pretože neexistuje žiadny platný prechod zo starého na nový stav v prípade aktuálne pridelených rolí používateľa."
               status_invalid_in_type: "je neplatná, pretože súčasný stav neexistuje v tomto type."
@@ -868,7 +910,7 @@ sk:
     id: "ID"
     is_default: "Predvolená hodnota"
     is_for_all: "Pre všetky projekty"
-    is_public: "Verejný"
+    public: "Verejný"
     #kept for backwards compatibility
     issue: "Pracovný balíček"
     lastname: "Priezvisko"
@@ -878,7 +920,6 @@ sk:
     password: "Heslo"
     priority: "Priorita"
     project: "Projekt"
-    public: "Verejný"
     responsible: "Zodpovedný"
     role: "Rola"
     roles: "Roly"
@@ -892,6 +933,7 @@ sk:
     updated_on: "Aktualizované"
     uploader: "Uploader"
     user: "Užívateľ(ka)"
+    value: "Value"
     version: "Verzia"
     work_package: "Pracovný balíček"
   backup:
@@ -1256,7 +1298,8 @@ sk:
   error_enterprise_activation_user_limit: "Váš účet nemôže byť aktivovaný (dosiahnutý limit počtu užívateľov). Prosím kontaktujte vášho správcu pre získanie prístupu."
   error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Chyba pri odstraňovaní tejto položky.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Vybratá neplatná hodnota."
   error_journal_attribute_not_present: "Denník neobsahuje atribút %{attribute}."
   error_pdf_export_too_many_columns: "Vybraných príliš veľa stĺpcov pre export do PDF. Znížte počet stĺpcov."
@@ -1366,7 +1409,9 @@ sk:
   menus:
     admin:
       mail_notification: "Upozornenia e-mailom"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation: 'Aggregation'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1374,7 +1419,7 @@ sk:
       no_results:
         title: "Žiadne prístupové tokeny na zobrazenie"
         description: "Všetky boli deaktivované, opätovne ich možno aktivovať v menu administrácie."
-      access_token: "Prístupový token"
+      access_tokens: "Access tokens"
       headers:
         action: "Akcia"
         expiration: "Expiruje"
@@ -1392,17 +1437,11 @@ sk:
     update_info_mail:
       body: >
         We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-
         Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-
         This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-
         We hope you find in-app notifications useful and that they makes you even more productive.
-
-        Sincerely,
-        The OpenProject team
+        Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
       body_subheader: 'Novinky'
       subject: 'Important changes to notifications with the release of 12.0'
@@ -1475,7 +1514,6 @@ sk:
   label_consent_settings: "Súhlas užívateľa"
   label_wiki_menu_item: Položka menu wiki
   label_select_main_menu_item: Vyberte novú položku hlavného menu
-  label_select_project: "Vybrať projekt"
   label_required_disk_storage: "Požadované miesto na disku"
   label_send_invitation: Poslať pozvánku
   label_change_plural: "Zmeny"
@@ -1541,6 +1579,7 @@ sk:
   label_diff: "rozdieľ"
   label_diff_inline: "inline"
   label_diff_side_by_side: "bok po boku"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "zakázané"
   label_display: "Zobraziť"
   label_display_per_page: "Na stránku: %{value}"
@@ -1617,6 +1656,7 @@ sk:
   label_index_by_title: "Indexovať podľa názvu"
   label_information: "Informácie"
   label_information_plural: "Informácie"
+  label_installation_guides: 'Installation guides'
   label_integer: "Celé číslo"
   label_internal: "Interné"
   label_introduction_video: "Úvodné video"
@@ -1660,6 +1700,10 @@ sk:
   label_member_plural: "Členovia"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Názov položky ponuky"
   label_message: "Správa"
   label_message_last: "Posledná správa"
@@ -1749,7 +1793,6 @@ sk:
   label_product_version: "Verzia produktu"
   label_professional_support: "Profesionálna podpora"
   label_profile: "Profil"
-  label_project_all: "Všetky projekty"
   label_project_count: "Celkový počet projektov"
   label_project_copy_notifications: "Odoslať e-mail notifikácie počas kopírovania projektu"
   label_project_latest: "Najnovšie projekty"
@@ -1758,6 +1801,7 @@ sk:
   label_project_new: "Nový projekt"
   label_project_plural: "Projekty"
   label_project_settings: "Nastavenia projektu"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "projekty %{count} využívajú celkom %{storage} diskového priestoru"
   label_project_view_all: "Zobraziť všetky projekty"
   label_project_show_details: "Zobraziť detaily projektu"
@@ -1765,7 +1809,6 @@ sk:
   label_public_projects: "Verejné projekty"
   label_query_new: "Nový dopyt"
   label_query_plural: "Vlastné dopyty"
-  label_query_menu_item: "Položka ponuky dotazu"
   label_read: "Prečítajte si..."
   label_register: "Vytvoriť nový účet"
   label_register_with_developer: "Registrovať sa ako vývojár"
@@ -1863,7 +1906,7 @@ sk:
   label_used_by_types: "Používa sa podľa typov"
   label_used_in_projects: "Použité v projektoch"
   label_user: "Užívateľ"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "Užívateľ %{name}"
   label_user_activity: "Aktivita používateľa %{value}"
   label_user_anonymous: "Anonymný"
@@ -1910,6 +1953,7 @@ sk:
   label_wiki_start: "Úvodná stránka"
   label_work_package: "Pracovný balíček"
   label_work_package_attachments: "Prílohy pracovného balíčka"
+  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Nová kategória"
   label_work_package_category_plural: "kategórie pracovných balíčkov"
   label_work_package_hierarchy: "Hierarchia Pracovného balíčka"
@@ -1925,6 +1969,7 @@ sk:
   label_workflow: "Pracovný postup"
   label_workflow_plural: "Pracovné postupy"
   label_workflow_summary: "Zhrnutie"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 uzatvorený"
     other: "%{count} uzatvorených"
@@ -1985,7 +2030,7 @@ sk:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2014,8 +2059,11 @@ sk:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Na zmenu hesla kliknite na nasledujúci odkaz:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2032,6 +2080,7 @@ sk:
   mail_subject_account_activation_request: "Požiadavka na aktiváciu účtu %{value}"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Vaše heslo %{value}"
   mail_subject_register: "Aktivácia vášho účtu %{value}"
   mail_subject_reminder: "%{count} pracovných balíčkov, ktoré finišujú v najbližších %{days} dňoch"
@@ -2123,6 +2172,12 @@ sk:
   notice_successful_create: "Úspešne vytvorené."
   notice_successful_delete: "Úspešne zmazané."
   notice_successful_update: "Úspešne aktualizované."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Existuje príliš veľa výsledkov.\nUpresnite vyhľadávanie zadaním názvu nového člena (alebo skupiny)."
   notice_user_missing_authentication_method: Užívateľ si ešte nevybral heslo alebo iný spôsob, ako sa prihlásiť.
   notice_user_invitation_resent: Pozvánka bola odoslaná na %{email}.
@@ -2157,9 +2212,8 @@ sk:
           tb: "TB"
   onboarding:
     heading_getting_started: "Získajte prehľad"
-    text_getting_started_description: "Získajte rýchly prehľad o riadení projektov a tímovej spolupráci s OpenProject."
-    text_show_again: "Môžete spustiť toto video z ponuky Pomocník"
-    welcome: "Vitajte v programe OpenProject"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
+    welcome: "Welcome to %{app_title}"
     select_language: "Prosím vyberte Váš jazyk"
   permission_add_work_package_notes: "Pridať poznámky"
   permission_add_work_packages: "Pridať pracovné balíky"
@@ -2175,6 +2229,7 @@ sk:
   permission_comment_news: "Komentovanie noviniek"
   permission_commit_access: "Prístup do úložiska čítanie/zápis (commit)"
   permission_copy_projects: "Kopírovať projekty"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Zmazať sledujúcich užívateľov"
   permission_delete_work_packages: "Odstrániť pracovné balíčky"
   permission_delete_messages: "Vymazať správy"
@@ -2191,13 +2246,14 @@ sk:
   permission_edit_own_time_entries: "Upraviť vlastné časové záznamy"
   permission_edit_project: "Upraviť projekt"
   permission_edit_reportings: "Upraviť prehľady"
-  permission_edit_time_entries: "Upraviť časové záznamy"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Úprava časovej osi"
   permission_edit_wiki_pages: "Úprava wiki stránok"
   permission_export_work_packages: "Export pracovných balíčkov"
   permission_export_wiki_pages: "Export wiki stránok"
   permission_list_attachments: "Zoznam príloh"
-  permission_log_time: "Protokolovať strávený čas"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Spravovať diskusie"
   permission_manage_categories: "Spravovať kategórie pracovného balíčku"
   permission_manage_work_package_relations: "Spravovať vzťahy pracovných balíčkov"
@@ -2217,7 +2273,6 @@ sk:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Vyberte moduly projektu"
   permission_manage_types: "Vyberte typy"
-  permission_view_calendar: "Zobrazenie kalendára"
   permission_view_changesets: "Zobraziť revízie úložiska v programe OpenProject"
   permission_view_commit_author_statistics: "Zobraziť štatistiky o odovzdávkach do repozitára za autora"
   permission_view_work_package_watchers: "Zobrazenie zoznamu pozorovateľov"
@@ -2229,6 +2284,8 @@ sk:
   permission_view_timelines: "Zobrazenie časovej osi"
   permission_view_wiki_edits: "Zobrazenie histórie wiki"
   permission_view_wiki_pages: "Zobraziť wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Pracovné balíčky môžu byť pridelené užívateľom a skupinám, ktoré majú v príslušnom projekte túto úlohu"
   placeholders:
     default: "-"
   project:
@@ -2253,7 +2310,6 @@ sk:
       archived: "Archivované"
   project_module_activity: "Činnosť"
   project_module_forums: "Diskusie"
-  project_module_calendar: "Kalendár"
   project_module_work_package_tracking: "Sledovanie Pracovného balíka"
   project_module_news: "Novinky"
   project_module_repository: "Repozitár"
@@ -2267,7 +2323,7 @@ sk:
     assigned_to_role: "Priradená rola"
     member_of_group: "Skupina priradeného používateľa"
     assignee_or_group: "Priradené používateľovi alebo jeho skupine"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Meno alebo identifikátor"
   repositories:
@@ -2355,6 +2411,11 @@ sk:
     storage:
       not_available: "Spotreba úložného priestoru pre toto úložisko nie je k dispozícii."
       update_timeout: "Uchovávajte posledné požadované informácie o diskovom priestore pre úložisko po dobu minúty N.\nKeď je potrebné počítať požadovaný priestor na disku úložiska, môžete túto hodnotu zvýšiť, aby sa znížil vplyv na výkon."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Existujúce úložisko Subversion (verzia softvéru a kontrola revízie)"
       existing_introduction: "Ak máte existujúce lokálne úložisko Subversion, môžete ho prepojiť s OpenProject a získať tak prístup z aplikácie."
@@ -2398,7 +2459,7 @@ sk:
   setting_smtp_authentication: "Overenie serverom SMTP"
   setting_smtp_user_name: "SMTP užívateľské meno"
   setting_smtp_password: "SMTP heslo"
-  setting_smtp_domain: "SMTP HELLO Doména"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Počet zobrazovaných dní v rámci projektovej aktivity"
   setting_app_subtitle: "Podtitulok aplikácie"
   setting_app_title: "Názov aplikácie"
@@ -2434,7 +2495,6 @@ sk:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Povolené SCM"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "Povoliť informačné kanály"
   setting_feeds_limit: "Limit obsahu informačných kanálov"
   setting_file_max_size_displayed: "Maximálna veľkosť textových súborov zobrazených priamo na stránke"
@@ -2447,7 +2507,7 @@ sk:
   setting_work_package_list_default_columns: "Predvolené zobrazenie"
   setting_work_package_properties: "Vlastnosti pracovného balíčka"
   setting_work_package_startdate_is_adddate: "Použiť aktuálny dátum ako počiatočný dátum pre nové pracovné balíčky"
-  setting_work_packages_export_limit: "Limit exportu pracovných balíčkov"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Zaznamenať prihlasovacie meno používateľa, meno a e-mailovú adresu pre všetky požiadavky"
   setting_login_required: "Vyžaduje sa overenie"
@@ -2507,8 +2567,6 @@ sk:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
@@ -2546,6 +2604,7 @@ sk:
   text_access_token_hint: "Prístupové tokeny umožňujú udeliť externých aplikácií prístup k zdrojom v OpenProject."
   text_analyze: "Ďalej analyzovať: %{subject}"
   text_are_you_sure: "Ste si istí?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Zmazať pracovný balíček a všetky podradené pracovné balíčky?"
   text_assign_to_project: "Priradiť k projektu"
   text_form_configuration: >
@@ -2560,6 +2619,12 @@ sk:
     Ak používate vlastné polia: Upozorňujeme, že tieto musia byť tiež aktivované na každý projekt.
   text_custom_field_hint_activate_per_project_and_type: >
     Vlastné polia je potrebné aktivovať podľa typu pracovného balíčka a projektu.
+  text_wp_custom_field_html: >
+    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Odporúčané je biele logo na farebnom pozadí. Pre najlepšie výsledky na všetkých typoch monitorov (štandardných aj retina) použite obrázok s rozmermi 460px x 60px.
   text_custom_favicon_instructions: >
@@ -2591,7 +2656,6 @@ sk:
   text_work_packages_destroy_confirmation: "Naozaj chcete odstrániť vybraný pracovný balíček(y)?"
   text_work_packages_ref_in_commit_messages: "Odkazovanie a oprava pracovných balíčkov v podrobnejšom vysvetľujúcom texte"
   text_journal_added: "%{label} %{value} pridaných"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} aktualizované"
@@ -2736,7 +2800,6 @@ sk:
       noneSelection: "(žiadny)"
       outline: "Rozbaľte primárny osnovu"
       parent: "Zobraziť podprojekty z"
-      work_package_filters: "Filter pracovných balíčkov"
       work_package_responsible: "Zobraziť pracovné balíčky so zodpovednou osobou"
       work_package_assignee: "Zobraziť pracovné balíčky s priradenou osobou"
       types: "Zobraziť typy"
@@ -2871,10 +2934,10 @@ sk:
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Protocol setting mismatch'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Hostname setting mismatch'
       text_html: >
@@ -2884,10 +2947,8 @@ sk:
   wiki_menu_item_for: "Položka menu pre wiki \"%{title}\""
   wiki_menu_item_setting: "Viditeľnosť"
   wiki_menu_item_new_main_item_explanation: >
-    Zmažete iba hlavnú položku menu wiki. Teraz musíte vybrať stránku wiki, pre ktorú bude vytvorená nová hlavná položka.
-    Modul pre odstránenie wiki môže byť deaktivovaný správcami projektu.
+    Zmažete iba hlavnú položku menu wiki. Teraz musíte vybrať stránku wiki, pre ktorú bude vytvorená nová hlavná položka. Modul pre odstránenie wiki môže byť deaktivovaný správcami projektu.
   wiki_menu_item_delete_not_permitted: Položku ponuky wiki na stránke s jednou wiki nemožno odstrániť.
-  query_menu_item_for: "Položka menu pre dopyt \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2895,6 +2956,17 @@ sk:
     destroy:
       info: "Odstránenie pracovného balíka je nevratná akcia."
       title: "Odstrániť pracovný balík"
+  working_days:
+    info: >
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Nič na zobrazenie náhľadu"
   api_v3:
     attributes:
@@ -2912,6 +2984,7 @@ sk:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "RRRR-MM-DD (len dátumu ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 trvanie"
       invalid_content_type: "Očakávaný typ obsahu je \"%{content_type}\", dodaný bol však \"%{actual}\"."
       invalid_format: "Neplatný formát parametra \"%{property}\": systémom očakávaný formát je \"%{expected_format}\", používateľ dodal \"%{actual}\"."
@@ -2923,6 +2996,7 @@ sk:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Účet aktuálneho používateľa nemá oprávnenie na vykonanie tejto operácie."
       missing_content_type: "nešpecifikovaný"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "Chýba žiadosť tela (request body)."
       missing_or_malformed_parameter: "Parameter dotazu '%{parameter}' chýba alebo je chybne vytvorený."
       multipart_body_error: "Telo žiadosti neobsahuje očakávaný viacnásobné časti."
@@ -2946,6 +3020,7 @@ sk:
       schema: 'Schéma'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-Autorizácia'
@@ -3039,4 +3114,51 @@ sk:
     authorization_error: "Vyskytla sa chyba autorizácie."
     revoke_my_application_confirmation: "Naozaj chcete odstrániť túto aplikáciu? Týmto sa zrušia aktívne tokeny %{token_count}."
     my_registered_applications: "Registrované aplikácie OAuth"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: you

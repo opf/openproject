@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,7 +63,7 @@ class ProjectMailer < ApplicationMailer
     with_locale_for(user) do
       subject = I18n.t('copy_project.failed', source_project_name: source_project.name)
 
-      mail to: user.mail, subject: subject
+      mail to: user.mail, subject:
     end
   end
 
@@ -83,7 +81,7 @@ class ProjectMailer < ApplicationMailer
     with_locale_for(user) do
       subject = I18n.t('copy_project.succeeded', target_project_name: target_project.name)
 
-      mail to: user.mail, subject: subject
+      mail to: user.mail, subject:
     end
   end
 end

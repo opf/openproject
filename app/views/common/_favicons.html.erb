@@ -1,5 +1,3 @@
-<% begin %>
-
 <% unless apply_custom_favicon? %>
   <%= favicon_link_tag OpenProject::CustomStyles::Design.favicon_asset_path %>
 <% end %>
@@ -10,9 +8,3 @@
                                                        type: 'image/png',
                                                        sizes: "120x120" %>
 <% end %>
-
-<% rescue => e
-     # binding.pry
-     warn e
-   end
-%>

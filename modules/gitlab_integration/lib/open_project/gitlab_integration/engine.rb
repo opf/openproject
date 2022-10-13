@@ -42,8 +42,13 @@ module OpenProject::GitlabIntegration
 
     register 'openproject-gitlab_integration',
              :author_url => 'https://github.com/btey/openproject',
-             bundled: true
+             bundled: true do
+      project_module(:gitlab, dependencies: :work_package_tracking) do
+        permission(:show_gitlab_content, {})
+      end
+    end
 
+    patches %w[WorkPackage]
 
     initializer 'gitlab.register_hook' do
       ::OpenProject::Webhooks.register_hook 'gitlab' do |hook, environment, params, user|
@@ -62,14 +67,6 @@ module OpenProject::GitlabIntegration
                                              &NotificationHandlers.method(:push_hook))
       ::OpenProject::Notifications.subscribe('gitlab.pipeline_hook',
                                              &NotificationHandlers.method(:pipeline_hook))
-    end
-
-    initializer 'gitlab.permissions' do
-      OpenProject::AccessControl.map do |ac_map|
-        ac_map.project_module(:gitlab, dependencies: :work_package_tracking) do |pm_map|
-          pm_map.permission(:show_gitlab_content, {}, {})
-        end
-      end
     end
 
     extend_api_response(:v3, :work_packages, :work_package,

@@ -1,7 +1,7 @@
 #English strings go here
 zh-TW:
   label_avatar: "頭像分身"
-  label_avatar_plural: "Avatars"
+  label_avatar_plural: "頭像"
   label_current_avatar: "目前頭像"
   label_choose_avatar: "選擇頭像"
   message_avatar_uploaded: "大頭照上傳成功。"

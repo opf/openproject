@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,13 +31,13 @@ class Message < ApplicationRecord
 
   belongs_to :forum
   has_one :project, through: :forum
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  belongs_to :author, class_name: 'User'
   acts_as_tree counter_cache: :replies_count, order: "#{Message.table_name}.created_at ASC"
   acts_as_attachable after_add: :attachments_changed,
                      after_remove: :attachments_changed,
                      add_on_new_permission: :add_messages,
                      add_on_persisted_permission: :edit_messages
-  belongs_to :last_reply, class_name: 'Message', foreign_key: 'last_reply_id'
+  belongs_to :last_reply, class_name: 'Message'
 
   acts_as_journalized
 
@@ -63,9 +61,10 @@ class Message < ApplicationRecord
 
   acts_as_watchable
 
-  validates_presence_of :forum, :subject, :content
-  validates_length_of :subject, maximum: 255
+  validates :forum, :subject, :content, presence: true
+  validates :subject, length: { maximum: 255 }
 
+  before_save :set_sticked_on_date
   after_create :add_author_as_watcher,
                :update_last_reply_in_parent
   after_update :update_ancestors, if: :saved_change_to_forum_id?
@@ -82,8 +81,6 @@ class Message < ApplicationRecord
   end
 
   validate :validate_unlocked_root, on: :create
-
-  before_save :set_sticked_on_date
 
   # Can not reply to a locked topic
   def validate_unlocked_root
@@ -136,7 +133,7 @@ class Message < ApplicationRecord
 
     with_id
       .or(with_parent_id)
-      .update_all(forum_id: forum_id)
+      .update_all(forum_id:)
 
     Forum.reset_counters!(forum_id_before_last_save)
     Forum.reset_counters!(forum_id)

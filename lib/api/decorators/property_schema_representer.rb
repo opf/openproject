@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,8 +35,16 @@ module API
       include API::Decorators::FormattableProperty
 
       def initialize(
-        type:, name:, location: nil, required: true, has_default: false, writable: true,
-        attribute_group: nil, description: nil, current_user: nil
+        type:,
+        name:,
+        location: nil,
+        required: true,
+        has_default: false,
+        writable: true,
+        attribute_group: nil,
+        description: nil,
+        current_user: nil,
+        deprecated: nil
       )
         @type = type
         @name = name
@@ -48,8 +54,9 @@ module API
         @attribute_group = attribute_group
         @location = derive_location(location)
         @description = description
+        @deprecated = deprecated
 
-        super(nil, current_user: current_user)
+        super(nil, current_user:)
       end
 
       attr_accessor :type,
@@ -63,7 +70,8 @@ module API
                     :regular_expression,
                     :options,
                     :location,
-                    :description
+                    :description,
+                    :deprecated
 
       property :type, exec_context: :decorator
       property :name, exec_context: :decorator
@@ -74,6 +82,7 @@ module API
       property :min_length, exec_context: :decorator
       property :max_length, exec_context: :decorator
       property :regular_expression, exec_context: :decorator
+      property :deprecated, exec_context: :decorator, render_nil: false
       property :options, exec_context: :decorator
 
       property :location, exec_context: :decorator, render_nil: false
@@ -84,6 +93,7 @@ module API
                            setter: nil,
                            getter: ->(*) do
                              next unless description.present?
+
                              ::API::Decorators::Formattable.new(description)
                            end
 

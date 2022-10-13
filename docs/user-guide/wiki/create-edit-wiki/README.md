@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Create and edit wiki
   priority: 799
 description: Create a new wiki page in OpenProject
-robots: index, follow
 keywords: create wiki
 ---
 
@@ -11,12 +10,12 @@ keywords: create wiki
 
 In OpenProject you can create and edit wiki pages together with your team to document important project information.
 
-| Feature                                                      | Documentation for                             |
-| ------------------------------------------------------------ | --------------------------------------------- |
-| [Create a new wiki page](#create-a-new-wiki-page)            | How to create a new wiki page?                |
-| [Edit a wiki page](#edit-a-wiki-page)                        | How to make changes to an existing wiki page? |
-| [Create a wiki page structure](#create-a-wiki-page-structure) | How to create a wiki page structure?          |
-| [Watch a wiki page](#watch-a-wiki-page)                      | How to watch a wiki page?                     |
+| Feature                                                       | Documentation for                             |
+|---------------------------------------------------------------|-----------------------------------------------|
+| [Create a new wiki page](#create-a-new-wiki-page)             | How to create a new wiki page.                |
+| [Edit a wiki page](#edit-a-wiki-page)                         | How to make changes to an existing wiki page. |
+| [Create a wiki page structure](#create-a-wiki-page-structure) | How to create a wiki page structure.          |
+| [Watch a wiki page](#watch-a-wiki-page)                       | How to watch a wiki page.                     |
 
 ## Create a new wiki page
 
@@ -24,11 +23,7 @@ To create a new wiki page in a project, navigate to the wiki module in your proj
 
 ![create-wiki-page](1568198706474.png)
 
-<div class="alert alert-info" role="alert">
-
-**Note**: If you do not see the wiki module in your project menu, you first have to [activate the module in your project settings](../../projects).
-
-</div>
+> **Note**: If you do not see the wiki module in your project menu, you first have to [activate the module in your project settings](../../projects).
 
 The editor window will open, allowing you to enter title and content of the new page.
 

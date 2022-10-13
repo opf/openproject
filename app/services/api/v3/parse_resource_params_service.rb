@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ module API
 
       def parsing_representer
         representer
-          .create(struct, current_user: current_user)
+          .create(struct, current_user:)
       end
 
       def parse_attributes(request_body)
@@ -46,10 +46,10 @@ module API
       end
 
       def struct
-        if model&.respond_to?(:available_custom_fields)
-          OpenStruct.new available_custom_fields: model.available_custom_fields(model.new)
-        else
-          super
+        super.tap do |instance|
+          if model.respond_to?(:available_custom_fields)
+            instance.available_custom_fields = model.available_custom_fields(model.new)
+          end
         end
       end
     end

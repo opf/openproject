@@ -11,6 +11,7 @@ import {
 import { OPContextMenuComponent } from 'core-app/shared/components/op-context-menu/op-context-menu.component';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+import { ComponentType } from '@angular/cdk/portal/portal';
 
 @Injectable({ providedIn: 'root' })
 export class OPContextMenuService {
@@ -64,9 +65,12 @@ export class OPContextMenuService {
 
   /**
    * Open a ContextMenu reference and append it to the portal
-   * @param contextMenu A reference to a context menu handler
+   * @param menu A reference to a context menu handler
+   * @param event The event that triggered the context menu for positioning
+   * @param component The context menu component to mount
+   *
    */
-  public show(menu:OpContextMenuHandler, event:JQuery.TriggeredEvent, component:any = OPContextMenuComponent) {
+  public show(menu:OpContextMenuHandler, event:JQuery.TriggeredEvent|Event, component:ComponentType<unknown> = OPContextMenuComponent):void {
     this.close();
 
     // Create a portal for the given component class and render it
@@ -79,19 +83,19 @@ export class OPContextMenuService {
     setTimeout(() => {
       this.reposition(event);
       // Focus on the first element
-      this.active && this.active.onOpen(this.activeMenu);
+      this.active?.onOpen(this.activeMenu);
       this.isOpening = false;
     });
   }
 
-  public isActive(menu:OpContextMenuHandler) {
-    return this.active && this.active === menu;
+  public isActive(menu:OpContextMenuHandler):boolean {
+    return !!this.active && this.active === menu;
   }
 
   /**
    * Closes all currently open context menus.
    */
-  public close() {
+  public close():void {
     if (this.isOpening) {
       return;
     }
@@ -99,11 +103,11 @@ export class OPContextMenuService {
     // Detach any component currently in the portal
     this.bodyPortalHost.detach();
     this.portalHostElement.style.display = 'none';
-    this.active && this.active.onClose();
+    this.active?.onClose();
     this.active = null;
   }
 
-  public reposition(event:JQuery.TriggeredEvent) {
+  public reposition(event:JQuery.TriggeredEvent|Event):void {
     if (!this.active) {
       return;
     }

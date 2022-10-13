@@ -11,7 +11,7 @@ require 'pathname'
 require 'yaml'
 require 'json'
 
-require './lib/api/open_api'
+require_relative '../../lib/api/open_api'
 
 path = Pathname(__dir__).join("../../docs/api/apiv3/openapi-spec.yml")
 spec = API::OpenAPI.assemble_spec path

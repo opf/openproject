@@ -2,14 +2,13 @@
 cs:
   js:
     boards:
+      create_new: 'Vytvořit tabuli'
       label_unnamed_board: 'Nepojmenovaná tabule'
       label_unnamed_list: 'Nepojmenovaný seznam'
       label_board_type: 'Typ tabule'
       upsale:
-        teaser_text: 'Zlepšete své agilní řízení projektů s tímto flexibilním zobrazením Boardů. Vytvořte tolik desek, kolik chcete pro cokoliv, co chcete sledovat.'
-        upgrade_to_ee_text: 'Board je funkce Enterprise. Proveďte upgrade na placený plán.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
         upgrade: 'Upgradovat nyní'
-        personal_demo: 'Kontaktujte nás pro demo'
       lists:
         delete: 'Odstranit seznam'
       version:
@@ -43,9 +42,9 @@ cs:
         action_text: >
           Tabule s filtrovanými seznamy v atributu %{attribute} . Přesunutí pracovních balíčků do jiných seznamů aktualizuje jejich atribut.
         action_text_subprojects: >
-          Boj s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem aktualizuje (pod)projekt.
+          Boj s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem aktualizuje podprojekt.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Tabule s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem
         action_text_status: >
           Základní tabule ve stylu kanbanu se sloupci pro status jako je do Do, Probíhá, Done.
         action_text_assignee: >
@@ -56,14 +55,14 @@ cs:
           assignee: Řešitel
           status: Stav
           version: verze
-          subproject: podprojekt
-          subtasks: rodič-potomek
+          subproject: Podprojekt
+          subtasks: nadřazený-podřazený
         board_type_title:
           assignee: Řešitel
           status: Stav
           version: Verze
-          subproject: Dílčí projekt
-          subtasks: rodič-potomek
+          subproject: Podprojekt
+          subtasks: nadřazený-podřazený
           basic: Základní
         select_attribute: "Atribut akce"
       add_list_modal:

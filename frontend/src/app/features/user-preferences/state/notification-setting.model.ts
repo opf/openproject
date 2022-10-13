@@ -1,6 +1,6 @@
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 
-export interface NotificationSetting {
+export interface INotificationSetting {
   _links:{ project:HalSourceLink };
   watched:boolean;
   involved:boolean;
@@ -20,7 +20,7 @@ export interface NotificationSetting {
   membershipUpdated:boolean;
 }
 
-export function buildNotificationSetting(project:null|HalSourceLink, params:Partial<NotificationSetting>):NotificationSetting {
+export function buildNotificationSetting(project:null|HalSourceLink, params:Partial<INotificationSetting>):INotificationSetting {
   return {
     _links: {
       project: {

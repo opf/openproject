@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -40,11 +40,12 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 
 const ADD_FILTER_SELECT_INDEX = -1;
 
 @Component({
-  selector: 'query-filters',
+  selector: 'op-query-filters',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './query-filters.component.html',
 })
@@ -55,7 +56,10 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
 
   @Input() public showCloseFilter = false;
 
-  @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
+  @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(
+    componentDestroyed(this),
+    500,
+  );
 
   public remainingFilters:any[] = [];
 
@@ -71,6 +75,7 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     close_filter: this.I18n.t('js.filter.description.text_close_filter'),
     upsale_for_more: this.I18n.t('js.filter.upsale_for_more'),
     upsale_link: this.I18n.t('js.filter.upsale_link'),
+    more_info_link: enterpriseDocsUrl.website,
     close_form: this.I18n.t('js.close_form_title'),
     selected_filter_list: this.I18n.t('js.label_selected_filter_list'),
     button_delete: this.I18n.t('js.button_delete'),

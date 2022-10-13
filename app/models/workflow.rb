@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +28,11 @@
 
 class Workflow < ApplicationRecord
   belongs_to :role
-  belongs_to :old_status, class_name: 'Status', foreign_key: 'old_status_id'
-  belongs_to :new_status, class_name: 'Status', foreign_key: 'new_status_id'
+  belongs_to :old_status, class_name: 'Status'
+  belongs_to :new_status, class_name: 'Status'
   belongs_to :type, inverse_of: 'workflows'
 
-  validates_presence_of :role, :old_status, :new_status
+  validates :role, :old_status, :new_status, presence: true
 
   # Returns workflow transitions count by type and role
   def self.count_by_type_and_role
@@ -65,17 +63,17 @@ class Workflow < ApplicationRecord
   # such a case, those work flows are additionally returned.
   def self.from_status(old_status_id, type_id, role_ids, author = false, assignee = false)
     workflows = Workflow
-                .where(old_status_id: old_status_id, type_id: type_id, role_id: role_ids)
+                .where(old_status_id:, type_id:, role_id: role_ids)
 
     if author && assignee
       workflows
     elsif author || assignee
       workflows
-        .merge(Workflow.where(author: author).or(Workflow.where(assignee: assignee)))
+        .merge(Workflow.where(author:).or(Workflow.where(assignee:)))
     else
       workflows
-        .where(author: author)
-        .where(assignee: assignee)
+        .where(author:)
+        .where(assignee:)
     end
   end
 

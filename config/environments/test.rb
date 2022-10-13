@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +40,7 @@ OpenProject::Application.configure do
 
   # Use eager load to mirror the production environment
   # on travis
-  config.eager_load = ENV['CI'].present?
+  config.eager_load = ENV['CI'].present? || ENV['EAGER_LOAD'].present?
 
   # This setting is false by default, but we define it explicitly
   config.allow_concurrency = false
@@ -58,8 +56,8 @@ OpenProject::Application.configure do
   # Raise exceptions instead of rendering exception templates.
   config.action_dispatch.show_exceptions = false
 
-  # Disable request forgery protection in test environment.
-  config.action_controller.allow_forgery_protection = false
+  # Enable request forgery protection in test environment.
+  config.action_controller.allow_forgery_protection = true
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
@@ -73,6 +71,9 @@ OpenProject::Application.configure do
     else
       :stderr
     end
+
+  # Highlight code that triggered database queries in logs.
+  config.active_record.verbose_query_logs = true
 
   # Disable asset digests
   config.assets.compile = true
@@ -89,4 +90,7 @@ OpenProject::Application.configure do
     assets_cache_path = Rails.root.join("tmp/cache/assets/paralleltests#{ENV['TEST_ENV_NUMBER']}")
     config.assets.cache = Sprockets::Cache::FileStore.new(assets_cache_path)
   end
+
+  # Speed up tests by lowering BCrypt's cost function
+  BCrypt::Engine.cost = BCrypt::Engine::MIN_COST
 end

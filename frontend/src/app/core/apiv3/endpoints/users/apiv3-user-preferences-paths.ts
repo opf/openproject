@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,22 +26,22 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3ResourcePath } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3ResourcePath } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { Observable } from 'rxjs';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { HttpClient } from '@angular/common/http';
-import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
+import { IUserPreference } from 'core-app/features/user-preferences/state/user-preferences.model';
 
-export class Apiv3UserPreferencesPaths extends APIv3ResourcePath<UserPreferencesModel> {
+export class ApiV3UserPreferencesPaths extends ApiV3ResourcePath<IUserPreference> {
   @InjectField() http:HttpClient;
 
   /**
    * Perform a request to the backend to load preferences
    */
-  public get():Observable<UserPreferencesModel> {
+  public get():Observable<IUserPreference> {
     return this
       .http
-      .get<UserPreferencesModel>(
+      .get<IUserPreference>(
       this.path,
     );
   }
@@ -49,10 +49,10 @@ export class Apiv3UserPreferencesPaths extends APIv3ResourcePath<UserPreferences
   /**
    * Perform a request to update preferences
    */
-  public patch(payload:Partial<UserPreferencesModel>):Observable<UserPreferencesModel> {
+  public patch(payload:Partial<IUserPreference>):Observable<IUserPreference> {
     return this
       .http
-      .patch<UserPreferencesModel>(
+      .patch<IUserPreference>(
       this.path,
       payload,
       { withCredentials: true, responseType: 'json' },

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,20 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# make sure to require Widget::Filters::Base first because otherwise
-# ruby might find Base within Widget and Rails will not load it
-require_dependency 'widget/filters/base'
 class Widget::Filters::MultiValues < Widget::Filters::Base
   def render
     write(content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: 'advanced-filters--filter-value') do
-      select_options = {  "data-remote-url": url_for(action: 'available_values'),
-                          "data-initially-selected": JSON::dump(Array(filter.values).flatten),
+      select_options = {  'data-remote-url': url_for(action: 'available_values'),
+                          'data-initially-selected': JSON::dump(Array(filter.values).flatten),
                           style: 'vertical-align: top;', # FIXME: Do CSS
                           name: "values[#{filter_class.underscore_name}][]",
-                          "data-loading": @options[:lazy] ? 'ajax' : '',
+                          'data-loading': @options[:lazy] ? 'ajax' : '',
                           id: "#{filter_class.underscore_name}_arg_1_val",
                           class: 'form--select filter-value',
-                          "data-filter-name": filter_class.underscore_name }
+                          'data-filter-name': filter_class.underscore_name }
       box_content = ''.html_safe
       label = label_tag "#{filter_class.underscore_name}_arg_1_val",
                         h(filter_class.label) + ' ' + I18n.t(:label_filter_value),
@@ -51,7 +48,7 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
       plus = content_tag :a,
                          href: '#',
                          class: 'form-label filter_multi-select -transparent',
-                         "data-filter-name": filter_class.underscore_name,
+                         'data-filter-name': filter_class.underscore_name,
                          title: I18n.t(:description_multi_select) do
         content_tag :span,
                     '',

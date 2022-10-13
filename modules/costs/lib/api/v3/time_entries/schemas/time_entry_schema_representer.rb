@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,13 +53,16 @@ module API
           schema :hours,
                  type: 'Duration'
 
-          schema :user,
-                 type: 'User',
-                 location: :link
-
           schema :comment,
                  type: 'Formattable',
                  required: false
+
+          schema_with_allowed_link :user,
+                                   has_default: false,
+                                   required: true,
+                                   href_callback: ->(*) {
+                                     allowed_user_href
+                                   }
 
           schema_with_allowed_link :work_package,
                                    has_default: false,
@@ -97,6 +100,15 @@ module API
 
           def allowed_projects_href
             api_v3_paths.time_entries_available_projects
+          end
+
+          def allowed_user_href
+            api_v3_paths.path_for :principals,
+                                  filters: [
+                                    { status: { operator: '!', values: [Principal.statuses[:locked].to_s] } },
+                                    { type: { operator: '=', values: ['User'] } },
+                                    { member: { operator: '=', values: [represented.project_id] } }
+                                  ]
           end
         end
       end

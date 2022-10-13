@@ -27,13 +27,17 @@ fr:
       events:
         created: "Créé"
         updated: "Mis à jour"
+      explanation:
+        text: >
+          Lors de l'apparition d'un événement comme la création d'un lot de travaux ou la mise à jour d'un projet, OpenProject enverra une requête POST aux points de terminaison web configurés. Souvent, l'événement est envoyé après que le %{link} est passé.
+        link: période d'agrégation configurée
       status:
         enabled: 'Webhook activé'
         disabled: 'Webhook désactivé'
         enabled_text: 'Le webhook émettra des payloads pour les événements définis ci-dessous.'
         disabled_text: 'Cliquez sur le bouton Modifier pour activer le webhook.'
       deliveries:
-        no_results_table: Aucune livraison n'a été effectuée pour ce webhook.
+        no_results_table: Aucune livraison n'a été faite pour ce webhook ces derniers jours.
         title: 'Livraisons récentes'
         time: 'Délai de livraison'
       form:

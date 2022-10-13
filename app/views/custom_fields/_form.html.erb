@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -62,7 +62,9 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% if @custom_field.new_record? || @custom_field.list? || @custom_field.multi_value_possible? %>
       <div class="form--field" id="custom_field_multi_select" style="display:none">
-      <%= f.check_box :multi_value %>
+
+          <%= f.check_box :multi_value %>
+
       </div>
 
     <fieldset class="form--fieldset" id="custom_field_possible_values_attributes">

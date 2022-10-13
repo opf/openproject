@@ -1,6 +1,19 @@
 <div class="op-toast -{{ type }}" tabindex="0">
   <div class="op-toast--content" role="alert" aria-atomic="true">
-    <p>
+    <ng-container *ngIf="type === 'loading'">
+      <div
+        *ngIf="(loading$ | async)"
+        class="loading-indicator -small"
+      >
+        <div class="block-1"></div>
+        <div class="block-2"></div>
+        <div class="block-3"></div>
+        <div class="block-4"></div>
+        <div class="block-5"></div>
+      </div>
+      <p [textContent]="toast.message"></p>
+    </ng-container>
+    <p *ngIf="type !== 'loading'">
       <span [textContent]="toast.message"></span>
       <span [textContent]="' '"></span>
       <a class="op-toast--target-link"
@@ -11,7 +24,7 @@
     </p>
     <div [ngSwitch]="type">
       <div *ngSwitchCase="'upload'">
-        <div *ngIf="canBeHidden()">
+        <div *ngIf="canBeHidden">
           <a (click)="show = true" [hidden]="show">
             <op-icon icon-classes="icon-arrow-right2"></op-icon>
           </a>
@@ -20,13 +33,13 @@
           </a>
           <span [textContent]="uploadText"></span>
         </div>
-        <div [ngClass]="{ '-hidden': !show && canBeHidden() }">
+        <div [ngClass]="{ '-hidden': !show && canBeHidden }">
           <ul class="op-toast--uploads" *ngIf="data && data.length > 0">
             <op-toasters-upload-progress
-                *ngFor="let upload of data"
-                [upload]="upload"
-                (onSuccess)="onUploadSuccess()"
-                (onError)="onUploadError($event)">
+              *ngFor="let upload of data"
+              [upload]="upload"
+              (onSuccess)="onUploadSuccess()"
+              (onError)="remove()">
             </op-toasters-upload-progress>
           </ul>
         </div>
@@ -38,14 +51,13 @@
         </ul>
       </div>
     </div>
-  </div>
-  <button
-      *ngIf="removable()"
+    <button
+      *ngIf="removable"
       type="button"
-      class="op-link op-toast--close"
+      class="spot-link op-toast--close"
       [title]="text.close_popup"
       (click)="remove()"
-  >
-    <op-icon icon-classes="icon-context icon-close icon-no-color"></op-icon>
-  </button>
-</div>
+    >
+      <op-icon icon-classes="icon-context icon-close icon-no-color"></op-icon>
+    </button>
+  </div>

@@ -1,127 +1,154 @@
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
-import { Observable } from 'rxjs';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import {
+  Observable,
+  of,
+} from 'rxjs';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { map } from 'rxjs/operators';
-import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import {
+  map,
+  shareReplay,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs/operators';
+import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
+import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import {
-  AfterViewInit, ChangeDetectionStrategy,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, EventEmitter, Input, NgZone, OnInit, Output, ViewChild,
+  Component,
+  EventEmitter,
+  Input,
+  NgZone,
+  OnInit,
+  Output,
+  ViewChild,
 } from '@angular/core';
-import { compareByHrefOrString } from 'core-app/shared/helpers/angular/tracking-functions';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { take } from 'rxjs/internal/operators/take';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 
 @Component({
-  selector: 'filter-searchable-multiselect-value',
+  selector: 'op-filter-searchable-multiselect-value',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './filter-searchable-multiselect-value.component.html',
 })
-export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
+export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public filter:QueryFilterInstanceResource;
 
   @Input() public shouldFocus = false;
 
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
-  private _isEmpty:boolean;
-
-  public _availableOptions:HalResource[] = [];
-
-  public compareByHrefOrString = compareByHrefOrString;
-
-  public active:Set<string>;
-
-  public requests = new DebouncedRequestSwitchmap<string, HalResource>(
-    (searchTerm:string) => this.loadAvailable(searchTerm),
-    errorNotificationHandler(this.halNotification),
-    true,
+  private meValue = this.halResourceService.createHalResource(
+    {
+      _links: {
+        self: {
+          href: this.apiV3Service.users.me.path,
+          title: this.I18n.t('js.label_me'),
+        },
+      },
+    }, true,
   );
+
+  autocompleterFn = (searchTerm:string):Observable<HalResource[]> => this.autocomplete(searchTerm);
+
+  initialRequest$:Observable<CollectionResource>;
+
+  itemTracker = (item:HalResource):string => item.href || item.id || item.name;
+
+  compareByHref = compareByHref;
+
+  resourceType:string|null = null;
 
   readonly text = {
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
 
-  public get value() {
+  public get value():string[]|HalResource[] {
     return this.filter.values;
-  }
-
-  public get availableOptions() {
-    return this._availableOptions;
-  }
-
-  public set availableOptions(val:HalResource[]) {
-    this._availableOptions = this.halSorting.sort(val);
-  }
-
-  public get isEmpty():boolean {
-    return this._isEmpty = this.value.length === 0;
   }
 
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
   constructor(readonly halResourceService:HalResourceService,
-    readonly halSorting:HalResourceSortingService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
     protected currentProject:CurrentProjectService,
+    protected currentUser:CurrentUserService,
     readonly halNotification:HalResourceNotificationService,
     readonly ngZone:NgZone) {
     super();
   }
 
-  ngOnInit() {
-    this.initialization();
-    // Request an empty value to load warning early on
-    this.requests.input$.next('');
-  }
-
-  ngAfterViewInit():void {
-    if (this.ngSelectInstance && this.shouldFocus) {
-      this.ngSelectInstance.focus();
+  ngOnInit():void {
+    if (this.filter.id === 'id') {
+      this.resourceType = 'work_packages';
     }
+
+    this.initialRequest$ = this
+      .loadCollection('')
+      .pipe(
+        shareReplay(1),
+      );
   }
 
-  initialization() {
-    this
-      .requests
-      .output$.pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe((values:HalResource[]) => {
-        this.availableOptions = values;
-        this.cdRef.detectChanges();
-      });
+  private autocomplete(matching:string):Observable<HalResource[]> {
+    return this
+      .initialRequest$
+      .pipe(
+        switchMap((initialLoad) => {
+          // If we already loaded all values, just compare in the frontend
+          if (initialLoad.count === initialLoad.total) {
+            return this.matchingItems(initialLoad.elements, matching);
+          }
+
+          // Otherwise, request the matching API call
+          return this
+            .loadCollection(matching)
+            .pipe(
+              switchMap((collection) => this.withMeValue(matching, collection.elements)),
+            );
+        }),
+      );
   }
 
-  public loadAvailable(matching:string):Observable<HalResource[]> {
+  matchingItems(elements:HalResource[], matching:string):Observable<HalResource[]> {
+    let filtered:HalResource[];
+
+    if (matching === '' || !matching) {
+      filtered = elements;
+    } else {
+      const lowered = matching.toLowerCase();
+      filtered = elements.filter((el) => (el.id as string).includes(lowered) || el.name.toLowerCase().includes(lowered));
+    }
+
+    return this.withMeValue(matching, filtered);
+  }
+
+  private loadCollection(matching:string):Observable<CollectionResource> {
     const filters:ApiV3FilterBuilder = this.createFilters(matching);
-    const { href } = this.filter.currentSchema!.values!.allowedValues as any;
 
-    const filteredData = (this.apiV3Service.collectionFromString(href) as
-      APIv3ResourceCollection<HalResource, CachableAPIV3Resource>)
-      .filtered(filters)
-      .get()
-      .pipe(map((collection) => collection.elements));
-
-    return filteredData;
+    return (this.apiV3Service.collectionFromString(this.allowedValuesLink) as
+      ApiV3ResourceCollection<HalResource, ApiV3Resource>)
+      .filtered(filters, { pageSize: '-1' })
+      .get();
   }
 
-  protected createFilters(matching:string) {
+  private createFilters(matching:string):ApiV3FilterBuilder {
     const filters = new ApiV3FilterBuilder();
 
     if (matching) {
-      filters.add('subjectOrId', '**', [matching]);
+      filters.add('typeahead', '**', [matching]);
     }
 
     return filters;
@@ -130,20 +157,39 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   public setValues(val:any) {
     this.filter.values = val.length > 0 ? (Array.isArray(val) ? val : [val]) : [] as HalResource[];
     this.filterChanged.emit(this.filter);
-    this.requests.input$.next('');
     this.cdRef.detectChanges();
   }
 
-  public repositionDropdown() {
-    if (this.ngSelectInstance) {
-      const component = (this.ngSelectInstance) as any;
-      if (component && component.dropdownPanel) {
-        this.ngZone.runOutsideAngular(() => {
-          setTimeout(() => {
-            component.dropdownPanel._updatePosition();
-          }, 25);
-        });
-      }
+  private get allowedValuesLink():string {
+    /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
+    const { href } = this.filter.currentSchema!.values!.allowedValues as { href:string };
+
+    return href;
+  }
+
+  private withMeValue(matching:string, elements:HalResource[]):Observable<HalResource[]> {
+    if (!this.isUserResource || (!!matching && matching !== 'me')) {
+      return of(elements);
     }
+
+    return this
+      .currentUser
+      .isLoggedIn$
+      .pipe(
+        take(1),
+        withLatestFrom(this.currentUser.user$),
+        map(([logged, user]) => {
+          if (logged && user) {
+            return [this.meValue].concat(elements);
+          }
+
+          return elements;
+        }),
+      );
+  }
+
+  private get isUserResource() {
+    const type = _.get(this.filter.currentSchema, 'values.type', null) as string;
+    return type && type.indexOf('User') > 0;
   }
 }
