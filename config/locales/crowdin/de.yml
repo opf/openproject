@@ -676,6 +676,7 @@ de:
           only_one_global_setting: 'Es darf nur eine globale Benachrichtigungseinstellung geben.'
           email_alerts_global: 'Die E-Mail-Benachrichtigungseinstellungen können nur global gesetzt werden.'
           format: "%{message}"
+          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:

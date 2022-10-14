@@ -678,6 +678,7 @@ nl:
           only_one_global_setting: 'Er mag slechts één globale meldingsinstelling zijn.'
           email_alerts_global: 'De instellingen voor e-mailmeldingen kunnen alleen globaal worden ingesteld.'
           format: "%{message}"
+          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:

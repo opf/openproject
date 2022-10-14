@@ -683,6 +683,7 @@ cs:
           only_one_global_setting: 'Musí existovat pouze jedno globální nastavení oznámení.'
           email_alerts_global: 'Nastavení e-mailových oznámení lze nastavit pouze globálně.'
           format: "%{message}"
+          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:

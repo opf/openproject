@@ -678,6 +678,7 @@ uk:
           only_one_global_setting: 'Має існувати лише одне глобальне налаштування сповіщень.'
           email_alerts_global: 'Налаштування сповіщень електронною поштою можна встановити лише глобально.'
           format: "%{message}"
+          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:
