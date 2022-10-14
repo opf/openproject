@@ -366,16 +366,15 @@ After you have successfully installed the OpenProject package, you can now perfo
 To start the configuration wizard, please run the following command  with `sudo`, or as root:
 
 ```bash
-sudo openproject configure
+sudo openproject reconfigure #interactive - manual choices are stored in /etc/openproject/installer.dat
+sudo openproject configure #non-interactive - using values stored in /etc/openproject/installer.dat
 ```
 
 **Notes:**
 
-* In case you mistype or need to correct a configuration option, you can always safely cancel the configuration wizard by pressing `CTRL+C` and restart it by running `sudo openproject reconfigure`.
+* Every time you will run the OpenProject wizard, by using `sudo openproject reconfigure` your choices will be persisted in a configuration file at `/etc/openproject/installer.dat` and subsequent executions of `sudo openproject configure` will re-use these values, only showing you the wizard steps for options you have not yet been asked for.
 
-* Every time you will run the OpenProject wizard, your choices will be persisted in a configuration file at `/etc/openproject/installer.dat` and subsequent executions of `sudo openproject configure` will re-use these values, only showing you the wizard steps for options you have not yet been asked for.
-
-* In case you want to run through all the wizard options again, you can do so by executing `sudo openproject reconfigure`. This will show all wizard steps, but again keep values you entered before showing in the input fields. You can skip dialogs you do not want to change simply by confirming them with `ENTER`.
+* In the interactive way you can skip dialogs you do not want to change simply by confirming them with `ENTER`.
 
 ## Step 1: Select your OpenProject Edition
 
@@ -411,6 +410,8 @@ The dialog allows you to choose from three options:
 
 Choose this option if you want OpenProject to set up and configure a local database server manually. This is the best choice if you are unfamiliar with administering databases, or do not have a separate PostgreSQL database server installed that you want to connect to.
 
+> **Note:** If you would like to use the database that was automatically installed by OpenProject at time of installation just choose `install` again
+
 ### Use an existing PostgreSQL database
 
 Choose this option if you have a PostgreSQL database server installed either on the same host as the OpenProject package is being installed on, or on another server you can connect to from this machine.
@@ -429,9 +430,9 @@ sudo openproject config:set DATABASE_URL="postgresql://[user[:password]@][host][
 
 ## Step 3: Apache2 web server and SSL termination
 
-OpenProject comes with an internal ruby application server, but this server only listens on a local interface. To receive connections from the outside world, it needs a web server that will act as a proxy to forward incoming connections to the OpenProject application server.
+OpenProject comes with an internal ruby application server, but this server only listens on a local interface, usually on port 6000. To receive connections from the outside world, it needs a web server that will act as a proxy to forward incoming connections to the OpenProject application server.
 
-This wizard step allows you to auto-install an Apache2 web server to function as that proxy.
+This wizard step allows you to auto-install an Apache2 web server to function as that reverse proxy.
 
 ![02a-apache](02a-apache.png)
 
@@ -441,11 +442,15 @@ The available options are:
 
 We recommend that you let OpenProject install and configure the outer web server, in which case we will install an Apache2 web server with a VirtualHost listening to the domain name you specify, optionally providing SSL/TLS termination.
 
-In case you select to auto-install Apache2, multiple dialogs will request the parameters for setting it up:
+**Note:**
+
+- In case you re-run `sudo openproject reconfigure` later it is mandatory to select `install` at the webserver again
+
+In case you have selected to install Apache2, multiple dialogs will request the parameters for setting it up:
 
 **Domain name**
 
-Enter the fully qualified domain where your OpenProject installation will be reached at. This will become the `ServerName` of your apache VirtualHost and is also used to generate full links from OpenProject, such as in emails.
+Enter the fully qualified domain (FQDN) where your OpenProject installation will be reached at. This will become the `ServerName` of your apache VirtualHost and is also used to generate full links from OpenProject, such as in emails.
 
 ![02b-hostname](02b-hostname.png)
 
@@ -456,6 +461,10 @@ If you wish to install OpenProject under a server path prefix, such as `yourdoma
 ![02c-prefix](02c-prefix.png)
 
 **SSL/TLS configuration**
+
+**Note:**
+
+- With OpenProject version 12.2 **HTTPS confugration** was set to be **default** for every installation. **Now best practice is to proceed by selecting `yes` for using HTTPS (SSL/TLS)** and generating the needed certificates, otherwise you will have to manually deactivate HTTPS on the command line.
 
 OpenProject can configure Apache to support HTTPS (SSL/TLS). If you have SSL certificates and want to use SSL/TLS (recommended), select **Yes**.
 
@@ -469,9 +478,7 @@ In that case, you will be shown three additional dialogs to enter the certificat
 
 
 
-Enabling this mode will result in OpenProject only responding to HTTPS requests, and upgrade any non-secured requests to HTTPS. It will also output HTTP Strict Transport Security (HSTS) headers to the client.
-
-
+Enabling this mode will result in OpenProject only responding to HTTPS requests, and upgrade any non-secured requests to HTTPS. It will also output HTTP Strict Transport Security (HSTS) headers to the client. 
 
 **External SSL/TLS termination**
 
