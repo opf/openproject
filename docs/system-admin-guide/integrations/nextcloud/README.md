@@ -63,6 +63,8 @@ In the configuration page that appears, you'll see a blank text field titled **O
 
 Click on the **Save** button. 
 
+> **Note:** If the OpenProject host cannot be added, you may check the [Troubleshooting](#troubleshooting) section at the bottom of this page
+
 The next part of the setup will require you to enter OpenProject OAuth values here, but before we do that, you will need to generate them in OpenProject. To do so, navigate to your OpenProject instance in a new browser tab. 
 
 #### 2. Create a Nextcloud file storage in your OpenProject instance
@@ -181,3 +183,27 @@ Deleting a file storage at an instance level deletes the Nextcloud integration c
 ## Using the integration
 
 Once the file storage is added and enabled for projects, your users are able to take full advantage of the integration between Nextcloud and OpenProject. For more information on how to link Nextcloud files to work packages in OpenProject and access linked work packages in Nextcloud, please refer to [Using the Nextcloud integration](../../../user-guide/nextcloud-integration/).
+
+
+
+## Troubleshooting
+
+On Nextcloud inside the OpenProject integration App when adding the OpenProject host it shows the error **"Please enter a valid OpenProject hostname"**.
+
+- If you are on a local network with your Nextcloud and OpenProject hosts, it might be necessary to explicitly allow local remote servers by setting a system configuration flag on your Nextcloud host's command line. Use the command `sudo -u www-data php occ config:system:set allow_local_remote_servers --value 1` in order to change the setting for Nextcloud.
+
+- To test the connection between OpenProject and the Nextcloud and the OpenProject integration App, you are able to use the following methods from your OpenProject host's command line:
+
+  ```bash
+  # Check Connection from OpenProject to Nextcloud
+  curl --location --request GET 'https://subdomain.domain.tld/index.php/apps/integration_openproject/check-config' --header 'Authorization: foo'
+  # If Nextcloud is integrated correctly the response should look like the following
+  # {"user_id":"","authorization_header":foo}
+  ```
+
+  ```bash
+  # Check Connection from OpenProject to Nextcloud OpenProject integration App
+  curl -H 'OCS-APIRequest:true' -H 'Accept:application/json'https://subdomain.domain.tld/nextcloud/ocs/v2.php/cloud/capabilities
+  ```
+
+  
