@@ -317,7 +317,7 @@ sudo yum install openproject
 
 Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
-**Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
+> **Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
 
 ## SUSE Linux Enterprise Server (SLES) Installation
 
@@ -442,29 +442,25 @@ The available options are:
 
 We recommend that you let OpenProject install and configure the outer web server, in which case we will install an Apache2 web server with a VirtualHost listening to the domain name you specify, optionally providing SSL/TLS termination.
 
-**Note:**
-
-- In case you re-run `sudo openproject reconfigure` later it is mandatory to select `install` at the webserver again
+> **Note:** In case you re-run `sudo openproject reconfigure` later it is mandatory to select `install` at the webserver again
 
 In case you have selected to install Apache2, multiple dialogs will request the parameters for setting it up:
 
-**Domain name**
+#### Domain name
 
 Enter the fully qualified domain (FQDN) where your OpenProject installation will be reached at. This will become the `ServerName` of your apache VirtualHost and is also used to generate full links from OpenProject, such as in emails.
 
 ![02b-hostname](02b-hostname.png)
 
-**Server path prefix**
+#### Server path prefix
 
 If you wish to install OpenProject under a server path prefix, such as `yourdomain.example.com/openproject`, please specify that prefix here with a leading slash. For example: `/openproject`. If OpenProject should respond to `http(s)://yourdomain.example.com` as specified in the previous dialog, simply leave this dialog empty and confirm by pressing `ENTER`.
 
 ![02c-prefix](02c-prefix.png)
 
-**SSL/TLS configuration**
+#### SSL/TLS configuration
 
-**Note:**
-
-- With OpenProject version 12.2 **HTTPS confugration** was set to be **default** for every installation. **Now best practice is to proceed by selecting `yes` for using HTTPS (SSL/TLS)** and generating the needed certificates, otherwise you will have to manually deactivate HTTPS on the command line.
+> **Note:** With OpenProject version 12.2 **HTTPS confugration** was set to be **default** for every installation. **Now best practice is to proceed by selecting `yes` for using HTTPS (SSL/TLS)** and generating the needed certificates, otherwise you will have to manually deactivate HTTPS on the command line.
 
 OpenProject can configure Apache to support HTTPS (SSL/TLS). If you have SSL certificates and want to use SSL/TLS (recommended), select **Yes**.
 
@@ -480,7 +476,7 @@ In that case, you will be shown three additional dialogs to enter the certificat
 
 Enabling this mode will result in OpenProject only responding to HTTPS requests, and upgrade any non-secured requests to HTTPS. It will also output HTTP Strict Transport Security (HSTS) headers to the client. 
 
-**External SSL/TLS termination**
+#### External SSL/TLS termination
 
 > **Note**: If you terminate SSL externally before the request hits the OpenProject server, you need to follow the following instructions to avoid errors in routing. If you want to use SSL on the server running OpenProject, skip this section.
 
@@ -495,9 +491,45 @@ If you have a separate server that is terminating SSL and only forwarding/proxyi
 
 - Finally, to let OpenProject know that it should create links with 'https' when no request is available (for example, when sending emails), you need to set the following setting: `openproject config:set SERVER_PROTOCOL_FORCE_HTTPS="true"` followed by an `openproject configure`. This ensures that OpenProject responds correctly with secure cookies even though it was not configured for https in the server configuration.
 
+Here an example for external SSL/TLS terminaltion with apache (httpd):
+
+> **Note:** There is [another example](../docker/#1-virtual-host-root) for external SSL/TLS termination for **docker-compose** installations
+
+```bash
+<VirtualHost *:443>
+   ServerName openproject.example.com
+   
+   # Logging
+   LogLevel Warn
+   ErrorLog /var/log/httpd/openproject.example.com-error.log
+   CustomLog /var/log/httpd/openproject.example.com-access.log combined
+   
+   # Reverse Proxy
+   ProxyPreserveHost On
+   ProxyRequests Off
+   ProxyPass / http://[OPENPROJECT-HOST-IP]/
+   ProxyPassReverse / http://[OPENPROJECT-HOST-IP]/
+   #ProxyPass / https://[OPENPROJECT-HOST-IP]/               # if openproject's internal apache2 server/ssl is YES 
+   #ProxyPassReverse / https://[OPENPROJECT-HOST-IP]/        # if openproject's internal apache2 server/ssl is YES
+   
+   # Request Header
+   RequestHeader set "X-Forwarded-Proto" https
+   
+   # SSL Certificate that was created by LetsEncrypt
+   Include /etc/letsencrypt/options-ssl-apache.conf
+   SSLEngine On
+   #SSLProxyEngine On                                        # if openproject's internal apache2 server/ssl is YES
+   SSLCertificateFile /etc/letsencrypt/live/openproject.example.com/cert.pem
+   SSLCertificateKeyFile /etc/letsencrypt/live/openproject.example.com/privkey.pem
+   SSLCertificateChainFile /etc/letsencrypt/live/openproject.example.com/chain.pem                       # optional
+</VirtualHost>
+```
 
 
-### Skip (not recommended)
+
+### Skip Apache2 web server install (not recommended)
+
+> **Note:** Skipping step 3 Apache2 web server install will ask later in step 7 for information about the hostname and HTTPS 
 
 The installer will not set up an external web server for accessing. You will need to either install and set up a web server such as Apache2 or Nginx to function as the web server forwarding to our internal server listening at `localhost:6000` by proxying.
 
@@ -509,7 +541,7 @@ When installing with an existing Apache2, you can take a look at the source of o
 
 [For a minimal nginx config, please see this gist](https://gist.github.com/seLain/375d16ccd4542e3727e97a7478187d3a) as as starting point.
 
-**Please note:** If you reconfigure the OpenProject application and switch to `skip`, you might run into errors with the Apache configuration file, as that will not be automatically remove. Please double-check you removed references to the `openproject.conf` if you do reconfigure.
+> **Please note:** If you reconfigure the OpenProject application and switch to `skip`, you might run into errors with the Apache configuration file, as that will not be automatically remove. Please double-check you removed references to the `openproject.conf` if you do reconfigure.
 
 
 
@@ -534,9 +566,9 @@ OpenProject heavily relies on caching, which is why the wizard suggests you to i
 
 ![06-cache](06-cache.png)
 
-## Step 7: Host name and Protocol (only when Apache installation was skipped)
+## Step 7: Host name and Protocol (if step 3 was skipped)
 
-This step is only shown if you decided to skip the Apache installation. OpenProject still needs to know what external host name you're running on, as well as if you're using HTTPS or not.
+> **Note:** This step is only shown if you decided to skip step 3, the Apache2 installation. OpenProject still needs to know what external host name you're running on, as well as if you're using HTTPS or not.
 
 First, enter the fully qualified domain where your OpenProject installation will be reached at. This will be used to generate full links from OpenProject, such as in emails.
 
@@ -544,7 +576,7 @@ First, enter the fully qualified domain where your OpenProject installation will
 
 
 
-Next, tell OpenProject whether you have SSL termination enabled somewhere in your stack. Please note that you need to set up protocol forwarding by the means mentioned in the "Skip Apache installation" step above.
+Next, tell OpenProject whether you have SSL termination enabled somewhere in your stack. Please note that you need to set up protocol forwarding by the means mentioned in the [Skip Apache2 Installation](#skip-apache2-web-server-install-not-recommended-1) at step 3 above.
 
 ![HTTPS setting](07b-protocol.png)
 
