@@ -356,6 +356,8 @@ described above.
 Assuming the desired *server name* is `openproject.example.com` the configuration
 will look like this:
 
+> **Note:** There is [another example](../packaged/#external-ssl-tls-termination) for external SSL/TLS termination for **packaged** installations
+
 ```
 <VirtualHost *:80>
     ServerName openproject.example.com
