@@ -452,7 +452,7 @@ export class TimelineCellRenderer {
     }
   }
 
-  cursorOrDatesAreNonWorking(evOrDates:MouseEvent|Moment[], renderInfo:RenderInfo):boolean {
+  cursorOrDatesAreNonWorking(evOrDates:MouseEvent|Moment[], renderInfo:RenderInfo, direction?:MouseDirection|null):boolean {
     if (renderInfo.workPackage.ignoreNonWorkingDays) {
       return false;
     }
@@ -461,6 +461,9 @@ export class TimelineCellRenderer {
       ? [this.cursorDateAndDayOffset(evOrDates, renderInfo)[0]]
       : evOrDates;
 
+    if (!renderInfo.workPackage.ignoreNonWorkingDays && direction === 'both' && this.weekdayService.isNonWorkingDay(dates[dates.length - 1].toDate())) {
+      return false;
+    }
     return dates.some((date) => this.weekdayService.isNonWorkingDay(date.toDate()));
   }
 
