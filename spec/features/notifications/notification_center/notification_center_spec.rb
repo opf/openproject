@@ -154,7 +154,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
         visit home_path
         center.open
         center.expect_bell_count 2
-        side_menu.click_item '@mentioned'
+        side_menu.click_item 'Mentioned'
         side_menu.finished_loading
         center.expect_no_toaster
         notification3.update(read_ian: false)

@@ -620,7 +620,7 @@ en:
         by_project: 'Unread by project'
         by_reason: 'Involvement'
         inbox: 'Inbox'
-        mentioned: '@mentioned'
+        mentioned: 'Mentioned'
         watching: 'Watching'
       settings:
         change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
@@ -628,7 +628,7 @@ en:
         notify_me: "Notify me"
         reasons:
           mentioned:
-            title: '@mentioned'
+            title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Assignee'
           responsible: 'Accountable'
