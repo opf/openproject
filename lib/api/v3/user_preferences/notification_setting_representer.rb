@@ -33,45 +33,28 @@ module API
         include API::Decorators::LinkedResource
 
         NotificationSetting.all_settings.each do |setting|
-          property setting
+          setting_configuration = {}
+          if setting.in?(NotificationSetting.duration_settings)
+            setting_configuration = {
+              exec_context: :decorator,
+              getter: ->(*) do
+                datetime_formatter.format_duration_from_hours(represented.send(setting),
+                                                              allow_nil: true)
+              end,
+              setter: ->(fragment:, **) {
+                hours = datetime_formatter.parse_duration_to_hours(fragment, setting, allow_nil: true)
 
-          property :start_date,
-                   exec_context: :decorator,
-                   getter: ->(*) do
-                     datetime_formatter.format_duration_from_hours(represented.overdue,
-                                                                   allow_nil: true)
-                   end
-
-          property :due_date,
-                   exec_context: :decorator,
-                   getter: ->(*) do
-                     datetime_formatter.format_duration_from_hours(represented.overdue,
-                                                                   allow_nil: true)
-                   end
-
-          property :overdue,
-                   exec_context: :decorator,
-                   getter: ->(*) do
-                     datetime_formatter.format_duration_from_hours(represented.overdue,
-                                                                   allow_nil: true)
-                   end
-
-          def start_date=(value)
-            represented.start_date = datetime_formatter.parse_duration_to_days(value,
-                                                                               'start_date',
-                                                                               allow_nil: true)
+                send(:"#{setting}=", hours)
+              }
+            }
           end
 
-          def due_date=(value)
-            represented.due_date = datetime_formatter.parse_duration_to_days(value,
-                                                                             'due_date',
-                                                                             allow_nil: true)
-          end
+          property setting, **setting_configuration
+        end
 
-          def overdue=(value)
-            represented.overdue = datetime_formatter.parse_duration_to_days(value,
-                                                                            'startDate',
-                                                                            allow_nil: true)
+        NotificationSetting.duration_settings.each do |setting|
+          define_method "#{setting}=" do |value|
+            represented[setting] = value
           end
         end
 
