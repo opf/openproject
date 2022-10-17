@@ -10,7 +10,7 @@ sv:
         auth_source: 'LDAP-anslutning'
         group_name_attribute: "Attribut för gruppnamn"
         sync_users: 'Synkronisera användare'
-        base_dn: "Search base DN"
+        base_dn: "Sök bas DN:"
     models:
       ldap_groups/synchronized_group: 'Synkroniserad LDAP-grupp'
       ldap_groups/synchronized_filter: 'LDAP-gruppens synkroniseringsfilter'
@@ -26,15 +26,15 @@ sv:
       name_attribute: 'LDAP-gruppers namn attribut'
       name_attribute_text: 'LDAP-attributet som används för att namnge OpenProject-gruppen när den skapas av ett filter'
     synchronized_filters:
-      add_new: 'Add synchronized LDAP filter'
-      singular: 'LDAP Group synchronization filter'
-      plural: 'LDAP Group synchronization filters'
+      add_new: 'Lägg till synkroniserat LDAP-filter'
+      singular: 'LDAP-gruppens synkroniseringsfilter'
+      plural: 'LDAP-gruppens synkroniseringsfilter'
       label_n_groups_found:
-        one: "1 group found by the filter"
-        other: "%{count} groups found by the filter"
-        zero: "No groups were found by the filter"
+        one: "1 grupp hittades av filtret"
+        other: "%{count} grupper hittade av filtret"
+        zero: "Inga grupper hittades av filtret"
       destroy:
-        title: 'Remove synchronized filter %{name}'
+        title: 'Ta bort synkroniserat filter %{name}'
         confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
         removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
         verification: "Enter the filter name %{name} to verify the deletion."

@@ -68,7 +68,7 @@ sv:
       add_token: "Ladda upp en Enterprise Edition support-nyckel"
       delete_token_modal:
         text: "Are you sure you want to remove the current Enterprise Edition token used?"
-        title: "Delete token"
+        title: "Ta bort token"
       replace_token: "Ersätta din nuvarande support-nyckel"
       order: "Order Enterprise on-premises Edition"
       paste: "Klistra in din Enterprise Edition support-nyckel"
@@ -78,8 +78,8 @@ sv:
       book_now: 'Boka nu'
       get_quote: 'Få en offert'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
+        upgrade: "Uppgradera nu"
+        contact: "Kontakta oss för en demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:

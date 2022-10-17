@@ -680,7 +680,7 @@ pl:
           only_one_global_setting: 'Musi być tylko jedno globalne ustawienie powiadomień.'
           email_alerts_global: 'Ustawienia powiadomień e-mail mogą być ustawione tylko globalnie.'
           format: "%{message}"
-          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+          wrong_date: 'Nieprawidłowa wartość dla daty rozpoczęcia, terminu płatności lub terminu przedawnienia.'
         parse_schema_filter_params_service:
           attributes:
             base:

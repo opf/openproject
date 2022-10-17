@@ -682,7 +682,7 @@ ru:
           only_one_global_setting: 'Должен быть только один глобальный параметр уведомлений.'
           email_alerts_global: 'Настройки уведомлений по электронной почте можно установить только глобально.'
           format: "%{message}"
-          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+          wrong_date: 'Неправильное значение для даты начала, даты окончания или просрочки.'
         parse_schema_filter_params_service:
           attributes:
             base:

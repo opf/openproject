@@ -551,7 +551,7 @@ pl:
         all: 'Wszystko'
         all_title: 'Pokaż wszystkie'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 'i'
         and_more_users:
           one: 'i 1 inny'
           few: 'i %{count} inne'
