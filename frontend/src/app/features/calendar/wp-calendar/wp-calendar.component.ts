@@ -216,7 +216,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
           resizeInfo?.revert();
           return;
         }
-        void this.updateEvent(resizeInfo);
+        void this.updateEvent(resizeInfo, false);
       },
       eventDrop: (dropInfo:EventDropArg) => {
         const start = moment(dropInfo.event.startStr).toDate();
@@ -226,7 +226,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
           dropInfo?.revert();
           return;
         }
-        void this.updateEvent(dropInfo);
+        void this.updateEvent(dropInfo, true);
       },
       eventResizeStart: (resizeInfo:EventResizeDoneArg) => {
         const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
@@ -325,8 +325,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     });
   }
 
-  private async updateEvent(info:EventResizeDoneArg|EventDropArg):Promise<void> {
-    const changeset = this.workPackagesCalendar.updateDates(info);
+  private async updateEvent(info:EventResizeDoneArg|EventDropArg, dragged:boolean):Promise<void> {
+    const changeset = this.workPackagesCalendar.updateDates(info, dragged);
 
     try {
       const result = await this.halEditing.save(changeset);

@@ -216,11 +216,10 @@ group :test do
   # and other niceties
   gem 'test-prof', '~> 1.0.0'
 
-  gem 'database_cleaner', '~> 2.0' # only useful for legacy_spec
   gem 'rack_session_access'
   gem 'rspec', '~> 3.11.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '6.0.0.rc1', group: :development
+  gem 'rspec-rails', '6.0.0', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'

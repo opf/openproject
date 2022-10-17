@@ -682,6 +682,7 @@ ro:
           only_one_global_setting: 'Trebuie să existe o singură setare globală de notificare.'
           email_alerts_global: 'Setările de notificare prin e-mail pot fi setate doar la nivel global.'
           format: "%{message}"
+          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:

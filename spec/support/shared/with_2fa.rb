@@ -26,15 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-relation_001:
-  id: 1
-  from_id: 10
-  to_id: 9
-  relation_type: 'blocks'
-  delay:
-relation_002:
-  id: 2
-  from_id: 2
-  to_id: 3
-  relation_type: 'relates'
-  delay:
+RSpec.configure do |config|
+  config.before do |example|
+    if example.metadata[:skip_2fa_stage]
+      allow(::OpenProject::TwoFactorAuthentication::TokenStrategyManager)
+        .to receive(:enabled?)
+        .and_return false
+    end
+  end
+end

@@ -550,6 +550,7 @@ pt:
         all: 'Todos'
         all_title: 'Mostrar todas'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: 'e 1 outro'
           other: 'e %{count} outros'

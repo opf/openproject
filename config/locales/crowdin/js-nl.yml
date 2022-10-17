@@ -26,9 +26,9 @@ nl:
       loading: "Laden…"
       updating: "Bijwerken…"
     attachments:
-      delete: "Delete attachment"
+      delete: "Bijlage verwijderen"
       delete_confirmation: |
-        Are you sure you want to delete this file? This action is not reversible.
+        Weet je zeker dat je dit bestand wilt verwijderen? Deze actie is niet omkeerbaar.
       draggable_hint: |
         Sleep op het invoerveld naar in line afbeelding of verwijzing bijlage. Gesloten invoervelden wordt geopend terwijl u blijft slepen.
     autocomplete_select:
@@ -85,10 +85,10 @@ nl:
     button_open_fullscreen: "Open volledig scherm"
     button_show_cards: "Toon kaartweergave"
     button_show_list: "Toon lijstweergave"
-    button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
+    button_show_table: "Tabel weergave tonen"
+    button_show_gantt: "Toon Gantt-weergave"
+    button_show_fullscreen: "Volledig scherm weergeven"
+    button_more_actions: "Meer acties"
     button_quote: "Citeer"
     button_save: "Opslaan"
     button_settings: "Instellingen"
@@ -301,11 +301,11 @@ nl:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                De release bevat verschillende nieuwe functies en verbeteringen: <br> <ul class="%{list_styling_class}"> <li>Definieer je globale werkweek (weekends en niet-werkdagen van de week).</li> <li>Bereken de duur op basis van begin- en einddatums en de mogelijkheid om niet-werkdagen (weekend) in de planning te overwegen.</li> <li>Voeg zinvolle tooltips toe aan de meest essentiële acties.</li> <li>Het kopiëren van een project zal ook bestandslinks kopiëren die zijn gekoppeld aan alle werkpakketten.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                De release bevat verschillende nieuwe functies en verbeteringen: <br> <ul class="%{list_styling_class}"> <li>Definieer je globale werkweek (weekends en niet-werkdagen van de week).</li> <li>Bereken de duur op basis van begin- en einddatums en de mogelijkheid om niet-werkdagen (weekend) in de planning te overwegen.</li> <li>Voeg zinvolle tooltips toe aan de meest essentiële acties.</li> <li>Het kopiëren van een project zal ook bestandslinks kopiëren die zijn gekoppeld aan alle werkpakketten.</li> </ul>
     label_activate: "Activeren"
     label_assignee: 'Toegewezene'
     label_add_column_after: "Kolom toevoegen"
@@ -547,44 +547,45 @@ nl:
         prioritized: 'prioriteren'
       facets:
         unread: 'Ongelezen'
-        unread_title: 'Show unread'
+        unread_title: 'Toon ongelezen'
         all: 'Alle'
-        all_title: 'Show all'
+        all_title: 'Alles weergeven'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: 'en 1 ander'
           other: 'en %{count} anderen'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
-          with_current_filter: 'There are no notifications in this view at the moment'
+          at_all: 'Nieuwe meldingen verschijnen hier wanneer er activiteit is die je aangaat, in de tussentijd kunt u ook uw meldingsinstellingen bekijken en wijzigen zodat u kunt configureren wanneer u een melding moet ontvangen.'
+          with_current_filter: 'Er zijn geen meldingen in deze weergave op dit moment'
         mark_all_read: 'Alles als gelezen markeren'
         mark_as_read: 'Als gelezen markeren'
         text_update_date: "%{date} door"
         total_count_warning: "De %{newest_count} meest recente meldingen weergeven. %{more_count} meer worden niet weergegeven."
         empty_state:
           no_notification: "Het lijkt erop dat u helemaal bij bent."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification_with_current_project_filter: "Het lijkt erop dat je allemaal bij bent met het geselecteerde project."
+          no_notification_with_current_filter: "Het lijkt erop dat je allemaal bij bent met %{filter} filter."
           no_selection: "Klik op een melding om alle activiteit details te bekijken."
         new_notifications:
-          message: 'There are new notifications.'
-          link_text: 'Click here to load them'
+          message: 'Er zijn nieuwe meldingen.'
+          link_text: 'Klik hier om ze te laden'
       menu:
         accountable: 'Verantwoording afleggen'
-        by_project: 'Unread by project'
-        by_reason: 'Involvement'
+        by_project: 'Ongelezen per project'
+        by_reason: 'Betrokkenheid'
         inbox: 'Inkomend'
         mentioned: '@vermeld'
         watching: 'Bekijken'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        change_notification_settings: 'Om je meldingen instellingen te bekijken en te wijzigen, <a target="_blank" href="%{url}">klik hier</a>'
         title: "Instellingen voor meldingen"
         notify_me: "Waarschuw mij"
         reasons:
           mentioned:
             title: 'Ik ben @vermeld'
             description: 'Ontvang een melding elke keer dat iemand mij ergens noemt'
-          assignee: 'Assignee'
+          assignee: 'Toegewezene'
           responsible: 'Accountable'
           watched: 'Updates van bekeken artikelen'
           work_package_commented: 'Alle nieuwe reacties'

@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-describe MyController, type: :controller do
+describe MyController,
+         skip_2fa_stage: true, # Prevent redirects to 2FA stage
+         type: :controller do
   render_views
 
   let(:sso_config) do

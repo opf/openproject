@@ -7,8 +7,6 @@ keywords: two-factor authentication
 ---
 # Two-factor authentication (2FA)
 
-Note: This feature is available for the Enterprise on-premises only. For more information and differences to Community Edition, [see this page](https://www.openproject.org/pricing/).
-
 ## Basic 2FA using TOTP
 
 To activate and **configure two-factor authentication** for OpenProject, navigate to -> *Administration* -> *Authentication* and choose -> *two-factor authentication*.

@@ -122,7 +122,14 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
 
         NotificationSetting.all_settings.each do |key|
           val = subject.first.send key
-          expect(val).to eq(key == :mentioned)
+
+          if [NotificationSetting::START_DATE, NotificationSetting::DUE_DATE].include?(key)
+            expect(val).to eq(24)
+          elsif key == NotificationSetting::OVERDUE
+            expect(val).to be_nil
+          else
+            expect(val).to eq(key == :mentioned)
+          end
         end
 
         expect(current_user.notification_settings.count).to eq(1)

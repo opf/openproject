@@ -110,7 +110,6 @@ namespace :parallel do
   desc 'Run all suites in parallel (one after another)'
   task all: ['parallel:plugins:specs',
              'parallel:plugins:features',
-             :spec_legacy,
              :rspec]
 
   namespace :plugins do
@@ -147,15 +146,6 @@ namespace :parallel do
 
         run_specs options, plugin_spec_paths, pattern
       end
-    end
-  end
-
-  desc 'Run legacy specs in parallel'
-  task :spec_legacy do
-    ParallelParser.with_args(ARGV) do |options|
-      ARGV.each { |a| task(a.to_sym) {} }
-
-      run_specs options, 'spec_legacy', '', additional_options: '-I spec_legacy'
     end
   end
 

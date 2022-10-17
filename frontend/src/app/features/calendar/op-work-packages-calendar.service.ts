@@ -52,6 +52,7 @@ import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -98,6 +99,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     readonly wpTableSelection:WorkPackageViewSelectionService,
     readonly contextMenuService:OPContextMenuService,
     readonly calendarService:OpCalendarService,
+    readonly weekdayService:WeekdayService,
   ) {
     super();
   }
@@ -415,16 +417,18 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     );
   }
 
-  updateDates(resizeInfo:EventResizeDoneArg|EventDropArg|EventReceiveArg):ResourceChangeset<WorkPackageResource> {
+  updateDates(resizeInfo:EventResizeDoneArg|EventDropArg|EventReceiveArg, dragged?:boolean):ResourceChangeset<WorkPackageResource> {
     const workPackage = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
-
     const changeset = this.halEditing.edit(workPackage);
+    if (!workPackage.ignoreNonWorkingDays && workPackage.duration && dragged) {
+      changeset.setValue('duration', workPackage.duration);
+    } else {
+      const due = moment(resizeInfo.event.endStr)
+        .subtract(1, 'day')
+        .format('YYYY-MM-DD');
+      changeset.setValue('dueDate', due);
+    }
     changeset.setValue('startDate', resizeInfo.event.startStr);
-    const due = moment(resizeInfo.event.endStr)
-      .subtract(1, 'day')
-      .format('YYYY-MM-DD');
-    changeset.setValue('dueDate', due);
-
     return changeset;
   }
 }

@@ -551,6 +551,7 @@ fr:
         all: 'Toutes'
         all_title: 'Afficher tout'
       center:
+        label_actor_and: 'et'
         and_more_users:
           one: 'et 1 autre'
           other: 'et %{count} autres'
@@ -584,8 +585,8 @@ fr:
           mentioned:
             title: 'Je suis @mentionné'
             description: 'Recevoir une notification chaque fois que quelqu''un me mentionne n''importe où'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
+          assignee: 'Assigné'
+          responsible: 'Responsable'
           watched: 'Mises à jour sur les éléments surveillés'
           work_package_commented: 'Tous les nouveaux commentaires'
           work_package_created: 'Nouveaux lots de travaux'

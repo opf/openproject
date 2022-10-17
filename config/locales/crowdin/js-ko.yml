@@ -551,6 +551,7 @@ ko:
         all: '모두'
         all_title: '모두 표시'
       center:
+        label_actor_and: 'and'
         and_more_users:
           other: '외 %{count}건'
         no_results:

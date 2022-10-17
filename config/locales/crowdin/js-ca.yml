@@ -551,6 +551,7 @@ ca:
         all: 'Totes'
         all_title: 'Mostrar tots'
       center:
+        label_actor_and: 'i'
         and_more_users:
           one: ' i 1 altre'
           other: ' i %{count} altres'

@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
-describe 'Login with 2FA backup code', with_2fa_ee: true, type: :feature,
+describe 'Login with 2FA backup code', type: :feature,
                                        with_settings: {
                                          plugin_openproject_two_factor_authentication: { 'active_strategies' => [:developer] }
                                        },

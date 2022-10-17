@@ -151,8 +151,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   htmlId = '';
 
-  datePattern = '[0-9]{4}-[0-9]{2}-[0-9]{2}';
-
   dates:{ [key in DateKeys]:string|null } = {
     start: null,
     end: null,
@@ -169,6 +167,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   // Manual changes to the datepicker, with information which field was active
   datepickerChanged$ = new Subject<ActiveDateChange>();
+
+  // We want to position the modal as soon as the datepicker gets initialized
+  // But if we destroy and recreate the datepicker (e.g., when toggling switches), keep current position
+  modalPositioned = false;
 
   // Date updates from the datepicker or a manual change
   dateUpdates$ = merge(
@@ -467,7 +469,12 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         inline: true,
         onReady: (_date, _datestr, instance) => {
           instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
-          this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
+
+          if (!this.modalPositioned) {
+            this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
+            this.modalPositioned = true;
+          }
+
           this.ensureHoveredSelection(instance.calendarContainer);
         },
         onChange: (dates:Date[], _datestr, instance) => {

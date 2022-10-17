@@ -679,6 +679,7 @@ ko:
           only_one_global_setting: '전역 알림 설정은 하나만 있어야 합니다.'
           email_alerts_global: '이메일 알림 설정은 전역으로만 설정할 수 있습니다.'
           format: "%{message}"
+          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:

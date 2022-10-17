@@ -209,13 +209,13 @@ ca:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
-      overviews: 'Project overview'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      members: 'Membres del projecte'
+      overviews: 'Visió general del projecte'
+      queries: 'Paquets de treball: vistes guardades'
+      wiki_page_attachments: 'Pàgines wiki: fitxers adjunts'
+      work_package_attachments: 'Paquets de treball: fitxers adjunts'
+      work_package_categories: 'Paquets de treball: categories'
+      work_package_file_links: 'Paquets de treball: enllaços de fitxers'
     delete:
       scheduled: "L'eliminació s'ha planificat i s'efectuarà de fons. Sereu notificats del resultat."
       schedule_failed: "El projecte no es pot eliminar: %{errors}"
@@ -677,6 +677,7 @@ ca:
           only_one_global_setting: 'Hi ha d''haver sols una configuració global de notificació.'
           email_alerts_global: 'La configuració de notificació per correu electrònic sols pot establir-se globalment.'
           format: "%{message}"
+          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:

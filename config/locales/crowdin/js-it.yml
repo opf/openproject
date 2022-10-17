@@ -551,6 +551,7 @@ it:
         all: 'Tutti'
         all_title: 'Mostra tutto'
       center:
+        label_actor_and: 'e'
         and_more_users:
           one: 'e 1 altro'
           other: 'e altri %{count}'
@@ -584,8 +585,8 @@ it:
           mentioned:
             title: 'Ricevo una @menzione'
             description: 'Ricevi una notifica ogni volta che qualcuno ti menziona ovunque'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
+          assignee: 'Assegnatario'
+          responsible: 'Responsabile'
           watched: 'Aggiornamenti sugli elementi osservati'
           work_package_commented: 'Tutti i nuovi commenti'
           work_package_created: 'Nuove macro-attività'

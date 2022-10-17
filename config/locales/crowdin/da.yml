@@ -679,6 +679,7 @@ da:
           only_one_global_setting: 'There must only be one global notification setting.'
           email_alerts_global: 'The email notification settings can only be set globally.'
           format: "%{message}"
+          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:

@@ -230,9 +230,10 @@ module Settings
         envs = ['default', Rails.env]
         envs.delete('default') if Rails.env.test? # The test setup should govern the configuration
         envs.each do |env|
-          next unless file_config.dig(env, definition.name)
+          next unless (env_config = file_config[env])
+          next unless env_config.has_key?(definition.name)
 
-          definition.override_value(file_config.dig(env, definition.name))
+          definition.override_value(env_config[definition.name])
         end
       end
 

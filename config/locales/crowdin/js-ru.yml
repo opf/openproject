@@ -543,13 +543,14 @@ ru:
         scheduled: 'запланировано'
         commented: 'прокомментировано'
         processed: 'обработано'
-        prioritized: 'пририотизировано'
+        prioritized: 'приоритизировано'
       facets:
         unread: 'Непрочтено'
         unread_title: 'Показать непрочитанные'
         all: 'Bсе'
         all_title: 'Показать все'
       center:
+        label_actor_and: 'и'
         and_more_users:
           one: 'и еще 1'
           few: 'и %{count} других'

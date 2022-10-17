@@ -678,6 +678,7 @@ hu:
           only_one_global_setting: 'Csak egyetlen globális értesítési beállítás létezhet.'
           email_alerts_global: 'Az email értesítési beállítások csak globálisan állíthatóak.'
           format: "%{message}\n"
+          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:

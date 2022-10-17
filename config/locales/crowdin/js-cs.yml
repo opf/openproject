@@ -551,6 +551,7 @@ cs:
         all: 'Vše'
         all_title: 'Zobrazit vše'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: 'a 1 další'
           few: 'a %{count} dalšich'
