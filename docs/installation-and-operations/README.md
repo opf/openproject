@@ -21,7 +21,7 @@ This page summarizes the options for getting OpenProject, some hosted and some o
 
 
 
-All editions can be enhanced by adding **[the BIM module](https://www.openproject.org/bim-project-management/)**, including features for construction project management, i.e. 3D model viewer, BCF management. See how to [switch to that edition](changing-to-bim-edition) in the documentation or how to start a [BIM cloud edition](https://start.openproject.com/go/bim).
+All editions can be enhanced by adding **[the BIM module](https://www.openproject.org/bim-project-management/)**, including features for construction project management, i.e. 3D model viewer, BCF management. See how to [switch to that edition](bim-edition/) in the documentation or how to start a [BIM cloud edition](https://start.openproject.com/go/bim).
 
 Compare the features of these versions [on the website](https://www.openproject.org/pricing/#features). The Community edition can easily be upgraded to the Enterprise edition.
 

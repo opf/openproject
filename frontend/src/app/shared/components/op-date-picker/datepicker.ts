@@ -176,7 +176,7 @@ export class DatePicker {
       onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
         await this.weekdaysPromise;
         if (this.weekdaysService.isNonWorkingDay(dayElem.dateObj)) {
-          dayElem.classList.add('flatpickr-non-working-day');
+          dayElem.classList.add('flatpickr-non-working-selectable-day');
         }
       },
       dateFormat: this.datepickerFormat,
