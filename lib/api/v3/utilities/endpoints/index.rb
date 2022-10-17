@@ -135,7 +135,11 @@ module API
           end
 
           def render_error(query)
-            raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+            api_errors = query.errors.full_messages.map do |message|
+              ::API::Errors::InvalidQuery.new(message)
+            end
+
+            raise ::API::Errors::MultipleErrors.create_if_many api_errors
           end
 
           def calculated_self_path(request)

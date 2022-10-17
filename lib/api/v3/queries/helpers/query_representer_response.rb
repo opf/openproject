@@ -43,7 +43,11 @@ module API
                                    embed_links: true,
                                    params:)
             else
-              raise ::API::Errors::InvalidQuery.new(representer.errors.full_messages)
+              api_errors = query.errors.full_messages.map do |message|
+                ::API::Errors::InvalidQuery.new(message)
+              end
+
+              raise ::API::Errors::MultipleErrors.create_if_many api_errors
             end
           end
         end

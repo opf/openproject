@@ -45,7 +45,11 @@ module API
                                                 per_page: resolve_page_size(params[:pageSize]),
                                                 current_user:)
             else
-              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+              api_errors = query.errors.full_messages.map do |message|
+                ::API::Errors::InvalidQuery.new(message)
+              end
+
+              raise ::API::Errors::MultipleErrors.create_if_many api_errors
             end
           end
 
