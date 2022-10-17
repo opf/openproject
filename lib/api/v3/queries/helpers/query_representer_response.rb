@@ -32,23 +32,17 @@ module API
       module Helpers
         module QueryRepresenterResponse
           def query_representer_response(query, params, valid_subset = false)
-            representer = ::API::V3::WorkPackageCollectionFromQueryService
-                          .new(query, current_user)
-                          .call(params, valid_subset:)
-
-            if representer.success?
-              QueryRepresenter.new(query,
-                                   current_user:,
-                                   results: representer.result,
-                                   embed_links: true,
-                                   params:)
-            else
-              api_errors = query.errors.full_messages.map do |message|
-                ::API::Errors::InvalidQuery.new(message)
-              end
-
-              raise ::API::Errors::MultipleErrors.create_if_many api_errors
+            call = raise_invalid_query_on_service_failure do
+              ::API::V3::WorkPackageCollectionFromQueryService
+                .new(query, current_user)
+                .call(params, valid_subset:)
             end
+
+            QueryRepresenter.new(query,
+                                 current_user:,
+                                 results: call.result,
+                                 embed_links: true,
+                                 params:)
           end
         end
       end

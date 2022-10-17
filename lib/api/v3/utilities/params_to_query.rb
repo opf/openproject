@@ -46,11 +46,7 @@ module API
                                        representer,
                                        self_link)
             else
-              api_errors = query.errors.full_messages.map do |message|
-                ::API::Errors::InvalidQuery.new(message)
-              end
-
-              raise ::API::Errors::MultipleErrors.create_if_many api_errors
+              raise_query_errors(query)
             end
           end
 
