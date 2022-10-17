@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 describe Authentication::OmniauthAuthHashContract do
+  let(:strategy) { double('Strategy', name: 'saml') } # rubocop:disable RSpec/VerifiedDoubles
   let(:auth_hash) do
     OmniAuth::AuthHash.new(
       provider: 'google',
@@ -40,7 +41,7 @@ describe Authentication::OmniauthAuthHashContract do
     )
   end
 
-  let(:instance) { described_class.new(auth_hash) }
+  let(:instance) { described_class.new(strategy, auth_hash) }
 
   subject do
     instance.validate

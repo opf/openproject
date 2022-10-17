@@ -30,17 +30,25 @@ module Authentication
   class OmniauthAuthHashContract
     include ActiveModel::Validations
 
-    attr_reader :auth_hash
+    attr_reader :strategy, :auth_hash
 
-    def initialize(auth_hash)
+    def initialize(strategy, auth_hash)
+      @strategy = strategy
       @auth_hash = auth_hash
     end
 
+    validate :validate_strategy
     validate :validate_auth_hash
     validate :validate_auth_hash_not_expired
     validate :validate_authorization_callback
 
     private
+
+    def validate_strategy
+      return if strategy
+
+      errors.add(:base, I18n.t(:error_omniauth_missing_strategy))
+    end
 
     def validate_auth_hash
       return if auth_hash&.valid?
@@ -49,6 +57,7 @@ module Authentication
     end
 
     def validate_auth_hash_not_expired
+      return unless auth_hash.present?
       return unless auth_hash['timestamp']
 
       if auth_hash['timestamp'] < Time.now - 30.minutes

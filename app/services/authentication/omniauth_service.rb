@@ -44,7 +44,7 @@ module Authentication
       self.strategy = strategy
       self.auth_hash = auth_hash
       self.controller = controller
-      self.contract = ::Authentication::OmniauthAuthHashContract.new(auth_hash)
+      self.contract = ::Authentication::OmniauthAuthHashContract.new(strategy, auth_hash)
     end
 
     def call(additional_user_params = nil)
@@ -52,9 +52,7 @@ module Authentication
 
       unless contract.validate
         result = ServiceResult.failure(errors: contract.errors)
-        Rails.logger.error do
-          "[OmniAuth strategy #{strategy.name}] Failed to process omniauth response for #{auth_uid}: #{result.message}"
-        end
+        omniauth_log_line(:error) { "Failed to process omniauth response for #{auth_uid}: #{result.message}" }
         inspect_response(Logger::ERROR)
 
         return result
@@ -80,16 +78,15 @@ module Authentication
       case strategy
       when ::OmniAuth::Strategies::SAML
         ::OpenProject::AuthSaml::Inspector.inspect_response(auth_hash) do |message|
-          Rails.logger.add log_level, message
+          omniauth_log_line(log_level) { message }
         end
       else
-        Rails.logger.add(log_level) do
-          "[OmniAuth strategy #{strategy.name}] Returning from omniauth with hash " \
-            "#{auth_hash&.to_hash.inspect} Valid? #{auth_hash&.valid?}"
+        omniauth_log_line(log_level) do
+          "Returning from omniauth with hash #{auth_hash&.to_hash.inspect} Valid? #{auth_hash&.valid?}"
         end
       end
     rescue StandardError => e
-      OpenProject.logger.error "[OmniAuth strategy #{strategy&.name}] Failed to inspect OmniAuth response: #{e.message}"
+      omniauth_log_line(:error) { "Failed to inspect OmniAuth response: #{e.message}" }
     end
 
     ##
@@ -221,7 +218,7 @@ module Authentication
       # overriding existing attributes
       attribute_map.compact!
 
-      Rails.logger.debug { "Mapped auth_hash user attributes #{attribute_map.inspect}" }
+      omniauth_log_line(:debug) { "Mapped auth_hash user attributes #{attribute_map.inspect}" }
       attribute_map
     end
 
@@ -240,6 +237,16 @@ module Authentication
     def auth_uid
       hash = (auth_hash || {})
       hash.dig(:info, :uid) || hash.dig(:uid) || 'unknown'
+    end
+
+    ##
+    # Prepare a log message for the strategy
+    def omniauth_log_line(level, &block)
+      Rails.logger.public_send(level) do
+        strategy_tag = strategy ? "[OmniAuth strategy #{strategy.name}]" : "[OmniAuth no matching strategy found]"
+        message = block.call
+        "#{strategy_tag} #{message}"
+      end
     end
   end
 end
