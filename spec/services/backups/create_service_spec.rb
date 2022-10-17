@@ -36,6 +36,7 @@ describe Backups::CreateService, type: :model do
 
   it_behaves_like 'BaseServices create service' do
     let(:instance) { service }
+    let(:backup_token) { build_stubbed :backup_token, user: }
     let(:contract_options) { { backup_token: backup_token.plain_value } }
   end
 
