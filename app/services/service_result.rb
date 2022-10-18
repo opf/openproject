@@ -169,14 +169,6 @@ class ServiceResult
     self
   end
 
-  def match(on_success:, on_failure:)
-    if success?
-      on_success.call(result)
-    else
-      on_failure.call(result)
-    end
-  end
-
   def each
     yield result if success?
     self

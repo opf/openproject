@@ -1,5 +1,7 @@
 module API::V3::Utilities::StorageInteraction
   class StorageQueries
+    using ::API::V3::Utilities::ServiceResultRefinements
+
     def initialize(uri:, provider_type:, user:, oauth_client:)
       @uri = uri
       @provider_type = provider_type

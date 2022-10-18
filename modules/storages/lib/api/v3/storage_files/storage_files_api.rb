@@ -28,6 +28,8 @@
 
 module API::V3::StorageFiles
   class StorageFilesAPI < ::API::OpenProjectAPI
+    using ::API::V3::Utilities::ServiceResultRefinements
+
     helpers do
       def handle_files_error(files)
         case files.result
