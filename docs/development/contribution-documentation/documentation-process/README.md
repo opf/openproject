@@ -76,7 +76,7 @@ Select `release/12.3` as default branch and confirm with **Update**
 
 ## Step 8: Sync fork and Update branches (update local repository)
 
-Every time you start editing please make sure you have fetched the latest changes from GitHub.com. First you need to update your forked repository. There you select the branch you are working on, e.g. `release/12.3f`. If there are updates in the main repository opf/openproject click on **Sync fork** and **Update branch**.
+Every time you start editing please make sure you have fetched the latest changes from GitHub.com. First you need to update your forked repository. There you select the branch you are working on, e.g. `release/12.3`. If there are updates in the main repository opf/openproject click on **Sync fork** and **Update branch**.
 
 ![sync fork update branch](sync-fork-update-branch.png)
 
