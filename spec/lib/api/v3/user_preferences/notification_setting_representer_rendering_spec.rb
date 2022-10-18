@@ -71,7 +71,7 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
 
     NotificationSetting.all_settings.each do |property|
       if property.in?(NotificationSetting.duration_settings)
-        it_behaves_like 'hours property', property.to_s.camelize(:lower) do
+        it_behaves_like 'duration property', property.to_s.camelize(:lower) do
           let(:value) { notification_setting.send property }
         end
       else

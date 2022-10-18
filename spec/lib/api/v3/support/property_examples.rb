@@ -56,9 +56,9 @@ shared_examples_for 'datetime property' do |name|
   end
 end
 
-shared_examples_for 'hours property' do |name|
-  it_behaves_like 'has ISO 8601 hours only' do
+shared_examples_for 'duration property' do |name|
+  it_behaves_like 'has ISO 8601 duration' do
     let(:json_path) { name.to_s }
-    let(:hours) { value }
+    let(:duration) { value }
   end
 end
