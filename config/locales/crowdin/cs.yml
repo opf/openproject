@@ -471,7 +471,7 @@ cs:
           not_started: 'Nezahájeno'
           on_track: 'Dle plánu'
           at_risk: 'Riziko'
-          off_track: 'Mimo plánu'
+          off_track: 'Mimo plán'
           finished: 'Dokončeno'
           discontinued: 'Zrušeno'
       query:
