@@ -102,7 +102,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     },
     actions: {
       linkFile: (storageType:string):string => this.i18n.t('js.storages.link_files_in_storage', { storageType }),
-      linkExisting: 'Link existing files',
+      linkExisting: this.i18n.t('js.storages.link_existing_files'),
     },
   };
 
