@@ -87,7 +87,7 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
 
         expect(subject.count).to eq 1
         expect(subject.first.project_id).to be_nil
-        expect(subject.first.mentioned).to be false
+        expect(subject.first.mentioned).to be true
         expect(subject.first.watched).to be false
         expect(default_ian.assignee).to be true
         expect(default_ian.responsible).to be true
@@ -108,7 +108,7 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
       let(:attributes) do
         {
           notification_settings: [
-            { project_id: project.id, mentioned: true }
+            { project_id: project.id, mentioned: false }
           ]
         }
       end
@@ -120,15 +120,23 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
         expect(subject.count).to eq 1
         expect(subject.first.project_id).to eq project.id
 
+        default_settings = {
+          NotificationSetting::START_DATE => 24,
+          NotificationSetting::DUE_DATE => 24,
+          NotificationSetting::OVERDUE => nil,
+          NotificationSetting::ASSIGNEE => true,
+          NotificationSetting::RESPONSIBLE => true,
+          NotificationSetting::WATCHED => true
+        }
+
         NotificationSetting.all_settings.each do |key|
           val = subject.first.send key
 
-          if [NotificationSetting::START_DATE, NotificationSetting::DUE_DATE].include?(key)
-            expect(val).to eq(24)
-          elsif key == NotificationSetting::OVERDUE
-            expect(val).to be_nil
+          if key.in?(default_settings)
+            expect(val).to eq(default_settings[key])
           else
-            expect(val).to eq(key == :mentioned)
+            # Settings with default value false
+            expect(val).to be(false)
           end
         end
 
