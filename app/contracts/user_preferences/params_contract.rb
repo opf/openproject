@@ -28,8 +28,8 @@
 
 module UserPreferences
   class ParamsContract < ::ParamsContract
-    AVAILABLE_DATE = [nil, 0, 24, 72, 168].freeze
-    AVAILABLE_OVERDUE_DATE = [nil, 0, 72, 168].freeze
+    DATE_ALERT_DURATIONS = [nil, 0, 24, 72, 168].freeze
+    DATE_ALERT_OVERDUE_DURATIONS = [nil, 0, 72, 168].freeze
 
     validate :only_one_global_setting,
              if: -> { notifications.present? }
@@ -69,8 +69,8 @@ module UserPreferences
     def any_of_date_fields_fail_validation?(notifications_type)
       notifications_type.any? do |setting|
         setting.slice(:start_date, :due_date).detect do |_, date|
-          AVAILABLE_DATE.exclude?(date)
-        end || AVAILABLE_OVERDUE_DATE.exclude?(setting[:overdue])
+          DATE_ALERT_DURATIONS.exclude?(date)
+        end || DATE_ALERT_OVERDUE_DURATIONS.exclude?(setting[:overdue])
       end
     end
 
