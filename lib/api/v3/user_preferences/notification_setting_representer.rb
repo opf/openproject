@@ -31,30 +31,13 @@ module API
     module UserPreferences
       class NotificationSettingRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
+        include API::Decorators::DateProperty
 
         NotificationSetting.all_settings.each do |setting|
-          setting_configuration = {}
           if setting.in?(NotificationSetting.duration_settings)
-            setting_configuration = {
-              exec_context: :decorator,
-              getter: ->(*) do
-                datetime_formatter.format_duration_from_hours(represented.send(setting),
-                                                              allow_nil: true)
-              end,
-              setter: ->(fragment:, **) {
-                hours = datetime_formatter.parse_duration_to_hours(fragment, setting, allow_nil: true)
-
-                send(:"#{setting}=", hours)
-              }
-            }
-          end
-
-          property setting, **setting_configuration
-        end
-
-        NotificationSetting.duration_settings.each do |setting|
-          define_method "#{setting}=" do |value|
-            represented[setting] = value
+            duration_property setting
+          else
+            property setting
           end
         end
 
