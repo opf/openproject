@@ -36,8 +36,6 @@ describe Backups::CreateContract do
 
   include_context 'ModelContract shared context'
 
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
-
   context 'with regular user who has the :create_backup permission' do
     let(:current_user) { create :user, global_permissions: [:create_backup] }
 
