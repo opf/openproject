@@ -111,7 +111,7 @@ class CostQuery::SqlStatement < Report::SqlStatement
   #
   # @param [CostQuery::SqlStatement] query The statement to adjust
   def self.unify_cost_entries(query)
-    query.select :units, :cost_type_id, activity_id: -1, logged_by_id: -1
+    query.select :units, :cost_type_id, :logged_by_id, activity_id: -1
     query.select cost_type: "cost_types.name"
     query.join CostType
   end
