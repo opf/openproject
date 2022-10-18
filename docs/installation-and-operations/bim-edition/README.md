@@ -85,7 +85,7 @@ Go to _-> Administration -> Design_ and from the _Themes_ drop down menu choose 
 
 ### OpenProject BIM edition with Docker Compose
 
-in order to use BIM edition inside a [docker-compose OpenProject installation](../installation/docker/), in the `docker-compose.override.yml` file in `x-op-app` > `environment` add one line
+In order to use BIM edition inside a [docker-compose OpenProject installation](../installation/docker/), in the `docker-compose.override.yml` file in `x-op-app` > `environment` add one line
 
 ```yml
     OPENPROJECT_EDITION: "bim"
