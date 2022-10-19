@@ -32,7 +32,7 @@
 class API::V3::FileLinks::FileLinksAPI < ::API::OpenProjectAPI
   # helpers is defined by the grape framework. They make methods from the
   # module available from within the endpoint context.
-  helpers API::V3::Utilities::Scopes
+  helpers Storages::Peripherals::Scopes
 
   # The `:resources` keyword defines the API namespace -> /api/v3/file_links/...
   resources :file_links do

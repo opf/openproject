@@ -39,7 +39,7 @@ module API::V3::Storages
     # LinkedResource module defines helper methods to describe attributes
     include API::Decorators::LinkedResource
     include API::Decorators::DateProperty
-    include API::V3::Utilities::StorageUrlHelper
+    include Storages::Peripherals::StorageUrlHelper
 
     def initialize(model, current_user:, embed_links: nil)
       @connection_manager =

@@ -26,12 +26,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::Utilities::Scopes
-  def visible_storages
-    ::Storages::Storage.visible(current_user)
-  end
+module Storages::Peripherals::StorageInteraction
+  class StorageQueries
+    using ::Storages::Peripherals::ServiceResultRefinements
 
-  def visible_file_links
-    ::Storages::FileLink.visible(current_user)
+    def initialize(uri:, provider_type:, user:, oauth_client:)
+      @uri = uri
+      @provider_type = provider_type
+      @user = user
+      @oauth_client = oauth_client
+    end
+
+    def files_query
+      case @provider_type
+      when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+        connection_manager = ::OAuthClients::ConnectionManager.new(user: @user, oauth_client: @oauth_client)
+        connection_manager.get_access_token.match(
+          on_success: ->(token) do
+            ServiceResult.success(
+              result:
+                ::Storages::Peripherals::StorageInteraction::NextcloudStorageQuery.new(
+                  base_uri: @uri,
+                  origin_user_id: token.origin_user_id,
+                  token: token.access_token,
+                  with_refreshed_token: connection_manager.method(:with_refreshed_token).to_proc
+                )
+            )
+          end,
+          on_failure: ->(_) do
+            ServiceResult.failure(result: :not_authorized)
+          end
+        )
+      else
+        raise ArgumentError
+      end
+    end
   end
 end

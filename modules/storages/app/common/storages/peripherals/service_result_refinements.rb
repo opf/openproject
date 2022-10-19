@@ -26,44 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::Utilities::StorageRequests
-  def initialize(storage:)
-    @storage = storage
-    @oauth_client = storage.oauth_client
-  end
-
-  # The download_command is actually a query and should be refactored
-  def download_command
-    ->(access_token:, file_id:) do
-      request_url = File.join(@oauth_client.integration.host, '/ocs/v2.php/apps/dav/api/v1/direct')
-      body = { fileId: file_id }
-      header = {
-        'Authorization' => "Bearer #{access_token}",
-        'OCS-APIRequest' => 'true',
-        'Accept' => 'application/json'
-      }
-
-      begin
-        response = RestClient.post request_url, body, header
-      rescue RestClient::Unauthorized
-        return ServiceResult.failure(result: I18n.t('http.request.failed_authorization'))
-      rescue StandardError => e
-        return ServiceResult.failure(result: e.message)
+module Storages::Peripherals
+  module ServiceResultRefinements
+    refine ServiceResult do
+      def match(on_success:, on_failure:)
+        if success?
+          on_success.call(result)
+        else
+          on_failure.call(result)
+        end
       end
-
-      ServiceResult.success(result: response)
     end
-  end
-
-  def files_query(user:)
-    ::API::V3::Utilities::StorageInteraction::StorageQueries
-      .new(
-        uri: URI(@storage.host),
-        provider_type: @storage.provider_type,
-        user:,
-        oauth_client: @oauth_client
-      )
-      .files_query
-      .map { |query| query.method(:files).to_proc }
   end
 end

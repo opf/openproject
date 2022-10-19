@@ -50,7 +50,7 @@ module API::V3::FileLinks
     include API::Decorators::LinkedResource
     include API::Decorators::DateProperty
     include ::API::Caching::CachedRepresenter
-    include API::V3::Utilities::StorageUrlHelper
+    include Storages::Peripherals::StorageUrlHelper
 
     property :id
 

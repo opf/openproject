@@ -33,7 +33,7 @@
 class API::V3::FileLinks::WorkPackagesFileLinksAPI < ::API::OpenProjectAPI
   # helpers is defined by the grape framework. They make methods from the
   # module available from within the endpoint context.
-  helpers API::V3::Utilities::Scopes
+  helpers Storages::Peripherals::Scopes
 
   # The `:resources` keyword defines the API namespace -> /api/v3/work_packages/:id/file_links/...
   resources :file_links do
@@ -72,7 +72,7 @@ class API::V3::FileLinks::WorkPackagesFileLinksAPI < ::API::OpenProjectAPI
     post &::API::V3::FileLinks::CreateEndpoint
             .new(
               model: ::Storages::FileLink,
-              parse_service: ::API::V3::Utilities::ParseCreateParamsService,
+              parse_service: Storages::Peripherals::ParseCreateParamsService,
               render_representer: ::API::V3::FileLinks::FileLinkCollectionRepresenter
             )
             .mount

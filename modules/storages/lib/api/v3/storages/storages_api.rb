@@ -35,7 +35,7 @@
 class API::V3::Storages::StoragesAPI < ::API::OpenProjectAPI
   # helpers is defined by the grape framework. They make methods from the
   # module available from within the endpoint context.
-  helpers API::V3::Utilities::Scopes
+  helpers Storages::Peripherals::Scopes
 
   # The `:resources` keyword defines the API namespace -> /api/v3/storages/...
   resources :storages do

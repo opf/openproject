@@ -27,7 +27,7 @@
 #++
 
 class API::V3::FileLinks::FileLinksOpenAPI < ::API::OpenProjectAPI
-  helpers API::V3::Utilities::StorageUrlHelper
+  helpers Storages::Peripherals::StorageUrlHelper
 
   resources :open do
     get do
