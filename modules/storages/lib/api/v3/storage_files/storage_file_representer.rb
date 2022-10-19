@@ -32,7 +32,7 @@ module API::V3::StorageFiles
 
     property :id
     property :name
-    property :size, getter: ->(*) { file_size }
+    property :size
     property :mime_type
     date_time_property :created_at
     date_time_property :last_modified_at
@@ -41,7 +41,7 @@ module API::V3::StorageFiles
     property :location
 
     def _type
-      Storages::StorageFile.class.to_s
+      'StorageFile'
     end
   end
 end
