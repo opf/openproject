@@ -677,11 +677,6 @@ fr:
               no_notification_reason: 'ne peut pas être vide car IAN est choisi comme canal.'
             reason_mail_digest:
               no_notification_reason: 'ne peut pas être vide car le digest d''email est est choisi comme un canal.'
-        notification_settings:
-          only_one_global_setting: 'Il ne doit y avoir qu''un seul paramètre de notification globale.'
-          email_alerts_global: 'Les paramètres de notification par e-mail ne peuvent être définis que globalement.'
-          format: "%{message}"
-          wrong_date: 'Mauvaise valeur pour la date de début, la date d''échéance ou le retard.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -756,6 +751,11 @@ fr:
               invalid_range: "ne peut être qu'une plage de dates valide."
             daily_reminders:
               full_hour: "ne peut être configuré que pour être envoyé à une heure complète."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         wiki_page:
           attributes:
             slug:

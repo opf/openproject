@@ -674,11 +674,6 @@ hu:
               no_notification_reason: "nem lehet üres, mivel az IAN-t választották csatornának.\n"
             reason_mail_digest:
               no_notification_reason: "nem lehet üres, mivel a mail digest csatornaként van kiválasztva.\n"
-        notification_settings:
-          only_one_global_setting: 'Csak egyetlen globális értesítési beállítás létezhet.'
-          email_alerts_global: 'Az email értesítési beállítások csak globálisan állíthatóak.'
-          format: "%{message}\n"
-          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -753,6 +748,11 @@ hu:
               invalid_range: "csak érvényes időszak lehet."
             daily_reminders:
               full_hour: "csak teljes órában történő kézbesítésre konfigurálható.\n"
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         wiki_page:
           attributes:
             slug:

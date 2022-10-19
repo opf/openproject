@@ -674,11 +674,6 @@ nl:
               no_notification_reason: 'mag niet leeg zijn omdat IAN is gekozen als een kanaal.'
             reason_mail_digest:
               no_notification_reason: 'mag niet leeg zijn omdat mail digest is gekozen als een kanaal.'
-        notification_settings:
-          only_one_global_setting: 'Er mag slechts één globale meldingsinstelling zijn.'
-          email_alerts_global: 'De instellingen voor e-mailmeldingen kunnen alleen globaal worden ingesteld.'
-          format: "%{message}"
-          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -753,6 +748,11 @@ nl:
               invalid_range: "kan alleen een geldig datumbereik zijn."
             daily_reminders:
               full_hour: "kan alleen worden geconfigureerd voor levering op een volledig uur."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         wiki_page:
           attributes:
             slug:
