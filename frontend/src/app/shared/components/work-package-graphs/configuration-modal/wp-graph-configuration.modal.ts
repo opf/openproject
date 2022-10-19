@@ -43,7 +43,7 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
   /* Close on outside click */
   public closeOnOutsideClick = false;
 
-  public $element:JQuery;
+  public $element:HTMLElement;
 
   public text = {
     title: this.I18n.t('js.chart.modal_title'),
@@ -79,7 +79,7 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
   }
 
   ngOnInit():void {
-    this.$element = jQuery(this.elementRef.nativeElement);
+    this.$element = this.elementRef.nativeElement;
 
     this.loadingIndicator.indicator('modal').promise = this.graphConfiguration.loadForms()
       .then(() => {
@@ -134,7 +134,7 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
     return true;
   }
 
-  protected get afterFocusOn():JQuery {
+  protected get afterFocusOn():HTMLElement {
     return this.$element;
   }
 }

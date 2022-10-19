@@ -1,0 +1,17 @@
+<div
+  class="spot-modal-overlay"
+  [ngClass]="{
+    'spot-modal-overlay_active': isActive,
+    'spot-modal-overlay_not-full-screen': notFullscreen
+  }"
+  (click)="close()"
+>
+  <button
+    type="button"
+    class="spot-button spot-modal-overlay--close-button"
+    (click)="close()"
+  >
+    <span class="spot-icon spot-icon_close"></span>
+  </button>
+  <ng-template [ckdPortalOutlet]="modalPortal$" #portalOutlet></ng-template>
+</div>

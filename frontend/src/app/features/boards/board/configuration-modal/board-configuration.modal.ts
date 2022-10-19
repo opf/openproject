@@ -61,7 +61,7 @@ export class BoardConfigurationModalComponent extends OpModalComponent implement
   }
 
   ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
+    this.$element = this.elementRef.nativeElement;
 
     this.tabPortalHost = new TabPortalOutlet(
       this.boardConfigurationService.tabs,
@@ -116,7 +116,7 @@ export class BoardConfigurationModalComponent extends OpModalComponent implement
     return true;
   }
 
-  protected get afterFocusOn():JQuery {
+  protected get afterFocusOn() {
     return this.$element;
   }
 }

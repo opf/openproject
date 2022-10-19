@@ -28,47 +28,32 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild,
+  ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild,
 } from '@angular/core';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 
 @Component({
-  templateUrl: './dynamic-content.modal.html',
+  templateUrl: './modal-portal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DynamicContentModalComponent extends OpModalComponent implements OnInit, OnDestroy {
+export class OpModalPortalComponent implements OnInit {
   // override superclass
   // Allowing outside clicks to close the modal leads to the user involuntarily closing
   // the modal when removing error messages or clicking on labels e.g. in the registration modal.
   public closeOnOutsideClick = false;
 
-  @ViewChild('wrapper') wrapper:HTMLElement;
+  @ViewChild('portalOutlet') portalOutlet: ElementRef<HTMLElement>;
 
   constructor(
+    readonly modalService:OpModalService,
     readonly elementRef:ElementRef,
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
-  ) {
-    super(locals, cdRef, elementRef);
-  }
+  ) { }
 
   ngOnInit():void {
-    super.ngOnInit();
-
-    // Append the dynamic body
-    this.wrapper.classList.add(this.locals.modalClassName);
-    this.wrapper.appendChild(this.locals.modalBody);
-
-    const modal = document.querySelector('.spot-modal') as HTMLElement;
-    const closeButton = modal.querySelector('[dynamic-content-modal-close-button]') as HTMLButtonElement;
-    closeButton.addEventListener('click', () => this.closeMe());
   }
 
-  ngOnDestroy():void {
-    super.ngOnDestroy();
-  }
+  modalPortal$ = this.modalService.activeModal$;
 }

@@ -37,27 +37,19 @@ import {
 import {
   ComponentPortal,
   ComponentType,
-  DomPortalOutlet,
   PortalInjector,
 } from '@angular/cdk/portal';
 import { TransitionService } from '@uirouter/core';
 
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { ReplaySubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 
 @Injectable({ providedIn: 'root' })
 export class OpModalService {
-  public active:OpModalComponent|null = null;
-
-  // Hold a reference to the DOM node we're using as a host
-  private readonly portalHostElement:HTMLElement;
-
-  // And a reference to the actual portal host interface on top of the element
-  private bodyPortalHost:DomPortalOutlet;
-
-  // Remember when we're opening a new modal to avoid the outside click bubbling up.
-  private opening = false;
+  public activeModal$ = new ReplaySubject<ComponentPortal<OpModalComponent>|null>();
 
   constructor(
     private readonly componentFactoryResolver:ComponentFactoryResolver,
@@ -69,42 +61,18 @@ export class OpModalService {
     hostElement.classList.add('spot-modal-overlay');
     document.body.appendChild(hostElement);
 
-    const closeButton = document.createElement('button');
-    closeButton.classList.add('spot-button', 'spot-modal-close-button');
-    closeButton.innerHTML = '<span class="spot-icon spot-icon_close"></span>';
-    hostElement.appendChild(closeButton);
-
     // Listen to keystrokes on window to close context menus
     window.addEventListener('keydown', (evt:KeyboardEvent) => {
-      if (this.active && this.active.closeOnEscape && evt.key === 'Escape') {
-        this.active.closeOnEscapeFunction();
+      if (evt.key !== 'Escape') {
+        return;
       }
-      return true;
+
+      this.activeModal$.pipe(take(1)).subscribe((activeModal) => {
+        if (activeModal) {
+          this.activeModal$.next(null);
+        }
+      });
     });
-
-    // Listen to any click on the modal overlay (backdrop click)
-    hostElement.addEventListener('click', (evt:MouseEvent) => {
-      if (this.active
-        && !this.opening
-        && this.portalHostElement === evt.target as Element) {
-        this.close();
-      }
-    });
-
-    closeButton.addEventListener('click', () => {
-      if (this.active && !this.opening) {
-        this.close();
-      }
-    });
-
-    this.bodyPortalHost = new DomPortalOutlet(
-      hostElement,
-      this.componentFactoryResolver,
-      this.appRef,
-      this.injector,
-    );
-
-    this.portalHostElement = hostElement;
   }
 
   /**
@@ -134,12 +102,6 @@ export class OpModalService {
 
     // Create a portal for the given component class and render it
     const portal = new ComponentPortal(modal, null, this.injectorFor(injector, locals));
-    const ref:ComponentRef<OpModalComponent> = this.bodyPortalHost.attach(portal) as ComponentRef<OpModalComponent>;
-    this.active = ref.instance as T;
-    this.portalHostElement.classList.add('spot-modal-overlay_active');
-    if (notFullScreen) {
-      this.portalHostElement.classList.add('spot-modal-overlay_not-full-screen');
-    }
 
     setTimeout(() => {
       // Focus on the first element
@@ -164,6 +126,8 @@ export class OpModalService {
    */
   public close():void {
     // Detach any component currently in the portal
+    this.activeModal$.next(null);
+    /*
     if (this.active && this.active.onClose()) {
       this.active.closingEvent.emit(this.active);
       this.bodyPortalHost.detach();
@@ -171,6 +135,7 @@ export class OpModalService {
       this.portalHostElement.classList.remove('spot-modal-overlay_not-full-screen');
       this.active = null;
     }
+    */
   }
 
   /**
