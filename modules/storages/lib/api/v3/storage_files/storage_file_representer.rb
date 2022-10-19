@@ -30,6 +30,10 @@ module API::V3::StorageFiles
   class StorageFileRepresenter < ::API::Decorators::Single
     include API::Decorators::DateProperty
 
+    link :self do
+      { href: "#{::API::V3::URN_PREFIX}storages:storage_file:no_link_provided" }
+    end
+
     property :id
     property :name
     property :size
@@ -41,7 +45,7 @@ module API::V3::StorageFiles
     property :location
 
     def _type
-      'StorageFile'
+      Storages::StorageFile.class.to_s
     end
   end
 end

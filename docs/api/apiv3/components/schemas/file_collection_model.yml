@@ -47,6 +47,9 @@ example:
         lastModifiedAt: '2021-12-20T14:00:13.987Z'
         createdByName: Luke Skywalker
         lastModifiedByName: Anakin Skywalker
+        _links:
+          self:
+            href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
       - id: 1338
         location: '1338'
         name: README.md
@@ -56,3 +59,6 @@ example:
         lastModifiedAt: '2021-12-21T14:00:13.987Z'
         createdByName: Leia Organa
         lastModifiedByName: Leia Organa
+        _links:
+          self:
+            href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
