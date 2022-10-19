@@ -676,11 +676,6 @@ pt:
               no_notification_reason: 'não pode ficar em branco porque o IAN foi escolhido como um canal.'
             reason_mail_digest:
               no_notification_reason: 'não pode ficar em branco porque o resumo do e-mail foi escolhido como um canal.'
-        notification_settings:
-          only_one_global_setting: 'Só pode haver uma configuração de notificação global.'
-          email_alerts_global: 'As configura de notificação de e-mail só podem ser definidas globalmente.'
-          format: "%{message}"
-          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -755,6 +750,11 @@ pt:
               invalid_range: "só pode ser um intervalo de datas válido."
             daily_reminders:
               full_hour: "só pode ser configurado para ser entregue em uma hora completa."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         wiki_page:
           attributes:
             slug:

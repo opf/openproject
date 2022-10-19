@@ -480,7 +480,7 @@ cs:
           not_started: 'Nezahájeno'
           on_track: 'Dle plánu'
           at_risk: 'Riziko'
-          off_track: 'Mimo plánu'
+          off_track: 'Mimo plán'
           finished: 'Dokončeno'
           discontinued: 'Zrušeno'
       query:
@@ -679,11 +679,6 @@ cs:
               no_notification_reason: 'nemůže být prázdné, protože IAN je vybrán jako kanál.'
             reason_mail_digest:
               no_notification_reason: 'nemůže být prázdné, protože poštovní digest je vybrán jako kanál.'
-        notification_settings:
-          only_one_global_setting: 'Musí existovat pouze jedno globální nastavení oznámení.'
-          email_alerts_global: 'Nastavení e-mailových oznámení lze nastavit pouze globálně.'
-          format: "%{message}"
-          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -758,6 +753,11 @@ cs:
               invalid_range: "může být pouze platný časový rozsah."
             daily_reminders:
               full_hour: "lze nakonfigurovat pouze za celou hodinu."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         wiki_page:
           attributes:
             slug:
@@ -1763,7 +1763,7 @@ cs:
   label_not_equals: "není"
   label_on: "zapnuto"
   label_open_menu: "Otevřít nabídku"
-  label_open_work_packages: "otevřít"
+  label_open_work_packages: "otevřené"
   label_open_work_packages_plural: "otevřené"
   label_openproject_website: "Webové stránky OpenProject"
   label_optional_description: "Popis"

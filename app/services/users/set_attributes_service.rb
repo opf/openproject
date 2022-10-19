@@ -52,17 +52,13 @@ module Users
         assign_invited_attributes!(params)
       end
 
-      initialize_notification_settings unless model.notification_settings.any?
+      model.notification_settings.build unless model.notification_settings.any?
     end
 
     def set_preferences
       ::UserPreferences::SetAttributesService
         .new(user:, model: model.pref, contract_class: ::UserPreferences::UpdateContract)
         .call(pref)
-    end
-
-    def initialize_notification_settings
-      model.notification_settings.build(assignee: true, responsible: true, mentioned: true, watched: true)
     end
 
     # rubocop:disable Metrics/AbcSize

@@ -170,8 +170,8 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       workPackageScheduled: notificationSettings.workPackageScheduled,
       workPackagePrioritized: notificationSettings.workPackagePrioritized,
       workPackageCommented: notificationSettings.workPackageCommented,
-      startDate: 24,
-      dueDate: 24,
+      startDate: 'P1D',
+      dueDate: 'P1D',
       overdue: null,
     };
 
@@ -194,8 +194,8 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       wikiPageUpdated: false,
       membershipAdded: false,
       membershipUpdated: false,
-      startDate: 24,
-      dueDate: 24,
+      startDate: 'P1D',
+      dueDate: 'P1D',
       overdue: null,
     }));
 

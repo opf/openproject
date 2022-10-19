@@ -220,6 +220,22 @@ describe Principals::DeleteJob, type: :model do
       it { expect(Query.find_by(id: query.id)).to be_nil }
     end
 
+    shared_examples_for 'token handling' do
+      let!(:backup_token) do
+        create(:backup_token, user: principal)
+      end
+
+      let!(:invitation_token) do
+        create(:invitation_token, user: principal)
+      end
+
+      before do
+        job
+      end
+
+      it { expect(Token::Base.where(user_id: principal.id)).to be_empty }
+    end
+
     shared_examples_for 'issue category handling' do
       let(:category) do
         create(:category,

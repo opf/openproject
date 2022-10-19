@@ -675,11 +675,6 @@ ko:
               no_notification_reason: '- IAN이 채널로 선택되었으므로 비워둘 수 없습니다.'
             reason_mail_digest:
               no_notification_reason: '- 메일 요약이 채널로 선택되었으므로 비워둘 수 없습니다.'
-        notification_settings:
-          only_one_global_setting: '전역 알림 설정은 하나만 있어야 합니다.'
-          email_alerts_global: '이메일 알림 설정은 전역으로만 설정할 수 있습니다.'
-          format: "%{message}"
-          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -754,6 +749,11 @@ ko:
               invalid_range: "- 유효한 날짜 범위만 가능합니다."
             daily_reminders:
               full_hour: "- 1시간 전송만 구성할 수 있습니다."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         wiki_page:
           attributes:
             slug:

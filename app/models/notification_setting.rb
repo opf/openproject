@@ -26,15 +26,21 @@ class NotificationSetting < ApplicationRecord
       ASSIGNEE,
       RESPONSIBLE,
       MENTIONED,
-      START_DATE,
-      DUE_DATE,
-      OVERDUE,
       WORK_PACKAGE_CREATED,
       WORK_PACKAGE_COMMENTED,
       WORK_PACKAGE_PROCESSED,
       WORK_PACKAGE_PRIORITIZED,
       WORK_PACKAGE_SCHEDULED,
+      *duration_settings,
       *email_settings
+    ]
+  end
+
+  def self.duration_settings
+    [
+      START_DATE,
+      DUE_DATE,
+      OVERDUE
     ]
   end
 

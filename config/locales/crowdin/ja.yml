@@ -672,11 +672,6 @@ ja:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
-        notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
-          format: "%{message}"
-          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -751,6 +746,11 @@ ja:
               invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         wiki_page:
           attributes:
             slug:

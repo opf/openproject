@@ -580,6 +580,5 @@ OpenProject::Application.routes.draw do
   end
 
   # Routes for design related documentation and examples pages
-  get '/design/spot', to: 'angular#empty_layout'
   get '/design/styleguide' => redirect('/assets/styleguide.html')
 end
