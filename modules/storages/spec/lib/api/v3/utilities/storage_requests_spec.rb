@@ -121,7 +121,7 @@ describe API::V3::Utilities::StorageRequests, webmock: true do
       .to_return(status: 207, body: xml, headers: {})
   end
 
-  describe 'files_query' do
+  describe '#files_query' do
     describe 'with Nextcloud storage type selected' do
       it 'must return a list of files when called' do
         subject

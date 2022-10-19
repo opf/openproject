@@ -19,8 +19,8 @@ module API::V3::Utilities::StorageInteraction
               result:
                 ::API::V3::Utilities::StorageInteraction::NextcloudStorageQuery.new(
                   base_uri: @uri,
-                  origin_user_id: token.send(:origin_user_id),
-                  token: token.send(:access_token),
+                  origin_user_id: token.origin_user_id,
+                  token: token.access_token,
                   with_refreshed_token: connection_manager.method(:with_refreshed_token).to_proc
                 )
             )

@@ -92,9 +92,13 @@ module API::V3::Utilities::StorageInteraction
     end
 
     def name(element)
-      element
-        .xpath('d:href')
-        .map(&:inner_text)
+      texts = element
+            .xpath('d:href')
+            .map(&:inner_text)
+
+      return nil if texts.empty?
+
+      texts
         .first
         .delete_prefix(@base_path)
         .delete_suffix('/')
