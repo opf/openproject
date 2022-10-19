@@ -1,10 +1,11 @@
 <ng-container
   *ngFor="let crumb of viewModel.crumbs; let i = index; let last = last; let first = first"
 >
+  <!-- Desktop crumbs -->
   <div
     *ngIf="(first && !last) || i === viewModel.crumbs.length - 2 || i === viewModel.crumbs.length - 3 "
-    class="spot-breadcrumbs--crumb"
-    [ngClass]="{'spot-breadcrumbs--crumb_shrink': !first, 'hidden-for-mobile': !first && i !== viewModel.crumbs.length - 2 }"
+    class="spot-breadcrumbs--crumb hidden-for-mobile"
+    [ngClass]="{'spot-breadcrumbs--crumb_shrink': !first }"
   >
     <button
       type="button"
@@ -12,8 +13,7 @@
       [title]="crumb.text"
     >
       <span *ngIf="crumb.icon" class="spot-icon spot-icon_{{crumb.icon}}"></span>
-      <span class="hidden-for-mobile" [textContent]="crumb.text"></span>
-      <span class="hidden-for-desktop" [textContent]="'...'"></span>
+      <span [textContent]="crumb.text"></span>
     </button>
 
     <span class="spot-breadcrumbs--crumb-divider spot-icon spot-icon_arrow-right5"></span>
@@ -33,7 +33,35 @@
 
   <div
     *ngIf="last"
-    class="spot-breadcrumbs--crumb"
+    class="spot-breadcrumbs--crumb hidden-for-mobile"
+  >
+    <span *ngIf="crumb.icon" class="spot-icon spot-icon_{{crumb.icon}}"></span>
+    <span
+      class="spot-breadcrumbs--crumb-action-item"
+      [textContent]="crumb.text"
+    ></span>
+  </div>
+
+  <!-- Mobile crumbs -->
+  <div
+    *ngIf="(first && !last) || i === viewModel.crumbs.length - 2 "
+    class="spot-breadcrumbs--crumb hidden-for-desktop"
+  >
+    <button
+      type="button"
+      class="spot-link spot-breadcrumbs--crumb-action-item"
+      [title]="crumb.text"
+    >
+      <span *ngIf="crumb.icon" class="spot-icon spot-icon_{{crumb.icon}}"></span>
+      <span [textContent]="'...'"></span>
+    </button>
+
+    <span class="spot-breadcrumbs--crumb-divider spot-icon spot-icon_arrow-right5"></span>
+  </div>
+
+  <div
+    *ngIf="last"
+    class="spot-breadcrumbs--crumb spot-breadcrumbs--crumb_shrink hidden-for-desktop"
   >
     <span *ngIf="crumb.icon" class="spot-icon spot-icon_{{crumb.icon}}"></span>
     <span
