@@ -32,6 +32,8 @@ namespace 'openproject:cron' do
     # Does nothing by default
   end
 
+  # This task will be automatically called when running jobs:work or jobs:workoff
+  # making sure cron jobs are scheduled. See lib/tasks/delayed_job.rake.
   desc 'Ensure the cron-like background jobs are actively scheduled'
   task schedule: [:environment] do
     ::Cron::CronJob.schedule_registered_jobs!
