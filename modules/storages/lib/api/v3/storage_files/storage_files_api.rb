@@ -31,8 +31,8 @@ module API::V3::StorageFiles
     using Storages::Peripherals::ServiceResultRefinements
 
     helpers do
-      def handle_files_error(files)
-        case files.result
+      def raise_error(error)
+        case error
         when :not_found
           raise API::Errors::NotFound.new
         when :not_authorized
@@ -45,23 +45,26 @@ module API::V3::StorageFiles
 
     resources :files do
       get do
-        ::Storages::Peripherals::StorageRequests
+        Storages::Peripherals::StorageRequests
           .new(storage: @storage)
           .files_query(user: current_user)
           .match(
-            on_success: ->(query) {
-              files = query
-                        .call
-                        .on_failure { |r| handle_files_error(r) }
-                        .result
-
-              ::API::V3::StorageFiles::StorageFileCollectionRepresenter.new(
-                files,
-                self_link: api_v3_paths.storage_files(@storage.id),
-                current_user:
-              )
+            on_success: ->(files_query) {
+              files_query
+                .call
+                .map do |files|
+                  API::V3::StorageFiles::StorageFileCollectionRepresenter.new(
+                    files,
+                    self_link: api_v3_paths.storage_files(@storage.id),
+                    current_user:
+                  )
+                end
+                  .match(
+                    on_success: ->(representer) { representer },
+                    on_failure: ->(error) { raise_error(error) }
+                  )
             },
-            on_failure: ->(error) { handle_files_error(error) }
+            on_failure: ->(error) { raise_error(error) }
           )
       end
     end
