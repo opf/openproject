@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::FileLinks
+module Storages::Peripherals
   class ParseCreateParamsService < ::API::ParseResourceParamsService
     MAX_ELEMENTS = 20
 

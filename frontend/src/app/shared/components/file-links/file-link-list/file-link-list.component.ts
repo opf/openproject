@@ -55,7 +55,13 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { StorageActionButton } from 'core-app/shared/components/file-links/storage-information/storage-action-button';
-import { StorageInformationBox } from 'core-app/shared/components/file-links/storage-information/storage-information-box';
+import {
+  StorageInformationBox,
+} from 'core-app/shared/components/file-links/storage-information/storage-information-box';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import {
+  FilePickerModalComponent,
+} from 'core-app/shared/components/file-links/file-picker-modal/file-picker-modal.component';
 
 @Component({
   selector: 'op-file-link-list',
@@ -96,6 +102,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     },
     actions: {
       linkFile: (storageType:string):string => this.i18n.t('js.storages.link_files_in_storage', { storageType }),
+      linkExisting: this.i18n.t('js.storages.link_existing_files'),
     },
   };
 
@@ -105,6 +112,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   constructor(
     private readonly i18n:I18nService,
+    private readonly opModalService:OpModalService,
     private readonly fileLinkResourceService:FileLinksResourceService,
     private readonly currentUserService:CurrentUserService,
     private readonly cookieService:CookieService,
@@ -143,6 +151,15 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   public openStorageLocation():void {
     window.open(this.storageFilesLocation, '_blank');
+  }
+
+  public openLinkFilesDialog():void {
+    const locals = {
+      storageType: this.storageType,
+      storageLocation: this.storageFilesLocation,
+      storageLink: this.storage._links.self,
+    };
+    this.opModalService.show<FilePickerModalComponent>(FilePickerModalComponent, 'global', locals);
   }
 
   private instantiateStorageInformation(fileLinks:IFileLink[]):StorageInformationBox[] {

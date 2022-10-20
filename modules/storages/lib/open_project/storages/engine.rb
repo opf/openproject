@@ -112,6 +112,10 @@ module OpenProject::Storages
       "#{root}/storages/#{storage_id}"
     end
 
+    add_api_path :storage_files do |storage_id|
+      "#{root}/storages/#{storage_id}/files"
+    end
+
     add_api_path :file_links do |work_package_id|
       "#{work_package(work_package_id)}/file_links"
     end

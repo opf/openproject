@@ -26,36 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Storages
-      class StorageRequestFactory
-        def initialize(oauth_client:)
-          @oauth_client = oauth_client
-        end
+module API::V3::StorageFiles
+  class StorageFileRepresenter < ::API::Decorators::Single
+    include API::Decorators::DateProperty
 
-        def download_command
-          ->(access_token:, file_id:) do
-            request_url = File.join(@oauth_client.integration.host, '/ocs/v2.php/apps/dav/api/v1/direct')
-            body = { fileId: file_id }
-            header = {
-              'Authorization' => "Bearer #{access_token}",
-              'OCS-APIRequest' => 'true',
-              'Accept' => 'application/json'
-            }
+    link :self do
+      { href: "#{::API::V3::URN_PREFIX}storages:storage_file:no_link_provided" }
+    end
 
-            begin
-              response = RestClient.post request_url, body, header
-            rescue RestClient::Unauthorized
-              return ServiceResult.failure(result: I18n.t('http.request.failed_authorization'))
-            rescue StandardError => e
-              return ServiceResult.failure(result: e.message)
-            end
+    property :id
+    property :name
+    property :size
+    property :mime_type
+    date_time_property :created_at
+    date_time_property :last_modified_at
+    property :created_by_name
+    property :last_modified_by_name
+    property :location
 
-            ServiceResult.success(result: response)
-          end
-        end
-      end
+    def _type
+      Storages::StorageFile.class.to_s
     end
   end
 end
