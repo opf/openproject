@@ -159,10 +159,32 @@ describe LdapAuthSource, type: :model do
              attr_login: 'uid',
              attr_firstname: 'givenName',
              attr_lastname: 'sn',
-             attr_mail: 'mail'
+             attr_mail: 'mail',
+             attr_admin:
     end
 
     let(:filter_string) { nil }
+    let(:attr_admin) { nil }
+
+    describe 'attr_admin' do
+      context 'when set' do
+        let(:attr_admin) { 'isAdmin' }
+
+        it 'maps for the admin user in ldap', :aggregate_failures do
+          admin_attributes = ldap.find_user('ldap_admin')
+          expect(admin_attributes).to be_kind_of Hash
+          expect(admin_attributes[:firstname]).to eq 'LDAP'
+          expect(admin_attributes[:lastname]).to eq 'Adminuser'
+          expect(admin_attributes[:admin]).to eq true
+
+          admin_attributes = ldap.find_user('bb459')
+          expect(admin_attributes).to be_kind_of Hash
+          expect(admin_attributes[:firstname]).to eq 'Belle'
+          expect(admin_attributes[:lastname]).to eq 'Baldwin'
+          expect(admin_attributes[:admin]).to eq false
+        end
+      end
+    end
 
     describe '#authenticate' do
       context 'with a valid LDAP user' do

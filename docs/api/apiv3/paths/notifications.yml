@@ -80,17 +80,6 @@ get:
           schema:
             $ref: '../components/schemas/notification_collection_model.yml'
       description: OK
-    '400':
-      content:
-        application/hal+json:
-          schema:
-            $ref: '../components/schemas/error_response.yml'
-          example:
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
-            message:
-              - Filters Invalid filter does not exist.
-      description: Returned if the client sends invalid request parameters e.g. filters
     '403':
       content:
         application/hal+json:
@@ -101,3 +90,13 @@ get:
             errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
             message: You are not authorized to view this resource.
       description: Returned if the client is not logged in and login is required.
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: Filters Invalid filter does not exist.
+      description: Returned if the client sends invalid request parameters e.g. filters
