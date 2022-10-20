@@ -30,7 +30,7 @@
 # in modules/storages/lib/api/v3/file_links/work_packages_file_links_api.rb
 #
 # Multiple classes are involved during its lifecycle:
-#   - API::V3::Utilities::ParseCreateParamsService
+#   - Storages::Peripherals::ParseCreateParamsService
 #   - API::V3::FileLinks::FileLinkCollectionRepresenter
 #   - Storages::FileLinks::CreateService
 #

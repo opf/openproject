@@ -73,7 +73,7 @@ module Storages::Peripherals
     end
 
     def make_direct_download(storage:, access_token:, file_id:)
-      response = API::V3::Utilities::StorageRequests
+      response = Storages::Peripherals::StorageRequests
                    .new(storage:)
                    .download_command
                    .call(access_token:, file_id:)

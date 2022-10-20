@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-describe API::V3::Utilities::StorageRequests, webmock: true do
+describe Storages::Peripherals::StorageRequests, webmock: true do
+  using Storages::Peripherals::ServiceResultRefinements
+
   let(:user) { build_stubbed(:user) }
 
   let(:url) { 'https://example.com' }
