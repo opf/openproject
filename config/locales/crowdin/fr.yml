@@ -752,10 +752,10 @@ fr:
             daily_reminders:
               full_hour: "ne peut être configuré que pour être envoyé à une heure complète."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: 'Il ne doit y avoir qu''un seul paramètre de notification globale.'
+              email_alerts_global: 'Les paramètres de notification par e-mail ne peuvent être définis que globalement.'
               format: "%{message}"
-              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+              wrong_date: 'Mauvaise valeur pour la date de début, la date d''échéance ou le retard.'
         wiki_page:
           attributes:
             slug:

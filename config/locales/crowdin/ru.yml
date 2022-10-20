@@ -753,10 +753,10 @@ ru:
             daily_reminders:
               full_hour: "может быть настроен только на доставку в полный час."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: 'Должен быть только один глобальный параметр уведомлений.'
+              email_alerts_global: 'Настройки уведомлений по электронной почте можно установить только глобально.'
               format: "%{message}"
-              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+              wrong_date: 'Неправильное значение для даты начала, даты окончания или просроченной даты.'
         wiki_page:
           attributes:
             slug:
