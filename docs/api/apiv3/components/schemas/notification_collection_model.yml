@@ -37,39 +37,14 @@ allOf:
         type: object
         required:
           - elements
+          - detailsSchemas
         properties:
           elements:
             type: array
             items:
               $ref: './notification_model.yml'
-
-example:
-  _type: Collection
-  count: 2
-  total: 2
-  offset: 1
-  pageSize: 20
-  _embedded:
-    elements:
-      - _hint: Notification resource shortened for brevity
-        id: 1
-        readIAN: false
-        reason: mentioned
-      - _hint: Notification resource shortened for brevity
-        id: 2
-        readIAN: false
-        reason: date_alert
-        message:
-          - property: 'startDate'
-            value: '2022-10-05'
-          - property: 'stopDate'
-            value: '2022-10-10'
-    _links:
-      self:
-        href: '/api/v3/notifications?offset=1&pageSize=20'
-      jumpTo:
-        href: '/api/v3/notifications?filters=%5B%5D&offset=%7Boffset%7D&pageSize=20'
-        templated: true
-      changeSize:
-        href: '/api/v3/notifications?filters=%5B%5D&offset=1&pageSize=%7Bsize%7D'
-        templated: true
+          detailsSchemas:
+            type: array
+            items:
+              oneOf:
+                $ref: './schema_model.yml'
