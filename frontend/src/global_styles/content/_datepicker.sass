@@ -43,10 +43,6 @@ $datepicker--border-radius: 5px
   border-radius: 0
   pointer-events: none
 
-@mixin non-working-selectable-day
-  background: $spot-color-basic-gray-6
-  border-radius: 0
-
 .flatpickr-current-month
   display: flex !important
 
@@ -60,8 +56,6 @@ $datepicker--border-radius: 5px
     @include disabled-day
   &.flatpickr-non-working-day
     @include non-working-day
-  &.flatpickr-non-working-selectable-day
-    @include non-working-selectable-day
 
 .flatpickr-calendar.inline
   box-shadow: none !important
