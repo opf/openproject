@@ -27,7 +27,9 @@
 #++
 
 module OpenProject::CustomStyles
-  class ColorThemes
+  module ColorThemes
+    module_function
+
     OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME = 'OpenProject'.freeze
 
     THEMES = [
@@ -97,7 +99,7 @@ module OpenProject::CustomStyles
       }
     ].freeze
 
-    def self.themes
+    def themes
       THEMES
     end
   end

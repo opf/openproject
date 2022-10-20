@@ -78,10 +78,10 @@ describe "Immediate reminder settings", type: :feature, js: true do
     it 'sends a mail to the mentioned user immediately' do
       perform_enqueued_jobs do
         note = <<~NOTE
-          Hey <mention class=\"mention\"
-                       data-id=\"#{receiver.id}\"
-                       data-type=\"user\"
-                       data-text=\"@#{receiver.name}\">
+          Hey <mention class="mention"
+                       data-id="#{receiver.id}"
+                       data-type="user"
+                       data-text="@#{receiver.name}">
                 @#{receiver.name}
               </mention>
         NOTE

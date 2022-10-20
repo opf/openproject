@@ -62,8 +62,10 @@ module API
         end
       end
 
-      class UnwritablePropertyFilter
-        def self.call(input, options)
+      module UnwritablePropertyFilter
+        module_function
+
+        def call(input, options)
           writable_attr = options[:decorator].writable_attributes
 
           as = options[:binding][:as].()
@@ -75,8 +77,10 @@ module API
         end
       end
 
-      class LinkRenderBlock
-        def self.call(input, options)
+      module LinkRenderBlock
+        module_function
+
+        def call(input, options)
           writable_attr = options[:decorator].writable_attributes
 
           input.reject do |link|
