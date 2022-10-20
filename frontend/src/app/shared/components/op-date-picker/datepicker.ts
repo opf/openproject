@@ -27,10 +27,7 @@
 //++
 import * as moment from 'moment';
 import flatpickr from 'flatpickr';
-import {
-  DayElement,
-  Instance,
-} from 'flatpickr/dist/types/instance';
+import { Instance } from 'flatpickr/dist/types/instance';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { rangeSeparator } from 'core-app/shared/components/op-date-picker/op-range-date-picker/op-range-date-picker.component';
@@ -172,12 +169,6 @@ export class DatePicker {
       weekNumbers: true,
       getWeek(dateObj:Date) {
         return moment(dateObj).format('W');
-      },
-      onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
-        await this.weekdaysPromise;
-        if (this.weekdaysService.isNonWorkingDay(dayElem.dateObj)) {
-          dayElem.classList.add('flatpickr-non-working-selectable-day');
-        }
       },
       dateFormat: this.datepickerFormat,
       defaultDate: this.date,
