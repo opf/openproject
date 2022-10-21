@@ -55,6 +55,7 @@ module API
         def to_h(column_key: :columns)
           p = super
 
+          p[:includeSubprojects] = query.include_subprojects
           p[:showHierarchies] = query.show_hierarchies
           p[:showSums] = query.display_sums?
           p[:groupBy] = query.group_by if query.group_by?

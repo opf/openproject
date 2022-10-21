@@ -121,6 +121,7 @@ describe ::API::V3::Queries::QueryRepresenter do
           offset: 1,
           showSums: false,
           showHierarchies: false,
+          includeSubprojects: true,
           pageSize: Setting.per_page_options_array.first,
           filters: []
         }
@@ -153,6 +154,7 @@ describe ::API::V3::Queries::QueryRepresenter do
             pageSize: Setting.per_page_options_array.first,
             showSums: false,
             showHierarchies: false,
+            includeSubprojects: true,
             filters: []
           }
           "#{api_v3_paths.work_packages}?#{non_empty_to_query(params)}"
@@ -341,6 +343,7 @@ describe ::API::V3::Queries::QueryRepresenter do
           filters: JSON::dump([{ subject: { operator: '~', values: ['bogus'] } }]),
           showSums: false,
           showHierarchies: false,
+          includeSubprojects: true,
           groupBy: 'author',
           sortBy: JSON::dump([%w[assignee asc], %w[type desc]])
         }
@@ -367,6 +370,7 @@ describe ::API::V3::Queries::QueryRepresenter do
           pageSize: 25,
           showSums: false,
           showHierarchies: false,
+          includeSubprojects: true,
           filters: []
         }
 
