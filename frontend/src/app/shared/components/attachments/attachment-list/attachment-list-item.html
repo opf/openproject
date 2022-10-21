@@ -1,6 +1,6 @@
-<div class="spot-list--item-floating-wrapper op-files-tab--file-list-item-floating-wrapper">
+<div class="spot-list--item-floating-wrapper op-file-list--item-floating-wrapper">
   <a
-    class="spot-list--item-action spot-list--item-action_link op-files-tab--file-list-item-action"
+    class="spot-list--item-action spot-list--item-action_link op-file-list--item-action"
     [href]="attachment._links.staticDownloadLocation.href"
     target="_blank"
     (dragstart)="setDragData($event)"
@@ -12,23 +12,23 @@
     <span
       [textContent]="attachment.fileName"
       [title]="attachment.fileName"
-      class="spot-list--item-title op-files-tab--file-list-item-title"
+      class="spot-list--item-title op-file-list--item-title"
       data-qa-selector="op-files-tab--file-list-item-title"
     ></span>
 
     <span
-      class="op-files-tab--file-list-item-text"
+      class="op-file-list--item-text"
       [textContent]="timestampText"
     ></span>
 
     <div
       #avatar
-      class="op-files-tab--file-list-item-avatar"
+      class="op-file-list--item-avatar"
     ></div>
   </a>
   <div
     *ngIf="!!this.attachment._links.delete"
-    class="spot-list--item-floating-actions op-files-tab--file-list-item-floating-actions hidden-for-mobile"
+    class="spot-list--item-floating-actions op-file-list--item-floating-actions hidden-for-mobile"
   >
     <button
       class="spot-link"

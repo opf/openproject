@@ -259,9 +259,9 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
         } }]
       end
 
-      it 'returns 400' do
+      it 'returns 422' do
         expect(subject.status)
-          .to be 400
+          .to be 422
       end
 
       it 'communicates the error message' do
@@ -270,7 +270,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql('urn:openproject-org:api:v3:errors:InvalidQuery'.to_json)
+          .to be_json_eql('urn:openproject-org:api:v3:errors:MultipleErrors'.to_json)
           .at_path('errorIdentifier')
       end
     end

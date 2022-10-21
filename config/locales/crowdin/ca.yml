@@ -673,11 +673,6 @@ ca:
               no_notification_reason: 'no pot ser buit ja que s''ha escollit com a canal IAN (notificacions en aplicació).'
             reason_mail_digest:
               no_notification_reason: 'no pot ser buit ja que s''ha escollit com a canal correu automàtic.'
-        notification_settings:
-          only_one_global_setting: 'Hi ha d''haver sols una configuració global de notificació.'
-          email_alerts_global: 'La configuració de notificació per correu electrònic sols pot establir-se globalment.'
-          format: "%{message}"
-          wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -752,6 +747,11 @@ ca:
               invalid_range: "sols pot ser un interval de dates vàlid."
             daily_reminders:
               full_hour: "sols pot ser configurat per a enviar-se en una hora sencera."
+            notification_settings:
+              only_one_global_setting: 'Només està permesa una sola configuració global de notificació.'
+              email_alerts_global: 'La configuració de notificació per correu electrònic només pot establir-se globalment.'
+              format: "%{message}"
+              wrong_date: 'Valor incorrecte per a Data d''inici, Data final o Vençut.'
         wiki_page:
           attributes:
             slug:

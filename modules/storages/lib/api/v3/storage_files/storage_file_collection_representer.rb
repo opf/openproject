@@ -26,14 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::Utilities
-  module StoragesHelpers
-    def visible_storages_scope
-      ::Storages::Storage.visible(current_user)
-    end
-
-    def visible_file_links_scope
-      ::Storages::FileLink.visible(current_user)
-    end
+module API::V3::StorageFiles
+  class StorageFileCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
   end
 end

@@ -678,11 +678,6 @@ ru:
               no_notification_reason: 'не может быть пустым, так как IAN выбран как канал.'
             reason_mail_digest:
               no_notification_reason: 'не может быть пустым, так как почтовый дайджест выбран как канал.'
-        notification_settings:
-          only_one_global_setting: 'Должен быть только один глобальный параметр уведомлений.'
-          email_alerts_global: 'Настройки уведомлений по электронной почте можно установить только глобально.'
-          format: "%{message}"
-          wrong_date: 'Неправильное значение для даты начала, даты окончания или просрочки.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -757,6 +752,11 @@ ru:
               invalid_range: "может быть только допустимым интервалом дат."
             daily_reminders:
               full_hour: "может быть настроен только на доставку в полный час."
+            notification_settings:
+              only_one_global_setting: 'Должен быть только один глобальный параметр уведомлений.'
+              email_alerts_global: 'Настройки уведомлений по электронной почте можно установить только глобально.'
+              format: "%{message}"
+              wrong_date: 'Неправильное значение для даты начала, даты окончания или просроченной даты.'
         wiki_page:
           attributes:
             slug:

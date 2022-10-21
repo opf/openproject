@@ -3,6 +3,7 @@ lol:
   js:
     storages:
       link_files_in_storage: "crwdns823088:0%{storageType}crwdne823088:0"
+      link_existing_files: "crwdns836442:0crwdne836442:0"
       login: "crwdns823090:0%{storageType}crwdne823090:0"
       login_to: "crwdns823092:0%{storageType}crwdne823092:0"
       no_connection: "crwdns823094:0%{storageType}crwdne823094:0"
@@ -27,4 +28,7 @@ lol:
         remove_confirmation: >
           crwdns833338:0crwdne833338:0
         remove_short: "crwdns833340:0crwdne833340:0"
+        select: "crwdns836444:0crwdne836444:0"
+        selection_none: "crwdns836446:0crwdne836446:0"
+        selection_any: "crwdns836448:0%{number}crwdne836448:0"
         not_allowed_tooltip: "crwdns833126:0crwdne833126:0"

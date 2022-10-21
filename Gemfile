@@ -177,7 +177,7 @@ gem 'puma', '~> 5.6'
 gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 gem 'puma-plugin-statsd', '~> 2.0'
 
-gem 'nokogiri', '~> 1.13.4'
+gem 'nokogiri', '~> 1.13.9'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -200,9 +200,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 gem 'validate_url'
 
 # Sentry error reporting
-gem "sentry-delayed_job", '~> 5.4.0'
-gem "sentry-rails", '~> 5.4.0'
-gem "sentry-ruby", '~> 5.4.0'
+gem "sentry-delayed_job", '~> 5.5.0'
+gem "sentry-rails", '~> 5.5.0'
+gem "sentry-ruby", '~> 5.5.0'
 
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
@@ -219,7 +219,7 @@ group :test do
   gem 'rack_session_access'
   gem 'rspec', '~> 3.11.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '6.0.0', group: :development
+  gem 'rspec-rails', '~> 6.0.0', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
@@ -284,7 +284,7 @@ group :development, :test do
   gem 'ruby-prof', require: false
   gem 'stackprof', require: false
 
-  gem 'pry-byebug', '~> 3.9.0', platforms: [:mri]
+  gem 'pry-byebug', '~> 3.10.0', platforms: [:mri]
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.5.2'
   gem 'pry-stack_explorer', '~> 0.6.0'

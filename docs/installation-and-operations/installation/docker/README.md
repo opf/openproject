@@ -77,7 +77,7 @@ Please be aware that only those variables shall be edited which are documented a
 
 #### BIM Edition
 
-In order to install or change to BIM inside a Docker environment, please navigate to the [Docker](../../bim-edition/#docker) paragraph at the BIM Edition documentation. 
+In order to install or change to BIM inside a Docker environment, please navigate to the [Docker Installation for OpenProject BIM](../../bim-edition/#docker-installation-openproject-bim) paragraph at the BIM edition documentation. 
 
 ### Disabling services in the docker-compose file
 
@@ -355,6 +355,8 @@ described above.
 
 Assuming the desired *server name* is `openproject.example.com` the configuration
 will look like this:
+
+> **Note:** There is [another example](../packaged/#external-ssl-tls-termination) for external SSL/TLS termination for **packaged** installations
 
 ```
 <VirtualHost *:80>

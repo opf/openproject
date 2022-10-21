@@ -3,6 +3,7 @@ th:
   js:
     storages:
       link_files_in_storage: "Link files in %{storageType}"
+      link_existing_files: "Link existing files"
       login: "%{storageType} login"
       login_to: "Login to %{storageType}"
       no_connection: "No %{storageType} connection"
@@ -27,4 +28,7 @@ th:
         remove_confirmation: >
           Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
         remove_short: "Remove link"
+        select: "Select files"
+        selection_none: "Select files to link"
+        selection_any: "Link %{number} files"
         not_allowed_tooltip: "Please log in to Nextcloud to access this file"

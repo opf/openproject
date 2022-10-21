@@ -3,6 +3,7 @@ cs:
   js:
     storages:
       link_files_in_storage: "Prolinkovat soubory v"
+      link_existing_files: "Link existing files"
       login: "%{storageType} přihlášení"
       login_to: "Přihlásit se k %{storageType}"
       no_connection: "Žádné připojení %{storageType}"
@@ -27,4 +28,7 @@ cs:
         remove_confirmation: >
           Jste si jisti, že chcete odlinkovat soubor od tohoto pracovního balíčku? Toto nemá vliv na původní soubor a odstraní pouze připojení k tomuto pracovnímu balíčku.
         remove_short: "Odstranit odkaz"
+        select: "Select files"
+        selection_none: "Select files to link"
+        selection_any: "Link %{number} files"
         not_allowed_tooltip: "Pro přístup k tomuto souboru se přihlaste do Nextcloudu"

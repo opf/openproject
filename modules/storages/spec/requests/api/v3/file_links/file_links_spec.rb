@@ -359,8 +359,8 @@ describe 'API v3 file links resource', type: :request do
                              actual: 'Integer')
     end
 
-    context "when more than #{API::V3::FileLinks::ParseCreateParamsService::MAX_ELEMENTS} embedded elements" do
-      let(:max) { API::V3::FileLinks::ParseCreateParamsService::MAX_ELEMENTS }
+    context "when more than #{Storages::Peripherals::ParseCreateParamsService::MAX_ELEMENTS} embedded elements" do
+      let(:max) { Storages::Peripherals::ParseCreateParamsService::MAX_ELEMENTS }
       let(:too_many) { max + 1 }
       let(:embedded_elements) { build_list(:file_link_element, too_many, storage_url: storage_url1) }
 
@@ -473,7 +473,7 @@ describe 'API v3 file links resource', type: :request do
 
   describe 'GET /api/v3/file_links/:file_link_id/download' do
     let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
-    let(:request_factory) { instance_double(::API::V3::Storages::StorageRequestFactory) }
+    let(:request_factory) { instance_double(Storages::Peripherals::StorageRequests) }
     let(:access_token_result) { ServiceResult.success(result: create(:oauth_client_token)) }
     let(:path) { api_v3_paths.file_link_download(file_link.id) }
     let(:download_response) { instance_double(RestClient::Response) }
@@ -484,7 +484,7 @@ describe 'API v3 file links resource', type: :request do
       allow(connection_manager).to receive(:get_access_token).and_return(access_token_result)
       allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
       allow(request_factory).to receive(:download_command).and_return(->(*) { download_command_result })
-      allow(::API::V3::Storages::StorageRequestFactory).to receive(:new).and_return(request_factory)
+      allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(request_factory)
       allow(download_response).to receive(:body).and_return(response_body)
 
       get path

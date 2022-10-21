@@ -44,7 +44,7 @@ function createInitialState():IUserPreference {
       enabled: true,
       times: ['08:00'],
     },
-    workdays: [],
+    workdays: [1, 2, 3, 4, 5],
     immediateReminders: {
       mentioned: false,
     },
