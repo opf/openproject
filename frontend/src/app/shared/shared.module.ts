@@ -200,7 +200,6 @@ export function bootstrapModule(injector:Injector):void {
     ViewsResourceService,
   ],
   declarations: [
-    OpDateTimeComponent,
     ViewSelectComponent,
 
     ToastsContainerComponent,
