@@ -1,7 +1,9 @@
 module OpenProject
   module AuthSaml
-    class Inspector
-      def self.inspect_response(auth_hash)
+    module Inspector
+      module_function
+
+      def inspect_response(auth_hash)
         response = auth_hash.dig(:extra, :response_object)
         if response
           code = response.status_code ? "(CODE #{response.status_code})" : nil
