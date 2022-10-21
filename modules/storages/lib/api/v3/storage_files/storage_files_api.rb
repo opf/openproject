@@ -41,6 +41,10 @@ module API::V3::StorageFiles
           raise API::Errors::InternalError.new
         end
       end
+
+      def find_param(symbol)
+        params[symbol] ? ServiceResult.success(result: params[symbol]) : ServiceResult.failure
+      end
     end
 
     resources :files do
@@ -51,7 +55,7 @@ module API::V3::StorageFiles
           .match(
             on_success: ->(files_query) {
               files_query
-                .call
+                .call(find_param(:parent))
                 .map do |files|
                   API::V3::StorageFiles::StorageFileCollectionRepresenter.new(
                     files,
