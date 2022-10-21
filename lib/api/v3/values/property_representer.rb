@@ -1,6 +1,6 @@
-#-- copyright
+# --copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2010-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,29 +24,34 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
+# ++
 
-shared_examples 'represents the notification' do
-  it 'represents the notification', :aggregate_failures do
-    expect(last_response.status)
-      .to eq(200)
-    expect(last_response.body)
-      .to be_json_eql('Notification'.to_json)
-            .at_path('_type')
+module API::V3::Values
+  class PropertyRepresenter < ::Roar::Decorator
+    include ::Roar::JSON::HAL
+    include ::Roar::Hypermedia
+    include API::Decorators::SelfLink
 
-    expect(last_response.body)
-      .to be_json_eql(notification.read_ian.to_json)
-            .at_path('readIAN')
+    def initialize(model, self_link:)
+      @self_link = self_link
 
-    expect(last_response.body)
-      .to be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_datetime(notification.created_at).to_json)
-            .at_path('createdAt')
+      super(model)
+    end
 
-    expect(last_response.body)
-      .to be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_datetime(notification.updated_at).to_json)
-            .at_path('updatedAt')
+    property :_type,
+             getter: ->(*) { 'Values::Property' }
 
-    expect(last_response.body)
-      .to be_json_eql(notification.id.to_json)
-            .at_path('id')
+    property :property,
+             getter: ->(*) { property.to_s.camelcase(:lower) }
+
+    self_link title: false
+
+    def self_v3_path(*_args)
+      self_link
+    end
+
+    private
+
+    attr_reader :self_link
   end
 end

@@ -34,7 +34,7 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
   subject(:generated) { representer.to_json }
 
   shared_let(:project) { create :project }
-  shared_let(:resource) { create :work_package, project: }
+  let(:resource) { build_stubbed :work_package, project: }
 
   let(:recipient) { build_stubbed(:user) }
   let(:journal) { nil }
@@ -118,41 +118,6 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
     it 'is expected to not have a message' do
       expect(subject).not_to have_json_path('message')
     end
-
-    context 'when the reason is date alert' do
-      let(:journal) { resource.journals.last }
-      let(:reason) { :date_alert }
-
-      context 'when the startDate is happening soon' do
-        before do
-          journal.data.update!(start_date: Date.tomorrow)
-        end
-
-        it_behaves_like 'date property', 'message/0/startDate' do
-          let(:value) { Date.tomorrow }
-        end
-      end
-
-      context 'when the dueDate is happening soon' do
-        before do
-          journal.data.update!(due_date: Date.tomorrow)
-        end
-
-        it_behaves_like 'date property', 'message/0/dueDate' do
-          let(:value) { Date.tomorrow }
-        end
-      end
-
-      context 'when the dueDate is in the past (overdue)' do
-        before do
-          journal.data.update!(due_date: Date.yesterday)
-        end
-
-        it_behaves_like 'date property', 'message/0/dueDate' do
-          let(:value) { Date.yesterday }
-        end
-      end
-    end
   end
 
   describe 'project' do
@@ -221,7 +186,7 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
     end
 
     context 'when set' do
-      let(:journal) { resource.journals.last }
+      let(:journal) { build_stubbed(:work_package_journal) }
 
       it_behaves_like 'has an untitled link' do
         let(:link) { 'activity' }
@@ -236,6 +201,53 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
             .to be_json_eql('Activity'.to_json)
                   .at_path("_embedded/activity/_type")
         end
+      end
+    end
+  end
+
+  describe 'details' do
+    shared_examples_for 'embeds a Values::Property for startDate' do
+      it 'embeds a Values::Property' do
+        expect(generated)
+          .to be_json_eql('Values::Property'.to_json)
+                .at_path("_embedded/details/0/_type")
+      end
+
+      it 'has a startDate value for the `property` property' do
+        expect(generated)
+          .to be_json_eql('startDate'.to_json)
+                .at_path("_embedded/details/0/property")
+      end
+
+      it 'has a work_package`s start_date for the value' do
+        expect(generated)
+          .to be_json_eql(resource.start_date.to_json)
+                .at_path("_embedded/details/0/value")
+      end
+    end
+
+    context 'for a dateAlert when embedding' do
+      let(:reason) { :date_alert_start_date }
+      let(:embed_links) { true }
+
+      it_behaves_like 'embeds a Values::Property for startDate'
+    end
+
+    context 'for a dateAlert when not embedding' do
+      let(:reason) { :date_alert_start_date }
+      let(:embed_links) { false }
+
+      it_behaves_like 'embeds a Values::Property for startDate'
+    end
+
+    context 'for a mention when embedding' do
+      let(:reason) { :mentioned }
+      let(:embed_links) { true }
+
+      it 'has an empty details array' do
+        expect(generated)
+          .to have_json_size(0)
+                .at_path("_embedded/details")
       end
     end
   end

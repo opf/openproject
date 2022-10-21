@@ -1,6 +1,6 @@
-#-- copyright
+# --copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2010-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,29 +24,29 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
+# ++
 
-shared_examples 'represents the notification' do
-  it 'represents the notification', :aggregate_failures do
-    expect(last_response.status)
-      .to eq(200)
-    expect(last_response.body)
-      .to be_json_eql('Notification'.to_json)
-            .at_path('_type')
+module API::V3::Notifications
+  module DetailsFactory
+    extend ::API::V3::Utilities::PathHelper
 
-    expect(last_response.body)
-      .to be_json_eql(notification.read_ian.to_json)
-            .at_path('readIAN')
+    module_function
 
-    expect(last_response.body)
-      .to be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_datetime(notification.created_at).to_json)
-            .at_path('createdAt')
+    def for(notification)
+      concrete_factory_for(notification.reason)
+        .for(notification)
+    end
 
-    expect(last_response.body)
-      .to be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_datetime(notification.updated_at).to_json)
-            .at_path('updatedAt')
+    def concrete_factory_for(reason)
+      @concrete_factory_for ||= Hash.new do |h, reason_key|
+        h[reason_key] = if API::V3::Notifications::DetailsFactory.const_defined?(reason_key.camelcase)
+                          "API::V3::Notifications::DetailsFactory::#{reason_key.camelcase}".constantize
+                        else
+                          API::V3::Notifications::DetailsFactory::Default
+                        end
+      end
 
-    expect(last_response.body)
-      .to be_json_eql(notification.id.to_json)
-            .at_path('id')
+      @concrete_factory_for[reason]
+    end
   end
 end

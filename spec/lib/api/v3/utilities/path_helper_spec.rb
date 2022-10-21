@@ -245,6 +245,12 @@ describe ::API::V3::Utilities::PathHelper do
 
       it_behaves_like 'api v3 path', '/notifications/42/unread_ian'
     end
+
+    describe '#notification_detail' do
+      subject { helper.notification_detail(42, 0) }
+
+      it_behaves_like 'api v3 path', '/notifications/42/details/0'
+    end
   end
 
   describe 'markup paths' do
