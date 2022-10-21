@@ -69,8 +69,8 @@ class WithDirectUploads
     form_action = csp_config.form_action.dup
 
     begin
-      csp_config.connect_src = ["'self'", "test-bucket.s3.amazonaws.com"]
-      csp_config.form_action = ["'self'", "test-bucket.s3.amazonaws.com"]
+      csp_config.connect_src << "test-bucket.s3.amazonaws.com"
+      csp_config.form_action << "test-bucket.s3.amazonaws.com"
 
       example.run
     ensure
