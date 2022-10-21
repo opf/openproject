@@ -103,8 +103,26 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
       let(:value) { notification.id }
     end
 
-    it_behaves_like 'property', :reason do
-      let(:value) { notification.reason }
+    describe 'reason' do
+      (Notification::REASONS.keys - %i[date_alert_start_date date_alert_due_date]).each do |notification_reason|
+        context "for a #{notification_reason} reason" do
+          let(:reason) { notification_reason }
+
+          it_behaves_like 'property', :reason do
+            let(:value) { notification_reason }
+          end
+        end
+      end
+
+      %i[date_alert_start_date date_alert_due_date].each do |notification_reason|
+        context "for a #{notification_reason} reason" do
+          let(:reason) { notification_reason }
+
+          it_behaves_like 'property', :reason do
+            let(:value) { 'dateAlert' }
+          end
+        end
+      end
     end
 
     it_behaves_like 'datetime property', :createdAt do

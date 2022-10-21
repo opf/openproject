@@ -34,14 +34,22 @@ module API
         include API::Decorators::LinkedResource
         extend API::Decorators::PolymorphicResource
 
-        self_link title_getter: ->(*) {}
+        self_link title: false
 
         property :id
 
         property :read_ian,
                  as: :readIAN
 
-        property :reason
+        property :reason,
+                 getter: ->(*) do
+                   case reason
+                   when 'date_alert_start_date', 'date_alert_due_date'
+                     'dateAlert'
+                   else
+                     reason
+                   end
+                 end
 
         date_time_property :created_at
 
