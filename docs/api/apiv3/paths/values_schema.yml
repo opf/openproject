@@ -8,7 +8,7 @@ get:
       example: 'startDate'
       required: true
       schema:
-        type: String
+        type: string
   responses:
     '200':
       content:

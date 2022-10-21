@@ -15,13 +15,7 @@ properties:
     type: string
     description: The key of the key - value pair represented by the Values::Property
   value:
-    type:
-      oneOf:
-        - String
-        - Integer
-        - Float
-        - Duration
-        - Date
+    type: string
     description: The value of the key - value pair represented by the Values::Property
   _links:
     type: object
