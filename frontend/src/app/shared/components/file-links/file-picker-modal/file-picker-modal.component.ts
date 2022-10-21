@@ -44,7 +44,8 @@ import { OpModalComponent } from 'core-app/shared/components/modal/modal.compone
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
-import { Breadcrumbs } from 'core-app/shared/components/breadcrumbs/breadcrumbs';
+import { BreadcrumbsContent } from 'core-app/shared/components/breadcrumbs/breadcrumbs-content';
+import { getIconForStorageType } from 'core-app/shared/components/file-links/storage-icons/storage-icon.factory';
 
 @Component({
   templateUrl: 'file-picker-modal.html',
@@ -55,17 +56,7 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
 
   public storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
 
-  public breadCrumbs = new Breadcrumbs(
-    [
-      { text: 'OpenProject Nextcloud', icon: 'nextcloud-circle', navigate: () => {} },
-      { text: 'Shared', navigate: () => {} },
-      { text: 'A very long directory name', navigate: () => {} },
-      { text: 'Another very long directory name', navigate: () => {} },
-      { text: 'Yet another very long directory name', navigate: () => {} },
-      { text: 'And yet another very long directory name', navigate: () => {} },
-      { text: 'data', navigate: () => {} },
-    ],
-  );
+  public breadcrumbs:BreadcrumbsContent;
 
   public text = {
     header: this.i18n.t('js.storages.file_links.select'),
@@ -95,6 +86,11 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
 
   ngOnInit():void {
     super.ngOnInit();
+
+    this.breadcrumbs = new BreadcrumbsContent([{
+      text: this.locals.storageName as string,
+      icon: getIconForStorageType(this.locals.storageType as string),
+    }]);
 
     const filesLink:IHalResourceLink = {
       href: `${(this.locals.storageLink as IHalResourceLink).href}/files`,

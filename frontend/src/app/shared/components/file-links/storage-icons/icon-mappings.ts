@@ -26,14 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export interface Breadcrumb {
-  text:string;
-  icon?:string;
-  navigate?:() => void;
-}
+import { nextcloud } from 'core-app/shared/components/file-links/file-links-constants.const';
 
-export class Breadcrumbs {
-  constructor(
-    public readonly crumbs:Breadcrumb[],
-  ) { }
-}
+export const storageIconMappings:Record<string, string> = {
+  [nextcloud]: 'nextcloud-circle',
+
+  default: 'ticket',
+};

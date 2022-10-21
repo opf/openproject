@@ -1,9 +1,9 @@
 <ng-container
-  *ngFor="let crumb of viewModel.crumbs; let i = index; let last = last; let first = first"
+  *ngFor="let crumb of content.crumbs; let i = index; let last = last; let first = first"
 >
   <!-- Desktop crumbs -->
   <div
-    *ngIf="(first && !last) || i === viewModel.crumbs.length - 2 || i === viewModel.crumbs.length - 3 "
+    *ngIf="(first && !last) || i === content.crumbs.length - 2 || i === content.crumbs.length - 3 "
     class="spot-breadcrumbs--crumb hidden-for-mobile"
     [ngClass]="{'spot-breadcrumbs--crumb_shrink': !first }"
   >
@@ -20,7 +20,7 @@
   </div>
 
   <div
-    *ngIf="i === 1 && viewModel.crumbs.length > 4"
+    *ngIf="i === 1 && content.crumbs.length > 4"
     class="spot-breadcrumbs--crumb hidden-for-mobile"
   >
     <span
@@ -44,7 +44,7 @@
 
   <!-- Mobile crumbs -->
   <div
-    *ngIf="(first && !last) || i === viewModel.crumbs.length - 2 "
+    *ngIf="(first && !last) || i === content.crumbs.length - 2 "
     class="spot-breadcrumbs--crumb hidden-for-desktop"
   >
     <button

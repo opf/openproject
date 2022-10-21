@@ -26,22 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-} from '@angular/core';
+export interface Breadcrumb {
+  text:string;
+  icon?:string;
+  navigate?:() => void;
+}
 
-import { BreadcrumbsContent } from 'core-app/shared/components/breadcrumbs/breadcrumbs-content';
-
-@Component({
-  selector: 'op-breadcrumbs',
-  templateUrl: './breadcrumbs.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class BreadcrumbsComponent {
-  @HostBinding('class.spot-breadcrumbs') className = true;
-
-  @Input() content:BreadcrumbsContent;
+export class BreadcrumbsContent {
+  constructor(
+    public readonly crumbs:Breadcrumb[],
+  ) { }
 }

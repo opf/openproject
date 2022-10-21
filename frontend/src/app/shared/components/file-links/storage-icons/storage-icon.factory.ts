@@ -26,22 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-} from '@angular/core';
+import { storageIconMappings } from 'core-app/shared/components/file-links/storage-icons/icon-mappings';
 
-import { BreadcrumbsContent } from 'core-app/shared/components/breadcrumbs/breadcrumbs-content';
+export function getIconForStorageType(storageType?:string):string {
+  if (storageType && storageIconMappings[storageType]) {
+    return storageIconMappings[storageType];
+  }
 
-@Component({
-  selector: 'op-breadcrumbs',
-  templateUrl: './breadcrumbs.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class BreadcrumbsComponent {
-  @HostBinding('class.spot-breadcrumbs') className = true;
-
-  @Input() content:BreadcrumbsContent;
+  return storageIconMappings.default;
 }
