@@ -37,9 +37,6 @@ describe ::API::V3::Notifications::DetailsFactory do
                   reason:
   end
 
-  let(:embed_links) { false }
-  let(:read_ian) { false }
-
   describe '.for' do
     context 'for a date_alert_start_date notification' do
       let(:reason) { :date_alert_start_date }

@@ -445,6 +445,10 @@ module API
           index :group
           show :group
 
+          def self.value_schema(property)
+            "#{root}/values/schemas/#{property}"
+          end
+
           resources :version
 
           index :view

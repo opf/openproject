@@ -483,6 +483,14 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'show', :group
   end
 
+  describe 'values paths' do
+    describe '#values_schema' do
+      subject { helper.value_schema('bogus_value') }
+
+      it_behaves_like 'api v3 path', '/values/schemas/bogus_value'
+    end
+  end
+
   describe 'version paths' do
     it_behaves_like 'resource', :version
 
