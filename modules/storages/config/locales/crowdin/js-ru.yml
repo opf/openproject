@@ -2,8 +2,8 @@
 ru:
   js:
     storages:
-      link_files_in_storage: "Связать файлы в %{storageType}"
-      link_existing_files: "Link existing files"
+      link_files_in_storage: "Файлы ссылок в %{storageType}"
+      link_existing_files: "Связать существующие файлы"
       login: "Логин %{storageType}"
       login_to: "Войти в %{storageType}"
       no_connection: "Нет подключения к %{storageType}"
@@ -28,7 +28,7 @@ ru:
         remove_confirmation: >
           Вы уверены, что хотите удалить файл из этого пакета работ? Отсоединение не влияет на исходный файл и только удаляет соединение с этим рабочим пакетом.
         remove_short: "Удалить ссылку"
-        select: "Select files"
-        selection_none: "Select files to link"
-        selection_any: "Link %{number} files"
+        select: "Выберите файлы"
+        selection_none: "Выберите файлы для связывания"
+        selection_any: "Ссылка на %{number} файлов"
         not_allowed_tooltip: "Войдите в Nextcloud для доступа к этому файлу"
