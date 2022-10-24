@@ -53,26 +53,27 @@
     />
   </spot-selector-field>
 
-  <h5>Date alerts</h5>
+  <h5>{{ text.dateAlerts.title }}</h5>
+  <p>{{ text.dateAlerts.description }}</p>
   <div
-    class="op-reminder-settings-daily-time--row"
+    class="op-reminder-settings-date-alerts--row"
     formGroupName="startDate"
   >
     <input
       type="checkbox"
       formControlName="active"
-      class="op-reminder-settings-daily-time--active"
+      class="op-reminder-settings-date-alerts--active"
       attr.data-qa-selector="op-settings-start-date"
     />
     <label
-      class="op-reminder-settings-daily-time--label"
+      class="op-reminder-settings-date-alerts--label"
       [textContent]="text.startDate"
-      attr.for="op-reminder-settings-daily-time"
+      attr.for="op-reminder-settings-date-alerts"
     ></label>
     <select
       formControlName="time"
-      class="op-reminder-settings-daily-time--time form--select -narrow"
-      attr.id="op-reminder-settings-daily-time"
+      class="op-reminder-settings-date-alerts--time form--select -narrow"
+      attr.id="op-reminder-settings-date-alerts"
       required="true"
     >
       <option
@@ -85,24 +86,24 @@
   </div>
 
   <div
-    class="op-reminder-settings-daily-time--row"
+    class="op-reminder-settings-date-alerts--row"
     formGroupName="dueDate"
   >
     <input
       type="checkbox"
       formControlName="active"
-      class="op-reminder-settings-daily-time--active"
+      class="op-reminder-settings-date-alerts--active"
       attr.data-qa-selector="op-settings-start-date"
     />
     <label
-      class="op-reminder-settings-daily-time--label"
+      class="op-reminder-settings-date-alerts--label"
       [textContent]="text.dueDate"
-      attr.for="op-reminder-settings-daily-time"
+      attr.for="op-reminder-settings-date-alerts"
     ></label>
     <select
       formControlName="time"
-      class="op-reminder-settings-daily-time--time form--select -narrow"
-      attr.id="op-reminder-settings-daily-time"
+      class="op-reminder-settings-date-alerts--time form--select -narrow"
+      attr.id="op-reminder-settings-date-alerts"
       required="true"
     >
       <option
@@ -114,23 +115,23 @@
   </div>
 
   <div
-    class="op-reminder-settings-daily-time--row"
+    class="op-reminder-settings-date-alerts--row"
     formGroupName="overdue"
   >
     <input
       formControlName="active"
       type="checkbox"
-      class="op-reminder-settings-daily-time--active"
+      class="op-reminder-settings-date-alerts--active"
       attr.data-qa-selector="op-settings-start-date">
     <label
-      class="op-reminder-settings-daily-time--label"
+      class="op-reminder-settings-date-alerts--label"
       [textContent]="text.overdue"
-      attr.for="op-reminder-settings-daily-time"
+      attr.for="op-reminder-settings-date-alerts"
     ></label>
     <select
       formControlName="time"
-      class="op-reminder-settings-daily-time--time form--select -narrow"
-      attr.id="op-reminder-settings-daily-time"
+      class="op-reminder-settings-date-alerts--time form--select -narrow"
+      attr.id="op-reminder-settings-date-alerts"
       required="true"
     >
       <option

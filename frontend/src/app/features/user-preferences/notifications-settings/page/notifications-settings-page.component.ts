@@ -55,6 +55,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   @Input() userId:string;
 
   public availableTimes = REMINDER_AVAILABLE_TIMEFRAMES;
+
   public availableTimesOverdue = OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES;
 
   public form = new FormGroup({
@@ -110,9 +111,9 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     },
     assignee: this.I18n.t('js.notifications.settings.reasons.assignee'),
     responsible: this.I18n.t('js.notifications.settings.reasons.responsible'),
-    startDate: 'Start Date',
-    dueDate: 'Finish Date',
-    overdue: 'When Overdue',
+    startDate: this.I18n.t('js.notifications.settings.global.start_date'),
+    dueDate: this.I18n.t('js.notifications.settings.global.due_date'),
+    overdue: this.I18n.t('js.notifications.settings.global.overdue'),
   };
 
   constructor(
@@ -127,7 +128,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
 
   ngOnInit():void {
     this.form.disable();
-    this.userId = this.userId || this.uiRouterGlobals.params.userId;
+    this.userId = (this.userId || this.uiRouterGlobals.params.userId) as string;
     this
       .currentUserService
       .user$
@@ -138,7 +139,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       });
 
     this.form.get('startDate.active')?.valueChanges.subscribe((newValue) => {
-      const timeCtrl = this.form.get('startDate.time')!
+      const timeCtrl = this.form.get('startDate.time')!;
       if (!newValue) {
         timeCtrl.disable();
       } else {
@@ -147,7 +148,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     });
 
     this.form.get('dueDate.active')?.valueChanges.subscribe((newValue) => {
-      const timeCtrl = this.form.get('dueDate.time')!
+      const timeCtrl = this.form.get('dueDate.time')!;
       if (!newValue) {
         timeCtrl.disable();
       } else {
@@ -156,7 +157,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     });
 
     this.form.get('overdue.active')?.valueChanges.subscribe((newValue) => {
-      const timeCtrl = this.form.get('overdue.time')!
+      const timeCtrl = this.form.get('overdue.time')!;
       if (!newValue) {
         timeCtrl.disable();
       } else {
@@ -187,8 +188,6 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
 
         this.form.get('overdue.active')?.setValue(!!settings.overdue);
         this.form.get('overdue.time')?.setValue(settings.overdue || this.availableTimesOverdue[0].value);
-
-        this.form.enable();
       });
 
     this.storeService.query.projectNotifications$
@@ -221,19 +220,11 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
         this.form.setControl('projectSettings', projectSettings);
         this.changeDetectorRef.detectChanges();
       });
-  }
 
-  isActive(attributeName:string):boolean {
-    return (this.form.get(attributeName)!.value || '').length > 0;
-  }
-
-  changeTime(newTime:string, attributeName:string):void {
-    // console.log(newTime)
-    this.form.get(attributeName)?.setValue(newTime);
+    this.form.enable();
   }
 
   public saveChanges():void {
-    // debugger
     const prefs = this.storeService.store.getValue();
     const notificationSettings = (this.form.value as IFullNotificationSettingsValue);
     const globalNotification = prefs.notifications.find((notification) => !notification._links.project.href) as INotificationSetting;
@@ -249,9 +240,9 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       workPackageScheduled: notificationSettings.workPackageScheduled,
       workPackagePrioritized: notificationSettings.workPackagePrioritized,
       workPackageCommented: notificationSettings.workPackageCommented,
-      startDate: this.form.get('startDate.active')!.value ? this.form.get('startDate.time')!.value : null,
-      dueDate: this.form.get('dueDate.active')!.value ? this.form.get('dueDate.time')!.value : null,
-      overdue: this.form.get('overdue.active')!.value ? this.form.get('overdue.time')!.value : null,
+      startDate: this.form.get('startDate.active')!.value ? (this.form.get('startDate.time')!.value) as string : null,
+      dueDate: this.form.get('dueDate.active')!.value ? (this.form.get('dueDate.time')!.value) as string : null,
+      overdue: this.form.get('overdue.active')!.value ? (this.form.get('overdue.time')!.value) as string : null,
     };
 
     const projectPrefs:INotificationSetting[] = notificationSettings.projectSettings.map((settings) => ({
@@ -273,12 +264,9 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       wikiPageUpdated: false,
       membershipAdded: false,
       membershipUpdated: false,
-      
-      // Angular cannot handle null values in select options. It will only return string values.
-      // In fact, setting `undefined` will return `"undefined"` as the value!
-      startDate: settings.startDate === "null" ? null : settings.startDate,
-      dueDate: settings.dueDate === "null" ? null : settings.dueDate,
-      overdue: settings.overdue === "null" ? null : settings.overdue,
+      startDate: settings.startDate,
+      dueDate: settings.dueDate,
+      overdue: settings.overdue,
     }));
 
     this.storeService.update(this.userId, {

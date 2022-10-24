@@ -81,8 +81,8 @@
 
       <tr>
         <th class="op-table--cell op-table--cell_soft-heading">
-          <h5>{{ text.alsoNotifyFor.title }}</h5>
-          <p>{{ text.alsoNotifyFor.description }}</p>
+          <h5>{{ text.dateAlerts.title }}</h5>
+          <p>{{ text.dateAlerts.description }}</p>
         </th>
         <ng-container *ngFor="let item of settings.controls">
           <td class="op-table--cell"></td>
@@ -91,18 +91,18 @@
 
       <tr>
         <th class="op-table--cell op-table--cell_soft-heading">
-          Start date
+          {{ text.startDate }}
         </th>
         <ng-container *ngFor="let item of settings.controls">
           <td class="op-table--cell" [formGroup]="item">
             <select
               formControlName="startDate"
-              class="form--select -narrow"
+              class="form--select"
               required="true"
             >
               <option
                 *ngFor="let availableTime of availableTimes"
-                [value]="availableTime.value"
+                [ngValue]="availableTime.value"
               >
                 {{availableTime.title}}
               </option>
@@ -113,18 +113,18 @@
 
       <tr>
         <th class="op-table--cell op-table--cell_soft-heading">
-          Due date
+          {{ text.dueDate }}
         </th>
         <ng-container *ngFor="let item of settings.controls">
           <td class="op-table--cell" [formGroup]="item">
             <select
               formControlName="dueDate"
-              class="form--select -narrow"
+              class="form--select"
               required="true"
             >
               <option
                 *ngFor="let availableTime of availableTimes"
-                [value]="availableTime.value"
+                [ngValue]="availableTime.value"
               >
                 {{availableTime.title}}
               </option>
@@ -135,18 +135,18 @@
 
       <tr>
         <th class="op-table--cell op-table--cell_soft-heading">
-          Overdue
+          {{ text.overdue }}
         </th>
         <ng-container *ngFor="let item of settings.controls">
           <td class="op-table--cell" [formGroup]="item">
             <select
               formControlName="overdue"
-              class="form--select -narrow"
+              class="form--select"
               required="true"
             >
               <option
                 *ngFor="let availableTime of availableTimesOverdue"
-                [value]="availableTime.value"
+                [ngValue]="availableTime.value"
               >
                 {{availableTime.title}}
               </option>
@@ -157,8 +157,8 @@
 
       <tr>
         <th class="op-table--cell op-table--cell_soft-heading">
-          <h5>Some header</h5>
-          <p>Some text<p>
+          <h5>{{ text.alsoNotifyFor.title }}</h5>
+          <p>{{ text.alsoNotifyFor.description }}<p>
         </th>
         <ng-container *ngFor="let item of settings.controls">
           <td class="op-table--cell"></td>

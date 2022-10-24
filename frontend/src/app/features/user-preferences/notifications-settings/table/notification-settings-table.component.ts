@@ -25,18 +25,15 @@ export class NotificationSettingsTableComponent {
 
   public availableTimes = [
     {
-      // null is not handled well by angular as a option value, it will always return a string.
-      // We might as well make this obvious
-      value: "null",
+      value: null,
       title: this.I18n.t('js.notifications.settings.reminders.no_notification'),
     },
     ...REMINDER_AVAILABLE_TIMEFRAMES,
   ];
+
   public availableTimesOverdue = [
     {
-      // null is not handled well by angular as a option value, it will always return a string.
-      // We might as well make this obvious
-      value: "null",
+      value: null,
       title: this.I18n.t('js.notifications.settings.reminders.no_notification'),
     },
     ...OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES,
@@ -57,6 +54,10 @@ export class NotificationSettingsTableComponent {
       title: this.I18n.t('js.notifications.settings.global.delayed.title'),
       description: this.I18n.t('js.notifications.settings.global.delayed.description'),
     },
+    dateAlerts: {
+      title: this.I18n.t('js.notifications.settings.global.date_alerts.title'),
+      description: this.I18n.t('js.notifications.settings.global.date_alerts.description'),
+    },
     assignee: this.I18n.t('js.notifications.settings.reasons.assignee'),
     responsible: this.I18n.t('js.notifications.settings.reasons.responsible'),
     watched_header: this.I18n.t('js.notifications.settings.reasons.watched'),
@@ -66,6 +67,9 @@ export class NotificationSettingsTableComponent {
     work_package_prioritized_header: this.I18n.t('js.notifications.settings.reasons.work_package_prioritized'),
     work_package_scheduled_header: this.I18n.t('js.notifications.settings.reasons.work_package_scheduled'),
     remove_project_settings: this.I18n.t('js.notifications.settings.project_specific.remove'),
+    startDate: this.I18n.t('js.notifications.settings.global.start_date'),
+    dueDate: this.I18n.t('js.notifications.settings.global.due_date'),
+    overdue: this.I18n.t('js.notifications.settings.global.overdue'),
   };
 
   constructor(
