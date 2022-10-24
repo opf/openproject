@@ -2,7 +2,7 @@
 ru:
   js:
     storages:
-      link_files_in_storage: "Связать файлы в %{storageType}"
+      link_files_in_storage: "Файлы ссылок в %{storageType}"
       login: "Логин %{storageType}"
       login_to: "Войти в %{storageType}"
       no_connection: "Нет подключения к %{storageType}"

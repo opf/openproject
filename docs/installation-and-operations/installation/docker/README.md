@@ -45,10 +45,10 @@ docker-compose pull
 Launch the containers:
 
 ```bash
-docker-compose up -d
+OPENPROJECT_HTTPS=false docker-compose up -d
 ```
 
-After a while, OpenProject should be up and running on `http://localhost:8080`. The default username and password is login: `admin`, and password: `admin`.
+After a while, OpenProject should be up and running on `http://localhost:8080`. The default username and password is login: `admin`, and password: `admin`. You need to explicitly disable HTTPS mode on startup as OpenProject assumes it's running behind HTTPS in production by default.
 
 Note that the `docker-compose.yml` file present in the repository can be adjusted to your convenience. With each pull it will be overwritten. Best practice is to use the file `docker-compose.override.yml` for that case. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official [Docker Compose documentation](https://docs.docker.com/compose/extends/) for more details.
 
@@ -77,7 +77,7 @@ Please be aware that only those variables shall be edited which are documented a
 
 #### BIM Edition
 
-In order to install or change to BIM inside a Docker environment, please navigate to the [Docker](../../changing-to-bim-edition/#docker) paragraph at the [Changing to BIM Edition](../../changing-to-bim-edition/) documentation. 
+In order to install or change to BIM inside a Docker environment, please navigate to the [Docker Installation for OpenProject BIM](../../bim-edition/#docker-installation-openproject-bim) paragraph at the BIM edition documentation. 
 
 ### Disabling services in the docker-compose file
 
@@ -355,6 +355,8 @@ described above.
 
 Assuming the desired *server name* is `openproject.example.com` the configuration
 will look like this:
+
+> **Note:** There is [another example](../packaged/#external-ssl-tls-termination) for external SSL/TLS termination for **packaged** installations
 
 ```
 <VirtualHost *:80>

@@ -222,5 +222,16 @@ describe Meeting, type: :model do
       copy = meeting.copy({})
       expect(copy.participants.all? { |p| p.id.nil? && !p.attended }).to be_truthy
     end
+
+    context 'when old meeting as user no longer in project' do
+      before do
+        user2.memberships.destroy_all
+      end
+
+      it 'does not copy that user' do
+        copy = meeting.copy({})
+        expect(copy.participants.map(&:user_id)).to eq [user1.id]
+      end
+    end
   end
 end

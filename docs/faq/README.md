@@ -213,7 +213,7 @@ IFC2x3 and IFC4. We accept those formats and convert them to some other format t
 
 ### Is there a way to use OpenProject BIM for free, too?
 
-Yes, (only) as part of the Community Edition you can use OpenProject BIM for free. Please have a look [here](../installation-and-operations/changing-to-bim-edition/) to find out how to activate the BIM modules in your on-premises installation.
+Yes, (only) as part of the Community Edition you can use OpenProject BIM for free. Please have a look [here](../installation-and-operations/bim-edition/) to find out how to activate the BIM modules in your on-premises installation.
 
 ### Can a BCF file created from other software e.g. BIMcollab, Solibri, etc. be opened in OpenProject?
 

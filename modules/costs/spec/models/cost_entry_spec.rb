@@ -361,6 +361,19 @@ describe CostEntry, type: :model do
       end
     end
 
+    describe '#logged_by' do
+      it 'validates' do
+        cost_entry.logged_by = nil
+        expect(cost_entry).not_to be_valid
+        expect(cost_entry.errors[:logged_by_id]).to be_present
+      end
+
+      it 'sets logged_by from current user' do
+        entry = User.execute_as(user2) { described_class.new logged_by: user }
+        expect(entry.logged_by).to eq(user2)
+      end
+    end
+
     describe '#editable_by?' do
       describe "WHEN the user has the edit_cost_entries permission
                 WHEN the cost entry is not created by the user" do

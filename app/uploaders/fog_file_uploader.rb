@@ -40,7 +40,7 @@ class FogFileUploader < CarrierWave::Uploader::Base
   after :store, :delete_old_tmp_file
 
   def copy_to(attachment)
-    attachment.remote_file_url = remote_file.url
+    attachment.file = local_file
   end
 
   def store_dir

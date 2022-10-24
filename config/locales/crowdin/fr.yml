@@ -532,9 +532,9 @@ fr:
         end_deletion: "Fin de la suppression"
         ignore_non_working_days: "Ignorer les jours non ouvrables"
         include_non_working_days:
-          title: 'Journées de travail'
+          title: 'Jours ouvrés'
           false: 'jours ouvrés seulement'
-          true: 'Inclure les jours non travaillés'
+          true: 'Inclure les jours non ouvrés'
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"

@@ -7,7 +7,7 @@ zh-TW:
       label_unnamed_list: 'Unnamed list'
       label_board_type: 'Board type'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
+        teaser_text: '你想用面板來自動化你的工作流程嗎？高級面板是一項企業功能。請升級到付費計劃。'
         upgrade: 'Upgrade now'
       lists:
         delete: 'Delete list'

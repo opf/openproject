@@ -45,7 +45,7 @@ describe CopyProjectJob, type: :model do
     let(:target_project) { create(:project) }
 
     let(:copy_job) do
-      CopyProjectJob.new
+      described_class.new
     end
 
     it 'sets locale correctly' do
@@ -126,7 +126,7 @@ describe CopyProjectJob, type: :model do
     end
 
     let(:copy_job) do
-      CopyProjectJob.new.tap do |job|
+      described_class.new.tap do |job|
         job.perform user_id: admin.id,
                     source_project_id: source_project.id,
                     target_project_params: params,
@@ -155,7 +155,7 @@ describe CopyProjectJob, type: :model do
     let(:admin) { create(:admin) }
     let(:source_project) { create(:project) }
     let(:copy_job) do
-      CopyProjectJob.new.tap do |job|
+      described_class.new.tap do |job|
         job.perform user_id: admin.id,
                     source_project_id: source_project.id,
                     target_project_params: params,
@@ -188,7 +188,7 @@ describe CopyProjectJob, type: :model do
 
   shared_context 'copy project' do
     before do
-      CopyProjectJob.new.tap do |job|
+      described_class.new.tap do |job|
         job.perform user_id: user.id,
                     source_project_id: project_to_copy.id,
                     target_project_params: params,
@@ -204,7 +204,7 @@ describe CopyProjectJob, type: :model do
     end
 
     describe 'subproject' do
-      let(:params) { { name: 'Copy', identifier: 'copy', parent_id: project.id } }
+      let(:params) { { name: 'Copy', identifier: 'copy' } }
       let(:subproject) do
         create(:project, parent: project).tap do |p|
           create(:member,
@@ -232,10 +232,31 @@ describe CopyProjectJob, type: :model do
           perform_enqueued_jobs
 
           mail = ActionMailer::Base.deliveries
-                   .find { |m| m.message_id.start_with? "op.project-#{subject.id}" }
+                                   .find { |m| m.message_id.start_with? "op.project-#{subject.id}" }
 
           expect(mail).to be_present
           expect(mail.subject).to eq "Created project #{subject.name}"
+          expect(mail.to).to eq [user.mail]
+        end
+      end
+
+      describe 'user without add_subprojects permission in parent and when explicitly setting that parent' do
+        let(:params) { { name: 'Copy', identifier: 'copy', parent_id: project.id } }
+
+        include_context 'copy project' do
+          let(:project_to_copy) { subproject }
+        end
+
+        it 'does not copy the project' do
+          expect(subject).to be_nil
+        end
+
+        it "notifies the user of that parent not being allowed" do
+          perform_enqueued_jobs
+
+          mail = ActionMailer::Base.deliveries.first
+          expect(mail).to be_present
+          expect(mail.subject).to eq I18n.t('copy_project.failed', source_project_name: subproject.name)
           expect(mail.to).to eq [user.mail]
         end
       end

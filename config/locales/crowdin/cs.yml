@@ -471,7 +471,7 @@ cs:
           not_started: 'Nezahájeno'
           on_track: 'Dle plánu'
           at_risk: 'Riziko'
-          off_track: 'Mimo plánu'
+          off_track: 'Mimo plán'
           finished: 'Dokončeno'
           discontinued: 'Zrušeno'
       query:
@@ -1753,7 +1753,7 @@ cs:
   label_not_equals: "není"
   label_on: "zapnuto"
   label_open_menu: "Otevřít nabídku"
-  label_open_work_packages: "otevřít"
+  label_open_work_packages: "otevřené"
   label_open_work_packages_plural: "otevřené"
   label_openproject_website: "Webové stránky OpenProject"
   label_optional_description: "Popis"

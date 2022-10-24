@@ -18,6 +18,7 @@
     ></div>
 
     <attachments
+      *ngIf="helpText && helpText.attachments.elements.length > 0"
       [resource]="helpText"
       data-allow-uploading="false"
     ></attachments>
@@ -27,7 +28,7 @@
     <div class="spot-action-bar--right">
       <button
         type="button"
-        class="button button_no-margin spot-action-bar--action"
+        class="button button_no-margin spot-action-bar--action spot-modal--cancel-button"
         (click)="closeMe()"
         >
         {{ text.close }}

@@ -543,7 +543,7 @@ ru:
         scheduled: 'запланировано'
         commented: 'прокомментировано'
         processed: 'обработано'
-        prioritized: 'пририотизировано'
+        prioritized: 'приоритизировано'
       facets:
         unread: 'Непрочтено'
         unread_title: 'Показать непрочитанные'

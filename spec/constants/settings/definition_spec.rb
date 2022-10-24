@@ -383,6 +383,7 @@ describe Settings::Definition do
             default:
               edition: 'bim'
               sendmail_location: 'default_location'
+              direct_uploads: false
             test:
               smtp_address: 'test address'
               sendmail_location: 'test location'
@@ -446,6 +447,11 @@ describe Settings::Definition do
       it 'correctly parses date objects' do
         expect(all.detect { |d| d.name == 'consent_time' }.value)
           .to eql DateTime.parse("2222-01-01")
+      end
+
+      it 'correctly overrides a default by a false value' do
+        expect(all.detect { |d| d.name == 'direct_uploads' }.value)
+          .to be false
       end
 
       context 'when Rails environment is test' do
