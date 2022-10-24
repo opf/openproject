@@ -174,6 +174,9 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       workPackageScheduled: notificationSettings.workPackageScheduled,
       workPackagePrioritized: notificationSettings.workPackagePrioritized,
       workPackageCommented: notificationSettings.workPackageCommented,
+      startDate: 'P1D',
+      dueDate: 'P1D',
+      overdue: null,
     };
 
     const projectPrefs:INotificationSetting[] = notificationSettings.projectSettings.map((settings) => ({
@@ -195,6 +198,9 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       wikiPageUpdated: false,
       membershipAdded: false,
       membershipUpdated: false,
+      startDate: 'P1D',
+      dueDate: 'P1D',
+      overdue: null,
     }));
 
     this.storeService.update(this.userId, {

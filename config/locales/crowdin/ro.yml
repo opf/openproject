@@ -678,10 +678,6 @@ ro:
               no_notification_reason: 'nu poate fi gol deoarece IAN este ales ca un canal.'
             reason_mail_digest:
               no_notification_reason: 'nu poate fi gol ca digest e-mail este ales ca un canal.'
-        notification_settings:
-          only_one_global_setting: 'Trebuie să existe o singură setare globală de notificare.'
-          email_alerts_global: 'Setările de notificare prin e-mail pot fi setate doar la nivel global.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -756,6 +752,11 @@ ro:
               invalid_range: "poate fi doar un interval de date valid."
             daily_reminders:
               full_hour: "poate fi configurat să fie livrat la o oră întreagă."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         wiki_page:
           attributes:
             slug:

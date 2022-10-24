@@ -676,10 +676,6 @@ zh-TW:
               no_notification_reason: '當 IAN 被選為管道時不能為空'
             reason_mail_digest:
               no_notification_reason: '當郵件摘要被選為管道時不能為空'
-        notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -754,6 +750,11 @@ zh-TW:
               invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "只能配置在一個小時整內交付"
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         wiki_page:
           attributes:
             slug:

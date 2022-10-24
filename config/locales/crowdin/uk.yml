@@ -674,10 +674,6 @@ uk:
               no_notification_reason: '– потрібно вказати, оскільки як канал вибрано сповіщення в додатку.'
             reason_mail_digest:
               no_notification_reason: '– потрібно вказати, оскільки як канал вибрано поштову розсилку.'
-        notification_settings:
-          only_one_global_setting: 'Має існувати лише одне глобальне налаштування сповіщень.'
-          email_alerts_global: 'Налаштування сповіщень електронною поштою можна встановити лише глобально.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -752,6 +748,11 @@ uk:
               invalid_range: "може належати лише до припустимого інтервалу дат."
             daily_reminders:
               full_hour: "– можна налаштувати отримання лише на початку кожної години."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         wiki_page:
           attributes:
             slug:

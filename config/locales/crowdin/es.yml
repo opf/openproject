@@ -674,10 +674,6 @@ es:
               no_notification_reason: 'no puede estar en blanco, ya que se han elegido las notificaciones en la aplicación como un canal.'
             reason_mail_digest:
               no_notification_reason: 'no puede estar en blanco, ya que se ha elegido el resumen de correo como un canal.'
-        notification_settings:
-          only_one_global_setting: 'Solo puede haber una configuración global de notificaciones.'
-          email_alerts_global: 'La configuración de notificaciones por correo electrónico solo se puede establecer globalmente.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -752,6 +748,11 @@ es:
               invalid_range: "solo puede ser un intervalo de fechas válido."
             daily_reminders:
               full_hour: "solo se puede configurar para la entrega en una hora completa."
+            notification_settings:
+              only_one_global_setting: 'Solo puede haber una configuración global de notificaciones.'
+              email_alerts_global: 'La configuración de notificaciones por correo electrónico solo se puede establecer globalmente.'
+              format: "%{message}"
+              wrong_date: 'Valor incorrecto para Fecha de inicio, Fecha final o Vencido.'
         wiki_page:
           attributes:
             slug:

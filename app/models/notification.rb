@@ -9,7 +9,9 @@ class Notification < ApplicationRecord
     processed: 6,
     prioritized: 7,
     scheduled: 8,
-    responsible: 9
+    responsible: 9,
+    date_alert_start_date: 10,
+    date_alert_due_date: 11
   }.freeze
 
   enum reason: REASONS,

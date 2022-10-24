@@ -209,13 +209,13 @@ it:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
-      overviews: 'Project overview'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      members: 'Membri del progetto'
+      overviews: 'Panoramica del progetto'
+      queries: 'Macroattività: viste salvate'
+      wiki_page_attachments: 'Pagine wiki: allegati'
+      work_package_attachments: 'Macroattività: allegati'
+      work_package_categories: 'Unità di lavoro: categorie'
+      work_package_file_links: 'Unità di lavoro: collegamenti ai documenti'
     delete:
       scheduled: "L'eliminazione è stata programmata e verrà eseguita in background. Verrai avvisato del risultato."
       schedule_failed: "Il progetto non può essere eliminato: %{errors}"
@@ -674,10 +674,6 @@ it:
               no_notification_reason: 'non può essere vuoto perché IAN è scelto come canale.'
             reason_mail_digest:
               no_notification_reason: 'non può essere vuoto perché la mail automatica è scelta come canale.'
-        notification_settings:
-          only_one_global_setting: 'Ci deve essere una sola impostazione globale di notifica.'
-          email_alerts_global: 'Le impostazioni di notifica email possono essere impostate solo globalmente.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -752,6 +748,11 @@ it:
               invalid_range: "può essere solo un intervallo di date valido."
             daily_reminders:
               full_hour: "può essere configurato solo per essere consegnato a un'ora puntuale."
+            notification_settings:
+              only_one_global_setting: 'Deve esserci una sola impostazione globale per le notifiche.'
+              email_alerts_global: 'Le impostazioni di notifica via email possono essere impostate solo globalmente.'
+              format: "%{message}"
+              wrong_date: 'Valore errato per la data di inizio, la data di scadenza o scaduto.'
         wiki_page:
           attributes:
             slug:

@@ -1157,6 +1157,22 @@ describe WorkPackages::SetAttributesService,
               .to(start_date: monday, due_date: next_monday, duration: 6)
           end
         end
+
+        context 'with a new work package' do
+          let(:work_package) do
+            build(:work_package, start_date: monday - 1.day, due_date: friday, ignore_non_working_days: true)
+          end
+          let(:call_attributes) { { ignore_non_working_days: false, duration: 6 } }
+
+          it_behaves_like 'service call' do
+            it "updates the start date to be on next working day, and due date to accommodate duration" do
+              expect { subject }
+                .to change { work_package.slice(:start_date, :due_date, :duration) }
+                .from(start_date: monday - 1.day, due_date: friday, duration: 6)
+                .to(start_date: monday, due_date: next_monday, duration: 6)
+            end
+          end
+        end
       end
 
       context 'when "ignore non-working days" is switched to false and "finish date" is on a non-working day' do

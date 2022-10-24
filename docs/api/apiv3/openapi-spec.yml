@@ -718,6 +718,10 @@ components:
       "$ref": "./components/schemas/statuses_model.yml"
     StorageModel:
       "$ref": "./components/schemas/storage_model.yml"
+    StorageFileModel:
+      "$ref": "./components/schemas/storage_file_model.yml"
+    StorageFileLocationModel:
+      "$ref": "./components/schemas/storage_file_location_model.yml"
     Time_EntryModel:
       "$ref": "./components/schemas/time_entry_model.yml"
     Time_Entry_ActivityModel:

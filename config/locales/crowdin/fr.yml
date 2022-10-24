@@ -212,13 +212,13 @@ fr:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
-      overviews: 'Project overview'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      members: 'Membres du projet'
+      overviews: 'Vue d''ensemble du projet'
+      queries: 'Lots de Travaux : vues enregistrées'
+      wiki_page_attachments: 'Pages Wiki : pièces jointes'
+      work_package_attachments: 'Lots de Travaux : pièces jointes'
+      work_package_categories: 'Lots de travaux : catégories'
+      work_package_file_links: 'Lots de Travaux : liens vers des fichiers'
     delete:
       scheduled: "La suppression a été planifiée et est effectuée en arrière-plan. Vous serez notifié du résultat."
       schedule_failed: "Le projet ne peut pas être supprimé : %{errors}"
@@ -677,10 +677,6 @@ fr:
               no_notification_reason: 'ne peut pas être vide car IAN est choisi comme canal.'
             reason_mail_digest:
               no_notification_reason: 'ne peut pas être vide car le digest d''email est est choisi comme un canal.'
-        notification_settings:
-          only_one_global_setting: 'Il ne doit y avoir qu''un seul paramètre de notification globale.'
-          email_alerts_global: 'Les paramètres de notification par e-mail ne peuvent être définis que globalement.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -755,6 +751,11 @@ fr:
               invalid_range: "ne peut être qu'une plage de dates valide."
             daily_reminders:
               full_hour: "ne peut être configuré que pour être envoyé à une heure complète."
+            notification_settings:
+              only_one_global_setting: 'Il ne doit y avoir qu''un seul paramètre de notification globale.'
+              email_alerts_global: 'Les paramètres de notification par e-mail ne peuvent être définis que globalement.'
+              format: "%{message}"
+              wrong_date: 'Mauvaise valeur pour la date de début, la date d''échéance ou le retard.'
         wiki_page:
           attributes:
             slug:

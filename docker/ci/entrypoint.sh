@@ -62,7 +62,6 @@ if [ "$1" == "run-units" ]; then
 	shift
 	execute "time bundle exec rake zeitwerk:check"
 	execute "cd frontend && npm install && npm run test"
-	execute "time bundle exec rspec -I spec_legacy spec_legacy"
 	if ! execute "time bundle exec rake parallel:units" ; then
 		execute "cat tmp/parallel_summary.log"
 		cleanup

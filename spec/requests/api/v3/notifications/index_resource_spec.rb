@@ -212,7 +212,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
           expect(last_response.body)
             .to be_json_eql("Filters Reason filter has invalid values.".to_json)
-                  .at_path('message/0')
+                  .at_path('message')
         end
       end
     end

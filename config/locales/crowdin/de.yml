@@ -672,10 +672,6 @@ de:
               no_notification_reason: 'kann nicht leer sein, da In-App-Benachrichtigung als Kanal ausgewählt ist.'
             reason_mail_digest:
               no_notification_reason: 'darf nicht leer sein, da tägliche E-Mail-Übersicht als Kanal ausgewählt ist.'
-        notification_settings:
-          only_one_global_setting: 'Es darf nur eine globale Benachrichtigungseinstellung geben.'
-          email_alerts_global: 'Die E-Mail-Benachrichtigungseinstellungen können nur global gesetzt werden.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -750,6 +746,11 @@ de:
               invalid_range: "kann nur ein gültiger Datumsbereich sein."
             daily_reminders:
               full_hour: "kann nur in vollen Stunden konfiguriert werden."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         wiki_page:
           attributes:
             slug:

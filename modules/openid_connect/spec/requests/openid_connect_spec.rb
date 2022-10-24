@@ -33,7 +33,9 @@ RSpec.configure do |c|
   c.include OpenIDConnectSpecHelpers
 end
 
-describe 'OpenID Connect', type: :rails_request do
+describe 'OpenID Connect',
+         skip_2fa_stage: true, # Prevent redirects to 2FA stage
+         type: :rails_request do
   let(:host) { OmniAuth::OpenIDConnect::Heroku.new('foo', {}).host }
   let(:user_info) do
     {

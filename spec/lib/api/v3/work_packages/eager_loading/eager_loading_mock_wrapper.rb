@@ -26,8 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class EagerLoadingMockWrapper
-  def self.wrap(klass, work_packages)
+module EagerLoadingMockWrapper
+  module_function
+
+  def wrap(klass, work_packages)
     klass_module = klass.module
 
     delegator_class = Class.new(SimpleDelegator) do

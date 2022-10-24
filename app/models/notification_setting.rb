@@ -3,6 +3,9 @@ class NotificationSetting < ApplicationRecord
   ASSIGNEE = :assignee
   RESPONSIBLE = :responsible
   MENTIONED = :mentioned
+  START_DATE = :start_date
+  DUE_DATE = :due_date
+  OVERDUE = :overdue
   WORK_PACKAGE_CREATED = :work_package_created
   WORK_PACKAGE_COMMENTED = :work_package_commented
   WORK_PACKAGE_PROCESSED = :work_package_processed
@@ -28,7 +31,16 @@ class NotificationSetting < ApplicationRecord
       WORK_PACKAGE_PROCESSED,
       WORK_PACKAGE_PRIORITIZED,
       WORK_PACKAGE_SCHEDULED,
+      *duration_settings,
       *email_settings
+    ]
+  end
+
+  def self.duration_settings
+    [
+      START_DATE,
+      DUE_DATE,
+      OVERDUE
     ]
   end
 

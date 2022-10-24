@@ -46,7 +46,7 @@ module API
                                        representer,
                                        self_link)
             else
-              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+              raise_query_errors(query)
             end
           end
 

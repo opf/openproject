@@ -1,7 +1,6 @@
 require_relative '../spec_helper'
 
 describe 'Admin 2FA management',
-         with_2fa_ee: true,
          type: :feature,
          with_settings: {
            plugin_openproject_two_factor_authentication: { 'active_strategies' => %i[developer totp] }

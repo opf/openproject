@@ -659,10 +659,6 @@ lol:
               no_notification_reason: 'crwdns495543:0crwdne495543:0'
             reason_mail_digest:
               no_notification_reason: 'crwdns495545:0crwdne495545:0'
-        notification_settings:
-          only_one_global_setting: 'crwdns495547:0crwdne495547:0'
-          email_alerts_global: 'crwdns495549:0crwdne495549:0'
-          format: "crwdns495551:0%{message}crwdne495551:0"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -737,6 +733,11 @@ lol:
               invalid_range: "crwdns495617:0crwdne495617:0"
             daily_reminders:
               full_hour: "crwdns495619:0crwdne495619:0"
+            notification_settings:
+              only_one_global_setting: 'crwdns836110:0crwdne836110:0'
+              email_alerts_global: 'crwdns836112:0crwdne836112:0'
+              format: "crwdns836114:0%{message}crwdne836114:0"
+              wrong_date: 'crwdns836116:0crwdne836116:0'
         wiki_page:
           attributes:
             slug:

@@ -67,10 +67,10 @@ describe "Reminder email sending", type: :feature, js: true do
     # Perform some actions the user listens to
     User.execute_as other_user do
       note = <<~NOTE
-        Hey <mention class=\"mention\"
-                     data-id=\"#{current_user.id}\"
-                     data-type=\"user\"
-                     data-text=\"@#{current_user.name}\">
+        Hey <mention class="mention"
+                     data-id="#{current_user.id}"
+                     data-type="user"
+                     data-text="@#{current_user.name}">
               @#{current_user.name}
             </mention>
       NOTE

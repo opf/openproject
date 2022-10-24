@@ -19,6 +19,9 @@ export interface INotificationSetting {
   wikiPageUpdated:boolean;
   membershipAdded:boolean;
   membershipUpdated:boolean;
+  startDate:string|null;
+  dueDate:string|null;
+  overdue:string|null;
 }
 
 export function buildNotificationSetting(project:null|HalSourceLink, params:Partial<INotificationSetting>):INotificationSetting {
@@ -46,6 +49,9 @@ export function buildNotificationSetting(project:null|HalSourceLink, params:Part
     wikiPageUpdated: true,
     membershipAdded: true,
     membershipUpdated: true,
+    startDate: 'P1D',
+    dueDate: 'P1D',
+    overdue: null,
     ...params,
   };
 }

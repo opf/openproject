@@ -34,7 +34,7 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
   subject(:generated) { representer.to_json }
 
   let(:project) { build_stubbed :project }
-  let(:notification_setting) { build_stubbed(:notification_setting, project:) }
+  let(:notification_setting) { build_stubbed(:notification_setting, overdue: 0, project:) }
 
   let(:representer) do
     described_class.create notification_setting,
@@ -70,8 +70,14 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
     end
 
     NotificationSetting.all_settings.each do |property|
-      it_behaves_like 'property', property.to_s.camelize(:lower) do
-        let(:value) { notification_setting.send property }
+      if property.in?(NotificationSetting.duration_settings)
+        it_behaves_like 'duration property', property.to_s.camelize(:lower) do
+          let(:value) { notification_setting.send property }
+        end
+      else
+        it_behaves_like 'property', property.to_s.camelize(:lower) do
+          let(:value) { notification_setting.send property }
+        end
       end
     end
   end

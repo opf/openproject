@@ -56,6 +56,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     else
       update_dates
     end
+    shift_dates_to_soonest_working_days
     update_duration
     update_derivable
     update_project_dependent_attributes
@@ -249,7 +250,6 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
 
   def update_dates
     unify_dates if work_package_now_milestone?
-    shift_dates_to_soonest_working_days unless work_package.ignore_non_working_days?
 
     min_start = new_start_date
 
@@ -265,6 +265,8 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def shift_dates_to_soonest_working_days
+    return if work_package.ignore_non_working_days?
+
     work_package.start_date = days.soonest_working_day(work_package.start_date)
     work_package.due_date = days.soonest_working_day(work_package.due_date)
   end

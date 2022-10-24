@@ -676,10 +676,6 @@ lt:
               no_notification_reason: 'negali būti tuščias, nes IAN parinktas kaip kanalas.'
             reason_mail_digest:
               no_notification_reason: 'negali būti tuščias, nes el.pašto santrauka yra pasirinkta kaip informavimo kanalas.'
-        notification_settings:
-          only_one_global_setting: 'Turi būti tik viena globali pranešimų eilutė.'
-          email_alerts_global: 'E-pašto pranešimų pasirinkimus galima nustatyti tik globaliai.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -754,6 +750,11 @@ lt:
               invalid_range: "gali būti tik tinkamas datų diapazonas."
             daily_reminders:
               full_hour: "gali būti sukonfigūruotas tik pristatymui lygią valandą."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         wiki_page:
           attributes:
             slug:

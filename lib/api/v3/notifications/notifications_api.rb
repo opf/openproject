@@ -55,7 +55,7 @@ module API
                 notification_query.results.update_all({ updated_at: Time.zone.now }.merge(attributes))
                 status 204
               else
-                raise ::API::Errors::InvalidQuery.new(notification_query.errors.full_messages)
+                raise_query_errors(notification_query)
               end
             end
           end

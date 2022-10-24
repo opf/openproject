@@ -28,10 +28,16 @@
 
 module UserPreferences
   class ParamsContract < ::ParamsContract
+    DATE_ALERT_DURATIONS = [nil, 0, 24, 72, 168].freeze
+    DATE_ALERT_OVERDUE_DURATIONS = [nil, 0, 72, 168].freeze
+
     validate :only_one_global_setting,
              if: -> { notifications.present? }
-
     validate :global_email_alerts,
+             if: -> { notifications.present? }
+    validate :global_date_alerts,
+             if: -> { notifications.present? }
+    validate :project_date_alerts,
              if: -> { notifications.present? }
 
     protected
@@ -45,6 +51,26 @@ module UserPreferences
     def global_email_alerts
       if project_notifications.any?(method(:email_alerts_set?))
         errors.add :notification_settings, :email_alerts_global
+      end
+    end
+
+    def global_date_alerts
+      if any_of_date_fields_fail_validation?(global_notifications)
+        errors.add :notification_settings, :wrong_date
+      end
+    end
+
+    def project_date_alerts
+      if any_of_date_fields_fail_validation?(project_notifications)
+        errors.add :notification_settings, :wrong_date
+      end
+    end
+
+    def any_of_date_fields_fail_validation?(notifications_type)
+      notifications_type.any? do |setting|
+        setting.slice(:start_date, :due_date).detect do |_, date|
+          DATE_ALERT_DURATIONS.exclude?(date)
+        end || DATE_ALERT_OVERDUE_DURATIONS.exclude?(setting[:overdue])
       end
     end
 

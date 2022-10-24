@@ -40,17 +40,33 @@ import {
 import {
   StorageInformationComponent,
 } from 'core-app/shared/components/file-links/storage-information/storage-information.component';
+import {
+  FilePickerModalComponent,
+} from 'core-app/shared/components/file-links/file-picker-modal/file-picker-modal.component';
+import { OPSharedModule } from 'core-app/shared/shared.module';
+import {
+  StorageFileListItemComponent,
+} from 'core-app/shared/components/file-links/storage-file-list-item/storage-file-list-item.component';
+import { SortFilesPipe } from 'core-app/shared/components/file-links/file-picker-modal/sort-files.pipe';
+import {
+  LoadingFileListComponent,
+} from 'core-app/shared/components/file-links/laoding-file-list/loading-file-list.component';
 
 @NgModule({
   imports: [
     CommonModule,
     IconModule,
     OpSpotModule,
+    OPSharedModule,
   ],
   declarations: [
     FileLinkListComponent,
     FileLinkListItemComponent,
+    FilePickerModalComponent,
+    LoadingFileListComponent,
     StorageInformationComponent,
+    StorageFileListItemComponent,
+    SortFilesPipe,
   ],
   exports: [
     FileLinkListComponent,

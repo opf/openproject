@@ -67,7 +67,7 @@ tr:
       upgrade_to_ee: "Enterprise Edition sürümüne geçin"
       add_token: "Enterprise Editon versiyonu destek anahtarını yükleyin"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        text: "Kullanılan mevcut Enterprise Edition jetonunu kaldırmak istediğinizden emin misiniz?"
         title: "Delete token"
       replace_token: "Geçerli destek anahtarını değiştirin"
       order: "Enterprise on-premises Edition sipariş edin"
@@ -212,7 +212,7 @@ tr:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
+      members: 'Proje üyeleri'
       overviews: 'Project overview'
       queries: 'Work packages: saved views'
       wiki_page_attachments: 'Wiki pages: attachments'
@@ -677,10 +677,6 @@ tr:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
-        notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -755,6 +751,11 @@ tr:
               invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         wiki_page:
           attributes:
             slug:

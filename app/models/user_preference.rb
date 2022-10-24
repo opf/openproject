@@ -33,6 +33,9 @@ class UserPreference < ApplicationRecord
 
   validates :user,
             presence: true
+
+  WORKDAYS_FROM_MONDAY_TO_FRIDAY = [1, 2, 3, 4, 5].freeze
+
   ##
   # Retrieve keys from settings, and allow accessing
   # as boolean with ? suffix
@@ -122,6 +125,10 @@ class UserPreference < ApplicationRecord
 
   def daily_reminders
     super.presence || { enabled: true, times: ["08:00:00+00:00"] }.with_indifferent_access
+  end
+
+  def workdays
+    super || WORKDAYS_FROM_MONDAY_TO_FRIDAY
   end
 
   def immediate_reminders

@@ -27,31 +27,33 @@
 #++
 
 module OpenProject::CustomStyles
-  class Design
+  module Design
+    module_function
+
     ##
     # Returns the name of the color scheme.
     # To be overridden by a plugin
-    def self.name
+    def name
       'OpenProject Theme'
     end
 
-    def self.identifier
+    def identifier
       :core_design
     end
 
-    def self.overridden?
+    def overridden?
       identifier == :core_design
     end
 
     ##
     # Path the favicon
-    def self.favicon_asset_path
+    def favicon_asset_path
       'favicon.ico'.freeze
     end
 
     ##
     # Returns the keys of variables that are customizable through the design
-    def self.customizable_variables
+    def customizable_variables
       %w( primary-color
           primary-color-dark
           alternative-color
