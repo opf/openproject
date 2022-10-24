@@ -86,7 +86,6 @@ import { OpProjectIncludeListComponent } from './components/project-include/list
 import { OpLoadingProjectListComponent } from './components/searchable-project-list/loading-project-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
-import { BreadcrumbsComponent } from 'core-app/shared/components/breadcrumbs/breadcrumbs.component';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -193,7 +192,6 @@ export function bootstrapModule(injector:Injector):void {
     OpLoadingProjectListComponent,
 
     ViewSelectComponent,
-    BreadcrumbsComponent,
   ],
   providers: [
     StaticQueriesService,
@@ -206,7 +204,6 @@ export function bootstrapModule(injector:Injector):void {
     ToastComponent,
     UploadProgressComponent,
     OpDateTimeComponent,
-    BreadcrumbsComponent,
 
     OPContextMenuComponent,
     IconTriggeredContextMenuComponent,

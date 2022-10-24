@@ -44,7 +44,7 @@ import { OpModalComponent } from 'core-app/shared/components/modal/modal.compone
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
-import { BreadcrumbsContent } from 'core-app/shared/components/breadcrumbs/breadcrumbs-content';
+import { BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
 import { getIconForStorageType } from 'core-app/shared/components/file-links/storage-icons/storage-icon.factory';
 
 @Component({

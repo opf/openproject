@@ -33,14 +33,14 @@ import {
   Input,
 } from '@angular/core';
 
-import { BreadcrumbsContent } from 'core-app/shared/components/breadcrumbs/breadcrumbs-content';
+import { BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
 
 @Component({
-  selector: 'op-breadcrumbs',
+  selector: 'spot-breadcrumbs',
   templateUrl: './breadcrumbs.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BreadcrumbsComponent {
+export class SpotBreadcrumbsComponent {
   @HostBinding('class.spot-breadcrumbs') className = true;
 
   @Input() content:BreadcrumbsContent;
