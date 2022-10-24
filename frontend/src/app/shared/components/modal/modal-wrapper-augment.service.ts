@@ -99,7 +99,7 @@ export class OpModalWrapperAugmentService {
   }
 
   private appendIframe(body:JQuery<HTMLElement>, url:string) {
-    const iframe = jQuery('<iframe frameborder="0" height="400" allowfullscreen>></iframe>');
+    const iframe = jQuery('<iframe frameborder="0" height="350" allowfullscreen>></iframe>');
     iframe.attr('src', url);
 
     body.find(iframeSelector).append(iframe);

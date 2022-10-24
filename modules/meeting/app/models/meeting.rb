@@ -157,7 +157,7 @@ class Meeting < ApplicationRecord
     copy.set_initial_values
 
     copy.participants.clear
-    copy.participants_attributes = participants.collect(&:copy_attributes)
+    copy.participants_attributes = allowed_participants.collect(&:copy_attributes)
 
     copy
   end
@@ -211,6 +211,17 @@ class Meeting < ApplicationRecord
   end
 
   protected
+
+  # Participants of older meetings
+  # might contain users no longer in the project
+  #
+  # This returns the set currently allowed to view the meeting
+  def allowed_participants
+    available_members = User.allowed_members(:view_meetings, project).select(:id)
+
+    participants
+      .where(user_id: available_members)
+  end
 
   def set_initial_values
     # set defaults

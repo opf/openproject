@@ -112,4 +112,4 @@ fi
 ${CLI} scale web=1 worker=1 || true
 
 # restart
-service ${APP_NAME} restart
+${APP_NAME} restart
