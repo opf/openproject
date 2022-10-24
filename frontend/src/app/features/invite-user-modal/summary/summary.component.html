@@ -8,22 +8,24 @@
   <div class="spot-divider"></div>
 
   <div class="spot-modal--body spot-container">
+
     <spot-form-field [label]="text.projectLabel">
-      <p slot="input">{{ project.name }}</p>
+      <p slot="input" class="spot-body-small op-ium-summary--details">{{ project.name }}</p>
     </spot-form-field>
-    <div class="op-ium-summary__row">
-      <spot-form-field [label]="text.principalLabel[type]">
-        <p slot="input">{{ principal?.name }}</p>
-      </spot-form-field>
-      <spot-form-field [label]="text.roleLabel()">
-        <p slot="input">{{ role.name }}</p>
-      </spot-form-field>
-    </div>
+
+    <spot-form-field [label]="text.principalLabel[type]">
+      <p slot="input" class="spot-body-small op-ium-summary--details">{{ principal?.name }}</p>
+    </spot-form-field>
+  
+    <spot-form-field [label]="text.roleLabel()">
+      <p slot="input" class="spot-body-small op-ium-summary--details">{{ role.name }}</p>
+    </spot-form-field>
+
     <spot-form-field
       [label]="text.messageLabel"
       *ngIf="type !== PrincipalType.Placeholder && message"
     >
-      <p slot="input" class="op-ium-summary-message">{{ message }}</p>
+      <p slot="input" class="spot-body-small op-ium-summary--message">{{ message }}</p>
     </spot-form-field>
   </div>
 
