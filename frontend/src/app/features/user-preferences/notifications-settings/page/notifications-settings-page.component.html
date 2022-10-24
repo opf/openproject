@@ -54,48 +54,57 @@
   </spot-selector-field>
 
   <h5>Date alerts</h5>
-  <div class="op-reminder-settings-daily-time--row">
+  <div
+    class="op-reminder-settings-daily-time--row"
+    formGroupName="startDate"
+  >
     <input
       type="checkbox"
-      [ngModel]="isActive('startDate')"
-      [ngModelOptions]="{standalone: true}"
+      formControlName="active"
       class="op-reminder-settings-daily-time--active"
-      attr.data-qa-selector="op-settings-start-date">
+      attr.data-qa-selector="op-settings-start-date"
+    />
     <label
       class="op-reminder-settings-daily-time--label"
       [textContent]="text.startDate"
-      attr.for="op-reminder-settings-daily-time">
-    </label>
+      attr.for="op-reminder-settings-daily-time"
+    ></label>
     <select
-      (ngModelChange)="changeTime($event, 'startDate')"
+      formControlName="time"
       class="op-reminder-settings-daily-time--time form--select -narrow"
       attr.id="op-reminder-settings-daily-time"
-      required="true">
+      required="true"
+    >
       <option
         *ngFor="let availableTime of availableTimes"
-        [value]="availableTime">
+        [value]="availableTime"
+      >
         {{availableTime}}
       </option>
     </select>
   </div>
 
-  <div class="op-reminder-settings-daily-time--row">
+  <div
+    class="op-reminder-settings-daily-time--row"
+    formGroupName="dueDate"
+  >
     <input
       type="checkbox"
-      [ngModel]="isActive('dueDate')"
-      [ngModelOptions]="{standalone: true}"
+      formControlName="active"
       class="op-reminder-settings-daily-time--active"
-      attr.data-qa-selector="op-settings-start-date">
+      attr.data-qa-selector="op-settings-start-date"
+    />
     <label
       class="op-reminder-settings-daily-time--label"
       [textContent]="text.dueDate"
-      attr.for="op-reminder-settings-daily-time">
-    </label>
+      attr.for="op-reminder-settings-daily-time"
+    ></label>
     <select
-      (ngModelChange)="changeTime($event, 'dueDate')"
+      formControlName="time"
       class="op-reminder-settings-daily-time--time form--select -narrow"
       attr.id="op-reminder-settings-daily-time"
-      required="true">
+      required="true"
+    >
       <option
         *ngFor="let availableTime of availableTimes"
         [value]="availableTime">
@@ -104,23 +113,26 @@
     </select>
   </div>
 
-  <div class="op-reminder-settings-daily-time--row">
+  <div
+    class="op-reminder-settings-daily-time--row"
+    formGroupName="overdue"
+  >
     <input
+      formControlName="active"
       type="checkbox"
-      [ngModel]="isActive('overdue')"
-      [ngModelOptions]="{standalone: true}"
       class="op-reminder-settings-daily-time--active"
       attr.data-qa-selector="op-settings-start-date">
     <label
       class="op-reminder-settings-daily-time--label"
       [textContent]="text.overdue"
-      attr.for="op-reminder-settings-daily-time">
-    </label>
+      attr.for="op-reminder-settings-daily-time"
+    ></label>
     <select
-      (ngModelChange)="changeTime($event, 'overdue')"
+      formControlName="time"
       class="op-reminder-settings-daily-time--time form--select -narrow"
       attr.id="op-reminder-settings-daily-time"
-      required="true">
+      required="true"
+    >
       <option
         *ngFor="let availableTime of availableTimesOverdue"
         [value]="availableTime">

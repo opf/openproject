@@ -50,6 +50,9 @@ interface IFullNotificationSettingsValue extends IToastSettingsValue {
 export class NotificationsSettingsPageComponent extends UntilDestroyedMixin implements OnInit {
   @Input() userId:string;
 
+  public availableTimes:string[] = ['PT0S', 'P1D', 'P3D', 'P7D'];
+  public availableTimesOverdue:string[] = ['PT0S', 'P3D', 'P7D'];
+
   public form = new FormGroup({
     assignee: new FormControl(false),
     responsible: new FormControl(false),
@@ -58,14 +61,20 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     workPackageScheduled: new FormControl(false),
     workPackagePrioritized: new FormControl(false),
     workPackageCommented: new FormControl(false),
-    startDate: new FormControl(null),
-    dueDate: new FormControl(null),
-    overdue: new FormControl(null),
+    startDate: new FormGroup({
+      active: new FormControl(false),
+      time: new FormControl(this.availableTimes[1]),
+    }),
+    dueDate: new FormGroup({
+      active: new FormControl(false),
+      time: new FormControl(this.availableTimes[1]),
+    }),
+    overdue: new FormGroup({
+      active: new FormControl(false),
+      time: new FormControl(this.availableTimesOverdue[0]),
+    }),
     projectSettings: new FormArray([]),
   });
-
-  public availableTimes:string[] = ['PT0S', 'P1D', 'P3D', 'P1W'];
-  public availableTimesOverdue:string[] = ['PT0S', 'P3D', 'P1W'];
 
   text = {
     notifyImmediately: {
@@ -113,6 +122,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   }
 
   ngOnInit():void {
+    this.form.disable();
     this.userId = this.userId || this.uiRouterGlobals.params.userId;
     this
       .currentUserService
@@ -122,6 +132,33 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
         this.userId = this.userId || user.id!;
         this.storeService.get(this.userId);
       });
+
+    this.form.get('startDate.active')?.valueChanges.subscribe((newValue) => {
+      const timeCtrl = this.form.get('startDate.time')!
+      if (!newValue) {
+        timeCtrl.disable();
+      } else {
+        timeCtrl.enable();
+      }
+    });
+
+    this.form.get('dueDate.active')?.valueChanges.subscribe((newValue) => {
+      const timeCtrl = this.form.get('dueDate.time')!
+      if (!newValue) {
+        timeCtrl.disable();
+      } else {
+        timeCtrl.enable();
+      }
+    });
+
+    this.form.get('overdue.active')?.valueChanges.subscribe((newValue) => {
+      const timeCtrl = this.form.get('overdue.time')!
+      if (!newValue) {
+        timeCtrl.disable();
+      } else {
+        timeCtrl.enable();
+      }
+    });
 
     this.storeService.query.notificationsForGlobal$
       .pipe(this.untilDestroyed())
@@ -137,9 +174,17 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
         this.form.get('workPackageScheduled')?.setValue(settings.workPackageScheduled);
         this.form.get('workPackagePrioritized')?.setValue(settings.workPackagePrioritized);
         this.form.get('workPackageCommented')?.setValue(settings.workPackageCommented);
-        this.form.get('startDate')?.setValue(settings.startDate);
-        this.form.get('dueDate')?.setValue(settings.dueDate);
-        this.form.get('overdue')?.setValue(settings.overdue);
+
+        this.form.get('startDate.active')?.setValue(!!settings.startDate);
+        this.form.get('startDate.time')?.setValue(settings.startDate || this.availableTimes[1]);
+
+        this.form.get('dueDate.active')?.setValue(!!settings.dueDate);
+        this.form.get('dueDate.time')?.setValue(settings.dueDate || this.availableTimes[1]);
+
+        this.form.get('overdue.active')?.setValue(!!settings.overdue);
+        this.form.get('overdue.time')?.setValue(settings.overdue || this.availableTimesOverdue[0]);
+
+        this.form.enable();
       });
 
     this.storeService.query.projectNotifications$
@@ -197,9 +242,9 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       workPackageScheduled: notificationSettings.workPackageScheduled,
       workPackagePrioritized: notificationSettings.workPackagePrioritized,
       workPackageCommented: notificationSettings.workPackageCommented,
-      startDate: 'P1D',
-      dueDate: 'P1D',
-      overdue: null,
+      startDate: this.form.get('startDate.active')!.value ? this.form.get('startDate.time')!.value : null,
+      dueDate: this.form.get('dueDate.active')!.value ? this.form.get('dueDate.time')!.value : null,
+      overdue: this.form.get('overdue.active')!.value ? this.form.get('overdue.time')!.value : null,
     };
 
     const projectPrefs:INotificationSetting[] = notificationSettings.projectSettings.map((settings) => ({
