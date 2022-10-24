@@ -53,8 +53,81 @@
     />
   </spot-selector-field>
 
-  <h5>{{text.dateAlerts.title}}</h5>
-  <p>{{text.dateAlerts.description}}</p>
+  <h5>Date alerts</h5>
+  <div class="op-reminder-settings-daily-time--row">
+    <input
+      type="checkbox"
+      [ngModel]="isActive('startDate')"
+      [ngModelOptions]="{standalone: true}"
+      class="op-reminder-settings-daily-time--active"
+      attr.data-qa-selector="op-settings-start-date">
+    <label
+      class="op-reminder-settings-daily-time--label"
+      [textContent]="text.startDate"
+      attr.for="op-reminder-settings-daily-time">
+    </label>
+    <select
+      (ngModelChange)="changeTime($event, 'startDate')"
+      class="op-reminder-settings-daily-time--time form--select -narrow"
+      attr.id="op-reminder-settings-daily-time"
+      required="true">
+      <option
+        *ngFor="let availableTime of availableTimes"
+        [value]="availableTime">
+        {{availableTime}}
+      </option>
+    </select>
+  </div>
+
+  <div class="op-reminder-settings-daily-time--row">
+    <input
+      type="checkbox"
+      [ngModel]="isActive('dueDate')"
+      [ngModelOptions]="{standalone: true}"
+      class="op-reminder-settings-daily-time--active"
+      attr.data-qa-selector="op-settings-start-date">
+    <label
+      class="op-reminder-settings-daily-time--label"
+      [textContent]="text.dueDate"
+      attr.for="op-reminder-settings-daily-time">
+    </label>
+    <select
+      (ngModelChange)="changeTime($event, 'dueDate')"
+      class="op-reminder-settings-daily-time--time form--select -narrow"
+      attr.id="op-reminder-settings-daily-time"
+      required="true">
+      <option
+        *ngFor="let availableTime of availableTimes"
+        [value]="availableTime">
+        {{availableTime}}
+      </option>
+    </select>
+  </div>
+
+  <div class="op-reminder-settings-daily-time--row">
+    <input
+      type="checkbox"
+      [ngModel]="isActive('overdue')"
+      [ngModelOptions]="{standalone: true}"
+      class="op-reminder-settings-daily-time--active"
+      attr.data-qa-selector="op-settings-start-date">
+    <label
+      class="op-reminder-settings-daily-time--label"
+      [textContent]="text.overdue"
+      attr.for="op-reminder-settings-daily-time">
+    </label>
+    <select
+      (ngModelChange)="changeTime($event, 'overdue')"
+      class="op-reminder-settings-daily-time--time form--select -narrow"
+      attr.id="op-reminder-settings-daily-time"
+      required="true">
+      <option
+        *ngFor="let availableTime of availableTimesOverdue"
+        [value]="availableTime">
+        {{availableTime}}
+      </option>
+    </select>
+  </div>
 
   <h5>{{ text.alsoNotifyFor.title }}</h5>
   <p>{{ text.alsoNotifyFor.description }}</p>

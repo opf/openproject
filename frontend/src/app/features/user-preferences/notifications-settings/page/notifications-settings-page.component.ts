@@ -44,6 +44,7 @@ interface IFullNotificationSettingsValue extends IToastSettingsValue {
 @Component({
   selector: myNotificationsPageComponentSelector,
   templateUrl: './notifications-settings-page.component.html',
+  styleUrls: ['./notifications-settings-page.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationsSettingsPageComponent extends UntilDestroyedMixin implements OnInit {
@@ -57,8 +58,14 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     workPackageScheduled: new FormControl(false),
     workPackagePrioritized: new FormControl(false),
     workPackageCommented: new FormControl(false),
+    startDate: new FormControl(null),
+    dueDate: new FormControl(null),
+    overdue: new FormControl(null),
     projectSettings: new FormArray([]),
   });
+
+  public availableTimes:string[] = ['PT0S', 'P1D', 'P3D', 'P1W'];
+  public availableTimesOverdue:string[] = ['PT0S', 'P3D', 'P1W'];
 
   text = {
     notifyImmediately: {
@@ -90,6 +97,9 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     },
     assignee: this.I18n.t('js.notifications.settings.reasons.assignee'),
     responsible: this.I18n.t('js.notifications.settings.reasons.responsible'),
+    startDate: 'Start Date',
+    dueDate: 'Finish Date',
+    overdue: 'When Overdue',
   };
 
   constructor(
@@ -127,6 +137,9 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
         this.form.get('workPackageScheduled')?.setValue(settings.workPackageScheduled);
         this.form.get('workPackagePrioritized')?.setValue(settings.workPackagePrioritized);
         this.form.get('workPackageCommented')?.setValue(settings.workPackageCommented);
+        this.form.get('startDate')?.setValue(settings.startDate);
+        this.form.get('dueDate')?.setValue(settings.dueDate);
+        this.form.get('overdue')?.setValue(settings.overdue);
       });
 
     this.storeService.query.projectNotifications$
@@ -158,7 +171,17 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       });
   }
 
+  isActive(attributeName:string):boolean {
+    return (this.form.get(attributeName)!.value || '').length > 0;
+  }
+
+  changeTime(newTime:string, attributeName:string):void {
+    // console.log(newTime)
+    this.form.get(attributeName)?.setValue(newTime);
+  }
+
   public saveChanges():void {
+    // debugger
     const prefs = this.storeService.store.getValue();
     const notificationSettings = (this.form.value as IFullNotificationSettingsValue);
     const globalNotification = prefs.notifications.find((notification) => !notification._links.project.href) as INotificationSetting;
