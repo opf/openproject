@@ -17,6 +17,7 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 import { INotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
+import { OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES, REMINDER_AVAILABLE_TIMEFRAMES } from '../overdue-reminder-available-times';
 
 export const myNotificationsPageComponentSelector = 'op-notifications-page';
 
@@ -28,6 +29,9 @@ interface IToastSettingsValue {
   workPackageScheduled:boolean;
   workPackagePrioritized:boolean;
   workPackageCommented:boolean;
+  startDate:string|null;
+  dueDate:string|null;
+  overdue:string|null;
 }
 
 interface IProjectNotificationSettingsValue extends IToastSettingsValue {
@@ -50,8 +54,8 @@ interface IFullNotificationSettingsValue extends IToastSettingsValue {
 export class NotificationsSettingsPageComponent extends UntilDestroyedMixin implements OnInit {
   @Input() userId:string;
 
-  public availableTimes:string[] = ['PT0S', 'P1D', 'P3D', 'P7D'];
-  public availableTimesOverdue:string[] = ['PT0S', 'P3D', 'P7D'];
+  public availableTimes = REMINDER_AVAILABLE_TIMEFRAMES;
+  public availableTimesOverdue = OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES;
 
   public form = new FormGroup({
     assignee: new FormControl(false),
@@ -176,13 +180,13 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
         this.form.get('workPackageCommented')?.setValue(settings.workPackageCommented);
 
         this.form.get('startDate.active')?.setValue(!!settings.startDate);
-        this.form.get('startDate.time')?.setValue(settings.startDate || this.availableTimes[1]);
+        this.form.get('startDate.time')?.setValue(settings.startDate || this.availableTimes[1].value);
 
         this.form.get('dueDate.active')?.setValue(!!settings.dueDate);
-        this.form.get('dueDate.time')?.setValue(settings.dueDate || this.availableTimes[1]);
+        this.form.get('dueDate.time')?.setValue(settings.dueDate || this.availableTimes[1].value);
 
         this.form.get('overdue.active')?.setValue(!!settings.overdue);
-        this.form.get('overdue.time')?.setValue(settings.overdue || this.availableTimesOverdue[0]);
+        this.form.get('overdue.time')?.setValue(settings.overdue || this.availableTimesOverdue[0].value);
 
         this.form.enable();
       });
@@ -209,6 +213,9 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
             workPackageScheduled: new FormControl(setting.workPackageScheduled),
             workPackagePrioritized: new FormControl(setting.workPackagePrioritized),
             workPackageCommented: new FormControl(setting.workPackageCommented),
+            startDate: new FormControl(setting.startDate),
+            dueDate: new FormControl(setting.dueDate),
+            overdue: new FormControl(setting.overdue),
           })));
 
         this.form.setControl('projectSettings', projectSettings);
@@ -266,9 +273,12 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       wikiPageUpdated: false,
       membershipAdded: false,
       membershipUpdated: false,
-      startDate: 'P1D',
-      dueDate: 'P1D',
-      overdue: null,
+      
+      // Angular cannot handle null values in select options. It will only return string values.
+      // In fact, setting `undefined` will return `"undefined"` as the value!
+      startDate: settings.startDate === "null" ? null : settings.startDate,
+      dueDate: settings.dueDate === "null" ? null : settings.dueDate,
+      overdue: settings.overdue === "null" ? null : settings.overdue,
     }));
 
     this.storeService.update(this.userId, {

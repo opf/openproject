@@ -77,9 +77,9 @@
     >
       <option
         *ngFor="let availableTime of availableTimes"
-        [value]="availableTime"
+        [value]="availableTime.value"
       >
-        {{availableTime}}
+        {{availableTime.title}}
       </option>
     </select>
   </div>
@@ -107,8 +107,8 @@
     >
       <option
         *ngFor="let availableTime of availableTimes"
-        [value]="availableTime">
-        {{availableTime}}
+        [value]="availableTime.value">
+        {{availableTime.title}}
       </option>
     </select>
   </div>
@@ -135,8 +135,8 @@
     >
       <option
         *ngFor="let availableTime of availableTimesOverdue"
-        [value]="availableTime">
-        {{availableTime}}
+        [value]="availableTime.value">
+        {{availableTime.title}}
       </option>
     </select>
   </div>

@@ -43,6 +43,12 @@
         </ng-container>
       </tr>
       <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">{{ text.watched_header }}</th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell"><input type="checkbox" disabled checked /></td>
+        </ng-container>
+      </tr>
+      <tr>
         <th class="op-table--cell op-table--cell_soft-heading">
           {{ text.assignee }}
         </th>
@@ -72,6 +78,7 @@
           </td>
         </ng-container>
       </tr>
+
       <tr>
         <th class="op-table--cell op-table--cell_soft-heading">
           <h5>{{ text.alsoNotifyFor.title }}</h5>
@@ -81,6 +88,83 @@
           <td class="op-table--cell"></td>
         </ng-container>
       </tr>
+
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          Start date
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <select
+              formControlName="startDate"
+              class="form--select -narrow"
+              required="true"
+            >
+              <option
+                *ngFor="let availableTime of availableTimes"
+                [value]="availableTime.value"
+              >
+                {{availableTime.title}}
+              </option>
+            </select>
+          </td>
+        </ng-container>
+      </tr>
+
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          Due date
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <select
+              formControlName="dueDate"
+              class="form--select -narrow"
+              required="true"
+            >
+              <option
+                *ngFor="let availableTime of availableTimes"
+                [value]="availableTime.value"
+              >
+                {{availableTime.title}}
+              </option>
+            </select>
+          </td>
+        </ng-container>
+      </tr>
+
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          Overdue
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <select
+              formControlName="overdue"
+              class="form--select -narrow"
+              required="true"
+            >
+              <option
+                *ngFor="let availableTime of availableTimesOverdue"
+                [value]="availableTime.value"
+              >
+                {{availableTime.title}}
+              </option>
+            </select>
+          </td>
+        </ng-container>
+      </tr>
+
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          <h5>Some header</h5>
+          <p>Some text<p>
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell"></td>
+        </ng-container>
+      </tr>
+
       <tr>
         <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_created_header }}</th>
         <ng-container *ngFor="let item of settings.controls">

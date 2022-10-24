@@ -10,6 +10,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
+import { OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES, REMINDER_AVAILABLE_TIMEFRAMES } from '../overdue-reminder-available-times';
 
 @Component({
   selector: 'op-notification-settings-table',
@@ -21,6 +22,25 @@ export class NotificationSettingsTableComponent {
   @Input() userId:string;
 
   @Input() settings:FormArray;
+
+  public availableTimes = [
+    {
+      // null is not handled well by angular as a option value, it will always return a string.
+      // We might as well make this obvious
+      value: "null",
+      title: this.I18n.t('js.notifications.settings.reminders.no_notification'),
+    },
+    ...REMINDER_AVAILABLE_TIMEFRAMES,
+  ];
+  public availableTimesOverdue = [
+    {
+      // null is not handled well by angular as a option value, it will always return a string.
+      // We might as well make this obvious
+      value: "null",
+      title: this.I18n.t('js.notifications.settings.reminders.no_notification'),
+    },
+    ...OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES,
+  ];
 
   text = {
     notify_me: this.I18n.t('js.notifications.settings.notify_me'),
@@ -67,6 +87,9 @@ export class NotificationSettingsTableComponent {
       workPackageScheduled: new FormControl(false),
       workPackagePrioritized: new FormControl(false),
       workPackageCommented: new FormControl(false),
+      startDate: new FormControl(this.availableTimes[2].value),
+      dueDate: new FormControl(this.availableTimes[2].value),
+      overdue: new FormControl(this.availableTimes[1].value),
     }));
   }
 
