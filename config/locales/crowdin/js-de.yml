@@ -26,9 +26,9 @@ de:
       loading: "Laden…"
       updating: "Aktualisiere…"
     attachments:
-      delete: "Delete attachment"
+      delete: "Anhang löschen"
       delete_confirmation: |
-        Are you sure you want to delete this file? This action is not reversible.
+        Sind Sie sicher, dass Sie diese Datei löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.
       draggable_hint: |
         Ziehen Sie diesen Anhang auf ein editierbares Feld, um das Bild oder den Anhang einzubinden. Geöffnete Felder werden automatisch geöffnet während Sie das Attachment mit der Maus ziehen und halten.
     autocomplete_select:
@@ -85,10 +85,10 @@ de:
     button_open_fullscreen: "Vollbildansicht öffnen"
     button_show_cards: "Kartenansicht anzeigen"
     button_show_list: "Listenansicht anzeigen"
-    button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
+    button_show_table: "Tabellenansicht anzeigen"
+    button_show_gantt: "Gantt-Ansicht anzeigen"
+    button_show_fullscreen: "Vollbildansicht anzeigen"
+    button_more_actions: "Weitere Aktionen"
     button_quote: "Zitieren"
     button_save: "Speichern"
     button_settings: "Einstellungen"
@@ -298,13 +298,13 @@ de:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/de/blog/openproject-12-3-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Definieren Sie Ihre globale Arbeitswoche (Wochenenden und Werktage der Woche).</li> <li>Berechnen Sie die Dauer basierend auf Start- und Enddatum und die Möglichkeit, arbeitsfreie Tage in der Terminplanung zu berücksichtigen.</li> <li>Tooltips für die wichtigsten Aktionen auf der Seiten hinzugefügt.</li> <li>Das Kopieren eines Projekts kopiert auch Datei-Links, die an Arbeitspakete angehängt wurden.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/de/blog/openproject-12-3-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Definieren Sie Ihre globale Arbeitswoche (Wochenenden und Werktage der Woche).</li> <li>Berechnen Sie die Dauer basierend auf Start- und Enddatum und die Möglichkeit, arbeitsfreie Tage in der Terminplanung zu berücksichtigen.</li> <li>Tooltips für die wichtigsten Aktionen auf der Seiten hinzugefügt.</li> <li>Das Kopieren eines Projekts kopiert auch Datei-Links, die an Arbeitspakete angehängt wurden.</li> </ul>
     label_activate: "Aktiviere"
     label_assignee: 'Zugewiesen an'
     label_add_column_after: "Spalte danach hinzufügen"
@@ -539,16 +539,16 @@ de:
         watched: 'beobachtet'
         assigned: 'zugewiesen'
         responsible: 'verantwortlich'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'erstellt'
+        scheduled: 'geplant'
+        commented: 'kommentiert'
+        processed: 'verarbeitet'
+        prioritized: 'priorisiert'
       facets:
         unread: 'Ungelesen'
-        unread_title: 'Show unread'
+        unread_title: 'Ungelesene anzeigen'
         all: 'Alle'
-        all_title: 'Show all'
+        all_title: 'Alle anzeigen'
       center:
         and_more_users:
           one: 'und ein weiterer'
@@ -877,7 +877,7 @@ de:
       message_work_package_status_blocked: "Das Arbeitspaket ist auf geschlossene Status- und Versions-Attribute gesetzt, der Status kann nicht verändert werden."
       placeholder_filter_by_text: "Titel, Beschreibung, Kommentare, ..."
       filters:
-        title: 'Filter work packages'
+        title: 'Arbeitspakete filtern'
       inline_create:
         title: 'Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen'
       create:
@@ -1051,14 +1051,14 @@ de:
       button_save: "Speichern"
       button_submit: "OK"
       button_cancel: "Abbrechen"
-      button_delete: "Delete"
+      button_delete: "Löschen"
       form_submit:
         title: 'Bestätigen, um fortzufahren'
         text: 'Sind Sie sicher, dass Sie diese Aktion durchführen möchten?'
       destroy_work_package:
         title: "Löschen von %{label} bestätigen"
-        single_text: "Are you sure you want to delete the work package"
-        bulk_text: "Are you sure you want to delete the following %{label}?"
+        single_text: "Sind Sie sicher, dass Sie das Arbeitspaket löschen möchten?"
+        bulk_text: "Sind Sie sicher, dass Sie die folgenden %{label} löschen möchten?"
         has_children: "Dieses Arbeitspaket hat %{childUnits}:"
         confirm_deletion_children: "Ich bestätige, dass alle untergordneten Elemente der hier aufgeführten Arbeitspakete rekursiv entfernt werden."
         deletes_children: "Alle untergeordneten Arbeitspaketen und deren Nachkommen werden auch rekursiv gelöscht."
@@ -1176,13 +1176,13 @@ de:
       role:
         label: 'Rolle in %{project}'
         no_roles_found: 'Keine Rollen gefunden'
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Dies ist die Rolle, die der Benutzer erhält, wenn er Ihrem Projekt beitritt. Die Rolle legt fest, welche Aktionen sie ergreifen dürfen und welche Informationen ihnen zugänglich sind. <a href="https://www.openproject.org/de/docs/system-admin-guide/users-permissions/roles-permissions/" target="_blank"> Erfahren Sie mehr über Rollen und Berechtigungen. </a>'
         required: 'Bitte eine Rolle auswählen'
         next_button: 'Weiter'
       message:
         label: 'Einladungsnachricht'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        description: 'Wir senden dem Benutzer eine E-Mail, der Sie hier eine persönliche Nachricht ergänzen können. Eine Erklärung für die Einladung oder nützliche Informationen zum eingeladenen Projekt könnten nützlich sein, dem Benutzer bei der Mitarbeit zu unterstützen.'
+        next_button: 'Weiter'
       summary:
         next_button: 'Einladung senden'
       success:
@@ -1203,7 +1203,7 @@ de:
       search_placeholder: 'Projekt durchsuchen...'
       include_subprojects: 'Alle Unterprojekte einbeziehen'
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
+        include_all_selected: 'Das Projekt ist bereits enthalten, da alle Unterprojekte einbezogen sind.'
         current_project: 'Dies ist das aktuelle Projekt, in dem Sie sich befinden.'
         does_not_match_search: 'Projekt entspricht nicht den Suchkriterien.'
       no_results: 'Kein Projekt entspricht Ihren Suchkriterien.'
