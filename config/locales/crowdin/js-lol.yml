@@ -574,7 +574,7 @@ lol:
         by_project: 'crwdns787726:0crwdne787726:0'
         by_reason: 'crwdns787728:0crwdne787728:0'
         inbox: 'crwdns787730:0crwdne787730:0'
-        mentioned: 'crwdns787732:0crwdne787732:0'
+        mentioned: 'crwdns836454:0crwdne836454:0'
         watching: 'crwdns787734:0crwdne787734:0'
       settings:
         change_notification_settings: 'crwdns787736:0%{url}crwdne787736:0'
@@ -582,11 +582,11 @@ lol:
         notify_me: "crwdns787740:0crwdne787740:0"
         reasons:
           mentioned:
-            title: 'crwdns787742:0crwdne787742:0'
+            title: 'crwdns836456:0crwdne836456:0'
             description: 'crwdns787744:0crwdne787744:0'
           assignee: 'crwdns834614:0crwdne834614:0'
           responsible: 'crwdns834616:0crwdne834616:0'
-          watched: 'crwdns787750:0crwdne787750:0'
+          watched: 'crwdns836458:0crwdne836458:0'
           work_package_commented: 'crwdns787752:0crwdne787752:0'
           work_package_created: 'crwdns787754:0crwdne787754:0'
           work_package_processed: 'crwdns787756:0crwdne787756:0'
@@ -594,11 +594,14 @@ lol:
           work_package_scheduled: 'crwdns787760:0crwdne787760:0'
         global:
           immediately:
-            title: 'crwdns787762:0crwdne787762:0'
-            description: 'crwdns787764:0crwdne787764:0'
+            title: 'crwdns836460:0crwdne836460:0'
+            description: 'crwdns836462:0crwdne836462:0'
           delayed:
-            title: 'crwdns787766:0crwdne787766:0'
-            description: 'crwdns787768:0crwdne787768:0'
+            title: 'crwdns836464:0crwdne836464:0'
+            description: 'crwdns836466:0crwdne836466:0'
+          date_alerts:
+            title: 'crwdns836468:0crwdne836468:0'
+            description: 'crwdns836470:0crwdne836470:0'
         project_specific:
           title: 'crwdns787770:0crwdne787770:0'
           description: 'crwdns787772:0crwdne787772:0'

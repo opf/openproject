@@ -574,7 +574,7 @@ pt:
         by_project: 'Não lido por projeto'
         by_reason: 'Envolvimento'
         inbox: 'Caixa de entrada'
-        mentioned: '@mencionado'
+        mentioned: 'Mentioned'
         watching: 'Observando'
       settings:
         change_notification_settings: 'Para visualizar e alterar suas configurações de notificação, <a target="_blank" href="%{url}">clique aqui</a>'
@@ -582,11 +582,11 @@ pt:
         notify_me: "Notifique-me"
         reasons:
           mentioned:
-            title: 'Eu sou @mencionado'
+            title: 'Mentioned'
             description: 'Receber uma notificação sempre que alguém me mencionar'
           assignee: 'Assignee'
           responsible: 'Accountable'
-          watched: 'Atualizações em itens observados'
+          watched: 'Watcher'
           work_package_commented: 'Todos os novos comentários'
           work_package_created: 'Novos pacotes de trabalho'
           work_package_processed: 'Todas as mudanças de situação'
@@ -594,11 +594,14 @@ pt:
           work_package_scheduled: 'Todas as alterações de data'
         global:
           immediately:
-            title: 'Notifique-me imediatamente'
-            description: 'Estas configurações aplicam-se a todos os projetos. Você pode criar exceções específicas para projetos abaixo.  '
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
           delayed:
-            title: 'Também notifique-me por'
-            description: 'Receber notificações para estas atividades em pacotes de trabalho em todos os projetos:'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects'
+          date_alerts:
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
         project_specific:
           title: 'Configurações de notificação específicas de projetos'
           description: 'Essas configurações específicas de projeto substituem as configurações padrão acima'

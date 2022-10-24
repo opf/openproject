@@ -577,7 +577,7 @@ cs:
         by_project: 'Nepřečteno podle projektu'
         by_reason: 'Zapojení'
         inbox: 'Inbox'
-        mentioned: 'Zmíněn'
+        mentioned: 'Mentioned'
         watching: 'Sledování'
       settings:
         change_notification_settings: 'Chcete-li zobrazit a změnit nastavení oznámení, <a target="_blank" href="%{url}">klikněte zde</a>'
@@ -585,11 +585,11 @@ cs:
         notify_me: "Upozornit mě"
         reasons:
           mentioned:
-            title: 'Jsem @zmíněn'
+            title: 'Mentioned'
             description: 'Dostat upozornění, kdykoli mě někdo kdekoli zmíní'
           assignee: 'Assignee'
           responsible: 'Accountable'
-          watched: 'Aktualizace u sledovaných položek'
+          watched: 'Watcher'
           work_package_commented: 'Všechny nové komentáře'
           work_package_created: 'Nový pracovní balíček'
           work_package_processed: 'Všechny změny stavu'
@@ -597,11 +597,14 @@ cs:
           work_package_scheduled: 'Všechny změny data'
         global:
           immediately:
-            title: 'Oznamovat mi okamžitě'
-            description: 'Tato nastavení platí pro všechny projekty. Níže můžete vytvořit specifické výjimky.'
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
           delayed:
-            title: 'Upozornit také pro'
-            description: 'Přijímat oznámení pro tyto aktivity na pracovních balíčcích ve všech projektech:'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects'
+          date_alerts:
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
         project_specific:
           title: "Nastavení upozornění pro konkrétní projekt\n"
           description: 'Toto specifické nastavení projektu přepíše výchozí nastavení výše'

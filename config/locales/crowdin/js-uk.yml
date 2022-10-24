@@ -577,7 +577,7 @@ uk:
         by_project: 'Непрочитані проєктом'
         by_reason: 'Залучення'
         inbox: 'Вхідні'
-        mentioned: '@згадано'
+        mentioned: 'Mentioned'
         watching: 'Відстеження'
       settings:
         change_notification_settings: 'Щоб переглянути та змінити налаштування сповіщень, <a target="_blank" href="%{url}">натисніть тут</a>'
@@ -585,11 +585,11 @@ uk:
         notify_me: "Сповіщати мене"
         reasons:
           mentioned:
-            title: 'Мене @згадано'
+            title: 'Mentioned'
             description: 'Отримувати сповіщення щоразу, коли хтось згадує мене де завгодно'
           assignee: 'Assignee'
           responsible: 'Accountable'
-          watched: 'Оновлення щодо відстежуваних елементів'
+          watched: 'Watcher'
           work_package_commented: 'Усі нові коментарі'
           work_package_created: 'Нові пакети робіт'
           work_package_processed: 'Усі зміни статусу'
@@ -597,11 +597,14 @@ uk:
           work_package_scheduled: 'Усі зміни дат'
         global:
           immediately:
-            title: 'Негайно сповіщати мене'
-            description: 'Ці параметри стосуються всіх проєктів. Створити винятки для окремих проєктів можна нижче.'
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
           delayed:
-            title: 'Також сповіщати мене про'
-            description: 'Отримувати сповіщення про ці дії з робочими пакетами в усіх проєктах:'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects'
+          date_alerts:
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
         project_specific:
           title: 'Параметри сповіщень проєкту'
           description: 'Ці параметри сповіщень проєкту перевизначають стандартні параметри вище'

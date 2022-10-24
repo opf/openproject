@@ -3,7 +3,7 @@ es:
   js:
     storages:
       link_files_in_storage: "Enlace archivos en %{storageType}"
-      link_existing_files: "Link existing files"
+      link_existing_files: "Enlazar archivos existentes"
       login: "%{storageType} iniciar sesión"
       login_to: "Iniciar sesión en %{storageType}"
       no_connection: "No hay conexión para %{storageType}"
@@ -28,7 +28,7 @@ es:
         remove_confirmation: >
           ¿Está seguro que desea desvincular el archivo de este paquete de trabajo? Desvincular no afecta al archivo original, solo elimina la conexión a este paquete de trabajo.
         remove_short: "Eliminar enlace"
-        select: "Select files"
-        selection_none: "Select files to link"
-        selection_any: "Link %{number} files"
+        select: "Seleccionar archivos"
+        selection_none: "Seleccionar archivos a enlazar"
+        selection_any: "Enlace %{number} archivos"
         not_allowed_tooltip: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"

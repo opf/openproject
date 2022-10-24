@@ -4,8 +4,8 @@ de:
     team_planner:
       add_existing: 'Bestehende hinzufügen'
       add_existing_title: 'Vorhandenes Arbeitspaket hinzufügen'
-      create_label: 'Team planner'
-      create_title: 'Create new team planner'
+      create_label: 'Teamplaner'
+      create_title: 'Neuen Teamplaner erstellen'
       unsaved_title: 'Unbenannter Teamplaner'
       no_data: 'Fügen Sie zugewiesene Benutzer hinzu, um Ihren Teamplaner einzurichten.'
       add_assignee: 'Zugewiesenen Benutzer hinzufügen'

@@ -575,7 +575,7 @@ ca:
         by_project: 'No llegit per projecte'
         by_reason: 'Implicació'
         inbox: 'Safata d''entrada'
-        mentioned: '@mencionat'
+        mentioned: 'Mentioned'
         watching: 'Observant'
       settings:
         change_notification_settings: 'Per veure i canviar la configuració de notificacions, <a target="_blank" href="%{url}">fes clic aquí</a>'
@@ -583,11 +583,11 @@ ca:
         notify_me: "Notifica’m"
         reasons:
           mentioned:
-            title: 'He estat @mencionat'
+            title: 'Mentioned'
             description: 'Rep una notificació cada vegada que algú em menciona a qualsevol lloc'
           assignee: 'Assignat a'
           responsible: 'Responsable'
-          watched: 'Actualitzacions en elements observats'
+          watched: 'Watcher'
           work_package_commented: 'Tots els nous comentaris'
           work_package_created: 'Paquets de treball nou'
           work_package_processed: 'Tots els canvis d''estat'
@@ -595,11 +595,14 @@ ca:
           work_package_scheduled: 'Tots els canvis de data'
         global:
           immediately:
-            title: 'Notifica''m immediatament'
-            description: 'Aquestes configuracions apliquen a tots els projectes. Pots crear excepcions específiques per projecte a sota.'
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
           delayed:
-            title: 'També notifica''m per'
-            description: 'Rep notificacions per aquestes activitats en paquets de treball en tots els projectes:'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects'
+          date_alerts:
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
         project_specific:
           title: 'Configuracions de notificacions específiques del projecte'
           description: 'Aquestes configuracions específiques del projecte anul·len les configuracions per defecte especificades a sobre'
