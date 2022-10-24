@@ -35,9 +35,9 @@ describe 'Omniauth authentication', type: :feature do
   def self.default_url_options
     host =
       if Capybara.app_host
-        Capybara.app_host.sub(/https?\/\//, "")
+        Capybara.app_host.sub(/https?\/\//, '')
       else
-        'http://www.example.com'
+        'www.example.com'
       end
 
     { host: }
