@@ -7,6 +7,7 @@ import { enableReactiveStatesLogging } from 'reactivestates';
 import { initializeLocale } from 'core-app/core/setup/init-locale';
 import { environment } from './environments/environment';
 import { configureErrorReporter } from 'core-app/core/errors/configure-reporter';
+import { initializeGlobalListeners } from 'core-app/core/setup/globals/global-listeners';
 
 (window as any).global = window;
 
@@ -41,6 +42,9 @@ whenDebugging(() => {
 void initializeLocale()
   .then(() => {
     jQuery(() => {
+      // Now that DOM is loaded, also run the global listeners
+      initializeGlobalListeners();
+
       // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
       void platformBrowserDynamic()
         .bootstrapModule(OpenProjectModule)
