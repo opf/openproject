@@ -33,7 +33,7 @@ cs:
           title: 'Stav projektu'
           not_started: 'Nezahájeno'
           on_track: 'Dle plánu'
-          off_track: 'Mimo plánu'
+          off_track: 'Mimo plán'
           at_risk: 'Riziko'
           not_set: 'Nenastaveno'
           finished: 'Dokončeno'

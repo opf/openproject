@@ -47,7 +47,7 @@ module Projects
       set_default_public(attribute_keys.include?('public'))
       set_default_module_names(attribute_keys.include?('enabled_module_names'))
       set_default_types(attribute_keys.include?('types') || attribute_keys.include?('type_ids'))
-      set_default_active_work_package_custom_fields
+      set_default_active_work_package_custom_fields(attribute_keys.include?('work_package_custom_fields'))
     end
 
     def set_default_public(provided)
@@ -62,7 +62,9 @@ module Projects
       model.types = ::Type.default if !provided && model.types.empty?
     end
 
-    def set_default_active_work_package_custom_fields
+    def set_default_active_work_package_custom_fields(provided)
+      return if provided
+
       model.work_package_custom_fields = WorkPackageCustomField.joins(:types).where(types: { id: model.type_ids })
     end
 

@@ -585,8 +585,8 @@ tr:
             title: 'benden @bahsedildi'
             description: 'Receive a notification every time someone mentions me anywhere'
           involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+            title: 'Bana atanan veya sorumlu olan'
+            description: 'Atandığım veya sorumlu olduğum iş paketleriyle ilgili tüm faaliyetler için bildirim alayım'
           watched: 'Updates on watched items'
           work_package_commented: 'All new comments'
           work_package_created: 'Yeni iş paketleri'

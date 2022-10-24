@@ -67,7 +67,7 @@ tr:
       upgrade_to_ee: "Enterprise Edition sürümüne geçin"
       add_token: "Enterprise Editon versiyonu destek anahtarını yükleyin"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        text: "Kullanılan mevcut Enterprise Edition jetonunu kaldırmak istediğinizden emin misiniz?"
         title: "Delete token"
       replace_token: "Geçerli destek anahtarını değiştirin"
       order: "Enterprise on-premises Edition sipariş edin"
@@ -669,8 +669,8 @@ tr:
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
+          only_one_global_setting: 'Yalnızca bir genel bildirim ayarı olmalıdır.'
+          email_alerts_global: 'E-posta bildirim ayarları yalnızca genel olarak ayarlanabilir.'
           format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -1919,7 +1919,7 @@ tr:
   label_wiki_start: "Başlangıç sayfası"
   label_work_package: "İş paketi"
   label_work_package_attachments: "İş paketi ekleri"
-  label_work_package_file_link_plural: "Work package file links"
+  label_work_package_file_link_plural: "İş paketi dosya bağlantıları"
   label_work_package_category_new: "Yeni kategori"
   label_work_package_category_plural: "İş paketi kategorileri"
   label_work_package_hierarchy: "İş paketi hiyerarşisi"

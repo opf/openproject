@@ -26,29 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-##
-# A custom option is a possible value for a given custom field
-# which is restricted to a set of specific values.
-class CustomOption < ApplicationRecord
-  belongs_to :custom_field, touch: true
+require 'spec_helper'
 
-  validates :value, presence: true, length: { maximum: 255 }
+describe ::API::V3::Queries::QueryParamsRepresenter do
+  let(:query) { build_stubbed(:query, **params) }
+  let(:instance) { described_class.new(query) }
 
-  before_destroy :assure_at_least_one_option
+  describe '#to_h' do
+    subject { instance.to_h }
 
-  def to_s
-    value
-  end
+    context 'with include_subprojects true' do
+      let(:params) { { include_subprojects: true } }
 
-  alias :name :to_s
+      it 'transports that to the params (Regression #44248)' do
+        expect(subject[:includeSubprojects]).to be true
+      end
+    end
 
-  protected
+    context 'with include_subprojects false' do
+      let(:params) { { include_subprojects: false } }
 
-  def assure_at_least_one_option
-    return if CustomOption.where(custom_field_id:).where.not(id:).count > 0
-
-    errors.add(:base, I18n.t(:'activerecord.errors.models.custom_field.at_least_one_custom_option'))
-
-    throw :abort
+      it 'transports that to the params' do
+        expect(subject.keys).to include :includeSubprojects
+        expect(subject[:includeSubprojects]).to be false
+      end
+    end
   end
 end
