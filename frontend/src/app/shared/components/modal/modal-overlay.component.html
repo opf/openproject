@@ -4,6 +4,10 @@
     'spot-modal-overlay_active': isActive,
     'spot-modal-overlay_not-full-screen': notFullscreen
   }"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
   (click)="close()"
 >
   <button

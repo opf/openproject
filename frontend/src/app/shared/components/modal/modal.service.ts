@@ -99,26 +99,6 @@ export class OpModalService {
     if (injector === 'global') {
       injector = this.injector;
     }
-
-    // Create a portal for the given component class and render it
-    const portal = new ComponentPortal(modal, null, this.injectorFor(injector, locals));
-
-    setTimeout(() => {
-      // Focus on the first element
-      this.active && this.active.onOpen();
-
-      // Mark that we've opened the modal now
-      this.opening = false;
-
-      // Trigger another round of change detection in the modal
-      ref.changeDetectorRef.detectChanges();
-    }, 20);
-
-    return this.active as T;
-  }
-
-  public isActive(modal:OpModalComponent):boolean {
-    return this.active !== null && this.active === modal;
   }
 
   /**
@@ -136,21 +116,5 @@ export class OpModalService {
       this.active = null;
     }
     */
-  }
-
-  /**
-   * Create an augmented injector that is equal to this service's injector + the additional data
-   * passed into +show+.
-   * This allows callers to pass data into the newly created modal.
-   */
-  private injectorFor(injector:Injector, data:Record<string, unknown>) {
-    const injectorTokens = new WeakMap();
-    // Pass the service because otherwise we're getting a cyclic dependency between the portal
-    // host service and the bound portal
-    data.service = this;
-
-    injectorTokens.set(OpModalLocalsToken, data);
-
-    return new PortalInjector(injector, injectorTokens);
   }
 }
