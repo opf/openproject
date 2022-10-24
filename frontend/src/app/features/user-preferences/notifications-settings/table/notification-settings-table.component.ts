@@ -29,6 +29,14 @@ export class NotificationSettingsTableComponent {
       title: this.I18n.t('js.notifications.settings.reasons.mentioned.title'),
       description: this.I18n.t('js.notifications.settings.reasons.mentioned.description'),
     },
+    notifyImmediately: {
+      title: this.I18n.t('js.notifications.settings.global.immediately.title'),
+      description: this.I18n.t('js.notifications.settings.global.immediately.description'),
+    },
+    alsoNotifyFor: {
+      title: this.I18n.t('js.notifications.settings.global.delayed.title'),
+      description: this.I18n.t('js.notifications.settings.global.delayed.description'),
+    },
     assignee: this.I18n.t('js.notifications.settings.reasons.assignee'),
     responsible: this.I18n.t('js.notifications.settings.reasons.responsible'),
     watched_header: this.I18n.t('js.notifications.settings.reasons.watched'),
