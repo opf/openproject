@@ -39,12 +39,16 @@ import { BehaviorSubject } from 'rxjs';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import { BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
+import {
+  IStorageFileListItem,
+} from 'core-app/shared/components/file-links/storage-file-list-item/storage-file-list-item';
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import getIconForStorageType from 'core-app/shared/components/file-links/storage-icons/get-icon-for-storage-type';
 
 @Component({
@@ -54,7 +58,7 @@ import getIconForStorageType from 'core-app/shared/components/file-links/storage
 export class FilePickerModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   public loading$ = new BehaviorSubject<boolean>(true);
 
-  public storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
+  public storageFiles$ = new BehaviorSubject<IStorageFileListItem[]>([]);
 
   public breadcrumbs:BreadcrumbsContent;
 
@@ -99,7 +103,13 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
 
     this.storageFilesResourceService.files(filesLink)
       .subscribe((files) => {
-        this.storageFiles$.next(files);
+        const fileListItems = files.map((file, index) => ({
+          disabled: this.isAlreadyLinked(file),
+          isFirst: index === 0,
+          changeSelection: () => { this.changeSelection(file.id as string); },
+          ...file,
+        }));
+        this.storageFiles$.next(fileListItems);
         this.loading$.next(false);
       });
   }
@@ -118,12 +128,18 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     this.service.close();
   }
 
-  public changeSelection(file:IStorageFile):void {
-    const id = file.id as string;
+  public changeSelection(id:string):void {
     if (this.selection.has(id)) {
       this.selection.delete(id);
     } else {
       this.selection.add(id);
     }
+  }
+
+  private isAlreadyLinked(file:IStorageFile):boolean {
+    const currentFileLinks = this.locals.fileLinks as IFileLink[];
+    const found = currentFileLinks.find((a) => a.originData.id === file.id);
+
+    return !!found;
   }
 }

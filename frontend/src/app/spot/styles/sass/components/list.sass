@@ -40,6 +40,8 @@
         &:hover
           background-color: transparent
           cursor: not-allowed
+          opacity: 0.5
+          color: $spot-color-basic-gray-1
 
       &_active#{&}_disabled
         color: $spot-color-basic-gray-3
@@ -56,7 +58,7 @@
       &:focus-within
         background-color: $spot-color-basic-gray-6
 
-      &__disabled
+      &_disabled
         color: $spot-color-basic-gray-1
 
         &:hover

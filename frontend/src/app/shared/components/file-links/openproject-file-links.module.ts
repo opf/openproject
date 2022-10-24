@@ -50,7 +50,7 @@ import {
 import { SortFilesPipe } from 'core-app/shared/components/file-links/file-picker-modal/sort-files.pipe';
 import {
   LoadingFileListComponent,
-} from 'core-app/shared/components/file-links/laoding-file-list/loading-file-list.component';
+} from 'core-app/shared/components/file-links/loading-file-list/loading-file-list.component';
 
 @NgModule({
   imports: [

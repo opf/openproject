@@ -28,8 +28,7 @@
           class="spot-list--item op-file-list--item"
           data-qa-selector="op-file-list--item"
           op-storage-file-list-item
-          [storageFile]="file"
-          (changeSelection)="changeSelection(file)"
+          [fileListItemContent]="file"
         ></li>
       </ul>
     </ng-container>

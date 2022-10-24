@@ -1,32 +1,45 @@
-<label
-  class="spot-list--item-action"
+<spot-tooltip
+  [alignment]="getTooltipAlignment"
+  [disabled]="!fileListItemContent.disabled"
 >
-  <spot-checkbox
-    [checked]="selected"
-    (checkedChange)="changeSelection.emit()"
-  ></spot-checkbox>
-  <span
-    class="spot-icon spot-icon_{{fileLinkIcon.icon}} op-files-tab--icon op-files-tab--icon_{{fileLinkIcon.clazz}}"
-  ></span>
+  <p
+    slot="body"
+    class="spot-body-small"
+  >{{text.tooltip}}</p>
 
-  <span
-    [textContent]="storageFile.name"
-    [title]="storageFile.name"
-    class="spot-list--item-title op-file-list--item-title"
-  ></span>
+  <label
+    slot="trigger"
+    class="spot-list--item-action"
+    [ngClass]="{ 'spot-list--item-action_disabled': fileListItemContent.disabled }"
+  >
+    <spot-checkbox
+      [checked]="fileListItemContent.disabled"
+      (checkedChange)="fileListItemContent.changeSelection()"
+      [disabled]="fileListItemContent.disabled"
+    ></spot-checkbox>
+    <span
+      class="spot-icon spot-icon_{{fileLinkIcon.icon}} op-files-tab--icon op-files-tab--icon_{{fileLinkIcon.clazz}}"
+    ></span>
 
-  <span
-    *ngIf="showDetails"
-    class="op-file-list--item-text"
-    [textContent]="infoTimestampText"
-  ></span>
+    <span
+      [textContent]="fileListItemContent.name"
+      [title]="fileListItemContent.name"
+      class="spot-list--item-title op-file-list--item-title"
+    ></span>
 
-  <op-principal
-    *ngIf="showDetails"
-    class="op-file-list--item-avatar"
-    [principal]="principal"
-    [hideName]="true"
-    [size]="'mini'"
-    [link]="false"
-  ></op-principal>
-</label>
+    <span
+      *ngIf="showDetails"
+      class="op-file-list--item-text"
+      [textContent]="infoTimestampText"
+    ></span>
+
+    <op-principal
+      *ngIf="showDetails"
+      class="op-file-list--item-avatar"
+      [principal]="principal"
+      [hideName]="true"
+      [size]="'mini'"
+      [link]="false"
+    ></op-principal>
+  </label>
+</spot-tooltip>

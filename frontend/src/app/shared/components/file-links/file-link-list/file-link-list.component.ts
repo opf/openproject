@@ -154,14 +154,19 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   }
 
   public openLinkFilesDialog():void {
-    const locals = {
-      storageType: this.storage._links.type.href,
-      storageTypeName: this.storageType,
-      storageName: this.storage.name,
-      storageLocation: this.storageFilesLocation,
-      storageLink: this.storage._links.self,
-    };
-    this.opModalService.show<FilePickerModalComponent>(FilePickerModalComponent, 'global', locals);
+    this.fileLinks$
+      .pipe(this.untilDestroyed())
+      .subscribe((fileLinks) => {
+        const locals = {
+          storageType: this.storage._links.type.href,
+          storageTypeName: this.storageType,
+          storageName: this.storage.name,
+          storageLocation: this.storageFilesLocation,
+          storageLink: this.storage._links.self,
+          fileLinks,
+        };
+        this.opModalService.show<FilePickerModalComponent>(FilePickerModalComponent, 'global', locals);
+      });
   }
 
   private instantiateStorageInformation(fileLinks:IFileLink[]):StorageInformationBox[] {
