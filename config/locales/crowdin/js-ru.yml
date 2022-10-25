@@ -576,7 +576,7 @@ ru:
         by_project: 'Непрочитано по проекту'
         by_reason: 'Вовлеченность'
         inbox: 'Входящие'
-        mentioned: 'Mentioned'
+        mentioned: 'Упомянутые'
         watching: 'Смотрит'
       settings:
         change_notification_settings: 'Чтобы просмотреть и изменить настройки уведомлений, <a target="_blank" href="%{url}">нажмите здесь</a>'
@@ -584,11 +584,11 @@ ru:
         notify_me: "Уведомлять меня"
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'Упомянутые'
             description: 'Получать уведомления каждый раз, когда кто-то упоминает меня в любом месте'
           assignee: 'Назначенный'
           responsible: 'Подотчетный'
-          watched: 'Watcher'
+          watched: 'Наблюдатель'
           work_package_commented: 'Все новые комментарии'
           work_package_created: 'Новые пакеты работ'
           work_package_processed: 'Все изменения статуса'
@@ -596,14 +596,14 @@ ru:
           work_package_scheduled: 'Все изменения даты'
         global:
           immediately:
-            title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            title: 'Участие'
+            description: 'Уведомления обо всех действиях в пакетах работ, в которых вы участвуете (назначения, подотчетности или наблюдателя)'
           delayed:
-            title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            title: 'Неучастие'
+            description: 'Дополнительные уведомления для действий во всех проектах'
           date_alerts:
-            title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            title: 'Дата оповещения'
+            description: 'Автоматическое уведомление о приближении важной даты для открытых пакетов работ, в которых вы участвуете (назначение, подотчетность или наблюдатель)'
         project_specific:
           title: 'Конкретные настройки уведомлений проекта'
           description: 'Эти настройки специфического проекта переопределяют настройки по умолчанию'
