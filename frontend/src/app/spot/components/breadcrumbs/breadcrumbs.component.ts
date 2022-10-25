@@ -37,7 +37,7 @@ import { BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcr
 
 @Component({
   selector: 'spot-breadcrumbs',
-  templateUrl: './breadcrumbs.html',
+  templateUrl: './breadcrumbs.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpotBreadcrumbsComponent {

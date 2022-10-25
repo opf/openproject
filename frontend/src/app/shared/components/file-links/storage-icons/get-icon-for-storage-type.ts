@@ -28,7 +28,7 @@
 
 import { storageIconMappings } from 'core-app/shared/components/file-links/storage-icons/icon-mappings';
 
-export function getIconForStorageType(storageType?:string):string {
+export default function getIconForStorageType(storageType?:string):string {
   if (storageType && storageIconMappings[storageType]) {
     return storageIconMappings[storageType];
   }
