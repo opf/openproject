@@ -33,7 +33,7 @@ export class EnterpriseBannerComponent implements OnInit {
 
   @Input() public moreInfoLink:string;
 
-  @Input() collapsible:boolean;
+  @Input() public collapsible:boolean;
 
   public collapsed = false;
 
