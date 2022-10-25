@@ -129,7 +129,7 @@ gem 'rack-protection', '~> 2.2.0'
 gem 'rack-attack', '~> 6.6.0'
 
 # CSP headers
-gem 'secure_headers', '~> 6.4.0'
+gem 'secure_headers', '~> 6.5.0'
 
 # Browser detection for incompatibility checks
 gem 'browser', '~> 5.3.0'
