@@ -41,10 +41,10 @@ describe 'WorkPackage-Visibility', type: :model do
   describe 'of public projects' do
     subject { create(:work_package, project: public_project) }
 
-    it 'is viewable by anonymous, with the view_work_packages permissison' do
+    it 'is viewable by anonymous, with the view_work_packages permission' do
       # it is not really clear, where these kind of "preconditions" belong to: This setting
       # is a default in Redmine::DefaultData::Loader - but this not loaded in the tests: here we
-      # just make sure, that the workpackage is visible, when this permission is set
+      # just make sure, that the work package is visible, when this permission is set
       Role.anonymous.add_permission! :view_work_packages
       expect(WorkPackage.visible(anonymous)).to match_array [subject]
     end
@@ -61,7 +61,7 @@ describe 'WorkPackage-Visibility', type: :model do
       expect(WorkPackage.visible(anonymous)).to match_array []
     end
 
-    it 'is visible for members of the project, with the view_work_packages permissison' do
+    it 'is visible for members of the project, with the view_work_packages permission' do
       create(:member,
              user:,
              project: private_project,
@@ -82,11 +82,11 @@ describe 'WorkPackage-Visibility', type: :model do
       expect(WorkPackage.visible(user).pluck(:id)).to match_array [subject.id]
     end
 
-    it 'is not visible for non-members of the project without the view_work_packages permissison' do
+    it 'is not visible for non-members of the project without the view_work_packages permission' do
       expect(WorkPackage.visible(user)).to match_array []
     end
 
-    it 'is not visible for members of the project, without the view_work_packages permissison' do
+    it 'is not visible for members of the project, without the view_work_packages permission' do
       no_permission = create(:role, permissions: [:no_permission])
       create(:member,
              user:,
