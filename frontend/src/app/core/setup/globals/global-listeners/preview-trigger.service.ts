@@ -32,8 +32,6 @@ import { WpPreviewModalComponent } from 'core-app/shared/components/modals/previ
 
 @Injectable({ providedIn: 'root' })
 export class PreviewTriggerService {
-  private previewModal:WpPreviewModalComponent;
-
   private modalElement:HTMLElement;
 
   private mouseInModal = false;
@@ -54,14 +52,15 @@ export class PreviewTriggerService {
         return;
       }
 
-      this.previewModal = this.opModalService.show(
+      this.opModalService.show(
         WpPreviewModalComponent,
         this.injector,
         { workPackageLink: href, event: e },
         true,
-      );
-      this.modalElement = this.previewModal.elementRef.nativeElement;
-      this.previewModal.reposition(jQuery(this.modalElement), el);
+      ).subscribe((previewModal) => {
+        this.modalElement = previewModal.elementRef.nativeElement;
+        previewModal.reposition(jQuery(this.modalElement), el);
+      });
     });
 
     jQuery(document.body).on('mouseleave', '.preview-trigger', () => {

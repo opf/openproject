@@ -92,11 +92,10 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     this.querySpace.query
       .valuesPromise()
       .then(() => {
-        const modal = this.opModalService
-          .show(WpTableConfigurationModalComponent, this.injector);
-
-        // Detach this component when the modal closes and pass along the query data
-        modal.onDataUpdated.subscribe(onUpdated);
+        this.opModalService
+          .show(WpTableConfigurationModalComponent, this.injector)
+          // Detach this component when the modal closes and pass along the query data
+          .subscribe((modal) => modal.onDataUpdated.subscribe(onUpdated));
       });
   }
 

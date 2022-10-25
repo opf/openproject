@@ -28,70 +28,89 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild,
+  Component,
+  ComponentRef,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
 import {
+  CdkPortalOutlet,
   ComponentPortal,
-  ComponentType,
-  PortalInjector,
 } from '@angular/cdk/portal';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { OpModalComponent } from './modal.component';
+import { ReplaySubject } from 'rxjs';
+
+export const opModalOverlaySelector = 'op-modal-overlay';
 
 @Component({
+  selector: opModalOverlaySelector,
   templateUrl: './modal-overlay.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpModalOverlayComponent implements OnInit {
-  // override superclass
-  // Allowing outside clicks to close the modal leads to the user involuntarily closing
-  // the modal when removing error messages or clicking on labels e.g. in the registration modal.
-  public closeOnOutsideClick = false;
+  public notFullscreen = false;
 
-  @ViewChild('portalOutlet') portalOutlet: ElementRef<HTMLElement>;
+  @ViewChild('portalOutlet') portalOutlet: CdkPortalOutlet;
 
-  modalPortal$ = this.modalService.activeModal$;
+  activeModalData$ = this.modalService.activeModalData$;
+  activePortal$ = new ReplaySubject();
+  activeModalInstance$ = this.modalService.activeModalInstance$;
 
   constructor(
     readonly modalService:OpModalService,
-    readonly elementRef:ElementRef,
-    readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
   ) { }
 
   ngOnInit():void {
-    // onclose:
     // this.active.closingEvent.emit(this.active);
     // onopen:
     // this.active.onOpen();
+    //
+    console.log('modal overlay active');
     
-    const portal = new ComponentPortal(modal, null, this.injectorFor(injector, locals));
+    this.activeModalData$
+    .subscribe((modalData) => {
+      this.notFullscreen = false;
 
-    setTimeout(() => {
-      // Focus on the first element
-      this.active && this.active.onOpen();
+      if (modalData === null) {
+        const ref = (this.portalOutlet.attachedRef as ComponentRef<OpModalComponent>);
+        if (!ref) {
+          return;
+        }
+        ref.instance.closingEvent.emit(ref.instance);
+        this.portalOutlet.detach();
+        this.activeModalInstance$.next(null);
+        return;
+      }
 
-      // Mark that we've opened the modal now
-      this.opening = false;
+      const {
+        modal,
+        injector,
+        notFullscreen,
+      } = modalData;
+      this.notFullscreen = notFullscreen;
+      const portal = new ComponentPortal(modal, null, injector);
+      this.activePortal$.next(portal);
+      setTimeout(() => {
+        const ref = (this.portalOutlet.attachedRef as ComponentRef<OpModalComponent>);
+        console.log(this);
+        console.log(this.portalOutlet);
+        const instance = ref.instance;
 
-      // Trigger another round of change detection in the modal
-      ref.changeDetectorRef.detectChanges();
-    }, 20);
+        this.activeModalInstance$.next(instance);
+
+        // Focus on the first element
+        instance && instance.onOpen();
+
+        // Trigger another round of change detection in the modal
+        ref.changeDetectorRef.detectChanges();
+      }, 0);
+    });
   }
 
-  /**
-   * Create an augmented injector that is equal to this service's injector + the additional data
-   * passed into +show+.
-   * This allows callers to pass data into the newly created modal.
-   */
-  private injectorFor(injector:Injector, data:Record<string, unknown>) {
-    const injectorTokens = new WeakMap();
-    // Pass the service because otherwise we're getting a cyclic dependency between the portal
-    // host service and the bound portal
-    data.service = this;
-
-    injectorTokens.set(OpModalLocalsToken, data);
-
-    return new PortalInjector(injector, injectorTokens);
+  public close() {
+    this.modalService.close();
   }
 }

@@ -65,9 +65,9 @@ export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuCompone
       linkText: this.i18n.t('js.toolbar.settings.configure_view'),
       onClick: () => {
         this.opModalService.show(this.configurationComponent, this.injector, this.locals)
-          .closingEvent.subscribe((modal:WpGraphConfigurationModalComponent) => {
-            this.onConfigured.emit(modal.configuration);
-          });
+          .subscribe((modal) => modal.closingEvent.subscribe((modal:WpGraphConfigurationModalComponent) => {
+              this.onConfigured.emit(modal.configuration);
+            }));
         return true;
       },
     };

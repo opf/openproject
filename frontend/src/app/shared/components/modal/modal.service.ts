@@ -27,34 +27,28 @@
 //++
 
 import {
-  ApplicationRef,
-  ComponentFactoryResolver,
-  ComponentRef,
   Injectable,
   InjectionToken,
   Injector,
 } from '@angular/core';
-import {
-  ComponentPortal,
-  ComponentType,
-  PortalInjector,
-} from '@angular/cdk/portal';
-import { TransitionService } from '@uirouter/core';
+import { ComponentType, PortalInjector } from '@angular/cdk/portal';
 
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { ReplaySubject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, ReplaySubject } from 'rxjs';
+import { filter, skip, take } from 'rxjs/operators';
 
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 
 @Injectable({ providedIn: 'root' })
 export class OpModalService {
-  public activeModal$ = new ReplaySubject<ComponentPortal<OpModalComponent>|null>();
+  public activeModalInstance$ = new ReplaySubject<OpModalComponent|null>();
+  public activeModalData$ = new ReplaySubject<{
+    modal:ComponentType<OpModalComponent>,
+    injector:Injector,
+    notFullscreen:boolean,
+  }|null>();
 
   constructor(
-    private readonly componentFactoryResolver:ComponentFactoryResolver,
-    private readonly appRef:ApplicationRef,
-    private readonly $transitions:TransitionService,
     private readonly injector:Injector,
   ) {
     const hostElement = document.createElement('div');
@@ -67,11 +61,7 @@ export class OpModalService {
         return;
       }
 
-      this.activeModal$.pipe(take(1)).subscribe((activeModal) => {
-        if (activeModal) {
-          this.activeModal$.next(null);
-        }
-      });
+      this.close();
     });
   }
 
@@ -82,39 +72,54 @@ export class OpModalService {
    * @param injector The injector to pass into the component. Ensure this is the hierarchical injector if needed.
    *                 Can be passed 'global' to take the default (global!) injector of this service.
    * @param locals A map to be injected via token into the component.
-   * @param notFullScreen Whether the modal is treated as non-overlay
    */
   public show<T extends OpModalComponent>(
     modal:ComponentType<T>,
     injector:Injector|'global',
     locals:Record<string, unknown> = {},
-    notFullScreen = false,
-  ):T {
+    notFullscreen = false,
+  ):Observable<T> {
     this.close();
-
-    // Prevent closing events during the opening time frame.
-    this.opening = true;
 
     // Allow users to pass the global injector when deliberately requested.
     if (injector === 'global') {
       injector = this.injector;
     }
+
+    this.activeModalData$.next({
+      modal,
+      injector: this.injectorFor(injector, locals),
+      notFullscreen,
+    });
+
+    return this.activeModalInstance$
+      .pipe(
+        filter((m) => m !== null),
+        skip(1),
+        take(1),
+      ) as Observable<T>;
   }
 
   /**
    * Closes currently open modal window
    */
   public close():void {
-    // Detach any component currently in the portal
-    this.activeModal$.next(null);
-    /*
-    if (this.active && this.active.onClose()) {
-      this.active.closingEvent.emit(this.active);
-      this.bodyPortalHost.detach();
-      this.portalHostElement.classList.remove('spot-modal-overlay_active');
-      this.portalHostElement.classList.remove('spot-modal-overlay_not-full-screen');
-      this.active = null;
-    }
-    */
+    this.activeModalData$.next(null);
+  }
+
+  /**
+   * Create an augmented injector that is equal to this service's injector + the additional data
+   * passed into +show+.
+   * This allows callers to pass data into the newly created modal.
+   */
+  private injectorFor(injector:Injector, data:Record<string, unknown>) {
+    const injectorTokens = new WeakMap();
+    // Pass the service because otherwise we're getting a cyclic dependency between the portal
+    // host service and the bound portal
+    data.service = this;
+
+    injectorTokens.set(OpModalLocalsToken, data);
+
+    return new PortalInjector(injector, injectorTokens);
   }
 }

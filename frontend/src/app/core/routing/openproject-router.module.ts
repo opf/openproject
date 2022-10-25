@@ -29,6 +29,7 @@
 import { Injector, NgModule } from '@angular/core';
 import { FirstRouteService } from 'core-app/core/routing/first-route-service';
 import { UIRouterModule } from '@uirouter/angular';
+import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
 import {
   initializeUiRouterListeners,
@@ -43,6 +44,9 @@ import {
       useHash: false,
       config: uiRouterConfiguration,
     } as any),
+
+    // Modals
+    OpenprojectModalModule,
   ],
   providers: [
     FirstRouteService,
