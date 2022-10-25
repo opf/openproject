@@ -26,18 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { EntityStore, StoreConfig } from '@datorama/akita';
-import { CollectionState, createInitialCollectionState } from 'core-app/core/state/collection-store';
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import { storageIconMappings } from 'core-app/shared/components/file-links/storage-icons/icon-mappings';
 
-export interface StorageFilesState extends CollectionState<IStorageFile> {}
-
-@StoreConfig({
-  name: 'storage-files',
-  resettable: true,
-})
-export class StorageFilesStore extends EntityStore<StorageFilesState> {
-  constructor() {
-    super(createInitialCollectionState());
+export default function getIconForStorageType(storageType?:string):string {
+  if (storageType && storageIconMappings[storageType]) {
+    return storageIconMappings[storageType];
   }
+
+  return storageIconMappings.default;
 }
