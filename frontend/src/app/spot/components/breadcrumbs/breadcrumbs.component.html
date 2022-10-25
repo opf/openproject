@@ -5,7 +5,7 @@
     *ngIf="(first && !last) || i === content.crumbs.length - 2 || i === content.crumbs.length - 3"
     class="spot-breadcrumbs--crumb"
     [ngClass]="{
-      'spot-breadcrumbs--crumb_first': first,
+      'spot-breadcrumbs--crumb_root': first,
       'spot-breadcrumbs--crumb_parent': i === content.crumbs.length - 2,
       'spot-breadcrumbs--crumb_grandparent': i === content.crumbs.length - 3
     }"
