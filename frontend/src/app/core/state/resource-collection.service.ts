@@ -45,6 +45,7 @@ import {
   CollectionResponse,
   CollectionState,
   insertCollectionIntoState,
+  removeCollectionLoading,
   setCollectionLoading,
 } from 'core-app/core/state/collection-store';
 import { omit } from 'lodash';
@@ -228,14 +229,14 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
   fetchCollection(params:ApiV3ListParameters|string):Observable<IHALCollection<T>> {
     const key = typeof params === 'string' ? params : collectionKey(params);
 
-    setCollectionLoading(this.store, key, true);
+    setCollectionLoading(this.store, key);
 
     return this
       .http
       .get<IHALCollection<T>>(this.basePath() + key)
       .pipe(
         tap((collection) => insertCollectionIntoState(this.store, collection, key)),
-        finalize(() => setCollectionLoading(this.store, key, false)),
+        finalize(() => removeCollectionLoading(this.store, key)),
         catchError((error:unknown) => {
           this.handleCollectionLoadingError(error as HttpErrorResponse, key);
           throw error;

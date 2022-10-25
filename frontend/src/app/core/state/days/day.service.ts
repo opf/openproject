@@ -14,6 +14,7 @@ import {
   collectionKey,
   extendCollectionElementsWithId,
   insertCollectionIntoState,
+  removeCollectionLoading,
   setCollectionLoading,
 } from 'core-app/core/state/collection-store';
 import { DayStore } from 'core-app/core/state/days/day.store';
@@ -57,7 +58,7 @@ export class DayResourceService extends ResourceCollectionService<IDay> {
   fetchCollection(params:ApiV3ListParameters):Observable<IHALCollection<IDay>> {
     const collectionURL = collectionKey(params);
 
-    setCollectionLoading(this.store, collectionURL, true);
+    setCollectionLoading(this.store, collectionURL);
 
     return this
       .http
@@ -65,7 +66,7 @@ export class DayResourceService extends ResourceCollectionService<IDay> {
       .pipe(
         map((collection) => extendCollectionElementsWithId(collection)),
         tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
-        finalize(() => setCollectionLoading(this.store, collectionURL, false)),
+        finalize(() => removeCollectionLoading(this.store, collectionURL)),
       );
   }
 
