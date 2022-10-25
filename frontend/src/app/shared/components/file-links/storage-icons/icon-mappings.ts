@@ -26,18 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { EntityStore, StoreConfig } from '@datorama/akita';
-import { CollectionState, createInitialCollectionState } from 'core-app/core/state/collection-store';
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import { nextcloud } from 'core-app/shared/components/file-links/file-links-constants.const';
 
-export interface StorageFilesState extends CollectionState<IStorageFile> {}
+export const storageIconMappings:Record<string, string> = {
+  [nextcloud]: 'nextcloud-circle',
 
-@StoreConfig({
-  name: 'storage-files',
-  resettable: true,
-})
-export class StorageFilesStore extends EntityStore<StorageFilesState> {
-  constructor() {
-    super(createInitialCollectionState());
-  }
-}
+  default: 'ticket',
+};
