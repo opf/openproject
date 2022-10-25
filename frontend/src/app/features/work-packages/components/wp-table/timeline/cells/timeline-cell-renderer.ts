@@ -467,21 +467,9 @@ export class TimelineCellRenderer {
     const dates = (evOrDates instanceof MouseEvent)
       ? [this.cursorDateAndDayOffset(evOrDates, renderInfo)[0]]
       : evOrDates;
-    
-
-
     if (!renderInfo.workPackage.ignoreNonWorkingDays && direction === 'both' && this.weekdayService.isNonWorkingDay(dates[dates.length - 1].toDate())) {
       return false;
     }
-    if(dates.some((date) => this.weekdayService.isNonWorkingDay(date.toDate()))){
-      debugger;
-      var non = renderInfo.workPackage.ignoreNonWorkingDays;
-      var dir = direction;
-      var isNonWorkingDay = this.weekdayService.isNonWorkingDay(dates[dates.length - 1].toDate());
-      var enddate = dates[dates.length - 1].toDate();
-    }
-
-    
     return dates.some((date) => this.weekdayService.isNonWorkingDay(date.toDate()));
   }
 
