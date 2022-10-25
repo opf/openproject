@@ -33,6 +33,10 @@ export class EnterpriseBannerComponent implements OnInit {
 
   @Input() public moreInfoLink:string;
 
+  @Input() collapsible:boolean;
+
+  public collapsed = false;
+
   link:string;
 
   pricingUrl = pricingUrl;
@@ -64,5 +68,10 @@ export class EnterpriseBannerComponent implements OnInit {
 
   ngOnInit():void {
     this.link = this.bannersService.getEnterPriseEditionUrl({ referrer: this.opReferrer });
+    this.collapsed = this.collapsible;
+  }
+
+  collapse():void {
+    this.collapsed = !this.collapsed;
   }
 }

@@ -7,19 +7,30 @@
 
     <img [src]="image.enterprise_edition" class="hidden-for-mobile op-enterprise-banner--image">
     <div class="op-toast--content">
-      <div class="op-enterprise-banner--title">
-        <op-icon icon-classes="button--icon icon-medal"></op-icon> &nbsp;
-        <span [textContent]="text.enterpriseFeature"></span>
+      <div class="op-enterprise-banner--header">
+        <op-icon icon-classes="button--icon icon-medal"></op-icon>
+        <span [textContent]="text.enterpriseFeature" class="op-enterprise-banner--title"></span>
+        <button
+          *ngIf="collapsible"
+          class="op-enterprise-banner--collapsible-button"
+          type="button"
+          (click)="collapse()"
+        >
+          <span class="icon1"
+                [ngClass]="collapsed ? 'icon-arrow-down1' : 'icon-arrow-up1'"
+                aria-hidden="true">
+          </span>
+        </button>
       </div>
       <br>
 
       <span class="op-enterprise-banner--description" [innerHtml]="textMessage"></span>
 
-      <span class="op-enterprise-banner--description">
+      <span class="op-enterprise-banner--description" *ngIf="!collapsed">
         <strong [textContent]="text.become_hero"></strong> {{text.you_contribute}}
       </span>
 
-      <div class="op-enterprise-banner--buttons">
+      <div class="op-enterprise-banner--buttons" *ngIf="!collapsed">
         <a
           *ngIf="moreInfoLink"
           [attr.href]="moreInfoLink"
