@@ -1,11 +1,14 @@
 <ng-container
   *ngFor="let crumb of content.crumbs; let i = index; let last = last; let first = first"
 >
-  <!-- Desktop crumbs -->
   <div
-    *ngIf="(first && !last) || i === content.crumbs.length - 2 || i === content.crumbs.length - 3 "
-    class="spot-breadcrumbs--crumb hidden-for-mobile"
-    [ngClass]="{'spot-breadcrumbs--crumb_shrink': !first }"
+    *ngIf="(first && !last) || i === content.crumbs.length - 2 || i === content.crumbs.length - 3"
+    class="spot-breadcrumbs--crumb"
+    [ngClass]="{
+      'spot-breadcrumbs--crumb_first': first,
+      'spot-breadcrumbs--crumb_parent': i === content.crumbs.length - 2,
+      'spot-breadcrumbs--crumb_grandparent': i === content.crumbs.length - 3
+    }"
   >
     <button
       type="button"
@@ -14,7 +17,8 @@
       (click)="crumb.navigate()"
     >
       <span *ngIf="crumb.icon" class="spot-icon spot-icon_{{crumb.icon}}"></span>
-      <span [textContent]="crumb.text"></span>
+      <span [textContent]="crumb.text" class="spot-breadcrumbs--crumb-action-item-text"></span>
+      <span class="spot-breadcrumbs--crumb-action-item-dots"></span>
     </button>
 
     <span class="spot-breadcrumbs--crumb-divider spot-icon spot-icon_arrow-right5"></span>
@@ -22,48 +26,14 @@
 
   <div
     *ngIf="i === 1 && content.crumbs.length > 4"
-    class="spot-breadcrumbs--crumb hidden-for-mobile"
+    class="spot-breadcrumbs--crumb spot-breadcrumbs--crumb_collapsed"
   >
-    <span
-      class="spot-breadcrumbs--crumb-action-item"
-      [textContent]="'...'"
-    ></span>
-
     <span class="spot-breadcrumbs--crumb-divider spot-icon spot-icon_arrow-right5"></span>
   </div>
 
   <div
     *ngIf="last"
-    class="spot-breadcrumbs--crumb hidden-for-mobile"
-  >
-    <span *ngIf="crumb.icon" class="spot-icon spot-icon_{{crumb.icon}}"></span>
-    <span
-      class="spot-breadcrumbs--crumb-action-item"
-      [textContent]="crumb.text"
-    ></span>
-  </div>
-
-  <!-- Mobile crumbs -->
-  <div
-    *ngIf="(first && !last) || i === content.crumbs.length - 2 "
-    class="spot-breadcrumbs--crumb hidden-for-desktop"
-  >
-    <button
-      type="button"
-      class="spot-link spot-breadcrumbs--crumb-action-item"
-      [title]="crumb.text"
-      (click)="crumb.navigate()"
-    >
-      <span *ngIf="crumb.icon" class="spot-icon spot-icon_{{crumb.icon}}"></span>
-      <span [textContent]="'...'"></span>
-    </button>
-
-    <span class="spot-breadcrumbs--crumb-divider spot-icon spot-icon_arrow-right5"></span>
-  </div>
-
-  <div
-    *ngIf="last"
-    class="spot-breadcrumbs--crumb spot-breadcrumbs--crumb_shrink hidden-for-desktop"
+    class="spot-breadcrumbs--crumb spot-breadcrumbs--crumb_last"
   >
     <span *ngIf="crumb.icon" class="spot-icon spot-icon_{{crumb.icon}}"></span>
     <span
