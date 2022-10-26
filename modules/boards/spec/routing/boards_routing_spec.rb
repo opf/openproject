@@ -30,14 +30,12 @@ require 'spec_helper'
 
 describe 'Boards routing', type: :routing do
   it {
-    expect(subject)
-      .to route(:get, '/projects/foobar/boards/state')
-      .to(controller: 'boards/boards', action: 'index', project_id: 'foobar', state: 'state')
+    expect(get('/projects/foobar/boards/state'))
+      .to route_to(controller: 'boards/boards', action: 'index', project_id: 'foobar', state: 'state')
   }
 
   it {
-    expect(subject)
-      .to route(:get, '/boards/state')
-      .to(controller: 'boards/boards', action: 'index', state: 'state')
+    expect(get('/boards/state'))
+      .to route_to(controller: 'boards/boards', action: 'index', state: 'state')
   }
 end

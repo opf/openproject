@@ -30,66 +30,75 @@ require 'spec_helper'
 
 describe WikiController, type: :routing do
   describe 'routing' do
-    it {
-      expect(subject).to route(:get, '/projects/567/wiki').to(controller: 'wiki',
-                                                              action: 'show',
-                                                              project_id: '567')
-    }
+    it do
+      expect(get('/projects/567/wiki'))
+        .to route_to(controller: 'wiki',
+                     action: 'show',
+                     project_id: '567')
+    end
 
     it 'connects GET /projects/:project_id/wiki/:name (without format) to wiki/show' do
-      expect(get('/projects/abc/wiki/blubs')).to route_to(controller: 'wiki',
-                                                          action: 'show',
-                                                          project_id: 'abc',
-                                                          id: 'blubs')
+      expect(get('/projects/abc/wiki/blubs'))
+        .to route_to(controller: 'wiki',
+                     action: 'show',
+                     project_id: 'abc',
+                     id: 'blubs')
     end
 
     it 'connects GET /projects/:project_id/wiki/:name (with a dot in it) to wiki/show' do
-      expect(get('/projects/abc/wiki/blubs.blubs')).to route_to(controller: 'wiki',
-                                                                action: 'show',
-                                                                project_id: 'abc',
-                                                                id: 'blubs.blubs')
+      expect(get('/projects/abc/wiki/blubs.blubs'))
+        .to route_to(controller: 'wiki',
+                     action: 'show',
+                     project_id: 'abc',
+                     id: 'blubs.blubs')
     end
 
     it 'connects GET /projects/:project_id/wiki/:name.html to wiki/show' do
-      expect(get('/projects/abc/wiki/blubs.markdown')).to route_to(controller: 'wiki',
-                                                                   action: 'show',
-                                                                   project_id: 'abc',
-                                                                   id: 'blubs',
-                                                                   format: 'markdown')
+      expect(get('/projects/abc/wiki/blubs.markdown'))
+        .to route_to(controller: 'wiki',
+                     action: 'show',
+                     project_id: 'abc',
+                     id: 'blubs',
+                     format: 'markdown')
     end
 
     it 'connects GET /projects/:project_id/wiki/new to wiki/new' do
-      expect(get('/projects/abc/wiki/new')).to route_to(controller: 'wiki',
-                                                        action: 'new',
-                                                        project_id: 'abc')
+      expect(get('/projects/abc/wiki/new'))
+        .to route_to(controller: 'wiki',
+                     action: 'new',
+                     project_id: 'abc')
     end
 
     it 'connects GET /projects/:project_id/wiki/:id/new to wiki/new_child' do
-      expect(get('/projects/abc/wiki/def/new')).to route_to(controller: 'wiki',
-                                                            action: 'new_child',
-                                                            project_id: 'abc',
-                                                            id: 'def')
+      expect(get('/projects/abc/wiki/def/new'))
+        .to route_to(controller: 'wiki',
+                     action: 'new_child',
+                     project_id: 'abc',
+                     id: 'def')
     end
 
     it 'connects POST /projects/:project_id/wiki/new to wiki/create' do
-      expect(post('/projects/abc/wiki/new')).to route_to(controller: 'wiki',
-                                                         action: 'create',
-                                                         project_id: 'abc')
+      expect(post('/projects/abc/wiki/new'))
+        .to route_to(controller: 'wiki',
+                     action: 'create',
+                     project_id: 'abc')
     end
 
     it {
-      expect(subject).to route(:get, '/projects/567/wiki/my_page/edit').to(controller: 'wiki',
-                                                                           action: 'edit',
-                                                                           project_id: '567',
-                                                                           id: 'my_page')
+      expect(get('/projects/567/wiki/my_page/edit'))
+        .to route_to(controller: 'wiki',
+                     action: 'edit',
+                     project_id: '567',
+                     id: 'my_page')
     }
 
     it do
-      expect(get('/projects/abc/wiki/abc_wiki?version=3')).to route_to(controller: 'wiki',
-                                                                       action: 'show',
-                                                                       project_id: 'abc',
-                                                                       id: 'abc_wiki',
-                                                                       version: '3')
+      expect(get('/projects/abc/wiki/abc_wiki?version=3'))
+        .to route_to(controller: 'wiki',
+                     action: 'show',
+                     project_id: 'abc',
+                     id: 'abc_wiki',
+                     version: '3')
     end
 
     it 'connects GET /projects/:project_id/wiki/:id/parent_page to wiki/edit_parent_page' do
@@ -109,96 +118,109 @@ describe WikiController, type: :routing do
     end
 
     it 'connects GET /projects/:project_id/wiki/:id/toc to wiki#index' do
-      expect(get('/projects/abc/wiki/blubs/toc')).to route_to(controller: 'wiki',
-                                                              action: 'index',
-                                                              project_id: 'abc',
-                                                              id: 'blubs')
+      expect(get('/projects/abc/wiki/blubs/toc'))
+        .to route_to(controller: 'wiki',
+                     action: 'index',
+                     project_id: 'abc',
+                     id: 'blubs')
     end
 
     it {
-      expect(subject).to route(:get, '/projects/1/wiki/CookBook_documentation/history').to(controller: 'wiki',
-                                                                                           action: 'history',
-                                                                                           project_id: '1',
-                                                                                           id: 'CookBook_documentation')
+      expect(get('/projects/1/wiki/CookBook_documentation/history'))
+        .to route_to(controller: 'wiki',
+                     action: 'history',
+                     project_id: '1',
+                     id: 'CookBook_documentation')
     }
 
     it {
-      expect(subject).to route(:get, '/projects/1/wiki/CookBook_documentation/diff').to(controller: 'wiki',
-                                                                                        action: 'diff',
-                                                                                        project_id: '1',
-                                                                                        id: 'CookBook_documentation')
+      expect(get('/projects/1/wiki/CookBook_documentation/diff'))
+        .to route_to(controller: 'wiki',
+                     action: 'diff',
+                     project_id: '1',
+                     id: 'CookBook_documentation')
     }
 
     it {
-      expect(subject).to route(:get, '/projects/1/wiki/CookBook_documentation/diff/2').to(controller: 'wiki',
-                                                                                          action: 'diff',
-                                                                                          project_id: '1',
-                                                                                          id: 'CookBook_documentation',
-                                                                                          version: '2')
+      expect(get('/projects/1/wiki/CookBook_documentation/diff/2'))
+        .to route_to(controller: 'wiki',
+                     action: 'diff',
+                     project_id: '1',
+                     id: 'CookBook_documentation',
+                     version: '2')
     }
 
     it {
-      expect(subject).to route(:get, '/projects/1/wiki/CookBook_documentation/diff/2/vs/1').to(controller: 'wiki',
-                                                                                               action: 'diff',
-                                                                                               project_id: '1',
-                                                                                               id: 'CookBook_documentation',
-                                                                                               version: '2',
-                                                                                               version_from: '1')
+      expect(get('/projects/1/wiki/CookBook_documentation/diff/2/vs/1'))
+        .to route_to(controller: 'wiki',
+                     action: 'diff',
+                     project_id: '1',
+                     id: 'CookBook_documentation',
+                     version: '2',
+                     version_from: '1')
     }
 
     it {
-      expect(subject).to route(:get, '/projects/1/wiki/CookBook_documentation/annotate/2').to(controller: 'wiki',
-                                                                                              action: 'annotate',
-                                                                                              project_id: '1',
-                                                                                              id: 'CookBook_documentation',
-                                                                                              version: '2')
+      expect(get('/projects/1/wiki/CookBook_documentation/annotate/2'))
+        .to route_to(controller: 'wiki',
+                     action: 'annotate',
+                     project_id: '1',
+                     id: 'CookBook_documentation',
+                     version: '2')
     }
 
     it {
-      expect(subject).to route(:get, '/projects/22/wiki/ladida/rename').to(controller: 'wiki',
-                                                                           action: 'rename',
-                                                                           project_id: '22',
-                                                                           id: 'ladida')
+      expect(get('/projects/22/wiki/ladida/rename'))
+        .to route_to(controller: 'wiki',
+                     action: 'rename',
+                     project_id: '22',
+                     id: 'ladida')
     }
 
     it {
-      expect(subject).to route(:get, '/projects/567/wiki/index').to(controller: 'wiki',
-                                                                    action: 'index',
-                                                                    project_id: '567')
+      expect(get('/projects/567/wiki/index'))
+        .to route_to(controller: 'wiki',
+                     action: 'index',
+                     project_id: '567')
     }
 
     it {
-      expect(subject).to route(:get, '/projects/567/wiki/export').to(controller: 'wiki',
-                                                                     action: 'export',
-                                                                     project_id: '567')
+      expect(get('/projects/567/wiki/export'))
+        .to route_to(controller: 'wiki',
+                     action: 'export',
+                     project_id: '567')
     }
 
     it {
-      expect(subject).to route(:patch, '/projects/22/wiki/ladida/rename').to(controller: 'wiki',
-                                                                             action: 'rename',
-                                                                             project_id: '22',
-                                                                             id: 'ladida')
+      expect(patch('/projects/22/wiki/ladida/rename'))
+        .to route_to(controller: 'wiki',
+                     action: 'rename',
+                     project_id: '22',
+                     id: 'ladida')
     }
 
     it {
-      expect(subject).to route(:post, '/projects/22/wiki/ladida/protect').to(controller: 'wiki',
-                                                                             action: 'protect',
-                                                                             project_id: '22',
-                                                                             id: 'ladida')
+      expect(post('/projects/22/wiki/ladida/protect'))
+        .to route_to(controller: 'wiki',
+                     action: 'protect',
+                     project_id: '22',
+                     id: 'ladida')
     }
 
     it {
-      expect(subject).to route(:put, '/projects/567/wiki/my_page').to(controller: 'wiki',
-                                                                      action: 'update',
-                                                                      project_id: '567',
-                                                                      id: 'my_page')
+      expect(put('/projects/567/wiki/my_page'))
+        .to route_to(controller: 'wiki',
+                     action: 'update',
+                     project_id: '567',
+                     id: 'my_page')
     }
 
     it {
-      expect(subject).to route(:delete, '/projects/22/wiki/ladida').to(controller: 'wiki',
-                                                                       action: 'destroy',
-                                                                       project_id: '22',
-                                                                       id: 'ladida')
+      expect(delete('/projects/22/wiki/ladida'))
+        .to route_to(controller: 'wiki',
+                     action: 'destroy',
+                     project_id: '22',
+                     id: 'ladida')
     }
   end
 end

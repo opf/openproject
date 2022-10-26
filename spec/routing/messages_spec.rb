@@ -29,53 +29,61 @@
 require 'spec_helper'
 
 describe MessagesController, 'routing', type: :routing do
-  context 'project scoped' do
+  context 'with forum scope' do
     it {
-      expect(subject).to route(:get, '/forums/lala/topics/new').to(controller: 'messages',
-                                                                   action: 'new',
-                                                                   forum_id: 'lala')
+      expect(get('/forums/lala/topics/new'))
+        .to route_to(controller: 'messages',
+                     action: 'new',
+                     forum_id: 'lala')
     }
 
     it {
-      expect(subject).to route(:post, '/forums/lala/topics').to(controller: 'messages',
-                                                                action: 'create',
-                                                                forum_id: 'lala')
+      expect(post('/forums/lala/topics'))
+        .to route_to(controller: 'messages',
+                     action: 'create',
+                     forum_id: 'lala')
     }
   end
 
   it {
-    expect(subject).to route(:get, '/topics/2').to(controller: 'messages',
-                                                   action: 'show',
-                                                   id: '2')
+    expect(get('/topics/2'))
+      .to route_to(controller: 'messages',
+                   action: 'show',
+                   id: '2')
   }
 
   it {
-    expect(subject).to route(:get, '/topics/22/edit').to(controller: 'messages',
-                                                         action: 'edit',
-                                                         id: '22')
+    expect(get('/topics/22/edit'))
+      .to route_to(controller: 'messages',
+                   action: 'edit',
+                   id: '22')
   }
 
   it {
-    expect(subject).to route(:put, '/topics/22').to(controller: 'messages',
-                                                    action: 'update',
-                                                    id: '22')
+    expect(put('/topics/22'))
+      .to route_to(controller: 'messages',
+                   action: 'update',
+                   id: '22')
   }
 
   it {
-    expect(subject).to route(:delete, '/topics/555').to(controller: 'messages',
-                                                        action: 'destroy',
-                                                        id: '555')
+    expect(delete('/topics/555'))
+      .to route_to(controller: 'messages',
+                   action: 'destroy',
+                   id: '555')
   }
 
   it {
-    expect(subject).to route(:get, '/topics/22/quote').to(controller: 'messages',
-                                                          action: 'quote',
-                                                          id: '22')
+    expect(get('/topics/22/quote'))
+      .to route_to(controller: 'messages',
+                   action: 'quote',
+                   id: '22')
   }
 
   it {
-    expect(subject).to route(:post, '/topics/555/reply').to(controller: 'messages',
-                                                            action: 'reply',
-                                                            id: '555')
+    expect(post('/topics/555/reply'))
+      .to route_to(controller: 'messages',
+                   action: 'reply',
+                   id: '555')
   }
 end

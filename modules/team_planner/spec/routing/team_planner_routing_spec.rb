@@ -30,33 +30,28 @@ require 'spec_helper'
 
 describe 'Team planner routing', type: :routing do
   it 'routes to team_planner#index' do
-    expect(subject)
-      .to route(:get, '/projects/foobar/team_planners')
-            .to(controller: 'team_planner/team_planner', action: :index, project_id: 'foobar')
+    expect(get('/projects/foobar/team_planners'))
+      .to route_to(controller: 'team_planner/team_planner', action: "index", project_id: 'foobar')
   end
 
   it 'routes to team_planner#show' do
-    expect(subject)
-      .to route(:get, '/projects/foobar/team_planners/1234')
-            .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar', id: '1234')
+    expect(get('/projects/foobar/team_planners/1234'))
+      .to route_to(controller: 'team_planner/team_planner', action: "show", project_id: 'foobar', id: '1234')
   end
 
   it 'routes to team_planner#new' do
-    expect(subject)
-      .to route(:get, '/projects/foobar/team_planners/new')
-            .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar')
+    expect(get('/projects/foobar/team_planners/new'))
+      .to route_to(controller: 'team_planner/team_planner', action: "show", project_id: 'foobar')
   end
 
   it 'routes to team_planner#show with state' do
-    expect(subject)
-      .to route(:get, '/projects/foobar/team_planners/1234/details/555')
-            .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar', id: '1234',
-                state: 'details/555')
+    expect(get('/projects/foobar/team_planners/1234/details/555'))
+      .to route_to(controller: 'team_planner/team_planner', action: "show", project_id: 'foobar', id: '1234',
+                   state: 'details/555')
   end
 
   it 'routes to team_planner#destroy' do
-    expect(subject)
-      .to route(:delete, '/projects/foobar/team_planners/1234')
-            .to(controller: 'team_planner/team_planner', action: :destroy, project_id: 'foobar', id: '1234')
+    expect(delete('/projects/foobar/team_planners/1234'))
+      .to route_to(controller: 'team_planner/team_planner', action: "destroy", project_id: 'foobar', id: '1234')
   end
 end

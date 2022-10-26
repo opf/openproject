@@ -30,74 +30,86 @@ require 'spec_helper'
 
 describe 'groups routes', type: :routing do
   it {
-    expect(subject).to route(:get, '/admin/groups').to(controller: 'groups',
-                                                       action: 'index')
+    expect(get('/admin/groups'))
+      .to route_to(controller: 'groups',
+                   action: 'index')
   }
 
   it {
-    expect(subject).to route(:get, '/admin/groups/new').to(controller: 'groups',
-                                                           action: 'new')
+    expect(get('/admin/groups/new'))
+      .to route_to(controller: 'groups',
+                   action: 'new')
   }
 
   it {
-    expect(subject).to route(:post, '/admin/groups').to(controller: 'groups',
-                                                        action: 'create')
+    expect(post('/admin/groups'))
+      .to route_to(controller: 'groups',
+                   action: 'create')
   }
 
   it {
-    expect(subject).to route(:get, '/groups/4').to(controller: 'groups',
-                                                   action: 'show',
-                                                   id: '4')
+    expect(get('/groups/4'))
+      .to route_to(controller: 'groups',
+                   action: 'show',
+                   id: '4')
   }
 
   it {
-    expect(subject).to route(:get, '/admin/groups/4/edit').to(controller: 'groups',
-                                                              action: 'edit',
-                                                              id: '4')
+    expect(get('/admin/groups/4/edit'))
+      .to route_to(controller: 'groups',
+                   action: 'edit',
+                   id: '4')
   }
 
   it {
-    expect(subject).to route(:put, '/admin/groups/4').to(controller: 'groups',
-                                                         action: 'update',
-                                                         id: '4')
+    expect(put('/admin/groups/4'))
+      .to route_to(controller: 'groups',
+                   action: 'update',
+                   id: '4')
   }
 
   it {
-    expect(subject).to route(:delete, '/admin/groups/4').to(controller: 'groups',
-                                                            action: 'destroy',
-                                                            id: '4')
+    expect(delete('/admin/groups/4'))
+      .to route_to(controller: 'groups',
+                   action: 'destroy',
+                   id: '4')
   }
 
   it {
-    expect(subject).to route(:post, '/admin/groups/4/members').to(controller: 'groups',
-                                                                  action: 'add_users',
-                                                                  id: '4')
+    expect(post('/admin/groups/4/members'))
+      .to route_to(controller: 'groups',
+                   action: 'add_users',
+                   id: '4')
   }
 
   it {
-    expect(subject).to route(:delete, '/admin/groups/4/members/5').to(controller: 'groups',
-                                                                      action: 'remove_user',
-                                                                      id: '4',
-                                                                      user_id: '5')
+    expect(delete('/admin/groups/4/members/5'))
+      .to route_to(controller: 'groups',
+                   action: 'remove_user',
+                   id: '4',
+                   user_id: '5')
   }
 
   it {
-    expect(subject).to route(:post, '/admin/groups/4/memberships').to(controller: 'groups',
-                                                                      action: 'create_memberships',
-                                                                      id: '4')
+    expect(post('/admin/groups/4/memberships'))
+      .to route_to(controller: 'groups',
+                   action: 'create_memberships',
+                   id: '4')
   }
 
   it {
-    expect(subject).to route(:put, '/admin/groups/4/memberships/5').to(controller: 'groups',
-                                                                       action: 'edit_membership',
-                                                                       id: '4',
-                                                                       membership_id: '5')
+    expect(put('/admin/groups/4/memberships/5'))
+      .to route_to(controller: 'groups',
+                   action: 'edit_membership',
+                   id: '4',
+                   membership_id: '5')
   }
 
   it {
-    expect(subject).to route(:delete, '/admin/groups/4/memberships/5').to(controller: 'groups',
-                                                                          action: 'destroy_membership',
-                                                                          id: '4',
-                                                                          membership_id: '5')
+    expect(delete('/admin/groups/4/memberships/5'))
+      .to route_to(controller: 'groups',
+                   action: 'destroy_membership',
+                   id: '4',
+                   membership_id: '5')
   }
 end

@@ -29,38 +29,42 @@
 require 'spec_helper'
 
 describe EnumerationsController, 'routing', type: :routing do
-  context 'admin scoped' do
-    it {
-      expect(subject).to route(:get, 'admin/enumerations').to(controller: 'enumerations',
-                                                              action: 'index')
-    }
+  it {
+    expect(get('admin/enumerations'))
+      .to route_to(controller: 'enumerations',
+                   action: 'index')
+  }
 
-    it {
-      expect(subject).to route(:get, 'admin/enumerations/new').to(controller: 'enumerations',
-                                                                  action: 'new')
-    }
+  it {
+    expect(get('admin/enumerations/new'))
+      .to route_to(controller: 'enumerations',
+                   action: 'new')
+  }
 
-    it {
-      expect(subject).to route(:post, 'admin/enumerations').to(controller: 'enumerations',
-                                                               action: 'create')
-    }
+  it {
+    expect(post('admin/enumerations'))
+      .to route_to(controller: 'enumerations',
+                   action: 'create')
+  }
 
-    it {
-      expect(subject).to route(:get, 'admin/enumerations/1/edit').to(controller: 'enumerations',
-                                                                     action: 'edit',
-                                                                     id: '1')
-    }
+  it {
+    expect(get('admin/enumerations/1/edit'))
+      .to route_to(controller: 'enumerations',
+                   action: 'edit',
+                   id: '1')
+  }
 
-    it {
-      expect(subject).to route(:put, 'admin/enumerations/1').to(controller: 'enumerations',
-                                                                action: 'update',
-                                                                id: '1')
-    }
+  it {
+    expect(put('admin/enumerations/1'))
+      .to route_to(controller: 'enumerations',
+                   action: 'update',
+                   id: '1')
+  }
 
-    it {
-      expect(subject).to route(:delete, 'admin/enumerations/1').to(controller: 'enumerations',
-                                                                   action: 'destroy',
-                                                                   id: '1')
-    }
-  end
+  it {
+    expect(delete('admin/enumerations/1'))
+      .to route_to(controller: 'enumerations',
+                   action: 'destroy',
+                   id: '1')
+  }
 end

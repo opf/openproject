@@ -30,8 +30,9 @@ require 'spec_helper'
 
 describe UsersController, 'routing', type: :routing do
   it {
-    expect(subject).to route(:get, '/users').to(controller: 'users',
-                                                action: 'index')
+    expect(get('/users'))
+      .to route_to controller: 'users',
+                   action: 'index'
   }
 
   it {
@@ -42,9 +43,10 @@ describe UsersController, 'routing', type: :routing do
   }
 
   it {
-    expect(subject).to route(:get, '/users/44').to(controller: 'users',
-                                                   action: 'show',
-                                                   id: '44')
+    expect(get('/users/44'))
+      .to route_to controller: 'users',
+                   action: 'show',
+                   id: '44'
   }
 
   it {
@@ -56,9 +58,10 @@ describe UsersController, 'routing', type: :routing do
   }
 
   it {
-    expect(subject).to route(:get, '/users/current').to(controller: 'users',
-                                                        action: 'show',
-                                                        id: 'current')
+    expect(get('/users/current'))
+      .to route_to controller: 'users',
+                   action: 'show',
+                   id: 'current'
   }
 
   it {
@@ -70,26 +73,30 @@ describe UsersController, 'routing', type: :routing do
   }
 
   it {
-    expect(subject).to route(:get, '/users/new').to(controller: 'users',
-                                                    action: 'new')
+    expect(get('/users/new'))
+      .to route_to controller: 'users',
+                   action: 'new'
   }
 
   it {
-    expect(subject).to route(:get, '/users/444/edit').to(controller: 'users',
-                                                         action: 'edit',
-                                                         id: '444')
+    expect(get('/users/444/edit'))
+      .to route_to controller: 'users',
+                   action: 'edit',
+                   id: '444'
   }
 
   it {
-    expect(subject).to route(:get, '/users/222/edit/membership').to(controller: 'users',
-                                                                    action: 'edit',
-                                                                    id: '222',
-                                                                    tab: 'membership')
+    expect(get('/users/222/edit/membership'))
+      .to route_to controller: 'users',
+                   action: 'edit',
+                   id: '222',
+                   tab: 'membership'
   }
 
   it {
-    expect(subject).to route(:post, '/users').to(controller: 'users',
-                                                 action: 'create')
+    expect(post('/users'))
+      .to route_to controller: 'users',
+                   action: 'create'
   }
 
   it {
@@ -100,9 +107,10 @@ describe UsersController, 'routing', type: :routing do
   }
 
   it {
-    expect(subject).to route(:put, '/users/444').to(controller: 'users',
-                                                    action: 'update',
-                                                    id: '444')
+    expect(put('/users/444'))
+      .to route_to controller: 'users',
+                   action: 'update',
+                   id: '444'
   }
 
   it {
@@ -122,14 +130,16 @@ describe UsersController, 'routing', type: :routing do
   }
 
   it {
-    expect(get('/users/1/deletion_info')).to route_to(controller: 'users',
-                                                      action: 'deletion_info',
-                                                      id: '1')
+    expect(get('/users/1/deletion_info'))
+      .to route_to controller: 'users',
+                   action: 'deletion_info',
+                   id: '1'
   }
 
   it {
-    expect(delete('/users/1')).to route_to(controller: 'users',
-                                           action: 'destroy',
-                                           id: '1')
+    expect(delete('/users/1'))
+      .to route_to controller: 'users',
+                   action: 'destroy',
+                   id: '1'
   }
 end

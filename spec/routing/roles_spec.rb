@@ -29,48 +29,54 @@
 require 'spec_helper'
 
 describe 'roles routes', type: :routing do
-  context 'admin scoped' do
-    it {
-      expect(subject).to route(:get, 'admin/roles').to(controller: 'roles',
-                                                       action: 'index')
-    }
+  it {
+    expect(get('admin/roles'))
+      .to route_to(controller: 'roles',
+                   action: 'index')
+  }
 
-    it {
-      expect(subject).to route(:get, 'admin/roles/new').to(controller: 'roles',
-                                                           action: 'new')
-    }
+  it {
+    expect(get('admin/roles/new'))
+      .to route_to(controller: 'roles',
+                   action: 'new')
+  }
 
-    it {
-      expect(subject).to route(:post, 'admin/roles').to(controller: 'roles',
-                                                        action: 'create')
-    }
+  it {
+    expect(post('admin/roles'))
+      .to route_to(controller: 'roles',
+                   action: 'create')
+  }
 
-    it {
-      expect(subject).to route(:get, 'admin/roles/1/edit').to(controller: 'roles',
-                                                              action: 'edit',
-                                                              id: '1')
-    }
+  it {
+    expect(get('admin/roles/1/edit'))
+      .to route_to(controller: 'roles',
+                   action: 'edit',
+                   id: '1')
+  }
 
-    it {
-      expect(subject).to route(:put, 'admin/roles/1').to(controller: 'roles',
-                                                         action: 'update',
-                                                         id: '1')
-    }
+  it {
+    expect(put('admin/roles/1'))
+      .to route_to(controller: 'roles',
+                   action: 'update',
+                   id: '1')
+  }
 
-    it {
-      expect(subject).to route(:delete, 'admin/roles/1').to(controller: 'roles',
-                                                            action: 'destroy',
-                                                            id: '1')
-    }
+  it {
+    expect(delete('admin/roles/1'))
+      .to route_to(controller: 'roles',
+                   action: 'destroy',
+                   id: '1')
+  }
 
-    it {
-      expect(subject).to route(:get, 'admin/roles/report').to(controller: 'roles',
-                                                              action: 'report')
-    }
+  it {
+    expect(get('admin/roles/report'))
+      .to route_to(controller: 'roles',
+                   action: 'report')
+  }
 
-    it {
-      expect(subject).to route(:put, 'admin/roles').to(controller: 'roles',
-                                                       action: 'bulk_update')
-    }
-  end
+  it {
+    expect(put('admin/roles'))
+      .to route_to(controller: 'roles',
+                   action: 'bulk_update')
+  }
 end

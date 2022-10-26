@@ -30,58 +30,67 @@ require 'spec_helper'
 
 describe 'versions routing', type: :routing do
   it {
-    expect(subject).to route(:get, '/versions/1').to(controller: 'versions',
-                                                     action: 'show',
-                                                     id: '1')
+    expect(get('/versions/1'))
+      .to route_to(controller: 'versions',
+                   action: 'show',
+                   id: '1')
   }
 
   it {
-    expect(subject).to route(:get, '/versions/1/edit').to(controller: 'versions',
-                                                          action: 'edit',
-                                                          id: '1')
+    expect(get('/versions/1/edit'))
+      .to route_to(controller: 'versions',
+                   action: 'edit',
+                   id: '1')
   }
 
   it {
-    expect(subject).to route(:patch, '/versions/1').to(controller: 'versions',
-                                                       action: 'update',
-                                                       id: '1')
+    expect(patch('/versions/1'))
+      .to route_to(controller: 'versions',
+                   action: 'update',
+                   id: '1')
   }
 
   it {
-    expect(subject).to route(:delete, '/versions/1').to(controller: 'versions',
-                                                        action: 'destroy',
-                                                        id: '1')
+    expect(delete('/versions/1'))
+      .to route_to(controller: 'versions',
+                   action: 'destroy',
+                   id: '1')
   }
 
   it {
-    expect(subject).to route(:get, '/versions/1/status_by').to(controller: 'versions',
-                                                               action: 'status_by',
-                                                               id: '1')
+    expect(get('/versions/1/status_by'))
+      .to route_to(controller: 'versions',
+                   action: 'status_by',
+                   id: '1')
   }
 
-  context 'project scoped' do
+  context 'with project scope' do
     it {
-      expect(subject).to route(:get, '/projects/foo/versions/new').to(controller: 'versions',
-                                                                      action: 'new',
-                                                                      project_id: 'foo')
+      expect(get('/projects/foo/versions/new'))
+        .to route_to(controller: 'versions',
+                     action: 'new',
+                     project_id: 'foo')
     }
 
     it {
-      expect(subject).to route(:post, '/projects/foo/versions').to(controller: 'versions',
-                                                                   action: 'create',
-                                                                   project_id: 'foo')
+      expect(post('/projects/foo/versions'))
+        .to route_to(controller: 'versions',
+                     action: 'create',
+                     project_id: 'foo')
     }
 
     it {
-      expect(subject).to route(:put, '/projects/foo/versions/close_completed').to(controller: 'versions',
-                                                                                  action: 'close_completed',
-                                                                                  project_id: 'foo')
+      expect(put('/projects/foo/versions/close_completed'))
+        .to route_to(controller: 'versions',
+                     action: 'close_completed',
+                     project_id: 'foo')
     }
 
     it {
-      expect(subject).to route(:get, '/projects/foo/roadmap').to(controller: 'versions',
-                                                                 action: 'index',
-                                                                 project_id: 'foo')
+      expect(get('/projects/foo/roadmap'))
+        .to route_to(controller: 'versions',
+                     action: 'index',
+                     project_id: 'foo')
     }
   end
 end
