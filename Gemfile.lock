@@ -904,7 +904,7 @@ GEM
     sawyer (0.9.2)
       addressable (>= 2.3.5)
       faraday (>= 0.17.3, < 3)
-    secure_headers (6.4.0)
+    secure_headers (6.5.0)
     selenium-webdriver (4.5.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
@@ -1154,7 +1154,7 @@ DEPENDENCIES
   rubytree (~> 2.0.0)
   sanitize (~> 6.0.0)
   sassc-rails
-  secure_headers (~> 6.4.0)
+  secure_headers (~> 6.5.0)
   selenium-webdriver (~> 4.0)
   semantic (~> 1.6.1)
   sentry-delayed_job (~> 5.4.0)
