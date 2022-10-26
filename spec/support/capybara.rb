@@ -83,6 +83,7 @@ module Capybara::CaptureBrowserLogs
       return unless example.example_group.include?(Capybara::DSL)
       return unless failed?(example)
       return if Capybara.page.current_url.blank?
+      return unless Capybara.page.driver.browser.respond_to?(:manage)
 
       logs = Capybara.page.driver.browser.manage.instance_variable_get(:@bridge).log("browser")
       example.metadata[:browser_logs] = logs
