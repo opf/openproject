@@ -71,7 +71,7 @@ export class EnterpriseBannerComponent implements OnInit {
     this.collapsed = this.collapsible;
   }
 
-  collapse():void {
+  toggleCollapse():void {
     this.collapsed = !this.collapsed;
   }
 }
