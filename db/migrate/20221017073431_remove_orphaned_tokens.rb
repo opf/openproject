@@ -10,6 +10,9 @@ class RemoveOrphanedTokens < ActiveRecord::Migration[7.0]
     change_column_type! :tokens, :user_id, :bigint
 
     add_foreign_key :tokens, :users
+
+    User.reset_column_information
+    Token::Base.reset_column_information
   end
 
   def down
