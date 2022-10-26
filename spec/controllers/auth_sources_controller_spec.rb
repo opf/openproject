@@ -42,8 +42,8 @@ describe AuthSourcesController, type: :controller do
       get :index
     end
 
-    it { expect(assigns(:auth_source)).to eq @auth_source }
-    it { is_expected.to respond_with :success }
+    it { expect(assigns(:auth_source)).to be_nil }
+    it { expect(response).to have_http_status :ok }
     it { is_expected.to render_template :index }
   end
 
@@ -53,7 +53,7 @@ describe AuthSourcesController, type: :controller do
     end
 
     it { expect(assigns(:auth_source)).not_to be_nil }
-    it { is_expected.to respond_with :success }
+    it { expect(response).to have_http_status :ok }
     it { is_expected.to render_template :new }
 
     it 'initializes a new AuthSource' do
@@ -67,9 +67,9 @@ describe AuthSourcesController, type: :controller do
       post :create, params: { auth_source: { name: 'Test' } }
     end
 
-    it { is_expected.to respond_with :redirect }
+    it { expect(response).to have_http_status :redirect }
     it { is_expected.to redirect_to auth_sources_path }
-    it { is_expected.to set_flash.to /success/i }
+    it { expect(flash[:notice]).to match(/success/i) }
   end
 
   describe 'edit' do
@@ -79,7 +79,7 @@ describe AuthSourcesController, type: :controller do
     end
 
     it { expect(assigns(:auth_source)).to eq @auth_source }
-    it { is_expected.to respond_with :success }
+    it { expect(response).to have_http_status :ok }
     it { is_expected.to render_template :edit }
   end
 
@@ -89,9 +89,9 @@ describe AuthSourcesController, type: :controller do
       post :update, params: { id: @auth_source.id, auth_source: { name: 'TestUpdate' } }
     end
 
-    it { is_expected.to respond_with :redirect }
+    it { expect(response).to have_http_status :redirect }
     it { is_expected.to redirect_to auth_sources_path }
-    it { is_expected.to set_flash.to /update/i }
+    it { expect(flash[:notice]).to match(/update/i) }
   end
 
   describe 'destroy' do
@@ -104,9 +104,9 @@ describe AuthSourcesController, type: :controller do
         post :destroy, params: { id: @auth_source.id }
       end
 
-      it { is_expected.to respond_with :redirect }
+      it { expect(response).to have_http_status :redirect }
       it { is_expected.to redirect_to auth_sources_path }
-      it { is_expected.to set_flash.to /deletion/i }
+      it { expect(flash[:notice]).to match(/deletion/) }
     end
 
     context 'with users' do
@@ -115,9 +115,9 @@ describe AuthSourcesController, type: :controller do
         post :destroy, params: { id: @auth_source.id }
       end
 
-      it { is_expected.to respond_with :redirect }
+      it { expect(response).to have_http_status :redirect }
 
-      it 'doesn not destroy the AuthSource' do
+      it 'does not destroy the AuthSource' do
         expect(AuthSource.find(@auth_source.id)).not_to be_nil
       end
     end
@@ -131,37 +131,37 @@ describe AuthSourcesController, type: :controller do
     it 'cannot find index' do
       get :index
 
-      expect(response.status).to eq 404
+      expect(response).to have_http_status :not_found
     end
 
     it 'cannot find new' do
       get :new
 
-      expect(response.status).to eq 404
+      expect(response).to have_http_status :not_found
     end
 
     it 'cannot find create' do
       post :create, params: { auth_source: { name: 'Test' } }
 
-      expect(response.status).to eq 404
+      expect(response).to have_http_status :not_found
     end
 
     it 'cannot find edit' do
       get :edit, params: { id: 42 }
 
-      expect(response.status).to eq 404
+      expect(response).to have_http_status :not_found
     end
 
     it 'cannot find update' do
       post :update, params: { id: 42, auth_source: { name: 'TestUpdate' } }
 
-      expect(response.status).to eq 404
+      expect(response).to have_http_status :not_found
     end
 
     it 'cannot find destroy' do
       post :destroy, params: { id: 42 }
 
-      expect(response.status).to eq 404
+      expect(response).to have_http_status :not_found
     end
   end
 end

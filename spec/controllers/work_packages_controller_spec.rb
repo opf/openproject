@@ -261,7 +261,7 @@ describe WorkPackagesController, type: :controller do
       get('index', params: { project_id: 'project_that_doesnt_exist' })
     end
 
-    it { is_expected.to respond_with :not_found }
+    it { expect(response).to have_http_status :not_found }
   end
 
   describe 'show.html' do

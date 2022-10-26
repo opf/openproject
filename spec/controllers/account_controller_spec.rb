@@ -561,7 +561,7 @@ describe AccountController,
         end
 
         it 'is successful' do
-          expect(subject).to respond_with :success
+          expect(response).to have_http_status :ok
           expect(response).to render_template :register
           expect(assigns[:user]).not_to be_nil
           expect(assigns[:user].notification_settings.size).to eq(1)
@@ -601,7 +601,7 @@ describe AccountController,
       end
 
       it 'is successful' do
-        expect(subject).to respond_with :success
+        expect(response).to have_http_status :ok
         expect(response).to render_template :register
         expect(assigns[:user]).not_to be_nil
       end
@@ -634,7 +634,7 @@ describe AccountController,
           end
 
           it 'redirects to the expected path' do
-            expect(subject).to respond_with :redirect
+            expect(response).to have_http_status :redirect
             expect(assigns[:user]).not_to be_nil
             expect(subject).to redirect_to(redirect_to_path)
             expect(User.where(login: 'register').last).not_to be_nil
@@ -870,7 +870,7 @@ describe AccountController,
         end
 
         it 'registers the user on-the-fly' do
-          expect(subject).to respond_with :success
+          expect(response).to have_http_status :ok
           expect(response).to render_template :register
 
           post :register,

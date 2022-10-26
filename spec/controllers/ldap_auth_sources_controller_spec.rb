@@ -41,7 +41,7 @@ describe LdapAuthSourcesController, type: :controller do
     end
 
     it { expect(assigns(:auth_source)).not_to be_nil }
-    it { is_expected.to respond_with :success }
+    it { expect(response).to have_http_status :success }
     it { is_expected.to render_template :new }
 
     it 'initializes a new AuthSource' do
