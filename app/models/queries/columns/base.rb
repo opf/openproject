@@ -28,7 +28,8 @@
 
 class Queries::Columns::Base
   attr_reader :groupable,
-              :sortable
+              :sortable,
+              :displayable
 
   attr_accessor :name,
                 :sortable_join,
@@ -45,6 +46,7 @@ class Queries::Columns::Base
 
     %i(sortable
        sortable_join
+       displayable
        groupable
        summable
        summable_select
@@ -73,7 +75,15 @@ class Queries::Columns::Base
   end
 
   def sortable=(value)
-    @sortable =  name_or_value_or_false(value)
+    @sortable = name_or_value_or_false(value)
+  end
+
+  def displayable=(value)
+    @displayable = value.nil? ? true : value
+  end
+
+  def displayable?
+    displayable
   end
 
   # Returns true if the column is sortable, otherwise false
