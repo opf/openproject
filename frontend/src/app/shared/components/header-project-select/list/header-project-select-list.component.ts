@@ -2,9 +2,11 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   HostBinding,
   Input,
+  OnInit,
   Output,
 } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -18,7 +20,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
   templateUrl: './header-project-select-list.component.html',
   styleUrls: ['./header-project-select-list.component.sass'],
 })
-export class OpHeaderProjectSelectListComponent {
+export class OpHeaderProjectSelectListComponent implements OnInit {
   @HostBinding('class.spot-list') classNameList = true;
 
   @HostBinding('class.op-header-project-select-list') className = true;
@@ -30,6 +32,8 @@ export class OpHeaderProjectSelectListComponent {
   @Input() projects:IProjectData[] = [];
 
   @Input() searchText = '';
+
+  @Input() scrollToCurrentProject = false;
 
   public get currentProjectHref():string|null {
     return this.currentProjectService.apiv3Path;
@@ -46,7 +50,19 @@ export class OpHeaderProjectSelectListComponent {
     readonly currentProjectService:CurrentProjectService,
     readonly pathHelper:PathHelperService,
     readonly searchableProjectListService:SearchableProjectListService,
+    readonly elementRef:ElementRef,
   ) { }
+
+  ngOnInit() {
+    if (this.root && this.scrollToCurrentProject) {
+      setTimeout(() => {
+        const itemAction = this.elementRef
+          .nativeElement
+          .querySelectorAll(`.spot-list--item-action[data-project-id="${this.currentProjectService.id}"]`);
+        itemAction[0]?.scrollIntoView(true);
+      });
+    }
+  }
 
   extendedProjectUrl(projectId:string):string {
     const currentMenuItem = document.querySelector('meta[name="current_menu_item"]') as HTMLMetaElement;

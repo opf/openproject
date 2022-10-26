@@ -55,19 +55,21 @@ import { IProjectData } from 'core-app/shared/components/searchable-project-list
 export const headerProjectSelectSelector = 'op-header-project-select';
 
 @Component({
-  templateUrl: './header-project-select.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: headerProjectSelectSelector,
+  templateUrl: './header-project-select.component.html',
+  styleUrls: ['./header-project-select.component.sass'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     SearchableProjectListService,
   ],
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./header-project-select.component.sass'],
 })
 export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
   @HostBinding('class.op-header-project-select') className = true;
 
   public dropModalOpen = false;
+
+  public scrollToCurrentProject = false;
 
   public textFieldFocused = false;
 
@@ -152,6 +154,7 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     this.projects$
       .pipe(this.untilDestroyed())
       .subscribe((projects) => {
+        this.scrollToCurrentProject = false;
         this.searchableProjectListService.resetActiveResult(projects);
       });
   }
@@ -159,6 +162,7 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
   toggleDropModal():void {
     this.dropModalOpen = !this.dropModalOpen;
     if (this.dropModalOpen) {
+      this.scrollToCurrentProject = true;
       this.searchableProjectListService.loadAllProjects();
     }
   }
