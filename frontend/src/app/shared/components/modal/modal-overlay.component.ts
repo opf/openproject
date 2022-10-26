@@ -30,6 +30,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ComponentRef,
+  ElementRef,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -53,6 +54,7 @@ export class OpModalOverlayComponent implements OnInit {
   public notFullscreen = false;
 
   @ViewChild(CdkPortalOutlet) portalOutlet:CdkPortalOutlet;
+  @ViewChild('overlay') overlay:ElementRef;
 
   activeModalData$ = this.modalService.activeModalData$;
   activeModalInstance$ = this.modalService.activeModalInstance$;
@@ -100,6 +102,7 @@ export class OpModalOverlayComponent implements OnInit {
 
       this.activeModalInstance$.next(instance);
       setTimeout(() => {
+        this.overlay.nativeElement.focus();
         // Focus on the first element
         instance && instance.onOpen();
 

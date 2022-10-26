@@ -51,10 +51,6 @@ export class OpModalService {
   constructor(
     private readonly injector:Injector,
   ) {
-    const hostElement = document.createElement('div');
-    hostElement.classList.add('spot-modal-overlay');
-    document.body.appendChild(hostElement);
-
     // Listen to keystrokes on window to close context menus
     window.addEventListener('keydown', (evt:KeyboardEvent) => {
       if (evt.key !== 'Escape') {
