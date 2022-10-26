@@ -210,7 +210,6 @@ gem "appsignal", "~> 3.0", require: false
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 2.0.0'
-  gem 'shoulda-context', '~> 2.0'
 
   # Test prof provides factories from code
   # and other niceties
@@ -248,7 +247,6 @@ group :test do
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
-  gem 'shoulda-matchers', '~> 5.0', require: nil
 
   gem 'parallel_tests', '~> 3.1'
 end

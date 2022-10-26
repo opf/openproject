@@ -29,7 +29,6 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 require 'factory_bot_rails'
 require 'rspec/rails'
-require 'shoulda/matchers'
 
 # Require test_prof helpers for better performance around factories/specs
 # see https://test-prof.evilmartians.io for all options.
