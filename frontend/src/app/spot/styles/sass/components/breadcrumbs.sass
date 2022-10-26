@@ -7,7 +7,7 @@
   &--crumb
     display: flex
     align-items: center
-    flex-shrink: 0
+    flex-shrink: 1
     min-width: 0
 
     > .spot-icon
@@ -19,7 +19,8 @@
 
     &_parent,
     &_grandparent
-      flex-shrink: 1
+      flex-shrink: 10
+      min-width: 3rem
 
     &-action-item
       flex-shrink: 1
@@ -54,7 +55,8 @@
       &_grandparent:not(&_root)
         display: none
 
-      &_parent
+      &_parent,
+      &_root
         flex-shrink: 0
 
       &-action-item-text
