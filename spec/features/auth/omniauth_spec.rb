@@ -29,6 +29,9 @@
 require 'spec_helper'
 
 describe 'Omniauth authentication', type: :feature do
+  # Load ViewAccountLoginAuthProvider to have this spec passing
+  OpenProject::Hooks::ViewAccountLoginAuthProvider
+
   # Running the tests inside docker changes the hostname. To accommodate that we changed
   # the Capybara app_host, however this change was not being reflected in the Rails host,
   # causing the redirect checks to fail below.

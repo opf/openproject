@@ -27,7 +27,7 @@
 //++
 
 .op-file-list
-  margin-bottom: $spot-spacing-0-75
+  margin-bottom: $spot-spacing-0_75
 
   &--item
     &-action
@@ -51,10 +51,10 @@
     &-title
       @include spot-body-small
 
-      line-height: $spot-spacing-1-5
+      line-height: $spot-spacing-1_5
       word-break: normal
       @include text-shortener
-      padding-right: $spot_spacing-0-5
+      padding-right: $spot-spacing-0_5
 
     &-text
       @include spot-caption()
@@ -64,12 +64,12 @@
       flex-shrink: 0
 
       &:not(:last-child)
-        margin-right: $spot-spacing-0-5
+        margin-right: $spot-spacing-0_5
 
     &-avatar
-      width: $spot-spacing-1-5
-      height: $spot-spacing-1-5
-      display: inline-block
+      width: $spot-spacing-1_5
+      height: $spot-spacing-1_5
+      flex-shrink: 0
 
     &-floating-wrapper:not(&-floating-wrapper__disabled):hover &-text,
     &-floating-wrapper:not(&-floating-wrapper__disabled):hover &-avatar
@@ -78,18 +78,18 @@
     &-floating-text
       @include spot-body-small()
 
-      padding-right: $spot-spacing-0-25
+      padding-right: $spot-spacing-0_25
       overflow: hidden
       color: var(--primary-color)
 
       &-icon
-        margin-right: $spot-spacing-0-25
+        margin-right: $spot-spacing-0_25
 
   & &--item &--item-floating-actions
     padding-right: 0
 
   & &--item &--item-floating-text
-    padding-right: $spot-spacing-0-5
+    padding-right: $spot-spacing-0_5
 
   & &--item &--item-action
     padding-left: 0
