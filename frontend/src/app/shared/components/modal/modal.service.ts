@@ -35,18 +35,18 @@ import { ComponentType, PortalInjector } from '@angular/cdk/portal';
 
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { Observable, ReplaySubject } from 'rxjs';
-import { filter, skip, take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 
 @Injectable({ providedIn: 'root' })
 export class OpModalService {
-  public activeModalInstance$ = new ReplaySubject<OpModalComponent|null>();
+  public activeModalInstance$ = new ReplaySubject<OpModalComponent|null>(1);
   public activeModalData$ = new ReplaySubject<{
     modal:ComponentType<OpModalComponent>,
     injector:Injector,
     notFullscreen:boolean,
-  }|null>();
+  }|null>(1);
 
   constructor(
     private readonly injector:Injector,
@@ -95,7 +95,6 @@ export class OpModalService {
     return this.activeModalInstance$
       .pipe(
         filter((m) => m !== null),
-        skip(1),
         take(1),
       ) as Observable<T>;
   }

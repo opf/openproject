@@ -58,8 +58,12 @@ export class GridAddWidgetService {
 
   private select(area:GridArea) {
     return new Promise<GridWidgetResource>((resolve, reject) => {
-      this.opModalService.show(AddGridWidgetModalComponent, this.injector, { schema: this.layout.schema })
-        .subscribe((modal) => modal.closingEvent.subscribe(() => {
+      this.opModalService.show(
+        AddGridWidgetModalComponent,
+        this.injector,
+        { schema: this.layout.schema },
+      ).subscribe((modal) => {
+        modal.closingEvent.subscribe(() => {
           const registered = modal.chosenWidget;
 
           if (!registered) {
@@ -82,7 +86,8 @@ export class GridAddWidgetService {
           resource.grid = this.layout.gridResource;
 
           resolve(resource);
-        }));
+        });
+      });
     });
   }
 

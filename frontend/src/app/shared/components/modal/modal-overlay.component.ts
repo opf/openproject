@@ -52,11 +52,11 @@ export const opModalOverlaySelector = 'op-modal-overlay';
 export class OpModalOverlayComponent implements OnInit {
   public notFullscreen = false;
 
-  @ViewChild('portalOutlet') portalOutlet: CdkPortalOutlet;
+  @ViewChild(CdkPortalOutlet) portalOutlet:CdkPortalOutlet;
 
   activeModalData$ = this.modalService.activeModalData$;
-  activePortal$ = new ReplaySubject();
   activeModalInstance$ = this.modalService.activeModalInstance$;
+  activeModalRef$ = new ReplaySubject<OpModalComponent|null>();
 
   constructor(
     readonly modalService:OpModalService,
@@ -64,12 +64,6 @@ export class OpModalOverlayComponent implements OnInit {
   ) { }
 
   ngOnInit():void {
-    // this.active.closingEvent.emit(this.active);
-    // onopen:
-    // this.active.onOpen();
-    //
-    console.log('modal overlay active');
-    
     this.activeModalData$
     .subscribe((modalData) => {
       this.notFullscreen = false;
@@ -79,9 +73,17 @@ export class OpModalOverlayComponent implements OnInit {
         if (!ref) {
           return;
         }
+
+        if (!ref.instance.onClose()) {
+          return;
+        }
+        
         ref.instance.closingEvent.emit(ref.instance);
-        this.portalOutlet.detach();
+        this.activeModalRef$.next(null);
         this.activeModalInstance$.next(null);
+
+        this.portalOutlet.detach();
+
         return;
       }
 
@@ -92,15 +94,12 @@ export class OpModalOverlayComponent implements OnInit {
       } = modalData;
       this.notFullscreen = notFullscreen;
       const portal = new ComponentPortal(modal, null, injector);
-      this.activePortal$.next(portal);
+      const ref = this.portalOutlet.attach(portal);
+      const instance = ref.instance;
+      this.activeModalRef$.next(instance);
+
+      this.activeModalInstance$.next(instance);
       setTimeout(() => {
-        const ref = (this.portalOutlet.attachedRef as ComponentRef<OpModalComponent>);
-        console.log(this);
-        console.log(this.portalOutlet);
-        const instance = ref.instance;
-
-        this.activeModalInstance$.next(instance);
-
         // Focus on the first element
         instance && instance.onOpen();
 
