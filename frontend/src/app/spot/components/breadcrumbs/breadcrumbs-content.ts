@@ -26,18 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { EntityStore, StoreConfig } from '@datorama/akita';
-import { CollectionState, createInitialCollectionState } from 'core-app/core/state/collection-store';
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+export interface Breadcrumb {
+  text:string;
+  icon?:string;
+  navigate?:() => void;
+}
 
-export interface StorageFilesState extends CollectionState<IStorageFile> {}
-
-@StoreConfig({
-  name: 'storage-files',
-  resettable: true,
-})
-export class StorageFilesStore extends EntityStore<StorageFilesState> {
-  constructor() {
-    super(createInitialCollectionState());
-  }
+export class BreadcrumbsContent {
+  constructor(
+    public readonly crumbs:Breadcrumb[],
+  ) { }
 }

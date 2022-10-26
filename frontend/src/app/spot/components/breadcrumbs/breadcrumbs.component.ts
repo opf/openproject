@@ -26,18 +26,22 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { EntityStore, StoreConfig } from '@datorama/akita';
-import { CollectionState, createInitialCollectionState } from 'core-app/core/state/collection-store';
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+} from '@angular/core';
 
-export interface StorageFilesState extends CollectionState<IStorageFile> {}
+import { BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
 
-@StoreConfig({
-  name: 'storage-files',
-  resettable: true,
+@Component({
+  selector: 'spot-breadcrumbs',
+  templateUrl: './breadcrumbs.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StorageFilesStore extends EntityStore<StorageFilesState> {
-  constructor() {
-    super(createInitialCollectionState());
-  }
+export class SpotBreadcrumbsComponent {
+  @HostBinding('class.spot-breadcrumbs') className = true;
+
+  @Input() content:BreadcrumbsContent;
 }
