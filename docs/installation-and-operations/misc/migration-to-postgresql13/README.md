@@ -133,7 +133,7 @@ include_dir = 'conf.d'
 
 sudo su - postgres -c "cp -p /var/lib/pgsql/10/data/conf.d/custom.conf /var/lib/pgsql/13/data/conf.d/custom.conf"
 sudo su - postgres -c "sed -i 's|45432|45433|' /var/lib/pgsql/10/data/conf.d/custom.conf"
-sudo su - postgres -c "/usr/pgsql-13/bin/pg_ctl start --wait --pgdata=/var/lib/pgsql/13/data -o '-c config_file=/etc/postgresql/13/main/postgresql.conf'"
+sudo su - postgres -c "/usr/pgsql-13/bin/pg_ctl start --wait --pgdata=/var/lib/pgsql/13/data -o '-c config_file=/var/lib/pgsql/13/data/postgresql.conf'"
 
 # Getting the password for the PostgreSQL database from the configuration
 sudo openproject config:get DATABASE_URL
