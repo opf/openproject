@@ -38,17 +38,18 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
-import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import { BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
 import {
   IStorageFileListItem,
 } from 'core-app/shared/components/file-links/storage-file-list-item/storage-file-list-item';
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
-import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
+import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import getIconForStorageType from 'core-app/shared/components/file-links/storage-icons/get-icon-for-storage-type';
 
 @Component({
@@ -78,11 +79,16 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
 
   private readonly selection = new Set<string>();
 
+  private readonly fileMap:Record<string, IStorageFile> = {};
+
+  private storageLink:IHalResourceLink;
+
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly elementRef:ElementRef,
     readonly cdRef:ChangeDetectorRef,
     private readonly i18n:I18nService,
+    private readonly fileLinksResourceService:FileLinksResourceService,
     private readonly storageFilesResourceService:StorageFilesResourceService,
   ) {
     super(locals, cdRef, elementRef);
@@ -96,8 +102,9 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
       icon: getIconForStorageType(this.locals.storageType as string),
     }]);
 
+    this.storageLink = (this.locals.storageLink as IHalResourceLink);
     const filesLink:IHalResourceLink = {
-      href: `${(this.locals.storageLink as IHalResourceLink).href}/files`,
+      href: `${this.storageLink.href}/files`,
       title: 'Storage files',
     };
 
@@ -106,7 +113,7 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
         const fileListItems = files.map((file, index) => ({
           disabled: this.isAlreadyLinked(file),
           isFirst: index === 0,
-          changeSelection: () => { this.changeSelection(file.id as string); },
+          changeSelection: () => { this.changeSelection(file); },
           ...file,
         }));
         this.storageFiles$.next(fileListItems);
@@ -125,14 +132,24 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
   }
 
   public createSelectedFileLinks():void {
+    const files = Array.from(this.selection).map((id) => this.fileMap[id]);
+    this.fileLinksResourceService.addFileLinks(
+      this.locals.collectionKey as string,
+      this.locals.addFileLinksHref as string,
+      this.storageLink,
+      files,
+    );
+
     this.service.close();
   }
 
-  public changeSelection(id:string):void {
-    if (this.selection.has(id)) {
-      this.selection.delete(id);
+  public changeSelection(file:IStorageFile):void {
+    const fileId = file.id as string;
+    if (this.selection.has(fileId)) {
+      this.selection.delete(fileId);
     } else {
-      this.selection.add(id);
+      this.selection.add(fileId);
+      this.fileMap[fileId] = file;
     }
   }
 

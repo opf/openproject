@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { applyTransaction } from '@datorama/akita';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { from } from 'rxjs';
@@ -37,16 +38,16 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { FileLinksStore } from 'core-app/core/state/file-links/file-links.store';
 import { insertCollectionIntoState, removeEntityFromCollectionAndState } from 'core-app/core/state/collection-store';
+import { CollectionStore, ResourceCollectionService } from 'core-app/core/state/resource-collection.service';
+import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import {
-  CollectionStore,
-  ResourceCollectionService,
-} from 'core-app/core/state/resource-collection.service';
 
 @Injectable()
 export class FileLinksResourceService extends ResourceCollectionService<IFileLink> {
@@ -106,5 +107,48 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
         }),
       )
       .subscribe(() => removeEntityFromCollectionAndState(this.store, fileLink.id, collectionKey));
+  }
+
+  addFileLinks(collectionKey:string, addFileLinksHref:string, storage:IHalResourceLink, filesToLink:IStorageFile[]):void {
+    const elements = filesToLink.map((file) => ({
+      originData: {
+        id: file.id,
+        name: file.name,
+        mimeType: file.mimeType,
+        size: file.size,
+        createdAt: file.createdAt,
+        lastModifiedAt: file.lastModifiedAt,
+        createdByName: file.createdByName,
+        lastModifiedByName: file.lastModifiedByName,
+      },
+      _links: { storage },
+    }));
+
+    this.http
+      .post<IHALCollection<IFileLink>>(addFileLinksHref, { _type: 'Collection', _embedded: { elements } })
+      .pipe(
+        tap((collection) => {
+          applyTransaction(() => {
+            const newFileLinks = collection._embedded.elements;
+            this.store.add(newFileLinks);
+            this.store.update(({ collections }) => (
+              {
+                collections: {
+                  ...collections,
+                  [collectionKey]: {
+                    ...collections[collectionKey],
+                    ids: (collections[collectionKey]?.ids || []).concat(newFileLinks.map((link) => link.id)),
+                  },
+                },
+              }
+            ));
+          });
+        }),
+        catchError((error) => {
+          this.toastService.addError(error);
+          throw error;
+        }),
+      )
+      .subscribe();
   }
 }

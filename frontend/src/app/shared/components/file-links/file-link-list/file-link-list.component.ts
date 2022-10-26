@@ -36,6 +36,7 @@ import {
   BehaviorSubject,
   Observable,
 } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -62,6 +63,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import {
   FilePickerModalComponent,
 } from 'core-app/shared/components/file-links/file-picker-modal/file-picker-modal.component';
+import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 
 @Component({
   selector: 'op-file-link-list',
@@ -155,7 +157,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   public openLinkFilesDialog():void {
     this.fileLinks$
-      .pipe(this.untilDestroyed())
+      .pipe(take(1))
       .subscribe((fileLinks) => {
         const locals = {
           storageType: this.storage._links.type.href,
@@ -163,6 +165,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
           storageName: this.storage.name,
           storageLocation: this.storageFilesLocation,
           storageLink: this.storage._links.self,
+          addFileLinksHref: (this.resource.$links as unknown&{ addFileLink:IHalResourceLink }).addFileLink.href,
+          collectionKey: this.collectionKey,
           fileLinks,
         };
         this.opModalService.show<FilePickerModalComponent>(FilePickerModalComponent, 'global', locals);
@@ -179,7 +183,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
         if (fileLinks.length === 0) {
           return [this.emptyStorageInformation];
         }
-        if (fileLinks.filter((fileLink) => fileLink._links.permission.href === fileLinkViewError).length > 0) {
+        if (fileLinks.filter((fileLink) => fileLink._links.permission?.href === fileLinkViewError).length > 0) {
           this.disabled = true;
           return [this.fileLinkErrorInformation];
         }

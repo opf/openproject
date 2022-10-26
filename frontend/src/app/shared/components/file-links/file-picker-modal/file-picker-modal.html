@@ -46,17 +46,16 @@
         [textContent]="text.buttons.cancel"
         (click)="closeMe()"
       ></button>
-<!--      TODO: #44376, enable button with functionality-->
-<!--      <button-->
-<!--        type="button"-->
-<!--        class="button spot-action-bar&#45;&#45;action"-->
-<!--        [ngClass]="{ '-highlight': selectedFileCount > 0 }"-->
-<!--        [disabled]="selectedFileCount === 0"-->
-<!--        (click)="createSelectedFileLinks()"-->
-<!--      >-->
-<!--        <span class="spot-icon spot-icon_add-link"></span>-->
-<!--        <span>{{selectedFileCount > 0 ? text.buttons.submit() : text.buttons.submitEmptySelection}}</span>-->
-<!--      </button>-->
+      <button
+        type="button"
+        class="button spot-action-bar--action"
+        [ngClass]="{ '-highlight': selectedFileCount > 0 }"
+        [disabled]="selectedFileCount === 0"
+        (click)="createSelectedFileLinks()"
+      >
+        <span class="spot-icon spot-icon_add-link"></span>
+        <span>{{selectedFileCount > 0 ? text.buttons.submit() : text.buttons.submitEmptySelection}}</span>
+      </button>
     </div>
   </div>
 </div>

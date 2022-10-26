@@ -120,7 +120,7 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
       { fileName: this.fileLink.originData.name },
     );
 
-    this.viewAllowed = this.fileLink._links.permission.href === fileLinkViewAllowed;
+    this.viewAllowed = !this.fileLink._links.permission || this.fileLink._links.permission.href === fileLinkViewAllowed;
   }
 
   ngAfterViewInit():void {
