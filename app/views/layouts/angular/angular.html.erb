@@ -40,9 +40,6 @@ See COPYRIGHT and LICENSE files for more details.
   <div id="projected-content" hidden>
     <%= yield %>
   </div>
-
-  <%# Modals will be rendered into this global overlay %>
-  <op-modal-overlay></op-modal-overlay>
 <% end -%>
 
 <%= render template: 'layouts/base', locals: local_assigns.merge({ no_action_menu: true }) %>
