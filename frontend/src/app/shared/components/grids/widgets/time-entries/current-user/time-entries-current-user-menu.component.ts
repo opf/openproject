@@ -65,13 +65,11 @@ export class WidgetTimeEntriesCurrentUserMenuComponent extends WidgetAbstractMen
       onClick: () => {
         this.opModalService.show(TimeEntriesCurrentUserConfigurationModalComponent, this.injector, this.locals)
           .subscribe(
-            (modal) => modal.closingEvent.subscribe(
-              (modal:TimeEntriesCurrentUserConfigurationModalComponent) => {
-                if (modal.options) {
-                  this.onConfigured.emit(modal.options);
-                }
-              },
-            )
+            (modal) => modal.closingEvent.subscribe(() => {
+              if (modal.options) {
+                this.onConfigured.emit(modal.options);
+              }
+            }),
           );
         return true;
       },

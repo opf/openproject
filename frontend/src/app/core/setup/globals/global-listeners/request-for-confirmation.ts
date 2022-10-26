@@ -33,7 +33,7 @@ function registerListener(
   form:JQuery,
   $event:JQuery.TriggeredEvent,
   opModalService:OpModalService,
-  modal:typeof PasswordConfirmationModalComponent,
+  passwordModal:typeof PasswordConfirmationModalComponent,
 ) {
   const passwordConfirm = form.find('_password_confirmation');
 
@@ -42,7 +42,7 @@ function registerListener(
   }
 
   $event.preventDefault();
-  opModalService.show(modal, 'global')
+  opModalService.show(passwordModal, 'global')
     .subscribe((modal) => modal.closingEvent.subscribe(() => {
       if (!modal.confirmed) {
         return;

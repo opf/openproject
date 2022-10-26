@@ -37,23 +37,21 @@ export class TimeEntryEditService {
             this.injector,
             { ...options, changeset },
           )
-          .subscribe((modal) => {
-            modal
-              .closingEvent
-              .pipe(take(1))
-              .subscribe(() => {
-                if (modal.destroyedEntry) {
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-                  modal.destroyedEntry.delete().then(() => {
-                    resolve({ entry: modal.destroyedEntry, action: 'destroy' });
-                  });
-                } else if (modal.modifiedEntry) {
-                  resolve({ entry: modal.modifiedEntry, action: 'update' });
-                } else {
-                  reject();
-                }
-              });
-          });
+          .subscribe((modal) => modal
+            .closingEvent
+            .pipe(take(1))
+            .subscribe(() => {
+              if (modal.destroyedEntry) {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+                void modal.destroyedEntry.delete().then(() => {
+                  resolve({ entry: modal.destroyedEntry, action: 'destroy' });
+                });
+              } else if (modal.modifiedEntry) {
+                resolve({ entry: modal.modifiedEntry, action: 'update' });
+              } else {
+                reject();
+              }
+            }));
         });
     });
   }

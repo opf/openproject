@@ -42,6 +42,7 @@ export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 @Injectable({ providedIn: 'root' })
 export class OpModalService {
   public activeModalInstance$ = new ReplaySubject<OpModalComponent|null>(1);
+
   public activeModalData$ = new ReplaySubject<{
     modal:ComponentType<OpModalComponent>,
     injector:Injector,

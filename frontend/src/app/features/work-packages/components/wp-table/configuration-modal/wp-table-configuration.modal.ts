@@ -92,7 +92,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   }
 
   ngOnInit() {
-    this.$element = this.elementRef.nativeElement;
+    this.$element = this.elementRef.nativeElement as HTMLElement;
 
     this.tabPortalHost = new TabPortalOutlet(
       this.wpTableConfigurationService.tabs,
@@ -146,7 +146,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     return true;
   }
 
-  protected get afterFocusOn() {
+  protected get afterFocusOn():HTMLElement {
     return this.$element;
   }
 

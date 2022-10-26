@@ -40,7 +40,7 @@ import { GridAreaService } from 'core-app/shared/components/grids/grid/area.serv
 
 @Directive()
 export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuComponent {
-  protected configurationComponent:ComponentType<OpModalComponent>;
+  protected configurationComponent:ComponentType<WpGraphConfigurationModalComponent>;
 
   @Output()
   onConfigured:EventEmitter<any> = new EventEmitter();
@@ -64,10 +64,11 @@ export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuCompone
     return {
       linkText: this.i18n.t('js.toolbar.settings.configure_view'),
       onClick: () => {
-        this.opModalService.show(this.configurationComponent, this.injector, this.locals)
-          .subscribe((modal) => modal.closingEvent.subscribe((modal:WpGraphConfigurationModalComponent) => {
-              this.onConfigured.emit(modal.configuration);
-            }));
+        this.opModalService
+          .show(this.configurationComponent, this.injector, this.locals)
+          .subscribe((modal) => modal.closingEvent.subscribe(() => {
+            this.onConfigured.emit(modal.configuration);
+          }));
         return true;
       },
     };

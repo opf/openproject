@@ -79,7 +79,7 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
   }
 
   ngOnInit():void {
-    this.$element = this.elementRef.nativeElement;
+    this.$element = this.elementRef.nativeElement as HTMLElement;
 
     this.loadingIndicator.indicator('modal').promise = this.graphConfiguration.loadForms()
       .then(() => {

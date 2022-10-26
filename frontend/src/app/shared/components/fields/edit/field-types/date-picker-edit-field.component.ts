@@ -71,8 +71,7 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
 
   public showDatePickerModal():void {
     const component = this.change.schema.isMilestone ? SingleDateModalComponent : MultiDateModalComponent;
-    this
-      .opModalService
+    this.opModalService
       .show<SingleDateModalComponent|MultiDateModalComponent>(
         component,
         this.injector,

@@ -49,7 +49,7 @@ export class EditorMacrosService {
         WpButtonMacroModalComponent,
         this.injector,
         { type: typeName, classes },
-      ).subscribe((modal) => modal.closingEvent.subscribe((modal:WpButtonMacroModalComponent) => {
+      ).subscribe((modal) => modal.closingEvent.subscribe(() => {
         if (modal.changed) {
           resolve({ type: modal.type, classes: modal.classes });
         }
@@ -68,7 +68,7 @@ export class EditorMacrosService {
         WikiIncludePageMacroModalComponent,
         this.injector,
         { page: pageValue },
-      ).subscribe((modal) => modal.closingEvent.subscribe((modal:WikiIncludePageMacroModalComponent) => {
+      ).subscribe((modal) => modal.closingEvent.subscribe(() => {
         if (modal.changed) {
           resolve(modal.page);
         }
@@ -86,7 +86,7 @@ export class EditorMacrosService {
         CodeBlockMacroModalComponent,
         this.injector,
         { content, languageClass },
-      ).subscribe((modal) => modal.closingEvent.subscribe((modal:CodeBlockMacroModalComponent) => {
+      ).subscribe((modal) => modal.closingEvent.subscribe(() => {
         if (modal.changed) {
           resolve({ languageClass: modal.languageClass, content: modal.content });
         }
@@ -101,10 +101,10 @@ export class EditorMacrosService {
   public configureChildPages(page:string, includeParent:string):Promise<object> {
     return new Promise<object>((resolve, _) => {
       this.opModalService.show(
-        ChildPagesMacroModalComponent, 
-        this.injector, 
+        ChildPagesMacroModalComponent,
+        this.injector,
         { page, includeParent },
-      ).subscribe((modal) => modal.closingEvent.subscribe((modal:ChildPagesMacroModalComponent) => {
+      ).subscribe((modal) => modal.closingEvent.subscribe(() => {
         if (modal.changed) {
           resolve({
             page: modal.page,

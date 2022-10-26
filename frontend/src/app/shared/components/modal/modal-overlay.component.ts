@@ -54,10 +54,13 @@ export class OpModalOverlayComponent implements OnInit {
   public notFullscreen = false;
 
   @ViewChild(CdkPortalOutlet) portalOutlet:CdkPortalOutlet;
+
   @ViewChild('overlay') overlay:ElementRef;
 
   activeModalData$ = this.modalService.activeModalData$;
+
   activeModalInstance$ = this.modalService.activeModalInstance$;
+
   activeModalRef$ = new ReplaySubject<OpModalComponent|null>();
 
   constructor(
@@ -67,52 +70,52 @@ export class OpModalOverlayComponent implements OnInit {
 
   ngOnInit():void {
     this.activeModalData$
-    .subscribe((modalData) => {
-      this.notFullscreen = false;
+      .subscribe((modalData) => {
+        this.notFullscreen = false;
 
-      if (modalData === null) {
-        const ref = (this.portalOutlet.attachedRef as ComponentRef<OpModalComponent>);
-        if (!ref) {
+        if (modalData === null) {
+          const ref = (this.portalOutlet.attachedRef as ComponentRef<OpModalComponent>);
+          if (!ref) {
+            return;
+          }
+
+          if (!ref.instance.onClose()) {
+            return;
+          }
+
+          ref.instance.closingEvent.emit(ref.instance);
+          this.activeModalRef$.next(null);
+          this.activeModalInstance$.next(null);
+
+          this.portalOutlet.detach();
+
           return;
         }
 
-        if (!ref.instance.onClose()) {
-          return;
-        }
-        
-        ref.instance.closingEvent.emit(ref.instance);
-        this.activeModalRef$.next(null);
-        this.activeModalInstance$.next(null);
+        const {
+          modal,
+          injector,
+          notFullscreen,
+        } = modalData;
+        this.notFullscreen = notFullscreen;
+        const portal = new ComponentPortal(modal, null, injector);
+        const ref = this.portalOutlet.attach(portal);
+        const instance = ref.instance;
+        this.activeModalRef$.next(instance);
 
-        this.portalOutlet.detach();
+        this.activeModalInstance$.next(instance);
+        setTimeout(() => {
+          (this.overlay.nativeElement as HTMLElement).focus();
+          // Focus on the first element
+          instance && instance.onOpen();
 
-        return;
-      }
-
-      const {
-        modal,
-        injector,
-        notFullscreen,
-      } = modalData;
-      this.notFullscreen = notFullscreen;
-      const portal = new ComponentPortal(modal, null, injector);
-      const ref = this.portalOutlet.attach(portal);
-      const instance = ref.instance;
-      this.activeModalRef$.next(instance);
-
-      this.activeModalInstance$.next(instance);
-      setTimeout(() => {
-        this.overlay.nativeElement.focus();
-        // Focus on the first element
-        instance && instance.onOpen();
-
-        // Trigger another round of change detection in the modal
-        ref.changeDetectorRef.detectChanges();
-      }, 0);
-    });
+          // Trigger another round of change detection in the modal
+          ref.changeDetectorRef.detectChanges();
+        }, 0);
+      });
   }
 
-  public close() {
+  public close():void {
     this.modalService.close();
   }
 }

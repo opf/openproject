@@ -37,7 +37,7 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
   }
 
   ngOnInit() {
-    this.$element = this.elementRef.nativeElement;
+    this.$element = this.elementRef.nativeElement as HTMLElement;
   }
 
   ngOnDestroy() {

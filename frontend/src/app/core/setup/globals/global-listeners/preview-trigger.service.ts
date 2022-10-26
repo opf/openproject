@@ -58,7 +58,7 @@ export class PreviewTriggerService {
         { workPackageLink: href, event: e },
         true,
       ).subscribe((previewModal) => {
-        this.modalElement = previewModal.elementRef.nativeElement;
+        this.modalElement = previewModal.elementRef.nativeElement as HTMLElement;
         previewModal.reposition(jQuery(this.modalElement), el);
       });
     });
