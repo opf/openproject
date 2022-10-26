@@ -27,39 +27,42 @@
 #++
 
 module Notifications
+  # Creates date alerts for users whose local time is 1:00 am.
   class CreateDateAlertsNotificationsJob < Cron::CronJob
     # runs every quarter of an hour, so 00:00, 00:15,..., 15:30, 15:45, 16:00, ...
     self.cron_expression = '*/15 * * * *'
 
     def perform
-      users_with_1am_local_time.each do |user|
-        work_package_with_involved(user)
-          .where(start_date: Date.current + 1.day)
-          .each do |work_package|
-            create_service = Notifications::CreateService.new(user:)
-            create_service.call(
-              recipient_id: user.id,
-              project_id: work_package.project_id,
-              resource: work_package,
-              reason: :date_alert_start_date,
-              read_ian: false
-            )
-          end
+      time_zones = time_zones_covering_1am_local_time
+      return if time_zones.empty?
+
+      Time.use_zone(time_zones.first) do
+        User.with_time_zone(time_zones).find_each do |user|
+          send_start_date_alert_notifications(user)
+        end
       end
     end
 
-    def users_with_1am_local_time
-      time_zones = time_zones_covering_1am_local_time
-
-      return User.none if time_zones.empty?
-
-      User
-        .joins(:preference)
-        .where("user_preferences.settings->>'time_zone' IN (?)", time_zones)
+    def send_start_date_alert_notifications(user)
+      work_package_with_involved(user)
+        .where(start_date: Date.current + 1.day)
+        .each do |work_package|
+          create_service = Notifications::CreateService.new(user:)
+          create_service.call(
+            recipient_id: user.id,
+            project_id: work_package.project_id,
+            resource: work_package,
+            reason: :date_alert_start_date,
+            read_ian: false
+          )
+        end
     end
 
     def work_package_with_involved(user)
-      WorkPackage.where(assigned_to: user)
+      WorkPackage
+        .joins(:status)
+        .where(statuses: { is_closed: false })
+        .where(assigned_to: user)
     end
 
     def time_zones_covering_1am_local_time

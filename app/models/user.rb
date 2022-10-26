@@ -83,6 +83,7 @@ class User < Principal
          :newest,
          :notified_globally,
          :watcher_recipients,
+         :with_time_zone,
          :having_reminder_mail_to_send
 
   def self.create_blocked_scope(scope, blocked)

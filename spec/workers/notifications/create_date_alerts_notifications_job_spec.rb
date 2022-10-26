@@ -33,30 +33,37 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
 
   create_shared_association_defaults_for_work_package_factory
 
-  subject { scheduled_job.invoke_job }
+  subject { scheduled_job.perform }
+
+  shared_let(:status_open) { create(:status, name: "open", is_closed: false) }
+  shared_let(:status_closed) { create(:status, name: "closed", is_closed: true) }
 
   let(:scheduled_job) do
     described_class.ensure_scheduled!
 
-    Delayed::Job.first
+    described_class.delayed_job
   end
 
-  let(:today) { Date.current }
-  let(:in_1_day) { today + 1.day }
+  shared_let(:today) { Date.current }
+  shared_let(:in_1_day) { today + 1.day }
 
-  let(:user_paris) do
+  shared_let(:user_paris) do
     create(
       :user,
       firstname: 'Europe/Paris',
       preferences: { time_zone: 'Europe/Paris' }
     )
   end
-  let(:user_kathmandu) do
+  shared_let(:user_kathmandu) do
     create(
       :user,
       firstname: 'Asia/Kathmandu',
       preferences: { time_zone: 'Asia/Kathmandu' }
     )
+  end
+  shared_let(:alertable_work_packages) do
+    create_list(:work_package, 2,
+                assigned_to: user_paris)
   end
 
   before do
@@ -95,46 +102,72 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
     end
   end
 
-  def set_run_at(run_at)
+  def set_scheduled_time(run_at)
     scheduled_job.update_column(:run_at, run_at)
+  end
+
+  def alertable_work_package(attributes = {})
+    wp = alertable_work_packages.shift
+    wp.update!(attributes.reverse_merge(start_date: in_1_day))
+    wp
   end
 
   describe '#perform' do
     let(:timezone_paris) { ActiveSupport::TimeZone[user_paris.preference.time_zone] }
+    let(:timezone_kathmandu) { ActiveSupport::TimeZone[user_kathmandu.preference.time_zone] }
+
+    it 'creates date alert notifications only for open work packages' do
+      open_work_package = alertable_work_package(status: status_open)
+      closed_work_package = alertable_work_package(status: status_closed)
+
+      set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
+      travel_to(timezone_paris.now.change(hour: 1, min: 0))
+
+      scheduled_job.invoke_job
+
+      expect(user_paris).to have_a_start_date_alert_notification_for(open_work_package)
+      expect(user_paris).not_to have_a_start_date_alert_notification_for(closed_work_package)
+    end
+
+    it 'creates date alert notifications only for users whose local time is 1:00 am when the job is executed' do
+      work_package_for_paris_user = alertable_work_package(assigned_to: user_paris)
+      work_package_for_kathmandu_user = alertable_work_package(assigned_to: user_kathmandu)
+
+      set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
+      travel_to(timezone_paris.now.change(hour: 1, min: 4)) do
+        scheduled_job.invoke_job
+
+        expect(user_paris).to have_a_start_date_alert_notification_for(work_package_for_paris_user)
+        expect(user_kathmandu).not_to have_a_start_date_alert_notification_for(work_package_for_kathmandu_user)
+      end
+
+      # change scheduled time and current time to cover kathmandu timezone
+      set_scheduled_time(timezone_kathmandu.now.change(hour: 1, min: 0))
+      travel_to(timezone_kathmandu.now.change(hour: 1, min: 4)) do
+        scheduled_job.reload.invoke_job
+
+        expect(user_kathmandu).to have_a_start_date_alert_notification_for(work_package_for_kathmandu_user)
+      end
+    end
 
     context 'when scheduled and executed at 01:00 am Paris local time' do
       it 'creates a start date alert notification for a user in the same time zone' do
-        set_run_at(timezone_paris.now.change(hour: 1, min: 0))
+        work_package = alertable_work_package
+
+        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
         travel_to(timezone_paris.now.change(hour: 1, min: 0))
-        work_package = create(:work_package,
-                              start_date: in_1_day,
-                              assigned_to: user_paris)
 
         scheduled_job.invoke_job
 
         expect(user_paris).to have_a_start_date_alert_notification_for(work_package)
       end
-
-      it 'does not create a start date alert notification for a user in another time zone' do
-        set_run_at(timezone_paris.now.change(hour: 1, min: 0))
-        travel_to(timezone_paris.now.change(hour: 1, min: 0))
-        work_package = create(:work_package,
-                              start_date: in_1_day,
-                              assigned_to: user_kathmandu)
-
-        scheduled_job.invoke_job
-
-        expect(user_kathmandu).not_to have_a_start_date_alert_notification_for(work_package)
-      end
     end
 
-    context 'when running at 01:14 am Paris local time' do
+    context 'when scheduled and executed at 01:14 am Paris local time' do
       it 'creates a start date alert notification for a user in the same time zone' do
-        set_run_at(timezone_paris.now.change(hour: 1, min: 14))
+        work_package = alertable_work_package
+        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 14))
         travel_to(timezone_paris.now.change(hour: 1, min: 14))
-        work_package = create(:work_package,
-                              start_date: in_1_day,
-                              assigned_to: user_paris)
 
         scheduled_job.invoke_job
 
@@ -142,13 +175,12 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
       end
     end
 
-    context 'when running at 01:15 am Paris local time' do
+    context 'when scheduled and executed at 01:15 am Paris local time' do
       it 'does not create a start date alert notification for a user in the same time zone' do
-        set_run_at(timezone_paris.now.change(hour: 1, min: 15))
+        work_package = alertable_work_package
+
+        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 15))
         travel_to(timezone_paris.now.change(hour: 1, min: 15))
-        work_package = create(:work_package,
-                              start_date: in_1_day,
-                              assigned_to: user_paris)
 
         scheduled_job.invoke_job
 

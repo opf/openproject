@@ -49,7 +49,7 @@ FactoryBot.define do
     end
 
     callback(:after_build) do |user, evaluator|
-      evaluator.preferences.each do |key, val|
+      evaluator.preferences&.each do |key, val|
         user.pref[key] = val
       end
     end
