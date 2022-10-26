@@ -71,30 +71,28 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
 
   public showDatePickerModal():void {
     const component = this.change.schema.isMilestone ? SingleDateModalComponent : MultiDateModalComponent;
-    this.opModalService
-      .show<SingleDateModalComponent|MultiDateModalComponent>(
-        component,
-        this.injector,
-        { changeset: this.change, fieldName: this.name },
-        !this.deviceService.isMobile,
-      )
-      .subscribe((modal) => {
-        this.modal = modal;
+    this.opModalService.show<SingleDateModalComponent|MultiDateModalComponent>(
+      component,
+      this.injector,
+      { changeset: this.change, fieldName: this.name },
+      !this.deviceService.isMobile,
+    ).subscribe((modal) => {
+      this.modal = modal;
 
-        setTimeout(() => {
-          const modalElement = jQuery(modal.elementRef.nativeElement).find('.op-datepicker-modal');
-          const field = jQuery(this.elementRef.nativeElement);
-          modal.reposition(modalElement, field);
-        });
-
-        (modal as OpModalComponent)
-          .closingEvent
-          .pipe(take(1))
-          .subscribe(() => {
-            this.modal = null;
-            this.onModalClosed();
-          });
+      setTimeout(() => {
+        const modalElement = jQuery(modal.elementRef.nativeElement).find('.op-datepicker-modal');
+        const field = jQuery(this.elementRef.nativeElement);
+        modal.reposition(modalElement, field);
       });
+
+      (modal as OpModalComponent)
+        .closingEvent
+        .pipe(take(1))
+        .subscribe(() => {
+          this.modal = null;
+          this.onModalClosed();
+        });
+    });
   }
 
   protected onModalClosed():void {
