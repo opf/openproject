@@ -88,7 +88,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       });
   }
 
-  public async openConfigurationModal(onUpdated:() => void):void {
+  public async openConfigurationModal(onUpdated:() => void):Promise<void> {
     await this.querySpace.query.valuesPromise();
 
     this.opModalService
