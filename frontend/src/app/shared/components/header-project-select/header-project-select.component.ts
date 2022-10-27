@@ -139,7 +139,7 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     mergeMap(() => this.projects$),
     mergeMap(() => this.searchableProjectListService.fetchingProjects$),
   );
-  
+
   private scrollToCurrent = false;
 
   constructor(

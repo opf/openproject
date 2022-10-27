@@ -12,7 +12,6 @@ import {
 import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
 import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: '[op-header-project-select-list]',
@@ -45,15 +44,14 @@ export class OpHeaderProjectSelectListComponent implements OnInit {
     readonly elementRef:ElementRef,
   ) { }
 
-  ngOnInit() {
+  ngOnInit():void {
     if (this.root) {
       this.searchableProjectListService.selectedItemID$.subscribe((selectedItemID) => {
         // We have to push this back once so the component gets time to render the list
         // and we can actually find the element and scroll to it.
         requestAnimationFrame(() => {
-          const itemAction = this.elementRef
-            .nativeElement
-            .querySelectorAll(`.spot-list--item-action[data-project-id="${selectedItemID}"]`);
+          const itemAction = (this.elementRef.nativeElement as HTMLElement)
+            .querySelectorAll(`.spot-list--item-action[data-project-id="${selectedItemID || ''}"]`);
           itemAction[0]?.scrollIntoView();
         });
       });
