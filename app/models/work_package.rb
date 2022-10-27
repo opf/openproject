@@ -124,6 +124,7 @@ class WorkPackage < ApplicationRecord
          :for_scheduling,
          :include_derived_dates,
          :include_spent_time,
+         :involving_user,
          :left_join_self_and_descendants,
          :relatable
 
