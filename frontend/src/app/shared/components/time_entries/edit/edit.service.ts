@@ -35,8 +35,7 @@ export class TimeEntryEditService {
           TimeEntryEditModalComponent,
           this.injector,
           { ...options, changeset },
-        )
-        .subscribe((modal) => modal
+        ).subscribe((modal) => modal
           .closingEvent
           .pipe(take(1))
           .subscribe(() => {
@@ -50,8 +49,7 @@ export class TimeEntryEditService {
             } else {
               reject();
             }
-          }),
-        ));
+          })));
     });
   }
 
