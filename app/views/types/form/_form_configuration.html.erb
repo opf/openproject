@@ -41,6 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
           %>
           <%= angular_component_tag 'op-enterprise-banner',
                                     inputs: {
+                                      collapsible: true,
                                       opReferrer: 'form-configuration',
                                       textMessage: t('types.edit.more_info_text_html'),
                                       moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:form_configuration][:href],
