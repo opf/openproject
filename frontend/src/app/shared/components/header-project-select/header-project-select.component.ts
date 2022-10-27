@@ -69,8 +69,6 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
 
   public dropModalOpen = false;
 
-  public scrollToCurrentProject = false;
-
   public textFieldFocused = false;
 
   public canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create');
@@ -141,6 +139,8 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     mergeMap(() => this.projects$),
     mergeMap(() => this.searchableProjectListService.fetchingProjects$),
   );
+  
+  private scrollToCurrent = false;
 
   constructor(
     protected pathHelper:PathHelperService,
@@ -154,15 +154,20 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     this.projects$
       .pipe(this.untilDestroyed())
       .subscribe((projects) => {
-        this.scrollToCurrentProject = false;
-        this.searchableProjectListService.resetActiveResult(projects);
+        if (this.currentProject.id && projects.length && this.scrollToCurrent) {
+          this.searchableProjectListService.selectedItemID$.next(parseInt(this.currentProject.id, 10));
+        } else {
+          this.searchableProjectListService.resetActiveResult(projects);
+        }
+
+        this.scrollToCurrent = false;
       });
   }
 
   toggleDropModal():void {
     this.dropModalOpen = !this.dropModalOpen;
     if (this.dropModalOpen) {
-      this.scrollToCurrentProject = true;
+      this.scrollToCurrent = true;
       this.searchableProjectListService.loadAllProjects();
     }
   }

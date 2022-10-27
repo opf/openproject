@@ -9,10 +9,10 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { SearchableProjectListService } from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
 import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: '[op-header-project-select-list]',
@@ -33,33 +33,29 @@ export class OpHeaderProjectSelectListComponent implements OnInit {
 
   @Input() searchText = '';
 
-  @Input() scrollToCurrentProject = false;
-
-  public get currentProjectHref():string|null {
-    return this.currentProjectService.apiv3Path;
-  }
-
   public text = {
     does_not_match_search: this.I18n.t('js.include_projects.tooltip.does_not_match_search'),
     include_all_selected: this.I18n.t('js.include_projects.tooltip.include_all_selected'),
-    current_project: this.I18n.t('js.include_projects.tooltip.current_project'),
   };
 
   constructor(
     readonly I18n:I18nService,
-    readonly currentProjectService:CurrentProjectService,
     readonly pathHelper:PathHelperService,
     readonly searchableProjectListService:SearchableProjectListService,
     readonly elementRef:ElementRef,
   ) { }
 
   ngOnInit() {
-    if (this.root && this.scrollToCurrentProject) {
-      setTimeout(() => {
-        const itemAction = this.elementRef
-          .nativeElement
-          .querySelectorAll(`.spot-list--item-action[data-project-id="${this.currentProjectService.id}"]`);
-        itemAction[0]?.scrollIntoView(true);
+    if (this.root) {
+      this.searchableProjectListService.selectedItemID$.subscribe((selectedItemID) => {
+        // We have to push this back once so the component gets time to render the list
+        // and we can actually find the element and scroll to it.
+        requestAnimationFrame(() => {
+          const itemAction = this.elementRef
+            .nativeElement
+            .querySelectorAll(`.spot-list--item-action[data-project-id="${selectedItemID}"]`);
+          itemAction[0]?.scrollIntoView();
+        });
       });
     }
   }

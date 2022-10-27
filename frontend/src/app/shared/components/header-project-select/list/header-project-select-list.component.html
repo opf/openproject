@@ -10,8 +10,7 @@
     class="spot-list--item-action"
     [ngClass]="{
       'spot-list--item-action_disabled': project.disabled,
-      'spot-list--item-action_active': (searchableProjectListService.activeItemID$ | async) === project.id
-        || currentProjectService.id.toString() === project.id.toString()
+      'spot-list--item-action_active': (searchableProjectListService.selectedItemID$ | async) === project.id
     }"
     [title]="project.name"
     [href]="extendedProjectUrl(project.id)"
@@ -29,7 +28,7 @@
     [title]="project.name"
     class="spot-list--item-action spot-list--item-action_disabled"
     [ngClass]="{
-      'spot-list--item-action_active': (searchableProjectListService.activeItemID$ | async) === project.id
+      'spot-list--item-action_active': (searchableProjectListService.selectedItemID$ | async) === project.id
     }"
   >
     <span
