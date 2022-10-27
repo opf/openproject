@@ -92,6 +92,12 @@ export class IanMenuComponent implements OnInit {
       icon: 'watching',
       ...getUiLinkForFilters({ filter: 'reason', name: 'watched' }),
     },
+    {
+      key: 'date_alert',
+      title: this.I18n.t('js.notifications.menu.date_alert'),
+      icon: 'date-alert',
+      ...getUiLinkForFilters({ filter: 'reason', name: 'date_alert' }),
+    },
   ];
 
   notificationsByProject$ = this.ianMenuService.notificationsByProject$.pipe(

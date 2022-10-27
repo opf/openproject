@@ -79,6 +79,10 @@ export class InAppNotificationCenterComponent implements OnInit {
       key: 'watched',
       title: this.I18n.t('js.notifications.menu.watched'),
     },
+    {
+      key: 'date_alert',
+      title: this.I18n.t('js.notifications.menu.date_alert'),
+    },
   ];
 
   selectedFilter = this.reasonMenuItems.find((item) => item.key === this.uiRouterGlobals.params.name)?.title;

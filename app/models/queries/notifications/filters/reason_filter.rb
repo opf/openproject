@@ -27,8 +27,10 @@
 #++
 
 class Queries::Notifications::Filters::ReasonFilter < Queries::Notifications::Filters::NotificationFilter
+  REASONS = Notification.reasons.except(:date_alert_start_date, :date_alert_due_date).merge(date_alert: [10, 11])
+
   def allowed_values
-    Notification.reasons.keys.map { |reason| [reason, reason] }
+    REASONS.keys.map { |reason| [reason, reason] }
   end
 
   def type
@@ -36,7 +38,7 @@ class Queries::Notifications::Filters::ReasonFilter < Queries::Notifications::Fi
   end
 
   def where
-    id_values = values.map { |value| Notification.reasons[value] }
-    operator_strategy.sql_for_field(id_values, self.class.model.table_name, :reason)
+    id_values = values.map { |value| REASONS[value] }
+    operator_strategy.sql_for_field(id_values.flatten, self.class.model.table_name, :reason)
   end
 end
