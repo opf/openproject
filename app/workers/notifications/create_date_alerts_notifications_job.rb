@@ -59,10 +59,11 @@ module Notifications
     end
 
     def work_package_with_involved(user)
-      WorkPackage
+      work_packages = WorkPackage
         .joins(:status)
         .where(statuses: { is_closed: false })
-        .where(assigned_to: user)
+      work_packages.where(assigned_to: user)
+        .or(work_packages.where(responsible: user))
     end
 
     def time_zones_covering_1am_local_time

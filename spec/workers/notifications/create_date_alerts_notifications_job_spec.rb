@@ -62,8 +62,7 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
     )
   end
   shared_let(:alertable_work_packages) do
-    create_list(:work_package, 2,
-                assigned_to: user_paris)
+    create_list(:work_package, 2)
   end
 
   before do
@@ -82,18 +81,23 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
     end
 
     failure_message do |user|
-      "expected user #{inspect_keys(user, :id, :firstname)} " \
+      "expected user #{inspect_keys(user)} " \
         "to have a start date alert notification for work package " \
-        "#{inspect_keys(work_package, :id, :start_date, :due_date)}"
+        "#{inspect_keys(work_package)}"
     end
 
     failure_message_when_negated do |user|
-      "expected user #{inspect_keys(user, :id, :firstname)} " \
+      "expected user #{inspect_keys(user)} " \
         "to NOT have a start date alert notification for work package " \
-        "#{inspect_keys(work_package, :id, :start_date, :due_date)}"
+        "#{inspect_keys(work_package)}"
     end
 
-    def inspect_keys(object, *keys)
+    def inspect_keys(object)
+      keys =
+        case object
+        when User then %i[id firstname]
+        when WorkPackage then %i[id start_date due_date assigned_to_id responsible_id]
+        end
       formatted_pairs = object
         .slice(*keys)
         .map { |k, v| "#{k}: #{v.is_a?(Date) ? v.to_s : v.inspect}" }
@@ -107,8 +111,13 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
   end
 
   def alertable_work_package(attributes = {})
+    assignee = attributes.slice(:responsible, :responsible_id).any? ? nil : user_paris
+    attributes = attributes.reverse_merge(
+      start_date: in_1_day,
+      assigned_to: assignee
+    )
     wp = alertable_work_packages.shift
-    wp.update!(attributes.reverse_merge(start_date: in_1_day))
+    wp.update!(attributes)
     wp
   end
 
@@ -147,6 +156,19 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
         scheduled_job.reload.invoke_job
 
         expect(user_kathmandu).to have_a_start_date_alert_notification_for(work_package_for_kathmandu_user)
+      end
+    end
+
+    it 'creates date alert notifications if user is assigned to or accountable of the work package' do
+      work_package_assigned = alertable_work_package(assigned_to: user_paris)
+      work_package_accountable = alertable_work_package(responsible: user_paris)
+
+      set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
+      travel_to(timezone_paris.now.change(hour: 1, min: 4)) do
+        scheduled_job.invoke_job
+
+        expect(user_paris).to have_a_start_date_alert_notification_for(work_package_assigned)
+        expect(user_paris).to have_a_start_date_alert_notification_for(work_package_accountable)
       end
     end
 
