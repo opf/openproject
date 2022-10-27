@@ -46,6 +46,7 @@ import { WorkPackageFiltersService } from 'core-app/features/work-packages/compo
 
 @Component({
   templateUrl: './filter-container.directive.html',
+  styleUrls: ['./filter-container.directive.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'op-filter-container',
 })
