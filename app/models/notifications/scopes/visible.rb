@@ -36,9 +36,15 @@ module Notifications::Scopes
       # * the user has the permission to see the associated resource
       #
       # As currently only notifications for work packages exist, the implementation is work package specific.
+      # Using EXISTS as this performs better.
       def visible(user)
         recipient(user)
-          .where(resource_type: 'WorkPackage', resource_id: WorkPackage.visible(user).select(:id))
+          .where(resource_type: 'WorkPackage')
+          .where(WorkPackage
+                   .visible(user)
+                   .where("#{Notification.table_name}.resource_id = #{WorkPackage.table_name}.id")
+                   .arel
+                   .exists)
       end
     end
   end

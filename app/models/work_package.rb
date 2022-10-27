@@ -72,7 +72,12 @@ class WorkPackage < ApplicationRecord
   }
 
   scope :visible, ->(*args) {
-    where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages))
+    # Using EXISTS as this performs better.
+    where(Project
+            .allowed_to(args.first || User.current, :view_work_packages)
+            .where("#{WorkPackage.table_name}.project_id = #{Project.table_name}.id")
+            .arel
+            .exists)
   }
 
   scope :in_status, ->(*args) do
