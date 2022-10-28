@@ -31,5 +31,7 @@ import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.mod
 export interface IStorageFileListItem extends IStorageFile {
   disabled:boolean;
   isFirst:boolean;
+  selected:boolean;
   changeSelection:() => void;
+  enterDirectory?:() => void;
 }

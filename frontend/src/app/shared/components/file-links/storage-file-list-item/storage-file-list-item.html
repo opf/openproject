@@ -13,7 +13,7 @@
     [ngClass]="{ 'spot-list--item-action_disabled': fileListItemContent.disabled }"
   >
     <spot-checkbox
-      [checked]="fileListItemContent.disabled"
+      [checked]="fileListItemContent.disabled || fileListItemContent.selected"
       (checkedChange)="fileListItemContent.changeSelection()"
       [disabled]="fileListItemContent.disabled"
     ></spot-checkbox>
@@ -41,5 +41,13 @@
       [size]="'mini'"
       [link]="false"
     ></op-principal>
+
+    <button
+      *ngIf="!showDetails"
+      class="spot-link"
+      (click)="fileListItemContent.enterDirectory()"
+    >
+      <span class="spot-icon spot-icon_arrow-right2"></span>
+    </button>
   </label>
 </spot-tooltip>
