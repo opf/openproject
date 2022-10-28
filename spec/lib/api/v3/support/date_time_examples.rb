@@ -61,20 +61,3 @@ shared_examples_for 'has UTC ISO 8601 date and time' do
       .at_least(:once)
   end
 end
-
-shared_examples_for 'has ISO 8601 duration' do
-  it 'exists' do
-    expect(subject).to have_json_path(json_path)
-  end
-
-  it 'indicates duration as ISO 8601' do
-    allow(::API::V3::Utilities::DateTimeFormatter).to receive(:format_duration_from_hours)
-
-    subject
-
-    expect(::API::V3::Utilities::DateTimeFormatter)
-      .to have_received(:format_duration_from_hours)
-      .with(duration, anything)
-      .at_least(:once)
-  end
-end

@@ -120,9 +120,9 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
         expect(subject.count).to eq 1
         expect(subject.first.project_id).to eq project.id
 
-        default_settings = {
-          NotificationSetting::START_DATE => 24,
-          NotificationSetting::DUE_DATE => 24,
+        expected_default_settings = {
+          NotificationSetting::START_DATE => 1,
+          NotificationSetting::DUE_DATE => 1,
           NotificationSetting::OVERDUE => nil,
           NotificationSetting::ASSIGNEE => true,
           NotificationSetting::RESPONSIBLE => true,
@@ -132,11 +132,11 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
         NotificationSetting.all_settings.each do |key|
           val = subject.first.send key
 
-          if key.in?(default_settings)
-            expect(val).to eq(default_settings[key])
+          if key.in?(expected_default_settings)
+            expect(key => val).to eq(key => expected_default_settings[key])
           else
             # Settings with default value false
-            expect(val).to be(false)
+            expect(key => val).to eq(key => false)
           end
         end
 
