@@ -536,8 +536,8 @@ ro:
       no_unread: "Nu sunt notificari necitite"
       reasons:
         mentioned: 'Menţionate'
-        watched: 'vizionat'
-        assigned: 'atribuit'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'Responsabil'
         created: 'created'
         scheduled: 'scheduled'
@@ -576,7 +576,7 @@ ro:
         by_reason: 'Implicare'
         inbox: 'Cutie poștală'
         mentioned: 'Mentioned'
-        watching: 'Urmărește'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
         title: "Notification settings"

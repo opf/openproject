@@ -537,8 +537,8 @@ cs:
       no_unread: "Žádná nepřečtená oznámení"
       reasons:
         mentioned: 'zmíněn'
-        watched: 'sledován'
-        assigned: 'přiřazeno'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'Odpovědný'
         created: 'Vytvořeno'
         scheduled: 'Naplánováno'
@@ -578,7 +578,7 @@ cs:
         by_reason: 'Zapojení'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watching: 'Sledování'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'Chcete-li zobrazit a změnit nastavení oznámení, <a target="_blank" href="%{url}">klikněte zde</a>'
         title: "Nastavení oznámení"

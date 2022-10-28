@@ -537,8 +537,8 @@ nl:
       no_unread: "Geen ongelezen meldingen"
       reasons:
         mentioned: 'vermeld'
-        watched: 'bekeken'
-        assigned: 'toegewezen'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'verantwoordelijk'
         created: 'aangemaakt'
         scheduled: 'gepland'
@@ -576,7 +576,7 @@ nl:
         by_reason: 'Betrokkenheid'
         inbox: 'Inkomend'
         mentioned: 'Mentioned'
-        watching: 'Bekijken'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'Om je meldingen instellingen te bekijken en te wijzigen, <a target="_blank" href="%{url}">klik hier</a>'
         title: "Instellingen voor meldingen"
