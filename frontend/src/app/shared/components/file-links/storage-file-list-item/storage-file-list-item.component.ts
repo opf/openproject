@@ -62,7 +62,8 @@ export class StorageFileListItemComponent implements OnInit {
   showDetails:boolean;
 
   text = {
-    tooltip: this.i18n.t('js.storages.file_links.already_linked'),
+    alreadyLinkedFile: this.i18n.t('js.storages.file_links.already_linked_file'),
+    alreadyLinkedDirectory: this.i18n.t('js.storages.file_links.already_linked_directory'),
   };
 
   get principal():PrincipalLike {
@@ -75,6 +76,10 @@ export class StorageFileListItemComponent implements OnInit {
         name: 'Not Available',
         href: '/placeholder_users/1',
       };
+  }
+
+  get tooltip():string {
+    return isDirectory(this.fileListItemContent.mimeType) ? this.text.alreadyLinkedDirectory : this.text.alreadyLinkedFile;
   }
 
   get getTooltipAlignment():SpotDropAlignmentOption {
