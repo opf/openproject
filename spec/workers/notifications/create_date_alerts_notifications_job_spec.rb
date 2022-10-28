@@ -46,18 +46,29 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
 
   shared_let(:today) { Date.current }
   shared_let(:in_1_day) { today + 1.day }
+  shared_let(:in_3_days) { today + 3.days }
 
+  # Paris and Berlin are both UTC+01:00 (CET) or UTC+02:00 (CEST)
   shared_let(:user_paris) do
     create(
       :user,
-      firstname: 'Europe/Paris',
+      firstname: 'Paris',
       preferences: { time_zone: 'Europe/Paris' }
     )
   end
+  shared_let(:user_berlin) do
+    create(
+      :user,
+      firstname: 'Berlin',
+      preferences: { time_zone: 'Europe/Berlin' }
+    )
+  end
+
+  # Kathmandu is UTC+05:45 (no DST)
   shared_let(:user_kathmandu) do
     create(
       :user,
-      firstname: 'Asia/Kathmandu',
+      firstname: 'Kathmandu',
       preferences: { time_zone: 'Asia/Kathmandu' }
     )
   end
@@ -89,6 +100,40 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
     failure_message_when_negated do |user|
       "expected user #{inspect_keys(user)} " \
         "to NOT have a start date alert notification for work package " \
+        "#{inspect_keys(work_package)}"
+    end
+
+    def inspect_keys(object)
+      keys =
+        case object
+        when User then %i[id firstname]
+        when WorkPackage then %i[id start_date due_date assigned_to_id responsible_id]
+        end
+      formatted_pairs = object
+        .slice(*keys)
+        .map { |k, v| "#{k}: #{v.is_a?(Date) ? v.to_s : v.inspect}" }
+        .join(', ')
+      "#<#{formatted_pairs}>"
+    end
+  end
+
+  define :have_a_due_date_alert_notification_for do |work_package|
+    match do |user|
+      Notification
+        .reason_date_alert_due_date
+        .recipient(user)
+        .exists?(resource: work_package)
+    end
+
+    failure_message do |user|
+      "expected user #{inspect_keys(user)} " \
+        "to have a due date alert notification for work package " \
+        "#{inspect_keys(work_package)}"
+    end
+
+    failure_message_when_negated do |user|
+      "expected user #{inspect_keys(user)} " \
+        "to NOT have a due date alert notification for work package " \
         "#{inspect_keys(work_package)}"
     end
 
@@ -169,6 +214,30 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
 
         expect(user_paris).to have_a_start_date_alert_notification_for(work_package_assigned)
         expect(user_paris).to have_a_start_date_alert_notification_for(work_package_accountable)
+      end
+    end
+
+    it 'creates start and finish date alert notifications based on user notification settings' do
+      user_paris.notification_settings.first.update(
+        start_date: 1,
+        due_date: nil
+      )
+      user_berlin.notification_settings.first.update(
+        start_date: nil,
+        due_date: 3
+      )
+      work_package = alertable_work_package(assigned_to: user_paris,
+                                            responsible: user_berlin,
+                                            start_date: in_1_day,
+                                            due_date: in_3_days)
+      set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
+      travel_to(timezone_paris.now.change(hour: 1, min: 4)) do
+        scheduled_job.invoke_job
+
+        expect(user_paris).to have_a_start_date_alert_notification_for(work_package)
+        expect(user_paris).not_to have_a_due_date_alert_notification_for(work_package)
+        expect(user_berlin).not_to have_a_start_date_alert_notification_for(work_package)
+        expect(user_berlin).to have_a_due_date_alert_notification_for(work_package)
       end
     end
 

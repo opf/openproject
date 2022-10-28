@@ -39,13 +39,17 @@ module Notifications
       Time.use_zone(time_zones.first) do
         User.with_time_zone(time_zones).find_each do |user|
           send_start_date_alert_notifications(user)
+          send_due_date_alert_notifications(user)
         end
       end
     end
 
     def send_start_date_alert_notifications(user)
+      start_date_alert = user.notification_settings.first.start_date
+      return if start_date_alert.nil?
+
       WorkPackage.with_status_open.involving_user(user)
-        .where(start_date: Date.current + 1.day)
+        .where(start_date: Date.current + start_date_alert.days)
         .each do |work_package|
           create_service = Notifications::CreateService.new(user:)
           create_service.call(
@@ -53,6 +57,24 @@ module Notifications
             project_id: work_package.project_id,
             resource: work_package,
             reason: :date_alert_start_date,
+            read_ian: false
+          )
+        end
+    end
+
+    def send_due_date_alert_notifications(user)
+      due_date_alert = user.notification_settings.first.due_date
+      return if due_date_alert.nil?
+
+      WorkPackage.with_status_open.involving_user(user)
+        .where(due_date: Date.current + due_date_alert.days)
+        .each do |work_package|
+          create_service = Notifications::CreateService.new(user:)
+          create_service.call(
+            recipient_id: user.id,
+            project_id: work_package.project_id,
+            resource: work_package,
+            reason: :date_alert_due_date,
             read_ian: false
           )
         end
