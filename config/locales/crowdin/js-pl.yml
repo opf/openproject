@@ -537,8 +537,8 @@ pl:
       no_unread: "Brak nieprzeczytanych powiadomień"
       reasons:
         mentioned: 'wzmianka'
-        watched: 'obserwowane'
-        assigned: 'przypisane'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'osoba odpowiedzialna'
         created: 'utworzono'
         scheduled: 'zaplanowano'
@@ -578,7 +578,7 @@ pl:
         by_reason: 'Zaangażowanie'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watching: 'Obserwowane'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'Aby wyświetlić i zmienić ustawienia powiadomień, <a target="_blank" href="%{url}">kliknij tutaj</a>'
         title: "Ustawienia powiadomień"

@@ -537,8 +537,8 @@ es:
       no_unread: "No hay notificaciones sin leer"
       reasons:
         mentioned: 'mencionado'
-        watched: 'observado'
-        assigned: 'asignado'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'responsable'
         created: 'creado'
         scheduled: 'programado'
@@ -576,7 +576,7 @@ es:
         by_reason: 'Implicación'
         inbox: 'Bandeja de entrada'
         mentioned: 'Mencionado'
-        watching: 'Observando'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'Para ver y cambiar los ajustes de notificaciones, <a target="_blank" href="%{url}">haga clic aquí</a>'
         title: "Ajustes de notificación"

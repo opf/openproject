@@ -537,8 +537,8 @@ ca:
       no_unread: "No hi ha notificacions sense llegir"
       reasons:
         mentioned: 'mencionat'
-        watched: 'observat'
-        assigned: 'assignat'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'responsable'
         created: 'creat'
         scheduled: 'programat'
@@ -576,7 +576,7 @@ ca:
         by_reason: 'Implicació'
         inbox: 'Safata d''entrada'
         mentioned: 'Mencionat'
-        watching: 'Observant'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'Per veure i canviar la configuració de notificacions, <a target="_blank" href="%{url}">fes clic aquí</a>'
         title: "Configuració de notificacions"
