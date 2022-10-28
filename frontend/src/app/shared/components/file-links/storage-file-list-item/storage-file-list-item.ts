@@ -26,39 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ID } from '@datorama/akita';
-import {
-  IHalResourceLink,
-  IHalResourceLinks,
-} from 'core-app/core/state/hal-resource';
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 
-export interface IFileLinkHalResourceLinks extends IHalResourceLinks {
-  storage:IHalResourceLink;
-  container:IHalResourceLink;
-  creator:IHalResourceLink;
-  delete?:IHalResourceLink;
-  permission?:IHalResourceLink;
-  originOpen:IHalResourceLink;
-  staticOriginOpen:IHalResourceLink;
-  originOpenLocation:IHalResourceLink;
-  staticOriginOpenLocation:IHalResourceLink;
-  staticOriginDownload:IHalResourceLink;
-}
-
-export interface IFileLinkOriginData {
-  id:ID;
-  name:string;
-  mimeType?:string;
-  size?:number;
-  createdAt?:string;
-  lastModifiedAt?:string;
-  createdByName?:string;
-  lastModifiedByName?:string;
-}
-
-export interface IFileLink {
-  id:ID;
-  originData:IFileLinkOriginData;
-
-  _links:IFileLinkHalResourceLinks;
+export interface IStorageFileListItem extends IStorageFile {
+  disabled:boolean;
+  isFirst:boolean;
+  changeSelection:() => void;
 }
