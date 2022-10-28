@@ -44,6 +44,8 @@ import { OpModalComponent } from 'core-app/shared/components/modal/modal.compone
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+import { BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
+import getIconForStorageType from 'core-app/shared/components/file-links/storage-icons/get-icon-for-storage-type';
 
 @Component({
   templateUrl: 'file-picker-modal.html',
@@ -54,10 +56,12 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
 
   public storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
 
+  public breadcrumbs:BreadcrumbsContent;
+
   public text = {
     header: this.i18n.t('js.storages.file_links.select'),
     buttons: {
-      openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.locals.storageType as string }),
+      openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.locals.storageTypeName as string }),
       submit: ():string => this.i18n.t('js.storages.file_links.selection_any', { number: this.selectedFileCount }),
       submitEmptySelection: this.i18n.t('js.storages.file_links.selection_none'),
       cancel: this.i18n.t('js.button_cancel'),
@@ -82,6 +86,11 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
 
   ngOnInit():void {
     super.ngOnInit();
+
+    this.breadcrumbs = new BreadcrumbsContent([{
+      text: this.locals.storageName as string,
+      icon: getIconForStorageType(this.locals.storageType as string),
+    }]);
 
     const filesLink:IHalResourceLink = {
       href: `${(this.locals.storageLink as IHalResourceLink).href}/files`,

@@ -468,7 +468,7 @@ describe AccountController,
       end
 
       context 'with a locked account',
-              with_settings: { brute_force_block_after_failed_logins?: false } do
+              with_settings: { brute_force_block_after_failed_logins: 0 } do
         before do
           user.lock
           user.save!

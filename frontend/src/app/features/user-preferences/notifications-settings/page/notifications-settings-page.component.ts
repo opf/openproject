@@ -69,6 +69,10 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       title: this.I18n.t('js.notifications.settings.global.delayed.title'),
       description: this.I18n.t('js.notifications.settings.global.delayed.description'),
     },
+    dateAlerts: {
+      title: this.I18n.t('js.notifications.settings.global.date_alerts.title'),
+      description: this.I18n.t('js.notifications.settings.global.date_alerts.description'),
+    },
     mentioned: {
       title: this.I18n.t('js.notifications.settings.reasons.mentioned.title'),
       description: this.I18n.t('js.notifications.settings.reasons.mentioned.description'),

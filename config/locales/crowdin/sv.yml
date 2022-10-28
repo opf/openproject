@@ -28,32 +28,32 @@ sv:
     plugins:
       no_results_title_text: Det finns för närvarande inga tillgängliga plugins.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "Färgtema"
+      color_theme_custom: "(Anpassad)"
       colors:
-        alternative-color: "Alternative"
+        alternative-color: "Alternativ"
         content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        primary-color: "Primär"
+        primary-color-dark: "Primär (mörk)"
+        header-bg-color: "Rubrikbakgrund"
+        header-item-bg-hover-color: "Rubrikbakgrund vid hovring"
+        header-item-font-color: "Rubriktypsnitt"
+        header-item-font-hover-color: "Rubriktypsnitt vid hovring"
+        header-border-bottom-color: "Rubrikram"
+        main-menu-bg-color: "Huvudmeny bakgrund"
+        main-menu-bg-selected-background: "Huvudmeny när vald"
+        main-menu-bg-hover-background: "Huvudmeny vid hovring"
+        main-menu-font-color: "Typsnitt för huvudmenyn"
+        main-menu-selected-font-color: "Typsnitt för huvudmeny när vald"
+        main-menu-hover-font-color: "Huvudmeny typsnitt vid hovring"
+        main-menu-border-color: "Huvudmeny ram"
       custom_colors: "Anpassade färger"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+      customize: "Anpassa din OpenProject installation med din egen logotyp och färger."
       enterprise_notice: "Som ett särskilt Tack! för det ekonomiska bidraget till utvecklingen av OpenProject, är denna lilla funktion endast tillgänglig för Enterprise Edition support-prenumeranter."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
+      enterprise_more_info: "Obs: logotypen som används kommer att vara allmänt tillgänglig."
       manage_colors: "Redigera alternativ för valbara färger"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Stark accentfärg som brukar användas för de viktigaste knapparna på skärmen."
         content-link-color: "Teckenfärg på de flesta länkarna."
         primary-color: "Huvudfärg."
         primary-color-dark: "Vanligtvis en mörkare version av huvudfärgen som används för hover-effekter."
@@ -62,15 +62,15 @@ sv:
         header-item-font-hover-color: "Teckenfärg på klickbara objekt i sidhuvudet när man hovrar med muspekaren."
         header-border-bottom-color: "Tunn linje under sidhuvudet. Lämna fältet tomt om du inte vill ha någon linje."
         main-menu-bg-color: "Bakgrundsfärg på den vänstra sidomenyn."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Ändra temat kommer att skriva över din egen stil. Designen kommer då att gå förlorad. Är du säker på att du vill fortsätta?
     enterprise:
       upgrade_to_ee: "Uppgradera till Enterprise Edition"
       add_token: "Ladda upp en Enterprise Edition support-nyckel"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        text: "Är du säker på att du vill ta bort den nuvarande Enterprise Edition-token som används?"
         title: "Ta bort token"
       replace_token: "Ersätta din nuvarande support-nyckel"
-      order: "Order Enterprise on-premises Edition"
+      order: "Beställ Företag på-plats utgåva"
       paste: "Klistra in din Enterprise Edition support-nyckel"
       required_for_feature: "Denna funktion är endast tillgänglig med en aktiv Enterprise Edition support-nyckel."
       enterprise_link: "För mer information, klicka här."
@@ -80,8 +80,8 @@ sv:
       buttons:
         upgrade: "Uppgradera nu"
         contact: "Kontakta oss för en demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
-      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+      enterprise_info_html: "är en Företags <strong class='icon-medal'></strong> -funktion."
+      upgrade_info: "Vänligen uppgradera till en betalplan för att aktivera och börja använda den i ditt team."
     journal_aggregation:
       explanation:
         text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
@@ -91,7 +91,7 @@ sv:
     is_active: visas för tillfället
     is_inactive: visas ej för tillfället
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: 'Alla texter och bilder som du lägger till i detta fält är offentligt synliga för alla inloggade användare!'
     text_overview: 'I den här vyn kan du skapa anpassade hjälptexter för attributvyn. När den är definierad kan dessa texter visas genom att klicka på hjälpikonen bredvid dess tillhörande attribut.'
     label_plural: 'Hjälptexter för attribut'
     show_preview: 'Förhandsgranska text'
@@ -106,7 +106,7 @@ sv:
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
+      cancelled_due_to: "Jobbet avbröts på grund av fel: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Detta LDAP-formulär kräver teknisk kunskap om din LDAP / Active Directory-inställning.

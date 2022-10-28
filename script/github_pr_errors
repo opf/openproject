@@ -9,6 +9,7 @@ require 'pathname'
 require 'json'
 require 'rest-client'
 require 'pry'
+require 'yaml'
 
 GITHUB_API_OPENPROJECT_PREFIX = "https://api.github.com/repos/opf/openproject"
 RAILS_ROOT = Pathname.new(__dir__).dirname
@@ -190,5 +191,5 @@ if is_successful
 elsif errors.empty?
   warn "No rspec errors found :-/"
 else
-  puts errors.map { "'#{_1}'" }.join(" ")
+  puts errors.map { "'#{_1}'" }
 end

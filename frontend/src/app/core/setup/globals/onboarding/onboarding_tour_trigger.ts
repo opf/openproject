@@ -37,9 +37,11 @@ export function detectOnboardingTour():void {
       waitForElement('.spot-modal-overlay_active', 'body', () => {
         const elementsByClassName = document.getElementsByClassName('spot-modal-overlay_active');
         Array.from(elementsByClassName).forEach((modalOverlay) => {
-          modalOverlay.addEventListener('click', () => {
-            tourCancelled = true;
-            void triggerTour('homescreen');
+          modalOverlay.addEventListener('click', (evt) => {
+            if (evt.target === modalOverlay) {
+              tourCancelled = true;
+              void triggerTour('homescreen');
+            }
           });
         });
       });

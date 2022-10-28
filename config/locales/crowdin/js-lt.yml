@@ -537,8 +537,8 @@ lt:
       no_unread: "Nėra neperskaitytų pranešimų"
       reasons:
         mentioned: 'paminėtas'
-        watched: 'stebimas'
-        assigned: 'paskirta'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'atsakingas'
         created: 'created'
         scheduled: 'scheduled'
@@ -577,19 +577,19 @@ lt:
         by_project: 'Neperskaityti pagal projektą'
         by_reason: 'Pagal įsitraukimą'
         inbox: 'Gauti'
-        mentioned: '@paminėtas'
-        watching: 'Stebima'
+        mentioned: 'Mentioned'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'Norėdami pažiūrėti ir keisti jūsų pranešimų nustatymus, <a target="_blank" href="%{url}">spauskite čia</a>'
         title: "Pranešimų nustatymai"
         notify_me: "Pranešti man"
         reasons:
           mentioned:
-            title: 'Aš @paminėtas'
+            title: 'Mentioned'
             description: 'Gauti pranešimą kiekvieną kartą, kai kas nors mane bet kur pamini'
           assignee: 'Assignee'
           responsible: 'Accountable'
-          watched: 'Stebimų elementų pakeitimai'
+          watched: 'Watcher'
           work_package_commented: 'Visi nauji komentarai'
           work_package_created: 'Nauji darbų paketai'
           work_package_processed: 'Visi būsenų pakeitimai'
@@ -597,11 +597,14 @@ lt:
           work_package_scheduled: 'Visi datų pakeitimai'
         global:
           immediately:
-            title: 'Pranešti man nedelsiant'
-            description: 'Šie nustatymai taikomi visiems projektams. Žemiau jūs galite sukurti konkrečiam projektui taikomas išimtis.'
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
           delayed:
-            title: 'Tai pat pranešti man apie'
-            description: 'Gauti pranešimus apie šiuos veiksmus su darbo paketais visuose projektuose:'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects'
+          date_alerts:
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
         project_specific:
           title: 'Konkrečių projektų pranešimų nustatymai'
           description: 'Šie konkrečių projektų nustatymai permuša aukščiau esančius numatytuosius nustatymus'

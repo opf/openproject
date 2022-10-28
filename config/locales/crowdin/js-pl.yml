@@ -537,8 +537,8 @@ pl:
       no_unread: "Brak nieprzeczytanych powiadomień"
       reasons:
         mentioned: 'wzmianka'
-        watched: 'obserwowane'
-        assigned: 'przypisane'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'osoba odpowiedzialna'
         created: 'utworzono'
         scheduled: 'zaplanowano'
@@ -577,19 +577,19 @@ pl:
         by_project: 'Nieprzeczytane wg projektu'
         by_reason: 'Zaangażowanie'
         inbox: 'Inbox'
-        mentioned: '@wzmianka'
-        watching: 'Obserwowane'
+        mentioned: 'Mentioned'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'Aby wyświetlić i zmienić ustawienia powiadomień, <a target="_blank" href="%{url}">kliknij tutaj</a>'
         title: "Ustawienia powiadomień"
         notify_me: "Powiadom mnie"
         reasons:
           mentioned:
-            title: '@wzmianka o mnie'
+            title: 'Mentioned'
             description: 'Otrzymuj powiadomienie za każdym razem, gdy pojawi się o tobie wzmianka gdziekolwiek'
           assignee: 'Przypisana osoba'
           responsible: 'Osoba odpowiedzialna'
-          watched: 'Aktualizacje obserwowanych pozycji'
+          watched: 'Watcher'
           work_package_commented: 'Wszystkie nowe komentarze'
           work_package_created: 'Nowe pakiety robocze'
           work_package_processed: 'Wszystkie zmiany statusu'
@@ -597,11 +597,14 @@ pl:
           work_package_scheduled: 'Wszystkie zmiany daty'
         global:
           immediately:
-            title: 'Powiadom mnie natychmiast'
-            description: 'Te ustawienia dotyczą wszystkich projektów. Poniżej możesz utworzyć wyjątki dla określonych projektów.'
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
           delayed:
-            title: 'Powiadom mnie również o'
-            description: 'Otrzymuj powiadomienia o następujących czynnościach w pakietach roboczych dla wszystkich projektów:'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects'
+          date_alerts:
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
         project_specific:
           title: 'Ustawienia powiadomień dla danego projektu'
           description: 'Te ustawienia dla danego projektu zastępują ustawienia domyślne powyżej'

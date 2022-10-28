@@ -145,7 +145,7 @@ describe Redmine::UnifiedDiff do
       +      @truncated = false
              diff_table = DiffTable.new(diff_type)
              diff.each do |line|
-               if line =~ /^(---|\+\+\+) (.*)$/
+               if line =~ /^(---|+++) (.*)$/
       @@ -28,10 +31,17 @@
                  diff_table = DiffTable.new(diff_type)
                end

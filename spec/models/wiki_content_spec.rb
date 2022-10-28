@@ -35,19 +35,32 @@ describe WikiContent, type: :model do
   shared_let(:page) { create(:wiki_page, wiki:) }
   shared_let(:author) do
     create(:user,
+           firstname: 'author',
            member_in_project: wiki.project,
            member_with_permissions: [:view_wiki_pages])
   end
   shared_let(:project_watcher) do
     create(:user,
+           firstname: 'project_watcher',
            member_in_project: wiki.project,
-           member_with_permissions: [:view_wiki_pages])
+           member_with_permissions: [:view_wiki_pages],
+           notification_settings: [
+             build(:notification_setting,
+                   wiki_page_added: true,
+                   wiki_page_updated: true)
+           ])
   end
 
   shared_let(:wiki_watcher) do
     watcher = create(:user,
+                     firstname: 'wiki_watcher',
                      member_in_project: wiki.project,
-                     member_with_permissions: [:view_wiki_pages])
+                     member_with_permissions: [:view_wiki_pages],
+                     notification_settings: [
+                       build(:notification_setting,
+                             wiki_page_added: true,
+                             wiki_page_updated: true)
+                     ])
     wiki.watcher_users << watcher
 
     watcher
@@ -55,7 +68,7 @@ describe WikiContent, type: :model do
 
   describe 'mail sending' do
     context 'when creating' do
-      let(:content) { build(:wiki_content, page:) }
+      let(:content) { build(:wiki_content, page:, author:) }
 
       it 'sends mails to the wiki`s watchers and project all watchers' do
         expect do
@@ -74,8 +87,12 @@ describe WikiContent, type: :model do
             with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:page_watcher) do
         watcher = create(:user,
+                         firstname: 'page_watcher',
                          member_in_project: wiki.project,
-                         member_with_permissions: [:view_wiki_pages])
+                         member_with_permissions: [:view_wiki_pages],
+                         notification_settings: [
+                           build(:notification_setting, wiki_page_updated: true)
+                         ])
         page.watcher_users << watcher
 
         watcher

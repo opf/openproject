@@ -189,12 +189,11 @@ describe AccountController,
         expect(response).to redirect_to my_page_path
       end
 
-      context 'with an auth source' do
+      context 'with an auth source',
+              with_settings: { self_registration: Setting::SelfRegistration.disabled } do
         let(:auth_source) { create :ldap_auth_source }
 
         it 'creates the user on the fly' do
-          allow(Setting).to receive(:self_registration).and_return('0')
-          allow(Setting).to receive(:self_registration?).and_return(false)
           allow(AuthSource).to receive(:authenticate).and_return(login: 'foo',
                                                                  firstname: 'Foo',
                                                                  lastname: 'Smith',
@@ -405,7 +404,8 @@ describe AccountController,
       end
     end
 
-    context 'with an auth source' do
+    context 'with an auth source',
+            with_settings: { self_registration: Setting::SelfRegistration.disabled } do
       let(:auth_source) { create :ldap_auth_source }
 
       let(:user_attributes) do
@@ -421,8 +421,6 @@ describe AccountController,
       let(:authenticate) { true }
 
       before do
-        allow(Setting).to receive(:self_registration).and_return('0')
-        allow(Setting).to receive(:self_registration?).and_return(false)
         allow(AuthSource).to receive(:authenticate).and_return(authenticate ? user_attributes : nil)
 
         # required so that the register view can be rendered
@@ -550,11 +548,8 @@ describe AccountController,
   end
 
   context 'GET #register' do
-    context 'with self registration on' do
-      before do
-        allow(Setting).to receive(:self_registration).and_return('3')
-      end
-
+    context 'with self registration on',
+            with_settings: { self_registration: Setting::SelfRegistration.automatic } do
       context 'and password login enabled' do
         before do
           get :register
@@ -579,22 +574,20 @@ describe AccountController,
       end
     end
 
-    context 'with self registration off' do
+    context 'with self registration off',
+            with_settings: { self_registration: Setting::SelfRegistration.disabled } do
       before do
-        allow(Setting).to receive(:self_registration).and_return('0')
-        allow(Setting).to receive(:self_registration?).and_return(false)
         get :register
       end
 
       it_behaves_like 'registration disabled'
     end
 
-    context 'with self registration off but an ongoing invitation activation' do
+    context 'with self registration off but an ongoing invitation activation',
+            with_settings: { self_registration: Setting::SelfRegistration.disabled } do
       let(:token) { create :invitation_token }
 
       before do
-        allow(Setting).to receive(:self_registration).and_return('0')
-        allow(Setting).to receive(:self_registration?).and_return(false)
         session[:invitation_token] = token.value
 
         get :register
@@ -610,10 +603,10 @@ describe AccountController,
 
   # See integration/account_test.rb for the full test
   context 'POST #register' do
-    context 'with self registration on automatic' do
+    context 'with self registration on automatic',
+            with_settings: { self_registration: Setting::SelfRegistration.automatic } do
       before do
         allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
-        allow(Setting).to receive(:self_registration).and_return('3')
       end
 
       context 'with password login enabled' do
@@ -718,11 +711,8 @@ describe AccountController,
       end
     end
 
-    context 'with self registration by email' do
-      before do
-        allow(Setting).to receive(:self_registration).and_return('1')
-      end
-
+    context 'with self registration by email',
+            with_settings: { self_registration: Setting::SelfRegistration.by_email } do
       context 'with password login enabled' do
         before do
           Token::Invitation.delete_all
@@ -769,7 +759,8 @@ describe AccountController,
       end
     end
 
-    context 'with manual activation' do
+    context 'with manual activation',
+            with_settings: { self_registration: Setting::SelfRegistration.manual } do
       let(:user_hash) do
         { login: 'register',
           password: 'adminADMIN!',
@@ -777,10 +768,6 @@ describe AccountController,
           firstname: 'John',
           lastname: 'Doe',
           mail: 'register@example.com' }
-      end
-
-      before do
-        allow(Setting).to receive(:self_registration).and_return('2')
       end
 
       context 'without back_url' do
@@ -834,10 +821,9 @@ describe AccountController,
       end
     end
 
-    context 'with self registration off' do
+    context 'with self registration off',
+            with_settings: { self_registration: Setting::SelfRegistration.disabled } do
       before do
-        allow(Setting).to receive(:self_registration).and_return('0')
-        allow(Setting).to receive(:self_registration?).and_return(false)
         post :register,
              params: {
                user: {
@@ -854,10 +840,9 @@ describe AccountController,
       it_behaves_like 'registration disabled'
     end
 
-    context 'with on-the-fly registration' do
+    context 'with on-the-fly registration',
+            with_settings: { self_registration: Setting::SelfRegistration.disabled } do
       before do
-        allow(Setting).to receive(:self_registration).and_return('0')
-        allow(Setting).to receive(:self_registration?).and_return(false)
         allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
         allow(AuthSource).to receive(:authenticate).and_return(login: 'foo',
                                                                lastname: 'Smith',

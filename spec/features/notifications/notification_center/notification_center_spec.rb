@@ -9,7 +9,8 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
     # Needs to take place before the work package is created so that the notification listener is set up
     create :user,
            member_in_projects: [project1, project2],
-           member_with_permissions: %i[view_work_packages]
+           member_with_permissions: %i[view_work_packages],
+           notification_settings: [build(:notification_setting, all: true)]
   end
   let!(:other_user) do
     create(:user)
@@ -154,7 +155,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
         visit home_path
         center.open
         center.expect_bell_count 2
-        side_menu.click_item '@mentioned'
+        side_menu.click_item 'Mentioned'
         side_menu.finished_loading
         center.expect_no_toaster
         notification3.update(read_ian: false)

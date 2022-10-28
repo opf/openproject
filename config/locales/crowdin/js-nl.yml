@@ -537,8 +537,8 @@ nl:
       no_unread: "Geen ongelezen meldingen"
       reasons:
         mentioned: 'vermeld'
-        watched: 'bekeken'
-        assigned: 'toegewezen'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'verantwoordelijk'
         created: 'aangemaakt'
         scheduled: 'gepland'
@@ -575,19 +575,19 @@ nl:
         by_project: 'Ongelezen per project'
         by_reason: 'Betrokkenheid'
         inbox: 'Inkomend'
-        mentioned: '@vermeld'
-        watching: 'Bekijken'
+        mentioned: 'Mentioned'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'Om je meldingen instellingen te bekijken en te wijzigen, <a target="_blank" href="%{url}">klik hier</a>'
         title: "Instellingen voor meldingen"
         notify_me: "Waarschuw mij"
         reasons:
           mentioned:
-            title: 'Ik ben @vermeld'
+            title: 'Mentioned'
             description: 'Ontvang een melding elke keer dat iemand mij ergens noemt'
           assignee: 'Toegewezene'
           responsible: 'Accountable'
-          watched: 'Updates van bekeken artikelen'
+          watched: 'Watcher'
           work_package_commented: 'Alle nieuwe reacties'
           work_package_created: 'Nieuwe werkpakketten'
           work_package_processed: 'Alle statuswijzigingen'
@@ -595,11 +595,14 @@ nl:
           work_package_scheduled: 'Alle datum wijzigingen '
         global:
           immediately:
-            title: 'Waarschuw mij onmiddellijk'
-            description: 'Deze instellingen gelden voor alle projecten. U kunt hieronder project-specifieke uitzonderingen maken.'
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
           delayed:
-            title: 'Informeer mij ook voor'
-            description: 'Ontvang meldingen voor deze activiteiten op werkpakketten in alle projecten:'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects'
+          date_alerts:
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
         project_specific:
           title: 'Project-specifieke meldingsinstellingen'
           description: 'Deze project-specifieke instellingen overschrijven standaard instellingen hierboven'

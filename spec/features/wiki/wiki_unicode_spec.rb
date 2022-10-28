@@ -102,7 +102,7 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
       target_link = all('div.wiki-content a.wiki-page')[i]
 
       expect(target_link.text).to eq(title)
-      expect(target_link[:href]).to match("\/wiki\/#{expected_slugs[i]}")
+      expect(target_link[:href]).to match("/wiki/#{expected_slugs[i]}")
       target_link.click
 
       expect(page).to have_selector('.title-container h2', text: title)
