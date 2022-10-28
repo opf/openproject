@@ -29,6 +29,7 @@
 module API::V3::Values::Schemas
   module ValueSchemaFactory
     extend ::API::V3::Utilities::PathHelper
+    SUPPORTED = %w(start_date due_date).freeze
 
     module_function
 
@@ -41,10 +42,14 @@ module API::V3::Values::Schemas
              self_link: api_v3_paths.value_schema(property))
     end
 
+    def all
+      SUPPORTED.map { |property| self.for(property) }
+    end
+
     def supported?(property)
       # This is but a stub. Currently, only 'start_date' and 'due_date'
       # need to be supported so this simple approach works.
-      %w(start_date due_date).include?(property)
+      SUPPORTED.include?(property)
     end
 
     def model_for(property)

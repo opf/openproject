@@ -79,6 +79,11 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
 
     it_behaves_like 'offset-paginated APIv3 collection', 3, 'notifications', 'Notification'
 
+    it 'renders the available detailsSchemas' do
+      details_schemas = ::API::V3::Values::Schemas::ValueSchemaFactory.all
+      expect(subject).to be_json_eql(details_schemas.to_json).at_path('_embedded/detailsSchemas')
+    end
+
     context 'when passing groups' do
       let(:groups) do
         [
