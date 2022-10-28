@@ -31,6 +31,8 @@ Starting 12.4, Open Project offers notification for date alerts. Please note tha
 
 Date alerts allow you to receive a notification when a start date or a finish date is approaching for a work package you are participating in (that is, for which you assignee, accountable or a watcher). 
 
+>> IMG
+
 For each date, you can choose to be alerted the same day, a day before, 3 days before or a week before.
 
 You can also choose to receive a recurring notification (everyday, every 3 days or every week) for work package that are overdue.
@@ -58,6 +60,8 @@ This might be because you are more active in certain projects than others, or be
 To add project-specific notification settings, first click on **+ Add setting for project** and select a project. 
 
 Once you do so, you will see a table with a column for your selected project, and a list of events for which you wish to be notified. You can now select and unselect from this list as you please.
+
+>> IMG
 
 > **Info**: These project-specific settings will override any global settings above. You can use these settings if you find you receive not enough or too many notifications for a particular project.
 
