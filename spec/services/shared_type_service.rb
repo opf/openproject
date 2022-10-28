@@ -50,6 +50,21 @@ end
 shared_examples_for 'type service' do
   let(:success) { true }
   let(:params) { {} }
+  let!(:contract) do
+    instance_double(::Types::BaseContract).tap do |contract|
+      allow(contract)
+        .to receive(:validate)
+              .and_return(contract_valid)
+      allow(contract)
+        .to receive(:errors)
+              .and_return(contract_errors)
+      allow(Types::BaseContract)
+        .to receive(:new)
+              .and_return(contract)
+    end
+  end
+  let(:contract_errors) { instance_double(ActiveModel::Errors) }
+  let(:contract_valid) { success }
 
   describe '#call' do
     before do
@@ -232,7 +247,7 @@ shared_examples_for 'type service' do
         { 'type' => 'query', 'name' => 'group1', 'query' => JSON.dump(query_params) }
       end
       let(:params) { { attribute_groups: [query_group_params] } }
-      let(:query) { create(:query, user_id: 0) }
+      let(:query) { Query.new }
       let(:service_result) { ServiceResult.success(result: query) }
 
       before do
@@ -240,20 +255,9 @@ shared_examples_for 'type service' do
           .to receive(:new_default)
           .with(name: "Embedded table: group1")
           .and_return(query)
-
-        parse_service = instance_double(::API::V3::ParseQueryParamsService)
-        allow(::API::V3::UpdateQueryFromV3ParamsService)
-          .to receive(:new)
-          .with(query, user)
-          .and_return(parse_service)
-
-        allow(parse_service)
-          .to receive(:call)
-          .with(query_params)
-          .and_return(service_result)
       end
 
-      it 'assigns the fully parsed query to the type\'s attribute group' do
+      it 'assigns the fully parsed query to the type\'s attribute group with the system user as the querie\'s user' do
         expect(service_call).to be_success
 
         expect(type.attribute_groups[0].query)
@@ -264,9 +268,12 @@ shared_examples_for 'type service' do
 
         expect(query.filters[0].name)
           .to be :status_id
+
+        expect(query.user)
+          .to eq User.system
       end
 
-      context 'when the query service reports an error' do
+      context 'when the query parse service reports an error' do
         let(:success) { false }
         let(:service_result) { ServiceResult.failure(result: nil) }
 
@@ -290,8 +297,8 @@ shared_examples_for 'type service' do
       end
 
       it 'returns the errors of the type' do
-        type.name = nil
-        expect(subject.errors.symbols_for(:name)).to include :blank
+        expect(subject.errors)
+          .to eql contract_errors
       end
 
       describe 'custom fields' do
