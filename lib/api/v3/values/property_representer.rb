@@ -30,7 +30,8 @@ module API::V3::Values
   class PropertyRepresenter < ::Roar::Decorator
     include ::Roar::JSON::HAL
     include ::Roar::Hypermedia
-    include API::Decorators::SelfLink
+    include ::API::Decorators::SelfLink
+    include ::API::V3::Utilities::PathHelper
 
     def initialize(model, self_link:)
       @self_link = self_link
@@ -45,6 +46,12 @@ module API::V3::Values
              getter: ->(*) { property.to_s.camelcase(:lower) }
 
     self_link title: false
+
+    link :schema do
+      {
+        href: api_v3_paths.value_schema(represented.property.to_s.camelcase(:lower))
+      }
+    end
 
     def self_v3_path(*_args)
       self_link
