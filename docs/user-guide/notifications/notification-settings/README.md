@@ -51,6 +51,16 @@ You can be notified of:
 
 ## Project-specific notifications
 
-You can also add **project specific notification settings** by clicking on the link **Add settings for project**.
+In some cases, you may wish to fine-tune your notification settings at a project-level. 
 
-By default you do not receive any notifications for your own changes. In addition to the in-app notifications, you will also get a once-a-day summary of all notifications as **[Email reminders](../../../getting-started/my-account#email-reminders)**.
+This might be because you are more active in certain projects than others, or because certain events (like new work packages or date alerts) might be more important to you than others (like priority changes).
+
+To add project-specific notification settings, first click on **+ Add setting for project** and select a project. 
+
+Once you do so, you will see a table with a column for your selected project, and a list of events for which you wish to be notified. You can now select and unselect from this list as you please.
+
+> **Info**: These project-specific settings will override any global settings above. You can use these settings if you find you receive not enough or too many notifications for a particular project.
+
+## Email reminders
+
+You can supplement these in-app notifications with email reminders, either at specific times of the day or immediately when someone mentions you. For more information, please read our guide on **[Email reminders](../../../getting-started/my-account#email-reminders)**.
