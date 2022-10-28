@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe ::API::V3::Notifications::DetailsFactory do
-  let(:resource) { build_stubbed :work_package }
+  let(:resource) { build_stubbed(:work_package) }
 
   let(:notification) do
-    build_stubbed :notification,
+    build_stubbed(:notification,
                   resource:,
-                  reason:
+                  reason:)
   end
 
   describe '.for' do

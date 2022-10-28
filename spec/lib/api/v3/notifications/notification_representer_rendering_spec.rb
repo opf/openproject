@@ -34,7 +34,7 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
   subject(:generated) { representer.to_json }
 
   shared_let(:project) { create :project }
-  let(:resource) { build_stubbed :work_package, project: }
+  let(:resource) { build_stubbed(:work_package, project:) }
 
   let(:recipient) { build_stubbed(:user) }
   let(:journal) { nil }
