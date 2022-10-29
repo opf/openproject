@@ -587,7 +587,7 @@ tr:
           involved:
             title: 'Bana atanan veya sorumlu olan'
             description: 'Atandığım veya sorumlu olduğum iş paketleriyle ilgili tüm faaliyetler için bildirim alayım'
-          watched: 'Updates on watched items'
+          watched: 'İzlenen öğelerle ilgili güncellemeler'
           work_package_commented: 'All new comments'
           work_package_created: 'Yeni iş paketleri'
           work_package_processed: 'All status changes'
@@ -596,10 +596,10 @@ tr:
         global:
           immediately:
             title: 'Bana hemen haber ver'
-            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+            description: 'Bu ayarlar tüm projeler için geçerlidir. Aşağıda projeye özel istisnalar oluşturabilirsiniz.'
           delayed:
             title: 'Ayrıca bana haber ver'
-            description: 'Receive notifications for these activities on work packages in all projects:'
+            description: 'Tüm projelerdeki iş paketleriyle ilgili faaliyetler için bildirim alın:'
         project_specific:
           title: 'Project-specific notification settings'
           description: 'These project-specific settings override default settings above'
