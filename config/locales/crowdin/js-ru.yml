@@ -536,8 +536,8 @@ ru:
       no_unread: "Нет непрочитанных уведомлений"
       reasons:
         mentioned: 'упомянутый'
-        watched: 'watcher'
-        assigned: 'assignee'
+        watched: 'наблюдатель'
+        assigned: 'назначенный'
         responsible: 'подотчетный'
         created: 'создано'
         scheduled: 'запланировано'
@@ -577,7 +577,7 @@ ru:
         by_reason: 'Вовлеченность'
         inbox: 'Входящие'
         mentioned: 'Упомянутые'
-        watched: 'Watcher'
+        watched: 'Наблюдатель'
       settings:
         change_notification_settings: 'Чтобы просмотреть и изменить настройки уведомлений, <a target="_blank" href="%{url}">нажмите здесь</a>'
         title: "Настройки уведомлений"
