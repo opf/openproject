@@ -78,7 +78,12 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       if predicate.kind_of? String
         predicate.gsub! "#{model.table_name}.", "#{model.journal_class.table_name}."
       elsif predicate.left.relation == self.arel_table
+        if predicate.right.respond_to? :name and predicate.right.name == "id"
+          predicate.right.instance_variable_set(:@name, "journable_id")
+          predicate.left.relation = Journal.arel_table
+        else
           predicate.left.relation = self.journal_class.arel_table
+        end
       end
     end
 
