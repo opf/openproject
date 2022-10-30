@@ -405,6 +405,31 @@ describe Journable::Timestamps, type: :model do
         end
       end
 
+
+      describe "when chaining an order clause" do
+        subject { WorkPackage.at_timestamp(@wednesday).order(description: :desc) }
+
+        it "transforms the table name" do
+          expect(subject.to_sql).to include "\"work_package_journals\".\"description\" DESC"
+        end
+
+        it "returns the requested work package" do
+          expect(subject).to include work_package
+        end
+
+        describe "when chaining a manual order clause" do
+          subject { WorkPackage.order("work_packages.description DESC").at_timestamp(@wednesday) }
+
+          it "transforms the table name" do
+            expect(subject.to_sql).to include "work_package_journals.description DESC"
+          end
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
+      end
+
     end
 
     describe "#at_timestamp" do
