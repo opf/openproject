@@ -28,6 +28,7 @@
 
 class Query < ApplicationRecord
   include Timelines
+  include Timestamps
   include Highlighting
   include ManualSorting
   include Queries::Filters::AvailableFilters
