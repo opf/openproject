@@ -406,6 +406,18 @@ describe Journable::Timestamps, type: :model do
       end
 
 
+      describe "when chaining a sql where clause (as used by Query#statement)" do
+        subject { WorkPackage.where("(work_packages.description ILIKE '%been on Wednesday%')").at_timestamp(@wednesday) }
+
+        it "transforms the table name" do
+          expect(subject.to_sql).to include "work_package_journals.description ILIKE"
+        end
+
+        it "returns the requested work package" do
+          expect(subject).to include work_package
+        end
+      end
+
       describe "when chaining an order clause" do
         subject { WorkPackage.at_timestamp(@wednesday).order(description: :desc) }
 

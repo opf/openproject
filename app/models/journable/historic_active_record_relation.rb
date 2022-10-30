@@ -75,8 +75,10 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     # Modify there where clauses such that the work-packages table is substituted
     # with the work-package-journals table.
     relation.where_clause.instance_variable_get(:@predicates).each do |predicate|
-      if predicate.left.relation == self.arel_table
-        predicate.left.relation = self.journal_class.arel_table
+      if predicate.kind_of? String
+        predicate.gsub! "#{model.table_name}.", "#{model.journal_class.table_name}."
+      elsif predicate.left.relation == self.arel_table
+          predicate.left.relation = self.journal_class.arel_table
       end
     end
 
