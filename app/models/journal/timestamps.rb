@@ -50,7 +50,8 @@ module Journal::Timestamps
     # a journable at a given timestamp.
     #
     def at_timestamp(timestamp)
-      raise ArgumentError, "Expected timestamp to be an ActiveSupport::TimeWithZone or DateTime" unless timestamp.kind_of? ActiveSupport::TimeWithZone or timestamp.kind_of? DateTime
+      raise ArgumentError, "Expected timestamp to be a Timestamp, an ActiveSupport::TimeWithZone, or a DateTime" unless timestamp.kind_of? Timestamp or timestamp.kind_of? ActiveSupport::TimeWithZone or timestamp.kind_of? DateTime
+      timestamp = timestamp.to_time if timestamp.kind_of? Timestamp
       timestamp = timestamp.in_time_zone if timestamp.kind_of? DateTime
 
       where(id:

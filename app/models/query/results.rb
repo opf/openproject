@@ -39,25 +39,22 @@ class ::Query::Results
 
   # Returns the work package count
   def work_package_count
-    work_package_scope
-      .joins(all_filter_joins)
-      .includes(:project)
-      .where(query.statement)
-      .references(:projects)
-      .count
-  rescue ::ActiveRecord::StatementInvalid => e
-    raise ::Query::StatementInvalid.new(e.message)
+    work_packages.count
   end
 
   # Returns the work packages adhering to the filters and ordered by the provided criteria (grouping and sorting)
   def work_packages
-    work_package_scope
-      .where(query.statement)
-      .includes(all_includes)
-      .joins(all_joins)
+    WorkPackage
+      .where(id: work_package_ids)
       .order(order_option)
       .references(:projects)
       .order(sort_criteria_array)
+  end
+
+  def work_package_ids
+    # For filtering on historic data, we need to collect the work package ids
+    # matching the filters for all search timestamps provided in the query.
+    work_package_ids_for_all_timestamps
   end
 
   def order_option
@@ -71,6 +68,30 @@ class ::Query::Results
   end
 
   private
+
+  # For filtering on historic data, this returns the work package ids
+  # matching the filters for all search timestamps provided in the query.
+  #
+  def work_package_ids_for_all_timestamps
+    query.timestamps.collect do |timestamp|
+      work_packages_relation.at_timestamp(timestamp).pluck(:id)
+    end.flatten.uniq
+  end
+
+  # Returns an active-record relation that applies the filters to find the matching
+  # work packages.
+  #
+  # This can be chained with `.at_timestamp(...)` in order to search historic data
+  # as required for the baseline-comparison feature.
+  #
+  # https://community.openproject.org/projects/openproject/work_packages/26448
+  #
+  def work_packages_relation
+    work_package_scope
+      .where(query.statement)
+      .includes(all_includes)
+      .joins(all_joins)
+  end
 
   def work_package_scope
     WorkPackage
