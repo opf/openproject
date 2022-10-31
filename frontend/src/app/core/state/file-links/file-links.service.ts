@@ -47,15 +47,11 @@ import {
   CollectionStore,
   ResourceCollectionService,
 } from 'core-app/core/state/resource-collection.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Injectable()
 export class FileLinksResourceService extends ResourceCollectionService<IFileLink> {
-  constructor(
-    private readonly http:HttpClient,
-    private readonly toastService:ToastService,
-  ) {
-    super();
-  }
+  @InjectField() toastService:ToastService;
 
   updateCollectionsForWorkPackage(fileLinksSelfLink:string):void {
     this.http
@@ -106,5 +102,9 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
         }),
       )
       .subscribe(() => removeEntityFromCollectionAndState(this.store, fileLink.id, collectionKey));
+  }
+
+  protected basePath():string {
+    return this.apiV3Service.file_links.path;
   }
 }

@@ -416,7 +416,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private initializeCalendar() {
-    void this.configuration.initialized
+    void Promise.all([
+      this.configuration.initialized,
+      this.weekdayService.loadWeekdays().toPromise(),
+    ])
       .then(() => {
         this.calendarOptions$.next(
           this.workPackagesCalendar.calendarOptions({
