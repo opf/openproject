@@ -372,7 +372,7 @@ GEM
       rexml
     crass (1.0.6)
     daemons (1.4.1)
-    dalli (3.2.2)
+    dalli (3.2.3)
     danger (9.0.0)
       claide (~> 1.0)
       claide-plugins (>= 0.9.2)
