@@ -46,6 +46,7 @@ class Authorization::EnterpriseService
     grid_widget_wp_graph
     placeholder_users
     team_planner_view
+    date_alerts
   ).freeze
 
   def initialize(token)

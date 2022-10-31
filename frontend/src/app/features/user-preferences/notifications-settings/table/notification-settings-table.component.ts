@@ -4,12 +4,14 @@ import {
   Component,
   ChangeDetectionStrategy,
   Input,
+  OnInit,
 } from '@angular/core';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES, REMINDER_AVAILABLE_TIMEFRAMES } from '../overdue-reminder-available-times';
 
 @Component({
@@ -18,10 +20,12 @@ import { OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES, REMINDER_AVAILABLE_TIMEFRAMES } 
   styleUrls: ['./notification-settings-table.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NotificationSettingsTableComponent {
+export class NotificationSettingsTableComponent implements OnInit {
   @Input() userId:string;
 
   @Input() settings:FormArray;
+
+  public eeShowBanners = false;
 
   public availableTimes = [
     {
@@ -75,7 +79,12 @@ export class NotificationSettingsTableComponent {
   constructor(
     private I18n:I18nService,
     private pathHelper:PathHelperService,
+    readonly bannersService:BannersService,
   ) {}
+
+  ngOnInit():void {
+    this.eeShowBanners = this.bannersService.eeShowBanners;
+  }
 
   projectLink(href:string) {
     return this.pathHelper.projectPath(idFromLink(href));

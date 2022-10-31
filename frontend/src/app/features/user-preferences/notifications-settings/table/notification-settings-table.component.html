@@ -79,7 +79,7 @@
         </ng-container>
       </tr>
 
-      <tr>
+      <tr *ngIf="!eeShowBanners">
         <th class="op-table--cell op-table--cell_soft-heading">
           <h5>{{ text.dateAlerts.title }}</h5>
           <p>{{ text.dateAlerts.description }}</p>
@@ -89,7 +89,7 @@
         </ng-container>
       </tr>
 
-      <tr>
+      <tr *ngIf="!eeShowBanners">
         <th class="op-table--cell op-table--cell_soft-heading">
           {{ text.startDate }}
         </th>
@@ -112,7 +112,7 @@
         </ng-container>
       </tr>
 
-      <tr>
+      <tr *ngIf="!eeShowBanners">
         <th class="op-table--cell op-table--cell_soft-heading">
           {{ text.dueDate }}
         </th>
@@ -135,7 +135,7 @@
         </ng-container>
       </tr>
 
-      <tr>
+      <tr *ngIf="!eeShowBanners">
         <th class="op-table--cell op-table--cell_soft-heading">
           {{ text.overdue }}
         </th>
