@@ -85,7 +85,9 @@ You will then be prompted to select a file (or multiple files) on your computer 
 
 >> IMG: Local browser file picker
 
-Once you have selected your files, you will need to select a folder on Nextcloud to which they should be uploaded. 
+Alternatively, you can also simply drag a file or folder on your computer on to this area (under the name of your Nextcloud file storage) and drop it in the drop zone that appears.
+
+Once you have selected or dropped the files you would like to upload, you will need to select a folder on Nextcloud to which they should be stored. 
 
 > **Info:** This step allows you to follow any guidelines your organisation might have concerning folder structure or file management, and where new files should be stored.
 
