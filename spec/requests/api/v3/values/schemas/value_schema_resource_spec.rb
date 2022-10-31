@@ -43,8 +43,8 @@ describe ::API::V3::Values::Schemas::ValueSchemaAPI,
   end
 
   context 'for a logged in user' do
-    context 'for a property' do
-      let(:schema_id) { 'start_date' }
+    context 'for a startDate' do
+      let(:schema_id) { 'startDate' }
 
       it 'returns the schema', :aggregate_failures do
         expect(last_response.status)
@@ -63,13 +63,38 @@ describe ::API::V3::Values::Schemas::ValueSchemaAPI,
                 .at_path('value/name')
       end
     end
-  end
 
-  context 'for a logged in user and a non existing property' do
-    context 'for a property' do
+    context 'for a dueDate' do
+      let(:schema_id) { 'dueDate' }
+
+      it 'returns the schema', :aggregate_failures do
+        expect(last_response.status)
+          .to eq 200
+
+        expect(last_response.body)
+          .to be_json_eql('Schema'.to_json)
+                .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql('Date'.to_json)
+                .at_path('value/type')
+
+        expect(last_response.body)
+          .to be_json_eql('Finish date'.to_json)
+                .at_path('value/name')
+      end
+    end
+
+    context 'for a non existing property' do
       let(:schema_id) { 'bogus' }
 
       it_behaves_like 'not found'
+    end
+
+    context 'for an underscore property' do
+      let(:schema_id) { 'start_date' }
+
+      it_behaves_like 'param validation error'
     end
   end
 end

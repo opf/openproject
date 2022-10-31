@@ -39,7 +39,7 @@ module API::V3::Values::Schemas
       ::API::V3::Values::Schemas::PropertySchemaRepresenter
         .new(model_for(property),
              current_user: nil,
-             self_link: api_v3_paths.value_schema(property))
+             self_link: api_v3_paths.value_schema(property.camelcase(:lower)))
     end
 
     def all

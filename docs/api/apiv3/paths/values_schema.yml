@@ -4,7 +4,9 @@ get:
   parameters:
     - name: id
       in: path
-      description: The identifier of the value. This is typically the value of the `property` property of the `Values` resource.
+      description: |-
+        The identifier of the value. This is typically the value of the `property` property of
+        the `Values` resource. It should be in lower camelcase format.
       example: 'startDate'
       required: true
       schema:
@@ -31,6 +33,17 @@ get:
             message: The requested resource could not be found.
       description: |-
         Returned if the schema does not exist.
+    '400':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:BadRequest
+            message: "Bad request: property is invalid"
+      description: |-
+        Returned if the requested property id is not in a lower camel case format.
   tags:
     - Values::Property
   description: The schema of a `Values` resource.

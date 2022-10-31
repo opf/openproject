@@ -29,8 +29,12 @@
 module API::V3::Values::Schemas
   class ValueSchemaAPI < ::API::OpenProjectAPI
     resources :schemas do
+      params do
+        requires :property, desc: 'Name of the schema property', regexp: /^[a-z][a-zA-Z0-9]*$/
+      end
+
       get ':property' do
-        ValueSchemaFactory.for(params[:property]).tap do |representer|
+        ValueSchemaFactory.for(params[:property].underscore).tap do |representer|
           raise API::Errors::NotFound unless representer
         end
       end

@@ -56,7 +56,7 @@ describe ::API::V3::Values::Schemas::ValueSchemaFactory do
           .to have_received(:new)
                 .with(API::V3::Values::Schemas::Model.new(I18n.t('attributes.start_date'), 'Date'),
                       current_user: nil,
-                      self_link: api_v3_paths.value_schema(property))
+                      self_link: api_v3_paths.value_schema(property.camelcase(:lower)))
       end
     end
 
@@ -75,7 +75,7 @@ describe ::API::V3::Values::Schemas::ValueSchemaFactory do
           .to have_received(:new)
                 .with(API::V3::Values::Schemas::Model.new(I18n.t('attributes.due_date'), 'Date'),
                       current_user: nil,
-                      self_link: api_v3_paths.value_schema(property))
+                      self_link: api_v3_paths.value_schema(property.camelcase(:lower)))
       end
     end
 
