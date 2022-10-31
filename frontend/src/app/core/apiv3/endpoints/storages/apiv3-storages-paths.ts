@@ -26,34 +26,20 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
-import { forkJoin } from 'rxjs';
-import { IStorage } from 'core-app/core/state/storages/storage.model';
-import { StoragesStore } from 'core-app/core/state/storages/storages.store';
-import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
-import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import {
-  CollectionStore,
-  ResourceCollectionService,
-} from 'core-app/core/state/resource-collection.service';
+  ApiV3GettableResource,
+  ApiV3ResourceCollection,
+} from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { IStorage } from 'core-app/core/state/storages/storage.model';
 
-@Injectable()
-export class StoragesResourceService extends ResourceCollectionService<IStorage> {
-  updateCollection(key:string, storageLinks:IHalResourceLink[]):void {
-    forkJoin(
-      storageLinks.map((link) => this.http.get<IStorage>(link.href)),
-    ).subscribe((storages) => {
-      const storageCollection = { _embedded: { elements: storages } } as IHALCollection<IStorage>;
-      insertCollectionIntoState(this.store, storageCollection, key);
-    });
-  }
+export class Apiv3StoragesPaths
+  extends ApiV3ResourceCollection<IStorage, ApiV3GettableResource<IStorage>> {
+  // /api/v3/storages/files
+  public readonly files = this.subResource('files');
 
-  protected createStore():CollectionStore<IStorage> {
-    return new StoragesStore();
-  }
-
-  protected basePath():string {
-    return this.apiV3Service.storages.path;
+  constructor(protected apiRoot:ApiV3Service,
+    protected basePath:string) {
+    super(apiRoot, basePath, 'storages');
   }
 }

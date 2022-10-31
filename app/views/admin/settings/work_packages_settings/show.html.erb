@@ -69,7 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
   </section>
   <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_column_options) %></legend>
     <%
-       column_choices = Query.new.available_columns.map { |column|
+       column_choices = Query.new.displayable_columns.map { |column|
          { caption: column.caption, value: column.name.to_s }
        }
     %>

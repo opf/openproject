@@ -43,9 +43,6 @@ import { insertCollectionIntoState } from 'core-app/core/state/collection-store'
 
 @Injectable()
 export class StorageFilesResourceService extends ResourceCollectionService<IStorageFile> {
-  constructor(private readonly http:HttpClient) {
-    super();
-  }
 
   protected createStore():CollectionStore<IStorageFile> {
     return new StorageFilesStore();
@@ -68,5 +65,9 @@ export class StorageFilesResourceService extends ResourceCollectionService<IStor
 
   reset():void {
     this.store.reset();
+  }
+
+  protected basePath():string {
+    return this.apiV3Service.storages.files.path;
   }
 }
