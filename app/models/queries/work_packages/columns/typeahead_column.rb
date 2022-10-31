@@ -26,17 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Columns::ManualSortingColumn < Queries::WorkPackages::Columns::WorkPackageColumn
-  include ::Queries::WorkPackages::Common::ManualSorting
-
-  def initialize
-    super :manual_sorting,
-          default_order: 'asc',
-          displayable: false,
-          sortable: "#{OrderedWorkPackage.table_name}.position NULLS LAST, #{WorkPackage.table_name}.id"
-  end
-
-  def sortable_join_statement(query)
-    ordered_work_packages_join(query)
+class Queries::WorkPackages::Columns::TypeaheadColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+  def self.instances(_context = nil)
+    new :typeahead,
+        displayable: false,
+        # This is an ugly hack. When using the typeahead order, the work packages should always be ordered
+        # by their updated_at. But when asc is specified for typeahead, the updated_at property is to be used
+        # in desc order.
+        sortable: ->(table_name = WorkPackage.table_name) { "#{table_name}.updated_at DESC, #{table_name}.updated_at" }
   end
 end
