@@ -95,6 +95,7 @@ export class WorkPackageRelationsAutocompleteComponent {
         query,
         filters: JSON.stringify(this.additionalFilters),
         type: this.filterCandidatesFor || this.selectedRelationType,
+        sortBy: JSON.stringify([['typeahead', 'asc']]),
       }) as Promise<WorkPackageCollectionResource>,
     )
       .pipe(
