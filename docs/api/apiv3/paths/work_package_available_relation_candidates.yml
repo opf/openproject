@@ -18,7 +18,7 @@ get:
       type: integer
   - description: |-
       JSON specifying filter conditions.
-      Accepts the same filters as the [work packages](https://www.openproject.org/docs/api/endpoints/work_packages/) endpoint.
+      Accepts the same filters as the [work packages](https://www.openproject.org/docs/api/endpoints/work-packages/) endpoint.
     example: '[{ "status_id": { "operator": "o", "values": null } }]'
     in: query
     name: filters
@@ -41,7 +41,7 @@ get:
       type: string
   - description: |-
       JSON specifying sort criteria.
-      Accepts the same sort criteria as the [work packages](https://www.openproject.org/docs/api/endpoints/work_packages/) endpoint.
+      Accepts the same sort criteria as the [work packages](https://www.openproject.org/docs/api/endpoints/work-packages/) endpoint.
     example: '[["status", "asc"]]'
     in: query
     name: sortBy
