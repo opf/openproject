@@ -29,6 +29,9 @@
 require 'spec_helper'
 
 describe 'Omniauth authentication', type: :feature do
+  # Load ViewAccountLoginAuthProvider to have this spec passing
+  OpenProject::Hooks::ViewAccountLoginAuthProvider
+
   # Running the tests inside docker changes the hostname. To accommodate that we changed
   # the Capybara app_host, however this change was not being reflected in the Rails host,
   # causing the redirect checks to fail below.
@@ -172,7 +175,7 @@ describe 'Omniauth authentication', type: :feature do
   context 'register on the fly',
           with_settings: {
             self_registration?: true,
-            self_registration: '3',
+            self_registration: Setting::SelfRegistration.automatic,
             available_languages: [:en]
           } do
     let(:user) do
@@ -215,8 +218,7 @@ describe 'Omniauth authentication', type: :feature do
 
   context 'registration by email',
           with_settings: {
-            self_registration?: true,
-            self_registration: Setting::SelfRegistration.by_email.to_s
+            self_registration: Setting::SelfRegistration.by_email
           } do
     shared_examples 'registration with registration by email' do
       it 'shows a note explaining that the account has to be activated' do

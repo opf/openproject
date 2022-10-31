@@ -537,8 +537,8 @@ hu:
       no_unread: "Nincs olvasatlan értesítés"
       reasons:
         mentioned: 'megemlített'
-        watched: 'Megfigyelt'
-        assigned: 'hozzárendelve'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'felelős'
         created: 'created'
         scheduled: 'scheduled'
@@ -575,19 +575,19 @@ hu:
         by_project: 'Olvasatlan projektenként'
         by_reason: 'Involvement'
         inbox: 'Beérkezett üzenetek'
-        mentioned: 'megemlített'
-        watching: 'Watching'
+        mentioned: 'Mentioned'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'Az értesítési beállítások megtekintéséhez és megváltoztatásához <a target="_blank" href="%{url}">kattintson ide</a>'
         title: "Értesítési beállítások"
         notify_me: "Értesítést kérek"
         reasons:
           mentioned:
-            title: 'Megemlítettek'
+            title: 'Mentioned'
             description: 'Értesítés fogadása minden alkalommal, amikor bárki bárhol megemlít'
           assignee: 'Assignee'
           responsible: 'Accountable'
-          watched: 'Updates on watched items'
+          watched: 'Watcher'
           work_package_commented: 'Új megjegyzések'
           work_package_created: 'Új munkacsomagok'
           work_package_processed: 'Összes státusz változás'
@@ -595,11 +595,14 @@ hu:
           work_package_scheduled: 'Összes dátum változás'
         global:
           immediately:
-            title: 'Értesítsen azonnal'
-            description: 'Ezek a beállítások az összes projektre vonatkoznak. Projekt-specifikus kivételeket alább lehet létrehozni.'
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
           delayed:
-            title: 'Also notify me for'
-            description: 'Értesítések beállítása ezekre a tevékenységekre minden projekt munkacsomagjára:'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects'
+          date_alerts:
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
         project_specific:
           title: 'Projekt-specifikus értesítések beállításai'
           description: 'Ezek a projekt-specifikus beállítások felülbírálják a fenti beállításokat'

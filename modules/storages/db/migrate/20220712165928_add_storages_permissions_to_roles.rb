@@ -30,6 +30,8 @@ require Rails.root.join('db/migrate/migration_utils/permission_adder')
 
 class AddStoragesPermissionsToRoles < ActiveRecord::Migration[6.1]
   def up
+    Role.reset_column_information
+
     ::Migration::MigrationUtils::PermissionAdder
       .add(:select_project_modules,
            :manage_storages_in_project)

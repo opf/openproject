@@ -538,8 +538,8 @@ ja:
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'mentioned'
-        watched: 'watched'
-        assigned: 'assigned'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'accountable'
         created: 'created'
         scheduled: 'scheduled'
@@ -575,19 +575,19 @@ ja:
         by_project: 'Unread by project'
         by_reason: 'Involvement'
         inbox: 'Inbox'
-        mentioned: '@mentioned'
-        watching: 'Watching'
+        mentioned: 'Mentioned'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
         title: "Notification settings"
         notify_me: "Notify me"
         reasons:
           mentioned:
-            title: 'I am @mentioned'
+            title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Assignee'
           responsible: 'Accountable'
-          watched: 'Updates on watched items'
+          watched: 'Watcher'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -595,11 +595,14 @@ ja:
           work_package_scheduled: 'All date changes'
         global:
           immediately:
-            title: 'Notify me immediately'
-            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
           delayed:
-            title: 'Also notify me for'
-            description: 'Receive notifications for these activities on work packages in all projects:'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects'
+          date_alerts:
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
         project_specific:
           title: 'Project-specific notification settings'
           description: 'These project-specific settings override default settings above'

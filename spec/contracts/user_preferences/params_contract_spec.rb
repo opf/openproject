@@ -89,7 +89,7 @@ describe UserPreferences::ParamsContract do
     context 'when project setting with start_date, due_date and overdue set' do
       let(:notification_settings) do
         [
-          { project_id: 1234, start_date: 24, due_date: 24, overdue: 0 }
+          { project_id: 1234, start_date: 1, due_date: 1, overdue: 1 }
         ]
       end
 
@@ -99,27 +99,27 @@ describe UserPreferences::ParamsContract do
     context 'when global setting with start_date, due_date and overdue set' do
       let(:notification_settings) do
         [
-          { start_date: 24, due_date: 24, overdue: 0 }
+          { start_date: 1, due_date: 1, overdue: 1 }
         ]
       end
 
       it_behaves_like 'contract is valid'
     end
 
-    context 'when project setting with due_date and start_date with overdue are invalid' do
+    context 'when project setting with valid start_date, valid due_date and invalid overdue' do
       let(:notification_settings) do
         [
-          { project_id: 1234, start_date: 22, due_date: 24, overdue: 24 }
+          { project_id: 1234, start_date: 1, due_date: 1, overdue: 0 }
         ]
       end
 
       it_behaves_like 'contract is invalid', notification_settings: :wrong_date
     end
 
-    context 'when global setting with due_date and start_date with overdue are invalid' do
+    context 'when global setting with invalid start_date, valid due_date and valid overdue' do
       let(:notification_settings) do
         [
-          { start_date: 22, due_date: 24, overdue: 24 }
+          { start_date: -1, due_date: 1, overdue: 1 }
         ]
       end
 
@@ -129,7 +129,7 @@ describe UserPreferences::ParamsContract do
     context 'when project setting with start_date, due_date and overdue missing' do
       let(:notification_settings) do
         [
-          { project_id: 1234, start_date: 24, due_date: 24 }
+          { project_id: 1234, start_date: 1, due_date: 1 }
         ]
       end
 
@@ -139,27 +139,27 @@ describe UserPreferences::ParamsContract do
     context 'when global setting with start_date, due_date and overdue missing' do
       let(:notification_settings) do
         [
-          { start_date: 24, due_date: 24 }
+          { start_date: 1, due_date: 1 }
         ]
       end
 
       it_behaves_like 'contract is valid'
     end
 
-    context 'when project setting with start_date, due_date invalid and overdue missing' do
+    context 'when project setting with valid start_date, invalid due_date and overdue missing' do
       let(:notification_settings) do
         [
-          { project_id: 1234, start_date: 24, due_date: 22 }
+          { project_id: 1234, start_date: 1, due_date: 24 }
         ]
       end
 
       it_behaves_like 'contract is invalid', notification_settings: :wrong_date
     end
 
-    context 'when global setting with start_date, due_date invalid and overdue missing' do
+    context 'when global setting with invalid start_date, valid due_date and overdue missing' do
       let(:notification_settings) do
         [
-          { start_date: 24, due_date: 22 }
+          { start_date: 24, due_date: 1 }
         ]
       end
 

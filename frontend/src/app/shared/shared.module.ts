@@ -30,6 +30,8 @@ import {
   Injector,
   NgModule,
 } from '@angular/core';
+import { A11yModule } from '@angular/cdk/a11y';
+import { UIRouterGlobals } from '@uirouter/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
@@ -84,8 +86,6 @@ import { OpProjectIncludeListComponent } from './components/project-include/list
 import { OpLoadingProjectListComponent } from './components/searchable-project-list/loading-project-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
-import { UIRouterGlobals } from '@uirouter/core';
-import { A11yModule } from '@angular/cdk/a11y';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -198,7 +198,6 @@ export function bootstrapModule(injector:Injector):void {
     ViewsResourceService,
   ],
   declarations: [
-    OpDateTimeComponent,
     ViewSelectComponent,
 
     ToastsContainerComponent,

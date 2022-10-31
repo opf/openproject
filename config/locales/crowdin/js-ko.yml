@@ -537,8 +537,8 @@ ko:
       no_unread: "읽지 않는 알림 없음"
       reasons:
         mentioned: '멘션 된'
-        watched: '지켜본'
-        assigned: '할당됨'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: '담당'
         created: '생성됨'
         scheduled: '예약됨'
@@ -574,19 +574,19 @@ ko:
         by_project: '프로젝트 기준 읽지 않음'
         by_reason: '참여'
         inbox: '받은 편지함'
-        mentioned: '@멘션됨'
-        watching: '지켜보는 중'
+        mentioned: 'Mentioned'
+        watched: 'Watcher'
       settings:
         change_notification_settings: '알림 설정을 보고 변경하려면 <a target="_blank" href="%{url}">여기를 클릭</a>하세요.'
         title: "알림 설정"
         notify_me: "알림 받기"
         reasons:
           mentioned:
-            title: '내가 @멘션되었습니다'
+            title: 'Mentioned'
             description: '어디에서든 누군가가 나를 멘션할 때마다 알림 받기'
           assignee: 'Assignee'
           responsible: 'Accountable'
-          watched: '지켜보는 항목에 대한 업데이트'
+          watched: 'Watcher'
           work_package_commented: '모든 새로운 코멘트'
           work_package_created: '새 작업 패키지'
           work_package_processed: '모든 상태 변경 사항'
@@ -594,11 +594,14 @@ ko:
           work_package_scheduled: '모든 날짜 변경 사항'
         global:
           immediately:
-            title: '즉시 내게 알림'
-            description: '해당 설정은 모든 프로젝트에 적용됩니다. 아래에서 프로젝트별 예외를 생성할 수 있습니다.'
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
           delayed:
-            title: '다음과 같은 사항도 내게 알림:'
-            description: '모든 프로젝트에서 작업 패키지의 해당 활동에 대한 알림을 받습니다:'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects'
+          date_alerts:
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
         project_specific:
           title: '프로젝트별 알림 설정'
           description: '이러한 프로젝트별 설정은 위의 기본 설정을 재정의합니다.'

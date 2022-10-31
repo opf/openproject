@@ -16,9 +16,19 @@
         type="checkbox"
         slot="input"
       />
-      <p slot="description">{{ text.mentioned.description }}</p>
   </spot-selector-field>
- 
+
+  <spot-selector-field
+    [label]="text.watched"
+    [control]="form.get('watched')">
+    <input
+      disabled
+      checked
+      type="checkbox"
+      slot="input"
+    />
+  </spot-selector-field>
+
   <spot-selector-field
     [label]="text.assignee"
     [control]="form.get('assignee')"
@@ -43,20 +53,11 @@
     />
   </spot-selector-field>
 
+  <h5>{{text.dateAlerts.title}}</h5>
+  <p>{{text.dateAlerts.description}}</p>
+
   <h5>{{ text.alsoNotifyFor.title }}</h5>
   <p>{{ text.alsoNotifyFor.description }}</p>
-
-  <spot-selector-field
-    [label]="text.watched"
-    [control]="form.get('watched')"
-  >
-    <input
-      disabled
-      checked
-      type="checkbox"
-      slot="input"
-    />
-  </spot-selector-field>
 
   <spot-selector-field
     [label]="text.work_package_created"
@@ -113,7 +114,6 @@
     />
   </spot-selector-field>
 
-  <hr />
 
   <h5>{{text.projectSpecific.title}}</h5>
   <p>{{text.projectSpecific.description}}</p>
