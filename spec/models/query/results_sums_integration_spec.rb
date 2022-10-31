@@ -35,14 +35,14 @@ describe ::Query::Results, 'sums', type: :model do
       p.work_package_custom_fields << float_cf
     end
   end
-  let(:estimated_hours_column) { query.available_columns.detect { |c| c.name.to_s == 'estimated_hours' } }
-  let(:int_cf_column) { query.available_columns.detect { |c| c.name.to_s == "cf_#{int_cf.id}" } }
-  let(:float_cf_column) { query.available_columns.detect { |c| c.name.to_s == "cf_#{float_cf.id}" } }
-  let(:material_costs_column) { query.available_columns.detect { |c| c.name.to_s == "material_costs" } }
-  let(:labor_costs_column) { query.available_columns.detect { |c| c.name.to_s == "labor_costs" } }
-  let(:overall_costs_column) { query.available_columns.detect { |c| c.name.to_s == "overall_costs" } }
-  let(:remaining_hours_column) { query.available_columns.detect { |c| c.name.to_s == "remaining_hours" } }
-  let(:story_points_column) { query.available_columns.detect { |c| c.name.to_s == "story_points" } }
+  let(:estimated_hours_column) { query.displayable_columns.detect { |c| c.name.to_s == 'estimated_hours' } }
+  let(:int_cf_column) { query.displayable_columns.detect { |c| c.name.to_s == "cf_#{int_cf.id}" } }
+  let(:float_cf_column) { query.displayable_columns.detect { |c| c.name.to_s == "cf_#{float_cf.id}" } }
+  let(:material_costs_column) { query.displayable_columns.detect { |c| c.name.to_s == "material_costs" } }
+  let(:labor_costs_column) { query.displayable_columns.detect { |c| c.name.to_s == "labor_costs" } }
+  let(:overall_costs_column) { query.displayable_columns.detect { |c| c.name.to_s == "overall_costs" } }
+  let(:remaining_hours_column) { query.displayable_columns.detect { |c| c.name.to_s == "remaining_hours" } }
+  let(:story_points_column) { query.displayable_columns.detect { |c| c.name.to_s == "story_points" } }
   let(:other_project) do
     create(:project).tap do |p|
       p.work_package_custom_fields << int_cf

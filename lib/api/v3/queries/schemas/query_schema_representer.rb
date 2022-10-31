@@ -173,7 +173,7 @@ module API
                                          required: false,
                                          writable: true,
                                          has_default: true,
-                                         values_callback: -> { represented.available_columns },
+                                         values_callback: -> { represented.displayable_columns },
                                          value_representer: ->(column) {
                                            Columns::QueryColumnsFactory.representer(column)
                                          },

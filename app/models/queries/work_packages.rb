@@ -82,5 +82,7 @@ module Queries::WorkPackages
     column Columns::CustomFieldColumn
     column Columns::RelationToTypeColumn
     column Columns::RelationOfTypeColumn
+    column Columns::ManualSortingColumn
+    column Columns::TypeaheadColumn
   end
 end
