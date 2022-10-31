@@ -22,6 +22,12 @@ module.exports = {
     // modernInlineRender: true,
   },
   staticDirs: [
-    { from: '../src/stories/assets', to: '/assets' },
+    // Copy local static assets
+    { from: '../src/stories/assets/', to: '/assets' },
+    
+    // Copy font files to specific locations so the normal core SASS 
+    // will load the files correctly without having to use variables
+    { from: '../src/assets/fonts/openproject_icon/', to: '/assets/frontend/' },
+    { from: '../src/assets/fonts/lato/', to: '/assets/frontend/' },
   ],
 };

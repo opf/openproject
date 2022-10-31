@@ -5,6 +5,6 @@ export default create({
 
   brandTitle: 'SPOT - Single Point Of Truth',
   brandUrl: '/',
-  brandImage: 'https://www.openproject.org/docs/development/design-system/logo_openproject_spot.png',
+  brandImage: '/assets/logo_openproject_spot.png',
   brandTarget: '_self',
 });
