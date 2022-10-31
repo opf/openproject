@@ -137,6 +137,12 @@ See COPYRIGHT and LICENSE files for more details.
           <%= call_hook(:view_work_packages_bulk_edit_details_bottom, { work_packages: @work_packages }) %>
         </div>
         <div class="grid-content medium-6">
+          <div class="form--field">
+            <%= styled_label_tag :work_package_subject, WorkPackage.human_attribute_name(:subject) %>
+            <div class="form--field-container">
+              <%= styled_text_field_tag 'work_package[subject]', '', size: 10 %>
+            </div>
+          </div>
           <% if @project && User.current.allowed_to?(:manage_subtasks, @project) %>
             <div class="form--field">
               <%= styled_label_tag :work_package_parent_id, WorkPackage.human_attribute_name(:parent) %>
