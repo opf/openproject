@@ -33,7 +33,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
 
   shared_let(:other_user) { create(:user) }
   shared_let(:user) { create(:user) }
-  shared_let(:to_principal) { create :user }
+  shared_let(:to_principal) { create(:user) }
 
   let(:instance) do
     described_class.new
@@ -87,7 +87,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
         klass = FactoryBot.factories.find(factory).build_class
         all_attributes = other_attributes.merge(attribute => principal_id)
 
-        inserted = ActiveRecord::Base.connection.select_one <<~SQL
+        inserted = ActiveRecord::Base.connection.select_one <<~SQL.squish
           INSERT INTO #{klass.table_name}
           (#{all_attributes.keys.join(', ')})
           VALUES
@@ -156,19 +156,34 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
     end
 
     context 'with Comment' do
+      shared_let(:news) { create(:news) }
+
       it_behaves_like 'rewritten record',
                       :comment,
-                      :author_id
+                      :author_id do
+        let(:attributes) do
+          {
+            commented_id: news.id,
+            commented_type: "'Comment'"
+          }
+        end
+      end
     end
 
     context 'with CustomValue' do
+      shared_let(:version) { create(:version) }
+
       it_behaves_like 'rewritten record',
                       :custom_value,
                       :value,
                       String do
         let(:user_cf) { create(:user_wp_custom_field) }
         let(:attributes) do
-          { custom_field_id: user_cf.id }
+          {
+            custom_field_id: user_cf.id,
+            customized_id: version.id,
+            customized_type: "'Version'"
+          }
         end
       end
 
@@ -299,10 +314,25 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
     end
 
     context 'with WorkPackage' do
-      shared_let(:project) { create :project }
+      shared_let(:project) { create(:project) }
+      shared_let(:type) { create(:type) }
+      shared_let(:status) { create(:status) }
+      shared_let(:priority) { create(:priority) }
+      shared_let(:author) { create(:user) }
+
       let(:attributes) do
-        { project_id: project.id }
+        {
+          project_id: project.id,
+          type_id: type.id,
+          status_id: status.id,
+          priority_id: priority.id,
+          author_id: author.id
+        }
       end
+
+      it_behaves_like 'rewritten record',
+                      :work_package,
+                      :author_id
 
       it_behaves_like 'rewritten record',
                       :work_package,
@@ -319,7 +349,11 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
           {
             # ignore_non_working_days is non nullable. This part is not related to the test.
             ignore_non_working_days: false,
-            project_id: project.id
+            project_id: project.id,
+            type_id: type.id,
+            status_id: status.id,
+            priority_id: priority.id,
+            author_id: author.id
           }
         end
       end
@@ -331,7 +365,11 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
           {
             # ignore_non_working_days is non nullable. This part is not related to the test.
             ignore_non_working_days: false,
-            project_id: project.id
+            project_id: project.id,
+            type_id: type.id,
+            status_id: status.id,
+            priority_id: priority.id,
+            author_id: author.id
           }
         end
       end
@@ -448,7 +486,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
     end
 
     context 'with Notification actor' do
-      let(:recipient) { create :user }
+      let(:recipient) { create(:user) }
 
       it_behaves_like 'rewritten record',
                       :notification,
