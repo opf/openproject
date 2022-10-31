@@ -26,8 +26,8 @@ This integration makes it possible for you to:
 | [Connecting your OpenProject and Nextcloud accounts](#connecting-your-openproject-and-nextcloud-accounts) | How to connect your Nextcloud and OpenProject accounts to be able to use this integration |
 | [Linking files and folders to work packages](#linking-files-and-folders-to-work-packages) | How to link files and folders to work packages and view and download linked files |
 | [Unlinking linked files and folders](#unlinking-files-and-folders) | Unlinking linked files and folders |
-| [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't               |          |
-| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them                   |
+| [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't |
+| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them |
 
 
 
