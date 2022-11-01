@@ -73,6 +73,7 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
       submit: ():string => this.i18n.t('js.storages.file_links.selection_any', { number: this.selectedFileCount }),
       submitEmptySelection: this.i18n.t('js.storages.file_links.selection_none'),
       cancel: this.i18n.t('js.button_cancel'),
+      selectAll: this.i18n.t('js.storages.file_links.select_all'),
     },
   };
 
@@ -146,6 +147,21 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     );
 
     this.service.close();
+  }
+
+  public selectAllOfCurrentLevel():void {
+    this.storageFiles$
+      .pipe(take(1))
+      .subscribe((files) => {
+        files.forEach((file) => {
+          const id = file.id as string;
+          if (!this.selection.has(id) && !this.isAlreadyLinked(file)) {
+            this.selection.add(id);
+          }
+        });
+
+        this.storageFiles$.next(files);
+      });
   }
 
   public changeSelection(file:IStorageFile):void {
