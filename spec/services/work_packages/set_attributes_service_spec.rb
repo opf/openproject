@@ -232,7 +232,7 @@ describe WorkPackages::SetAttributesService,
           subject
 
           expect(work_package.changed_by_system['author_id'])
-            .to eql [0, user.id]
+            .to eql [nil, user.id]
         end
       end
     end
