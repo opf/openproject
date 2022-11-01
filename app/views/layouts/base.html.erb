@@ -76,8 +76,8 @@ See COPYRIGHT and LICENSE files for more details.
         </a>
         <%= render_top_menu_left %>
       </div>
-      <div class="op-app-header--center op-logo">
-        <%= link_to(I18n.t('label_home'), fixed_home_url, class: 'op-logo--link') %>
+      <div class="op-app-header--center">
+        <%= render_top_menu_center %>
       </div>
       <%= call_hook :view_layouts_base_top_menu %>
       <div class="op-app-header--end">
