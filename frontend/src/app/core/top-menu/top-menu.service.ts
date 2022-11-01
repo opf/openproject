@@ -39,7 +39,6 @@ export class TopMenuService {
   private menuContainer = this.document.querySelector('.op-app-header') as HTMLElement;
 
   constructor(readonly document:Document) {
-    this.withHeadingFoldOutAtBorder();
     this.setupDropdownClick();
     this.registerEventHandlers();
     this.closeOnBodyClick();
@@ -131,20 +130,6 @@ export class TopMenuService {
 
   dropdowns():NodeListOf<HTMLElement> {
     return this.menuContainer.querySelectorAll('.op-app-menu--item_has-dropdown');
-  }
-
-  withHeadingFoldOutAtBorder():void {
-    let menuStartPosition;
-    const next = this.menuContainer.nextElementSibling as HTMLElement;
-    const wikiHeading = next.first this.menuContainer.next().children().next().first();
-    if (next?.tagName === 'H2') {
-      menuStartPosition = this.menuContainer.next().innerHeight()! + this.menuContainer.next().position().top;
-      this.menuContainer.find('.op-app-menu--body').css({ top: menuStartPosition });
-    } else if (this.menuContainer.next().hasClass('wiki-content')
-      && wikiHeading.get(0)?.tagName === 'H1') {
-      menuStartPosition = wikiHeading.innerHeight()! + wikiHeading.position().top;
-      this.menuContainer.find('.op-app-menu--body').css({ top: menuStartPosition });
-    }
   }
 
   setupDropdownClick():void {
