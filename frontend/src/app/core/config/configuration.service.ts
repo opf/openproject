@@ -44,9 +44,13 @@ export class ConfigurationService {
   public constructor(
     readonly I18n:I18nService,
     readonly apiV3Service:ApiV3Service,
+    readonly weekdayService:WeekdayService,
   ) {
-    this.initialized = this
-      .loadConfiguration()
+    this.initialized = Promise
+      .all([
+        this.loadConfiguration(),
+        this.weekdayService.loadWeekdays().toPromise(),
+      ])
       .then(() => true)
       .catch(() => false);
   }

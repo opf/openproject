@@ -1,9 +1,5 @@
 FactoryBot.define do
   factory :notification_setting do
-    transient do
-      all { nil } # set to true to turn all settings to true
-    end
-
     assignee { true }
     responsible { true }
     mentioned { true }
@@ -23,13 +19,5 @@ FactoryBot.define do
     membership_updated { false }
     project { nil } # Default settings
     user
-
-    callback(:after_build, :after_stub) do |notification_setting, evaluator|
-      if evaluator.all == true
-        all_boolean_settings = NotificationSetting.all_settings - NotificationSetting.duration_settings
-        all_true = all_boolean_settings.index_with(true)
-        notification_setting.assign_attributes(all_true)
-      end
-    end
   end
 end

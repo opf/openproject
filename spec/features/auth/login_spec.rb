@@ -138,6 +138,12 @@ describe 'Login', type: :feature do
         page.driver.browser.set_cookie(OpenProject::Configuration['session_cookie_name'])
       end
 
+      before do
+        allow(Setting)
+          .to receive(:autologin?)
+          .and_return(true)
+      end
+
       it 'logs in the user automatically if enabled' do
         login_with(user.login, user_password, autologin: true)
 
@@ -149,7 +155,9 @@ describe 'Login', type: :feature do
 
         fake_browser_closed
         # faking having changed the autologin setting
-        with_settings(autologin: 0)
+        allow(Setting)
+          .to receive(:autologin?)
+          .and_return(false)
         visit my_page_path
 
         # expect not being logged in automatically

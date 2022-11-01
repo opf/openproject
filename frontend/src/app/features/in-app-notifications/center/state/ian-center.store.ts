@@ -4,8 +4,6 @@ import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.i
 import { NOTIFICATIONS_MAX_SIZE } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
 
-export type InAppNotificationFacet = 'unread'|'all';
-
 export interface IanCenterState {
   params:{
     page:number;
@@ -19,6 +17,8 @@ export interface IanCenterState {
   /** Number of elements not showing after max values loaded */
   notLoaded:number;
 }
+
+export type InAppNotificationFacet = 'unread'|'all';
 
 export const IAN_FACET_FILTERS:Record<InAppNotificationFacet, ApiV3ListFilter[]> = {
   unread: [['readIAN', '=', false]],

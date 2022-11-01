@@ -33,10 +33,7 @@ describe 'News creation and commenting', type: :feature, js: true do
   let!(:other_user) do
     create(:user,
            member_in_project: project,
-           member_with_permissions: %i[],
-           notification_settings: [
-             build(:notification_setting, news_added: true, news_commented: true)
-           ])
+           member_with_permissions: %i[])
   end
 
   current_user do
@@ -69,7 +66,7 @@ describe 'News creation and commenting', type: :feature, js: true do
 
     # Creating the news will have sent out mails
     expect(ActionMailer::Base.deliveries.size)
-      .to eq 1
+      .to be 1
 
     expect(ActionMailer::Base.deliveries.last.to)
       .to match_array [other_user.mail]
@@ -92,7 +89,7 @@ describe 'News creation and commenting', type: :feature, js: true do
 
     # Creating the news comment will have sent out mails
     expect(ActionMailer::Base.deliveries.size)
-      .to eq 2
+      .to be 2
 
     expect(ActionMailer::Base.deliveries.last.to)
       .to match_array [other_user.mail]

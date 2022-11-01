@@ -34,7 +34,7 @@ describe 'API v3 Work package resource',
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) do
+  let(:project) do
     create(:project, identifier: 'test_project', public: false)
   end
   let(:role) { create(:role, permissions:) }
@@ -75,15 +75,7 @@ describe 'API v3 Work package resource',
     end
 
     describe 'notifications' do
-      let(:other_user) do
-        create(:user,
-               member_in_project: project,
-               member_with_permissions: permissions,
-               notification_settings: [
-                 build(:notification_setting,
-                       work_package_created: true)
-               ])
-      end
+      let(:other_user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
 
       it 'creates a notification' do
         expect(Notification.where(recipient: other_user, resource: WorkPackage.last))

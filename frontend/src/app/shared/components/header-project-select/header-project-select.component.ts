@@ -55,14 +55,14 @@ import { IProjectData } from 'core-app/shared/components/searchable-project-list
 export const headerProjectSelectSelector = 'op-header-project-select';
 
 @Component({
-  selector: headerProjectSelectSelector,
   templateUrl: './header-project-select.component.html',
-  styleUrls: ['./header-project-select.component.sass'],
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: headerProjectSelectSelector,
   providers: [
     SearchableProjectListService,
   ],
+  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./header-project-select.component.sass'],
 })
 export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
   @HostBinding('class.op-header-project-select') className = true;
@@ -140,8 +140,6 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     mergeMap(() => this.searchableProjectListService.fetchingProjects$),
   );
 
-  private scrollToCurrent = false;
-
   constructor(
     protected pathHelper:PathHelperService,
     protected I18n:I18nService,
@@ -154,20 +152,13 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     this.projects$
       .pipe(this.untilDestroyed())
       .subscribe((projects) => {
-        if (this.currentProject.id && projects.length && this.scrollToCurrent) {
-          this.searchableProjectListService.selectedItemID$.next(parseInt(this.currentProject.id, 10));
-        } else {
-          this.searchableProjectListService.resetActiveResult(projects);
-        }
-
-        this.scrollToCurrent = false;
+        this.searchableProjectListService.resetActiveResult(projects);
       });
   }
 
   toggleDropModal():void {
     this.dropModalOpen = !this.dropModalOpen;
     if (this.dropModalOpen) {
-      this.scrollToCurrent = true;
       this.searchableProjectListService.loadAllProjects();
     }
   }

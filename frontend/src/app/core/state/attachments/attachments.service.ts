@@ -61,19 +61,20 @@ import {
   CollectionStore,
   ResourceCollectionService,
 } from 'core-app/core/state/resource-collection.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Injectable()
 export class AttachmentsResourceService extends ResourceCollectionService<IAttachment> {
-  @InjectField() I18n:I18nService;
-
-  @InjectField() fileUploadService:OpenProjectFileUploadService;
-
-  @InjectField() directFileUploadService:OpenProjectDirectFileUploadService;
-
-  @InjectField() configurationService:ConfigurationService;
-
-  @InjectField() toastService:ToastService;
+  constructor(
+    private readonly I18n:I18nService,
+    private readonly http:HttpClient,
+    private readonly apiV3Service:ApiV3Service,
+    private readonly fileUploadService:OpenProjectFileUploadService,
+    private readonly directFileUploadService:OpenProjectDirectFileUploadService,
+    private readonly configurationService:ConfigurationService,
+    private readonly toastService:ToastService,
+  ) {
+    super();
+  }
 
   /**
    * This method ensures that a specific collection is fetched, if not available.
@@ -244,9 +245,5 @@ export class AttachmentsResourceService extends ResourceCollectionService<IAttac
 
   protected createStore():CollectionStore<IAttachment> {
     return new AttachmentsStore();
-  }
-
-  protected basePath():string {
-    return this.apiV3Service.attachments.path;
   }
 }

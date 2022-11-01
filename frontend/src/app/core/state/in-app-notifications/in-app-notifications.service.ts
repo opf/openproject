@@ -2,6 +2,15 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ID } from '@datorama/akita';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { HttpClient } from '@angular/common/http';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import {
+  collectionKey,
+  insertCollectionIntoState,
+} from 'core-app/core/state/collection-store';
 import {
   markNotificationsAsRead,
   notificationsMarkedRead,
@@ -17,12 +26,36 @@ import {
   CollectionStore,
   ResourceCollectionService,
 } from 'core-app/core/state/resource-collection.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @EffectHandler
 @Injectable()
 export class InAppNotificationsResourceService extends ResourceCollectionService<INotification> {
-  @InjectField() actions$:ActionsService;
+  private get notificationsPath():string {
+    return this
+      .apiV3Service
+      .notifications
+      .path;
+  }
+
+  constructor(
+    readonly actions$:ActionsService,
+    private http:HttpClient,
+    private apiV3Service:ApiV3Service,
+    private toastService:ToastService,
+  ) {
+    super();
+  }
+
+  fetchNotifications(params:ApiV3ListParameters):Observable<IHALCollection<INotification>> {
+    const collectionURL = collectionKey(params);
+
+    return this
+      .http
+      .get<IHALCollection<INotification>>(this.notificationsPath + collectionURL)
+      .pipe(
+        tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
+      );
+  }
 
   update(id:ID, inAppNotification:Partial<INotification>):void {
     this.store.update(id, inAppNotification);
@@ -54,12 +87,5 @@ export class InAppNotificationsResourceService extends ResourceCollectionService
 
   protected createStore():CollectionStore<INotification> {
     return new InAppNotificationsStore();
-  }
-
-  protected basePath():string {
-    return this
-      .apiV3Service
-      .notifications
-      .path;
   }
 }

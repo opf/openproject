@@ -74,7 +74,7 @@ describe 'Authentication Stages', type: :feature do
 
     it 'keeps the autologin request (Regression #33696)',
        with_settings: { autologin: '1' } do
-      expect(Setting::Autologin.enabled?).to be true
+      expect(Setting.autologin?).to be true
 
       login_with user.login, user_password, autologin: true
       expect(page).to have_no_selector('.account-consent')
@@ -211,7 +211,7 @@ describe 'Authentication Stages', type: :feature do
 
     it 'keeps the autologin request (Regression #33696)',
        with_settings: { autologin: '1' } do
-      expect(Setting::Autologin.enabled?).to be true
+      expect(Setting.autologin?).to be true
 
       login_with user.login, user_password, autologin: true
 

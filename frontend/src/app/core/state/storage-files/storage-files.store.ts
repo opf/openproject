@@ -32,10 +32,7 @@ import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.mod
 
 export interface StorageFilesState extends CollectionState<IStorageFile> {}
 
-@StoreConfig({
-  name: 'storage-files',
-  resettable: true,
-})
+@StoreConfig({ name: 'storage-files' })
 export class StorageFilesStore extends EntityStore<StorageFilesState> {
   constructor() {
     super(createInitialCollectionState());

@@ -103,11 +103,7 @@ describe News, type: :model do
     it 'sends email notifications when created' do
       create(:user,
              member_in_project: project,
-             member_through_role: role,
-             notification_settings: [
-               build(:notification_setting,
-                     news_added: true)
-             ])
+             member_through_role: role)
       project.members.reload
 
       perform_enqueued_jobs do

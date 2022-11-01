@@ -32,8 +32,8 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { create(:project_with_types, public: false) }
   let(:role) { create(:role, permissions:) }
+  let(:project) { create(:project_with_types, public: false) }
   let(:path) { api_v3_paths.work_packages_by_project project.id }
   let(:permissions) { %i[add_work_packages view_project] }
   let(:status) { build(:status, is_default: true) }
@@ -65,15 +65,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
   end
 
   describe 'notifications' do
-    let(:other_user) do
-      create(:user,
-             member_in_project: project,
-             member_with_permissions: %i(view_work_packages),
-             notification_settings: [
-               build(:notification_setting,
-                     work_package_created: true)
-             ])
-    end
+    let(:other_user) { create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages)) }
 
     it 'creates a notification' do
       expect(Notification.where(recipient: other_user, resource: WorkPackage.last))

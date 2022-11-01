@@ -265,10 +265,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       additionalOptions.initialView = 'dayGridWeek';
     }
 
-    void Promise.all([
-      this.configuration.initialized,
-      this.weekdayService.loadWeekdays().toPromise(),
-    ])
+    void this.configuration.initialized
       .then(() => {
         this.calendarOptions$.next(
           this.workPackagesCalendar.calendarOptions(additionalOptions),

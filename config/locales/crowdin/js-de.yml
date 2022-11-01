@@ -536,7 +536,7 @@ de:
       no_unread: "Keine ungelesenen Benachrichtigungen"
       reasons:
         mentioned: 'erwähnt'
-        watched: 'Beobachter'
+        watched: 'beobachtet'
         assigned: 'zugewiesen'
         responsible: 'verantwortlich'
         created: 'erstellt'
@@ -574,8 +574,8 @@ de:
         by_project: 'Ungelesen pro Projekt'
         by_reason: 'Beteiligung'
         inbox: 'Eingang'
-        mentioned: 'Erwähnt'
-        watched: 'Beobachter'
+        mentioned: 'Mentioned'
+        watching: 'Beobachtet'
       settings:
         change_notification_settings: 'Um Ihre Benachrichtigungseinstellungen anzuzeigen und zu ändern, <a target="_blank" href="%{url}">klicken Sie hier</a>'
         title: "Benachrichtigungseinstellungen"

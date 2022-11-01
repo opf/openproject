@@ -537,8 +537,8 @@ hu:
       no_unread: "Nincs olvasatlan értesítés"
       reasons:
         mentioned: 'megemlített'
-        watched: 'watcher'
-        assigned: 'assignee'
+        watched: 'Megfigyelt'
+        assigned: 'hozzárendelve'
         responsible: 'felelős'
         created: 'created'
         scheduled: 'scheduled'
@@ -576,7 +576,7 @@ hu:
         by_reason: 'Involvement'
         inbox: 'Beérkezett üzenetek'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watching: 'Watching'
       settings:
         change_notification_settings: 'Az értesítési beállítások megtekintéséhez és megváltoztatásához <a target="_blank" href="%{url}">kattintson ide</a>'
         title: "Értesítési beállítások"

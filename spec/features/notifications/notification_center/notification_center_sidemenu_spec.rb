@@ -76,7 +76,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
       side_menu.expect_item_with_no_count 'Assignee'
       side_menu.expect_item_with_no_count 'Mentioned'
       side_menu.expect_item_with_no_count 'Accountable'
-      side_menu.expect_item_with_no_count 'Watcher'
+      side_menu.expect_item_with_no_count 'Watching'
     end
   end
 
@@ -88,7 +88,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
     side_menu.expect_item_with_count 'Assignee', 1
     side_menu.expect_item_with_count 'Mentioned', 1
     side_menu.expect_item_with_count 'Accountable', 1
-    side_menu.expect_item_with_count 'Watcher', 1
+    side_menu.expect_item_with_count 'Watching', 1
 
     # Expect project filters
     side_menu.expect_item_with_count project.name, 1
@@ -103,7 +103,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
     side_menu.expect_item_with_count 'Assignee', 1
     side_menu.expect_item_with_count 'Mentioned', 1
     side_menu.expect_item_with_count 'Accountable', 1
-    side_menu.expect_item_with_no_count 'Watcher'
+    side_menu.expect_item_with_no_count 'Watching'
 
     # ... and show only those projects with a notification
     side_menu.expect_item_not_visible project.name
@@ -111,9 +111,9 @@ describe "Notification center sidemenu", type: :feature, js: true do
     side_menu.expect_item_with_count "... #{project3.name}", 2
 
     # Empty filter sets have a separate message
-    side_menu.click_item 'Watcher'
+    side_menu.click_item 'Watching'
     side_menu.finished_loading
-    expect(page).to have_text "Looks like you're all caught up for Watcher filter"
+    expect(page).to have_text "Looks like you're all caught up for Watching filter"
 
     # Marking all as read
     side_menu.click_item 'Inbox'
@@ -123,7 +123,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
     side_menu.expect_item_with_no_count 'Assignee'
     side_menu.expect_item_with_no_count 'Mentioned'
     side_menu.expect_item_with_no_count 'Accountable'
-    side_menu.expect_item_with_no_count 'Watcher'
+    side_menu.expect_item_with_no_count 'Watching'
 
     side_menu.expect_item_not_visible project.name
     side_menu.expect_item_not_visible project2.name
@@ -134,8 +134,8 @@ describe "Notification center sidemenu", type: :feature, js: true do
     # All notifications are shown
     center.expect_work_package_item notification, notification2, notification3, notification4
 
-    # Filter for "Watcher"
-    side_menu.click_item 'Watcher'
+    # Filter for "Watching"
+    side_menu.click_item 'Watching'
     side_menu.finished_loading
     center.expect_work_package_item notification
     center.expect_no_item notification2, notification3, notification4

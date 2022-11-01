@@ -11,7 +11,6 @@ import {
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { IHalResourceLinks } from 'core-app/core/state/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import { filter } from 'lodash';
 
 export interface CollectionResponse {
   ids:ID[];
@@ -64,30 +63,14 @@ export function collectionKey(params:ApiV3ListParameters):string {
 export function setCollectionLoading<T extends { id:ID }>(
   store:EntityStore<CollectionState<T>>,
   collectionUrl:string,
+  loading:boolean,
 ):void {
   store.update(({ loadingCollections }) => (
     {
       loadingCollections: {
         ...loadingCollections,
-        [collectionUrl]: true,
+        [collectionUrl]: loading,
       },
-    }
-  ));
-}
-
-/**
- * Mark a collection key as no longer loading
- *
- * @param store An entity store for the collection
- * @param collectionUrl The key to insert the collection at
- */
-export function removeCollectionLoading<T extends { id:ID }>(
-  store:EntityStore<CollectionState<T>>,
-  collectionUrl:string,
-):void {
-  store.update(({ loadingCollections }) => (
-    {
-      loadingCollections: filter(loadingCollections, (_, key) => key !== collectionUrl),
     }
   ));
 }

@@ -129,7 +129,7 @@ gem 'rack-protection', '~> 3.0.0'
 gem 'rack-attack', '~> 6.6.0'
 
 # CSP headers
-gem 'secure_headers', '~> 6.5.0'
+gem 'secure_headers', '~> 6.4.0'
 
 # Browser detection for incompatibility checks
 gem 'browser', '~> 5.3.0'
@@ -260,7 +260,7 @@ end
 group :development do
   gem 'listen', '~> 3.7.0' # Use for event-based reloaders
 
-  gem 'faker', require: false
+  gem 'faker'
   gem 'letter_opener'
 
   gem 'spring'

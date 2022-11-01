@@ -537,8 +537,8 @@ tr:
       no_unread: "Okunmamış bildirim yok"
       reasons:
         mentioned: 'adı geçen, bahsedilen'
-        watched: 'watcher'
-        assigned: 'assignee'
+        watched: 'izlendi'
+        assigned: 'atanmış'
         responsible: 'accountable'
         created: 'oluşturuldu'
         scheduled: 'zamanlandı'
@@ -576,7 +576,7 @@ tr:
         by_reason: 'Katılım'
         inbox: 'Gelen Kutusu'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watching: 'İzliyor'
       settings:
         change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
         title: "Bildirim ayarları"

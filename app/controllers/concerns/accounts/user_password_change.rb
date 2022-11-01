@@ -71,7 +71,7 @@ module Accounts::UserPasswordChange
     end
 
     flash_error_message(log_reason: 'invalid credentials', flash_now:) do
-      if Setting.brute_force_block_after_failed_logins.to_i > 0
+      if Setting.brute_force_block_after_failed_logins?
         :notice_account_invalid_credentials_or_blocked
       else
         :notice_account_invalid_credentials

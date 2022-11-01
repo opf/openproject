@@ -888,7 +888,7 @@ pl:
   attributes:
     active: "Aktywne"
     assigned_to: "Przypisany do"
-    assignee: "Przypisana osoba"
+    assignee: "Przypisany do"
     attachments: "Załączniki"
     author: "Autor"
     base: "Błąd ogólny:"
@@ -2772,7 +2772,7 @@ pl:
         date: "data"
         default: "Domyślnie"
       column:
-        assigned_to: "Przypisana osoba"
+        assigned_to: "Przypisany do"
         type: "Typ"
         due_date: "Data zakończenia"
         name: "Nazwa"

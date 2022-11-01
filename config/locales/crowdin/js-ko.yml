@@ -537,8 +537,8 @@ ko:
       no_unread: "읽지 않는 알림 없음"
       reasons:
         mentioned: '멘션 된'
-        watched: 'watcher'
-        assigned: 'assignee'
+        watched: '지켜본'
+        assigned: '할당됨'
         responsible: '담당'
         created: '생성됨'
         scheduled: '예약됨'
@@ -575,7 +575,7 @@ ko:
         by_reason: '참여'
         inbox: '받은 편지함'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watching: '지켜보는 중'
       settings:
         change_notification_settings: '알림 설정을 보고 변경하려면 <a target="_blank" href="%{url}">여기를 클릭</a>하세요.'
         title: "알림 설정"

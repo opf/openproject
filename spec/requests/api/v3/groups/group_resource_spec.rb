@@ -181,12 +181,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     let(:another_user) do
       create(:user,
              member_in_project: project,
-             member_through_role: another_role,
-             notification_settings: [
-               build(:notification_setting,
-                     membership_added: true,
-                     membership_updated: true)
-             ])
+             member_through_role: another_role)
     end
     let(:body) do
       {

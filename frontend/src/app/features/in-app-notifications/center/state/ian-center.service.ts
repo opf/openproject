@@ -153,7 +153,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     }),
     switchMap(() => this
       .resourceService
-      .fetchCollection(this.params)
+      .fetchNotifications(this.params)
       .pipe(
         switchMap(
           (results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))

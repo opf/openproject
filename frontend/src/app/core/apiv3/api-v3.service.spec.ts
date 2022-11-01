@@ -26,10 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  TestBed,
-  waitForAsync,
-} from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { States } from 'core-app/core/states/states.service';
@@ -38,7 +35,8 @@ describe('APIv3Service', () => {
   let service:ApiV3Service;
 
   beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
+    // noinspection JSIgnoredPromiseFromCall
+    TestBed.configureTestingModule({
       providers: [
         States,
         PathHelperService,

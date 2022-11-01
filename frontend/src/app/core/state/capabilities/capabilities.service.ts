@@ -5,6 +5,8 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
@@ -15,11 +17,23 @@ import {
   CollectionStore,
   ResourceCollectionService,
 } from 'core-app/core/state/resource-collection.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Injectable()
 export class CapabilitiesResourceService extends ResourceCollectionService<ICapability> {
-  @InjectField() toastService:ToastService;
+  constructor(
+    private http:HttpClient,
+    private apiV3Service:ApiV3Service,
+    private toastService:ToastService,
+  ) {
+    super();
+  }
+
+  private get capabilitiesPath():string {
+    return this
+      .apiV3Service
+      .capabilities
+      .path;
+  }
 
   /**
    * Require the available capabilities for the given filter params
@@ -55,7 +69,7 @@ export class CapabilitiesResourceService extends ResourceCollectionService<ICapa
 
   public fetchCapabilities(params:ApiV3ListParameters):Observable<IHALCollection<ICapability>> {
     return this
-      .fetchCollection(params)
+      .fetchCollection(this.http, this.capabilitiesPath, params)
       .pipe(
         catchError((error) => {
           this.toastService.addError(error);
@@ -66,12 +80,5 @@ export class CapabilitiesResourceService extends ResourceCollectionService<ICapa
 
   protected createStore():CollectionStore<ICapability> {
     return new CapabilitiesStore();
-  }
-
-  protected basePath():string {
-    return this
-      .apiV3Service
-      .capabilities
-      .path;
   }
 }

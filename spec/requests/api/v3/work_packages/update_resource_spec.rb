@@ -34,17 +34,15 @@ describe 'API v3 Work package resource',
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  create_shared_association_defaults_for_work_package_factory
-
-  shared_let(:closed_status) { create(:closed_status) }
-  shared_let(:project) do
-    create(:project, identifier: 'test_project', public: false)
-  end
+  let(:closed_status) { create(:closed_status) }
 
   let(:work_package) do
     create(:work_package,
-           project:,
+           project_id: project.id,
            description: 'lorem ipsum')
+  end
+  let(:project) do
+    create(:project, identifier: 'test_project', public: false)
   end
   let(:role) { create(:role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions work_package_assigned] }
@@ -112,11 +110,7 @@ describe 'API v3 Work package resource',
         let(:other_user) do
           create(:user,
                  member_in_project: work_package.project,
-                 member_with_permissions: %i(view_work_packages),
-                 notification_settings: [
-                   build(:notification_setting,
-                         work_package_created: true)
-                 ])
+                 member_with_permissions: %i(view_work_packages))
         end
 
         before do

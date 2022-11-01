@@ -33,15 +33,12 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { create(:project) }
-  shared_let(:current_user) do
+  let(:current_user) do
     create(:user)
   end
-  shared_let(:admin) do
+  let(:admin) do
     create(:admin)
   end
-  shared_let(:other_role) { create(:role) }
-  shared_let(:global_role) { create(:global_role) }
   let(:own_member) do
     create(:member,
            roles: [create(:role, permissions:)],
@@ -49,6 +46,9 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
            user: current_user)
   end
   let(:permissions) { %i[view_members manage_members] }
+  let(:project) { create(:project) }
+  let(:other_role) { create(:role) }
+  let(:global_role) { create(:global_role) }
   let(:other_user) { create(:user) }
   let(:other_member) do
     create(:member,
@@ -1193,12 +1193,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
         create(:group, member_in_project: project, member_through_role: other_role, members: users)
       end
       let(:principal) { group }
-      let(:users) do
-        [
-          create(:user, notification_settings: [build(:notification_setting, membership_added: true, membership_updated: true)]),
-          create(:user, notification_settings: [build(:notification_setting, membership_added: true, membership_updated: true)])
-        ]
-      end
+      let(:users) { [create(:user), create(:user)] }
       let(:another_role) { create(:role) }
       let(:other_member) do
         Member.find_by(principal: group).tap do

@@ -537,8 +537,8 @@ ca:
       no_unread: "No hi ha notificacions sense llegir"
       reasons:
         mentioned: 'mencionat'
-        watched: 'watcher'
-        assigned: 'assignee'
+        watched: 'observat'
+        assigned: 'assignat'
         responsible: 'responsable'
         created: 'creat'
         scheduled: 'programat'
@@ -575,19 +575,19 @@ ca:
         by_project: 'No llegit per projecte'
         by_reason: 'Implicació'
         inbox: 'Safata d''entrada'
-        mentioned: 'Mencionat'
-        watched: 'Watcher'
+        mentioned: 'Mentioned'
+        watching: 'Observant'
       settings:
         change_notification_settings: 'Per veure i canviar la configuració de notificacions, <a target="_blank" href="%{url}">fes clic aquí</a>'
         title: "Configuració de notificacions"
         notify_me: "Notifica’m"
         reasons:
           mentioned:
-            title: 'Mencionat'
+            title: 'Mentioned'
             description: 'Rep una notificació cada vegada que algú em menciona a qualsevol lloc'
           assignee: 'Assignat a'
           responsible: 'Responsable'
-          watched: 'Observador'
+          watched: 'Watcher'
           work_package_commented: 'Tots els nous comentaris'
           work_package_created: 'Paquets de treball nou'
           work_package_processed: 'Tots els canvis d''estat'
@@ -595,14 +595,14 @@ ca:
           work_package_scheduled: 'Tots els canvis de data'
         global:
           immediately:
-            title: 'Participant'
-            description: 'Notificacions per a totes les activitats en els paquets de treball en els que estàs involucrat (assignat, responsable o observador)'
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
           delayed:
-            title: 'No participant'
-            description: 'Notificacions addicionals per activitats en tots els projectes'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects'
           date_alerts:
-            title: 'Alertes per dates'
-            description: 'Notificacions automàtiques quan dates importants s''aproximen per a paquets de treball oberts en els quals estàs involucrat (assignat, responsable o observador)'
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
         project_specific:
           title: 'Configuracions de notificacions específiques del projecte'
           description: 'Aquestes configuracions específiques del projecte anul·len les configuracions per defecte especificades a sobre'

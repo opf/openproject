@@ -5,8 +5,10 @@ import {
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { applyTransaction } from '@datorama/akita';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { HttpClient } from '@angular/common/http';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import {
   collectionKey,
@@ -21,14 +23,25 @@ import {
   CollectionStore,
   ResourceCollectionService,
 } from 'core-app/core/state/resource-collection.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @EffectHandler
 @Injectable()
 export class PrincipalsResourceService extends ResourceCollectionService<IPrincipal> {
-  @InjectField() actions$:ActionsService;
+  private get principalsPath():string {
+    return this
+      .apiV3Service
+      .principals
+      .path;
+  }
 
-  @InjectField() toastService:ToastService;
+  constructor(
+    readonly actions$:ActionsService,
+    private http:HttpClient,
+    private apiV3Service:ApiV3Service,
+    private toastService:ToastService,
+  ) {
+    super();
+  }
 
   fetchUser(id:string|number):Observable<IUser> {
     return this.http
@@ -51,7 +64,7 @@ export class PrincipalsResourceService extends ResourceCollectionService<IPrinci
 
     return this
       .http
-      .get<IHALCollection<IPrincipal>>(this.basePath() + collectionURL)
+      .get<IHALCollection<IPrincipal>>(this.principalsPath + collectionURL)
       .pipe(
         tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
         catchError((error) => {
@@ -63,12 +76,5 @@ export class PrincipalsResourceService extends ResourceCollectionService<IPrinci
 
   protected createStore():CollectionStore<IPrincipal> {
     return new PrincipalsStore();
-  }
-
-  protected basePath():string {
-    return this
-      .apiV3Service
-      .principals
-      .path;
   }
 }

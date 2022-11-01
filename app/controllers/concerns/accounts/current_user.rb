@@ -70,7 +70,7 @@ module Accounts::CurrentUser
     if session[:user_id]
       # existing session
       User.active.find_by(id: session[:user_id])
-    elsif cookies[OpenProject::Configuration['autologin_cookie_name']] && Setting::Autologin.enabled?
+    elsif cookies[OpenProject::Configuration['autologin_cookie_name']] && Setting.autologin?
       # auto-login feature starts a new session
       user = User.try_to_autologin(cookies[OpenProject::Configuration['autologin_cookie_name']])
       session[:user_id] = user.id if user

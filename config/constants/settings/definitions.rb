@@ -977,7 +977,7 @@ Settings::Definition.define do
 
   add :work_package_list_default_columns,
       default: %w[id subject type status assigned_to priority],
-      allowed: -> { Query.new.displayable_columns.map(&:name).map(&:to_s) }
+      allowed: -> { Query.new.available_columns.map(&:name).map(&:to_s) }
 
   add :work_package_startdate_is_adddate,
       default: false

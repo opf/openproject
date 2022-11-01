@@ -14,7 +14,6 @@ import { HttpClient } from '@angular/common/http';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { ID } from '@datorama/akita';
 import { IProjectData } from './project-data';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 @Injectable()
 export class SearchableProjectListService {
@@ -29,7 +28,7 @@ export class SearchableProjectListService {
     this.searchText$.next(val);
   }
 
-  selectedItemID$ = new BehaviorSubject<ID|null>(null);
+  activeItemID$ = new BehaviorSubject<ID|null>(null);
 
   searchText$ = new BehaviorSubject<string>('');
 
@@ -40,7 +39,6 @@ export class SearchableProjectListService {
   constructor(
     readonly http:HttpClient,
     readonly apiV3Service:ApiV3Service,
-    readonly currentProjectService:CurrentProjectService,
   ) { }
 
   public loadAllProjects():void {
@@ -82,7 +80,7 @@ export class SearchableProjectListService {
   }
 
   onKeydown(event:KeyboardEvent, projects:IProjectData[]):void {
-    this.selectedItemID$
+    this.activeItemID$
       .pipe(take(1))
       .subscribe((activeID) => {
         switch (event.keyCode) {
@@ -121,7 +119,7 @@ export class SearchableProjectListService {
       return null;
     }
 
-    this.selectedItemID$.next(findFirstNonDisabledID(projects));
+    this.activeItemID$.next(findFirstNonDisabledID(projects));
   }
 
   private selectPreviousResult(activeID:ID|null, allProjects:IProjectData[]):void {
@@ -163,7 +161,7 @@ export class SearchableProjectListService {
 
     const foundPreviousID = findPreviousID(activeID, allProjects);
     if (foundPreviousID !== null) {
-      this.selectedItemID$.next(foundPreviousID);
+      this.activeItemID$.next(foundPreviousID);
     } else {
       this.resetActiveResult(allProjects);
     }
@@ -200,7 +198,7 @@ export class SearchableProjectListService {
 
     const foundNextID = findNextID(activeID, allProjects);
     if (foundNextID !== null) {
-      this.selectedItemID$.next(foundNextID);
+      this.activeItemID$.next(foundNextID);
     } else {
       this.resetActiveResult(allProjects);
     }

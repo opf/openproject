@@ -537,8 +537,8 @@ pl:
       no_unread: "Brak nieprzeczytanych powiadomień"
       reasons:
         mentioned: 'wzmianka'
-        watched: 'obserwator'
-        assigned: 'przypisana osoba'
+        watched: 'obserwowane'
+        assigned: 'przypisane'
         responsible: 'osoba odpowiedzialna'
         created: 'utworzono'
         scheduled: 'zaplanowano'
@@ -577,19 +577,19 @@ pl:
         by_project: 'Nieprzeczytane wg projektu'
         by_reason: 'Zaangażowanie'
         inbox: 'Inbox'
-        mentioned: 'Wzmianka'
-        watched: 'Obserwator'
+        mentioned: 'Mentioned'
+        watching: 'Obserwowane'
       settings:
         change_notification_settings: 'Aby wyświetlić i zmienić ustawienia powiadomień, <a target="_blank" href="%{url}">kliknij tutaj</a>'
         title: "Ustawienia powiadomień"
         notify_me: "Powiadom mnie"
         reasons:
           mentioned:
-            title: 'Wzmianka'
+            title: 'Mentioned'
             description: 'Otrzymuj powiadomienie za każdym razem, gdy pojawi się o tobie wzmianka gdziekolwiek'
           assignee: 'Przypisana osoba'
           responsible: 'Osoba odpowiedzialna'
-          watched: 'Obserwator'
+          watched: 'Watcher'
           work_package_commented: 'Wszystkie nowe komentarze'
           work_package_created: 'Nowe pakiety robocze'
           work_package_processed: 'Wszystkie zmiany statusu'
@@ -597,14 +597,14 @@ pl:
           work_package_scheduled: 'Wszystkie zmiany daty'
         global:
           immediately:
-            title: 'Uczestnictwo'
-            description: 'Powiadomienia dla wszystkich aktywności w pakietach roboczych, do których cię zaangażowano (jako osobę: przypisaną, odpowiedzialną, bądź obserwującą)'
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
           delayed:
-            title: 'Brak uczestnictwa'
-            description: 'Dodatkowe powiadomienia dla działań we wszystkich projektach'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects'
           date_alerts:
-            title: 'Data ostrzeżeń'
-            description: 'Automatyczne powiadomienia, gdy ważne daty zbliżają się do otwartych pakietów roboczych, do których cię zaangażowano (jako osobę: przypisaną, odpowiedzialną bądź obserwującą)'
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
         project_specific:
           title: 'Ustawienia powiadomień dla danego projektu'
           description: 'Te ustawienia dla danego projektu zastępują ustawienia domyślne powyżej'
@@ -914,7 +914,7 @@ pl:
         estimatesAndTime: "Szacunki i czas"
         other: "Inne"
       properties:
-        assignee: "Przypisana osoba"
+        assignee: "Przypisany do"
         author: "Autor"
         createdAt: "Utworzone"
         description: "Opis"

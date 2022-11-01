@@ -29,8 +29,6 @@
 namespace :sample_data do
   desc 'Create the given number of fake projects'
   task :projects, [:nr_of_projects] => :environment do |_task, args|
-    require 'faker'
-
     puts "Creating #{args[:nr_of_projects]} fake projects"
 
     args[:nr_of_projects].to_i.times do |i|

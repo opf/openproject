@@ -225,7 +225,7 @@ export function registerWorkPackageMouseHandler(this:void,
 
     // Cancel changes if the startDate or dueDate are not allowed
     const { startDate, dueDate } = change.projectedResource;
-    const invalidDates = renderer.cursorOrDatesAreNonWorking([moment(startDate), moment(dueDate)], renderInfo, direction);
+    const invalidDates = renderer.cursorOrDatesAreNonWorking([moment(startDate), moment(dueDate)], renderInfo);
 
     if (cancelled || change.isEmpty() || invalidDates) {
       cancelChange();

@@ -32,8 +32,7 @@ module API
       class AvailableRelationCandidatesAPI < ::API::OpenProjectAPI
         helpers do
           def combined_params
-            params
-              .merge({ filters: filters_param }.with_indifferent_access)
+            { filters: filters_param, pageSize: params[:pageSize] }.with_indifferent_access
           end
 
           def filters_param

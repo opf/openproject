@@ -621,10 +621,7 @@ describe MailHandler, type: :model do
 
         it 'sends notifications to watching users' do
           # User gets all updates
-          user = create(:user,
-                        member_in_project: project,
-                        member_with_permissions: %i(view_work_packages),
-                        notification_settings: [build(:notification_setting, all: true)])
+          user = create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages))
 
           expect do
             perform_enqueued_jobs do
@@ -1245,7 +1242,7 @@ describe MailHandler, type: :model do
             perform_enqueued_jobs do
               subject
             end
-          end.to change(Notification, :count).by(1)
+          end.to change(Notification, :count).by(2)
         end
       end
 

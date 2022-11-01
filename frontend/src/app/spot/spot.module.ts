@@ -4,7 +4,6 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SpotCheckboxComponent } from './components/checkbox/checkbox.component';
 import { SpotSwitchComponent } from './components/switch/switch.component';
@@ -15,8 +14,7 @@ import { SpotDropModalComponent } from './components/drop-modal/drop-modal.compo
 import { SpotTooltipComponent } from './components/tooltip/tooltip.component';
 import { SpotFormFieldComponent } from './components/form-field/form-field.component';
 import { SpotFormBindingDirective } from './components/form-field/form-binding.directive';
-import { SpotBreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
-import { SpotSelectorFieldComponent } from './components/selector-field/selector-field.component';
+import { SpotSelectorFieldComponent } from 'core-app/spot/components/selector-field/selector-field.component';
 
 @NgModule({
   imports: [
@@ -30,7 +28,6 @@ import { SpotSelectorFieldComponent } from './components/selector-field/selector
   ],
 
   declarations: [
-    SpotBreadcrumbsComponent,
     SpotCheckboxComponent,
     SpotSwitchComponent,
     SpotToggleComponent,
@@ -44,7 +41,6 @@ import { SpotSelectorFieldComponent } from './components/selector-field/selector
   ],
 
   exports: [
-    SpotBreadcrumbsComponent,
     SpotCheckboxComponent,
     SpotSwitchComponent,
     SpotToggleComponent,

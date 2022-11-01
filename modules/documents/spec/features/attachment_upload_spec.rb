@@ -43,8 +43,7 @@ describe 'Upload attachment to documents',
   let!(:other_user) do
     create :user,
            member_in_project: project,
-           member_with_permissions: %i[view_documents],
-           notification_settings: [build(:notification_setting, all: true)]
+           member_with_permissions: %i[view_documents]
   end
   let!(:category) do
     create(:document_category)
@@ -112,7 +111,7 @@ describe 'Upload attachment to documents',
 
       # Expect a mail to be sent to the user having subscribed to all notifications
       expect(ActionMailer::Base.deliveries.size)
-        .to eq 1
+        .to be 1
 
       expect(ActionMailer::Base.deliveries.last.to)
         .to match_array [other_user.mail]
