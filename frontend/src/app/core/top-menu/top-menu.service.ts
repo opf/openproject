@@ -31,6 +31,10 @@ import {
   Injectable,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import {
+  BehaviorSubject,
+  Observable,
+} from 'rxjs';
 
 export const ANIMATION_RATE_MS = 100;
 
@@ -41,6 +45,8 @@ export class TopMenuService {
   private menuIsOpen = false;
 
   private menuContainer = this.document.querySelector('.op-app-header') as HTMLElement;
+
+  private active$ = new BehaviorSubject<HTMLElement|null>(null);
 
   constructor(@Inject(DOCUMENT) private document:Document) {
   }
@@ -53,13 +59,16 @@ export class TopMenuService {
     this.skipContentClickListener();
   }
 
+  public activeDropdown$():Observable<HTMLElement|null> {
+    return this.active$.asObservable();
+  }
+
   // the entire menu gets closed, no hover possible afterwards
   public close():void {
     this.stopHover();
     this.closeAllItems();
     this.menuIsOpen = false;
-    const evt = new CustomEvent('closedMenu', { detail: this.menuContainer });
-    this.menuContainer.dispatchEvent(evt);
+    this.active$.next(null);
   }
 
   private skipContentClickListener():void {
@@ -102,8 +111,6 @@ export class TopMenuService {
   private opening():void {
     this.startHover();
     this.menuIsOpen = true;
-    const evt = new CustomEvent('openedMenu', { detail: this.menuContainer });
-    this.menuContainer.dispatchEvent(evt);
   }
 
   private stopHover():void {
@@ -165,16 +172,13 @@ export class TopMenuService {
     this.dontCloseWhenUsing(dropdown);
     this.closeOtherItems(dropdown);
     this.slideAndFocus(dropdown, () => {
-      const evt = new CustomEvent('opened', { detail: dropdown });
-      dropdown.dispatchEvent(evt);
+      this.active$.next(dropdown);
     });
   }
 
   private closeDropdown(dropdown:HTMLElement, immediate?:boolean):void {
     this.slideUp(dropdown, !!immediate);
-    const evt = new CustomEvent('closed', { detail: dropdown });
-    dropdown.dispatchEvent(evt);
-    this.removeStoppingOfEventPropagation(dropdown);
+    this.active$.next(null);
   }
 
   private closeOtherItems(dropdown:HTMLElement):void {
