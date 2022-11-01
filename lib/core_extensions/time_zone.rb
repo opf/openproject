@@ -26,9 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'core_extensions/string'
-require 'core_extensions/time_with_zone'
-require 'core_extensions/time_zone'
+module CoreExtensions
+  module TimeZone # :nodoc:
+    def lookup_timezone(value)
+      all.detect { |tz| tz.name == value || tz.to_s == value || tz.tzinfo.canonical_identifier == value }
+    end
+  end
+end
 
-::String.prepend CoreExtensions::String
-::ActiveSupport::TimeWithZone.include CoreExtensions::TimeWithZone
+::ActiveSupport::TimeZone.extend ::CoreExtensions::TimeZone

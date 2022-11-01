@@ -163,6 +163,14 @@ describe Settings::Definition do
           .to eql Date.parse('2222-01-01')
       end
 
+      it 'overriding timezone configuration from ENV will cast the value' do
+        stub_const('ENV', { 'OPENPROJECT_USER__DEFAULT__TIMEZONE' => 'Europe/Berlin' })
+
+        value = all.detect { |d| d.name == 'user_default_timezone' }.value
+        expect(value).to be_a ::ActiveSupport::TimeZone
+        expect(value.name).to eq 'Berlin'
+      end
+
       it 'overriding configuration from ENV will set it to non writable' do
         stub_const('ENV', { 'OPENPROJECT_EDITION' => 'bim' })
 
@@ -973,6 +981,30 @@ describe Settings::Definition do
       it 'calls the proc as a default' do
         expect(instance.default)
           .to be false
+      end
+    end
+
+    context 'with a timezone' do
+      let(:instance) do
+        described_class.new 'timezone',
+                            format: :timezone,
+                            default: nil,
+                            allowed: ActiveSupport::TimeZone.all + [nil]
+      end
+
+      it 'accepts a TZ name' do
+        instance.value = 'Europe/Berlin'
+        expect(instance).to be_valid
+      end
+
+      it 'accepts a TZ full identifier' do
+        instance.value = '(GMT+01:00) Berlin'
+        expect(instance).to be_valid
+      end
+
+      it 'rejects a bogus value' do
+        instance.value = 'foobar'
+        expect(instance).not_to be_valid
       end
     end
   end
