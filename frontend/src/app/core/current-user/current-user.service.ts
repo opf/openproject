@@ -92,7 +92,7 @@ export class CurrentUserService {
 
           return { filters, pageSize: -1 };
         }),
-        switchMap((params) => this.capabilitiesService.require$(params)),
+        switchMap((params) => this.capabilitiesService.require(params)),
       );
   }
 
