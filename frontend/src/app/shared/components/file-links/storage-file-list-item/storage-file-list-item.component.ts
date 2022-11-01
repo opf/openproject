@@ -29,11 +29,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  EventEmitter,
   Input,
-  OnInit, Output,
-  ViewChild,
+  OnInit,
 } from '@angular/core';
 
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -41,9 +38,13 @@ import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons
 import {
   getIconForMimeType,
 } from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { isDirectory } from 'core-app/shared/components/file-links/file-link-icons/file-icons.helper';
 import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
+import {
+  IStorageFileListItem,
+} from 'core-app/shared/components/file-links/storage-file-list-item/storage-file-list-item';
+import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -52,13 +53,7 @@ import { PrincipalLike } from 'core-app/shared/components/principal/principal-ty
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StorageFileListItemComponent implements OnInit {
-  @Input() public storageFile:IStorageFile;
-
-  @Input() public selected = false;
-
-  @Output() public changeSelection = new EventEmitter();
-
-  @ViewChild('avatar') avatar:ElementRef;
+  @Input() public fileListItemContent:IStorageFileListItem;
 
   infoTimestampText:string;
 
@@ -66,10 +61,14 @@ export class StorageFileListItemComponent implements OnInit {
 
   showDetails:boolean;
 
+  text = {
+    tooltip: this.i18n.t('js.storages.file_links.already_linked'),
+  };
+
   get principal():PrincipalLike {
-    return this.storageFile.createdByName
+    return this.fileListItemContent.createdByName
       ? {
-        name: this.storageFile.createdByName,
+        name: this.fileListItemContent.createdByName,
         href: '/external_users/1',
       }
       : {
@@ -78,15 +77,26 @@ export class StorageFileListItemComponent implements OnInit {
       };
   }
 
-  constructor(private readonly timezoneService:TimezoneService) {}
-
-  ngOnInit():void {
-    if (this.storageFile.lastModifiedAt) {
-      this.infoTimestampText = this.timezoneService.parseDatetime(this.storageFile.lastModifiedAt).fromNow();
+  get getTooltipAlignment():SpotDropAlignmentOption {
+    if (this.fileListItemContent.isFirst) {
+      return SpotDropAlignmentOption.BottomLeft;
     }
 
-    this.fileLinkIcon = getIconForMimeType(this.storageFile.mimeType);
+    return SpotDropAlignmentOption.TopLeft;
+  }
 
-    this.showDetails = !isDirectory(this.storageFile.mimeType);
+  constructor(
+    private readonly i18n:I18nService,
+    private readonly timezoneService:TimezoneService,
+  ) {}
+
+  ngOnInit():void {
+    if (this.fileListItemContent.lastModifiedAt) {
+      this.infoTimestampText = this.timezoneService.parseDatetime(this.fileListItemContent.lastModifiedAt).fromNow();
+    }
+
+    this.fileLinkIcon = getIconForMimeType(this.fileListItemContent.mimeType);
+
+    this.showDetails = !isDirectory(this.fileListItemContent.mimeType);
   }
 }
