@@ -88,6 +88,7 @@ class User < Principal
   scope :not_blocked, -> { create_blocked_scope(self, false) }
 
   scopes :allowed,
+         :allowed_members,
          :find_by_login,
          :newest,
          :notified_globally,
@@ -487,18 +488,6 @@ class User < Principal
   # Return true if the user is a member of project
   def member_of?(project)
     roles_for_project(project).any?(&:member?)
-  end
-
-  def self.allowed(action, project)
-    includes(:permissions)
-      .where(permissions: { project: })
-      .where(permissions: { permission: action })
-  end
-
-  def self.allowed_members(action, project)
-    allowed(action, project)
-      .includes(:members)
-      .where.not(members: { id: nil })
   end
 
   def allowed_to?(action, context, global: false)
