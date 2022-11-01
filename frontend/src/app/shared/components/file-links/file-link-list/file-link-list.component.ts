@@ -155,7 +155,9 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   public openLinkFilesDialog():void {
     const locals = {
-      storageType: this.storageType,
+      storageType: this.storage._links.type.href,
+      storageTypeName: this.storageType,
+      storageName: this.storage.name,
       storageLocation: this.storageFilesLocation,
       storageLink: this.storage._links.self,
     };

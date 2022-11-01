@@ -536,8 +536,8 @@ pt:
       no_unread: "Nenhuma notificação não lida"
       reasons:
         mentioned: 'mencionado'
-        watched: 'observado'
-        assigned: 'atribuído'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'responsável'
         created: 'criado'
         scheduled: 'planejado'
@@ -575,7 +575,7 @@ pt:
         by_reason: 'Envolvimento'
         inbox: 'Caixa de entrada'
         mentioned: 'Mentioned'
-        watching: 'Observando'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'Para visualizar e alterar suas configurações de notificação, <a target="_blank" href="%{url}">clique aqui</a>'
         title: "Configurações de notificação"

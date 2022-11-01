@@ -537,8 +537,8 @@ uk:
       no_unread: "Немає непрочитаних сповіщень"
       reasons:
         mentioned: 'згадано'
-        watched: 'відстежено'
-        assigned: 'призначено'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'відповідальний'
         created: 'створено'
         scheduled: 'заплановано'
@@ -578,7 +578,7 @@ uk:
         by_reason: 'Залучення'
         inbox: 'Вхідні'
         mentioned: 'Mentioned'
-        watching: 'Відстеження'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'Щоб переглянути та змінити налаштування сповіщень, <a target="_blank" href="%{url}">натисніть тут</a>'
         title: "Налаштування сповіщень"

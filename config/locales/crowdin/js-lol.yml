@@ -536,8 +536,8 @@ lol:
       no_unread: "crwdns787684:0crwdne787684:0"
       reasons:
         mentioned: 'crwdns787686:0crwdne787686:0'
-        watched: 'crwdns787688:0crwdne787688:0'
-        assigned: 'crwdns787690:0crwdne787690:0'
+        watched: 'crwdns836616:0crwdne836616:0'
+        assigned: 'crwdns836618:0crwdne836618:0'
         responsible: 'crwdns787692:0crwdne787692:0'
         created: 'crwdns832420:0crwdne832420:0'
         scheduled: 'crwdns832422:0crwdne832422:0'
@@ -575,7 +575,7 @@ lol:
         by_reason: 'crwdns787728:0crwdne787728:0'
         inbox: 'crwdns787730:0crwdne787730:0'
         mentioned: 'crwdns836454:0crwdne836454:0'
-        watching: 'crwdns787734:0crwdne787734:0'
+        watched: 'crwdns836620:0crwdne836620:0'
       settings:
         change_notification_settings: 'crwdns787736:0%{url}crwdne787736:0'
         title: "crwdns787738:0crwdne787738:0"

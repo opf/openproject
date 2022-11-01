@@ -106,7 +106,7 @@ export class WpSingleViewService {
       .pipe(
         take(1),
         filter((loggedIn) => loggedIn),
-        switchMap(() => this.resourceService.fetchNotifications(this.params)),
+        switchMap(() => this.resourceService.fetchCollection(this.params)),
       )
       .subscribe();
   }

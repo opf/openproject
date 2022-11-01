@@ -537,8 +537,8 @@ eo:
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'mentioned'
-        watched: 'watched'
-        assigned: 'assigned'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'accountable'
         created: 'created'
         scheduled: 'scheduled'
@@ -576,7 +576,7 @@ eo:
         by_reason: 'Involvement'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watching: 'Watching'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
         title: "Notification settings"

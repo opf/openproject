@@ -59,7 +59,7 @@ export class WeekdayService {
    */
   public isNonWorkingDay(date:Date|number):boolean {
     const isoDayOfWeek = (typeof date === 'number') ? date : moment(date).isoWeekday();
-    return !!this.weekdays.find((wd) => wd.day === isoDayOfWeek && !wd.working);
+    return !!(this.weekdays || []).find((wd) => wd.day === isoDayOfWeek && !wd.working);
   }
 
   loadWeekdays():Observable<IWeekday[]> {

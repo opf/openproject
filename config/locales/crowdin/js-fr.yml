@@ -537,7 +537,7 @@ fr:
       no_unread: "Pas de notification non lue"
       reasons:
         mentioned: 'mentionné'
-        watched: 'surveillé'
+        watched: 'observateur'
         assigned: 'assigné'
         responsible: 'responsable'
         created: 'créé'
@@ -575,8 +575,8 @@ fr:
         by_project: 'Non lu par projet'
         by_reason: 'Participation'
         inbox: 'Boîte de réception'
-        mentioned: 'Mentioned'
-        watching: 'Surveillé'
+        mentioned: 'Mentionné'
+        watched: 'Observateur'
       settings:
         change_notification_settings: 'Pour afficher et modifier vos paramètres de notification, <a target="_blank" href="%{url}">cliquez ici</a>'
         title: "Paramètres de notifications"
