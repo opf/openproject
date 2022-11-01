@@ -719,7 +719,7 @@ GEM
     pry-stack_explorer (0.6.1)
       binding_of_caller (~> 1.0)
       pry (~> 0.13)
-    psych (4.0.4)
+    psych (4.0.6)
       stringio
     public_suffix (5.0.0)
     puffing-billy (3.0.4)
