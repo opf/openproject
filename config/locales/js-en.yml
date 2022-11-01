@@ -618,10 +618,11 @@ en:
       menu:
         accountable: 'Accountable'
         by_project: 'Unread by project'
-        by_reason: 'Involvement'
+        by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
         watched: 'Watcher'
+        date_alert: 'Date alert'
       settings:
         change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
         title: "Notification settings"
