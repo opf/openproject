@@ -1,45 +1,53 @@
 <spot-tooltip
   [alignment]="getTooltipAlignment"
-  [disabled]="!fileListItemContent.disabled"
+  [disabled]="!content.disabled"
 >
   <p
     slot="body"
     class="spot-body-small"
-  >{{text.tooltip}}</p>
+  >{{tooltip}}</p>
 
   <label
     slot="trigger"
     class="spot-list--item-action"
-    [ngClass]="{ 'spot-list--item-action_disabled': fileListItemContent.disabled }"
+    [ngClass]="{ 'spot-list--item-action_disabled': content.disabled }"
   >
     <spot-checkbox
-      [checked]="fileListItemContent.disabled"
-      (checkedChange)="fileListItemContent.changeSelection()"
-      [disabled]="fileListItemContent.disabled"
+      [checked]="content.disabled || content.selected"
+      (checkedChange)="content.changeSelection()"
+      [disabled]="content.disabled"
     ></spot-checkbox>
     <span
-      class="spot-icon spot-icon_{{fileLinkIcon.icon}} op-files-tab--icon op-files-tab--icon_{{fileLinkIcon.clazz}}"
+      class="spot-icon spot-icon_{{content.icon.icon}} op-files-tab--icon op-files-tab--icon_{{content.icon.clazz}}"
     ></span>
 
     <span
-      [textContent]="fileListItemContent.name"
-      [title]="fileListItemContent.name"
+      [textContent]="content.name"
+      [title]="content.name"
       class="spot-list--item-title op-file-list--item-title"
     ></span>
 
     <span
-      *ngIf="showDetails"
+      *ngIf="!content.isDirectory"
       class="op-file-list--item-text"
-      [textContent]="infoTimestampText"
+      [textContent]="content.timestamp"
     ></span>
 
     <op-principal
-      *ngIf="showDetails"
+      *ngIf="!content.isDirectory"
       class="op-file-list--item-avatar"
       [principal]="principal"
       [hideName]="true"
       [size]="'mini'"
       [link]="false"
     ></op-principal>
+
+    <button
+      *ngIf="content.isDirectory"
+      class="spot-link"
+      (click)="content.enterDirectory()"
+    >
+      <span class="spot-icon spot-icon_arrow-right2"></span>
+    </button>
   </label>
 </spot-tooltip>

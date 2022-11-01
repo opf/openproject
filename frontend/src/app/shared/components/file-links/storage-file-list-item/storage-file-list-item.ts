@@ -27,9 +27,47 @@
 //++
 
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import {
+  getIconForMimeType,
+} from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
+import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
+import { isDirectory } from 'core-app/shared/components/file-links/file-link-icons/file-icons.helper';
 
-export interface IStorageFileListItem extends IStorageFile {
-  disabled:boolean;
-  isFirst:boolean;
-  changeSelection:() => void;
+export class StorageFileListItem {
+  get name():string {
+    return this.storageFile.name;
+  }
+
+  get mimeType():string|undefined {
+    return this.storageFile.mimeType;
+  }
+
+  get createdByName():string|undefined {
+    return this.storageFile.createdByName;
+  }
+
+  get timestamp():string|undefined {
+    return this.storageFile.lastModifiedAt
+      ? this.timezoneService.parseDatetime(this.storageFile.lastModifiedAt).fromNow()
+      : undefined;
+  }
+
+  get icon():IFileIcon {
+    return getIconForMimeType(this.storageFile.mimeType);
+  }
+
+  get isDirectory():boolean {
+    return isDirectory(this.storageFile.mimeType);
+  }
+
+  constructor(
+    private readonly timezoneService:TimezoneService,
+    private readonly storageFile:IStorageFile,
+    public readonly disabled:boolean,
+    public readonly isFirst:boolean,
+    public readonly selected:boolean,
+    public readonly changeSelection:() => void,
+    public readonly enterDirectory?:() => void,
+  ) {}
 }

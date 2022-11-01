@@ -355,11 +355,8 @@ paths:
     "$ref": "./paths/status.yml"
   "/api/v3/storages/{id}":
     "$ref": "./paths/storage.yml"
-# Temporarily removed for release 12.3 as the specification is not finished.
-# Also the implementation is not yet ready.
-# Discussion is tracked here: https://community.openproject.org/work_packages/43694  
-#  "/api/v3/storages/{id}/files":
-#    "$ref": "./paths/storage_files.yml"
+  "/api/v3/storages/{id}/files":
+    "$ref": "./paths/storage_files.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
@@ -571,11 +568,8 @@ components:
       "$ref": "./components/schemas/example_schema_model.yml"
     Execute_custom_action:
       "$ref": "./components/schemas/execute_custom_action.yml"
-# Temporarily removed for the 12.3 release as it is not yet 
-# implemented.
-# Discussion is tracked here: https://community.openproject.org/work_packages/43694
-#    FileCollectionModel:
-#      $ref: './components/schemas/file_collection_model.yml'
+    FileCollectionModel:
+      $ref: './components/schemas/file_collection_model.yml'
     FileLinkCollectionReadModel:
       $ref: './components/schemas/file_link_collection_read_model.yml'
     FileLinkCollectionWriteModel:

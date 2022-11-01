@@ -24,11 +24,11 @@
         data-qa-selector="op-files-picker-modal--file-list"
       >
         <li
-          *ngFor="let file of storageFiles$ | async | sortFiles; let i = index;"
+          *ngFor="let file of listItems$ | async | sortFiles; let i = index;"
           class="spot-list--item op-file-list--item"
           data-qa-selector="op-file-list--item"
           op-storage-file-list-item
-          [fileListItemContent]="file"
+          [content]="file"
         ></li>
       </ul>
     </ng-container>

@@ -33,16 +33,16 @@ module Storages::Peripherals::StorageInteraction
       @origin_user_id = origin_user_id
       @token = token
       @with_refreshed_token = with_refreshed_token
-      @base_path = "/remote.php/dav/files/#{@origin_user_id}/"
+      @base_path = "/remote.php/dav/files/#{@origin_user_id}"
     end
 
-    def files
+    def files(parent)
       http = Net::HTTP.new(@uri.host, @uri.port)
       http.use_ssl = @uri.scheme == 'https'
 
       result = @with_refreshed_token.call do
         response = http.propfind(
-          @base_path,
+          "#{@base_path}#{parent}",
           requested_properties,
           {
             'Depth' => '1',
@@ -100,7 +100,7 @@ module Storages::Peripherals::StorageInteraction
 
       ::Storages::StorageFile.new(
         id(file_element),
-        CGI.unescape(name),
+        CGI.unescape(name.split('/').last),
         size(file_element),
         mime_type(file_element),
         nil,

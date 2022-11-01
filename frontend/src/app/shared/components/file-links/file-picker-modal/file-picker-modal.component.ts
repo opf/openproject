@@ -36,20 +36,23 @@ import {
   OnInit,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
-import { BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
+import { Breadcrumb, BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
 import {
-  IStorageFileListItem,
+  StorageFileListItem,
 } from 'core-app/shared/components/file-links/storage-file-list-item/storage-file-list-item';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
+import { isDirectory } from 'core-app/shared/components/file-links/file-link-icons/file-icons.helper';
 import getIconForStorageType from 'core-app/shared/components/file-links/storage-icons/get-icon-for-storage-type';
 
 @Component({
@@ -59,7 +62,7 @@ import getIconForStorageType from 'core-app/shared/components/file-links/storage
 export class FilePickerModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   public loading$ = new BehaviorSubject<boolean>(true);
 
-  public storageFiles$ = new BehaviorSubject<IStorageFileListItem[]>([]);
+  public listItems$ = new BehaviorSubject<StorageFileListItem[]>([]);
 
   public breadcrumbs:BreadcrumbsContent;
 
@@ -77,17 +80,22 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     return this.selection.size;
   }
 
+  private get storageLink():IHalResourceLink {
+    return this.locals.storageLink as IHalResourceLink;
+  }
+
   private readonly selection = new Set<string>();
 
   private readonly fileMap:Record<string, IStorageFile> = {};
 
-  private storageLink:IHalResourceLink;
+  private storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
 
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly elementRef:ElementRef,
     readonly cdRef:ChangeDetectorRef,
     private readonly i18n:I18nService,
+    private readonly timezoneService:TimezoneService,
     private readonly fileLinksResourceService:FileLinksResourceService,
     private readonly storageFilesResourceService:StorageFilesResourceService,
   ) {
@@ -100,24 +108,21 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     this.breadcrumbs = new BreadcrumbsContent([{
       text: this.locals.storageName as string,
       icon: getIconForStorageType(this.locals.storageType as string),
+      navigate: () => this.changeLevel(null, this.breadcrumbs.crumbs.slice(0, 1)),
     }]);
 
-    this.storageLink = (this.locals.storageLink as IHalResourceLink);
-    const filesLink:IHalResourceLink = {
-      href: `${this.storageLink.href}/files`,
-      title: 'Storage files',
-    };
-
-    this.storageFilesResourceService.files(filesLink)
+    this.storageFiles$
+      .pipe(this.untilDestroyed())
       .subscribe((files) => {
-        const fileListItems = files.map((file, index) => ({
-          disabled: this.isAlreadyLinked(file),
-          isFirst: index === 0,
-          changeSelection: () => { this.changeSelection(file); },
-          ...file,
-        }));
-        this.storageFiles$.next(fileListItems);
+        const fileListItems = files.map((file, index) => this.storageFileToListItem(file, index));
+        this.listItems$.next(fileListItems);
         this.loading$.next(false);
+      });
+
+    this.storageFilesResourceService.files(this.makeFilesCollectionLink(null))
+      .pipe(take(1))
+      .subscribe((files) => {
+        this.storageFiles$.next(files);
       });
   }
 
@@ -151,6 +156,51 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
       this.selection.add(fileId);
       this.fileMap[fileId] = file;
     }
+  }
+
+  private changeLevel(parent:string|null, crumbs:Breadcrumb[]):void {
+    this.storageFilesResourceService.files(this.makeFilesCollectionLink(parent))
+      .pipe(take(1))
+      .subscribe((files) => {
+        this.storageFiles$.next(files);
+        this.breadcrumbs = new BreadcrumbsContent(crumbs);
+      });
+  }
+
+  private makeFilesCollectionLink(parent:string|null):IHalResourceLink {
+    let query = '';
+    if (parent !== null) {
+      query = `?parent=${parent}`;
+    }
+
+    return {
+      href: `${this.storageLink.href}/files${query}`,
+      title: 'Storage files',
+    };
+  }
+
+  private storageFileToListItem(file:IStorageFile, index:number):StorageFileListItem {
+    const enterDirectoryCallback = isDirectory(file.mimeType)
+      ? () => {
+        const crumbs = this.breadcrumbs.crumbs;
+        const end = crumbs.length + 1;
+        const newCrumb:Breadcrumb = {
+          text: file.name,
+          navigate: () => this.changeLevel(file.location, this.breadcrumbs.crumbs.slice(0, end)),
+        };
+        this.changeLevel(file.location, crumbs.concat(newCrumb));
+      }
+      : undefined;
+
+    return new StorageFileListItem(
+      this.timezoneService,
+      file,
+      this.isAlreadyLinked(file),
+      index === 0,
+      this.selection.has(file.id as string),
+      () => { this.changeSelection(file); },
+      enterDirectoryCallback,
+    );
   }
 
   private isAlreadyLinked(file:IStorageFile):boolean {
