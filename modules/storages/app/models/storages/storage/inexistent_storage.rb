@@ -27,5 +27,5 @@
 #++
 
 class Storages::Storage::InexistentStorage < Storages::Storage
-  _validators.clear
+  include InexistentModel
 end

@@ -1,6 +1,6 @@
-#-- copyright
+# --copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2010-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,12 +24,18 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class WorkPackage::InexistentWorkPackage < WorkPackage
-  include InexistentModel
+module InexistentModel
+  extend ActiveSupport::Concern
 
-  def does_not_exist
-    errors.add :base, :does_not_exist
+  included do
+    # Set an id so that e.g. change detection (dirty) on associations
+    # is picked up whenever such a model is assigned.
+    after_initialize do
+      self.id = 0
+    end
+
+    _validators.clear
   end
 end
