@@ -31,14 +31,20 @@ module API
     module Notifications
       class NotificationCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
         property :detailsSchemas,
-                 getter: ->(*) { ::API::V3::Values::Schemas::ValueSchemaFactory.all },
+                 getter: ->(*) { details_schemas },
                  exec_context: :decorator,
-                 embedded: true
+                 embedded: true,
+                 if: ->(*) { details_schemas.any? }
 
         def initialize(models, self_link:, current_user:, query: {}, page: nil, per_page: nil, groups: nil)
           super
 
           @represented = ::API::V3::Notifications::NotificationEagerLoadingWrapper.wrap(represented)
+        end
+
+        def details_schemas
+          @details_schemas ||=
+            ::API::V3::Notifications::PropertyFactory.schemas_for(@represented)
         end
       end
     end

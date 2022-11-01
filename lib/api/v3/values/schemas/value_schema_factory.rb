@@ -42,8 +42,8 @@ module API::V3::Values::Schemas
              self_link: api_v3_paths.value_schema(property.camelcase(:lower)))
     end
 
-    def all
-      SUPPORTED.map { |property| self.for(property) }
+    def all_for(properties)
+      properties.map { |property| self.for(property) }
     end
 
     def supported?(property)
