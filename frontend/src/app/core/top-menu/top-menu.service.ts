@@ -168,7 +168,6 @@ export class TopMenuService {
   }
 
   private openDropdown(dropdown:HTMLElement):void {
-    this.dontCloseWhenUsing(dropdown);
     this.closeOtherItems(dropdown);
     this.slideAndFocus(dropdown, () => {
       this.active$.next(dropdown);
@@ -188,24 +187,6 @@ export class TopMenuService {
           this.closeDropdown(other, true);
         }
       });
-  }
-
-  private dontCloseWhenUsing(dropdown:HTMLElement):void {
-    setTimeout(() => {
-
-      jQuery(dropdown).find('li').click((event) => {
-        event.stopPropagation();
-      });
-
-      jQuery(dropdown).bind('mousedown mouseup click', (event) => {
-        event.stopPropagation();
-      });
-    }, 0);
-  }
-
-  private removeStoppingOfEventPropagation(dropdown:HTMLElement):void {
-    jQuery(dropdown).find('li').unbind('click');
-    jQuery(dropdown).unbind('mousedown mouseup click');
   }
 
   private slideAndFocus(dropdown:HTMLElement, callback:() => void):void {

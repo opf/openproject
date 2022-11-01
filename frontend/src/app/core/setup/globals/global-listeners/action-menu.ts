@@ -25,8 +25,8 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import ClickEvent = JQuery.ClickEvent;
 import { ANIMATION_RATE_MS } from 'core-app/core/top-menu/top-menu.service';
+import ClickEvent = JQuery.ClickEvent;
 
 /*
   The action menu is a menu that usually belongs to an OpenProject entity (like an Issue, WikiPage, Meeting, ..).
