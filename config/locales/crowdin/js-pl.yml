@@ -911,7 +911,7 @@ pl:
         estimatesAndTime: "Szacunki i czas"
         other: "Inne"
       properties:
-        assignee: "Przypisany do"
+        assignee: "Przypisana osoba"
         author: "Autor"
         createdAt: "Utworzone"
         description: "Opis"
