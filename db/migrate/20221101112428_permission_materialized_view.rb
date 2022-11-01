@@ -74,7 +74,7 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
               public
             FROM
               -- Only permissions with a project_module required here
-              (VALUES ('view_project', NULL, true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public),
+              (VALUES ('view_project', NULL, true), ('view_news', 'news', true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public),
               enabled_modules
               WHERE enabled_modules.name = permission_module_map.project_module
 
@@ -87,7 +87,7 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
               permission_module_map.public
             FROM
               -- Only permissions without a project_module required here
-              (VALUES ('view_project', NULL, true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public),
+              (VALUES ('view_project', NULL, true), ('view_news', 'news', true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public),
               projects
               WHERE permission_module_map.project_module IS NULL
           ) permission_module_map,
@@ -101,7 +101,7 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
               role_permissions.role_id
             FROM
               -- Only non public permissions required here
-              (VALUES ('view_project', NULL, true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public),
+              (VALUES ('view_project', NULL, true), ('view_news', 'news', true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public),
               role_permissions
             WHERE permission_module_map.permission = role_permissions.permission
 
@@ -113,7 +113,7 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
               roles.id role_id
             FROM
               -- Only public permissions required here
-              (VALUES ('view_project', NULL, true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public),
+              (VALUES ('view_project', NULL, true), ('view_news', 'news', true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public),
               roles
             WHERE permission_module_map.public
           ) role_permissions
@@ -142,7 +142,7 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
            permission
          FROM
            users, projects, enabled_modules,
-           (VALUES ('view_project', NULL, true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public)
+           (VALUES ('view_project', NULL, true), ('view_news', 'news', true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public)
          WHERE
            users.admin = TRUE
          AND
@@ -194,6 +194,13 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
     execute <<~SQL
       CREATE TRIGGER #{REFRESH_FUNCTION_NAME}_on_member_roles
       AFTER INSERT OR UPDATE OR DELETE ON #{MemberRole.table_name}
+      FOR EACH STATEMENT
+      EXECUTE PROCEDURE #{REFRESH_FUNCTION_NAME}();
+    SQL
+
+    execute <<~SQL
+      CREATE TRIGGER #{REFRESH_FUNCTION_NAME}_on_enabled_modules
+      AFTER INSERT OR UPDATE OR DELETE ON #{EnabledModule.table_name}
       FOR EACH STATEMENT
       EXECUTE PROCEDURE #{REFRESH_FUNCTION_NAME}();
     SQL

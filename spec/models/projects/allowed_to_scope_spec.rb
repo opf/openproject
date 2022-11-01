@@ -246,9 +246,9 @@ RSpec.describe Project, 'allowed to' do
 
     context 'w/ the user not being logged in' do
       before do
-        project.save!
         anonymous.save!
         anonymous_role.save!
+        project.save!
       end
 
       context 'w/ the anonymous role having the permission' do
@@ -322,9 +322,9 @@ RSpec.describe Project, 'allowed to' do
 
     context 'w/o the user being member' do
       before do
-        project.save!
         user.save!
         non_member_role.save!
+        project.save!
       end
 
       context 'w/ the non member role having the permission' do

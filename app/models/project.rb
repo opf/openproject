@@ -87,6 +87,7 @@ class Project < ApplicationRecord
   has_many :notification_settings, dependent: :destroy
   has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
   has_many :storages, through: :projects_storages
+  has_many :permissions
 
   acts_as_customizable
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),
@@ -208,7 +209,9 @@ class Project < ApplicationRecord
   # Returns a ActiveRecord::Relation to find all projects for which
   # +user+ has the given +permission+
   def self.allowed_to(user, permission)
-    Authorization.projects(permission, user)
+    includes(:permissions)
+      .where(permissions: { user: })
+      .where(permissions: { permission: })
   end
 
   def reload(*args)

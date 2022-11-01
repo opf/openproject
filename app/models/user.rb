@@ -493,11 +493,12 @@ class User < Principal
     includes(:permissions)
       .where(permissions: { project: })
       .where(permissions: { permission: action })
-    #Authorization.users(action, project)
   end
 
   def self.allowed_members(action, project)
-    Authorization.users(action, project).where.not(members: { id: nil })
+    allowed(action, project)
+      .includes(:members)
+      .where.not(members: { id: nil })
   end
 
   def allowed_to?(action, context, global: false)
