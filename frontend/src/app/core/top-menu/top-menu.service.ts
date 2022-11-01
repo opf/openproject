@@ -26,15 +26,19 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
+import { Injectable } from '@angular/core';
 
 export const ANIMATION_RATE_MS = 100;
 
-export class TopMenu {
+@Injectable()
+export class TopMenuService {
   private hover = false;
 
   private menuIsOpen = false;
 
-  constructor(readonly menuContainer:JQuery) {
+  private menuContainer = this.document.querySelector('.op-app-header') as HTMLElement;
+
+  constructor(readonly document:Document) {
     this.withHeadingFoldOutAtBorder();
     this.setupDropdownClick();
     this.registerEventHandlers();
@@ -79,7 +83,8 @@ export class TopMenu {
   opening():void {
     this.startHover();
     this.menuIsOpen = true;
-    this.menuContainer.trigger('openedMenu', this.menuContainer);
+    const evt = new CustomEvent('openedMenu', { detail: this.menuContainer })
+    this.menuContainer.dispatchEvent(evt);
   }
 
   // the entire menu gets closed, no hover possible afterwards
@@ -87,17 +92,18 @@ export class TopMenu {
     this.stopHover();
     this.closeAllItems();
     this.menuIsOpen = false;
-    this.menuContainer.trigger('closedMenu', this.menuContainer);
+    const evt = new CustomEvent('closedMenu', { detail: this.menuContainer })
+    this.menuContainer.dispatchEvent(evt);
   }
 
   stopHover():void {
     this.hover = false;
-    this.menuContainer.removeClass('hover');
+    this.menuContainer.classList.remove('hover');
   }
 
   startHover():void {
     this.hover = true;
-    this.menuContainer.addClass('hover');
+    this.menuContainer.classList.add('hover');
   }
 
   closeAllItems():void {
@@ -119,19 +125,19 @@ export class TopMenu {
     }, true);
   }
 
-  openDropdowns() {
-    return this.menuContainer.find('.op-app-menu--item_dropdown-open');
+  openDropdowns():NodeListOf<HTMLElement> {
+    return this.menuContainer.querySelectorAll('.op-app-menu--item_dropdown-open');
   }
 
-  dropdowns() {
-    return this.menuContainer.find('.op-app-menu--item_has-dropdown');
+  dropdowns():NodeListOf<HTMLElement> {
+    return this.menuContainer.querySelectorAll('.op-app-menu--item_has-dropdown');
   }
 
   withHeadingFoldOutAtBorder():void {
     let menuStartPosition;
-    const next = this.menuContainer.next();
-    const wikiHeading = this.menuContainer.next().children().next().first();
-    if (next.get(0)?.tagName === 'H2') {
+    const next = this.menuContainer.nextElementSibling as HTMLElement;
+    const wikiHeading = next.first this.menuContainer.next().children().next().first();
+    if (next?.tagName === 'H2') {
       menuStartPosition = this.menuContainer.next().innerHeight()! + this.menuContainer.next().position().top;
       this.menuContainer.find('.op-app-menu--body').css({ top: menuStartPosition });
     } else if (this.menuContainer.next().hasClass('wiki-content')
