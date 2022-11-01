@@ -94,10 +94,10 @@
           {{ text.startDate }}
         </th>
         <ng-container *ngFor="let item of settings.controls">
-          <td class="op-table--cell" [formGroup]="item">
+          <td class="op-table--cell--date-alerts" [formGroup]="item">
             <select
               formControlName="startDate"
-              class="form--select"
+              class="op-reminder-settings-table-date-alerts--time form--select"
               required="true"
             >
               <option
@@ -116,10 +116,10 @@
           {{ text.dueDate }}
         </th>
         <ng-container *ngFor="let item of settings.controls">
-          <td class="op-table--cell" [formGroup]="item">
+          <td class="op-table--cell--date-alerts" [formGroup]="item">
             <select
               formControlName="dueDate"
-              class="form--select"
+              class="op-reminder-settings-table-date-alerts--time form--select"
               required="true"
             >
               <option
@@ -138,10 +138,10 @@
           {{ text.overdue }}
         </th>
         <ng-container *ngFor="let item of settings.controls">
-          <td class="op-table--cell" [formGroup]="item">
+          <td class="op-table--cell--date-alerts" [formGroup]="item">
             <select
               formControlName="overdue"
-              class="form--select"
+              class="op-reminder-settings-table-date-alerts--time form--select"
               required="true"
             >
               <option

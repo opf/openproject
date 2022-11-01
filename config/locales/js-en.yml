@@ -631,7 +631,7 @@ en:
           no_notification: No notification
           timeframes:
             normal:
-              PT0S: Same day
+              PT0S: same day
               P1D: 1 day before
               P3D: 3 days before
               P7D: a week before
