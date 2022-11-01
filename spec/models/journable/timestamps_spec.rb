@@ -405,6 +405,58 @@ describe Journable::Timestamps, type: :model do
         end
       end
 
+      describe "when chaining where(id:) in order to request specific work packages at a specific point in time" do
+        subject { WorkPackage.where(id: [work_package.id]).at_timestamp(@wednesday) }
+
+        it "returns the work packages in their state at the requested point in time" do
+          expect(subject.first.description).to eq "The work package as it has been on Wednesday"
+        end
+
+        describe "when the work package does not exist at the requested time" do
+          subject { WorkPackage.where(id: [work_package.id]).at_timestamp(@before_monday) }
+
+          it "returns an empty result" do
+            expect(subject.count).to eq 0
+          end
+        end
+      end
+
+      describe "when chaining a sql where clause (as used by Query#statement)" do
+        subject { WorkPackage.where("(work_packages.description ILIKE '%been on Wednesday%')").at_timestamp(@wednesday) }
+
+        it "transforms the table name" do
+          expect(subject.to_sql).to include "work_package_journals.description ILIKE"
+        end
+
+        it "returns the requested work package" do
+          expect(subject).to include work_package
+        end
+      end
+
+      describe "when chaining an order clause" do
+        subject { WorkPackage.at_timestamp(@wednesday).order(description: :desc) }
+
+        it "transforms the table name" do
+          expect(subject.to_sql).to include "\"work_package_journals\".\"description\" DESC"
+        end
+
+        it "returns the requested work package" do
+          expect(subject).to include work_package
+        end
+
+        describe "when chaining a manual order clause" do
+          subject { WorkPackage.order("work_packages.description DESC").at_timestamp(@wednesday) }
+
+          it "transforms the table name" do
+            expect(subject.to_sql).to include "work_package_journals.description DESC"
+          end
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
+      end
+
     end
 
     describe "#at_timestamp" do

@@ -75,8 +75,15 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     # Modify there where clauses such that the work-packages table is substituted
     # with the work-package-journals table.
     relation.where_clause.instance_variable_get(:@predicates).each do |predicate|
-      if predicate.left.relation == self.arel_table
-        predicate.left.relation = self.journal_class.arel_table
+      if predicate.kind_of? String
+        predicate.gsub! "#{model.table_name}.", "#{model.journal_class.table_name}."
+      elsif predicate.left.relation == self.arel_table
+        if predicate.right.respond_to? :name and predicate.right.name == "id"
+          predicate.right.instance_variable_set(:@name, "journable_id")
+          predicate.left.relation = Journal.arel_table
+        else
+          predicate.left.relation = self.journal_class.arel_table
+        end
       end
     end
 
@@ -102,7 +109,9 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
 
     # Modify order clauses to use the work-pacakge-journals table.
     @arel.instance_variable_get(:@ast).instance_variable_get(:@orders).each do |order_clause|
-      if order_clause.expr.relation == model.arel_table
+      if order_clause.kind_of? Arel::Nodes::SqlLiteral
+        order_clause.gsub! "#{model.table_name}.", "#{model.journal_class.table_name}."
+      elsif order_clause.expr.relation == model.arel_table
         order_clause.expr.relation = model.journal_class.arel_table
       end
     end
