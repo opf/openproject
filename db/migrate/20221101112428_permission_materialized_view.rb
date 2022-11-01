@@ -118,11 +118,7 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
             WHERE permission_module_map.public
           ) role_permissions
           WHERE
-          (
-            (permission_module_map.public = FALSE AND role_permissions.permission = permission_module_map.permission)
-            OR
-            (permission_module_map.public = TRUE)
-          )
+            (role_permissions.permission = permission_module_map.permission)
 
           GROUP BY
             permission_module_map.permission,
