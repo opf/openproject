@@ -28,14 +28,12 @@
 
 module Storages::Peripherals::StorageInteraction
   class NextcloudStorageQuery
-    using Storages::Peripherals::ServiceResultRefinements
-
     def initialize(base_uri:, origin_user_id:, token:, with_refreshed_token:)
       @uri = base_uri
       @origin_user_id = origin_user_id
       @token = token
       @with_refreshed_token = with_refreshed_token
-      @base_path = "/remote.php/dav/files/#{@origin_user_id}/"
+      @base_path = "/remote.php/dav/files/#{@origin_user_id}"
     end
 
     def files(parent)
@@ -44,10 +42,7 @@ module Storages::Peripherals::StorageInteraction
 
       result = @with_refreshed_token.call do
         response = http.propfind(
-          parent.match(
-            on_success: ->(p) { "#{@base_path}#{p}" },
-            on_failure: ->(_) { @base_path }
-          ),
+          "#{@base_path}#{parent}",
           requested_properties,
           {
             'Depth' => '1',

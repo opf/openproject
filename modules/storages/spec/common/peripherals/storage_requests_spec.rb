@@ -119,7 +119,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
   before do
     allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
-    stub_request(:propfind, "#{url}/remote.php/dav/files/#{origin_user_id}/")
+    stub_request(:propfind, "#{url}/remote.php/dav/files/#{origin_user_id}")
       .to_return(status: 207, body: xml, headers: {})
   end
 
@@ -130,7 +130,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           .files_query(user:)
           .match(
             on_success: ->(query) do
-              result = query.call(ServiceResult.failure)
+              result = query.call(nil)
               expect(result).to be_success
               expect(result.result.size).to eq(2)
             end,
@@ -145,7 +145,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           .files_query(user:)
           .match(
             on_success: ->(query) do
-              result = query.call(ServiceResult.failure)
+              result = query.call(nil)
               expect(result).to be_success
               expect(result.result[1].name).to eq('Documents')
               expect(result.result[1].mime_type).to eq('application/x-op-directory')
@@ -162,7 +162,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           .files_query(user:)
           .match(
             on_success: ->(query) do
-              result = query.call(ServiceResult.failure)
+              result = query.call(nil)
               expect(result).to be_success
               expect(result.result[0].name).to eq('Nextcloud Manual.pdf')
               expect(result.result[0].mime_type).to eq('application/pdf')
@@ -175,8 +175,8 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       describe 'with parent query parameter' do
-        let(:parent) { 'Photos/Birds' }
-        let(:request_url) { "#{url}/remote.php/dav/files/#{origin_user_id}/#{parent}" }
+        let(:parent) { '/Photos/Birds' }
+        let(:request_url) { "#{url}/remote.php/dav/files/#{origin_user_id}#{parent}" }
 
         before do
           stub_request(:propfind, request_url).to_return(status: 207, body: xml, headers: {})
@@ -186,7 +186,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           subject
             .files_query(user:)
             .match(
-              on_success: ->(query) { query.call(ServiceResult.success(result: parent)) },
+              on_success: ->(query) { query.call(parent) },
               on_failure: ->(error) { raise "Files query could not be created: #{error}" }
             )
 
@@ -218,7 +218,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     shared_examples_for 'outbound is failing' do |code = 500, symbol = :error|
       describe "with outbound request returning #{code}" do
         before do
-          stub_request(:propfind, "#{url}/remote.php/dav/files/#{origin_user_id}/").to_return(status: code)
+          stub_request(:propfind, "#{url}/remote.php/dav/files/#{origin_user_id}").to_return(status: code)
         end
 
         it "must return :#{symbol} ServiceResult" do
@@ -226,7 +226,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             .files_query(user:)
             .match(
               on_success: ->(query) do
-                result = query.call(ServiceResult.failure)
+                result = query.call(nil)
                 expect(result).to be_failure
                 expect(result.result).to be(symbol)
               end,
