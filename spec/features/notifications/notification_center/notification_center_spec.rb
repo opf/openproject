@@ -1,25 +1,25 @@
 require 'spec_helper'
 
-describe "Notification center", type: :feature, js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
+describe "Notification center", js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
   # Notice that the setup in this file here is not following the normal rules as
   # it also tests notification creation.
-  let!(:project1) { create :project }
-  let!(:project2) { create :project }
+  let!(:project1) { create(:project) }
+  let!(:project2) { create(:project) }
   let!(:recipient) do
     # Needs to take place before the work package is created so that the notification listener is set up
-    create :user,
+    create(:user,
            member_in_projects: [project1, project2],
            member_with_permissions: %i[view_work_packages],
-           notification_settings: [build(:notification_setting, all: true)]
+           notification_settings: [build(:notification_setting, all: true)])
   end
   let!(:other_user) do
     create(:user)
   end
   let(:work_package) do
-    create :work_package, project: project1, author: other_user
+    create(:work_package, project: project1, author: other_user)
   end
   let(:work_package2) do
-    create :work_package, project: project2, author: other_user
+    create(:work_package, project: project2, author: other_user)
   end
   let(:notification) do
     # Will have been created via the JOURNAL_CREATED event listeners
@@ -120,19 +120,19 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
 
     context "with a new notification" do
       let(:work_package3) do
-        create :work_package,
+        create(:work_package,
                project: project1,
-               author: other_user
+               author: other_user)
       end
       let(:notification3) do
-        create :notification,
+        create(:notification,
                reason: :commented,
                recipient:,
                resource: work_package3,
                project: project1,
                actor: other_user,
                journal: work_package3.journals.reload.last,
-               read_ian: true
+               read_ian: true)
       end
 
       it "opens a toaster if the notification is part of the current filters" do
@@ -159,6 +159,71 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
         side_menu.finished_loading
         center.expect_no_toaster
         notification3.update(read_ian: false)
+        # We need to wait for the bell to poll for updates
+        sleep 15
+        center.expect_no_toaster
+      end
+    end
+
+    context "with a new notification in date_alerts" do
+      let(:work_package4) do
+        create(:work_package,
+               project: project1,
+               author: other_user)
+      end
+      let(:work_package5) do
+        create(:work_package,
+               project: project1,
+               author: other_user)
+      end
+      let(:notification3) do
+        create(:notification,
+               reason: :date_alert_start_date,
+               recipient:,
+               resource: work_package4,
+               project: project1,
+               actor: other_user,
+               journal: work_package4.journals.reload.last,
+               read_ian: true)
+      end
+      let(:notification4) do
+        create(:notification,
+               reason: :date_alert_due_date,
+               recipient:,
+               resource: work_package5,
+               project: project1,
+               actor: other_user,
+               journal: work_package5.journals.reload.last,
+               read_ian: true)
+      end
+
+      it "opens a toaster if the notification is part of the current filters" do
+        visit home_path
+        center.open
+        center.expect_bell_count 2
+        center.expect_work_package_item notification
+        center.expect_work_package_item notification2
+        center.expect_no_toaster
+        notification3.update(read_ian: false)
+        notification4.update(read_ian: false)
+        center.expect_toast
+        center.update_via_toaster
+        center.expect_no_toaster
+        center.expect_work_package_item notification
+        center.expect_work_package_item notification2
+        center.expect_work_package_item notification3
+        center.expect_work_package_item notification4
+      end
+
+      it "does not open a toaster if the notification is not part of the current filters" do
+        visit home_path
+        center.open
+        center.expect_bell_count 2
+        side_menu.click_item 'Date alert'
+        side_menu.finished_loading
+        center.expect_no_toaster
+        notification3.update(read_ian: false)
+        notification4.update(read_ian: false)
         # We need to wait for the bell to poll for updates
         sleep 15
         center.expect_no_toaster

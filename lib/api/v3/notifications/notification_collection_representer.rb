@@ -30,6 +30,11 @@ module API
   module V3
     module Notifications
       class NotificationCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        property :detailsSchemas,
+                 getter: ->(*) { ::API::V3::Values::Schemas::ValueSchemaFactory.all },
+                 exec_context: :decorator,
+                 embedded: true
+
         def initialize(models, self_link:, current_user:, query: {}, page: nil, per_page: nil, groups: nil)
           super
 
