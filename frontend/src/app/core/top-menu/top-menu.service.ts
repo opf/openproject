@@ -26,11 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
-import { Injectable } from '@angular/core';
+import {
+  Inject,
+  Injectable,
+} from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 export const ANIMATION_RATE_MS = 100;
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TopMenuService {
   private hover = false;
 
@@ -38,7 +42,10 @@ export class TopMenuService {
 
   private menuContainer = this.document.querySelector('.op-app-header') as HTMLElement;
 
-  constructor(readonly document:Document) {
+  constructor(@Inject(DOCUMENT) private document:Document) {
+  }
+
+  register():void {
     this.setupDropdownClick();
     this.registerEventHandlers();
     this.closeOnBodyClick();
@@ -46,9 +53,19 @@ export class TopMenuService {
     this.skipContentClickListener();
   }
 
-  skipContentClickListener():void {
+  // the entire menu gets closed, no hover possible afterwards
+  public close():void {
+    this.stopHover();
+    this.closeAllItems();
+    this.menuIsOpen = false;
+    const evt = new CustomEvent('closedMenu', { detail: this.menuContainer });
+    this.menuContainer.dispatchEvent(evt);
+  }
+
+  private skipContentClickListener():void {
     // Skip menu on content
-    jQuery('#skip-navigation--content').on('click', () => {
+    const skipLink = this.document.querySelector('#skip-navigation--content') as HTMLElement;
+    skipLink.addEventListener('click', () => {
       // Skip to the breadcrumb or the first link in the toolbar or the first link in the content (homescreen)
       const selectors = '.first-breadcrumb-element a, .toolbar-container a:first-of-type, #content a:first-of-type';
       const visibleLink = jQuery(selectors)
@@ -61,57 +78,51 @@ export class TopMenuService {
     });
   }
 
-  accessibility():void {
-    jQuery('.op-app-menu--dropdown').attr('aria-expanded', 'false');
+  private accessibility():void {
+    this
+      .document
+      .querySelectorAll('.op-app-menu--dropdown')
+      .forEach((el) => el.setAttribute('aria-expanded', 'false'));
   }
 
-  toggleClick(dropdown:JQuery):void {
+  private toggleClick(dropdown:HTMLElement):void {
     if (this.menuIsOpen) {
       if (this.isOpen(dropdown)) {
-        this.closing();
+        this.close();
       } else {
-        this.open(dropdown);
+        this.openDropdown(dropdown);
       }
     } else {
       this.opening();
-      this.open(dropdown);
+      this.openDropdown(dropdown);
     }
   }
 
   // somebody opens the menu via click, hover possible afterwards
-  opening():void {
+  private opening():void {
     this.startHover();
     this.menuIsOpen = true;
-    const evt = new CustomEvent('openedMenu', { detail: this.menuContainer })
+    const evt = new CustomEvent('openedMenu', { detail: this.menuContainer });
     this.menuContainer.dispatchEvent(evt);
   }
 
-  // the entire menu gets closed, no hover possible afterwards
-  closing():void {
-    this.stopHover();
-    this.closeAllItems();
-    this.menuIsOpen = false;
-    const evt = new CustomEvent('closedMenu', { detail: this.menuContainer })
-    this.menuContainer.dispatchEvent(evt);
-  }
-
-  stopHover():void {
+  private stopHover():void {
     this.hover = false;
     this.menuContainer.classList.remove('hover');
   }
 
-  startHover():void {
+  private startHover():void {
     this.hover = true;
     this.menuContainer.classList.add('hover');
   }
 
-  closeAllItems():void {
-    this.openDropdowns().each((ix, item) => {
-      this.close(jQuery(item));
-    });
+  private closeAllItems():void {
+    this
+      .openDropdowns()
+      .forEach((item) => this.closeDropdown(item));
   }
 
-  closeOnBodyClick():void {
+  private closeOnBodyClick():void {
     const wrapper = document.getElementById('wrapper');
     if (!wrapper) {
       return;
@@ -119,60 +130,66 @@ export class TopMenuService {
 
     wrapper.addEventListener('click', (evt) => {
       if (this.menuIsOpen && !this.openDropdowns()[0].contains(evt.target as HTMLElement)) {
-        this.closing();
+        this.close();
       }
     }, true);
   }
 
-  openDropdowns():NodeListOf<HTMLElement> {
+  private openDropdowns():NodeListOf<HTMLElement> {
     return this.menuContainer.querySelectorAll('.op-app-menu--item_dropdown-open');
   }
 
-  dropdowns():NodeListOf<HTMLElement> {
+  private dropdowns():NodeListOf<HTMLElement> {
     return this.menuContainer.querySelectorAll('.op-app-menu--item_has-dropdown');
   }
 
-  setupDropdownClick():void {
-    this.dropdowns().each((ix, it) => {
-      jQuery(it).find('.op-app-menu--item-action').click((e) => {
-        this.toggleClick(jQuery(it));
-        e.preventDefault();
+  private setupDropdownClick():void {
+    this.dropdowns().forEach((el) => {
+      const action = el.querySelector<HTMLElement>('.op-app-menu--item-action');
+      action?.addEventListener('click', (evt) => {
+        this.toggleClick(el);
+        evt.preventDefault();
       });
     });
   }
 
-  isOpen(dropdown:JQuery):boolean {
-    return dropdown.filter('.op-app-menu--item_dropdown-open').length === 1;
+  private isOpen(dropdown:HTMLElement):boolean {
+    return dropdown.classList.contains('.op-app-menu--item_dropdown-open');
   }
 
-  isClosed(dropdown:JQuery):boolean {
+  private isClosed(dropdown:HTMLElement):boolean {
     return !this.isOpen(dropdown);
   }
 
-  open(dropdown:JQuery):void {
+  private openDropdown(dropdown:HTMLElement):void {
     this.dontCloseWhenUsing(dropdown);
     this.closeOtherItems(dropdown);
     this.slideAndFocus(dropdown, () => {
-      dropdown.trigger('opened', dropdown);
+      const evt = new CustomEvent('opened', { detail: dropdown });
+      dropdown.dispatchEvent(evt);
     });
   }
 
-  close(dropdown:JQuery, immediate?:boolean):void {
+  private closeDropdown(dropdown:HTMLElement, immediate?:boolean):void {
     this.slideUp(dropdown, !!immediate);
-    dropdown.trigger('closed', dropdown);
+    const evt = new CustomEvent('closed', { detail: dropdown });
+    dropdown.dispatchEvent(evt);
     this.removeStoppingOfEventPropagation(dropdown);
   }
 
-  closeOtherItems(dropdown:JQuery):void {
-    this.openDropdowns().each((ix, it) => {
-      if (jQuery(it) !== jQuery(dropdown)) {
-        this.close(jQuery(it), true);
-      }
-    });
+  private closeOtherItems(dropdown:HTMLElement):void {
+    this
+      .openDropdowns()
+      .forEach((other) => {
+        if (other !== dropdown) {
+          this.closeDropdown(other, true);
+        }
+      });
   }
 
-  dontCloseWhenUsing(dropdown:JQuery):void {
+  private dontCloseWhenUsing(dropdown:HTMLElement):void {
     setTimeout(() => {
+
       jQuery(dropdown).find('li').click((event) => {
         event.stopPropagation();
       });
@@ -183,39 +200,43 @@ export class TopMenuService {
     }, 0);
   }
 
-  removeStoppingOfEventPropagation(dropdown:JQuery):void {
+  private removeStoppingOfEventPropagation(dropdown:HTMLElement):void {
     jQuery(dropdown).find('li').unbind('click');
     jQuery(dropdown).unbind('mousedown mouseup click');
   }
 
-  slideAndFocus(dropdown:JQuery, callback:any) {
+  private slideAndFocus(dropdown:HTMLElement, callback:() => void):void {
     this.slideDown(dropdown, callback);
     setTimeout(() => this.focusFirstInputOrLink(dropdown), ANIMATION_RATE_MS);
   }
 
-  slideDown(dropdown:JQuery, callback:any) {
-    const toDrop = dropdown.find('.op-app-menu--dropdown');
-    dropdown.addClass('op-app-menu--item_dropdown-open');
-    toDrop.slideDown(ANIMATION_RATE_MS, callback).attr('aria-expanded', 'true');
+  private slideDown(dropdown:HTMLElement, callback:() => void):void {
+    const toDrop = this.getDropdownContainer(dropdown);
+    toDrop.setAttribute('aria-expanded', 'true');
+    dropdown.classList.add('op-app-menu--item_dropdown-open');
+
+    jQuery(toDrop)
+      .slideDown(ANIMATION_RATE_MS, callback)
+      .attr('aria-expanded', 'true');
   }
 
-  slideUp(dropdown:JQuery, immediate:boolean):void {
-    const toDrop = jQuery(dropdown).find('.op-app-menu--dropdown');
-    dropdown.removeClass('op-app-menu--item_dropdown-open');
+  private slideUp(dropdown:HTMLElement, immediate:boolean):void {
+    const toDrop = this.getDropdownContainer(dropdown);
+    toDrop.removeAttribute('aria-expanded');
+    dropdown.classList.remove('op-app-menu--item_dropdown-open');
 
     if (immediate) {
-      toDrop.hide();
+      toDrop.style.display = 'none';
     } else {
-      toDrop.slideUp(ANIMATION_RATE_MS);
+      jQuery(toDrop).slideUp(ANIMATION_RATE_MS);
     }
-
-    toDrop.attr('aria-expanded', 'false');
   }
 
   // If there is ANY input, it will have precedence over links,
   // i.e. links will only get focused, if there is NO input whatsoever
-  focusFirstInputOrLink(dropdown:JQuery):void {
-    const focusable = findAllFocusableElementsWithin(dropdown.find('.op-app-menu--dropdown')[0]);
+  private focusFirstInputOrLink(dropdown:HTMLElement):void {
+    const toDrop = this.getDropdownContainer(dropdown);
+    const focusable = findAllFocusableElementsWithin(toDrop);
     const toFocus = focusable[0] as HTMLElement;
     if (!toFocus) {
       return;
@@ -229,22 +250,28 @@ export class TopMenuService {
     }, 10);
   }
 
-  registerEventHandlers():void {
-    const toggler = jQuery('#main-menu-toggle');
-
-    this.menuContainer.on('closeDropDown', (event:Event) => {
-      this.close(jQuery(event.target as HTMLElement));
-    }).on('openDropDown', (event) => {
-      this.open(jQuery(event.target));
-    }).on('closeMenu', () => {
-      this.closing();
-    }).on('openMenu', () => {
-      this.open(this.dropdowns().first());
-      this.opening();
+  private registerEventHandlers():void {
+    this.menuContainer.addEventListener('closeDropdown', (event:CustomEvent) => {
+      this.closeDropdown(event.target as HTMLElement);
     });
 
-    toggler.on('click', () => { // click on hamburger icon is closing other menu
-      this.closing();
+    this.menuContainer.addEventListener('openDropDown', (event:CustomEvent) => {
+      this.openDropdown(event.target as HTMLElement);
     });
+
+    this.menuContainer.addEventListener('openMenu', () => {
+      const first = Array.from(this.dropdowns())[0];
+
+      if (first) {
+        this.openDropdown(first);
+        this.opening();
+      }
+    });
+
+    this.menuContainer.addEventListener('closeMenu', () => this.close());
+  }
+
+  private getDropdownContainer(dropdown:HTMLElement):HTMLElement {
+    return dropdown.querySelector('.op-app-menu--dropdown') as HTMLElement;
   }
 }
