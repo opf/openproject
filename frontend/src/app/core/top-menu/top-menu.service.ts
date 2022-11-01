@@ -53,7 +53,6 @@ export class TopMenuService {
 
   register():void {
     this.setupDropdownClick();
-    this.registerEventHandlers();
     this.closeOnBodyClick();
     this.accessibility();
     this.skipContentClickListener();
@@ -252,27 +251,6 @@ export class TopMenuService {
     setTimeout(() => {
       toFocus.focus();
     }, 10);
-  }
-
-  private registerEventHandlers():void {
-    this.menuContainer.addEventListener('closeDropdown', (event:CustomEvent) => {
-      this.closeDropdown(event.target as HTMLElement);
-    });
-
-    this.menuContainer.addEventListener('openDropDown', (event:CustomEvent) => {
-      this.openDropdown(event.target as HTMLElement);
-    });
-
-    this.menuContainer.addEventListener('openMenu', () => {
-      const first = Array.from(this.dropdowns())[0];
-
-      if (first) {
-        this.openDropdown(first);
-        this.opening();
-      }
-    });
-
-    this.menuContainer.addEventListener('closeMenu', () => this.close());
   }
 
   private getDropdownContainer(dropdown:HTMLElement):HTMLElement {
