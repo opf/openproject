@@ -47,16 +47,14 @@ RSpec.describe User, 'allowed scope' do
   let(:public_action) { :view_project }
 
   subject(:allowed) do
-    # Permission.update!
-
     described_class.allowed(action, project)
   end
 
   before do
-    user.save!
-    anonymous.save!
     Role.anonymous
     Role.non_member
+    user.save!
+    anonymous.save!
   end
 
   context 'w/ the context being a project

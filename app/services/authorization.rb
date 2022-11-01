@@ -29,16 +29,6 @@
 module Authorization
   module_function
 
-  # Returns all users having a certain permission within a project
-  def users(action, project)
-    Authorization::UserAllowedQuery.query(action, project)
-  end
-
-  # Returns all projects a user has a certain permission in
-  def projects(action, user)
-    Authorization::ProjectQuery.query(user, action)
-  end
-
   # Returns all roles a user has in a certain project or globally
   def roles(user, project = nil)
     if project
