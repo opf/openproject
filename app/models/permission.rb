@@ -30,7 +30,7 @@ class Permission < ApplicationRecord
   belongs_to :project
 
   def self.update!
-    connection.execute <<~SQL
+    connection.execute <<~SQL.squish
       REFRESH MATERIALIZED VIEW #{table_name};
     SQL
   end

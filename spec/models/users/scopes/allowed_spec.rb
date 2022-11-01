@@ -47,7 +47,7 @@ RSpec.describe User, 'allowed scope' do
   let(:public_action) { :view_project }
 
   subject(:allowed) do
-    Permission.update!
+    # Permission.update!
 
     described_class.allowed(action, project)
   end

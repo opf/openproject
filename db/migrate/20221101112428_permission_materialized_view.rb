@@ -1,7 +1,10 @@
 class PermissionMaterializedView < ActiveRecord::Migration[7.0]
+  PERMISSIONS_VIEW_NAME = 'permissions'.freeze
+  REFRESH_FUNCTION_NAME = 'refresh_permissions_view'.freeze
+
   def up
     execute <<~SQL
-      CREATE MATERIALIZED VIEW permissions AS
+      CREATE MATERIALIZED VIEW #{PERMISSIONS_VIEW_NAME} AS
       SELECT
         user_id,
         project_id,
@@ -14,20 +17,20 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
           permission
         FROM
 
-        -- All members and non members (of public projects)
+        -- All members (of all projects) and non members (of public projects)
         (
           -- non members
           SELECT *
           FROM
           (
             SELECT
-                users.id user_id,
-                projects.id project_id,
-            roles.id role_id
-              FROM
-                users,
-                projects,
-            roles
+              users.id user_id,
+              projects.id project_id,
+              roles.id role_id
+            FROM
+              users,
+              projects,
+              roles
             WHERE
               (
                 (users.type IN ('User', 'PrincipalUser') AND roles.builtin = 1)
@@ -35,8 +38,8 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
                 (users.type IN ('AnonymousUser') AND roles.builtin = 2)
               )
             AND projects.public
-                AND
-                  NOT EXISTS (SELECT 1 FROM members WHERE user_id = users.id AND project_id = projects.id)
+              AND
+                NOT EXISTS (SELECT 1 FROM members WHERE user_id = users.id AND project_id = projects.id)
             GROUP BY
                users.id,
               projects.id,
@@ -60,8 +63,9 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
           SELECT
             permission_module_map.permission,
             project_id,
-            roles.id role_id
+            role_permissions.role_id
           FROM
+          -- Projects and the modules active therein.
           (
             SELECT
               permission_module_map.permission,
@@ -69,6 +73,7 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
               enabled_modules.project_id,
               public
             FROM
+              -- Only permissions with a project_module required here
               (VALUES ('view_project', NULL, true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public),
               enabled_modules
               WHERE enabled_modules.name = permission_module_map.project_module
@@ -81,28 +86,47 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
               projects.id,
               permission_module_map.public
             FROM
+              -- Only permissions without a project_module required here
               (VALUES ('view_project', NULL, true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public),
               projects
               WHERE permission_module_map.project_module IS NULL
           ) permission_module_map,
-          -- Roles and the permissions they grant
+          -- Roles and the permissions they grant.
+          -- Includes both permissions granted because a role has it actively assigned (role_permissions) or because the
+          -- permission is public.
           (
-            SELECT roles.*, role_permissions.permission
+            -- permissions granted because a role as it assigned (non public permissions)
+            SELECT
+              permission_module_map.*,
+              role_permissions.role_id
             FROM
-              roles,
+              -- Only non public permissions required here
+              (VALUES ('view_project', NULL, true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public),
               role_permissions
-            WHERE roles.id = role_permissions.role_id
-          ) roles
+            WHERE permission_module_map.permission = role_permissions.permission
+
+            UNION
+
+            -- permissions granted because a role exists and the permission is public
+            SELECT
+              permission_module_map.*,
+              roles.id role_id
+            FROM
+              -- Only public permissions required here
+              (VALUES ('view_project', NULL, true), ('view_work_packages', 'work_package_tracking', false)) AS permission_module_map(permission, project_module, public),
+              roles
+            WHERE permission_module_map.public
+          ) role_permissions
           WHERE
-            (
-              (permission_module_map.public = FALSE AND roles.permission = permission_module_map.permission)
-              OR
-              (permission_module_map.public = TRUE)
-            )
+          (
+            (permission_module_map.public = FALSE AND role_permissions.permission = permission_module_map.permission)
+            OR
+            (permission_module_map.public = TRUE)
+          )
 
           GROUP BY
             permission_module_map.permission,
-            roles.id,
+            role_permissions.role_id,
             project_id
         ) permissions_in_project
 
@@ -114,7 +138,7 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
         UNION
 
         -- All permissions admins have in the projects.
-        -- Cannot be done performantly together with the normal users.
+        -- Cannot be done in a performant manner together with the normal users.
 
          SELECT
            users.id,
@@ -147,6 +171,36 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
     add_index :permissions, :user_id
     add_index :permissions, :project_id
     add_index :permissions, :permission
+
+    execute <<~SQL
+      CREATE OR REPLACE FUNCTION #{REFRESH_FUNCTION_NAME}() RETURNS trigger AS $function$
+      BEGIN
+        REFRESH MATERIALIZED VIEW #{PERMISSIONS_VIEW_NAME};
+        RETURN NULL;
+      END;
+      $function$ LANGUAGE plpgsql;
+    SQL
+
+    execute <<~SQL
+      CREATE TRIGGER #{REFRESH_FUNCTION_NAME}_on_users
+      AFTER INSERT OR UPDATE OR DELETE ON #{User.table_name}
+      FOR EACH STATEMENT
+      EXECUTE PROCEDURE #{REFRESH_FUNCTION_NAME}();
+    SQL
+
+    execute <<~SQL
+      CREATE TRIGGER #{REFRESH_FUNCTION_NAME}_on_projects
+      AFTER INSERT OR UPDATE OR DELETE ON #{Project.table_name}
+      FOR EACH STATEMENT
+      EXECUTE PROCEDURE #{REFRESH_FUNCTION_NAME}();
+    SQL
+
+    execute <<~SQL
+      CREATE TRIGGER #{REFRESH_FUNCTION_NAME}_on_member_roles
+      AFTER INSERT OR UPDATE OR DELETE ON #{MemberRole.table_name}
+      FOR EACH STATEMENT
+      EXECUTE PROCEDURE #{REFRESH_FUNCTION_NAME}();
+    SQL
   end
 
   def down
