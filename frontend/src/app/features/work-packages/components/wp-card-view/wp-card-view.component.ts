@@ -41,6 +41,7 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { combineLatest } from 'rxjs';
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
@@ -102,11 +103,6 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
     },
   };
 
-  /** Inline create / reference properties */
-  public canAdd = false;
-
-  public canReference = false;
-
   public inReference = false;
 
   public referenceClass = this.wpInlineCreate.referenceComponentClass;
@@ -143,15 +139,6 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   ngOnInit() {
     this.registerCreationCallback();
-
-    // Update permission on model updates
-    this.authorisationService
-      .observeUntil(componentDestroyed(this))
-      .subscribe(() => {
-        this.canAdd = this.wpInlineCreate.canAdd;
-        this.canReference = this.wpInlineCreate.canReference;
-        this.cdRef.detectChanges();
-      });
 
     // Observe changes to the work packages in this view
     this.halEvents

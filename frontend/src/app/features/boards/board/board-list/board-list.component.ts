@@ -43,7 +43,11 @@ import { WorkPackageViewFocusService } from 'core-app/features/work-packages/rou
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
 import {
-  debounceTime, filter, map, retry,
+  debounceTime,
+  filter,
+  map,
+  retry,
+  take,
 } from 'rxjs/operators';
 import { ChangeItem } from 'core-app/shared/components/fields/changeset/changeset';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
@@ -106,6 +110,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   /** Whether the add button should be shown */
   public showAddButton = false;
+
+  private canAdd = this.wpInlineCreate.canAdd.pipe(take(1)).toPromise();
 
   public columnsQueryProps:any;
 
@@ -172,16 +178,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       this.wpViewSelectionService.initializeSelection([wpId]);
     }
 
-    // Update permission on model updates
-    this.authorisationService
-      .observeUntil(componentDestroyed(this))
-      .subscribe(() => {
-        if (!this.board.isAction) {
-          this.showAddButton = this.canDragInto && (this.wpInlineCreate.canAdd || this.canReference);
-          this.cdRef.detectChanges();
-        }
-      });
-
     // If this query space changes its focused or selected
     // work packages, update the board cross selection
     this.wpViewSelectionService
@@ -228,10 +224,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .pipe(
         this.untilDestroyed(),
       )
-      .subscribe((query) => {
+      .subscribe(async (query) => {
         this.query = query;
         this.canDragOutOf = !!this.query.updateOrderedWorkPackages;
-        this.loadActionAttribute(query);
+        await this.loadActionAttribute(query);
         this.cdRef.detectChanges();
       });
   }
@@ -246,10 +242,6 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public canMove(workPackage:WorkPackageResource) {
     return this.canDragOutOf && (!this.actionService || this.actionService.canMove(workPackage));
-  }
-
-  public get canReference() {
-    return this.wpInlineCreate.canReference;
   }
 
   public get canManage() {
@@ -330,11 +322,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.loadQuery(visibly);
   }
 
-  private loadActionAttribute(query:QueryResource) {
+  private async loadActionAttribute(query:QueryResource) {
     if (!this.board.isAction) {
       this.actionResource = undefined;
       this.headerComponent = undefined;
       this.canDragInto = !!query.updateOrderedWorkPackages;
+      const canAdd = await this.canAdd;
+      this.showAddButton = this.canDragInto && canAdd;
       return;
     }
 
@@ -355,7 +349,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       this.canDragInto = actionService.dragIntoAllowed(query, resource);
 
       const canWriteAttribute = await actionService.canAddToQuery(query);
-      this.showAddButton = this.canDragInto && this.wpInlineCreate.canAdd && canWriteAttribute;
+      const canAdd = await this.canAdd;
+      this.showAddButton = this.canDragInto && canAdd && canWriteAttribute;
       this.cdRef.detectChanges();
     });
   }
