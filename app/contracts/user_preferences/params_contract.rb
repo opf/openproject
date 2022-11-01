@@ -28,8 +28,8 @@
 
 module UserPreferences
   class ParamsContract < ::ParamsContract
-    DATE_ALERT_DURATIONS = [nil, 0, 24, 72, 168].freeze
-    DATE_ALERT_OVERDUE_DURATIONS = [nil, 0, 72, 168].freeze
+    DATE_ALERT_DURATIONS = [nil, 0, 1, 3, 7].freeze
+    DATE_ALERT_OVERDUE_DURATIONS = [nil, 1, 3, 7].freeze
 
     validate :only_one_global_setting,
              if: -> { notifications.present? }

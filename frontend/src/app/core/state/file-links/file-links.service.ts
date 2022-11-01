@@ -28,7 +28,7 @@
 
 import { applyTransaction } from '@datorama/akita';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { from } from 'rxjs';
 import {
   catchError,
@@ -47,16 +47,12 @@ import { insertCollectionIntoState, removeEntityFromCollectionAndState } from 'c
 import { CollectionStore, ResourceCollectionService } from 'core-app/core/state/resource-collection.service';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Injectable()
 export class FileLinksResourceService extends ResourceCollectionService<IFileLink> {
-  constructor(
-    private readonly http:HttpClient,
-    private readonly toastService:ToastService,
-  ) {
-    super();
-  }
+  @InjectField() toastService:ToastService;
 
   updateCollectionsForWorkPackage(fileLinksSelfLink:string):void {
     this.http
@@ -150,5 +146,9 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
         }),
       )
       .subscribe();
+  }
+
+  protected basePath():string {
+    return this.apiV3Service.file_links.path;
   }
 }

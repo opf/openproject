@@ -101,6 +101,12 @@ module API
           end
         end
 
+        def format_duration_from_days(days, allow_nil: false)
+          return nil if days.nil? && allow_nil
+
+          Duration.new(seconds: days * 3600 * 24).iso8601
+        end
+
         def parse_duration_to_days(duration, property_name, allow_nil: false)
           return nil if duration.nil? && allow_nil
 

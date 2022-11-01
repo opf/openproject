@@ -218,7 +218,7 @@ describe Query, type: :model do
   describe '#available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
       it 'includes the done_ratio column' do
-        expect(query.available_columns.map(&:name)).to include :done_ratio
+        expect(query.displayable_columns.map(&:name)).to include :done_ratio
       end
     end
 
@@ -228,7 +228,7 @@ describe Query, type: :model do
       end
 
       it 'does not include the done_ratio column' do
-        expect(query.available_columns.map(&:name)).not_to include :done_ratio
+        expect(query.displayable_columns.map(&:name)).not_to include :done_ratio
       end
     end
 
@@ -238,7 +238,7 @@ describe Query, type: :model do
       it 'does not call the db twice' do
         query.project = project
 
-        query.available_columns
+        query.displayable_columns
 
         expect(project)
           .not_to receive(:all_work_package_custom_fields)
@@ -246,13 +246,13 @@ describe Query, type: :model do
         expect(project)
           .not_to receive(:types)
 
-        query.available_columns
+        query.displayable_columns
       end
 
       it 'does call the db if the project changes' do
         query.project = project
 
-        query.available_columns
+        query.displayable_columns
 
         query.project = project2
 
@@ -264,13 +264,13 @@ describe Query, type: :model do
           .to receive(:types)
           .and_return []
 
-        query.available_columns
+        query.displayable_columns
       end
 
       it 'does call the db if the project changes to nil' do
         query.project = project
 
-        query.available_columns
+        query.displayable_columns
 
         query.project = nil
 
@@ -282,7 +282,7 @@ describe Query, type: :model do
           .to receive(:all)
           .and_return []
 
-        query.available_columns
+        query.displayable_columns
       end
     end
 
@@ -309,18 +309,18 @@ describe Query, type: :model do
         end
 
         it 'includes the relation columns for project types' do
-          expect(query.available_columns.map(&:name)).to include :"relations_to_type_#{type_in_project.id}"
+          expect(query.displayable_columns.map(&:name)).to include :"relations_to_type_#{type_in_project.id}"
         end
 
         it 'does not include the relation columns for types not in project' do
-          expect(query.available_columns.map(&:name)).not_to include :"relations_to_type_#{type_not_in_project.id}"
+          expect(query.displayable_columns.map(&:name)).not_to include :"relations_to_type_#{type_not_in_project.id}"
         end
 
         context 'with the enterprise token disallowing relation columns' do
           let(:relation_columns_allowed) { false }
 
           it 'excludes the relation columns' do
-            expect(query.available_columns.map(&:name)).not_to include :"relations_to_type_#{type_in_project.id}"
+            expect(query.displayable_columns.map(&:name)).not_to include :"relations_to_type_#{type_in_project.id}"
           end
         end
       end
@@ -331,16 +331,16 @@ describe Query, type: :model do
         end
 
         it 'includes the relation columns for all types' do
-          expect(query.available_columns.map(&:name)).to include(:"relations_to_type_#{type_in_project.id}",
-                                                                 :"relations_to_type_#{type_not_in_project.id}")
+          expect(query.displayable_columns.map(&:name)).to include(:"relations_to_type_#{type_in_project.id}",
+                                                                   :"relations_to_type_#{type_not_in_project.id}")
         end
 
         context 'with the enterprise token disallowing relation columns' do
           let(:relation_columns_allowed) { false }
 
           it 'excludes the relation columns' do
-            expect(query.available_columns.map(&:name)).not_to include(:"relations_to_type_#{type_in_project.id}",
-                                                                       :"relations_to_type_#{type_not_in_project.id}")
+            expect(query.displayable_columns.map(&:name)).not_to include(:"relations_to_type_#{type_in_project.id}",
+                                                                         :"relations_to_type_#{type_not_in_project.id}")
           end
         end
       end
@@ -354,18 +354,35 @@ describe Query, type: :model do
       end
 
       it 'includes the relation columns for every relation type' do
-        expect(query.available_columns.map(&:name)).to include(:relations_of_type_relation1,
-                                                               :relations_of_type_relation2)
+        expect(query.displayable_columns.map(&:name)).to include(:relations_of_type_relation1,
+                                                                 :relations_of_type_relation2)
       end
 
       context 'with the enterprise token disallowing relation columns' do
         let(:relation_columns_allowed) { false }
 
         it 'excludes the relation columns' do
-          expect(query.available_columns.map(&:name)).not_to include(:relations_of_type_relation1,
-                                                                     :relations_of_type_relation2)
+          expect(query.displayable_columns.map(&:name)).not_to include(:relations_of_type_relation1,
+                                                                       :relations_of_type_relation2)
         end
       end
+    end
+  end
+
+  describe '.displayable_columns' do
+    it 'includes the id column' do
+      expect(query.displayable_columns.detect { |c| c.name == :id })
+        .not_to be_nil
+    end
+
+    it 'excludes the manual sorting column' do
+      expect(query.displayable_columns.detect { |c| c.name == :manual_sorting })
+        .to be_nil
+    end
+
+    it 'excludes the typeahead column' do
+      expect(query.displayable_columns.detect { |c| c.name == :typeahead })
+        .to be_nil
     end
   end
 

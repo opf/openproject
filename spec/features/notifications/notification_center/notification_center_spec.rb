@@ -9,7 +9,8 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
     # Needs to take place before the work package is created so that the notification listener is set up
     create :user,
            member_in_projects: [project1, project2],
-           member_with_permissions: %i[view_work_packages]
+           member_with_permissions: %i[view_work_packages],
+           notification_settings: [build(:notification_setting, all: true)]
   end
   let!(:other_user) do
     create(:user)

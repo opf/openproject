@@ -537,8 +537,8 @@ lt:
       no_unread: "Nėra neperskaitytų pranešimų"
       reasons:
         mentioned: 'paminėtas'
-        watched: 'stebimas'
-        assigned: 'paskirta'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'atsakingas'
         created: 'created'
         scheduled: 'scheduled'
@@ -578,7 +578,7 @@ lt:
         by_reason: 'Pagal įsitraukimą'
         inbox: 'Gauti'
         mentioned: 'Mentioned'
-        watching: 'Stebima'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'Norėdami pažiūrėti ir keisti jūsų pranešimų nustatymus, <a target="_blank" href="%{url}">spauskite čia</a>'
         title: "Pranešimų nustatymai"

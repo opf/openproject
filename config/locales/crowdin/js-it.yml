@@ -537,8 +537,8 @@ it:
       no_unread: "Nessuna nuova notifica"
       reasons:
         mentioned: 'menzionato'
-        watched: 'guardato'
-        assigned: 'assegnato'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'responsabile'
         created: 'creato'
         scheduled: 'programmato'
@@ -576,7 +576,7 @@ it:
         by_reason: 'Coinvolgimento'
         inbox: 'Posta In Arrivo'
         mentioned: 'Mentioned'
-        watching: 'Osservazione'
+        watched: 'Watcher'
       settings:
         change_notification_settings: 'Per visualizzare e modificare le impostazioni di notifica, <a target="_blank" href="%{url}">fai clic qui</a>'
         title: "Impostazioni notifiche"

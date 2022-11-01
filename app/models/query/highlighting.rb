@@ -54,7 +54,7 @@ module Query::Highlighting
     end
 
     def available_highlighting_columns
-      @available_highlighting_columns ||= available_columns.select(&:highlightable?)
+      @available_highlighting_columns ||= displayable_columns.select(&:highlightable?)
     end
 
     def highlighted_columns

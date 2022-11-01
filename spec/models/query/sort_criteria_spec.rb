@@ -73,6 +73,15 @@ describe ::Query::SortCriteria, type: :model do
       end
     end
 
+    context 'with a sort_criteria for typeahead ASC' do
+      let(:sort_criteria) { [%w[typeahead asc]] }
+
+      it 'returns the custom order by id asc' do
+        expect(subject)
+          .to eq [['work_packages.updated_at DESC, work_packages.updated_at'], ['work_packages.id DESC']]
+      end
+    end
+
     context 'with sort_criteria with order handling and no order statement' do
       let(:sort_criteria) { [['start_date']] }
 
