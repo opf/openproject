@@ -1,0 +1,11 @@
+# Example: Values::Property
+---
+value:
+  _type: 'Values::Property'
+  property: 'startDate'
+  value: '2021-01-01'
+  _links:
+    self:
+      href: 'api/v3/notifications/123/details/0'
+    schema:
+      href: 'api/v3/values/schemas/startDate'

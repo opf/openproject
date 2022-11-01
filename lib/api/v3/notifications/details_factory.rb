@@ -1,6 +1,6 @@
-#-- copyright
+# --copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2010-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,23 +24,29 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module API
-  module V3
-    module Notifications
-      class NotificationCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        property :detailsSchemas,
-                 getter: ->(*) { ::API::V3::Values::Schemas::ValueSchemaFactory.all },
-                 exec_context: :decorator,
-                 embedded: true
+module API::V3::Notifications
+  module DetailsFactory
+    extend ::API::V3::Utilities::PathHelper
 
-        def initialize(models, self_link:, current_user:, query: {}, page: nil, per_page: nil, groups: nil)
-          super
+    module_function
 
-          @represented = ::API::V3::Notifications::NotificationEagerLoadingWrapper.wrap(represented)
-        end
+    def for(notification)
+      concrete_factory_for(notification.reason)
+        .for(notification)
+    end
+
+    def concrete_factory_for(reason)
+      @concrete_factory_for ||= Hash.new do |h, reason_key|
+        h[reason_key] = if API::V3::Notifications::DetailsFactory.const_defined?(reason_key.camelcase)
+                          "API::V3::Notifications::DetailsFactory::#{reason_key.camelcase}".constantize
+                        else
+                          API::V3::Notifications::DetailsFactory::Default
+                        end
       end
+
+      @concrete_factory_for[reason]
     end
   end
 end

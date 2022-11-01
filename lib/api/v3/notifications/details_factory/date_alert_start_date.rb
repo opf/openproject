@@ -1,6 +1,6 @@
-#-- copyright
+# --copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2010-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,23 +24,20 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module API
-  module V3
-    module Notifications
-      class NotificationCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        property :detailsSchemas,
-                 getter: ->(*) { ::API::V3::Values::Schemas::ValueSchemaFactory.all },
-                 exec_context: :decorator,
-                 embedded: true
+module API::V3::Notifications::DetailsFactory
+  module DateAlertStartDate
+    extend ::API::V3::Utilities::PathHelper
 
-        def initialize(models, self_link:, current_user:, query: {}, page: nil, per_page: nil, groups: nil)
-          super
+    module_function
 
-          @represented = ::API::V3::Notifications::NotificationEagerLoadingWrapper.wrap(represented)
-        end
-      end
+    def for(notification)
+      [
+        ::API::V3::Values::PropertyDateRepresenter
+          .new(::API::V3::Values::PropertyModel.new(:start_date, notification.resource.start_date),
+               self_link: api_v3_paths.notification_detail(notification.id, 0))
+      ]
     end
   end
 end

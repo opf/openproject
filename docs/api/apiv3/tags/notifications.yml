@@ -1,6 +1,9 @@
 ---
 description: |-
   Notifications are created through notifiable actions in OpenProject.
+  Notifications are triggered by actions carried out in the system by users, e.g. editing a work package, but can also be send out because
+  of time passing e.g. when a user is notified of a work package that is overdue.
+
   This endpoint only returns in-app notifications.
 
   ## Actions
@@ -12,13 +15,14 @@ description: |-
 
   ## Linked Properties
 
-  | Link          | Description                              | Type            | Constraints           | Supported operations | Condition                                 |
-  | :-----------: | ---------------------------------------- | --------------  | --------------------- | -------------------- | ----------------------------------------- |
-  | self          | This notification                        | Notification    | not null              | READ                 |                                           |
-  | project       | The project containng the resource       | Project         | not null              | READ                 |                                           |
-  | actor         | The user that caused the notification    | User            | not null              | READ                 |                                           |
-  | resource      | The resource the notification belongs to | Polymorphic     | not null              | READ                 |                                           |
-  | activity      | The journal the notification belongs to  | Polymorphic     |                       | READ                 | optional                                  |
+  | Link          | Description                                       | Type            | Constraints           | Supported operations | Condition                                 |
+  | :-----------: | ----------------------------------------          | --------------  | --------------------- | -------------------- | ----------------------------------------- |
+  | self          | This notification                                 | Notification    | not null              | READ                 |                                           |
+  | project       | The project containing the resource               | Project         | not null              | READ                 |                                           |
+  | actor         | The user that caused the notification             | User            |                       | READ                 | optional                                  |
+  | resource      | The resource the notification belongs to          | Polymorphic     | not null              | READ                 |                                           |
+  | activity      | The journal the notification belongs to           | Polymorphic     |                       | READ                 | optional                                  |
+  | details       | A list of objects including detailed information  | Polymorphic     |                       | READ                 | optional                                  |
 
   ## Local Properties
 

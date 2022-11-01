@@ -1,6 +1,6 @@
-#-- copyright
+# --copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2010-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,23 +24,41 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module API
-  module V3
-    module Notifications
-      class NotificationCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
-        property :detailsSchemas,
-                 getter: ->(*) { ::API::V3::Values::Schemas::ValueSchemaFactory.all },
-                 exec_context: :decorator,
-                 embedded: true
+module API::V3::Values
+  class PropertyRepresenter < ::Roar::Decorator
+    include ::Roar::JSON::HAL
+    include ::Roar::Hypermedia
+    include ::API::Decorators::SelfLink
+    include ::API::V3::Utilities::PathHelper
 
-        def initialize(models, self_link:, current_user:, query: {}, page: nil, per_page: nil, groups: nil)
-          super
+    def initialize(model, self_link:)
+      @self_link = self_link
 
-          @represented = ::API::V3::Notifications::NotificationEagerLoadingWrapper.wrap(represented)
-        end
-      end
+      super(model)
     end
+
+    property :_type,
+             getter: ->(*) { 'Values::Property' }
+
+    property :property,
+             getter: ->(*) { property.to_s.camelcase(:lower) }
+
+    self_link title: false
+
+    link :schema do
+      {
+        href: api_v3_paths.value_schema(represented.property.to_s.camelcase(:lower))
+      }
+    end
+
+    def self_v3_path(*_args)
+      self_link
+    end
+
+    private
+
+    attr_reader :self_link
   end
 end

@@ -245,6 +245,12 @@ describe ::API::V3::Utilities::PathHelper do
 
       it_behaves_like 'api v3 path', '/notifications/42/unread_ian'
     end
+
+    describe '#notification_detail' do
+      subject { helper.notification_detail(42, 0) }
+
+      it_behaves_like 'api v3 path', '/notifications/42/details/0'
+    end
   end
 
   describe 'markup paths' do
@@ -475,6 +481,14 @@ describe ::API::V3::Utilities::PathHelper do
   describe 'group paths' do
     it_behaves_like 'index', :group
     it_behaves_like 'show', :group
+  end
+
+  describe 'values paths' do
+    describe '#values_schema' do
+      subject { helper.value_schema('bogus_value') }
+
+      it_behaves_like 'api v3 path', '/values/schemas/bogus_value'
+    end
   end
 
   describe 'version paths' do

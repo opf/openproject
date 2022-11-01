@@ -37,6 +37,10 @@ module API
         base.extend ClassMethods
       end
 
+      def datetime_formatter
+        ::API::V3::Utilities::DateTimeFormatter
+      end
+
       module ClassMethods
         def date_property(name,
                           getter: default_date_getter(name),

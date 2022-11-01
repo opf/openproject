@@ -263,6 +263,10 @@ module API
             "#{notification(id)}/unread_ian"
           end
 
+          def self.notification_detail(notification_id, detail_id)
+            "#{notification(notification_id)}/details/#{detail_id}"
+          end
+
           index :placeholder_user
           show :placeholder_user
 
@@ -440,6 +444,10 @@ module API
 
           index :group
           show :group
+
+          def self.value_schema(property)
+            "#{root}/values/schemas/#{property}"
+          end
 
           resources :version
 
