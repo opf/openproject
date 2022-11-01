@@ -40,6 +40,7 @@ import { take } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
@@ -48,7 +49,7 @@ import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.servi
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import { Breadcrumb, BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
 import {
-  IStorageFileListItem,
+  StorageFileListItem,
 } from 'core-app/shared/components/file-links/storage-file-list-item/storage-file-list-item';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { isDirectory } from 'core-app/shared/components/file-links/file-link-icons/file-icons.helper';
@@ -61,7 +62,7 @@ import getIconForStorageType from 'core-app/shared/components/file-links/storage
 export class FilePickerModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   public loading$ = new BehaviorSubject<boolean>(true);
 
-  public listItems$ = new BehaviorSubject<IStorageFileListItem[]>([]);
+  public listItems$ = new BehaviorSubject<StorageFileListItem[]>([]);
 
   public breadcrumbs:BreadcrumbsContent;
 
@@ -94,6 +95,7 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     readonly elementRef:ElementRef,
     readonly cdRef:ChangeDetectorRef,
     private readonly i18n:I18nService,
+    private readonly timezoneService:TimezoneService,
     private readonly fileLinksResourceService:FileLinksResourceService,
     private readonly storageFilesResourceService:StorageFilesResourceService,
   ) {
@@ -177,17 +179,9 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     };
   }
 
-  private storageFileToListItem(file:IStorageFile, index:number):IStorageFileListItem {
-    const listItem:IStorageFileListItem = {
-      disabled: this.isAlreadyLinked(file),
-      isFirst: index === 0,
-      selected: this.selection.has(file.id as string),
-      changeSelection: () => { this.changeSelection(file); },
-      ...file,
-    };
-
-    if (isDirectory(file.mimeType)) {
-      listItem.enterDirectory = () => {
+  private storageFileToListItem(file:IStorageFile, index:number):StorageFileListItem {
+    const enterDirectoryCallback = isDirectory(file.mimeType)
+      ? () => {
         const crumbs = this.breadcrumbs.crumbs;
         const end = crumbs.length + 1;
         const newCrumb:Breadcrumb = {
@@ -195,9 +189,18 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
           navigate: () => this.changeLevel(file.location, this.breadcrumbs.crumbs.slice(0, end)),
         };
         this.changeLevel(file.location, crumbs.concat(newCrumb));
-      };
-    }
-    return listItem;
+      }
+      : undefined;
+
+    return new StorageFileListItem(
+      this.timezoneService,
+      file,
+      this.isAlreadyLinked(file),
+      index === 0,
+      this.selection.has(file.id as string),
+      () => { this.changeSelection(file); },
+      enterDirectoryCallback,
+    );
   }
 
   private isAlreadyLinked(file:IStorageFile):boolean {

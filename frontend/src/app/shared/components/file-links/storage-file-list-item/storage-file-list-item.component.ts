@@ -30,18 +30,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
 } from '@angular/core';
 
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
-import {
-  getIconForMimeType,
-} from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
-import { isDirectory } from 'core-app/shared/components/file-links/file-link-icons/file-icons.helper';
 import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
 import {
-  IStorageFileListItem,
+  StorageFileListItem,
 } from 'core-app/shared/components/file-links/storage-file-list-item/storage-file-list-item';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -52,14 +45,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   templateUrl: './storage-file-list-item.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StorageFileListItemComponent implements OnInit {
-  @Input() public fileListItemContent:IStorageFileListItem;
-
-  infoTimestampText:string;
-
-  fileLinkIcon:IFileIcon;
-
-  showDetails:boolean;
+export class StorageFileListItemComponent {
+  @Input() public content:StorageFileListItem;
 
   text = {
     alreadyLinkedFile: this.i18n.t('js.storages.file_links.already_linked_file'),
@@ -67,9 +54,9 @@ export class StorageFileListItemComponent implements OnInit {
   };
 
   get principal():PrincipalLike {
-    return this.fileListItemContent.createdByName
+    return this.content.createdByName
       ? {
-        name: this.fileListItemContent.createdByName,
+        name: this.content.createdByName,
         href: '/external_users/1',
       }
       : {
@@ -79,11 +66,11 @@ export class StorageFileListItemComponent implements OnInit {
   }
 
   get tooltip():string {
-    return isDirectory(this.fileListItemContent.mimeType) ? this.text.alreadyLinkedDirectory : this.text.alreadyLinkedFile;
+    return this.content.isDirectory ? this.text.alreadyLinkedDirectory : this.text.alreadyLinkedFile;
   }
 
   get getTooltipAlignment():SpotDropAlignmentOption {
-    if (this.fileListItemContent.isFirst) {
+    if (this.content.isFirst) {
       return SpotDropAlignmentOption.BottomLeft;
     }
 
@@ -92,16 +79,5 @@ export class StorageFileListItemComponent implements OnInit {
 
   constructor(
     private readonly i18n:I18nService,
-    private readonly timezoneService:TimezoneService,
   ) {}
-
-  ngOnInit():void {
-    if (this.fileListItemContent.lastModifiedAt) {
-      this.infoTimestampText = this.timezoneService.parseDatetime(this.fileListItemContent.lastModifiedAt).fromNow();
-    }
-
-    this.fileLinkIcon = getIconForMimeType(this.fileListItemContent.mimeType);
-
-    this.showDetails = !isDirectory(this.fileListItemContent.mimeType);
-  }
 }
