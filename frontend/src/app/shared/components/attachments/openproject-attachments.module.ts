@@ -35,7 +35,6 @@ import { AttachmentsComponent } from './attachments.component';
 import { AttachmentListComponent } from './attachment-list/attachment-list.component';
 import { AttachmentListItemComponent } from './attachment-list/attachment-list-item.component';
 import { AttachmentsUploadComponent } from './attachments-upload/attachments-upload.component';
-import { AuthoringComponent } from './authoring/authoring.component';
 
 @NgModule({
   imports: [
@@ -47,15 +46,12 @@ import { AuthoringComponent } from './authoring/authoring.component';
     AttachmentListComponent,
     AttachmentListItemComponent,
     AttachmentsUploadComponent,
-
-    AuthoringComponent,
   ],
   exports: [
     AttachmentsUploadComponent,
     AttachmentListComponent,
     AttachmentsComponent,
 
-    AuthoringComponent,
     AttachmentListItemComponent,
   ],
 })

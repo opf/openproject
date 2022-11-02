@@ -27,10 +27,10 @@
                       [changeInput]="changeset"
                       [editFieldHandler]="handler">
     </edit-form-portal>
-    <attachments *ngIf="active"
+    <op-attachments *ngIf="active"
                  [resource]="resource.grid"
                  data-allow-uploading="true">
-    </attachments>
+    </op-attachments>
 
     <div *ngIf="!active"
          class="inplace-edit--read wiki -no-label"

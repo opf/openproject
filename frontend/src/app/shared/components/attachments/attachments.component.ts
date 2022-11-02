@@ -36,7 +36,7 @@ import { States } from 'core-app/core/states/states.service';
 import { filter } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
-export const attachmentsSelector = 'attachments';
+export const attachmentsSelector = 'op-attachments';
 
 @Component({
   selector: attachmentsSelector,
