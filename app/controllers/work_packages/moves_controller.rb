@@ -58,7 +58,7 @@ class WorkPackages::MovesController < ApplicationController
 
     klass
       .new(user: current_user, work_packages: @work_packages)
-      .call(permitted_create_params)
+      .call(attributes_for_create)
   end
 
   def redirect_after_create(result)
@@ -101,26 +101,18 @@ class WorkPackages::MovesController < ApplicationController
     @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
     @target_project ||= @project
     @types = @target_project.types
+    @target_type = @types.find { |t| t.id.to_s == params[:new_type_id].to_s }
     @available_versions = @target_project.assignable_versions
     @available_statuses = Workflow.available_statuses(@project)
     @notes = params[:notes] || ''
   end
 
-  def permitted_create_params
-    params
-      .permit(:assigned_to_id,
-              :responsible_id,
-              :start_date,
-              :due_date,
-              :status_id,
-              :version_id,
-              :priority_id)
-      .to_h
-      .merge(type_id: params[:new_type_id],
-             project_id: params[:new_project_id],
-             journal_notes: params[:notes])
+  def attributes_for_create
+    permitted_params
+      .move_work_package
       .compact_blank
       # 'none' is used in the frontend as a value to unset the property, e.g. the assignee.
       .transform_values { |v| v == 'none' ? nil : v }
+      .to_h
   end
 end

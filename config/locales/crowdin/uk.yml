@@ -2972,6 +2972,7 @@ uk:
   api_v3:
     attributes:
       lock_version: "Версія замку"
+      property: 'Property'
     errors:
       code_400: "Поганий запит: %{message}"
       code_401: "Щоб отримати доступ до цього ресурсу, потрібно пройти аутентифікацію."

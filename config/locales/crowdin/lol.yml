@@ -2907,6 +2907,7 @@ lol:
   api_v3:
     attributes:
       lock_version: "crwdns499775:0crwdne499775:0"
+      property: 'crwdns836773:0crwdne836773:0'
     errors:
       code_400: "crwdns499777:0%{message}crwdne499777:0"
       code_401: "crwdns499779:0crwdne499779:0"

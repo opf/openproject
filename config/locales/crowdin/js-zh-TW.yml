@@ -571,10 +571,11 @@ zh-TW:
       menu:
         accountable: '負責人'
         by_project: '未讀(依專案)'
-        by_reason: "參與\n"
+        by_reason: 'Reason'
         inbox: '收件匣'
         mentioned: '被標記'
         watched: "關注者\n"
+        date_alert: 'Date alert'
       settings:
         change_notification_settings: '檢視或更改您的通知設定, <a target="_blank" href="%{url}">請按此處</a>'
         title: "通知設定"

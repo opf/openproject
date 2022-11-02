@@ -572,10 +572,11 @@ ko:
       menu:
         accountable: '담당'
         by_project: '프로젝트 기준 읽지 않음'
-        by_reason: '참여'
+        by_reason: 'Reason'
         inbox: '받은 편지함'
         mentioned: 'Mentioned'
         watched: 'Watcher'
+        date_alert: 'Date alert'
       settings:
         change_notification_settings: '알림 설정을 보고 변경하려면 <a target="_blank" href="%{url}">여기를 클릭</a>하세요.'
         title: "알림 설정"

@@ -2980,6 +2980,7 @@ sk:
   api_v3:
     attributes:
       lock_version: "Uzamknúť verziu"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "Pre prístup k tomuto prostriedku musíte byť autentifikovaný."

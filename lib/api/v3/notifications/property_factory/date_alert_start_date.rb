@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module API::V3::Notifications::DetailsFactory
+module API::V3::Notifications::PropertyFactory
   module DateAlertStartDate
     extend ::API::V3::Utilities::PathHelper
 

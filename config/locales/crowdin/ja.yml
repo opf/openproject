@@ -2913,6 +2913,7 @@ ja:
   api_v3:
     attributes:
       lock_version: "ロックバージョン"
+      property: 'Property'
     errors:
       code_400: "不正なリクエスト: %{message}"
       code_401: "このリソースへのアクセスするには認証を行う必要があります。"

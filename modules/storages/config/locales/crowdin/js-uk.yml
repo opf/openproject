@@ -32,3 +32,4 @@ uk:
         selection_none: "Select files to link"
         selection_any: "Link %{number} files"
         not_allowed_tooltip: "Щоб отримати доступ до цього файлу, увійдіть у Nextcloud"
+        already_linked: "This file is already linked to this work package."

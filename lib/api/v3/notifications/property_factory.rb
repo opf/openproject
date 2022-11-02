@@ -27,22 +27,49 @@
 # ++
 
 module API::V3::Notifications
-  module DetailsFactory
+  module PropertyFactory
     extend ::API::V3::Utilities::PathHelper
+
+    PROPERTY_FOR_REASON = {
+      date_alert_start_date: "start_date",
+      date_alert_due_date: "due_date"
+    }.freeze
 
     module_function
 
-    def for(notification)
+    # Fetch the collection of details for a notification
+    def details_for(notification)
       concrete_factory_for(notification.reason)
         .for(notification)
     end
 
+    # Fetch the collection of schemas for the provided notifications.
+    def schemas_for(notifications)
+      detail_properties = notifications.map(&:reason).to_set.reduce([]) do |properties, reason|
+        property = PROPERTY_FOR_REASON[reason.to_sym]
+        properties << property if property
+        properties
+      end
+      ::API::V3::Values::Schemas::ValueSchemaFactory.all_for(detail_properties)
+    end
+
+    # Returns the outward facing reason e.g. `dateAlert` as opposed to `date_alert_start_date`.
+    def reason_for(notification)
+      reason = notification.reason
+      case reason
+      when 'date_alert_start_date', 'date_alert_due_date'
+        'dateAlert'
+      else
+        reason
+      end
+    end
+
     def concrete_factory_for(reason)
       @concrete_factory_for ||= Hash.new do |h, reason_key|
-        h[reason_key] = if API::V3::Notifications::DetailsFactory.const_defined?(reason_key.camelcase)
-                          "API::V3::Notifications::DetailsFactory::#{reason_key.camelcase}".constantize
+        h[reason_key] = if API::V3::Notifications::PropertyFactory.const_defined?(reason_key.camelcase)
+                          "API::V3::Notifications::PropertyFactory::#{reason_key.camelcase}".constantize
                         else
-                          API::V3::Notifications::DetailsFactory::Default
+                          API::V3::Notifications::PropertyFactory::Default
                         end
       end
 

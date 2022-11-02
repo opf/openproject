@@ -2935,6 +2935,7 @@ pt:
   api_v3:
     attributes:
       lock_version: "Bloquear versão"
+      property: 'Property'
     errors:
       code_400: "Requisição inválida: %{message}"
       code_401: "Você precisa estar autenticado para acessar este recurso."

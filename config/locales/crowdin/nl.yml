@@ -2934,6 +2934,7 @@ nl:
   api_v3:
     attributes:
       lock_version: "Vergrendel versie"
+      property: 'Property'
     errors:
       code_400: "Verkeerd verzoek: %{message}"
       code_401: "U moet geauthenticeerd zijn om toegang te hebben tot deze resource."

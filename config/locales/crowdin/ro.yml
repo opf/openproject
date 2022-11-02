@@ -2959,6 +2959,7 @@ ro:
   api_v3:
     attributes:
       lock_version: "Blocare versiune"
+      property: 'Property'
     errors:
       code_400: "Cerere greșită: %{message}"
       code_401: "Trebuie să fiți autentificat pentru a accesa această resursă."

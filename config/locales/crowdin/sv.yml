@@ -2935,6 +2935,7 @@ sv:
   api_v3:
     attributes:
       lock_version: "Lås version"
+      property: 'Property'
     errors:
       code_400: "Felaktig begäran: %{message}"
       code_401: "Du måste autentiseras för att få tillgång till denna resurs."

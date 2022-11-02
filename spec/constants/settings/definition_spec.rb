@@ -156,11 +156,11 @@ describe Settings::Definition do
           .to be false
       end
 
-      it 'overriding date configuration from ENV will cast the value' do
+      it 'overriding datetime configuration from ENV will cast the value' do
         stub_const('ENV', { 'OPENPROJECT_CONSENT__TIME' => '2222-01-01' })
 
         expect(all.detect { |d| d.name == 'consent_time' }.value)
-          .to eql Date.parse('2222-01-01')
+          .to eql DateTime.parse('2222-01-01')
       end
 
       it 'overriding configuration from ENV will set it to non writable' do

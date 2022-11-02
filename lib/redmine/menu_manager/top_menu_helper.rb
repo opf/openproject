@@ -39,6 +39,12 @@ module Redmine::MenuManager::TopMenuHelper
     end
   end
 
+  def render_top_menu_center
+    content_tag :div, class: 'op-logo' do
+      link_to(I18n.t('label_home'), fixed_home_url, class: 'op-logo--link')
+    end
+  end
+
   def render_top_menu_right
     content_tag :ul, class: 'op-app-menu' do
       [render_module_top_menu_node,

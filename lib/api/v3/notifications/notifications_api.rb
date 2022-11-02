@@ -97,7 +97,7 @@ module API
             namespace :details do
               route_param :detail_id, type: Integer, desc: 'Notification Detail ID' do
                 get do
-                  DetailsFactory.for(@notification).at(params[:detail_id]).tap do |detail|
+                  PropertyFactory.details_for(@notification).at(params[:detail_id]).tap do |detail|
                     raise API::Errors::NotFound unless detail
                   end
                 end

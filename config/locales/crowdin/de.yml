@@ -2933,6 +2933,7 @@ de:
   api_v3:
     attributes:
       lock_version: "Version sperren"
+      property: 'Property'
     errors:
       code_400: "Ungültige Anfrage: %{message}"
       code_401: "Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu können."

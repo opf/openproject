@@ -2937,6 +2937,7 @@ fil:
   api_v3:
     attributes:
       lock_version: "Nakakandadong bersyon"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "Kailangan mong magpatunay para ma-akses mo ang mapagkukunan na ito."
