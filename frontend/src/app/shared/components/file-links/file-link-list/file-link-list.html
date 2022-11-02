@@ -25,7 +25,7 @@
   </ul>
 
   <p
-    *ngIf="showLinkFilesAction | async"
+    *ngIf="(showLinkFilesAction | async) && (allowEditing$ | async)"
     class="spot-body-small op-file-list--actions"
   >
     <button
