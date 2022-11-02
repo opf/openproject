@@ -42,7 +42,7 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
 
   before do
     login_as user
-    allow(EnterpriseToken).to receive(:show_banners?).and_return(!ee)
+    allow(EnterpriseToken).to receive(:openid_providers?).and_return(!ee)
   end
 
   context 'when not ee' do
