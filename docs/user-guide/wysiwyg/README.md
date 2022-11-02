@@ -34,7 +34,7 @@ Instead of creating a new paragraph with Enter, you can also press `SHIFT+Enter`
 
 ### Links
 
-Create hyperlinks by pressing the tool-bar (optionally with some selected text), or by pressing `CTRL+k` to open a popup to enter the link href.
+Create hyperlinks by pressing the tool-bar (optionally with some selected text), or by pressing `CTRL+k` to open a popup to enter the link here.
 
 ### Widgets and Newlines
 
