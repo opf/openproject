@@ -33,25 +33,20 @@
     &-action
       text-decoration: none
 
-      &.view-not-allowed
-        opacity: 0.5
-
       &.disabled
-        color: $spot-color-basic-gray-3
-        opacity: 0.5
+        color: $spot-color-basic-gray-1
         pointer-events: none
-
-        .op-files-tab--icon
-          color: $spot-color-basic-gray-3
 
       &:hover
         .op-file-list--item-title
           text-decoration: underline
 
+    &-action.view-not-allowed &-title
+      opacity: 0.5
+
     &-title
       @include spot-body-small
 
-      line-height: $spot-spacing-1_5
       word-break: normal
       @include text-shortener
       padding-right: $spot-spacing-0_5
