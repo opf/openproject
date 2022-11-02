@@ -573,10 +573,11 @@ hu:
       menu:
         accountable: 'Felelős'
         by_project: 'Olvasatlan projektenként'
-        by_reason: 'Involvement'
+        by_reason: 'Reason'
         inbox: 'Beérkezett üzenetek'
         mentioned: 'Mentioned'
-        watching: 'Watching'
+        watched: 'Watcher'
+        date_alert: 'Date alert'
       settings:
         change_notification_settings: 'Az értesítési beállítások megtekintéséhez és megváltoztatásához <a target="_blank" href="%{url}">kattintson ide</a>'
         title: "Értesítési beállítások"

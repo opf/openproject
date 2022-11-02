@@ -572,10 +572,11 @@ lol:
       menu:
         accountable: 'crwdns787722:0crwdne787722:0'
         by_project: 'crwdns787726:0crwdne787726:0'
-        by_reason: 'crwdns787728:0crwdne787728:0'
+        by_reason: 'crwdns836775:0crwdne836775:0'
         inbox: 'crwdns787730:0crwdne787730:0'
         mentioned: 'crwdns836454:0crwdne836454:0'
-        watching: 'crwdns787734:0crwdne787734:0'
+        watched: 'crwdns836620:0crwdne836620:0'
+        date_alert: 'crwdns836777:0crwdne836777:0'
       settings:
         change_notification_settings: 'crwdns787736:0%{url}crwdne787736:0'
         title: "crwdns787738:0crwdne787738:0"

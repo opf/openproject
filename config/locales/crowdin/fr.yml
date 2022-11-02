@@ -2938,6 +2938,7 @@ fr:
   api_v3:
     attributes:
       lock_version: "Version Lock"
+      property: 'Property'
     errors:
       code_400: "Mauvaise requête : %{message}"
       code_401: "Vous devez être authentifié pour accéder à cette ressource."

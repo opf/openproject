@@ -26,9 +26,10 @@ tr:
         open_location: 'Open file in location'
         remove: "Remove file link"
         remove_confirmation: >
-          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
-        remove_short: "Remove link"
-        select: "Select files"
-        selection_none: "Select files to link"
-        selection_any: "Link %{number} files"
-        not_allowed_tooltip: "Please log in to Nextcloud to access this file"
+          Dosyanın bu çalışma paketinden bağlantısını kaldırmak istediğinizden emin misiniz? Bağlantının kaldırılması orijinal dosyayı etkilemez ve yalnızca bu çalışma paketine olan bağlantıyı kaldırır.
+        remove_short: "Bağlantıyı kaldır"
+        select: "Dosyaları seç"
+        selection_none: "Bağlanacak dosyaları seçin"
+        selection_any: "%{number} dosyayı bağla"
+        not_allowed_tooltip: "Bu dosyaya erişmek için lütfen Nextcloud'da oturum açın"
+        already_linked: "This file is already linked to this work package."

@@ -2938,6 +2938,7 @@ tr:
   api_v3:
     attributes:
       lock_version: "Sürümü Kilitle"
+      property: 'Property'
     errors:
       code_400: "Geçersiz istek: %{message}"
       code_401: "Bu kaynağa erişim sağlayabilmeniz için yetkilendirilmiş olmalısınız"

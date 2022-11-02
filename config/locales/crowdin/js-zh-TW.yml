@@ -570,11 +570,12 @@ zh-TW:
           link_text: 'Click here to load them'
       menu:
         accountable: '負責人'
-        by_project: 'Unread by project'
-        by_reason: 'Involvement'
-        inbox: 'Inbox'
-        mentioned: 'Mentioned'
-        watching: 'Watching'
+        by_project: '未讀(依專案)'
+        by_reason: 'Reason'
+        inbox: '收件匣'
+        mentioned: '被標記'
+        watched: "關注者\n"
+        date_alert: 'Date alert'
       settings:
         change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
         title: "Notification settings"

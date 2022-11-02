@@ -573,10 +573,11 @@ ca:
       menu:
         accountable: 'Responsable'
         by_project: 'No llegit per projecte'
-        by_reason: 'Implicació'
+        by_reason: 'Reason'
         inbox: 'Safata d''entrada'
-        mentioned: 'Mentioned'
-        watching: 'Observant'
+        mentioned: 'Mencionat'
+        watched: 'Watcher'
+        date_alert: 'Date alert'
       settings:
         change_notification_settings: 'Per veure i canviar la configuració de notificacions, <a target="_blank" href="%{url}">fes clic aquí</a>'
         title: "Configuració de notificacions"

@@ -2975,6 +2975,7 @@ pl:
   api_v3:
     attributes:
       lock_version: "Wersja zablokowana"
+      property: 'Property'
     errors:
       code_400: "Nieprawidłowe żądanie: %{message}"
       code_401: "Musisz być uwierzytelniony, aby otrzymać dostęp do tego zasobu."
