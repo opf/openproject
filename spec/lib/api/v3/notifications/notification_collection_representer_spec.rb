@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::Notifications::NotificationCollectionRepresenter do
   let(:self_base_link) { '/api/v3/notifications' }
-  let(:user) { build_stubbed :user }
+  let(:user) { build_stubbed(:user) }
   let(:notifications) do
     build_stubbed_list(:notification,
                        3).tap do |items|
@@ -79,11 +79,6 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
 
     it_behaves_like 'offset-paginated APIv3 collection', 3, 'notifications', 'Notification'
 
-    it 'renders the available detailsSchemas' do
-      details_schemas = ::API::V3::Values::Schemas::ValueSchemaFactory.all
-      expect(subject).to be_json_eql(details_schemas.to_json).at_path('_embedded/detailsSchemas')
-    end
-
     context 'when passing groups' do
       let(:groups) do
         [
@@ -94,6 +89,42 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
 
       it 'renders the groups object as json' do
         expect(subject).to be_json_eql(groups.to_json).at_path('groups')
+      end
+    end
+
+    describe 'detailsSchema' do
+      context 'when no date alert notifications are present' do
+        it 'does not renders the detailsSchemas' do
+          expect(subject).not_to have_json_path('_embedded/detailsSchemas')
+        end
+      end
+
+      shared_examples_for 'rendering detailsSchemas' do |date_alert_reasons|
+        before do
+          date_alert_reasons.each_with_index do |reason, idx|
+            notifications[idx].reason = reason
+          end
+        end
+
+        it 'renders the required detailsSchemas' do
+          properties = date_alert_reasons.map do |reason|
+            ::API::V3::Notifications::PropertyFactory::PROPERTY_FOR_REASON[reason.to_sym]
+          end
+          details_schemas = ::API::V3::Values::Schemas::ValueSchemaFactory.all_for(properties)
+          expect(subject).to be_json_eql(details_schemas.to_json).at_path('_embedded/detailsSchemas')
+        end
+      end
+
+      context 'when a date alert start date notification is present' do
+        it_behaves_like 'rendering detailsSchemas', ['date_alert_start_date']
+      end
+
+      context 'when a date alert due date notification is present' do
+        it_behaves_like 'rendering detailsSchemas', ['date_alert_due_date']
+      end
+
+      context 'when both date alert notifications are present' do
+        it_behaves_like 'rendering detailsSchemas', ['date_alert_start_date', 'date_alert_due_date']
       end
     end
   end

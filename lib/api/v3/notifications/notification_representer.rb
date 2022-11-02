@@ -42,14 +42,8 @@ module API
                  as: :readIAN
 
         property :reason,
-                 getter: ->(*) do
-                   case reason
-                   when 'date_alert_start_date', 'date_alert_due_date'
-                     'dateAlert'
-                   else
-                     reason
-                   end
-                 end
+                 exec_context: :decorator,
+                 getter: ->(*) { PropertyFactory.reason_for(represented) }
 
         date_time_property :created_at
 
@@ -58,9 +52,7 @@ module API
         property :details,
                  embedded: true,
                  exec_context: :decorator,
-                 getter: ->(*) do
-                   DetailsFactory.for(represented)
-                 end
+                 getter: ->(*) { PropertyFactory.details_for(represented) }
 
         link :readIAN do
           next if represented.read_ian

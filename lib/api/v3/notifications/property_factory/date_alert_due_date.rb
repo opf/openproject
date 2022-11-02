@@ -26,12 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module API::V3::Notifications::DetailsFactory
-  module Default
+module API::V3::Notifications::PropertyFactory
+  module DateAlertDueDate
+    extend ::API::V3::Utilities::PathHelper
+
     module_function
 
-    def for(_notification)
-      []
+    def for(notification)
+      [
+        ::API::V3::Values::PropertyDateRepresenter
+          .new(::API::V3::Values::PropertyModel.new(:due_date, notification.resource.due_date),
+               self_link: api_v3_paths.notification_detail(notification.id, 0))
+      ]
     end
   end
 end
