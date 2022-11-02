@@ -22,7 +22,11 @@ import { StateService } from '@uirouter/core';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { filter, map, withLatestFrom } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { CardViewHandlerRegistry } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
@@ -35,13 +39,11 @@ import {
   WorkPackageViewOutputs,
 } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { combineLatest } from 'rxjs';
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 

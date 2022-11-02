@@ -90,7 +90,7 @@ export class WpChildrenInlineCreateService extends WorkPackageInlineCreateServic
   }
 
   public get canAddChild():boolean {
-    return !!(this.schema && !this.schema.isMilestone && this.referenceTarget!.changeParent);
+    return !!(this.schema && !this.schema.isMilestone && this.referenceTarget?.changeParent);
   }
 
   /**

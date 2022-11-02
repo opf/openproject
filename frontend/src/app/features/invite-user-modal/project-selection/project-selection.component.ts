@@ -110,7 +110,7 @@ export class ProjectSelectionComponent implements OnInit {
 
     this
       .currentUserService
-      .capabilities$(['memberships/create'])
+      .capabilities$(['memberships/create'], null)
       .pipe(
         map((capabilities) => capabilities.filter((c) => c._links.action.href.endsWith('/memberships/create'))),
       )

@@ -92,7 +92,7 @@ export class WorkPackageInlineCreateService implements OnDestroy {
       .currentUser
       .hasCapabilities$(
         ['work_packages/create', 'work_packages/update'],
-        projectId || 'global',
+        projectId || null,
       );
   }
 

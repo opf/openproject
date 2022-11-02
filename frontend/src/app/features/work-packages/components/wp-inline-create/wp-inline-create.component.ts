@@ -31,19 +31,16 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   HostListener,
   Injector,
   Input,
-  EventEmitter,
   OnInit,
   Output,
 } from '@angular/core';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import {
-  filter,
-  shareReplay,
-} from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -56,7 +53,6 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
   inlineCreateCancelClassName,

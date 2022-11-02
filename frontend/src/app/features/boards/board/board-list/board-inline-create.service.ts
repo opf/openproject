@@ -42,7 +42,8 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class BoardInlineCreateService extends WorkPackageInlineCreateService {
-  constructor(readonly injector:Injector,
+  constructor(
+    readonly injector:Injector,
     protected readonly querySpace:IsolatedQuerySpace,
     protected readonly halResourceService:HalResourceService,
   ) {

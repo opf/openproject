@@ -36,9 +36,11 @@ import { CausedUpdatesService } from 'core-app/features/boards/board/caused-upda
 import { BoardListMenuComponent } from 'core-app/features/boards/board/board-list/board-list-menu.component';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
-import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
-import { StateService, TransitionService } from '@uirouter/core';
+import {
+  StateService,
+  TransitionService,
+} from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
@@ -46,7 +48,6 @@ import {
   debounceTime,
   filter,
   map,
-  retry,
   take,
 } from 'rxjs/operators';
 import { ChangeItem } from 'core-app/shared/components/fields/changeset/changeset';
@@ -57,7 +58,10 @@ import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builde
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { HalEvent, HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import {
+  HalEvent,
+  HalEventsService,
+} from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 export interface DisabledButtonPlaceholder {
@@ -180,13 +184,15 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
     // If this query space changes its focused or selected
     // work packages, update the board cross selection
-    this.wpViewSelectionService
+    this
+      .wpViewSelectionService
       .updates$()
       .pipe(
         debounceTime(100),
         this.untilDestroyed(),
-      ).subscribe((selectionState) => {
-        const selected = Object.keys(_.pickBy(selectionState.selected, (selected, _) => selected === true));
+      )
+      .subscribe((selectionState) => {
+        const selected = Object.keys(_.pickBy(selectionState.selected, (option, _) => option === true));
 
         const focused = this.wpViewFocusService.focusedWorkPackage;
 
@@ -224,6 +230,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .pipe(
         this.untilDestroyed(),
       )
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       .subscribe(async (query) => {
         this.query = query;
         this.canDragOutOf = !!this.query.updateOrderedWorkPackages;
@@ -322,7 +329,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.loadQuery(visibly);
   }
 
-  private async loadActionAttribute(query:QueryResource) {
+  private async loadActionAttribute(query:QueryResource):Promise<void> {
     if (!this.board.isAction) {
       this.actionResource = undefined;
       this.headerComponent = undefined;
@@ -341,18 +348,21 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     }
 
     // Load the resource
-    actionService.getLoadedActionValue(query).then(async (resource) => {
-      this.actionResource = resource;
-      this.headerComponent = actionService.headerComponent();
-      this.buttonPlaceholder = actionService.disabledAddButtonPlaceholder(resource);
-      this.actionResourceClass = this.boardListActionColorClass(resource);
-      this.canDragInto = actionService.dragIntoAllowed(query, resource);
+    // eslint-disable-next-line consistent-return
+    return actionService
+      .getLoadedActionValue(query)
+      .then(async (resource) => {
+        this.actionResource = resource;
+        this.headerComponent = actionService.headerComponent();
+        this.buttonPlaceholder = actionService.disabledAddButtonPlaceholder(resource);
+        this.actionResourceClass = this.boardListActionColorClass(resource);
+        this.canDragInto = actionService.dragIntoAllowed(query, resource);
 
-      const canWriteAttribute = await actionService.canAddToQuery(query);
-      const canAdd = await this.canAdd;
-      this.showAddButton = this.canDragInto && canAdd && canWriteAttribute;
-      this.cdRef.detectChanges();
-    });
+        const canWriteAttribute = await actionService.canAddToQuery(query);
+        const canAdd = await this.canAdd;
+        this.showAddButton = this.canDragInto && canAdd && canWriteAttribute;
+        this.cdRef.detectChanges();
+      });
   }
 
   /**
@@ -409,7 +419,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         },
         (error) => {
           const userIsNotAllowedToSeeSubprojectError = 'urn:openproject-org:api:v3:errors:InvalidQuery';
-          if(error.errorIdentifier === userIsNotAllowedToSeeSubprojectError) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          if (error.errorIdentifier === userIsNotAllowedToSeeSubprojectError) {
             this.visibilityChange.emit(false);
           }
           this.loadingError = this.halNotification.retrieveErrorMessage(error);
@@ -462,7 +473,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
           return !!current && (current === to || current === from);
         }),
-      ).subscribe((event) => {
+      )
+      .subscribe(() => {
         this.updateQuery(true);
       });
   }
