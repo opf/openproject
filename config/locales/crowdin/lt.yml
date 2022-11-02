@@ -2975,6 +2975,7 @@ lt:
   api_v3:
     attributes:
       lock_version: "Užrakto versija"
+      property: 'Property'
     errors:
       code_400: "Bloga užklausa: %{message}"
       code_401: "Jums reikia būti autentifikuotam, kad galėtumėte pasiekti šį resursą."

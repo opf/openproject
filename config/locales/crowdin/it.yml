@@ -2936,6 +2936,7 @@ it:
   api_v3:
     attributes:
       lock_version: "Blocca Versione"
+      property: 'Property'
     errors:
       code_400: "Richiesta non valida: %{message}"
       code_401: "Devi essere autenticato per accedere a questa risorsa."

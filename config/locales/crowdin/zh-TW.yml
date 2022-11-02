@@ -2917,6 +2917,7 @@ zh-TW:
   api_v3:
     attributes:
       lock_version: "鎖定版本"
+      property: 'Property'
     errors:
       code_400: "錯誤請求：%{message}"
       code_401: "You need to be authenticated to access this resource.\n您必須取得授權才能使用這個資源。"

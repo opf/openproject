@@ -2934,6 +2934,7 @@ es:
   api_v3:
     attributes:
       lock_version: "Versión Bloqueada"
+      property: 'Property'
     errors:
       code_400: "Solicitud errónea: %{message}"
       code_401: "Tiene que estar autenticado para acceder a este recurso."

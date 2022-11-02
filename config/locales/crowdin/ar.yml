@@ -3016,6 +3016,7 @@ ar:
   api_v3:
     attributes:
       lock_version: "قفل الإصدار"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "تحتاج إلى مصادقة الوصول إلى هذا المورد."

@@ -32,3 +32,4 @@ ko:
         selection_none: "Select files to link"
         selection_any: "Link %{number} files"
         not_allowed_tooltip: "이 파일에 액세스하려면 Nextcloud에 로그인하세요"
+        already_linked: "This file is already linked to this work package."

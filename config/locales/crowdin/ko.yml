@@ -2914,6 +2914,7 @@ ko:
   api_v3:
     attributes:
       lock_version: "잠금 버전"
+      property: 'Property'
     errors:
       code_400: "잘못된 요청: %{message}"
       code_401: "접근하기 위해서 인증해야 합니다."

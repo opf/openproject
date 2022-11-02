@@ -575,10 +575,11 @@ cs:
       menu:
         accountable: 'Odpovědný'
         by_project: 'Nepřečteno podle projektu'
-        by_reason: 'Zapojení'
+        by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
         watched: 'Watcher'
+        date_alert: 'Date alert'
       settings:
         change_notification_settings: 'Chcete-li zobrazit a změnit nastavení oznámení, <a target="_blank" href="%{url}">klikněte zde</a>'
         title: "Nastavení oznámení"

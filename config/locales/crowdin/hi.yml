@@ -2937,6 +2937,7 @@ hi:
   api_v3:
     attributes:
       lock_version: "Lock Version"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "You need to be authenticated to access this resource."

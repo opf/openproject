@@ -2939,6 +2939,7 @@ fa:
   api_v3:
     attributes:
       lock_version: "قفل نگارش"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "لازم است برای دسترسی به این منبع تأیید اعتبار شوید."

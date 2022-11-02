@@ -32,3 +32,4 @@ it:
         selection_none: "Select files to link"
         selection_any: "Link %{number} files"
         not_allowed_tooltip: "Accedi a Nextcloud per accedere a questo file"
+        already_linked: "This file is already linked to this work package."
