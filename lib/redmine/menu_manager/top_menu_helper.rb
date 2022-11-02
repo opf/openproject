@@ -33,10 +33,14 @@ module Redmine::MenuManager::TopMenuHelper
 
   def render_top_menu_left
     content_tag :ul, class: 'op-app-menu op-app-menu_drop-left' do
-      [render_main_top_menu_nodes,
-       render_projects_top_menu_node,
-       render_quick_add_menu].join.html_safe
+      safe_join top_menu_left_menu_items
     end
+  end
+
+  def top_menu_left_menu_items
+    [render_main_top_menu_nodes,
+     render_projects_top_menu_node,
+     render_quick_add_menu]
   end
 
   def render_top_menu_center
@@ -50,12 +54,23 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_top_menu_right
-    content_tag :ul, class: 'op-app-menu' do
-      [render_module_top_menu_node,
-       render_notification_top_menu_node,
-       render_help_top_menu_node,
-       render_user_top_menu_node].join.html_safe
+    capture do
+      concat render_top_menu_search
+      concat top_menu_right_node
     end
+  end
+
+  def top_menu_right_node
+    content_tag(:ul, class: 'op-app-menu') do
+      safe_join top_menu_right_menu_items
+    end
+  end
+
+  def top_menu_right_menu_items
+    [render_module_top_menu_node,
+     render_notification_top_menu_node,
+     render_help_top_menu_node,
+     render_user_top_menu_node]
   end
 
   private
