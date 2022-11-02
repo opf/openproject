@@ -31,7 +31,6 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { from } from 'rxjs';
 import {
-  catchError,
   groupBy,
   mergeMap,
   reduce,
@@ -71,17 +70,16 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
             return acc;
           }, seed));
         }),
-        catchError((error) => {
-          this.toastService.addError(error);
-          throw error;
-        }),
       )
-      .subscribe((fileLinkCollections) => {
-        const storageId = idFromLink(fileLinkCollections.storage);
-        const collectionKey = `${fileLinksSelfLink}?filters=[{"storage":{"operator":"=","values":["${storageId}"]}}]`;
-        const collection = { _embedded: { elements: fileLinkCollections.fileLinks } } as IHALCollection<IFileLink>;
-        insertCollectionIntoState(this.store, collection, collectionKey);
-      });
+      .subscribe(
+        (fileLinkCollections) => {
+          const storageId = idFromLink(fileLinkCollections.storage);
+          const collectionKey = `${fileLinksSelfLink}?filters=[{"storage":{"operator":"=","values":["${storageId}"]}}]`;
+          const collection = { _embedded: { elements: fileLinkCollections.fileLinks } } as IHALCollection<IFileLink>;
+          insertCollectionIntoState(this.store, collection, collectionKey);
+        },
+        this.toastAndThrow.bind(this),
+      );
   }
 
   protected createStore():CollectionStore<IFileLink> {
@@ -96,13 +94,10 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     this.http
       .delete<void>(fileLink._links.delete.href, { withCredentials: true, headers })
-      .pipe(
-        catchError((error) => {
-          this.toastService.addError(error);
-          throw error;
-        }),
-      )
-      .subscribe(() => removeEntityFromCollectionAndState(this.store, fileLink.id, collectionKey));
+      .subscribe(
+        () => removeEntityFromCollectionAndState(this.store, fileLink.id, collectionKey),
+        this.toastAndThrow.bind(this),
+      );
   }
 
   addFileLinks(collectionKey:string, addFileLinksHref:string, storage:IHalResourceLink, filesToLink:IStorageFile[]):void {
@@ -122,33 +117,37 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
 
     this.http
       .post<IHALCollection<IFileLink>>(addFileLinksHref, { _type: 'Collection', _embedded: { elements } })
-      .pipe(
-        tap((collection) => {
+      .subscribe(
+        (collection) => {
           applyTransaction(() => {
             const newFileLinks = collection._embedded.elements;
             this.store.add(newFileLinks);
-            this.store.update(({ collections }) => (
-              {
-                collections: {
-                  ...collections,
-                  [collectionKey]: {
-                    ...collections[collectionKey],
-                    ids: (collections[collectionKey]?.ids || []).concat(newFileLinks.map((link) => link.id)),
+            this.store.update(
+              ({ collections }) => (
+                {
+                  collections: {
+                    ...collections,
+                    [collectionKey]: {
+                      ...collections[collectionKey],
+                      ids: (collections[collectionKey]?.ids || []).concat(newFileLinks.map((link) => link.id)),
+                    },
                   },
-                },
-              }
-            ));
+                }
+              ),
+            );
           });
-        }),
-        catchError((error) => {
-          this.toastService.addError(error);
-          throw error;
-        }),
-      )
-      .subscribe();
+        },
+        this.toastAndThrow.bind(this),
+      );
   }
 
   protected basePath():string {
     return this.apiV3Service.file_links.path;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private toastAndThrow(error:any):void {
+    this.toastService.addError(error);
+    throw error;
   }
 }

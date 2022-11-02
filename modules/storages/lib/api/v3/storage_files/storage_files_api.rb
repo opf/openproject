@@ -51,7 +51,7 @@ module API::V3::StorageFiles
           .match(
             on_success: ->(files_query) {
               files_query
-                .call
+                .call(params[:parent])
                 .map do |files|
                   API::V3::StorageFiles::StorageFileCollectionRepresenter.new(
                     files,
