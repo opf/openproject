@@ -2939,6 +2939,7 @@ si:
   api_v3:
     attributes:
       lock_version: "අගුලු අනුවාදය"
+      property: 'Property'
     errors:
       code_400: "නරක ඉල්ලීම: %{message}"
       code_401: "මෙම සම්පතට ප්රවේශ වීමට ඔබ සත්යාපනය කළ යුතුය."

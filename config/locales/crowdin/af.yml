@@ -2939,6 +2939,7 @@ af:
   api_v3:
     attributes:
       lock_version: "Slot Weergawe"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "Jy moet gewaarmerk wees om toegang tot hierdie hulpbron te verkry."

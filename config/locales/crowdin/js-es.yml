@@ -573,10 +573,11 @@ es:
       menu:
         accountable: 'Responsable'
         by_project: 'Sin leer por proyecto'
-        by_reason: 'Implicación'
+        by_reason: 'Reason'
         inbox: 'Bandeja de entrada'
         mentioned: 'Mencionado'
         watched: 'Observador'
+        date_alert: 'Date alert'
       settings:
         change_notification_settings: 'Para ver y cambiar los ajustes de notificaciones, <a target="_blank" href="%{url}">haga clic aquí</a>'
         title: "Ajustes de notificación"

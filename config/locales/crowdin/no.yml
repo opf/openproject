@@ -2939,6 +2939,7 @@
   api_v3:
     attributes:
       lock_version: "Låst versjon"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "Du må være pålogget for å få tilgang til denne ressursen."

@@ -2981,6 +2981,7 @@ he:
   api_v3:
     attributes:
       lock_version: "גרסת מנעול"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "אתה צריך להיות מאומת כדי לגשת למשאב זה."

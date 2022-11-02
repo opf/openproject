@@ -2979,6 +2979,7 @@ cs:
   api_v3:
     attributes:
       lock_version: "Uzamknout verzi"
+      property: 'Property'
     errors:
       code_400: "Špatný požadavek: %{message}"
       code_401: "Pro přístup k tomuto prostředku musíte být přihlášeni."

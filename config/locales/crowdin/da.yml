@@ -2935,6 +2935,7 @@ da:
   api_v3:
     attributes:
       lock_version: "Lås version"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "Du skal være logget ind for at få adgang til denne ressource."

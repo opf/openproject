@@ -2935,6 +2935,7 @@ hu:
   api_v3:
     attributes:
       lock_version: "Lezárt változat"
+      property: 'Property'
     errors:
       code_400: "Hibás hívás %{message}"
       code_401: "Az erőforrás eléréséhez azonosítás szükséges."

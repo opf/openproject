@@ -2913,6 +2913,7 @@ id:
   api_v3:
     attributes:
       lock_version: "Lock Version"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "Anda perlu dikonfirmasi untuk mengakses sumber ini."

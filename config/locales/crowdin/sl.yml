@@ -2977,6 +2977,7 @@ sl:
   api_v3:
     attributes:
       lock_version: "Zakleni verzijo"
+      property: 'Property'
     errors:
       code_400: "Slaba zahteva: %{message}"
       code_401: "Za dostop do tega vira morate imeti pooblastila."

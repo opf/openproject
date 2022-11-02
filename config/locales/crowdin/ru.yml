@@ -2976,6 +2976,7 @@ ru:
   api_v3:
     attributes:
       lock_version: "Блокировать этап"
+      property: 'Property'
     errors:
       code_400: "Неверный запрос: %{message}"
       code_401: "Вам нужно пройти проверку подлинности для доступа к этому ресурсу."
