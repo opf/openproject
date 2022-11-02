@@ -176,7 +176,7 @@ You have three different options to display results in the work package list.
 * A **Hierarchy**, which will display the filtered results within the parent-child-relation.
 * **Group by** will group the list according to a defined attribute.
 
-You have to choose either option when displaying work packages in the list.
+To display the work package table you have to choose one of these options.
 
 To switch between the different criteria, open the [work package table configuration](#work-package-table-configuration) and open the tab **Display settings**. Choose how to display the work packages in the list and click the blue **Apply** button.
 
