@@ -9,7 +9,7 @@ keywords: integration, apps, Nextcloud, user
 
 # Using the Nextcloud integration
 
-Starting with OpenProject 12.2, you can now use [Nextcloud](https://nextcloud.com/) as an integrated file storage in OpenProject.
+Starting with OpenProject 12.2, you can use [Nextcloud](https://nextcloud.com/) as an integrated file storage in OpenProject.
 
 This integration makes it possible for you to:
 
@@ -85,11 +85,9 @@ You will then be prompted to select a file (or multiple files) on your computer 
 
 >> IMG: Local browser file picker
 
-Alternatively, you can also simply drag a file or folder on your computer on to this area (under the name of your Nextcloud file storage) and drop it in the drop zone that appears.
+Alternatively, you can also simply drag a file or folder on your computer to this area (under the name of your Nextcloud file storage) and drop it in the drop zone that appears.
 
 Once you have selected or dropped the files you would like to upload, you will need to select a folder on Nextcloud to which they should be stored. 
-
-> **Info:** This step allows you to follow any guidelines your organisation might have concerning folder structure or file management, and where new files should be stored.
 
 You can click on folders you see to navigate to them. A helpful breadcrumb shows you where you are in the folder hierarchy. 
 
@@ -119,9 +117,9 @@ To navigate one level up or to go back to the root, simply click on the relevant
 
 > **Info**: If you have navigated particularly deep (over 4 levels), intermediate levels might be collapsed to save space, but you'll always be able to navigate back to the immediate parent or the root to go backwards.
 
-Once you have selected the file(s) or folder(s) you wish to link to the work package, click on the **Link n files** button. The number on the button will represent the number of files/folders you have selected.
+Once you have selected the file(s) or folder(s) you wish to link to the work package, click on the **Link # files** button. The number on the button will represent the number of files/folders you have selected.
 
->> IMG: Focus on the "Link n files button"
+>> IMG: Focus on the "Link # files button"
 
 > **Info**: To avoid the button being too long, it will say "Link 3 files" even if you have selected 2 files and 1 folder.
 
