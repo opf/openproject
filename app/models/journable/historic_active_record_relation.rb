@@ -102,6 +102,13 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     # will be a WorkPackage, we need a work-package id, which we take from the journals table.
     if relation.select_values.count == 0
       relation = relation.select("'#{timestamp}' as timestamp, #{model.journal_class.table_name}.*, journals.journable_id as id, journables.created_at as created_at, journals.created_at as updated_at")
+    elsif relation.select_values.count == 1
+      # For sub queries, we need to use the journals.journable_id as well.
+      # See https://github.com/fiedl/openproject/issues/3.
+      if relation.select_values.first.respond_to? :relation and relation.select_values.first.relation.name == model.journal_class.table_name and relation.select_values.first.name == "id"
+        relation.instance_variable_get(:@values)[:select] = []
+        relation = relation.select("journals.journable_id as id")
+      end
     end
 
     # Based on the previous modifications, build the algebra object.
@@ -131,7 +138,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       core.instance_variable_get(:@source).right.each do |node|
         if node.kind_of?(Arel::Nodes::Join) and node.right.kind_of?(Arel::Nodes::On)
           [node.right.expr.left, node.right.expr.right].each do |attribute|
-            if (attribute.relation == journal_class.arel_table) and (attribute.name == "id")
+            if attribute.respond_to? :relation and (attribute.relation == journal_class.arel_table) and (attribute.name == "id")
               attribute.relation = Journal.arel_table
               attribute.name = "journable_id"
             end

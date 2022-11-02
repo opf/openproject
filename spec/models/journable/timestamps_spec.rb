@@ -391,7 +391,7 @@ describe Journable::Timestamps, type: :model do
           sub_query = WorkPackage.at_timestamp(@monday).where(description: "The work package as it has been on Monday")
           WorkPackage.where(id: sub_query)
         end
-        pending "returns the current records that have matched the filter on monday" do
+        it "returns the current records that have matched the filter on monday" do
           expect(subject.pluck(:description)).to eq ["The work package as it is since Friday"]
         end
         describe "when plucking the id as sub query (workaround)" do
