@@ -19,8 +19,8 @@ export const REMINDER_AVAILABLE_TIMEFRAMES:{ value:string, title:string }[] = [
 
 export const OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES:{ value:string, title:string }[] = [
   {
-    value: 'PT0S',
-    title: window.I18n.t('js.notifications.settings.reminders.timeframes.overdue.PT0S'),
+    value: 'P1D',
+    title: window.I18n.t('js.notifications.settings.reminders.timeframes.overdue.P1D'),
   },
   {
     value: 'P3D',

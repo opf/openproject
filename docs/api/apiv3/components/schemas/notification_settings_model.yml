@@ -47,7 +47,7 @@ items:
         The possible values are: none, every day, every 3 days, every week.
       enum:
         - ""
-        - PT0S
+        - P1D
         - P3D
         - P1W
     startDate:

@@ -93,7 +93,7 @@ export class NotificationSettingsTableComponent {
       workPackageCommented: new FormControl(false),
       startDate: new FormControl(this.availableTimes[2].value),
       dueDate: new FormControl(this.availableTimes[2].value),
-      overdue: new FormControl(this.availableTimes[1].value),
+      overdue: new FormControl(this.availableTimesOverdue[1].value),
     }));
   }
 

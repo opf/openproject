@@ -89,7 +89,7 @@ describe UserPreferences::ParamsContract do
     context 'when project setting with start_date, due_date and overdue set' do
       let(:notification_settings) do
         [
-          { project_id: 1234, start_date: 1, due_date: 1, overdue: 0 }
+          { project_id: 1234, start_date: 1, due_date: 1, overdue: 1 }
         ]
       end
 
@@ -99,7 +99,7 @@ describe UserPreferences::ParamsContract do
     context 'when global setting with start_date, due_date and overdue set' do
       let(:notification_settings) do
         [
-          { start_date: 1, due_date: 1, overdue: 0 }
+          { start_date: 1, due_date: 1, overdue: 1 }
         ]
       end
 
@@ -109,7 +109,7 @@ describe UserPreferences::ParamsContract do
     context 'when project setting with valid start_date, valid due_date and invalid overdue' do
       let(:notification_settings) do
         [
-          { project_id: 1234, start_date: 1, due_date: 1, overdue: 1 }
+          { project_id: 1234, start_date: 1, due_date: 1, overdue: 0 }
         ]
       end
 
@@ -119,7 +119,7 @@ describe UserPreferences::ParamsContract do
     context 'when global setting with invalid start_date, valid due_date and valid overdue' do
       let(:notification_settings) do
         [
-          { start_date: -1, due_date: 1, overdue: 0 }
+          { start_date: -1, due_date: 1, overdue: 1 }
         ]
       end
 

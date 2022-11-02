@@ -636,7 +636,7 @@ en:
               P3D: 3 days before
               P7D: a week before
             overdue:
-              PT0S: everyday
+              P1D: everyday
               P3D: every 3 days
               P7D: every week
         reasons:
