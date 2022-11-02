@@ -89,6 +89,8 @@ module Settings
       if format == :hash
         self.value = {} if value.nil?
         value.deep_merge! other_value.deep_stringify_keys
+      elsif format == :datetime && !other_value.is_a?(DateTime)
+        self.value = DateTime.parse(other_value)
       else
         self.value = other_value
       end

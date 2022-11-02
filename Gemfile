@@ -217,7 +217,7 @@ group :test do
   gem 'test-prof', '~> 1.0.0'
 
   gem 'rack_session_access'
-  gem 'rspec', '~> 3.11.0'
+  gem 'rspec', '~> 3.12.0'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 6.0.0', group: :development
 
