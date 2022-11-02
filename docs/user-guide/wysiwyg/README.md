@@ -49,7 +49,7 @@ As CKEditor5 currently does not provide support for code blocks, OpenProject can
 
 ### Tables
 
-The GFM extension of the CommonMark specs adds a definition for table syntax which the CKEditor build of OpenProject supports. This definition requires all tables to have a heading row. For tables created with CKEditor without heading rows, a HTML table is output instead. This matches the behavior of, e.g., GitHub.
+The GFM extension of the CommonMark specs adds a definition for table syntax which the CKEditor of OpenProject supports. This definition requires all tables to have a heading row. For tables created with CKEditor without heading rows, a HTML table is output instead. This matches the behavior of, e.g., GitHub.
 
 ### Autoformatting
 
