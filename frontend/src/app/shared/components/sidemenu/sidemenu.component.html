@@ -71,5 +71,6 @@
     [class]="'icon-' + item.icon"
   ></span>
   <span class="op-sidemenu--item-title">{{ item.title }}</span>
+  <span class="spot-icon spot-icon spot-icon_enterprise-badge" *ngIf="noEEToken && item.isEnterprise"></span>
   <span class="op-bubble op-bubble_alt_highlighting" *ngIf="item.count">{{ item.count }}</span>
 </ng-template>
