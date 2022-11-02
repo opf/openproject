@@ -45,6 +45,10 @@ module Redmine::MenuManager::TopMenuHelper
     end
   end
 
+  def render_top_menu_search
+    render partial: 'search/mini_form'
+  end
+
   def render_top_menu_right
     content_tag :ul, class: 'op-app-menu' do
       [render_module_top_menu_node,
