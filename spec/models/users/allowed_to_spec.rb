@@ -196,8 +196,7 @@ RSpec.describe User, 'allowed_to?' do
       before do
         project.public = false
 
-        non_member = Role.non_member
-        non_member.add_permission! permission
+        Role.non_member.add_permission! permission
 
         member.save!
 
@@ -234,9 +233,7 @@ RSpec.describe User, 'allowed_to?' do
         project.public = false
         project.save!
 
-        non_member = Role.non_member
-
-        non_member.add_permission! permission
+        Role.non_member.add_permission! permission
 
         final_setup_step
       end
@@ -253,9 +250,7 @@ RSpec.describe User, 'allowed_to?' do
         project.public = true
         project.save!
 
-        non_member = Role.non_member
-
-        non_member.add_permission! permission
+        Role.non_member.add_permission! permission
 
         final_setup_step
       end
@@ -273,8 +268,7 @@ RSpec.describe User, 'allowed_to?' do
         project.public = true
         project.save!
 
-        non_member = Role.non_member
-        non_member.add_permission! permission
+        Role.non_member.add_permission! permission
 
         member.save!
 

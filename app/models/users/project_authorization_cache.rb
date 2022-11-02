@@ -34,31 +34,32 @@ class Users::ProjectAuthorizationCache
   end
 
   def cache(actions)
-    cached_actions = if actions.is_a?(Array)
-                       actions
-                     else
-                       [actions]
-                     end
-
-    cached_actions.each do |action|
+    Array(actions)
+      .flat_map { |action| normalized_permission_names(action) }
+      .each do |action|
       allowed_project_ids = Project.allowed_to(user, action).pluck(:id)
 
-      projects_by_actions[normalized_permission_name(action)] = allowed_project_ids
+      projects_by_actions[action] = allowed_project_ids
     end
   end
 
   def cached?(action)
-    projects_by_actions[normalized_permission_name(action)]
+    normalized_permission_names(action).all? { |action_name| projects_by_actions.key?(action_name) }
   end
 
   def allowed?(action, project)
-    projects_by_actions[normalized_permission_name(action)].include? project.id
+    normalized_permission_names(action).any? { |action_name| projects_by_actions[action_name].include? project.id }
   end
 
   private
 
-  def normalized_permission_name(action)
-    OpenProject::AccessControl.permission(action)
+  def normalized_permission_names(action)
+    case action
+    when Symbol
+      [OpenProject::AccessControl.permission(action).name]
+    when Hash
+      OpenProject::AccessControl.allow_actions(action).map(&:name)
+    end
   end
 
   def projects_by_actions
