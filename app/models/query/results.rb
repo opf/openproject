@@ -44,11 +44,14 @@ class ::Query::Results
 
   # Returns the work packages adhering to the filters and ordered by the provided criteria (grouping and sorting)
   def work_packages
-    WorkPackage
+    work_package_scope
       .where(id: work_package_ids)
+      .includes(all_includes)
+      .joins(all_joins)
       .order(order_option)
       .references(:projects)
       .order(sort_criteria_array)
+      #.at_timestamp(query.timestamps.last)
   end
 
   def work_package_ids

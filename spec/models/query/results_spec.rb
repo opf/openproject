@@ -703,6 +703,7 @@ describe ::Query::Results, type: :model, with_mail: false do
       let(:work_package2) { create(:work_package, project: project2) }
       let(:work_package3) { create(:work_package, project: project3) }
 
+      before { [work_package1, work_package2, work_package3] }
       before { login_as(user1) }
 
       context 'when ascending' do
@@ -739,6 +740,7 @@ describe ::Query::Results, type: :model, with_mail: false do
       let(:work_package2) { create(:work_package, project: project1, category: category2) }
       let(:work_package3) { create(:work_package, project: project1, category: category3) }
 
+      before { [work_package1, work_package2, work_package3] }
       before { login_as(user1) }
 
       context 'when ascending' do
@@ -775,15 +777,13 @@ describe ::Query::Results, type: :model, with_mail: false do
       let(:work_package2) { create(:work_package, project: project1, subject: 'WorkPackage b') }
       let(:work_package3) { create(:work_package, project: project1, subject: 'WorkPackage C') }
 
+      before { [work_package1, work_package2, work_package3] }
       before { login_as(user1) }
 
       context 'when ascending' do
         let(:sort_by) { [['subject', 'asc']] }
 
         it 'sorts case insensitive' do
-          query_results.work_packages
-          [work_package1, work_package2, work_package3]
-
           expect(query_results.work_packages)
             .to match [work_package1, work_package2, work_package3]
         end
@@ -811,6 +811,7 @@ describe ::Query::Results, type: :model, with_mail: false do
       let(:work_package2) { create(:work_package, project: project1, due_date: 2.days.ago) }
       let(:work_package3) { create(:work_package, project: project1, due_date: 1.day.ago) }
 
+      before { [work_package1, work_package2, work_package3] }
       before { login_as(user1) }
 
       context 'when ascending' do
