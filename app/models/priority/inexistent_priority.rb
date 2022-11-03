@@ -26,4 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Priority::InexistentPriority < IssuePriority; end
+class Priority::InexistentPriority < IssuePriority
+  include InexistentModel
+end

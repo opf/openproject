@@ -450,7 +450,8 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         work_package = create_work_package_with_entry(:cost_entry)
         create(:custom_value,
                custom_field: searchable_field,
-               value: "non-matching value")
+               value: "non-matching value",
+               customized: work_package)
         clear_cache
       end
 

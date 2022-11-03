@@ -160,17 +160,6 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     project_field.set_value project.name
 
     embedded_table.expect_toast(
-      message: 'Type is not set to one of the allowed values.',
-      type: :error
-    )
-
-    # Set type
-    type_field = embedded_table.edit_field(nil, :type)
-    type_field.expect_active!
-    type_field.openSelectField
-    type_field.set_value type.name
-
-    embedded_table.expect_toast(
       message: 'Successful creation. Click here to open this work package in fullscreen view.'
     )
 

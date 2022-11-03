@@ -130,7 +130,7 @@ class BaseTypeService
 
     [
       name,
-      group['attributes'].map { |attr| attr['key'] }
+      group['attributes'].pluck('key')
     ]
   end
 
@@ -139,6 +139,11 @@ class BaseTypeService
     props = JSON.parse group['query']
 
     query = Query.new_default(name: "Embedded table: #{name}")
+
+    query.extend(OpenProject::ChangedBySystem)
+    query.change_by_system do
+      query.user = User.system
+    end
 
     ::API::V3::UpdateQueryFromV3ParamsService
       .new(query, user)

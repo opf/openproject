@@ -74,7 +74,9 @@ FactoryBot.define do
     end
 
     callback(:after_stub) do |wp, arguments|
-      wp.type = wp.project.types.first unless wp.type_id || arguments.instance_variable_get(:@overrides).has_key?(:type)
+      unless wp.type_id || arguments.instance_variable_get(:@overrides).has_key?(:type) || wp.project.nil?
+        wp.type = wp.project.types.first
+      end
     end
   end
 end
