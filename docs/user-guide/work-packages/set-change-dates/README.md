@@ -129,7 +129,7 @@ It is possible for a work package to have only duration  without any start or fi
 
 > **Note:** If you add even one date to a work package with duration, the other date is automatically derived; ot is not possible to have just one date (start *or* finish) and duration set. Please note also that if a work package with only duration derives its start date via a relation, the finish date is then also derived. 
 
-Setting only duration without start of finish dates useful especially when you have a general estimation of how long different tasks or phases of a project will take, but do not have exact dates defined quite yet.
+Setting only duration without start or finish dates is especially useful when you have a general estimation of how long different tasks or phases of a project will take, but do not have exact dates defined quite yet.
 
 > **Pro tip:** This feature makes it possible to automatically derive an estimated start or finish date for entire project. 
 >
