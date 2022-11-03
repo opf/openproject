@@ -170,7 +170,7 @@ module Redmine::MenuManager::MenuHelper
                              lang: menu_item_locale(item)) do
       ''.html_safe + caption + badge_for(item)
     end
-    if item.enterprise_feature.present? && !EnterpriseToken.allows_to?(item.enterprise_feature) && !EnterpriseToken.current
+    if item.enterprise_feature.present? && !EnterpriseToken.allows_to?(item.enterprise_feature)
       link_text << (' '.html_safe + spot_icon('spot-icon spot-icon_enterprise-badge'))
     end
     link_text << (' '.html_safe + op_icon(item.icon_after)) if item.icon_after.present?
