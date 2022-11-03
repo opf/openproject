@@ -48,7 +48,7 @@ describe 'OpenID Connect',
   end
 
   before do
-    allow(EnterpriseToken).to receive(:show_banners?).and_return(false)
+    with_enterprise_token :openid_providers
 
     # The redirect will include an authorisation code.
     # Since we don't actually get a valid code in the test we will stub the resulting AccessToken.
@@ -149,7 +149,7 @@ describe 'OpenID Connect',
     end
 
     it 'will show no option unless EE' do
-      allow(EnterpriseToken).to receive(:show_banners?).and_return(true)
+      without_enterprise_token
       get '/login'
       expect(response.body).not_to match /Google/i
       expect(response.body).not_to match /Azure/i
