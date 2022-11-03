@@ -163,7 +163,7 @@ Examples:
 
 
 ### Embedding attribute help texts
-You can also embed attribute values and [their help texts](../../system-admin-guide/attribute-help-texts/) by using `workPackageLabel` instead: `workPackageLabel:1234:status` would output the translated label for "Status" and (if exists), the corresponding help text for it.
+You can also embed attribute values and [their help texts](../../system-admin-guide/attribute-help-texts/) by using `workPackageLabel` instead of: `workPackageLabel:1234:status` which would output the translated label for "Status" and (if exists), the corresponding help text for it.
 
 
 
