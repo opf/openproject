@@ -37,8 +37,7 @@ module IconsHelper
   end
 
   def spot_icon(classnames, title: nil)
-    title = "title=\"#{h(title)}\"" unless title.nil?
-    %(<span class="#{classnames}" #{title}></span>).html_safe
+    content_tag(:span, title, class: classnames.to_s)
   end
 
   ##

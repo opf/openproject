@@ -48,7 +48,7 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
 
     it 'renders upsale' do
       get :index
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
       expect(response).to render_template 'openid_connect/providers/upsale'
     end
   end
@@ -60,11 +60,11 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
     end
 
     context 'when not admin' do
-      let(:user) { build_stubbed :user }
+      let(:user) { build_stubbed(:user) }
 
       it 'renders 403' do
         get :index
-        expect(response.status).to eq 403
+        expect(response).to have_http_status(:forbidden)
       end
     end
 
@@ -137,7 +137,7 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
         it 'renders 404' do
           get :edit, params: { id: 'doesnoexist' }
           expect(response).not_to be_successful
-          expect(response.status).to eq 404
+          expect(response).to have_http_status(:not_found)
         end
       end
     end
