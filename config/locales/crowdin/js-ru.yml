@@ -574,11 +574,11 @@ ru:
       menu:
         accountable: 'Подотчетный'
         by_project: 'Непрочитано по проекту'
-        by_reason: 'Reason'
+        by_reason: 'Причина'
         inbox: 'Входящие'
         mentioned: 'Упомянутые'
         watched: 'Наблюдатель'
-        date_alert: 'Date alert'
+        date_alert: 'Дата оповещения'
       settings:
         change_notification_settings: 'Чтобы просмотреть и изменить настройки уведомлений, <a target="_blank" href="%{url}">нажмите здесь</a>'
         title: "Настройки уведомлений"

@@ -32,4 +32,5 @@ ru:
         selection_none: "Выберите файлы для связывания"
         selection_any: "Ссылка на %{number} файлов"
         not_allowed_tooltip: "Войдите в Nextcloud для доступа к этому файлу"
-        already_linked: "This file is already linked to this work package."
+        already_linked_file: "This file is already linked to this work package."
+        already_linked_directory: "This directory is already linked to this work package."

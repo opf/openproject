@@ -32,4 +32,5 @@ ca:
         selection_none: "Selecciona fitxers a enllaçar"
         selection_any: "Enllaça %{number} de fitxers"
         not_allowed_tooltip: "Si us plau, inicia sessió a Nextcloud per accedir a aquest fitxer"
-        already_linked: "This file is already linked to this work package."
+        already_linked_file: "This file is already linked to this work package."
+        already_linked_directory: "This directory is already linked to this work package."

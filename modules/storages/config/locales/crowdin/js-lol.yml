@@ -32,4 +32,5 @@ lol:
         selection_none: "crwdns836446:0crwdne836446:0"
         selection_any: "crwdns836448:0%{number}crwdne836448:0"
         not_allowed_tooltip: "crwdns833126:0crwdne833126:0"
-        already_linked: "crwdns836779:0crwdne836779:0"
+        already_linked_file: "crwdns836781:0crwdne836781:0"
+        already_linked_directory: "crwdns836783:0crwdne836783:0"

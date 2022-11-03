@@ -32,4 +32,5 @@ tr:
         selection_none: "Bağlanacak dosyaları seçin"
         selection_any: "%{number} dosyayı bağla"
         not_allowed_tooltip: "Bu dosyaya erişmek için lütfen Nextcloud'da oturum açın"
-        already_linked: "This file is already linked to this work package."
+        already_linked_file: "This file is already linked to this work package."
+        already_linked_directory: "This directory is already linked to this work package."

@@ -32,4 +32,5 @@ rw:
         selection_none: "Select files to link"
         selection_any: "Link %{number} files"
         not_allowed_tooltip: "Please log in to Nextcloud to access this file"
-        already_linked: "This file is already linked to this work package."
+        already_linked_file: "This file is already linked to this work package."
+        already_linked_directory: "This directory is already linked to this work package."

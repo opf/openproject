@@ -32,4 +32,5 @@ de:
         selection_none: "Dateien zum Verlinken auswählen"
         selection_any: "%{number} Dateien verknüpfen"
         not_allowed_tooltip: "Bitte melden Sie sich bei Nextcloud an, um auf diese Datei zuzugreifen"
-        already_linked: "This file is already linked to this work package."
+        already_linked_file: "This file is already linked to this work package."
+        already_linked_directory: "This directory is already linked to this work package."

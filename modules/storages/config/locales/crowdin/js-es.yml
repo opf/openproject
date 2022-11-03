@@ -32,4 +32,5 @@ es:
         selection_none: "Seleccionar archivos a enlazar"
         selection_any: "Enlace %{number} archivos"
         not_allowed_tooltip: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"
-        already_linked: "This file is already linked to this work package."
+        already_linked_file: "This file is already linked to this work package."
+        already_linked_directory: "This directory is already linked to this work package."

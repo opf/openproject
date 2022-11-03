@@ -537,8 +537,8 @@ ca:
       no_unread: "No hi ha notificacions sense llegir"
       reasons:
         mentioned: 'mencionat'
-        watched: 'watcher'
-        assigned: 'assignee'
+        watched: 'Observador'
+        assigned: 'assignat a'
         responsible: 'responsable'
         created: 'creat'
         scheduled: 'programat'
@@ -573,11 +573,11 @@ ca:
       menu:
         accountable: 'Responsable'
         by_project: 'No llegit per projecte'
-        by_reason: 'Reason'
+        by_reason: 'Motiu'
         inbox: 'Safata d''entrada'
         mentioned: 'Mencionat'
-        watched: 'Watcher'
-        date_alert: 'Date alert'
+        watched: 'Observador'
+        date_alert: 'Avís de data'
       settings:
         change_notification_settings: 'Per veure i canviar la configuració de notificacions, <a target="_blank" href="%{url}">fes clic aquí</a>'
         title: "Configuració de notificacions"

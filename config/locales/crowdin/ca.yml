@@ -2928,7 +2928,7 @@ ca:
   api_v3:
     attributes:
       lock_version: "Bloquejar versió"
-      property: 'Property'
+      property: 'Propietat'
     errors:
       code_400: "Sol·licitud incorrecta: %{message}"
       code_401: "Cal que estiguis autenticat per accedir a aquest recurs."
