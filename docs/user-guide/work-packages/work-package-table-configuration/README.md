@@ -254,4 +254,4 @@ If you make changes to a saved view, e.g. change a filter criteria, you have to 
 
 If you want to save a completely new work package view, again click on the settings and select **Save as...** as described [above](#save-work-package-views). 
 
-> **Please note**:  You can't change the default "All open" view. Therefore pressing the disc icon won't have any effect on the default view that is displayed when navigating to the work packages module. You alwaysw have to create a new view (filter, group, etc.), set a name and save it (private or public).
+> **Please note**:  You can't change the default "All open" view. Therefore pressing the disc icon won't have any effect on the default view that is displayed when navigating to the work packages module. You always have to create a new view (filter, group, etc.), set a name and save it (private or public).
