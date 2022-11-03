@@ -98,9 +98,9 @@ module Redmine::MenuManager::TopMenuHelper
     link = link_to url,
                    class: 'op-app-menu--item-action',
                    title: I18n.t(:label_login) do
-      concat('<span class="op-app-menu--item-title hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
-      concat('<i class="op-app-menu--item-dropdown-indicator button--dropdown-indicator hidden-for-mobile"></i>'.html_safe)
-      concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)
+      concat content_tag(:span, I18n.t(:label_login), class: 'op-app-menu--item-title hidden-for-mobile')
+      concat content_tag(:i, '', class: 'op-app-menu--item-dropdown-indicator button--dropdown-indicator hidden-for-mobile')
+      concat content_tag(:i, '', class: 'icon2 icon-user hidden-for-desktop')
     end
 
     render_menu_dropdown(link, menu_item_class: '') do
@@ -112,8 +112,8 @@ module Redmine::MenuManager::TopMenuHelper
     link = link_to signin_path,
                    class: 'op-app-menu--item-action login',
                    title: I18n.t(:label_login) do
-      concat('<span class="op-app-menu--item-title hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
-      concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)
+      concat content_tag(:span, I18n.t(:label_login), class: 'op-app-menu--item-title hidden-for-mobile')
+      concat content_tag(:i, '', class: 'icon2 icon-user hidden-for-desktop')
     end
 
     content_tag :li, class: "" do
