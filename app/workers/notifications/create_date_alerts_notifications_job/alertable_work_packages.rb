@@ -52,14 +52,17 @@ class Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPackages
   end
 
   def query
-    alertables = alertable_work_packages(user)
+    today = Arel::Nodes::build_quoted(Date.current).to_sql
+    alertable_durations = Arel::Nodes::Grouping.new(UserPreferences::ParamsContract::DATE_ALERT_DURATIONS.compact).to_sql
+
+    alertables = alertable_work_packages
       .select(:id,
               :project_id,
               "work_packages.start_date - #{today} AS start_delta",
               "work_packages.due_date - #{today} AS due_delta",
               "#{today} - work_packages.due_date AS overdue_delta")
-      .where("work_packages.start_date - #{today} BETWEEN 0 AND 7 " \
-             "OR work_packages.due_date - #{today} BETWEEN 0 and 7 " \
+      .where("work_packages.start_date - #{today} IN #{alertable_durations} " \
+             "OR work_packages.due_date - #{today} IN #{alertable_durations} " \
              "OR #{today} - work_packages.due_date > 0")
 
     <<~SQL.squish
@@ -107,18 +110,17 @@ class Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPackages
     SQL
   end
 
-  def alertable_work_packages(user)
-    relation = WorkPackage.with_status_open.involving_user(user)
-    # `relation.to_sql` was producing SQL with weird select clauses that could
-    # not be used in a CTE, while doing `relation.pluck(:something)` was producing
+  def alertable_work_packages
+    work_packages = WorkPackage
+      .with_status_open
+      .involving_user(user)
+
+    # `work_packages.to_sql` was producing SQL with weird select clauses that could
+    # not be used in a CTE, while doing `work_packages.pluck(:something)` was producing
     # nice formatted sql. Reading `#pluck` source code revealed the existence
     # of `#join_dependency` and how to use it to have a nicely formatted sql
     # query.
-    join_dependency = relation.construct_join_dependency([:status], Arel::Nodes::OuterJoin)
-    relation.joins(join_dependency)
-  end
-
-  def today
-    @today ||= Arel::Nodes::build_quoted(Date.current).to_sql
+    join_dependency = work_packages.construct_join_dependency([:status], Arel::Nodes::OuterJoin)
+    work_packages.joins(join_dependency)
   end
 end
