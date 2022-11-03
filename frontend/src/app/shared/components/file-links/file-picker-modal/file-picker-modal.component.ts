@@ -157,6 +157,7 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
           const id = file.id as string;
           if (!this.selection.has(id) && !this.isAlreadyLinked(file)) {
             this.selection.add(id);
+            this.fileMap[id] = file;
           }
         });
 
