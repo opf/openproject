@@ -25,7 +25,7 @@ This integration makes it possible for you to:
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Connecting your OpenProject and Nextcloud accounts](#connecting-your-openproject-and-nextcloud-accounts) | How to connect your Nextcloud and OpenProject accounts to be able to use this integration |
 | [Linking files and folders to work packages](#linking-files-and-folders-to-work-packages) | How to link files and folders to work packages and view and download linked files |
-| [Unlinking linked files and folders](#unlinking-files-and-folders) | Unlinking linked files and folders |
+| [Unlinking files and folders](#unlinking-files-and-folders) | How to remove the link between a work package and a Nextcloud file or folder |
 | [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't |
 | [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them |
 
@@ -165,7 +165,7 @@ There are three additional features related to the integration that you can enab
 > **Note:** In this version of the integration, you can only link files to work packages on Nextcloud; adding a new link to a Nextcloud file via the OpenProject interface is not yet possible, but will be possible in the near future.
 
 
-## Unlinking linked files and folders
+## Unlinking files and folders
 
 If you wish to unlink any linked file or folder, hover to it in the list of linked Files and click on the **Unlink** icon next to the _Delete_ icon.
 
