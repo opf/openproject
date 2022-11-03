@@ -16,7 +16,7 @@ module OpenProject::OpenIDConnect
            :openid_connect_providers_path,
            parent: :authentication,
            caption: ->(*) { I18n.t('openid_connect.menu_title') },
-           enterprise_feature: 'openid_connect'
+           enterprise_feature: 'openid_providers'
     end
 
     assets %w(
