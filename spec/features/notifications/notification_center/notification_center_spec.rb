@@ -246,6 +246,17 @@ describe "Notification center", js: true, with_settings: { journal_aggregation_t
         center.expect_work_package_item due_date_notification
         center.expect_work_package_item overdue_date_notification
         center.expect_no_item(notification, start_date_notification)
+
+        # do not open a toaster if the notification is not part of the current filters
+        create(:notification,
+               reason: :mentioned,
+               recipient:,
+               resource: overdue_work_package,
+               project: project1)
+
+        # We need to wait for the bell to poll for updates
+        sleep 15
+        center.expect_no_toaster
       end
     end
 
