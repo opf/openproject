@@ -75,6 +75,7 @@
       class="op-reminder-settings-date-alerts--time form--select -narrow"
       attr.id="op-reminder-settings-date-alerts"
       required="true"
+      *ngIf="dateAlertsStatuses.startDate"
     >
       <option
         *ngFor="let availableTime of availableTimes"
@@ -105,6 +106,7 @@
       class="op-reminder-settings-date-alerts--time form--select -narrow"
       attr.id="op-reminder-settings-date-alerts"
       required="true"
+      *ngIf="dateAlertsStatuses.dueDate"
     >
       <option
         *ngFor="let availableTime of availableTimes"
@@ -133,6 +135,7 @@
       class="op-reminder-settings-date-alerts--time form--select -narrow"
       attr.id="op-reminder-settings-date-alerts"
       required="true"
+      *ngIf="dateAlertsStatuses.overdue"
     >
       <option
         *ngFor="let availableTime of availableTimesOverdue"

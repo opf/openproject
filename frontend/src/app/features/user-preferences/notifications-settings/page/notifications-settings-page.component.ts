@@ -116,6 +116,12 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     overdue: this.I18n.t('js.notifications.settings.global.overdue'),
   };
 
+  dateAlertsStatuses = {
+    startDate: false,
+    dueDate: false,
+    overdue: false,
+  }
+
   constructor(
     private changeDetectorRef:ChangeDetectorRef,
     private I18n:I18nService,
@@ -141,27 +147,27 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     this.form.get('startDate.active')?.valueChanges.subscribe((newValue) => {
       const timeCtrl = this.form.get('startDate.time')!;
       if (!newValue) {
-        timeCtrl.disable();
+        this.dateAlertsStatuses.startDate = false
       } else {
-        timeCtrl.enable();
+        this.dateAlertsStatuses.startDate = true
       }
     });
 
     this.form.get('dueDate.active')?.valueChanges.subscribe((newValue) => {
       const timeCtrl = this.form.get('dueDate.time')!;
       if (!newValue) {
-        timeCtrl.disable();
+        this.dateAlertsStatuses.dueDate = false
       } else {
-        timeCtrl.enable();
+        this.dateAlertsStatuses.dueDate = true
       }
     });
 
     this.form.get('overdue.active')?.valueChanges.subscribe((newValue) => {
       const timeCtrl = this.form.get('overdue.time')!;
       if (!newValue) {
-        timeCtrl.disable();
+        this.dateAlertsStatuses.overdue = false
       } else {
-        timeCtrl.enable();
+        this.dateAlertsStatuses.overdue = true
       }
     });
 
