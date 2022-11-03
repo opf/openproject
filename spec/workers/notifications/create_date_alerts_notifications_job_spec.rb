@@ -274,6 +274,72 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
       end
     end
 
+    context 'with existing date alerts' do
+      it 'marks them as read when new ones are created' do
+        work_package = alertable_work_package(assigned_to: user_paris,
+                                              start_date: in_1_day,
+                                              due_date: in_1_day)
+        existing_start_notification = create(:notification,
+                                             resource: work_package,
+                                             recipient: user_paris,
+                                             reason: :date_alert_start_date)
+        existing_due_notification = create(:notification,
+                                           resource: work_package,
+                                           recipient: user_paris,
+                                           reason: :date_alert_due_date)
+
+        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
+        travel_to(timezone_paris.now.change(hour: 1, min: 4)) do
+          scheduled_job.invoke_job
+
+          expect(existing_start_notification.reload).to have_attributes(read_ian: true)
+          expect(existing_due_notification.reload).to have_attributes(read_ian: true)
+          unread_date_alert_notifications = Notification.where(recipient: user_paris,
+                                                               read_ian: false,
+                                                               resource: work_package)
+          expect(unread_date_alert_notifications.pluck(:reason))
+            .to contain_exactly("date_alert_start_date", "date_alert_due_date")
+        end
+      end
+
+      # rubocop:disable RSpec/ExampleLength
+      it 'does not mark them as read when if no new notifications are created' do
+        work_package_start = alertable_work_package(assigned_to: user_paris,
+                                                    start_date: in_1_day,
+                                                    due_date: nil)
+        work_package_due = alertable_work_package(assigned_to: user_paris,
+                                                  start_date: nil,
+                                                  due_date: in_1_day)
+        existing_wp_start_start_notif = create(:notification,
+                                               reason: :date_alert_start_date,
+                                               recipient: user_paris,
+                                               resource: work_package_start)
+        existing_wp_start_due_notif = create(:notification,
+                                             reason: :date_alert_due_date,
+                                             recipient: user_paris,
+                                             resource: work_package_start)
+        existing_wp_due_start_notif = create(:notification,
+                                             reason: :date_alert_start_date,
+                                             recipient: user_paris,
+                                             resource: work_package_due)
+        existing_wp_due_due_notif = create(:notification,
+                                           reason: :date_alert_due_date,
+                                           recipient: user_paris,
+                                           resource: work_package_due)
+
+        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
+        travel_to(timezone_paris.now.change(hour: 1, min: 4)) do
+          scheduled_job.invoke_job
+
+          expect(existing_wp_start_start_notif.reload).to have_attributes(read_ian: true)
+          expect(existing_wp_start_due_notif.reload).to have_attributes(read_ian: false)
+          expect(existing_wp_due_start_notif.reload).to have_attributes(read_ian: false)
+          expect(existing_wp_due_due_notif.reload).to have_attributes(read_ian: true)
+        end
+      end
+      # rubocop:enable RSpec/ExampleLength
+    end
+
     context 'when scheduled and executed at 01:00 am Paris local time' do
       it 'creates a start date alert notification for a user in the same time zone' do
         work_package = alertable_work_package

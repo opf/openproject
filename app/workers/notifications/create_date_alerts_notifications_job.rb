@@ -45,12 +45,23 @@ module Notifications
 
     def send_date_alert_notifications(user)
       alertables = AlertableWorkPackages.new(user)
-      alertables.alertable_for_start.each do |work_package|
-        create_date_alert_notification(user, work_package, :date_alert_start_date)
+      create_date_alert_notifications(user, alertables.alertable_for_start, :date_alert_start_date)
+      create_date_alert_notifications(user, alertables.alertable_for_due, :date_alert_due_date)
+    end
+
+    def create_date_alert_notifications(user, work_packages, reason)
+      mark_previous_notifications_as_read(user, work_packages, reason)
+      work_packages.find_each do |work_package|
+        create_date_alert_notification(user, work_package, reason)
       end
-      alertables.alertable_for_due.each do |work_package|
-        create_date_alert_notification(user, work_package, :date_alert_due_date)
-      end
+    end
+
+    def mark_previous_notifications_as_read(user, work_packages, reason)
+      Notification
+        .where(recipient: user,
+               reason:,
+               resource: work_packages)
+        .update_all(read_ian: true, updated_at: Time.current)
     end
 
     def create_date_alert_notification(user, work_package, reason)
