@@ -165,69 +165,87 @@ describe "Notification center", js: true, with_settings: { journal_aggregation_t
       end
     end
 
-    context "with a new notification in date_alerts" do
-      let(:work_package4) do
-        create(:work_package,
-               project: project1,
-               author: other_user)
+    context "with date alert notifications" do
+      let(:starting_soon_work_package) do
+        # Executing as current user to avoid notification creation
+        User.execute_as(recipient) do
+          create(:work_package,
+                 start_date: 3.days.from_now,
+                 project: project1)
+        end
       end
-      let(:work_package5) do
-        create(:work_package,
-               project: project1,
-               author: other_user)
+      let(:ending_soon_work_package) do
+        # Executing as current user to avoid notification creation
+        User.execute_as(recipient) do
+          create(:work_package,
+                 due_date: 2.days.from_now,
+                 project: project1)
+        end
       end
-      let(:notification3) do
+      let(:overdue_work_package) do
+        # Executing as current user to avoid notification creation
+        User.execute_as(recipient) do
+          create(:work_package,
+                 due_date: 1.day.ago,
+                 project: project1)
+        end
+      end
+      let(:start_date_notification) do
         create(:notification,
                reason: :date_alert_start_date,
                recipient:,
-               resource: work_package4,
+               resource: starting_soon_work_package,
                project: project1,
-               actor: other_user,
-               journal: work_package4.journals.reload.last,
-               read_ian: true)
+               actor: nil,
+               journal: nil,
+               read_ian: false)
       end
-      let(:notification4) do
+      let(:due_date_notification) do
         create(:notification,
                reason: :date_alert_due_date,
                recipient:,
-               resource: work_package5,
+               resource: ending_soon_work_package,
                project: project1,
-               actor: other_user,
-               journal: work_package5.journals.reload.last,
-               read_ian: true)
+               actor: nil,
+               journal: nil,
+               read_ian: false)
+      end
+      let(:overdue_date_notification) do
+        create(:notification,
+               reason: :date_alert_due_date,
+               recipient:,
+               resource: overdue_work_package,
+               project: project1,
+               actor: nil,
+               journal: nil,
+               read_ian: false)
       end
 
-      it "opens a toaster if the notification is part of the current filters" do
-        visit home_path
-        center.open
-        center.expect_bell_count 2
-        center.expect_work_package_item notification
-        center.expect_work_package_item notification2
-        center.expect_no_toaster
-        notification3.update(read_ian: false)
-        notification4.update(read_ian: false)
-        center.expect_toast
-        center.update_via_toaster
-        center.expect_no_toaster
-        center.expect_work_package_item notification
-        center.expect_work_package_item notification2
-        center.expect_work_package_item notification3
-        center.expect_work_package_item notification4
+      let(:notifications) do
+        [notification, start_date_notification, due_date_notification, overdue_date_notification]
       end
 
-      # TODO: fix and reenable
-      xit "does not open a toaster if the notification is not part of the current filters" do
+      it "displays the date alerts; allows reading and filtering them" do
         visit home_path
         center.open
-        center.expect_bell_count 2
+        # Three date alerts and the standard (created) notification
+        center.expect_bell_count 4
+        center.expect_work_package_item notification
+        center.expect_work_package_item start_date_notification
+        center.expect_work_package_item due_date_notification
+        center.expect_work_package_item overdue_date_notification
+
+        # Reading one will update the unread notification list
+        center.mark_notification_as_read start_date_notification
+
+        center.expect_bell_count 3
+
+        # Filtering for only date alert notifications (that are unread)
         side_menu.click_item 'Date alert'
-        side_menu.finished_loading
-        center.expect_no_toaster
-        notification3.update(read_ian: false)
-        notification4.update(read_ian: false)
-        # We need to wait for the bell to poll for updates
-        sleep 15
-        center.expect_no_toaster
+
+        center.expect_work_package_item due_date_notification
+        center.expect_work_package_item overdue_date_notification
+        center.expect_no_item(notification, start_date_notification)
       end
     end
 
