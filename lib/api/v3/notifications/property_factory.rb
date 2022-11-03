@@ -35,6 +35,8 @@ module API::V3::Notifications
       date_alert_due_date: "due_date"
     }.freeze
 
+    DATE_ALERT_REASONS = %w(date_alert_start_date date_alert_due_date).freeze
+
     module_function
 
     # Fetch the collection of details for a notification
@@ -53,11 +55,19 @@ module API::V3::Notifications
       ::API::V3::Values::Schemas::ValueSchemaFactory.all_for(detail_properties)
     end
 
+    # Returns the outward facing notification group attributes
+    def groups_for(values)
+      group_values = values.except(*DATE_ALERT_REASONS)
+      date_alert_values = values.slice(*DATE_ALERT_REASONS).values.reduce(:+)
+      group_values["dateAlert"] = date_alert_values if date_alert_values
+      group_values
+    end
+
     # Returns the outward facing reason e.g. `dateAlert` as opposed to `date_alert_start_date`.
     def reason_for(notification)
       reason = notification.reason
       case reason
-      when 'date_alert_start_date', 'date_alert_due_date'
+      when *DATE_ALERT_REASONS
         'dateAlert'
       else
         reason

@@ -167,4 +167,44 @@ describe ::API::V3::Notifications::PropertyFactory do
       end
     end
   end
+
+  describe '.groups_for' do
+    context 'with a date_alert_start_date notification' do
+      let(:group_values) { { "date_alert_start_date" => 1 } }
+
+      it 'returns as a date alert' do
+        expect(described_class.groups_for(group_values))
+          .to eq({ "dateAlert" => 1 })
+      end
+    end
+
+    context 'for a date_alert_due_date notification' do
+      let(:group_values) { { "date_alert_due_date" => 1 } }
+
+      it 'returns as a date alert' do
+        expect(described_class.groups_for(group_values))
+          .to eq({ "dateAlert" => 1 })
+      end
+    end
+
+    context 'for multiple notifications' do
+      let(:group_values) { { "mentioned" => 1, "date_alert_due_date" => 2, "date_alert_start_date" => 1 } }
+
+      it 'sums up date alerts' do
+        expect(described_class.groups_for(group_values))
+          .to eq({ "mentioned" => 1, "dateAlert" => 3 })
+      end
+    end
+
+    (Notification::REASONS.keys - %i[date_alert_start_date date_alert_due_date]).each do |possible_reason|
+      context "for a #{possible_reason} notification" do
+        let(:group_values) { { possible_reason => 1 } }
+
+        it 'returns the unaltered reasons' do
+          expect(described_class.groups_for(group_values))
+            .to eq group_values
+        end
+      end
+    end
+  end
 end

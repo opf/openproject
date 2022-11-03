@@ -34,4 +34,8 @@ class Queries::Notifications::NotificationQuery < Queries::BaseQuery
   def default_scope
     Notification.visible(User.current).recipient(user)
   end
+
+  def group_values
+    ::API::V3::Notifications::PropertyFactory.groups_for(super)
+  end
 end
