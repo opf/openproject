@@ -5,10 +5,11 @@ require 'bundler'
 Bundler.setup(:default, :development)
 
 require 'colored2'
-require 'pathname'
 require 'json'
-require 'rest-client'
+require 'optparse'
+require 'pathname'
 require 'pry'
+require 'rest-client'
 require 'yaml'
 
 GITHUB_API_OPENPROJECT_PREFIX = "https://api.github.com/repos/opf/openproject"
@@ -19,6 +20,38 @@ if !ENV['GITHUB_USERNAME']
   raise "Missing GITHUB_USERNAME env"
 elsif !ENV['GITHUB_TOKEN']
   raise "Missing GITHUB_TOKEN env, go to https://github.com/settings/tokens and create one with 'repo' access"
+end
+
+def parse_options
+  options = {}
+  opt_parser = OptionParser.new do |parser|
+    parser.banner = <<~BANNER
+      Usage: #{$0} [options]
+
+      Fetches rspec failures from last completed GitHub actions on current
+      branch, and outputs them on standard output, one by line.
+
+      Information is printed on standard error to preserve standard output.
+
+      Use this script with xargs to run failing specs locally:
+
+          #{$0} | xargs --no-run-if-empty bundle exec rspec
+
+
+      Options:
+    BANNER
+
+    parser.on("-c", "--compact", "Output all failing rspec files on one line") do
+      options[:compact] = true
+    end
+
+    parser.on("-h", "--help", "Prints this help") do
+      puts parser
+      exit
+    end
+  end
+  opt_parser.parse!
+  options
 end
 
 # Returns current branch
@@ -156,6 +189,8 @@ end
 
 ##########
 
+options = parse_options
+
 warn "Looking for the last 'Test suite' workflow run in branch #{branch_name}"
 
 last_test_action = get_last_test_action
@@ -191,5 +226,7 @@ if is_successful
 elsif errors.empty?
   warn "No rspec errors found :-/"
 else
-  puts errors.map { "'#{_1}'" }
+  errors = errors.map { "'#{_1}'" }
+  errors = errors.join(" ") if options[:compact]
+  puts errors
 end
