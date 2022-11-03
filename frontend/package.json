@@ -166,6 +166,9 @@
     "uuid": "^8.3.2",
     "zone.js": "~0.11.4"
   },
+  "optionalDependencies": {
+    "fsevents": "*"
+  },
   "scripts": {
     "analyze": "ng build --configuration production --stats-json && webpack-bundle-analyzer -h 0.0.0.0 -p 9999 ../public/assets/frontend/stats.json",
     "build": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --extract-css --source-map",
