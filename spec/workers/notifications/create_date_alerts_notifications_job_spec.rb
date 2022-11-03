@@ -31,22 +31,15 @@ require 'spec_helper'
 describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
   include ActiveSupport::Testing::TimeHelpers
 
-  create_shared_association_defaults_for_work_package_factory
-
-  subject { scheduled_job.perform }
+  shared_let(:project) { create(:project, name: 'main') }
 
   shared_let(:status_open) { create(:status, name: "open", is_closed: false) }
   shared_let(:status_closed) { create(:status, name: "closed", is_closed: true) }
 
-  let(:scheduled_job) do
-    described_class.ensure_scheduled!
-
-    described_class.delayed_job
-  end
-
   shared_let(:today) { Date.current }
   shared_let(:in_1_day) { today + 1.day }
   shared_let(:in_3_days) { today + 3.days }
+  shared_let(:in_7_days) { today + 7.days }
 
   # Paris and Berlin are both UTC+01:00 (CET) or UTC+02:00 (CEST)
   shared_let(:user_paris) do
@@ -72,8 +65,14 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
       preferences: { time_zone: 'Asia/Kathmandu' }
     )
   end
+
   shared_let(:alertable_work_packages) do
-    create_list(:work_package, 2)
+    create_list(:work_package, 2, project:, author: user_paris)
+  end
+
+  let(:scheduled_job) do
+    described_class.ensure_scheduled!
+    described_class.delayed_job
   end
 
   before do
@@ -238,6 +237,40 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
         expect(user_paris).not_to have_a_due_date_alert_notification_for(work_package)
         expect(user_berlin).not_to have_a_start_date_alert_notification_for(work_package)
         expect(user_berlin).to have_a_due_date_alert_notification_for(work_package)
+      end
+    end
+
+    context 'when project notification settings are defined for a user' do
+      it 'creates date alert notifications using these settings for work packages of the project' do
+        # global notification settings
+        user_paris.notification_settings.first.update(
+          start_date: 1,
+          due_date: nil
+        )
+        # project notifications settings
+        user_paris.notification_settings.create(
+          project:,
+          start_date: nil,
+          due_date: 7
+        )
+        silent_work_package = alertable_work_package(assigned_to: user_paris,
+                                                     project:,
+                                                     start_date: in_1_day,
+                                                     due_date: in_1_day)
+        noisy_work_package = alertable_work_package(assigned_to: user_paris,
+                                                    project:,
+                                                    start_date: in_7_days,
+                                                    due_date: in_7_days)
+
+        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
+        travel_to(timezone_paris.now.change(hour: 1, min: 4)) do
+          scheduled_job.invoke_job
+
+          expect(user_paris).not_to have_a_start_date_alert_notification_for(silent_work_package)
+          expect(user_paris).not_to have_a_due_date_alert_notification_for(silent_work_package)
+          expect(user_paris).not_to have_a_start_date_alert_notification_for(noisy_work_package)
+          expect(user_paris).to have_a_due_date_alert_notification_for(noisy_work_package)
+        end
       end
     end
 
