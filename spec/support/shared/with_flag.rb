@@ -29,7 +29,7 @@ module WithFlagMixin
 
   def with_flags(flags)
     flags.each do |k, value|
-      name = k.end_with?('?') ? k : "#{k}?"
+      name = "#{/(?:feature_)?(\w+?)(?:_active)?\??$/.match(k)[1]}_active?"
 
       raise "#{k} is not a valid flag" unless OpenProject::FeatureDecisions.respond_to?(name)
 
