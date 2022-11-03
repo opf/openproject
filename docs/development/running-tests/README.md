@@ -79,6 +79,11 @@ There is a small ruby script that will parse the logs of a GitHub Actions run an
 ./script/github_pr_errors
 ```
 
+If you want to run the tests directly to rspec, you can use this command:
+
+```
+./script/github_pr_errors | xargs bundle exec rspec
+```
 
 
 ## Tests failing on GitHub Actions CI and passing locally
