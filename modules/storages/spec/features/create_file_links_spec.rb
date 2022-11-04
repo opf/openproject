@@ -93,7 +93,7 @@ describe 'Creating file links in work package', js: true, webmock: true do
       dialog.confirm_button_state(selection_count: 1)
 
       dialog.enter_folder('Folder1')
-      dialog.has_list_item(text: file_link.name, checked: true, disabled: true)
+      dialog.has_list_item?(text: file_link.name, checked: true, disabled: true)
       dialog.select_all
       dialog.confirm_button_state(selection_count: 3)
 
@@ -101,7 +101,7 @@ describe 'Creating file links in work package', js: true, webmock: true do
       dialog.confirm_button_state(selection_count: 2)
 
       dialog.use_breadcrumb(position: 'root')
-      dialog.has_list_item(text: 'Manual.pdf', checked: true, disabled: false)
+      dialog.has_list_item?(text: 'Manual.pdf', checked: true, disabled: false)
 
       dialog.confirm
 

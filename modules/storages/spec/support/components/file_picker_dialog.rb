@@ -59,11 +59,11 @@ module Components
 
     def select_file(text)
       page.within(container) do
-        page.find('[data-qa-selector="op-files-picker-modal--list-item"]', text: text).click
+        page.find('[data-qa-selector="op-files-picker-modal--list-item"]', text:).click
       end
     end
 
-    def has_list_item(text:, checked:, disabled:)
+    def has_list_item?(text:, checked:, disabled:)
       page.within(container) do
         expect(page.find('[data-qa-selector="op-files-picker-modal--list-item"]', text:))
           .to have_field(type: 'checkbox', checked:, disabled:)
@@ -72,7 +72,7 @@ module Components
 
     def enter_folder(text)
       page.within(container) do
-        page.within('[data-qa-selector="op-files-picker-modal--list-item"]', text: text) do
+        page.within('[data-qa-selector="op-files-picker-modal--list-item"]', text:) do
           page.find('[data-qa-selector="op-files-picker-modal--list-item-caret"]').click
         end
       end
