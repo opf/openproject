@@ -292,7 +292,13 @@ class Notifications::CreateFromModelService
   end
 
   def remove_self_recipient(receivers)
-    receivers.delete(user_with_fallback.id)
+    if receivers.key?(user_with_fallback.id)
+      self_reasons = receivers[user_with_fallback.id]
+      self_reasons.delete_if { |item| item != NotificationSetting::MENTIONED }
+      if self_reasons.empty?
+        receivers.delete(user_with_fallback.id)
+      end
+    end
   end
 
   def receivers_hash

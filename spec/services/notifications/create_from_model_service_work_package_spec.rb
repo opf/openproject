@@ -884,7 +884,16 @@ describe Notifications::CreateFromModelService,
           end
           let(:author) { recipient }
 
-          it_behaves_like 'creates no notification'
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason: :mentioned,
+                mail_alert_sent: false,
+                mail_reminder_sent: false
+              }
+            end
+          end
         end
 
         context 'when there is already a notification for the journal (because it was aggregated)' do
@@ -958,7 +967,7 @@ describe Notifications::CreateFromModelService,
           it_behaves_like 'group mention'
         end
 
-        context 'with the group member making the change himself and having deactivated self notification' do
+        context 'with the group member making the change himself' do
           let(:note) do
             <<~NOTE
               Hello <mention class="mention" data-id="#{group.id}" data-type="group" data-text="@#{group.name}">@#{group.name}</mention>
@@ -966,7 +975,16 @@ describe Notifications::CreateFromModelService,
           end
           let(:author) { recipient }
 
-          it_behaves_like 'creates no notification'
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason: :mentioned,
+                mail_alert_sent: false,
+                mail_reminder_sent: false
+              }
+            end
+          end
         end
       end
     end
