@@ -58,7 +58,7 @@ module AvatarHelper
     elsif avatar_manager.gravatar_enabled?
       build_gravatar_image_url user, options
     else
-      super
+      ''.html_safe
     end
   rescue StandardError => e
     Rails.logger.error "Failed to create avatar url for #{user}: #{e}"
