@@ -575,11 +575,11 @@ pl:
       menu:
         accountable: 'Osoba odpowiedzialna'
         by_project: 'Nieprzeczytane wg projektu'
-        by_reason: 'Reason'
+        by_reason: 'Przyczyna'
         inbox: 'Inbox'
         mentioned: 'Wzmianka'
         watched: 'Obserwator'
-        date_alert: 'Date alert'
+        date_alert: 'Data ostrzeżenia'
       settings:
         change_notification_settings: 'Aby wyświetlić i zmienić ustawienia powiadomień, <a target="_blank" href="%{url}">kliknij tutaj</a>'
         title: "Ustawienia powiadomień"
