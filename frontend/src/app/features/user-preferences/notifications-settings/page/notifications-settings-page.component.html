@@ -64,11 +64,12 @@
       formControlName="active"
       class="op-reminder-settings-date-alerts--active"
       attr.data-qa-selector="op-settings-start-date"
+      id="op-settings-start-date"
     />
     <label
       class="op-reminder-settings-date-alerts--label"
       [textContent]="text.startDate"
-      attr.for="op-reminder-settings-date-alerts"
+      for="op-settings-start-date"
     ></label>
     <select
       formControlName="time"
@@ -94,12 +95,13 @@
       type="checkbox"
       formControlName="active"
       class="op-reminder-settings-date-alerts--active"
-      attr.data-qa-selector="op-settings-start-date"
+      attr.data-qa-selector="op-settings-due-date"
+      id="op-settings-due-date"
     />
     <label
       class="op-reminder-settings-date-alerts--label"
       [textContent]="text.dueDate"
-      attr.for="op-reminder-settings-date-alerts"
+      for="op-settings-due-date"
     ></label>
     <select
       formControlName="time"
@@ -124,11 +126,12 @@
       formControlName="active"
       type="checkbox"
       class="op-reminder-settings-date-alerts--active"
-      attr.data-qa-selector="op-settings-start-date">
+      attr.data-qa-selector="op-settings-overdue-date"
+      id="op-settings-overdue-date">
     <label
       class="op-reminder-settings-date-alerts--label"
       [textContent]="text.overdue"
-      attr.for="op-reminder-settings-date-alerts"
+      for="op-settings-overdue-date"
     ></label>
     <select
       formControlName="time"
