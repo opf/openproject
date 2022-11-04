@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe 'Creating file links in work package', webmock: true, type: :feature, js: true do
+describe 'Creating file links in work package', js: true, webmock: true do
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links manage_file_links) }
   let(:project) { create(:project) }
   let(:current_user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
@@ -67,8 +67,10 @@ describe 'Creating file links in work package', webmock: true, type: :feature, j
     allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
     allow(::Storages::FileLinkSyncService).to receive(:new).and_return(sync_service)
 
-    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}").to_return(status: 207, body: root_xml_response, headers: {})
-    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1").to_return(status: 207, body: folder1_xml_response, headers: {})
+    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}")
+      .to_return(status: 207, body: root_xml_response, headers: {})
+    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1")
+      .to_return(status: 207, body: folder1_xml_response, headers: {})
 
     project_storage
     file_link
@@ -80,6 +82,7 @@ describe 'Creating file links in work package', webmock: true, type: :feature, j
   describe 'with the file picker' do
     it 'must enable the user to link existing files on the storage' do
       expect(wp_page.all('[data-qa-selector="file-list--item"]').size).to eq 1
+      expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: file_link.name)
 
       wp_page.find('[data-qa-selector="op-file-list--link-existing-file-button"]').click
 
@@ -90,7 +93,7 @@ describe 'Creating file links in work package', webmock: true, type: :feature, j
       dialog.confirm_button_state(selection_count: 1)
 
       dialog.enter_folder('Folder1')
-      dialog.has_list_item(text: 'jingle.ogg', checked: true, disabled: true)
+      dialog.has_list_item(text: file_link.name, checked: true, disabled: true)
       dialog.select_all
       dialog.confirm_button_state(selection_count: 3)
 
@@ -102,8 +105,9 @@ describe 'Creating file links in work package', webmock: true, type: :feature, j
 
       dialog.confirm
 
-      sleep 15
-      expect(wp_page.all('[data-qa-selector="file-list--item"]').size).to eq 3
+      expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: 'Manual.pdf')
+      expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: 'logo.png')
+      expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: file_link.name)
     end
   end
 end
