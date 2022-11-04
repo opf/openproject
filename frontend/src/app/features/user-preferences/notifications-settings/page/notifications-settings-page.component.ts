@@ -120,7 +120,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     startDate: false,
     dueDate: false,
     overdue: false,
-  }
+  };
 
   constructor(
     private changeDetectorRef:ChangeDetectorRef,
@@ -145,29 +145,26 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       });
 
     this.form.get('startDate.active')?.valueChanges.subscribe((newValue) => {
-      const timeCtrl = this.form.get('startDate.time')!;
       if (!newValue) {
-        this.dateAlertsStatuses.startDate = false
+        this.dateAlertsStatuses.startDate = false;
       } else {
-        this.dateAlertsStatuses.startDate = true
+        this.dateAlertsStatuses.startDate = true;
       }
     });
 
     this.form.get('dueDate.active')?.valueChanges.subscribe((newValue) => {
-      const timeCtrl = this.form.get('dueDate.time')!;
       if (!newValue) {
-        this.dateAlertsStatuses.dueDate = false
+        this.dateAlertsStatuses.dueDate = false;
       } else {
-        this.dateAlertsStatuses.dueDate = true
+        this.dateAlertsStatuses.dueDate = true;
       }
     });
 
     this.form.get('overdue.active')?.valueChanges.subscribe((newValue) => {
-      const timeCtrl = this.form.get('overdue.time')!;
       if (!newValue) {
-        this.dateAlertsStatuses.overdue = false
+        this.dateAlertsStatuses.overdue = false;
       } else {
-        this.dateAlertsStatuses.overdue = true
+        this.dateAlertsStatuses.overdue = true;
       }
     });
 
