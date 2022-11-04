@@ -157,6 +157,8 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
           }
         });
 
+        // push the file data again to the subject
+        // to trigger a rerender with new selection state
         this.storageFiles$.next(files);
       });
   }
