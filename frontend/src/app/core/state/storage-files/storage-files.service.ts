@@ -27,7 +27,6 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -43,7 +42,6 @@ import { insertCollectionIntoState } from 'core-app/core/state/collection-store'
 
 @Injectable()
 export class StorageFilesResourceService extends ResourceCollectionService<IStorageFile> {
-
   protected createStore():CollectionStore<IStorageFile> {
     return new StorageFilesStore();
   }

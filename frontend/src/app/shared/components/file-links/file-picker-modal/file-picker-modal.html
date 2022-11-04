@@ -39,6 +39,16 @@
   </div>
 
   <div class="spot-action-bar">
+    <div class="spot-action-bar--left">
+      <button
+        type="button"
+        class="spot-link spot-action-bar--action"
+        (click)="selectAllOfCurrentLevel()"
+      >
+        <span class="spot-icon spot-icon_select-all"></span>
+        <span [textContent]="text.buttons.selectAll"></span>
+      </button>
+    </div>
     <div class="spot-action-bar--right">
       <button
         type="button"
