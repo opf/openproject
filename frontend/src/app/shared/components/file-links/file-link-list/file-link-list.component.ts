@@ -87,6 +87,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   showLinkFilesAction = new BehaviorSubject<boolean>(false);
 
+  private isLoggedIn = false;
+
   private readonly storageTypeMap:Record<string, string> = {};
 
   text = {
@@ -131,6 +133,10 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
     this.fileLinks$ = this.fileLinkResourceService.collection(this.collectionKey);
 
+    this.currentUserService.isLoggedIn$
+      .pipe(this.untilDestroyed())
+      .subscribe((isLoggedIn) => { this.isLoggedIn = isLoggedIn; });
+
     this.fileLinks$
       .pipe(this.untilDestroyed())
       .subscribe((fileLinks) => {
@@ -174,6 +180,12 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
   }
 
   private instantiateStorageInformation(fileLinks:IFileLink[]):StorageInformationBox[] {
+    // ToDo: Replace with anonymous user capabilities check.
+    // https://community.openproject.org/projects/openproject/work_packages/44850/activity
+    if (!this.isLoggedIn) {
+      return [];
+    }
+
     switch (this.storage._links.authorizationState.href) {
       case storageFailedAuthorization:
         return [this.failedAuthorizationInformation];
