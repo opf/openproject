@@ -573,7 +573,7 @@ GEM
       aes_key_wrap
       bindata
       httpclient
-    json_schemer (0.2.22)
+    json_schemer (0.2.23)
       ecma-re-validator (~> 0.3)
       hana (~> 1.3)
       regexp_parser (~> 2.0)
