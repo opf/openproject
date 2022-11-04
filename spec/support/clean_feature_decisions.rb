@@ -26,18 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module FeatureDecisions
-    ##
-    # This module is the container for the temporary or permanent feature flags.
-    # Having a flag method instead of a plain Setting, enables
-    # incorporating more logic into flags, such as release date restrictions.
-    #
-    # For example:
-    #
-    #   def self.your_module_active?
-    #     release_date = Date.new(2022,01,01)
-    #     Setting.feature_your_module_active || Date.today > release_date
-    #   end
+RSpec.shared_context 'with clean feature decisions' do
+  let!(:decisions_before) { OpenProject::FeatureDecisions.all.dup }
+
+  before do
+    OpenProject::FeatureDecisions.instance_variable_set(:@all, [])
+  end
+
+  after do
+    OpenProject::FeatureDecisions.instance_variable_set(:@all, decisions_before)
   end
 end
