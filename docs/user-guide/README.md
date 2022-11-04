@@ -9,7 +9,7 @@ keywords: user guide
 
 Welcome to the OpenProject User guide.
 
-This guide covers all of OpenProjects functionalities. 
+This guide covers all of OpenProject's functionalities. 
 
 
 
