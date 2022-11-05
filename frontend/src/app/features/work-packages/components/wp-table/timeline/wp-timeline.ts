@@ -44,6 +44,7 @@ export const timelineHeaderSelector = 'wp-timeline-header';
  */
 export class TimelineViewParametersSettings {
   zoomLevel:TimelineZoomLevel = 'days';
+  visibleBeforeTodayInZoomLevel:number = 2;
 }
 
 // Can't properly map the enum to a string array
