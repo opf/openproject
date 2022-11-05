@@ -29,6 +29,7 @@ uk:
           Справді відв’язати файл від цього пакету робіт? Це не вплине не вихідний файл. Буде вилучено тільки зв’язок із цим пакетом робіт.
         remove_short: "Вилучити зв’язок"
         select: "Select files"
+        select_all: "Select all"
         selection_none: "Select files to link"
         selection_any: "Link %{number} files"
         not_allowed_tooltip: "Щоб отримати доступ до цього файлу, увійдіть у Nextcloud"

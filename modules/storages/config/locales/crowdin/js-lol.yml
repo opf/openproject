@@ -29,6 +29,7 @@ lol:
           crwdns833338:0crwdne833338:0
         remove_short: "crwdns833340:0crwdne833340:0"
         select: "crwdns836444:0crwdne836444:0"
+        select_all: "crwdns836845:0crwdne836845:0"
         selection_none: "crwdns836446:0crwdne836446:0"
         selection_any: "crwdns836448:0%{number}crwdne836448:0"
         not_allowed_tooltip: "crwdns833126:0crwdne833126:0"
