@@ -380,7 +380,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
         currentParams.now,
         startDate,
         date,
-      );
+      ).clone(); // clone because currentParams.now should not be changed
 
       // finish date
       newParams.dateDisplayEnd = moment.max(
@@ -388,11 +388,11 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
         currentParams.now,
         dueDate,
         date,
-      );
+      ).clone(); // clone because currentParams.now should not be changed
     });
 
     // left spacing
-    newParams.dateDisplayStart = newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, 'days');
+    newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, 'days'); // .substract modifies its instance
 
     // right spacing
     // RR: kept both variants for documentation purpose.
@@ -403,7 +403,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
     const { pixelPerDay } = currentParams;
     const visibleDays = Math.ceil((width / pixelPerDay) * 1.5);
-    newParams.dateDisplayEnd = newParams.dateDisplayEnd.add(visibleDays, 'days');
+    newParams.dateDisplayEnd.add(visibleDays, 'days'); // .add modifies its instance
 
     // Check if view params changed:
 
