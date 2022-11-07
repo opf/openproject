@@ -1,10 +1,54 @@
 <op-attachment-list
-  *ngIf="resource.attachments"
+  *ngIf="hasAttachments"
   [resource]="resource"
+  [allowUploading]="allowUploading"
 ></op-attachment-list>
 
-<op-attachments-upload
-  *ngIf="allowUploading"
-  [resource]="resource"
-  class="hide-when-print"
-></op-attachments-upload>
+<input
+  #hiddenFileInput
+  type="file"
+  id="attachment_files"
+  name="attachment_files"
+  (change)="onFilePickerChanged()"
+  hidden
+  multiple
+/>
+
+<div
+  *ngIf="allowUploading && resource.canAddAttachments && hasAttachments"
+  class="op-attachments--actions"
+>
+  <button
+    type="button"
+    class="spot-link"
+    (click)="triggerFileInput($event)"
+  >
+    <span class="spot-icon spot-icon_attachment"></span>
+
+    Add attachment
+  </button>
+</div>
+
+<div
+  *ngIf="allowUploading && resource.canAddAttachments && !hasAttachments"
+  class="wp-attachment-upload hide-when-print op-files-tab--file-upload"
+  (drop)="onDropFiles($event)"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  [attr.aria-label]="text.uploadLabel"
+>
+  <button
+    type="button"
+    class="work-package--attachments--drop-box"
+    (click)="triggerFileInput($event)"
+    [class.-dragging]="draggingOver"
+  >
+    <span class="work-package--attachments--label">
+      <op-icon icon-classes="icon-attachment"></op-icon>
+      <label for="attachment_files">
+        {{ text.dropFiles }} <br>
+        {{ text.dropFilesHint }}
+      </label>
+    </span>
+  </button>
+</div>

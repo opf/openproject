@@ -157,7 +157,6 @@ import { WorkPackageCopyFullViewComponent } from 'core-app/features/work-package
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
 import { TimeEntryChangeset } from 'core-app/features/work-packages/helpers/time-entries/time-entry-changeset';
 
-import { AttachmentsUploadComponent } from 'core-app/shared/components/attachments/attachments-upload/attachments-upload.component';
 import { AttachmentListComponent } from 'core-app/shared/components/attachments/attachment-list/attachment-list.component';
 import { QueryFiltersComponent } from 'core-app/features/work-packages/components/filters/query-filters/query-filters.component';
 import { FilterDateTimesValueComponent } from 'core-app/features/work-packages/components/filters/filter-date-times-value/filter-date-times-value.component';
@@ -485,7 +484,7 @@ export class OpenprojectWorkPackagesModule {
       return null;
     });
 
-    hookService.register('workPackageAttachmentUploadComponent', () => AttachmentsUploadComponent);
+    // hookService.register('workPackageAttachmentUploadComponent', () => AttachmentsUploadComponent);
 
     hookService.register('workPackageAttachmentListComponent', () => AttachmentListComponent);
 

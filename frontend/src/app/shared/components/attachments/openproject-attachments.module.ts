@@ -34,7 +34,6 @@ import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { AttachmentsComponent } from './attachments.component';
 import { AttachmentListComponent } from './attachment-list/attachment-list.component';
 import { AttachmentListItemComponent } from './attachment-list/attachment-list-item.component';
-import { AttachmentsUploadComponent } from './attachments-upload/attachments-upload.component';
 
 @NgModule({
   imports: [
@@ -45,10 +44,8 @@ import { AttachmentsUploadComponent } from './attachments-upload/attachments-upl
     AttachmentsComponent,
     AttachmentListComponent,
     AttachmentListItemComponent,
-    AttachmentsUploadComponent,
   ],
   exports: [
-    AttachmentsUploadComponent,
     AttachmentListComponent,
     AttachmentsComponent,
 
