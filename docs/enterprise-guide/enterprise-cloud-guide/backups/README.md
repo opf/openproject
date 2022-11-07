@@ -26,4 +26,4 @@ In this case you cannot check the **Include attachments** check-box like on the 
 
 ## Backup via GUI
 
-Please navigate to the [System admin guide Backup page](../../../system-admin-guide/backup/)
+For detailed usage of the Backup via GUI, please navigate to the [System admin guide Backup page](../../../system-admin-guide/backup/)
