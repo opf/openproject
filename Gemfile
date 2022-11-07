@@ -250,7 +250,7 @@ group :test do
   gem 'json_spec', '~> 1.1.4'
   gem 'shoulda-matchers', '~> 5.0', require: nil
 
-  gem 'parallel_tests', '~> 3.1'
+  gem 'parallel_tests', '~> 4.0'
 end
 
 group :ldap do

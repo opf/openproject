@@ -674,7 +674,7 @@ GEM
       activerecord (>= 5.2)
       request_store (~> 1.1)
     parallel (1.22.1)
-    parallel_tests (3.13.0)
+    parallel_tests (4.0.0)
       parallel
     parser (3.1.2.1)
       ast (~> 2.4.1)
@@ -1099,7 +1099,7 @@ DEPENDENCIES
   openproject-xls_export!
   overviews!
   paper_trail (~> 12.3)
-  parallel_tests (~> 3.1)
+  parallel_tests (~> 4.0)
   pg (~> 1.4.0)
   plaintext (~> 0.3.2)
   posix-spawn (~> 0.3.13)
