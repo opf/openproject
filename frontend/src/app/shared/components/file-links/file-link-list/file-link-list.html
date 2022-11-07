@@ -37,6 +37,7 @@
       <span [textContent]="text.actions.linkFile(storageType)"></span>
     </button>
     <button
+      *ngIf="storageFileLinkingEnabled"
       type="button"
       class="spot-link op-file-list--action-button"
       data-qa-selector="op-file-list--link-existing-file-button"

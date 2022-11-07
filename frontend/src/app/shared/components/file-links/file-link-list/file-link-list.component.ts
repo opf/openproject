@@ -60,6 +60,7 @@ import {
   StorageInformationBox,
 } from 'core-app/shared/components/file-links/storage-information/storage-information-box';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   FilePickerModalComponent,
 } from 'core-app/shared/components/file-links/file-picker-modal/file-picker-modal.component';
@@ -108,16 +109,21 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     },
   };
 
+  public get storageFileLinkingEnabled():boolean {
+    return this.configurationService.activeFeatureFlags.includes('storageFileLinking');
+  }
+
   private get storageFilesLocation():string {
     return this.storage._links.open.href;
   }
 
   constructor(
     private readonly i18n:I18nService,
-    private readonly opModalService:OpModalService,
-    private readonly fileLinkResourceService:FileLinksResourceService,
-    private readonly currentUserService:CurrentUserService,
     private readonly cookieService:CookieService,
+    private readonly opModalService:OpModalService,
+    private readonly currentUserService:CurrentUserService,
+    private readonly configurationService:ConfigurationService,
+    private readonly fileLinkResourceService:FileLinksResourceService,
   ) {
     super();
   }

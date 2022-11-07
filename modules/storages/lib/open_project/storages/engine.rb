@@ -40,6 +40,10 @@ module OpenProject::Storages
     # please see comments inside ActsAsOpEngine class
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer 'openproject_storages.feature_decisions' do
+      OpenProject::FeatureDecisions.add :storage_file_linking
+    end
+
     # For documentation see the definition of register in "ActsAsOpEngine"
     # This corresponds to the openproject-storage.gemspec
     # Pass a block to the plugin (for defining permissions, menu items and the like)

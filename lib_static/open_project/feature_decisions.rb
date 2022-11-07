@@ -40,7 +40,7 @@ module OpenProject
   # * the method `.the_name_of_the_flag_active?` for querying the state
   #   of the flag. By default, it is false.
   # * fetching the overwritten value from
-  #   * ENV variable (`OPENPROJECT_THE_NAME_OF_THE_FLAG_ACTIVE = 'true'`)
+  #   * ENV variable (`OPENPROJECT_FEATURE_THE_NAME_OF_THE_FLAG_ACTIVE = 'true'`)
   #   * configuration.yml file (`the_name_of_the_flag_active: true`)
   #   * from the settings database table (`Setting.feature_the_name_of_the_flag_active = true)
   # * including the flag in the `.active` array in case it is enabled
