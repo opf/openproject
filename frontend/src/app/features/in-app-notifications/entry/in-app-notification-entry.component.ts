@@ -7,19 +7,16 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import {
-  Observable,
-  timer,
-} from 'rxjs';
+import { Observable } from 'rxjs';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
-  distinctUntilChanged,
   map,
+  startWith,
+  tap,
 } from 'rxjs/operators';
-import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { take } from 'rxjs/internal/operators/take';
 import { StateService } from '@uirouter/angular';
@@ -43,6 +40,17 @@ export class InAppNotificationEntryComponent implements OnInit {
   @Input() aggregatedNotifications:INotification[];
 
   workPackage$:Observable<WorkPackageResource>|null = null;
+
+  dateAlertFiltered$:Observable<boolean> = this
+    .storeService
+    .activeReason$
+    .pipe(
+      tap((x) => console.warn(x)),
+      map((reason) => reason === 'date_alert'),
+      startWith(false),
+    );
+
+  showDateAlert$:Observable<boolean>;
 
   loading$ = this.storeService.query.selectLoading();
 
@@ -72,6 +80,7 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   ngOnInit():void {
     this.buildTranslatedReason();
+    this.buildDateAlert();
     this.buildProject();
     this.loadWorkPackage();
   }
@@ -144,5 +153,16 @@ export class InAppNotificationEntryComponent implements OnInit {
         showUrl: this.pathHelper.projectPath(idFromLink(project.href)),
       };
     }
+  }
+
+  private buildDateAlert() {
+    this.showDateAlert$ = this
+      .dateAlertFiltered$
+      .pipe(
+        map((dateAlertFiltered) => {
+          const dateAlerts = this.aggregatedNotifications.filter((notification) => notification.reason === 'dateAlert');
+          return dateAlertFiltered || dateAlerts.length === this.aggregatedNotifications.length;
+        }),
+      );
   }
 }

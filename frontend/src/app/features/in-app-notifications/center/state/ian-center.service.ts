@@ -6,6 +6,7 @@ import {
   debounceTime,
   defaultIfEmpty,
   distinctUntilChanged,
+  filter,
   map,
   mapTo,
   pluck,
@@ -80,6 +81,15 @@ export class IanCenterService extends UntilDestroyedMixin {
   paramsChanges$ = this.query.select(['params', 'activeFacet']);
 
   activeCollection$ = this.query.select('activeCollection');
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  activeReason$:Observable<string|undefined> = this.uiRouterGlobals.params$!.pipe(
+    this.untilDestroyed(),
+    distinctUntilChanged(),
+    filter((params) => params.filter === 'reason'),
+    map((params) => params.name as string),
+    shareReplay(1),
+  );
 
   loading$:Observable<boolean> = this.query.selectLoading();
 

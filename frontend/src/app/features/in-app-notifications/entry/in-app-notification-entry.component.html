@@ -87,10 +87,19 @@
     <div
       class="op-ian-item--bottom-line"
     >
-      <op-in-app-notification-actors-line
-        [notification]="notification"
-        [aggregatedNotifications]="aggregatedNotifications"
-      ></op-in-app-notification-actors-line>
+      <ng-container *ngIf="(showDateAlert$ | async) as showDateAlert">
+        <op-in-app-notification-date-alert
+          *ngIf="showDateAlert"
+          [workPackage]="workPackage"
+          [notification]="notification"
+          [aggregatedNotifications]="aggregatedNotifications"
+        ></op-in-app-notification-date-alert>
+        <op-in-app-notification-actors-line
+          *ngIf="!showDateAlert"
+          [notification]="notification"
+          [aggregatedNotifications]="aggregatedNotifications"
+        ></op-in-app-notification-actors-line>
+      </ng-container>
     </div>
   </ng-container>
   <ng-template #workPackageLoading>

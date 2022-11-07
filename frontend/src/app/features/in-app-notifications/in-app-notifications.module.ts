@@ -21,6 +21,7 @@ import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-co
 import { EmptyStateComponent } from './center/empty-state/empty-state.component';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 import { InAppNotificationActorsLineComponent } from './entry/actors-line/in-app-notification-actors-line.component';
+import { InAppNotificationDateAlertComponent } from './entry/date-alert/in-app-notification-date-alert.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { InAppNotificationActorsLineComponent } from './entry/actors-line/in-app
     IanMenuComponent,
     EmptyStateComponent,
     InAppNotificationActorsLineComponent,
+    InAppNotificationDateAlertComponent,
   ],
   imports: [
     OPSharedModule,

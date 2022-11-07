@@ -12,6 +12,8 @@ export interface IInAppNotificationHalResourceLinks extends IHalResourceLinks {
   resource:IHalResourceLink;
   activity:IHalResourceLink;
 }
+export interface IInAppNotificationHalResourceEmbedded {
+}
 
 export interface INotification {
   id:ID;
@@ -28,4 +30,5 @@ export interface INotification {
   expanded:boolean;
 
   _links:IInAppNotificationHalResourceLinks;
+  _embedded:IInAppNotificationHalResourceEmbedded;
 }
