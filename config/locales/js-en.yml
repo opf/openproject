@@ -590,6 +590,7 @@ en:
         commented: 'commented'
         processed: 'processed'
         prioritized: 'prioritized'
+        dateAlert: 'Date alert'
       facets:
         unread: 'Unread'
         unread_title: 'Show unread'
