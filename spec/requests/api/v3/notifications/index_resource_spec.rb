@@ -50,9 +50,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
            recipient:,
            reason: :date_alert_start_date,
            resource: work_package,
-           project: work_package.project,
-           journal: nil,
-           actor: nil)
+           project: work_package.project)
   end
 
   let(:filters) { nil }
@@ -250,9 +248,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
                recipient:,
                reason: :date_alert_due_date,
                resource: work_package,
-               project: work_package.project,
-               journal: nil,
-               actor: nil)
+               project: work_package.project)
       end
 
       let(:send_request) do
@@ -337,7 +333,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
     it_behaves_like 'API V3 collection response', 0, 0, 'Notification'
   end
 
-  describe 'as an anyonymous user' do
+  describe 'as an anonymous user' do
     let(:current_user) { User.anonymous }
 
     it 'returns a 403 response' do
