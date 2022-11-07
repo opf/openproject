@@ -74,7 +74,7 @@ module OpenProject
 
     def define_flag_methods(flag_name)
       define_singleton_method "#{flag_name}_active?" do
-        Setting.send("feature_#{flag_name}_active?")
+        Setting.exists?("feature_#{flag_name}_active") && Setting.send("feature_#{flag_name}_active?")
       end
     end
 
