@@ -15,9 +15,8 @@
     <a
       class="spot-list--item-action spot-list--item-action_link op-file-list--item-action"
       [ngClass]="{
-        'disabled': disabled,
         'spot-list--item-action_disabled': disabled,
-        'view-not-allowed': !viewAllowed
+        'op-file-list--item-action_view-not-allowed': !viewAllowed
       }"
       [href]="fileLink._links.staticOriginOpen.href"
       [title]="fileLink.originData.name"
