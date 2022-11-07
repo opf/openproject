@@ -27,7 +27,11 @@
 #++
 
 class Queries::Notifications::Filters::ReasonFilter < Queries::Notifications::Filters::NotificationFilter
-  REASONS = Notification.reasons.except(:date_alert_start_date, :date_alert_due_date).merge(date_alert: [10, 11])
+  REASONS = Notification
+              .reasons
+              .except(:date_alert_start_date, :date_alert_due_date)
+              .merge(dateAlert: [Notification::REASONS[:date_alert_start_date],
+                                 Notification::REASONS[:date_alert_due_date]])
 
   def allowed_values
     REASONS.keys.map { |reason| [reason, reason] }
