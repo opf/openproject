@@ -87,6 +87,15 @@ module Pages
         checked ? checkbox.check : checkbox.uncheck
       end
 
+      def date_alert_option(type, checked)
+        checkbox = page.find "input[type='checkbox']#op-settings-#{type}-date"
+        checked ? checkbox.check : checkbox.uncheck
+      end
+
+      def set_time(label, time)
+        select time, from: label
+      end
+
       def configure_project(project: nil, **types)
         types.each { |type| set_project_option(*type, project) }
       end
