@@ -91,7 +91,7 @@ module API
           'Notification'
         end
 
-        self.to_eager_load = %i[project actor]
+        self.to_eager_load = %i[project actor journal]
       end
     end
   end
