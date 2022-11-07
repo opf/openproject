@@ -5,6 +5,34 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
   REFRESH_FUNCTION_NAME = 'refresh_permissions_view'.freeze
 
   def up
+    # rubocop:disable Rails/CreateTableWithTimestamps
+    create_table :permission_maps, id: false do |t|
+      t.string :permission, null: false
+      t.string :project_module, null: true
+      t.boolean :public, null: false
+      t.boolean :grant_admin, null: false
+      t.boolean :global, null: false
+    end
+    # rubocop:enable Rails/CreateTableWithTimestamps
+
+    execute <<~SQL.squish
+      INSERT INTO permission_maps (
+        permission,
+        project_module,
+        public,
+        grant_admin,
+        global
+      )
+      VALUES
+        ('view_project', NULL, true, false, false),
+        ('view_news', 'news', true, false, false),
+        ('view_work_packages', 'work_package_tracking', false, false, false),
+        ('add_work_packages', 'work_package_tracking', false, false, false),
+        ('work_package_assigned', 'work_package_tracking', false, true, false),
+        ('view_wiki_pages', 'wiki', false, false, false),
+        ('add_project', NULL, false, false, true)
+    SQL
+
     execute <<~SQL.squish
       CREATE MATERIALIZED VIEW #{PERMISSIONS_VIEW_NAME} AS
       SELECT
@@ -70,15 +98,15 @@ class PermissionMaterializedView < ActiveRecord::Migration[7.0]
           -- Projects and the modules active therein.
           (
             SELECT
-              permission_module_map.permission,
-              permission_module_map.project_module,
+              permission_maps.permission,
+              permission_maps.project_module,
               enabled_modules.project_id,
               public
             FROM
               -- Only permissions with a project_module required here
-              (VALUES ('view_project', NULL, true), ('view_news', 'news', true), ('view_work_packages', 'work_package_tracking', false), ('add_work_packages', 'work_package_tracking', false), ('work_package_assigned', 'work_package_tracking', false), ('view_wiki_pages', 'wiki', false)) AS permission_module_map(permission, project_module, public),
+              permission_maps,
               enabled_modules
-              WHERE enabled_modules.name = permission_module_map.project_module
+              WHERE enabled_modules.name = permission_maps.project_module
 
             UNION
 
