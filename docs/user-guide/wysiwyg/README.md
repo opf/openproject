@@ -200,6 +200,8 @@ The following list contains all supported attribute names for the `workPackageVa
 | Date of last update | `workPackageValue:1234:updatedAt`                            |
 | Version             | `workPackageValue:1234:version`                              |
 
+> **Please note**: If you are using a different language than English a translation of the commands can only be used in the text editor if all user languages (of all useres) of an instance are set to the same language (for example: German). Here Only the attribute to which the command refers is translated (`workPackageValue:1234:"translated atribute`). This also applies to the following commands.
+
 ### Available attributes for projects
 
 The following list contains all supported attribute names for the `projectValue`  and `projectLabel` macros. The examples all show references to the _current_ project the document is rendered in. They can also reference another project with `projectValue:"Identifier of the project":attribute`.
