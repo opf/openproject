@@ -1070,7 +1070,7 @@ nl:
     notice_successful_create: "Aanmaak geslaagd."
     notice_successful_delete: "Verwijdering geslaagd."
     notice_successful_update: "Succesvolle wijziging."
-    notice_job_started: "job started."
+    notice_job_started: "taak gestart."
     notice_bad_request: "Foute ingave."
     relations:
       empty: Er bestaat geen relatie
@@ -1104,12 +1104,12 @@ nl:
         one: "één onderliggend werkpakket"
         other: "%{count} werkpakket kinderen"
       hour:
-        one: "1 h"
-        other: "%{count} h"
-        zero: "0 h"
+        one: "1 u"
+        other: "%{count} u"
+        zero: "0 uur"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "1 dag"
+        other: "%{count} dagen"
         zero: "0 dagen"
     zen_mode:
       button_activate: 'Zen-modus activeren'
@@ -1183,7 +1183,7 @@ nl:
       message:
         label: 'Uitnodigings bericht'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'Volgende'
       summary:
         next_button: 'Verstuur uitnodiging'
       success:
