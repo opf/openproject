@@ -39,10 +39,11 @@ const iframeSelector = '.iframe-target-wrapper';
  */
 @Injectable({ providedIn: 'root' })
 export class OpModalWrapperAugmentService {
-  constructor(@Inject(DOCUMENT) protected documentElement:Document,
+  constructor(
+    @Inject(DOCUMENT) protected documentElement:Document,
     protected injector:Injector,
-    protected opModalService:OpModalService) {
-  }
+    protected opModalService:OpModalService,
+  ) {}
 
   /**
    * Create initial listeners for Rails-rendered modals

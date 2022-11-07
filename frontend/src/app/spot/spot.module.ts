@@ -4,6 +4,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { A11yModule } from '@angular/cdk/a11y';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SpotCheckboxComponent } from './components/checkbox/checkbox.component';
@@ -23,6 +24,7 @@ import { SpotSelectorFieldComponent } from './components/selector-field/selector
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    A11yModule,
   ],
 
   providers: [

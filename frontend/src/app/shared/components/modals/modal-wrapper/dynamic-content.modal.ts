@@ -28,7 +28,7 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit,
+  ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild,
 } from '@angular/core';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
@@ -45,10 +45,14 @@ export class DynamicContentModalComponent extends OpModalComponent implements On
   // the modal when removing error messages or clicking on labels e.g. in the registration modal.
   public closeOnOutsideClick = false;
 
-  constructor(readonly elementRef:ElementRef,
+  @ViewChild('wrapper') wrapper:HTMLElement;
+
+  constructor(
+    readonly elementRef:ElementRef,
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService) {
+    readonly I18n:I18nService,
+  ) {
     super(locals, cdRef, elementRef);
   }
 
@@ -56,13 +60,11 @@ export class DynamicContentModalComponent extends OpModalComponent implements On
     super.ngOnInit();
 
     // Append the dynamic body
-    this.$element
-      .find('.dynamic-content-modal--wrapper')
-      .addClass(this.locals.modalClassName)
-      .append(this.locals.modalBody);
+    this.wrapper.classList.add(this.locals.modalClassName);
+    this.wrapper.appendChild(this.locals.modalBody);
 
     const modal = document.querySelector('.spot-modal') as HTMLElement;
-    const closeButton = modal.querySelector('[dynamic-content-modal-close-button]') as HTMLMetaElement;
+    const closeButton = modal.querySelector('[dynamic-content-modal-close-button]') as HTMLButtonElement;
     closeButton.addEventListener('click', () => this.closeMe());
   }
 

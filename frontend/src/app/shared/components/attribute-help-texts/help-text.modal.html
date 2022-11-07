@@ -28,20 +28,21 @@
     <div class="spot-action-bar--right">
       <button
         type="button"
-        class="button button_no-margin spot-action-bar--action spot-modal--cancel-button"
+        class="button spot-action-bar--action spot-modal--cancel-button"
         (click)="closeMe()"
         >
         {{ text.close }}
       </button>
-      <a
-        class="help-text--edit-button button button_no-margin spot-action-bar--action"
+      <button
+        class="help-text--edit-button button spot-action-bar--action"
         *ngIf="helpText.editText"
         [attr.href]="helpTextLink"
         [attr.title]="text.edit"
+        type="button"
       >
         <op-icon icon-classes="button--icon icon-edit"></op-icon>
         <span class="button--text" [textContent]="text.edit"></span>
-      </a>
+      </button>
     </div>
   </div>
 </div>
