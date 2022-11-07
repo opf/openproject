@@ -332,6 +332,8 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPac
     include_examples 'not alertable if due', days_ago: 2
     include_examples 'not alertable if due', days_ago: 3
     include_examples 'alertable if due', days_ago: 4
+    include_examples 'not alertable if due', days_ago: 5
+    include_examples 'not alertable if due', days_ago: 6
     include_examples 'alertable if due', days_ago: 7
   end
 
@@ -347,6 +349,7 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPac
     include_examples 'not alertable if due', days_ago: 4
     include_examples 'not alertable if due', days_ago: 7
     include_examples 'alertable if due', days_ago: 8
+    include_examples 'not alertable if due', days_ago: 12
     include_examples 'alertable if due', days_ago: 15
   end
 

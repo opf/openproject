@@ -377,5 +377,18 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
         expect(user_paris).not_to have_a_start_date_alert_notification_for(work_package)
       end
     end
+
+    context 'when scheduled at 01:00 am Paris local time and executed at 01:37 am' do
+      it 'creates a start date alert notification for a user in the same time zone' do
+        work_package = alertable_work_package
+
+        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
+        travel_to(timezone_paris.now.change(hour: 1, min: 37))
+
+        scheduled_job.invoke_job
+
+        expect(user_paris).to have_a_start_date_alert_notification_for(work_package)
+      end
+    end
   end
 end
