@@ -80,6 +80,10 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   public macros:boolean;
 
+  public text = {
+    attachments: this.I18n.t('js.label_attachments'),
+  };
+
   // Reference to the actual ckeditor instance component
   @ViewChild(OpCkeditorComponent, { static: true }) private ckEditorInstance:OpCkeditorComponent;
 
@@ -87,13 +91,15 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   private isEditing = false;
 
-  constructor(protected elementRef:ElementRef,
+  constructor(
+    protected elementRef:ElementRef,
     protected pathHelper:PathHelperService,
     protected halResourceService:HalResourceService,
     protected Notifications:ToastService,
     protected I18n:I18nService,
     protected states:States,
-    protected ConfigurationService:ConfigurationService) {
+    protected ConfigurationService:ConfigurationService,
+  ) {
     super();
   }
 

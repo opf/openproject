@@ -58,7 +58,7 @@ import { ConfirmDialogOptions } from 'core-app/shared/components/modals/confirm-
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[op-attachment-list-item]',
-  templateUrl: './attachment-list-item.html',
+  templateUrl: './attachment-list-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttachmentListItemComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {

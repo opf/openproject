@@ -47,6 +47,7 @@ export class AttributeHelpTextModalComponent extends OpModalComponent implements
   public closeOnOutsideClick = false;
 
   readonly text = {
+    attachments: this.I18n.t('js.label_attachments'),
     edit: this.I18n.t('js.button_edit'),
     close: this.I18n.t('js.button_close'),
   };

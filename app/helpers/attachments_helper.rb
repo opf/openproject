@@ -42,7 +42,7 @@ module AttachmentsHelper
   # Within ckeditor-augmented-textarea-form, this attachment list is added automatically
   # when a resource is added.
   def list_attachments(resource)
-    content_tag 'attachments',
+    content_tag 'op-attachments',
                 '',
                 'data-resource': resource.to_json,
                 'data-allow-uploading': false,

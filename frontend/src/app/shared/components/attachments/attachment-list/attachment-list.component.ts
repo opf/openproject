@@ -43,7 +43,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Component({
   selector: 'op-attachment-list',
-  templateUrl: './attachment-list.html',
+  templateUrl: './attachment-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttachmentListComponent extends UntilDestroyedMixin implements OnInit {

@@ -1,9 +1,10 @@
-<div
-  *ngIf="resource && $attachments | async as attachments"
+<ng-container
+  *ngIf="$attachments | async as attachments"
 >
   <ul
     *ngIf="attachments.length > 0"
-    class="spot-list spot-list_compact op-file-list">
+    class="spot-list spot-list_compact op-file-list"
+  >
     <li
       *ngFor="let attachment of attachments; let i = index;"
       op-attachment-list-item
@@ -14,4 +15,4 @@
       (removeAttachment)="removeAttachment(attachment)"
     ></li>
   </ul>
-</div>
+</ng-container>

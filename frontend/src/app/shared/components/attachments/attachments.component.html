@@ -1,0 +1,10 @@
+<op-attachment-list
+  *ngIf="resource.attachments"
+  [resource]="resource"
+></op-attachment-list>
+
+<op-attachments-upload
+  *ngIf="allowUploading"
+  [resource]="resource"
+  class="hide-when-print"
+></op-attachments-upload>

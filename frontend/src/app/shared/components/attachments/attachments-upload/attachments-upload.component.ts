@@ -44,7 +44,7 @@ import { AttachmentsResourceService } from 'core-app/core/state/attachments/atta
 
 @Component({
   selector: 'op-attachments-upload',
-  templateUrl: './attachments-upload.html',
+  templateUrl: './attachments-upload.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttachmentsUploadComponent implements OnInit {
@@ -65,12 +65,14 @@ export class AttachmentsUploadComponent implements OnInit {
 
   public $element:JQuery;
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     private readonly attachmentsResourceService:AttachmentsResourceService,
     readonly configurationService:ConfigurationService,
     readonly toastService:ToastService,
     protected elementRef:ElementRef,
-    protected halResourceService:HalResourceService) { }
+    protected halResourceService:HalResourceService,
+  ) { }
 
   ngOnInit():void {
     this.$element = jQuery<HTMLElement>(this.elementRef.nativeElement);

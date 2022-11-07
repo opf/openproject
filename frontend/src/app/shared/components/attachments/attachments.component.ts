@@ -27,7 +27,7 @@
 //++
 
 import {
-  Component, ElementRef, Input, OnInit,
+  Component, ElementRef, HostBinding, Input, OnInit,
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -35,50 +35,42 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
 import { filter } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { populateInputsFromDataset } from '../dataset-inputs';
 
 export const attachmentsSelector = 'op-attachments';
 
 @Component({
   selector: attachmentsSelector,
-  templateUrl: './attachments.html',
+  templateUrl: './attachments.component.html',
 })
 export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit {
   @Input('resource') public resource:HalResource;
 
-  public $element:JQuery;
+  @Input() public allowUploading = true;
 
-  public allowUploading:boolean;
+  @Input() public destroyImmediately = true;
 
-  public destroyImmediately:boolean;
+  @HostBinding('id.attachments_fields') public hostId = true;
 
-  public text:any;
+  public text = {
+    attachments: this.I18n.t('js.label_attachments'),
+  };
 
-  constructor(protected elementRef:ElementRef,
+  constructor(
+    public elementRef:ElementRef,
     protected I18n:I18nService,
     protected states:States,
-    protected halResourceService:HalResourceService) {
+    protected halResourceService:HalResourceService,
+  ) {
     super();
 
-    this.text = {
-      attachments: this.I18n.t('js.label_attachments'),
-    };
+    populateInputsFromDataset(this);
   }
 
   ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
-
-    if (!this.resource) {
+    if (!(this.resource instanceof HalResource)) {
       // Parse the resource if any exists
-      const source = this.$element.data('resource');
-      this.resource = this.halResourceService.createHalResource(source, true);
-    }
-
-    this.allowUploading = this.$element.data('allow-uploading');
-
-    if (this.$element.data('destroy-immediately') !== undefined) {
-      this.destroyImmediately = this.$element.data('destroy-immediately');
-    } else {
-      this.destroyImmediately = true;
+      this.resource = this.halResourceService.createHalResource(this.resource, true);
     }
 
     this.setupResourceUpdateListener();
