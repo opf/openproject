@@ -48,30 +48,15 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   stateChanged$ = this.storeService.stateChanged$;
 
-  // The actor, if any
-  actors:PrincipalLike[] = [];
-
   // The translated reason, if available
   translatedReasons:{ [reason:string]:number };
-
-  // Format relative elapsed time (n seconds/minutes/hours ago)
-  // at an interval for auto updating
-  relativeTime$:Observable<string>;
-
-  fixedTime:string;
 
   project?:{ href:string, title:string, showUrl:string };
 
   text = {
-    and: this.I18n.t('js.notifications.center.label_actor_and'),
-    and_other_singular: this.I18n.t('js.notifications.center.and_more_users.one'),
-    and_other_plural: (count:number):string => this.I18n.t('js.notifications.center.and_more_users.other',
-      { count }),
     loading: this.I18n.t('js.ajax.loading'),
     placeholder: this.I18n.t('js.placeholders.default'),
     mark_as_read: this.I18n.t('js.notifications.center.mark_as_read'),
-    updated_by_at: (age:string):string => this.I18n.t('js.notifications.center.text_update_date',
-      { date: age }),
   };
 
   constructor(
@@ -87,8 +72,6 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   ngOnInit():void {
     this.buildTranslatedReason();
-    this.buildActors();
-    this.buildTime();
     this.buildProject();
     this.loadWorkPackage();
   }
@@ -104,17 +87,6 @@ export class InAppNotificationEntryComponent implements OnInit {
         .id(id)
         .requireAndStream();
     }
-  }
-
-  private buildTime() {
-    this.fixedTime = this.timezoneService.formattedDatetime(this.notification.createdAt);
-    this.relativeTime$ = timer(0, 10000)
-      .pipe(
-        map(() => this.text.updated_by_at(
-          this.timezoneService.formattedRelativeDateTime(this.notification.createdAt),
-        )),
-        distinctUntilChanged(),
-      );
   }
 
   showDetails():void {
@@ -141,38 +113,8 @@ export class InAppNotificationEntryComponent implements OnInit {
     this.storeService.markAsRead(notifications.map((el) => el.id));
   }
 
-  text_for_additional_authors(number:number):string {
-    let hint:string;
-    if (number === 1) {
-      hint = this.text.and_other_singular;
-    } else {
-      hint = this.text.and_other_plural(number);
-    }
-    return hint;
-  }
-
   isMobile():boolean {
     return this.deviceService.isMobile;
-  }
-
-  private buildActors() {
-    const actors = this
-      .aggregatedNotifications
-      .map((notification) => {
-        const { actor } = notification._links;
-
-        if (!actor) {
-          return null;
-        }
-
-        return {
-          href: actor.href,
-          name: actor.title,
-        };
-      })
-      .filter((actor) => actor !== null) as PrincipalLike[];
-
-    this.actors = _.uniqBy(actors, (item) => item.href);
   }
 
   private buildTranslatedReason() {
