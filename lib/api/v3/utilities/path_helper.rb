@@ -442,6 +442,10 @@ module API
             "#{user(id)}/preferences"
           end
 
+          def self.my_preferences
+            "#{root}/my_preferences"
+          end
+
           index :group
           show :group
 
