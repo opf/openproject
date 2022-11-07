@@ -8,6 +8,8 @@ sidebar_navigation:
 
 # Environment variables
 
+> **NOTE:** This documentation is for OpenProject on-premises Installations only, if you would like to setup similar in your OpenProject cloud instance, please contact us at support@openproject.com
+
 When using environment variables, you can set the options by setting environment variables with the name of the options below in uppercase. So for example, to configure email delivery via an SMTP server, you can set the following environment variables:
 
 ```bash
@@ -23,7 +25,7 @@ SMTP_ENABLE_STARTTLS_AUTO="true"
 
 In case you want to use environment variables, but you have no easy way to set them on a specific system, you can use the [dotenv](https://github.com/bkeepers/dotenv) gem. It automatically sets environment variables written to a .env file for a Rails application.
 
-
+Please be aware that **only those variables shall be edited which are documented** as not everything is meant to be configured or bend.
 
 ### Nested values
 
@@ -63,7 +65,6 @@ To pass symbol arrays or hashes with symbol keys, use the YAML `!ruby/symbol` no
 Example: `{!ruby/symbol key: !ruby/symbol value}` will be parsed as `{ key: :value }`.
 
 Please note: The Configuration is a HashWithIndifferentAccess and thus it should be irrelevant for hashes to use symbol keys.
-
 
 # Supported environment variables
 

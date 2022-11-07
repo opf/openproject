@@ -8,19 +8,155 @@ sidebar_navigation:
 
 
 
-OpenProject can be configured either via the `config/configuration.yml` file, [environment variables](environment/) or a mix of both.
-While the latter is probably a bad idea, the environment variable option is often helpful for automatically deploying production systems.
-Using the configuration file is probably the simplest way of configuration.
+OpenProject can be configured either via environment variables. These are often helpful for automatically deploying production systems.
 
-You can find a list of options below and an example file in [config/configuration.yml.example](https://github.com/opf/openproject/blob/dev/config/configuration.yml.example) 
+> **NOTE:** This documentation is for OpenProject on-premises Installations only, if you would like to setup similar in your OpenProject cloud instance, please contact us at support@openproject.com
+
+> **NOTE:** Using the configuration file `config/configuration.yml` is depracted and is **NOT** recommended anymore
 
 
 
-## Environment variables
+# Packaged installation
 
-Configuring OpenProject through environment variables is detailed [in this separate guide](environment/).
+The file `/opt/openproject/.env.example` contains some information to learn more. The file `/opt/openproject/conf.d/env` is used for parsing the variables and your custom values to your configuration.
 
-## List of options
+To configure the environment variables such as the number of web server threads OPENPROJECT_HTTPS, copy the `.env.example` to `/etc/openproject/conf.d/env` and add the environment variables you want to configure. The variables will be automatically loaded to the application’s environment.
+
+After changing the file `/etc/openproject/conf.d/env`  the command `sudo openproject configure` must be issued
+
+If you would like to change a value of a variable without a downtime of OpenProject you are able to configure the environment variable by using the command:
+
+```bash
+sudo openproject config set:OPENPROJECT_HTTPS=false
+```
+
+Configuring OpenProject through environment variables is described in detail [in the environment variables guide](environment/).
+
+# Docker
+
+## one container per process installation
+
+Add your custom configuration to `docker-compose.override.yml`.
+
+In the compose folder you will also find the file `docker-compose.yml` which shall **NOT** be edited.
+
+After changing the file `docker-compose.override.yml`  the command `docker-compose down && docker-compose up -d` must be issued
+
+To add an environment variable manually to the docker-compose file, add it to the `environment:` section of the `op-x-app` definition like in the following example:
+
+```yaml
+version: "3.7"
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  pgdata:
+  opdata:
+
+x-op-restart-policy: &restart_policy
+  restart: unless-stopped
+x-op-image: &image
+  image: openproject/community:${TAG:-12}
+x-op-app: &app
+  <<: [*image, *restart_policy]
+  environment:
+    OPENPROJECT_HTTPS: true
+    # ... other configuration
+    RAILS_CACHE_STORE: "memcache"
+    OPENPROJECT_CACHE__MEMCACHE__SERVER: "cache:11211"
+    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+    DATABASE_URL: "${DATABASE_URL:-postgres://postgres:p4ssw0rd@db/openproject?pool=20&encoding=unicode&reconnect=true}"
+    RAILS_MIN_THREADS: 4
+    RAILS_MAX_THREADS: 16
+    # set to true to enable the email receiving feature. See ./docker/cron for more options
+    IMAP_ENABLED: "${IMAP_ENABLED:-false}"
+  volumes:
+    - "${OPDATA:-opdata}:/var/openproject/assets"
+
+# configuration cut off at this point. 
+# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/12/compose/docker-compose.yml
+```
+
+
+
+Alternatively, you can also use an env file for docker-compose like so:
+
+First, add a `.env` file with some variable:
+
+```bash
+OPENPROJECT_HTTPS=true
+```
+
+And then you'll need to pass the environment variable to the respective containers you want to set it on. For most OpenProject environment variables, this will be for `x-op-app`:
+
+```yaml
+version: "3.7"
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  pgdata:
+  opdata:
+
+x-op-restart-policy: &restart_policy
+  restart: unless-stopped
+x-op-image: &image
+  image: openproject/community:${TAG:-12}
+x-op-app: &app
+  <<: [*image, *restart_policy]
+  environment:
+    OPENPROJECT_HTTPS: ${OPENPROJECT_HTTPS}
+    # ... more environment variables
+
+# configuration cut off at this point. 
+# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/12/compose/docker-compose.yml
+```
+
+
+
+Let's say you have a `.env.prod`  file with some production-specific configuration. Then, start the services with that special env file specified.
+
+```bash
+docker-compose --env-file .env.prod up
+```
+
+### Disabling services in the docker-compose file
+
+If you have a `docker-compose.override.yml` file created, it is also easy to disable certain services, such as the database container if you have an external one running anyway.
+
+To do that, add this section to the file:
+
+```yaml
+services: 
+  db:
+    deploy:
+      replicas: 0
+```
+
+Configuring OpenProject through environment variables is described in detail [in the environment variables guide](environment/).
+
+
+
+## Docker all-in-one container installation
+
+Environment variables can be either passed directly on the command-line to the
+Docker Engine, or via an environment file:
+
+```bash
+docker run -d -e KEY1=VALUE1 -e KEY2=VALUE2 ...
+# or
+docker run -d --env-file path/to/file ...
+```
+
+Configuring OpenProject through environment variables is described in detail [in the environment variables guide](environment/).
+
+
+
+## Examples for common use cases
 
 * `attachments_storage_path`
 * `autologin_cookie_name` (default: 'autologin'),
@@ -108,8 +244,7 @@ Per default the user may choose the usual password login as well as several omni
 
 If this option is active /login will lead directly to the configured omniauth provider and so will a click on 'Sign in' (as opposed to opening the drop down menu).
 
-Note that this does not stop a user from manually navigating to any other
-omniauth provider if additional ones are configured.
+> **NOTE:** This does not stop a user from manually navigating to any other omniauth provider if additional ones are configured.
 
 
 ### Gravatar images
@@ -126,7 +261,7 @@ You can modify the folder that attachments are stored locally. Use the `attachme
 
 To update the path, use `openproject config:set ATTACHMENTS_STORAGE_PATH="/path/to/new/folder"`. Ensure that this is writable by the `openproject` user.
 
-### attachment storage type
+#### attachment storage type
 
 *default: file*
 
@@ -173,10 +308,10 @@ It works the other way around too:
 rake attachments:copy_to[file]
 ```
 
-Note that you have to configure the respective storage (i.e. fog) beforehand as described in the previous section.
-In the case of fog you only have to configure everything under `fog`, however. Don't change `attachments_storage`
-to `fog` just yet. Instead leave it as `file`. This is because the current attachments storage is used as the source
-for the migration.
+> **NOTE:** that you have to configure the respective storage (i.e. fog) beforehand as described in the previous section.
+> In the case of fog you only have to configure everything under `fog`, however. Don't change `attachments_storage`
+> to `fog` just yet. Instead leave it as `file`. This is because the current attachments storage is used as the source
+> for the migration.
 
 ### direct uploads
 
@@ -191,7 +326,7 @@ If, for what ever reason, this is undesirable, you can disable this option.
 In that case attachments will be posted as usual to the OpenProject server which then uploads the file
 to the remote storage in an extra step.
 
-**Note**: This only works for S3 right now. When using fog with another provider this configuration will be `false`. The same goes for when no fog storage is configured, or when the `use_iam_profile` option is used in the fog credentials when using S3.
+> **NOTE**: This only works for S3 right now. When using fog with another provider this configuration will be `false`. The same goes for when no fog storage is configured, or when the `use_iam_profile` option is used in the fog credentials when using S3.
 
 ### fog download url expires in
 
@@ -199,7 +334,9 @@ to the remote storage in an extra step.
 
 Example:
 
-    fog_download_url_expires_in: 60
+```
+fog_download_url_expires_in: 60
+```
 
 When using remote storage for attachments via fog - usually S3 (see [`attachments_storage`](#attachments-storage) option) -
 each attachment download will generate a temporary URL.
@@ -440,7 +577,7 @@ web:
   max_threads: 16
 ```
 
-**Note:** Timeouts only are supported when using at least 2 workers.
+> **NOTE:** Timeouts only are supported when using at least 2 workers.
 
 As usual these values can be overridden via the environment.
 
@@ -454,7 +591,7 @@ OPENPROJECT_WEB_MAX__THREADS=16 # overridden by: RAILS_MAX_THREADS
 
 ### Two-factor authentication
 
-**Note::** These configuration variables are only applied in an Enterprise Edition
+> **NOTE:** These configuration variables are only applied in an Enterprise Edition
 
 You can set the available 2FA strategies and/or enforce or disable 2FA system-wide.
 
