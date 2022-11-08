@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::Notifications::PropertyFactory do
-  let(:resource) { build_stubbed(:work_package) }
+  let(:traits) { [] }
+  let(:resource) { build_stubbed(:work_package, *traits) }
 
   let(:notification) do
     build_stubbed(:notification,
@@ -50,6 +51,14 @@ describe ::API::V3::Notifications::PropertyFactory do
         expect(described_class.details_for(notification)[0])
           .to be_a ::API::V3::Values::PropertyDateRepresenter
       end
+
+      it 'sets the represented property to :start_date' do
+        represented = described_class.details_for(notification)[0].represented
+        expect(represented)
+          .to be_a ::API::V3::Values::PropertyModel
+        expect(represented.property)
+          .to eq :start_date
+      end
     end
 
     context 'for a date_alert_due_date notification' do
@@ -63,6 +72,37 @@ describe ::API::V3::Notifications::PropertyFactory do
       it 'returns an array of `Values::Property` representers' do
         expect(described_class.details_for(notification)[0])
           .to be_a ::API::V3::Values::PropertyDateRepresenter
+      end
+
+      it 'sets the represented property to :due_date' do
+        represented = described_class.details_for(notification)[0].represented
+        expect(represented)
+          .to be_a ::API::V3::Values::PropertyModel
+        expect(represented.property)
+          .to eq :due_date
+      end
+    end
+
+    context 'for a date_alert_due_date notification with milestone work package' do
+      let(:traits) { [:is_milestone] }
+      let(:reason) { :date_alert_due_date }
+
+      it 'returns one detail' do
+        expect(described_class.details_for(notification).size)
+          .to eq 1
+      end
+
+      it 'returns an array of `Values::Property` representers' do
+        expect(described_class.details_for(notification)[0])
+          .to be_a ::API::V3::Values::PropertyDateRepresenter
+      end
+
+      it 'sets the representer property to :date' do
+        represented = described_class.details_for(notification)[0].represented
+        expect(represented)
+          .to be_a ::API::V3::Values::PropertyModel
+        expect(represented.property)
+          .to eq :date
       end
     end
 
@@ -82,8 +122,8 @@ describe ::API::V3::Notifications::PropertyFactory do
     context 'for a date_alert_start_date notification' do
       let(:reason) { :date_alert_start_date }
 
-      it 'returns one detail' do
-        expect(described_class.schemas_for([notification]).size)
+      it 'returns one detail for the same type' do
+        expect(described_class.schemas_for([notification, notification]).size)
           .to eq 1
       end
 
@@ -104,8 +144,8 @@ describe ::API::V3::Notifications::PropertyFactory do
     context 'for a date_alert_due_date notification' do
       let(:reason) { :date_alert_due_date }
 
-      it 'returns one detail' do
-        expect(described_class.schemas_for([notification]).size)
+      it 'returns one detail for the same type' do
+        expect(described_class.schemas_for([notification, notification]).size)
           .to eq 1
       end
 
@@ -123,21 +163,59 @@ describe ::API::V3::Notifications::PropertyFactory do
       end
     end
 
-    context 'for multiple notifications' do
+    context 'for a date_alert_due_date notification with milestone work package' do
+      let(:traits) { [:is_milestone] }
       let(:reason) { :date_alert_due_date }
-      let(:reason2) { :date_alert_start_date }
 
-      let(:notification2) do
-        build_stubbed(:notification,
-                      resource:,
-                      reason: reason2)
+      it 'returns one detail for the same type' do
+        expect(described_class.schemas_for([notification, notification]).size)
+          .to eq 1
       end
 
-      let(:notifications) { [notification, notification2] }
+      it 'returns an array of `Values::Schemas::PropertySchemaRepresenter` representers' do
+        expect(described_class.schemas_for([notification])[0])
+          .to be_a ::API::V3::Values::Schemas::PropertySchemaRepresenter
+      end
 
-      it 'returns one detail' do
+      it 'returns `Values::Schemas::Model` representer for Date' do
+        representer = described_class.schemas_for([notification])[0].represented
+        expect(representer)
+          .to be_a ::API::V3::Values::Schemas::Model
+        expect(representer.name)
+          .to eq "Date"
+      end
+    end
+
+    context 'for multiple notifications' do
+      let(:reason) { :date_alert_due_date }
+      let(:reason_start) { :date_alert_start_date }
+
+      let(:notification_start_date) do
+        build_stubbed(:notification,
+                      resource:,
+                      reason: reason_start)
+      end
+
+      let(:notification_due_date_milestone) do
+        build_stubbed(:notification, :for_milestone, reason:)
+      end
+
+      let(:notification_start_date_milestone) do
+        build_stubbed(:notification, :for_milestone, reason: reason_start)
+      end
+
+      let(:notifications) do
+        [
+          notification,
+          notification_start_date,
+          notification_due_date_milestone,
+          notification_start_date_milestone
+        ]
+      end
+
+      it 'returns two details for different types' do
         expect(described_class.schemas_for(notifications).size)
-          .to eq 2
+          .to eq 3
       end
 
       it 'returns an array of `Values::Schemas::PropertySchemaRepresenter` representers' do
@@ -153,6 +231,8 @@ describe ::API::V3::Notifications::PropertyFactory do
           .to eq "Finish date"
         expect(representers.second.name)
           .to eq "Start date"
+        expect(representers.third.name)
+          .to eq "Date"
       end
     end
 

@@ -32,7 +32,8 @@ module API::V3::Notifications
 
     PROPERTY_FOR_REASON = {
       date_alert_start_date: "start_date",
-      date_alert_due_date: "due_date"
+      date_alert_due_date: "due_date",
+      date_alert_date: "date"
     }.freeze
 
     DATE_ALERT_REASONS = %w(date_alert_start_date date_alert_due_date).freeze
@@ -41,17 +42,22 @@ module API::V3::Notifications
 
     # Fetch the collection of details for a notification
     def details_for(notification)
-      concrete_factory_for(notification.reason)
+      concrete_factory_for(notification)
         .for(notification)
     end
 
     # Fetch the collection of schemas for the provided notifications.
     def schemas_for(notifications)
-      detail_properties = notifications.map(&:reason).to_set.reduce([]) do |properties, reason|
-        property = PROPERTY_FOR_REASON[reason.to_sym]
-        properties << property if property
-        properties
+      detail_properties = notifications.reduce(Set.new) do |properties, notification|
+        next properties unless PROPERTY_FOR_REASON.has_key?(notification.reason.to_sym)
+
+        properties << if notification.resource.is_milestone?
+                        PROPERTY_FOR_REASON[:date_alert_date]
+                      else
+                        PROPERTY_FOR_REASON[notification.reason.to_sym]
+                      end
       end
+
       ::API::V3::Values::Schemas::ValueSchemaFactory.all_for(detail_properties)
     end
 
@@ -74,16 +80,22 @@ module API::V3::Notifications
       end
     end
 
-    def concrete_factory_for(reason)
-      @concrete_factory_for ||= Hash.new do |h, reason_key|
-        h[reason_key] = if API::V3::Notifications::PropertyFactory.const_defined?(reason_key.camelcase)
-                          "API::V3::Notifications::PropertyFactory::#{reason_key.camelcase}".constantize
-                        else
-                          API::V3::Notifications::PropertyFactory::Default
-                        end
+    def concrete_factory_for(notification)
+      property_name = notification.reason
+
+      if notification.reason.in?(DATE_ALERT_REASONS) && notification.resource&.is_milestone?
+        property_name = 'date_alert_date'
       end
 
-      @concrete_factory_for[reason]
+      @concrete_factory_for ||= Hash.new do |h, property_key|
+        h[property_key] = if API::V3::Notifications::PropertyFactory.const_defined?(property_key.camelcase)
+                            "API::V3::Notifications::PropertyFactory::#{property_key.camelcase}".constantize
+                          else
+                            API::V3::Notifications::PropertyFactory::Default
+                          end
+      end
+
+      @concrete_factory_for[property_name]
     end
   end
 end

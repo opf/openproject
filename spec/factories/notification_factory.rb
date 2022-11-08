@@ -8,6 +8,10 @@ FactoryBot.define do
     recipient factory: :user
     project
     resource { association :work_package, project: }
+
+    trait :for_milestone do
+      resource { association :work_package, :is_milestone, project: }
+    end
     # journal and actor are not listed by intend.
     # They will be set in the after_build callback.
     # But not listing them allows to identify if they have been provided, even if nil has been provided.

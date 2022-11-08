@@ -85,6 +85,27 @@ describe ::API::V3::Values::Schemas::ValueSchemaAPI,
       end
     end
 
+    context 'for a date' do
+      let(:schema_id) { 'date' }
+
+      it 'returns the schema', :aggregate_failures do
+        expect(last_response.status)
+          .to eq 200
+
+        expect(last_response.body)
+          .to be_json_eql('Schema'.to_json)
+                .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql('Date'.to_json)
+                .at_path('value/type')
+
+        expect(last_response.body)
+          .to be_json_eql('Date'.to_json)
+                .at_path('value/name')
+      end
+    end
+
     context 'for a non existing property' do
       let(:schema_id) { 'bogus' }
 

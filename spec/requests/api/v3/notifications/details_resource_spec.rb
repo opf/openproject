@@ -39,6 +39,13 @@ describe ::API::V3::Notifications::NotificationsAPI,
            start_date: Date.yesterday,
            due_date: Date.tomorrow)
   end
+  shared_let(:milestone_resource) do
+    create(:work_package,
+           :is_milestone,
+           project:,
+           start_date: Date.tomorrow,
+           due_date: Date.tomorrow)
+  end
   shared_let(:recipient) do
     create(:user,
            member_in_project: project,
@@ -46,6 +53,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
 
   let(:notification) { create(:notification, recipient:, resource:, project:, reason:) }
+  let(:milestone_notification) { create(:notification, recipient:, resource: milestone_resource, project:, reason:) }
   let(:reason) { :date_alert_start_date }
 
   # We have 1 detail item at maximum, and the id is coming
@@ -110,6 +118,27 @@ describe ::API::V3::Notifications::NotificationsAPI,
                 .at_path('_links/self/href')
         expect(last_response.body)
           .to be_json_eql("/api/v3/values/schemas/dueDate".to_json)
+                .at_path('_links/schema/href')
+      end
+    end
+
+    context 'for a start date alert notification with a milestone resource' do
+      let(:notification) { milestone_notification }
+      let(:reason) { :date_alert_start_date }
+
+      it 'can get the notification details for a start date' do
+        send_request
+        expect(last_response.body)
+          .to be_json_eql('date'.to_json)
+                .at_path('property')
+        expect(last_response.body)
+          .to be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_date(resource.due_date).to_json)
+                .at_path('value')
+        expect(last_response.body)
+          .to be_json_eql(notification_detail_path.to_json)
+                .at_path('_links/self/href')
+        expect(last_response.body)
+          .to be_json_eql("/api/v3/values/schemas/date".to_json)
                 .at_path('_links/schema/href')
       end
     end
