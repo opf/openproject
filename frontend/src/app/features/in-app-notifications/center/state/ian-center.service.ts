@@ -83,11 +83,10 @@ export class IanCenterService extends UntilDestroyedMixin {
   activeCollection$ = this.query.select('activeCollection');
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  activeReason$:Observable<string|undefined> = this.uiRouterGlobals.params$!.pipe(
+  activeReason$:Observable<string|null> = this.uiRouterGlobals.params$!.pipe(
     this.untilDestroyed(),
     distinctUntilChanged(),
-    filter((params) => params.filter === 'reason'),
-    map((params) => params.name as string),
+    map((params) => params.filter === 'reason' ? (params.name as string) : null),
     shareReplay(1),
   );
 
