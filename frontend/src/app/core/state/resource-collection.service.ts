@@ -245,7 +245,7 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
   }
 
   /**
-   * Create a new instance of this resource service's underyling store.
+   * Create a new instance of this resource service's underlying store.
    * @protected
    */
   protected abstract createStore():CollectionStore<T>;

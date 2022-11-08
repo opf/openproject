@@ -165,7 +165,7 @@
 # Beta features
 #
 # Some features are hidden behind a feature flag during development.
-# To activate one or more features set the correspondig flag inside the section.
+# To activate one or more features set the corresponding flag inside the section.
 #
 # Example:
 # production:

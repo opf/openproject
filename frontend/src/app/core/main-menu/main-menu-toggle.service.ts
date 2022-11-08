@@ -146,7 +146,7 @@ export class MainMenuToggleService {
 
   public setWidth(width?:any):void {
     if (width !== undefined) {
-      // Leave a minimum amount of space for space fot the content
+      // Leave a minimum amount of space for space for the content
       const maxMenuWidth = this.deviceService.isMobile ? window.innerWidth - 120 : window.innerWidth - 520;
       if (width > maxMenuWidth) {
         this.elementWidth = maxMenuWidth;

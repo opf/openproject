@@ -59,7 +59,7 @@ describe CustomActions::Actions::Notify, type: :model do
     describe '#apply' do
       let(:work_package) { build_stubbed(:work_package) }
 
-      it 'adds a note with all values distinguised by type' do
+      it 'adds a note with all values distinguished by type' do
         principals = [build_stubbed(:user),
                       build_stubbed(:group),
                       build_stubbed(:user)]

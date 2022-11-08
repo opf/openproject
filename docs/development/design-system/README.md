@@ -106,4 +106,4 @@ keywords: Design system, styles, design, components
 
 ## Contribute
 
-The OpenProject product team is very interested in your feedback. So if you want to contribute or comment on the style definitions, components or documentation currently created in Figma please contact us by email to [info@openproject.com](mailto:info@openproject.com). Alternatively you can create a work package in the [OpenProject community plattform](https://community.openproject.org).
+The OpenProject product team is very interested in your feedback. So if you want to contribute or comment on the style definitions, components or documentation currently created in Figma please contact us by email to [info@openproject.com](mailto:info@openproject.com). Alternatively you can create a work package in the [OpenProject community platform](https://community.openproject.org).

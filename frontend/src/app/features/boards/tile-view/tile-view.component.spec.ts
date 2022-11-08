@@ -32,7 +32,7 @@ describe('shows tiles', () => {
     element = fixture.debugElement;
   });
 
-  it('should render the componenet successfully', () => {
+  it('should render the component successfully', () => {
     fixture.detectChanges();
     const tile = document.querySelector('.op-tile-block--title');
     expect(document.contains(tile)).toBeTruthy();

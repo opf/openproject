@@ -239,7 +239,7 @@ SAML responses by identity providers are required to be signed. You can configur
 
 Use the key `attribute_statements` to provide mappings for attributes returned by the SAML identity provider's response to OpenProject internal attributes. 
 
-**a) Attribute mapping example for configration.yml**
+**a) Attribute mapping example for configuration.yml**
 
 ```yaml
 default:

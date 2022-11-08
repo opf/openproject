@@ -110,7 +110,7 @@ class Story < WorkPackage
 
   # TODO: Refactor and add tests
   #
-  # groups = tasks.partion(&:closed?)
+  # groups = tasks.partition(&:closed?)
   # {:open => tasks.last.size, :closed => tasks.first.size}
   #
   def task_status
