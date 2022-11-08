@@ -4,10 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import {
-  IInAppNotificationDetailsAttribute,
-  INotification,
-} from 'core-app/core/state/in-app-notifications/in-app-notification.model';
+import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -18,12 +15,10 @@ import { Moment } from 'moment';
   selector: 'op-in-app-notification-date-alert',
   templateUrl: './in-app-notification-date-alert.component.html',
   styleUrls: ['./in-app-notification-date-alert.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InAppNotificationDateAlertComponent implements OnInit {
   @Input() aggregatedNotifications:INotification[];
-
-  @Input() notification:INotification;
 
   @Input() workPackage:WorkPackageResource;
 
@@ -57,7 +52,10 @@ export class InAppNotificationDateAlertComponent implements OnInit {
   ) { }
 
   ngOnInit():void {
-    const detail = this.notification._embedded.details[0];
+    // Find the most important date alert
+    const interestingAlert = this.deriveMostRelevantAlert(this.aggregatedNotifications);
+
+    const detail = interestingAlert._embedded.details[0];
     const property = detail.property;
     const dateValue = this.timezoneService.parseISODate(detail.value);
     this.dateIsPast = dateValue.isBefore();
@@ -84,5 +82,18 @@ export class InAppNotificationDateAlertComponent implements OnInit {
     const count = Math.abs(now.diff(reference, 'days'));
 
     return this.I18n.t('js.units.day', { count });
+  }
+
+  private deriveMostRelevantAlert(aggregatedNotifications:INotification[]) {
+    // Second case: We have one date alert + some others
+    const dateAlerts = aggregatedNotifications.filter((notification) => notification.reason === 'dateAlert');
+    const first = aggregatedNotifications[0];
+    if (dateAlerts.length > 1) {
+      const found = dateAlerts.find((notification) => notification._embedded.details[0].property === 'dueDate');
+      return found || first;
+    }
+
+    // We only have one
+    return first;
   }
 }

@@ -7,20 +7,14 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import {
-  Observable,
-  of,
-} from 'rxjs';
+import { Observable } from 'rxjs';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
-  defaultIfEmpty,
   map,
   shareReplay,
-  startWith,
-  tap,
 } from 'rxjs/operators';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { take } from 'rxjs/internal/operators/take';

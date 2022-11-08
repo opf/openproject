@@ -6,7 +6,6 @@ import {
   debounceTime,
   defaultIfEmpty,
   distinctUntilChanged,
-  filter,
   map,
   mapTo,
   pluck,
@@ -86,7 +85,13 @@ export class IanCenterService extends UntilDestroyedMixin {
   activeReason$:Observable<string|null> = this.uiRouterGlobals.params$!.pipe(
     this.untilDestroyed(),
     distinctUntilChanged(),
-    map((params) => params.filter === 'reason' ? (params.name as string) : null),
+    map((params) => {
+      if (params.filter === 'reason') {
+        return params.name as string;
+      }
+
+      return null;
+    }),
     shareReplay(1),
   );
 
