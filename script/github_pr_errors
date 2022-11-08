@@ -13,6 +13,7 @@ require 'rest-client'
 require 'yaml'
 
 GITHUB_API_OPENPROJECT_PREFIX = 'https://api.github.com/repos/opf/openproject'.freeze
+GITHUB_HTML_OPENPROJECT_PREFIX = 'https://github.com/opf/openproject'.freeze
 RAILS_ROOT = Pathname.new(__dir__).dirname
 SPEC_PATTERN = %r{^\S+ (?:rspec (\S+) #.+|An error occurred while loading (\S+)\.\r?)$}
 
@@ -202,10 +203,21 @@ def get_workflow_run(run_id)
   end
 end
 
+def display_pull_request_info(workflow_run)
+  return unless workflow_run['event'] == 'pull_request'
+
+  pr = workflow_run['pull_requests'].first
+  pr_number = "##{pr['number']}"
+  pr_html_url = "#{GITHUB_HTML_OPENPROJECT_PREFIX}/pull/#{pr['number']}"
+  pr_display_title = "#{workflow_run['display_title']} #{pr_number.white.dark} #{pr_html_url.white.dark}"
+  warn "  Pull Request: #{pr_display_title} "
+end
+
 def display_workflow_run_info(workflow_run)
   warn "  Branch: #{workflow_run['head_branch'].bold}"
   warn "  Commit SHA: #{workflow_run['head_sha'].bold}"
   warn "  Commit message: #{commit_message(workflow_run).bold}"
+  display_pull_request_info(workflow_run)
 end
 
 ##########
