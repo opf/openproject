@@ -45,6 +45,8 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   /* Close on outside click */
   public closeOnOutsideClick = false;
 
+  public $element:JQuery;
+
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.modal_title'),
     closePopup: this.I18n.t('js.close_popup_title'),
@@ -92,7 +94,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   }
 
   ngOnInit() {
-    this.$element = this.elementRef.nativeElement as HTMLElement;
+    this.$element = jQuery(this.elementRef.nativeElement);
 
     this.tabPortalHost = new TabPortalOutlet(
       this.wpTableConfigurationService.tabs,
@@ -146,7 +148,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     return true;
   }
 
-  protected get afterFocusOn():HTMLElement {
+  protected get afterFocusOn():JQuery {
     return this.$element;
   }
 

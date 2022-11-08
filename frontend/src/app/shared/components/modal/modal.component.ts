@@ -18,7 +18,7 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
   /* Reference to service */
   protected service:OpModalService = this.locals.service;
 
-  public $element:HTMLElement;
+  public $element:JQuery;
 
   /** Closing event called from the service when closing this modal */
   public closingEvent = new EventEmitter<this>();
@@ -28,16 +28,14 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
   /* Data to be return from this modal instance */
   public data:unknown;
 
-  protected constructor(
-    public locals:OpModalLocalsMap,
+  protected constructor(public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef,
-  ) {
+    readonly elementRef:ElementRef) {
     super();
   }
 
   ngOnInit() {
-    this.$element = this.elementRef.nativeElement as HTMLElement;
+    this.$element = jQuery(this.elementRef.nativeElement);
   }
 
   ngOnDestroy() {
@@ -69,7 +67,7 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
     this.cdRef.detectChanges();
   }
 
-  protected get afterFocusOn():HTMLElement {
+  protected get afterFocusOn():JQuery {
     return this.$element;
   }
 }

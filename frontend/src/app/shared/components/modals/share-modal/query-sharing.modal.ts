@@ -64,8 +64,7 @@ export class QuerySharingModalComponent extends OpModalComponent implements OnIn
     close_popup: this.I18n.t('js.close_popup_title'),
   };
 
-  constructor(
-    readonly elementRef:ElementRef,
+  constructor(readonly elementRef:ElementRef,
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly I18n:I18nService,
     readonly states:States,
@@ -73,8 +72,7 @@ export class QuerySharingModalComponent extends OpModalComponent implements OnIn
     readonly cdRef:ChangeDetectorRef,
     readonly wpListService:WorkPackagesListService,
     readonly halNotification:HalResourceNotificationService,
-    readonly toastService:ToastService,
-  ) {
+    readonly toastService:ToastService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -93,7 +91,7 @@ export class QuerySharingModalComponent extends OpModalComponent implements OnIn
   }
 
   public get afterFocusOn() {
-    return document.getElementById('work-packages-settings-button')!;
+    return jQuery('#work-packages-settings-button');
   }
 
   public saveQuery($event:Event):void {

@@ -20,7 +20,7 @@ export interface WidgetRegistration {
   identifier:string;
   title:string;
   component:{ new (...args:any[]):AbstractWidgetComponent };
-  properties?:Record<string, unknown>;
+  properties?:any;
 }
 
 export const GRID_PROVIDERS = [

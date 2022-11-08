@@ -33,7 +33,7 @@ function registerListener(
   form:JQuery,
   $event:JQuery.TriggeredEvent,
   opModalService:OpModalService,
-  passwordModal:typeof PasswordConfirmationModalComponent,
+  modal:typeof PasswordConfirmationModalComponent,
 ) {
   const passwordConfirm = form.find('_password_confirmation');
 
@@ -42,22 +42,20 @@ function registerListener(
   }
 
   $event.preventDefault();
-  opModalService.show(passwordModal, 'global')
-    .subscribe((modal) => modal.closingEvent.subscribe(() => {
-      if (!modal.confirmed) {
-        return;
-      }
-
+  const modalComponent = opModalService.show(modal, 'global');
+  modalComponent.closingEvent.subscribe((confirmModal:any) => {
+    if (confirmModal.confirmed) {
       jQuery('<input>')
         .attr({
           type: 'hidden',
           name: '_password_confirmation',
-          value: modal.password_confirmation,
+          value: confirmModal.password_confirmation,
         })
         .appendTo(form);
 
       form.trigger('submit');
-    }));
+    }
+  });
 
   return false;
 }
