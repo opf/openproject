@@ -591,6 +591,11 @@ en:
         processed: 'processed'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
+      date_alerts:
+        work_package_is: 'Work package is'
+        overdue_since: 'Overdue since %{difference_in_days}'
+        property_is: '%{property} is in %{difference_in_days}'
+        property_was: '%{property} was %{difference_in_days} ago'
       facets:
         unread: 'Unread'
         unread_title: 'Show unread'

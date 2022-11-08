@@ -1,1 +1,7 @@
-<p>in-app-notification-date-alert works!</p>
+<div
+  class="op-ian-date-alert"
+>
+  <span
+    [ngClass]="{ 'op-ian-date-alert_overdue': isOverdue }"
+    [textContent]="alertText"></span>
+</div>

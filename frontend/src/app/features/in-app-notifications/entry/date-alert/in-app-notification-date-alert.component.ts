@@ -1,17 +1,18 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
+  Component,
   Input,
+  OnInit,
 } from '@angular/core';
-import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
-import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
-import { Observable } from 'rxjs';
+import {
+  IInAppNotificationDetailsAttribute,
+  INotification,
+} from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { DeviceService } from 'core-app/core/browser/device.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import * as moment from 'moment';
+import { Moment } from 'moment';
 
 @Component({
   selector: 'op-in-app-notification-date-alert',
@@ -26,44 +27,60 @@ export class InAppNotificationDateAlertComponent implements OnInit {
 
   @Input() workPackage:WorkPackageResource;
 
+  alertText:string;
+
+  dateIsPast:boolean;
+
+  isOverdue:boolean;
+
+  private propertyText:string;
+
+  private daysDiff:string;
+
   text = {
-    and: this.I18n.t('js.notifications.center.label_actor_and'),
-    and_other_singular: this.I18n.t('js.notifications.center.and_more_users.one'),
-    and_other_plural: (count:number):string => this.I18n.t('js.notifications.center.and_more_users.other',
-      { count }),
-    loading: this.I18n.t('js.ajax.loading'),
-    placeholder: this.I18n.t('js.placeholders.default'),
-    mark_as_read: this.I18n.t('js.notifications.center.mark_as_read'),
-    updated_by_at: (age:string):string => this.I18n.t('js.notifications.center.text_update_date',
-      { date: age }),
+    work_package_is: this.I18n.t('js.notifications.date_alerts.work_package_is'),
+    overdue_since: (difference_in_days:string) => this.I18n.t('js.notifications.date_alerts.overdue_since', { difference_in_days }),
+    property_is: (property:string, difference_in_days:string) =>
+      this.I18n.t('js.notifications.date_alerts.property_is', { property, difference_in_days }),
+    property_was: (property:string, difference_in_days:string) =>
+      this.I18n.t('js.notifications.date_alerts.property_was', { property, difference_in_days }),
+    startDate: this.I18n.t('js.work_packages.properties.startDate'),
+    dueDate: this.I18n.t('js.work_packages.properties.dueDate'),
+    date: this.I18n.t('js.work_packages.properties.date'),
   };
 
   constructor(
     private I18n:I18nService,
     private timezoneService:TimezoneService,
-    private deviceService:DeviceService,
-    private schemaCache:SchemaCacheService,
   ) { }
 
   ngOnInit():void {
-    this.buildAlertText();
+    const detail = this.notification._embedded.details[0];
+    const property = detail.property;
+    const dateValue = this.timezoneService.parseISODate(detail.value);
+    this.dateIsPast = dateValue.isBefore();
+    this.isOverdue = this.dateIsPast && ['date', 'dueDate'].includes(property);
+    this.daysDiff = this.dateDiff(dateValue);
+    this.propertyText = this.text[property] || property;
+    this.alertText = this.buildAlertText();
   }
 
-  private buildAlertText() {
+  private buildAlertText():string {
     if (this.isOverdue) {
-      return;
+      return this.text.overdue_since(this.daysDiff);
     }
 
-    if (this.isMilestone) {
-
+    if (this.dateIsPast) {
+      return this.text.property_was(this.propertyText, this.daysDiff);
     }
+
+    return this.text.property_is(this.propertyText, this.daysDiff);
   }
 
-  private get isOverdue():boolean {
-    return false;
-  }
+  private dateDiff(reference:Moment):string {
+    const now = moment().startOf('day');
+    const count = Math.abs(now.diff(reference, 'days'));
 
-  private get isMilestone():boolean {
-    return this.schemaCache.of(this.workPackage).isMilestone as boolean;
+    return this.I18n.t('js.units.day', { count });
   }
 }

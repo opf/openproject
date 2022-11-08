@@ -45,7 +45,6 @@ export class InAppNotificationEntryComponent implements OnInit {
     .storeService
     .activeReason$
     .pipe(
-      tap((x) => console.warn(x)),
       map((reason) => reason === 'date_alert'),
       startWith(false),
     );
