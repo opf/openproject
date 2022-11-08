@@ -132,3 +132,4 @@ structure.sql
 
 # lefthook.yml user override
 lefthook-local.yml
+frontend/package-lock.json
