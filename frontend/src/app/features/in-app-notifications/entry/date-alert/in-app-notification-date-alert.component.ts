@@ -48,7 +48,7 @@ export class InAppNotificationDateAlertComponent implements OnInit {
       this.I18n.t('js.notifications.date_alerts.property_was', { difference_in_days }),
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
     dueDate: this.I18n.t('js.work_packages.properties.dueDate'),
-    date: this.I18n.t('js.work_packages.properties.date'),
+    date: this.I18n.t('js.notifications.date_alerts.milestone_date'),
   };
 
   constructor(

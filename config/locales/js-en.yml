@@ -592,7 +592,7 @@ en:
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
       date_alerts:
-        work_package_is: 'Work package is'
+        milestone_date: 'Milestone date'
         overdue: 'Overdue'
         overdue_since: 'since %{difference_in_days}'
         property_is: 'is in %{difference_in_days}'
