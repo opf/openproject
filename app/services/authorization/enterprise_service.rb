@@ -46,6 +46,7 @@ class Authorization::EnterpriseService
     grid_widget_wp_graph
     placeholder_users
     team_planner_view
+    openid_providers
   ).freeze
 
   def initialize(token)
@@ -68,7 +69,7 @@ class Authorization::EnterpriseService
 
   def process(action)
     # Every non-expired token
-    GUARDED_ACTIONS.include?(action)
+    GUARDED_ACTIONS.include?(action.to_sym)
   end
 
   def result(bool)
