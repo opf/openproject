@@ -106,7 +106,6 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
       loginButton: (storageType:string):string => this.i18n.t('js.storages.login', { storageType }),
     },
     actions: {
-      linkFile: (storageType:string):string => this.i18n.t('js.storages.link_files_in_storage', { storageType }),
       linkExisting: this.i18n.t('js.storages.link_existing_files'),
     },
   };
@@ -161,10 +160,6 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   public removeFileLink(fileLink:IFileLink):void {
     this.fileLinkResourceService.remove(this.collectionKey, fileLink);
-  }
-
-  public openStorageLocation():void {
-    window.open(this.storageFilesLocation, '_blank');
   }
 
   public openLinkFilesDialog():void {
