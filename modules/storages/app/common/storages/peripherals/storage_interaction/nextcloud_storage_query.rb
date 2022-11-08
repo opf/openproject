@@ -96,18 +96,19 @@ module Storages::Peripherals::StorageInteraction
     end
 
     def storage_file(file_element)
-      name = name(file_element)
+      location = name(file_element)
+      name = CGI.unescape(location.split('/').last)
 
       ::Storages::StorageFile.new(
         id(file_element),
-        CGI.unescape(name.split('/').last),
+        name,
         size(file_element),
         mime_type(file_element),
         nil,
         last_modified_at(file_element),
         created_by(file_element),
         nil,
-        "/#{name}"
+        location
       )
     end
 
