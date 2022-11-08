@@ -17,8 +17,8 @@ FactoryBot.define do
       # * it is not a date alert
       # * the values haven't been overridden (including setting them to nil).
       unless notification.reason_date_alert_due_date? || notification.reason_date_alert_start_date?
-        notification.journal ||= notification.resource.journals.last unless evaluator.overrides.key?(:journal)
-        notification.actor ||= notification.journal.try(:user) unless evaluator.overrides.key?(:actor)
+        notification.journal ||= notification.resource.journals.last unless evaluator.overrides?(:journal)
+        notification.actor ||= notification.journal.try(:user) unless evaluator.overrides?(:actor)
       end
     end
   end
