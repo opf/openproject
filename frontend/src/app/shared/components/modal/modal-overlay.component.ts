@@ -115,7 +115,10 @@ export class OpModalOverlayComponent implements OnInit {
       });
   }
 
-  public close():void {
+  public close($event:MouseEvent, includeChildClicks = true):void {
+    if (!includeChildClicks && $event.currentTarget !== $event.target) {
+      return;
+    }
     this.modalService.close();
   }
 }

@@ -8,12 +8,12 @@
   tabindex="0"
   cdkFocusInitial
   cdkTrapFocus
-  (click)="close()"
+  (click)="close($event, false)"
 >
   <button
     type="button"
     class="spot-button spot-modal-overlay--close-button"
-    (click)="close()"
+    (click)="close($event)"
   >
     <span class="spot-icon spot-icon_close"></span>
   </button>
