@@ -174,4 +174,30 @@ describe 'API v3 UserPreferences resource', type: :request, content_type: :json 
       end
     end
   end
+
+  describe '/api/v3/my_preferences endpoint' do
+    let(:preference_path) { api_v3_paths.my_preferences }
+
+    describe '#GET' do
+      before do
+        get preference_path
+      end
+
+      it 'redirects to /api/v3/users/me/preferences' do
+        expect(subject.status).to eq(301) # Moved Permanently, it may change the method to GET
+        expect(response.get_header('Location')).to eq(api_v3_paths.user_preferences("me"))
+      end
+    end
+
+    describe '#PATCH' do
+      before do
+        patch preference_path
+      end
+
+      it 'redirects to /api/v3/users/me/preferences with 308 to keep the http method' do
+        expect(subject.status).to eq(308) # Method redirect, it keeps the same HTTP method.
+        expect(response.get_header('Location')).to eq(api_v3_paths.user_preferences("me"))
+      end
+    end
+  end
 end
