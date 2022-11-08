@@ -145,27 +145,15 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       });
 
     this.form.get('startDate.active')?.valueChanges.subscribe((newValue) => {
-      if (!newValue) {
-        this.dateAlertsStatuses.startDate = false;
-      } else {
-        this.dateAlertsStatuses.startDate = true;
-      }
+      this.dateAlertsStatuses.startDate = !!newValue;
     });
 
     this.form.get('dueDate.active')?.valueChanges.subscribe((newValue) => {
-      if (!newValue) {
-        this.dateAlertsStatuses.dueDate = false;
-      } else {
-        this.dateAlertsStatuses.dueDate = true;
-      }
+      this.dateAlertsStatuses.dueDate = !!newValue;
     });
 
     this.form.get('overdue.active')?.valueChanges.subscribe((newValue) => {
-      if (!newValue) {
-        this.dateAlertsStatuses.overdue = false;
-      } else {
-        this.dateAlertsStatuses.overdue = true;
-      }
+      this.dateAlertsStatuses.overdue = !!newValue;
     });
 
     this.storeService.query.notificationsForGlobal$
