@@ -137,6 +137,8 @@ export class AttachmentsResourceService extends ResourceCollectionService<IAttac
     const href = this.getUploadTarget(resource);
     const isDirectUpload = !!this.getDirectUploadLink(resource);
 
+    console.log(identifier);
+
     return this
       .addAttachments(
         identifier,

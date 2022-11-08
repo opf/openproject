@@ -1,0 +1,53 @@
+@import "helpers"
+
+.op-attachments
+  display: flex
+  flex-direction: column
+  position: relative
+
+  &--actions
+    @include spot-body-small
+
+  &--drop-box
+    @include unset-button-styles
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 100%
+    border: 2px dashed var(--light-gray)
+    border-radius: 2px
+    padding: 20px
+    cursor: pointer
+    color: var(--light-gray)
+    background: $spot-color-basic-white
+
+    &_float
+      display: none
+      position: absolute
+      top: 0
+      left: 0
+      height: 100%
+      width: 100%
+      z-index: 1
+
+    &-text
+      cursor: pointer
+      color: var(--gray-dark)
+      font-size: 0.9rem
+      font-weight: bold
+      line-height: 1.4
+      margin: 0 0 0 $spot-spacing-0_75
+      text-align: left
+
+    &-icon
+      font-size: $spot-spacing-3
+
+  
+  &_dragging &--drop-box
+    display: flex
+
+    &:hover
+      background: #f4f4f4
+
+  &_dragging &--list
+    min-height: $spot-spacing-4

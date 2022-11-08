@@ -27,8 +27,15 @@
 //++
 
 import {
-    ChangeDetectionStrategy,
-  Component, ElementRef, HostBinding, Input, OnInit, ViewChild,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -50,12 +57,16 @@ export const attachmentsSelector = 'op-attachments';
 @Component({
   selector: attachmentsSelector,
   templateUrl: './attachments.component.html',
+  styleUrls: ['./attachments.component.sass'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit {
+export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @HostBinding('id.attachments_fields') public hostId = true;
 
   @HostBinding('class.op-attachments') public className = true;
+
+  @HostBinding('class.op-attachments_dragging') public draggingOver = false;
 
   @Input('resource') public resource:HalResource;
 
@@ -65,8 +76,6 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit 
 
   @ViewChild('hiddenFileInput') public filePicker:ElementRef<HTMLInputElement>;
 
-  public draggingOver = false;
-
   public text = {
     attachments: this.I18n.t('js.label_attachments'),
     uploadLabel: this.I18n.t('js.label_add_attachments'),
@@ -75,8 +84,8 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit 
     foldersWarning: this.I18n.t('js.label_drop_folders_hint'),
   };
 
-  public get hasAttachments() {
-    return this.resource.attachments && this.resource.attachments.length;
+  public get hasAttachments():boolean {
+    return !!(this.resource.attachments && this.resource.attachments.elements.length);
   }
 
   constructor(
@@ -107,13 +116,18 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit 
         console.log('new resource!', newResource);
         this.resource = newResource || this.resource;
       });
+
+    document.body.addEventListener('dragover', this.onDragOver.bind(this));
+    document.body.addEventListener('dragleave', this.onDragLeave.bind(this));
+  }
+  
+  ngOnDestroy():void {
+    document.body.removeEventListener('dragover', this.onDragOver.bind(this));
+    document.body.removeEventListener('dragleave', this.onDragLeave.bind(this));
   }
 
-  public triggerFileInput(event:MouseEvent):void {
+  public triggerFileInput():void {
     this.filePicker.nativeElement.click();
-
-    event.preventDefault();
-    event.stopPropagation();
   }
 
   public onFilePickerChanged():void {
@@ -150,15 +164,10 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit 
       event.dataTransfer.dropEffect = 'copy';
       this.draggingOver = true;
     }
-
-    event.preventDefault();
-    event.stopPropagation();
   }
 
-  public onDragLeave(event:DragEvent):void {
+  public onDragLeave(_event:DragEvent):void {
     this.draggingOver = false;
-    event.preventDefault();
-    event.stopPropagation();
   }
 
   protected uploadFiles(files:UploadFile[]):void {
