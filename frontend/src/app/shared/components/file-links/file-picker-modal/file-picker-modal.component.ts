@@ -35,7 +35,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -90,6 +90,8 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
   private readonly fileMap:Record<string, IStorageFile> = {};
 
   private readonly storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
+
+  private loadingSubscription:Subscription;
 
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -174,15 +176,22 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
   }
 
   private changeLevel(parent:string|null, crumbs:Breadcrumb[]):void {
+    this.cancelCurrentLoading();
     this.loading$.next(true);
+    this.breadcrumbs = new BreadcrumbsContent(crumbs);
 
-    this.storageFilesResourceService.files(this.makeFilesCollectionLink(parent))
+    this.loadingSubscription = this.storageFilesResourceService.files(this.makeFilesCollectionLink(parent))
       .pipe(take(1))
       .subscribe((files) => {
         this.storageFiles$.next(files);
         this.loading$.next(false);
-        this.breadcrumbs = new BreadcrumbsContent(crumbs);
       });
+  }
+
+  private cancelCurrentLoading():void {
+    if (this.loadingSubscription) {
+      this.loadingSubscription.unsubscribe();
+    }
   }
 
   private makeFilesCollectionLink(parent:string|null):IHalResourceLink {
