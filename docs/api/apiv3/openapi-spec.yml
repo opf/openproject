@@ -462,17 +462,25 @@ components:
       "$ref": "./components/examples/query.yml"
     QuerySchemaModel:
       "$ref": "./components/examples/query_schema.yml"
-    ValuesPropertySchema:
-      "$ref": "./components/examples/values_property_schema.yml"
+    ValuesPropertyStartDateSchema:
+      "$ref": "./components/examples/values_property_start_date_schema.yml"
+    ValuesPropertyDueDateSchema:
+      "$ref": "./components/examples/values_property_due_date_schema.yml"
+    ValuesPropertyDateSchema:
+      "$ref": "./components/examples/values_property_date_schema.yml"
     ValuesPropertyStartDate:
       "$ref": "./components/examples/values_property_start_date.yml"
+    ValuesPropertyDueDate:
+      "$ref": "./components/examples/values_property_due_date.yml"
+    ValuesPropertyDate:
+      "$ref": "./components/examples/values_property_date.yml"
     Views:
       "$ref": "./components/examples/views.yml"
     ViewWorkPackagesTable:
       "$ref": "./components/examples/view_work_packages_table.yml"
     ViewTeamPlanner:
       "$ref": "./components/examples/view_team_planner.yml"
-      
+
   responses:
     InvalidRequestBody:
       "$ref": "./components/responses/invalid_request_body.yml"

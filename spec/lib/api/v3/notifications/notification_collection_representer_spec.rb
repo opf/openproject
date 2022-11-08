@@ -31,9 +31,9 @@ require 'spec_helper'
 describe ::API::V3::Notifications::NotificationCollectionRepresenter do
   let(:self_base_link) { '/api/v3/notifications' }
   let(:user) { build_stubbed(:user) }
+  let(:notification_list) { build_stubbed_list(:notification, 3) }
   let(:notifications) do
-    build_stubbed_list(:notification,
-                       3).tap do |items|
+    notification_list.tap do |items|
       allow(items)
         .to receive(:limit)
               .with(page_size)
@@ -99,15 +99,15 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
         end
       end
 
-      shared_examples_for 'rendering detailsSchemas' do |date_alert_reasons|
+      shared_examples_for 'rendering detailsSchemas' do |reasons: [], expected_schemas: reasons|
         before do
-          date_alert_reasons.each_with_index do |reason, idx|
+          reasons.each_with_index do |reason, idx|
             notifications[idx].reason = reason
           end
         end
 
         it 'renders the required detailsSchemas' do
-          properties = date_alert_reasons.map do |reason|
+          properties = expected_schemas.map do |reason|
             ::API::V3::Notifications::PropertyFactory::PROPERTY_FOR_REASON[reason.to_sym]
           end
           details_schemas = ::API::V3::Values::Schemas::ValueSchemaFactory.all_for(properties)
@@ -115,16 +115,42 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
         end
       end
 
-      context 'when a date alert start date notification is present' do
-        it_behaves_like 'rendering detailsSchemas', ['date_alert_start_date']
+      context 'when a start date notification is present' do
+        it_behaves_like 'rendering detailsSchemas', reasons: ['date_alert_start_date']
       end
 
-      context 'when a date alert due date notification is present' do
-        it_behaves_like 'rendering detailsSchemas', ['date_alert_due_date']
+      context 'when a due date notification is present' do
+        it_behaves_like 'rendering detailsSchemas', reasons: ['date_alert_due_date']
+      end
+
+      context 'when a due date and a start date notification is present for a milestone work package' do
+        let(:notification_list) { build_stubbed_list(:notification, 3, :for_milestone) }
+
+        it_behaves_like 'rendering detailsSchemas',
+                        reasons: ['date_alert_due_date', 'date_alert_start_date'],
+                        expected_schemas: ['date_alert_date']
       end
 
       context 'when both date alert notifications are present' do
-        it_behaves_like 'rendering detailsSchemas', ['date_alert_start_date', 'date_alert_due_date']
+        it_behaves_like 'rendering detailsSchemas', reasons: ['date_alert_start_date', 'date_alert_due_date']
+      end
+
+      context 'when a list of mixed date alerts are present' do
+        let(:notification_list) do
+          [
+            build_stubbed(:notification, :for_milestone, reason: 'date_alert_start_date'),
+            build_stubbed(:notification, reason: 'date_alert_start_date'),
+            build_stubbed(:notification, :for_milestone, reason: 'date_alert_due_date'),
+            build_stubbed(:notification, reason: 'date_alert_due_date')
+          ]
+        end
+
+        it_behaves_like 'rendering detailsSchemas',
+                        expected_schemas: [
+                          'date_alert_date',
+                          'date_alert_start_date',
+                          'date_alert_due_date'
+                        ]
       end
     end
   end

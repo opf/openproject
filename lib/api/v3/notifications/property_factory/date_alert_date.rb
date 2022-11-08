@@ -26,48 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module API::V3::Values::Schemas
-  module ValueSchemaFactory
+module API::V3::Notifications::PropertyFactory
+  module DateAlertDate
     extend ::API::V3::Utilities::PathHelper
-    SUPPORTED = %w(start_date due_date date).freeze
 
     module_function
 
-    def for(property)
-      return nil unless supported?(property)
-
-      ::API::V3::Values::Schemas::PropertySchemaRepresenter
-        .new(model_for(property),
-             current_user: nil,
-             self_link: api_v3_paths.value_schema(property.camelcase(:lower)))
-    end
-
-    def all_for(properties)
-      properties.map { |property| self.for(property) }
-    end
-
-    def supported?(property)
-      # This is but a stub. Currently, only 'start_date' and 'due_date'
-      # need to be supported so this simple approach works.
-      SUPPORTED.include?(property)
-    end
-
-    def model_for(property)
-      API::V3::Values::Schemas::Model
-        .new(i18n_for(property),
-             type_for(property))
-    end
-
-    def i18n_for(property)
-      # This is but a stub. Currently, only 'start_date' and 'due_date'
-      # need to be supported so this simple approach works.
-      I18n.t("attributes.#{property}")
-    end
-
-    def type_for(_property)
-      # This is but a stub. Currently, only 'start_date' and 'due_date'
-      # need to be supported so this simple approach works.
-      'Date'
+    def for(notification)
+      [
+        ::API::V3::Values::PropertyDateRepresenter
+          .new(::API::V3::Values::PropertyModel.new(:date, notification.resource.due_date),
+               self_link: api_v3_paths.notification_detail(notification.id, 0))
+      ]
     end
   end
 end
