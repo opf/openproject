@@ -53,8 +53,103 @@
     />
   </spot-selector-field>
 
-  <h5>{{text.dateAlerts.title}}</h5>
-  <p>{{text.dateAlerts.description}}</p>
+  <h5>{{ text.dateAlerts.title }}</h5>
+  <p>{{ text.dateAlerts.description }}</p>
+  <div
+    class="op-reminder-settings-date-alerts--row"
+    formGroupName="startDate"
+  >
+    <input
+      type="checkbox"
+      formControlName="active"
+      class="op-reminder-settings-date-alerts--active"
+      attr.data-qa-selector="op-settings-start-date"
+      id="op-settings-start-date"
+    />
+    <label
+      class="op-reminder-settings-date-alerts--label"
+      [textContent]="text.startDate"
+      for="op-settings-start-date"
+    ></label>
+    <select
+      formControlName="time"
+      class="op-reminder-settings-date-alerts--time form--select -narrow"
+      attr.id="op-reminder-settings-date-alerts"
+      id="op-reminder-settings-start-date-alerts"
+      required="true"
+      *ngIf="dateAlertsStatuses.startDate"
+    >
+      <option
+        *ngFor="let availableTime of availableTimes"
+        [value]="availableTime.value"
+      >
+        {{availableTime.title}}
+      </option>
+    </select>
+  </div>
+
+  <div
+    class="op-reminder-settings-date-alerts--row"
+    formGroupName="dueDate"
+  >
+    <input
+      type="checkbox"
+      formControlName="active"
+      class="op-reminder-settings-date-alerts--active"
+      attr.data-qa-selector="op-settings-due-date"
+      id="op-settings-due-date"
+    />
+    <label
+      class="op-reminder-settings-date-alerts--label"
+      [textContent]="text.dueDate"
+      for="op-settings-due-date"
+    ></label>
+    <select
+      formControlName="time"
+      class="op-reminder-settings-date-alerts--time form--select -narrow"
+      attr.id="op-reminder-settings-date-alerts"
+      id="op-reminder-settings-due-date-alerts"
+      required="true"
+      *ngIf="dateAlertsStatuses.dueDate"
+    >
+      <option
+        *ngFor="let availableTime of availableTimes"
+        [value]="availableTime.value">
+        {{availableTime.title}}
+      </option>
+    </select>
+  </div>
+
+  <div
+    class="op-reminder-settings-date-alerts--row"
+    formGroupName="overdue"
+  >
+    <input
+      formControlName="active"
+      type="checkbox"
+      class="op-reminder-settings-date-alerts--active"
+      attr.data-qa-selector="op-settings-overdue-date"
+      id="op-settings-overdue-date">
+    <label
+      class="op-reminder-settings-date-alerts--label"
+      [textContent]="text.overdue"
+      for="op-settings-overdue-date"
+    ></label>
+    <select
+      formControlName="time"
+      class="op-reminder-settings-date-alerts--time form--select -narrow"
+      attr.id="op-reminder-settings-date-alerts"
+      id="op-reminder-settings-overdue-date-alerts"
+      required="true"
+      *ngIf="dateAlertsStatuses.overdue"
+    >
+      <option
+        *ngFor="let availableTime of availableTimesOverdue"
+        [value]="availableTime.value">
+        {{availableTime.title}}
+      </option>
+    </select>
+  </div>
 
   <h5>{{ text.alsoNotifyFor.title }}</h5>
   <p>{{ text.alsoNotifyFor.description }}</p>
