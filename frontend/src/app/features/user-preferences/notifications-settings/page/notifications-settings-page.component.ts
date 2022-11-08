@@ -29,9 +29,6 @@ interface IToastSettingsValue {
   workPackageScheduled:boolean;
   workPackagePrioritized:boolean;
   workPackageCommented:boolean;
-  startDate:string|null;
-  dueDate:string|null;
-  overdue:string|null;
 }
 
 interface IProjectNotificationSettingsValue extends IToastSettingsValue {
@@ -39,10 +36,16 @@ interface IProjectNotificationSettingsValue extends IToastSettingsValue {
     title:string;
     href:string;
   };
+  startDate:string|null;
+  dueDate:string|null;
+  overdue:string|null;
 }
 
 interface IFullNotificationSettingsValue extends IToastSettingsValue {
   projectSettings:IProjectNotificationSettingsValue[];
+  startDate:{ active:boolean, time:string };
+  dueDate:{ active:boolean, time:string };
+  overdue:{ active:boolean, time:string };
 }
 
 @Component({
@@ -231,9 +234,9 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       workPackageScheduled: notificationSettings.workPackageScheduled,
       workPackagePrioritized: notificationSettings.workPackagePrioritized,
       workPackageCommented: notificationSettings.workPackageCommented,
-      startDate: this.form.get('startDate.active')!.value ? (this.form.get('startDate.time')!.value) as string : null,
-      dueDate: this.form.get('dueDate.active')!.value ? (this.form.get('dueDate.time')!.value) as string : null,
-      overdue: this.form.get('overdue.active')!.value ? (this.form.get('overdue.time')!.value) as string : null,
+      startDate: notificationSettings.startDate.active ? notificationSettings.startDate.time : null,
+      dueDate: notificationSettings.dueDate.active ? notificationSettings.dueDate.time : null,
+      overdue: notificationSettings.overdue.active ? notificationSettings.overdue.time : null,
     };
 
     const projectPrefs:INotificationSetting[] = notificationSettings.projectSettings.map((settings) => ({
