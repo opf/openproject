@@ -123,7 +123,7 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
     center.expect_item(notification_wp_due_future, 'Finish date is in 3 days')
 
     center.expect_item(notification_milestone_past, 'Overdue since 2 days')
-    center.expect_item(notification_milestone_future, 'Finish date is in 1 day')
+    center.expect_item(notification_milestone_future, 'Milestone date is in 1 day')
 
     # Doesn't show the date alert for the mention, not the alert
     center.expect_item(notification_wp_double_mention, /(seconds|minutes) ago by Anonymous/)
