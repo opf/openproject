@@ -80,7 +80,7 @@ module OpenProject
 
     def define_setting_definition(flag_name)
       Settings::Definition.add :"feature_#{flag_name}_active",
-                               default: false
+                               default: Rails.env.development?
     end
   end
 end
