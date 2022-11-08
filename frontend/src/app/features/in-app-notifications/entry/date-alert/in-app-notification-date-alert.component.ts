@@ -33,17 +33,19 @@ export class InAppNotificationDateAlertComponent implements OnInit {
 
   isOverdue:boolean;
 
-  private propertyText:string;
+  propertyText:string;
 
   private daysDiff:string;
 
   text = {
     work_package_is: this.I18n.t('js.notifications.date_alerts.work_package_is'),
-    overdue_since: (difference_in_days:string) => this.I18n.t('js.notifications.date_alerts.overdue_since', { difference_in_days }),
-    property_is: (property:string, difference_in_days:string) =>
-      this.I18n.t('js.notifications.date_alerts.property_is', { property, difference_in_days }),
-    property_was: (property:string, difference_in_days:string) =>
-      this.I18n.t('js.notifications.date_alerts.property_was', { property, difference_in_days }),
+    overdue: this.I18n.t('js.notifications.date_alerts.overdue'),
+    overdue_since: (difference_in_days:string):string =>
+      this.I18n.t('js.notifications.date_alerts.overdue_since', { difference_in_days }),
+    property_is: (difference_in_days:string):string =>
+      this.I18n.t('js.notifications.date_alerts.property_is', { difference_in_days }),
+    property_was: (difference_in_days:string):string =>
+      this.I18n.t('js.notifications.date_alerts.property_was', { difference_in_days }),
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
     dueDate: this.I18n.t('js.work_packages.properties.dueDate'),
     date: this.I18n.t('js.work_packages.properties.date'),
@@ -61,7 +63,7 @@ export class InAppNotificationDateAlertComponent implements OnInit {
     this.dateIsPast = dateValue.isBefore();
     this.isOverdue = this.dateIsPast && ['date', 'dueDate'].includes(property);
     this.daysDiff = this.dateDiff(dateValue);
-    this.propertyText = this.text[property] || property;
+    this.propertyText = this.isOverdue ? this.text.overdue : this.text[property];
     this.alertText = this.buildAlertText();
   }
 
@@ -71,10 +73,10 @@ export class InAppNotificationDateAlertComponent implements OnInit {
     }
 
     if (this.dateIsPast) {
-      return this.text.property_was(this.propertyText, this.daysDiff);
+      return this.text.property_was(this.daysDiff);
     }
 
-    return this.text.property_is(this.propertyText, this.daysDiff);
+    return this.text.property_is(this.daysDiff);
   }
 
   private dateDiff(reference:Moment):string {
