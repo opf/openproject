@@ -62,6 +62,10 @@ export class WeekdayService {
     return !!(this.weekdays || []).find((wd) => wd.day === isoDayOfWeek && !wd.working);
   }
 
+  public get nonWorkingDays():IWeekday[] {
+    return this.weekdays.filter((day) => !day.working);
+  }
+
   loadWeekdays():Observable<IWeekday[]> {
     if (this.weekdays) {
       return of(this.weekdays);
