@@ -45,8 +45,6 @@ export class DynamicContentModalComponent extends OpModalComponent implements On
   // the modal when removing error messages or clicking on labels e.g. in the registration modal.
   public closeOnOutsideClick = false;
 
-  @ViewChild('wrapper') wrapper:HTMLElement;
-
   constructor(
     readonly elementRef:ElementRef,
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -60,8 +58,9 @@ export class DynamicContentModalComponent extends OpModalComponent implements On
     super.ngOnInit();
 
     // Append the dynamic body
-    this.wrapper.classList.add(this.locals.modalClassName);
-    this.wrapper.appendChild(this.locals.modalBody);
+    const wrapper = this.$element.children[0];
+    wrapper.classList.add(this.locals.modalClassName);
+    wrapper.innerHTML = this.locals.modalBody;
 
     const modal = document.querySelector('.spot-modal') as HTMLElement;
     const closeButton = modal.querySelector('[dynamic-content-modal-close-button]') as HTMLButtonElement;
