@@ -29,30 +29,28 @@ require 'spec_helper'
 require 'rack/test'
 
 describe ::API::V3::Notifications::NotificationsAPI,
-         'index',
-         type: :request,
-         content_type: :json do
+         'index', content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:work_package) { create :work_package }
+  shared_let(:work_package) { create(:work_package) }
   shared_let(:recipient) do
-    create :user,
+    create(:user,
            member_in_project: work_package.project,
-           member_with_permissions: %i[view_work_packages]
+           member_with_permissions: %i[view_work_packages])
   end
   shared_let(:notification1) do
-    create :notification,
+    create(:notification,
            recipient:,
            resource: work_package,
            project: work_package.project,
-           journal: work_package.journals.first
+           journal: work_package.journals.first)
   end
   shared_let(:notification2) do
-    create :notification,
+    create(:notification,
            recipient:,
            resource: work_package,
            project: work_package.project,
-           journal: work_package.journals.first
+           journal: work_package.journals.first)
   end
 
   let(:notifications) { [notification1, notification2] }
@@ -83,7 +81,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
     it_behaves_like 'API V3 collection response', 2, 2, 'Notification'
 
     context 'with a readIAN filter' do
-      let(:nil_notification) { create :notification, recipient:, read_ian: nil }
+      let(:nil_notification) { create(:notification, recipient:, read_ian: nil) }
 
       let(:notifications) { [notification1, notification2, nil_notification] }
 
@@ -107,7 +105,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
     end
 
     context 'with a resource filter' do
-      let(:notification3) { create :notification, recipient: }
+      let(:notification3) { create(:notification, recipient:) }
       let(:notifications) { [notification1, notification2, notification3] }
 
       let(:filters) do
@@ -137,10 +135,10 @@ describe ::API::V3::Notifications::NotificationsAPI,
     context 'with a project filter' do
       let(:other_work_package) { create(:work_package) }
       let(:notification3) do
-        create :notification,
+        create(:notification,
                recipient:,
                resource: other_work_package,
-               project: other_work_package.project
+               project: other_work_package.project)
       end
       let(:notifications) { [notification1, notification2, notification3] }
 
@@ -162,20 +160,20 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
     context 'with a reason filter' do
       let(:notification3) do
-        create :notification,
+        create(:notification,
                reason: :assigned,
                recipient:,
                resource: work_package,
                project: work_package.project,
-               journal: work_package.journals.first
+               journal: work_package.journals.first)
       end
       let(:notification4) do
-        create :notification,
+        create(:notification,
                reason: :responsible,
                recipient:,
                resource: work_package,
                project: work_package.project,
-               journal: work_package.journals.first
+               journal: work_package.journals.first)
       end
       let(:notifications) { [notification1, notification2, notification3, notification4] }
 
@@ -221,12 +219,12 @@ describe ::API::V3::Notifications::NotificationsAPI,
       let(:wiki_page) { create(:wiki_page_with_content) }
 
       let(:non_ian_notification) do
-        create :notification,
+        create(:notification,
                read_ian: nil,
                recipient:,
                resource: wiki_page,
                project: wiki_page.wiki.project,
-               journal: wiki_page.content.journals.first
+               journal: wiki_page.content.journals.first)
       end
 
       let(:notifications) { [notification2, notification1, non_ian_notification] }
@@ -238,15 +236,33 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
     context 'with a reason groupBy' do
       let(:responsible_notification) do
-        create :notification,
+        create(:notification,
                recipient:,
                reason: :responsible,
                resource: work_package,
                project: work_package.project,
-               journal: work_package.journals.first
+               journal: work_package.journals.first)
       end
 
-      let(:notifications) { [notification1, notification2, responsible_notification] }
+      let(:start_date_notification) do
+        create(:notification,
+               recipient:,
+               reason: :date_alert_start_date,
+               resource: work_package,
+               project: work_package.project)
+      end
+
+      let(:due_date_notification) do
+        create(:notification,
+               recipient:,
+               reason: :date_alert_due_date,
+               resource: work_package,
+               project: work_package.project)
+      end
+
+      let(:notifications) do
+        [notification1, notification2, responsible_notification, start_date_notification, due_date_notification]
+      end
 
       let(:send_request) do
         get api_v3_paths.path_for :notifications, group_by: :reason
@@ -254,16 +270,17 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
       let(:groups) { parsed_response['groups'] }
 
-      it_behaves_like 'API V3 collection response', 3, 3, 'Notification'
+      it_behaves_like 'API V3 collection response', 5, 5, 'Notification'
 
       it 'contains the reason groups', :aggregate_failures do
         expect(groups).to be_a Array
-        expect(groups.count).to eq 2
+        expect(groups.count).to eq 3
 
         keyed = groups.index_by { |el| el['value'] }
-        expect(keyed.keys).to contain_exactly 'mentioned', 'responsible'
+        expect(keyed.keys).to contain_exactly 'mentioned', 'responsible', 'dateAlert'
         expect(keyed['mentioned']['count']).to eq 2
         expect(keyed['responsible']['count']).to eq 1
+        expect(keyed['dateAlert']['count']).to eq 2
       end
     end
 
@@ -272,14 +289,14 @@ describe ::API::V3::Notifications::NotificationsAPI,
         create(:project,
                members: { recipient => recipient.members.first.roles })
       end
-      let(:work_package2) { create :work_package, project: other_project }
+      let(:work_package2) { create(:work_package, project: other_project) }
       let(:other_project_notification) do
-        create :notification,
+        create(:notification,
                resource: work_package2,
                project: other_project,
                recipient:,
                reason: :responsible,
-               journal: work_package2.journals.first
+               journal: work_package2.journals.first)
       end
 
       let(:notifications) { [notification1, notification2, other_project_notification] }
