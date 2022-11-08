@@ -50,7 +50,7 @@ export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent
 
     this
       .modal
-      ?.onDataUpdated
+      .onDataUpdated
       .subscribe((dates:string) => {
         this.dates = dates;
         this.cdRef.detectChanges();

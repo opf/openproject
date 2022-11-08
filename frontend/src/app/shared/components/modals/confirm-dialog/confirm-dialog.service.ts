@@ -61,17 +61,14 @@ export class ConfirmDialogService {
    */
   public confirm(options:ConfirmDialogOptions):Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      this.opModalService.show(
-        ConfirmDialogModalComponent,
-        this.injector,
-        { options },
-      ).subscribe((modal) => modal.closingEvent.subscribe(() => {
+      const confirmModal = this.opModalService.show(ConfirmDialogModalComponent, this.injector, { options });
+      confirmModal.closingEvent.subscribe((modal:ConfirmDialogModalComponent) => {
         if (modal.confirmed) {
           resolve();
         } else {
           reject();
         }
-      }));
+      });
     });
   }
 

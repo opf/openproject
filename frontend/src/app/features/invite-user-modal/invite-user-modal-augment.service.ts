@@ -61,17 +61,19 @@ export class OpInviteUserModalAugmentService {
   private spawnModal(event:ClickEvent) {
     event.preventDefault();
 
-    this.opModalService.show(
+    const modal = this.opModalService.show(
       InviteUserModalComponent,
       'global',
       { projectId: this.currentProjectService.id },
-    ).subscribe((modal) => modal
+    );
+
+    modal
       .closingEvent
       .subscribe((modal:InviteUserModalComponent) => {
         // Just reload the page for now if we saved anything
         if (modal.data) {
           window.location.reload();
         }
-      }));
+      });
   }
 }

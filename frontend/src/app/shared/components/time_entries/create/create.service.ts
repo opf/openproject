@@ -38,21 +38,21 @@ export class TimeEntryCreateService {
       void this
         .createNewTimeEntry(date, wp)
         .then((changeset) => {
-          this.opModalService.show(
+          const modal = this.opModalService.show(
             TimeEntryCreateModalComponent,
             this.injector,
             { ...options, changeset },
-          ).subscribe((modal) => {
-            modal
-              .closingEvent
-              .pipe(take(1))
-              .subscribe(() => {
-                if (modal.createdEntry) {
-                  resolve({ entry: modal.createdEntry, action: 'create' });
-                } else {
-                  reject();
-                }
-              });
+          );
+
+          modal
+            .closingEvent
+            .pipe(take(1))
+            .subscribe(() => {
+              if (modal.createdEntry) {
+                resolve({ entry: modal.createdEntry, action: 'create' });
+              } else {
+                reject();
+              }
             });
         });
     });
