@@ -25,17 +25,31 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
 
-namespace 'openproject:cron' do
-  desc 'An hourly cron job hook for plugin functionality'
-  task :hourly do
-    # Does nothing by default
-  end
+module WorkPackages::Scopes
+  module InvolvingUser
+    extend ActiveSupport::Concern
 
-  # This task will be automatically called when running jobs:work or jobs:workoff
-  # making sure cron jobs are scheduled. See lib/tasks/delayed_job.rake.
-  desc 'Ensure the cron-like background jobs are actively scheduled'
-  task schedule: [:environment] do
-    ::Cron::CronJob.schedule_registered_jobs!
+    class_methods do
+      # Fetches all work packages for which a user is assigned to, responsible
+      # for, or watcher, via a group or themself
+      #
+      # @param user User the user involved in work packages.
+      def involving_user(user)
+        WorkPackage.left_joins(:watchers)
+          .where(watchers: { user: })
+          .or(WorkPackage.where(assigned_to: user))
+          .or(WorkPackage.where(assigned_to: group_having(user)))
+          .or(WorkPackage.where(responsible: user))
+          .or(WorkPackage.where(responsible: group_having(user)))
+      end
+
+      private
+
+      def group_having(user)
+        GroupUser.select(:group_id).where(user_id: user.id)
+      end
+    end
   end
 end

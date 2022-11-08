@@ -31,17 +31,24 @@ module Users::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      # Returns all users for which a reminder mails should be sent now. A user will be included if:
+      # Returns all users for which a reminder mails should be sent now. A user
+      # will be included if:
+      #
       # * That user has an unread notification
       # * The user hasn't been informed about the unread notification before
-      # * The user has configured reminder mails to be within the time frame between the provided time and now.
-      # This assumes that users only have full hours specified for the times they desire
-      # to receive a reminder mail at.
-      # @param [DateTime] earliest_time The earliest time to consider as a matching slot. All quarter hours from that time
-      #   to now are included.
-      #   Only the time part is used which is moved forward to the next quarter hour (e.g. 2021-05-03 10:34:12+02:00 -> 08:45:00).
-      #   This is done because time zones always have a mod(15) == 0 minutes offset.
-      #   Needs to be before the current time.
+      # * The user has configured reminder mails to be within the time frame
+      #   between the provided time and now.
+      #
+      # This assumes that users only have full hours specified for the times
+      # they desire to receive a reminder mail at.
+      #
+      # @param [DateTime] earliest_time The earliest time to consider as a
+      #   matching slot. All quarter hours from that time to now are included.
+      #
+      #   Only the time part is used which is moved forward to the next quarter
+      #   hour (e.g. 2021-05-03 10:34:12+02:00 -> 08:45:00). This is done
+      #   because time zones always have a mod(15) == 0 minutes offset. Needs to
+      #   be before the current time.
       def having_reminder_mail_to_send(earliest_time)
         local_times = local_times_from(earliest_time)
 
@@ -64,21 +71,28 @@ module Users::Scopes
 
       def local_time_join(local_times)
         # Joins the times local to the user preferences and then checks whether:
-        # * reminders are enabled
-        # * any of the configured reminder time is the local time
-        # * the local workday is enabled to receive a reminder on
-        # If no time zone is present or if it is blank, the configured default time zone or UTC is assumed.
-        # If no reminder settings are present, sending a reminder at 08:00 local time is assumed.
-        # If no workdays are specified, 1 - 5 is assumed which represents Monday to Friday.
+        #
+        #   * reminders are enabled
+        #   * any of the configured reminder time is the local time
+        #   * the local workday is enabled to receive a reminder on
+        #
+        # If no time zone is present or if it is blank, the configured default
+        # time zone or UTC is assumed.
+        #
+        # If no reminder settings are present, sending a reminder at 08:00 local
+        # time is assumed.
+        #
+        # If no workdays are specified, 1 - 5 is assumed which represents Monday
+        # to Friday.
         times_sql = arel_table
                       .grouping(Arel::Nodes::ValuesList.new(local_times))
                       .as('t(today_local, hours, zone, workday)')
 
-        default_timezone = Setting.user_default_timezone.present? ? "'#{Setting.user_default_timezone}'" : 'NULL'
+        default_timezone = Arel::Nodes::build_quoted(Setting.user_default_timezone.presence)
 
         <<~SQL.squish
           JOIN (SELECT * FROM #{times_sql.to_sql}) AS local_times
-          ON COALESCE(NULLIF(user_preferences.settings->>'time_zone',''), #{default_timezone}, 'Etc/UTC') = local_times.zone
+          ON COALESCE(NULLIF(user_preferences.settings->>'time_zone',''), #{default_timezone.to_sql}, 'Etc/UTC') = local_times.zone
           AND (
             user_preferences.settings->'workdays' @> to_jsonb(local_times.workday)
             OR (

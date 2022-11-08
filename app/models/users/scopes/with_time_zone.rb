@@ -26,16 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-namespace 'openproject:cron' do
-  desc 'An hourly cron job hook for plugin functionality'
-  task :hourly do
-    # Does nothing by default
-  end
+# Find a user account by matching case-insensitive.
+module Users::Scopes
+  module WithTimeZone
+    extend ActiveSupport::Concern
 
-  # This task will be automatically called when running jobs:work or jobs:workoff
-  # making sure cron jobs are scheduled. See lib/tasks/delayed_job.rake.
-  desc 'Ensure the cron-like background jobs are actively scheduled'
-  task schedule: [:environment] do
-    ::Cron::CronJob.schedule_registered_jobs!
+    class_methods do
+      def with_time_zone(time_zones)
+        return User.none if time_zones.empty?
+
+        where_clause = <<~SQL.squish
+          COALESCE(
+            NULLIF(user_preferences.settings->>'time_zone', ''),
+            #{user_default_time_zone.to_sql}
+          ) IN (?)
+        SQL
+        User
+          .left_joins(:preference)
+          .where(where_clause, time_zones)
+      end
+
+      def user_default_time_zone
+        Arel::Nodes::build_quoted(Setting.user_default_timezone.presence || 'Etc/UTC')
+      end
+    end
   end
 end

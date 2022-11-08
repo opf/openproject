@@ -33,7 +33,7 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { create(:project, identifier: 'test_project', public: false) }
+  shared_let(:project) { create(:project, identifier: 'test_project', public: false) }
   let(:current_user) do
     create :user, member_in_project: project, member_through_role: role
   end
@@ -173,7 +173,21 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
       let(:new_watcher) { create(:user) }
 
       it_behaves_like 'constraint violation' do
-        let(:message) { 'User is invalid' }
+        let(:message) { 'User is not allowed to view this resource.' }
+      end
+    end
+
+    context 'when the target user is locked' do
+      let(:new_watcher) do
+        user = create(:user,
+                      member_in_project: project,
+                      member_through_role: view_work_packages_role)
+        user.locked!
+        user
+      end
+
+      it_behaves_like 'constraint violation' do
+        let(:message) { 'User is locked.' }
       end
     end
 

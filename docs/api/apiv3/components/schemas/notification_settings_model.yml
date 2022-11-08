@@ -55,7 +55,7 @@ items:
       description: |-
         Sets a startDate notification for work packages. It is null when no notification is set,
         otherwise it holds an ISO8601 formatted duration string with the possible values listed below.
-        The possible values are: same day, 1 day before, 3 days before, 1 week before.
+        The possible values are: none, same day, 1 day before, 3 days before, 1 week before.
       enum:
         - ""
         - PT0S
@@ -65,7 +65,7 @@ items:
     dueDate:
       type: string
       description: |-
-        Sets a startDate notification for work packages. It is null when no notification is set,
+        Sets a dueDate notification for work packages. It is null when no notification is set,
         otherwise it holds an ISO8601 formatted duration string with the possible values listed below.
         The possible values are: none, same day, 1 day before, 3 days before, 1 week before.
       enum:

@@ -72,30 +72,24 @@ module Components
     # Create an image fixture with the optional caption
     def drag_attachment(image_fixture, caption = 'Some caption')
       in_editor do |_container, editable|
-        sleep 1
-
         # Click the latest figure, if any
-        images = editable.all('figure.image')
+        # Do not wait more than 1 second to check if there is an image
+        images = editable.all('figure.image', wait: 1)
         if images.count > 0
           images.last.click
-        end
 
-        # Click the "move below figure" button if selected
-        selected = page.all('.ck-widget_selected .ck-widget__type-around__button_after')
-        if selected.count > 0
-          selected.first.click
+          # Click the "move below figure" button
+          selected = page.all('.ck-widget_selected .ck-widget__type-around__button_after')
+          selected.first&.click
         end
 
         editable.base.send_keys(:enter, 'some text', :enter, :enter)
-
-        sleep 1
 
         attachments.drag_and_drop_file(editable, image_fixture, :bottom)
 
         expect(page)
             .to have_selector('img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
 
-        sleep 1
         expect(page).to have_no_selector('op-toasters-upload-progress', wait: 5)
 
         # Get the image uploaded last. As there is no way to distinguish between
