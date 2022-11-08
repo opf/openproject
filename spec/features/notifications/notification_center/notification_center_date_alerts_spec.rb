@@ -109,5 +109,12 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
     side_menu.click_item 'Date alert'
     center.expect_item(notification_wp_double_date_alert, 'Finish date is in 1 day')
     center.expect_no_item(notification_wp_double_mention)
+
+    # When a work package is updated to a different date
+    wp_double_notification.update_column(:due_date, 5.days.from_now)
+    page.driver.refresh
+
+    center.expect_item(notification_wp_double_date_alert, 'Finish date is in 5 days')
+    center.expect_no_item(notification_wp_double_mention)
   end
 end
