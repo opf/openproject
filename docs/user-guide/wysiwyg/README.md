@@ -170,8 +170,11 @@ You can also embed attribute values and [their help texts](../../system-admin-gu
 > **Please note**: These macros will only be expanded in the frontend. For each individual user, the correct permissions will be checked and the macro will result in an error if the user is not allowed to view the respective resource.    
 
 
+## Attributes
 
+The following lists show the supported attributes for work packages and projects.
 
+> **Please note**: If you are using a different language than, English a translation of the commands can only be used in the text editor if all user languages (of all useres) of an instance are set to the same language (for example: German). In this case, only the attribute to which the command refers is translated, e.g. (`workPackageValue:1234:"translated attribute"`).
 
 ### Available attributes for work packages
 
@@ -199,8 +202,6 @@ The following list contains all supported attribute names for the `workPackageVa
 | Work package type   | `workPackageValue:1234:type`                                 |
 | Date of last update | `workPackageValue:1234:updatedAt`                            |
 | Version             | `workPackageValue:1234:version`                              |
-
-> **Please note**: If you are using a different language than English a translation of the commands can only be used in the text editor if all user languages (of all useres) of an instance are set to the same language (for example: German). Here Only the attribute to which the command refers is translated (`workPackageValue:1234:"translated atribute`). This also applies to the following commands.
 
 ### Available attributes for projects
 
