@@ -29,6 +29,7 @@ ca:
           Estàs segur que vols eliminar l'enllaç de fitxer d'aquest paquet de treball? Eliminar l'enllaç no afecta el fitxer original, només elimina la connexió d'aquest paquet de treball.
         remove_short: "Eliminar enllaç"
         select: "Selecciona fitxers"
+        select_all: "Select all"
         selection_none: "Selecciona fitxers a enllaçar"
         selection_any: "Enllaça %{number} de fitxers"
         not_allowed_tooltip: "Si us plau, inicia sessió a Nextcloud per accedir a aquest fitxer"

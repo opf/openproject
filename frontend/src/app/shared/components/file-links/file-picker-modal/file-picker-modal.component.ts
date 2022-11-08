@@ -35,8 +35,8 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
@@ -60,19 +60,20 @@ import getIconForStorageType from 'core-app/shared/components/file-links/storage
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilePickerModalComponent extends OpModalComponent implements OnInit, OnDestroy {
-  public loading$ = new BehaviorSubject<boolean>(true);
-
-  public listItems$ = new BehaviorSubject<StorageFileListItem[]>([]);
-
   public breadcrumbs:BreadcrumbsContent;
 
-  public text = {
+  public listItems$:Observable<StorageFileListItem[]>;
+
+  public readonly loading$ = new BehaviorSubject<boolean>(true);
+
+  public readonly text = {
     header: this.i18n.t('js.storages.file_links.select'),
     buttons: {
       openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.locals.storageTypeName as string }),
       submit: ():string => this.i18n.t('js.storages.file_links.selection_any', { number: this.selectedFileCount }),
       submitEmptySelection: this.i18n.t('js.storages.file_links.selection_none'),
       cancel: this.i18n.t('js.button_cancel'),
+      selectAll: this.i18n.t('js.storages.file_links.select_all'),
     },
   };
 
@@ -88,7 +89,7 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
 
   private readonly fileMap:Record<string, IStorageFile> = {};
 
-  private storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
+  private readonly storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
 
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -111,18 +112,14 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
       navigate: () => this.changeLevel(null, this.breadcrumbs.crumbs.slice(0, 1)),
     }]);
 
-    this.storageFiles$
-      .pipe(this.untilDestroyed())
-      .subscribe((files) => {
-        const fileListItems = files.map((file, index) => this.storageFileToListItem(file, index));
-        this.listItems$.next(fileListItems);
-        this.loading$.next(false);
-      });
+    this.listItems$ = this.storageFiles$
+      .pipe(map((files) => files.map((file, index) => this.storageFileToListItem(file, index))));
 
     this.storageFilesResourceService.files(this.makeFilesCollectionLink(null))
       .pipe(take(1))
       .subscribe((files) => {
         this.storageFiles$.next(files);
+        this.loading$.next(false);
       });
   }
 
@@ -148,6 +145,24 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     this.service.close();
   }
 
+  public selectAllOfCurrentLevel():void {
+    this.storageFiles$
+      .pipe(take(1))
+      .subscribe((files) => {
+        files.forEach((file) => {
+          const id = file.id as string;
+          if (!this.selection.has(id) && !this.isAlreadyLinked(file)) {
+            this.selection.add(id);
+            this.fileMap[id] = file;
+          }
+        });
+
+        // push the file data again to the subject
+        // to trigger a rerender with new selection state
+        this.storageFiles$.next(files);
+      });
+  }
+
   public changeSelection(file:IStorageFile):void {
     const fileId = file.id as string;
     if (this.selection.has(fileId)) {
@@ -159,10 +174,13 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
   }
 
   private changeLevel(parent:string|null, crumbs:Breadcrumb[]):void {
+    this.loading$.next(true);
+
     this.storageFilesResourceService.files(this.makeFilesCollectionLink(parent))
       .pipe(take(1))
       .subscribe((files) => {
         this.storageFiles$.next(files);
+        this.loading$.next(false);
         this.breadcrumbs = new BreadcrumbsContent(crumbs);
       });
   }

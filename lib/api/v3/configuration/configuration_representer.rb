@@ -79,6 +79,13 @@ module API
                  },
                  render_nil: true
 
+        property :active_feature_flags,
+                 getter: ->(*) {
+                   OpenProject::FeatureDecisions
+                     .active
+                     .map { |flag| flag.camelize(:lower) }
+                 }
+
         property :user_preferences,
                  embedded: true,
                  exec_context: :decorator,

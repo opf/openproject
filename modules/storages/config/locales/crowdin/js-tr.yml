@@ -29,6 +29,7 @@ tr:
           Dosyanın bu çalışma paketinden bağlantısını kaldırmak istediğinizden emin misiniz? Bağlantının kaldırılması orijinal dosyayı etkilemez ve yalnızca bu çalışma paketine olan bağlantıyı kaldırır.
         remove_short: "Bağlantıyı kaldır"
         select: "Dosyaları seç"
+        select_all: "Select all"
         selection_none: "Bağlanacak dosyaları seçin"
         selection_any: "%{number} dosyayı bağla"
         not_allowed_tooltip: "Bu dosyaya erişmek için lütfen Nextcloud'da oturum açın"

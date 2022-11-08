@@ -43,8 +43,6 @@ export class ApiV3Paths {
     filters.add('member', '=', [projectId.toString()]);
     // That are users:
     filters.add('type', '=', ['User', 'Group']);
-    // That are not the current user:
-    filters.add('id', '!', ['me']);
 
     if (term && term.length > 0) {
       // Containing the that substring:

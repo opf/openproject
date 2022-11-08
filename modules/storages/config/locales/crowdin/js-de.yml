@@ -29,6 +29,7 @@ de:
           Sind Sie sicher, dass Sie die Verknüpfung der Datei aus diesem Arbeitspaket entfernen möchten? Das Entfernen der Verknüpfung wirkt sich nicht auf die Originaldatei aus und entfernt nur die Verbindung zu diesem Arbeitspaket.
         remove_short: "Link entfernen"
         select: "Dateien auswählen"
+        select_all: "Select all"
         selection_none: "Dateien zum Verlinken auswählen"
         selection_any: "%{number} Dateien verknüpfen"
         not_allowed_tooltip: "Bitte melden Sie sich bei Nextcloud an, um auf diese Datei zuzugreifen"

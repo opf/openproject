@@ -21,8 +21,6 @@ export class TimeEntriesCurrentUserConfigurationModalComponent extends OpModalCo
   /* Close on outside click */
   public closeOnOutsideClick = true;
 
-  public $element:JQuery;
-
   public text = {
     displayedDays: this.I18n.t('js.grid.widgets.time_entries_current_user.displayed_days'),
     closePopup: this.I18n.t('js.close_popup_title'),

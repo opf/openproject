@@ -10,6 +10,7 @@
   <label
     slot="trigger"
     class="spot-list--item-action"
+    data-qa-selector="op-files-picker-modal--list-item"
     [ngClass]="{ 'spot-list--item-action_disabled': content.disabled }"
   >
     <spot-checkbox
@@ -17,15 +18,17 @@
       (checkedChange)="content.changeSelection()"
       [disabled]="content.disabled"
     ></spot-checkbox>
-    <span
-      class="spot-icon spot-icon_{{content.icon.icon}} op-files-tab--icon op-files-tab--icon_{{content.icon.clazz}}"
-    ></span>
 
-    <span
-      [textContent]="content.name"
-      [title]="content.name"
+    <div
       class="spot-list--item-title op-file-list--item-title"
-    ></span>
+      [title]="content.name"
+    >
+      <span
+        class="spot-icon spot-icon_{{content.icon.icon}} op-files-tab--icon op-files-tab--icon_{{content.icon.clazz}}"
+      ></span>
+
+      <span [textContent]="content.name"></span>
+    </div>
 
     <span
       *ngIf="!content.isDirectory"
@@ -45,6 +48,7 @@
     <button
       *ngIf="content.isDirectory"
       class="spot-link"
+      data-qa-selector="op-files-picker-modal--list-item-caret"
       (click)="content.enterDirectory()"
     >
       <span class="spot-icon spot-icon_arrow-right2"></span>

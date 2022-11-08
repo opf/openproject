@@ -34,7 +34,7 @@ Instead of creating a new paragraph with Enter, you can also press `SHIFT+Enter`
 
 ### Links
 
-Create hyperlinks by pressing the tool-bar (optionally with some selected text), or by pressing `CTRL+k` to open a popup to enter the link href.
+Create hyperlinks by pressing the tool-bar (optionally with some selected text), or by pressing `CTRL+k` to open a popup to enter the link here.
 
 ### Widgets and Newlines
 
@@ -49,7 +49,7 @@ As CKEditor5 currently does not provide support for code blocks, OpenProject can
 
 ### Tables
 
-The GFM extension of the CommonMark specs adds a definition for table syntax which the CKEditor build of OpenProject supports. This definition requires all tables to have a heading row. For tables created with CKEditor without heading rows, a HTML table is output instead. This matches the behavior of, e.g., GitHub.
+The GFM extension of the CommonMark specs adds a definition for table syntax which the CKEditor of OpenProject supports. This definition requires all tables to have a heading row. For tables created with CKEditor without heading rows, a HTML table is output instead. This matches the behavior of, e.g., GitHub.
 
 ### Autoformatting
 
@@ -163,7 +163,7 @@ Examples:
 
 
 ### Embedding attribute help texts
-You can also embed attribute values and [their help texts](../../system-admin-guide/attribute-help-texts/) by using `workPackageLabel` instead: `workPackageLabel:1234:status` would output the translated label for "Status" and (if exists), the corresponding help text for it.
+You can also embed attribute values and [their help texts](../../system-admin-guide/attribute-help-texts/) by using `workPackageLabel` instead of: `workPackageLabel:1234:status` which would output the translated label for "Status" and (if exists), the corresponding help text for it.
 
 
 

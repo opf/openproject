@@ -34,6 +34,7 @@ en:
           and only removes the connection to this work package.
         remove_short: "Remove link"
         select: "Select files"
+        select_all: "Select all"
         selection_none: "Select files to link"
         selection_any: "Link %{number} files"
         not_allowed_tooltip: "Please log in to Nextcloud to access this file"

@@ -41,7 +41,6 @@
         &:hover
           background-color: transparent
           cursor: not-allowed
-          opacity: 0.5
           color: $spot-color-basic-gray-1
 
       &_active#{&}_disabled
@@ -83,10 +82,8 @@
       word-break: break-word
       min-height: $spot-spacing-1_5
 
-      &:not(:first-child)
-        margin-left: $spot-spacing-0_5
-
-      &:not(:last-child)
+      &:not(:first-child),
+      :not(:first-child)
         margin-left: $spot-spacing-0_5
 
       &_ellipse-text
@@ -95,6 +92,9 @@
         overflow: hidden
         max-width: 100%
         width: 100%
+
+    &-action_disabled &-title
+      opacity: 0.5
 
     &-floating-wrapper:hover > &-floating-actions,
     &-floating-actions:focus-within,

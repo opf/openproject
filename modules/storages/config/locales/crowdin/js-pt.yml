@@ -29,6 +29,7 @@ pt:
           tem certeza de que deseja desvincular o arquivo deste pacote de trabalho? A desvinculação não afeta o arquivo original e só remove a conexão com este pacote de trabalho.
         remove_short: "Remover link"
         select: "Select files"
+        select_all: "Select all"
         selection_none: "Select files to link"
         selection_any: "Link %{number} files"
         not_allowed_tooltip: "Faça o login no Nextcloud para acessar este arquivo"

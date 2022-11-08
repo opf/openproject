@@ -29,8 +29,9 @@ ru:
           Вы уверены, что хотите удалить файл из этого пакета работ? Отсоединение не влияет на исходный файл и только удаляет соединение с этим рабочим пакетом.
         remove_short: "Удалить ссылку"
         select: "Выберите файлы"
+        select_all: "Выбрать все"
         selection_none: "Выберите файлы для связывания"
         selection_any: "Ссылка на %{number} файлов"
         not_allowed_tooltip: "Войдите в Nextcloud для доступа к этому файлу"
-        already_linked_file: "This file is already linked to this work package."
-        already_linked_directory: "This directory is already linked to this work package."
+        already_linked_file: "Этот файл уже связан с этим пакетом работ."
+        already_linked_directory: "Этот каталог уже связан с этим пакетом работ."

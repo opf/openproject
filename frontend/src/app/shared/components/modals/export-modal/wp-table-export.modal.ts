@@ -35,7 +35,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
   /* Close on outside click */
   public closeOnOutsideClick = true;
 
-  public $element:JQuery;
+  public $element:HTMLElement;
 
   public exportOptions:{ identifier:string, label:string, url:string }[];
 
@@ -46,7 +46,8 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
     cancelButton: this.I18n.t('js.button_cancel'),
   };
 
-  constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+  constructor(
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
     readonly querySpace:IsolatedQuerySpace,
@@ -54,7 +55,8 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
     readonly httpClient:HttpClient,
     readonly wpTableColumns:WorkPackageViewColumnsService,
     readonly loadingIndicator:LoadingIndicatorService,
-    readonly toastService:ToastService) {
+    readonly toastService:ToastService,
+  ) {
     super(locals, cdRef, elementRef);
   }
 
@@ -136,7 +138,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
     return url.toString();
   }
 
-  protected get afterFocusOn():JQuery {
-    return jQuery('#work-packages-settings-button');
+  protected get afterFocusOn():HTMLElement {
+    return document.getElementById('work-packages-settings-button')!;
   }
 }

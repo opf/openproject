@@ -53,10 +53,12 @@ export class AttributeHelpTextModalComponent extends OpModalComponent implements
 
   public helpText:HelpTextResource = this.locals.helpText!;
 
-  constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+  constructor(
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef) {
+    readonly elementRef:ElementRef,
+  ) {
     super(locals, cdRef, elementRef);
   }
 
