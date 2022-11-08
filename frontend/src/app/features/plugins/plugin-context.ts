@@ -39,7 +39,7 @@ export class OpenProjectPluginContext {
     'workPackageNewInitialization',
   ];
 
-  // Common services referencable by index
+  // Common services referenceable by index
   public readonly services = {
     confirmDialog: this.injector.get<ConfirmDialogService>(ConfirmDialogService),
     externalQueryConfiguration: this.injector.get<ExternalQueryConfigurationService>(ExternalQueryConfigurationService),

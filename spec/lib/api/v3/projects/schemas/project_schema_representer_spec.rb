@@ -272,7 +272,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
           it_behaves_like 'has basic schema properties' do
             let(:type) { 'Project' }
             let(:name) { Project.human_attribute_name('parent') }
-            # Required is different when the add_project permisison is lacking
+            # Required is different when the add_project permission is lacking
             let(:required) { true }
             let(:writable) { true }
             let(:location) { '_links' }

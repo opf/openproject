@@ -121,7 +121,7 @@ Navigate back to your OpenProject tab and click on the **Done. Continue setup** 
 
 ![OpenProject_NC_OAuth_values](3_3_01-OP_OAuth_application_details.png)
 
-Once you hava entered the client ID and client secrets on this page, click on **Save and complete setup**. In the next screen, click on **Yes, I have copied these values**. At this point, your instance configuration is complete and you should see a green banner confirming this.
+Once you have entered the client ID and client secrets on this page, click on **Save and complete setup**. In the next screen, click on **Yes, I have copied these values**. At this point, your instance configuration is complete and you should see a green banner confirming this.
 
 ![Integration successfully completed on the OpenProject end](Nextcloud-set-up-in-OP.png)
 

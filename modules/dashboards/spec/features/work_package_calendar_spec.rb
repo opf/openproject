@@ -122,7 +122,7 @@ describe 'Work package calendar widget on dashboard',
 
     sleep(0.1)
 
-    # As the user lacks the necessary permisisons, no widget is preconfigured
+    # As the user lacks the necessary permissions, no widget is preconfigured
     calendar_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 
     within(calendar_widget.area) do

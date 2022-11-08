@@ -99,7 +99,7 @@ describe Settings::Definition do
         expect(value_for('default_language')).to eql 'en'
       end
 
-      it 'allows overriding email/smpt configuration from ENV without OPENPROJECT_ prefix even though setting is writable' do
+      it 'allows overriding email/smtp configuration from ENV without OPENPROJECT_ prefix even though setting is writable' do
         stub_const('ENV',
                    {
                      'EMAIL_DELIVERY_CONFIGURATION' => 'legacy',

@@ -277,7 +277,7 @@ If you cancel your subscription for Enterprise on-premises you will be downgrade
 
 ### How can I migrate from an old version of OpenProject to the latest version?
 
-OpenProject changed the database from MySQL (rarely also MariaDB) in older Versions and used PostgreSQL 10 afterwards. With the relase of version 12 OpenProject introduced the PostgreSQL 13 database. For further information on several database migrations, please have a look at [this section](../installation-and-operations/misc).
+OpenProject changed the database from MySQL (rarely also MariaDB) in older Versions and used PostgreSQL 10 afterwards. With the release of version 12 OpenProject introduced the PostgreSQL 13 database. For further information on several database migrations, please have a look at [this section](../installation-and-operations/misc).
 
 ## Other
 

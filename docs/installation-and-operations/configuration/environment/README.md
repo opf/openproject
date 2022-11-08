@@ -322,4 +322,4 @@ OPENPROJECT_YOUTUBE__CHANNEL (default="https://www.youtube.com/c/OpenProjectComm
 
 ### PostgreSQL statement_timeout
 
-In docker installations, there is a default `statement_timeout` of 90s set for the docker image. To override this value in case you're getting statement timeout errros such as "ERROR:  canceling statement due to statement timeout", use the environment variable `POSTGRES_STATEMENT_TIMEOUT`
+In docker installations, there is a default `statement_timeout` of 90s set for the docker image. To override this value in case you're getting statement timeout errors such as "ERROR:  canceling statement due to statement timeout", use the environment variable `POSTGRES_STATEMENT_TIMEOUT`

@@ -106,7 +106,7 @@ module PaginationHelper
   #  * limit
   #  * page
   #  parameters.
-  #  Preferes page over the other two and
+  #  Prefers page over the other two and
   #  calculates page in it's absence based on limit and offset.
   #  Return 1 if all else fails.
 

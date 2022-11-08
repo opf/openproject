@@ -1198,7 +1198,7 @@ describe MailHandler, type: :model do
         it 'updates a work package with attachment' do
           allow(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
-          # Mail with two attachemnts, one of which is skipped by signature.asc filename match
+          # Mail with two attachments, one of which is skipped by signature.asc filename match
           submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
 
           work_package.reload
