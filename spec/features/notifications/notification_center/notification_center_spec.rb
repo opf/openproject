@@ -196,8 +196,6 @@ describe "Notification center", js: true, with_settings: { journal_aggregation_t
                recipient:,
                resource: starting_soon_work_package,
                project: project1,
-               actor: nil,
-               journal: nil,
                read_ian: false)
       end
       let(:due_date_notification) do
@@ -206,8 +204,6 @@ describe "Notification center", js: true, with_settings: { journal_aggregation_t
                recipient:,
                resource: ending_soon_work_package,
                project: project1,
-               actor: nil,
-               journal: nil,
                read_ian: false)
       end
       let(:overdue_date_notification) do
@@ -216,8 +212,6 @@ describe "Notification center", js: true, with_settings: { journal_aggregation_t
                recipient:,
                resource: overdue_work_package,
                project: project1,
-               actor: nil,
-               journal: nil,
                read_ian: false)
       end
 
