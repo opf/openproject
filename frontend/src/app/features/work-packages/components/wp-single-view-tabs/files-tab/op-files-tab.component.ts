@@ -41,7 +41,6 @@ import {
   map,
 } from 'rxjs/operators';
 
-import { nextcloud } from 'core-app/shared/components/storages/storages-constants.const';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -65,19 +64,11 @@ export class WorkPackageFilesTabComponent implements OnInit {
     attachments: {
       label: this.i18n.t('js.label_attachments'),
     },
-    storages: {
-      open: (storageType:string):string => this.i18n.t(
-        'js.storages.open_storage',
-        { storageType: this.storageTypeMap[storageType] },
-      ),
-    },
   };
 
   showAttachmentHeader$:Observable<boolean>;
 
   storages$:Observable<IStorage[]>;
-
-  private readonly storageTypeMap:Record<string, string> = {};
 
   constructor(
     private readonly i18n:I18nService,
@@ -90,8 +81,6 @@ export class WorkPackageFilesTabComponent implements OnInit {
   ) { }
 
   ngOnInit():void {
-    this.initializeStorageTypes();
-
     const project = this.workPackage.project as HalResource;
     if (project.id === null) {
       return;
@@ -122,13 +111,5 @@ export class WorkPackageFilesTabComponent implements OnInit {
     ).pipe(
       map(([storages, viewPermission]) => storages.length > 0 && viewPermission),
     );
-  }
-
-  public openStorage(href:string):void {
-    window.open(href, '_blank');
-  }
-
-  private initializeStorageTypes() {
-    this.storageTypeMap[nextcloud] = this.i18n.t('js.storages.types.nextcloud');
   }
 }
