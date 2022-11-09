@@ -35,12 +35,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
@@ -49,16 +50,15 @@ import { StorageFilesResourceService } from 'core-app/core/state/storage-files/s
 import { Breadcrumb, BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
 import {
   StorageFileListItem,
-} from 'core-app/shared/components/file-links/storage-file-list-item/storage-file-list-item';
+} from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
-import { isDirectory } from 'core-app/shared/components/file-links/functions/storages.functions';
-import getIconForStorageType from 'core-app/shared/components/file-links/storage-icons/get-icon-for-storage-type';
+import { isDirectory, getIconForStorageType } from 'core-app/shared/components/storages/functions/storages.functions';
 
 @Component({
-  templateUrl: 'location-picker-modal.component.html',
+  templateUrl: 'file-picker-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LocationPickerModalComponent extends OpModalComponent implements OnInit, OnDestroy {
+export class FilePickerModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   public breadcrumbs:BreadcrumbsContent;
 
   public listItems$:Observable<StorageFileListItem[]>;
@@ -66,25 +66,35 @@ export class LocationPickerModalComponent extends OpModalComponent implements On
   public readonly loading$ = new BehaviorSubject<boolean>(true);
 
   public readonly text = {
-    header: this.i18n.t('js.storages.select_location'),
+    header: this.i18n.t('js.storages.file_links.select'),
     buttons: {
       openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.locals.storageTypeName as string }),
-      submit: this.i18n.t('js.storages.choose_location'),
+      submit: ():string => this.i18n.t('js.storages.file_links.selection_any', { number: this.selectedFileCount }),
       submitEmptySelection: this.i18n.t('js.storages.file_links.selection_none'),
       cancel: this.i18n.t('js.button_cancel'),
       selectAll: this.i18n.t('js.storages.file_links.select_all'),
     },
+    tooltip: {
+      alreadyLinkedFile: this.i18n.t('js.storages.file_links.already_linked_file'),
+      alreadyLinkedDirectory: this.i18n.t('js.storages.file_links.already_linked_directory'),
+    },
   };
 
-  public get canChooseLocation():boolean {
-    return this.breadcrumbs.crumbs.length > 1;
+  public get selectedFileCount():number {
+    return this.selection.size;
   }
 
   private get storageLink():IHalResourceLink {
     return this.locals.storageLink as IHalResourceLink;
   }
 
+  private readonly selection = new Set<string>();
+
+  private readonly fileMap:Record<string, IStorageFile> = {};
+
   private readonly storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
+
+  private loadingSubscription:Subscription;
 
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -128,16 +138,63 @@ export class LocationPickerModalComponent extends OpModalComponent implements On
     window.open(this.locals.storageLocation, '_blank');
   }
 
-  private changeLevel(parent:string|null, crumbs:Breadcrumb[]):void {
-    this.loading$.next(true);
+  public createSelectedFileLinks():void {
+    const files = Array.from(this.selection).map((id) => this.fileMap[id]);
+    this.fileLinksResourceService.addFileLinks(
+      this.locals.collectionKey as string,
+      this.locals.addFileLinksHref as string,
+      this.storageLink,
+      files,
+    );
 
-    this.storageFilesResourceService.files(this.makeFilesCollectionLink(parent))
+    this.service.close();
+  }
+
+  public selectAllOfCurrentLevel():void {
+    this.storageFiles$
+      .pipe(take(1))
+      .subscribe((files) => {
+        files.forEach((file) => {
+          const id = file.id as string;
+          if (!this.selection.has(id) && !this.isAlreadyLinked(file)) {
+            this.selection.add(id);
+            this.fileMap[id] = file;
+          }
+        });
+
+        // push the file data again to the subject
+        // to trigger a rerender with new selection state
+        this.storageFiles$.next(files);
+      });
+  }
+
+  public changeSelection(file:IStorageFile):void {
+    const fileId = file.id as string;
+    if (this.selection.has(fileId)) {
+      this.selection.delete(fileId);
+    } else {
+      this.selection.add(fileId);
+      this.fileMap[fileId] = file;
+    }
+  }
+
+  private changeLevel(parent:string|null, crumbs:Breadcrumb[]):void {
+    this.cancelCurrentLoading();
+    this.loading$.next(true);
+    this.breadcrumbs = new BreadcrumbsContent(crumbs);
+
+    this.loadingSubscription = this.storageFilesResourceService.files(this.makeFilesCollectionLink(parent))
       .pipe(take(1))
       .subscribe((files) => {
         this.storageFiles$.next(files);
         this.loading$.next(false);
-        this.breadcrumbs = new BreadcrumbsContent(crumbs);
       });
+  }
+
+  private cancelCurrentLoading():void {
+    if (this.loadingSubscription) {
+      this.loadingSubscription.unsubscribe();
+    }
   }
 
   private makeFilesCollectionLink(parent:string|null):IHalResourceLink {
@@ -169,11 +226,21 @@ export class LocationPickerModalComponent extends OpModalComponent implements On
     return new StorageFileListItem(
       this.timezoneService,
       file,
-      !isFolder,
+      this.isAlreadyLinked(file),
       index === 0,
-      undefined,
-      undefined,
+      isFolder ? this.text.tooltip.alreadyLinkedDirectory : this.text.tooltip.alreadyLinkedFile,
+      {
+        selected: this.selection.has(file.id as string),
+        changeSelection: () => { this.changeSelection(file); },
+      },
       enterDirectoryCallback,
     );
+  }
+
+  private isAlreadyLinked(file:IStorageFile):boolean {
+    const currentFileLinks = this.locals.fileLinks as IFileLink[];
+    const found = currentFileLinks.find((a) => a.originData.id === file.id);
+
+    return !!found;
   }
 }

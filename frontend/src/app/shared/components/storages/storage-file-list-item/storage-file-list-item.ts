@@ -28,8 +28,8 @@
 
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { IFileIcon } from 'core-app/shared/components/file-links/file-icons.mapping';
-import { getIconForMimeType, isDirectory } from 'core-app/shared/components/file-links/functions/storages.functions';
+import { IFileIcon } from 'core-app/shared/components/storages/file-icons.mapping';
+import { getIconForMimeType, isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
 
 interface StorageFileListItemCheckbox {
   selected:boolean;

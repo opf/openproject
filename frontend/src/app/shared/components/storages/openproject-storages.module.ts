@@ -33,27 +33,27 @@ import { CookieService } from 'ngx-cookie-service';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { OpSpotModule } from 'core-app/spot/spot.module';
 
-import { FileLinkListComponent } from 'core-app/shared/components/file-links/file-link-list/file-link-list.component';
+import { StorageComponent } from 'core-app/shared/components/storages/storage/storage.component';
 import {
   FileLinkListItemComponent,
-} from 'core-app/shared/components/file-links/file-link-list-item/file-link-list-item.component';
+} from 'core-app/shared/components/storages/file-link-list-item/file-link-list-item.component';
 import {
   StorageInformationComponent,
-} from 'core-app/shared/components/file-links/storage-information/storage-information.component';
+} from 'core-app/shared/components/storages/storage-information/storage-information.component';
 import {
   FilePickerModalComponent,
-} from 'core-app/shared/components/file-links/file-picker-modal/file-picker-modal.component';
+} from 'core-app/shared/components/storages/file-picker-modal/file-picker-modal.component';
 import { OPSharedModule } from 'core-app/shared/shared.module';
+import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import {
   StorageFileListItemComponent,
-} from 'core-app/shared/components/file-links/storage-file-list-item/storage-file-list-item.component';
-import { SortFilesPipe } from 'core-app/shared/components/file-links/pipes/sort-files.pipe';
-import {
-  LoadingFileListComponent,
-} from 'core-app/shared/components/file-links/loading-file-list/loading-file-list.component';
+} from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item.component';
 import {
   LocationPickerModalComponent,
-} from 'core-app/shared/components/file-links/location-picker-modal/location-picker-modal.component';
+} from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
+import {
+  LoadingFileListComponent,
+} from 'core-app/shared/components/storages/loading-file-list/loading-file-list.component';
 
 @NgModule({
   imports: [
@@ -63,7 +63,7 @@ import {
     OPSharedModule,
   ],
   declarations: [
-    FileLinkListComponent,
+    StorageComponent,
     FileLinkListItemComponent,
     FilePickerModalComponent,
     LocationPickerModalComponent,
@@ -73,10 +73,10 @@ import {
     SortFilesPipe,
   ],
   exports: [
-    FileLinkListComponent,
+    StorageComponent,
   ],
   providers: [
     CookieService,
   ],
 })
-export class OpenprojectFileLinksModule {}
+export class OpenprojectStoragesModule {}

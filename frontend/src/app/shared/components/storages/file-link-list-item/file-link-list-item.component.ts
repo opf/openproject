@@ -40,14 +40,14 @@ import {
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { IFileIcon } from 'core-app/shared/components/file-links/file-icons.mapping';
+import { IFileIcon } from 'core-app/shared/components/storages/file-icons.mapping';
 import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
-import { fileLinkViewAllowed } from 'core-app/shared/components/file-links/file-links-constants.const';
+import { fileLinkViewAllowed } from 'core-app/shared/components/storages/storages-constants.const';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
-import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 import { ConfirmDialogOptions } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
-import { getIconForMimeType, isDirectory } from 'core-app/shared/components/file-links/functions/storages.functions';
+import { getIconForMimeType, isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
+import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

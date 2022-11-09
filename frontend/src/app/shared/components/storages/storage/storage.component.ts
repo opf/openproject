@@ -50,31 +50,31 @@ import {
   storageAuthorizationError,
   storageConnected,
   storageFailedAuthorization,
-} from 'core-app/shared/components/file-links/file-links-constants.const';
+} from 'core-app/shared/components/storages/storages-constants.const';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { StorageActionButton } from 'core-app/shared/components/file-links/storage-information/storage-action-button';
+import { StorageActionButton } from 'core-app/shared/components/storages/storage-information/storage-action-button';
 import {
   StorageInformationBox,
-} from 'core-app/shared/components/file-links/storage-information/storage-information-box';
+} from 'core-app/shared/components/storages/storage-information/storage-information-box';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   FilePickerModalComponent,
-} from 'core-app/shared/components/file-links/file-picker-modal/file-picker-modal.component';
+} from 'core-app/shared/components/storages/file-picker-modal/file-picker-modal.component';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import {
   LocationPickerModalComponent,
 } from 'core-app/shared/components/file-links/location-picker-modal/location-picker-modal.component';
 
 @Component({
-  selector: 'op-file-link-list',
-  templateUrl: './file-link-list.html',
+  selector: 'op-storage',
+  templateUrl: './storage.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit {
+export class StorageComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public resource:HalResource;
 
   @Input() public storage:IStorage;
@@ -109,10 +109,10 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
       loginButton: (storageType:string):string => this.i18n.t('js.storages.login', { storageType }),
     },
     actions: {
-      linkFile: (storageType:string):string => this.i18n.t('js.storages.link_files_in_storage', { storageType }),
       linkExisting: this.i18n.t('js.storages.link_existing_files'),
       uploadFile: this.i18n.t('js.storages.upload_files'),
     },
+    openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.storageType }),
   };
 
   public get storageFileLinkingEnabled():boolean {
@@ -241,7 +241,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
           if (this.storage._links.authorize) {
             const nonce = uuidv4();
             this.setAuthorizationCallbackCookie(nonce);
-            window.location.href = FileLinkListComponent.authorizationFailureActionUrl(
+            window.location.href = StorageComponent.authorizationFailureActionUrl(
               this.storage._links.authorize.href,
               nonce,
             );

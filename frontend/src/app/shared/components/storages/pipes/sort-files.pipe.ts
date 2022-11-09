@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { isDirectory } from 'core-app/shared/components/file-links/functions/storages.functions';
+import { isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
 
 @Pipe({
   name: 'sortFiles',

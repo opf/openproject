@@ -26,10 +26,28 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { nextcloud } from 'core-app/shared/components/file-links/file-links-constants.const';
+import {
+  fileIconMappings,
+  IFileIcon,
+  storageIconMappings,
+} from 'core-app/shared/components/storages/file-icons.mapping';
 
-export const storageIconMappings:Record<string, string> = {
-  [nextcloud]: 'nextcloud-circle',
+export function isDirectory(mimeType?:string):boolean {
+  return mimeType === 'application/x-op-directory';
+}
 
-  default: 'ticket',
-};
+export function getIconForMimeType(mimeType?:string):IFileIcon {
+  if (mimeType && fileIconMappings[mimeType]) {
+    return fileIconMappings[mimeType];
+  }
+
+  return fileIconMappings.default;
+}
+
+export function getIconForStorageType(storageType?:string):string {
+  if (storageType && storageIconMappings[storageType]) {
+    return storageIconMappings[storageType];
+  }
+
+  return storageIconMappings.default;
+}

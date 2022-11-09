@@ -26,13 +26,18 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StorageActionButton } from 'core-app/shared/components/file-links/storage-information/storage-action-button';
+import {
+  ChangeDetectionStrategy, Component, Input,
+} from '@angular/core';
+import {
+  StorageInformationBox,
+} from 'core-app/shared/components/storages/storage-information/storage-information-box';
 
-export class StorageInformationBox {
-  constructor(
-    public readonly iconClass:string,
-    public readonly header:string,
-    public readonly content:string,
-    public readonly buttons:StorageActionButton[],
-  ) { }
+@Component({
+  selector: 'op-storage-information',
+  templateUrl: './storage-information.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class StorageInformationComponent {
+  @Input() viewModel:StorageInformationBox;
 }
