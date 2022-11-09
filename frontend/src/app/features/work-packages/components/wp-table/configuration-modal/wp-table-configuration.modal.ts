@@ -107,10 +107,11 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
         const initialTabName = this.locals.initialTab;
         const initialTab = this.availableTabs.find((el) => el.id === initialTabName);
         this.switchTo(initialTab || this.availableTabs[0]);
+        this.cdRef.detectChanges();
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy():void {
     this.onDataUpdated.complete();
     this.tabPortalHost.dispose();
   }
@@ -123,7 +124,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     return this.tabPortalHost.currentTab;
   }
 
-  public switchTo(tab:TabInterface) {
+  public switchTo(tab:TabInterface):void {
     this.tabPortalHost.switchTo(tab);
   }
 
