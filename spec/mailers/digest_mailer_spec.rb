@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe DigestMailer, type: :mailer do
+describe DigestMailer do
   include OpenProject::ObjectLinking
   include ActionView::Helpers::UrlHelper
   include OpenProject::StaticRouting::UrlHelpers
@@ -128,6 +128,182 @@ describe DigestMailer, type: :mailer do
 
         expect(mail.header)
           .to eql({})
+      end
+    end
+
+    describe "#date_alerts_text" do
+      let!(:color) { create(:color) }
+      let!(:project1) { create(:project) }
+      let!(:recipient) { create(:user) }
+      let!(:work_package_journal) do
+        create(:work_package_journal,
+               journable_id: work_package.id,
+               version: 2,
+               data: build(:journal_work_package_journal,
+                           description: 'text'))
+      end
+      let(:notifications) { [notification] }
+
+      context 'when notification_wp_start_past' do
+        let(:work_package) do
+          create(:work_package, subject: 'WP start past', project: project1, start_date: 1.day.ago, type: Type.first)
+        end
+        let(:notification) do
+          create(:notification,
+                 reason: :date_alert_start_date,
+                 recipient:,
+                 resource: work_package,
+                 project: project1,
+                 journal: work_package_journal)
+        end
+
+        it 'matches generated text' do
+          expect(mail_body).to have_text('Start date was 1 day ago')
+        end
+      end
+
+      context 'when notification_wp_start_future' do
+        let(:work_package) do
+          create(:work_package, subject: 'WP start future', project: project1, start_date: 2.days.from_now, type: Type.first)
+        end
+        let(:notification) do
+          create(:notification,
+                 reason: :date_alert_start_date,
+                 recipient:,
+                 resource: work_package,
+                 project: project1,
+                 journal: work_package_journal)
+        end
+
+        it 'matches generated text' do
+          expect(mail_body).to have_text('Start date is in 2 days')
+        end
+      end
+
+      context 'when notification_wp_due_past' do
+        let(:work_package) do
+          create(:work_package, subject: 'WP due past', project: project1, due_date: 3.days.ago, type: Type.first)
+        end
+        let(:notification) do
+          create(:notification,
+                 reason: :date_alert_due_date,
+                 recipient:,
+                 resource: work_package,
+                 project: project1,
+                 journal: work_package_journal)
+        end
+
+        it 'matches generated text' do
+          expect(mail_body).to have_text('Overdue since 3 days')
+        end
+      end
+
+      context 'when notification_wp_due_future' do
+        let(:work_package) do
+          create(:work_package, subject: 'WP due future', project: project1, due_date: 3.days.from_now, type: Type.first)
+        end
+        let(:notification) do
+          create(:notification,
+                 reason: :date_alert_due_date,
+                 recipient:,
+                 resource: work_package,
+                 project: project1,
+                 journal: work_package_journal)
+        end
+
+        it 'matches generated text' do
+          expect(mail_body).to have_text('Finish date is in 3 days')
+        end
+      end
+
+      context 'when notification_milestone_past' do
+        let(:milestone_type) { create(:type_milestone) }
+        let(:work_package) do
+          create(:work_package, subject: 'Milestone WP past', project: project1, type: milestone_type, due_date: 2.days.ago)
+        end
+        let(:notification) do
+          create(:notification,
+                 reason: :date_alert_due_date,
+                 recipient:,
+                 resource: work_package,
+                 project: project1,
+                 journal: work_package_journal)
+        end
+
+        it 'matches generated text' do
+          expect(mail_body).to have_text('Overdue since 2 days')
+        end
+      end
+
+      context 'when notification_milestone_future' do
+        let(:milestone_type) { create(:type_milestone) }
+        let(:work_package) do
+          create(:work_package, subject: 'Milestone WP future', project: project1, type: milestone_type, due_date: 1.day.from_now)
+        end
+        let(:notification) do
+          create(:notification,
+                 reason: :date_alert_due_date,
+                 recipient:,
+                 resource: work_package,
+                 project: project1,
+                 journal: work_package_journal)
+        end
+
+        it 'matches generated text' do
+          expect(mail_body).to have_text('Milestone date is in 1 day')
+        end
+      end
+
+      context 'when notification_wp_unset_date' do
+        let(:work_package) { create(:work_package, subject: 'Unset date', project: project1, due_date: nil, type: Type.first) }
+        let(:notification) do
+          create(:notification,
+                 reason: :date_alert_due_date,
+                 recipient:,
+                 resource: work_package,
+                 project: project1,
+                 journal: work_package_journal)
+        end
+
+        it 'matches generated text' do
+          expect(mail_body).to have_text('Finish date is deleted')
+        end
+      end
+
+      context 'when notification_wp_due_today' do
+        let(:work_package) do
+          create(:work_package, subject: 'Due today', project: project1, due_date: Time.zone.today, type: Type.first)
+        end
+        let(:notification) do
+          create(:notification,
+                 reason: :date_alert_due_date,
+                 recipient:,
+                 resource: work_package,
+                 project: project1,
+                 journal: work_package_journal)
+        end
+
+        it 'matches generated text' do
+          expect(mail_body).to have_text('Finish date is today')
+        end
+      end
+
+      context 'when notification_wp_double_date_alert' do
+        let(:work_package) do
+          create(:work_package, subject: 'Alert + Mention', project: project1, due_date: 1.day.from_now, type: Type.first)
+        end
+        let(:notification) do
+          create(:notification,
+                 reason: :date_alert_due_date,
+                 recipient:,
+                 resource: work_package,
+                 project: project1,
+                 journal: work_package_journal)
+        end
+
+        it 'matches generated text' do
+          expect(mail_body).to have_text('Finish date is in 1 day')
+        end
       end
     end
   end

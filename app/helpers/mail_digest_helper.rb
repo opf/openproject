@@ -42,6 +42,55 @@ module MailDigestHelper
     summary
   end
 
+  def date_alerts_text(notification)
+    work_package = notification.resource
+    date_value = date_value(notification, work_package)
+
+    alert_text = if date_value
+                   date_is_past = date_value.before?(Time.zone.today)
+                   is_overdue = date_is_past && (notification.reason == "date_alert_due_date" || work_package.milestone?)
+                   days_diff = (date_value - Time.zone.today).to_i.abs
+
+                   build_alert_text(days_diff, is_overdue, date_is_past)
+                 else
+                   I18n.t('js.notifications.date_alerts.property_is_deleted')
+                 end
+
+    "#{property_text(notification, is_overdue, days_diff)} #{alert_text}"
+  end
+
+  def date_value(notification, work_package)
+    notification.reason == "date_alert_start_date" ? work_package.start_date : work_package.due_date
+  end
+
+  def property_text(notification, is_overdue, days_diff)
+    if is_overdue && days_diff > 0
+      I18n.t('js.notifications.date_alerts.overdue')
+    else
+      property_text_helper(notification)
+    end
+  end
+
+  def build_alert_text(days_diff, is_overdue, date_is_past)
+    days_text = I18n.t('js.units.day', count: days_diff)
+
+    return 'is today' if days_diff == 0
+    return "since #{days_text}" if is_overdue
+    return "was #{days_text} ago" if date_is_past
+
+    "is in #{days_text}"
+  end
+
+  def property_text_helper(notification)
+    return I18n.t('js.notifications.date_alerts.milestone_date') if notification.resource.milestone?
+
+    if notification.reason == "date_alert_start_date"
+      I18n.t('js.work_packages.properties.startDate')
+    else
+      I18n.t('js.work_packages.properties.dueDate')
+    end
+  end
+
   def digest_notification_timestamp_text(notification, html: true)
     journal = notification.journal
     user = html ? link_to_user(journal.user, only_path: false) : journal.user.name
