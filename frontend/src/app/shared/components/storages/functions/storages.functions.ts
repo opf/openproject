@@ -30,7 +30,10 @@ import {
   fileIconMappings,
   IFileIcon,
   storageIconMappings,
-} from 'core-app/shared/components/storages/file-icons.mapping';
+} from 'core-app/shared/components/storages/icons.mapping';
+import { BehaviorSubject } from 'rxjs';
+import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 
 export function isDirectory(mimeType?:string):boolean {
   return mimeType === 'application/x-op-directory';
@@ -50,4 +53,14 @@ export function getIconForStorageType(storageType?:string):string {
   }
 
   return storageIconMappings.default;
+}
+
+export function navigateToLevel(
+  loading$:BehaviorSubject<boolean>,
+  filesResourceService:StorageFilesResourceService,
+  files$:BehaviorSubject<IStorageFile[]>,
+  updateBreadcrumbs:() => void,
+  location:string|null,
+):void {
+
 }

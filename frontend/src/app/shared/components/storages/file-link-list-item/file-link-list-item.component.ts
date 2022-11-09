@@ -40,7 +40,7 @@ import {
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { IFileIcon } from 'core-app/shared/components/storages/file-icons.mapping';
+import { IFileIcon } from 'core-app/shared/components/storages/icons.mapping';
 import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
 import { fileLinkViewAllowed } from 'core-app/shared/components/storages/storages-constants.const';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';

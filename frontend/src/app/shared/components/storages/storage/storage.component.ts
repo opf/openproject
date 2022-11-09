@@ -67,7 +67,7 @@ import {
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import {
   LocationPickerModalComponent,
-} from 'core-app/shared/components/file-links/location-picker-modal/location-picker-modal.component';
+} from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
 
 @Component({
   selector: 'op-storage',

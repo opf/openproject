@@ -53,6 +53,7 @@
         data-qa-selector="op-files-picker-modal--confirm"
         [disabled]="!canChooseLocation"
         [textContent]="text.buttons.submit"
+        (click)="chooseLocation()"
       ></button>
     </div>
   </div>

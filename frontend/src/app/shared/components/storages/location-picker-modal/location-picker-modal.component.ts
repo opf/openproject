@@ -151,6 +151,10 @@ export class LocationPickerModalComponent extends OpModalComponent implements On
     };
   }
 
+  public chooseLocation():void {
+    this.service.close();
+  }
+
   private storageFileToListItem(file:IStorageFile, index:number):StorageFileListItem {
     const isFolder = isDirectory(file.mimeType);
     const enterDirectoryCallback = isFolder

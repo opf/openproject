@@ -28,7 +28,7 @@
 
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { IFileIcon } from 'core-app/shared/components/storages/file-icons.mapping';
+import { IFileIcon } from 'core-app/shared/components/storages/icons.mapping';
 import { getIconForMimeType, isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
 
 interface StorageFileListItemCheckbox {
