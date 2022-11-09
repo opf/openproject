@@ -1,7 +1,8 @@
 <op-attachment-list
   class="op-attachments--list"
-  *ngIf="hasAttachments"
-  [resource]="resource"
+  *ngIf="(attachments$ | async).length"
+  [attachments]="attachments$ | async"
+  [collectionKey]="collectionKey"
   [allowUploading]="allowUploading"
 ></op-attachment-list>
 
@@ -16,7 +17,7 @@
 />
 
 <div
-  *ngIf="allowUploading && resource.canAddAttachments && hasAttachments"
+  *ngIf="allowUploading && resource.canAddAttachments && (attachments$ | async).length"
   class="op-attachments--actions"
 >
   <button
@@ -36,7 +37,7 @@
   [ngClass]="{
     'hide-when-print': true,
     'op-attachments--drop-box': true,
-    'op-attachments--drop-box_float': hasAttachments
+    'op-attachments--drop-box_float': (attachments$ | async).length
   }"
   type="button"
   (click)="triggerFileInput()"

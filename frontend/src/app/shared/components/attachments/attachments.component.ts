@@ -41,12 +41,16 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
-import { filter } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
+import { Observable } from 'rxjs';
 
 function containsFiles(dataTransfer:DataTransfer):boolean {
   return dataTransfer.types.indexOf('Files') >= 0;
@@ -74,6 +78,8 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit,
 
   @Input() public destroyImmediately = true;
 
+  attachments$:Observable<IAttachment[]>;
+
   @ViewChild('hiddenFileInput') public filePicker:ElementRef<HTMLInputElement>;
 
   public text = {
@@ -84,8 +90,13 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit,
     foldersWarning: this.I18n.t('js.label_drop_folders_hint'),
   };
 
-  public get hasAttachments():boolean {
-    return !!(this.resource.attachments && this.resource.attachments.elements.length);
+  private get attachmentsSelfLink():string {
+    const attachments = this.resource.attachments as unknown&{ href:string };
+    return attachments.href;
+  }
+
+  private get collectionKey():string {
+    return isNewResource(this.resource) ? 'new' : this.attachmentsSelfLink;
   }
 
   constructor(
@@ -95,6 +106,7 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit,
     protected readonly halResourceService:HalResourceService,
     protected readonly attachmentsResourceService:AttachmentsResourceService,
     protected readonly toastService:ToastService,
+    private readonly timezoneService:TimezoneService,
   ) {
     super();
 
@@ -116,6 +128,32 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit,
         console.log('new resource!', newResource);
         this.resource = newResource || this.resource;
       });
+
+    // ensure collection is loaded to the store
+    if (!isNewResource(this.resource)) {
+      this.attachmentsResourceService.requireCollection(this.attachmentsSelfLink);
+    }
+
+    const compareCreatedAtTimestamps = (a:IAttachment, b:IAttachment):number => {
+      const rightCreatedAt = this.timezoneService.parseDatetime(b.createdAt);
+      const leftCreatedAt = this.timezoneService.parseDatetime(a.createdAt);
+      return rightCreatedAt.isBefore(leftCreatedAt) ? -1 : 1;
+    };
+
+    this.attachments$ = this
+      .attachmentsResourceService
+      .collection(this.collectionKey)
+      .pipe(
+        this.untilDestroyed(),
+        map((attachments) => attachments.sort(compareCreatedAtTimestamps)),
+        // store attachments for new resources directly into the resource. This way, the POST request to create the
+        // resource embeds the attachments and the backend reroutes the anonymous attachments to the resource.
+        tap((attachments) => {
+          if (isNewResource(this.resource)) {
+            this.resource.attachments = { elements: attachments.map((a) => a._links.self) };
+          }
+        }),
+      );
 
     document.body.addEventListener('dragover', this.onDragOver.bind(this));
     document.body.addEventListener('dragleave', this.onDragLeave.bind(this));
