@@ -46,6 +46,7 @@ export class InAppNotificationDateAlertComponent implements OnInit {
       this.I18n.t('js.notifications.date_alerts.property_is', { difference_in_days }),
     property_was: (difference_in_days:string):string =>
       this.I18n.t('js.notifications.date_alerts.property_was', { difference_in_days }),
+    property_deleted: this.I18n.t('js.notifications.date_alerts.property_is_deleted'),
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
     dueDate: this.I18n.t('js.work_packages.properties.dueDate'),
     date: this.I18n.t('js.notifications.date_alerts.milestone_date'),
@@ -62,7 +63,17 @@ export class InAppNotificationDateAlertComponent implements OnInit {
 
     const detail = interestingAlert._embedded.details[0];
     const property = detail.property;
-    const dateValue = this.timezoneService.parseISODate(detail.value);
+
+    if (!detail.value) {
+      this.propertyText = this.text[property];
+      this.alertText = this.text.property_deleted;
+    } else {
+      this.deriveDueDate(detail.value, property);
+    }
+  }
+
+  private deriveDueDate(value:string, property:'startDate'|'dueDate'|'date') {
+    const dateValue = this.timezoneService.parseISODate(value);
     this.dateIsPast = dateValue.isBefore();
     this.isOverdue = this.dateIsPast && ['date', 'dueDate'].includes(property);
     this.daysDiff = this.dateDiff(dateValue);

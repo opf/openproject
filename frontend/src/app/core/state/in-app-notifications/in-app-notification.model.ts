@@ -17,7 +17,7 @@ export type IInAppNotificationDetailsAttribute = 'startDate'|'dueDate'|'date';
 
 export interface IInAppNotificationDetailsResource {
   property:IInAppNotificationDetailsAttribute;
-  value:string;
+  value:string|null;
 
   _links:{
     self:IHalResourceLink;

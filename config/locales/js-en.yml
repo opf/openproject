@@ -597,6 +597,7 @@ en:
         overdue_since: 'since %{difference_in_days}'
         property_is: 'is in %{difference_in_days}'
         property_was: 'was %{difference_in_days} ago'
+        property_is_deleted: 'is deleted'
       facets:
         unread: 'Unread'
         unread_title: 'Show unread'
