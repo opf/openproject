@@ -41,7 +41,7 @@ import {
   map,
 } from 'rxjs/operators';
 
-import { nextcloud } from 'core-app/shared/components/file-links/file-links-constants.const';
+import { nextcloud } from 'core-app/shared/components/storages/storages-constants.const';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HookService } from 'core-app/features/plugins/hook-service';

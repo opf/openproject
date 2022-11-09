@@ -35,7 +35,7 @@ import {
 import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
 import {
   StorageFileListItem,
-} from 'core-app/shared/components/file-links/storage-file-list-item/storage-file-list-item';
+} from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 

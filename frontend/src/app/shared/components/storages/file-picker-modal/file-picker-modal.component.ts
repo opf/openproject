@@ -50,10 +50,10 @@ import { StorageFilesResourceService } from 'core-app/core/state/storage-files/s
 import { Breadcrumb, BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
 import {
   StorageFileListItem,
-} from 'core-app/shared/components/file-links/storage-file-list-item/storage-file-list-item';
+} from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
-import { isDirectory } from 'core-app/shared/components/file-links/file-link-icons/file-icons.helper';
-import getIconForStorageType from 'core-app/shared/components/file-links/storage-icons/get-icon-for-storage-type';
+import { isDirectory } from 'core-app/shared/components/storages/file-link-icons/file-icons.helper';
+import getIconForStorageType from 'core-app/shared/components/storages/storage-icons/get-icon-for-storage-type';
 
 @Component({
   templateUrl: 'file-picker-modal.html',
