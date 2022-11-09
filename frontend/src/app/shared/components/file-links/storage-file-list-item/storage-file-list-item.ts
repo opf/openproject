@@ -28,11 +28,13 @@
 
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import {
-  getIconForMimeType,
-} from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
-import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
-import { isDirectory } from 'core-app/shared/components/file-links/file-link-icons/file-icons.helper';
+import { IFileIcon } from 'core-app/shared/components/file-links/file-icons.mapping';
+import { getIconForMimeType, isDirectory } from 'core-app/shared/components/file-links/functions/storages.functions';
+
+interface StorageFileListItemCheckbox {
+  selected:boolean;
+  changeSelection?:() => void;
+}
 
 export class StorageFileListItem {
   get name():string {
@@ -66,8 +68,8 @@ export class StorageFileListItem {
     private readonly storageFile:IStorageFile,
     public readonly disabled:boolean,
     public readonly isFirst:boolean,
-    public readonly selected:boolean,
-    public readonly changeSelection:() => void,
+    public readonly tooltip?:string,
+    public readonly checkbox?:StorageFileListItemCheckbox,
     public readonly enterDirectory?:() => void,
   ) {}
 }

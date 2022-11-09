@@ -47,10 +47,13 @@ import { OPSharedModule } from 'core-app/shared/shared.module';
 import {
   StorageFileListItemComponent,
 } from 'core-app/shared/components/file-links/storage-file-list-item/storage-file-list-item.component';
-import { SortFilesPipe } from 'core-app/shared/components/file-links/file-picker-modal/sort-files.pipe';
+import { SortFilesPipe } from 'core-app/shared/components/file-links/pipes/sort-files.pipe';
 import {
   LoadingFileListComponent,
 } from 'core-app/shared/components/file-links/loading-file-list/loading-file-list.component';
+import {
+  LocationPickerModalComponent,
+} from 'core-app/shared/components/file-links/location-picker-modal/location-picker-modal.component';
 
 @NgModule({
   imports: [
@@ -63,6 +66,7 @@ import {
     FileLinkListComponent,
     FileLinkListItemComponent,
     FilePickerModalComponent,
+    LocationPickerModalComponent,
     LoadingFileListComponent,
     StorageInformationComponent,
     StorageFileListItemComponent,

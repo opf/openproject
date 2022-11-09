@@ -48,12 +48,10 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
-import {
-  getIconForMimeType,
-} from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
+import { IFileIcon } from 'core-app/shared/components/file-links/file-icons.mapping';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { ConfirmDialogOptions } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
+import { getIconForMimeType } from 'core-app/shared/components/file-links/functions/storages.functions';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

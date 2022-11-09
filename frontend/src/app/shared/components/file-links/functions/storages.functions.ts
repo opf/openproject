@@ -26,6 +26,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { fileIconMappings, IFileIcon } from 'core-app/shared/components/file-links/file-icons.mapping';
+
 export function isDirectory(mimeType?:string):boolean {
   return mimeType === 'application/x-op-directory';
+}
+
+export function getIconForMimeType(mimeType?:string):IFileIcon {
+  if (mimeType && fileIconMappings[mimeType]) {
+    return fileIconMappings[mimeType];
+  }
+
+  return fileIconMappings.default;
 }

@@ -4,10 +4,13 @@ en:
     storages:
       link_files_in_storage: "Link files in %{storageType}"
       link_existing_files: "Link existing files"
+      upload_files: "Upload files"
       login: "%{storageType} login"
       login_to: "Login to %{storageType}"
       no_connection: "No %{storageType} connection"
       open_storage: "Open %{storageType}"
+      select_location: "Select location"
+      choose_location: "Choose location"
 
       types:
         nextcloud: "Nextcloud"
