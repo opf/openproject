@@ -580,6 +580,18 @@ zh-TW:
         change_notification_settings: '檢視或更改您的通知設定, <a target="_blank" href="%{url}">請按此處</a>'
         title: "通知設定"
         notify_me: "通知我"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: everyday
+              P3D: every 3 days
+              P7D: every week
         reasons:
           mentioned:
             title: '被標記'
@@ -602,6 +614,9 @@ zh-TW:
           date_alerts:
             title: '日期提醒'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+          start_date: Start Date
+          due_date: Finish Date
+          overdue: When Overdue
         project_specific:
           title: '特定專案通知設定'
           description: '特別專案通知設定將覆蓋上列標準設定。'

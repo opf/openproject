@@ -80,7 +80,7 @@ lol:
       buttons:
         upgrade: "crwdns655649:0crwdne655649:0"
         contact: "crwdns655651:0crwdne655651:0"
-      enterprise_info_html: "crwdns655653:0crwdne655653:0"
+      enterprise_info_html: "crwdns836929:0crwdne836929:0"
       upgrade_info: "crwdns655655:0crwdne655655:0"
     journal_aggregation:
       explanation:
@@ -738,6 +738,11 @@ lol:
               email_alerts_global: 'crwdns836112:0crwdne836112:0'
               format: "crwdns836114:0%{message}crwdne836114:0"
               wrong_date: 'crwdns836116:0crwdne836116:0'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "crwdns836931:0crwdne836931:0"
+              locked: "crwdns836933:0crwdne836933:0"
         wiki_page:
           attributes:
             slug:

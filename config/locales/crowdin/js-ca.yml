@@ -582,6 +582,18 @@ ca:
         change_notification_settings: 'Per veure i canviar la configuració de notificacions, <a target="_blank" href="%{url}">fes clic aquí</a>'
         title: "Configuració de notificacions"
         notify_me: "Notifica’m"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: everyday
+              P3D: every 3 days
+              P7D: every week
         reasons:
           mentioned:
             title: 'Mencionat'
@@ -604,6 +616,9 @@ ca:
           date_alerts:
             title: 'Alertes per dates'
             description: 'Notificacions automàtiques quan dates importants s''aproximen per a paquets de treball oberts en els quals estàs involucrat (assignat, responsable o observador)'
+          start_date: Start Date
+          due_date: Finish Date
+          overdue: When Overdue
         project_specific:
           title: 'Configuracions de notificacions específiques del projecte'
           description: 'Aquestes configuracions específiques del projecte anul·len les configuracions per defecte especificades a sobre'

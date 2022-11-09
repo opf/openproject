@@ -581,6 +581,18 @@ lol:
         change_notification_settings: 'crwdns787736:0%{url}crwdne787736:0'
         title: "crwdns787738:0crwdne787738:0"
         notify_me: "crwdns787740:0crwdne787740:0"
+        reminders:
+          no_notification: crwdns836935:0crwdne836935:0
+          timeframes:
+            normal:
+              PT0S: crwdns836937:0crwdne836937:0
+              P1D: crwdns836939:0crwdne836939:0
+              P3D: crwdns836941:0crwdne836941:0
+              P7D: crwdns836943:0crwdne836943:0
+            overdue:
+              P1D: crwdns836945:0crwdne836945:0
+              P3D: crwdns836947:0crwdne836947:0
+              P7D: crwdns836949:0crwdne836949:0
         reasons:
           mentioned:
             title: 'crwdns836456:0crwdne836456:0'
@@ -603,6 +615,9 @@ lol:
           date_alerts:
             title: 'crwdns836468:0crwdne836468:0'
             description: 'crwdns836470:0crwdne836470:0'
+          start_date: crwdns836951:0crwdne836951:0
+          due_date: crwdns836953:0crwdne836953:0
+          overdue: crwdns836955:0crwdne836955:0
         project_specific:
           title: 'crwdns787770:0crwdne787770:0'
           description: 'crwdns787772:0crwdne787772:0'

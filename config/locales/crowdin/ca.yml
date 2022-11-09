@@ -80,7 +80,7 @@ ca:
       buttons:
         upgrade: "Actualitza ara"
         contact: "Contacta amb nosaltres per una demostració"
-      enterprise_info_html: "és una secció <strong class='icon-medal'></strong> Enterprise"
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
       upgrade_info: "Si us plau, actualitza a una versió de pagament per tal d'activar i començar a utilitzar aquesta funcionalitat en el teu equip."
     journal_aggregation:
       explanation:
@@ -752,6 +752,11 @@ ca:
               email_alerts_global: 'La configuració de notificació per correu electrònic només pot establir-se globalment.'
               format: "%{message}"
               wrong_date: 'Valor incorrecte per a Data d''inici, Data final o Vençut.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:

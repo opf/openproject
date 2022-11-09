@@ -80,7 +80,7 @@ fr:
       buttons:
         upgrade: "Passer au plan supérieur"
         contact: "Contactez-nous pour une démo"
-      enterprise_info_html: "est une fonctionnalité Entreprise <strong class='icon-medal'></strong>."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
       upgrade_info: "Veuillez passer à un plan payant pour l'activer et commencer à l'utiliser dans votre équipe."
     journal_aggregation:
       explanation:
@@ -756,6 +756,11 @@ fr:
               email_alerts_global: 'Les paramètres de notification par e-mail ne peuvent être définis que globalement.'
               format: "%{message}"
               wrong_date: 'Mauvaise valeur pour la date de début, la date d''échéance ou le retard.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
