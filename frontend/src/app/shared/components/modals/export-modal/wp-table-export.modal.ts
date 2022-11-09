@@ -29,12 +29,6 @@ interface ExportLink extends HalLink {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpTableExportModalComponent extends OpModalComponent implements OnInit {
-  /* Close on escape? */
-  public closeOnEscape = true;
-
-  /* Close on outside click */
-  public closeOnOutsideClick = true;
-
   public $element:HTMLElement;
 
   public exportOptions:{ identifier:string, label:string, url:string }[];
@@ -60,15 +54,17 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
     super(locals, cdRef, elementRef);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
 
     if (this.locals.link) {
       this.requestExport(this.locals.link);
     } else {
-      this.querySpace.results
+      void this.querySpace.results
         .valuesPromise()
-        .then((results) => this.exportOptions = this.buildExportOptions(results!));
+        .then((results:WorkPackageCollectionResource) => {
+          this.exportOptions = this.buildExportOptions(results);
+        });
     }
   }
 
@@ -79,12 +75,12 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
       return {
         identifier: link.identifier,
         label: link.title,
-        url: this.addColumnsToHref(format.href!),
+        url: this.addColumnsToHref(format.href as string),
       };
     });
   }
 
-  private triggerByLink(url:string, event:MouseEvent) {
+  triggerByLink(url:string, event:MouseEvent):void {
     event.preventDefault();
     this.requestExport(url);
   }
@@ -139,6 +135,6 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
   }
 
   protected get afterFocusOn():HTMLElement {
-    return document.getElementById('work-packages-settings-button')!;
+    return document.getElementById('work-packages-settings-button') as HTMLElement;
   }
 }

@@ -46,10 +46,6 @@ export class WpButtonMacroModalComponent extends OpModalComponent implements Aft
 
   public showClose = true;
 
-  public closeOnEscape = true;
-
-  public closeOnOutsideClick = true;
-
   public selectedType:string;
 
   public buttonStyle:boolean;

@@ -28,12 +28,6 @@ import { Board } from 'core-app/features/boards/board/board';
   templateUrl: './board-configuration.modal.html',
 })
 export class BoardConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
-  /* Close on escape? */
-  public closeOnEscape = false;
-
-  /* Close on outside click */
-  public closeOnOutsideClick = false;
-
   public text = {
     title: this.I18n.t('js.boards.configuration_modal.title'),
     closePopup: this.I18n.t('js.close_popup_title'),

@@ -55,10 +55,6 @@ export class EnterpriseTrialModalComponent extends OpModalComponent implements A
   // modal configuration
   public showClose = true;
 
-  public closeOnEscape = false;
-
-  public closeOnOutsideClick = false;
-
   public trustedEEVideoURL:SafeResourceUrl;
 
   public text = {

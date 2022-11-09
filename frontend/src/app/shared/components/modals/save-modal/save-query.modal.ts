@@ -80,17 +80,17 @@ export class SaveQueryModalComponent extends OpModalComponent {
     super(locals, cdRef, elementRef);
   }
 
-  public setValues(change:QuerySharingChange) {
+  public setValues(change:QuerySharingChange):void {
     this.isStarred = change.isStarred;
     this.isPublic = change.isPublic;
   }
 
-  public onOpen() {
+  public onOpen():void {
     this.queryNameField.nativeElement.focus();
   }
 
-  public get afterFocusOn() {
-    return document.getElementById('work-packages-settings-button')!;
+  public get afterFocusOn():HTMLElement {
+    return document.getElementById('work-packages-settings-button') as HTMLElement;
   }
 
   public saveQueryAs($event:Event):void {

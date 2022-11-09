@@ -37,12 +37,6 @@ export const WpTableConfigurationModalPrependToken = new InjectionToken<Componen
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpGraphConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
-  /* Close on escape? */
-  public closeOnEscape = false;
-
-  /* Close on outside click */
-  public closeOnOutsideClick = false;
-
   public $element:HTMLElement;
 
   public text = {

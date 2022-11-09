@@ -7,14 +7,6 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 
 @Directive()
 export abstract class OpModalComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  /* Close on escape? */
-  public closeOnEscape = true;
-
-  public closeOnEscapeFunction = this.closeMe;
-
-  /* Close on outside click */
-  public closeOnOutsideClick = true;
-
   /* Reference to service */
   protected service:OpModalService = this.locals.service;
 

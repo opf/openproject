@@ -23,12 +23,6 @@ import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-
   styleUrls: ['./job-status.modal.sass'],
 })
 export class JobStatusModalComponent extends OpModalComponent implements OnInit {
-  /* Close on escape? */
-  public closeOnEscape = false;
-
-  /* Close on outside click */
-  public closeOnOutsideClick = false;
-
   public text = {
     title: this.I18n.t('js.job_status.title'),
     closePopup: this.I18n.t('js.close_popup_title'),

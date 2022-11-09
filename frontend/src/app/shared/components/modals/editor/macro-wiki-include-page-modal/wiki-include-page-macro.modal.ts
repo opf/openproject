@@ -42,10 +42,6 @@ export class WikiIncludePageMacroModalComponent extends OpModalComponent impleme
 
   public showClose = true;
 
-  public closeOnEscape = true;
-
-  public closeOnOutsideClick = true;
-
   public selectedPage:string;
 
   public page = '';

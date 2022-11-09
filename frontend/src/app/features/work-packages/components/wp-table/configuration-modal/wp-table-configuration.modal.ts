@@ -39,12 +39,6 @@ export const WpTableConfigurationModalPrependToken = new InjectionToken<Componen
   templateUrl: './wp-table-configuration.modal.html',
 })
 export class WpTableConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
-  /* Close on escape? */
-  public closeOnEscape = false;
-
-  /* Close on outside click */
-  public closeOnOutsideClick = false;
-
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.modal_title'),
     closePopup: this.I18n.t('js.close_popup_title'),

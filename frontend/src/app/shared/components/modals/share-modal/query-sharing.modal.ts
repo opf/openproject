@@ -78,7 +78,7 @@ export class QuerySharingModalComponent extends OpModalComponent implements OnIn
     super(locals, cdRef, elementRef);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
 
     this.query = this.querySpace.query.value!;
@@ -87,13 +87,13 @@ export class QuerySharingModalComponent extends OpModalComponent implements OnIn
     this.isPublic = this.query.public;
   }
 
-  public setValues(change:QuerySharingChange) {
+  public setValues(change:QuerySharingChange):void {
     this.isStarred = change.isStarred;
     this.isPublic = change.isPublic;
   }
 
-  public get afterFocusOn() {
-    return document.getElementById('work-packages-settings-button')!;
+  public get afterFocusOn():HTMLElement {
+    return document.getElementById('work-packages-settings-button') as HTMLElement;
   }
 
   public saveQuery($event:Event):void {
