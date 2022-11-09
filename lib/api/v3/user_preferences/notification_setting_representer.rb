@@ -34,8 +34,8 @@ module API
         include API::Decorators::DateProperty
 
         NotificationSetting.all_settings.each do |setting|
-          if setting.in?(NotificationSetting.duration_settings)
-            duration_property setting
+          if setting.in?(NotificationSetting.date_alert_settings)
+            duration_property setting, if: ->(*) { EnterpriseToken.allows_to?(:date_alerts) }
           else
             property setting
           end

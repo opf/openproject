@@ -17,6 +17,8 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 import { INotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 import { OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES, REMINDER_AVAILABLE_TIMEFRAMES } from '../overdue-reminder-available-times';
 
 export const myNotificationsPageComponentSelector = 'op-notifications-page';
@@ -60,6 +62,8 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   public availableTimes = REMINDER_AVAILABLE_TIMEFRAMES;
 
   public availableTimesOverdue = OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES;
+
+  public eeShowBanners = false;
 
   public form = new FormGroup({
     assignee: new FormControl(false),
@@ -117,6 +121,9 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     startDate: this.I18n.t('js.notifications.settings.global.start_date'),
     dueDate: this.I18n.t('js.notifications.settings.global.due_date'),
     overdue: this.I18n.t('js.notifications.settings.global.overdue'),
+    teaser_text: this.I18n.t('js.notifications.settings.global.date_alerts.teaser_text'),
+    upgrade_to_ee_text: this.I18n.t('js.boards.upsale.upgrade'),
+    more_info_link: enterpriseDocsUrl.website,
   };
 
   dateAlertsStatuses = {
@@ -131,6 +138,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     private storeService:UserPreferencesService,
     private currentUserService:CurrentUserService,
     private uiRouterGlobals:UIRouterGlobals,
+    readonly bannersService:BannersService,
   ) {
     super();
   }
@@ -138,6 +146,8 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   ngOnInit():void {
     this.form.disable();
     this.userId = (this.userId || this.uiRouterGlobals.params.userId) as string;
+    this.eeShowBanners = this.bannersService.eeShowBanners;
+
     this
       .currentUserService
       .user$
