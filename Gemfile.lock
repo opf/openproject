@@ -446,7 +446,7 @@ GEM
       eventmachine (>= 1.0.0.beta.4)
     em-synchrony (1.0.6)
       eventmachine (>= 1.0.0.beta.1)
-    email_validator (2.2.3)
+    email_validator (2.2.4)
       activemodel
     equivalent-xml (0.6.0)
       nokogiri (>= 1.4.3)
@@ -458,7 +458,7 @@ GEM
       tzinfo
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
-    excon (0.93.1)
+    excon (0.94.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
