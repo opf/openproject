@@ -66,11 +66,6 @@ $subject-font-size: 14px
 
   &--bottom-line
     grid-area: footer
-    display: grid
-    grid-template-columns: auto 1fr
-    grid-column-gap: 5px
-    align-items: center
-    color: var(--gray-dark)
 
   &--work-package-subject
     @include text-shortener
@@ -103,11 +98,6 @@ $subject-font-size: 14px
     color: var(--gray-dark)
     max-width: 100%
 
-  &--date
-    @include text-shortener
-    max-width: 100%
-    line-height: 16px
-
   &--status
     grid-area: status
     margin-right: 5px
@@ -137,7 +127,3 @@ $subject-font-size: 14px
     grid-template-columns: max-content auto minmax(20px, max-content)
     grid-template-areas: "loadingIndicator count buttons"
     grid-column-gap: 5px
-
-  &--actors
-    vertical-align: baseline
-  

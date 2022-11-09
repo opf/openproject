@@ -47,6 +47,7 @@ module API
                 .visible(current_user)
                 .where
                 .not(read_ian: nil)
+                .order(id: :desc)
             end
 
             def bulk_update_status(attributes)

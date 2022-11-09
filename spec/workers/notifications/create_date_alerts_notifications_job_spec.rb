@@ -36,33 +36,37 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
   shared_let(:status_open) { create(:status, name: "open", is_closed: false) }
   shared_let(:status_closed) { create(:status, name: "closed", is_closed: true) }
 
-  shared_let(:today) { Date.current }
+  # Paris and Berlin are both UTC+01:00 (CET) or UTC+02:00 (CEST)
+  shared_let(:timezone_paris) { ActiveSupport::TimeZone['Europe/Paris'] }
+  shared_let(:timezone_berlin) { ActiveSupport::TimeZone['Europe/Berlin'] }
+  # Kathmandu is UTC+05:45 (no DST)
+  shared_let(:timezone_kathmandu) { ActiveSupport::TimeZone['Asia/Kathmandu'] }
+
+  # use Paris time zone for most tests
+  shared_let(:today) { timezone_paris.today }
   shared_let(:in_1_day) { today + 1.day }
   shared_let(:in_3_days) { today + 3.days }
   shared_let(:in_7_days) { today + 7.days }
 
-  # Paris and Berlin are both UTC+01:00 (CET) or UTC+02:00 (CEST)
   shared_let(:user_paris) do
     create(
       :user,
       firstname: 'Paris',
-      preferences: { time_zone: 'Europe/Paris' }
+      preferences: { time_zone: timezone_paris.name }
     )
   end
   shared_let(:user_berlin) do
     create(
       :user,
       firstname: 'Berlin',
-      preferences: { time_zone: 'Europe/Berlin' }
+      preferences: { time_zone: timezone_berlin.name }
     )
   end
-
-  # Kathmandu is UTC+05:45 (no DST)
   shared_let(:user_kathmandu) do
     create(
       :user,
       firstname: 'Kathmandu',
-      preferences: { time_zone: 'Asia/Kathmandu' }
+      preferences: { time_zone: timezone_kathmandu.name }
     )
   end
 
@@ -166,9 +170,6 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
   end
 
   describe '#perform' do
-    let(:timezone_paris) { ActiveSupport::TimeZone[user_paris.preference.time_zone] }
-    let(:timezone_kathmandu) { ActiveSupport::TimeZone[user_kathmandu.preference.time_zone] }
-
     it 'creates date alert notifications only for open work packages' do
       open_work_package = alertable_work_package(status: status_open)
       closed_work_package = alertable_work_package(status: status_closed)
@@ -183,8 +184,10 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
     end
 
     it 'creates date alert notifications only for users whose local time is 1:00 am when the job is executed' do
-      work_package_for_paris_user = alertable_work_package(assigned_to: user_paris)
-      work_package_for_kathmandu_user = alertable_work_package(assigned_to: user_kathmandu)
+      work_package_for_paris_user = alertable_work_package(assigned_to: user_paris,
+                                                           start_date: timezone_paris.today + 1.day)
+      work_package_for_kathmandu_user = alertable_work_package(assigned_to: user_kathmandu,
+                                                               start_date: timezone_kathmandu.today + 1.day)
 
       set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
       travel_to(timezone_paris.now.change(hour: 1, min: 4)) do
