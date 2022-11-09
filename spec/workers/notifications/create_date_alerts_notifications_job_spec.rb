@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
+describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with_ee: %i[date_alerts] do
   include ActiveSupport::Testing::TimeHelpers
 
   shared_let(:project) { create(:project, name: 'main') }
@@ -36,33 +36,37 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
   shared_let(:status_open) { create(:status, name: "open", is_closed: false) }
   shared_let(:status_closed) { create(:status, name: "closed", is_closed: true) }
 
-  shared_let(:today) { Date.current }
+  # Paris and Berlin are both UTC+01:00 (CET) or UTC+02:00 (CEST)
+  shared_let(:timezone_paris) { ActiveSupport::TimeZone['Europe/Paris'] }
+  shared_let(:timezone_berlin) { ActiveSupport::TimeZone['Europe/Berlin'] }
+  # Kathmandu is UTC+05:45 (no DST)
+  shared_let(:timezone_kathmandu) { ActiveSupport::TimeZone['Asia/Kathmandu'] }
+
+  # use Paris time zone for most tests
+  shared_let(:today) { timezone_paris.today }
   shared_let(:in_1_day) { today + 1.day }
   shared_let(:in_3_days) { today + 3.days }
   shared_let(:in_7_days) { today + 7.days }
 
-  # Paris and Berlin are both UTC+01:00 (CET) or UTC+02:00 (CEST)
   shared_let(:user_paris) do
     create(
       :user,
       firstname: 'Paris',
-      preferences: { time_zone: 'Europe/Paris' }
+      preferences: { time_zone: timezone_paris.name }
     )
   end
   shared_let(:user_berlin) do
     create(
       :user,
       firstname: 'Berlin',
-      preferences: { time_zone: 'Europe/Berlin' }
+      preferences: { time_zone: timezone_berlin.name }
     )
   end
-
-  # Kathmandu is UTC+05:45 (no DST)
   shared_let(:user_kathmandu) do
     create(
       :user,
       firstname: 'Kathmandu',
-      preferences: { time_zone: 'Asia/Kathmandu' }
+      preferences: { time_zone: timezone_kathmandu.name }
     )
   end
 
@@ -165,40 +169,48 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
     wp
   end
 
-  describe '#perform' do
-    let(:timezone_paris) { ActiveSupport::TimeZone[user_paris.preference.time_zone] }
-    let(:timezone_kathmandu) { ActiveSupport::TimeZone[user_kathmandu.preference.time_zone] }
+  # Converts "hh:mm" into { hour: h, min: m }
+  def time_hash(time)
+    %i[hour min].zip(time.split(':', 2).map(&:to_i)).to_h
+  end
 
+  def timezone_time(time, timezone)
+    timezone.now.change(time_hash(time))
+  end
+
+  def run_job(scheduled_at: '1:00', local_time: '1:04', timezone: timezone_paris)
+    set_scheduled_time(timezone_time(scheduled_at, timezone))
+    travel_to(timezone_time(local_time, timezone)) do
+      scheduled_job.reload.invoke_job
+
+      yield
+    end
+  end
+
+  describe '#perform' do
     it 'creates date alert notifications only for open work packages' do
       open_work_package = alertable_work_package(status: status_open)
       closed_work_package = alertable_work_package(status: status_closed)
 
-      set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
-      travel_to(timezone_paris.now.change(hour: 1, min: 0))
-
-      scheduled_job.invoke_job
-
-      expect(user_paris).to have_a_start_date_alert_notification_for(open_work_package)
-      expect(user_paris).not_to have_a_start_date_alert_notification_for(closed_work_package)
+      run_job do
+        expect(user_paris).to have_a_start_date_alert_notification_for(open_work_package)
+        expect(user_paris).not_to have_a_start_date_alert_notification_for(closed_work_package)
+      end
     end
 
     it 'creates date alert notifications only for users whose local time is 1:00 am when the job is executed' do
-      work_package_for_paris_user = alertable_work_package(assigned_to: user_paris)
-      work_package_for_kathmandu_user = alertable_work_package(assigned_to: user_kathmandu)
+      work_package_for_paris_user = alertable_work_package(assigned_to: user_paris,
+                                                           start_date: timezone_paris.today + 1.day)
+      work_package_for_kathmandu_user = alertable_work_package(assigned_to: user_kathmandu,
+                                                               start_date: timezone_kathmandu.today + 1.day)
 
-      set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
-      travel_to(timezone_paris.now.change(hour: 1, min: 4)) do
-        scheduled_job.invoke_job
-
+      run_job(timezone: timezone_paris) do
         expect(user_paris).to have_a_start_date_alert_notification_for(work_package_for_paris_user)
         expect(user_kathmandu).not_to have_a_start_date_alert_notification_for(work_package_for_kathmandu_user)
       end
 
-      # change scheduled time and current time to cover kathmandu timezone
-      set_scheduled_time(timezone_kathmandu.now.change(hour: 1, min: 0))
-      travel_to(timezone_kathmandu.now.change(hour: 1, min: 4)) do
-        scheduled_job.reload.invoke_job
-
+      # change timezone to cover Kathmandu
+      run_job(timezone: timezone_kathmandu) do
         expect(user_kathmandu).to have_a_start_date_alert_notification_for(work_package_for_kathmandu_user)
       end
     end
@@ -207,10 +219,7 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
       work_package_assigned = alertable_work_package(assigned_to: user_paris)
       work_package_accountable = alertable_work_package(responsible: user_paris)
 
-      set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
-      travel_to(timezone_paris.now.change(hour: 1, min: 4)) do
-        scheduled_job.invoke_job
-
+      run_job do
         expect(user_paris).to have_a_start_date_alert_notification_for(work_package_assigned)
         expect(user_paris).to have_a_start_date_alert_notification_for(work_package_accountable)
       end
@@ -229,14 +238,22 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
                                             responsible: user_berlin,
                                             start_date: in_1_day,
                                             due_date: in_3_days)
-      set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
-      travel_to(timezone_paris.now.change(hour: 1, min: 4)) do
-        scheduled_job.invoke_job
 
+      run_job do
         expect(user_paris).to have_a_start_date_alert_notification_for(work_package)
         expect(user_paris).not_to have_a_due_date_alert_notification_for(work_package)
         expect(user_berlin).not_to have_a_start_date_alert_notification_for(work_package)
         expect(user_berlin).to have_a_due_date_alert_notification_for(work_package)
+      end
+    end
+
+    context 'without enterprise token', with_ee: false do
+      it 'does not create any date alerts' do
+        work_package = alertable_work_package
+
+        run_job do
+          expect(user_paris).not_to have_a_start_date_alert_notification_for(work_package)
+        end
       end
     end
 
@@ -262,10 +279,7 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
                                                     start_date: in_7_days,
                                                     due_date: in_7_days)
 
-        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
-        travel_to(timezone_paris.now.change(hour: 1, min: 4)) do
-          scheduled_job.invoke_job
-
+        run_job do
           expect(user_paris).not_to have_a_start_date_alert_notification_for(silent_work_package)
           expect(user_paris).not_to have_a_due_date_alert_notification_for(silent_work_package)
           expect(user_paris).not_to have_a_start_date_alert_notification_for(noisy_work_package)
@@ -288,10 +302,7 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
                                            recipient: user_paris,
                                            reason: :date_alert_due_date)
 
-        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
-        travel_to(timezone_paris.now.change(hour: 1, min: 4)) do
-          scheduled_job.invoke_job
-
+        run_job do
           expect(existing_start_notification.reload).to have_attributes(read_ian: true)
           expect(existing_due_notification.reload).to have_attributes(read_ian: true)
           unread_date_alert_notifications = Notification.where(recipient: user_paris,
@@ -327,10 +338,7 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
                                            recipient: user_paris,
                                            resource: work_package_due)
 
-        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
-        travel_to(timezone_paris.now.change(hour: 1, min: 4)) do
-          scheduled_job.invoke_job
-
+        run_job do
           expect(existing_wp_start_start_notif.reload).to have_attributes(read_ian: true)
           expect(existing_wp_start_due_notif.reload).to have_attributes(read_ian: false)
           expect(existing_wp_due_start_notif.reload).to have_attributes(read_ian: false)
@@ -340,54 +348,43 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
       # rubocop:enable RSpec/ExampleLength
     end
 
-    context 'when scheduled and executed at 01:00 am Paris local time' do
+    context 'when scheduled and executed at 01:00 am local time' do
       it 'creates a start date alert notification for a user in the same time zone' do
         work_package = alertable_work_package
 
-        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
-        travel_to(timezone_paris.now.change(hour: 1, min: 0))
-
-        scheduled_job.invoke_job
-
-        expect(user_paris).to have_a_start_date_alert_notification_for(work_package)
+        run_job(scheduled_at: '1:00', local_time: '1:00') do
+          expect(user_paris).to have_a_start_date_alert_notification_for(work_package)
+        end
       end
     end
 
-    context 'when scheduled and executed at 01:14 am Paris local time' do
+    context 'when scheduled and executed at 01:14 am local time' do
       it 'creates a start date alert notification for a user in the same time zone' do
         work_package = alertable_work_package
-        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 14))
-        travel_to(timezone_paris.now.change(hour: 1, min: 14))
 
-        scheduled_job.invoke_job
-
-        expect(user_paris).to have_a_start_date_alert_notification_for(work_package)
+        run_job(scheduled_at: '1:14', local_time: '1:14') do
+          expect(user_paris).to have_a_start_date_alert_notification_for(work_package)
+        end
       end
     end
 
-    context 'when scheduled and executed at 01:15 am Paris local time' do
+    context 'when scheduled and executed at 01:15 am local time' do
       it 'does not create a start date alert notification for a user in the same time zone' do
         work_package = alertable_work_package
 
-        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 15))
-        travel_to(timezone_paris.now.change(hour: 1, min: 15))
-
-        scheduled_job.invoke_job
-
-        expect(user_paris).not_to have_a_start_date_alert_notification_for(work_package)
+        run_job(scheduled_at: '1:15', local_time: '1:15') do
+          expect(user_paris).not_to have_a_start_date_alert_notification_for(work_package)
+        end
       end
     end
 
-    context 'when scheduled at 01:00 am Paris local time and executed at 01:37 am' do
+    context 'when scheduled at 01:00 am local time and executed at 01:37 am local time' do
       it 'creates a start date alert notification for a user in the same time zone' do
         work_package = alertable_work_package
 
-        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
-        travel_to(timezone_paris.now.change(hour: 1, min: 37))
-
-        scheduled_job.invoke_job
-
-        expect(user_paris).to have_a_start_date_alert_notification_for(work_package)
+        run_job(scheduled_at: '1:00', local_time: '1:37') do
+          expect(user_paris).to have_a_start_date_alert_notification_for(work_package)
+        end
       end
     end
   end

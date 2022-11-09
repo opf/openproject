@@ -16,7 +16,7 @@ describe "Notification center sidemenu", js: true do
   shared_let(:work_package2) { create(:work_package, project: project2, author: other_user) }
   shared_let(:work_package3) { create(:work_package, project: project3, author: other_user) }
   shared_let(:work_package4) { create(:work_package, project: project3, author: other_user) }
-  shared_let(:work_package5) { create(:work_package, project: project3, author: other_user) }
+  shared_let(:work_package5) { create(:work_package, :is_milestone, project: project3, author: other_user) }
 
   let(:notification) do
     create(:notification,

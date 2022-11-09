@@ -582,6 +582,18 @@ hu:
         change_notification_settings: 'Az értesítési beállítások megtekintéséhez és megváltoztatásához <a target="_blank" href="%{url}">kattintson ide</a>'
         title: "Értesítési beállítások"
         notify_me: "Értesítést kérek"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: everyday
+              P3D: every 3 days
+              P7D: every week
         reasons:
           mentioned:
             title: 'Mentioned'
@@ -604,6 +616,9 @@ hu:
           date_alerts:
             title: 'Date alerts'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+          start_date: Start Date
+          due_date: Finish Date
+          overdue: When Overdue
         project_specific:
           title: 'Projekt-specifikus értesítések beállításai'
           description: 'Ezek a projekt-specifikus beállítások felülbírálják a fenti beállításokat'

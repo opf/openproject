@@ -182,10 +182,11 @@ describe "Notification center", js: true, with_settings: { journal_aggregation_t
                  project: project1)
         end
       end
-      let(:overdue_work_package) do
+      let(:overdue_milestone_work_package) do
         # Executing as current user to avoid notification creation
         User.execute_as(recipient) do
           create(:work_package,
+                 :is_milestone,
                  due_date: 1.day.ago,
                  project: project1)
         end
@@ -210,7 +211,7 @@ describe "Notification center", js: true, with_settings: { journal_aggregation_t
         create(:notification,
                reason: :date_alert_due_date,
                recipient:,
-               resource: overdue_work_package,
+               resource: overdue_milestone_work_package,
                project: project1,
                read_ian: false)
       end
@@ -245,7 +246,7 @@ describe "Notification center", js: true, with_settings: { journal_aggregation_t
         create(:notification,
                reason: :mentioned,
                recipient:,
-               resource: overdue_work_package,
+               resource: overdue_milestone_work_package,
                project: project1)
 
         # We need to wait for the bell to poll for updates

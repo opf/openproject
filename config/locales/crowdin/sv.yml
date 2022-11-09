@@ -80,7 +80,7 @@ sv:
       buttons:
         upgrade: "Uppgradera nu"
         contact: "Kontakta oss för en demo"
-      enterprise_info_html: "är en Företags <strong class='icon-medal'></strong> -funktion."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
       upgrade_info: "Vänligen uppgradera till en betalplan för att aktivera och börja använda den i ditt team."
     journal_aggregation:
       explanation:
@@ -755,6 +755,11 @@ sv:
               email_alerts_global: 'The email notification settings can only be set globally.'
               format: "%{message}"
               wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:

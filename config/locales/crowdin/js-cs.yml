@@ -584,6 +584,18 @@ cs:
         change_notification_settings: 'Chcete-li zobrazit a změnit nastavení oznámení, <a target="_blank" href="%{url}">klikněte zde</a>'
         title: "Nastavení oznámení"
         notify_me: "Upozornit mě"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: everyday
+              P3D: every 3 days
+              P7D: every week
         reasons:
           mentioned:
             title: 'Mentioned'
@@ -606,6 +618,9 @@ cs:
           date_alerts:
             title: 'Date alerts'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+          start_date: Start Date
+          due_date: Finish Date
+          overdue: When Overdue
         project_specific:
           title: "Nastavení upozornění pro konkrétní projekt\n"
           description: 'Toto specifické nastavení projektu přepíše výchozí nastavení výše'

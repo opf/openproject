@@ -583,6 +583,18 @@ ru:
         change_notification_settings: 'Чтобы просмотреть и изменить настройки уведомлений, <a target="_blank" href="%{url}">нажмите здесь</a>'
         title: "Настройки уведомлений"
         notify_me: "Уведомлять меня"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: everyday
+              P3D: every 3 days
+              P7D: every week
         reasons:
           mentioned:
             title: 'Упомянутые'
@@ -605,6 +617,9 @@ ru:
           date_alerts:
             title: 'Дата оповещения'
             description: 'Автоматическое уведомление о приближении важной даты для открытых пакетов работ, в которых вы участвуете (назначение, подотчетность или наблюдатель)'
+          start_date: Start Date
+          due_date: Finish Date
+          overdue: When Overdue
         project_specific:
           title: 'Конкретные настройки уведомлений проекта'
           description: 'Эти настройки специфического проекта переопределяют настройки по умолчанию'

@@ -80,7 +80,7 @@ es:
       buttons:
         upgrade: "Actualizar ahora"
         contact: "Contáctenos para una demostración"
-      enterprise_info_html: "es una función <strong class='icon-medal'>Enterprise</strong>."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
       upgrade_info: "Actualice a un plan de pago para activarlo y empezar a usarlo en su equipo."
     journal_aggregation:
       explanation:
@@ -753,6 +753,11 @@ es:
               email_alerts_global: 'La configuración de notificaciones por correo electrónico solo se puede establecer globalmente.'
               format: "%{message}"
               wrong_date: 'Valor incorrecto para Fecha de inicio, Fecha final o Vencido.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:

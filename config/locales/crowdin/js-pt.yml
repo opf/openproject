@@ -581,6 +581,18 @@ pt:
         change_notification_settings: 'Para visualizar e alterar suas configurações de notificação, <a target="_blank" href="%{url}">clique aqui</a>'
         title: "Configurações de notificação"
         notify_me: "Notifique-me"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: everyday
+              P3D: every 3 days
+              P7D: every week
         reasons:
           mentioned:
             title: 'Mentioned'
@@ -603,6 +615,9 @@ pt:
           date_alerts:
             title: 'Date alerts'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+          start_date: Start Date
+          due_date: Finish Date
+          overdue: When Overdue
         project_specific:
           title: 'Configurações de notificação específicas de projetos'
           description: 'Essas configurações específicas de projeto substituem as configurações padrão acima'

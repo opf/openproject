@@ -582,6 +582,18 @@ nl:
         change_notification_settings: 'Om je meldingen instellingen te bekijken en te wijzigen, <a target="_blank" href="%{url}">klik hier</a>'
         title: "Instellingen voor meldingen"
         notify_me: "Waarschuw mij"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: everyday
+              P3D: every 3 days
+              P7D: every week
         reasons:
           mentioned:
             title: 'Mentioned'
@@ -604,6 +616,9 @@ nl:
           date_alerts:
             title: 'Date alerts'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+          start_date: Start Date
+          due_date: Finish Date
+          overdue: When Overdue
         project_specific:
           title: 'Project-specifieke meldingsinstellingen'
           description: 'Deze project-specifieke instellingen overschrijven standaard instellingen hierboven'

@@ -79,6 +79,25 @@ describe ::API::V3::Values::Schemas::ValueSchemaFactory do
       end
     end
 
+    context 'for the date property (for milestones)' do
+      let(:property) { 'date' }
+
+      it 'returns a schema representer' do
+        expect(described_class.for(property))
+          .to eq representer_instance
+      end
+
+      it 'instantiates the representer with the proper params' do
+        described_class.for(property)
+
+        expect(::API::V3::Values::Schemas::PropertySchemaRepresenter)
+          .to have_received(:new)
+                .with(API::V3::Values::Schemas::Model.new(I18n.t('attributes.date'), 'Date'),
+                      current_user: nil,
+                      self_link: api_v3_paths.value_schema(property.camelcase(:lower)))
+      end
+    end
+
     context 'for another property' do
       let(:property) { 'bogus' }
 

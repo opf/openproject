@@ -29,7 +29,7 @@
 module API::V3::Values::Schemas
   module ValueSchemaFactory
     extend ::API::V3::Utilities::PathHelper
-    SUPPORTED = %w(start_date due_date).freeze
+    SUPPORTED = %w(start_date due_date date).freeze
 
     module_function
 

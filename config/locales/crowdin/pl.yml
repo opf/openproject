@@ -80,7 +80,7 @@ pl:
       buttons:
         upgrade: "Zmień plan teraz"
         contact: "Skontaktuj się z nami, aby uzyskać demo"
-      enterprise_info_html: "to funkcja wersji Enterprise <strong class='icon-medal'></strong>."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
       upgrade_info: "Aby ją aktywować i zacząć korzystać z niej w zespole, przejdź na plan płatny."
     journal_aggregation:
       explanation:
@@ -755,6 +755,11 @@ pl:
               email_alerts_global: 'Ustawienia powiadomień e-mail mogą być ustawione tylko globalnie.'
               format: "%{message}"
               wrong_date: 'Nieprawidłowa wartość dla daty rozpoczęcia, terminu płatności lub terminu przedawnienia.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:

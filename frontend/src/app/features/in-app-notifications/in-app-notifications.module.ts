@@ -20,6 +20,8 @@ import { MarkAllAsReadButtonComponent } from './center/toolbar/mark-all-as-read/
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { EmptyStateComponent } from './center/empty-state/empty-state.component';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
+import { InAppNotificationActorsLineComponent } from './entry/actors-line/in-app-notification-actors-line.component';
+import { InAppNotificationDateAlertComponent } from './entry/date-alert/in-app-notification-date-alert.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { IanBellService } from 'core-app/features/in-app-notifications/bell/stat
     MarkAllAsReadButtonComponent,
     IanMenuComponent,
     EmptyStateComponent,
+    InAppNotificationActorsLineComponent,
+    InAppNotificationDateAlertComponent,
   ],
   imports: [
     OPSharedModule,

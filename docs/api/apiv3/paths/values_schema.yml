@@ -19,7 +19,11 @@ get:
             "$ref": "../components/schemas/schema_model.yml"
           examples:
             'Values::Property Start date schema':
-              $ref: '../components/examples/values_property_schema.yml'
+              $ref: '../components/examples/values_property_start_date_schema.yml'
+            'Values::Property Due date schema':
+              $ref: '../components/examples/values_property_due_date_schema.yml'
+            'Values::Property Date schema for Milestone work package':
+              $ref: '../components/examples/values_property_date_schema.yml'
       description: OK
       headers: {}
     '404':

@@ -31,6 +31,10 @@ get:
           examples:
             'Start date notification detail':
               $ref: '../components/examples/values_property_start_date.yml'
+            'Due date notification detail':
+              $ref: '../components/examples/values_property_due_date.yml'
+            'Date notification detail for milestone work package':
+              $ref: '../components/examples/values_property_date.yml'
       description: OK
     '404':
       content:

@@ -17,9 +17,9 @@
   <div class="spot-divider"></div>
 
   <div class="spot-modal--body spot-container">
-    <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
-      <spot-breadcrumbs [content]="breadcrumbs"></spot-breadcrumbs>
+    <spot-breadcrumbs [content]="breadcrumbs"></spot-breadcrumbs>
 
+    <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
       <ul
         class="spot-list spot-list_compact op-file-list"
         data-qa-selector="op-files-picker-modal--file-list"
@@ -35,7 +35,7 @@
     </ng-container>
 
     <ng-template #loadingTemplate>
-      <op-loading-file-list></op-loading-file-list>
+      <op-loading-file-list class="spot-list"></op-loading-file-list>
     </ng-template>
   </div>
 

@@ -96,6 +96,7 @@ export class IanMenuComponent implements OnInit {
       key: 'dateAlert',
       title: this.I18n.t('js.notifications.menu.date_alert'),
       icon: 'date-alert',
+      isEnterprise: true,
       ...getUiLinkForFilters({ filter: 'reason', name: 'dateAlert' }),
     },
   ];
