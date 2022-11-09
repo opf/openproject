@@ -35,7 +35,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -51,7 +51,11 @@ import {
   StorageFileListItem,
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
-import { isDirectory, getIconForStorageType } from 'core-app/shared/components/storages/functions/storages.functions';
+import {
+  isDirectory,
+  getIconForStorageType,
+  makeFilesCollectionLink,
+} from 'core-app/shared/components/storages/functions/storages.functions';
 
 @Component({
   templateUrl: 'location-picker-modal.component.html',
@@ -85,6 +89,8 @@ export class LocationPickerModalComponent extends OpModalComponent implements On
 
   private readonly storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
 
+  private loadingSubscription:Subscription;
+
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly elementRef:ElementRef,
@@ -109,7 +115,7 @@ export class LocationPickerModalComponent extends OpModalComponent implements On
     this.listItems$ = this.storageFiles$
       .pipe(map((files) => files.map((file, index) => this.storageFileToListItem(file, index))));
 
-    this.storageFilesResourceService.files(this.makeFilesCollectionLink(null))
+    this.storageFilesResourceService.files(makeFilesCollectionLink(this.storageLink, null))
       .pipe(take(1))
       .subscribe((files) => {
         this.storageFiles$.next(files);
@@ -128,27 +134,22 @@ export class LocationPickerModalComponent extends OpModalComponent implements On
   }
 
   private changeLevel(parent:string|null, crumbs:Breadcrumb[]):void {
+    this.cancelCurrentLoading();
     this.loading$.next(true);
+    this.breadcrumbs = new BreadcrumbsContent(crumbs);
 
-    this.storageFilesResourceService.files(this.makeFilesCollectionLink(parent))
+    this.loadingSubscription = this.storageFilesResourceService.files(makeFilesCollectionLink(this.storageLink, parent))
       .pipe(take(1))
       .subscribe((files) => {
         this.storageFiles$.next(files);
         this.loading$.next(false);
-        this.breadcrumbs = new BreadcrumbsContent(crumbs);
       });
   }
 
-  private makeFilesCollectionLink(parent:string|null):IHalResourceLink {
-    let query = '';
-    if (parent !== null) {
-      query = `?parent=${parent}`;
+  private cancelCurrentLoading():void {
+    if (this.loadingSubscription) {
+      this.loadingSubscription.unsubscribe();
     }
-
-    return {
-      href: `${this.storageLink.href}/files${query}`,
-      title: 'Storage files',
-    };
   }
 
   public chooseLocation():void {

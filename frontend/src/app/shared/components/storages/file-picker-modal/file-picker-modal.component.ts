@@ -48,11 +48,15 @@ import { OpModalComponent } from 'core-app/shared/components/modal/modal.compone
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import { Breadcrumb, BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
+import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import {
   StorageFileListItem,
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
-import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
-import { isDirectory, getIconForStorageType } from 'core-app/shared/components/storages/functions/storages.functions';
+import {
+  isDirectory,
+  getIconForStorageType,
+  makeFilesCollectionLink,
+} from 'core-app/shared/components/storages/functions/storages.functions';
 
 @Component({
   templateUrl: 'file-picker-modal.component.html',
@@ -120,7 +124,7 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     this.listItems$ = this.storageFiles$
       .pipe(map((files) => files.map((file, index) => this.storageFileToListItem(file, index))));
 
-    this.storageFilesResourceService.files(this.makeFilesCollectionLink(null))
+    this.storageFilesResourceService.files(makeFilesCollectionLink(this.storageLink, null))
       .pipe(take(1))
       .subscribe((files) => {
         this.storageFiles$.next(files);
@@ -183,7 +187,7 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     this.loading$.next(true);
     this.breadcrumbs = new BreadcrumbsContent(crumbs);
 
-    this.loadingSubscription = this.storageFilesResourceService.files(this.makeFilesCollectionLink(parent))
+    this.loadingSubscription = this.storageFilesResourceService.files(makeFilesCollectionLink(this.storageLink, parent))
       .pipe(take(1))
       .subscribe((files) => {
         this.storageFiles$.next(files);
@@ -195,18 +199,6 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     if (this.loadingSubscription) {
       this.loadingSubscription.unsubscribe();
     }
-  }
-
-  private makeFilesCollectionLink(parent:string|null):IHalResourceLink {
-    let query = '';
-    if (parent !== null) {
-      query = `?parent=${parent}`;
-    }
-
-    return {
-      href: `${this.storageLink.href}/files${query}`,
-      title: 'Storage files',
-    };
   }
 
   private storageFileToListItem(file:IStorageFile, index:number):StorageFileListItem {

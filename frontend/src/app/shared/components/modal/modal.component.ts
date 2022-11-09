@@ -10,7 +10,7 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
   /* Close on escape? */
   public closeOnEscape = true;
 
-  public closeOnEscapeFunction = this.closeMe;
+  public closeOnEscapeFunction = (evt?:Event):void => this.closeMe(evt);
 
   /* Close on outside click */
   public closeOnOutsideClick = true;
@@ -34,11 +34,11 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
     super();
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     this.$element = jQuery(this.elementRef.nativeElement);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy():void {
     this.closingEvent.complete();
     this.openingEvent.complete();
   }

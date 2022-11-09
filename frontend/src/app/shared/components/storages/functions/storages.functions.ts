@@ -31,9 +31,7 @@ import {
   IFileIcon,
   storageIconMappings,
 } from 'core-app/shared/components/storages/icons.mapping';
-import { BehaviorSubject } from 'rxjs';
-import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 
 export function isDirectory(mimeType?:string):boolean {
   return mimeType === 'application/x-op-directory';
@@ -55,12 +53,14 @@ export function getIconForStorageType(storageType?:string):string {
   return storageIconMappings.default;
 }
 
-export function navigateToLevel(
-  loading$:BehaviorSubject<boolean>,
-  filesResourceService:StorageFilesResourceService,
-  files$:BehaviorSubject<IStorageFile[]>,
-  updateBreadcrumbs:() => void,
-  location:string|null,
-):void {
+export function makeFilesCollectionLink(storageLink:IHalResourceLink, location:string|null):IHalResourceLink {
+  let query = '';
+  if (location !== null) {
+    query = `?parent=${location}`;
+  }
 
+  return {
+    href: `${storageLink.href}/files${query}`,
+    title: 'Storage files',
+  };
 }
