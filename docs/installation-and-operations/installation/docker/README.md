@@ -6,13 +6,9 @@ sidebar_navigation:
 
 # Install OpenProject with Docker
 
-[Docker](https://www.docker.com/) is a way to distribute self-contained applications easily. We
-provide a Docker image for the Community Edition that you can very easily
-install and upgrade on your servers. However, contrary to the manual or
-package-based installation, your machine needs to have the Docker Engine
-installed first, which usually requires a recent operating system. Please see
-the [Docker Engine installation page](https://docs.docker.com/install) if you don't have Docker
-installed.
+[Docker](https://www.docker.com/) is a way to distribute self-contained applications easily. We provide a Docker image for the Community Edition that you can very easily
+install and upgrade on your servers. However, contrary to the manual or package-based installation, your machine needs to have the Docker Engine
+installed first, which usually requires a recent operating system. Please see the [Docker Engine installation page](https://docs.docker.com/install) if you don't have Docker installed.
 
 OpenProject with Docker can be launched in two ways:
 
@@ -557,7 +553,7 @@ x-op-app: &app
 Any additional configuration of OpenProject happens in the environment section (like for S3 above) of the app inside of the `openproject-stack.yml`.
 For instance should you want to disable an OpenProject module globally, you would add the following:
 
-```
+```yaml
 x-op-app: &app
   <<: *image
   <<: *restart_policy
@@ -574,13 +570,13 @@ on what you can configure and how.
 
 Once you made any necessary adjustments to the `openproject-stack.yml` you are ready to launch the stack.
 
-```
-docker stack deploy -c openproject-stack.yaml openproject
+```bash
+docker stack deploy -c openproject-stack.yml openproject
 ```
 
 Once this has finished you should see something like this when running `docker service ls`:
 
-```
+```bash
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
@@ -617,13 +613,13 @@ Also at least 2 worker (`openproject_worker`) replicas make sense to handle the 
 If you find that it takes too long for those tasks (such as sending emails or work package exports) to complete
 you may want to increase this number further.
 
-```
+```bash
 docker service scale openproject_proxy=2 openproject_web=6 openproject_worker=2
 ```
 
 This will take a moment to converge. Once done you should see something like the following when listing the services using `docker service ls`:
 
-```
+```bash
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           

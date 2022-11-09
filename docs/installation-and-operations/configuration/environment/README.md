@@ -51,7 +51,7 @@ storage config above like this:
 OPENPROJECT_STORAGE_TYPE=nfs
 ```
 
-## Passing data structures
+## Passing data structures to the app
 
 The configuration uses YAML to parse overrides from ENV. Using YAML inline syntax, you can:
 
@@ -65,6 +65,23 @@ To pass symbol arrays or hashes with symbol keys, use the YAML `!ruby/symbol` no
 Example: `{!ruby/symbol key: !ruby/symbol value}` will be parsed as `{ key: :value }`.
 
 Please note: The Configuration is a HashWithIndifferentAccess and thus it should be irrelevant for hashes to use symbol keys.
+
+Here an Example:
+
+Configured in the `/etc/openproject/conf.d/env` like this:
+
+```yaml
+OPENPROJECT_ENTERPRISE_FAIL__FAST=true
+
+# is the same as
+
+OPENPROJECT_ENTERPRISE="{ fail_fast: true }"
+
+# in the old configration.yml it looked like this
+
+enterprise:
+  fail_fast: true
+```
 
 # Supported environment variables
 
