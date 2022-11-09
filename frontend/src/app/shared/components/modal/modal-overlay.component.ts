@@ -28,6 +28,7 @@
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ComponentRef,
   ElementRef,
@@ -50,25 +51,33 @@ export const opModalOverlaySelector = 'op-modal-overlay';
   templateUrl: './modal-overlay.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpModalOverlayComponent implements OnInit {
+export class OpModalOverlayComponent {
   public notFullscreen = false;
 
-  @ViewChild(CdkPortalOutlet) portalOutlet:CdkPortalOutlet;
+  public portalOutlet:CdkPortalOutlet;
 
-  @ViewChild('overlay') overlay:ElementRef;
+  @ViewChild(CdkPortalOutlet) set portalOutletContainer(v:CdkPortalOutlet) {
+    // ViewChild reference may be undefined initially
+    // due to ngIf
+    if (v !== undefined) {
+      this.portalOutlet = v;
+      this.setupListener();
+    }
+  }
+
+  @ViewChild('overlay', { static: true }) overlay:ElementRef;
 
   activeModalData$ = this.modalService.activeModalData$;
 
   activeModalInstance$ = this.modalService.activeModalInstance$;
 
-  activeModalRef$ = new ReplaySubject<OpModalComponent|null>();
-
   constructor(
     readonly modalService:OpModalService,
     readonly I18n:I18nService,
+    readonly cdRef:ChangeDetectorRef,
   ) { }
 
-  ngOnInit():void {
+  setupListener():void {
     this.activeModalData$
       .subscribe((modalData) => {
         this.notFullscreen = false;
@@ -84,7 +93,6 @@ export class OpModalOverlayComponent implements OnInit {
           }
 
           ref.instance.closingEvent.emit(ref.instance);
-          this.activeModalRef$.next(null);
           this.activeModalInstance$.next(null);
 
           this.portalOutlet.detach();
@@ -101,17 +109,14 @@ export class OpModalOverlayComponent implements OnInit {
         const portal = new ComponentPortal(modal, null, injector);
         const ref = this.portalOutlet.attach(portal);
         const instance = ref.instance;
-        this.activeModalRef$.next(instance);
-
         this.activeModalInstance$.next(instance);
-        setTimeout(() => {
-          (this.overlay.nativeElement as HTMLElement).focus();
-          // Focus on the first element
-          instance && instance.onOpen();
+        this.cdRef.detectChanges();
 
-          // Trigger another round of change detection in the modal
-          ref.changeDetectorRef.detectChanges();
-        }, 0);
+        // Focus on wrapper by default
+        (this.overlay.nativeElement as HTMLElement).focus();
+
+        // Focus on the first element
+        instance && instance.onOpen();
       });
   }
 

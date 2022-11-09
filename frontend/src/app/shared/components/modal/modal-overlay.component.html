@@ -1,7 +1,7 @@
 <div
   class="spot-modal-overlay"
   [ngClass]="{
-    'spot-modal-overlay_active': (activeModalRef$ | async) !== null,
+    'spot-modal-overlay_active': (activeModalInstance$ | async) !== null,
     'spot-modal-overlay_not-full-screen': notFullscreen
   }"
   #overlay
