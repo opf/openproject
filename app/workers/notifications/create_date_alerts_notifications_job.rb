@@ -33,6 +33,8 @@ module Notifications
     self.cron_expression = '*/15 * * * *'
 
     def perform
+      return unless EnterpriseToken.allows_to?(:date_alerts)
+
       time_zones = time_zones_covering_1am_local_time
       return if time_zones.empty?
 

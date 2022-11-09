@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
+describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with_ee: %i[date_alerts] do
   include ActiveSupport::Testing::TimeHelpers
 
   shared_let(:project) { create(:project, name: 'main') }
@@ -240,6 +240,18 @@ describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
         expect(user_paris).not_to have_a_due_date_alert_notification_for(work_package)
         expect(user_berlin).not_to have_a_start_date_alert_notification_for(work_package)
         expect(user_berlin).to have_a_due_date_alert_notification_for(work_package)
+      end
+    end
+
+    context 'without enterprise token', with_ee: false do
+      it 'does not create any date alerts' do
+        work_package = alertable_work_package
+        set_scheduled_time(timezone_paris.now.change(hour: 1, min: 0))
+        travel_to(timezone_paris.now.change(hour: 1, min: 4)) do
+          scheduled_job.invoke_job
+
+          expect(user_paris).not_to have_a_start_date_alert_notification_for(work_package)
+        end
       end
     end
 
