@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   Input,
   OnInit,
+  ViewEncapsulation,
 } from '@angular/core';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
@@ -23,8 +25,11 @@ import { DeviceService } from 'core-app/core/browser/device.service';
   templateUrl: './in-app-notification-actors-line.component.html',
   styleUrls: ['./in-app-notification-actors-line.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class InAppNotificationActorsLineComponent implements OnInit {
+  @HostBinding('class.op-ian-actors') className = true;
+
   @Input() aggregatedNotifications:INotification[];
 
   @Input() notification:INotification;
@@ -52,9 +57,9 @@ export class InAppNotificationActorsLineComponent implements OnInit {
   };
 
   constructor(
+    readonly deviceService:DeviceService,
     private I18n:I18nService,
     private timezoneService:TimezoneService,
-    private deviceService:DeviceService,
   ) { }
 
   ngOnInit():void {
@@ -62,18 +67,12 @@ export class InAppNotificationActorsLineComponent implements OnInit {
     this.buildTime();
   }
 
-  isMobile():boolean {
-    return this.deviceService.isMobile;
-  }
-
   text_for_additional_authors(number:number):string {
-    let hint:string;
     if (number === 1) {
-      hint = this.text.and_other_singular;
+      return this.text.and_other_singular;
     } else {
-      hint = this.text.and_other_plural(number);
+      return this.text.and_other_plural(number);
     }
-    return hint;
   }
 
   private buildTime() {

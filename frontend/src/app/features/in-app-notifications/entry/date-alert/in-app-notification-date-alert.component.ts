@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   Input,
   OnInit,
+  ViewEncapsulation,
 } from '@angular/core';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -16,17 +18,23 @@ import { Moment } from 'moment';
   templateUrl: './in-app-notification-date-alert.component.html',
   styleUrls: ['./in-app-notification-date-alert.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    class: 'op-ian-date-alert'
+  }
 })
 export class InAppNotificationDateAlertComponent implements OnInit {
   @Input() aggregatedNotifications:INotification[];
 
   @Input() workPackage:WorkPackageResource;
 
+  @HostBinding('class.op-ian-date-alert') className = true;
+
+  @HostBinding('class.op-ian-date-alert_overdue') isOverdue:boolean;
+
   alertText:string;
 
   dateIsPast:boolean;
-
-  isOverdue:boolean;
 
   propertyText:string;
 
