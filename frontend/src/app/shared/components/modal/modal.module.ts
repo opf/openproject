@@ -22,7 +22,6 @@ import { OpModalOverlayComponent } from 'core-app/shared/components/modal/modal-
     OpModalBannerComponent,
   ],
   providers: [
-    OpModalService,
     OpModalWrapperAugmentService,
   ],
   declarations: [
