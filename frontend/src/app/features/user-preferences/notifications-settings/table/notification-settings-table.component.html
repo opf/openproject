@@ -98,7 +98,8 @@
             <select
               formControlName="startDate"
               class="op-reminder-settings-table-date-alerts--time form--select"
-              id="op-reminder-settings-start-date-alerts-global"
+              data-qa-project-notification-type="op-reminder-settings-start-date-alerts"
+              [attr.data-qa-project]="item.controls.project.value.title"
               required="true"
             >
               <option
@@ -121,7 +122,8 @@
             <select
               formControlName="dueDate"
               class="op-reminder-settings-table-date-alerts--time form--select"
-              id="op-reminder-settings-due-date-alerts-global"
+              data-qa-project-notification-type="op-reminder-settings-due-date-alerts"
+              [attr.data-qa-project]="item.controls.project.value.title"
               required="true"
             >
               <option
@@ -144,7 +146,8 @@
             <select
               formControlName="overdue"
               class="op-reminder-settings-table-date-alerts--time form--select"
-              id="op-reminder-settings-overdue-date-alerts-global"
+              data-qa-project-notification-type="op-reminder-settings-overdue-alerts"
+              [attr.data-qa-project]="item.controls.project.value.title"
               required="true"
             >
               <option

@@ -64,7 +64,7 @@
         type="checkbox"
         formControlName="active"
         class="op-reminder-settings-date-alerts--active"
-        attr.data-qa-selector="op-settings-start-date"
+        data-qa-global-notification-type="op-settings-start-date-active"
         id="op-settings-start-date"
       />
       <label
@@ -75,8 +75,7 @@
       <select
         formControlName="time"
         class="op-reminder-settings-date-alerts--time form--select -narrow"
-        attr.id="op-reminder-settings-date-alerts"
-        id="op-reminder-settings-start-date-alerts"
+        data-qa-global-notification-type= "op-reminder-settings-start-date-alerts"
         required="true"
         *ngIf="dateAlertsStatuses.startDate"
       >
@@ -97,7 +96,7 @@
         type="checkbox"
         formControlName="active"
         class="op-reminder-settings-date-alerts--active"
-        attr.data-qa-selector="op-settings-due-date"
+        data-qa-global-notification-type= "op-settings-due-date-active"
         id="op-settings-due-date"
       />
       <label
@@ -108,8 +107,7 @@
       <select
         formControlName="time"
         class="op-reminder-settings-date-alerts--time form--select -narrow"
-        attr.id="op-reminder-settings-date-alerts"
-        id="op-reminder-settings-due-date-alerts"
+        data-qa-global-notification-type= "op-reminder-settings-due-date-alerts"
         required="true"
         *ngIf="dateAlertsStatuses.dueDate"
       >
@@ -129,7 +127,7 @@
         formControlName="active"
         type="checkbox"
         class="op-reminder-settings-date-alerts--active"
-        attr.data-qa-selector="op-settings-overdue-date"
+        data-qa-global-notification-type="op-settings-overdue-date-active"
         id="op-settings-overdue-date">
       <label
         class="op-reminder-settings-date-alerts--label"
@@ -139,8 +137,7 @@
       <select
         formControlName="time"
         class="op-reminder-settings-date-alerts--time form--select -narrow"
-        attr.id="op-reminder-settings-date-alerts"
-        id="op-reminder-settings-overdue-date-alerts"
+        data-qa-global-notification-type="op-reminder-settings-overdue-alerts"
         required="true"
         *ngIf="dateAlertsStatuses.overdue"
       >
