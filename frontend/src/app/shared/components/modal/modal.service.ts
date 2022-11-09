@@ -54,7 +54,7 @@ export class OpModalService {
   ) {
     // Listen to keystrokes on window to close context menus
     window.addEventListener('keydown', (evt:KeyboardEvent) => {
-      if (evt.key !== 'Escape') {
+      if (evt.key !== 'Escape' || evt.defaultPrevented) {
         return;
       }
 
