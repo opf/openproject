@@ -26,10 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { nextcloud } from 'core-app/shared/components/file-links/file-links-constants.const';
+import {
+  fileIconMappings,
+  IFileIcon,
+} from 'core-app/shared/components/storages/file-link-icons/icon-mappings';
 
-export const storageIconMappings:Record<string, string> = {
-  [nextcloud]: 'nextcloud-circle',
+export function getIconForMimeType(mimeType?:string):IFileIcon {
+  if (mimeType && fileIconMappings[mimeType]) {
+    return fileIconMappings[mimeType];
+  }
 
-  default: 'ticket',
-};
+  return fileIconMappings.default;
+}

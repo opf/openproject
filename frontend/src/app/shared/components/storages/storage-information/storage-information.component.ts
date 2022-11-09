@@ -26,12 +26,18 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { storageIconMappings } from 'core-app/shared/components/file-links/storage-icons/icon-mappings';
+import {
+  ChangeDetectionStrategy, Component, Input,
+} from '@angular/core';
+import {
+  StorageInformationBox,
+} from 'core-app/shared/components/storages/storage-information/storage-information-box';
 
-export default function getIconForStorageType(storageType?:string):string {
-  if (storageType && storageIconMappings[storageType]) {
-    return storageIconMappings[storageType];
-  }
-
-  return storageIconMappings.default;
+@Component({
+  selector: 'op-storage-information',
+  templateUrl: './storage-information.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class StorageInformationComponent {
+  @Input() viewModel:StorageInformationBox;
 }

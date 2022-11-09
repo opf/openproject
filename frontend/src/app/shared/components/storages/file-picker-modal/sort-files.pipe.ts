@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { isDirectory } from 'core-app/shared/components/file-links/file-link-icons/file-icons.helper';
+import { isDirectory } from 'core-app/shared/components/storages/file-link-icons/file-icons.helper';
 
 @Pipe({
   name: 'sortFiles',

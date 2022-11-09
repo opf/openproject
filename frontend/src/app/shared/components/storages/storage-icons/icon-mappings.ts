@@ -26,13 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StorageActionButton } from 'core-app/shared/components/file-links/storage-information/storage-action-button';
+import { nextcloud } from 'core-app/shared/components/storages/storages-constants.const';
 
-export class StorageInformationBox {
-  constructor(
-    public readonly iconClass:string,
-    public readonly header:string,
-    public readonly content:string,
-    public readonly buttons:StorageActionButton[],
-  ) { }
-}
+export const storageIconMappings:Record<string, string> = {
+  [nextcloud]: 'nextcloud-circle',
+
+  default: 'ticket',
+};
