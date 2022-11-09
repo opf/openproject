@@ -13,6 +13,22 @@ export interface IInAppNotificationHalResourceLinks extends IHalResourceLinks {
   activity:IHalResourceLink;
 }
 
+export type IInAppNotificationDetailsAttribute = 'startDate'|'dueDate'|'date';
+
+export interface IInAppNotificationDetailsResource {
+  property:IInAppNotificationDetailsAttribute;
+  value:string|null;
+
+  _links:{
+    self:IHalResourceLink;
+    schema:IHalResourceLink;
+  };
+}
+
+export interface IInAppNotificationHalResourceEmbedded {
+  details:IInAppNotificationDetailsResource[];
+}
+
 export interface INotification {
   id:ID;
   subject:string;
@@ -28,4 +44,5 @@ export interface INotification {
   expanded:boolean;
 
   _links:IInAppNotificationHalResourceLinks;
+  _embedded:IInAppNotificationHalResourceEmbedded;
 }
