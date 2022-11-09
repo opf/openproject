@@ -25,6 +25,8 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
 
   shared_let(:wp_unset_date) { create(:work_package, subject: 'Unset date', project:, due_date: nil) }
 
+  shared_let(:wp_due_today) { create(:work_package, subject: 'Due today', project:, due_date: Time.zone.today) }
+
   shared_let(:wp_double_alert) do
     create(:work_package, subject: 'Double alert', project:, start_date: 1.day.ago, due_date: 1.day.from_now)
   end
@@ -117,6 +119,14 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
            project:)
   end
 
+  shared_let(:notification_wp_due_today) do
+    create(:notification,
+           reason: :date_alert_due_date,
+           recipient: user,
+           resource: wp_due_today,
+           project:)
+  end
+
   let(:center) { ::Pages::Notifications::Center.new }
   let(:side_menu) { ::Components::Notifications::Sidemenu.new }
 
@@ -136,6 +146,8 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
     center.expect_item(notification_milestone_future, 'Milestone date is in 1 day')
 
     center.expect_item(notification_wp_unset_date, 'Finish date is deleted')
+
+    center.expect_item(notification_wp_due_today, 'Finish date is today')
 
     # Doesn't show the date alert for the mention, not the alert
     center.expect_item(notification_wp_double_mention, /(seconds|minutes) ago by Anonymous/)

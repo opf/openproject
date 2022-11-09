@@ -35,8 +35,6 @@ export class InAppNotificationDateAlertComponent implements OnInit {
 
   propertyText:string;
 
-  private daysDiff:string;
-
   text = {
     work_package_is: this.I18n.t('js.notifications.date_alerts.work_package_is'),
     overdue: this.I18n.t('js.notifications.date_alerts.overdue'),
@@ -50,6 +48,7 @@ export class InAppNotificationDateAlertComponent implements OnInit {
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
     dueDate: this.I18n.t('js.work_packages.properties.dueDate'),
     date: this.I18n.t('js.notifications.date_alerts.milestone_date'),
+    due_today: this.I18n.t('js.notifications.date_alerts.property_today'),
   };
 
   constructor(
@@ -73,31 +72,35 @@ export class InAppNotificationDateAlertComponent implements OnInit {
   }
 
   private deriveDueDate(value:string, property:'startDate'|'dueDate'|'date') {
-    const dateValue = this.timezoneService.parseISODate(value);
-    this.dateIsPast = dateValue.isBefore();
+    const dateValue = this.timezoneService.parseISODate(value).startOf('day');
+    const today = moment();
+    this.dateIsPast = dateValue.isBefore(today, 'day');
     this.isOverdue = this.dateIsPast && ['date', 'dueDate'].includes(property);
-    this.daysDiff = this.dateDiff(dateValue);
-    this.propertyText = this.isOverdue ? this.text.overdue : this.text[property];
-    this.alertText = this.buildAlertText();
+    const diff = this.dateDiff(dateValue);
+    this.propertyText = (this.isOverdue && diff > 0) ? this.text.overdue : this.text[property];
+    this.alertText = this.buildAlertText(diff);
   }
 
-  private buildAlertText():string {
+  private buildAlertText(daysDiff:number):string {
+    if (daysDiff === 0) {
+      return this.text.due_today;
+    }
+
+    const daysText = this.I18n.t('js.units.day', { count: daysDiff });
     if (this.isOverdue) {
-      return this.text.overdue_since(this.daysDiff);
+      return this.text.overdue_since(daysText);
     }
 
     if (this.dateIsPast) {
-      return this.text.property_was(this.daysDiff);
+      return this.text.property_was(daysText);
     }
 
-    return this.text.property_is(this.daysDiff);
+    return this.text.property_is(daysText);
   }
 
-  private dateDiff(reference:Moment):string {
+  private dateDiff(reference:Moment):number {
     const now = moment().startOf('day');
-    const count = Math.abs(now.diff(reference, 'days'));
-
-    return this.I18n.t('js.units.day', { count });
+    return Math.abs(now.diff(reference, 'days'));
   }
 
   private deriveMostRelevantAlert(aggregatedNotifications:INotification[]) {

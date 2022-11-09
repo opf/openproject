@@ -70,9 +70,9 @@ export class InAppNotificationActorsLineComponent implements OnInit {
   text_for_additional_authors(number:number):string {
     if (number === 1) {
       return this.text.and_other_singular;
-    } else {
-      return this.text.and_other_plural(number);
     }
+
+    return this.text.and_other_plural(number);
   }
 
   private buildTime() {
