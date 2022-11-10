@@ -923,7 +923,7 @@ Settings::Definition.define do
   add :user_default_timezone,
       default: nil,
       format: :string,
-      allowed: ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.canonical_identifier } + [nil]
+      allowed: ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.canonical_identifier }.sort.uniq + [nil]
 
   add :users_deletable_by_admins,
       default: false
