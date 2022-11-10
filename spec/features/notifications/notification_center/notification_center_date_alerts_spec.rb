@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 # rubocop:disable RSpec/ScatteredLet
-describe "Notification center date alerts", js: true,
-                                            with_ee: %i[date_alerts],
-                                            with_settings: { journal_aggregation_time_minutes: 0 } do
+describe "Notification center date alerts", js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
   include ActiveSupport::Testing::TimeHelpers
 
   shared_let(:time_zone) { ActiveSupport::TimeZone['Europe/Berlin'] }
@@ -176,44 +174,56 @@ describe "Notification center date alerts", js: true,
     visit notifications_center_path
   end
 
-  it 'shows the date alerts according to specification' do
-    center.expect_item(notification_wp_start_past, 'Start date was 1 day ago')
-    center.expect_item(notification_wp_start_future, 'Start date is in 7 days')
+  context 'without date alerts ee' do
+    it 'shows the upsale page' do
+      side_menu.click_item 'Date alert'
 
-    center.expect_item(notification_wp_due_past, 'Overdue since 3 days')
-    center.expect_item(notification_wp_due_future, 'Finish date is in 3 days')
+      expect(page).to have_current_path /notifications\/date_alerts/
+      expect(page).to have_text 'Date alerts is an Enterprise'
+      expect(page).to have_text 'Please upgrade to a paid plan '
+    end
+  end
 
-    center.expect_item(notification_milestone_past, 'Overdue since 2 days')
-    center.expect_item(notification_milestone_future, 'Milestone date is in 1 day')
+  context 'with date alerts ee', with_ee: %i[date_alerts] do
+    it 'shows the date alerts according to specification' do
+      center.expect_item(notification_wp_start_past, 'Start date was 1 day ago')
+      center.expect_item(notification_wp_start_future, 'Start date is in 7 days')
 
-    center.expect_item(notification_wp_unset_date, 'Finish date is deleted')
+      center.expect_item(notification_wp_due_past, 'Overdue since 3 days')
+      center.expect_item(notification_wp_due_future, 'Finish date is in 3 days')
 
-    center.expect_item(notification_wp_due_today, 'Finish date is today')
+      center.expect_item(notification_milestone_past, 'Overdue since 2 days')
+      center.expect_item(notification_milestone_future, 'Milestone date is in 1 day')
 
-    # Doesn't show the date alert for the mention, not the alert
-    center.expect_item(notification_wp_double_mention, /(seconds|minutes) ago by Anonymous/)
-    center.expect_no_item(notification_wp_double_date_alert)
+      center.expect_item(notification_wp_unset_date, 'Finish date is deleted')
 
-    # When switch to date alerts, it shows the alert, no longer the mention
-    side_menu.click_item 'Date alert'
-    center.expect_item(notification_wp_double_date_alert, 'Finish date is in 1 day')
-    center.expect_no_item(notification_wp_double_mention)
+      center.expect_item(notification_wp_due_today, 'Finish date is today')
 
-    # Ensure that start is created later than due for implicit ID sorting
-    double_alert_start, double_alert_due = notification_wp_double_alerts
-    expect(double_alert_start.id).to be > double_alert_due.id
+      # Doesn't show the date alert for the mention, not the alert
+      center.expect_item(notification_wp_double_mention, /(seconds|minutes) ago by Anonymous/)
+      center.expect_no_item(notification_wp_double_date_alert)
 
-    # We see that start is actually the newest ID, hence shown as the primary notification
-    # but the date alert still shows the finish date
-    center.expect_item(double_alert_start, 'Finish date is in 1 day')
-    center.expect_no_item(double_alert_due)
+      # When switch to date alerts, it shows the alert, no longer the mention
+      side_menu.click_item 'Date alert'
+      center.expect_item(notification_wp_double_date_alert, 'Finish date is in 1 day')
+      center.expect_no_item(notification_wp_double_mention)
 
-    # When a work package is updated to a different date
-    wp_double_notification.update_column(:due_date, 5.days.from_now)
-    page.driver.refresh
+      # Ensure that start is created later than due for implicit ID sorting
+      double_alert_start, double_alert_due = notification_wp_double_alerts
+      expect(double_alert_start.id).to be > double_alert_due.id
 
-    center.expect_item(notification_wp_double_date_alert, 'Finish date is in 5 days')
-    center.expect_no_item(notification_wp_double_mention)
+      # We see that start is actually the newest ID, hence shown as the primary notification
+      # but the date alert still shows the finish date
+      center.expect_item(double_alert_start, 'Finish date is in 1 day')
+      center.expect_no_item(double_alert_due)
+
+      # When a work package is updated to a different date
+      wp_double_notification.update_column(:due_date, 5.days.from_now)
+      page.driver.refresh
+
+      center.expect_item(notification_wp_double_date_alert, 'Finish date is in 5 days')
+      center.expect_no_item(notification_wp_double_mention)
+    end
   end
 end
 # rubocop:enable RSpec/ScatteredLet
