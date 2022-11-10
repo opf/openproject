@@ -402,6 +402,8 @@ module Settings
         AR_BOOLEAN_TYPE.cast(value)
       when :symbol
         value.to_sym
+      when :timezone
+        ActiveSupport::TimeZone.lookup_timezone(value) || value
       else
         value
       end

@@ -914,7 +914,7 @@ Settings::Definition.define do
 
   add :user_default_timezone,
       default: nil,
-      format: :string,
+      format: :timezone,
       allowed: ActiveSupport::TimeZone.all + [nil]
 
   add :users_deletable_by_admins,
