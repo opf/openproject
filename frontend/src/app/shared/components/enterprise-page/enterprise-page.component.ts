@@ -14,7 +14,6 @@ export const enterprisePageSelector = 'op-enterprise-page';
 @Component({
   selector: enterprisePageSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./enterprise-page.component.sass'],
   templateUrl: './enterprise-page.component.html',
 })
 export class EnterprisePageComponent {
