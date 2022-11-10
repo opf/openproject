@@ -209,12 +209,12 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
     if (error?.status === 404) {
       this.statusIcon = 'icon-help';
       this.message = this.I18n.t('js.job_status.generic_messages.not_found');
-      return;
+    } else {
+      this.statusIcon = 'icon-error';
+      this.message = error?.message || this.I18n.t('js.error.internal');
+      this.toastService.addError(this.message);
     }
 
-    this.statusIcon = 'icon-error';
-    this.message = error?.message || this.I18n.t('js.error.internal');
-    this.toastService.addError(this.message);
     this.cdRef.detectChanges();
   }
 

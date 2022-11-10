@@ -64,6 +64,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
         .valuesPromise()
         .then((results:WorkPackageCollectionResource) => {
           this.exportOptions = this.buildExportOptions(results);
+          this.cdRef.detectChanges();
         });
     }
   }

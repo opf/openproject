@@ -32,7 +32,6 @@ import {
   Component,
   ComponentRef,
   ElementRef,
-  OnInit,
   ViewChild,
 } from '@angular/core';
 import {
@@ -42,7 +41,6 @@ import {
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { OpModalComponent } from './modal.component';
-import { ReplaySubject } from 'rxjs';
 
 export const opModalOverlaySelector = 'op-modal-overlay';
 
@@ -69,13 +67,13 @@ export class OpModalOverlayComponent {
 
   activeModalData$ = this.modalService.activeModalData$;
 
-  activeModalInstance$ = this.modalService.activeModalInstance$;
+  activeModalInstance$ = this.modalService.activeModalInstance$.asObservable();
 
   constructor(
     readonly modalService:OpModalService,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
-  ) { }
+  ) {}
 
   setupListener():void {
     this.activeModalData$
@@ -93,7 +91,7 @@ export class OpModalOverlayComponent {
           }
 
           ref.instance.closingEvent.emit(ref.instance);
-          this.activeModalInstance$.next(null);
+          this.modalService.activeModalInstance$.next(null);
 
           this.portalOutlet.detach();
 
@@ -109,7 +107,7 @@ export class OpModalOverlayComponent {
         const portal = new ComponentPortal(modal, null, injector);
         const ref = this.portalOutlet.attach(portal);
         const instance = ref.instance;
-        this.activeModalInstance$.next(instance);
+        this.modalService.activeModalInstance$.next(instance);
         this.cdRef.detectChanges();
 
         // Focus on wrapper by default
