@@ -50,7 +50,7 @@ module Pages
     end
 
     def alter_attributes_in_edit_story_mode(story, attributes)
-      edit_proc = -> do
+      edit_proc = ->(*) do
         attributes.each do |key, value|
           case key
           when :subject
@@ -92,7 +92,7 @@ module Pages
     end
 
     def save_story_from_edit_mode(story)
-      save_proc = -> do
+      save_proc = ->(*) do
         find('input[name=subject]').native.send_key :return
 
         expect(page)
