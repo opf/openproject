@@ -74,11 +74,11 @@ module MailDigestHelper
   def build_alert_text(days_diff, is_overdue, date_is_past)
     days_text = I18n.t('js.units.day', count: days_diff)
 
-    return 'is today' if days_diff == 0
-    return "since #{days_text}" if is_overdue
-    return "was #{days_text} ago" if date_is_past
+    return I18n.t('js.notifications.date_alerts.property_today') if days_diff == 0
+    return I18n.t('js.notifications.date_alerts.overdue_since', difference_in_days: days_text) if is_overdue
+    return I18n.t('js.notifications.date_alerts.property_was', difference_in_days: days_text) if date_is_past
 
-    "is in #{days_text}"
+    I18n.t('js.notifications.date_alerts.property_is', difference_in_days: days_text)
   end
 
   def property_text_helper(notification)
