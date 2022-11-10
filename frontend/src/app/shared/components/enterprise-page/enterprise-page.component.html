@@ -1,0 +1,43 @@
+<div class="upsale-notification">
+  <h2 [textContent]="feature_title"></h2>
+    <p *ngIf="feature_description">{{feature_description}}</p>
+    <p *ngIf="!feature_description" class="upsale--feature-reference">
+      {{text.benefits_description}}
+      <br>
+      {{text.premium_features_text}}
+      <br>
+      {{text.professional_support_text}}
+    </p>
+
+    <p class="upsale--feature-reference"
+    [textContent]="more_info"></p>
+
+  <video width="400" *ngIf="feature_video" controls class="widget-box--teaser-video">
+    <source src="feature_video" type="video/mp4">
+  </video>
+    
+  <img [src]="feature_image" class="widget-box--teaser-image" *ngIf="feature_image">
+  <img [src]="image.enterprise_edition" class="widget-box--teaser-image_default" *ngIf="!feature_image">
+
+
+
+  <p [innerHTML]="text.enterprise_info_html(feature_title)"></p>
+  <p>{{text.upgrade_info}}</p>
+
+  <a
+    [attr.href]="text.contact_link"
+    class="button"
+    target=”_blank”>
+    {{ text.button_contact_us }}
+  </a>
+
+  <a
+    [attr.href]="text.upgrade_link"
+    target=”_blank”
+    class="button -highlight">
+    <span class="spot-icon spot-icon_enterprise-badge"></span>
+    {{ text.upgrade }}
+  </a>
+  <free-trial-button></free-trial-button>
+</div>
+
