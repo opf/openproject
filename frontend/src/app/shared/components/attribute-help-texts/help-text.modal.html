@@ -33,16 +33,15 @@
         >
         {{ text.close }}
       </button>
-      <button
+      <a
         class="help-text--edit-button button spot-action-bar--action"
         *ngIf="helpText.editText"
         [attr.href]="helpTextLink"
         [attr.title]="text.edit"
-        type="button"
       >
         <op-icon icon-classes="button--icon icon-edit"></op-icon>
         <span class="button--text" [textContent]="text.edit"></span>
-      </button>
+      </a>
     </div>
   </div>
 </div>
