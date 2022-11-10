@@ -182,7 +182,7 @@ The following list contains all supported attribute names for the `workPackageVa
 
 | **Attribute**       | Usage example                                                |
 | ------------------- | ------------------------------------------------------------ |
-| Custom Fields       | `workPackageValue:1234:"Name of the work package custom field"` |
+| *Custom Fields*     | `workPackageValue:1234:"Name of the work package custom field"` |
 | Assignee            | `workPackageValue:1234:assignee`                             |
 | Author              | `workPackageValue:1234:author`                               |
 | Category            | `workPackageValue:1234:category`                             |
