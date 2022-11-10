@@ -322,7 +322,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       {
         field: 'title',
         headerContent: {
-          html: `<span class="spot-icon spot-icon_user"></span> <span class="hidden-for-mobile">${this.text.assignee}</span>`,
+          html: `<span aria-label="${this.text.assignee}" class="spot-icon spot-icon_user"></span> <span class="hidden-for-mobile">${this.text.assignee}</span>`,
         },
       },
     ],
