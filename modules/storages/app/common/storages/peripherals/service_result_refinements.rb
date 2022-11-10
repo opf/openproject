@@ -36,6 +36,12 @@ module Storages::Peripherals
           on_failure.call(result)
         end
       end
+
+      def bind
+        return self if failure?
+
+        yield result
+      end
     end
   end
 end

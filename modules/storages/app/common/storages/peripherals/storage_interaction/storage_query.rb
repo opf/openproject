@@ -26,43 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::FileLinks::FileLinksDownloadAPI < ::API::OpenProjectAPI
-  helpers Storages::Peripherals::StorageUrlHelper
-  using Storages::Peripherals::ServiceResultRefinements
-
-  helpers do
-    def raise_error(error)
-      case error
-      when :not_found
-        raise API::Errors::NotFound.new
-      when :not_authorized
-        Rails.logger.error("An outbound request failed due to an authorization failure!")
-        raise API::Errors::InternalError.new
-      else
-        raise API::Errors::InternalError.new
-      end
-    end
-  end
-
-  resources :download do
-    get do
-      Storages::Peripherals::StorageRequests
-        .new(storage: @file_link.storage)
-        .download_link_query(user: User.current)
-        .match(
-          on_success: ->(download_link_query) {
-            download_link_query
-              .call(@file_link)
-              .match(
-                on_success: ->(url) do
-                  redirect(url, body: "The requested resource can be downloaded from #{url}")
-                  status(303)
-                end,
-                on_failure: ->(error) { raise_error(error) }
-              )
-          },
-          on_failure: ->(error) { raise_error(error) }
-        )
+module Storages::Peripherals::StorageInteraction
+  class StorageQuery
+    def query(data)
+      raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
     end
   end
 end

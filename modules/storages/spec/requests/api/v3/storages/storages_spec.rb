@@ -196,7 +196,7 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
           allow(storage_requests).to receive(:files_query).and_return(ServiceResult.failure(result: :not_authorized))
         end
 
-        it { expect(last_response.status).to be(403) }
+        it { expect(last_response.status).to be(500) }
       end
 
       describe 'due to internal error' do
@@ -219,7 +219,7 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
     describe 'with query failed' do
       let(:files_query) do
         Struct.new('FilesQuery', :error) do
-          def files(_)
+          def query(_)
             ServiceResult.failure(result: error)
           end
         end.new(error)
@@ -234,7 +234,7 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
       describe 'due to authorization failure' do
         let(:error) { :not_authorized }
 
-        it { expect(last_response.status).to be(403) }
+        it { expect(last_response.status).to be(500) }
       end
 
       describe 'due to internal error' do
