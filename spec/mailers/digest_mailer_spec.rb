@@ -132,7 +132,6 @@ describe DigestMailer do
     end
 
     describe "#date_alerts_text" do
-      let!(:color) { create(:color) }
       let!(:project1) { create(:project) }
       let!(:recipient) { create(:user) }
       let(:notifications) { [notification] }
@@ -219,7 +218,7 @@ describe DigestMailer do
         end
 
         it 'matches generated text' do
-          expect(mail_body).to have_text('Overdue since 2 days')
+          expect(mail_body).to include('<span style="color: #C92A2A">Overdue since 2 days</span>')
         end
       end
 

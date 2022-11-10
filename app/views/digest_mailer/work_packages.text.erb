@@ -10,7 +10,7 @@
   
   <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
   <% unique_reasons.each_with_index do |reason, index| %><%= I18n.t(:"mail.work_packages.reason.#{reason || :unknown}", default: '-') %><%= ', ' unless unique_reasons.size-1 == index  %><% end %>: <% if notifications_by_work_package.first.date_alert? %>
-    <%= date_alerts_text(notifications_by_work_package.first) %>
+    <%= date_alerts_text(notifications_by_work_package.first, html: false) %>
   <% else %>
     <%= digest_notification_timestamp_text(notifications_by_work_package.first, html: false) %>
   <% end %>
