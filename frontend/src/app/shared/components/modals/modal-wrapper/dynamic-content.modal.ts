@@ -28,7 +28,12 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
@@ -54,7 +59,8 @@ export class DynamicContentModalComponent extends OpModalComponent implements On
 
     // Append the dynamic body
     const wrapper = this.$element.children[0];
-    wrapper.className += this.locals.modalClassName || '';
+    const classes = (this.locals.modalClassName as string) || '';
+    wrapper.classList.add(...classes.split(' '));
     wrapper.innerHTML = this.locals.modalBody as string;
 
     const modal = document.querySelector('.spot-modal') as HTMLElement;
