@@ -37,7 +37,7 @@ export class EnterprisePageComponent {
     benefits_description: this.I18n.t('js.admin.enterprise.upsale.benefits.description'),
     premium_features_text: this.I18n.t('js.admin.enterprise.upsale.benefits.premium_features_text'),
     professional_support_text: this.I18n.t('js.admin.enterprise.upsale.benefits.professional_support_text'),
-    enterprise_info_html: (feature_title:string) => this.I18n.t('js.admin.enterprise.upsale.enterprise_info_html', {
+    enterprise_info_html: (feature_title:string):string => this.I18n.t('js.admin.enterprise.upsale.enterprise_info_html', {
       feature_title,
     }),
     upgrade_info: this.I18n.t('js.admin.enterprise.upsale.upgrade_info'),
