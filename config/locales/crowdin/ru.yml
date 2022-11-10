@@ -581,7 +581,7 @@ ru:
         confirmation: "не совпадает со значением поля %{attribute}."
         could_not_be_copied: "%{dependency} не может быть скопировано (полностью)."
         does_not_exist: "не существует."
-        error_enterprise_only: "доступен только в корпоративной версии OpenProject"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "не доступен."
         error_readonly: "запись не разрешена."
         email: "неверный адрес электронной почты."

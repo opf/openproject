@@ -580,7 +580,7 @@ eo:
         confirmation: "ne kongruas kun %{attribute}"
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "ne ekzistas."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "ne povas esti atingita."
         error_readonly: "was attempted to be written but is not writable."
         email: "is not a valid email address."

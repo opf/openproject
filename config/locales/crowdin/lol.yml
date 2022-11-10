@@ -562,7 +562,7 @@ lol:
         confirmation: "crwdns495397:0%{attribute}crwdne495397:0"
         could_not_be_copied: "crwdns495399:0%{dependency}crwdne495399:0"
         does_not_exist: "crwdns495401:0crwdne495401:0"
-        error_enterprise_only: "crwdns495403:0crwdne495403:0"
+        error_enterprise_only: "crwdns836977:0%{action}crwdne836977:0"
         error_unauthorized: "crwdns495405:0crwdne495405:0"
         error_readonly: "crwdns495407:0crwdne495407:0"
         email: "crwdns495409:0crwdne495409:0"

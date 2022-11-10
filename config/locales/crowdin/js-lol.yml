@@ -544,6 +544,15 @@ lol:
         commented: 'crwdns832424:0crwdne832424:0'
         processed: 'crwdns832426:0crwdne832426:0'
         prioritized: 'crwdns832428:0crwdne832428:0'
+        dateAlert: 'crwdns836979:0crwdne836979:0'
+      date_alerts:
+        milestone_date: 'crwdns836981:0crwdne836981:0'
+        overdue: 'crwdns836983:0crwdne836983:0'
+        overdue_since: 'crwdns836985:0%{difference_in_days}crwdne836985:0'
+        property_today: 'crwdns836987:0crwdne836987:0'
+        property_is: 'crwdns836989:0%{difference_in_days}crwdne836989:0'
+        property_was: 'crwdns836991:0%{difference_in_days}crwdne836991:0'
+        property_is_deleted: 'crwdns836993:0crwdne836993:0'
       facets:
         unread: 'crwdns787694:0crwdne787694:0'
         unread_title: 'crwdns833310:0crwdne833310:0'
@@ -615,6 +624,7 @@ lol:
           date_alerts:
             title: 'crwdns836468:0crwdne836468:0'
             description: 'crwdns836470:0crwdne836470:0'
+            teaser_text: 'crwdns836995:0crwdne836995:0'
           start_date: crwdns836951:0crwdne836951:0
           due_date: crwdns836953:0crwdne836953:0
           overdue: crwdns836955:0crwdne836955:0

@@ -575,7 +575,7 @@ ja:
         confirmation: "は%{attribute} と一致しません。"
         could_not_be_copied: "%{dependency} を（完全に）コピーできませんでした。"
         does_not_exist: "は存在しません。"
-        error_enterprise_only: "はOpenProjectエンタープライズ版でのみ利用可能です"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "アクセスできません。"
         error_readonly: "書けませんでした。"
         email: "is not a valid email address."

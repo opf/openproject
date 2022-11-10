@@ -576,7 +576,7 @@ ca:
         confirmation: "no coincideix amb el %{attribute}."
         could_not_be_copied: "%{dependency} no s'ha pogut copiar (completament)."
         does_not_exist: "no existeix."
-        error_enterprise_only: "només està disponible en l'edició Enterprise d'OpenProject."
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "no és possible accedir."
         error_readonly: "es va intentar d'escriure-hi però no és modificable."
         email: "no és una adreça de correu electrònic vàlida."

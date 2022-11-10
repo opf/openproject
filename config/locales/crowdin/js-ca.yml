@@ -545,6 +545,15 @@ ca:
         commented: 'comentat'
         processed: 'processat'
         prioritized: 'prioritzat'
+        dateAlert: 'Date alert'
+      date_alerts:
+        milestone_date: 'Milestone date'
+        overdue: 'Overdue'
+        overdue_since: 'since %{difference_in_days}'
+        property_today: 'is today'
+        property_is: 'is in %{difference_in_days}'
+        property_was: 'was %{difference_in_days} ago'
+        property_is_deleted: 'is deleted'
       facets:
         unread: 'Sense llegir'
         unread_title: 'Mostrar no llegits'
@@ -616,6 +625,7 @@ ca:
           date_alerts:
             title: 'Alertes per dates'
             description: 'Notificacions automàtiques quan dates importants s''aproximen per a paquets de treball oberts en els quals estàs involucrat (assignat, responsable o observador)'
+            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           start_date: Start Date
           due_date: Finish Date
           overdue: When Overdue

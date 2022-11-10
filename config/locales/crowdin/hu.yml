@@ -577,7 +577,7 @@ hu:
         confirmation: "%{attribute} nem egyezik."
         could_not_be_copied: "A (z) %{dependency} nem másolható (teljesen)."
         does_not_exist: "nem létezik."
-        error_enterprise_only: "Csak az Enterprise Verzióban érhető el"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "lehet, hogy nem érhető el."
         error_readonly: "írása megkísérelve, de nem írható."
         email: "nem valós e-mail cím"
