@@ -356,8 +356,6 @@ class Setting < ApplicationRecord
       Date.parse value
     when :datetime
       DateTime.parse value
-    when :timezone
-      ActiveSupport::TimeZone.lookup_timezone(value) || value
     else
       value
     end
