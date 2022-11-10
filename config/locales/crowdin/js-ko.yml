@@ -545,6 +545,15 @@ ko:
         commented: '코멘트 작성됨'
         processed: '처리됨'
         prioritized: '우선 순위 지정됨'
+        dateAlert: 'Date alert'
+      date_alerts:
+        milestone_date: 'Milestone date'
+        overdue: 'Overdue'
+        overdue_since: 'since %{difference_in_days}'
+        property_today: 'is today'
+        property_is: 'is in %{difference_in_days}'
+        property_was: 'was %{difference_in_days} ago'
+        property_is_deleted: 'is deleted'
       facets:
         unread: '읽지 않음'
         unread_title: '읽지 않은 항목 표시'
@@ -615,6 +624,7 @@ ko:
           date_alerts:
             title: 'Date alerts'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           start_date: Start Date
           due_date: Finish Date
           overdue: When Overdue

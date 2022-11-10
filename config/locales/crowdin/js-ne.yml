@@ -545,6 +545,15 @@ ne:
         commented: 'commented'
         processed: 'processed'
         prioritized: 'prioritized'
+        dateAlert: 'Date alert'
+      date_alerts:
+        milestone_date: 'Milestone date'
+        overdue: 'Overdue'
+        overdue_since: 'since %{difference_in_days}'
+        property_today: 'is today'
+        property_is: 'is in %{difference_in_days}'
+        property_was: 'was %{difference_in_days} ago'
+        property_is_deleted: 'is deleted'
       facets:
         unread: 'Unread'
         unread_title: 'Show unread'
@@ -616,6 +625,7 @@ ne:
           date_alerts:
             title: 'Date alerts'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           start_date: Start Date
           due_date: Finish Date
           overdue: When Overdue

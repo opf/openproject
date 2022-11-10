@@ -581,7 +581,7 @@ ro:
         confirmation: "nu se potrivește cu %{attribute}."
         could_not_be_copied: "%{dependency} nu a putut fi copiat (integral)."
         does_not_exist: "nu există."
-        error_enterprise_only: "este disponibil doar în OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "nu pot fi accesate."
         error_readonly: "a fost încercat să fie scris, dar nu este inscriptibil."
         email: "is not a valid email address."

@@ -22,6 +22,7 @@ import { EmptyStateComponent } from './center/empty-state/empty-state.component'
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 import { InAppNotificationActorsLineComponent } from './entry/actors-line/in-app-notification-actors-line.component';
 import { InAppNotificationDateAlertComponent } from './entry/date-alert/in-app-notification-date-alert.component';
+import { InAppNotificationsDateAlertsUpsaleComponent } from 'core-app/features/in-app-notifications/date-alerts-upsale/ian-date-alerts-upsale.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { InAppNotificationDateAlertComponent } from './entry/date-alert/in-app-n
     EmptyStateComponent,
     InAppNotificationActorsLineComponent,
     InAppNotificationDateAlertComponent,
+    InAppNotificationsDateAlertsUpsaleComponent,
   ],
   imports: [
     OPSharedModule,

@@ -580,7 +580,7 @@ bg:
         confirmation: "не съвпада с %{attribute}."
         could_not_be_copied: "%{dependency} не може да бъде (напълно) копирана."
         does_not_exist: "не съществува."
-        error_enterprise_only: "се предлага само в OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         email: "is not a valid email address."

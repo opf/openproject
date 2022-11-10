@@ -579,7 +579,7 @@ zh-TW:
         confirmation: "不吻合 %{attribute}。"
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "不存在"
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "無法被存取。"
         error_readonly: "被嘗試寫入但是無法寫入。"
         email: "不是一個有效的電子郵件地址。 "

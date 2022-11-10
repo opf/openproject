@@ -35,61 +35,8 @@ module Notifications
     def perform
       return unless EnterpriseToken.allows_to?(:date_alerts)
 
-      time_zones = time_zones_covering_1am_local_time
-      return if time_zones.empty?
-
-      Time.use_zone(time_zones.first) do
-        User.with_time_zone(time_zones).find_each do |user|
-          send_date_alert_notifications(user)
-        end
-      end
-    end
-
-    def send_date_alert_notifications(user)
-      alertables = AlertableWorkPackages.new(user)
-      create_date_alert_notifications(user, alertables.alertable_for_start, :date_alert_start_date)
-      create_date_alert_notifications(user, alertables.alertable_for_due, :date_alert_due_date)
-    end
-
-    def create_date_alert_notifications(user, work_packages, reason)
-      mark_previous_notifications_as_read(user, work_packages, reason)
-      work_packages.find_each do |work_package|
-        create_date_alert_notification(user, work_package, reason)
-      end
-    end
-
-    def mark_previous_notifications_as_read(user, work_packages, reason)
-      Notification
-        .where(recipient: user,
-               reason:,
-               resource: work_packages)
-        .update_all(read_ian: true, updated_at: Time.current)
-    end
-
-    def create_date_alert_notification(user, work_package, reason)
-      create_service = Notifications::CreateService.new(user:)
-      create_service.call(
-        recipient_id: user.id,
-        project_id: work_package.project_id,
-        resource: work_package,
-        reason:
-      )
-    end
-
-    def time_zones_covering_1am_local_time
-      UserPreferences::UpdateContract
-        .assignable_time_zones
-        .select { |time_zone| executing_at_1am_for_timezone?(time_zone) }
-        .map { |time_zone| time_zone.tzinfo.canonical_zone.name }
-    end
-
-    def executing_at_1am_for_timezone?(time_zone)
-      times_from_scheduled_to_execution.any? { |time| is_1am?(time, time_zone) }
-    end
-
-    def is_1am?(time, time_zone)
-      local_time = time.in_time_zone(time_zone)
-      local_time.strftime('%H:%M') == '01:00'
+      service = Service.new(times_from_scheduled_to_execution)
+      service.call
     end
 
     # Returns times from scheduled execution time to current time in 15 minutes
@@ -100,20 +47,17 @@ module Notifications
     # between scheduled time and current time need to be considered to match
     # with 1:00am in a time zone.
     def times_from_scheduled_to_execution
-      @times_from_scheduled_to_execution ||= begin
-        time = scheduled_time
-        times = []
-        begin
-          times << time
-          time += 15.minutes
-        end while time < Time.current
-        times
-      end
+      time = scheduled_time
+      times = []
+      begin
+        times << time
+        time += 15.minutes
+      end while time < Time.current
+      times
     end
 
     def scheduled_time
-      @scheduled_time ||=
-        self.class.delayed_job.run_at.then { |t| t.change(min: t.min / 15 * 15) }
+      self.class.delayed_job.run_at.then { |t| t.change(min: t.min / 15 * 15) }
     end
   end
 end

@@ -579,7 +579,7 @@ pt:
         confirmation: "não coincide com %{attribute}."
         could_not_be_copied: "%{dependency} não pôde ser copiado (completamente)."
         does_not_exist: "não existe."
-        error_enterprise_only: "só está disponível no OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "não pode ser acessado."
         error_readonly: "tentou escrever, mas não é gravável."
         email: "não é um endereço de e-mail válido."

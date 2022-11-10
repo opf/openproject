@@ -580,7 +580,7 @@ si:
         confirmation: "%{attribute}නොගැලපේ."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "නොපවතී."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "ප්රවේශ විය නොහැක."
         error_readonly: "ලිවීමට උත්සාහ කළ නමුත් එය ලිවිය නොහැක."
         email: "is not a valid email address."

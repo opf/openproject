@@ -579,7 +579,7 @@ sl:
         confirmation: "se ne ujema %{attribute}"
         could_not_be_copied: "%{dependency} ni bilo mogoče (v celoti) kopirati."
         does_not_exist: "ne obstaja"
-        error_enterprise_only: "je na voljo samo v OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "morda ni mogoče dostopati."
         error_readonly: "poskušano je bilo napisati, vendar ni mogoče pisati."
         email: "is not a valid email address."

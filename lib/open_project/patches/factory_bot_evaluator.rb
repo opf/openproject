@@ -28,7 +28,9 @@
 
 module OpenProject::Patches
   module FactoryBotEvaluator
-    attr_reader :overrides
+    def overrides?(key)
+      @overrides.key?(key)
+    end
   end
 end
 

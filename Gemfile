@@ -231,7 +231,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.37.0'
+  gem 'capybara', '~> 3.38.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 4.0'
   gem 'webdrivers', '~> 5.2.0'
@@ -250,7 +250,7 @@ group :test do
   gem 'json_spec', '~> 1.1.4'
   gem 'shoulda-matchers', '~> 5.0', require: nil
 
-  gem 'parallel_tests', '~> 3.1'
+  gem 'parallel_tests', '~> 4.0'
 end
 
 group :ldap do

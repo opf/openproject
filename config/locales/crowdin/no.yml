@@ -580,7 +580,7 @@
         confirmation: "samsvarer ikke med %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "finnes ikke."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "kan ikke nås"
         error_readonly: "ble forsøkt skrevet til, men er skrivebeskyttet"
         email: "is not a valid email address."
