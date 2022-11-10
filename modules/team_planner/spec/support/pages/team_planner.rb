@@ -72,9 +72,10 @@ module Pages
     end
 
     def expect_view_mode(text)
-      expect(page).to have_selector('.fc-button-active', text:)
+      expect(page).to have_selector('[data-qa-selector="op-team-planner--view-select-dropdown"]', text:)
 
       param = {
+        'Work week' => :resourceTimelineWorkWeek,
         '1-week' => :resourceTimelineWeek,
         '2-week' => :resourceTimelineTwoWeeks
       }[text]
@@ -83,7 +84,12 @@ module Pages
     end
 
     def switch_view_mode(text)
-      page.find('.fc-button', text:).click
+      find('[data-qa-selector="op-team-planner--view-select-dropdown"]').click
+
+      within('#op-team-planner--view-select-dropdown') do
+        click_button(text)
+      end
+
       expect_view_mode(text)
     end
 
