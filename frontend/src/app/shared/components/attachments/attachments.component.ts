@@ -28,6 +28,7 @@
 
 import {
   ChangeDetectionStrategy,
+    ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
@@ -70,15 +71,17 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit,
 
   @HostBinding('class.op-attachments') public className = true;
 
-  @HostBinding('class.op-attachments_dragging') public draggingOver = false;
-
   @Input('resource') public resource:HalResource;
 
   @Input() public allowUploading = true;
 
   @Input() public destroyImmediately = true;
 
-  attachments$:Observable<IAttachment[]>;
+  public attachments$:Observable<IAttachment[]>;
+
+  public draggingOverDropZone = false;
+
+  public dragging = false;
 
   @ViewChild('hiddenFileInput') public filePicker:ElementRef<HTMLInputElement>;
 
@@ -106,7 +109,8 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit,
     protected readonly halResourceService:HalResourceService,
     protected readonly attachmentsResourceService:AttachmentsResourceService,
     protected readonly toastService:ToastService,
-    private readonly timezoneService:TimezoneService,
+    protected readonly timezoneService:TimezoneService,
+    protected readonly cdRef:ChangeDetectorRef,
   ) {
     super();
 
@@ -155,13 +159,13 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit,
         }),
       );
 
-    document.body.addEventListener('dragover', this.onDragOver.bind(this));
-    document.body.addEventListener('dragleave', this.onDragLeave.bind(this));
+    document.body.addEventListener('dragover', this.onGlobalDragOver.bind(this));
+    document.body.addEventListener('dragleave', this.onGlobalDragLeave.bind(this));
   }
   
   ngOnDestroy():void {
-    document.body.removeEventListener('dragover', this.onDragOver.bind(this));
-    document.body.removeEventListener('dragleave', this.onDragLeave.bind(this));
+    document.body.removeEventListener('dragover', this.onGlobalDragOver.bind(this));
+    document.body.removeEventListener('dragleave', this.onGlobalDragLeave.bind(this));
   }
 
   public triggerFileInput():void {
@@ -193,19 +197,32 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit,
     }
 
     this.uploadFiles(files);
-    this.draggingOver = false;
+    this.draggingOverDropZone = false;
+    this.dragging = false;
   }
 
   public onDragOver(event:DragEvent):void {
     if (event.dataTransfer !== null && containsFiles(event.dataTransfer)) {
       // eslint-disable-next-line no-param-reassign
       event.dataTransfer.dropEffect = 'copy';
-      this.draggingOver = true;
+      this.draggingOverDropZone = true;
     }
   }
 
   public onDragLeave(_event:DragEvent):void {
-    this.draggingOver = false;
+    this.draggingOverDropZone = false;
+  }
+
+  public onGlobalDragLeave():void {
+    this.dragging = false;
+
+    this.cdRef.detectChanges();
+  }
+  
+  public onGlobalDragOver() {
+    this.dragging = true;
+
+    this.cdRef.detectChanges();
   }
 
   protected uploadFiles(files:UploadFile[]):void {

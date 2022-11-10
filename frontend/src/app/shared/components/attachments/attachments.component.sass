@@ -30,6 +30,12 @@
       width: 100%
       z-index: 1
 
+    &_dragging
+      display: flex
+
+    &_dragging-over
+      background: #f4f4f4
+
     &-text
       cursor: pointer
       color: var(--gray-dark)
@@ -42,12 +48,5 @@
     &-icon
       font-size: $spot-spacing-3
 
-  
-  &_dragging &--drop-box
-    display: flex
-
-    &:hover
-      background: #f4f4f4
-
-  &_dragging &--list
+  &--list_dragging
     min-height: $spot-spacing-4

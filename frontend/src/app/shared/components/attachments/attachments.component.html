@@ -1,5 +1,8 @@
 <op-attachment-list
-  class="op-attachments--list"
+  [ngClass]="{
+    'op-attachments--list': true,
+    'op-attachments--list_dragging': dragging
+  }"
   *ngIf="(attachments$ | async).length"
   [attachments]="attachments$ | async"
   [collectionKey]="collectionKey"
@@ -37,10 +40,14 @@
   [ngClass]="{
     'hide-when-print': true,
     'op-attachments--drop-box': true,
+    'op-attachments--drop-box_dragging': dragging,
+    'op-attachments--drop-box_dragging-over': draggingOverDropZone,
     'op-attachments--drop-box_float': (attachments$ | async).length
   }"
   type="button"
   (click)="triggerFileInput()"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
   (drop)="onDropFiles($event)"
 >
   <span
