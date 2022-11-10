@@ -208,6 +208,17 @@ describe "Notification center date alerts", js: true,
     center.expect_item(double_alert_start, 'Finish date is in 1 day')
     center.expect_no_item(double_alert_due)
 
+
+    # Opening a date alert opens in overview
+    center.click_item notification_wp_start_past
+    split_screen = ::Pages::SplitWorkPackage.new wp_start_past
+    split_screen.expect_tab :overview
+
+    # The same is true for the mention item that is opened in date alerts filter
+    center.click_item notification_wp_double_date_alert
+    split_screen = ::Pages::SplitWorkPackage.new wp_double_notification
+    split_screen.expect_tab :overview
+
     # When a work package is updated to a different date
     wp_double_notification.update_column(:due_date, 5.days.from_now)
     page.driver.refresh

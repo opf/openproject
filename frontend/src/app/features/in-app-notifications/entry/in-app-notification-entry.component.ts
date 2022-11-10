@@ -15,6 +15,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
   map,
   shareReplay,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { take } from 'rxjs/internal/operators/take';
@@ -106,9 +107,11 @@ export class InAppNotificationEntryComponent implements OnInit {
       .workPackage$
       .pipe(
         take(1),
+        withLatestFrom(this.showDateAlert$),
       )
-      .subscribe((wp) => {
-        this.storeService.openSplitScreen(wp.id);
+      .subscribe(([wp, openDetailsTab]) => {
+        const tab = openDetailsTab ? 'overview' : 'activity';
+        this.storeService.openSplitScreen(wp.id, tab);
       });
   }
 
