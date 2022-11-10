@@ -31,6 +31,6 @@ class Notification < ApplicationRecord
          :visible
 
   def date_alert?
-    reason.in?(["date_alert_start_date", "date_alert_due_date"]) || resource&.milestone?
+    reason.in?(["date_alert_start_date", "date_alert_due_date"])
   end
 end

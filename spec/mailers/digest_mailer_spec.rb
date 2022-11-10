@@ -135,13 +135,6 @@ describe DigestMailer do
       let!(:color) { create(:color) }
       let!(:project1) { create(:project) }
       let!(:recipient) { create(:user) }
-      let!(:work_package_journal) do
-        create(:work_package_journal,
-               journable_id: work_package.id,
-               version: 2,
-               data: build(:journal_work_package_journal,
-                           description: 'text'))
-      end
       let(:notifications) { [notification] }
 
       context 'when notification_wp_start_past' do
@@ -153,8 +146,7 @@ describe DigestMailer do
                  reason: :date_alert_start_date,
                  recipient:,
                  resource: work_package,
-                 project: project1,
-                 journal: work_package_journal)
+                 project: project1)
         end
 
         it 'matches generated text' do
@@ -171,8 +163,7 @@ describe DigestMailer do
                  reason: :date_alert_start_date,
                  recipient:,
                  resource: work_package,
-                 project: project1,
-                 journal: work_package_journal)
+                 project: project1)
         end
 
         it 'matches generated text' do
@@ -189,8 +180,7 @@ describe DigestMailer do
                  reason: :date_alert_due_date,
                  recipient:,
                  resource: work_package,
-                 project: project1,
-                 journal: work_package_journal)
+                 project: project1)
         end
 
         it 'matches generated text' do
@@ -207,8 +197,7 @@ describe DigestMailer do
                  reason: :date_alert_due_date,
                  recipient:,
                  resource: work_package,
-                 project: project1,
-                 journal: work_package_journal)
+                 project: project1)
         end
 
         it 'matches generated text' do
@@ -226,8 +215,7 @@ describe DigestMailer do
                  reason: :date_alert_due_date,
                  recipient:,
                  resource: work_package,
-                 project: project1,
-                 journal: work_package_journal)
+                 project: project1)
         end
 
         it 'matches generated text' do
@@ -245,8 +233,7 @@ describe DigestMailer do
                  reason: :date_alert_due_date,
                  recipient:,
                  resource: work_package,
-                 project: project1,
-                 journal: work_package_journal)
+                 project: project1)
         end
 
         it 'matches generated text' do
@@ -261,8 +248,7 @@ describe DigestMailer do
                  reason: :date_alert_due_date,
                  recipient:,
                  resource: work_package,
-                 project: project1,
-                 journal: work_package_journal)
+                 project: project1)
         end
 
         it 'matches generated text' do
@@ -279,8 +265,7 @@ describe DigestMailer do
                  reason: :date_alert_due_date,
                  recipient:,
                  resource: work_package,
-                 project: project1,
-                 journal: work_package_journal)
+                 project: project1)
         end
 
         it 'matches generated text' do
@@ -297,12 +282,27 @@ describe DigestMailer do
                  reason: :date_alert_due_date,
                  recipient:,
                  resource: work_package,
-                 project: project1,
-                 journal: work_package_journal)
+                 project: project1)
         end
 
         it 'matches generated text' do
           expect(mail_body).to have_text('Finish date is in 1 day')
+        end
+      end
+
+      context 'when notification is mentioned and no journal' do
+        let(:work_package) { create(:work_package, subject: 'Unset date', project: project1, due_date: nil, type: Type.first) }
+        let(:notification) do
+          create(:notification,
+                 reason: :mentioned,
+                 recipient:,
+                 resource: work_package,
+                 project: project1,
+                 journal: nil)
+        end
+
+        it 'does not send the email' do
+          expect(mail.body).to eq("")
         end
       end
     end
