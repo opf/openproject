@@ -266,11 +266,11 @@ export class IanCenterService extends UntilDestroyedMixin {
       });
   }
 
-  openSplitScreen(wpId:string|null):void {
+  openSplitScreen(wpId:string|null, tabIdentifier:string = 'activity'):void {
     void this.state.go(
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
       `${this.state.current.data.baseRoute}.details.tabs`,
-      { workPackageId: wpId, tabIdentifier: 'activity' },
+      { workPackageId: wpId, tabIdentifier },
     );
   }
 
