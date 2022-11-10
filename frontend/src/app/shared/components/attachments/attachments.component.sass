@@ -14,12 +14,13 @@
     justify-content: center
     align-items: center
     width: 100%
+    margin-top: $spot-spacing-0_75
     border: 2px dashed var(--light-gray)
     border-radius: 2px
     padding: 20px
     cursor: pointer
     color: var(--light-gray)
-    background: $spot-color-basic-white
+    background: rgba($spot-color-basic-white, 0.9)
 
     &_float
       display: none
@@ -29,11 +30,40 @@
       height: 100%
       width: 100%
       z-index: 1
+      background: transparent
+      border: 0
+
+      &::after,
+      &::before
+        display: block
+        content: ''
+        position: absolute
+
+      &::before
+        top: -1 * $spot-spacing-0_75
+        height: calc(100% + #{$spot-spacing-1_5})
+        left: 0
+        width: 100%
+
+        left: 0
+        width: 100%
+
+        background: rgba($spot-color-basic-white, 0.9)
+        z-index: -2
+
+      &::after
+        z-index: -1
+        top: 0
+        height: 100%
+        left: $spot-spacing-0_75
+        width: calc(100% - #{$spot-spacing-1_5})
+        border: 2px dashed var(--light-gray)
+        border-radius: 2px
 
     &_dragging
       display: flex
 
-    &_dragging-over
+    &_dragging-over::after
       background: #f4f4f4
 
     &-text
