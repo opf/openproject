@@ -602,6 +602,9 @@ en:
         property_is: 'is in %{difference_in_days}'
         property_was: 'was %{difference_in_days} ago'
         property_is_deleted: 'is deleted'
+        upsale:
+          title: 'Date alerts'
+          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'Unread'
         unread_title: 'Show unread'
