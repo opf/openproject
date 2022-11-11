@@ -115,7 +115,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
     return this.configurationService.activeFeatureFlags.includes('storageFileLinking');
   }
 
-  private get storageFilesLocation():string {
+  public get storageFilesLocation():string {
     return this.storage._links.open.href;
   }
 
@@ -161,10 +161,6 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
 
   public removeFileLink(fileLink:IFileLink):void {
     this.fileLinkResourceService.remove(this.collectionKey, fileLink);
-  }
-
-  public openStorageLocation():void {
-    window.open(this.storageFilesLocation, '_blank');
   }
 
   public openLinkFilesDialog():void {
