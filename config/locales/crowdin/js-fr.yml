@@ -228,6 +228,8 @@ fr:
           quick_overview: "Obtenez un aperçu rapide de la gestion de projets et de la collaboration en équipe avec OpenProject Enterprise Edition."
         upsale:
           become_hero: "Devenez un héros !"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "Quels sont les avantages de l'édition Entreprise autohébergé"
             high_security: "Fonctionnalités de sécurité"
@@ -240,6 +242,7 @@ fr:
             professional_support_text: "Obtenez une assitance fiable et à haut contact de la part d'ingénieurs d'assistance expérimentés qui ont une connaissance approfondie de la mise en œuvre d'OpenProject dans des environnements critiques pour l'entreprise."
           button_start_trial: "Commencer l'essai gratuit"
           button_upgrade: "Mettre à niveau maintenant"
+          button_contact_us: "Contact us for a demo"
           button_book_now: "Réserver maintenant"
           confidence: >
             Nous fournissons la confiance d'un logiciel de gestion de projet de classe entreprise testé et supporté - en Open Source et un avec esprit ouvert.
@@ -554,6 +557,9 @@ fr:
         property_is: 'is in %{difference_in_days}'
         property_was: 'was %{difference_in_days} ago'
         property_is_deleted: 'is deleted'
+        upsale:
+          title: 'Date alerts'
+          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'Non lu'
         unread_title: 'Afficher les messages non lus'

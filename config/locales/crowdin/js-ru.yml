@@ -227,6 +227,8 @@ ru:
           quick_overview: "Узнайте вкратце об управлении проектами и совместной работе в OpenProject Enterprise Edition."
         upsale:
           become_hero: "Стать героем!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "Каковы преимущества корпоративной версии?"
             high_security: "Функции безопасности"
@@ -239,6 +241,7 @@ ru:
             professional_support_text: "Получите качественную и оперативную поддержку наших экспертов по применению OpenProject в условиях, отвечающих требованиям бизнеса."
           button_start_trial: "Воспользоваться бесплатной пробной версией"
           button_upgrade: "Обновить сейчас"
+          button_contact_us: "Contact us for a demo"
           button_book_now: "Забронировать сейчас"
           confidence: >
             Мы предлагаем надежное и проверенное временем программное решение корпоративного уровня для управления проектами, в котором открытый исходный код сочетается с открытостью к новым идеям.
@@ -544,15 +547,18 @@ ru:
         commented: 'прокомментировано'
         processed: 'обработано'
         prioritized: 'приоритизировано'
-        dateAlert: 'Date alert'
+        dateAlert: 'Дата оповещения'
       date_alerts:
-        milestone_date: 'Milestone date'
-        overdue: 'Overdue'
-        overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
-        property_is: 'is in %{difference_in_days}'
-        property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        milestone_date: 'Дата этапа'
+        overdue: 'Просрочено'
+        overdue_since: 'с %{difference_in_days}'
+        property_today: 'сегодня'
+        property_is: 'находится в %{difference_in_days}'
+        property_was: 'был %{difference_in_days} назад'
+        property_is_deleted: 'удалено'
+        upsale:
+          title: 'Date alerts'
+          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'Непрочтено'
         unread_title: 'Показать непрочитанные'
@@ -593,17 +599,17 @@ ru:
         title: "Настройки уведомлений"
         notify_me: "Уведомлять меня"
         reminders:
-          no_notification: No notification
+          no_notification: Нет уведомлений
           timeframes:
             normal:
-              PT0S: same day
-              P1D: 1 day before
-              P3D: 3 days before
-              P7D: a week before
+              PT0S: тот же день
+              P1D: за 1 день до
+              P3D: 3 дня до
+              P7D: за неделю до
             overdue:
-              P1D: everyday
-              P3D: every 3 days
-              P7D: every week
+              P1D: ежедневно
+              P3D: каждые 3 дня
+              P7D: каждую неделю
         reasons:
           mentioned:
             title: 'Упомянутые'
@@ -626,10 +632,10 @@ ru:
           date_alerts:
             title: 'Дата оповещения'
             description: 'Автоматическое уведомление о приближении важной даты для открытых пакетов работ, в которых вы участвуете (назначение, подотчетность или наблюдатель)'
-            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          start_date: Start Date
-          due_date: Finish Date
-          overdue: When Overdue
+            teaser_text: 'С уведомлениями о дате вы будете уведомлены о датах начала или окончания предстоящих дат, чтобы вы никогда не пропустили или не забыли важный срок.'
+          start_date: Дата начала
+          due_date: Дата окончания
+          overdue: Когда просрочено
         project_specific:
           title: 'Конкретные настройки уведомлений проекта'
           description: 'Эти настройки специфического проекта переопределяют настройки по умолчанию'
