@@ -64,9 +64,6 @@ export class WorkPackageFilesTabComponent implements OnInit {
     attachments: {
       label: this.i18n.t('js.label_attachments'),
     },
-    file_links: {
-      label: this.i18n.t('js.label_nextcloud'),
-    },
   };
 
   showAttachmentHeader$:Observable<boolean>;

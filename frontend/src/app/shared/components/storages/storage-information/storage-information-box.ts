@@ -26,15 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  fileIconMappings,
-  IFileIcon,
-} from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
+import { StorageActionButton } from 'core-app/shared/components/storages/storage-information/storage-action-button';
 
-export function getIconForMimeType(mimeType?:string):IFileIcon {
-  if (mimeType && fileIconMappings[mimeType]) {
-    return fileIconMappings[mimeType];
-  }
-
-  return fileIconMappings.default;
+export class StorageInformationBox {
+  constructor(
+    public readonly iconClass:string,
+    public readonly header:string,
+    public readonly content:string,
+    public readonly buttons:StorageActionButton[],
+  ) { }
 }

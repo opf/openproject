@@ -40,17 +40,17 @@ import {
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
+import { IFileIcon } from 'core-app/shared/components/storages/file-link-icons/icon-mappings';
 import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
-import { fileLinkViewAllowed } from 'core-app/shared/components/file-links/file-links-constants.const';
+import { fileLinkViewAllowed } from 'core-app/shared/components/storages/storages-constants.const';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 import {
   getIconForMimeType,
-} from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
+} from 'core-app/shared/components/storages/file-link-icons/file-link-list-item-icon.factory';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 import { ConfirmDialogOptions } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
-import { isDirectory } from 'core-app/shared/components/file-links/file-link-icons/file-icons.helper';
+import { isDirectory } from 'core-app/shared/components/storages/file-link-icons/file-icons.helper';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

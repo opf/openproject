@@ -30,9 +30,9 @@ import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.mod
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
   getIconForMimeType,
-} from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
-import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
-import { isDirectory } from 'core-app/shared/components/file-links/file-link-icons/file-icons.helper';
+} from 'core-app/shared/components/storages/file-link-icons/file-link-list-item-icon.factory';
+import { IFileIcon } from 'core-app/shared/components/storages/file-link-icons/icon-mappings';
+import { isDirectory } from 'core-app/shared/components/storages/file-link-icons/file-icons.helper';
 
 export class StorageFileListItem {
   get name():string {
