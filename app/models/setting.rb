@@ -150,8 +150,22 @@ class Setting < ApplicationRecord
   validates :value,
             numericality: {
               only_integer: true,
-              if: Proc.new { |setting| setting.format == :integer }
+              if: ->(setting) { setting.non_null_integer_format? }
             }
+  validates :value,
+            numericality: {
+              only_integer: true,
+              allow_nil: true,
+              if: ->(setting) { setting.nullable_integer_format? }
+            }
+
+  def nullable_integer_format?
+    format == :integer && definition.default.nil?
+  end
+
+  def non_null_integer_format?
+    format == :integer && !definition.default.nil?
+  end
 
   def value
     self.class.deserialize(name, read_attribute(:value))
