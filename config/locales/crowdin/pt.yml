@@ -2025,6 +2025,8 @@ pt:
         mentioned: 'Mencionado'
         subscribed: 'todos'
         prefix: 'Recebido devido à configuração de notificação: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'Ver todas'
       updated_at: 'Atualizado em %{timestamp} por %{user}'
   mail_body_account_activation_request: "Um novo usuário (%{value}) registrou-se. A conta está aguardando sua aprovação:"

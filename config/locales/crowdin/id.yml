@@ -1581,7 +1581,7 @@ id:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "File"
   label_filter_add: "Tambah Filter"
-  label_filter_plural: "Filter"
+  label_filter_plural: "Penyaring"
   label_filters_toggle: "Tampilkan/Sembunyikan penyaringan"
   label_float: "Float"
   label_folder: "Folder"
@@ -2005,6 +2005,8 @@ id:
         mentioned: 'Mentioned'
         subscribed: 'semua'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "User (%{value}) telah terdaftar. Akun Anda menunggu persetujuan Anda:"

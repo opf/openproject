@@ -2059,6 +2059,8 @@ pl:
         mentioned: 'Wzmianka'
         subscribed: 'wszystkie'
         prefix: 'Otrzymano z powodu ustawienia powiadomienia: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'Zobacz wszystkie'
       updated_at: 'Zaktualizowano %{timestamp}, autor %{user} '
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"

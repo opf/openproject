@@ -2007,6 +2007,8 @@ ko:
         mentioned: '멘션됨'
         subscribed: '모두'
         prefix: '수신 이유는 다음 알림 설정입니다: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: '모두 보기'
       updated_at: '%{timestamp}, %{user} 님이 업데이트함'
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
