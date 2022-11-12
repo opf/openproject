@@ -2057,6 +2057,8 @@ uk:
         mentioned: 'Згадано'
         subscribed: 'всі'
         prefix: 'Отримано через налаштування сповіщень: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'Показати всі'
       updated_at: 'Оновлено о %{timestamp} користувачем %{user}'
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"

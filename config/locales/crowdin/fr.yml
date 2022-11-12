@@ -56,7 +56,7 @@ fr:
         alternative-color: "Couleur d'accentuation, habituellement utilisée pour le bouton le plus important à l'écran."
         content-link-color: "Couleur de la police de la plupart des liens."
         primary-color: "Couleur principale."
-        primary-color-dark: "Habituellement, un ton plus sombre de la couleur principale utilisée pour les effets de mise en évidence."
+        primary-color-dark: "Généralement une version plus sombre de la couleur principale utilisée pour les effets de survol."
         header-item-bg-hover-color: "Couleur d’arrière-plan des éléments de l’en-tête survolées par la souris."
         header-item-font-color: "Couleur de la police des éléments de l’en-tête cliquables."
         header-item-font-hover-color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
@@ -580,7 +580,7 @@ fr:
         confirmation: "ne correspond pas à %{attribute}."
         could_not_be_copied: "%{dependency} n'a pas pu être copié (entièrement)."
         does_not_exist: "n'existe pas."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "n'est disponible que dans la version Enterprise d'OpenProject."
         error_unauthorized: "est interdit d'accès."
         error_readonly: "a tenté d'être écrit mais n'est pas accessible en écriture."
         email: "n'est pas une adresse e-mail valide."
@@ -759,8 +759,8 @@ fr:
         watcher:
           attributes:
             user_id:
-              not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              not_allowed_to_view: "n'est pas autorisé à consulter cette ressource."
+              locked: "est verrouillé."
         wiki_page:
           attributes:
             slug:
@@ -2026,6 +2026,8 @@ fr:
         mentioned: 'Mentionné'
         subscribed: 'tous'
         prefix: 'Reçu en raison du paramètre de notification : %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'Voir tout'
       updated_at: 'Mis à jour le %{timestamp} par %{user}'
   mail_body_account_activation_request: "Un nouvel utilisateur (%{value}) s'est enregistré. Le compte attend votre approbation:"

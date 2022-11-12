@@ -2023,6 +2023,8 @@ hu:
         mentioned: 'Megemlített'
         subscribed: 'mind'
         prefix: "Az értesítés beállítása miatt érkezett: %{reason}\n"
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'Mutasd mindet'
       updated_at: '%{timestamp} időpontban %{user} frissítette'
   mail_body_account_activation_request: "Új felhasználó (%{value}) regisztrálva van. A hozzáférés az Ön jóváhagyására vár:"

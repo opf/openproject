@@ -2044,6 +2044,8 @@ hr:
         mentioned: 'Mentioned'
         subscribed: 'sve'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Novi korisnik je (%{value}) je registriran. Čeka se na vaše odobrenje:"

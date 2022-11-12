@@ -2004,6 +2004,8 @@ ja:
         mentioned: 'Mentioned'
         subscribed: '全て'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "新規ユーザー(%{value})が登録されました。このアカウントは承認待ちです："

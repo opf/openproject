@@ -227,8 +227,8 @@ ru:
           quick_overview: "Узнайте вкратце об управлении проектами и совместной работе в OpenProject Enterprise Edition."
         upsale:
           become_hero: "Стать героем!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
-          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          enterprise_info_html: "%{feature_title} является корпоративной <span class='spot-icon spot-icon_enterprise-badge'></span> функцией."
+          upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
           benefits:
             description: "Каковы преимущества корпоративной версии?"
             high_security: "Функции безопасности"
@@ -241,7 +241,7 @@ ru:
             professional_support_text: "Получите качественную и оперативную поддержку наших экспертов по применению OpenProject в условиях, отвечающих требованиям бизнеса."
           button_start_trial: "Воспользоваться бесплатной пробной версией"
           button_upgrade: "Обновить сейчас"
-          button_contact_us: "Contact us for a demo"
+          button_contact_us: "Свяжитесь с нами для демо"
           button_book_now: "Забронировать сейчас"
           confidence: >
             Мы предлагаем надежное и проверенное временем программное решение корпоративного уровня для управления проектами, в котором открытый исходный код сочетается с открытостью к новым идеям.
@@ -557,8 +557,8 @@ ru:
         property_was: 'был %{difference_in_days} назад'
         property_is_deleted: 'удалено'
         upsale:
-          title: 'Date alerts'
-          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          title: 'Дата оповещения'
+          description: 'С датой оповещения вы будете получать уведомления о предстоящих датах начала или окончания, чтобы никогда не пропустить или не забыть важный крайний срок.'
       facets:
         unread: 'Непрочтено'
         unread_title: 'Показать непрочитанные'

@@ -2008,6 +2008,8 @@ zh-TW:
         mentioned: '提醒'
         subscribed: '所有'
         prefix: '因為通知設定而收到：%{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: '全部顯示'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "一個新的使用者 (%{value}) 已註冊。該帳號正等您核准："
