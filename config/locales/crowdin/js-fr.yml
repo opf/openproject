@@ -228,7 +228,7 @@ fr:
           quick_overview: "Obtenez un aperçu rapide de la gestion de projets et de la collaboration en équipe avec OpenProject Enterprise Edition."
         upsale:
           become_hero: "Devenez un héros !"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+          enterprise_info_html: "%{feature_title} est une fonctionnalité Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
           upgrade_info: "Veuillez passer à une offre payante pour l'activer et commencer à l'utiliser dans votre équipe."
           benefits:
             description: "Quels sont les avantages de l'édition Entreprise autohébergé"

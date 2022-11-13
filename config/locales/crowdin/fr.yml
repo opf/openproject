@@ -80,7 +80,7 @@ fr:
       buttons:
         upgrade: "Passer au plan supérieur"
         contact: "Contactez-nous pour une démo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+      enterprise_info_html: "est une fonctionnalité de l'Entreprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
       upgrade_info: "Veuillez passer à un plan payant pour l'activer et commencer à l'utiliser dans votre équipe."
     journal_aggregation:
       explanation:
@@ -2026,8 +2026,8 @@ fr:
         mentioned: 'Mentionné'
         subscribed: 'tous'
         prefix: 'Reçu en raison du paramètre de notification : %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
+        date_alert_start_date: 'Alarmes'
+        date_alert_due_date: 'Alarmes'
       see_all: 'Voir tout'
       updated_at: 'Mis à jour le %{timestamp} par %{user}'
   mail_body_account_activation_request: "Un nouvel utilisateur (%{value}) s'est enregistré. Le compte attend votre approbation:"
@@ -2945,7 +2945,7 @@ fr:
   api_v3:
     attributes:
       lock_version: "Version Lock"
-      property: 'Property'
+      property: 'Propriété'
     errors:
       code_400: "Mauvaise requête : %{message}"
       code_401: "Vous devez être authentifié pour accéder à cette ressource."
