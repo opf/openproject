@@ -26,26 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Notifications::Filters::ReasonFilter < Queries::Notifications::Filters::NotificationFilter
-  REASONS = Notification
-              .reasons
-              .except(:date_alert_start_date, :date_alert_due_date)
-              .merge(dateAlert: [Notification::REASONS[:date_alert_start_date],
-                                 Notification::REASONS[:date_alert_due_date]])
-              .freeze
+require 'spec_helper'
 
-  def allowed_values
-    reasons = REASONS.keys
-    reasons = reasons.without("dateAlert") unless EnterpriseToken.allows_to?(:date_alerts)
-    reasons.map { |reason| [reason, reason] }
-  end
+describe Queries::Notifications::Filters::ReasonFilter do
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :reason }
+    let(:type) { :list }
+    let(:model) { Notification }
+    let(:attribute) { :reason }
+    let(:values) { ['mentioned'] }
 
-  def type
-    :list
-  end
+    it_behaves_like 'non ar filter'
 
-  def where
-    id_values = values.flat_map { |value| REASONS[value] }
-    operator_strategy.sql_for_field(id_values, self.class.model.table_name, :reason)
+    describe '#allowed_values' do
+      context 'with enterprise', with_ee: [:date_alerts] do
+        it 'contains all the REASONS' do
+          expect(instance.allowed_values).to eq(described_class::REASONS.keys.map { |r| [r, r] })
+        end
+      end
+
+      context 'without enterprise', with_ee: false do
+        it 'does not contains date alerts' do
+          expect(instance.allowed_values)
+            .to eq(described_class::REASONS.keys.without("dateAlert").map { |r| [r, r] })
+        end
+      end
+    end
   end
 end
