@@ -24,7 +24,7 @@ jobs:
           ssh-private-key: ${{ secrets.OPENCODE_SYNC_SSH_PRIVATE_KEY }}
       - name: Mirror
         run: |
-          export GIT_SSH_COMMAND="ssh -Tv -o StrictHostKeyChecking=no"
+          export GIT_SSH_COMMAND="ssh -v -o StrictHostKeyChecking=no KexAlgorithms=curve25519-sha256"
 
           echo "Adding opencode remote"
           git remote add opencode git@gitlab.opencode.de:bmi/souveraener_arbeitsplatz/component-code/management/openproject/openproject-core.git
