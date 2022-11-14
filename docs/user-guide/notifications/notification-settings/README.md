@@ -35,7 +35,7 @@ Date alerts allow you to receive a notification when a start date or a finish da
 
 For each date, you can choose to be alerted the same day, a day before, 3 days before or a week before.
 
-You can also choose to receive a recurring notification (everyday, every 3 days or every week) for work package that are overdue.
+You can also choose to receive a recurring notification (every day, every 3 days or every week) for work package that are overdue.
 
 ## Non-participating
 
