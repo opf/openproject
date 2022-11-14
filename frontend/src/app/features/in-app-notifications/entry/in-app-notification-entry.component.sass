@@ -51,7 +51,7 @@ $subject-font-size: 14px
   &--top-line
     grid-area: header
     display: grid
-    grid-template-columns: max-content max-content minmax(0, max-content) max-content auto minmax(20px, max-content)
+    grid-template-columns: max-content max-content minmax(0, max-content) minmax(0, max-content) auto minmax(20px, max-content)
     grid-template-areas: "status wpIdLink project reason count buttons"
     grid-column-gap: 5px
     font-size: 14px
@@ -92,11 +92,10 @@ $subject-font-size: 14px
     justify-self: flex-end
     margin-right: 5px
 
-  &--reason
+  &--reason-wrapper
     grid-area: reason
     @include text-shortener
     color: var(--gray-dark)
-    max-width: 100%
 
   &--status
     grid-area: status
