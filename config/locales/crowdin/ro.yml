@@ -98,7 +98,7 @@ ro:
     add_new: 'Adăugați text de ajutor'
     edit: "Editați textul de ajutor pentru %{attribute_caption}"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: 'Oferă informații suplimentare pentru atribute (inclusiv câmpuri personalizate) ale pachetelor de lucru și ale proiectelor. Textele de ajutor sunt afișate atunci când utilizatorii fac clic pe simbolul semnului de întrebare de lângă câmpurile de introducere din proiecte și pachete de lucru.'
   auth_sources:
     index:
       no_results_content_title: În acest moment nu există moduri de autentificare.
@@ -285,7 +285,7 @@ ro:
     upsale:
       title: Utilizatori de tip Placeholder
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        Utilizatorii de tip Placeholder sunt o modalitate de a atribui pachete de lucru unor utilizatori care nu fac parte din proiectul dumneavoastră. Aceștia pot fi utili într-o serie de scenarii; de exemplu, dacă aveți nevoie să urmăriți sarcinile pentru o resursă care nu este încă numită sau disponibilă sau dacă nu doriți să acordați acces la OpenProject acelei persoane, dar doriți totuși să urmăriți sarcinile care îi sunt atribuite.
   prioritiies:
     edit:
       priority_color_text: |
@@ -316,7 +316,7 @@ ro:
       settings: "Setări"
       form_configuration: "Configurarea formularului"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Ediția Enterprise vă permite să personalizați configurația formularului cu aceste caracteristici suplimentare: <br> <ul class="%{list_styling_class}"> <li><b>Adăugați noi grupuri de atribut</b></li> <li><b>Redenumiți grupurile de atribute</b></li> <li><b>Adăugați un tabel cu pachetele de lucru aferente</b></li> </ul>
       projects: "Proiecte"
       enabled_projects: "Proiecte activate"
       edit_query: "Editează tabelul"
@@ -625,7 +625,7 @@ ro:
         unknown_property_nested: "are calea necunoscută '%{path}'."
         unremovable: "nu poate fi îndepărtată."
         url_not_secure_context: >
-          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+          nu oferă un "Context securizat". Folosiţi fie HTTPS sau o adresă de tip buclă, cum ar fi localhost.
         wrong_length: "nu are lungimea corectă (ar trebui să fie de %{count} characters)."
       models:
         attachment:
@@ -657,7 +657,7 @@ ro:
               fragment_present: 'nu poate conține un fragment.'
               invalid_uri: 'trebuie să fie un URI valid.'
               relative_uri: 'trebuie să fie un URI absolut.'
-              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
+              secured_uri: 'nu oferă un "Context securizat". Folosiţi fie HTTPS sau o adresă de tip buclă, cum ar fi localhost.'
               forbidden_uri: 'este interzisă de către server.'
             scopes:
               not_match_configured: "nu se potrivește cu domeniile de aplicare disponibile."
@@ -1408,7 +1408,7 @@ ro:
     admin:
       mail_notification: "Notificări prin e-mail"
       mails_and_notifications: "Email-uri și notificări"
-      aggregation: 'Aggregation'
+      aggregation: 'Agregare'
       api_and_webhooks: "API și webhook-uri"
     quick_add:
       label: "Deschideți meniul de adăugare rapidă"
