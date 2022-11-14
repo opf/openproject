@@ -88,16 +88,13 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       });
   }
 
-  public openConfigurationModal(onUpdated:() => void) {
-    this.querySpace.query
-      .valuesPromise()
-      .then(() => {
-        const modal = this.opModalService
-          .show(WpTableConfigurationModalComponent, this.injector);
+  public async openConfigurationModal(onUpdated:() => void):Promise<void> {
+    await this.querySpace.query.valuesPromise();
 
-        // Detach this component when the modal closes and pass along the query data
-        modal.onDataUpdated.subscribe(onUpdated);
-      });
+    this.opModalService
+      .show(WpTableConfigurationModalComponent, this.injector)
+      // Detach this component when the modal closes and pass along the query data
+      .subscribe((modal) => modal.onDataUpdated.subscribe(onUpdated));
   }
 
   protected initializeStates(query:QueryResource) {

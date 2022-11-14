@@ -25,6 +25,20 @@
       data-qa-selector="add-existing-pane"
     >
     </op-add-existing-pane>
+
+    <button
+      type="button"
+      class="button op-team-planner--view-select-dropdown"
+      [title]="currentViewTitle"
+      opTeamPlannerViewSelectDropdown
+      [viewOptions]="viewOptions"
+      (viewSelected)="switchView($event)"
+      data-qa-selector="op-team-planner--view-select-dropdown">
+      <span class="button--text ellipsis"
+            [textContent]="currentViewTitle"
+            aria-hidden="true"></span>
+      <op-icon icon-classes="button--icon icon-small icon-pulldown hidden-for-mobile"></op-icon>
+    </button>
   </ng-container>
 
   <div
@@ -165,3 +179,4 @@
       </ng-container>
     </div>
   </div>
+</div>

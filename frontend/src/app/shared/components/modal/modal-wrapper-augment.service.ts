@@ -39,10 +39,11 @@ const iframeSelector = '.iframe-target-wrapper';
  */
 @Injectable({ providedIn: 'root' })
 export class OpModalWrapperAugmentService {
-  constructor(@Inject(DOCUMENT) protected documentElement:Document,
+  constructor(
+    @Inject(DOCUMENT) protected documentElement:Document,
     protected injector:Injector,
-    protected opModalService:OpModalService) {
-  }
+    protected opModalService:OpModalService,
+  ) {}
 
   /**
    * Create initial listeners for Rails-rendered modals
@@ -102,7 +103,13 @@ export class OpModalWrapperAugmentService {
     const iframe = jQuery('<iframe frameborder="0" height="350" allowfullscreen>></iframe>');
     iframe.attr('src', url);
 
-    body.find(iframeSelector).append(iframe);
+    const iframeParent = body.find(iframeSelector);
+    if (iframeParent.find('iframe').length > 0) {
+      // Make sure we don't initialize the iframe multiple times
+      return body.html();
+    }
+
+    iframeParent.append(iframe);
 
     return body.html();
   }

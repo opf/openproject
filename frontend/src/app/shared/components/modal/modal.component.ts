@@ -7,18 +7,10 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 
 @Directive()
 export abstract class OpModalComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  /* Close on escape? */
-  public closeOnEscape = true;
-
-  public closeOnEscapeFunction = (evt?:Event):void => this.closeMe(evt);
-
-  /* Close on outside click */
-  public closeOnOutsideClick = true;
-
   /* Reference to service */
   protected service:OpModalService = this.locals.service;
 
-  public $element:JQuery;
+  public $element:HTMLElement;
 
   /** Closing event called from the service when closing this modal */
   public closingEvent = new EventEmitter<this>();
@@ -28,14 +20,16 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
   /* Data to be return from this modal instance */
   public data:unknown;
 
-  protected constructor(public locals:OpModalLocalsMap,
+  protected constructor(
+    public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef) {
+    readonly elementRef:ElementRef,
+  ) {
     super();
   }
 
   ngOnInit():void {
-    this.$element = jQuery(this.elementRef.nativeElement);
+    this.$element = this.elementRef.nativeElement as HTMLElement;
   }
 
   ngOnDestroy():void {
@@ -67,7 +61,7 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
     this.cdRef.detectChanges();
   }
 
-  protected get afterFocusOn():JQuery {
+  protected get afterFocusOn():HTMLElement {
     return this.$element;
   }
 }

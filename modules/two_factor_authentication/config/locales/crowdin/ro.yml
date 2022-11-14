@@ -72,8 +72,8 @@ ro:
       text_2fa_enabled: 'La fiecare autentificare, acest utilizator va fi rugat să introducă un token OTP de pe dispozitivul său 2FA implicit.'
       text_2fa_disabled: "Utilizatorul nu a configurat un dispozitiv 2FA prin intermediul paginii \"Contul meu\""
     upsale:
-      title: 'Two-factor authentication'
-      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
+      title: 'Autentificare cu doi factori'
+      description: 'Consolidarea securității instanței OpenProject prin oferirea (sau impunerea) autentificării cu doi factori pentru toți membrii proiectului.'
     backup_codes:
       none_found: Nu există coduri de rezervă pentru acest cont.
       singular: Cod de rezervă

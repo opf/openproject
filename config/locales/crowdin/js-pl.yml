@@ -228,6 +228,8 @@ pl:
           quick_overview: "Zapoznaj się z krótkim omówieniem zarządzania projektami i pracy zespołowej w OpenProject w wersji Enterprise."
         upsale:
           become_hero: "Zostań bohaterem!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "Jakie są korzyści z rozwiązania lokalnego wersji Enterprise?"
             high_security: "Funkcje zabezpieczeń"
@@ -240,6 +242,7 @@ pl:
             professional_support_text: "Uzyskaj niezawodne, wysokiej klasy wsparcie od starszych inżynierów wsparcia technicznego posiadających wiedzę fachową na temat uruchamiania oprogramowania OpenProject w środowiskach o znaczeniu krytycznym dla biznesu."
           button_start_trial: "Rozpocznij bezpłatny okres próbny"
           button_upgrade: "Aktualizuj teraz"
+          button_contact_us: "Contact us for a demo"
           button_book_now: "Zarezerwuj teraz"
           confidence: >
             Dostarczamy sprawdzone i wspierane oprogramowanie klasy korporacyjnej do zarządzania projektami — z otwartym kodem źródłowym i otwartym umysłem.
@@ -545,6 +548,18 @@ pl:
         commented: 'skomentowano'
         processed: 'przetworzono'
         prioritized: 'priorytetowo'
+        dateAlert: 'Date alert'
+      date_alerts:
+        milestone_date: 'Milestone date'
+        overdue: 'Overdue'
+        overdue_since: 'since %{difference_in_days}'
+        property_today: 'is today'
+        property_is: 'is in %{difference_in_days}'
+        property_was: 'was %{difference_in_days} ago'
+        property_is_deleted: 'is deleted'
+        upsale:
+          title: 'Date alerts'
+          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'Nieprzeczytane'
         unread_title: 'Pokaż nieprzeczytane'
@@ -618,6 +633,7 @@ pl:
           date_alerts:
             title: 'Data ostrzeżeń'
             description: 'Automatyczne powiadomienia, gdy ważne daty zbliżają się do otwartych pakietów roboczych, do których cię zaangażowano (jako osobę: przypisaną, odpowiedzialną bądź obserwującą)'
+            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           start_date: Start Date
           due_date: Finish Date
           overdue: When Overdue

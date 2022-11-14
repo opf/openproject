@@ -576,7 +576,7 @@ ca:
         confirmation: "no coincideix amb el %{attribute}."
         could_not_be_copied: "%{dependency} no s'ha pogut copiar (completament)."
         does_not_exist: "no existeix."
-        error_enterprise_only: "només està disponible en l'edició Enterprise d'OpenProject."
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "no és possible accedir."
         error_readonly: "es va intentar d'escriure-hi però no és modificable."
         email: "no és una adreça de correu electrònic vàlida."
@@ -2022,6 +2022,8 @@ ca:
         mentioned: 'Mencionat'
         subscribed: 'tot'
         prefix: 'Rebut a causa de la configuració de notificacions: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'Veure tot'
       updated_at: 'Actualitzat a les %{timestamp} per %{user}'
   mail_body_account_activation_request: "S'ha registrat un usuari nou (%{value}). El teu compte està pendent d'aprovació:"

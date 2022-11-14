@@ -228,6 +228,8 @@ ca:
           quick_overview: "Obté una visió general ràpida de la gestió de projectes i col·laboració d'equips amb l'edició Enterprise d'OpenProject."
         upsale:
           become_hero: "Sigues un heroi!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "Quins són els beneficis de l'edició Enterprise on-premises"
             high_security: "Funcions de seguretat"
@@ -240,6 +242,7 @@ ca:
             professional_support_text: "Obté un suport de confiança i d'alt nivell dels nostres enginyers de suport sèniors amb experiència en manegar OpenProject en ambients empresarials crítics."
           button_start_trial: "Inicia la prova gratuïta"
           button_upgrade: "Actualitza ara"
+          button_contact_us: "Contact us for a demo"
           button_book_now: "Reserva ara"
           confidence: >
             Tenim la certesa i confiança d'una eina de gestió de projectes testejat i suportat en ambients empresarials - amb Codi Obert i amb una mentalitat oberta.
@@ -545,6 +548,18 @@ ca:
         commented: 'comentat'
         processed: 'processat'
         prioritized: 'prioritzat'
+        dateAlert: 'Date alert'
+      date_alerts:
+        milestone_date: 'Milestone date'
+        overdue: 'Overdue'
+        overdue_since: 'since %{difference_in_days}'
+        property_today: 'is today'
+        property_is: 'is in %{difference_in_days}'
+        property_was: 'was %{difference_in_days} ago'
+        property_is_deleted: 'is deleted'
+        upsale:
+          title: 'Date alerts'
+          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'Sense llegir'
         unread_title: 'Mostrar no llegits'
@@ -616,6 +631,7 @@ ca:
           date_alerts:
             title: 'Alertes per dates'
             description: 'Notificacions automàtiques quan dates importants s''aproximen per a paquets de treball oberts en els quals estàs involucrat (assignat, responsable o observador)'
+            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           start_date: Start Date
           due_date: Finish Date
           overdue: When Overdue

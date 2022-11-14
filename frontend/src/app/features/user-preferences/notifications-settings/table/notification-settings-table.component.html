@@ -79,7 +79,7 @@
         </ng-container>
       </tr>
 
-      <tr>
+      <tr *ngIf="!eeShowBanners">
         <th class="op-table--cell op-table--cell_soft-heading">
           <h5>{{ text.dateAlerts.title }}</h5>
           <p>{{ text.dateAlerts.description }}</p>
@@ -89,7 +89,7 @@
         </ng-container>
       </tr>
 
-      <tr>
+      <tr *ngIf="!eeShowBanners">
         <th class="op-table--cell op-table--cell_soft-heading">
           {{ text.startDate }}
         </th>
@@ -98,7 +98,8 @@
             <select
               formControlName="startDate"
               class="op-reminder-settings-table-date-alerts--time form--select"
-              id="op-reminder-settings-start-date-alerts-global"
+              data-qa-project-notification-type="op-reminder-settings-start-date-alerts"
+              [attr.data-qa-project]="item.controls.project.value.title"
               required="true"
             >
               <option
@@ -112,7 +113,7 @@
         </ng-container>
       </tr>
 
-      <tr>
+      <tr *ngIf="!eeShowBanners">
         <th class="op-table--cell op-table--cell_soft-heading">
           {{ text.dueDate }}
         </th>
@@ -121,7 +122,8 @@
             <select
               formControlName="dueDate"
               class="op-reminder-settings-table-date-alerts--time form--select"
-              id="op-reminder-settings-due-date-alerts-global"
+              data-qa-project-notification-type="op-reminder-settings-due-date-alerts"
+              [attr.data-qa-project]="item.controls.project.value.title"
               required="true"
             >
               <option
@@ -135,7 +137,7 @@
         </ng-container>
       </tr>
 
-      <tr>
+      <tr *ngIf="!eeShowBanners">
         <th class="op-table--cell op-table--cell_soft-heading">
           {{ text.overdue }}
         </th>
@@ -144,7 +146,8 @@
             <select
               formControlName="overdue"
               class="op-reminder-settings-table-date-alerts--time form--select"
-              id="op-reminder-settings-overdue-date-alerts-global"
+              data-qa-project-notification-type="op-reminder-settings-overdue-alerts"
+              [attr.data-qa-project]="item.controls.project.value.title"
               required="true"
             >
               <option

@@ -562,7 +562,7 @@ lol:
         confirmation: "crwdns495397:0%{attribute}crwdne495397:0"
         could_not_be_copied: "crwdns495399:0%{dependency}crwdne495399:0"
         does_not_exist: "crwdns495401:0crwdne495401:0"
-        error_enterprise_only: "crwdns495403:0crwdne495403:0"
+        error_enterprise_only: "crwdns836977:0%{action}crwdne836977:0"
         error_unauthorized: "crwdns495405:0crwdne495405:0"
         error_readonly: "crwdns495407:0crwdne495407:0"
         email: "crwdns495409:0crwdne495409:0"
@@ -2003,6 +2003,8 @@ lol:
         mentioned: 'crwdns498089:0crwdne498089:0'
         subscribed: 'crwdns498091:0crwdne498091:0'
         prefix: 'crwdns498095:0%{reason}crwdne498095:0'
+        date_alert_start_date: 'crwdns838393:0crwdne838393:0'
+        date_alert_due_date: 'crwdns838395:0crwdne838395:0'
       see_all: 'crwdns498097:0crwdne498097:0'
       updated_at: 'crwdns498099:0%{timestamp}crwdnd498099:0%{user}crwdne498099:0'
   mail_body_account_activation_request: "crwdns498103:0%{value}crwdne498103:0"
