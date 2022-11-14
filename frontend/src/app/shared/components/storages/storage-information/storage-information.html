@@ -1,4 +1,4 @@
-<span class="spot-icon spot-icon_{{viewModel.iconClass}} op-files-tab--storage-info-box-icon"></span>
+<span class="spot-icon spot-icon_{{content.iconClass}} op-files-tab--storage-info-box-icon"></span>
 
 <div
   class="text-box"
@@ -6,31 +6,24 @@
   <div
     class="text-box-header"
   >
-    <span [textContent]="viewModel.header"></span>
+    <span [textContent]="content.header"></span>
   </div>
   <div
     class="text-box-content"
   >
-    <span [textContent]="viewModel.content"></span>
+    <span [textContent]="content.content"></span>
   </div>
 </div>
 
 <div
   class="button-box"
 >
-  <button *ngFor="let button of viewModel.buttons"
-    class="button op-files-tab--storage-info-box-button"
-    (click)="button.action()"
+  <button *ngFor="let button of content.buttons"
+          type="button"
+          class="button op-files-tab--storage-info-box-button"
+          (click)="button.action()"
   >
-    <op-icon
-      icon-classes="button--icon spot-icon spot-icon_external-link"
-      class="op-icon--wrapper">
-      <i
-        class="button--icon spot-icon spot-icon_external-link"
-      ></i>
-    </op-icon>
-    <span
-      class="button--text"
-    >{{button.label}}</span>
+    <span class="button--text">{{button.label}}</span>
+    <span class="spot-icon spot-icon_external-link"></span>
   </button>
 </div>

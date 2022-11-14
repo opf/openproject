@@ -39,5 +39,5 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StorageInformationComponent {
-  @Input() viewModel:StorageInformationBox;
+  @Input() content:StorageInformationBox;
 }

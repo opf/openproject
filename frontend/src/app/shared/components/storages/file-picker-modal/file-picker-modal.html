@@ -1,12 +1,12 @@
 <div
-  class="spot-modal spot-modal_wide"
+  class="spot-modal spot-modal_wide op-file-picker"
   data-qa-selector="op-files-picker-modal"
 >
   <div class="spot-modal--header">
     <span class="spot-modal--header-title">{{text.header}}</span>
     <button
       type="button"
-      class="button button_no-margin"
+      class="button button_no-margin spot-modal--header-button"
       (click)="openStorageLocation()"
     >
       <span>{{text.buttons.openStorage()}}</span>
@@ -21,11 +21,11 @@
 
     <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
       <ul
-        class="spot-list spot-list_compact op-file-list"
+        class="spot-list spot-list_compact op-file-list op-file-picker--scrollable-content"
         data-qa-selector="op-files-picker-modal--file-list"
       >
         <li
-          *ngFor="let file of listItems$ | async | sortFiles; let i = index;"
+          *ngFor="let file of listItems$ | async; let i = index;"
           class="spot-list--item op-file-list--item"
           data-qa-selector="op-file-list--item"
           op-storage-file-list-item
@@ -35,7 +35,7 @@
     </ng-container>
 
     <ng-template #loadingTemplate>
-      <op-loading-file-list class="spot-list"></op-loading-file-list>
+      <op-loading-file-list class="spot-body-big"></op-loading-file-list>
     </ng-template>
   </div>
 
@@ -54,7 +54,7 @@
     <div class="spot-action-bar--right">
       <button
         type="button"
-        class="button spot-action-bar--action"
+        class="button spot-modal--cancel-button spot-action-bar--action"
         [textContent]="text.buttons.cancel"
         (click)="closeMe()"
       ></button>

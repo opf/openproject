@@ -53,6 +53,7 @@ import {
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { isDirectory } from 'core-app/shared/components/storages/file-link-icons/file-icons.helper';
+import { SortFilesPipe } from 'core-app/shared/components/storages/file-picker-modal/sort-files.pipe';
 import getIconForStorageType from 'core-app/shared/components/storages/storage-icons/get-icon-for-storage-type';
 
 @Component({
@@ -99,6 +100,7 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     readonly cdRef:ChangeDetectorRef,
     private readonly i18n:I18nService,
     private readonly timezoneService:TimezoneService,
+    private readonly sortFilesPipe:SortFilesPipe,
     private readonly fileLinksResourceService:FileLinksResourceService,
     private readonly storageFilesResourceService:StorageFilesResourceService,
   ) {
@@ -115,7 +117,11 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     }]);
 
     this.listItems$ = this.storageFiles$
-      .pipe(map((files) => files.map((file, index) => this.storageFileToListItem(file, index))));
+      .pipe(
+        map((files) =>
+          this.sortFilesPipe.transform(files)
+            .map((file, index) => this.storageFileToListItem(file, index))),
+      );
 
     this.storageFilesResourceService.files(this.makeFilesCollectionLink(null))
       .pipe(take(1))
