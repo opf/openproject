@@ -8,16 +8,22 @@ supported_distribution() {
 	case "$(wiz_fact "osfamily")" in
 		"debian")
 			case $(wiz_fact "osversion") in
+				"22.04")
+					return 0
+					;;
 				"20.04")
 					return 0
 					;;
 				"18.04")
 					return 0
 					;;
-				"10")
+				"12")
 					return 0
 					;;
 				"11")
+					return 0
+					;;
+				"10")
 					return 0
 					;;
 			esac

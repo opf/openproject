@@ -7,8 +7,9 @@ keywords: team planner,planning calendar, resource management
 ---
 
 # Team planner
-
 The team planner is a module that can assist getting a better overview of which team member is working on what work package at what time. It is also a useful tool to schedule those team members for different tasks on various times.
+
+> **Note**: The team planner is a premium feature and only included in the [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
 
 A few notes: 
 
