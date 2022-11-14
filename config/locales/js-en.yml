@@ -338,8 +338,6 @@ en:
                   <li>Activate notification date alerts for upcoming dates and overdue tasks.</li>
                   <li>We release two-factor authentication (2FA) for the Community edition.</li>
                   <li>The work week display option is now also added to the team planner.</li>
-                  <li>We include the bulk edit option for the work-package field "subject".</li>
-                  <li>We extend the possiblity to self-notify via @mention.</li>
                   <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li>
                 </ul>
             bim:
@@ -350,8 +348,6 @@ en:
                   <li>Activate notification date alerts for upcoming dates and overdue tasks.</li>
                   <li>We release two-factor authentication (2FA) for the Community edition.</li>
                   <li>The work week display option is now also added to the team planner.</li>
-                  <li>We include the bulk edit option for the work-package field "subject".</li>
-                  <li>We extend the possiblity to self-notify via @mention.</li>
                   <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li>
                 </ul>
 
