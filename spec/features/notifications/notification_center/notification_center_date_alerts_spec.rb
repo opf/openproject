@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'features/page_objects/notification'
 
 # rubocop:disable RSpec/ScatteredLet
 describe "Notification center date alerts", js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
@@ -152,6 +153,7 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
 
   let(:center) { ::Pages::Notifications::Center.new }
   let(:side_menu) { ::Components::Notifications::Sidemenu.new }
+  let(:toaster) { PageObjects::Notifications.new(page) }
 
   # Converts "hh:mm" into { hour: h, min: m }
   def time_hash(time)
@@ -181,6 +183,10 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
       expect(page).to have_current_path /notifications\/date_alerts/
       expect(page).to have_text 'Date alerts is an Enterprise'
       expect(page).to have_text 'Please upgrade to a paid plan '
+
+      # It does not allows direct url access
+      visit notifications_center_path(filter: 'reason', name: 'dateAlert')
+      toaster.expect_error('Filters Reason filter has invalid values.')
     end
   end
 
