@@ -821,7 +821,7 @@ GEM
     rinku (2.0.6)
     roar (1.1.1)
       representable (~> 3.0)
-    rotp (6.2.0)
+    rotp (6.2.1)
     rouge (4.0.0)
     rspec (3.12.0)
       rspec-core (~> 3.12.0)
