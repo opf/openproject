@@ -102,7 +102,7 @@ export class NotificationSettingsTableComponent implements OnInit {
       workPackageCommented: new FormControl(false),
       startDate: new FormControl(this.availableTimes[2].value),
       dueDate: new FormControl(this.availableTimes[2].value),
-      overdue: new FormControl(this.availableTimesOverdue[1].value),
+      overdue: new FormControl(this.availableTimesOverdue[0].value),
     }));
   }
 
