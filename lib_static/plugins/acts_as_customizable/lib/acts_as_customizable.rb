@@ -157,9 +157,10 @@ module Redmine
         def typed_custom_value_for(c)
           cvs = custom_value_for(c)
 
-          if cvs.is_a? Array
+          case cvs
+          when Array
             cvs.map(&:typed_value)
-          elsif cvs.is_a? CustomValue
+          when CustomValue
             cvs.typed_value
           else
             cvs
@@ -169,9 +170,10 @@ module Redmine
         def formatted_custom_value_for(c)
           cvs = custom_value_for(c)
 
-          if cvs.is_a? Array
+          case cvs
+          when Array
             cvs.map(&:formatted_value)
-          elsif cvs.is_a? CustomValue
+          when CustomValue
             cvs.formatted_value
           else
             cvs
@@ -224,6 +226,29 @@ module Redmine
             .reject(&:marked_for_destruction?)
             .select(&:invalid?)
             .each { |custom_value| add_custom_value_errors! custom_value }
+        end
+
+        # Build the changes hash similar to ActiveRecord::Base#changes,
+        # but for the custom field values that have been changed.
+        def custom_field_changes
+          custom_field_values.reduce({}) do |cfv_changes, cfv|
+            next cfv_changes unless cfv.changed?
+
+            # In order to construct a valid changes hash, we need to find the old value if it exists.
+            # Otherwise set it to nil.
+            cfv_was = custom_values.find do |cv|
+              cv.marked_for_destruction? && cv.custom_field_id == cfv.custom_field_id
+            end
+            value_was = cfv_was&.value
+            # Skip when the old value equals the new value (no change happened).
+            next cfv_changes if value_was == cfv.value
+
+            cfv_changes.merge("custom_field_#{cfv.custom_field_id}": [value_was, cfv.value])
+          end
+        end
+
+        def changed_with_custom_fields
+          changed + custom_field_changes.keys
         end
 
         def add_custom_value_errors!(custom_value)
