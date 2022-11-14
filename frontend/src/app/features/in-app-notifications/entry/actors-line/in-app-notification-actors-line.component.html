@@ -17,5 +17,5 @@
     ></op-principal>
     <span *ngIf="!last && actors.length > 2" [textContent]="', '"></span>
   </ng-container>
-  <span *ngIf="actors.length > 3" [textContent]="text_for_additional_authors(actors.length - 3) "></span>
+  <span *ngIf="actors.length > 3"> {{ text_for_additional_authors(actors.length - 3) }}</span>
 </div>
