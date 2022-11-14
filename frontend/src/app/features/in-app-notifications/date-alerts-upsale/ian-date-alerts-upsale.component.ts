@@ -8,7 +8,7 @@ import { videoPath } from 'core-app/shared/helpers/videos/path-helper';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InAppNotificationsDateAlertsUpsaleComponent {
-  video = videoPath('enterprise/date-alert-notifications.mp4');
+  video = videoPath('notification-center/date-alert-notifications.mp4');
 
   text = {
     title: this.I18n.t('js.notifications.date_alerts.upsale.title'),

@@ -12,7 +12,8 @@
     <p class="upsale--feature-reference"
     [textContent]="more_info"></p>
 
-  <video width="400" *ngIf="feature_video" autoplay="autoplay" loop="loop" muted="muted" class="widget-box--teaser-video" [src]="feature_video">
+  <video width="400" *ngIf="feature_video" autoplay loop muted class="widget-box--teaser-video">
+    <source [src]="feature_video" type="video/mp4">
   </video>
 
   <img [src]="feature_image" class="widget-box--teaser-image" *ngIf="feature_image">
