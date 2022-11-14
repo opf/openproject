@@ -12,7 +12,13 @@
     <p class="upsale--feature-reference"
     [textContent]="more_info"></p>
 
-  <video width="400" *ngIf="feature_video" [autoplay]="true" [loop]="true" [muted]="true" class="widget-box--teaser-video">
+  <video width="400"
+         *ngIf="feature_video"
+         [autoplay]="true"
+         [loop]="true"
+         [muted]="true"
+         playsinline
+         class="widget-box--teaser-video">
     <source [src]="feature_video" type="video/mp4">
   </video>
 
