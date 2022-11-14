@@ -70,9 +70,7 @@ describe 'API v3 Configuration resource', type: :request do
         .not_to have_json_path('_embedded/user_preferences')
     end
 
-    context 'with feature flags' do
-      include_context 'with clean setting definitions'
-
+    context 'with feature flags', :settings_reset do
       before do
         stub_const('ENV',
                    'OPENPROJECT_FEATURE_AN_EXAMPLE_ACTIVE' => 'true',
