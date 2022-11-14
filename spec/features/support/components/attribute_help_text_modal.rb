@@ -29,6 +29,7 @@
 module Components
   class AttributeHelpTextModal
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
 
     attr_reader :help_text, :context

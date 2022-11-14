@@ -32,6 +32,7 @@ module Components
   module WorkPackages
     class Columns
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
       include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 

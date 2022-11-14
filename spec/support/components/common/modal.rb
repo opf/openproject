@@ -30,9 +30,8 @@ module Components
   module Common
     class Modal
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
-
-      def initialize; end
 
       def expect_title(text)
         within_modal do

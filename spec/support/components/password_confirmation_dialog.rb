@@ -29,6 +29,7 @@
 module Components
   class PasswordConfirmationDialog
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
 
     def confirm_flow_with(password, should_fail: false)

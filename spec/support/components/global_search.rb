@@ -1,9 +1,8 @@
 module Components
   class GlobalSearch
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
-
-    def initialize; end
 
     def container
       page.find('.top-menu-search--input')

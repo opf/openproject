@@ -30,6 +30,7 @@ module Components
   module Timelines
     class ConfigurationModal
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       attr_reader :settings_menu
