@@ -29,9 +29,8 @@
 module Components
   class Dropdown
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
-
-    def initialize; end
 
     def toggle
       trigger_element.click

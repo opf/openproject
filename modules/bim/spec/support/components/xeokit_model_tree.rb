@@ -29,9 +29,8 @@
 module Components
   class XeokitModelTree
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
-
-    def initialize; end
 
     def sidebar_shows_viewer_menu(visible)
       selector = '.xeokit-tab'

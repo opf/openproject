@@ -1,6 +1,7 @@
 module Components
   class WysiwygEditor
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
     attr_reader :context_selector, :attachments
 
