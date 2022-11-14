@@ -86,9 +86,6 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   public trackByHref = trackByHref;
 
-  /* Do not close on outside click (because the select option are appended to the body */
-  public closeOnOutsideClick = false;
-
   public warningText:string|undefined;
 
   public text:any = {

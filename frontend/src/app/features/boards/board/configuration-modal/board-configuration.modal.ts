@@ -28,12 +28,6 @@ import { Board } from 'core-app/features/boards/board/board';
   templateUrl: './board-configuration.modal.html',
 })
 export class BoardConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
-  /* Close on escape? */
-  public closeOnEscape = false;
-
-  /* Close on outside click */
-  public closeOnOutsideClick = false;
-
   public text = {
     title: this.I18n.t('js.boards.configuration_modal.title'),
     closePopup: this.I18n.t('js.close_popup_title'),
@@ -61,7 +55,7 @@ export class BoardConfigurationModalComponent extends OpModalComponent implement
   }
 
   ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
+    this.$element = this.elementRef.nativeElement as HTMLElement;
 
     this.tabPortalHost = new TabPortalOutlet(
       this.boardConfigurationService.tabs,
@@ -116,7 +110,7 @@ export class BoardConfigurationModalComponent extends OpModalComponent implement
     return true;
   }
 
-  protected get afterFocusOn():JQuery {
+  protected get afterFocusOn():HTMLElement {
     return this.$element;
   }
 }

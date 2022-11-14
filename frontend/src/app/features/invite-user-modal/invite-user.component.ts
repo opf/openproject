@@ -40,9 +40,6 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
 
   public step = Steps.ProjectSelection;
 
-  /* Close on outside click */
-  public closeOnOutsideClick = true;
-
   /* Data that is returned from the modal on close */
   public data:any = null;
 

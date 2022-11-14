@@ -40,12 +40,6 @@ import { HelpTextResource } from 'core-app/features/hal/resources/help-text-reso
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttributeHelpTextModalComponent extends OpModalComponent implements OnInit {
-  /* Close on escape? */
-  public closeOnEscape = true;
-
-  /* Close on outside click */
-  public closeOnOutsideClick = false;
-
   readonly text = {
     edit: this.I18n.t('js.button_edit'),
     close: this.I18n.t('js.button_close'),
@@ -53,10 +47,12 @@ export class AttributeHelpTextModalComponent extends OpModalComponent implements
 
   public helpText:HelpTextResource = this.locals.helpText!;
 
-  constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+  constructor(
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef) {
+    readonly elementRef:ElementRef,
+  ) {
     super(locals, cdRef, elementRef);
   }
 
