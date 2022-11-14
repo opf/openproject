@@ -10,12 +10,18 @@ jobs:
   to_gitlab:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: pixta-dev/repository-mirroring-action@v1
-        with:
-          target_repo_url:
-            git@gitlab.opencode.de:bmi/souveraener_arbeitsplatz/component-code/management/openproject/openproject-core.git
-          ssh_private_key:
-            ${{ secrets.OPENCODE_SYNC_SSH_PRIVATE_KEY }}
+        - uses: webfactory/ssh-agent@v0.6.0
+          with:
+              ssh-private-key: ${{ secrets.OPENCODE_SYNC_SSH_PRIVATE_KEY }}
+      - name: Mirror
+        run: |
+          export GIT_SSH_COMMAND="ssh -v -o StrictHostKeyChecking=no"
+
+          echo "Adding opencode remote"
+          git remote add opencode git@gitlab.opencode.de:bmi/souveraener_arbeitsplatz/component-code/management/openproject/openproject-core.git
+
+          echo "Pushing all refs"
+          git push --tags --force --prune mirror "refs/remotes/origin/*:refs/heads/*"
