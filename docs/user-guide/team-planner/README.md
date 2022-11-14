@@ -2,35 +2,34 @@
 sidebar_navigation:
   title: Team planner
   priority: 863
-description: Using the team planner in OpenProject.
-keywords: team planner,planning calendar, resource management
+description: Using the team planner module in OpenProject.
+keywords: team planner, planning, calendar, resource management, assign, team view
 ---
 
 # Team planner
-The team planner is a module that can assist getting a better overview of which team member is working on what work package at what time. It is also a useful tool to schedule those team members for different tasks on various times.
+The team planner module helps you get a complete overview of what each member of your team is working on in weekly or biweekly view. You can use it track current progress of each scheduled task, schedule new tasks, reschedule tasks or even move reassign tasks to different members.
 
-> **Note**: The team planner is a premium feature and only included in the [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
+> **Note**: Team planner is a premium feature and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or  [Enterprise on-premises](../../../enterprise-on-premises-guide/). An upgrade from the free community edition is easy and helps support OpenProject.
 
-A few notes: 
+To use this module, you must have the work packages module enabled. 
 
-1. The work package module has to be enabled as a prerequisite for the team planner
-2. You can have multiple public, private, as well as favorite team planning calendars. They will all appear in the left menu bar.
-
-| Topic                                                                                     | Content                                     |
-|-------------------------------------------------------------------------------------------|:--------------------------------------------|
-| [Main view](#main-view---start-a-new-or-select-an-existing-team-planner)                  | How to start a team planner.                |
-| [Planning calendar basics](#planning-calendar-basics)                                     | How to navigate the team planner.           |
-| [Getting started](#getting-started)                                                       | How to get started.                         |
-| [Adding team members](#step-1-adding-team-members)                                        | How to add team members.                    |
-| [Adding/working with work package strips](#step-2-addingworking-with-work-package-strips) | How to work with work package strips.       |
-| [Work package strip detail view](#work-package-strip-detail-view)                         | How to access the work package detail view. |
-| [Removing a work package strip](#removing-a-work-package-strip)                           | How to remove a work package strip.         |
+| Topic                                                        | Content                                                      |
+| ------------------------------------------------------------ | :----------------------------------------------------------- |
+| [Module overview](#model-overview)                           | See a list of all existing team planners or create a new one |
+| [Team planner basics](#team-planner-basics)                  | Understanding the basics of how a team planner is organised  |
+| [Getting started](#getting-started)                          | How to get started with your own team planner                |
+| [Adding team members](#step-1-adding-team-members)           | Add team members                                             |
+| [Adding and working with work package cards](#adding-and-working-with-work-package-cards) | Add, schedule, reschedule and reassign work packages         |
+| [Work package detail view](#work-package-detail-view)        | View or edit a specific work package                         |
+| [Removing a work package](#removing-a-work-package)          | Removing (unscheduling) visible work packages                |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Team-Planner.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
-## Main view - Start a new or select an existing Team Planner
+## Module overview
 
-![Overview of the team planner](team-planner-overview.png)
+Clicking on the **Team planners** entry on the left sidebar takes you to the team planner module with a list of all existing team planners:
+
+![A screenshot of a list of team planners visible after clicking on Team Planners on the left-hand menu](TeamPlanner-12.4-listAllAvailable.png)
 
 1. You can create a new team planner using either the **+ Create** button in the top right near your avatar, or by clicking the
 
@@ -45,9 +44,9 @@ A few notes:
    Both **public** and **private** calendars can be added as a **favored** planner, and would appear under the heading **Favorite Views** in the black menu bar.
 
 
-## Planning calendar basics
+## Team planner basics
 
-![Overview of the planning calendar basics](planning-calendar-basics.png)
+![A screenshot of an example team planner with different functions highlighted](TeamPlanner-12.4-oneWeek.png)
 
 How to navigate the team planner - the numbers below correspond with the above image:
 
@@ -66,7 +65,7 @@ How to navigate the team planner - the numbers below correspond with the above i
 
 ## Getting started
 
-### Step 1: Adding team members
+### Adding team members
 
 The first step in setting up your team planning calendar is to add team members. This is done via the **+ add assignee** button in #3 above. Press the **+ add assignee** button, and then simply select the team member(s) from the drop-down list. Clicking on a given assignee's name will open a new window with a quick overview of which projects that member is assigned to.
 
@@ -78,7 +77,7 @@ If you need to delete a member, please hover over their name in the team planner
 
 ![Adding team members](adding-team-members.png)
 
-### Step 2: Adding/working with work package strips
+### Adding and working with work package strips
 
 Next, add specific work packages to your planner. You can do this by either adding a **new work package**, or by adding an **existing work package**:
 
@@ -87,7 +86,6 @@ Next, add specific work packages to your planner. You can do this by either addi
 Click on the cell in the team planner grid that corresponds to the preferred assignee and start date.
 
 > **Note:** You can also click and drag across a date range to create a work package that spans those dates. The first square will be the start date and the last one the finish date.
->
 
 ![Add new work package](add-new-work-package.png)
 
@@ -105,13 +103,13 @@ Additional features: You can change the status of a work package, and enter the 
 
 ![Working with work package strips](working-with-work-package-strips.png)
 
-## Work package strip detail view
+## Work package detail view
 
 Click on any given work package strip to open up a split screen showing the work package detail view.
 
-![Work package strip detail view](work-package-strip-detail-view.png)
+![An example of the work package detail view in split screen](TeamPlanner-12.4-splitScreen.png)
 
-## Removing a work package strip
+## Removing a work package
 
 Work package strips are never fully removable, since the planning calendar is simply a view of the information pertaining to a given work package. There are, however, a few options to make the strip disappear from your view:
 
