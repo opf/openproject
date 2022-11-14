@@ -29,6 +29,7 @@
 class WorkPackagesPage
   include Rails.application.routes.url_helpers
   include Capybara::DSL
+  include Capybara::RSpecMatchers
   include RSpec::Matchers
 
   def initialize(project = nil)

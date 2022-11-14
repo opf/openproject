@@ -33,6 +33,7 @@ module Components
   module WorkPackages
     class Filters
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
       include SeleniumWorkarounds
       include ::Components::Autocompleter::NgSelectAutocompleteHelpers

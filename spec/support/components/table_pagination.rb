@@ -29,6 +29,7 @@
 module Components
   class TablePagination
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
 
     def expect_range(from, to, total)

@@ -30,9 +30,8 @@ module Components
   module WorkPackages
     class Highlighting
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
-
-      def initialize; end
 
       def switch_highlighting_mode(label)
         modal_open? or open_modal

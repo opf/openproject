@@ -29,6 +29,7 @@
 class CustomFieldsPage
   include Rails.application.routes.url_helpers
   include Capybara::DSL
+  include Capybara::RSpecMatchers
 
   def visit_new(type = 'WorkPackageCustomField')
     visit new_custom_field_path type:

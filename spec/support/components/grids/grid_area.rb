@@ -2,6 +2,7 @@ module Components
   module Grids
     class GridArea
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       attr_accessor :area_selector

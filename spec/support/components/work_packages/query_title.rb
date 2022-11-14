@@ -30,6 +30,7 @@ module Components
   module WorkPackages
     class QueryTitle
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       def expect_changed
