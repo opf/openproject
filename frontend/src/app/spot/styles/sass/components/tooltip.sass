@@ -6,15 +6,22 @@
     @include spot-z-index("tooltip", 1)
     pointer-events: none
     opacity: 0
-    width: calc(100% - #{$spot-spacing-2})
-    left: $spot-spacing-1
+    width: 80%
+    left: 10%
+    margin-top: 10px
+
+    transition-property: transform, opacity
+    transition-timing-function: ease
+    transition-duration: 0.2s
+    transition-delay: 0.2s
 
     position: absolute
     height: auto
 
-    box-shadow: $spot-shadow-light-low
+    box-shadow: $spot-shadow-hard-low
     background: $spot-color-basic-gray-1
     color: $spot-color-basic-white
+    border-radius: 8px
 
     display: flex
     flex-direction: column
@@ -61,7 +68,7 @@
     &_top-center
       bottom: 100%
       left: 50%
-      transform: translateX(-50%)
+      transform: translateX(-50%) translateY(10px)
 
     &_top-right
       bottom: 100%
@@ -76,6 +83,9 @@
 
   &:hover &--body
     opacity: 1
+
+  &:hover &--body_top-center
+    transform: translateX(-50%) translateY(0px)
 
   &_light &--body
     color: $spot-color-basic-gray-1

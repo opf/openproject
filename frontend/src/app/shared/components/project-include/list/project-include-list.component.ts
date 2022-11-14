@@ -83,10 +83,10 @@ export class OpProjectIncludeListComponent {
 
   public getTooltipAlignment(isFirst:boolean):SpotDropAlignmentOption {
     if (!this.root || !isFirst) {
-      return SpotDropAlignmentOption.TopLeft;
+      return SpotDropAlignmentOption.TopCenter;
     }
 
-    return SpotDropAlignmentOption.BottomLeft;
+    return SpotDropAlignmentOption.BottomCenter;
   }
 
   extendedProjectUrl(projectId:string):string {
