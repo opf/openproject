@@ -39,14 +39,6 @@ export const WpTableConfigurationModalPrependToken = new InjectionToken<Componen
   templateUrl: './wp-table-configuration.modal.html',
 })
 export class WpTableConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
-  /* Close on escape? */
-  public closeOnEscape = false;
-
-  /* Close on outside click */
-  public closeOnOutsideClick = false;
-
-  public $element:JQuery;
-
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.modal_title'),
     closePopup: this.I18n.t('js.close_popup_title'),
@@ -94,7 +86,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   }
 
   ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
+    this.$element = this.elementRef.nativeElement as HTMLElement;
 
     this.tabPortalHost = new TabPortalOutlet(
       this.wpTableConfigurationService.tabs,
@@ -109,10 +101,11 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
         const initialTabName = this.locals.initialTab;
         const initialTab = this.availableTabs.find((el) => el.id === initialTabName);
         this.switchTo(initialTab || this.availableTabs[0]);
+        this.cdRef.detectChanges();
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy():void {
     this.onDataUpdated.complete();
     this.tabPortalHost.dispose();
   }
@@ -125,7 +118,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     return this.tabPortalHost.currentTab;
   }
 
-  public switchTo(tab:TabInterface) {
+  public switchTo(tab:TabInterface):void {
     this.tabPortalHost.switchTo(tab);
   }
 
@@ -148,7 +141,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     return true;
   }
 
-  protected get afterFocusOn():JQuery {
+  protected get afterFocusOn():HTMLElement {
     return this.$element;
   }
 

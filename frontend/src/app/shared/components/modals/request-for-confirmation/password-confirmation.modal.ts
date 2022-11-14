@@ -56,8 +56,6 @@ export class PasswordConfirmationModalComponent extends ConfirmDialogModalCompon
     super.ngOnInit();
 
     this.text.title = I18n.t('js.password_confirmation.title');
-    this.closeOnEscape = false;
-    this.closeOnOutsideClick = false;
     this.showClose = false;
   }
 

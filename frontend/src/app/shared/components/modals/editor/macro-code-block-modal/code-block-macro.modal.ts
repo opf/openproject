@@ -42,10 +42,6 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
 
   public showClose = true;
 
-  public closeOnEscape = true;
-
-  public closeOnOutsideClick = true;
-
   // Language class from markdown, something like 'language-ruby'
   public languageClass:string;
 

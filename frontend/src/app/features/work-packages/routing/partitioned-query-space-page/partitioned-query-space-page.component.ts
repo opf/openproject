@@ -257,10 +257,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   protected inviteModal = InviteUserModalComponent;
 
   openInviteUserModal():void {
-    const inviteModal = this.opModalService.show(this.inviteModal, 'global');
-    inviteModal.closingEvent.subscribe((modal:any) => {
-      console.log('Modal closed!', modal);
-    });
+    this.opModalService.show(this.inviteModal, 'global');
   }
 
   protected loadQuery(firstPage = false):Promise<QueryResource> {
