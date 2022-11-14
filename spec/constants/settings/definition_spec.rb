@@ -57,9 +57,7 @@ describe Settings::Definition do
         .to eq 20
     end
 
-    context 'when overriding from ENV' do
-      include_context 'with clean setting definitions'
-
+    context 'when overriding from ENV', :settings_reset do
       def value_for(name)
         all.detect { |d| d.name == name }.value
       end
@@ -373,9 +371,7 @@ describe Settings::Definition do
       end
     end
 
-    context 'when overriding from file' do
-      include_context 'with clean setting definitions'
-
+    context 'when overriding from file', :settings_reset do
       let(:file_contents) do
         <<~YAML
           ---
@@ -503,9 +499,7 @@ describe Settings::Definition do
       end
     end
 
-    context 'when adding an additional setting' do
-      include_context 'with clean setting definitions'
-
+    context 'when adding an additional setting', :settings_reset do
       it 'includes the setting' do
         all
 
@@ -549,8 +543,7 @@ describe Settings::Definition do
       end
     end
 
-    context 'when adding a setting late' do
-      include_context 'with clean setting definitions'
+    context 'when adding a setting late', :settings_reset do
       let(:key) { 'bogus' }
 
       before do
@@ -976,9 +969,7 @@ describe Settings::Definition do
     end
   end
 
-  describe '#on_change' do
-    include_context 'with clean setting definitions'
-
+  describe '#on_change', :settings_reset do
     context 'for a definition with a callback' do
       let(:callback) { -> { 'foobar ' } }
 
