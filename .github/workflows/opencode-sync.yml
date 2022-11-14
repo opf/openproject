@@ -1,6 +1,12 @@
 name: opencode-sync
 on:
   workflow_dispatch:
+    inputs:
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: false
+        default: false
   schedule:
     - cron: '5 */1 * * *' # Every hour
 
@@ -15,7 +21,7 @@ jobs:
           fetch-depth: 0
       - uses: webfactory/ssh-agent@v0.6.0
         with:
-            ssh-private-key: ${{ secrets.OPENCODE_SYNC_SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.OPENCODE_SYNC_SSH_PRIVATE_KEY }}
       - name: Mirror
         run: |
           export GIT_SSH_COMMAND="ssh -Tv -o StrictHostKeyChecking=no"
@@ -25,3 +31,7 @@ jobs:
 
           echo "Pushing all refs"
           git push --tags --force --prune opencode "refs/remotes/origin/*:refs/heads/*"
+      - uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled && failure() }}
+        with:
+          limit-access-to-actor: true
