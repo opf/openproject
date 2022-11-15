@@ -143,6 +143,22 @@ class LdapAuthSource < AuthSource
     Net::LDAP::Filter.from_rfc2254(filter_string) if filter_string.present?
   end
 
+  def ldap_connection_options
+    {
+      host:,
+      port:,
+      force_no_page: OpenProject::Configuration.ldap_force_no_page,
+      encryption: ldap_encryption
+    }
+  end
+
+  def read_ldap_certificates
+    return if tls_certificate_string.blank?
+
+    # Using load will allow multiple PEM certificates to be passed
+    OpenSSL::X509::Certificate.load(tls_certificate_string)
+  end
+
   private
 
   def strip_ldap_attributes
@@ -156,10 +172,7 @@ class LdapAuthSource < AuthSource
       Rails.logger.info { "SSL connection to LDAP host #{host} is set up to skip certificate verification." }
     end
 
-    options = { host: host,
-                port: port,
-                force_no_page: OpenProject::Configuration.ldap_force_no_page,
-                encryption: ldap_encryption }
+    options = ldap_connection_options
     unless ldap_user.blank? && ldap_password.blank?
       options.merge!(auth: { method: :simple, username: ldap_user,
                              password: ldap_password })
@@ -172,7 +185,7 @@ class LdapAuthSource < AuthSource
 
     {
       method: tls_mode.to_sym,
-      tls_options:,
+      tls_options:
     }
   end
 
@@ -189,13 +202,6 @@ class LdapAuthSource < AuthSource
       verify_mode: tls_verify_mode,
       cert_store:
     }.compact
-  end
-
-  def read_ldap_certificates
-    return if tls_certificate_string.blank?
-
-    # Using load will allow multiple PEM certificates to be passed
-    OpenSSL::X509::Certificate.load(tls_certificate_string)
   end
 
   def tls_verify_mode
@@ -227,11 +233,12 @@ class LdapAuthSource < AuthSource
     ldap_con.search(base: base_dn,
                     filter: filter,
                     attributes: search_attributes) do |entry|
-      attrs = if onthefly_register?
-                get_user_attributes_from_ldap_entry(entry)
-              else
-                { dn: entry.dn }
-              end
+      attrs =
+        if onthefly_register?
+          get_user_attributes_from_ldap_entry(entry)
+        else
+          { dn: entry.dn }
+        end
 
       Rails.logger.debug { "DN found for #{login}: #{attrs[:dn]}" }
     end
