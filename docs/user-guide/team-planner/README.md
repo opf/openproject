@@ -9,17 +9,17 @@ keywords: team planner, planning, calendar, resource management, assign, team vi
 # Team planner
 The team planner module helps you get a complete overview of what each member of your team is working on in weekly or biweekly view. You can use it track current progress of each scheduled task, schedule new tasks, reschedule tasks or even move reassign tasks to different members.
 
-> **Note**: Team planner is a premium feature and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or  [Enterprise on-premises](../../../enterprise-on-premises-guide/). An upgrade from the free community edition is easy and helps support OpenProject.
+> **Note**: Team planner is a premium feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or  [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free community edition is easy and helps support OpenProject.
 
 To use this module, you must have the work packages module enabled. 
 
-| Topic                                                        | Content                                                      |
-| ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [Module overview](#model-overview)                           | See a list of all existing team planners or create a new one |
-| [Team planner basics](#team-planner-basics)                  | Understanding the basics of how a team planner is organised  |
+| Topic                                                                           | Content                                                      |
+|---------------------------------------------------------------------------------| :----------------------------------------------------------- |
+| [Module overview](#module-overview)                                             | See a list of all existing team planners or create a new one |
+| [Team planner basics](#team-planner-basics)                                     | Understanding the basics of how a team planner is organised  |
 | [Adding team members and work packages](#adding-team-members-and-work-packages) | Add team members and schedule, reschedule and reassign work packages |
-| [Work package detail view](#work-package-detail-view)        | View or edit a specific work package                         |
-| [Removing a work package](#removing-a-work-package)          | Removing (unscheduling) visible work packages                |
+| [Work package detail view](#work-package-detail-view)                           | View or edit a specific work package                         |
+| [Removing a work package](#removing-a-work-package)                             | Removing (unscheduling) visible work packages                |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Team-Planner.mp4" type="video/mp4" controls="" style="width:100%"></video>
 

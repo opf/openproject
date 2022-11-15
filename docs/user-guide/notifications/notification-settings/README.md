@@ -13,11 +13,11 @@ You can configure how and for what events you wish to be notified through Notifi
 
 Notification settings are divided in four sections:
 
-| Topic                                                        | Description                                                  |
-| ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [Participating](#participating) | Be notified of activities on some or all of the work packages in which you are participating |
-| [Date alerts](#date-alerts) | Be notified of approaching start or end dates, and when things are overdue |
-| [Non-participating](#non-participating) | Be notified of activities on work packages in which you are not participating |
+| Topic                                               | Description                                                  |
+|-----------------------------------------------------| :----------------------------------------------------------- |
+| [Participating](#participating)                     | Be notified of activities on some or all of the work packages in which you are participating |
+| [Date alerts](#date-alerts-premium-feature)         | Be notified of approaching start or end dates, and when things are overdue |
+| [Non-participating](#non-participating)             | Be notified of activities on work packages in which you are not participating |
 | [Project-specific](#project-specific-notifications) | Fine-tune your notification settings at the level of individual projects |
 
 
@@ -49,7 +49,7 @@ For each date, you can choose to be alerted the same day, a day before, 3 days b
 
 You can also choose to receive a recurring notification (every day, every 3 days or every week) for work packages that are overdue. You can stop receiving these alerts by either unchecking this option, or changing the dates of the relevant work packages.
 
-Date alerts notifications will appear in [notification center]((../#accessing-in-app-notifications)), both in the _Inbox_ and the separate _Date alerts_ sections on the left menu.
+Date alerts notifications will appear in [notification center](../#accessing-in-app-notifications), both in the _Inbox_ and the separate _Date alerts_ sections on the left menu.
 
 ## Non-participating
 
