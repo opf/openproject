@@ -29,7 +29,7 @@ export class CalendarSidemenuComponent extends UntilDestroyedMixin {
     .currentUserService
     .hasCapabilities$(
       'calendars/create',
-      this.currentProjectService.id || undefined,
+      this.currentProjectService.id || null,
     )
     .pipe(this.untilDestroyed());
 

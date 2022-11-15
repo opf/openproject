@@ -105,7 +105,8 @@ RSpec.describe 'Work package copy', js: true, selenium: true do
     to_copy_work_package_page.save!
 
     expect(page).to have_selector('.op-toast--content',
-                                  text: I18n.t('js.notice_successful_create'))
+                                  text: I18n.t('js.notice_successful_create'),
+                                  wait: 20)
 
     copied_work_package = WorkPackage.order(created_at: 'desc').first
 
@@ -156,10 +157,9 @@ RSpec.describe 'Work package copy', js: true, selenium: true do
     to_copy_work_package_page.expect_fully_loaded
 
     to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
-    to_copy_work_package_page.save!
 
-    expect(page).to have_selector('.op-toast--content',
-                                  text: I18n.t('js.notice_successful_create'))
+    to_copy_work_package_page.save!
+    find('.op-toast--content', text: I18n.t('js.notice_successful_create'), wait: 20)
 
     copied_work_package = WorkPackage.order(created_at: 'desc').first
 

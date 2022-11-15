@@ -54,7 +54,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     .currentUserService
     .hasCapabilities$(
       'boards/create',
-      this.currentProject.id || undefined,
+      this.currentProject.id || null,
     )
     .pipe(this.untilDestroyed());
 

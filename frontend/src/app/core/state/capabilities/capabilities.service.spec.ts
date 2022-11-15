@@ -263,10 +263,10 @@ describe('Capabilities service', () => {
     });
 
     it('Should filter by context and all actions', () => {
-      currentUser.hasCapabilities$('asdf/asdf').subscribe((hasCaps) => {
+      currentUser.hasCapabilities$('asdf/asdf', 'global').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
       });
-      currentUser.hasCapabilities$('placeholder_users/read').subscribe((hasCaps) => {
+      currentUser.hasCapabilities$('placeholder_users/read', 'global').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
       currentUser.hasCapabilities$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
