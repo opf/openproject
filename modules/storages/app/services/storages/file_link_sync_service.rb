@@ -78,8 +78,8 @@ class Storages::FileLinkSyncService
       return
     end
 
-    nextcloud_request_result = connection_manager.request_with_token_refresh(oauth_client_token) do
-      response = request_files_info(oauth_client_token, file_links.map(&:origin_id))
+    nextcloud_request_result = connection_manager.request_with_token_refresh(oauth_client_token) do |token|
+      response = request_files_info(token, file_links.map(&:origin_id))
       Rails.logger.debug { "Got nextcloud filesinfo response: #{response.inspect}" }
       # Parse HTTP response an return a ServiceResult with:
       #   success: result= Hash with Nextcloud filesinfo (name of endpoint) data

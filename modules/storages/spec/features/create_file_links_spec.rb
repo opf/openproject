@@ -45,7 +45,7 @@ describe 'Creating file links in work package', js: true, webmock: true, with_fl
     allow(connection_manager).to receive(:refresh_token).and_return(ServiceResult.success(result: oauth_client_token))
     allow(connection_manager).to receive(:get_access_token).and_return(ServiceResult.success(result: oauth_client_token))
     allow(connection_manager).to receive(:authorization_state).and_return(:connected)
-    allow(connection_manager).to receive(:with_refreshed_token).and_yield
+    allow(connection_manager).to receive(:request_with_token_refresh).and_yield(oauth_client_token)
     connection_manager
   end
 
