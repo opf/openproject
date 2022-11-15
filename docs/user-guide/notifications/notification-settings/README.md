@@ -27,7 +27,7 @@ You cannot disable notifications for when you are mentioned (since the goal of m
 
 Starting with 12.4, Open Project offers notification for date alerts.
 
-> **Note**: Date alerts are a Premium feature and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
+> **Note**: Date alerts are a Premium feature and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
 
 Date alerts allow you to receive a notification when a start date or a finish date is approaching for a work package you are participating in (that is, for which you are assignee, accountable or a watcher). 
 
@@ -36,7 +36,7 @@ Date alerts allow you to receive a notification when a start date or a finish da
 For each date, you can choose to be alerted the same day, a day before, 3 days before or a week before.
 
 You can also choose to receive a recurring notification (every day, every 3 days or every week) for work packages that are overdue.
-Also [project-specific notifications for date alerts](/#project-specific-notifications) can be configured.
+Also [project-specific notifications for date alerts](#project-specific-notifications) can be configured.
 
 The notifications for date alerts (approaching start or finish dates or overdue dates) will be displayed in the [notification center in the menu section for date alerts](../#accessing-in-app-notifications).
 

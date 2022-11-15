@@ -80,7 +80,7 @@ For docker and manual installations, you will need to set the environment variab
 For more information, please see the respective installation pages:
 
 - [Packaged installation](../../installation-and-operations/installation/packaged/#step-3-apache2-web-server-and-ssl-termination)
-- [Docker installation](../../installation-and-operations/installation/docker/#initial-configuration)
+- [Docker installation](../../installation-and-operations/installation/docker/#configuration)
 
 ##  List of all bug fixes and changes
 
