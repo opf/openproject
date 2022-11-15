@@ -17,9 +17,7 @@ To use this module, you must have the work packages module enabled.
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Module overview](#model-overview)                           | See a list of all existing team planners or create a new one |
 | [Team planner basics](#team-planner-basics)                  | Understanding the basics of how a team planner is organised  |
-| [Getting started](#getting-started)                          | How to get started with your own team planner                |
-| [Adding team members](#step-1-adding-team-members)           | Add team members                                             |
-| [Adding and working with work package cards](#adding-and-working-with-work-package-cards) | Add, schedule, reschedule and reassign work packages         |
+| [Adding team members and work packages](#adding-team-members-and-work-packages) | Add team members and schedule, reschedule and reassign work packages |
 | [Work package detail view](#work-package-detail-view)        | View or edit a specific work package                         |
 | [Removing a work package](#removing-a-work-package)          | Removing (unscheduling) visible work packages                |
 
@@ -63,7 +61,7 @@ How to navigate the team planner - the numbers below correspond with the above i
 >
 > Work packages can also expand and retract in width depending on how many non-working days are spanned (for example, a 3-day task starting on Thursday and ending on Monday will spread across 5 calendar days;  dragging that same work package so that it starts on a Tuesday and ends on a Thursday means that it will spread across 3 calendar days. In both cases, the duration remains 3 days.
 
-## Getting started
+## Adding team members and work packages
 
 ### Adding team members
 
