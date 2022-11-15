@@ -153,6 +153,7 @@ en:
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
 
     connection_encryption: 'Connection encryption'
+    encryption_details: 'Encryption details'
     system_account: 'System account'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
@@ -164,15 +165,19 @@ en:
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
       plain: 'none'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Plain unencrypted connection, no TLS negotiation."
-      simple_tls_description: "Implicit TLS encryption, but no certificate validation. Use with caution and implicit trust of the LDAP connection."
-      start_tls_description: "Explicit TLS encryption with full validation. Use for LDAP over TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         This section concerns the connection security of this LDAP authentication source.
         For more information, visit <a href="%{link}">the Net::LDAP documentation</a>.
-
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description: "Enables strict SSL verification of the certificate trusted chain."
+      verify_hostname: "Verify certificate hostname"
+      verify_hostname_description: "Verifies the SSL certificate hostname"
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.

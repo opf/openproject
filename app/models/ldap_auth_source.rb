@@ -29,7 +29,7 @@
 require 'net/ldap'
 
 class LdapAuthSource < AuthSource
-  enum tls_mode: %w[plain_ldap simple_tls start_tls]
+  enum tls_mode: %w[plain_ldap simple_tls start_tls], _default: 'start_tls'
   validates :tls_mode, inclusion: { in: tls_modes.keys }
 
   validates_presence_of :host, :port, :attr_login

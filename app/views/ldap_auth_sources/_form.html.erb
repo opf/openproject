@@ -65,12 +65,12 @@ See COPYRIGHT and LICENSE files for more details.
             link: OpenProject::Static::Links[:ldap_encryption_documentation][:href]  %>
     </p>
     <div class="form--field">
-        <%= f.radio_button :tls_mode,
-                          'plain_ldap',
-                          label: t('ldap_auth_sources.tls_mode.plain'),
-                          container_class: '-wide' %>
+      <%= f.radio_button :tls_mode,
+                         'start_tls',
+                         label: t('ldap_auth_sources.tls_mode.start_tls'),
+                         container_class: '-wide' %>
       <p class="form--field-instructions">
-        <%= t('ldap_auth_sources.tls_mode.plain_description') %>
+        <%= t('ldap_auth_sources.tls_mode.start_tls_description') %>
       </p>
     </div>
     <div class="form--field">
@@ -83,12 +83,12 @@ See COPYRIGHT and LICENSE files for more details.
       </p>
     </div>
     <div class="form--field">
-        <%= f.radio_button :tls_mode,
-                          'start_tls',
-                          label: t('ldap_auth_sources.tls_mode.start_tls'),
-                          container_class: '-wide' %>
+      <%= f.radio_button :tls_mode,
+                         'plain_ldap',
+                         label: t('ldap_auth_sources.tls_mode.plain'),
+                         container_class: '-wide' %>
       <p class="form--field-instructions">
-        <%= t('ldap_auth_sources.tls_mode.start_tls_description') %>
+        <%= t('ldap_auth_sources.tls_mode.plain_description') %>
       </p>
     </div>
   </fieldset>
