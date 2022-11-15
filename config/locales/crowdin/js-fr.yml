@@ -228,8 +228,8 @@ fr:
           quick_overview: "Obtenez un aperçu rapide de la gestion de projets et de la collaboration en équipe avec OpenProject Enterprise Edition."
         upsale:
           become_hero: "Devenez un héros !"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
-          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          enterprise_info_html: "%{feature_title} est une fonctionnalité Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
+          upgrade_info: "Veuillez passer à une offre payante pour l'activer et commencer à l'utiliser dans votre équipe."
           benefits:
             description: "Quels sont les avantages de l'édition Entreprise autohébergé"
             high_security: "Fonctionnalités de sécurité"
@@ -242,7 +242,7 @@ fr:
             professional_support_text: "Obtenez une assitance fiable et à haut contact de la part d'ingénieurs d'assistance expérimentés qui ont une connaissance approfondie de la mise en œuvre d'OpenProject dans des environnements critiques pour l'entreprise."
           button_start_trial: "Commencer l'essai gratuit"
           button_upgrade: "Mettre à niveau maintenant"
-          button_contact_us: "Contact us for a demo"
+          button_contact_us: "Contactez-nous pour une démo"
           button_book_now: "Réserver maintenant"
           confidence: >
             Nous fournissons la confiance d'un logiciel de gestion de projet de classe entreprise testé et supporté - en Open Source et un avec esprit ouvert.
@@ -300,15 +300,15 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Définissez votre semaine de travail globale (week-ends et jours non ouvrables de la semaine).</li> <li>Calculez la durée en fonction des dates de début et de fin et de la possibilité de considérer les jours non ouvrables (week-ends) dans la planification.</li> <li>Ajoutez des infobulles utiles aux actions les plus essentielles.</li> <li>La copie d'un projet copiera également les liens des fichiers attachés dans tous les lots de travaux.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Définissez votre semaine de travail globale (week-ends et jours non ouvrables de la semaine).</li> <li>Calculez la durée en fonction des dates de début et de fin et de la possibilité de considérer les jours non ouvrables (week-ends) dans la planification.</li> <li>Ajoutez des infobulles utiles aux actions les plus essentielles.</li> <li>La copie d'un projet copiera également les liens des fichiers attachés dans tous les lots de travaux.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
     label_activate: "Activer"
     label_assignee: 'Responsable'
     label_add_column_after: "Ajouter une colonne au-dessus"
@@ -548,18 +548,18 @@ fr:
         commented: 'commenté'
         processed: 'traité'
         prioritized: 'priorisé'
-        dateAlert: 'Date alert'
+        dateAlert: 'Alarmes'
       date_alerts:
-        milestone_date: 'Milestone date'
-        overdue: 'Overdue'
-        overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
-        property_is: 'is in %{difference_in_days}'
-        property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        milestone_date: 'Date jalon'
+        overdue: 'En retard'
+        overdue_since: 'depuis %{difference_in_days}'
+        property_today: 'est aujourd’hui'
+        property_is: 'est dans %{difference_in_days}'
+        property_was: 'était il y a %{difference_in_days}'
+        property_is_deleted: 'est supprimé'
         upsale:
-          title: 'Date alerts'
-          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          title: 'Alarmes'
+          description: 'Avec les alarmes, vous serez informé(e) à l''approche des dates de début ou de fin vous concernant afin de ne jamais manquer ou oublier une échéance importante.'
       facets:
         unread: 'Non lu'
         unread_title: 'Afficher les messages non lus'
@@ -588,34 +588,34 @@ fr:
       menu:
         accountable: 'Responsable'
         by_project: 'Non lu par projet'
-        by_reason: 'Reason'
+        by_reason: 'Motif'
         inbox: 'Boîte de réception'
         mentioned: 'Mentionné'
         watched: 'Observateur'
-        date_alert: 'Date alert'
+        date_alert: 'Alarmes'
       settings:
         change_notification_settings: 'Pour afficher et modifier vos paramètres de notification, <a target="_blank" href="%{url}">cliquez ici</a>'
         title: "Paramètres de notifications"
         notify_me: "M'alerter"
         reminders:
-          no_notification: No notification
+          no_notification: Aucune notification
           timeframes:
             normal:
-              PT0S: same day
-              P1D: 1 day before
-              P3D: 3 days before
-              P7D: a week before
+              PT0S: le jour même
+              P1D: 1 jour avant
+              P3D: 3 jours avant
+              P7D: une semaine avant
             overdue:
-              P1D: everyday
-              P3D: every 3 days
-              P7D: every week
+              P1D: every day
+              P3D: tous les 3 jours
+              P7D: toutes les semaines
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'Mentionné'
             description: 'Recevoir une notification chaque fois que quelqu''un me mentionne n''importe où'
           assignee: 'Assigné'
           responsible: 'Responsable'
-          watched: 'Watcher'
+          watched: 'Observateur'
           work_package_commented: 'Tous les nouveaux commentaires'
           work_package_created: 'Nouveaux lots de travaux'
           work_package_processed: 'Tous les changements de statut'
@@ -623,18 +623,18 @@ fr:
           work_package_scheduled: 'Tous les changements de date'
         global:
           immediately:
-            title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            title: 'Participant'
+            description: 'Notifications pour toute activité sur les lots de travaux vous concernant (assigné, responsable ou observateur)'
           delayed:
-            title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            title: 'Non participants'
+            description: 'Notifications additionnelles lors d''activité sur tous les projects'
           date_alerts:
-            title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
-            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          start_date: Start Date
-          due_date: Finish Date
-          overdue: When Overdue
+            title: 'Alarmes'
+            description: 'Notifications automatiques lorsque des dates importantes approchent pour les lots de travaux ouverts vous concernant (assigné, responsable ou observateur)'
+            teaser_text: 'Avec les alarmes, vous serez informé(e) à l''approche des dates de début ou de fin vous concernant afin de ne jamais manquer ou oublier une échéance importante.'
+          start_date: Date de début
+          due_date: Terminer à
+          overdue: En cas de retard
         project_specific:
           title: 'Paramètres de notification spécifiques au projet'
           description: 'Ces paramètres spécifiques au projet remplacent les paramètres par défaut ci-dessus'
@@ -1237,7 +1237,7 @@ fr:
         all: 'Tous les projets'
         selected: 'Uniquement la sélection'
       search_placeholder: 'Rechercher un projet...'
-      include_subprojects: 'inclure tous les sous-projets'
+      include_subprojects: 'Inclure tous les sous-projets'
       tooltip:
         include_all_selected: 'Projet déjà inclus puisque Include tous les sous-projets sont activés.'
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'

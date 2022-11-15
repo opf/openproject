@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { imagePath } from 'core-app/shared/helpers/images/path-helper';
+import { videoPath } from 'core-app/shared/helpers/videos/path-helper';
 
 @Component({
   selector: 'op-ian-date-alerts-upsale',
@@ -8,7 +8,7 @@ import { imagePath } from 'core-app/shared/helpers/images/path-helper';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InAppNotificationsDateAlertsUpsaleComponent {
-  image = imagePath('notification-center/date-alerts-ee.png');
+  video = videoPath('notification-center/date-alert-notifications.mp4');
 
   text = {
     title: this.I18n.t('js.notifications.date_alerts.upsale.title'),

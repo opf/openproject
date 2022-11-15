@@ -33,6 +33,7 @@ describe 'layouts/base', type: :view do
   # we reach this spec, but for running this spec alone we need it here. Best
   # of both worlds.
   include Capybara::DSL
+  include Capybara::RSpecMatchers
 
   include Redmine::MenuManager::MenuHelper
   helper Redmine::MenuManager::MenuHelper

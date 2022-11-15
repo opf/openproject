@@ -29,15 +29,15 @@ ro:
         updated: "Actualizat"
       explanation:
         text: >
-          Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the %{link} has passed.
-        link: configured aggregation period
+          La apariția unui eveniment, cum ar fi crearea unui pachet de lucru sau o actualizare a unui proiect, OpenProject va trimite o cerere POST către punctele finale web configurate. De multe ori, evenimentul este trimis după ce a trecut %{link}.
+        link: perioada de agregare configurată
       status:
         enabled: 'Webhook este activat'
         disabled: 'Webhook este dezactivat'
         enabled_text: 'Webhook va emite sarcini utile pentru evenimentele definite mai jos.'
         disabled_text: 'Faceți clic pe butonul de editare pentru a activa webhook-ul.'
       deliveries:
-        no_results_table: No deliveries have been made for this webhook in the past days.
+        no_results_table: Nu au fost efectuate livrări pentru acest webhook în ultimele zile.
         title: 'Livrări recente'
         time: 'Termen de livrare'
       form:

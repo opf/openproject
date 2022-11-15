@@ -2,36 +2,36 @@
 ro:
   js:
     storages:
-      link_files_in_storage: "Link files in %{storageType}"
-      link_existing_files: "Link existing files"
-      login: "%{storageType} login"
-      login_to: "Login to %{storageType}"
-      no_connection: "No %{storageType} connection"
-      open_storage: "Open %{storageType}"
+      link_files_in_storage: "Link-ul fişierelor în %{storageType}"
+      link_existing_files: "Legaţi fişierele existente"
+      login: "%{storageType} autentificare"
+      login_to: "Autentificare în %{storageType}"
+      no_connection: "Nu există %{storageType} conexiune"
+      open_storage: "Deschide %{storageType}"
       types:
         nextcloud: "Nextcloud"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
-        live_data_error: "Error fetching file details"
+          Unele setări %{storageType} nu funcționează. Vă rugăm să contactați administratorul %{storageType}.
+        live_data_error: "Eroare la preluarea detaliilor fișierului"
         live_data_error_description: >
-          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
-        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+          Unele date %{storageType} nu au putut fi preluate. Încercați să reîncărcați această pagină sau contactați administratorul %{storageType}.
+        no_file_links: "Pentru a conecta fișierele la acest pachet de lucru, vă rugăm să le faceți prin intermediul %{storageType}."
         not_logged_in: >
-          To add a link, see or upload files related to this work package, please login to %{storageType}.
+          Pentru a adăuga un link, vezi sau încarcă fișiere legate de acest pachet de lucru, te rugăm să te autentifici la %{storageType}.
       file_links:
-        download: "Download %{fileName}"
-        no_permission: "You have no permission to see this file."
-        open: 'Open file on storage'
-        open_location: 'Open file in location'
-        remove: "Remove file link"
+        download: "Descarcă %{fileName}"
+        no_permission: "Nu aveți permisiunea de a vedea acest fișier."
+        open: 'Deschide fişierul pe stocare'
+        open_location: 'Deschide fișierul în locație'
+        remove: "Elimină link-ul fișierului"
         remove_confirmation: >
-          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
-        remove_short: "Remove link"
-        select: "Select files"
-        select_all: "Select all"
-        selection_none: "Select files to link"
-        selection_any: "Link %{number} files"
-        not_allowed_tooltip: "Please log in to Nextcloud to access this file"
-        already_linked_file: "This file is already linked to this work package."
-        already_linked_directory: "This directory is already linked to this work package."
+          Sigur doriți să deconectați fișierul de la acest pachet de lucru? Deconectarea nu afectează fișierul original și doar elimină conexiunea la acest pachet de lucru.
+        remove_short: "Ștergeți linkul"
+        select: "Selectați fișierele"
+        select_all: "Selectați tot"
+        selection_none: "Selectaţi fişierele pentru a conecta"
+        selection_any: "Leagă %{number} fișiere"
+        not_allowed_tooltip: "Vă rugăm să vă autentificaţi în Nextcloud pentru a accesa acest fişier"
+        already_linked_file: "Acest fișier este deja legat la acest pachet de lucru."
+        already_linked_directory: "Acest director este deja conectat la acest pachet de lucru."

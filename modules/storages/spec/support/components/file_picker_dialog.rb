@@ -29,6 +29,7 @@
 module Components
   class FilePickerDialog
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
 
     def container

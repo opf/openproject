@@ -29,9 +29,8 @@
 module Components
   class ProjectIncludeComponent
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
-
-    def initialize; end
 
     def clear_tooltips
       # Just hover anything else

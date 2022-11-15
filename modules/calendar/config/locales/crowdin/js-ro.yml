@@ -2,7 +2,7 @@
 ro:
   js:
     calendar:
-      create_new: 'Create new calendar'
+      create_new: 'Creați un calendar nou'
       title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
-      unsaved_title: 'Unnamed calendar'
+      too_many: 'Există %{count} pachete de lucru în total, dar numai %{max} poate fi afișat.'
+      unsaved_title: 'Calendar fără nume'

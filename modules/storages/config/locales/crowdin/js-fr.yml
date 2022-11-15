@@ -3,7 +3,7 @@ fr:
   js:
     storages:
       link_files_in_storage: "Lier des fichiers dans %{storageType}"
-      link_existing_files: "Link existing files"
+      link_existing_files: "Lier des fichiers existants"
       login: "Connexion à %{storageType}"
       login_to: "Connexion à %{storageType}"
       no_connection: "Aucune connexion à %{storageType}"
@@ -28,10 +28,10 @@ fr:
         remove_confirmation: >
           Êtes-vous sûr de vouloir dissocier le fichier de ce lot de travaux ? Unlinking n'affecte pas le fichier original et supprime seulement la connexion à ce lot de travaux.
         remove_short: "Supprimer le lien"
-        select: "Select files"
-        select_all: "Select all"
-        selection_none: "Select files to link"
-        selection_any: "Link %{number} files"
+        select: "Sélectionner les fichiers"
+        select_all: "Tout sélectionner"
+        selection_none: "Sélectionner les fichiers à lier"
+        selection_any: "Lier %{number} fichiers"
         not_allowed_tooltip: "Veuillez vous connecter à Nextcloud pour accéder à ce fichier"
-        already_linked_file: "This file is already linked to this work package."
-        already_linked_directory: "This directory is already linked to this work package."
+        already_linked_file: "Ce fichier est déjà lié à ce lot de travaux."
+        already_linked_directory: "Ce répertoire est déjà lié à ce lot de travaux."

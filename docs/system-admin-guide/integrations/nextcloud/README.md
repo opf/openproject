@@ -143,7 +143,7 @@ Click on **+ Storage**.
 
 ![List of file storages available to a project, empty](file-storages-available-in-project.png)
 
-In the page that follows, under, make sure your newly-created Nextcloud file storage is selected under **Storage**. If you only have one Nextcloud file storage set up (which is the most likely scenario), it should already be selected by default.
+In the page that follows, make sure your newly-created Nextcloud file storage is selected under **Storage**. If you only have one Nextcloud file storage set up (which is the most likely scenario), it should already be selected by default.
 
 ![Add your new file storage to a project](add-file-storage-to-project.png)
 

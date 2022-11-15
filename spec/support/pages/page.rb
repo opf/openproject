@@ -29,6 +29,7 @@
 module Pages
   class Page
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
     include OpenProject::StaticRouting::UrlHelpers
 

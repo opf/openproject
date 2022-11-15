@@ -30,10 +30,6 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
     areYouSure: this.i18n.t('js.text_are_you_sure'),
   };
 
-  public closeOnEscape = false;
-
-  public closeOnOutsideClick = false;
-
   public formInFlight:boolean;
 
   @InjectField() apiV3Service:ApiV3Service;
