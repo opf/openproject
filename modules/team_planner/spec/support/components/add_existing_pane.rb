@@ -29,9 +29,8 @@
 module Components
   class AddExistingPane
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
-
-    def initialize; end
 
     def selector
       "[data-qa-selector='add-existing-pane']"

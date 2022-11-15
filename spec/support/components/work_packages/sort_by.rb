@@ -30,6 +30,7 @@ module Components
   module WorkPackages
     class SortBy
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       def sort_via_header(name, selector: nil, descending: false)

@@ -22,21 +22,21 @@
 lol:
   activerecord:
     models:
-      document: "crwdns547157:0crwdne547157:0"
-  default_doc_category_tech: "crwdns547159:0crwdne547159:0"
-  default_doc_category_user: "crwdns547161:0crwdne547161:0"
-  enumeration_doc_categories: "crwdns547163:0crwdne547163:0"
+      document: "crwdns494199:0crwdne494199:0"
+  default_doc_category_tech: "crwdns494201:0crwdne494201:0"
+  default_doc_category_user: "crwdns494203:0crwdne494203:0"
+  enumeration_doc_categories: "crwdns494205:0crwdne494205:0"
   enumeration:
     document_category:
-      documentation: crwdns547165:0crwdne547165:0
-      specification: crwdns547167:0crwdne547167:0
-      other: crwdns547169:0crwdne547169:0
+      documentation: crwdns494207:0crwdne494207:0
+      specification: crwdns494209:0crwdne494209:0
+      other: crwdns494211:0crwdne494211:0
   documents:
-    label_attachment_author: "crwdns547171:0crwdne547171:0"
-  label_document_added: "crwdns547173:0crwdne547173:0"
-  label_document_new: "crwdns547175:0crwdne547175:0"
-  label_document_plural: "crwdns547177:0crwdne547177:0"
-  label_documents: "crwdns547179:0crwdne547179:0"
-  permission_manage_documents: "crwdns547181:0crwdne547181:0"
-  permission_view_documents: "crwdns547183:0crwdne547183:0"
-  project_module_documents: "crwdns547185:0crwdne547185:0"
+    label_attachment_author: "crwdns494213:0crwdne494213:0"
+  label_document_added: "crwdns494215:0crwdne494215:0"
+  label_document_new: "crwdns494217:0crwdne494217:0"
+  label_document_plural: "crwdns494219:0crwdne494219:0"
+  label_documents: "crwdns494223:0crwdne494223:0"
+  permission_manage_documents: "crwdns494225:0crwdne494225:0"
+  permission_view_documents: "crwdns494227:0crwdne494227:0"
+  project_module_documents: "crwdns494229:0crwdne494229:0"

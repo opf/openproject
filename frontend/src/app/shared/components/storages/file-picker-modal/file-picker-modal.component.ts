@@ -46,6 +46,7 @@ import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.mod
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import { Breadcrumb, BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
@@ -106,6 +107,7 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     readonly cdRef:ChangeDetectorRef,
     private readonly i18n:I18nService,
     private readonly timezoneService:TimezoneService,
+    private readonly sortFilesPipe:SortFilesPipe,
     private readonly fileLinksResourceService:FileLinksResourceService,
     private readonly storageFilesResourceService:StorageFilesResourceService,
   ) {
@@ -122,7 +124,11 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     }]);
 
     this.listItems$ = this.storageFiles$
-      .pipe(map((files) => files.map((file, index) => this.storageFileToListItem(file, index))));
+      .pipe(
+        map((files) =>
+          this.sortFilesPipe.transform(files)
+            .map((file, index) => this.storageFileToListItem(file, index))),
+      );
 
     this.storageFilesResourceService.files(makeFilesCollectionLink(this.storageLink, null))
       .pipe(take(1))

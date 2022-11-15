@@ -86,9 +86,8 @@ Next, add specific work packages to your planner. You can do this by either addi
 
 Click on the cell in the team planner grid that corresponds to the preferred assignee and start date.
 
-> **Note:** You can also click and drag across a date range to create a work package that spans those dates. The first square will be the start date and the last 
+> **Note:** You can also click and drag across a date range to create a work package that spans those dates. The first square will be the start date and the last one the finish date.
 >
-> one the finish date.
 
 ![Add new work package](add-new-work-package.png)
 

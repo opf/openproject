@@ -300,15 +300,15 @@ es:
           learn_about: "Más información sobre las nuevas características"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                La versión contiene varias nuevas funcionalidades y mejoras: <br> <ul class="%{list_styling_class}"> <li>Defina su semana global de trabajo (fines de semana y días no laborables de la semana).</li> <li>Calcule la duración en función de las fechas de inicio y final y también la posibilidad de considerar los días no laborables (fines de semana) en la programación.</li> <li>Añada consejos útiles a las acciones más esenciales.</li> <li>Al copiar un proyecto también se copiarán los enlaces de archivos adjuntos a todos los paquetes de trabajo.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                La versión contiene varias nuevas funcionalidades y mejoras: <br> <ul class="%{list_styling_class}"> <li>Defina su semana global de trabajo (fines de semana y días no laborables de la semana).</li> <li>Calcule la duración en función de las fechas de inicio y final y también la posibilidad de considerar los días no laborables (fines de semana) en la programación.</li> <li>Añada consejos útiles a las acciones más esenciales.</li> <li>Al copiar un proyecto también se copiarán los enlaces de archivos adjuntos a todos los paquetes de trabajo.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Asignado a'
     label_add_column_after: "Añadir columna a la derecha"
@@ -606,7 +606,7 @@ es:
               P3D: 3 days before
               P7D: a week before
             overdue:
-              P1D: everyday
+              P1D: every day
               P3D: every 3 days
               P7D: every week
         reasons:

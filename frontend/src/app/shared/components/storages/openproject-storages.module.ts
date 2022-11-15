@@ -76,6 +76,7 @@ import {
     StorageComponent,
   ],
   providers: [
+    SortFilesPipe,
     CookieService,
   ],
 })

@@ -30,6 +30,7 @@ module Components
   module WorkPackages
     class DestroyModal
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       def container

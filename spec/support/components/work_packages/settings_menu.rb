@@ -30,6 +30,7 @@ module Components
   module WorkPackages
     class SettingsMenu
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       def open_and_save_query(name)

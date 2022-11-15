@@ -28,6 +28,7 @@
 
 class DangerZone
   include Capybara::DSL
+  include Capybara::RSpecMatchers
 
   attr_reader :page
 

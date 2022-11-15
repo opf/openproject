@@ -30,6 +30,7 @@ module Components
   module WorkPackages
     class Activities
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       attr_reader :work_package

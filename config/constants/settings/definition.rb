@@ -190,7 +190,10 @@ module Settings
 
       private
 
-      # Currently only required for testing
+      # Currently only required for testing.
+      #
+      # Tag your test with :settings_reset to start test with fresh settings
+      # definitions and restore them after test.
       def reset
         @all = nil
         @loaded = false

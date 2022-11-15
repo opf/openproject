@@ -19,7 +19,7 @@
     *ngFor="let infoBox of storageInformation | async"
     class="op-files-tab--storage-info-box"
     data-qa-selector="op-files-tab--storage-information"
-    [viewModel]="infoBox"
+    [content]="infoBox"
   ></op-storage-information>
 
   <ul

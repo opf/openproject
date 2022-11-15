@@ -300,15 +300,15 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Określ swój globalny tydzień pracy (weekendy i dni wolne od pracy).</li> <li>Oblicz czas trwania w oparciu o daty rozpoczęcia i zakończenia oraz możliwość uwzględnienia dni wolnych od pracy (weekendów) w harmonogramie.</li> <li>Dodaj znaczące podpowiedzi do najistotniejszych działań.</li> <li>Kopiowanie projektu skopiuje również linki do plików dołączone do wszystkich pakietów roboczych.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Określ swój globalny tydzień pracy (weekendy i dni wolne od pracy).</li> <li>Oblicz czas trwania w oparciu o daty rozpoczęcia i zakończenia oraz możliwość uwzględnienia dni wolnych od pracy (weekendów) w harmonogramie.</li> <li>Dodaj znaczące podpowiedzi do najistotniejszych działań.</li> <li>Kopiowanie projektu skopiuje również linki do plików dołączone do wszystkich pakietów roboczych.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
     label_activate: "Aktywuj"
     label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"
@@ -608,7 +608,7 @@ pl:
               P3D: 3 days before
               P7D: a week before
             overdue:
-              P1D: everyday
+              P1D: every day
               P3D: every 3 days
               P7D: every week
         reasons:

@@ -8,3 +8,15 @@
 
 .modal-delivery-element
   display: none
+
+@media #{$spot-mq-mobile}
+  .spot-modal.op-file-picker
+    min-height: calc(100vh - 5rem)
+
+@media #{$spot-mq-desktop}
+  .spot-modal.op-file-picker
+    max-height: 40vh
+
+  .op-file-picker
+    &--scrollable-content
+      overflow-y: auto
