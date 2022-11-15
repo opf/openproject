@@ -101,18 +101,18 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     storage
   end
 
-  let(:connection_manager) do
-    connection_manager = instance_double(::OAuthClients::ConnectionManager)
-    allow(connection_manager).to receive(:get_access_token).and_return(ServiceResult.success(result: access_token))
-    allow(connection_manager).to receive(:with_refreshed_token).and_yield
-    connection_manager
-  end
-
-  let(:access_token) do
+  let(:token) do
     token = instance_double(OAuthClientToken)
     allow(token).to receive(:origin_user_id).and_return(origin_user_id)
     allow(token).to receive(:access_token).and_return('xyz')
     token
+  end
+
+  let(:connection_manager) do
+    connection_manager = instance_double(::OAuthClients::ConnectionManager)
+    allow(connection_manager).to receive(:get_access_token).and_return(ServiceResult.success(result: token))
+    allow(connection_manager).to receive(:request_with_token_refresh).and_yield(token)
+    connection_manager
   end
 
   subject { described_class.new(storage:) }
