@@ -246,7 +246,7 @@ ro:
           confidence: >
             Oferim încrederea unui software de gestionare a proiectelor de clasă enterprise testat și susținut - cu Open Source și o minte deschisă.
           link_quote: "Obțineți o ofertă"
-          more_info: "More information"
+          more_info: "Mai multe informatii"
           text: >
             Ediția OpenProject Enterprise Edition se bazează pe ediția Community Edition. Aceasta include caracteristici premium și asistență profesională, destinate în principal organizațiilor cu peste 10 utilizatori care gestionează proiecte critice de afaceri cu OpenProject.
           unlimited: "Nelimitat"
@@ -279,7 +279,7 @@ ro:
           one: "Primul criteriu de sortare"
           two: "Al doilea criteriu de sortare"
           three: "Al treilea criteriu de sortare"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
+      upsale_for_more: "Filtrele avansate vă permit să filtrați și numele fișierelor și conținutul atașamentelor la pachetele de lucru. Vă rugăm să treceți la un plan cu plată pentru a utiliza această caracteristică."
       upsale_link: 'Versiunea Enterprise.'
     general_text_no: "nu"
     general_text_yes: "da"
@@ -299,15 +299,15 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Versiunea conține diverse caracteristici noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Definiți săptămâna de lucru globală (weekend și zile nelucrătoare ale săptămânii).</li> <li>Calculează durata pe baza datelor de început și de finalizare și a posibilității de a lua în considerare zile nelucrătoare (sfârșit de săptămână) în programare.</li> <li>Adaugă sfaturi utile pentru cele mai importante acțiuni.</li> <li>Copierea unui proiect va copia, de asemenea, link-urile fișierelor atașate la toate pachetele de lucru.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Versiunea conține diverse caracteristici noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Definiți săptămâna de lucru globală (weekend și zile nelucrătoare ale săptămânii).</li> <li>Calculează durata pe baza datelor de început și de finalizare și a posibilității de a lua în considerare zile nelucrătoare (sfârșit de săptămână) în programare.</li> <li>Adaugă sfaturi utile pentru cele mai importante acțiuni.</li> <li>Copierea unui proiect va copia, de asemenea, link-urile fișierelor atașate la toate pachetele de lucru.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
     label_activate: "Activare"
     label_assignee: 'Executant'
     label_add_column_after: "Adauga o coloana dupa"
@@ -379,7 +379,7 @@ ro:
     label_in_more_than: "în mai mult de"
     label_incoming_emails: "E-mailuri primite"
     label_information_plural: "Informații"
-    label_invalid: "Invalid"
+    label_invalid: "Nevalid"
     label_import: "Importă"
     label_latest_activity: "Activitate recentă"
     label_last_updated_on: "Ultima actualizare la data de"
@@ -501,7 +501,7 @@ ro:
         next: 'Înainte'
         got_it: 'Am înțeles'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'Meniul Ajutor (?) oferă <b>resurse suplimentare de ajutor</b>. Aici puteți găsi un ghid de utilizator, un ghid util pentru videoclipuri și multe altele. <br> Bucurați-vă de munca dumneavoastră cu OpenProject!'
         members: 'Invitați noi <b>membri</b> să se alăture proiectului dumneavoastră.'
         project_selection: 'Vă rugăm să faceți clic pe unul dintre proiectele demo pe care le-am pregătit. Datele demo sunt disponibile în prezent doar în limba engleză. <br> Proiectul demonstrativ <b>general</b> se potrivește cel mai bine pentru gestionarea proiectelor clasice, în timp ce proiectul <b>Scrum</b> este mai bun pentru managementul agile al proiectului.'
         quick_add_button: 'Dă click pe pictograma plus (+) din antetul navigării pentru a <b>crea un nou proiect</b> sau <b>invita colaboratori</b>.'
@@ -542,11 +542,11 @@ ro:
         watched: 'observator'
         assigned: 'atribuit'
         responsible: 'Responsabil'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'creat'
+        scheduled: 'programat'
+        commented: 'comentat'
+        processed: 'prelucrate'
+        prioritized: 'prioritizat'
         dateAlert: 'Alertă de dată'
       date_alerts:
         milestone_date: 'Data etapa'
@@ -606,7 +606,7 @@ ro:
               P3D: Cu 3 zile înainte
               P7D: ' cu o săptămână înainte '
             overdue:
-              P1D: zilnic
+              P1D: every day
               P3D: la fiecare 3 zile
               P7D: săptămânal
         reasons:
@@ -806,7 +806,7 @@ ro:
         farRight: 'Extrema dreaptă'
         showNone: '-- Fără etichetă --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Selectați atributele pe care doriți să le afișați în pozițiile respective ale graficului Gantt tot timpul. Țineți cont că atunci când planează deasupra unui element, etichetele sale vor fi afișate în locul acestor atribute.
       button_activate: 'Grafic Gantt'
       button_deactivate: 'Grafic Gantt'
       cancel: Anulare

@@ -7,7 +7,7 @@ keywords: notifications settings
 ---
 # Notification Settings
 
-You can configure how and for what events you wish to be notified through Notification Center. To access these settings, you can either click on **_your avatar on the top right corner → My account → Notification settings_** or click on **Notification Settings** on the top right corner of Notification center.
+You can configure how and for what events you wish to be notified through Notification center. To access these settings, you can either click on **_your avatar on the top right corner → My account → Notification settings_** or click on **Notification Settings** on the top right corner of Notification center.
 
 ![A screenshot of Notification center with the Notification settings button highlighted](Notification-settings-12.4-fromNotificationCenter.png)
 
@@ -35,19 +35,21 @@ You cannot disable notifications for when you are mentioned since the goal of me
 
 > Info: Modifying these settings might result in your missing updates and changes that are relevant to you. We do not recommend changing them unless you are absolutely certain of the consequences.
 
-## Date alerts
+## Date alerts (Premium feature)
 
-Starting 12.4, Open Project offers notification for date alerts. Please note that this is an Enterprise feature.
+Starting with 12.4, Open Project offers notification for date alerts.
 
-> **Note**: Date alerts are a premium feature and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or  [Enterprise on-premises](../../../enterprise-on-premises-guide/). An upgrade from the free community edition is easy and helps support OpenProject.
+> **Note**: Date alerts are a Premium feature and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
 
-Date alerts allow you to receive a notification when a start date or a finish date is approaching for a work package in which you are participating (that is, for which you are assignee, accountable or a watcher). 
+Date alerts allow you to receive a notification when a start date or a finish date is approaching for a work package you are participating in (that is, for which you are assignee, accountable or a watcher). 
 
 ![A screenshot of options for date alerts](Notification-settings-12.4-dateAlerts.png)
 
 For each date, you can choose to be alerted the same day, a day before, 3 days before or a week before.
 
 You can also choose to receive a recurring notification (every day, every 3 days or every week) for work packages that are overdue. You can stop receiving these alerts by either unchecking this option, or changing the dates of the relevant work packages.
+
+Date alerts notifications will appear in [notification center]((../#accessing-in-app-notifications)), both in the _Inbox_ and the separate _Date alerts_ sections on the left menu.
 
 ## Non-participating
 

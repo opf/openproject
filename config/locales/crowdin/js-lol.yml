@@ -299,15 +299,15 @@ lol:
           learn_about: "crwdns804238:0crwdne804238:0"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_4':
             standard:
-              learn_about_link: crwdns834570:0crwdne834570:0
+              learn_about_link: crwdns838619:0crwdne838619:0
               new_features_html: >
-                crwdns834572:0%{list_styling_class}crwdne834572:0
+                crwdns838621:0%{list_styling_class}crwdne838621:0
             bim:
-              learn_about_link: crwdns834574:0crwdne834574:0
+              learn_about_link: crwdns838623:0crwdne838623:0
               new_features_html: >
-                crwdns834576:0%{list_styling_class}crwdne834576:0
+                crwdns838625:0%{list_styling_class}crwdne838625:0
     label_activate: "crwdns804248:0crwdne804248:0"
     label_assignee: 'crwdns810600:0crwdne810600:0'
     label_add_column_after: "crwdns804250:0crwdne804250:0"
@@ -605,7 +605,7 @@ lol:
               P3D: crwdns838555:0crwdne838555:0
               P7D: crwdns838557:0crwdne838557:0
             overdue:
-              P1D: crwdns838559:0crwdne838559:0
+              P1D: crwdns838627:0crwdne838627:0
               P3D: crwdns838561:0crwdne838561:0
               P7D: crwdns838563:0crwdne838563:0
         reasons:
