@@ -300,15 +300,15 @@ ca:
           learn_about: "Més informació sobre les noves funcions"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Aquesta versió conté vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>Defineix la teva setmana laboral (caps de setmana i dies no laborals de la setmana).</li> <li>Calcula la duració basada en les dates d'inici i final i amb la possibilitat de considerar dies no laborals (caps de setmana) en planificar.</li> <li>S'han afegit texts d'ajuda a les accions més essencials.</li> <li>En copiar un projecte també es copiaran els enllaços de fitxers adjunts de tots els paquets de treball.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Aquesta versió conté vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>Defineix la teva setmana laboral (caps de setmana i dies no laborals de la setmana).</li> <li>Calcula la duració basada en les dates d'inici i final i amb la possibilitat de considerar dies no laborals (caps de setmana) en planificar.</li> <li>S'han afegit texts d'ajuda a les accions més essencials.</li> <li>En copiar un projecte també es copiaran els enllaços de fitxers adjunts de tots els paquets de treball.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Assignat a'
     label_add_column_after: "Afegir una columna després"
@@ -606,7 +606,7 @@ ca:
               P3D: 3 days before
               P7D: a week before
             overdue:
-              P1D: everyday
+              P1D: every day
               P3D: every 3 days
               P7D: every week
         reasons:

@@ -7,7 +7,7 @@ ro:
       label_unnamed_list: 'Listă fără nume'
       label_board_type: 'Tipul de placă'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
+        teaser_text: 'Doriți să automatizați fluxurile de lucru cu forumuri? Secţiunile avansate sunt o caracteristică de întreprindere. Vă rugăm să faceţi upgrade la un plan plătit.'
         upgrade: 'Actualizează acum'
       lists:
         delete: 'Ștergeți lista'
