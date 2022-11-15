@@ -63,7 +63,7 @@ ro:
   label_example_placeholder: 'de exemplu, %{decimal}'
   label_view_all_budgets: "Vezi toate bugetele"
   label_yes: "Da"
-  notice_budget_conflict: "Work packages must be of the same project."
+  notice_budget_conflict: "Pachetele de lucru trebuie să fie din același proiect."
   notice_no_budgets_available: "Nu există bugete disponibile."
   permission_edit_budgets: "Editarea bugetelor"
   permission_view_budgets: "Vezi bugete"

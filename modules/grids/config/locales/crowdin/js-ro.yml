@@ -5,7 +5,7 @@ ro:
       remove: 'Eliminați widget-ul'
       configure: 'Configurați widget-ul'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise Edition."
+        text: "Unele widget-uri, cum ar fi widget-ul grafic pachet de lucru, sunt disponibile doar în Enterprise Edition."
         link: 'Versiunea Enterprise.'
       widgets:
         custom_text:

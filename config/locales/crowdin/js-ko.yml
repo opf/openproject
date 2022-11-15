@@ -300,15 +300,15 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>글로벌 근무 주(주말 및 주중 휴무일)를 정의합니다.</li> <li>시작 날짜와 완료 날짜 및 스케줄링에서 휴무일(주말) 고려 가능성을 바탕으로 기간을 계산합니다.</li> <li>가장 필수적인 작업에 유용한 툴팁을 추가합니다.</li> <li>프로젝트를 복사하면 모든 작업 패키지에 첨부된 파일 링크도 복사됩니다.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>글로벌 근무 주(주말 및 주중 휴무일)를 정의합니다.</li> <li>시작 날짜와 완료 날짜 및 스케줄링에서 휴무일(주말) 고려 가능성을 바탕으로 기간을 계산합니다.</li> <li>가장 필수적인 작업에 유용한 툴팁을 추가합니다.</li> <li>프로젝트를 복사하면 모든 작업 패키지에 첨부된 파일 링크도 복사됩니다.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
     label_activate: "활성화"
     label_assignee: '담당자'
     label_add_column_after: "다음 뒤에 열 추가"
@@ -605,7 +605,7 @@ ko:
               P3D: 3 days before
               P7D: a week before
             overdue:
-              P1D: everyday
+              P1D: every day
               P3D: every 3 days
               P7D: every week
         reasons:

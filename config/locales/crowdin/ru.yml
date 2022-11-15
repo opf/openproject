@@ -2061,8 +2061,8 @@ ru:
         mentioned: 'Упомянутые'
         subscribed: 'все'
         prefix: 'Получено из-за настройки уведомления: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
+        date_alert_start_date: 'Дата оповещения'
+        date_alert_due_date: 'Дата оповещения'
       see_all: 'Показать все'
       updated_at: 'Обновлено в %{timestamp} пользователем %{user}'
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"

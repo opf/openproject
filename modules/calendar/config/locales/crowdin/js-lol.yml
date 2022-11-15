@@ -2,7 +2,7 @@
 lol:
   js:
     calendar:
-      create_new: 'crwdns810802:0crwdne810802:0'
-      title: 'crwdns810804:0crwdne810804:0'
-      too_many: 'crwdns810806:0%{count}crwdnd810806:0%{max}crwdne810806:0'
-      unsaved_title: 'crwdns810808:0crwdne810808:0'
+      create_new: 'crwdns809628:0crwdne809628:0'
+      title: 'crwdns588587:0crwdne588587:0'
+      too_many: 'crwdns588589:0%{count}crwdnd588589:0%{max}crwdne588589:0'
+      unsaved_title: 'crwdns588591:0crwdne588591:0'

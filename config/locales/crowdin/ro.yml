@@ -1654,7 +1654,7 @@ ro:
   label_index_by_title: "Indexare după titlu"
   label_information: "Informații"
   label_information_plural: "Informații"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: 'Ghiduri de instalare'
   label_integer: "Număr întreg"
   label_internal: "Intern"
   label_introduction_video: "Video de introducere"
@@ -2243,14 +2243,14 @@ ro:
   permission_edit_own_time_entries: "Editare jurnale de timp proprii"
   permission_edit_project: "Editare proiect"
   permission_edit_reportings: "Editare raportări"
-  permission_edit_time_entries: "Edit time logs for other users"
+  permission_edit_time_entries: "Editați jurnalele de timp pentru alți utilizatori"
   permission_edit_timelines: "Editare linii de timp"
   permission_edit_wiki_pages: "Editare pagini wiki"
   permission_export_work_packages: "Export pachete de lucru"
   permission_export_wiki_pages: "Export pagini wiki"
   permission_list_attachments: "Listare atașamente"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "Înregistrarea timpului propriu"
+  permission_log_time: "Timp de înregistrare pentru alți utilizatori"
   permission_manage_forums: "Gestionare forumuri"
   permission_manage_categories: "Gestionare categorii de pachete de lucru"
   permission_manage_work_package_relations: "Gestionare relații pachete de lucru"
@@ -2412,7 +2412,7 @@ ro:
       oauth_application_details_link_text: "Mergeți la pagina de setări"
       setup_documentation_details: "Dacă aveți nevoie de ajutor pentru configurarea unui nou depozit de fișiere, consultați documentația: "
       setup_documentation_details_link_text: "Configurarea fișierelor de stocare"
-      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
+      show_warning_details: "Pentru a utiliza acest spațiu de stocare a fișierelor, nu uitați să activați modulul și spațiul de stocare specific în setările de proiect ale fiecărui proiect dorit."
     subversion:
       existing_title: "Repo Subversion existent"
       existing_introduction: "Dacă aveţi deja un repo de Subversion, puteți să-l conectați cu OpenProject pentru a-l accesa din aplicație."
@@ -2504,7 +2504,7 @@ ro:
   setting_work_package_list_default_columns: "Afișate implicit"
   setting_work_package_properties: "Proprietăți pachet de lucru"
   setting_work_package_startdate_is_adddate: "Folosire data curentă ca dată de început pentru pachetele de lucru noi"
-  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
+  setting_work_packages_projects_export_limit: "Limita de export a pachetelor de lucru / proiectelor"
   setting_journal_aggregation_time_minutes: "Acțiunile utilizatorilor agregate în cadrul"
   setting_log_requesting_user: "Auditare utilizator, nume și adresă de email pentru toate cererile"
   setting_login_required: "Autentificare obligatorie"
@@ -2617,11 +2617,11 @@ ro:
   text_custom_field_hint_activate_per_project_and_type: >
     Câmpurile personalizate trebuie să fie activate pentru fiecare pachet de lucru și pentru fiecare proiect.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    Ediția Enterprise va adăuga aceste caracteristici suplimentare pentru câmpurile personalizate ale pachetelor de lucru: <br> <ul> <li><b>Permite multi-selectare pentru câmpuri personalizate tip Listă sau Utilizator</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    Ediția Enterprise va adăuga aceste caracteristici suplimentare pentru câmpurile de statusuri ale pachetelor de lucru: <br> <ul> <li><b>Permite marcarea pachetelor de lucru numai în citire pentru anumite statusuri</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    Ediția Enterprise va adăuga aceste caracteristici suplimentare pentru câmpurile personalizate ale proiectelor: <br> <ul> <li><b>Adăugați câmpuri personalizate pentru proiecte în lista de proiecte pentru a crea o vizualizare a portofoliului de proiecte</b></li> </ul>
   text_custom_logo_instructions: >
     Este recomandată utilizarea unui logo cu fundal transparent. Pentru a obține rezultate satisfăcătoare pe afișajele convenționale dar și pe cele de tipe retina, asigurați-vă că dimensiunea imaginii este de 460px pe 110px.
   text_custom_favicon_instructions: >
@@ -2930,9 +2930,9 @@ ro:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'Nepotrivire de configurare a modului HTTPS'
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        Aplicația dumneavoastră rulează cu modul HTTPS setat la <code>%{set_protocol}</code>, dar solicitarea este o cerere <code>%{actual_protocol}</code> . Acest lucru va duce la erori! Va trebui să setați următoarea valoare de configurare: <code>%{setting_value}</code>. Vedeți <a href="%{more_info_path}">documentația de instalare</a> despre cum să setați această configurație.
     hostname_mismatch:
       title: 'Nepotrivire de setare a numelui de gazdă'
       text_html: >
