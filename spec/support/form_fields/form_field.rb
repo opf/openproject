@@ -1,6 +1,7 @@
 module FormFields
   class FormField
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
 
     attr_reader :property, :selector

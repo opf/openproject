@@ -2021,6 +2021,8 @@ de:
         mentioned: 'Erwähnt'
         subscribed: 'alle'
         prefix: 'Erhalten aufgrund Benachrichtigungseinstellung: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'Alle anzeigen'
       updated_at: 'Aktualisiert %{timestamp} von %{user} '
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"

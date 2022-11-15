@@ -2093,6 +2093,8 @@ ar:
         mentioned: 'Mentioned'
         subscribed: 'الكل'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "وقد سجل مستخدم جديد (%{value}). الحساب انتظار الموافقة الخاصة بك:"

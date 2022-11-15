@@ -9,9 +9,7 @@ keywords: user guide
 
 Welcome to the OpenProject User guide.
 
-This guide covers all of OpenProject's functionalities. 
-
-
+This guide covers all of OpenProject's functionalities from a user's perspective.
 
 ## Overview of projects in OpenProject
 
@@ -24,7 +22,7 @@ Both the community edition and enterprise edition allow you to create an unlimit
 <div class="glossary">
 **Module** is defined as an independent unit of functionality that can be used to extend and improve the existing core functions.</div>
 
-Within a project Modules can be activated and deactivated under "Modules" in the project settings menu by project members who have sufficient permissions to adjust project settings. Which modules will be available within projects is controlled in the global Administration settings (please see [System admin guide](.../system-admin-guide/system-settings/project-system-settings/) to see how this is done.)
+Within a project Modules can be activated and deactivated under "Modules" in the project settings menu by project members who have sufficient permissions to adjust project settings. Which modules will be available within projects is controlled in the global Administration settings (please see [System admin guide](.../system-admin-guide/system-settings/project-system-settings/) to see how this is done).
 
 Please choose the module or topic you want to learn more about.
 
@@ -38,7 +36,7 @@ Please choose the module or topic you want to learn more about.
 | [Calendar](calendar)                                         | How to display your work in a calendar in OpenProject.       |
 | [Documents](documents)                                       | How to upload and share documents in OpenProject.            |
 | [Forums](forums)                                             | How to manage forums to discuss and comment on topics.       |
-| [GitHub](../system-admin-guide/integrations/github-integration/) | How to manage GitHub integration.                            |
+| [GitHub](../system-admin-guide/integrations/github-integration/) | How to manage the GitHub integration.                        |
 | [Meetings](meetings)                                         | How to manage meetings to create and share meeting agenda and meeting minutes. |
 | [News](news)                                                 | How to create and manage News for your projects.             |
 | [Using the Nextcloud integration](nextcloud-integration)     | How to link and use Nextcloud files and folders in OpenProject |

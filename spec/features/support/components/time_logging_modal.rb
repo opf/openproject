@@ -29,6 +29,7 @@
 module Components
   class TimeLoggingModal
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
 
     attr_reader :activity_field,

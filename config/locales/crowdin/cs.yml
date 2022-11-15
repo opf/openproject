@@ -2062,6 +2062,8 @@ cs:
         mentioned: 'Zmíněné'
         subscribed: 'vše'
         prefix: 'Obdrženo z důvodu nastavení oznámení: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'Zobrazit vše'
       updated_at: 'Aktualizováno v %{timestamp} uživatelem %{user}'
   mail_body_account_activation_request: "Nový uživatel (%{value}) byl zaregistrován. Účet čeká na Vaše schválení:"

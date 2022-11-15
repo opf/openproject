@@ -98,8 +98,6 @@ export class ConfirmDialogModalComponent extends OpModalComponent {
 
     this.dangerHighlighting = _.defaultTo(this.options.dangerHighlighting, false);
     this.passedData = _.defaultTo(this.options.passedData, []);
-    this.closeOnEscape = _.defaultTo(this.options.closeByEscape, true);
-    this.closeOnOutsideClick = _.defaultTo(this.options.closeByDocument, true);
     this.showClose = _.defaultTo(this.options.showClose, true);
     this.divideContent = _.defaultTo(this.options.divideContent, false);
     // override default texts and icons if any

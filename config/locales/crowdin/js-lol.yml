@@ -227,6 +227,8 @@ lol:
           quick_overview: "crwdns787160:0crwdne787160:0"
         upsale:
           become_hero: "crwdns787162:0crwdne787162:0"
+          enterprise_info_html: "crwdns838379:0%{feature_title}crwdne838379:0"
+          upgrade_info: "crwdns838381:0crwdne838381:0"
           benefits:
             description: "crwdns787164:0crwdne787164:0"
             high_security: "crwdns787166:0crwdne787166:0"
@@ -239,6 +241,7 @@ lol:
             professional_support_text: "crwdns787180:0crwdne787180:0"
           button_start_trial: "crwdns787182:0crwdne787182:0"
           button_upgrade: "crwdns822250:0crwdne822250:0"
+          button_contact_us: "crwdns838383:0crwdne838383:0"
           button_book_now: "crwdns787184:0crwdne787184:0"
           confidence: >
             crwdns787186:0crwdne787186:0
@@ -296,15 +299,15 @@ lol:
           learn_about: "crwdns787258:0crwdne787258:0"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_4':
             standard:
-              learn_about_link: crwdns834162:0crwdne834162:0
+              learn_about_link: crwdns838609:0crwdne838609:0
               new_features_html: >
-                crwdns834164:0%{list_styling_class}crwdne834164:0
+                crwdns838611:0%{list_styling_class}crwdne838611:0
             bim:
-              learn_about_link: crwdns834166:0crwdne834166:0
+              learn_about_link: crwdns838613:0crwdne838613:0
               new_features_html: >
-                crwdns834168:0%{list_styling_class}crwdne834168:0
+                crwdns838615:0%{list_styling_class}crwdne838615:0
     label_activate: "crwdns787268:0crwdne787268:0"
     label_assignee: 'crwdns809580:0crwdne809580:0'
     label_add_column_after: "crwdns787270:0crwdne787270:0"
@@ -553,6 +556,9 @@ lol:
         property_is: 'crwdns836989:0%{difference_in_days}crwdne836989:0'
         property_was: 'crwdns836991:0%{difference_in_days}crwdne836991:0'
         property_is_deleted: 'crwdns836993:0crwdne836993:0'
+        upsale:
+          title: 'crwdns838385:0crwdne838385:0'
+          description: 'crwdns838387:0crwdne838387:0'
       facets:
         unread: 'crwdns787694:0crwdne787694:0'
         unread_title: 'crwdns833310:0crwdne833310:0'
@@ -599,7 +605,7 @@ lol:
               P3D: crwdns836941:0crwdne836941:0
               P7D: crwdns836943:0crwdne836943:0
             overdue:
-              P1D: crwdns836945:0crwdne836945:0
+              P1D: crwdns838617:0crwdne838617:0
               P3D: crwdns836947:0crwdne836947:0
               P7D: crwdns836949:0crwdne836949:0
         reasons:

@@ -31,6 +31,7 @@ module Components
     module TableConfiguration
       class GraphGeneral
         include Capybara::DSL
+        include Capybara::RSpecMatchers
         include RSpec::Matchers
 
         def set_type(name)

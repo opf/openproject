@@ -32,9 +32,12 @@ class Queries::Notifications::Filters::ReasonFilter < Queries::Notifications::Fi
               .except(:date_alert_start_date, :date_alert_due_date)
               .merge(dateAlert: [Notification::REASONS[:date_alert_start_date],
                                  Notification::REASONS[:date_alert_due_date]])
+              .freeze
 
   def allowed_values
-    REASONS.keys.map { |reason| [reason, reason] }
+    reasons = REASONS.keys
+    reasons = reasons.without("dateAlert") unless EnterpriseToken.allows_to?(:date_alerts)
+    reasons.map { |reason| [reason, reason] }
   end
 
   def type

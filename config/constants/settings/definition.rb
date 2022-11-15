@@ -190,7 +190,10 @@ module Settings
 
       private
 
-      # Currently only required for testing
+      # Currently only required for testing.
+      #
+      # Tag your test with :settings_reset to start test with fresh settings
+      # definitions and restore them after test.
       def reset
         @all = nil
         @loaded = false
@@ -402,8 +405,6 @@ module Settings
         AR_BOOLEAN_TYPE.cast(value)
       when :symbol
         value.to_sym
-      when :timezone
-        ActiveSupport::TimeZone.lookup_timezone(value) || value
       else
         value
       end

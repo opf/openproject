@@ -2023,6 +2023,8 @@ es:
         mentioned: 'Mencionado'
         subscribed: 'todos'
         prefix: 'Recibido por la configuración de notificaciones: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'Ver todo'
       updated_at: 'Actualizado a las %{timestamp} por %{user}'
   mail_body_account_activation_request: "Ha registrado un nuevo usuario (%{value}). La cuenta está pendiente de aprobación:"

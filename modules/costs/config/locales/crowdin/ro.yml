@@ -70,7 +70,7 @@ ro:
   caption_materials: "Unități"
   caption_rate_history: "Istoricul ratei"
   caption_rate_history_for: "Istoric al ratei pentru %{user}"
-  caption_rate_history_for_project: "Rate history for %{user} in project %{project}"
+  caption_rate_history_for_project: "Istoricul ratei pentru %{user} în proiectul %{project}"
   caption_save_rate: "Salvează rata"
   caption_set_rate: "Setați rata curentă"
   caption_show_locked: "Afișați tipurile blocate"

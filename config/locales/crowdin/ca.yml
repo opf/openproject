@@ -2022,6 +2022,8 @@ ca:
         mentioned: 'Mencionat'
         subscribed: 'tot'
         prefix: 'Rebut a causa de la configuració de notificacions: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'Veure tot'
       updated_at: 'Actualitzat a les %{timestamp} per %{user}'
   mail_body_account_activation_request: "S'ha registrat un usuari nou (%{value}). El teu compte està pendent d'aprovació:"

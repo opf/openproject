@@ -228,6 +228,8 @@ lt:
           quick_overview: "Gaukite greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject Enterprise Edition."
         upsale:
           become_hero: "Tapkite didvyriu!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "Kokie yra Enterprise on-premises Edition privalumai?"
             high_security: "Saugumo funkcijos"
@@ -240,6 +242,7 @@ lt:
             professional_support_text: "Gaukite patikimą, artimą pagalbą iš patyrusių pagalbos inžinierių su ekspertinėmis žiniomis apie OpenProject naudojimą verslui kritinėse aplinkose."
           button_start_trial: "Pradėti bandomąjį laikotarpį"
           button_upgrade: "Upgrade now"
+          button_contact_us: "Contact us for a demo"
           button_book_now: "Užsakyti dabar"
           confidence: >
             Mes duodame patikrintos ir palaikomas korporacijos-lygio projektų valdymo programos užtikrintumą -- su atviru kodu ir plačiomis pažiūromis.
@@ -297,15 +300,15 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
     label_activate: "Aktyvuoti"
     label_assignee: 'Paskirtas'
     label_add_column_after: "Pridėti stulpelį po"
@@ -554,6 +557,9 @@ lt:
         property_is: 'is in %{difference_in_days}'
         property_was: 'was %{difference_in_days} ago'
         property_is_deleted: 'is deleted'
+        upsale:
+          title: 'Date alerts'
+          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'Neskaitytas'
         unread_title: 'Show unread'
@@ -602,7 +608,7 @@ lt:
               P3D: 3 days before
               P7D: a week before
             overdue:
-              P1D: everyday
+              P1D: every day
               P3D: every 3 days
               P7D: every week
         reasons:

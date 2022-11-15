@@ -18,7 +18,7 @@
 
   overflow-y: auto
 
-  @media (max-width: 680px)
+  @media #{$spot-mq-mobile}
     width: calc(100vw - 2rem)
     max-height: calc(100vh - 5rem)
 
@@ -47,6 +47,9 @@
       margin-right: $spot-spacing-0-5
       font-size: 1rem
 
+    &-button
+      font-weight: normal
+
     &-title
       flex-grow: 1
 
@@ -71,5 +74,5 @@
       outline-style: none
 
   &--cancel-button
-    @media (max-width: 680px)
+    @media #{$spot-mq-mobile}
       display: none

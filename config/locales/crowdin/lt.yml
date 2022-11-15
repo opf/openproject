@@ -2059,6 +2059,8 @@ lt:
         mentioned: 'Paminėtas'
         subscribed: 'visi'
         prefix: 'Gauta dėl pranešimų nustatymo: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'Žiūrėti visus'
       updated_at: 'Pakeitė %{user} %{timestamp}'
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"

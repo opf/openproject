@@ -30,6 +30,7 @@ module Components
   module WorkPackages
     class TableConfigurationModal
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       attr_accessor :trigger_parent

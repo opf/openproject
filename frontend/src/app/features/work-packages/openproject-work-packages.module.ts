@@ -176,7 +176,7 @@ import { WorkPackageMarkNotificationButtonComponent } from 'core-app/features/wo
 import { WorkPackageFilesTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/files-tab/op-files-tab.component';
 import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { OpenprojectFileLinksModule } from 'core-app/shared/components/file-links/openproject-file-links.module';
+import { OpenprojectStoragesModule } from 'core-app/shared/components/storages/openproject-storages.module';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { DatepickerBannerComponent } from 'core-app/shared/components/datepicker/banner/datepicker-banner.component';
@@ -209,7 +209,7 @@ import { StorageFilesResourceService } from 'core-app/core/state/storage-files/s
 
     EditFieldControlsModule,
     OpenprojectTabsModule,
-    OpenprojectFileLinksModule,
+    OpenprojectStoragesModule,
   ],
   providers: [
     // Notification service

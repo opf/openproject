@@ -160,7 +160,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
       end
     end
 
-    context 'with a reason filter' do
+    context 'with a reason filter', with_ee: [:date_alerts] do
       shared_let(:assigned_notification) do
         create(:notification,
                reason: :assigned,
@@ -191,6 +191,28 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
       it_behaves_like 'API V3 collection response', 3, 3, 'Notification' do
         let(:elements) { [responsible_notification, date_alert_notification, mentioned_notification] }
+      end
+
+      context 'when using date alerts without enterprise', with_ee: false do
+        let(:filters) do
+          [
+            {
+              'reason' => {
+                'operator' => '=',
+                'values' => ['dateAlert']
+              }
+            }
+          ]
+        end
+
+        it 'returns an error' do
+          expect(last_response.status)
+            .to be 400
+
+          expect(last_response.body)
+            .to be_json_eql("Filters Reason filter has invalid values.".to_json)
+                  .at_path('message')
+        end
       end
 
       context 'with an invalid reason' do

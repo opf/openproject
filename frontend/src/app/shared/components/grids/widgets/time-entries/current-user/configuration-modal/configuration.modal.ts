@@ -15,14 +15,6 @@ import { TimeEntriesCurrentUserConfigurationModalService } from 'core-app/shared
   providers: [TimeEntriesCurrentUserConfigurationModalService],
 })
 export class TimeEntriesCurrentUserConfigurationModalComponent extends OpModalComponent implements OnInit {
-  /* Close on escape? */
-  public closeOnEscape = true;
-
-  /* Close on outside click */
-  public closeOnOutsideClick = true;
-
-  public $element:JQuery;
-
   public text = {
     displayedDays: this.I18n.t('js.grid.widgets.time_entries_current_user.displayed_days'),
     closePopup: this.I18n.t('js.close_popup_title'),

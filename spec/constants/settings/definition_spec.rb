@@ -57,9 +57,7 @@ describe Settings::Definition do
         .to eq 20
     end
 
-    context 'when overriding from ENV' do
-      include_context 'with clean setting definitions'
-
+    context 'when overriding from ENV', :settings_reset do
       def value_for(name)
         all.detect { |d| d.name == name }.value
       end
@@ -153,9 +151,13 @@ describe Settings::Definition do
       it 'overriding timezone configuration from ENV will cast the value' do
         stub_const('ENV', { 'OPENPROJECT_USER__DEFAULT__TIMEZONE' => 'Europe/Berlin' })
 
-        value = all.detect { |d| d.name == 'user_default_timezone' }.value
-        expect(value).to be_a ::ActiveSupport::TimeZone
-        expect(value.name).to eq 'Berlin'
+        expect(value_for('user_default_timezone')).to eq 'Europe/Berlin'
+      end
+
+      it 'overriding timezone configuration from ENV with a bogus value' do
+        stub_const('ENV', { 'OPENPROJECT_USER__DEFAULT__TIMEZONE' => 'foobar' })
+
+        expect { value_for('user_default_timezone') }.to raise_error(ArgumentError)
       end
 
       it 'overriding configuration from ENV will set it to non writable' do
@@ -369,9 +371,7 @@ describe Settings::Definition do
       end
     end
 
-    context 'when overriding from file' do
-      include_context 'with clean setting definitions'
-
+    context 'when overriding from file', :settings_reset do
       let(:file_contents) do
         <<~YAML
           ---
@@ -499,9 +499,7 @@ describe Settings::Definition do
       end
     end
 
-    context 'when adding an additional setting' do
-      include_context 'with clean setting definitions'
-
+    context 'when adding an additional setting', :settings_reset do
       it 'includes the setting' do
         all
 
@@ -545,8 +543,7 @@ describe Settings::Definition do
       end
     end
 
-    context 'when adding a setting late' do
-      include_context 'with clean setting definitions'
+    context 'when adding a setting late', :settings_reset do
       let(:key) { 'bogus' }
 
       before do
@@ -970,35 +967,9 @@ describe Settings::Definition do
           .to be false
       end
     end
-
-    context 'with a timezone' do
-      let(:instance) do
-        described_class.new 'timezone',
-                            format: :timezone,
-                            default: nil,
-                            allowed: ActiveSupport::TimeZone.all + [nil]
-      end
-
-      it 'accepts a TZ name' do
-        instance.value = 'Europe/Berlin'
-        expect(instance).to be_valid
-      end
-
-      it 'accepts a TZ full identifier' do
-        instance.value = '(GMT+01:00) Berlin'
-        expect(instance).to be_valid
-      end
-
-      it 'rejects a bogus value' do
-        instance.value = 'foobar'
-        expect(instance).not_to be_valid
-      end
-    end
   end
 
-  describe '#on_change' do
-    include_context 'with clean setting definitions'
-
+  describe '#on_change', :settings_reset do
     context 'for a definition with a callback' do
       let(:callback) { -> { 'foobar ' } }
 

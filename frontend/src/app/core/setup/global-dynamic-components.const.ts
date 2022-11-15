@@ -159,6 +159,10 @@ import {
   enterpriseBannerSelector,
 } from 'core-app/shared/components/enterprise-banner/enterprise-banner.component';
 import {
+  EnterprisePageComponent,
+  enterprisePageSelector,
+} from 'core-app/shared/components/enterprise-page/enterprise-page.component';
+import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector,
 } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
@@ -199,6 +203,7 @@ import {
   CalendarSidemenuComponent,
   opCalendarSidemenuSelector,
 } from 'core-app/features/calendar/sidemenu/calendar-sidemenu.component';
+import { OpModalOverlayComponent, opModalOverlaySelector } from 'core-app/shared/components/modal/modal-overlay.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -233,6 +238,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: globalSearchSelector, cls: GlobalSearchInputComponent },
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
   { selector: enterpriseBannerSelector, cls: EnterpriseBannerComponent },
+  { selector: enterprisePageSelector, cls: EnterprisePageComponent },
   { selector: noResultsSelector, cls: NoResultsComponent },
   { selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent },
   { selector: freeTrialButtonSelector, cls: FreeTrialButtonComponent },
@@ -254,4 +260,5 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: backupSelector, cls: BackupComponent },
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
   { selector: ianMenuSelector, cls: IanMenuComponent },
+  { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
 ];

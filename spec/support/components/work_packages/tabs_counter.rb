@@ -2,6 +2,7 @@ module Components
   module WorkPackages
     class Tabs
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       attr_reader :work_package
