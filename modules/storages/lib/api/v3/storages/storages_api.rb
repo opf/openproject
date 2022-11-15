@@ -58,6 +58,8 @@ class API::V3::Storages::StoragesAPI < ::API::OpenProjectAPI
       # route.
       get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::Storage).mount
 
+      delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::Storages::Storage).mount
+
       mount API::V3::StorageFiles::StorageFilesAPI
     end
   end

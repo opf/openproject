@@ -27,7 +27,7 @@ get:
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
+            $ref: '../components/schemas/error_response.yml'
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
@@ -37,3 +37,50 @@ get:
 
         **Required permission:** view file links
 
+delete:
+  summary: Deletes a storage.
+  operationId: delete_storage
+  tags:
+    - File links
+  description: |-
+    Deletes a storage resource. This also deletes all related records, like the created oauth application, client, and
+    any file links created within this storage.
+  parameters:
+    - name: id
+      description: Storage id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1337
+  responses:
+    '204':
+      description: No content
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** admin
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the storage does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view file links
