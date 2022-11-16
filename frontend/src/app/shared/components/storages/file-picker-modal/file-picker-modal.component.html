@@ -67,7 +67,7 @@
         (click)="createSelectedFileLinks()"
       >
         <span class="spot-icon spot-icon_add-link"></span>
-        <span>{{selectedFileCount > 0 ? text.buttons.submit() : text.buttons.submitEmptySelection}}</span>
+        <span>{{text.buttons.submit(selectedFileCount)}}</span>
       </button>
     </div>
   </div>
