@@ -93,17 +93,21 @@ import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct
 import { OpenProjectStateModule } from 'core-app/core/state/openproject-state.module';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { OpenProjectHeaderInterceptor } from 'core-app/features/hal/http/openproject-header-interceptor';
+import { TopMenuService } from 'core-app/core/top-menu/top-menu.service';
 import { A11yModule } from '@angular/cdk/a11y';
 
 export function initializeServices(injector:Injector) {
   return () => {
     const PreviewTrigger = injector.get(PreviewTriggerService);
     const mainMenuNavigationService = injector.get(MainMenuNavigationService);
+    const topMenuService = injector.get(TopMenuService);
     const keyboardShortcuts = injector.get(KeyboardShortcutService);
     // Conditionally add the Revit Add-In settings button
     injector.get(RevitAddInSettingsButtonService);
 
     mainMenuNavigationService.register();
+
+    topMenuService.register();
 
     PreviewTrigger.setupListener();
 
