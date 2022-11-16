@@ -278,4 +278,69 @@ describe 'API v3 storages resource', content_type: :json do
       end
     end
   end
+
+  describe 'POST /api/v3/storages/:storage_id/files/prepare_upload', with_flag: { storage_file_upload: true } do
+    let(:path) { api_v3_paths.prepare_upload(storage.id) }
+    let(:upload_link) { Storages::UploadLink.new('https://example.com/upload/xyz123') }
+    let(:body) { { fileName: "ape.png", parent: "/Pictures" }.to_json }
+
+    subject(:last_response) do
+      post(path, body)
+    end
+
+    describe 'with successful response' do
+      before do
+        storage_requests = instance_double(Storages::Peripherals::StorageRequests)
+        uplaod_link_query = Proc.new { ServiceResult.success(result: upload_link) }
+        allow(storage_requests).to receive(:upload_link_query).and_return(ServiceResult.success(result: uplaod_link_query))
+        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
+      end
+
+      subject { last_response.body }
+
+      it { is_expected.to be_json_eql(Storages::UploadLink.name.split('::').last.to_json).at_path('_type') }
+
+      it do
+        expect(subject)
+          .to(be_json_eql("#{::API::V3::URN_PREFIX}storages:upload_link:no_link_provided".to_json)
+          .at_path('_links/self/href'))
+      end
+
+      it { is_expected.to be_json_eql(upload_link.destination.to_json).at_path('_links/destination/href') }
+      it { is_expected.to be_json_eql("post".to_json).at_path('_links/destination/method') }
+      it { is_expected.to be_json_eql("Upload File".to_json).at_path('_links/destination/title') }
+    end
+
+    describe 'with files query creation failed' do
+      let(:storage_requests) { instance_double(Storages::Peripherals::StorageRequests) }
+
+      before do
+        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
+      end
+
+      describe 'due to authorization failure' do
+        before do
+          allow(storage_requests).to receive(:upload_link_query).and_return(ServiceResult.failure(result: :not_authorized))
+        end
+
+        it { expect(last_response.status).to be(500) }
+      end
+
+      describe 'due to internal error' do
+        before do
+          allow(storage_requests).to receive(:upload_link_query).and_return(ServiceResult.failure(result: :error))
+        end
+
+        it { expect(last_response.status).to be(500) }
+      end
+
+      describe 'due to not found' do
+        before do
+          allow(storage_requests).to receive(:upload_link_query).and_return(ServiceResult.failure(result: :not_found))
+        end
+
+        it { expect(last_response.status).to be(404) }
+      end
+    end
+  end
 end

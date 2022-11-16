@@ -34,7 +34,6 @@ describe API::V3::StorageFiles::StorageUploadLinkRepresenter, 'rendering' do
   let(:user) { build_stubbed(:user) }
   let(:token) { 'xyz123' }
   let(:destination) { "https://example.com/upload/#{token}" }
-  let(:finalize) { "https://example.com/upload/finalize/#{token}" }
   let(:upload_link) do
     Storages::UploadLink.new("https://example.com/upload/#{token}")
   end
@@ -54,38 +53,16 @@ describe API::V3::StorageFiles::StorageUploadLinkRepresenter, 'rendering' do
 
     describe 'without finalize link' do
       describe 'to destination' do
-        it_behaves_like 'has an untitled link' do
+        it_behaves_like 'has a titled link' do
           let(:link) { 'destination' }
           let(:href) { destination }
+          let(:title) { 'Upload File' }
         end
       end
 
       describe 'not to finalize' do
         it_behaves_like 'has no link' do
           let(:link) { 'finalize' }
-        end
-      end
-    end
-
-    describe 'with finalize link' do
-      let(:upload_link) do
-        Storages::UploadLink.new(
-          "https://example.com/upload/#{token}",
-          finalize
-        )
-      end
-
-      describe 'to destination' do
-        it_behaves_like 'has an untitled link' do
-          let(:link) { 'destination' }
-          let(:href) { destination }
-        end
-      end
-
-      describe 'to finalize' do
-        it_behaves_like 'has an untitled link' do
-          let(:link) { 'finalize' }
-          let(:href) { finalize }
         end
       end
     end
