@@ -32,44 +32,31 @@ import {
   Component,
   ElementRef,
   Inject,
-  OnDestroy,
-  OnInit,
 } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
-import { Breadcrumb, BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import {
   StorageFileListItem,
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
+import { isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
 import {
-  isDirectory,
-  getIconForStorageType,
-  makeFilesCollectionLink,
-} from 'core-app/shared/components/storages/functions/storages.functions';
+  FilePickerBaseModalComponent,
+} from 'core-app/shared/components/storages/file-picker-base-modal.component.ts/file-picker-base-modal.component';
 
 @Component({
   templateUrl: 'file-picker-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilePickerModalComponent extends OpModalComponent implements OnInit, OnDestroy {
-  public breadcrumbs:BreadcrumbsContent;
-
-  public listItems$:Observable<StorageFileListItem[]>;
-
-  public readonly loading$ = new BehaviorSubject<boolean>(true);
-
+export class FilePickerModalComponent extends FilePickerBaseModalComponent {
   public readonly text = {
     header: this.i18n.t('js.storages.file_links.select'),
     buttons: {
@@ -89,63 +76,27 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     return this.selection.size;
   }
 
-  private get storageLink():IHalResourceLink {
-    return this.locals.storageLink as IHalResourceLink;
-  }
-
   private readonly selection = new Set<string>();
 
   private readonly fileMap:Record<string, IStorageFile> = {};
-
-  private readonly storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
-
-  private loadingSubscription:Subscription;
 
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly elementRef:ElementRef,
     readonly cdRef:ChangeDetectorRef,
+    protected readonly sortFilesPipe:SortFilesPipe,
+    protected readonly storageFilesResourceService:StorageFilesResourceService,
     private readonly i18n:I18nService,
     private readonly timezoneService:TimezoneService,
-    private readonly sortFilesPipe:SortFilesPipe,
     private readonly fileLinksResourceService:FileLinksResourceService,
-    private readonly storageFilesResourceService:StorageFilesResourceService,
   ) {
-    super(locals, cdRef, elementRef);
-  }
-
-  ngOnInit():void {
-    super.ngOnInit();
-
-    this.breadcrumbs = new BreadcrumbsContent([{
-      text: this.locals.storageName as string,
-      icon: getIconForStorageType(this.locals.storageType as string),
-      navigate: () => this.changeLevel(null, this.breadcrumbs.crumbs.slice(0, 1)),
-    }]);
-
-    this.listItems$ = this.storageFiles$
-      .pipe(
-        map((files) =>
-          this.sortFilesPipe.transform(files)
-            .map((file, index) => this.storageFileToListItem(file, index))),
-      );
-
-    this.storageFilesResourceService.files(makeFilesCollectionLink(this.storageLink, null))
-      .pipe(take(1))
-      .subscribe((files) => {
-        this.storageFiles$.next(files);
-        this.loading$.next(false);
-      });
-  }
-
-  ngOnDestroy():void {
-    super.ngOnDestroy();
-
-    this.storageFilesResourceService.reset();
-  }
-
-  public openStorageLocation():void {
-    window.open(this.locals.storageLocation, '_blank');
+    super(
+      locals,
+      elementRef,
+      cdRef,
+      sortFilesPipe,
+      storageFilesResourceService,
+    );
   }
 
   public createSelectedFileLinks():void {
@@ -188,38 +139,9 @@ export class FilePickerModalComponent extends OpModalComponent implements OnInit
     }
   }
 
-  private changeLevel(parent:string|null, crumbs:Breadcrumb[]):void {
-    this.cancelCurrentLoading();
-    this.loading$.next(true);
-    this.breadcrumbs = new BreadcrumbsContent(crumbs);
-
-    this.loadingSubscription = this.storageFilesResourceService.files(makeFilesCollectionLink(this.storageLink, parent))
-      .pipe(take(1))
-      .subscribe((files) => {
-        this.storageFiles$.next(files);
-        this.loading$.next(false);
-      });
-  }
-
-  private cancelCurrentLoading():void {
-    if (this.loadingSubscription) {
-      this.loadingSubscription.unsubscribe();
-    }
-  }
-
-  private storageFileToListItem(file:IStorageFile, index:number):StorageFileListItem {
+  protected storageFileToListItem(file:IStorageFile, index:number):StorageFileListItem {
     const isFolder = isDirectory(file.mimeType);
-    const enterDirectoryCallback = isFolder
-      ? () => {
-        const crumbs = this.breadcrumbs.crumbs;
-        const end = crumbs.length + 1;
-        const newCrumb:Breadcrumb = {
-          text: file.name,
-          navigate: () => this.changeLevel(file.location, this.breadcrumbs.crumbs.slice(0, end)),
-        };
-        this.changeLevel(file.location, crumbs.concat(newCrumb));
-      }
-      : undefined;
+    const enterDirectoryCallback = isFolder ? this.enterDirectoryCallback(file) : undefined;
 
     return new StorageFileListItem(
       this.timezoneService,
