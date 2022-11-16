@@ -5,20 +5,20 @@ sidebar_navigation:
 description: In-app notification settings in OpenProject
 keywords: notifications settings
 ---
-# Notification Settings
+# Notification settings
 
-You can configure how and for what events you wish to be notified through Notification center. To access these settings, you can either click on **_your avatar on the top right corner → My account → Notification settings_** or click on **Notification Settings** on the top right corner of Notification center.
+You can configure how and for what events you wish to be notified through Notifications. To access these settings, you can either click on your avatar on the top right corner > *My account* > *Notification settings* or click on **Notification settings** on the top right corner of the notifications center.
 
 ![A screenshot of Notification center with the Notification settings button highlighted](Notification-settings-12.4-fromNotificationCenter.png)
 
 Notification settings are divided in four sections:
 
 | Topic                                               | Description                                                  |
-|-----------------------------------------------------| :----------------------------------------------------------- |
-| [Participating](#participating)                     | Be notified of activities on some or all of the work packages in which you are participating |
-| [Date alerts](#date-alerts-premium-feature)         | Be notified of approaching start or end dates, and when things are overdue |
-| [Non-participating](#non-participating)             | Be notified of activities on work packages in which you are not participating |
-| [Project-specific](#project-specific-notifications) | Fine-tune your notification settings at the level of individual projects |
+| --------------------------------------------------- | :----------------------------------------------------------- |
+| [Participating](#participating)                     | Be notified of activities on some or all of the work packages in which you are participating. |
+| [Date alerts](#date-alerts-premium-feature)         | Be notified of approaching start or end dates, and when things are overdue. |
+| [Non-participating](#non-participating)             | Be notified of activities on work packages in which you are not participating. |
+| [Project-specific](#project-specific-notifications) | Fine-tune your notification settings at the level of individual projects. |
 
 
 ![A screenshot of the notification settings page](Notification-settings-12.4-overall.png)
@@ -31,9 +31,9 @@ By default, you will be notified of all activities in work packages in which you
 
 ![A screenshot of options for participating work packages](Notification-settings-12.4-Participating.png)
 
-You cannot disable notifications for when you are mentioned since the goal of mentioning you is to get your attention. If you no longer wish to be receive notifications for certain work packages you are watching, you can simply unwatch them.
+You cannot disable notifications for when you are mentioned since the goal of mentioning you is to get your attention. If you no longer wish to receive notifications for certain work packages you are watching, you can simply unwatch them.
 
-> Info: Modifying these settings might result in your missing updates and changes that are relevant to you. We do not recommend changing them unless you are absolutely certain of the consequences.
+> **Info**: Modifying these settings may cause you to miss updates and changes that are relevant to you. We do not recommend changing them unless you are absolutely certain of the consequences.
 
 ## Date alerts (Premium feature)
 
@@ -45,7 +45,7 @@ Date alerts allow you to receive a notification when a start date or a finish da
 
 ![A screenshot of options for date alerts](Notification-settings-12.4-dateAlerts.png)
 
-For each date, you can choose to be alerted the same day, a day before, 3 days before or a week before.
+For start and finish date dates, you can choose to be alerted the same day, a day before, 3 days before or a week before.
 
 You can also choose to receive a recurring notification (every day, every 3 days or every week) for work packages that are overdue. You can stop receiving these alerts by either unchecking this option, or changing the dates of the relevant work packages.
 
@@ -53,7 +53,7 @@ Date alerts notifications will appear in [notification center](../#accessing-in-
 
 ## Non-participating
 
-You can also chose to receive notifications for specific events concerning work packages in which you are not participating (that is, for which you are assignee, accountable or a watcher). 
+You can also chose to receive additional notifications for specific events in all projects concerning work packages in which you are not participating.
 
 You can be notified of:
 
@@ -63,21 +63,23 @@ You can be notified of:
 - Priority changes
 - New comments
 
-![A screenshot of options for non-participating work packages](Notification-settings-12.4-dateAlerts.png)
+![A screenshot of options for non-participating work packages](Notification-settings-12.4-nonPartipating.png)
 
-> **Info:** Please note that these apply to _all_ work packages in _all_ of your projects. Enabling lots of these can result in your receiving too many irrelevant notifications. Please use this feature with parsimony. 
+> **Info:** Please note that these apply to _all_ work packages in _all_ of your projects. If you enable many of them, you may receive too many irrelevant notifications. Please use this feature with parsimony.
 
 
 
 ## Project-specific notifications
 
-In some cases, you may wish to fine-tune your notification settings at a project-level. 
+In some cases, you may wish to fine-tune your notification settings at a project-level.
 
 This might be because you are more active in certain projects than others or because certain activities (like date alerts or the creation of new work packages) might be more important to you than others.
 
 To add project-specific notification settings, first click on **+ Add setting for project** and select a project. 
 
-Once you do so, you will see a table with a column for that project and and the same three sections (Participating, Date alerts, Non-Particiating) as your overall notification settings. You can now select and unselect any number of options from this list for more specific project-level notification settings.
+Once you do so, you will see a table with a column for that project and and the same three sections (Participating, Date alerts, Non-participating) as your overall notification settings. You can now select and unselect any number of options from this list for more specific project-level notification settings.
+
+NOTE: UPDATE SCREENSHOT! THERE IS STILL A BUG IN THIS SCREENSHOT (I.E. WATCHER)
 
 ![Text](Notification-settings-12.4-projectSpecific.png)
 

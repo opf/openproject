@@ -33,13 +33,13 @@ Clicking on the **Team planners** entry on the left sidebar takes you to the tea
 
 ![A screenshot of a list of team planners visible after clicking on Team Planners on the left-hand menu](TeamPlanner-12.4-listAllAvailable.png)
 
-1. You can create a new team planner using either the **+ Team planner** button in the top right near your avatar at the bottom of the left menu bar.
+1. You can create a new team planner using either the **+ Team planner** button in the top right near your avatar or at the bottom of the left menu bar.
 
 2. Click on an existing (saved) team planner to open it.
-3. Team planners with *public* visibility settings appear under the **Public** heading in the menu bar. 
-4. New team planners by default appear under the **Private** heading in the left menu bar. These are visible only to you. 
+3. Team planners with *public* visibility settings appear under the **Public** heading in the menu bar.
+4. New team planners by default appear under the **Private** heading in the left menu bar. These are visible only to you.
 
-> **Info**: Both *public* and *private* calendars can be added as a **favored** planners; they will then appear under the  **Favorite** heading in the menu bar.
+> **Info**: Both *public* and *private* team planners can be added as **favored** planners; they will then appear under the **Favorite** heading in the menu bar.
 
 
 ## Team planner basics
@@ -48,20 +48,20 @@ Clicking on the **Team planners** entry on the left sidebar takes you to the tea
 
 A team planner has a number of features numbered 1 to 8 in the above screenshot:
 
-1. Click on the name of your team planner (*Marketing Team* in the example above) to edit it. Unless it's a new team planner, this change has been to confirmed by pressing the floppy disk icon that appears next to the name after you change it.
-2. Use the **+ Add existing** button to add an existing work package  to the team planner. You do this by searching for work package and dragging its card to an assignee, at a certain time. This will then update the *assignee*, *start date* and *finish date* attributes of that work pacakge.
+1. Click on the name of your team planner (*Marketing Team* in the example above) to edit it. Unless it's a new team planner, this change has to be confirmed by pressing the floppy disk icon that appears next to the name after you change it.
+2. Use the **+ Add existing** button to add an existing work package  to the team planner. You do this by searching for work package and dragging its card to an assignee, at a certain time. This will then update the *assignee*, *start date* and *finish date* attributes of that work package.
 3. Add a new team member to the assignee column by Clicking on the **Add assignee** button.
-4. By default, the team planner will only show work packages assigned belonging to the the current project that are assigned to your team members. However, it is possible that they are also assigned work package belong to other projects. You can make these work packages from other projects visible by using **Include projects** feature and selecting additional projects to include in this view.
-5. Use the **Filter** feature like you would in [work packages](#) module to make only those work packages meeting certain criteria visible. You could, for example, filter such that only work packages of certain types, certain statuses or certain custom field values are visible.
+4. By default, the team planner will only show assigned work packages belonging to the current project. However, it is possible to also add assigned work packages belonging to other projects. You can make these work packages from other projects visible by using **Include projects** feature and selecting additional projects to be included in this view.
+5. Use the **Filter** feature (same as in the [work packages](#) module) to display only work packages that meet certain filter criteria. You could, for example, filter such that only work packages of certain types, certain status or certain custom field values are visible.
 6. The **Fullscreen** button lets you view the team planner in fullscreen mode.
-7. The  **[⋮]** (more) button gives you additional options, such as saving, renaming and saving a copy (saving as), or deleting the teamn planner. This is also where you can modify the visibility options. 
-8. By default the planning calendar only shows the work week (week excluding the weekend). Use this drop down to toggle between work week, 1-week and 2-week views.
+7. The  **[⋮]** (more) button gives you additional options, such as saving, renaming and saving a copy (saving as), or deleting the team planner. This is also where you can modify the visibility options.
+8. By default the team planner only shows the work week (week excluding the weekend). Use the drop down to toggle between work week, 1-week and 2-week views. With the arrows you can navigate the weeks back and forth. The Today button brings you to the current week.
 
-> **Note**: The team planner will highlight non-working days in the calendar with a darker background colour. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the "Working days only" switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration). 
+> **Note**: The team planner will highlight non-working days in the calendar with a darker background color. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the "Working days only" switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration).
 
-## Adding team members and work packages
+## Add team members and work packages
 
-### Adding team members
+### Add team members
 
 When you create a new team planner, it will be empty, like so:
 
@@ -73,13 +73,11 @@ Repeat this step until all relevant team members are added and then save it usin
 
 ![Adding team members](TeamPlanner-12.4-addAssignee.png)
 
-> **Note:** If you are unsure which projects a member is a member of, simply click on that user's name to access their user page.
+If you need to remove a member from this list, hover over their name and click on the **X button** that appears next to their name. (This action simply removes the row and does not affect the user's status in the project).
 
-If you need to remove a member from this list,  hover over their name and click on the **X button** that appears next to their name. (This action simply removes the row and does not affect the user's status in the project).
+Once you are finished adding members to the team planner, click on the floppy disk icon in the top header to save.
 
-Once you are finished adding members to the planner, click on the floppy disk icon in the top header to save.
-
-### Adding and working with work package strips
+### Add and edit work packages
 
 Next, you can add existing work packages to your planner. You can do this by either creating a new work package or by adding existing work packages.
 
@@ -93,7 +91,7 @@ You can create a new work package for a particular member of your team by clicki
 
 
 
-A **new work package dialog** will open. The assignee, start and finish dates will already be set based on where you clicked to create the work package. You can now go ahead an add any additional details, such as subject, work package type, a description and any attachments. Scrolling further down on the split screen also gives you access to other attributes such as cost and time and any custom fields that might exist.
+A **new work package dialog** will open. The assignee, start and finish dates will already be set based on where you clicked to create the work package. You can add any additional details, such as subject, work package type, a description and add attachments. Scrolling further down on the split screen also gives you access to other attributes such as cost and time and custom fields that might exist.
 
 ![An example of the new work package split screen view](TeamPlanner-12.4-newTask-splitScreen.png)
 
@@ -105,17 +103,17 @@ If you would like to take an existing work package and assign it to your team me
 
 Start by pressing the **+ Add existing** button below the name of the team planner and search for the work package you would like to add. Once you find it, drag and drop the work package card to the calendar, depending to whom you would like to assign it, and to which start date. The finish date will automatically be derived based on the duration of the work package.
 
-> **Info:** Scheduling tasks by adding existing work packages like this will be easier in either one week or two week views, especially when you have work packages that might span (or go over) a weekend. 
+> **Info:** Scheduling tasks by adding existing work packages is easier in the one or two week view, especially if you have work packages that can span a weekend. 
 
 ![Searching for existing work packages to add to the team planner](TeamPlanner-12.4-addExisting.png)
 
 Sometimes, it is not possible to assign an existing work package to a particular team member for a variety of reasons: they might not be a member of the project the selected work package belongs to, might not have the necessary permissions, or you yourself might not have the necessary permissions to edit the dates or the assignee for that work package. In this case, a small error message will indicate that the operation was not successful.
 
-#### Moving and resizing a work package
+#### Move and resize a work package
 
 ![Hover on a work package to see drag handles](TeamPlanner-12.4-hoverWorkPackageCard-dragHandles.png)
 
-The team planner allows you to quickly reschedule and re-assign work packages cards:
+The team planner allows you to quickly re-schedule and re-assign work packages cards:
 
 - To re-assign work packages, **click and drag a card** from one team member's row to another.
 - To change the start date only, hover over the work package and **click and drag the *drag handles* on the left edge** (1) of the work package card to shorten or lengthen the total duration.
@@ -124,26 +122,26 @@ The team planner allows you to quickly reschedule and re-assign work packages ca
 
 > **Info**: Work packages can also expand and retract in width depending on how many non-working days are spanned (for example, a 3-day task starting on Thursday and ending on Monday will spread across 5 calendar days;  dragging that same work package so that it starts on a Tuesday and ends on a Thursday means that it will spread across 3 calendar days. In both cases, the duration remains 3 days.
 
-Sometimes, it is not possible to modify a the dates or the assignee of  work package for a variety of reasons. It could be, for example, because you might not have the necessary permissions to make that change or because existing relations make it impossible. In such cases, an error message will appear on the top of the screen to let you know that the change was was possible.
+Sometimes, it is not possible to modify the dates or the assignee of work packages for a variety of reasons. It could be, for example, because you might not have the necessary permissions to make that change or because existing relations make it impossible. In such cases, an error message will appear on the top of the screen to let you know that the change was was possible.
 
-## Work package detail view
+## Work package details view
 
-When you want to really understand what a team member is working on, or want to re-schedule work packages around, it can be important to get the full context of each work package. Team planners makes this possible by giving you easy access to work package details.
+When you want to understand what a team member is working on, or want to re-schedule work packages, it can be important to get the full context of each work package. Team planners make this possible by giving you easy access to work package details.
 
 To open the work package details in split screen, hover on a work package card and click on the **i icon** (information):
 
 ![Click on the i icon in a work package card to open details in split screen view](TeamPlanner-12.4-hoverWorkPackageCard.png)
 
-This will make open work package details in split screen view, where you can view and edit all work package attributes, consult recent activity, view linked files and link new or attach ones and view and create work package relations.
+This will open the work package details in split screen view, where you can view and edit all work package attributes, consult recent activity, view linked files and link new or attach ones and view and create work package relations.
 
 ![An example of the work package detail view in split screen](TeamPlanner-12.4-splitScreen.png)
 
-## Removing a work package
+## Remove a work package
 
 Since the team planner is simply a view that displays work packages for certain assignees over a certain period of time, removing a work package simply means not making it visible in the current view. This can be achieved in a number of ways:
 
 1. Adding a filter that will exclude that work package (for example, filtering for type *Task* will remove work packages of other types from that view).
-2. Removing the start and finish dates or changing  them such that they do not fall in the time period displayed in the team planner.
+2. Removing the start and finish dates or changing them such that they do not fall in the time period displayed in the team planner.
 3. Removing the assignee or changing the assignee to someone who has not been added to this particular team planner.
 
 Alternatively, the team planner offers an easy way to remove a work package by combining 2 and 3 in one action. When you start dragging a work package, a *remove drop zone* appears at the bottom of the team planner. You can drag a work package card to that drop zone to clear the assignee, start date and finish date attributes in one go.
