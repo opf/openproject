@@ -67,6 +67,9 @@ describe 'Upload attachment to documents',
       select(category.name, from: 'Category')
       fill_in "Title", with: 'New documentation'
 
+      # adding an image via the attachments-list
+      find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+
       # adding an image
       editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
       expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
@@ -79,6 +82,7 @@ describe 'Upload attachment to documents',
       expect(page).to have_selector('.document-category-elements--header', text: 'New documentation')
       expect(page).to have_selector('#content img', count: 1)
       expect(page).to have_content('Image uploaded on creation')
+      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
 
       document = ::Document.last
       expect(document.title).to eq 'New documentation'
@@ -98,7 +102,16 @@ describe 'Upload attachment to documents',
       # editor.click_and_type_slowly 'abc'
       SeleniumHubWaiter.wait
       editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
-      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 3)
+
+      script = <<~JS
+        const event = new DragEvent('dragover');
+        document.body.dispatchEvent(event);
+      JS
+      page.execute_script(script)
+
+      # adding an image via the attachments-list
+      find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
 
       perform_enqueued_jobs do
         click_on 'Save'
@@ -108,7 +121,7 @@ describe 'Upload attachment to documents',
       expect(page).to have_selector('#content img', count: 2)
       expect(page).to have_content('Image uploaded on creation')
       expect(page).to have_content('Image uploaded the second time')
-      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 4)
 
       # Expect a mail to be sent to the user having subscribed to all notifications
       expect(ActionMailer::Base.deliveries.size)
