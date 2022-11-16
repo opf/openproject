@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 storages resource', type: :request, content_type: :json do
+describe 'API v3 storages resource', content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }
@@ -76,7 +76,7 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
   describe 'GET /api/v3/storages/:storage_id' do
     let(:path) { api_v3_paths.storage(storage.id) }
 
-    context 'when user belongs to a project using the given storage' do
+    context 'if user belongs to a project using the given storage' do
       let!(:project_storage) { create(:project_storage, project:, storage:) }
 
       it_behaves_like 'successful storage response'
@@ -94,7 +94,7 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
       end
     end
 
-    context 'when user has :manage_storages_in_project permission in any project' do
+    context 'if user has :manage_storages_in_project permission in any project' do
       let(:permissions) { %i(manage_storages_in_project) }
 
       it_behaves_like 'successful storage response'
@@ -149,6 +149,34 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
         include_examples 'a storage authorization result',
                          expected: ::API::V3::Storages::URN_CONNECTION_ERROR,
                          has_authorize_link: false
+      end
+    end
+  end
+
+  describe 'DELETE /api/v3/storages/:storage_id' do
+    let(:path) { api_v3_paths.storage(storage.id) }
+
+    subject(:last_response) do
+      delete path
+    end
+
+    context 'as admin' do
+      let(:current_user) { create(:admin) }
+
+      it_behaves_like 'successful no content response'
+    end
+
+    context 'as non-admin' do
+      context 'if user belongs to a project using the given storage' do
+        it_behaves_like 'unauthorized access'
+      end
+
+      context 'if user does not belong to a project using the given storage' do
+        let(:current_user) do
+          create(:user, member_with_permissions: permissions)
+        end
+
+        it_behaves_like 'not found'
       end
     end
   end
