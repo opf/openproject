@@ -27,25 +27,29 @@
 #++
 
 module API::V3::StorageFiles
-  class StorageFileRepresenter < ::API::Decorators::Single
-    include API::Decorators::DateProperty
-
+  class StorageUploadLinkRepresenter < ::API::Decorators::Single
     link :self do
-      { href: "#{::API::V3::URN_PREFIX}storages:storage_file:no_link_provided" }
+      { href: "#{::API::V3::URN_PREFIX}storages:upload_link:no_link_provided" }
     end
 
-    property :id
-    property :name
-    property :size
-    property :mime_type
-    date_time_property :created_at
-    date_time_property :last_modified_at
-    property :created_by_name
-    property :last_modified_by_name
-    property :location
+    link :destination do
+      {
+        href: represented.destination,
+        method: :post
+      }
+    end
+
+    link :finalize do
+      next if represented.finalize.nil?
+
+      {
+        href: represented.finalize,
+        method: :post
+      }
+    end
 
     def _type
-      Storages::StorageFile.name.split('::').last
+      Storages::UploadLink.name.split('::').last
     end
   end
 end
