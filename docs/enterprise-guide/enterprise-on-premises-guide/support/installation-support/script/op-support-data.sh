@@ -5,6 +5,7 @@
 #VERBOSE LOGGING
 #set -x
 
+<<<<<<< Updated upstream
 #hash netcat 2>/dev/null
 #if [ $? == 1 ]; then
 #  echo
@@ -12,8 +13,10 @@
 #  exit
 #fi 
 
+=======
+>>>>>>> Stashed changes
 #PSQL
-read -p "Please specify the IP/FQDN of the PSQL server, if the internal PSQL server of OpenProject is used press ENTER [127.0.0.1]: " psqlserver
+read -p "Please specify the IP of the PSQL server, if the internal PSQL server of OpenProject is used press ENTER [127.0.0.1]: " psqlserver
 psqlserver=${psqlserver:-127.0.0.1}
 read -p "Please specify the PORT of the PSQL server, if the internal PSQL server of OpenProject is used press ENTER [45432]: " psqlserverport
 psqlserverport=${psqlserverport:-45432}
@@ -43,7 +46,11 @@ ssosolution=${ssosolution:-N}
 if [ "$ssosolution" != "${ssosolution#[Yy]}" ]; then
   echo
   echo As OpenProject will connect to the SSO host we need some details to be provided:
+<<<<<<< Updated upstream
   read -p "Enter SSO host IP/FQDN [127.0.0.1]: " ssoserver
+=======
+  read -p "Enter SSO host IP [127.0.0.1]: " ssoserver
+>>>>>>> Stashed changes
   ssoserver=${ssoserver:-127.0.0.1}
   read -p "Enter SSO host Port [443]: " ssoport
   ssoport=${ssoport:-443}
@@ -56,7 +63,11 @@ outgoingmail=${outgoingmail:-Y}
 if [ "$outgoingmail" != "${outgoingmail#[Yy]}" ]; then
   echo
   echo As OpenProject will send e-mails we need some details to be provided:
+<<<<<<< Updated upstream
   read -p "Enter SMTP host IP/FQDN [127.0.0.1]: " outgoingmailip
+=======
+  read -p "Enter SMTP host IP [127.0.0.1]: " outgoingmailip
+>>>>>>> Stashed changes
   outgoingmailip=${outgoingmailip:-127.0.0.1}
   read -p "Enter SMTP host Port [25]: " outgoingmailport
   outgoingmailport=${outgoingmailport:-25}
@@ -69,7 +80,11 @@ incomingmail=${incomingmail:-Y}
 if [ "$incomingmail" != "${incomingmail#[Yy]}" ]; then
   echo
   echo As OpenProject shall receive e-mails we need some details to be provided:
+<<<<<<< Updated upstream
   read -p "Enter IMAP/POP3 host IP/FQDN [127.0.0.1]: " incomingmailip
+=======
+  read -p "Enter IMAP/POP3 host IP [127.0.0.1]: " incomingmailip
+>>>>>>> Stashed changes
   incomingmailip=${incomingmailip:-127.0.0.1}
   read -p "Enter IMAP/POP3 host Port [110]: " incomingmailport
   incomingmailport=${incomingmailport:-110}
@@ -155,18 +170,26 @@ echo "========="
 echo
 #CHECK WEBSERVER ON LOCALHOST PORTS 80 AND 443
 echo 'Checking Port 80,443 on IP 127.0.0.1 reachable? (0=YES / 1=NO)'
+<<<<<<< Updated upstream
 #netcat -z -v 127.0.0.1 80 2>&1
 echo 2>/dev/null > /dev/tcp/127.0.0.1/80 ; echo $?
 #netcat -z -v 127.0.0.1 443 2>&1
+=======
+echo 2>/dev/null > /dev/tcp/127.0.0.1/80 ; echo $?
+>>>>>>> Stashed changes
 echo 2>/dev/null > /dev/tcp/127.0.0.1/443 ; echo $?
 echo "---"
 
 #CHECK WEBSERVER ON OTHER IPS
 for ip in `ip a | grep "inet " | grep " e" | awk -F" " '{print $2}' | cut -d'/' -f1`; do
 echo 'Checking Port 80,443 on IP '$ip' reachable? (0=YES / 1=NO)'
+<<<<<<< Updated upstream
 #netcat -z -v $ip 80 2>&1
 echo 2>/dev/null > /dev/tcp/$ip/80 ; echo $?
 #netcat -z -v $ip 443 2>&1
+=======
+echo 2>/dev/null > /dev/tcp/$ip/80 ; echo $?
+>>>>>>> Stashed changes
 echo 2>/dev/null > /dev/tcp/$ip/80 ; echo $?
 done
 echo "---"
@@ -174,22 +197,32 @@ echo "---"
 #CHECK packager.io ACCESS FROM LOCALHOST FOR UPGRADES
 echo 'packager.io web server is reachable on ports 80,443? (0=YES / 1=NO)'
 packagerip=`host -t a packager.io | cut -d" " -f4`
+<<<<<<< Updated upstream
 #netcat -z -v packager.io 80 2>&1
 echo 2>/dev/null > /dev/tcp/$packagerip/80 ; echo $?
 #netcat -z -v packager.io 443 2>&1
+=======
+echo 2>/dev/null > /dev/tcp/$packagerip/80 ; echo $?
+>>>>>>> Stashed changes
 echo 2>/dev/null > /dev/tcp/$packagerip/443 ; echo $?
 echo "---"
 
 #CHECK PSQL REACHABILITY
 echo 'PSQL server on IP/FQDN '$psqlserver' port '$psqlserverport' reachable (0=YES / 1=NO)'
+<<<<<<< Updated upstream
 #echo 'SELECT version();QUIT' | netcat $psqlserver $psqlserverport; echo $?
+=======
+>>>>>>> Stashed changes
 echo 2>/dev/null > /dev/tcp/$psqlserver/$psqlserverport ; echo $?
 echo "---"
 
 #CHECK SSO REACHABILITY
 if [ "$ssosolution" != "${ssosolution#[Yy]}" ]; then
   echo 'SSO server on IP/FQDN '$ssoserver' port '$ssoport' reachable? (0=YES / 1=NO)'
+<<<<<<< Updated upstream
 #  netcat -z -v $ssoserver $ssoport 2>&1
+=======
+>>>>>>> Stashed changes
   echo 2>/dev/null > /dev/tcp/$ssoserver/$ssoserverport ; echo $?
   echo "---"
 fi
@@ -197,7 +230,10 @@ fi
 #CHECK SMTP REACHABILITY
 if [ "$outgoingmail" != "${outgoingmail#[Yy]}" ]; then
   echo 'SMTP server on IP/FQDN '$outgoingmailip' port '$outgoingmailport' reachable? (0=YES / 1=NO)'
+<<<<<<< Updated upstream
 #  netcat -z -v $outgoingmailip $outgoingmailport 2>&1
+=======
+>>>>>>> Stashed changes
   echo 2>/dev/null > /dev/tcp/$outgoingmailip/$outgoingmailport ; echo $?
   echo "---"
 fi
@@ -205,7 +241,10 @@ fi
 #CHECK POP3/IMAP REACHABILITY
 if [ "$incomingmail" != "${incomingmail#[Yy]}" ]; then
   echo 'POP3/IMAP server on IP/FQDN '$incomingmailip' port '$incomingmailport' reachable? (0=YES / 1=NO)'
+<<<<<<< Updated upstream
 #  netcat -z -v $incomingmailip $incomingmailport 2>&1
+=======
+>>>>>>> Stashed changes
   echo 2>/dev/null > /dev/tcp/$incomingmailip/$incomingmailport ; echo $?
   echo "---"
 fi
