@@ -33,30 +33,21 @@ module Storages::Peripherals
       @oauth_client = storage.oauth_client
     end
 
-    # The download_command is actually a query and should be refactored
-    def download_command
-      ->(access_token:, file_id:) do
-        request_url = File.join(@oauth_client.integration.host, '/ocs/v2.php/apps/dav/api/v1/direct')
-        body = { fileId: file_id }
-        header = {
-          'Authorization' => "Bearer #{access_token}",
-          'OCS-APIRequest' => 'true',
-          'Accept' => 'application/json'
-        }
-
-        begin
-          response = RestClient.post request_url, body, header
-        rescue RestClient::Unauthorized
-          return ServiceResult.failure(result: I18n.t('http.request.failed_authorization'))
-        rescue StandardError => e
-          return ServiceResult.failure(result: e.message)
-        end
-
-        ServiceResult.success(result: response)
-      end
+    def download_link_query(user:)
+      storage_queries(user)
+        .download_link_query
+        .map { |query| query.method(:query).to_proc }
     end
 
     def files_query(user:)
+      storage_queries(user)
+        .files_query
+        .map { |query| query.method(:query).to_proc }
+    end
+
+    private
+
+    def storage_queries(user)
       ::Storages::Peripherals::StorageInteraction::StorageQueries
         .new(
           uri: URI(@storage.host),
@@ -64,8 +55,6 @@ module Storages::Peripherals
           user:,
           oauth_client: @oauth_client
         )
-        .files_query
-        .map { |query| query.method(:files).to_proc }
     end
   end
 end

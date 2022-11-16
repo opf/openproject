@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 storages resource', type: :request, content_type: :json do
+describe 'API v3 storages resource', content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }
@@ -76,7 +76,7 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
   describe 'GET /api/v3/storages/:storage_id' do
     let(:path) { api_v3_paths.storage(storage.id) }
 
-    context 'when user belongs to a project using the given storage' do
+    context 'if user belongs to a project using the given storage' do
       let!(:project_storage) { create(:project_storage, project:, storage:) }
 
       it_behaves_like 'successful storage response'
@@ -94,7 +94,7 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
       end
     end
 
-    context 'when user has :manage_storages_in_project permission in any project' do
+    context 'if user has :manage_storages_in_project permission in any project' do
       let(:permissions) { %i(manage_storages_in_project) }
 
       it_behaves_like 'successful storage response'
@@ -153,6 +153,34 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
     end
   end
 
+  describe 'DELETE /api/v3/storages/:storage_id' do
+    let(:path) { api_v3_paths.storage(storage.id) }
+
+    subject(:last_response) do
+      delete path
+    end
+
+    context 'as admin' do
+      let(:current_user) { create(:admin) }
+
+      it_behaves_like 'successful no content response'
+    end
+
+    context 'as non-admin' do
+      context 'if user belongs to a project using the given storage' do
+        it_behaves_like 'unauthorized access'
+      end
+
+      context 'if user does not belong to a project using the given storage' do
+        let(:current_user) do
+          create(:user, member_with_permissions: permissions)
+        end
+
+        it_behaves_like 'not found'
+      end
+    end
+  end
+
   describe 'GET /api/v3/storages/:storage_id/files' do
     let(:path) { api_v3_paths.storage_files(storage.id) }
 
@@ -196,7 +224,7 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
           allow(storage_requests).to receive(:files_query).and_return(ServiceResult.failure(result: :not_authorized))
         end
 
-        it { expect(last_response.status).to be(403) }
+        it { expect(last_response.status).to be(500) }
       end
 
       describe 'due to internal error' do
@@ -219,7 +247,7 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
     describe 'with query failed' do
       let(:files_query) do
         Struct.new('FilesQuery', :error) do
-          def files(_)
+          def query(_)
             ServiceResult.failure(result: error)
           end
         end.new(error)
@@ -234,7 +262,7 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
       describe 'due to authorization failure' do
         let(:error) { :not_authorized }
 
-        it { expect(last_response.status).to be(403) }
+        it { expect(last_response.status).to be(500) }
       end
 
       describe 'due to internal error' do

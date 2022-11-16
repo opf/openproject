@@ -37,6 +37,30 @@ module Storages::Peripherals::StorageInteraction
       @oauth_client = oauth_client
     end
 
+    def download_link_query
+      case @provider_type
+      when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+        connection_manager = ::OAuthClients::ConnectionManager.new(user: @user, oauth_client: @oauth_client)
+        connection_manager.get_access_token.match(
+          on_success: ->(token) do
+            ServiceResult.success(
+              result:
+                ::Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery.new(
+                  base_uri: @uri,
+                  token:,
+                  with_refreshed_token: connection_manager.method(:request_with_token_refresh).to_proc
+                )
+            )
+          end,
+          on_failure: ->(_) do
+            ServiceResult.failure(result: :not_authorized)
+          end
+        )
+      else
+        raise ArgumentError
+      end
+    end
+
     def files_query
       case @provider_type
       when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
@@ -45,11 +69,10 @@ module Storages::Peripherals::StorageInteraction
           on_success: ->(token) do
             ServiceResult.success(
               result:
-                ::Storages::Peripherals::StorageInteraction::NextcloudStorageQuery.new(
+                ::Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery.new(
                   base_uri: @uri,
-                  origin_user_id: token.origin_user_id,
-                  token: token.access_token,
-                  with_refreshed_token: connection_manager.method(:with_refreshed_token).to_proc
+                  token:,
+                  with_refreshed_token: connection_manager.method(:request_with_token_refresh).to_proc
                 )
             )
           end,

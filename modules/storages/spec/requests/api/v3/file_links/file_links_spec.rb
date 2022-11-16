@@ -472,62 +472,96 @@ describe 'API v3 file links resource', type: :request do
   end
 
   describe 'GET /api/v3/file_links/:file_link_id/download' do
-    let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
-    let(:request_factory) { instance_double(Storages::Peripherals::StorageRequests) }
-    let(:access_token_result) { ServiceResult.success(result: create(:oauth_client_token)) }
     let(:path) { api_v3_paths.file_link_download(file_link.id) }
-    let(:download_response) { instance_double(RestClient::Response) }
-    let(:download_command_result) { ServiceResult.success(result: download_response) }
-    let(:response_body) { { ocs: { data: { url: 'https://starkiller.nextcloud.com/direct/xyz' } } }.to_json }
+    let(:url) { 'https://starkiller.nextcloud.com/direct/xyz' }
 
-    before do
-      allow(connection_manager).to receive(:get_access_token).and_return(access_token_result)
-      allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
-      allow(request_factory).to receive(:download_command).and_return(->(*) { download_command_result })
-      allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(request_factory)
-      allow(download_response).to receive(:body).and_return(response_body)
+    describe 'with successful response' do
+      before do
+        storage_requests = instance_double(Storages::Peripherals::StorageRequests)
+        download_link_query = Proc.new do
+          ServiceResult.success(result: url)
+        end
+        allow(storage_requests).to receive(:download_link_query).and_return(ServiceResult.success(result: download_link_query))
+        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
 
-      get path
+        get path
+      end
+
+      it 'responds successfully' do
+        expect(subject.status).to be(303)
+        expect(subject.location).to be(url)
+      end
     end
 
-    it 'is successful' do
-      expect(subject.status).to be 303
+    describe 'with download link query creation failed' do
+      let(:storage_requests) { instance_double(Storages::Peripherals::StorageRequests) }
+
+      before do
+        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
+      end
+
+      describe 'due to authorization failure' do
+        before do
+          allow(storage_requests).to receive(:download_link_query).and_return(ServiceResult.failure(result: :not_authorized))
+          get path
+        end
+
+        it { expect(subject.status).to be(500) }
+      end
+
+      describe 'due to internal error' do
+        before do
+          allow(storage_requests).to receive(:download_link_query).and_return(ServiceResult.failure(result: :error))
+          get path
+        end
+
+        it { expect(subject.status).to be(500) }
+      end
+
+      describe 'due to not found' do
+        before do
+          allow(storage_requests).to receive(:download_link_query).and_return(ServiceResult.failure(result: :not_found))
+          get path
+        end
+
+        it { expect(subject.status).to be(404) }
+      end
     end
 
-    context 'if storage origin returns unexpected response body' do
-      let(:response_body) { 'the force is not strong in this one ...' }
+    describe 'with query failed' do
+      let(:download_link_query) do
+        Struct.new('DownloadLinkQuery', :error) do
+          def query(_)
+            ServiceResult.failure(result: error)
+          end
+        end.new(error)
+      end
 
-      it_behaves_like 'error response',
-                      500,
-                      'InternalServerError',
-                      I18n.t('http.response.unexpected')
-    end
+      before do
+        storage_queries = instance_double(Storages::Peripherals::StorageInteraction::StorageQueries)
+        allow(storage_queries).to receive(:download_link_query).and_return(ServiceResult.success(result: download_link_query))
+        allow(Storages::Peripherals::StorageInteraction::StorageQueries).to receive(:new).and_return(storage_queries)
 
-    context 'if storage origin returns empty response body' do
-      let(:response_body) { '' }
+        get path
+      end
 
-      it_behaves_like 'error response',
-                      500,
-                      'InternalServerError',
-                      I18n.t('http.request.failed_authorization')
-    end
+      describe 'due to authorization failure' do
+        let(:error) { :not_authorized }
 
-    context 'if no access token is available' do
-      let(:access_token_result) { ServiceResult.failure }
+        it { expect(subject.status).to be(500) }
+      end
 
-      it_behaves_like 'error response',
-                      500,
-                      'InternalServerError',
-                      I18n.t('http.request.missing_authorization')
-    end
+      describe 'due to internal error' do
+        let(:error) { :error }
 
-    context 'if outbound request returns with failure (token expired or revoked)' do
-      let(:download_command_result) { ServiceResult.failure(result: I18n.t('http.request.failed_authorization')) }
+        it { expect(subject.status).to be(500) }
+      end
 
-      it_behaves_like 'error response',
-                      500,
-                      'InternalServerError',
-                      I18n.t('http.request.failed_authorization')
+      describe 'due to not found' do
+        let(:error) { :not_found }
+
+        it { expect(subject.status).to be(404) }
+      end
     end
   end
 end

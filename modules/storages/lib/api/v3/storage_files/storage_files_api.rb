@@ -36,7 +36,8 @@ module API::V3::StorageFiles
         when :not_found
           raise API::Errors::NotFound.new
         when :not_authorized
-          raise API::Errors::Unauthorized.new
+          Rails.logger.error("An outbound request failed due to an authorization failure!")
+          raise API::Errors::InternalError.new
         else
           raise API::Errors::InternalError.new
         end

@@ -776,20 +776,12 @@ components:
       "$ref": "./components/schemas/user_preferences_model.yml"
     User_PreferenceModel:
       "$ref": "./components/schemas/user_preference_model.yml"
-    User_create_form:
-      "$ref": "./components/schemas/user_create_form.yml"
-    User_update_form:
-      "$ref": "./components/schemas/user_update_form.yml"
     ValuesPropertyModel:
       "$ref": "./components/schemas/values_property_model.yml"
     VersionModel:
       "$ref": "./components/schemas/version_model.yml"
-    Version_create_form:
-      "$ref": "./components/schemas/version_create_form.yml"
     Version_schemaModel:
       "$ref": "./components/schemas/version_schema_model.yml"
-    Version_update_form:
-      "$ref": "./components/schemas/version_update_form.yml"
     VersionsModel:
       "$ref": "./components/schemas/versions_model.yml"
     Versions_by_ProjectModel:
@@ -832,8 +824,6 @@ components:
       "$ref": "./components/schemas/wiki_page_model.yml"
     Work_PackageModel:
       "$ref": "./components/schemas/work_package_model.yml"
-    Work_Package_Relation_FormModel:
-      "$ref": "./components/schemas/work_package_relation_form_model.yml"
     Work_Package_SchemasModel:
       "$ref": "./components/schemas/work_package_schemas_model.yml"
     Work_Package_activitiesModel:
