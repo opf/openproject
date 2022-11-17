@@ -42,7 +42,7 @@ import { AttachmentsResourceService } from 'core-app/core/state/attachments/atta
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttachmentListComponent extends UntilDestroyedMixin implements OnInit {
-  @Input() public attachments:IAttachment[];
+  @Input() public attachments:IAttachment[] = [];
 
   @Input() public collectionKey:string;
 
