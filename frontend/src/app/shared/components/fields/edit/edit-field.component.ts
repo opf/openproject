@@ -74,7 +74,7 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
   }
 
   ngOnInit():void {
-    this.$element = jQuery(this.elementRef.nativeElement);
+    this.$element = jQuery(this.elementRef.nativeElement as HTMLElement);
     this.initialize();
 
     if (this.change.state) {
