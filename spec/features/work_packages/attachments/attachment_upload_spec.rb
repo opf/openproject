@@ -134,7 +134,7 @@ describe 'Upload attachment to work package', js: true do
 
         scroll_to_and_click find('#work-packages--edit-actions-save')
 
-        new_page.expect_toast(
+        new_page.expect_and_dismiss_toaster(
           message: 'Successful creation.'
         )
 

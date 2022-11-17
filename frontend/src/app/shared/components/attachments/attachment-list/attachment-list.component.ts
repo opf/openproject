@@ -41,7 +41,7 @@ import { AttachmentsResourceService } from 'core-app/core/state/attachments/atta
   templateUrl: './attachment-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttachmentListComponent extends UntilDestroyedMixin implements OnInit {
+export class OpAttachmentListComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public attachments:IAttachment[] = [];
 
   @Input() public collectionKey:string;

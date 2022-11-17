@@ -66,7 +66,7 @@ export const attachmentsSelector = 'op-attachments';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
+export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @HostBinding('id.attachments_fields') public hostId = true;
 
   @HostBinding('class.op-attachments') public className = true;
@@ -118,6 +118,7 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   ngOnInit() {
+    console.log('resource', this.resource);
     if (!(this.resource instanceof HalResource)) {
       // Parse the resource if any exists
       this.resource = this.halResourceService.createHalResource(this.resource, true);
@@ -133,8 +134,11 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit,
         this.resource = newResource || this.resource;
       });
 
+    console.log('resource', this.resource);
+
     // ensure collection is loaded to the store
     if (!isNewResource(this.resource)) {
+      console.log('is new resource!');
       this.attachmentsResourceService.requireCollection(this.attachmentsSelfLink);
     }
 

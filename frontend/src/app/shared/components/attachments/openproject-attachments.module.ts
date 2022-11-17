@@ -31,9 +31,9 @@ import { CommonModule } from '@angular/common';
 
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 
-import { AttachmentsComponent } from './attachments.component';
-import { AttachmentListComponent } from './attachment-list/attachment-list.component';
-import { AttachmentListItemComponent } from './attachment-list/attachment-list-item.component';
+import { OpAttachmentsComponent } from './attachments.component';
+import { OpAttachmentListComponent } from './attachment-list/attachment-list.component';
+import { OpAttachmentListItemComponent } from './attachment-list/attachment-list-item.component';
 
 @NgModule({
   imports: [
@@ -41,15 +41,15 @@ import { AttachmentListItemComponent } from './attachment-list/attachment-list-i
     IconModule,
   ],
   declarations: [
-    AttachmentsComponent,
-    AttachmentListComponent,
-    AttachmentListItemComponent,
+    OpAttachmentsComponent,
+    OpAttachmentListComponent,
+    OpAttachmentListItemComponent,
   ],
   exports: [
-    AttachmentListComponent,
-    AttachmentsComponent,
+    OpAttachmentListComponent,
+    OpAttachmentsComponent,
 
-    AttachmentListItemComponent,
+    OpAttachmentListItemComponent,
   ],
 })
 export class OpenprojectAttachmentsModule {

@@ -13,7 +13,7 @@ import {
   zenModeComponentSelector,
 } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {
-  AttachmentsComponent,
+  OpAttachmentsComponent,
   attachmentsSelector,
 } from 'core-app/shared/components/attachments/attachments.component';
 import {
@@ -211,7 +211,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: wpEmbeddedTableMacroSelector, cls: EmbeddedTablesMacroComponent, embeddable: true },
   { selector: colorsAutocompleterSelector, cls: ColorsAutocompleterComponent },
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
-  { selector: attachmentsSelector, cls: AttachmentsComponent, embeddable: true },
+  { selector: attachmentsSelector, cls: OpAttachmentsComponent, embeddable: true },
   { selector: usersAutocompleterSelector, cls: UserAutocompleterComponent },
   { selector: membersAutocompleterSelector, cls: MembersAutocompleterComponent },
   { selector: globalSearchTabsSelector, cls: GlobalSearchTabsComponent },
