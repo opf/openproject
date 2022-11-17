@@ -124,6 +124,8 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
       const end = crumbs.length + 1;
       const newCrumb:Breadcrumb = {
         text: directory.name,
+        // The navigate-callback needs to slice the future breadcrumb, which contains the new crumb itself.
+        // Therefore, we need the closure in here.
         navigate: () => this.changeLevel(directory.location, this.breadcrumbs.crumbs.slice(0, end)),
       };
       this.changeLevel(directory.location, crumbs.concat(newCrumb));
