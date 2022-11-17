@@ -80,7 +80,7 @@ ko:
       buttons:
         upgrade: "지금 업그레이드"
         contact: "당사에 데모 요청하기"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+      enterprise_info_html: "- Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> 기능입니다."
       upgrade_info: "활성화하고 팀에서 사용하려면 유료 플랜으로 업그레이드하세요."
     journal_aggregation:
       explanation:
@@ -212,13 +212,13 @@ ko:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
-      overviews: 'Project overview'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      members: '프로젝트 멤버'
+      overviews: '프로젝트 개요'
+      queries: '작업 패키지: 저장된 보기'
+      wiki_page_attachments: 'Wiki 페이지: 첨부 파일'
+      work_package_attachments: '작업 패키지: 첨부 파일'
+      work_package_categories: '작업 패키지: 카테고리'
+      work_package_file_links: '작업 패키지: 파일 링크'
     delete:
       scheduled: "삭제가 예약되었으며 백그라운드에서 수행됩니다. 결과 알림이 제공될 것입니다."
       schedule_failed: "프로젝트를 삭제할 수 없습니다: %{errors}"
@@ -578,7 +578,7 @@ ko:
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
         could_not_be_copied: "%{dependency}을(를) (완전히) 복사할 수 없습니다."
         does_not_exist: "존재하지 않음"
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action}은(는) OpenProject Enterprise Edition에서만 사용할 수 있습니다"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
         email: "- 유효한 이메일 주소가 아닙니다."
@@ -750,10 +750,10 @@ ko:
             daily_reminders:
               full_hour: "- 1시간 전송만 구성할 수 있습니다."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: '전역 알림 설정은 하나만 있어야 합니다.'
+              email_alerts_global: '이메일 알림 설정은 전역으로만 설정할 수 있습니다.'
               format: "%{message}"
-              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+              wrong_date: '시작 날짜, 기한 또는 기한 지남 값이 잘못되었습니다.'
         watcher:
           attributes:
             user_id:
@@ -2008,7 +2008,7 @@ ko:
         subscribed: '모두'
         prefix: '수신 이유는 다음 알림 설정입니다: %{reason}'
         date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
+        date_alert_due_date: '날짜 알림'
       see_all: '모두 보기'
       updated_at: '%{timestamp}, %{user} 님이 업데이트함'
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
