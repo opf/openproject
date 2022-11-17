@@ -35,6 +35,7 @@ describe Capabilities::Scopes::Default, type: :model do
   let(:permissions) { %i[] }
   let(:global_permissions) { %i[] }
   let(:non_member_permissions) { %i[] }
+  let(:anonymous_permissions) { %i[] }
   let(:project_public) { false }
   let(:project_active) { true }
   let!(:project) { create(:project, public: project_public, active: project_active) }
@@ -62,6 +63,10 @@ describe Capabilities::Scopes::Default, type: :model do
   let(:non_member_role) do
     create(:non_member,
            permissions: non_member_permissions)
+  end
+  let(:anonymous_role) do
+    create(:anonymous_role,
+           permissions: anonymous_permissions)
   end
   let(:own_role) { create(:role, permissions: []) }
   let(:own_member) do
@@ -162,6 +167,28 @@ describe Capabilities::Scopes::Default, type: :model do
     context 'with the non member role with an action permission' do
       let(:non_member_permissions) { %i[view_members] }
       let(:members) { [non_member_role] }
+
+      context 'with the project being private' do
+        it_behaves_like 'is empty'
+      end
+
+      context 'with the project being public' do
+        let(:project_public) { true }
+
+        it_behaves_like 'consists of contract actions' do
+          let(:expected) do
+            [
+              ['memberships/read', user.id, project.id]
+            ]
+          end
+        end
+      end
+    end
+
+    context 'with the anonymous role with an action permission' do
+      let(:anonymous_permissions) { %i[view_members] }
+      let!(:user) { create(:anonymous) }
+      let(:members) { [anonymous_role] }
 
       context 'with the project being private' do
         it_behaves_like 'is empty'
