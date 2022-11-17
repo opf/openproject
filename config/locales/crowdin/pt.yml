@@ -80,7 +80,7 @@ pt:
       buttons:
         upgrade: "Atualizar agora"
         contact: "Contate-nos para uma demonstração"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+      enterprise_info_html: "É um recurso Empresarial <span class='spot-icon spot-icon_enterprise-badge'></span>."
       upgrade_info: "Por favor, faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
     journal_aggregation:
       explanation:
@@ -211,13 +211,13 @@ pt:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
-      overviews: 'Project overview'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      members: 'Membros do projeto'
+      overviews: 'Visão geral do projeto'
+      queries: 'Pacotes de trabalho: visualizações salvas'
+      wiki_page_attachments: 'Páginas Wiki: anexos'
+      work_package_attachments: 'Pacote de trabalho: anexos'
+      work_package_categories: 'Pacote de trabalho: categorias'
+      work_package_file_links: 'Pacote de trabalho: links de arquivo'
     delete:
       scheduled: "Exclusão foi agendada e será realizada em segundo plano. Você será notificado do resultado."
       schedule_failed: "Projeto não pode ser excluído: %{errors}"
@@ -579,7 +579,7 @@ pt:
         confirmation: "não coincide com %{attribute}."
         could_not_be_copied: "%{dependency} não pôde ser copiado (completamente)."
         does_not_exist: "não existe."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} só está disponível no OpenProject Enterprise Edition"
         error_unauthorized: "não pode ser acessado."
         error_readonly: "tentou escrever, mas não é gravável."
         email: "não é um endereço de e-mail válido."
@@ -751,15 +751,15 @@ pt:
             daily_reminders:
               full_hour: "só pode ser configurado para ser entregue em uma hora completa."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: 'Só pode haver uma configuração de notificação global.'
+              email_alerts_global: 'As configura de notificação de e-mail só podem ser definidas globalmente.'
               format: "%{message}"
-              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+              wrong_date: 'Valor incorreto para a Data de início, Prazo ou Atrasadas'
         watcher:
           attributes:
             user_id:
-              not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              not_allowed_to_view: "não possui permissão para visualizar este recurso."
+              locked: "está bloqueado."
         wiki_page:
           attributes:
             slug:
@@ -2025,8 +2025,8 @@ pt:
         mentioned: 'Mencionado'
         subscribed: 'todos'
         prefix: 'Recebido devido à configuração de notificação: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
+        date_alert_start_date: 'Alerta de data'
+        date_alert_due_date: 'Alerta de data'
       see_all: 'Ver todas'
       updated_at: 'Atualizado em %{timestamp} por %{user}'
   mail_body_account_activation_request: "Um novo usuário (%{value}) registrou-se. A conta está aguardando sua aprovação:"
@@ -2942,7 +2942,7 @@ pt:
   api_v3:
     attributes:
       lock_version: "Bloquear versão"
-      property: 'Property'
+      property: 'Propriedade'
     errors:
       code_400: "Requisição inválida: %{message}"
       code_401: "Você precisa estar autenticado para acessar este recurso."

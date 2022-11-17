@@ -303,11 +303,11 @@ ru:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Активация оповещений о дате уведомления для предстоящих дат и просроченных задач.</li> <li>Мы выпускаем двухфакторную аутентификацию (2FA) для редакции Сообщества.</li> <li>Опция отображения рабочей недели теперь также добавлена в командный планировщик.</li> <li> Список до 3 человек в карточках уведомлений, когда в изменениях участвовали несколько человек.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Активация оповещений о дате уведомления для предстоящих дат и просроченных задач.</li> <li>Мы выпускаем двухфакторную аутентификацию (2FA) для редакции Сообщества.</li> <li>Опция отображения рабочей недели теперь также добавлена в командный планировщик.</li> <li> Список до 3 человек в карточках уведомлений, когда в изменениях участвовали несколько человек.</li> </ul>
     label_activate: "Активировать"
     label_assignee: 'Ответственный'
     label_add_column_after: "Добавить столбец после"
@@ -607,7 +607,7 @@ ru:
               P3D: 3 дня до
               P7D: за неделю до
             overdue:
-              P1D: every day
+              P1D: каждый день
               P3D: каждые 3 дня
               P7D: каждую неделю
         reasons:
