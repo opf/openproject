@@ -33,62 +33,50 @@ import {
   ElementRef,
   Inject,
 } from '@angular/core';
-import { take } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
-import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
+import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
+import { isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
 import {
   StorageFileListItem,
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
-import { isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
 import {
   FilePickerBaseModalComponent,
 } from 'core-app/shared/components/storages/file-picker-base-modal.component.ts/file-picker-base-modal.component';
 
 @Component({
-  templateUrl: 'file-picker-modal.component.html',
+  templateUrl: 'location-picker-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilePickerModalComponent extends FilePickerBaseModalComponent {
+export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
   public readonly text = {
-    header: this.i18n.t('js.storages.file_links.select'),
+    header: this.i18n.t('js.storages.select_location'),
     buttons: {
       openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.locals.storageTypeName as string }),
-      submit: ():string => this.i18n.t('js.storages.file_links.selection_any', { number: this.selectedFileCount }),
+      submit: this.i18n.t('js.storages.choose_location'),
       submitEmptySelection: this.i18n.t('js.storages.file_links.selection_none'),
       cancel: this.i18n.t('js.button_cancel'),
       selectAll: this.i18n.t('js.storages.file_links.select_all'),
     },
-    tooltip: {
-      alreadyLinkedFile: this.i18n.t('js.storages.file_links.already_linked_file'),
-      alreadyLinkedDirectory: this.i18n.t('js.storages.file_links.already_linked_directory'),
-    },
   };
 
-  public get selectedFileCount():number {
-    return this.selection.size;
+  public get canChooseLocation():boolean {
+    return this.breadcrumbs.crumbs.length > 1;
   }
-
-  private readonly selection = new Set<string>();
-
-  private readonly fileMap:Record<string, IStorageFile> = {};
 
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly elementRef:ElementRef,
     readonly cdRef:ChangeDetectorRef,
-    protected readonly sortFilesPipe:SortFilesPipe,
+    protected sortFilesPipe:SortFilesPipe,
     protected readonly storageFilesResourceService:StorageFilesResourceService,
     private readonly i18n:I18nService,
     private readonly timezoneService:TimezoneService,
-    private readonly fileLinksResourceService:FileLinksResourceService,
   ) {
     super(
       locals,
@@ -99,44 +87,8 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
     );
   }
 
-  public createSelectedFileLinks():void {
-    const files = Array.from(this.selection).map((id) => this.fileMap[id]);
-    this.fileLinksResourceService.addFileLinks(
-      this.locals.collectionKey as string,
-      this.locals.addFileLinksHref as string,
-      this.storageLink,
-      files,
-    );
-
+  public chooseLocation():void {
     this.service.close();
-  }
-
-  public selectAllOfCurrentLevel():void {
-    this.storageFiles$
-      .pipe(take(1))
-      .subscribe((files) => {
-        files.forEach((file) => {
-          const id = file.id as string;
-          if (!this.selection.has(id) && !this.isAlreadyLinked(file)) {
-            this.selection.add(id);
-            this.fileMap[id] = file;
-          }
-        });
-
-        // push the file data again to the subject
-        // to trigger a rerender with new selection state
-        this.storageFiles$.next(files);
-      });
-  }
-
-  public changeSelection(file:IStorageFile):void {
-    const fileId = file.id as string;
-    if (this.selection.has(fileId)) {
-      this.selection.delete(fileId);
-    } else {
-      this.selection.add(fileId);
-      this.fileMap[fileId] = file;
-    }
   }
 
   protected storageFileToListItem(file:IStorageFile, index:number):StorageFileListItem {
@@ -146,21 +98,11 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
     return new StorageFileListItem(
       this.timezoneService,
       file,
-      this.isAlreadyLinked(file),
+      !isFolder,
       index === 0,
-      isFolder ? this.text.tooltip.alreadyLinkedDirectory : this.text.tooltip.alreadyLinkedFile,
-      {
-        selected: this.selection.has(file.id as string),
-        changeSelection: () => { this.changeSelection(file); },
-      },
+      undefined,
+      undefined,
       enterDirectoryCallback,
     );
-  }
-
-  private isAlreadyLinked(file:IStorageFile):boolean {
-    const currentFileLinks = this.locals.fileLinks as IFileLink[];
-    const found = currentFileLinks.find((a) => a.originData.id === file.id);
-
-    return !!found;
   }
 }

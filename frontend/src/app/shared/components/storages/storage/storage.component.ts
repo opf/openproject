@@ -65,6 +65,9 @@ import {
   FilePickerModalComponent,
 } from 'core-app/shared/components/storages/file-picker-modal/file-picker-modal.component';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+import {
+  LocationPickerModalComponent,
+} from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
 
 @Component({
   selector: 'op-storage',
@@ -107,12 +110,17 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
     },
     actions: {
       linkExisting: this.i18n.t('js.storages.link_existing_files'),
+      uploadFile: this.i18n.t('js.storages.upload_files'),
     },
     openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.storageType }),
   };
 
   public get storageFileLinkingEnabled():boolean {
     return this.configurationService.activeFeatureFlags.includes('storageFileLinking');
+  }
+
+  public get storageFileUploadEnabled():boolean {
+    return this.configurationService.activeFeatureFlags.includes('storageFileUpload');
   }
 
   public get storageFilesLocation():string {
@@ -179,6 +187,17 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
         };
         this.opModalService.show<FilePickerModalComponent>(FilePickerModalComponent, 'global', locals);
       });
+  }
+
+  public openSelectLocationDialog():void {
+    const locals = {
+      storageType: this.storage._links.type.href,
+      storageTypeName: this.storageType,
+      storageName: this.storage.name,
+      storageLocation: this.storageFilesLocation,
+      storageLink: this.storage._links.self,
+    };
+    this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals);
   }
 
   private instantiateStorageInformation(fileLinks:IFileLink[]):StorageInformationBox[] {

@@ -1,11 +1,11 @@
 <spot-tooltip
   [alignment]="getTooltipAlignment"
-  [disabled]="!content.disabled"
+  [disabled]="!content.disabled || !content.tooltip"
 >
   <p
     slot="body"
     class="spot-body-small"
-  >{{tooltip}}</p>
+  >{{content.tooltip}}</p>
 
   <label
     slot="trigger"
@@ -14,8 +14,9 @@
     [ngClass]="{ 'spot-list--item-action_disabled': content.disabled }"
   >
     <spot-checkbox
-      [checked]="content.disabled || content.selected"
-      (checkedChange)="content.changeSelection()"
+      *ngIf="!!content.checkbox"
+      [checked]="content.disabled || content.checkbox.selected"
+      (checkedChange)="content.checkbox.changeSelection()"
       [disabled]="content.disabled"
     ></spot-checkbox>
 
