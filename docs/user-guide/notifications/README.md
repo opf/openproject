@@ -11,27 +11,25 @@ This section will introduce in-app notifications and explain how to work with th
 
 ## Overview of in-app notifications
 
-In-app notifications are a tool to get notified about requests, changes and new assignments in OpenProject. The notifications can work as an alternative to email notification, or be used in parallel. This feature is enabled by default.
+In-app notifications are a tool to get notified about requests, changes and new assignments in OpenProject. The notifications can work as an alternative to email notifications, or be used in parallel. This feature is enabled by default.
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-In-app-notifications.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## Access in-app notifications
 
-Whenever you are getting in-app notification, a red elliptical with the number of notifications is displayed on the bell symbol on the upper right side of the OpenProject screen between the module button and the help button. (Please note, if there are more than 99 notifications, the elliptical will simply be red without a number in it).
+Whenever you are getting an in-app notification, a red elliptical with the number of notifications is displayed on the bell symbol on the upper right side of the OpenProject screen between the module button and the help button. (Please note, if there are more than 99 notifications, the elliptical will simply be red without a number in it).
 
-To view the notifications, please left-click on the bell symbol. By default, your notifications are sorted by work package.
+To view the notifications, please left-click on the bell symbol. This will then take you to the **Notification center**. 
 
 ![A notification bell icon in the top bar has a badge showing the number of unread notifications](NotificationCenter-12.4-badge.png)
-
-This will then take you to the **notification center**.
 
 To access the in-app notification settings. Please left-click the "Notification settings" button in the upper right side or navigate via *My account* > *Notification settings*.
 
 By default, messages are grouped by work package, and the number in the blue bubble next to each work package displays the number of related messages that are associated with each work package. Alternatively, these notifications can also be accessed from within a given work package under the **Activity** tab in the details view.
 
-![A screenshot of the notification center with a number of unread notifications](NotificationCenter-12.4-inbox.png)
+![A screenshot of the Notification center with a number of unread notifications](NotificationCenter-12.4-inbox.png)
 
-By clicking on a row in the notification center, you will see the details in the split screen.
+By clicking on a row in the Notification center, you will see the details in the split screen.
 
 ![Clicking on a notification row allows you to access the work package in split screen mode](NotificationCenter-12.4-splitScreenView.png)
 
@@ -42,7 +40,7 @@ You can filter or group the notifications using the two areas in the left menu b
 
 1. You can filter by the **reason** you were notified: because you were mentioned (*@mention*), because you are either the assignee or accountable, because it concerns a work package you are watching or because you have an active date alert.
 2. You can filter by **project**, for example to filter for notifications that originated from a specific project.
-3. You can also filter notifications for **Unread** or **All** (Read and Unread) notifications. There you can also mark all messages as read.
+3. You can also filter notifications for **Unread** or **All** (read and unread) notifications. There you can also mark all messages as read.
 4. The [**Notification settings**](./notification-settings) button will bring you to your personal notification settings to configure your notification preferences.
 5. When selecting any of the notifications, you can also view more **details in the split screen**, for example comments members made regarding a specific work package. Unread messages are indicated by a blue bubble. You can even edit directly in this view.
 
@@ -50,13 +48,13 @@ In addition to the in-app notifications, you will also get a once-a-day summary 
 
 ## Mark in-app notifications as read
 
-To mark in-app notifications as read, there are several options in the notification center:
+To mark in-app notifications as read, there are several options in the Notification center:
 
 - To mark a notification as read, click on the envelope icon on the right side of the message line. Please note that if there are several updates to one work package, the blue bubble displays the total number of updates. The **Mark as read** icon next to a work package will mark all updates of a work package as read.
 
 ![mark-as-read](mark-as-read.png)
 
-- You can also use the **Mark as Read** button at the bottom of the split-screen view of a work package in the notification center to mark a single message as read.
+- You can also use the **Mark as Read** button at the bottom of the split-screen view of a work package in the Notification center to mark a single message as read.
 
    ![notifications-bottom-bar](notifications-bottom-bar-4292960.png)
 
@@ -64,13 +62,13 @@ To mark in-app notifications as read, there are several options in the notificat
 
 ![notification-full-screen-view-work-package](notification-full-screen-view-work-package.png)
 
-- To mark all messages as read click on the **Mark all as read** button in the header navigation of the notification center. Please note that the **Mark all as read** button only marks notifications as read that are currently in view. You may have to ultimately press **Mark all as read** multiple times to mark all of your notifications as read if you have a lot of them. The red elliptical will update the number of unread messages in real-time, and eventually disappears when there are no more unread notifications.
+- To mark all messages as read click on the **Mark all as read** button in the header navigation of the Notification center. Please note that the **Mark all as read** button only marks notifications as read that are currently in view. You may have to ultimately press **Mark all as read** multiple times to mark all of your notifications as read if you have a lot of them. The red elliptical will update the number of unread messages in real-time, and eventually disappear when there are no more unread notifications.
 
-  ![notification-center-mark-all-as-read](notification-center-mark-all-as-read-4293156.png)
+  ![Notification-center-mark-all-as-read](notification-center-mark-all-as-read-4293156.png)
 
-## In-app notifications outside the notification center
+## In-app notifications outside the Notification center
 
-Besides controlling all your notifications in the notification center, the in-app notifications are also visible in the a work packages module. If a work package has some notification related with it, the total count of notifications will be displayed in the Activity tab. 
+Besides controlling all your notifications in the Notification center, the in-app notifications are also visible in the a work packages module. If a work package has some notification related with it, the total count of notifications will be displayed in the Activity tab. 
 
 ![notifications-activity-tab](notifications-activity-tab.png)
 

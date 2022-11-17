@@ -7,11 +7,11 @@ keywords: notifications settings
 ---
 # Notification settings
 
-You can configure how and for what events you wish to be notified through Notifications. To access these settings, you can either click on your avatar on the top right corner > *My account* > *Notification settings* or click on **Notification settings** on the top right corner of the notifications center.
+You can configure how and for what events you wish to be notified through Notifications. To access these settings, you can either click on your avatar on the top right corner > *My account* > *Notification settings* or click on **Notification settings** on the top right corner of the Notifications center.
 
 ![A screenshot of Notification center with the Notification settings button highlighted](Notification-settings-12.4-fromNotificationCenter.png)
 
-Notification settings are divided in four sections:
+Notification settings are divided into four sections:
 
 | Topic                                               | Description                                                  |
 | --------------------------------------------------- | :----------------------------------------------------------- |
@@ -27,7 +27,7 @@ Notification settings are divided in four sections:
 
 You participate in a work package by either being [mentioned](../../work-packages/edit-work-package/#-notification-mention), by watching it (being on the _Watchers_ list) or by being designated assignee or accountable. 
 
-By default, you will be notified of all activities in work packages in which you participate. However, you can choose to change these settings for work packages for which you are assignee or accountable by checking or unchecking these options:
+By default, you will be notified of all activities in work packages in which you participate. However, you can choose to change these settings for work packages for which you are an assignee or accountable by checking or unchecking these options:
 
 ![A screenshot of options for participating work packages](Notification-settings-12.4-Participating.png)
 
@@ -49,7 +49,7 @@ For start and finish date dates, you can choose to be alerted the same day, a da
 
 You can also choose to receive a recurring notification (every day, every 3 days or every week) for work packages that are overdue. You can stop receiving these alerts by either unchecking this option, or changing the dates of the relevant work packages.
 
-Date alerts notifications will appear in [notification center](../#accessing-in-app-notifications), both in the _Inbox_ and the separate _Date alerts_ sections on the left menu.
+Date alerts notifications will appear in [Notifications center](../#accessing-in-app-notifications), both in the _Inbox_ and the separate _Date alerts_ sections on the left menu.
 
 ## Non-participating
 
