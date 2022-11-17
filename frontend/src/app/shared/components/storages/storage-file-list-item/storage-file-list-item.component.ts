@@ -37,7 +37,6 @@ import {
   StorageFileListItem,
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -47,11 +46,6 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 })
 export class StorageFileListItemComponent {
   @Input() public content:StorageFileListItem;
-
-  text = {
-    alreadyLinkedFile: this.i18n.t('js.storages.file_links.already_linked_file'),
-    alreadyLinkedDirectory: this.i18n.t('js.storages.file_links.already_linked_directory'),
-  };
 
   get principal():PrincipalLike {
     return this.content.createdByName
@@ -65,10 +59,6 @@ export class StorageFileListItemComponent {
       };
   }
 
-  get tooltip():string {
-    return this.content.isDirectory ? this.text.alreadyLinkedDirectory : this.text.alreadyLinkedFile;
-  }
-
   get getTooltipAlignment():SpotDropAlignmentOption {
     if (this.content.isFirst) {
       return SpotDropAlignmentOption.BottomLeft;
@@ -76,8 +66,4 @@ export class StorageFileListItemComponent {
 
     return SpotDropAlignmentOption.TopLeft;
   }
-
-  constructor(
-    private readonly i18n:I18nService,
-  ) {}
 }

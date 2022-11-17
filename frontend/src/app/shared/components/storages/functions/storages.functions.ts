@@ -29,7 +29,13 @@
 import {
   fileIconMappings,
   IFileIcon,
-} from 'core-app/shared/components/storages/file-link-icons/icon-mappings';
+  storageIconMappings,
+} from 'core-app/shared/components/storages/icons.mapping';
+import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+
+export function isDirectory(mimeType?:string):boolean {
+  return mimeType === 'application/x-op-directory';
+}
 
 export function getIconForMimeType(mimeType?:string):IFileIcon {
   if (mimeType && fileIconMappings[mimeType]) {
@@ -37,4 +43,21 @@ export function getIconForMimeType(mimeType?:string):IFileIcon {
   }
 
   return fileIconMappings.default;
+}
+
+export function getIconForStorageType(storageType?:string):string {
+  if (storageType && storageIconMappings[storageType]) {
+    return storageIconMappings[storageType];
+  }
+
+  return storageIconMappings.default;
+}
+
+export function makeFilesCollectionLink(storageLink:IHalResourceLink, location:string|null):IHalResourceLink {
+  const query = location !== null ? `?parent=${location}` : '';
+
+  return {
+    href: `${storageLink.href}/files${query}`,
+    title: 'Storage files',
+  };
 }

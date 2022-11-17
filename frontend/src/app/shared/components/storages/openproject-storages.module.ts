@@ -44,10 +44,13 @@ import {
   FilePickerModalComponent,
 } from 'core-app/shared/components/storages/file-picker-modal/file-picker-modal.component';
 import { OPSharedModule } from 'core-app/shared/shared.module';
+import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import {
   StorageFileListItemComponent,
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item.component';
-import { SortFilesPipe } from 'core-app/shared/components/storages/file-picker-modal/sort-files.pipe';
+import {
+  LocationPickerModalComponent,
+} from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
 import {
   LoadingFileListComponent,
 } from 'core-app/shared/components/storages/loading-file-list/loading-file-list.component';
@@ -63,6 +66,7 @@ import {
     StorageComponent,
     FileLinkListItemComponent,
     FilePickerModalComponent,
+    LocationPickerModalComponent,
     LoadingFileListComponent,
     StorageInformationComponent,
     StorageFileListItemComponent,

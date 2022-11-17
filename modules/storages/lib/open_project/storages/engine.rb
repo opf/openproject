@@ -41,7 +41,8 @@ module OpenProject::Storages
     include OpenProject::Plugins::ActsAsOpEngine
 
     initializer 'openproject_storages.feature_decisions' do
-      OpenProject::FeatureDecisions.add(:storage_file_linking)
+      OpenProject::FeatureDecisions.add :storage_file_linking
+      OpenProject::FeatureDecisions.add :storage_file_upload
     end
 
     # For documentation see the definition of register in "ActsAsOpEngine"
