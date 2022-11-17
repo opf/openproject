@@ -40,10 +40,13 @@ module Capabilities::Scopes
             UNION
             #{default_sql_by_non_member}
             UNION
+            #{default_sql_by_non_member_with_anonymous}
+            UNION
             #{default_sql_by_admin}
           ) capabilities
         SQL
 
+        # binding.pry
         select('capabilities.*')
           .from(capabilities_sql)
       end
@@ -110,6 +113,32 @@ module Capabilities::Scopes
                                                      WHERE members.project_id = projects.id
                                                      AND members.user_id = users.id
                                                      LIMIT 1))
+          LEFT OUTER JOIN enabled_modules
+            ON enabled_modules.project_id = projects.id
+            AND actions.module = enabled_modules.name
+
+          WHERE enabled_modules.project_id IS NOT NULL OR "actions".module IS NULL
+        SQL
+      end
+
+      def default_sql_by_non_member_with_anonymous
+        <<~SQL.squish
+          SELECT DISTINCT
+            actions.id "action",
+            users.id principal_id,
+            projects.id context_id
+          FROM (#{Action.default.to_sql}) actions
+          JOIN "role_permissions" ON "role_permissions"."permission" = "actions"."permission"
+          JOIN "roles" ON "roles".id = "role_permissions".role_id AND roles.builtin = #{Role::BUILTIN_ANONYMOUS}
+          JOIN (#{Principal.visible.not_builtin_without_anonymous.not_locked_without_anonymous.to_sql}) users
+            ON 1 = 1
+          JOIN "projects"
+            ON "projects".active = true
+            AND ("projects".public = true OR EXISTS (SELECT 1
+                                                    FROM members
+                                                    WHERE members.project_id = projects.id
+                                                    AND members.user_id = users.id
+                                                    LIMIT 1))
           LEFT OUTER JOIN enabled_modules
             ON enabled_modules.project_id = projects.id
             AND actions.module = enabled_modules.name
