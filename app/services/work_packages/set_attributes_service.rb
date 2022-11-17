@@ -53,6 +53,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   def set_calculated_attributes(attributes)
     if work_package.new_record?
       set_default_attributes(attributes)
+      unify_milestone_dates
     else
       update_dates
     end
@@ -172,9 +173,9 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def set_default_start_date(attributes)
-    work_package.start_date ||= if attributes.has_key?(:start_date)
-                                  nil
-                                elsif parent_start_earlier_than_due?
+    return if attributes.has_key?(:start_date)
+
+    work_package.start_date ||= if parent_start_earlier_than_due?
                                   work_package.parent.start_date
                                 elsif Setting.work_package_startdate_is_adddate?
                                   Time.zone.today
@@ -182,9 +183,9 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def set_default_due_date(attributes)
-    work_package.due_date ||= if attributes.has_key?(:due_date)
-                                nil
-                              elsif parent_due_later_than_start?
+    return if attributes.has_key?(:due_date)
+
+    work_package.due_date ||= if parent_due_later_than_start?
                                 work_package.parent.due_date
                               end
   end
@@ -249,7 +250,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def update_dates
-    unify_dates if work_package_now_milestone?
+    unify_milestone_dates
 
     min_start = new_start_date
 
@@ -259,7 +260,9 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     work_package.start_date = min_start
   end
 
-  def unify_dates
+  def unify_milestone_dates
+    return unless work_package_now_milestone?
+
     unified_date = work_package.due_date || work_package.start_date
     work_package.start_date = work_package.due_date = unified_date
   end

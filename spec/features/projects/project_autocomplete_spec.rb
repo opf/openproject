@@ -93,15 +93,17 @@ describe 'Projects autocomplete page', type: :feature, js: true do
   end
 
   it 'allows to filter and select projects' do
-    top_menu.toggle
-    top_menu.expect_open
+    retry_block do
+      top_menu.toggle unless top_menu.open?
+      top_menu.expect_open
 
-    # projects are displayed initially
-    top_menu.expect_result project.name
-    # public project is displayed as it is public
-    top_menu.expect_result public_project.name
-    # only projects the user is member in are displayed
-    top_menu.expect_no_result non_member_project.name
+      # projects are displayed initially
+      top_menu.expect_result project.name
+      # public project is displayed as it is public
+      top_menu.expect_result public_project.name
+      # only projects the user is member in are displayed
+      top_menu.expect_no_result non_member_project.name
+    end
 
     # Filter for projects
     top_menu.search '<strong'

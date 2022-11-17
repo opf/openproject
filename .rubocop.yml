@@ -222,13 +222,14 @@ RSpec/NamedSubject:
 RSpec/ContextWording:
   Prefixes:
     - as
+    - for
+    - if
     - 'on'
+    - to
+    - unless
     - when
     - with
     - without
-    - if
-    - unless
-    - for
 
 RSpec/FactoryBot/SyntaxMethods:
   Enabled: true
