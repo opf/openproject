@@ -69,10 +69,11 @@ describe 'Upload attachment to documents',
 
       # adding an image via the attachments-list
       find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 1)
 
       # adding an image
       editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
-      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
 
       perform_enqueued_jobs do
         click_on 'Create'
