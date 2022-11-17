@@ -56,17 +56,28 @@ import {
 
 @Directive()
 export abstract class FilePickerBaseModalComponent extends OpModalComponent implements OnInit, OnDestroy {
-  public breadcrumbs:BreadcrumbsContent;
+  protected readonly storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
 
-  public listItems$:Observable<StorageFileListItem[]>;
+  public breadcrumbs:BreadcrumbsContent = new BreadcrumbsContent(
+    [{
+      text: this.locals.storageName as string,
+      icon: getIconForStorageType(this.locals.storageType as string),
+      navigate: () => this.changeLevel(null, this.breadcrumbs.crumbs.slice(0, 1)),
+    }],
+  );
+
+  public listItems$:Observable<StorageFileListItem[]> = this.storageFiles$
+    .pipe(
+      map((files) =>
+        this.sortFilesPipe.transform(files)
+          .map((file, index) => this.storageFileToListItem(file, index))),
+    );
 
   public readonly loading$ = new BehaviorSubject<boolean>(true);
 
   protected get storageLink():IHalResourceLink {
     return this.locals.storageLink as IHalResourceLink;
   }
-
-  protected readonly storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
 
   private loadingSubscription:Subscription;
 
@@ -82,19 +93,6 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
 
   ngOnInit():void {
     super.ngOnInit();
-
-    this.breadcrumbs = new BreadcrumbsContent([{
-      text: this.locals.storageName as string,
-      icon: getIconForStorageType(this.locals.storageType as string),
-      navigate: () => this.changeLevel(null, this.breadcrumbs.crumbs.slice(0, 1)),
-    }]);
-
-    this.listItems$ = this.storageFiles$
-      .pipe(
-        map((files) =>
-          this.sortFilesPipe.transform(files)
-            .map((file, index) => this.storageFileToListItem(file, index))),
-      );
 
     this.storageFilesResourceService.files(makeFilesCollectionLink(this.storageLink, null))
       .pipe(take(1))
