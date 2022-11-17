@@ -45,6 +45,10 @@ module Principals::Scopes
           not_builtin.where.not(status: val)
         end
       end
+
+      def self.not_locked_without_anonymous
+        not_builtin_without_anonymous.where.not(status: :locked)
+      end
     end
   end
 end
