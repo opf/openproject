@@ -18,15 +18,18 @@ class DateEditField < EditField
     @datepicker ||= ::Components::WorkPackageDatepicker.new modal_selector
   end
 
-  delegate :set_start_date,
-           :set_due_date,
+  delegate :focus_milestone_date,
            :focus_start_date,
            :focus_due_date,
+           :expect_milestone_date,
+           :expect_start_date,
+           :expect_due_date,
+           :set_milestone_date,
+           :set_start_date,
+           :set_due_date,
            :expect_start_highlighted,
            :expect_due_highlighted,
            :expect_duration_highlighted,
-           :expect_start_date,
-           :expect_due_date,
            :expect_duration,
            :set_duration,
            :duration_field,
@@ -58,8 +61,6 @@ class DateEditField < EditField
   end
 
   def set_scheduling_mode(manually:)
-    val = manually ? :manual : :default
-
     # Expect currently set before toggling
     expect_scheduling_mode(manually:)
     # Change mode
@@ -96,6 +97,10 @@ class DateEditField < EditField
     else
       page.find(".#{property_name} input")
     end
+  end
+
+  def click_to_open_datepicker
+    input_element.click
   end
 
   def active?
