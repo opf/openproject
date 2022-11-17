@@ -108,18 +108,31 @@ module Redmine
         end
 
         def custom_field_values
-          @custom_field_values ||= available_custom_fields.flat_map do |custom_field|
-            existing_cvs = custom_values.select { |v| v.custom_field_id == custom_field.id }
+          custom_field_values_cache[custom_field_cache_key] ||=
+            available_custom_fields.flat_map do |custom_field|
+              existing_cvs = custom_values.select { |v| v.custom_field_id == custom_field.id }
 
-            if existing_cvs.empty?
-              new_value = custom_values.build(customized: self,
-                                              custom_field:,
-                                              value: custom_field.default_value)
-              existing_cvs.push new_value
+              if existing_cvs.empty?
+                new_value = custom_values.build(customized: self,
+                                                custom_field:,
+                                                value: custom_field.default_value)
+                existing_cvs.push new_value
+              end
+
+              existing_cvs
             end
+        end
 
-            existing_cvs
-          end
+        # Returns the cache key for caching @custom_field_values_cache.
+        #
+        # In certain cases, the implementing models have a changing list of custom field values
+        # depending on certain attributes. By overriding this method, we can include the
+        # dependent attributes in the cache key, providing a more flexible key caching mechanism.
+        #
+        # i.e.: The work package custom field values are changing based on the project_id and type_id.
+        # The only way to keep the cache updated is to include those ids in the cache key.
+        def custom_field_cache_key
+          1
         end
 
         ##
@@ -193,7 +206,7 @@ module Redmine
         end
 
         def reset_custom_values_change_tracker
-          @custom_field_values = nil
+          @custom_field_values_cache = nil
           self.custom_value_destroyed = false
         end
 
@@ -382,6 +395,10 @@ module Redmine
           custom_value.mark_for_destruction
           custom_field_values.delete custom_value
           self.custom_value_destroyed = true
+        end
+
+        def custom_field_values_cache
+          @custom_field_values_cache ||= {}
         end
 
         module ClassMethods
