@@ -38,8 +38,10 @@ en:
         remove_short: "Remove link"
         select: "Select files"
         select_all: "Select all"
-        selection_none: "Select files to link"
-        selection_any: "Link %{number} files"
+        selection:
+          zero: "Select files to link"
+          one: "Link 1 file"
+          other: "Link %{count} files"
         not_allowed_tooltip: "Please log in to Nextcloud to access this file"
         already_linked_file: "This file is already linked to this work package."
         already_linked_directory: "This directory is already linked to this work package."
