@@ -29,7 +29,6 @@
 import {
   Component, ElementRef, OnInit, ViewChild,
 } from '@angular/core';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -98,7 +97,6 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     protected Notifications:ToastService,
     protected I18n:I18nService,
     protected states:States,
-    protected ConfigurationService:ConfigurationService,
   ) {
     super();
   }

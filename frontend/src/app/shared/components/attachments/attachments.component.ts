@@ -118,7 +118,6 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
   }
 
   ngOnInit() {
-    console.log('resource', this.resource);
     if (!(this.resource instanceof HalResource)) {
       // Parse the resource if any exists
       this.resource = this.halResourceService.createHalResource(this.resource, true);
@@ -130,15 +129,12 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
         filter((newResource) => !!newResource),
       )
       .subscribe((newResource:HalResource) => {
-        console.log('new resource!', newResource);
         this.resource = newResource || this.resource;
       });
 
-    console.log('resource', this.resource);
 
     // ensure collection is loaded to the store
     if (!isNewResource(this.resource)) {
-      console.log('is new resource!');
       this.attachmentsResourceService.requireCollection(this.attachmentsSelfLink);
     }
 
@@ -166,7 +162,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
     document.body.addEventListener('dragover', this.onGlobalDragOver.bind(this));
     document.body.addEventListener('dragleave', this.onGlobalDragLeave.bind(this));
   }
-  
+
   ngOnDestroy():void {
     document.body.removeEventListener('dragover', this.onGlobalDragOver.bind(this));
     document.body.removeEventListener('dragleave', this.onGlobalDragLeave.bind(this));
@@ -222,8 +218,8 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
 
     this.cdRef.detectChanges();
   }
-  
-  public onGlobalDragOver() {
+
+  public onGlobalDragOver():void {
     this.dragging = true;
 
     this.cdRef.detectChanges();
