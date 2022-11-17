@@ -71,7 +71,7 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
 
   public textFieldFocused = false;
 
-  public canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create');
+  public canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create', 'global');
 
   public projects$ = combineLatest([
     this.searchableProjectListService.allProjects$,

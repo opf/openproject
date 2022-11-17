@@ -80,7 +80,7 @@ it:
       buttons:
         upgrade: "Aggiorna ora"
         contact: "Contattaci per una demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+      enterprise_info_html: "è una funzionalità Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
       upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
     journal_aggregation:
       explanation:
@@ -577,7 +577,7 @@ it:
         confirmation: "non coincide con %{attribute}."
         could_not_be_copied: "%{dependency} non può essere (completamente) copiato."
         does_not_exist: "non esiste."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise Edition"
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
         email: "non è un indirizzo email valido"
@@ -756,8 +756,8 @@ it:
         watcher:
           attributes:
             user_id:
-              not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              not_allowed_to_view: "non può visualizzare questa risorsa."
+              locked: "è bloccato."
         wiki_page:
           attributes:
             slug:
@@ -2023,8 +2023,8 @@ it:
         mentioned: 'Menzionato'
         subscribed: 'tutti'
         prefix: 'Ricevuto a causa dell''impostazione della notifica: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
+        date_alert_start_date: 'Avviso data'
+        date_alert_due_date: 'Avviso data'
       see_all: 'Vedi tutti'
       updated_at: 'Aggiornato il %{timestamp} da %{user}'
   mail_body_account_activation_request: "Un nuovo utente (%{value}) si è registrato. L'account è in attesa di approvazione:"
@@ -2943,7 +2943,7 @@ it:
   api_v3:
     attributes:
       lock_version: "Blocca Versione"
-      property: 'Property'
+      property: 'Proprietà'
     errors:
       code_400: "Richiesta non valida: %{message}"
       code_401: "Devi essere autenticato per accedere a questa risorsa."

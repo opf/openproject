@@ -26,19 +26,30 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector, OnDestroy } from '@angular/core';
+import {
+  Injectable,
+  Injector,
+  OnDestroy,
+} from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { Subject } from 'rxjs';
+import {
+  Observable,
+  of,
+  Subject,
+} from 'rxjs';
 import { ComponentType } from '@angular/cdk/portal';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 @Injectable()
 export class WorkPackageInlineCreateService implements OnDestroy {
   @InjectField() I18n!:I18nService;
 
-  @InjectField() protected readonly authorisationService:AuthorisationService;
+  @InjectField() protected readonly currentUser:CurrentUserService;
+
+  @InjectField() protected readonly currentProject:CurrentProjectService;
 
   constructor(readonly injector:Injector) {
   }
@@ -61,17 +72,28 @@ export class WorkPackageInlineCreateService implements OnDestroy {
     create: this.I18n.t('js.label_create_work_package'),
   };
 
-  public get canAdd() {
-    return this.canCreateWorkPackages || this.authorisationService.can('work_package', 'addChild');
+  public get canAdd():Observable<boolean> {
+    return this.canCreateWorkPackages();
   }
 
-  public get canReference() {
-    return false;
+  public get canReference():Observable<boolean> {
+    return of(false);
   }
 
-  public get canCreateWorkPackages() {
-    return this.authorisationService.can('work_packages', 'createWorkPackage')
-      && this.authorisationService.can('work_packages', 'editWorkPackage');
+  /**
+   * Observable capability check for work_packages/create and /edit.
+   * Edit is included as inline create saves quickly, preventing further edits for users
+   * that don't also have edit permisison.
+   *
+   * @protected
+   */
+  protected canCreateWorkPackages(projectId:string|null = this.currentProject.id):Observable<boolean> {
+    return this
+      .currentUser
+      .hasCapabilities$(
+        ['work_packages/create', 'work_packages/update'],
+        projectId || null,
+      );
   }
 
   /** Allow callbacks to happen on newly created inline work packages */
@@ -83,7 +105,7 @@ export class WorkPackageInlineCreateService implements OnDestroy {
   /**
    * Ensure hierarchical injected versions of this service correctly unregister
    */
-  ngOnDestroy() {
+  ngOnDestroy():void {
     this.newInlineWorkPackageCreated.complete();
     this.newInlineWorkPackageReferenced.complete();
   }
