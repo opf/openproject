@@ -26,26 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::StorageFiles
-  class StorageFileRepresenter < ::API::Decorators::Single
-    include API::Decorators::DateProperty
+class Storages::UploadLink
+  attr_reader :destination, :finalize
 
-    link :self do
-      { href: "#{::API::V3::URN_PREFIX}storages:storage_file:no_link_provided" }
-    end
-
-    property :id
-    property :name
-    property :size
-    property :mime_type
-    date_time_property :created_at
-    date_time_property :last_modified_at
-    property :created_by_name
-    property :last_modified_by_name
-    property :location
-
-    def _type
-      Storages::StorageFile.name.split('::').last
-    end
+  def initialize(destination = '', finalize = nil)
+    @destination = destination
+    @finalize = finalize
   end
 end
