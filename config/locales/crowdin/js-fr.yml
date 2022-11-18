@@ -304,11 +304,11 @@ fr:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Activation des alertes de notification pour les dates à venir et les tâches en retard.</li> <li>Nous proposons l'authentification à deux facteurs (2FA) pour l'édition Community .</li> <li>L'option d'affichage de la semaine de travail est maintenant également ajoutée au planificateur d'équipe.</li> <li> Vous pouvez ajouter jusqu'à 3 personnes dans une carte de notification lorsque plusieurs personnes ont été impliquées dans les modifications.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Activation des alertes de notification pour les dates à venir et les tâches en retard.</li> <li>Nous proposons l'authentification à deux facteurs (2FA) pour l'édition Community .</li> <li>L'option d'affichage de la semaine de travail est maintenant également ajoutée au planificateur d'équipe.</li> <li> Vous pouvez ajouter jusqu'à 3 personnes dans une carte de notification lorsque plusieurs personnes ont été impliquées dans les modifications.</li> </ul>
     label_activate: "Activer"
     label_assignee: 'Responsable'
     label_add_column_after: "Ajouter une colonne au-dessus"
@@ -606,7 +606,7 @@ fr:
               P3D: 3 jours avant
               P7D: une semaine avant
             overdue:
-              P1D: every day
+              P1D: tous les jours
               P3D: tous les 3 jours
               P7D: toutes les semaines
         reasons:

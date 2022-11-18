@@ -80,7 +80,7 @@ uk:
       buttons:
         upgrade: "Оновити зараз"
         contact: "Зв’яжіться з нами, щоб отримати демоверсію"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+      enterprise_info_html: "– це функція версії Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
       upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
     journal_aggregation:
       explanation:
@@ -207,13 +207,13 @@ uk:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
-      overviews: 'Project overview'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      members: 'Учасники проєкту'
+      overviews: 'Огляд проєкту'
+      queries: 'Пакети робіт: збережені подання'
+      wiki_page_attachments: 'Сторінки Wiki: вкладення'
+      work_package_attachments: 'Пакети робіт: вкладення'
+      work_package_categories: 'Пакети робіт: категорії'
+      work_package_file_links: 'Пакети робіт: посилання на файли'
     delete:
       scheduled: "Видалення заплановано та виконується у фоновому режимі. Ви отримаєте сповіщення про результат."
       schedule_failed: "Проект не можна видалити: %{errors}"
@@ -577,7 +577,7 @@ uk:
         confirmation: "не збігається %{attribute}"
         could_not_be_copied: "%{dependency} не вдалося скопіювати (повністю)."
         does_not_exist: "не існує."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} можна лише у версії OpenProject Enterprise Edition"
         error_unauthorized: "– можливо, немає доступу."
         error_readonly: "– було здійснено спробу запису, але елемент недоступний для запису."
         email: "– це не дійсна електронна адреса."
@@ -749,15 +749,15 @@ uk:
             daily_reminders:
               full_hour: "– можна налаштувати отримання лише на початку кожної години."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: 'Має існувати лише одне глобальне налаштування сповіщень.'
+              email_alerts_global: 'Налаштування сповіщень електронною поштою можна встановити лише глобально.'
               format: "%{message}"
-              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+              wrong_date: 'Неправильні значення атрибутів «Дата початку», «Дата закінчення» або «Прострочено».'
         watcher:
           attributes:
             user_id:
-              not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              not_allowed_to_view: "не може переглядати цей ресурс."
+              locked: "заблоковано."
         wiki_page:
           attributes:
             slug:
@@ -2057,8 +2057,8 @@ uk:
         mentioned: 'Згадано'
         subscribed: 'всі'
         prefix: 'Отримано через налаштування сповіщень: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
+        date_alert_start_date: 'Оповіщення про дату'
+        date_alert_due_date: 'Оповіщення про дату'
       see_all: 'Показати всі'
       updated_at: 'Оновлено о %{timestamp} користувачем %{user}'
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
@@ -2979,7 +2979,7 @@ uk:
   api_v3:
     attributes:
       lock_version: "Версія замку"
-      property: 'Property'
+      property: 'Властивість'
     errors:
       code_400: "Поганий запит: %{message}"
       code_401: "Щоб отримати доступ до цього ресурсу, потрібно пройти аутентифікацію."
