@@ -1,0 +1,42 @@
+# Schema: StorageUpdateModel
+---
+type: object
+properties:
+  name:
+    type: string
+    description: Storage name
+  storageOauthClientId:
+    type: string
+    description: The client id of the oauth provider created on the storage.
+  storageOauthClientServer:
+    type: string
+    description: The client server of the oauth provider created on the storage.
+  _links:
+    type: object
+    properties:
+      url:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The storage's host URL.
+
+              **Resource**: N/A
+      type:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The urn of the storage type. Currently only nextcloud storages are supported.
+              
+              - urn:openproject-org:api:v3:storages:nextcloud
+
+              **Resource**: N/A
+
+example:
+  name: Coruscant
+  storageOauthClientId: VTqcnqHPs1eXdKF6jtgAbe6KKwCKczBqOKr20DGHgdlN1uqK8qnHa88eTyhabxXj
+  storageOauthClientServer: OqdcHKaSfRh1En09PqOJRCfx7iKt98qvp0paJWYrDXzgAaDBiVnhurI71bhxUGF2
+  _links:
+    url:
+      href: https://nextcloud.deathstar.rocks
+    type:
+      href: urn:openproject-org:api:v3:storages:nextcloud

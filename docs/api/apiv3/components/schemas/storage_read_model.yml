@@ -1,4 +1,4 @@
-# Schema: StorageModel
+# Schema: StorageReadModel
 ---
 type: object
 required:

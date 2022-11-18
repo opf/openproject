@@ -353,6 +353,8 @@ paths:
     "$ref": "./paths/statuses.yml"
   "/api/v3/statuses/{id}":
     "$ref": "./paths/status.yml"
+  "/api/v3/storages":
+    "$ref": "./paths/storages.yml"
   "/api/v3/storages/{id}":
     "$ref": "./paths/storage.yml"
   "/api/v3/storages/{id}/files":
@@ -652,6 +654,8 @@ components:
       "$ref": "./components/schemas/notification_settings_model.yml"
     Offset_based_pagination:
       "$ref": "./components/schemas/offset_based_pagination.yml"
+    OauthCredentialModel:
+      "$ref": "./components/schemas//oauth_credential_model.yml"
     Plain_Text:
       "$ref": "./components/schemas/plain_text.yml"
     Plain_TextModel:
@@ -732,12 +736,16 @@ components:
       "$ref": "./components/schemas/status_model.yml"
     StatusesModel:
       "$ref": "./components/schemas/statuses_model.yml"
-    StorageModel:
-      "$ref": "./components/schemas/storage_model.yml"
     StorageFileModel:
       "$ref": "./components/schemas/storage_file_model.yml"
     StorageFileLocationModel:
       "$ref": "./components/schemas/storage_file_location_model.yml"
+    StorageReadModel:
+      "$ref": "./components/schemas/storage_read_model.yml"
+    StorageUpdateModel:
+      "$ref": "./components/schemas/storage_update_model.yml"
+    StorageWriteModel:
+      "$ref": "./components/schemas/storage_write_model.yml"
     Time_EntryModel:
       "$ref": "./components/schemas/time_entry_model.yml"
     Time_Entry_ActivityModel:
