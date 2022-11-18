@@ -45,7 +45,9 @@ Date alerts allow you to receive a notification when a start date or a finish da
 
 ![A screenshot of options for date alerts](Notification-settings-12.4-dateAlerts.png)
 
-For start and finish date dates, you can choose to be alerted the same day, a day before, 3 days before or a week before.
+For start and finish date dates, you can choose to be alerted the same day, a day before, 3 days before or a week before. 
+
+> **Info:** Please note that these are natural days and not working days. For a work package starting on a Monday, "3 days before" would be Friday.
 
 You can also choose to receive a recurring notification (every day, every 3 days or every week) for work packages that are overdue. You can stop receiving these alerts by either unchecking this option, or changing the dates of the relevant work packages.
 
