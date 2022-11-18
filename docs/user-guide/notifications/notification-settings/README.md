@@ -15,7 +15,7 @@ Notification settings are divided into four sections:
 
 | Topic                                               | Description                                                  |
 | --------------------------------------------------- | :----------------------------------------------------------- |
-| [Participating](#participating)                     | Be notified of activities on some or all of the work packages in which you are participating. |
+| [Participating](#participating)                     | Be notified of activities on some or all of the work packages in which you are participating (as assignee, responsible or watcher). |
 | [Date alerts](#date-alerts-premium-feature)         | Be notified of approaching start or end dates, and when things are overdue. |
 | [Non-participating](#non-participating)             | Be notified of activities on work packages in which you are not participating. |
 | [Project-specific](#project-specific-notifications) | Fine-tune your notification settings at the level of individual projects. |
@@ -78,8 +78,6 @@ This might be because you are more active in certain projects than others or bec
 To add project-specific notification settings, first click on **+ Add setting for project** and select a project. 
 
 Once you do so, you will see a table with a column for that project and and the same three sections (Participating, Date alerts, Non-participating) as your overall notification settings. You can now select and unselect any number of options from this list for more specific project-level notification settings.
-
-NOTE: UPDATE SCREENSHOT! THERE IS STILL A BUG IN THIS SCREENSHOT (I.E. WATCHER)
 
 ![Text](Notification-settings-12.4-projectSpecific.png)
 
