@@ -36,13 +36,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @base_path = "/remote.php/dav/files/#{token.origin_user_id}"
     end
 
-    def query(data)
+    def query(parent)
       http = Net::HTTP.new(@uri.host, @uri.port)
       http.use_ssl = @uri.scheme == 'https'
 
       result = @with_refreshed_token.call(@token) do |token|
         response = http.propfind(
-          "#{@base_path}#{data}",
+          "#{@base_path}#{requested_folder(parent)}",
           requested_properties,
           {
             'Depth' => '1',
@@ -57,6 +57,12 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     private
+
+    def requested_folder(folder)
+      return '' if folder.nil?
+
+      folder.gsub(' ', '%20')
+    end
 
     def requested_properties
       Nokogiri::XML::Builder.new do |xml|
