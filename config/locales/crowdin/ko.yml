@@ -757,8 +757,8 @@ ko:
         watcher:
           attributes:
             user_id:
-              not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              not_allowed_to_view: "- 이 리소스를 볼 수 없습니다."
+              locked: "- 잠겨 있습니다."
         wiki_page:
           attributes:
             slug:
@@ -2007,8 +2007,8 @@ ko:
         mentioned: '멘션됨'
         subscribed: '모두'
         prefix: '수신 이유는 다음 알림 설정입니다: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: '날짜 알림'
+        date_alert_start_date: '날짜 경보'
+        date_alert_due_date: '날짜 경보'
       see_all: '모두 보기'
       updated_at: '%{timestamp}, %{user} 님이 업데이트함'
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
@@ -2921,7 +2921,7 @@ ko:
   api_v3:
     attributes:
       lock_version: "잠금 버전"
-      property: 'Property'
+      property: '속성'
     errors:
       code_400: "잘못된 요청: %{message}"
       code_401: "접근하기 위해서 인증해야 합니다."

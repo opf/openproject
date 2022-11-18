@@ -80,7 +80,7 @@ es:
       buttons:
         upgrade: "Actualizar ahora"
         contact: "Contáctenos para una demostración"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+      enterprise_info_html: "es una característica de la versión Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
       upgrade_info: "Actualice a un plan de pago para activarlo y empezar a usarlo en su equipo."
     journal_aggregation:
       explanation:
@@ -577,7 +577,7 @@ es:
         confirmation: "no coincide con %{attribute}."
         could_not_be_copied: "%{dependency} no se pudo copiar (en su totalidad)."
         does_not_exist: "no existe."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} solo está disponible en OpenProject Enterprise Edition"
         error_unauthorized: "no se puede acceder."
         error_readonly: "se intentó escribir pero no se puede escribir."
         email: "no es una dirección de correo válida."
@@ -756,8 +756,8 @@ es:
         watcher:
           attributes:
             user_id:
-              not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              not_allowed_to_view: "no tiene permiso para ver este recurso."
+              locked: "está bloqueado."
         wiki_page:
           attributes:
             slug:
@@ -2023,8 +2023,8 @@ es:
         mentioned: 'Mencionado'
         subscribed: 'todos'
         prefix: 'Recibido por la configuración de notificaciones: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
+        date_alert_start_date: 'Alerta de fecha'
+        date_alert_due_date: 'Alerta de fecha'
       see_all: 'Ver todo'
       updated_at: 'Actualizado a las %{timestamp} por %{user}'
   mail_body_account_activation_request: "Ha registrado un nuevo usuario (%{value}). La cuenta está pendiente de aprobación:"
@@ -2941,7 +2941,7 @@ es:
   api_v3:
     attributes:
       lock_version: "Versión Bloqueada"
-      property: 'Property'
+      property: 'Propiedad'
     errors:
       code_400: "Solicitud errónea: %{message}"
       code_401: "Tiene que estar autenticado para acceder a este recurso."

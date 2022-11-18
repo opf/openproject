@@ -80,7 +80,7 @@ pl:
       buttons:
         upgrade: "Zmień plan teraz"
         contact: "Skontaktuj się z nami, aby uzyskać demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+      enterprise_info_html: "jest funkcją wersji Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
       upgrade_info: "Aby ją aktywować i zacząć korzystać z niej w zespole, przejdź na plan płatny."
     journal_aggregation:
       explanation:
@@ -579,7 +579,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} jest funkcją dostępną tylko w OpenProject Enterprise Edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         email: "nie jest poprawnym adresem e-mail."
@@ -758,8 +758,8 @@ pl:
         watcher:
           attributes:
             user_id:
-              not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              not_allowed_to_view: "nie ma uprawnień do wyświetlania tego zasobu."
+              locked: "jest zablokowane."
         wiki_page:
           attributes:
             slug:
@@ -2059,8 +2059,8 @@ pl:
         mentioned: 'Wzmianka'
         subscribed: 'wszystkie'
         prefix: 'Otrzymano z powodu ustawienia powiadomienia: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
+        date_alert_start_date: 'Alert dotyczący daty'
+        date_alert_due_date: 'Alert dotyczący daty'
       see_all: 'Zobacz wszystkie'
       updated_at: 'Zaktualizowano %{timestamp}, autor %{user} '
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
