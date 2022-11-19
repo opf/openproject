@@ -136,6 +136,7 @@ lt:
         Jei pažymėsite šį lauką, OpenProject automatiškai sukurs naujus naudotojus pagal LDAP informaciją, kai tik šie naudotojai pirmą kartą prisijungs prie OpenProject.
         Nežymėkite šio lauko, jei norite, kad tik jau sukurti naudotojai galėtų prisijungti pasinaudodami LDAP!
     connection_encryption: 'Jungties šifravimas'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Sistemos paskyra'
     system_account_legend: |
       OpenProject reikia tik-skaitymui skirto sisteminio naudotojo kitų naudotojų ir grupių patikrinimui jūsų LDAP medyje.
@@ -146,13 +147,18 @@ lt:
       Žemiau esantys laukai yra naudojami nurodant, kaip OpenProject naudotojai yra kuriami pagal LDAP įrašus ir kokie LDAP atributai yra naudojami nurodant kuriuos OpenProject naudotojo atributus (atributų surišimas).
     tls_mode:
       plain: 'joks'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Paprasta, nešifruota jungtis, be TLS derybų."
-      simple_tls_description: "Numanomas TLS šifravimas, bet be sertifikato tikrinimo. Naudokite atsargiai, kai besąlygiškai pasitikite LDAP jungtimi."
-      start_tls_description: "Pilnas TLS šifravimas su pilnu jungties validavimu. Naudokite LDAP per TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Ši skiltis apie šio LDAP autentifikacijos šaltinio jungties saugumą. Daugiau informacijos rasite <a href="%{link}">Net::LDAP dokumentacijoje</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Šiuo metu forume nėra įrašų.
@@ -418,6 +424,7 @@ lt:
         host: "Hostas"
         onthefly: "Automatinis naudotojų kūrimas"
         port: "Jungtis"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitorija"
       comment:
@@ -626,6 +633,11 @@ lt:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "yra neteisingo ilgio (turi būti %{count} simbolių)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:

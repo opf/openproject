@@ -136,6 +136,7 @@ it:
         Se selezioni questa spunta, OpenProject creerà automaticamente nuovi utenti dai loro record LDAP quando effettueranno la prima autenticazione con OpenProject.
         Lasciare vuota questa spunta se si vuole garantire ai soli account presenti su OpenProject di autenticarsi tramite LDAP!
     connection_encryption: 'Crittografia connessione'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Account di sistema'
     system_account_legend: |
       OpenProject richiede accesso in sola lettura ad un account di sistema per cercare utenti e gruppi nell'albero LDAP.
@@ -146,13 +147,18 @@ it:
       I seguenti campi sono associati a come gli utenti sono creati all'interno di OpenProject dai record LDAP e quali attributi LDAP sono usati per definire gli attributi di un utente OpenProject (mapping degli attributi).
     tls_mode:
       plain: 'nessuno'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Connessione non crittografata, nessuna negoziazione TLS."
-      simple_tls_description: "Crittografia TLS implicita, ma senza convalida del certificato. Usala con cautela e se la connessione LDAP è affidabile."
-      start_tls_description: "Crittografia TLS esplicita con convalida completa. Per l'uso di LDAP su SSL/TLS."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Questa sezione riguarda la sicurezza della connessione di questa fonte di autenticazione LDAP. Per ulteriori informazioni, visita <a href="%{link}">the Net::LDAP documentation</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Al momento non vi sono post sul forum.
@@ -416,6 +422,7 @@ it:
         host: "Host"
         onthefly: "Creazione automatica degli utenti"
         port: "Porta"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Archivio"
       comment:
@@ -624,6 +631,11 @@ it:
           non fornisce un "Contesto sicuro". Usa HTTPS o un indirizzo di loopback, come localhost.
         wrong_length: "è della lunghezza sbagliata (dovrebbe essere %{count} caratteri)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
