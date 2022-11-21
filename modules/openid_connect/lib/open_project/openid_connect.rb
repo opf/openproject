@@ -1,3 +1,4 @@
+require 'omniauth/openid_connect'
 require 'omniauth/openid_connect/providers'
 require 'open_project/openid_connect/engine'
 

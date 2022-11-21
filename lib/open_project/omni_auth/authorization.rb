@@ -109,6 +109,7 @@ module OpenProject
       def self.after_login(&)
         add_after_login_callback AfterLoginBlockCallback.new(&)
       end
+      OpenProject::Deprecation.deprecate_method(self, :after_login)
 
       ##
       # Registers a new callback to decide whether or not a user is to be authorized.
