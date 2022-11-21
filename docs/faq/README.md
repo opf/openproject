@@ -307,7 +307,7 @@ Yes, we do.
 
 ### Is there a limitation of participants for the trainings?
 
-No, you can join with as many people from your organization as you like. However, or most we recommend not more than 20-25 people so there's enough opportunity for everyone to ask questions.
+No, you can join with as many people from your organization as you like. However, we recommend not more than 20-25 people so there's enough opportunity for everyone to ask questions.
 *This answer only refers to e.g. Getting Started training and custom trainings, not to the OpenProject certification!*
 
 ### Can trainings be conducted remotely, too (e.g. the Custom training)?
