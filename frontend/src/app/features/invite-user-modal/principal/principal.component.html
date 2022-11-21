@@ -1,6 +1,7 @@
 <form
   [formGroup]="principalForm"
   (ngSubmit)="onSubmit($event)"
+  class="op-ium"
 >
   <div class="spot-modal--header">{{text.principal.title()}}</div>
 
@@ -13,6 +14,7 @@
     >
       <op-ium-principal-search
         *ngIf="!(hasPrincipalSelected && isNewPrincipal)"
+        class="op-ium--principal-field"
         [spotFormBinding]="principalControl"
         [type]="type"
         [project]="project"
@@ -67,6 +69,7 @@
     >
       <op-ium-role-search
         [spotFormBinding]="roleControl"
+        class="op-ium--role-field"
         slot="input"
       ></op-ium-role-search>
       <p
@@ -90,7 +93,7 @@
     >
 
       <textarea
-        class="op-input op-ium-invite-message-field"
+        class="op-input op-ium--invite-message-field"
         [formControl]="messageControl"
         slot="input"
         #input>

@@ -39,6 +39,8 @@
 
   &--input
     margin-bottom: $spot-spacing-0_25
+    display: -webkit-flex /* Safari */     
+    display: flex
 
   &--description
     @include spot-caption
@@ -60,7 +62,3 @@
   &--errors
     &:empty
       display: none
-
-  &--input
-    display: -webkit-flex /* Safari */     
-    display: flex 
