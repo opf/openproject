@@ -28,7 +28,7 @@
 
 import {
   ChangeDetectionStrategy,
-    ChangeDetectorRef,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
@@ -119,7 +119,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
     populateInputsFromDataset(this);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     if (!(this.resource instanceof HalResource)) {
       // Parse the resource if any exists
       this.resource = this.halResourceService.createHalResource(this.resource, true);
@@ -133,7 +133,6 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
       .subscribe((newResource:HalResource) => {
         this.resource = newResource || this.resource;
       });
-
 
     // ensure collection is loaded to the store
     if (!isNewResource(this.resource)) {
