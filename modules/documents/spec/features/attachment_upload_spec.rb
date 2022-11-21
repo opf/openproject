@@ -69,11 +69,13 @@ describe 'Upload attachment to documents',
 
       # adding an image via the attachments-list
       find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+
       expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 1)
 
       # adding an image
       editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
       expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+      expect(page).not_to have_selector('op-toasters-upload-progress')
 
       perform_enqueued_jobs do
         click_on 'Create'
@@ -83,7 +85,6 @@ describe 'Upload attachment to documents',
       expect(page).to have_selector('.document-category-elements--header', text: 'New documentation')
       expect(page).to have_selector('#content img', count: 1)
       expect(page).to have_content('Image uploaded on creation')
-      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
 
       document = ::Document.last
       expect(document.title).to eq 'New documentation'
@@ -102,7 +103,11 @@ describe 'Upload attachment to documents',
 
       # editor.click_and_type_slowly 'abc'
       SeleniumHubWaiter.wait
+
+      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+
       editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
+
       expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 3)
 
       script = <<~JS
@@ -114,10 +119,15 @@ describe 'Upload attachment to documents',
       # adding an image via the attachments-list
       find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
 
+      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 4)
+
+      expect(page).not_to have_selector('op-toasters-upload-progress')
+
       perform_enqueued_jobs do
         click_on 'Save'
       end
 
+      byebug
       # Expect both images to be present on the show page
       expect(page).to have_selector('#content img', count: 2)
       expect(page).to have_content('Image uploaded on creation')
