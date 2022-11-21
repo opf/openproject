@@ -26,9 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# In the context of the baseline-comparison feature, this module adds convenience methods
+# to the `Journable` class in order to easy access to historic queries.
+#
+# Usage:
+#
+#     # Retrieve historic state of single work package
+#     work_package = WorkPackage.find(1)
+#     historic_work_package = work_package.at_timestamp(1.year.ago)
+#     historic_work_package.id         # => 1  (same as work_package.id)
+#     historic_work_package.historic?  # => true
+#     historic_work_package.save       # raises `ActiveRecord::ReadOnlyRecord`#
+#
+#     # Filter on historic data
+#     WorkPackage.at_timestamp(1.year.ago).where(assigned_to_id: 1)
+#
+# See also:
+#
+# - https://github.com/opf/openproject/pull/11243
+# - https://community.openproject.org/projects/openproject/work_packages/26448
+#
 module Journable::Timestamps
-  # See: https://github.com/opf/openproject/pull/11243
-
   extend ActiveSupport::Concern
 
   class_methods do

@@ -33,9 +33,22 @@
 # rubocop:disable Metrics/AbcSize
 # rubocop:disable Metrics/PerceivedComplexity
 
+# In the context of the baseline-comparison feature, this class represents an active-record relation
+# that queries historic data, i.e. performs its query e.g. on the `work_package_journals` table
+# rather than the `work_packages` table.
+#
+# Usage:
+#
+#     timestamp = 1.year.ago
+#     active_record_relation = WorkPackage.where(subject: "Foo")
+#     historic_relation = Journable::HistoricActiveRecordRelation.new(active_record_relation, timestamp:)
+#
+# See also:
+#
+# - https://github.com/opf/openproject/pull/11243
+# - https://community.openproject.org/projects/openproject/work_packages/26448
+#
 class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
-  # See: https://github.com/opf/openproject/pull/11243
-
   attr_accessor :timestamp
 
   include ActiveRecord::Delegation::ClassSpecificRelation

@@ -30,9 +30,19 @@
 #   Prefer `kind_of?` over `is_a?` because it reads well before vowel and consonant sounds.
 #   E.g.: `relation.kind_of? ActiveRecord::Relation`
 
+# In the context of the baseline-comparison feature, this module adds the `at_timestamp`
+# scope to the `Journal` class.
+#
+# Usage:
+#
+#     work_package.journals.at_timestamp(1.year.ago)
+#
+# See also:
+#
+# - https://github.com/opf/openproject/pull/11243
+# - https://community.openproject.org/projects/openproject/work_packages/26448
+#
 module Journal::Timestamps
-  # See: https://github.com/opf/openproject/pull/11243
-
   extend ActiveSupport::Concern
 
   class_methods do
