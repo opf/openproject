@@ -389,6 +389,144 @@ From there on, you will see a button dedicated to logging in via SAML, e.g named
 
 ![my-sso](my-sso.png)
 
+## Instructions for common SAML providers
+
+In the following, we will provide configuration values for common SAML providers. Please note that the exact values might differ depending on your idP's version and configuration. If you have additions to these variables, please use the "Edit this file" functionality in the "Docs feedback" section of this documentation.
+
+
+
+### ADFS
+
+For ADFS, you need add OpenProject as a "relying part trust" entry within the ADFS management screen. Please follow this guide to be guided through the steps: https://learn.microsoft.com/en-us/windows-server/identity/ad-fs/operations/create-a-relying-party-trust
+
+#### Add OpenProject as a Relying Trust Party
+
+- In the ADFS management snap-in, right click on`AD FS -> Relying Party Trusts` , and select `Add Relying Party Trust...`
+- Select **Claims aware** and hit Start
+- **Select Data Source**: Choose "Enter data about the relying party manually" and click Next
+- **Specifiy Display Name**: Enter "OpenProject" or any arbitrary name for the OpenProject instance you want to identify
+- **Configure Certificate**: Skip this step, unless you explicitly want to enable assertion encryption, whose steps are documented for OpenProject above.
+
+- **Configure URL**: Check "Enable support for the SAML 2.0 WebSSO protocol" and enter the URL `https://<Your OpenProject hostname>/auth/saml`
+
+- **Configure Identifier**: Add the value `https://<Your OpenProject hostname>` as a "Relying party trust identifier". This is also called the issuer and OpenProject will be configured to send this value
+- **Choose Access Control Policy**: Select an appropriate access control policy for the OpenProject instance
+- **Ready to Add Trust**: Under the tab endpoints, click on "Add SAML" to add a **SAML Assertion Consumer** with Binding `POST` and the Trusted URL set to `https://<Your OpenProject hostname>/auth/saml/callback`
+- Click next and select "Configure claims issuance policy for this application"
+
+A new wizard will pop up. If you missed this step, you can right click on the new party to select "Edit Claim Issuance Policy". In there, you will need to create attribute mappings from LDAP for OpenProject to access user data such as login, email address, names etc.
+
+You can also follow this guide to add the LDAP claim rules: https://learn.microsoft.com/en-us/windows-server/identity/ad-fs/operations/create-a-rule-to-send-ldap-attributes-as-claims
+
+- Click on "Add Rule..."
+- Select "Send LDAP Attributes as Claims" and click Next
+
+Add the following Claim rules:
+
+| LDAP attribute   | Outgoing Claim Type (the value OpenProject looks for in the SAML response) |
+| ---------------- | ------------------------------------------------------------ |
+| SAM-account-name | Name ID                                                      |
+| SAM-account-name | `uid`                                                        |
+| Email-Addresses  | `mail`                                                       |
+| Surname          | `sn`                                                         |
+| Given-name       | `givenName`                                                  |
+
+
+
+#### Exporting the ADFS public certificate
+
+OpenProject needs the certificate or fingerprint of the ADFS to validate the signature of incoming tokens. Here are the steps on how to do that:
+
+- In the ADFS management window, select "AD FS -> Service -> Certificates"
+- Right click on the "Token-signing" certificate and click on "View Certificate..."
+- Select the action "Copy to File..."
+- Click on Next and select "Base-64 encoded X.509 (.CER)" and click Next
+- Export the file and move it to the OpenProject instance or open a shell
+- Run the command `awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' <path to the certificate>`  
+
+
+
+#### Setting up OpenProject for ADFS integration
+
+
+
+In OpenProject, these are the variables you will need to set. Please refer to the above documentation for the different ways you can configure these variables  OpenProject
+
+```bash
+OPENPROJECT_SAML_SAML_NAME="saml"
+OPENPROJECT_SAML_SAML_DISPLAY__NAME="ADFS SSO" # This is the text shown to users in OpenProject, freely change this value
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_EMAIL="[mail]"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LOGIN="[uid, mail]"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_FIRST__NAME="[givenName]"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LAST__NAME="[sn]"
+OPENPROJECT_SAML_SAML_ASSERTION__CONSUMER__SERVICE__URL="https://<Your OpenProject hostname>/auth/saml/callback"
+OPENPROJECT_SAML_SAML_SSO__TARGET__URL="https://<Your ADFS hostname>/adfs/ls"
+OPENPROJECT_SAML_SAML_SLO__TARGET__URL="https://<Your ADFS hostname>/adfs/ls/?wa=wsignout1.0"
+OPENPROJECT_SAML_SAML_ISSUER="https://<Your OpenProject hostname>"
+OPENPROJECT_SAML_SAML_IDP_CERT="<The output of the awk command above>"
+```
+
+
+
+### Keycloak
+
+In Keycloak, use the following steps to set up a SAML integration OpenProject:
+
+- Select or create a realm you want to authenticate OpenProject with. Remember that realm identifier.
+- Under "Clients" menu, click on "Create"
+- **Add client**: Enter the following details
+  - **Client ID**: `https://<Your OpenProject hostname>` 
+  - **Client protocol**: Set to "saml"
+  - **Client SAML Endpoint**:  `https://<Your OpenProject hostname>/auth/saml` 
+
+You will be forwarded to the settings tab  of the new client. Change these settings:
+
+- Enable **Sign Documents**
+- **Master SAML Processing URL**: Set to ``https://<Your OpenProject hostname>/auth/saml` 
+- **Name ID Format** Set to username
+- Expand section "Fine Grain SAML Endpoint Configuration"
+  - **Assertion Consumer Service POST Binding URL**: Set to ``https://<Your OpenProject hostname>/auth/saml/callback` 
+  - **Assertion Consumer Service Redirect Binding URL**: Set to ``https://<Your OpenProject hostname>/auth/saml/callback` 
+
+Go the "Mappers" tab and create the following mappers. Note that the "User attribute" values might differ depending on your LDAP or Keycloak configuration.
+
+
+
+| Mapper Type    | User Attribute | Friendly Name | SAML Attribute Name | SAML Attribute NameFormat |
+| -------------- | -------------- | ------------- | ------------------- | ------------------------- |
+| User Attribute | uid            | uid           | uid                 | Basic                     |
+| User Attribute | lastName       | sn            | sn                  | Basic                     |
+| User Attribute | firstName      | givenName     | givenName           | Basic                     |
+| User Attribute | email          | mail          | mail                | Basic                     |
+
+
+
+#### Exporting the Keycloak public certificate
+
+To view the certificate in Base64 encoding, go to the menu "Realm settings" and click on "Endpoints -> SAML 2.0 Identity Provider Metadata". This will open an XML file, and the certificate is stored in the `ds:X509Certificate `node under the signing key. Copy the content of the certificate (`MII.....`)
+
+
+
+#### Setting up OpenProject for Keycloak integration
+
+In OpenProject, these are the variables you will need to set. Please refer to the above documentation for the different ways you can configure these variables  OpenProject
+
+```bash
+OPENPROJECT_SAML_SAML_NAME="saml"
+OPENPROJECT_SAML_SAML_DISPLAY__NAME="Keycloak SSO" # This is the text shown to users in OpenProject, freely change this value
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_EMAIL="[mail]"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LOGIN="[uid, mail]"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_FIRST__NAME="[givenName]"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LAST__NAME="[sn]"
+OPENPROJECT_SAML_SAML_ASSERTION__CONSUMER__SERVICE__URL="https://<Your OpenProject hostname>/auth/saml/callback"
+OPENPROJECT_SAML_SAML_SSO__TARGET__URL="https://<Your Keycloak hostname>/realms/<Keycloak REALM>/protocol/saml"
+OPENPROJECT_SAML_SAML_SLO__TARGET__URL="https://<Your Keycloak hostname>/realms/<Keycloak RELAM>/protocol/saml"
+OPENPROJECT_SAML_SAML_ISSUER="https://<Your OpenProject hostname>"
+OPENPROJECT_SAML_SAML_IDP_CERT="<The certificate base64 copied from the metadata XML>"
+```
+
+If you're unsure what the realm value is, go to the menu "Realm settings" and click on "Endpoints -> SAML 2.0 Identity Provider Metadata". This will include URLs for the `SingleSignOnSerivce` and `SingleLogoutService`.
+
 
 
 ## Troubleshooting
@@ -427,3 +565,4 @@ OPENPROJECT_OMNIAUTH__DIRECT__LOGIN__PROVIDER="saml"
 A1: The given private_key is encrypted. The key is needed without the password (cf., https://github.com/onelogin/ruby-saml/issues/473)
 
 A2: The provided key pair is not an RSA key. ruby-saml might expect an RSA key.
+
