@@ -389,6 +389,17 @@ From there on, you will see a button dedicated to logging in via SAML, e.g named
 
 ![my-sso](my-sso.png)
 
+### 5: Returning from the authentication provider
+
+When you return from the authentication provider, you might be shown one of these return paths:
+
+1. The user is automatically created and logged in. The SAML authentication integration is fully working
+2. You are being redirected to the account registration modal with missing pieces of information. In this case, your authentication provider might not send us the full set of attributes required, or their mapping is invalid.
+3. You are being redirected to the account registration modal as user name or email is already taken. In this case, the account you want to authenticate already has an internal OpenProject account. You need to follow the [Troubleshooting](#troubleshooting) guide below to enable taking over that existing account.
+4. You are getting an internal or authentication error message. This is often a permission or invalid certificate/fingerprint configuration. Please consult the server logs for any hints OpenProject might log there.
+
+
+
 ## Instructions for common SAML providers
 
 In the following, we will provide configuration values for common SAML providers. Please note that the exact values might differ depending on your idP's version and configuration. If you have additions to these variables, please use the "Edit this file" functionality in the "Docs feedback" section of this documentation.
