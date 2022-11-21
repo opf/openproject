@@ -79,7 +79,6 @@ Lint/Void:
 Lint/AmbiguousBlockAssociation:
   AllowedMethods: [change]
 
-
 Metrics/ClassLength:
   Enabled: false
 
@@ -166,10 +165,23 @@ RSpec/ExampleLength:
     - 'spec/features/**/*.rb'
     - 'modules/*/spec/features/**/*.rb'
 
+# We have specs that have no expect(..) syntax,
+# but only helper classes that expect themselves
+RSpec/NoExpectationExample:
+  Enabled: false
+
 RSpec/DescribeClass:
   Enabled: true
   Exclude:
     - 'spec/features/**/*.rb'
+    - 'modules/*/spec/features/**/*.rb'
+
+# dynamic finders cop clashes with capybara ID cop
+Rails/DynamicFindBy:
+  Enabled: true
+  Exclude:
+    - 'spec/features/**/*.rb'
+    - 'spec/support/**/*.rb'
     - 'modules/*/spec/features/**/*.rb'
 
 # See RSpec/ExampleLength for why feature specs are excluded
@@ -210,13 +222,14 @@ RSpec/NamedSubject:
 RSpec/ContextWording:
   Prefixes:
     - as
+    - for
+    - if
     - 'on'
+    - to
+    - unless
     - when
     - with
     - without
-    - if
-    - unless
-    - for
 
 RSpec/FactoryBot/SyntaxMethods:
   Enabled: true
@@ -281,6 +294,9 @@ Style/EvenOdd:
 
 Style/FormatString:
   Enabled: false
+
+Style/FormatStringToken:
+  AllowedMethods: [redirect]
 
 Style/GlobalVars:
   Enabled: false

@@ -126,94 +126,52 @@ class WorkPackages::SetScheduleService
 
   # Calculates the dates of a work package based on its follows relations.
   #
+  # The start date of a work package is constrained by its direct and indirect
+  # predecessors, as it must start strictly after all predecessors finish.
+  #
   # The follows relations of ancestors are considered to be equal to own follows
   # relations as they inhibit moving a work package just the same. Only leaf
   # work packages are calculated like this.
   #
-  # work package is moved to a later date (delta positive):
-  #   - all following work packages are moved by the same amount unless there is
-  #     still a time buffer between work package and its predecessors
+  # work package is moved to a later date:
+  #   - following work packages are moved forward only to ensure they start
+  #     after their predecessor's finish date. They may not need to move at all
+  #     when there a time buffer between a follower and its predecessors
   #     (predecessors can also be acquired transitively by ancestors)
   #
-  # work package moved to an earlier date (delta negative):
-  #   - all following work packages are moved by the same amount unless a
-  #     follows relation of the work package or one of its ancestors limits
-  #     moving it. Then it is moved to the earliest date possible. This
-  #     limitation is propagated transitively to all following work packages.
+  # work package moved to an earlier date:
+  #   - following work packages do not move at all.
   def reschedule_by_predecessors(scheduled, dependency)
-    delta = follows_delta(dependency)
-    min_start_date = dependency.soonest_start_date
+    return unless dependency.soonest_start_date
 
-    if delta.zero? && min_start_date
-      reschedule_to_date(scheduled, min_start_date)
-    elsif !scheduled.start_date && min_start_date
-      schedule_on_missing_dates(scheduled, min_start_date)
-    elsif !delta.zero?
-      reschedule_by_delta(scheduled, delta, min_start_date, dependency)
-    end
-  end
-
-  def reschedule_to_date(scheduled, date)
-    new_start_date = [scheduled.start_date, date].compact.max
-    # a new due date is set only if the moving work package already has one
-    if scheduled.due_date
-      new_due_date = [
-        WorkPackages::Shared::Days.for(scheduled).due_date(new_start_date, scheduled.duration),
-        new_start_date,
-        scheduled.due_date
-      ].compact.max
-    end
-
+    new_start_date = [scheduled.start_date, dependency.soonest_start_date].compact.max
+    new_due_date = determine_due_date(scheduled, new_start_date)
     set_dates(scheduled, new_start_date, new_due_date)
   end
 
-  def schedule_on_missing_dates(scheduled, min_start_date)
-    min_start_date = WorkPackages::Shared::Days.for(scheduled).soonest_working_day(min_start_date)
-    set_dates(scheduled,
-              min_start_date,
-              scheduled.due_date && scheduled.due_date < min_start_date ? min_start_date : scheduled.due_date)
-  end
+  def determine_due_date(work_package, start_date)
+    # due date is set only if the moving work package already has one or has a
+    # duration. If not, due date is nil (and duration will be nil too).
+    return unless work_package.due_date || work_package.duration
 
-  def reschedule_by_delta(scheduled, moved_delta, min_start_date, dependency)
-    days = WorkPackages::Shared::Days.for(dependency.work_package)
+    due_date =
+      if work_package.duration
+        days(work_package).due_date(start_date, work_package.duration)
+      else
+        work_package.due_date
+      end
 
-    # TODO: can it be moved to dependency?
-    min_start_delta = days.delta(previous: scheduled.start_date || min_start_date, current: min_start_date)
-    required_delta = [min_start_delta, [moved_delta, 0].min].max
-
-    scheduled_days = WorkPackages::Shared::Days.for(scheduled)
-    new_start_date = scheduled_days.add_days(scheduled.start_date, required_delta)
-    new_due_date = scheduled_days.add_days(scheduled.due_date, required_delta) if scheduled.due_date
-    scheduled.start_date = new_start_date
-    scheduled.due_date = new_due_date
-  end
-
-  def follows_delta(dependency)
-    if dependency.moving_predecessors.any?
-      date_rescheduling_delta(dependency.moving_predecessors.first, dependency.work_package)
-    else
-      0
-    end
-  end
-
-  def date_rescheduling_delta(predecessor, follower)
-    days = WorkPackages::Shared::Days.for(follower)
-    if predecessor.due_date.present?
-      previous_due_date = predecessor.due_date_before_last_save || predecessor.due_date_was || predecessor.due_date
-      days.delta(previous: previous_due_date, current: predecessor.due_date)
-    elsif predecessor.start_date.present?
-      previous_start_date = predecessor.start_date_before_last_save || predecessor.start_date_was || predecessor.start_date
-      days.delta(previous: previous_start_date, current: predecessor.start_date)
-    else
-      0
-    end
+    # if due date is before start date, then start is used as due date.
+    [start_date, due_date].max
   end
 
   def set_dates(work_package, start_date, due_date)
     work_package.start_date = start_date
     work_package.due_date = due_date
-    work_package.duration = WorkPackages::Shared::Days
-                              .for(work_package)
-                              .duration(start_date, due_date)
+    work_package.duration = days(work_package).duration(start_date, due_date)
+  end
+
+  def days(work_package)
+    WorkPackages::Shared::Days.for(work_package)
   end
 end

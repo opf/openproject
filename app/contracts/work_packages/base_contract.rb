@@ -80,18 +80,21 @@ module WorkPackages
     end
 
     attribute :schedule_manually
-    attribute :ignore_non_working_days
+    attribute :ignore_non_working_days,
+              writable: ->(*) {
+                !automatically_scheduled_parent?
+              }
 
     attribute :start_date,
               writable: ->(*) {
-                model.leaf? || model.schedule_manually?
+                !automatically_scheduled_parent?
               } do
       validate_after_soonest_start(:start_date)
     end
 
     attribute :due_date,
               writable: ->(*) {
-                model.leaf? || model.schedule_manually?
+                !automatically_scheduled_parent?
               } do
       validate_after_soonest_start(:due_date)
     end
@@ -317,7 +320,7 @@ module WorkPackages
     def validate_people_visible(attribute, id_attribute, list)
       id = model[id_attribute]
 
-      return if id.nil? || model.changed.exclude?(id_attribute)
+      return if id.nil? || id == 0 || model.changed.exclude?(id_attribute)
 
       unless principal_visible?(id, list)
         errors.add attribute,
@@ -472,6 +475,10 @@ module WorkPackages
 
     def calculated_duration
       @calculated_duration ||= WorkPackages::Shared::Days.for(model).duration(model.start_date, model.due_date)
+    end
+
+    def automatically_scheduled_parent?
+      !model.leaf? && !model.schedule_manually?
     end
   end
 end

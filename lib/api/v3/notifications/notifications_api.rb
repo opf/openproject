@@ -45,9 +45,9 @@ module API
             def notification_scope
               ::Notification
                 .visible(current_user)
-                .includes(NotificationRepresenter.to_eager_load)
                 .where
                 .not(read_ian: nil)
+                .order(id: :desc)
             end
 
             def bulk_update_status(attributes)
@@ -55,7 +55,7 @@ module API
                 notification_query.results.update_all({ updated_at: Time.zone.now }.merge(attributes))
                 status 204
               else
-                raise ::API::Errors::InvalidQuery.new(notification_query.errors.full_messages)
+                raise_query_errors(notification_query)
               end
             end
           end
@@ -92,6 +92,16 @@ module API
 
             post :unread_ian do
               update_status(read_ian: false)
+            end
+
+            namespace :details do
+              route_param :detail_id, type: Integer, desc: 'Notification Detail ID' do
+                get do
+                  PropertyFactory.details_for(@notification).at(params[:detail_id]).tap do |detail|
+                    raise API::Errors::NotFound unless detail
+                  end
+                end
+              end
             end
           end
         end

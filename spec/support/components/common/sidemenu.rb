@@ -30,9 +30,8 @@ module Components
   module Notifications
     class Sidemenu
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
-
-      def initialize; end
 
       def expect_open
         expect(page).to have_selector('[data-qa-selector="op-sidemenu"]')

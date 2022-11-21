@@ -34,7 +34,7 @@ export class SelectionTransformer {
           const element = locateTableRow(wpId);
           if (element.length) {
             scrollTableRowIntoView(wpId);
-            this.FocusHelper.focusElement(element, true);
+            this.FocusHelper.focus(element[0]);
           }
         });
       });

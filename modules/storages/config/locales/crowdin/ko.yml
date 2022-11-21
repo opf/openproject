@@ -42,7 +42,6 @@ ko:
       replace_provider_type_oauth: "%{provider_type} OAuth 바꾸기"
       save_and_continue_setup: "저장하고 설정 계속하기"
       save_and_complete_setup: "저장하고 설정 완료"
-      cancel: "취소"
     page_titles:
       project_settings:
         index: "이 프로젝트에서 사용 가능한 파일 저장소"
@@ -81,8 +80,6 @@ ko:
     label_storage: "저장소"
     label_storages: "저장소"
     no_results: "아직 저장소가 설정되지 않았습니다."
-    label_oauth_client_id: "OAuth 클라이언트 ID"
-    label_oauth_client_secret: "OAuth 클라이언트 비밀"
     provider_types:
       label: "공급자 유형"
       nextcloud:

@@ -27,16 +27,27 @@
 #++
 
 # Governs the workflow of how journals are passed through:
-#   1) The notifications for any event (e.g. journal creation) is to be created as fast as possible
-#      so that it becomes visible as an in app notification. If the resource passed in is indeed a journal,
-#      it might get replaced later on (by a subsequent journal). This will lead to notifications being removed.
-#      In case the notification has a mentioned-reason, the mail is to be sent right away. This accepts the possibility
-#      of the journal being deleted later on.
-#   2) After the journal aggregation time has passed direct mails are scheduled.
-# This order has to be kept to ensure that the notifications are created before email sending is attempted. If it weren't
-# guaranteed, with the notifications created in one job and the mails send in another, the mail sending job might get executed
-# without any notifications being created which would result in no emails being sent at all. An alternative would be to
-# decouple notification creation and mail sending from another. But then, in app notifications being read could not prevent
+#
+#   1) The notifications for any event (e.g. journal creation) is to be created
+#      as fast as possible so that it becomes visible as an in app notification.
+#      If the resource passed in is indeed a journal, it might get replaced
+#      later on (by a subsequent journal). This will lead to notifications being
+#      removed. In case the notification has a mentioned-reason, the mail is to
+#      be sent right away. This accepts the possibility of the journal being
+#      deleted later on.
+#
+#   2) After the journal aggregation time has passed, direct mails are
+#      scheduled.
+#
+# This order has to be kept to ensure that the notifications are created before
+# email sending is attempted.
+#
+# If it wasn't guaranteed, with the notifications created in one job and the
+# mails send in another, the mail sending job might get executed without any
+# notifications being created which would result in no emails being sent at all.
+#
+# An alternative would be to decouple notification creation and mail sending
+# from another. But then, in app notifications being read could not prevent
 # mails being sent out.
 class Notifications::WorkflowJob < ApplicationJob
   include ::StateMachineJob

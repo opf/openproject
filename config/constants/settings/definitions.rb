@@ -401,14 +401,6 @@ Settings::Definition.define do
       default: 'enterprise-on-premises---euro---1-year',
       writable: false
 
-  # feature flags
-  # To add a feature flag register a new definition for a configuration variable
-  #
-  # Example:
-  # add :feature_your_module_active,
-  #     default: Rails.env.development?,
-  #     format: :boolean
-
   add :feeds_enabled,
       default: true
 
@@ -515,11 +507,6 @@ Settings::Definition.define do
       default: nil,
       writable: false
 
-  add :ldap_auth_source_tls_options,
-      format: :string,
-      default: nil,
-      writable: false
-
   # Allow users to manually sync groups in a different way
   # than the provided job using their own cron
   add :ldap_groups_disable_sync_job,
@@ -537,8 +524,9 @@ Settings::Definition.define do
       writable: false
 
   add :ldap_tls_options,
+      format: :hash,
       default: {},
-      writable: false
+      writable: true
 
   add :log_level,
       default: 'info',
@@ -927,7 +915,7 @@ Settings::Definition.define do
   add :user_default_timezone,
       default: nil,
       format: :string,
-      allowed: ActiveSupport::TimeZone.all + [nil]
+      allowed: ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.canonical_identifier }.sort.uniq + [nil]
 
   add :users_deletable_by_admins,
       default: false
@@ -981,10 +969,18 @@ Settings::Definition.define do
 
   add :work_package_list_default_columns,
       default: %w[id subject type status assigned_to priority],
-      allowed: -> { Query.new.available_columns.map(&:name).map(&:to_s) }
+      allowed: -> { Query.new.displayable_columns.map(&:name).map(&:to_s) }
 
   add :work_package_startdate_is_adddate,
       default: false
+
+  add :working_days,
+      format: :array,
+      allowed: Array(1..7),
+      default: Array(1..5), # Sat, Sun being non-working days
+      on_change: ->(previous_working_days) do
+        WorkPackages::ApplyWorkingDaysChangeJob.perform_later(user_id: User.current.id, previous_working_days:)
+      end
 
   add :youtube_channel,
       default: 'https://www.youtube.com/c/OpenProjectCommunity',

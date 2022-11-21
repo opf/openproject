@@ -243,6 +243,43 @@ describe WorkPackages::UpdateContract do
     end
   end
 
+  describe 'ignore_non_working_days' do
+    context 'when having children and not being scheduled manually' do
+      before do
+        allow(work_package)
+          .to receive(:leaf?)
+                .and_return(false)
+
+        work_package.ignore_non_working_days = !work_package.ignore_non_working_days
+        work_package.schedule_manually = false
+
+        contract.validate
+      end
+
+      it 'is invalid' do
+        expect(contract.errors.symbols_for(:ignore_non_working_days))
+          .to match_array([:error_readonly])
+      end
+    end
+
+    context 'when having children and being scheduled manually' do
+      before do
+        allow(work_package)
+          .to receive(:leaf?)
+                .and_return(false)
+
+        work_package.ignore_non_working_days = !work_package.ignore_non_working_days
+        work_package.schedule_manually = true
+
+        contract.validate
+      end
+
+      it 'is valid' do
+        expect(contract.errors).to be_empty
+      end
+    end
+  end
+
   describe 'with children' do
     context 'changing to milestone' do
       let(:milestone) { build_stubbed :type, is_milestone: true }

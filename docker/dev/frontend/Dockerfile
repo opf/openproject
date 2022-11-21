@@ -8,6 +8,8 @@ ENV USER=node
 
 RUN apt-get update && apt-get install -y chromium
 
+ENV CHROME_BIN=/usr/bin/chromium
+
 RUN npm i -g npm
 
 RUN groupadd $USER || true

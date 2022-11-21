@@ -7,6 +7,10 @@ on:
   push:
     tags:
       - v*
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
 jobs:
   publish:
     # restrict this job to base repo for now

@@ -201,7 +201,8 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/placeholder_users' },
             if: Proc.new { User.current.admin? },
             caption: :label_placeholder_user_plural,
-            parent: :users_and_permissions
+            parent: :users_and_permissions,
+            enterprise_feature: 'placeholder_users'
 
   menu.push :groups,
             { controller: '/groups' },
@@ -263,18 +264,26 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/custom_actions' },
             if: Proc.new { User.current.admin? },
             caption: :'custom_actions.plural',
-            parent: :admin_work_packages
+            parent: :admin_work_packages,
+            enterprise_feature: 'custom_actions'
 
   menu.push :attribute_help_texts,
             { controller: '/attribute_help_texts' },
             caption: :'attribute_help_texts.label_plural',
             icon: 'icon2 icon-help2',
-            if: Proc.new { User.current.admin? }
+            if: Proc.new { User.current.admin? },
+            enterprise_feature: 'attribute_help_texts'
 
   menu.push :enumerations,
             { controller: '/enumerations' },
             if: Proc.new { User.current.admin? },
             icon: 'icon2 icon-enumerations'
+
+  menu.push :working_days,
+            { controller: '/admin/settings/working_days_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_working_days,
+            icon: 'icon2 icon-calendar'
 
   menu.push :settings,
             { controller: '/admin/settings/general_settings', action: :show },
@@ -382,7 +391,8 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/custom_styles', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_custom_style,
-            icon: 'icon2 icon-design'
+            icon: 'icon2 icon-design',
+            enterprise_feature: 'define_custom_style'
 
   menu.push :colors,
             { controller: '/colors', action: 'index' },

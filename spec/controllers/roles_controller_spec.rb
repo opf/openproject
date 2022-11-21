@@ -43,9 +43,7 @@ describe RolesController, type: :controller do
     }
   end
 
-  before do
-    login_as(user)
-  end
+  current_user { user }
 
   describe '#create' do
     let(:new_role) { double('role double') }
@@ -126,8 +124,8 @@ describe RolesController, type: :controller do
       let(:service_call) { ServiceResult.failure(result: new_role) }
 
       it 'returns a 200 OK' do
-        expect(response.status)
-          .to be(200)
+        expect(response)
+          .to have_http_status(:ok)
       end
 
       it 'renders the new template' do
@@ -209,8 +207,8 @@ describe RolesController, type: :controller do
       let(:service_call) { ServiceResult.failure(result: role) }
 
       it 'returns a 200 OK' do
-        expect(response.status)
-          .to be(200)
+        expect(response)
+          .to have_http_status(:ok)
       end
 
       it 'renders the edit template' do
@@ -352,8 +350,8 @@ describe RolesController, type: :controller do
       let(:service_call2) { ServiceResult.failure(result: role2) }
 
       it 'returns a 200 OK' do
-        expect(response.status)
-          .to be(200)
+        expect(response)
+          .to have_http_status(:ok)
       end
 
       it 'renders the report template' do
@@ -370,6 +368,93 @@ describe RolesController, type: :controller do
         expect(assigns[:roles])
           .to match_array roles
       end
+    end
+  end
+
+  describe '#destroys' do
+    let(:role) do
+      build_stubbed(:role).tap do |d|
+        allow(Role)
+          .to receive(:find)
+                .with(d.id.to_s)
+                .and_return(d)
+
+        allow(d)
+          .to receive(:destroy)
+      end
+    end
+    let(:params) { { id: role.id } }
+
+    subject do
+      delete :destroy, params:
+    end
+
+    context 'with the role not in use' do
+      before { subject }
+
+      it 'redirects' do
+        expect(response)
+          .to redirect_to roles_path
+      end
+
+      it 'destroys the role' do
+        expect(role)
+          .to have_received(:destroy)
+      end
+    end
+
+    context 'with the role in use' do
+      before do
+        allow(role)
+          .to receive(:destroy)
+                .and_throw(:an_error)
+
+        subject
+      end
+
+      it 'redirects' do
+        expect(response)
+          .to redirect_to roles_path
+      end
+
+      it 'sets a flash error' do
+        expect(flash[:error])
+          .to eq I18n.t(:error_can_not_remove_role)
+      end
+    end
+  end
+
+  describe '#report' do
+    let!(:roles) do
+      [build_stubbed(:role)].tap do |roles|
+        allow(Role)
+          .to receive(:order)
+                .and_return(roles)
+      end
+    end
+
+    before do
+      delete :report
+    end
+
+    it 'is successful' do
+      expect(response)
+        .to have_http_status :ok
+    end
+
+    it 'renders the template' do
+      expect(response)
+        .to render_template :report
+    end
+
+    it 'assigns permissions' do
+      expect(assigns(:permissions))
+        .to match OpenProject::AccessControl.permissions.reject(&:public?)
+    end
+
+    it 'assigns roles' do
+      expect(assigns(:roles))
+        .to match roles
     end
   end
 end

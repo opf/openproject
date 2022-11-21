@@ -26,13 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
-import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
-import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import { ApiV3CapabilitiesPaths } from 'core-app/core/apiv3/endpoints/capabilities/apiv3-capabilities-paths';
+import { ICapability } from 'core-app/core/state/capabilities/capability.model';
+import { ApiV3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 
-export class ApiV3CapabilityPaths extends ApiV3Resource<CapabilityResource> {
-  protected createCache():StateCacheService<CapabilityResource> {
-    return (this.parent as ApiV3CapabilitiesPaths).cache;
-  }
+export class ApiV3CapabilityPaths extends ApiV3GettableResource<ICapability> {
 }

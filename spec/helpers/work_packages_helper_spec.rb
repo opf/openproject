@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe WorkPackagesHelper, type: :helper do
-  let(:stub_work_package) { build_stubbed(:work_package) }
+  let(:stub_work_package) { build_stubbed(:work_package, type: stub_type) }
   let(:stub_project) { build_stubbed(:project) }
   let(:stub_type) { build_stubbed(:type) }
   let(:stub_user) { build_stubbed(:user) }
@@ -42,16 +42,7 @@ describe WorkPackagesHelper, type: :helper do
     end
 
     describe 'without parameters' do
-      it 'returns a link to the work package with the id as the text' do
-        link_text = Regexp.new("^##{stub_work_package.id}$")
-        expect(helper.link_to_work_package(stub_work_package)).to have_selector(
-          "a[href='#{work_package_path(stub_work_package)}']", text: link_text
-        )
-      end
-
       it 'returns a link to the work package with type and id as the text if type is set' do
-        stub_work_package.type = stub_type
-
         link_text = Regexp.new("^#{stub_type.name} ##{stub_work_package.id}$")
         expect(helper.link_to_work_package(stub_work_package)).to have_selector(
           "a[href='#{work_package_path(stub_work_package)}']", text: link_text
@@ -79,8 +70,6 @@ describe WorkPackagesHelper, type: :helper do
 
     describe 'with the all_link option provided' do
       it 'returns a link to the work package with the type, id, and subject as the text' do
-        stub_work_package.type = stub_type
-
         link_text = Regexp.new("^#{stub_type} ##{stub_work_package.id}: #{stub_work_package.subject}$")
         expect(helper.link_to_work_package(stub_work_package,
                                            all_link: true)).to have_selector(
@@ -113,8 +102,6 @@ describe WorkPackagesHelper, type: :helper do
 
     describe 'when omitting the type' do
       it 'omits the type' do
-        stub_work_package.type = stub_type
-
         link_text = Regexp.new("^##{stub_work_package.id}$")
         expect(helper.link_to_work_package(stub_work_package,
                                            type: false)).to have_selector("a[href='#{work_package_path(stub_work_package)}']",
@@ -139,9 +126,7 @@ describe WorkPackagesHelper, type: :helper do
     end
 
     describe 'when only wanting the id' do
-      it 'returns a link with the id as text only even if the work package has a type' do
-        stub_work_package.type = stub_type
-
+      it 'returns a link with the id as text only' do
         link_text = Regexp.new("^##{stub_work_package.id}$")
         expect(helper.link_to_work_package(stub_work_package,
                                            id_only: true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']",
@@ -165,8 +150,6 @@ describe WorkPackagesHelper, type: :helper do
 
     describe 'with the status displayed' do
       it 'returns a link with the status name contained in the text' do
-        stub_work_package.type = stub_type
-
         link_text = Regexp.new("^#{stub_type.name} ##{stub_work_package.id} #{stub_work_package.status}$")
         expect(helper.link_to_work_package(stub_work_package,
                                            status: true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']",

@@ -232,7 +232,7 @@ describe WorkPackages::SetAttributesService,
           subject
 
           expect(work_package.changed_by_system['author_id'])
-            .to eql [0, user.id]
+            .to eql [nil, user.id]
         end
       end
     end
@@ -276,12 +276,9 @@ describe WorkPackages::SetAttributesService,
 
   context 'with the actual contract' do
     let(:invalid_wp) do
-      wp = create(:work_package)
-      wp.start_date = Time.zone.today + 5.days
-      wp.due_date = Time.zone.today
-      wp.save!(validate: false)
-
-      wp
+      build(:work_package, subject: '').tap do |wp|
+        wp.save!(validate: false)
+      end
     end
     let(:user) { build_stubbed(:admin) }
     let(:instance) do
@@ -290,9 +287,9 @@ describe WorkPackages::SetAttributesService,
                           contract_class:)
     end
 
-    context 'with a current invalid start date' do
+    context 'with a currently invalid subject' do
       let(:call_attributes) { attributes }
-      let(:attributes) { { start_date: Time.zone.today - 5.days } }
+      let(:attributes) { { subject: 'ABC' } }
       let(:contract_valid) { true }
 
       subject { instance.call(call_attributes) }
@@ -1039,7 +1036,7 @@ describe WorkPackages::SetAttributesService,
     end
 
     context 'with non-working days' do
-      shared_let(:week_days) { create(:week_days) }
+      shared_let(:working_days) { week_with_saturday_and_sunday_as_weekend }
       let(:monday) { Time.zone.today.beginning_of_week }
       let(:tuesday) { monday + 1.day }
       let(:wednesday) { monday + 2.days }
@@ -1153,11 +1150,27 @@ describe WorkPackages::SetAttributesService,
         let(:call_attributes) { { ignore_non_working_days: false } }
 
         it_behaves_like 'service call' do
-          it "updates the start date to be on next working day, and due date to accomodate duration" do
+          it "updates the start date to be on next working day, and due date to accommodate duration" do
             expect { subject }
               .to change { work_package.slice(:start_date, :due_date, :duration) }
               .from(start_date: monday - 1.day, due_date: friday, duration: 6)
               .to(start_date: monday, due_date: next_monday, duration: 6)
+          end
+        end
+
+        context 'with a new work package' do
+          let(:work_package) do
+            build(:work_package, start_date: monday - 1.day, due_date: friday, ignore_non_working_days: true)
+          end
+          let(:call_attributes) { { ignore_non_working_days: false, duration: 6 } }
+
+          it_behaves_like 'service call' do
+            it "updates the start date to be on next working day, and due date to accommodate duration" do
+              expect { subject }
+                .to change { work_package.slice(:start_date, :due_date, :duration) }
+                .from(start_date: monday - 1.day, due_date: friday, duration: 6)
+                .to(start_date: monday, due_date: next_monday, duration: 6)
+            end
           end
         end
       end
@@ -1282,17 +1295,13 @@ describe WorkPackages::SetAttributesService,
   end
 
   context 'when switching the type' do
-    let(:target_type) { build_stubbed(:type) }
+    let(:target_type) { build_stubbed(:type, is_milestone:) }
     let(:work_package) do
       build_stubbed(:work_package, start_date: Time.zone.today - 6.days, due_date: Time.zone.today)
     end
 
-    context 'with a type that is no milestone' do
-      before do
-        allow(target_type)
-          .to receive(:is_milestone?)
-                .and_return(false)
-      end
+    context 'to a non-milestone type' do
+      let(:is_milestone) { false }
 
       it 'keeps the start date' do
         instance.call(type: target_type)
@@ -1315,59 +1324,74 @@ describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'with a type that is a milestone and with both dates set' do
-      before do
-        allow(target_type)
-          .to receive(:is_milestone?)
-                .and_return(true)
+    context 'to a milestone type' do
+      let(:is_milestone) { true }
+
+      context 'with both dates set' do
+        it 'sets the start date to the due date' do
+          instance.call(type: target_type)
+
+          expect(work_package.start_date).to eq work_package.due_date
+        end
+
+        it 'keeps the due date' do
+          instance.call(type: target_type)
+
+          expect(work_package.due_date).to eql Time.zone.today
+        end
+
+        it 'sets the duration to 1 (to be changed to 0 later on)' do
+          instance.call(type: target_type)
+
+          expect(work_package.duration).to eq 1
+        end
       end
 
-      it 'sets the start date to the due date' do
-        instance.call(type: target_type)
+      context 'with only the start date set' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: Time.zone.today - 6.days)
+        end
 
-        expect(work_package.start_date).to eql Time.zone.today
-      end
+        it 'keeps the start date' do
+          instance.call(type: target_type)
 
-      it 'keeps the due date' do
-        instance.call(type: target_type)
+          expect(work_package.start_date).to eql Time.zone.today - 6.days
+        end
 
-        expect(work_package.due_date).to eql Time.zone.today
-      end
+        it 'set the due date to the start date' do
+          instance.call(type: target_type)
 
-      it 'sets the duration to 1 (to be changed to 0 later on)' do
-        instance.call(type: target_type)
+          expect(work_package.due_date).to eql work_package.start_date
+        end
 
-        expect(work_package.duration).to eq 1
-      end
-    end
+        it 'keeps the duration at 1 (to be changed to 0 later on)' do
+          instance.call(type: target_type)
 
-    context 'with a type that is a milestone and with only the start date set' do
-      let(:work_package) do
-        build_stubbed(:work_package, start_date: Time.zone.today - 6.days)
-      end
+          expect(work_package.duration).to eq 1
+        end
 
-      before do
-        allow(target_type)
-          .to receive(:is_milestone?)
-                .and_return(true)
-      end
+        context 'with a new work package' do
+          let(:work_package) do
+            build(:work_package, start_date: Time.zone.today - 6.days)
+          end
+          let(:call_attributes) { { type: target_type, start_date: Time.zone.today - 6.days, due_date: nil, duration: nil } }
 
-      it 'keeps the start date' do
-        instance.call(type: target_type)
+          before do
+            instance.call(call_attributes)
+          end
 
-        expect(work_package.start_date).to eql Time.zone.today - 6.days
-      end
+          it 'keeps the start date' do
+            expect(work_package.start_date).to eq Time.zone.today - 6.days
+          end
 
-      it 'set the due date to the start date' do
-        instance.call(type: target_type)
+          it 'set the due date to the start date' do
+            expect(work_package.due_date).to eq work_package.start_date
+          end
 
-        expect(work_package.due_date).to eql Time.zone.today - 6.days
-      end
-
-      it 'keeps the duration at 1 (to be changed to 0 later on)' do
-        instance.call(type: target_type)
-
-        expect(work_package.duration).to eq 1
+          it 'keeps the duration at 1 (to be changed to 0 later on)' do
+            expect(work_package.duration).to eq 1
+          end
+        end
       end
     end
   end
@@ -1643,12 +1667,12 @@ describe WorkPackages::SetAttributesService,
     end
 
     context 'when the soonest start date is a non-working day' do
+      shared_let(:working_days) { week_with_saturday_and_sunday_as_weekend }
       let(:saturday) { Time.zone.today.beginning_of_week.next_occurring(:saturday) }
       let(:next_monday) { saturday.next_occurring(:monday) }
       let(:soonest_start) { saturday }
 
       before do
-        create(:week_days)
         work_package.ignore_non_working_days = false
       end
 

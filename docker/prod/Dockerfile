@@ -7,7 +7,7 @@ ARG PLATFORM=on-prem
 ARG GITHUB_OAUTH_TOKEN
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV NODE_VERSION="16.15.1"
+ENV NODE_VERSION="16.17.0"
 ENV BUNDLER_VERSION="2.3.12"
 ENV BUNDLE_PATH__SYSTEM=false
 ENV APP_USER=app
@@ -34,6 +34,10 @@ WORKDIR $APP_PATH
 
 COPY docker/prod/setup ./docker/prod/setup
 RUN ./docker/prod/setup/preinstall.sh
+
+# set irb default config for app (docker run -it ...) and root (docker exec -it ...) users
+RUN ln -s /app/docker/prod/setup/.irbrc /home/$APP_USER/
+RUN ln -s /app/docker/prod/setup/.irbrc /root/
 
 COPY Gemfile ./Gemfile
 COPY Gemfile.* ./

@@ -66,6 +66,9 @@ ja:
     enterprise:
       upgrade_to_ee: "エンタープライズ版にアップグレード"
       add_token: "エンタープライズ版サポートのトークンをアップロード"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "現在のサポート トークンを置き換え"
       order: "オンプレミス版 Enterprise Edition を注文する"
       paste: "エンタープライズ版サポートのトークンを貼り付け"
@@ -77,7 +80,7 @@ ja:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
@@ -134,6 +137,7 @@ ja:
       onthefly_register: |
         チェックを入れると、OpenProjectは初回認証時に自動的にLDAPエントリーに新規ユーザー登録します。LDAPの既存ユーザーのみ許可する場合はチェックを外してください。
     connection_encryption: '接続の暗号化'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'システムアカウント'
     system_account_legend: |
       OpenProject は、LDAP ツリー内のユーザーとグループを検索するために、システムアカウントを介して読み取り専用アクセスを必要とします。
@@ -144,13 +148,18 @@ ja:
       以下のフィールドは、LDAPエントリからOpenProjectのユーザーの作成方法とアトリビュートマッピングに関連しています。
     tls_mode:
       plain: 'なし'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "平文の暗号化されていない接続。TLSネゴシエーションはありません。"
-      simple_tls_description: "暗黙的にTLS暗号化します。証明書を検証しません。暗黙的にLDAP接続を信頼します、注意して使用してください。"
-      start_tls_description: "完全な検証を行い明示的にTLS暗号化します。TLS/SSL経由のLDAPを使用します。"
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         このセクションは、このLDAP認証元の接続セキュリティを考慮します。詳細については、<a href="%{link}">Net::LDAPドキュメント</a>を参照してください。
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: 現在、フォーラムへの投稿はありません。
@@ -205,6 +214,15 @@ ja:
     ignore_filenames: >
       受信メールの添付ファイルを処理するとき、無視する名前の一覧を指定します (例えば、署名またはアイコン)。1 行につき 1 つのファイル名を入力してください。
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "削除がスケジュールされ、バックグラウンドで実行されます。結果は通知されます。"
       schedule_failed: "プロジェクトを削除できません: %{errors}"
@@ -402,6 +420,7 @@ ja:
         host: "ホスト"
         onthefly: "ユーザーの自動作成"
         port: "ポート番号"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "リポジトリ"
       comment:
@@ -523,6 +542,10 @@ ja:
         end_insertion: "挿入の終わり"
         end_deletion: "削除の終わり"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "親項目"
         parent_issue: "親項目"
         parent_work_package: "親項目"
@@ -559,7 +582,7 @@ ja:
         confirmation: "は%{attribute} と一致しません。"
         could_not_be_copied: "%{dependency} を（完全に）コピーできませんでした。"
         does_not_exist: "は存在しません。"
-        error_enterprise_only: "はOpenProjectエンタープライズ版でのみ利用可能です"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "アクセスできません。"
         error_readonly: "書けませんでした。"
         email: "is not a valid email address."
@@ -606,6 +629,11 @@ ja:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "は%{count}文字を入力してください。"
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -656,10 +684,6 @@ ja:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
-        notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -719,6 +743,11 @@ ja:
           attributes:
             permissions:
               dependency_missing: "選択した '%{permission}' の他に '%{dependency}' も含める必要があります。"
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -729,6 +758,16 @@ ja:
               invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -1886,7 +1925,6 @@ ja:
   label_wiki_start: "開始ページ"
   label_work_package: "ワーク パッケージ"
   label_work_package_attachments: "ワークパッケージの添付ファイル"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "新規カテゴリ"
   label_work_package_category_plural: "ワークパッケージのカテゴリ"
   label_work_package_hierarchy: "ワークパッケージの階層"
@@ -1902,6 +1940,7 @@ ja:
   label_workflow: "ワークフロー"
   label_workflow_plural: "ワークフロー"
   label_workflow_summary: "サマリ"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1件完了"
     other: "%{count}件完了"
@@ -1962,7 +2001,7 @@ ja:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -1977,6 +2016,8 @@ ja:
         mentioned: 'Mentioned'
         subscribed: '全て'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "新規ユーザー(%{value})が登録されました。このアカウントは承認待ちです："
@@ -2139,8 +2180,7 @@ ja:
           tb: "TB"
   onboarding:
     heading_getting_started: "概要を取得"
-    text_getting_started_description: "OpenProject のプロジェクト管理とチームコラボレーションの簡単な概要を取得します。"
-    text_show_again: "ヘルプメニューからこのビデオを再度開始することができます。"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "言語を選択してください"
   permission_add_work_package_notes: "注記の追加"
@@ -2532,6 +2572,7 @@ ja:
   text_access_token_hint: "アクセストークンで、外部アプリケーションが OpenProject のリソースへのアクセスを許可することができます。"
   text_analyze: "さらに分析: %{subject}"
   text_are_you_sure: "よろしいですか？"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "仕事項目と子項目を削除してもよろしいですか？"
   text_assign_to_project: "プロジェクト自体に割り当てする"
   text_form_configuration: >
@@ -2724,7 +2765,6 @@ ja:
       noneSelection: "(なし)"
       outline: "初期概要の拡大"
       parent: "子プロジェクトを表示"
-      work_package_filters: "ワークパッケージのフィルタ"
       work_package_responsible: "責任を持つワークパッケージを表示"
       work_package_assignee: "担当者付きのワークパッケージを表示"
       types: "ワークパッケージの種類を表示"
@@ -2877,10 +2917,22 @@ ja:
     destroy:
       info: "ワークパッケージの削除は復元できない操作です。"
       title: "ワークパッケージの削除"
+  working_days:
+    info: >
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "プレビューできるものは何もありません。"
   api_v3:
     attributes:
       lock_version: "ロックバージョン"
+      property: 'Property'
     errors:
       code_400: "不正なリクエスト: %{message}"
       code_401: "このリソースへのアクセスするには認証を行う必要があります。"

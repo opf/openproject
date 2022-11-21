@@ -29,18 +29,7 @@
 require 'spec_helper'
 
 describe ScheduleHelpers::LetSchedule do
-  include ActiveSupport::Testing::TimeHelpers
-
   create_shared_association_defaults_for_work_package_factory
-
-  let(:fake_today) { Date.new(2022, 6, 16) } # Thursday 16 June 2022
-  let(:monday) { Date.new(2022, 6, 20) } # Monday 20 June
-  let(:tuesday) { Date.new(2022, 6, 21) }
-  let(:wednesday) { Date.new(2022, 6, 22) }
-  let(:thursday) { Date.new(2022, 6, 23) }
-  let(:friday) { Date.new(2022, 6, 24) }
-  let(:saturday) { Date.new(2022, 6, 25) }
-  let(:sunday) { Date.new(2022, 6, 26) }
 
   describe 'let_schedule' do
     let_schedule(<<~CHART)
@@ -50,23 +39,18 @@ describe ScheduleHelpers::LetSchedule do
       child     |         | child of main
     CHART
 
-    it 'creates let! call for :schedule_chart which returns the chart' do
-      next_monday = (Time.zone.today..(Time.zone.today + 7.days)).find { |d| d.wday == 1 }
-      expect(schedule_chart.first_day).to eq(next_monday)
-    end
-
-    it 'creates let! calls for each work package' do
+    it 'creates let calls for each work package' do
       expect([main, follower, child]).to all(be_an_instance_of(WorkPackage))
       expect([main, follower, child]).to all(be_persisted)
       expect(main).to have_attributes(
         subject: 'main',
-        start_date: schedule_chart.monday,
-        due_date: schedule_chart.monday + 1.day
+        start_date: schedule.monday,
+        due_date: schedule.tuesday
       )
       expect(follower).to have_attributes(
         subject: 'follower',
-        start_date: schedule_chart.monday + 2.days,
-        due_date: schedule_chart.monday + 4.days
+        start_date: schedule.wednesday,
+        due_date: schedule.friday
       )
       expect(child).to have_attributes(
         subject: 'child',
@@ -75,26 +59,13 @@ describe ScheduleHelpers::LetSchedule do
       )
     end
 
-    it 'creates let! calls for follows relations between work packages' do
+    it 'creates follows relations between work packages' do
       expect(follower.follows_relations.count).to eq(1)
-      expect(relation_follower_follows_main).to be_an_instance_of(Relation)
-      expect(relation_follower_follows_main.delay).to eq(2)
+      expect(follower.follows_relations.first.to).to eq(main)
     end
 
     it 'creates parent / child relations' do
       expect(child.parent).to eq(main)
-    end
-
-    context 'with additional attributes' do
-      let_schedule(<<~CHART, done_ratio: 50, schedule_manually: true)
-        days      | MTWTFSS |
-        main      | XX      |
-        follower  |   XXX   | follows main
-      CHART
-
-      it 'applies additional attributes to all created work packages' do
-        expect([main, follower]).to all(have_attributes(done_ratio: 50, schedule_manually: true))
-      end
     end
   end
 end

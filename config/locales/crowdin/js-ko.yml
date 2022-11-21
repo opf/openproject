@@ -26,6 +26,9 @@ ko:
       loading: "로드 중…"
       updating: "업데이트 중…"
     attachments:
+      delete: "첨부 파일 삭제"
+      delete_confirmation: |
+        이 파일을 삭제하시겠습니까? 삭제하면 되돌릴 수 없습니다.
       draggable_hint: |
         인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
     autocomplete_select:
@@ -82,6 +85,10 @@ ko:
     button_open_fullscreen: "전체화면 보기"
     button_show_cards: "카드 보기 표시"
     button_show_list: "목록 보기 표시"
+    button_show_table: "표 보기 표시"
+    button_show_gantt: "Gantt 보기 표시"
+    button_show_fullscreen: "전체화면 보기 표시"
+    button_more_actions: "추가 작업"
     button_quote: "인용"
     button_save: "저장"
     button_settings: "설정"
@@ -151,7 +158,7 @@ ko:
           language_hint: '강조 표시(지원되는 경우)에 사용할 서식 언어를 입력하세요.'
         dropdown:
           macros: '매크로'
-          chose_macro: 'Choose macro'
+          chose_macro: '매크로 선택'
         toc: '목차'
         toolbar_help: '위젯을 선택하고 도구 모음을 표시하려면 클릭하세요. 위젯을 편집하려면 두 번 클릭하세요.'
         wiki_page_include:
@@ -205,7 +212,7 @@ ko:
             label_expires_at: "에서 만료됨"
             receive_newsletter: OpenProject <a target="_blank" href="%{link}">뉴스레터</a>를 받아 보겠습니다.
             taken_domain: 도메인당 하나의 활성 평가판만 있어야 합니다.
-            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            domain_mismatch: 현재 요청 호스트 이름이 구성된 호스트 이름과 일치하지 않습니다. 시스템 설정을 다시 확인하세요.
             taken_email: 각 사용자는 하나의 평가판만 생성할 수 있습니다.
           email_not_received: "이메일을 받지 못하셨나요? 오른쪽의 링크로 이메일을 재전송할 수 있습니다. "
           try_another_email: "또는 다른 이메일 주소로 시도해보세요."
@@ -221,6 +228,8 @@ ko:
           quick_overview: "OpenProject Enterprise Edition으로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다."
         upsale:
           become_hero: "영웅이 되세요!"
+          enterprise_info_html: "%{feature_title}은(는) Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> 기능입니다."
+          upgrade_info: "활성화하고 팀에서 사용하려면 유료 플랜으로 업그레이드하세요."
           benefits:
             description: "Enterprise on-premises Edition의 장점은 무엇입니까?"
             high_security: "보안 기능"
@@ -233,6 +242,7 @@ ko:
             professional_support_text: "비즈니스 크리티컬 환경에서의 OpenProject 실행에 대한 전문 지식을 갖춘 선임 지원 엔지니어가 신뢰할 수 있는 뛰어난 지원을 제공합니다."
           button_start_trial: "무료 평가판 시작"
           button_upgrade: "지금 업그레이드"
+          button_contact_us: "당사에 데모 요청하기"
           button_book_now: "지금 예약"
           confidence: >
             오픈 소스와 오픈 마인드로, 테스트를 거치고 지원이 제공되는 엔터프라이즈급 프로젝트 관리 소프트웨어에 대한 신뢰를 전해드립니다.
@@ -290,15 +300,15 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>더 이상 끝없이 파일을 검색할 필요가 없습니다! OpenProject 12.2의 새로운 <b>Nextcloud 통합</b>을 통해 이제 해당 작업 패키지에서 직접 파일을 찾고 항상 올바른 버전을 손쉽게 사용할 수 있습니다.</li> <li>업데이트된 입력 동작 및 Gantt 차트에서 관계를 표시하는 버튼이 포함된 정보 배너가 있는 <b>새로운 날짜 선택기</b>가 도입되었습니다.</li> <li><b>다른 사용자의 시간을 기록</b>할 수 있는 기능이 추가되었습니다.</li> <li>알림 센터 외부에서도 알림을 읽은 상태로 표시할 수 있습니다.</li> </ul>
+                이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>향후 날짜 및 기한이 지난 작업에 대한 알림 날짜 경보를 활성화합니다.</li> <li>Community 버전에 대한 2단계 인증(2FA)을 릴리스했습니다.</li> <li>근무 주 표시 옵션이 이제 팀 플래너에도 추가되었습니다.</li> <li> 변경 사항에 여러 사람이 관련된 경우 알림 카드에 최대 3명을 나열합니다.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>더 이상 끝없이 파일을 검색할 필요가 없습니다! OpenProject 12.2의 새로운 <b>Nextcloud 통합</b>을 통해 이제 해당 작업 패키지에서 직접 파일을 찾고 항상 올바른 버전을 손쉽게 사용할 수 있습니다.</li> <li>업데이트된 입력 동작 및 Gantt 차트에서 관계를 표시하는 버튼이 포함된 정보 배너가 있는 <b>새로운 날짜 선택기</b>가 도입되었습니다.</li> <li><b>다른 사용자의 시간을 기록</b>할 수 있는 기능이 추가되었습니다.</li> <li>알림 센터 외부에서도 알림을 읽은 상태로 표시할 수 있습니다.</li> </ul>
+                이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>향후 날짜 및 기한이 지난 작업에 대한 알림 날짜 경보를 활성화합니다.</li> <li>Community 버전에 대한 2단계 인증(2FA)을 릴리스했습니다.</li> <li>근무 주 표시 옵션이 이제 팀 플래너에도 추가되었습니다.</li> <li> 변경 사항에 여러 사람이 관련된 경우 알림 카드에 최대 3명을 나열합니다.</li> </ul>
     label_activate: "활성화"
     label_assignee: '담당자'
     label_add_column_after: "다음 뒤에 열 추가"
@@ -492,7 +502,7 @@ ko:
         next: '다음'
         got_it: '확인'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: '도움말(?) 메뉴에서 <b>기타 도움말 리소스</b>가 제공됩니다. 여기에서 사용자 가이드와 유용한 사용 방법 동영상 등을 찾아볼 수 있습니다. <br> OpenProject로 즐겁게 작업하세요!'
         members: '프로젝트에 참여할 새로운 <b>멤버</b>를 초대하세요.'
         project_selection: '준비된 데모 프로젝트 중 하나를 클릭하세요. 데모 데이터는 현재 영어로만 제공됩니다. <br> 일반 <b>데모 프로젝트</b>는 클래식 프로젝트 관리에 최적이지만, 애자일 프로젝트 관리에는 <b>스크럼 프로젝트</b>가 더 적합합니다.'
         quick_add_button: '헤더 탐색에서 더하기(+) 아이콘을 클릭하여 <b>새 프로젝트를 생성</b>하거나 <b>동료를 초대</b>하세요.'
@@ -530,18 +540,33 @@ ko:
       no_unread: "읽지 않는 알림 없음"
       reasons:
         mentioned: '멘션 된'
-        watched: '지켜본'
-        assigned: '할당됨'
+        watched: '주시자'
+        assigned: '담당자'
         responsible: '담당'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: '생성됨'
+        scheduled: '예약됨'
+        commented: '코멘트 작성됨'
+        processed: '처리됨'
+        prioritized: '우선 순위 지정됨'
+        dateAlert: '날짜 경보'
+      date_alerts:
+        milestone_date: '마일스톤 날짜'
+        overdue: '기한 지남'
+        overdue_since: '%{difference_in_days} 이후'
+        property_today: '- 오늘입니다'
+        property_is: '- %{difference_in_days} 이내입니다'
+        property_was: '- %{difference_in_days} 전이었습니다'
+        property_is_deleted: '- 삭제되었습니다'
+        upsale:
+          title: '날짜 경보'
+          description: '날짜 경보를 사용하면, 중요 마감일을 놓치거나 잊지 않도록 향후 시작 날짜 또는 종료 날짜에 대한 알림을 받게 됩니다.'
       facets:
         unread: '읽지 않음'
+        unread_title: '읽지 않은 항목 표시'
         all: '모두'
+        all_title: '모두 표시'
       center:
+        label_actor_and: '및'
         and_more_users:
           other: '외 %{count}건'
         no_results:
@@ -562,22 +587,34 @@ ko:
       menu:
         accountable: '담당'
         by_project: '프로젝트 기준 읽지 않음'
-        by_reason: '참여'
+        by_reason: '이유'
         inbox: '받은 편지함'
-        mentioned: '@멘션됨'
-        watching: '지켜보는 중'
+        mentioned: '멘션됨'
+        watched: '주시자'
+        date_alert: '날짜 경보'
       settings:
         change_notification_settings: '알림 설정을 보고 변경하려면 <a target="_blank" href="%{url}">여기를 클릭</a>하세요.'
         title: "알림 설정"
         notify_me: "알림 받기"
+        reminders:
+          no_notification: 알림 없음
+          timeframes:
+            normal:
+              PT0S: 같은 날
+              P1D: 1일 전
+              P3D: 3일 전
+              P7D: 1주 전
+            overdue:
+              P1D: 매일
+              P3D: 3일마다
+              P7D: 매주
         reasons:
           mentioned:
-            title: '내가 @멘션되었습니다'
+            title: '멘션됨'
             description: '어디에서든 누군가가 나를 멘션할 때마다 알림 받기'
-          involved:
-            title: '내게 할당되거나 내가 담당함'
-            description: '내게 할당되거나 내가 담당하는 작업 패키지의 모든 활동에 대한 알림을 받습니다.'
-          watched: '지켜보는 항목에 대한 업데이트'
+          assignee: '담당자'
+          responsible: '책임자'
+          watched: '주시자'
           work_package_commented: '모든 새로운 코멘트'
           work_package_created: '새 작업 패키지'
           work_package_processed: '모든 상태 변경 사항'
@@ -585,11 +622,18 @@ ko:
           work_package_scheduled: '모든 날짜 변경 사항'
         global:
           immediately:
-            title: '즉시 내게 알림'
-            description: '해당 설정은 모든 프로젝트에 적용됩니다. 아래에서 프로젝트별 예외를 생성할 수 있습니다.'
+            title: '참여'
+            description: '귀하가 참여하고 있는 작업 패키지의 모든 활동에 대한 알림(담당자, 책임자 또는 주시자)'
           delayed:
-            title: '다음과 같은 사항도 내게 알림:'
-            description: '모든 프로젝트에서 작업 패키지의 해당 활동에 대한 알림을 받습니다:'
+            title: '참여하지 않음'
+            description: '모든 프로젝트의 활동에 대한 추가 알림'
+          date_alerts:
+            title: '날짜 경보'
+            description: '귀하가 참여하고 있는 오픈 작업 패키지에 대한 중요 날짜가 다가올 때 자동 알림(담당자, 책임자 또는 주시자)'
+            teaser_text: '날짜 경보를 사용하면, 중요 마감일을 놓치거나 잊지 않도록 향후 시작 날짜 또는 종료 날짜에 대한 알림을 받게 됩니다.'
+          start_date: 시작 날짜
+          due_date: 완료 날짜
+          overdue: 기한이 지난 경우
         project_specific:
           title: '프로젝트별 알림 설정'
           description: '이러한 프로젝트별 설정은 위의 기본 설정을 재정의합니다.'
@@ -608,7 +652,7 @@ ko:
       default: '-'
       subject: '여기에 제목 입력'
       selection: '선택하십시오'
-      description: 'Description: Click to edit...'
+      description: '설명: 클릭하여 편집...'
       relation_description: '이 관계에 대한 설명을 추가하려면 클릭'
     project:
       required_outside_context: >
@@ -739,9 +783,7 @@ ko:
     field_value_enter_prompt: "'%{field}'에 대 한 값을 입력하세요."
     project_menu_details: "세부 정보"
     scheduling:
-      title: 'Scheduling'
-      manual: 'Manual'
-      default: 'Default'
+      manual: '수동 스케줄링'
     sort:
       sorted_asc: '오름차순 정렬이 적용됨, '
       sorted_dsc: '내림차순 정렬이 적용됨, '
@@ -752,7 +794,6 @@ ko:
       activate_no: '정렬을 제거하기 위해 활성화합니다'
     text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
     text_query_destroy_confirmation: "선택한 보기를 삭제하시겠습니까?"
-    text_attachment_destroy_confirmation: "정말 이 첨부 파일을 삭제 하시겠습니까?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt 차트'
@@ -764,7 +805,7 @@ ko:
         farRight: '맨 오른쪽'
         showNone: '-- 레이블 없음 --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          항상 Gantt 차트의 각 위치에 표시할 특성을 선택하세요. 요소를 가리키면 해당 특성 대신 날짜 레이블이 표시됩니다.
       button_activate: 'Gantt 차트 표시'
       button_deactivate: 'Gantt 차트 숨기기'
       cancel: 취소
@@ -850,9 +891,7 @@ ko:
         click_on_show_relations_to_open_gantt: 'GANTT 개요를 보려면 "%{button_name}" 클릭을 하세요.'
         show_relations: '관계 표시'
         ignore_non_working_days:
-          title: 'Working days'
-          false: 'Work week'
-          true: 'Include weekends'
+          title: '근무일만'
       description_filter: "필터"
       description_enter_text: "텍스트 입력"
       description_options_hide: "옵션 숨기기"
@@ -872,6 +911,8 @@ ko:
       message_work_package_read_only: "작업 패키지가 이 상태로 잠겨 있습니다. 상태 이외의 특성은 변경할 수 없습니다."
       message_work_package_status_blocked: "닫힌 상태이고 닫힌 버전이 할당되었기 때문에 작업 패키지 상태를 쓸 수 없습니다."
       placeholder_filter_by_text: "제목, 설명, 코멘트, ..."
+      filters:
+        title: '작업 패키지 필터링'
       inline_create:
         title: '이 목록에 새 작업 패키지를 추가하려면 여기를 클릭하세요.'
       create:
@@ -908,7 +949,7 @@ ko:
         description: "설명"
         date: "날짜"
         dueDate: "완료 날짜"
-        duration: "Duration"
+        duration: "기간"
         estimatedTime: "예상된 시간"
         spentTime: "소비한 시간"
         category: "카테고리"
@@ -1045,12 +1086,14 @@ ko:
       button_save: "저장"
       button_submit: "제출"
       button_cancel: "취소"
+      button_delete: "삭제"
       form_submit:
         title: '계속하려면 확인하세요'
         text: '정말로 이 작업을 수행하기를 원하시나요?'
       destroy_work_package:
         title: "%{label} 삭제 확인"
-        text: "다음 %{label}을(를) 삭제하시겠습니까?"
+        single_text: "작업 패키지를 삭제하시겠습니까?"
+        bulk_text: "다음 %{label}을(를) 삭제하시겠습니까?"
         has_children: "작업 패키지에 %{childUnits}이(가) 있습니다."
         confirm_deletion_children: "나는 작업 패키지의 모든 하위 목록이 재귀적으로 제거되는 것을 인정합니다."
         deletes_children: "모든 하위 작업 패키지 및 그 하위 항목도 재귀적으로 삭제됩니다."
@@ -1166,13 +1209,13 @@ ko:
       role:
         label: '%{project} 내 역할'
         no_roles_found: '역할이 없습니다'
-        description: '%{principal}이(가) 프로젝트에 참여할 때 받게 되는 역할입니다. 역할은 수행할 수 있는 작업과 볼 수 있는 정보를 정의합니다. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> 역할과 권한에 대해 자세히 알아보세요. </a>'
+        description: '사용자가 프로젝트에 참여할 때 받게 되는 역할입니다. 역할은 수행할 수 있는 작업과 볼 수 있는 정보를 정의합니다. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> 역할과 권한에 대해 자세히 알아보세요. </a>'
         required: '역할을 선택하십시오'
         next_button: '다음'
       message:
         label: '초대 메시지'
-        description: '곧 %{principal} 측으로 이메일을 전송할 것입니다. 여기에 개인 메시지를 추가할 수도 있습니다. 초대에 관한 유용한 설명을 넣거나, 프로젝트를 시작할 때 도움이 되는 정보를 넣어 보십시오.'
-        next_button: '초대 검토'
+        description: '사용자에게 이메일이 전송될 것입니다. 여기에 개인 메시지를 추가할 수도 있습니다. 초대에 관한 유용한 설명을 넣거나, 프로젝트를 시작하는 데 도움이 되는 정보를 넣을 수 있습니다.'
+        next_button: '다음'
       summary:
         next_button: '초대장 보내기'
       success:
@@ -1193,7 +1236,7 @@ ko:
       search_placeholder: '프로젝트 검색...'
       include_subprojects: '모든 하위 프로젝트 포함'
       tooltip:
-        include_all_selected: '모든 하위 프로젝트 포함이 현재 선택되어 있습니다.'
+        include_all_selected: '''모든 하위 프로젝트 포함''이 활성화되어 있으므로 프로젝트가 이미 포함되어 있습니다.'
         current_project: '작업 중인 현재 프로젝트입니다.'
         does_not_match_search: '프로젝트가 검색 기준과 일치하지 않습니다.'
       no_results: '검색 기준과 일치하는 프로젝트가 없습니다.'

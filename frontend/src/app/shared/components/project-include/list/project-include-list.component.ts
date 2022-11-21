@@ -81,13 +81,9 @@ export class OpProjectIncludeListComponent {
     }
   }
 
-  public getTooltipAlignment(project:IProjectData, isFirst:boolean, isLast:boolean):SpotDropAlignmentOption {
+  public getTooltipAlignment(isFirst:boolean):SpotDropAlignmentOption {
     if (!this.root || !isFirst) {
       return SpotDropAlignmentOption.TopLeft;
-    }
-
-    if (isLast && !project.children.length) {
-      return SpotDropAlignmentOption.RightCenter;
     }
 
     return SpotDropAlignmentOption.BottomLeft;

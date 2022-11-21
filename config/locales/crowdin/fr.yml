@@ -56,7 +56,7 @@ fr:
         alternative-color: "Couleur d'accentuation, habituellement utilisée pour le bouton le plus important à l'écran."
         content-link-color: "Couleur de la police de la plupart des liens."
         primary-color: "Couleur principale."
-        primary-color-dark: "Habituellement, un ton plus sombre de la couleur principale utilisée pour les effets de mise en évidence."
+        primary-color-dark: "Généralement une version plus sombre de la couleur principale utilisée pour les effets de survol."
         header-item-bg-hover-color: "Couleur d’arrière-plan des éléments de l’en-tête survolées par la souris."
         header-item-font-color: "Couleur de la police des éléments de l’en-tête cliquables."
         header-item-font-hover-color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
@@ -66,6 +66,9 @@ fr:
     enterprise:
       upgrade_to_ee: "Passer à la version Entreprise"
       add_token: "Charger une licence de la version Entreprise"
+      delete_token_modal:
+        text: "Voulez-vous vraiment supprimer le jeton actuel de l'édition Enterprise ?"
+        title: "Supprimer le jeton"
       replace_token: "Remplacer votre licence actuelle"
       order: "Commander l'édition Enterprise autohebergé"
       paste: "Coller votre licence de la version Entreprise"
@@ -77,7 +80,7 @@ fr:
       buttons:
         upgrade: "Passer au plan supérieur"
         contact: "Contactez-nous pour une démo"
-      enterprise_info_html: "est une fonctionnalité Entreprise <strong class='icon-medal'></strong>."
+      enterprise_info_html: "est une fonctionnalité de l'Entreprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
       upgrade_info: "Veuillez passer à un plan payant pour l'activer et commencer à l'utiliser dans votre équipe."
     journal_aggregation:
       explanation:
@@ -135,6 +138,7 @@ fr:
         lorsqu'ils s'authentifieront pour la première fois avec OpenProject.
         Laissez ceci non coché pour permettre uniquement aux comptes existants dans OpenProject de s'authentifier via LDAP!
     connection_encryption: 'Cryptage de la connexion'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Compte système'
     system_account_legend: |
       OpenProject nécessite un accès en lecture seule via un compte système pour rechercher des utilisateurs et des groupes dans votre arborescence LDAP.
@@ -146,13 +150,18 @@ fr:
       quels attributs LDAP sont utilisés pour définir les attributs d'un utilisateur OpenProject (mapping d'attributs).
     tls_mode:
       plain: 'aucune'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Connexion non cryptée, aucune négociation TLS."
-      simple_tls_description: "Cryptage TLS implicite, mais aucune validation de certificat. Utiliser avec prudence et confiance implicite de la connexion LDAP."
-      start_tls_description: "Cryptage TLS explicite avec validation complète. Utiliser pour LDAP via TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Cette section concerne la sécurité de connexion de cette source d'authentification LDAP. Pour plus d'informations, visitez <a href="%{link}">the Net::LDAP documentation</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Il n'y a actuellement aucun message pour le forum.
@@ -207,6 +216,15 @@ fr:
     ignore_filenames: >
       Spécifiez une liste de noms à ignorer lors du traitement des pièces jointes aux messages entrants (par exemple, signatures ou icônes). Entrez un nom de fichier par ligne.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Membres du projet'
+      overviews: 'Vue d''ensemble du projet'
+      queries: 'Lots de Travaux : vues enregistrées'
+      wiki_page_attachments: 'Pages Wiki : pièces jointes'
+      work_package_attachments: 'Lots de Travaux : pièces jointes'
+      work_package_categories: 'Lots de travaux : catégories'
+      work_package_file_links: 'Lots de Travaux : liens vers des fichiers'
     delete:
       scheduled: "La suppression a été planifiée et est effectuée en arrière-plan. Vous serez notifié du résultat."
       schedule_failed: "Le projet ne peut pas être supprimé : %{errors}"
@@ -407,6 +425,7 @@ fr:
         host: "Hôte"
         onthefly: "Création automatique d'un utilisateur"
         port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Référentiel"
       comment:
@@ -528,6 +547,10 @@ fr:
         end_insertion: "Fin de l’insertion"
         end_deletion: "Fin de la suppression"
         ignore_non_working_days: "Ignorer les jours non ouvrables"
+        include_non_working_days:
+          title: 'Jours ouvrés'
+          false: 'jours ouvrés seulement'
+          true: 'Inclure les jours non ouvrés'
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -564,7 +587,7 @@ fr:
         confirmation: "ne correspond pas à %{attribute}."
         could_not_be_copied: "%{dependency} n'a pas pu être copié (entièrement)."
         does_not_exist: "n'existe pas."
-        error_enterprise_only: "n'est disponible que dans OpenProject Enterprise Edition"
+        error_enterprise_only: "n'est disponible que dans la version Enterprise d'OpenProject."
         error_unauthorized: "est interdit d'accès."
         error_readonly: "a tenté d'être écrit mais n'est pas accessible en écriture."
         email: "n'est pas une adresse e-mail valide."
@@ -611,6 +634,11 @@ fr:
           ne fournit pas de « Contexte sécurisé ». Utilisez soit HTTPS, soit une adresse de bouclage, comme localhost.
         wrong_length: "est de mauvaise longueur (devrait être %{count} caractères)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -661,10 +689,6 @@ fr:
               no_notification_reason: 'ne peut pas être vide car IAN est choisi comme canal.'
             reason_mail_digest:
               no_notification_reason: 'ne peut pas être vide car le digest d''email est est choisi comme un canal.'
-        notification_settings:
-          only_one_global_setting: 'Il ne doit y avoir qu''un seul paramètre de notification globale.'
-          email_alerts_global: 'Les paramètres de notification par e-mail ne peuvent être définis que globalement.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -724,6 +748,11 @@ fr:
           attributes:
             permissions:
               dependency_missing: "doit également inclure '%{dependency}' car'%{permission}' est sélectionné."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'Au moins un jour de la semaine doit être défini comme jour de travail.'
+              previous_working_day_changes_unprocessed: 'Les modifications précédentes de la configuration des jours ouvrables n''ont pas encore été appliquées.'
         time_entry:
           attributes:
             hours:
@@ -734,6 +763,16 @@ fr:
               invalid_range: "ne peut être qu'une plage de dates valide."
             daily_reminders:
               full_hour: "ne peut être configuré que pour être envoyé à une heure complète."
+            notification_settings:
+              only_one_global_setting: 'Il ne doit y avoir qu''un seul paramètre de notification globale.'
+              email_alerts_global: 'Les paramètres de notification par e-mail ne peuvent être définis que globalement.'
+              format: "%{message}"
+              wrong_date: 'Mauvaise valeur pour la date de début, la date d''échéance ou le retard.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "n'est pas autorisé à consulter cette ressource."
+              locked: "est verrouillé."
         wiki_page:
           attributes:
             slug:
@@ -745,12 +784,12 @@ fr:
               format: "%{message}"
             due_date:
               not_start_date: "n'est pas identique à la date de début, bien que cela soit requis pour les jalons."
-              cannot_be_null: "can not be set to null as start date and duration are known."
+              cannot_be_null: "ne peut pas être défini à NULL car la date de début et la durée sont connues."
             duration:
               larger_than_dates: "est plus grand que l'intervalle entre la date de début et la date de fin."
               smaller_than_dates: "est plus petit que l'intervalle entre la date de début et la date de fin."
               not_available_for_milestones: "n'est pas disponible pour les lots de travaux de type jalon."
-              cannot_be_null: "can not be set to null as start date and finish date are known."
+              cannot_be_null: "ne peut pas être défini à NULL car la date de début et la date de fin sont connues."
             parent:
               cannot_be_milestone: "ne peut pas être un jalon."
               cannot_be_self_assigned: "ne peut pas être assigné à lui-même."
@@ -758,7 +797,7 @@ fr:
               not_a_valid_parent: "est invalide."
             start_date:
               violates_relationships: "peut uniquement valoir %{soonest_start} ou une date ultérieure afin de ne pas violer les relations du lot de travaux."
-              cannot_be_null: "can not be set to null as finish date and duration are known."
+              cannot_be_null: "ne peut pas être défini à NULL car la date de fin et la durée sont connues."
             status_id:
               status_transition_invalid: "n'est pas valide, car aucune transition valide n'existe de l'ancien vers le nouveau statut pour les rôles de l'utilisateur actuel."
               status_invalid_in_type: "est invalide car le statut actuel n’existe pas dans ce type."
@@ -1907,7 +1946,6 @@ fr:
   label_wiki_start: "Page d'accueil"
   label_work_package: "Lot de travaux"
   label_work_package_attachments: "Pièces jointes du lot de travaux"
-  label_work_package_file_link_plural: "Liens des fichiers du lot de travaux"
   label_work_package_category_new: "Nouvelle catégorie"
   label_work_package_category_plural: "Catégories de Lots de Travaux"
   label_work_package_hierarchy: "Hiérarchie du lot de travaux"
@@ -1923,6 +1961,7 @@ fr:
   label_workflow: "Flux de travail"
   label_workflow_plural: "Flux de travail"
   label_workflow_summary: "Résumé"
+  label_working_days: "Journées de travail"
   label_x_closed_work_packages_abbr:
     one: "1 fermée"
     other: "%{count} fermées"
@@ -1983,7 +2022,7 @@ fr:
       center: 'Vers le centre de notifications'
       see_in_center: 'Voir le commentaire dans le centre de notifications'
       settings: 'Modifier les paramètres d''e-mail'
-    salutation: 'Bonjour %{user} !'
+    salutation: 'Bonjour %{user}'
     work_packages:
       created_at: 'Créé le %{timestamp} par %{user} '
       login_to_see_all: 'Connectez-vous pour voir toutes les notifications.'
@@ -1999,6 +2038,8 @@ fr:
         mentioned: 'Mentionné'
         subscribed: 'tous'
         prefix: 'Reçu en raison du paramètre de notification : %{reason}'
+        date_alert_start_date: 'Alarmes'
+        date_alert_due_date: 'Alarmes'
       see_all: 'Voir tout'
       updated_at: 'Mis à jour le %{timestamp} par %{user}'
   mail_body_account_activation_request: "Un nouvel utilisateur (%{value}) s'est enregistré. Le compte attend votre approbation:"
@@ -2162,8 +2203,7 @@ fr:
           tb: "To"
   onboarding:
     heading_getting_started: "Avoir une vue d’ensemble"
-    text_getting_started_description: "Obtenez un aperçu rapide de la gestion de projets et de la collaboration en équipe avec OpenProject."
-    text_show_again: "Vous pouvez relancer cette vidéo au départ du menu d'aide"
+    text_getting_started_description: "Obtenez un aperçu rapide de la gestion de projet et de la collaboration en équipe avec OpenProject. Vous pouvez redémarrer cette vidéo à partir du menu d'aide."
     welcome: "Bienvenue sur %{app_title}"
     select_language: "Veuillez sélectionner votre langue"
   permission_add_work_package_notes: "Ajouter des notes"
@@ -2364,8 +2404,8 @@ fr:
       update_timeout: "Garder les dernières informations de l'espace disque requis pour un dépôt pendant N minutes.\nEtant donné que l'opération de comptabilisation de l'espace disque requis pour un dépôt peut être coûteuse, augmentez cette valeur pour réduire l'impact sur les performances."
       oauth_application_details: "La valeur secrète du client ne sera plus accessible après la fermeture de cette fenêtre. Veuillez copier ces valeurs dans les paramètres d'intégration Nextcloud OpenProject :"
       oauth_application_details_link_text: "Aller à la page des paramètres"
-      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
-      setup_documentation_details_link_text: "File Storages setup"
+      setup_documentation_details: "Si vous avez besoin d'aide pour configurer un nouveau stockage de fichiers, veuillez vérifier la documentation : "
+      setup_documentation_details_link_text: "Configuration du stockage des fichiers"
       show_warning_details: "Pour utiliser ce stockage de fichiers, n'oubliez pas d'activer le module et le stockage spécifique dans les paramètres du projet de chaque projet souhaité."
     subversion:
       existing_title: "Dépôt Subversion existant"
@@ -2555,6 +2595,7 @@ fr:
   text_access_token_hint: "Les jetons d'accès vous permettent d'octroyer aux applications externes un accès aux ressources dans OpenProject."
   text_analyze: "Analyse suivante: %{subject}"
   text_are_you_sure: "Êtes-vous sûr ?"
+  text_are_you_sure_continue: "Voulez-vous vraiment continuer ?"
   text_are_you_sure_with_children: "Supprimer le lot de travaux et tous les lots de travaux enfants ?"
   text_assign_to_project: "Assigner le projet"
   text_form_configuration: >
@@ -2748,7 +2789,6 @@ fr:
       noneSelection: "(none)"
       outline: "Expansion de ligne par défaut"
       parent: "Afficher sous-projets de"
-      work_package_filters: "Filtrer les Lots de Travaux"
       work_package_responsible: "Afficher les lots de travaux avec le responsable"
       work_package_assignee: "Afficher les Lots de Travaux assignés à"
       types: "Afficher types"
@@ -2902,10 +2942,22 @@ fr:
     destroy:
       info: "La suppression du lot de travaux est une action irréversible."
       title: "Supprimer le lot de travaux"
+  working_days:
+    info: >
+      <b>Définissez les jours ouvrables de la semaine</b><br/> Les jours non ouvrables sont ignorés lors de la planification des lots de travaux et sont exclus lors du calcul de la durée. Cela peut être remplacé au niveau du lot de travaux.
+    change_button: "Changer les jours ouvrables"
+    warning: >
+      La modification des jours de la semaine considérés comme des jours de travail peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas.
+    journal_note:
+      changed: _**Jours ouvrables** modifiés (%{changes})._
+      days:
+        working: "%{day} est maintenant un jour ouvrable"
+        non_working: "%{day} est maintenant un jour non ouvrable"
   nothing_to_preview: "Rien à afficher en apperçu"
   api_v3:
     attributes:
       lock_version: "Version Lock"
+      property: 'Propriété'
     errors:
       code_400: "Mauvaise requête : %{message}"
       code_401: "Vous devez être authentifié pour accéder à cette ressource."

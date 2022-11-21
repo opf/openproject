@@ -31,6 +31,7 @@ module Components
   module WorkPackages
     class QueryMenu
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
       include ::Components::Autocompleter::AutocompleteHelpers
 

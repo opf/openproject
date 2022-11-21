@@ -32,6 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%=
     angular_component_tag 'op-enterprise-banner',
                           inputs: {
+                            collapsible: true,
                             textMessage: t('text_project_custom_field_html'),
                             moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_projects][:href],
                           }
@@ -44,6 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%=
     angular_component_tag 'op-enterprise-banner',
                           inputs: {
+                            collapsible: true,
                             textMessage: t('text_wp_custom_field_html'),
                             moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_multiselect][:href],
                           }

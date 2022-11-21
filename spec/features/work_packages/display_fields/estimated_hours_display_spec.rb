@@ -136,14 +136,14 @@ RSpec.describe 'Estimated hours display' do
       wp_table.expect_work_package_listed child
 
       wp_table.expect_work_package_with_attributes(
-        parent, subject: parent.subject, estimatedTime: "(3 h)"
+        parent, subject: parent.subject, estimatedTime: "0 h(+3 h)"
       )
     end
 
     it 'work package details', js: true do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Estimated time\n(3 h)")
+      expect(page).to have_content("Estimated time\n0 h(+3 h)")
     end
   end
 
@@ -163,14 +163,14 @@ RSpec.describe 'Estimated hours display' do
       wp_table.expect_work_package_listed child
 
       wp_table.expect_work_package_with_attributes(
-        parent, subject: parent.subject, estimatedTime: "-"
+        parent, subject: parent.subject, estimatedTime: "0 h"
       )
     end
 
     it 'work package details', js: true do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Estimated time\n-")
+      expect(page).to have_content("Estimated time\n0 h")
     end
   end
 end

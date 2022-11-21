@@ -29,17 +29,8 @@
 require 'spec_helper'
 
 describe ScheduleHelpers::ChartRepresenter do
-  let(:fake_today) { Date.new(2022, 6, 16) } # Thursday 16 June 2022
-  let(:monday) { Date.new(2022, 6, 20) } # Monday 20 June
-  let(:tuesday) { Date.new(2022, 6, 21) }
-  let(:wednesday) { Date.new(2022, 6, 22) }
-  let(:thursday) { Date.new(2022, 6, 23) }
-  let(:friday) { Date.new(2022, 6, 24) }
-  let(:saturday) { Date.new(2022, 6, 25) }
-  let(:sunday) { Date.new(2022, 6, 26) }
-
   describe '#normalized_to_s' do
-    let!(:week_days) { create(:week_days) }
+    shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
 
     context 'when both charts have different work packages items and/or order' do
       def to_first_columns(charts)
@@ -186,6 +177,92 @@ describe ScheduleHelpers::ChartRepresenter do
             .then(&method(:to_headers))
 
         expect(first_header).to eq(second_header)
+      end
+    end
+
+    context 'when expected chart does not have working days information' do
+      def to_headers(charts)
+        charts.map { _1.split("\n").first }
+      end
+
+      it 'gets it from actual chart information' do
+        # in real tests, actual will probably be created from WorkPackage instances
+        actual_chart =
+          ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
+            days  | MTWTFSS  |
+            main  |   XXXXX  | working days include weekends
+            other |     X..X | working days work week
+          CHART
+        expected_chart =
+          ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
+            days  | MTWTFSS  |
+            main  |   XXXXX  |
+            other |     X..X |
+          CHART
+
+        normalized_expected, normalized_actual =
+          described_class
+            .normalized_to_s(expected_chart, actual_chart)
+
+        expect(normalized_actual).to eq(normalized_expected)
+      end
+
+      it 'ignores working days information for extra work packages not defined in actual' do
+        initial_actual_chart =
+          ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
+            days       |    MTWTFSS  |
+            main       | X..X        |
+          CHART
+        initial_expected_chart =
+          ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
+            days       |    MTWTFSS  |
+            main       | X..X        |
+            extra      |             |
+          CHART
+
+        expect { described_class.normalized_to_s(initial_expected_chart, initial_actual_chart) }
+          .not_to raise_error
+      end
+    end
+
+    context 'when expected chart has different working days information from actual' do
+      def to_headers(charts)
+        charts.map { _1.split("\n").first }
+      end
+
+      it 'use each information from each side' do
+        # in real tests, actual will probably be created from WorkPackage instances
+        actual_chart =
+          ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
+            days  | MTWTFSS  |
+            main  | XXXXXXXX | working days include weekends
+            other |     X..X | working days work week
+            foo   |     X..X |
+          CHART
+        expected_chart =
+          ScheduleHelpers::ChartBuilder.new.parse(<<~CHART)
+            days  | MTWTFSS  |
+            main  | XXXXX..X | working days work week
+            other |     XXXX | working days include weekends
+            foo   |     X..X |
+          CHART
+
+        normalized_expected, normalized_actual =
+          described_class
+            .normalized_to_s(expected_chart, actual_chart)
+
+        expect(normalized_actual).to eq(<<~CHART.strip)
+          days  | MTWTFSS  |
+          main  | XXXXXXXX |
+          other |     X..X |
+          foo   |     X..X |
+        CHART
+        expect(normalized_expected).to eq(<<~CHART.strip)
+          days  | MTWTFSS  |
+          main  | XXXXX..X |
+          other |     XXXX |
+          foo   |     X..X |
+        CHART
       end
     end
   end

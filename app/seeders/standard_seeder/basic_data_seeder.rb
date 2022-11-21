@@ -31,7 +31,6 @@ module StandardSeeder
       [
         ::BasicData::BuiltinRolesSeeder,
         ::BasicData::RoleSeeder,
-        ::BasicData::WeekDaySeeder,
         ::StandardSeeder::BasicData::ActivitySeeder,
         ::BasicData::ColorSeeder,
         ::BasicData::ColorSchemeSeeder,

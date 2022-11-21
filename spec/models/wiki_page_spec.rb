@@ -54,7 +54,7 @@ describe WikiPage, type: :model do
       let!(:wiki_page2) { create(:wiki_page, wiki: wiki2, title: 'asdf') }
 
       it 'scopes the slug correctly' do
-        pages = WikiPage.where(title: 'asdf')
+        pages = described_class.where(title: 'asdf')
         expect(pages.count).to eq(2)
         expect(pages.first.slug).to eq('asdf')
         expect(pages.last.slug).to eq('asdf')
@@ -120,6 +120,23 @@ describe WikiPage, type: :model do
   end
 
   describe '#destroy' do
+    context 'for a page with content (which is always the case)' do
+      let!(:wiki_content) { create(:wiki_content, page: wiki_page) }
+
+      before do
+        # to have the wiki_content properly hooked up
+        wiki_page.reload
+      end
+
+      it 'destroys the wiki content as well' do
+        expect { wiki_page.destroy }.to change(WikiContent, :count).from(1).to(0)
+      end
+
+      it 'destroys the wiki content\'s journals as well' do
+        expect { wiki_page.destroy }.to change(Journal, :count).from(1).to(0)
+      end
+    end
+
     context 'when the only wiki page is destroyed' do
       before do
         wiki_page.destroy
@@ -127,7 +144,7 @@ describe WikiPage, type: :model do
 
       it 'ensures there is still a wiki menu item' do
         expect(wiki.wiki_menu_items).to be_one
-        expect(wiki.wiki_menu_items.first.is_main_item?).to be_truthy
+        expect(wiki.wiki_menu_items.first).to be_is_main_item
       end
     end
 
@@ -139,7 +156,22 @@ describe WikiPage, type: :model do
 
       it 'ensures that there is still a wiki menu item named like the wiki start page' do
         expect(wiki.wiki_menu_items).to be_one
-        expect(wiki.wiki_menu_items.first.name).to eq WikiPage.slug(wiki.start_page)
+        expect(wiki.wiki_menu_items.first.name).to eq described_class.slug(wiki.start_page)
+      end
+    end
+
+    context 'when destroying a parent' do
+      let!(:child_wiki_page) do
+        create(:wiki_page, parent_id: wiki_page.id, wiki:, project:)
+      end
+
+      before do
+        wiki_page.destroy
+      end
+
+      it 'keeps the child but nils the parent_id' do
+        expect(child_wiki_page.reload.parent_id)
+          .to be_nil
       end
     end
   end
@@ -170,6 +202,84 @@ describe WikiPage, type: :model do
     end
   end
 
+  describe '#parent_title' do
+    let(:child_wiki_page) do
+      create(:wiki_page, parent_id: wiki_page.id, wiki:, project:)
+    end
+
+    it 'is empty for a page without a parent' do
+      expect(wiki_page.parent_title)
+        .to be_nil
+    end
+
+    it 'is the name of the parent page if set' do
+      expect(child_wiki_page.parent_title)
+        .to eq wiki_page.title
+    end
+  end
+
+  describe '#parent_title=' do
+    let(:other_wiki_page) do
+      create(:wiki_page, wiki:, project:)
+    end
+
+    let(:other_wiki_page_child) do
+      create(:wiki_page, parent: other_wiki_page, wiki:, project:)
+    end
+
+    context 'when setting it to the name of a wiki page' do
+      it 'sets the parent to that wiki page' do
+        wiki_page.parent_title = other_wiki_page.title
+        wiki_page.save
+
+        expect(wiki_page.reload.parent)
+          .to eql(other_wiki_page)
+      end
+    end
+
+    context 'when setting to an empty string' do
+      let(:child_wiki_page) do
+        create(:wiki_page, parent_id: wiki_page.id, wiki:, project:)
+      end
+
+      it 'unsets the parent' do
+        child_wiki_page.parent_title = ''
+        child_wiki_page.save
+
+        expect(child_wiki_page.reload.parent)
+          .to be_nil
+      end
+    end
+
+    context 'when setting to a child' do
+      let(:child_wiki_page) do
+        create(:wiki_page, parent_id: wiki_page.id, wiki:, project:)
+      end
+
+      it 'causes an error' do
+        wiki_page.parent_title = child_wiki_page.title
+
+        expect(wiki_page.save)
+          .to be false
+
+        expect(wiki_page.errors[:parent_title])
+          .to eq [I18n.t('activerecord.errors.messages.circular_dependency')]
+      end
+    end
+
+    context 'when setting to a itself' do
+      it 'causes an error' do
+        wiki_page.parent_title = wiki_page.title
+
+        expect(wiki_page.save)
+          .to be false
+
+        expect(wiki_page.errors[:parent_title])
+          .to eq [I18n.t('activerecord.errors.messages.circular_dependency')]
+      end
+    end
+  end
+
   describe '.visible' do
     let(:other_project) { create(:project).reload }
     let(:other_wiki) { project.wiki }
@@ -182,7 +292,7 @@ describe WikiPage, type: :model do
     end
 
     it 'returns all pages for which the user has the \'view_wiki_pages\' permission' do
-      expect(WikiPage.visible(user))
+      expect(described_class.visible(user))
         .to match_array [wiki_page]
     end
   end

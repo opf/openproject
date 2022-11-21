@@ -41,7 +41,7 @@ describe ApplicationController, type: :controller do
 
   describe 'logging requesting users' do
     let(:user_message) do
-      "OpenProject User: #{user.firstname} Crazy! Name with \#\# " +
+      "OpenProject User: #{user.firstname} Crazy! Name with ## " +
         "Newline (#{user.login} ID: #{user.id} <#{user.mail}>)"
     end
 

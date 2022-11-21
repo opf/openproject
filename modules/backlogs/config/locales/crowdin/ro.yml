@@ -75,7 +75,7 @@ ro:
     task: "Sarcină"
     task_color: "Sarcină"
     unassigned: "Neasociate"
-    x_more: "%{count} more..."
+    x_more: "%{count} mai mult..."
   backlogs_active: "activ"
   backlogs_any: "Oricare"
   backlogs_card_specification: "Tipuri de etichete pentru imprimarea cardurilor"

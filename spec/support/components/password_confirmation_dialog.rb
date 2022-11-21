@@ -29,9 +29,8 @@
 module Components
   class PasswordConfirmationDialog
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
-
-    def initialize; end
 
     def confirm_flow_with(password, should_fail: false)
       expect_open
@@ -52,7 +51,7 @@ module Components
     end
 
     def submit_button
-      page.find('.confirm-form-submit--continue')
+      page.find('[data-qa-selector="confirmation-modal--confirmed"]')
     end
 
     private

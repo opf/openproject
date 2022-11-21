@@ -66,6 +66,9 @@ uk:
     enterprise:
       upgrade_to_ee: "Перейти на Enterprise Edition"
       add_token: "Завантажте маркер підтримки для Enterprise Edition"
+      delete_token_modal:
+        text: "Вилучити поточний маркер Enterprise Edition?"
+        title: "Видалити маркер"
       replace_token: "Замініть поточний маркер підтримки"
       order: "Замовити локальний корпоративний випуск"
       paste: "Вставте маркер підтримки для Enterprise Edition"
@@ -77,7 +80,7 @@ uk:
       buttons:
         upgrade: "Оновити зараз"
         contact: "Зв’яжіться з нами, щоб отримати демоверсію"
-      enterprise_info_html: "– це функція Enterprise <strong class='icon-medal'>."
+      enterprise_info_html: "– це функція версії Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
       upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
     journal_aggregation:
       explanation:
@@ -131,6 +134,7 @@ uk:
         Якщо встановити цей прапорець, OpenProject автоматично створюватиме нових користувачів на основі своїх записів LDAP під час їх першої автентифікації в OpenProject.
         Не встановлюйте його, щоб дозволити автентифікацію через LDAP лише наявним обліковим записам в OpenProject!
     connection_encryption: 'Підключення шифрування'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Системний обліковий запис'
     system_account_legend: |
       OpenProject потрібен доступ лише для читання через системний обліковий запис, щоб шукати користувачів і групи у вашому LDAP-дереві.
@@ -141,13 +145,18 @@ uk:
       Наведені нижче поля пов’язані з тим, як користувачі створюються в OpenProject на основі записів LDAP і з тим, які атрибути LDAP використовуються для визначення атрибутів користувача OpenProject (зіставлення атрибутів).
     tls_mode:
       plain: 'нічого'
-      simple_tls: 'Звичайний_TLS'
-      start_tls: 'Запустити_TLS'
-      plain_description: "Незашифроване з’эднання, без TLS передачі."
-      simple_tls_description: "Наявне шифрування TLS, але не підверджено сертифікатів. Використовуйте з обережністю та  з довіреним з'єднання LDAP."
-      start_tls_description: "Шифрування TLS з повною перевіркою. Використовується для LDAP через TLS / SSL"
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Цей розділ стосується безпеки підключення цього джерела автентифікації LDAP. Для отримання додаткової інформації, вбудовуйте <a href="%{link}">the Net::LDAP documentation</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: На даний момент на форумі немає публікацій.
@@ -202,6 +211,15 @@ uk:
     ignore_filenames: >
       Вкажіть список імен, які ігноруватимуться під час обробки вкладень для вхідних повідомлень (наприклад, підписів або значків). Введіть одне ім'я файлу у рядок.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Учасники проєкту'
+      overviews: 'Огляд проєкту'
+      queries: 'Пакети робіт: збережені подання'
+      wiki_page_attachments: 'Сторінки Wiki: вкладення'
+      work_package_attachments: 'Пакети робіт: вкладення'
+      work_package_categories: 'Пакети робіт: категорії'
+      work_package_file_links: 'Пакети робіт: посилання на файли'
     delete:
       scheduled: "Видалення заплановано та виконується у фоновому режимі. Ви отримаєте сповіщення про результат."
       schedule_failed: "Проект не можна видалити: %{errors}"
@@ -268,7 +286,7 @@ uk:
     upsale:
       title: Прототипи користувачів
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        Прототипи користувачів допомагають призначати пакети робіт користувачам, які не входять у ваш проєкт. Вони можуть бути корисні в різних сценаріях. Наприклад, якщо потрібно відстежувати завдання для ресурсу, який поки не доступний або не названий. Або ж ви хочете відстежувати завдання, призначені особі, не надаючи їй доступу до OpenProject.
   prioritiies:
     edit:
       priority_color_text: |
@@ -404,6 +422,7 @@ uk:
         host: "Хост"
         onthefly: "Автоматичне створення користувачів"
         port: "Порт"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Репозиторій"
       comment:
@@ -525,6 +544,10 @@ uk:
         end_insertion: "Кінець вставки"
         end_deletion: "Кінець видалення"
         ignore_non_working_days: "Ігнорувати неробочі дні"
+        include_non_working_days:
+          title: 'Робочі дні'
+          false: 'лише робочі дні'
+          true: 'включати неробочі дні'
         parent: "Джерело"
         parent_issue: "Джерело"
         parent_work_package: "Джерело"
@@ -561,7 +584,7 @@ uk:
         confirmation: "не збігається %{attribute}"
         could_not_be_copied: "%{dependency} не вдалося скопіювати (повністю)."
         does_not_exist: "не існує."
-        error_enterprise_only: "доступно лише у версії OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} можна лише у версії OpenProject Enterprise Edition"
         error_unauthorized: "– можливо, немає доступу."
         error_readonly: "– було здійснено спробу запису, але елемент недоступний для запису."
         email: "– це не дійсна електронна адреса."
@@ -608,6 +631,11 @@ uk:
           не надає контекст безпеки. Використовуйте HTTPS або адресу loopback, наприклад localhost.
         wrong_length: "неправильна довжина (повинна бути %{count} символів)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -658,10 +686,6 @@ uk:
               no_notification_reason: '– потрібно вказати, оскільки як канал вибрано сповіщення в додатку.'
             reason_mail_digest:
               no_notification_reason: '– потрібно вказати, оскільки як канал вибрано поштову розсилку.'
-        notification_settings:
-          only_one_global_setting: 'Має існувати лише одне глобальне налаштування сповіщень.'
-          email_alerts_global: 'Налаштування сповіщень електронною поштою можна встановити лише глобально.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -721,6 +745,11 @@ uk:
           attributes:
             permissions:
               dependency_missing: "потрібно також вказати '%{dependency}' оскільки вибрано '%{permission}'."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'Принаймні один день тижня має бути визначено як робочий.'
+              previous_working_day_changes_unprocessed: 'Попередні зміни конфігурації робочих днів ще не застосовано.'
         time_entry:
           attributes:
             hours:
@@ -731,6 +760,16 @@ uk:
               invalid_range: "може належати лише до припустимого інтервалу дат."
             daily_reminders:
               full_hour: "– можна налаштувати отримання лише на початку кожної години."
+            notification_settings:
+              only_one_global_setting: 'Має існувати лише одне глобальне налаштування сповіщень.'
+              email_alerts_global: 'Налаштування сповіщень електронною поштою можна встановити лише глобально.'
+              format: "%{message}"
+              wrong_date: 'Неправильні значення атрибутів «Дата початку», «Дата закінчення» або «Прострочено».'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "не може переглядати цей ресурс."
+              locked: "заблоковано."
         wiki_page:
           attributes:
             slug:
@@ -742,12 +781,12 @@ uk:
               format: "%{message}"
             due_date:
               not_start_date: "не на дату початку, хоча це потрібно для етапів."
-              cannot_be_null: "can not be set to null as start date and duration are known."
+              cannot_be_null: "не може мати нульове значення, оскільки задано дату початку й тривалість."
             duration:
               larger_than_dates: "більша за інтервал між датами початку й закінчення."
               smaller_than_dates: "менша за інтервал між датами початку й закінчення."
               not_available_for_milestones: "недоступна для пакетів робіт типу «віха»."
-              cannot_be_null: "can not be set to null as start date and finish date are known."
+              cannot_be_null: "не може мати нульове значення, оскільки задано дату закінчення й тривалість."
             parent:
               cannot_be_milestone: "не може бути важливою подією."
               cannot_be_self_assigned: "– не можна призначити собі."
@@ -755,7 +794,7 @@ uk:
               not_a_valid_parent: "зазначено невірно"
             start_date:
               violates_relationships: "може бути встановлено лише для %{soonest_start} або пізнішої версії, щоб не порушувати зв'язки робочого пакету."
-              cannot_be_null: "can not be set to null as finish date and duration are known."
+              cannot_be_null: "не може мати нульове значення, оскільки задано дату початку й тривалість."
             status_id:
               status_transition_invalid: "є недійсним оскільки немає дійсного переходу від старого до нового статусу ролей поточного користувача."
               status_invalid_in_type: "недійсний, оскільки поточного стану не існує в цьому типі."
@@ -1639,7 +1678,7 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: 'Інструкції зі встановлення'
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
@@ -1784,7 +1823,7 @@ uk:
   label_project_new: "Новий проект"
   label_project_plural: "Проекти"
   label_project_settings: "Налаштування проекту"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "Сховища"
   label_projects_storage_information: "%{count} використання проектів %{storage} дискового сховища"
   label_project_view_all: "Переглянути всi проекти"
   label_project_show_details: "Показати деталі проекту"
@@ -1936,7 +1975,6 @@ uk:
   label_wiki_start: "Початкова сторінка"
   label_work_package: "Пакет робіт"
   label_work_package_attachments: "Додатки до робочого пакету"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Нова категорія"
   label_work_package_category_plural: "Категорії робочих пакетів"
   label_work_package_hierarchy: "Ієрархія робочих пакетів"
@@ -1952,6 +1990,7 @@ uk:
   label_workflow: "Робочий процес"
   label_workflow_plural: "Робочі процеси"
   label_workflow_summary: "Резюме"
+  label_working_days: "Робочі дні"
   label_x_closed_work_packages_abbr:
     one: "1 закрита"
     other: "%{count} закритих"
@@ -2012,7 +2051,7 @@ uk:
       center: 'Центр сповіщень'
       see_in_center: 'Переглянути коментарі у центрі сповіщень'
       settings: 'Змінити налаштування електронної пошти'
-    salutation: 'Привіт, %{user}!'
+    salutation: 'Добрий день, %{user}!'
     work_packages:
       created_at: 'Створено о %{timestamp} користувачем %{user} '
       login_to_see_all: 'Увійдіть, щоб переглянути всі сповіщення.'
@@ -2030,6 +2069,8 @@ uk:
         mentioned: 'Згадано'
         subscribed: 'всі'
         prefix: 'Отримано через налаштування сповіщень: %{reason}'
+        date_alert_start_date: 'Оповіщення про дату'
+        date_alert_due_date: 'Оповіщення про дату'
       see_all: 'Показати всі'
       updated_at: 'Оновлено о %{timestamp} користувачем %{user}'
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
@@ -2192,8 +2233,7 @@ uk:
           tb: "ТБ"
   onboarding:
     heading_getting_started: "Отримати огляд"
-    text_getting_started_description: "Отримати короткий огляд управління проектами та командної співпраці з OpenProject."
-    text_show_again: "Ви можете перезапустити це відео з меню довідки"
+    text_getting_started_description: "Отримайте стислий огляд управління проєктами та командної роботи в OpenProject. Це відео можна переглянути знову в меню довідки."
     welcome: "Вітаємо в додатку %{app_title}"
     select_language: "Будь ласка, виберіть мову"
   permission_add_work_package_notes: "Додати нотатки"
@@ -2394,8 +2434,8 @@ uk:
       update_timeout: "Зберігайте останню необхідну інформацію про дисковий простір для сховища протягом N хвилин.\nОскільки підрахунок необхідного дискового простору сховища може бути довгим, збільште це значення, щоб зменшити вплив продуктивності."
       oauth_application_details: "Секретний ключ клієнта стане недоступним, коли ви закриєте це вікно. Скопіюйте це значення в налаштування інтеграції Nextcloud OpenProject:"
       oauth_application_details_link_text: "Перейти на сторінку налаштувань"
-      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
-      setup_documentation_details_link_text: "File Storages setup"
+      setup_documentation_details: "Якщо потрібна допомога з налаштуванням сховища нових файлів, ознайомтеся з документацією: "
+      setup_documentation_details_link_text: "Налаштування файлових сховищ"
       show_warning_details: "Щоб користуватися цим файловим сховищем, активуйте модуль і визначене сховище в налаштуваннях кожного потрібного проєкту."
     subversion:
       existing_title: "Існуюче сховище Subversion"
@@ -2585,6 +2625,7 @@ uk:
   text_access_token_hint: "Маркери доступу дозволяють надавати зовнішнім програмам доступ до ресурсів у OpenProject."
   text_analyze: "Подальший аналіз: %{subject}"
   text_are_you_sure: "Ви впевненені?"
+  text_are_you_sure_continue: "Хочете продовжити?"
   text_are_you_sure_with_children: "Видалити робочий пакет і всі дочірні робочі пакети?"
   text_assign_to_project: "Призначити на проект"
   text_form_configuration: >
@@ -2780,7 +2821,6 @@ uk:
       noneSelection: "(нічого)"
       outline: "Початковий план розширення"
       parent: "Показати підпроекти"
-      work_package_filters: "Фільтрувати робочі пакети"
       work_package_responsible: "Покажіть робочі пакети з підзвітністю"
       work_package_assignee: "Покажіть робочі пакети з уповноваженими"
       types: "Показати типи"
@@ -2915,9 +2955,9 @@ uk:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'Невідповідність налаштувань режиму HTTPS'
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        Значення параметра режиму HTTPS вашого додатка – <code>%{set_protocol}</code>, але отримано запит <code>%{actual_protocol}</code>. Це призведе до помилок! Потрібно встановити таке значення конфігурації: <code>%{setting_value}</code>. Ознайомтеся з <a href="%{more_info_path}">документацією зі встановлення</a>, щоб дізнатися, як налаштувати цю конфігурацію.
     hostname_mismatch:
       title: 'Невідповідність налаштуванням імені хосту'
       text_html: >
@@ -2936,10 +2976,22 @@ uk:
     destroy:
       info: "Видалення робочого пакету є незворотною дією."
       title: "Видаліть робочий пакет"
+  working_days:
+    info: >
+      <b>Визначити робочі дні тижня</b><br/> Неробочі дні пропускаються під час планування пакетів робіт і виключаються під час визначення тривалості. Цей параметр можна перевизначити на рівні пакетів робіт.
+    change_button: "Змінити робочі дні"
+    warning: >
+      Змінення робочих днів тижня може вплинути на дні початку й закінчення для всіх пакетів робіт в усіх проєктах цього екземпляра.
+    journal_note:
+      changed: _**Робочі дні** змінено (%{changes})._
+      days:
+        working: "%{day} зараз робочий"
+        non_working: "%{day} зараз неробочий"
   nothing_to_preview: "Нічого для перегляду"
   api_v3:
     attributes:
       lock_version: "Версія замку"
+      property: 'Властивість'
     errors:
       code_400: "Поганий запит: %{message}"
       code_401: "Щоб отримати доступ до цього ресурсу, потрібно пройти аутентифікацію."

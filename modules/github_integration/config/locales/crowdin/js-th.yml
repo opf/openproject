@@ -28,7 +28,7 @@ th:
         title: "คำขอ Pull"
         copy_menu:
           label: Git snippets
-          description: คัดลอกข้อมูล git snippets ไปยังคลิปบอร์ด 
+          description: คัดลอกข้อมูล git snippets ไปยังคลิปบอร์ด
         git_actions:
           branch_name: ชื่อสาขา
           commit_message: Commit message

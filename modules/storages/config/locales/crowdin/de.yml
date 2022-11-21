@@ -27,7 +27,7 @@ de:
               op_application_not_installed: >
                 scheint die App "OpenProject Integration" nicht installiert zu haben. Bitte installieren Sie diese zuerst und versuchen es danach erneut.
               authorization_header_missing: >
-                ist nicht vollständig eingerichtet. Die Nextcloud Instanz erhält nicht den "Authorisierung"-Header, was für eine auf Bearer Token basierende Autorisierung von API-Anfragen notwendig ist. Bitte überprüfen Sie Ihre HTTP-Server-Konfiguration.
+                ist nicht vollständig eingerichtet. Die Nextcloud-Instanz erhält nicht den HTTP "Authorization" Header. Dieser ist jedoch für eine auf Bearer-Token basierende Autorisierung von API-Anfragen notwendig. Bitte überprüfen Sie die HTTP-Server-Konfiguration Ihres Nextcloud-Servers.
         storages/file_link:
           attributes:
             origin_id:
@@ -42,7 +42,6 @@ de:
       replace_provider_type_oauth: "Ersetze %{provider_type} OAuth"
       save_and_continue_setup: "Speichern und Setup fortsetzen"
       save_and_complete_setup: "Speichern und Setup abschließen"
-      cancel: "Abbrechen"
     page_titles:
       project_settings:
         index: "Dateispeicher in diesem Projekt verfügbar"
@@ -81,8 +80,6 @@ de:
     label_storage: "Speicher"
     label_storages: "Speicher"
     no_results: "Noch kein Speicher eingerichtet."
-    label_oauth_client_id: "OAuth-Client-ID"
-    label_oauth_client_secret: "OAuth Client Geheimcode"
     provider_types:
       label: "Anbieter-Typ"
       nextcloud:

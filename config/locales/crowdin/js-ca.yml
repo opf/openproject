@@ -26,6 +26,9 @@ ca:
       loading: "Carregant..."
       updating: "Actualitzant…"
     attachments:
+      delete: "Elimina fitxer adjunt"
+      delete_confirmation: |
+        Estàs segur que vols esborrar aquest fitxer adjunt? Aquesta acció és irreversible.
       draggable_hint: |
         Arrossega a l'editor per a pujar una imatge o referenciar un fitxer adjunt. Els camps tancats de l'editor seguiran oberts mentre se segueixi arrossegant.
     autocomplete_select:
@@ -82,6 +85,10 @@ ca:
     button_open_fullscreen: "Obrir vista en pantalla completa"
     button_show_cards: "Mostra la vista de targeta"
     button_show_list: "Mostrar la vista de llista"
+    button_show_table: "Mostra la vista de taula"
+    button_show_gantt: "Mostra el diagrama de Gantt"
+    button_show_fullscreen: "Obrir en pantalla completa"
+    button_more_actions: "Més accions"
     button_quote: "Citar"
     button_save: "Desa"
     button_settings: "Configuració"
@@ -221,6 +228,8 @@ ca:
           quick_overview: "Obté una visió general ràpida de la gestió de projectes i col·laboració d'equips amb l'edició Enterprise d'OpenProject."
         upsale:
           become_hero: "Sigues un heroi!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "Quins són els beneficis de l'edició Enterprise on-premises"
             high_security: "Funcions de seguretat"
@@ -233,6 +242,7 @@ ca:
             professional_support_text: "Obté un suport de confiança i d'alt nivell dels nostres enginyers de suport sèniors amb experiència en manegar OpenProject en ambients empresarials crítics."
           button_start_trial: "Inicia la prova gratuïta"
           button_upgrade: "Actualitza ara"
+          button_contact_us: "Contact us for a demo"
           button_book_now: "Reserva ara"
           confidence: >
             Tenim la certesa i confiança d'una eina de gestió de projectes testejat i suportat en ambients empresarials - amb Codi Obert i amb una mentalitat oberta.
@@ -290,15 +300,15 @@ ca:
           learn_about: "Més informació sobre les noves funcions"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                La nova versió inclou vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>S'ha acabat la cerca infinita de fitxers! Amb la nova <b>integració de Nextcloud</b> a OpenProject 12.2, ara podràs trobar els teus fitxers directament en els respectius paquets de treball i sempre tenir la versió correcta a les teves mans.</li> <li>Hem introduït <b>un nou selector de dates</b> amb un comportament actualitzat i un bàner informatiu que inclou un botó per veure les relacions a la gràfica Gantt.</li> <li>Hem afegit la possibilitat de <b>registrar temps per altres usuaris.</b></li> <li>Marca com a llegides notificacions també fora del centre de notificacions.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                La nova versió inclou vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>S'ha acabat la cerca infinita de fitxers! Amb la nova <b>integració de Nextcloud</b> a OpenProject 12.2, ara podràs trobar els teus fitxers directament en els respectius paquets de treball i sempre tenir la versió correcta a les teves mans.</li> <li>Hem introduït <b>un nou selector de dates</b> amb un comportament actualitzat i un bàner informatiu que inclou un botó per veure les relacions a la gràfica Gantt.</li> <li>Hem afegit la possibilitat de <b>registrar temps per altres usuaris.</b></li> <li>Marca com a llegides notificacions també fora del centre de notificacions.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Assignat a'
     label_add_column_after: "Afegir una columna després"
@@ -530,18 +540,33 @@ ca:
       no_unread: "No hi ha notificacions sense llegir"
       reasons:
         mentioned: 'mencionat'
-        watched: 'observat'
-        assigned: 'assignat'
+        watched: 'Observador'
+        assigned: 'assignat a'
         responsible: 'responsable'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'creat'
+        scheduled: 'programat'
+        commented: 'comentat'
+        processed: 'processat'
+        prioritized: 'prioritzat'
+        dateAlert: 'Date alert'
+      date_alerts:
+        milestone_date: 'Milestone date'
+        overdue: 'Overdue'
+        overdue_since: 'since %{difference_in_days}'
+        property_today: 'is today'
+        property_is: 'is in %{difference_in_days}'
+        property_was: 'was %{difference_in_days} ago'
+        property_is_deleted: 'is deleted'
+        upsale:
+          title: 'Date alerts'
+          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'Sense llegir'
+        unread_title: 'Mostrar no llegits'
         all: 'Totes'
+        all_title: 'Mostrar tots'
       center:
+        label_actor_and: 'i'
         and_more_users:
           one: ' i 1 altre'
           other: ' i %{count} altres'
@@ -563,22 +588,34 @@ ca:
       menu:
         accountable: 'Responsable'
         by_project: 'No llegit per projecte'
-        by_reason: 'Implicació'
+        by_reason: 'Motiu'
         inbox: 'Safata d''entrada'
-        mentioned: '@mencionat'
-        watching: 'Observant'
+        mentioned: 'Mencionat'
+        watched: 'Observador'
+        date_alert: 'Avís de data'
       settings:
         change_notification_settings: 'Per veure i canviar la configuració de notificacions, <a target="_blank" href="%{url}">fes clic aquí</a>'
         title: "Configuració de notificacions"
         notify_me: "Notifica’m"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: every day
+              P3D: every 3 days
+              P7D: every week
         reasons:
           mentioned:
-            title: 'He estat @mencionat'
+            title: 'Mencionat'
             description: 'Rep una notificació cada vegada que algú em menciona a qualsevol lloc'
-          involved:
-            title: 'Assignat a mi o responsable'
-            description: 'Rep notificacions per a totes les activitats en paquets de treball pels quals soc assignat o responsable.'
-          watched: 'Actualitzacions en elements observats'
+          assignee: 'Assignat a'
+          responsible: 'Responsable'
+          watched: 'Observador'
           work_package_commented: 'Tots els nous comentaris'
           work_package_created: 'Paquets de treball nou'
           work_package_processed: 'Tots els canvis d''estat'
@@ -586,11 +623,18 @@ ca:
           work_package_scheduled: 'Tots els canvis de data'
         global:
           immediately:
-            title: 'Notifica''m immediatament'
-            description: 'Aquestes configuracions apliquen a tots els projectes. Pots crear excepcions específiques per projecte a sota.'
+            title: 'Participant'
+            description: 'Notificacions per a totes les activitats en els paquets de treball en els que estàs involucrat (assignat, responsable o observador)'
           delayed:
-            title: 'També notifica''m per'
-            description: 'Rep notificacions per aquestes activitats en paquets de treball en tots els projectes:'
+            title: 'No participant'
+            description: 'Notificacions addicionals per activitats en tots els projectes'
+          date_alerts:
+            title: 'Alertes per dates'
+            description: 'Notificacions automàtiques quan dates importants s''aproximen per a paquets de treball oberts en els quals estàs involucrat (assignat, responsable o observador)'
+            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          start_date: Start Date
+          due_date: Finish Date
+          overdue: When Overdue
         project_specific:
           title: 'Configuracions de notificacions específiques del projecte'
           description: 'Aquestes configuracions específiques del projecte anul·len les configuracions per defecte especificades a sobre'
@@ -740,9 +784,7 @@ ca:
     field_value_enter_prompt: "Introduïu un valor per a '%{field}'"
     project_menu_details: "Detalls"
     scheduling:
-      title: 'Planificació'
-      manual: 'Manual'
-      default: 'Per defecte'
+      manual: 'Planificació manual'
     sort:
       sorted_asc: 'Ordre ascendent aplicat,'
       sorted_dsc: 'Ordre descendent aplicat,'
@@ -753,7 +795,6 @@ ca:
       activate_no: 'activeu per desactivar l''ordenació'
     text_work_packages_destroy_confirmation: "¿Estàs segur que vols eliminar el(s) paquet(s) de treball seleccionat(s)?"
     text_query_destroy_confirmation: "Estàs segur que vols eliminar la vista seleccionada?"
-    text_attachment_destroy_confirmation: "Estàs segur que vols eliminar el fitxer adjunt?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Diagrama de Gantt'
@@ -851,9 +892,7 @@ ca:
         click_on_show_relations_to_open_gantt: 'Fes clic a "%{button_name}" per obtenir una visió general GANTT.'
         show_relations: 'Mostra les relacions'
         ignore_non_working_days:
-          title: 'Working days'
-          false: 'Work week'
-          true: 'Include weekends'
+          title: 'Només dies laborables'
       description_filter: "Filtre"
       description_enter_text: "Introduïu text"
       description_options_hide: "Amagar opcions"
@@ -873,6 +912,8 @@ ca:
       message_work_package_read_only: "El paquet de treball està bloquejat en aquest estat. Cap atribut excepte l'estat es pot modificar."
       message_work_package_status_blocked: "L'estat del paquet de treball no permet l'escriptura perquè el seu estat i versió estan tancats."
       placeholder_filter_by_text: "Assumpte, descripció, comentaris, ..."
+      filters:
+        title: 'Filtrar paquets de treball'
       inline_create:
         title: 'Fes clic aquí per afegir un nou paquet de treball a aquesta llista'
       create:
@@ -1046,12 +1087,14 @@ ca:
       button_save: "Desa"
       button_submit: "Sotmetre"
       button_cancel: "Cancel·la"
+      button_delete: "Elimina"
       form_submit:
         title: 'Confirma per continuar'
         text: 'Estàs segur que vols realitzar aquesta acció?'
       destroy_work_package:
         title: "Confirma l'eliminació de %{label}"
-        text: "Estàs segur que vols eliminar el següent element %{label}?"
+        single_text: "Estàs segur que vols eliminar aquest paquet de treball"
+        bulk_text: "Estàs segur que vols eliminar el següent %{label}?"
         has_children: "Aquest paquet de treball té %{childUnits}:"
         confirm_deletion_children: "Entenc que TOTS els descendents dels paquets de treball llistats seran eliminats recursivament."
         deletes_children: "Tots els paquets de treball fills i els seus descendents també seran eliminats recursivament."
@@ -1169,13 +1212,13 @@ ca:
       role:
         label: 'Rol en %{project}'
         no_roles_found: 'No s''ha trobat cap rol'
-        description: 'Aquest és el rol que els %{principal} rebran quan s''uneixin al teu projecte. El rol defineix quines accions els hi són permeses i quina informació poden veure. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Més informació sobre rols i permisos. </a>'
+        description: 'Aquest és el rol que l''usuari rebrà quan s''uneixin al teu projecte. El rol defineix quines accions els hi són permeses i quina informació poden veure. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Més informació sobre rols i permisos. </a>'
         required: 'Si us plau, selecciona un rol'
         next_button: 'Següent'
       message:
         label: 'Missatge d''invitació'
-        description: 'Enviarem un correu electrònic a %{principal}, al qual pots afegir un missatge personal aquí. Una explicació per a la invitació pot ser útil, o potser una mica d''informació amb relació al projecte per ajudar als usuaris a començar.'
-        next_button: 'Revisa la invitació'
+        description: 'Enviarem un correu electrònic a l''usuari, al qual pots afegir un missatge personal aquí. Una explicació per a la invitació pot ser útil, o potser una mica d''informació amb relació al projecte per ajudar als usuaris a començar.'
+        next_button: 'Següent'
       summary:
         next_button: 'Enviar la invitació'
       success:
@@ -1196,7 +1239,7 @@ ca:
       search_placeholder: 'Cerca projecte...'
       include_subprojects: 'Inclou tots els subprojectes'
       tooltip:
-        include_all_selected: 'Incloure tots els subprojectes està seleccionat.'
+        include_all_selected: 'Projecte ja inclòs, ja que "Inclou tots els subprojectes" està activat.'
         current_project: 'Aquest és el projecte actual.'
         does_not_match_search: 'El projecte no coincideix amb la cerca.'
       no_results: 'Cap projecte s''ajusta a la teva cerca.'

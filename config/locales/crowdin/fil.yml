@@ -66,6 +66,9 @@ fil:
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "I-upload ang isang Enterprise Edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Palitan ang iyong kasulukuyang support token"
       order: "Order Enterprise on-premises Edition"
       paste: "Idikit ang iyong Enterprise Editoon ng support token"
@@ -77,7 +80,7 @@ fil:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
@@ -135,6 +138,7 @@ fil:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Connection encryption'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'System account'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
@@ -146,13 +150,18 @@ fil:
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
       plain: 'wala'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Plain unencrypted connection, no TLS negotiation."
-      simple_tls_description: "Implicit TLS encryption, but no certificate validation. Use with caution and implicit trust of the LDAP connection."
-      start_tls_description: "Explicit TLS encryption with full validation. Use for LDAP over TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         This section concerns the connection security of this LDAP authentication source. For more information, visit <a href="%{link}">the Net::LDAP documentation</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -207,6 +216,15 @@ fil:
     ignore_filenames: >
       Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project cannot be deleted: %{errors}"
@@ -407,6 +425,7 @@ fil:
         host: "Host"
         onthefly: "Automatic user creation"
         port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositoryo"
       comment:
@@ -528,6 +547,10 @@ fil:
         end_insertion: "Katapusan na"
         end_deletion: "Katapusan ng pagbubura"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Magulang"
         parent_issue: "Magulang"
         parent_work_package: "Magulang"
@@ -564,7 +587,7 @@ fil:
         confirmation: "hindi tugma %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "hindi umiiral."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         email: "is not a valid email address."
@@ -611,6 +634,11 @@ fil:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "ay ang maling haba (dapat ay %{count} ang mga karakter)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -661,10 +689,6 @@ fil:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
-        notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -724,6 +748,11 @@ fil:
           attributes:
             permissions:
               dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -734,6 +763,16 @@ fil:
               invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -1907,7 +1946,6 @@ fil:
   label_wiki_start: "Simulan ang pahina"
   label_work_package: "Work package"
   label_work_package_attachments: "Nakakalakip na pahinag trabaho"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Bagong kategorya"
   label_work_package_category_plural: "Ang mga katergorya ng work package"
   label_work_package_hierarchy: "Hierarchy ng work package"
@@ -1923,6 +1961,7 @@ fil:
   label_workflow: "Daloy ng trabaho"
   label_workflow_plural: "Daloy ng trabaho"
   label_workflow_summary: "Buod"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "Isa ang isinara"
     other: "%{count} ang isinara"
@@ -1983,7 +2022,7 @@ fil:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -1999,6 +2038,8 @@ fil:
         mentioned: 'Mentioned'
         subscribed: 'lahat'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Ang bagong gumagamit (%{value}) ay naka-rehistro na. Ang akwant ay naghihhintay para sa pag-apruba:"
@@ -2162,8 +2203,7 @@ fil:
           tb: "TB"
   onboarding:
     heading_getting_started: "Kumuha ng isang buod"
-    text_getting_started_description: "Kumuha ng isang mabilisang buod ng project management at pakikipagtulungan ng koponan sa OpenProject."
-    text_show_again: "Maari mong i-restart amg video na ito mula sa tulong ng pagpipilian"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Magdagdag ng mga talaan"
@@ -2553,6 +2593,7 @@ fil:
   text_access_token_hint: "Ang access token ay pinayagan kang pagbigyan ang external applications access sa pinagkukunan sa OpenProject."
   text_analyze: "Karagdagang pagsusuri: %{subject}"
   text_are_you_sure: "Sigurado ka ba?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Burahi ang work packaage at lahag ng batang work pckage?"
   text_assign_to_project: "Nakatalaga sa proyekto"
   text_form_configuration: >
@@ -2746,7 +2787,6 @@ fil:
       noneSelection: "(wala)"
       outline: "Paunang pagpapalawak ng balangkas"
       parent: "Ipakita ang mga subproject sa"
-      work_package_filters: "I-filter ang mga package na gawain"
       work_package_responsible: "Show work packages with accountable"
       work_package_assignee: "Ipakita ang mga itinalagang package na gawain"
       types: "Ipakita ang mga uri"
@@ -2901,10 +2941,22 @@ fil:
     destroy:
       info: "Ang pagtanggal ng work package ay isang hindi maibabalik na pagkilos."
       title: "Tanggalin ang work package"
+  working_days:
+    info: >
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Walang mai-preview"
   api_v3:
     attributes:
       lock_version: "Nakakandadong bersyon"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "Kailangan mong magpatunay para ma-akses mo ang mapagkukunan na ito."

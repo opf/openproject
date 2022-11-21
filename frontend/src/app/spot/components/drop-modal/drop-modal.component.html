@@ -1,9 +1,12 @@
 <ng-content select="[slot=trigger]"></ng-content>
 <div
-  [ngClass]="['spot-drop-modal--body', 'spot-container', alignmentClass]"
-  (click)="onBodyClick($event)"
-  cdkTrapFocus
   *ngIf="open"
+  [ngClass]="['spot-drop-modal--body', 'spot-container', alignmentClass]"
+
+  (click)="onBodyClick($event)"
+
+  cdkTrapFocus
+  tabindex="0"
 >
   <ng-content select="[slot=body]"></ng-content>
 

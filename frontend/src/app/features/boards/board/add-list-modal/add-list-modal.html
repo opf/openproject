@@ -6,7 +6,7 @@
 
   <div class="spot-divider"></div>
 
-  <div class="spot-modal--body">
+  <div class="spot-modal--body spot-container">
     <div *ngIf="showWarning && warningText"
          class="op-toast -warning">
       <div class="op-toast--content">
@@ -45,16 +45,18 @@
       </div>
     </div>
   </div>
-  <div class="spot-modal--footer spot-action-bar">
+  <div class="spot-action-bar">
     <div class="spot-action-bar--right">
       <button
-        class="confirm-form-submit--cancel button button_no-margin spot-action-bar--action"
+        class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+        data-qa-selector="confirmation-modal--cancel"
         (click)="closeMe($event)"
         [textContent]="text.button_cancel"
         [attr.title]="text.button_cancel"
       ></button>
       <button
-        class="confirm-form-submit--submit button button_no-margin -highlight spot-action-bar--action"
+        class="button button_no-margin -highlight spot-action-bar--action"
+        data-qa-selector="confirmation-modal--confirmed"
         (click)="create()"
         [disabled]="!this.selectedAttribute || inFlight"
         [textContent]="text.button_add"

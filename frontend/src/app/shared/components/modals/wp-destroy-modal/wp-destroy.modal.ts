@@ -69,13 +69,14 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
   public text = {
     label_visibility_settings: this.I18n.t('js.label_visibility_settings'),
     button_save: this.I18n.t('js.modals.button_save'),
-    confirm: this.I18n.t('js.button_confirm'),
+    confirm: this.I18n.t('js.modals.button_delete'),
     warning: this.I18n.t('js.label_warning'),
     cancel: this.I18n.t('js.button_cancel'),
     close: this.I18n.t('js.close_popup_title'),
     label_confirm_children_deletion: this.I18n.t('js.modals.destroy_work_package.confirm_deletion_children'),
     title: '',
-    text: '',
+    bulk_text: '',
+    single_text: this.I18n.t('js.modals.destroy_work_package.single_text'),
     childCount: (_wp:WorkPackageResource):string => '',
     hasChildren: (_wp:WorkPackageResource):string => '',
     deletesChildren: '',
@@ -108,7 +109,7 @@ export class WpDestroyModalComponent extends OpModalComponent implements OnInit 
     }
 
     this.text.title = this.I18n.t('js.modals.destroy_work_package.title', { label: this.workPackageLabel });
-    this.text.text = this.I18n.t('js.modals.destroy_work_package.text', {
+    this.text.bulk_text = this.I18n.t('js.modals.destroy_work_package.bulk_text', {
       label: this.workPackageLabel,
       count: this.workPackages.length,
     });

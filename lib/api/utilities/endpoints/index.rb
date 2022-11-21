@@ -31,6 +31,7 @@ module API
     module Endpoints
       class Index
         include ::API::Utilities::UrlPropsParsingHelper
+        include ::API::RootAPI::Helpers
 
         def initialize(model:,
                        api_name: model.name.demodulize,

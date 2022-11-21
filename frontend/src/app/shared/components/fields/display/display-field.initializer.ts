@@ -75,6 +75,7 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(MultipleUserFieldModule, 'users', ['[]User'])
       .addFieldType(FormattableDisplayField, 'formattable', ['Formattable'])
       .addFieldType(DaysDurationDisplayField, 'duration', ['duration'])
+      .addFieldType(HoursDurationDisplayField, 'remainingTime', ['remainingTime'])
       .addFieldType(EstimatedTimeDisplayField, 'estimatedTime', ['estimatedTime'])
       .addFieldType(DateDisplayField, 'date', ['Date'])
       .addFieldType(DateTimeDisplayField, 'datetime', ['DateTime'])
@@ -88,7 +89,6 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addSpecificFieldType('WorkPackage', WorkPackageIdDisplayField, 'id', ['id'])
       .addSpecificFieldType('WorkPackage', WorkPackageSpentTimeDisplayField, 'spentTime', ['spentTime'])
       .addSpecificFieldType('WorkPackage', CombinedDateDisplayField, 'combinedDate', ['combinedDate'])
-      .addSpecificFieldType('WorkPackage', HoursDurationDisplayField, 'remainingTime', ['remainingTime'])
       .addSpecificFieldType('TimeEntry', PlainFormattableDisplayField, 'comment', ['comment'])
       .addSpecificFieldType('Project', ProjectStatusDisplayField, 'status', ['status'])
       .addSpecificFieldType('TimeEntry', WorkPackageDisplayField, 'work_package', ['workPackage']);

@@ -99,6 +99,10 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
 
   private alreadyLoaded = false;
 
+  text = {
+    cannot_drag_to_non_working_day: this.I18n.t('js.team_planner.cannot_drag_to_non_working_day'),
+  };
+
   constructor(
     readonly states:States,
     readonly $state:StateService,
@@ -110,6 +114,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     readonly i18n:I18nService,
     readonly toastService:ToastService,
     private sanitizer:DomSanitizer,
+    private I18n:I18nService,
     private configuration:ConfigurationService,
     readonly calendar:OpCalendarService,
     readonly workPackagesCalendar:OpWorkPackagesCalendarService,
@@ -202,8 +207,27 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         const workPackage = event.extendedProps.workPackage as WorkPackageResource;
         el.dataset.workPackageId = workPackage.id as string;
       },
-      eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
-      eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
+      eventResize: (resizeInfo:EventResizeDoneArg) => {
+        const due = moment(resizeInfo.event.endStr).subtract(1, 'day').toDate();
+        const start = moment(resizeInfo.event.startStr).toDate();
+        const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
+        if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.weekdayService.isNonWorkingDay(due))) {
+          this.toastService.addError(this.text.cannot_drag_to_non_working_day);
+          resizeInfo?.revert();
+          return;
+        }
+        void this.updateEvent(resizeInfo, false);
+      },
+      eventDrop: (dropInfo:EventDropArg) => {
+        const start = moment(dropInfo.event.startStr).toDate();
+        const wp = dropInfo.event.extendedProps.workPackage as WorkPackageResource;
+        if (!wp.ignoreNonWorkingDays && this.weekdayService.isNonWorkingDay(start)) {
+          this.toastService.addError(this.text.cannot_drag_to_non_working_day);
+          dropInfo?.revert();
+          return;
+        }
+        void this.updateEvent(dropInfo, true);
+      },
       eventResizeStart: (resizeInfo:EventResizeDoneArg) => {
         const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
         if (!wp.ignoreNonWorkingDays) {
@@ -241,7 +265,10 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       additionalOptions.initialView = 'dayGridWeek';
     }
 
-    void this.configuration.initialized
+    void Promise.all([
+      this.configuration.initialized,
+      this.weekdayService.loadWeekdays().toPromise(),
+    ])
       .then(() => {
         this.calendarOptions$.next(
           this.workPackagesCalendar.calendarOptions(additionalOptions),
@@ -301,8 +328,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     });
   }
 
-  private async updateEvent(info:EventResizeDoneArg|EventDropArg):Promise<void> {
-    const changeset = this.workPackagesCalendar.updateDates(info);
+  private async updateEvent(info:EventResizeDoneArg|EventDropArg, dragged:boolean):Promise<void> {
+    const changeset = this.workPackagesCalendar.updateDates(info, dragged);
 
     try {
       const result = await this.halEditing.save(changeset);
@@ -314,10 +341,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   }
 
   private handleDateClicked(info:DateSelectArg) {
-    const startDay = new Date(info.start).getDate();
-    const endDay = new Date(info.end).getDate();
-    const duration = endDay - startDay;
-    const nonWorkingDays = duration !== 1 ? false : this.weekdayService.isNonWorkingDay(info.start);
+    const due = moment(info.endStr).subtract(1, 'day').toDate();
+    const nonWorkingDays = this.weekdayService.isNonWorkingDay(info.start) || this.weekdayService.isNonWorkingDay(due);
 
     const defaults = {
       startDate: info.startStr,

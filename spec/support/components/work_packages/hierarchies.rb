@@ -30,6 +30,7 @@ module Components
   module WorkPackages
     class Hierarchies
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       attr_reader :context_menu

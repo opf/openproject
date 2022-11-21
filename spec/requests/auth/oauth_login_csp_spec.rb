@@ -47,4 +47,15 @@ describe 'CSP appends on login form from oauth',
       expect(location).to include("/login?back_url=#{CGI.escape(oauth_path)}")
     end
   end
+
+  context 'with redirect-uri being a custom scheme' do
+    let(:redirect_uri) { 'myscheme://custom-foobar' }
+
+    it 'appends given CSP appends from flash' do
+      get oauth_path
+
+      csp = response.headers['Content-Security-Policy']
+      expect(csp).to include "form-action 'self' myscheme:"
+    end
+  end
 end

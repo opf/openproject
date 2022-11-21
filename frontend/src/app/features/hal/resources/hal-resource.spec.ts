@@ -35,6 +35,7 @@ import { of } from 'rxjs';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 import { HalLink, HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import Spy = jasmine.Spy;
 
 describe('HalResource', () => {
@@ -52,6 +53,7 @@ describe('HalResource', () => {
     TestBed.configureTestingModule({
       imports: [
         OpenprojectHalModule,
+        HttpClientTestingModule,
       ],
       providers: [
         HalResourceService,

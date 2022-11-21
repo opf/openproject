@@ -81,7 +81,7 @@ module Acts::Journalized
       # some eager loading may mess up the order
       # journals.order('created_at').last will not work
       # (especially when journals already filtered)
-      # thats why this method exists
+      # that's why this method exists
       # it is impossible to incorporate this into #last_journal
       # because some logic is based on this eager loading bug/feature
       def last_loaded_journal

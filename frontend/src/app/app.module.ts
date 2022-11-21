@@ -32,6 +32,10 @@ import {
   Injector,
   NgModule,
 } from '@angular/core';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClientModule,
+} from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { States } from 'core-app/core/states/states.service';
@@ -70,7 +74,6 @@ import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/c
 import { DynamicContentModalComponent } from 'core-app/shared/components/modals/modal-wrapper/dynamic-content.modal';
 import { PasswordConfirmationModalComponent } from 'core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal';
 import { WpPreviewModalComponent } from 'core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal';
-import { ConfirmFormSubmitController } from 'core-app/shared/components/modals/confirm-form-submit/confirm-form-submit.directive';
 import { OpHeaderProjectSelectComponent } from 'core-app/shared/components/header-project-select/header-project-select.component';
 import { OpHeaderProjectSelectListComponent } from 'core-app/shared/components/header-project-select/list/header-project-select-list.component';
 
@@ -89,18 +92,22 @@ import { OpenProjectBackupService } from './core/backup/op-backup.service';
 import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
 import { OpenProjectStateModule } from 'core-app/core/state/openproject-state.module';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OpenProjectHeaderInterceptor } from 'core-app/features/hal/http/openproject-header-interceptor';
+import { TopMenuService } from 'core-app/core/top-menu/top-menu.service';
+import { A11yModule } from '@angular/cdk/a11y';
 
 export function initializeServices(injector:Injector) {
   return () => {
     const PreviewTrigger = injector.get(PreviewTriggerService);
     const mainMenuNavigationService = injector.get(MainMenuNavigationService);
+    const topMenuService = injector.get(TopMenuService);
     const keyboardShortcuts = injector.get(KeyboardShortcutService);
     // Conditionally add the Revit Add-In settings button
     injector.get(RevitAddInSettingsButtonService);
 
     mainMenuNavigationService.register();
+
+    topMenuService.register();
 
     PreviewTrigger.setupListener();
 
@@ -112,6 +119,8 @@ export function initializeServices(injector:Injector) {
   imports: [
     // The BrowserModule must only be loaded here!
     BrowserModule,
+    A11yModule,
+
     // Commons
     OPSharedModule,
     // Design System
@@ -170,6 +179,9 @@ export function initializeServices(injector:Injector) {
     // Angular Forms
     ReactiveFormsModule,
 
+    // Angular Http Client
+    HttpClientModule,
+
     // Augmenting Module
     OpenprojectAugmentingModule,
 
@@ -222,7 +234,6 @@ export function initializeServices(injector:Injector) {
 
     // Form configuration
     OpDragScrollDirective,
-    ConfirmFormSubmitController,
   ],
 })
 export class OpenProjectModule {

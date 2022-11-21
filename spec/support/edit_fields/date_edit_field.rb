@@ -29,7 +29,9 @@ class DateEditField < EditField
            :expect_due_date,
            :expect_duration,
            :set_duration,
-           :ignore_non_working_days, to: :datepicker
+           :duration_field,
+           :toggle_ignore_non_working_days,
+           :toggle_scheduling_mode, to: :datepicker
 
   def modal_selector
     '[data-qa-selector="op-datepicker-modal"]'
@@ -52,8 +54,7 @@ class DateEditField < EditField
   end
 
   def expect_scheduling_mode(manually:)
-    val = manually ? :manual : :default
-    datepicker.expect_scheduling_mode(val)
+    datepicker.expect_scheduling_mode(manually)
   end
 
   def set_scheduling_mode(manually:)
@@ -62,7 +63,7 @@ class DateEditField < EditField
     # Expect currently set before toggling
     expect_scheduling_mode(manually:)
     # Change mode
-    datepicker.set_scheduling_mode(val)
+    datepicker.toggle_scheduling_mode
     # Expect toggled
     expect_scheduling_mode(manually: !manually)
   end
@@ -130,12 +131,6 @@ class DateEditField < EditField
     end
   end
 
-  def click_today(which: :start)
-    within_modal do
-      find("[data-qa-selector='datepicker-#{which}-date'] .form--field-extra-actions a", text: 'Today').click
-    end
-  end
-
   def set_value(value)
     if value.is_a?(Array)
       datepicker.clear!
@@ -151,7 +146,9 @@ class DateEditField < EditField
   end
 
   def expect_value(value)
-    expect(input_element.value).to eq(value)
+    expect(page).to have_selector (".#{property_name} input") do |input|
+      input.value == value
+    end
   end
 
   def set_active_date(value)

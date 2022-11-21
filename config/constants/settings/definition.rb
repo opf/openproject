@@ -33,7 +33,8 @@ module Settings
 
     attr_accessor :name,
                   :format,
-                  :env_alias
+                  :env_alias,
+                  :on_change
 
     attr_writer :value,
                 :allowed
@@ -43,7 +44,8 @@ module Settings
                    format: nil,
                    writable: true,
                    allowed: nil,
-                   env_alias: nil)
+                   env_alias: nil,
+                   on_change: nil)
       self.name = name.to_s
       @default = default.is_a?(Hash) ? default.deep_stringify_keys : default
       @default.freeze
@@ -52,6 +54,7 @@ module Settings
       self.writable = writable
       self.allowed = allowed
       self.env_alias = env_alias
+      self.on_change = on_change
     end
 
     def default
@@ -86,6 +89,8 @@ module Settings
       if format == :hash
         self.value = {} if value.nil?
         value.deep_merge! other_value.deep_stringify_keys
+      elsif format == :datetime && !other_value.is_a?(DateTime)
+        self.value = DateTime.parse(other_value)
       else
         self.value = other_value
       end
@@ -131,12 +136,14 @@ module Settings
       # @param [nil] env_alias Alternative for the default env name to also look up. E.g. with the alias set to
       #  `OPENPROJECT_2FA` for a definition with the name `two_factor_authentication`, the value is fetched
       #  from the ENV OPENPROJECT_2FA as well.
+      # @param [nil] on_change A callback lambda to be triggered whenever the setting is stored to the database.
       def add(name,
               default:,
               format: nil,
               writable: true,
               allowed: nil,
-              env_alias: nil)
+              env_alias: nil,
+              on_change: nil)
         return if @by_name.present? && @by_name[name.to_s].present?
 
         @by_name = nil
@@ -146,7 +153,8 @@ module Settings
                          default:,
                          writable:,
                          allowed:,
-                         env_alias:)
+                         env_alias:,
+                         on_change:)
 
         override_value(definition)
 
@@ -182,7 +190,10 @@ module Settings
 
       private
 
-      # Currently only required for testing
+      # Currently only required for testing.
+      #
+      # Tag your test with :settings_reset to start test with fresh settings
+      # definitions and restore them after test.
       def reset
         @all = nil
         @loaded = false
@@ -224,9 +235,10 @@ module Settings
         envs = ['default', Rails.env]
         envs.delete('default') if Rails.env.test? # The test setup should govern the configuration
         envs.each do |env|
-          next unless file_config.dig(env, definition.name)
+          next unless (env_config = file_config[env])
+          next unless env_config.has_key?(definition.name)
 
-          definition.override_value(file_config.dig(env, definition.name))
+          definition.override_value(env_config[definition.name])
         end
       end
 

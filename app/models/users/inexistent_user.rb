@@ -27,6 +27,8 @@
 #++
 
 class Users::InexistentUser < User
+  include InexistentModel
+
   def self.sti_name
     nil
   end

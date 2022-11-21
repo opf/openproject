@@ -26,12 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CustomActions::Actions::Serializer
-  def self.load(value)
+module CustomActions::Actions::Serializer
+  module_function
+
+  def load(value)
     return [] unless value
 
     YAML
-      .safe_load(value, permitted_classes: [Symbol])
+      .safe_load(value, permitted_classes: [Symbol, Date])
       .map do |key, values|
       klass = nil
 
@@ -47,7 +49,7 @@ class CustomActions::Actions::Serializer
     end.compact
   end
 
-  def self.dump(actions)
+  def dump(actions)
     YAML::dump(actions.map { |a| [a.key, a.values.map(&:to_s)] })
   end
 end

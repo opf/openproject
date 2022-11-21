@@ -53,6 +53,10 @@ module Components
       expect(container).to have_field('duration', with: value, wait: 10)
     end
 
+    def milestone_date_field
+      container.find_field 'date'
+    end
+
     def start_date_field
       container.find_field 'startDate'
     end
@@ -61,12 +65,22 @@ module Components
       container.find_field 'endDate'
     end
 
+    def focus_milestone_date
+      milestone_date_field.click
+    end
+
     def focus_start_date
       start_date_field.click
     end
 
     def focus_due_date
       due_date_field.click
+    end
+
+    ##
+    # Expect date (milestone type)
+    def expect_milestone_date(value)
+      expect(container).to have_field('date', with: value, wait: 20)
     end
 
     ##
@@ -81,20 +95,28 @@ module Components
       expect(container).to have_field('endDate', with: value, wait: 20)
     end
 
+    def set_milestone_date(value)
+      focus_milestone_date
+      fill_in 'date', with: value, fill_options: { clear: :backspace }
+
+      # Wait until debounce applied
+      sleep 1
+    end
+
     def set_start_date(value)
       focus_start_date
       fill_in 'startDate', with: value, fill_options: { clear: :backspace }
 
-      # Focus a different field
-      due_date_field.click
+      # Wait for the value to be applied
+      sleep 1
     end
 
     def set_due_date(value)
       focus_due_date
       fill_in 'endDate', with: value, fill_options: { clear: :backspace }
 
-      # Focus a different field
-      start_date_field.click
+      # Wait for the value to be applied
+      sleep 1
     end
 
     def expect_start_highlighted
@@ -110,7 +132,21 @@ module Components
     end
 
     def focus_duration
-      due_date_field.click
+      duration_field.click
+    end
+
+    def set_today(date)
+      key =
+        case date.to_s
+        when 'due'
+          'end'
+        else
+          date
+        end
+
+      page.within("[data-qa-selector='datepicker-#{key}-date']") do
+        find('button', text: 'Today').click
+      end
     end
 
     def set_duration(value)
@@ -125,40 +161,44 @@ module Components
       expect(container).to have_selector('[data-qa-selector="op-datepicker-modal--duration-field"][data-qa-highlighted]')
     end
 
-    def expect_scheduling_mode(val)
-      container
-        .find('[data-qa-selector="spot-toggle--option"][data-qa-active-toggle]', text: val.to_s.camelize)
-    end
-
-    def set_scheduling_mode(val)
-      container
-        .find('[data-qa-selector="spot-toggle--option"]', text: val.to_s.camelize)
-        .click
-
-      expect_scheduling_mode(val)
-    end
-
-    def expect_ignore_non_working_days(val)
-      text = ignore_non_working_days_option(val)
-
-      container
-        .find('[data-qa-selector="spot-toggle--option"][data-qa-active-toggle]', text:)
-    end
-
-    def ignore_non_working_days(val)
-      text = ignore_non_working_days_option(val)
-
-      container
-        .find('[data-qa-selector="spot-toggle--option"]', text:)
-        .click
-    end
-
-    def ignore_non_working_days_option(val)
-      if val
-        'Include weekends'
+    def expect_scheduling_mode(manually)
+      if manually
+        expect(container).to have_checked_field('scheduling', visible: :all)
       else
-        'Work week'
+        expect(container).to have_unchecked_field('scheduling', visible: :all)
       end
+    end
+
+    def toggle_scheduling_mode
+      find('label', text: 'Manual scheduling').click
+    end
+
+    def scheduling_mode_input
+      container.find_field 'scheduling', visible: :all
+    end
+
+    def ignore_non_working_days_input
+      container.find_field 'weekdays_only', visible: :all
+    end
+
+    def expect_ignore_non_working_days_disabled
+      expect(container).to have_field('weekdays_only', disabled: true)
+    end
+
+    def expect_ignore_non_working_days_enabled
+      expect(container).to have_field('weekdays_only', disabled: false)
+    end
+
+    def expect_ignore_non_working_days(val, disabled: false)
+      if val
+        expect(container).to have_unchecked_field('weekdays_only', disabled:)
+      else
+        expect(container).to have_checked_field('weekdays_only', disabled:)
+      end
+    end
+
+    def toggle_ignore_non_working_days
+      find('label', text: 'Working days only').click
     end
 
     def clear_duration
@@ -167,6 +207,14 @@ module Components
 
       # Focus a different field
       start_date_field.click
+    end
+
+    def clear_duration_with_icon
+      duration_field.click
+
+      page
+        .find('[data-qa-selector="op-datepicker-modal--duration-field"] .spot-text-field--clear-button')
+        .click
     end
   end
 end

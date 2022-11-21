@@ -34,7 +34,7 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
   subject(:generated) { representer.to_json }
 
   let(:project) { build_stubbed :project }
-  let(:notification_setting) { build_stubbed(:notification_setting, project:) }
+  let(:notification_setting) { build_stubbed(:notification_setting, overdue: 3, project:) }
 
   let(:representer) do
     described_class.create notification_setting,
@@ -69,9 +69,31 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
         .not_to have_json_path('_type')
     end
 
-    NotificationSetting.all_settings.each do |property|
+    (NotificationSetting.all_settings - NotificationSetting.date_alert_settings).each do |property|
       it_behaves_like 'property', property.to_s.camelize(:lower) do
-        let(:value) { notification_setting.send property }
+        let(:value) do
+          notification_setting.send property
+        end
+      end
+    end
+
+    context 'without enterprise' do
+      it 'does not have the date alert settings in the resulting json' do
+        expect(subject).not_to have_json_path("startDate")
+        expect(subject).not_to have_json_path("dueDate")
+        expect(subject).not_to have_json_path("overdue")
+      end
+    end
+
+    context 'with enterprise', with_ee: %i[date_alerts] do
+      it_behaves_like 'property', :startDate do
+        let(:value) { 'P1D' }
+      end
+      it_behaves_like 'property', :dueDate do
+        let(:value) { 'P1D' }
+      end
+      it_behaves_like 'property', :overdue do
+        let(:value) { 'P3D' }
       end
     end
   end
@@ -82,6 +104,18 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
         expect(generated)
           .not_to have_json_path('_embedded/project')
       end
+    end
+  end
+
+  context 'when duration settings are all nil' do
+    let(:notification_setting) do
+      build_stubbed(:notification_setting, project:, start_date: nil, due_date: nil, overdue: nil)
+    end
+
+    it 'does not represent them in the resulting json' do
+      expect(subject).not_to have_json_path("startDate")
+      expect(subject).not_to have_json_path("dueDate")
+      expect(subject).not_to have_json_path("overdue")
     end
   end
 end

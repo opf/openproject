@@ -33,7 +33,7 @@ module LdapGroups
         # create synchronized group memberships
         memberships = new_users.to_a.map { |user| { group_id: id, user_id: user_id(user) } }
         # Bulk insert the memberships to improve performance
-        ::LdapGroups::Membership.insert_all memberships
+        ::LdapGroups::Membership.insert_all memberships, unique_by: %i[user_id group_id]
 
         # add users to users collection of internal group
         add_members_to_group(new_users)
@@ -51,7 +51,7 @@ module LdapGroups
 
       self.class.transaction do
         # 1) Delete synchronized group MEMBERSHIPS from collection.
-        users.delete users.where(user: user_ids).select(:id)
+        users.delete users.where(user_id: user_ids).select(:id)
 
         # 2) Remove users from the internal group
         remove_members_from_group(user_ids)
@@ -72,16 +72,19 @@ module LdapGroups
     end
 
     def remove_all_members
-      remove_members! User.find(users.pluck(:user_id))
+      remove_members! users.pluck(:user_id)
     end
 
     # rubocop:disable Metrics/AbcSize
     def add_members_to_group(new_users)
       user_ids = new_users.map { |user| user_id(user) }
 
+      # Ensure we use pluck to get the current DB version of user_ids
+      current_user_ids = group.group_users.pluck(:user_id)
+
       call = Groups::UpdateService
         .new(user: User.current, model: group)
-        .call(user_ids: group.user_ids + user_ids)
+        .call(user_ids: (current_user_ids + user_ids).uniq)
 
       call.on_success do
         Rails.logger.debug "[LDAP groups] Added users #{user_ids} to #{group.name}"
@@ -94,9 +97,12 @@ module LdapGroups
     end
 
     def remove_members_from_group(user_ids)
+      # Ensure we use pluck to get the current DB version of user_ids
+      current_user_ids = group.group_users.pluck(:user_id)
+
       call = Groups::UpdateService
         .new(user: User.system, model: group)
-        .call(user_ids: group.user_ids - user_ids)
+        .call(user_ids: current_user_ids - user_ids)
 
       call.on_success do
         Rails.logger.debug "[LDAP groups] Removed users #{user_ids} from #{group.name}"

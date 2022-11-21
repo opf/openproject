@@ -89,7 +89,7 @@ describe 'Project attribute help texts', type: :feature, js: true do
 
       page.find('.op-fieldset--legend', text: 'ADVANCED SETTINGS').click
 
-      expect(page).to have_selector('.op-form-field--label attribute-help-text', wait: 10)
+      expect(page).to have_selector('.spot-form-field--label attribute-help-text', wait: 10)
 
       # Open help text modal
       modal.open!

@@ -42,7 +42,6 @@ es:
       replace_provider_type_oauth: "Reemplazar %{provider_type} OAuth"
       save_and_continue_setup: "Guardar y continuar configuración"
       save_and_complete_setup: "Guardar y completar configuración"
-      cancel: "Cancelar"
     page_titles:
       project_settings:
         index: "Hay almacenes de archivos disponibles en este proyecto"
@@ -81,8 +80,6 @@ es:
     label_storage: "Almacén"
     label_storages: "Almacenes"
     no_results: "Aún no se han configurado almacenes."
-    label_oauth_client_id: "ID de cliente OAuth"
-    label_oauth_client_secret: "Clave secreta de cliente OAuth"
     provider_types:
       label: "Tipo de proveedor"
       nextcloud:

@@ -71,12 +71,6 @@ You will be able to run failing tests locally in a similar fashion for all error
 
 
 
-**Errors in the legacy specs**
-
-For the `legacy specs` job, please [see the section on running legacy specs](#legacy-specs).
-
-
-
 **Helper to extract all failing tests**
 
 There is a small ruby script that will parse the logs of a GitHub Actions run and output all `rspec` tests that failed for you to run in one command.
@@ -85,8 +79,11 @@ There is a small ruby script that will parse the logs of a GitHub Actions run an
 ./script/github_pr_errors
 ```
 
-Note that it will output legacy specs and specs together, which need to be run separately.
+If you want to run the tests directly to rspec, you can use this command:
 
+```
+./script/github_pr_errors | xargs bundle exec rspec
+```
 
 
 ## Tests failing on GitHub Actions CI and passing locally
@@ -353,19 +350,6 @@ You can run the specs with the following commands:
 
 * `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935. Use this to control in what order the tests are run to identify order-dependent failures. You will find the seed that GitHub Actions CI used in their log output.
 
-
-
-## Legacy specs
-
-**Note:** *We do not write new tests in this category. Tests are expected to be removed from these two groups whenever they break.*
-
-The legacy specs use `minitest` and reside under `spec_legacy/` in the application root. No new tests are to be added here, but old ones removed whenever we refactor code.
-
-To run all legacy specs, use this command:
-
-```bash
-RAILS_ENV=test bundle exec rake spec -I spec_legacy spec_legacy/
-```
 
 ## Parallel testing
 

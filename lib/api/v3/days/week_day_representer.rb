@@ -39,5 +39,9 @@ module API::V3::Days
     def _type
       'WeekDay'
     end
+
+    def json_key_part_represented
+      [represented.day, Setting.working_days]
+    end
   end
 end

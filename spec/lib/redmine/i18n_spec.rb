@@ -86,7 +86,7 @@ module OpenProject
       end
 
       it 'returns no js language as they are duplicates of the rest of the other language' do
-        expect(all_languages.any? { |l| /\Ajs-/.match(l.to_s) }).to be_falsey
+        expect(all_languages).not_to be_any { |l| /\Ajs-/.match(l.to_s) }
       end
 
       # it is OK if more languages exist
@@ -117,8 +117,8 @@ module OpenProject
 
       Setting.all_languages.each do |lang|
         it "sets I18n.locale to #{lang}" do
-          allow(I18n).to receive(:locale=)
-          expect(I18n).to receive(:locale=).with(lang)
+          allow(described_class).to receive(:locale=)
+          expect(described_class).to receive(:locale=).with(lang)
 
           set_language_if_valid(lang)
         end
@@ -127,7 +127,7 @@ module OpenProject
       it 'does not set I18n.locale to an invalid language' do
         allow(Setting).to receive(:available_languages).and_return([:en])
 
-        expect(I18n).not_to receive(:locale=).with(:de)
+        expect(described_class).not_to receive(:locale=).with(:de)
       end
     end
 
@@ -200,7 +200,7 @@ module OpenProject
       context 'without a date_format setting', with_settings: { date_format: '' } do
         it 'uses the locale formate' do
           expect(format_date(Date.today))
-            .to eql I18n.l(Date.today)
+            .to eql described_class.l(Date.today)
         end
       end
 
@@ -208,6 +208,195 @@ module OpenProject
         it 'adheres to the format' do
           expect(format_date(Date.today))
             .to eql Date.today.strftime('%d %m %Y')
+        end
+      end
+
+      valid_languages.each do |lang|
+        context "for lang #{lang}" do
+          it 'raises no error' do
+            described_class.with_locale lang do
+              expect { format_date(Date.today) }
+                .not_to raise_error
+            end
+          end
+        end
+      end
+    end
+
+    describe '#numer_to_human_size' do
+      valid_languages.each do |lang|
+        context "for locale #{lang}" do
+          it 'does not raise an error' do
+            described_class.with_locale lang do
+              expect { number_to_human_size(1024 * 1024 * 4) }
+                .not_to raise_error
+            end
+          end
+        end
+      end
+    end
+
+    describe '#format_time', with_settings: {
+      time_format: '%H %M',
+      date_format: '%d %m %Y'
+    } do
+      let!(:now) { Time.parse('2011-02-20 15:45:22') }
+
+      it 'with date and hours' do
+        expect(format_time(now))
+          .to eql now.strftime('%d %m %Y %H %M')
+      end
+
+      it 'with only hours' do
+        expect(format_time(now, false))
+          .to eql now.strftime('%H %M')
+      end
+
+      it 'with a utc to date and hours' do
+        expect(format_time(now.utc))
+          .to eql now.localtime.strftime('%d %m %Y %H %M')
+      end
+
+      it 'with a utce to only hours' do
+        expect(format_time(now.utc, false))
+          .to eql now.localtime.strftime('%H %M')
+      end
+
+      context 'with a different format defined', with_settings: {
+        time_format: '%H:%M',
+        date_format: '%Y-%m-%d'
+      } do
+        it 'renders date and hours' do
+          expect(format_time(now))
+            .to eql '2011-02-20 15:45'
+        end
+
+        it 'renders only hours' do
+          expect(format_time(now, false))
+            .to eql '15:45'
+        end
+      end
+
+      context 'without time and date format', with_settings: {
+        time_format: '',
+        date_format: ''
+      } do
+        it 'falls back to default for date and hours' do
+          expect(format_time(now))
+            .to eql '02/20/2011 03:45 PM'
+        end
+
+        it 'falls back to default for only hours' do
+          expect(format_time(now, false))
+            .to eql '03:45 PM'
+        end
+
+        valid_languages.each do |lang|
+          context "for lang #{lang}" do
+            it 'raises no error for date and hours' do
+              described_class.with_locale lang do
+                expect { format_time(now) }
+                  .not_to raise_error
+              end
+            end
+
+            it 'raises no error for only hours' do
+              described_class.with_locale lang do
+                expect { format_time(now, false) }
+                  .not_to raise_error
+              end
+            end
+          end
+        end
+      end
+
+      context 'without time format', with_settings: {
+        time_format: '',
+        date_format: '%Y-%m-%d'
+      } do
+        it 'falls back to default for date and hours' do
+          expect(format_time(now))
+            .to eql '2011-02-20 03:45 PM'
+        end
+
+        it 'falls back to default for only hours' do
+          expect(format_time(now, false))
+            .to eql '03:45 PM'
+        end
+      end
+
+      context 'without date format', with_settings: {
+        time_format: '%H:%M',
+        date_format: ''
+      } do
+        it 'falls back to default for date and hours' do
+          expect(format_time(now))
+            .to eql '02/20/2011 15:45'
+        end
+
+        it 'falls back to default for only hours' do
+          expect(format_time(now, false))
+            .to eql '15:45'
+        end
+      end
+    end
+
+    describe 'day names' do
+      valid_languages.each do |lang|
+        context "for locale #{lang}" do
+          it 'is an array' do
+            described_class.with_locale lang do
+              expect(described_class.t('date.day_names'))
+                .to be_a Array
+            end
+          end
+
+          it 'has 7 elements' do
+            described_class.with_locale lang do
+              expect(described_class.t('date.day_names').size)
+                .to eq 7
+            end
+          end
+        end
+      end
+    end
+
+    describe 'month names' do
+      valid_languages.each do |lang|
+        context "for locale #{lang}" do
+          it 'is an array' do
+            described_class.with_locale lang do
+              expect(described_class.t('date.month_names'))
+                .to be_a Array
+            end
+          end
+
+          it 'has 13 elements' do
+            described_class.with_locale lang do
+              expect(described_class.t('date.month_names').size)
+                .to eq 13
+            end
+          end
+        end
+      end
+    end
+
+    describe '.l' do
+      valid_languages.each do |lang|
+        context "for locale #{lang}" do
+          it 'is not \'default\' for a date' do
+            described_class.with_locale lang do
+              expect(described_class.l(Date.today, format: :default))
+                .not_to eq 'default'
+            end
+          end
+
+          it 'is not \'default\' for a time' do
+            described_class.with_locale lang do
+              expect(described_class.l(Time.zone.now, format: :default))
+                .not_to eq 'time'
+            end
+          end
         end
       end
     end

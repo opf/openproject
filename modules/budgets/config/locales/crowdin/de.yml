@@ -63,7 +63,7 @@ de:
   label_example_placeholder: 'z. B. %{decimal}'
   label_view_all_budgets: "Alle Budgets anzeigen"
   label_yes: "Ja"
-  notice_budget_conflict: "Work packages must be of the same project."
+  notice_budget_conflict: "Arbeitspakete müssen dem gleichen Projekt angehören."
   notice_no_budgets_available: "Kein Budget verfügbar."
   permission_edit_budgets: "Budgets bearbeiten"
   permission_view_budgets: "Budgets ansehen"

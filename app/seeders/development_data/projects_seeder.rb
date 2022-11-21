@@ -97,11 +97,16 @@ module DevelopmentData
 
     def project_data(identifier)
       {
-        name: identifier.humanize,
+        name: project_name(identifier),
         identifier:,
         enabled_module_names: project_modules,
         types: Type.all
       }
+    end
+
+    def project_name(identifier)
+      _dev, *parts = identifier.split('-')
+      "[dev] #{parts.join(' ').capitalize}"
     end
 
     def project_modules

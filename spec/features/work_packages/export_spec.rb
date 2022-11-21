@@ -219,7 +219,7 @@ describe 'work package export', type: :feature do
 
     context 'with many columns' do
       before do
-        query.column_names = query.available_columns.map { |c| c.name.to_s } - ['bcf_thumbnail']
+        query.column_names = query.displayable_columns.map { |c| c.name.to_s } - ['bcf_thumbnail']
         query.save!
 
         # Despite attempts to provoke the error by having a lot of columns, the pdf

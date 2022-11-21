@@ -27,7 +27,6 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { StoragesStore } from 'core-app/core/state/storages/storages.store';
@@ -41,10 +40,6 @@ import {
 
 @Injectable()
 export class StoragesResourceService extends ResourceCollectionService<IStorage> {
-  constructor(private readonly http:HttpClient) {
-    super();
-  }
-
   updateCollection(key:string, storageLinks:IHalResourceLink[]):void {
     forkJoin(
       storageLinks.map((link) => this.http.get<IStorage>(link.href)),
@@ -56,5 +51,9 @@ export class StoragesResourceService extends ResourceCollectionService<IStorage>
 
   protected createStore():CollectionStore<IStorage> {
     return new StoragesStore();
+  }
+
+  protected basePath():string {
+    return this.apiV3Service.storages.path;
   }
 }

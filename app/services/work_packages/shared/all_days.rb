@@ -50,16 +50,9 @@ module WorkPackages
         start_date + duration - 1
       end
 
-      def add_days(date, count)
-        date + count.days
-      end
-
-      def soonest_working_day(date)
-        date
-      end
-
-      def delta(previous:, current:)
-        current - previous
+      def soonest_working_day(date, delay: nil)
+        delay ||= 0
+        date + delay.days if date
       end
 
       def working?(_date)

@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= styled_form_tag({action: 'create'},
                     id: 'move_form',
-                    data: { 'refresh-url': url_for(action: 'new'), 'input-selector': '[name="new_project_id"]' },
+                    data: { 'refresh-url': url_for(action: 'new'), 'input-selector': '[name="new_project_id"],[name="new_type_id"]' },
                     class: '-wide-labels augment--refresh-on-form-changes') do %>
   <% @work_packages.each do |wp| %>
     <%= hidden_field_tag 'ids[]', wp.id %>
@@ -78,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
               <div class="form--field-container">
                 <%= styled_select_tag("new_type_id",
                        content_tag('option', t(:label_no_change_option), value: '') +
-                       options_from_collection_for_select(@types, "id", "name")) %>
+                       options_from_collection_for_select(@types, "id", "name", @target_type&.id)) %>
               </div>
             </div>
             <div class="form--field">
@@ -143,6 +143,16 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= styled_text_field_tag 'due_date', '', size: 10, class: '-augmented-datepicker' %>
               </div>
             </div>
+            <% if @target_type %>
+              <% @target_type.custom_fields.required.each do |custom_field| %>
+                <div class="form--field">
+                  <%= blank_custom_field_label_tag('', custom_field) %>
+                  <div class="form--field-container">
+                    <%= custom_field_tag_for_bulk_edit('', custom_field, @project) %>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
           </div>
         </div>
       </fieldset>

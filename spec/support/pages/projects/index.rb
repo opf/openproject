@@ -83,16 +83,16 @@ module Pages
 
       def set_toggle_filter(values)
         should_active = values.first == 'yes'
-        is_active = page.has_selector? '.slide-toggle.-active'
+        is_active = page.has_selector? '[data-qa-selector="spot-switch-handle"][data-qa-active]'
 
         if should_active != is_active
-          page.find('.slide-toggle .slider').click
+          page.find('[data-qa-selector="spot-switch-handle"]').click
         end
 
         if should_active
-          expect(page).to have_selector('.slide-toggle.-active')
+          expect(page).to have_selector('[data-qa-selector="spot-switch-handle"][data-qa-active]')
         else
-          expect(page).to have_selector('.slide-toggle:not(.-active)')
+          expect(page).to have_selector('[data-qa-selector="spot-switch-handle"]:not([data-qa-active])')
         end
       end
 

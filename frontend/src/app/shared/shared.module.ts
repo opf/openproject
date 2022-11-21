@@ -30,6 +30,8 @@ import {
   Injector,
   NgModule,
 } from '@angular/core';
+import { A11yModule } from '@angular/cdk/a11y';
+import { UIRouterGlobals } from '@uirouter/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
@@ -52,6 +54,8 @@ import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/
 import { DatePickerModule } from 'core-app/shared/components/op-date-picker/date-picker.module';
 import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
 import { EnterpriseBannerComponent } from 'core-app/shared/components/enterprise-banner/enterprise-banner.component';
+import { EnterprisePageComponent } from 'core-app/shared/components/enterprise-page/enterprise-page.component';
+import { FreeTrialButtonComponent } from 'core-app/features/enterprise/free-trial-button/free-trial-button.component';
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -76,11 +80,7 @@ import { AddSectionDropdownComponent } from './components/hide-section/add-secti
 import { HideSectionLinkComponent } from './components/hide-section/hide-section-link/hide-section-link.component';
 import { RemoteFieldUpdaterComponent } from './components/remote-field-updater/remote-field-updater.component';
 import { ShowSectionDropdownComponent } from './components/hide-section/show-section-dropdown.component';
-import { SlideToggleComponent } from './components/slide-toggle/slide-toggle.component';
 import { DynamicBootstrapModule } from './components/dynamic-bootstrap/dynamic-bootstrap.module';
-import { OpCheckboxFieldComponent } from './components/forms/checkbox-field/checkbox-field.component';
-import { OpFormFieldComponent } from './components/forms/form-field/form-field.component';
-import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
@@ -88,7 +88,6 @@ import { OpProjectIncludeListComponent } from './components/project-include/list
 import { OpLoadingProjectListComponent } from './components/searchable-project-list/loading-project-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
-import { UIRouterGlobals } from '@uirouter/core';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -119,6 +118,7 @@ export function bootstrapModule(injector:Injector):void {
     FormsModule,
     OpSpotModule,
     // Angular CDK
+    A11yModule,
     PortalModule,
     DragDropModule,
     DragulaModule,
@@ -144,6 +144,7 @@ export function bootstrapModule(injector:Injector):void {
     FormsModule,
     PortalModule,
     DragDropModule,
+    A11yModule,
     IconModule,
     AttributeHelpTextModule,
     NgSelectModule,
@@ -183,16 +184,11 @@ export function bootstrapModule(injector:Injector):void {
 
     // Enterprise Edition
     EnterpriseBannerComponent,
+    EnterprisePageComponent,
+    FreeTrialButtonComponent,
 
     DynamicModule,
 
-    // filter
-
-    SlideToggleComponent,
-
-    OpCheckboxFieldComponent,
-    OpFormFieldComponent,
-    OpFormBindingDirective,
     OpOptionListComponent,
     OpSidemenuComponent,
     OpProjectIncludeComponent,
@@ -206,7 +202,6 @@ export function bootstrapModule(injector:Injector):void {
     ViewsResourceService,
   ],
   declarations: [
-    OpDateTimeComponent,
     ViewSelectComponent,
 
     ToastsContainerComponent,
@@ -245,15 +240,11 @@ export function bootstrapModule(injector:Injector):void {
 
     // Enterprise Edition
     EnterpriseBannerComponent,
+    EnterprisePageComponent,
+    FreeTrialButtonComponent,
 
     HomescreenNewFeaturesBlockComponent,
 
-    // filter
-    SlideToggleComponent,
-
-    OpCheckboxFieldComponent,
-    OpFormFieldComponent,
-    OpFormBindingDirective,
     OpOptionListComponent,
     OpSidemenuComponent,
     OpProjectIncludeComponent,

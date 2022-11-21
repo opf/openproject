@@ -71,6 +71,7 @@ import {
   setDates,
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Component({
   templateUrl: './single-date.modal.html',
@@ -93,7 +94,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
 
   @InjectField() dateModalRelations:DateModalRelationsService;
 
-  @InjectField() browserDetector:BrowserDetector;
+  @InjectField() deviceService:DeviceService;
 
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
@@ -103,33 +104,13 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     date: this.I18n.t('js.work_packages.properties.date'),
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
-    scheduling: {
-      title: this.I18n.t('js.scheduling.title'),
-      manual: this.I18n.t('js.scheduling.manual'),
-      default: this.I18n.t('js.scheduling.default'),
-    },
-    ignoreNonWorkingDays: {
-      title: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.title'),
-      yes: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.true'),
-      no: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.false'),
-    },
   };
 
   onDataUpdated = new EventEmitter<string>();
 
   scheduleManually = false;
 
-  schedulingOptions = [
-    { value: true, title: this.text.scheduling.manual },
-    { value: false, title: this.text.scheduling.default },
-  ];
-
   ignoreNonWorkingDays = false;
-
-  ignoreNonWorkingDaysOptions = [
-    { value: true, title: this.text.ignoreNonWorkingDays.yes },
-    { value: false, title: this.text.ignoreNonWorkingDays.no },
-  ];
 
   htmlId = '';
 
@@ -232,6 +213,9 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     // Apply the changed scheduling mode if any
     this.changeset.setValue('scheduleManually', this.scheduleManually);
 
+    // Apply include NWD
+    this.changeset.setValue('ignoreNonWorkingDays', this.ignoreNonWorkingDays);
+
     // Apply the dates if they could be changed
     if (this.dateModalScheduling.isSchedulable) {
       this.changeset.setValue('date', mappedDate(this.date));
@@ -262,6 +246,10 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
 
   // eslint-disable-next-line class-methods-use-this
   reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>):void {
+    if (this.deviceService.isMobile) {
+      return;
+    }
+
     element.position({
       my: 'left top',
       at: 'left bottom',
@@ -278,9 +266,10 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
       this.date || '',
       {
         mode: 'single',
-        showMonths: this.browserDetector.isMobile ? 1 : 2,
+        showMonths: this.deviceService.isMobile ? 1 : 2,
         inline: true,
-        onReady: () => {
+        onReady: (_date, _datestr, instance) => {
+          instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
           this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
         },
         onChange: (dates:Date[]) => {

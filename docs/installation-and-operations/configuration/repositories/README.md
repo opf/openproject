@@ -1,3 +1,5 @@
+> #### **NOTE:** This documentation is most likely outdated and needs to be used carefully
+
 # Repository Integration in OpenProject
 
 OpenProject can (by default) browse Subversion and Git repositories, but it does not serve them to git/svn clients.
@@ -15,7 +17,7 @@ This functionality is extended with managed repositories, whose life spans are a
 ## Managed Repositories
 
 You can create repositories explicitly on the filesystem using *managed* repositories.
-Managed repositories need to be enabled manually for each SCM vendor individually using the `configuration.yml`.
+Managed repositories need to be enabled manually for each SCM vendor individually by configuring `configuration.yml`
 
 It contains a YAML configuration section for repository management residing under the namespace `scm`.
 The following is an excerpt of the configuration and contains all required information to set up your data.
@@ -264,7 +266,7 @@ For more information, see the section 'Managing Repositories Remotely'.
 
 We provide an example apache configuration. Some details are explained inline as comments.
 
-    
+​    
 
 ## Git Integration
 

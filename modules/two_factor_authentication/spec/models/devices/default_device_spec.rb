@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Default device', with_2fa_ee: true, type: :model do
+describe 'Default device', type: :model do
   let(:user) { create :user }
   let(:subject) { build :two_factor_authentication_device_totp, user:, default: true }
   let(:other_otp) { build :two_factor_authentication_device_totp, user:, default: true }

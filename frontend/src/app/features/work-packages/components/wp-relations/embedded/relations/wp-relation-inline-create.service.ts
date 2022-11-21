@@ -33,6 +33,11 @@ import { WpRelationInlineAddExistingComponent } from 'core-app/features/work-pac
 import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 import { WpRelationInlineCreateServiceInterface } from 'core-app/features/work-packages/components/wp-relations/embedded/wp-relation-inline-create.service.interface';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import {
+  Observable,
+  of,
+} from 'rxjs';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Injectable()
 export class WpRelationInlineCreateService extends WorkPackageInlineCreateService implements WpRelationInlineCreateServiceInterface, OnDestroy {
@@ -77,12 +82,17 @@ export class WpRelationInlineCreateService extends WorkPackageInlineCreateServic
    */
   public referenceTarget:WorkPackageResource|null = null;
 
-  public get canAdd() {
-    return !!(this.referenceTarget && this.canCreateWorkPackages && this.referenceTarget.addRelation);
+  public get canAdd():Observable<boolean> {
+    if (!this.referenceTarget?.addRelation) {
+      return of(false);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return this.canCreateWorkPackages(idFromLink(this.referenceTarget.project.href));
   }
 
-  public get canReference() {
-    return !!this.canAdd;
+  public get canReference():Observable<boolean> {
+    return this.canAdd;
   }
 
   /**

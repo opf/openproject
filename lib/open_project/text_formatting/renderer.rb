@@ -27,22 +27,22 @@
 #++
 
 module OpenProject::TextFormatting
-  class Renderer
-    class << self
-      def format_text(text, options = {})
-        return '' if text.blank?
+  module Renderer
+    module_function
 
-        formatter(plain: options.delete(:plain))
-          .new(options)
-          .to_html(text)
-      end
+    def format_text(text, options = {})
+      return '' if text.blank?
 
-      def formatter(plain: false)
-        if plain
-          OpenProject::TextFormatting::Formats.plain_formatter
-        else
-          OpenProject::TextFormatting::Formats.rich_formatter
-        end
+      formatter(plain: options.delete(:plain))
+        .new(options)
+        .to_html(text)
+    end
+
+    def formatter(plain: false)
+      if plain
+        OpenProject::TextFormatting::Formats.plain_formatter
+      else
+        OpenProject::TextFormatting::Formats.rich_formatter
       end
     end
   end

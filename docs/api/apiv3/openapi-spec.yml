@@ -245,6 +245,8 @@ paths:
     "$ref": "./paths/notifications_unread.yml"
   "/api/v3/notifications/{id}":
     "$ref": "./paths/notification.yml"
+  "/api/v3/notifications/{notification_id}/details/{id}":
+    "$ref": "./paths/notification_details.yml"
   "/api/v3/notifications/{id}/read_ian":
     "$ref": "./paths/notification_read.yml"
   "/api/v3/notifications/{id}/unread_ian":
@@ -383,6 +385,8 @@ paths:
     "$ref": "./paths/user_form.yml"
   "/api/v3/users/{id}/lock":
     "$ref": "./paths/user_lock.yml"
+  "/api/v3/values/schema/{id}":
+    "$ref": "./paths/values_schema.yml"
   "/api/v3/versions":
     "$ref": "./paths/versions.yml"
   "/api/v3/versions/available_projects":
@@ -442,6 +446,12 @@ paths:
 
 components:
   examples:
+    DateAlertNotification:
+      $ref: './components/examples/date_alert_notification.yml'
+    MentionedNotification:
+      $ref: './components/examples/mentioned_notification.yml'
+    NotificationCollection:
+      $ref: './components/examples/notification_collection.yml'
     Project:
       $ref: "./components/examples/project.yml"
     ProjectBody:
@@ -452,13 +462,25 @@ components:
       "$ref": "./components/examples/query.yml"
     QuerySchemaModel:
       "$ref": "./components/examples/query_schema.yml"
+    ValuesPropertyStartDateSchema:
+      "$ref": "./components/examples/values_property_start_date_schema.yml"
+    ValuesPropertyDueDateSchema:
+      "$ref": "./components/examples/values_property_due_date_schema.yml"
+    ValuesPropertyDateSchema:
+      "$ref": "./components/examples/values_property_date_schema.yml"
+    ValuesPropertyStartDate:
+      "$ref": "./components/examples/values_property_start_date.yml"
+    ValuesPropertyDueDate:
+      "$ref": "./components/examples/values_property_due_date.yml"
+    ValuesPropertyDate:
+      "$ref": "./components/examples/values_property_date.yml"
     Views:
       "$ref": "./components/examples/views.yml"
     ViewWorkPackagesTable:
       "$ref": "./components/examples/view_work_packages_table.yml"
     ViewTeamPlanner:
       "$ref": "./components/examples/view_team_planner.yml"
-      
+
   responses:
     InvalidRequestBody:
       "$ref": "./components/responses/invalid_request_body.yml"
@@ -712,6 +734,10 @@ components:
       "$ref": "./components/schemas/statuses_model.yml"
     StorageModel:
       "$ref": "./components/schemas/storage_model.yml"
+    StorageFileModel:
+      "$ref": "./components/schemas/storage_file_model.yml"
+    StorageFileLocationModel:
+      "$ref": "./components/schemas/storage_file_location_model.yml"
     Time_EntryModel:
       "$ref": "./components/schemas/time_entry_model.yml"
     Time_Entry_ActivityModel:
@@ -750,18 +776,12 @@ components:
       "$ref": "./components/schemas/user_preferences_model.yml"
     User_PreferenceModel:
       "$ref": "./components/schemas/user_preference_model.yml"
-    User_create_form:
-      "$ref": "./components/schemas/user_create_form.yml"
-    User_update_form:
-      "$ref": "./components/schemas/user_update_form.yml"
+    ValuesPropertyModel:
+      "$ref": "./components/schemas/values_property_model.yml"
     VersionModel:
       "$ref": "./components/schemas/version_model.yml"
-    Version_create_form:
-      "$ref": "./components/schemas/version_create_form.yml"
     Version_schemaModel:
       "$ref": "./components/schemas/version_schema_model.yml"
-    Version_update_form:
-      "$ref": "./components/schemas/version_update_form.yml"
     VersionsModel:
       "$ref": "./components/schemas/versions_model.yml"
     Versions_by_ProjectModel:
@@ -804,8 +824,6 @@ components:
       "$ref": "./components/schemas/wiki_page_model.yml"
     Work_PackageModel:
       "$ref": "./components/schemas/work_package_model.yml"
-    Work_Package_Relation_FormModel:
-      "$ref": "./components/schemas/work_package_relation_form_model.yml"
     Work_Package_SchemasModel:
       "$ref": "./components/schemas/work_package_schemas_model.yml"
     Work_Package_activitiesModel:
@@ -860,6 +878,7 @@ tags:
   - "$ref": "./tags/types.yml"
   - "$ref": "./tags/userpreferences.yml"
   - "$ref": "./tags/users.yml"
+  - "$ref": "./tags/values_property.yml"
   - "$ref": "./tags/versions.yml"
   - "$ref": "./tags/views.yml"
   - "$ref": "./tags/wiki_pages.yml"

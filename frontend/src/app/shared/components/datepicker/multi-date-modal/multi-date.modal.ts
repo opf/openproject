@@ -46,20 +46,19 @@ import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.servi
 import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
-import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
 import {
   debounceTime,
-  distinctUntilChanged,
   filter,
   map,
   switchMap,
 } from 'rxjs/operators';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import {
+  fromEvent,
   merge,
   Observable,
   Subject,
@@ -76,8 +75,10 @@ import {
   setDates,
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
-import { castArray } from 'lodash';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+import { DeviceService } from 'core-app/core/browser/device.service';
+import DateOption = flatpickr.Options.DateOption;
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -86,7 +87,7 @@ type StartUpdate = { startDate:string };
 type EndUpdate = { dueDate:string };
 type DurationUpdate = { duration:string|number|null };
 type DateUpdate = { date:string };
-type ActiveDateChange = [DateFields, null|Date|Date[]];
+type ActiveDateChange = [DateFields, null|Date|Date];
 
 export type FieldUpdates =
   StartUpdate
@@ -117,9 +118,11 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   @InjectField() dateModalRelations:DateModalRelationsService;
 
-  @InjectField() browserDetector:BrowserDetector;
+  @InjectField() deviceService:DeviceService;
 
   @InjectField() weekdayService:WeekdayService;
+
+  @InjectField() focusHelper:FocusHelperService;
 
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
@@ -134,33 +137,13 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
     days: (count:number):string => this.I18n.t('js.units.day', { count }),
-    scheduling: {
-      title: this.I18n.t('js.scheduling.title'),
-      manual: this.I18n.t('js.scheduling.manual'),
-      default: this.I18n.t('js.scheduling.default'),
-    },
-    ignoreNonWorkingDays: {
-      title: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.title'),
-      yes: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.true'),
-      no: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.false'),
-    },
   };
 
   onDataUpdated = new EventEmitter<string>();
 
   scheduleManually = false;
 
-  schedulingOptions = [
-    { value: false, title: this.text.scheduling.default },
-    { value: true, title: this.text.scheduling.manual },
-  ];
-
   ignoreNonWorkingDays = false;
-
-  ignoreNonWorkingDaysOptions = [
-    { value: false, title: this.text.ignoreNonWorkingDays.no },
-    { value: true, title: this.text.ignoreNonWorkingDays.yes },
-  ];
 
   duration:number|null;
 
@@ -185,6 +168,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   // Manual changes to the datepicker, with information which field was active
   datepickerChanged$ = new Subject<ActiveDateChange>();
 
+  // We want to position the modal as soon as the datepicker gets initialized
+  // But if we destroy and recreate the datepicker (e.g., when toggling switches), keep current position
+  modalPositioned = false;
+
   // Date updates from the datepicker or a manual change
   dateUpdates$ = merge(
     this.startDateDebounced$,
@@ -197,10 +184,14 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     )
     .subscribe(([field, update]) => {
       // When clearing the one date, clear the others as well
-      if (update === null) {
-        this.clearAllValues();
-      } else {
-        this.handleDatePickerChange(field, castArray(update));
+      if (update !== null) {
+        this.handleSingleDateUpdate(field, update);
+      }
+
+      // Clear active field and duration
+      // when the active field was cleared
+      if (update === null && field !== 'duration') {
+        this.clearWithDuration(field);
       }
 
       this.onDataChange();
@@ -214,9 +205,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     .durationChanges$
     .pipe(
       this.untilDestroyed(),
-      distinctUntilChanged(),
       debounceTime(500),
-      map((value) => (value === '' ? null : parseInt(value, 10))),
+      map((value) => (value === '' ? null : Math.abs(parseInt(value, 10)))),
+      filter((val) => val === null || !Number.isNaN(val)),
       filter((val) => val !== this.duration),
     )
     .subscribe((value) => this.applyDurationChange(value));
@@ -226,6 +217,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   durationFocused = false;
 
   private changeset:ResourceChangeset;
+
+  ignoreNonWorkingDaysWritable = true;
 
   private datePickerInstance:DatePicker;
 
@@ -264,11 +257,21 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     this.scheduleManually = !!this.changeset.value('scheduleManually');
     this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
 
+    // Ensure we get the writable values from the loaded form
+    void this
+      .changeset
+      .getForm()
+      .then((form) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        this.ignoreNonWorkingDaysWritable = !!form.schema.ignoreNonWorkingDays.writable;
+        this.cdRef.detectChanges();
+      });
+
     this.setDurationDaysFromUpstream(this.changeset.value('duration'));
 
     this.dates.start = this.changeset.value('startDate');
     this.dates.end = this.changeset.value('dueDate');
-    this.setCurrentActivatedField(this.initialActivatedField());
+    this.setCurrentActivatedField(this.initialActivatedField);
   }
 
   ngAfterViewInit():void {
@@ -279,10 +282,21 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         this.initializeDatepicker(date);
         this.onDataChange();
       });
+
+    // Autofocus duration if that's what activated us
+    if (this.initialActivatedField === 'duration') {
+      this.focusHelper.focus(this.durationField.nativeElement);
+    }
   }
 
   changeSchedulingMode():void {
     this.initializeDatepicker();
+
+    // If removing manual scheduling on parent, reset ignoreNWD to original value
+    if (this.scheduleManually === false && !this.ignoreNonWorkingDaysWritable) {
+      this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
+    }
+
     this.cdRef.detectChanges();
   }
 
@@ -351,19 +365,18 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   setToday(key:DateKeys):void {
-    const today = parseDate(new Date());
-    this.dates[key] = this.timezoneService.formattedISODate(today);
+    this.datepickerChanged$.next([key, new Date()]);
 
-    if (today instanceof Date) {
-      this.enforceManualChangesToDatepicker(today);
-      this.toggleCurrentActivatedField();
-    } else {
-      this.enforceManualChangesToDatepicker();
-    }
+    const nextActive = key === 'start' ? 'end' : 'start';
+    this.setCurrentActivatedField(nextActive);
   }
 
   // eslint-disable-next-line class-methods-use-this
   reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>):void {
+    if (this.deviceService.isMobile) {
+      return;
+    }
+
     element.position({
       my: 'left top',
       at: 'left bottom',
@@ -393,7 +406,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   handleDurationFocusOut():void {
-    this.durationFocused = false;
+    setTimeout(() => {
+      this.durationFocused = false;
+    });
   }
 
   get displayedDuration():string {
@@ -436,10 +451,9 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     return null;
   }
 
-  private clearAllValues() {
+  private clearWithDuration(field:DateKeys) {
     this.duration = null;
-    this.dates.start = null;
-    this.dates.end = null;
+    this.dates[field] = null;
     this.enforceManualChangesToDatepicker();
   }
 
@@ -451,14 +465,32 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       [this.dates.start || '', this.dates.end || ''],
       {
         mode: 'range',
-        showMonths: this.browserDetector.isMobile ? 1 : 2,
+        showMonths: this.deviceService.isMobile ? 1 : 2,
         inline: true,
-        onReady: () => {
-          this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
+        onReady: (_date, _datestr, instance) => {
+          instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
+
+          if (!this.modalPositioned) {
+            this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
+            this.modalPositioned = true;
+          }
+
+          this.ensureHoveredSelection(instance.calendarContainer);
         },
-        onChange: (dates:Date[]) => {
+        onChange: (dates:Date[], _datestr, instance) => {
           const activeField = this.currentlyActivatedDateField;
-          this.datepickerChanged$.next([activeField, dates]);
+
+          // When two values are passed from datepicker and we don't have duration set,
+          // just take the range provided by them
+          if (dates.length === 2 && !this.duration) {
+            this.setDatesAndDeriveDuration(dates[0], dates[1]);
+            this.toggleCurrentActivatedField();
+            return;
+          }
+
+          // Update with the same flow as entering a value
+          const { latestSelectedDateObj } = instance as { latestSelectedDateObj:Date };
+          this.datepickerChanged$.next([activeField, latestSelectedDateObj]);
 
           // The duration field is special in how it handles focus transitions
           // For start/due we just toggle here
@@ -502,24 +534,12 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     this.onDataChange();
   }
 
-  private handleDatePickerChange(activeField:DateFields, dates:Date[]) {
-    if (dates.length === 2) {
-      this.handleMultiDateUpdate(activeField, dates);
-    } else {
-      this.handleSingleDateUpdate(activeField, dates[0]);
-    }
-  }
+  private setDatesAndDeriveDuration(newStart:Date, newEnd:Date) {
+    this.dates.start = this.timezoneService.formattedISODate(newStart);
+    this.dates.end = this.timezoneService.formattedISODate(newEnd);
 
-  private handleMultiDateUpdate(activeField:DateFields, dates:Date[]) {
-    // Write the dates to the input fields
-    this.dates.start = this.timezoneService.formattedISODate(dates[0]);
-    this.dates.end = this.timezoneService.formattedISODate(dates[1]);
-
-    if (activeField === 'duration') {
-      this.durationActiveDateSelected(dates[0]);
-    } else if (this.dates.start && this.dates.end) {
-      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
-    }
+    // Derive duration
+    this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
   }
 
   private handleSingleDateUpdate(activeField:DateFields, selectedDate:Date) {
@@ -528,16 +548,25 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       return;
     }
 
-    // If both dates were already set, update approparitely
+    // If both dates are now set, ensure we update it accordingly
     if (this.dates.start && this.dates.end) {
       this.replaceDatesWithNewSelection(activeField, selectedDate);
-    } else {
-      // Set the current date field
-      this.dates[activeField] = this.timezoneService.formattedISODate(selectedDate);
-
-      // Active is on start or end, the other was missing
-      this.deriveOtherField(activeField);
+      return;
     }
+
+    // Set the current date field
+    this.moveActiveDate(activeField, selectedDate);
+
+    // We may or may not have both fields set now
+    // If we have duration set, we derive the other field
+    if (this.duration) {
+      this.deriveMissingDateFromDuration(activeField);
+    } else if (this.dates.start && this.dates.end) {
+      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+    }
+
+    // Set the selected date on the datepicker
+    this.enforceManualChangesToDatepicker(selectedDate);
   }
 
   /**
@@ -546,21 +575,49 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
    * If the duration field has a value:
    *  - start date is updated, derive end date, set end date active
    * If the duration field has no value:
-   *   - start_date is updated, no value is derived, set end date active
+   *   - If start date has a value, finish date is set
+   *   - Otherwise, start date is set
+   *   - Focus is set to the finish date
    *
    * @param selectedDate The date selected
    * @private
    */
   private durationActiveDateSelected(selectedDate:Date) {
-    // Click on datepicker always updates the start date
-    this.dates.start = this.timezoneService.formattedISODate(selectedDate);
+    const selectedIsoDate = this.timezoneService.formattedISODate(selectedDate);
 
-    // Focus moves to finish date
-    this.setCurrentActivatedField('end');
+    if (!this.duration && this.dates.start) {
+      // When duration is empty and start is set, update finish
+      this.setDaysInOrder(this.dates.start, selectedIsoDate);
 
-    // If duration has value, derive end date from start and duration
-    if (this.duration) {
+      // Focus moves to start date
+      this.setCurrentActivatedField('start');
+    } else {
+      // Otherwise, the start date always gets updated
+      this.setDaysInOrder(selectedIsoDate, this.dates.end);
+
+      // Focus moves to finish date
+      this.setCurrentActivatedField('end');
+    }
+
+    if (this.dates.start && this.duration) {
+      // If duration has value, derive end date from start and duration
       this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+    } else if (this.dates.start && this.dates.end) {
+      // If start and due now have values, derive duration again
+      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+    }
+  }
+
+  private setDaysInOrder(start:string|null, end:string|null) {
+    const parsedStartDate = start ? parseDate(start) as Date : null;
+    const parsedEndDate = end ? parseDate(end) as Date : null;
+
+    if (parsedStartDate && parsedEndDate && parsedStartDate > parsedEndDate) {
+      this.dates.start = end;
+      this.dates.end = start;
+    } else {
+      this.dates.start = start;
+      this.dates.end = end;
     }
   }
 
@@ -572,19 +629,47 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
    * @param activeField The active field that was changed
    * @private
    */
-  private deriveOtherField(activeField:'start'|'end') {
-    if (this.duration) {
-      // Duration is set, derive the other field
-      if (activeField === 'start' && !!this.dates.start) {
-        this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
-      }
+  private deriveMissingDateFromDuration(activeField:'start'|'end') {
+    if (activeField === 'start' && !!this.dates.start) {
+      this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
+    }
 
-      if (activeField === 'end' && !!this.dates.end) {
-        this.formUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
-      }
-    } else if (this.dates.start && this.dates.end) {
-      // Duration is not set but the other two, derive duration
-      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+    if (activeField === 'end' && !!this.dates.end) {
+      this.formUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
+    }
+  }
+
+  /**
+   * Moves the active date to the given selected date.
+   *
+   * This is different from replaceDatesWithNewSelection as duration is prioritized higher in our case.
+   * @param activeField
+   * @param selectedDate
+   * @private
+   */
+  private moveActiveDate(activeField:DateKeys, selectedDate:Date) {
+    const parsedStartDate = this.dates.start ? parseDate(this.dates.start) as Date : null;
+    const parsedEndDate = this.dates.end ? parseDate(this.dates.end) as Date : null;
+
+    // Set the given field
+    this.dates[activeField] = this.timezoneService.formattedISODate(selectedDate);
+
+    // Special handling, moving finish date to before start date
+    if (activeField === 'end' && parsedStartDate && parsedStartDate > selectedDate) {
+      // Reset duration and start date
+      this.duration = null;
+      this.dates.start = null;
+      // Update finish date and mark as active in datepicker
+      this.enforceManualChangesToDatepicker(selectedDate);
+    }
+
+    // Special handling, moving start date to after finish date
+    if (activeField === 'start' && parsedEndDate && parsedEndDate < selectedDate) {
+      // Reset duration and start date
+      this.duration = null;
+      this.dates.end = null;
+      // Update finish date and mark as active in datepicker
+      this.enforceManualChangesToDatepicker(selectedDate);
     }
   }
 
@@ -602,7 +687,14 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     const parsedEndDate = parseDate(this.dates.end || '') as Date;
 
     if (selectedDate < parsedStartDate) {
-      this.applyNewDates([selectedDate]);
+      if (activeField === 'start') {
+        // Set start, derive end from duration
+        this.applyNewDates([selectedDate]);
+      } else {
+        // Reset duration and end date
+        this.duration = null;
+        this.applyNewDates(['', selectedDate]);
+      }
     } else if (selectedDate > parsedEndDate) {
       if (activeField === 'end') {
         this.applyNewDates([parsedStartDate, selectedDate]);
@@ -619,7 +711,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     }
   }
 
-  private applyNewDates([start, end]:Date[]) {
+  private applyNewDates([start, end]:DateOption[]) {
     this.dates.start = start ? this.timezoneService.formattedISODate(start) : null;
     this.dates.end = end ? this.timezoneService.formattedISODate(end) : null;
 
@@ -650,7 +742,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     this.onDataUpdated.emit(output);
   }
 
-  private initialActivatedField():DateFields {
+  private get initialActivatedField():DateFields {
     switch (this.locals.fieldName) {
       case 'startDate':
         return 'start';
@@ -725,5 +817,28 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         }),
         map((date) => [key, date]),
       );
+  }
+
+  /**
+   * When hovering selections in the range datepicker, the range usually
+   * stays active no matter where the cursor is.
+   *
+   * We want to hide any hovered selection preview when we leave the datepicker.
+   * @param calendarContainer
+   * @private
+   */
+  private ensureHoveredSelection(calendarContainer:HTMLDivElement) {
+    fromEvent(calendarContainer, 'mouseenter')
+      .pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe(() => calendarContainer.classList.remove('flatpickr-container-suppress-hover'));
+
+    fromEvent(calendarContainer, 'mouseleave')
+      .pipe(
+        this.untilDestroyed(),
+        filter(() => !(!!this.dates.start && !!this.dates.end)),
+      )
+      .subscribe(() => calendarContainer.classList.add('flatpickr-container-suppress-hover'));
   }
 }

@@ -6,8 +6,8 @@
 
   <div class="spot-divider"></div>
 
-  <div class="spot-modal--body op-form">
-    <op-form-field
+  <div class="spot-modal--body spot-container">
+    <spot-form-field
       [label]="text.project.label"
       required
     >
@@ -20,7 +20,7 @@
       ></op-project-autocompleter>
 
       <div
-        slot="help-text"
+        slot="action"
         *ngIf="projectControl.errors?.lackingPermission"
       >
         {{ text.project.lackingPermissionInfo }}
@@ -28,7 +28,7 @@
 
       <div
         slot="errors"
-        class="op-form-field--error"
+        class="spot-form-field--error"
         *ngIf="projectControl.errors?.required"
       >
         {{ text.project.required }}
@@ -36,14 +36,14 @@
 
       <div
         slot="errors"
-        class="op-form-field--error"
+        class="spot-form-field--error"
         *ngIf="projectControl.errors?.lackingPermission"
       >
         {{ text.project.lackingPermission }}
       </div>
-    </op-form-field>
+    </spot-form-field>
 
-    <op-form-field>
+    <spot-form-field>
       <op-option-list
         [options]="typeOptions"
         formControlName="type"
@@ -52,19 +52,25 @@
 
       <div
         *ngIf="projectAndTypeForm?.dirty && typeControl?.invalid"
-        class="op-form-field--errors"
+        class="spot-form-field--errors"
         slot="errors"
       >
-        <div class="op-form-field--error">
+        <div class="spot-form-field--error">
           {{ text.type.required }}
         </div>
       </div>
-    </op-form-field>
+    </spot-form-field>
   </div>
 
-  <div class="spot-modal--footer spot-action-bar">
+  <div class="spot-action-bar">
     <div class="spot-action-bar--right">
-      <button class="button button_no-margin -highlight spot-action-bar--action">{{ text.nextButton }}</button>
+      <button
+        type="button"
+        class="button spot-action-bar--action spot-modal--cancel-button"
+        (click)="close.emit()"> {{ text.cancelButton }}
+      </button>
+      <button class="button -highlight spot-action-bar--action">{{ text.nextButton }}</button>
+
     </div>
   </div>
 </form>

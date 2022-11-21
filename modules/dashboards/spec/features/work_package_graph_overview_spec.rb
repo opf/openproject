@@ -90,7 +90,7 @@ describe 'Work package overview graph widget on dashboard',
 
     dashboard.add_widget(1, 1, :within, "Work packages overview")
 
-    # As the user lacks the necessary permisisons, no widget is preconfigured
+    # As the user lacks the necessary permissions, no widget is preconfigured
     overview_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 
     overview_widget.expect_to_span(1, 1, 2, 2)

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 storages resource', type: :request, content_type: :json do
+describe 'API v3 storages resource', content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }
@@ -76,7 +76,7 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
   describe 'GET /api/v3/storages/:storage_id' do
     let(:path) { api_v3_paths.storage(storage.id) }
 
-    context 'when user belongs to a project using the given storage' do
+    context 'if user belongs to a project using the given storage' do
       let!(:project_storage) { create(:project_storage, project:, storage:) }
 
       it_behaves_like 'successful storage response'
@@ -94,7 +94,7 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
       end
     end
 
-    context 'when user has :manage_storages_in_project permission in any project' do
+    context 'if user has :manage_storages_in_project permission in any project' do
       let(:permissions) { %i(manage_storages_in_project) }
 
       it_behaves_like 'successful storage response'
@@ -149,6 +149,132 @@ describe 'API v3 storages resource', type: :request, content_type: :json do
         include_examples 'a storage authorization result',
                          expected: ::API::V3::Storages::URN_CONNECTION_ERROR,
                          has_authorize_link: false
+      end
+    end
+  end
+
+  describe 'DELETE /api/v3/storages/:storage_id' do
+    let(:path) { api_v3_paths.storage(storage.id) }
+
+    subject(:last_response) do
+      delete path
+    end
+
+    context 'as admin' do
+      let(:current_user) { create(:admin) }
+
+      it_behaves_like 'successful no content response'
+    end
+
+    context 'as non-admin' do
+      context 'if user belongs to a project using the given storage' do
+        it_behaves_like 'unauthorized access'
+      end
+
+      context 'if user does not belong to a project using the given storage' do
+        let(:current_user) do
+          create(:user, member_with_permissions: permissions)
+        end
+
+        it_behaves_like 'not found'
+      end
+    end
+  end
+
+  describe 'GET /api/v3/storages/:storage_id/files' do
+    let(:path) { api_v3_paths.storage_files(storage.id) }
+
+    let(:files) do
+      [
+        Storages::StorageFile.new(1, 'new_younglings.md', 4096, 'plain/text', DateTime.now, DateTime.now,
+                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/'),
+        Storages::StorageFile.new(2, 'holocron_inventory.md', 4096, 'plain/text', DateTime.now, DateTime.now,
+                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/')
+      ]
+    end
+
+    describe 'with successful response' do
+      before do
+        storage_requests = instance_double(Storages::Peripherals::StorageRequests)
+        files_query = Proc.new do
+          ServiceResult.success(result: files)
+        end
+        allow(storage_requests).to receive(:files_query).and_return(ServiceResult.success(result: files_query))
+        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
+      end
+
+      subject { last_response.body }
+
+      it { is_expected.to be_json_eql(files.length.to_json).at_path('count') }
+      it { is_expected.to be_json_eql(files[0].id.to_json).at_path('_embedded/elements/0/id') }
+      it { is_expected.to be_json_eql(files[0].name.to_json).at_path('_embedded/elements/0/name') }
+      it { is_expected.to be_json_eql(files[1].id.to_json).at_path('_embedded/elements/1/id') }
+      it { is_expected.to be_json_eql(files[1].name.to_json).at_path('_embedded/elements/1/name') }
+    end
+
+    describe 'with files query creation failed' do
+      let(:storage_requests) { instance_double(Storages::Peripherals::StorageRequests) }
+
+      before do
+        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
+      end
+
+      describe 'due to authorization failure' do
+        before do
+          allow(storage_requests).to receive(:files_query).and_return(ServiceResult.failure(result: :not_authorized))
+        end
+
+        it { expect(last_response.status).to be(500) }
+      end
+
+      describe 'due to internal error' do
+        before do
+          allow(storage_requests).to receive(:files_query).and_return(ServiceResult.failure(result: :error))
+        end
+
+        it { expect(last_response.status).to be(500) }
+      end
+
+      describe 'due to not found' do
+        before do
+          allow(storage_requests).to receive(:files_query).and_return(ServiceResult.failure(result: :not_found))
+        end
+
+        it { expect(last_response.status).to be(404) }
+      end
+    end
+
+    describe 'with query failed' do
+      let(:files_query) do
+        Struct.new('FilesQuery', :error) do
+          def query(_)
+            ServiceResult.failure(result: error)
+          end
+        end.new(error)
+      end
+
+      before do
+        storage_queries = instance_double(Storages::Peripherals::StorageInteraction::StorageQueries)
+        allow(storage_queries).to receive(:files_query).and_return(ServiceResult.success(result: files_query))
+        allow(Storages::Peripherals::StorageInteraction::StorageQueries).to receive(:new).and_return(storage_queries)
+      end
+
+      describe 'due to authorization failure' do
+        let(:error) { :not_authorized }
+
+        it { expect(last_response.status).to be(500) }
+      end
+
+      describe 'due to internal error' do
+        let(:error) { :error }
+
+        it { expect(last_response.status).to be(500) }
+      end
+
+      describe 'due to not found' do
+        let(:error) { :not_found }
+
+        it { expect(last_response.status).to be(404) }
       end
     end
   end

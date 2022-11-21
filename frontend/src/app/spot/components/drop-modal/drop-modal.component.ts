@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -15,16 +16,26 @@ import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-he
 @Component({
   selector: 'spot-drop-modal',
   templateUrl: './drop-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpotDropModalComponent implements OnDestroy {
   @HostBinding('class.spot-drop-modal') public className = true;
 
-  @Output() closed = new EventEmitter<void>();
-
+  /**
+   * The alignment of the drop modal. There are twelve alignments in total. You can check which ones they are
+   * from the `SpotDropAlignmentOption` Enum that is available in 'core-app/spot/drop-alignment-options'.
+   */
   @Input() public alignment:SpotDropAlignmentOption = SpotDropAlignmentOption.BottomLeft;
+
+  get alignmentClass():string {
+    return `spot-drop-modal--body_${this.alignment}`;
+  }
 
   public _open = false;
 
+  /**
+   * Boolean indicating whether the modal should be opened
+   */
   @Input('open')
   @HostBinding('class.spot-drop-modal_opened')
   set open(value:boolean) {
@@ -58,9 +69,25 @@ export class SpotDropModalComponent implements OnDestroy {
     return this._open;
   }
 
-  get alignmentClass():string {
-    return `spot-drop-modal--body_${this.alignment}`;
-  }
+  /**
+   * Emits when the drop modal closes. This is needed because you are usually controlling the opened
+   * state of the modal manually because you have to define the trigger that opens the modal, but can
+   * will close itself automatically if the user interacts outside of it or presses Escape.
+   *
+   * ```
+   * <spot-drop-modal
+   *   [open]="isDropModalOpen"
+   *   (closed)="isDropModalOpen = false"
+   * >
+   *   <button
+   *     slot="trigger"
+   *     type="button"
+   *     (click)="isDropModalOpen = true"
+   *   >Open drop modal</button>
+   * </spot-drop-modal>
+   * ```
+   */
+  @Output() closed = new EventEmitter<void>();
 
   public text = {
     close: this.i18n.t('js.spot.drop_modal.close'),

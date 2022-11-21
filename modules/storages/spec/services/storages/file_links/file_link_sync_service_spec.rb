@@ -67,7 +67,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
            container: work_package)
   end
 
-  # We're going to mock OAuth2 autentication failures below
+  # We're going to mock OAuth2 authentication failures below
   let(:connection_manager) { ::OAuthClients::ConnectionManager.new(user:, oauth_client: oauth_client1) }
   let(:authorize_url) { 'https://example.com/authorize' }
   let(:instance) { described_class.new(user:) }

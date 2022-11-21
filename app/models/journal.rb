@@ -38,6 +38,7 @@ class Journal < ApplicationRecord
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
   register_journal_formatter :schedule_manually, OpenProject::JournalFormatter::ScheduleManually
+  register_journal_formatter :ignore_non_working_days, OpenProject::JournalFormatter::IgnoreNonWorkingDays
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }
@@ -46,8 +47,8 @@ class Journal < ApplicationRecord
   belongs_to :journable, polymorphic: true
   belongs_to :data, polymorphic: true, dependent: :destroy
 
-  has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :destroy
-  has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :destroy
+  has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :delete_all
+  has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :delete_all
 
   has_many :notifications, dependent: :destroy
 

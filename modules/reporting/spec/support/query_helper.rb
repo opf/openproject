@@ -32,9 +32,10 @@ require 'cost_query/operator'
 module OpenProject::Reporting
   module QueryHelper
     def minimal_query
+      let(:query) { CostQuery.new }
+
       before do
-        @query = CostQuery.new
-        @query.send(:minimal_chain!)
+        query.send(:minimal_chain!)
       end
     end
   end

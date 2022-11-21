@@ -28,15 +28,23 @@
 
 module ScheduleHelpers
   # Contains work packages and relations information from a chart
-  # representation.
+  # representation, and information to render it.
   #
   # The work package information are:
   # * subject
+  # * parent
   # * start_date
   # * due_date
+  # * duration
+  # * ignore_non_working_days
   #
   # The relations information are limited to follows relations and are retrieved
   # with +#predecessors_by_follower+
+  #
+  # The rendering information are:
+  # * chart origin (the monday displayed in the header line)
+  # * max and min date
+  # * first column size
   #
   # The chart uses different symbols in the timeline to represent a work package
   # start and due dates:
@@ -64,13 +72,14 @@ module ScheduleHelpers
     end
 
     def initialize
-      self.monday = next_monday
+      self.monday = Date.current.next_occurring(:monday)
       self.id_column_size = FIRST_CELL_TEXT.length
     end
 
     # duplicates the chart with different representation properties
     def with(order: work_package_names, id_column_size: self.id_column_size, first_day: self.first_day, last_day: self.last_day)
       chart = Chart.new
+      order = order.map(&:to_sym)
       extra_names = work_package_names - order
       chart.work_packages_attributes = work_packages_attributes.index_by { _1[:name] }.values_at(*(order + extra_names)).compact
       chart.monday = monday
@@ -125,6 +134,8 @@ module ScheduleHelpers
     end
 
     def add_work_package(attributes)
+      attributes[:start_date] ||= WorkPackage.column_defaults["start_date"]
+      attributes[:due_date] ||= WorkPackage.column_defaults["due_date"]
       extend_calendar_range(*attributes.values_at(:start_date, :due_date))
       extend_id_column_size(*attributes.values_at(:subject))
       work_packages_attributes << attributes.merge(name: attributes[:subject].to_sym)
@@ -142,6 +153,11 @@ module ScheduleHelpers
                              "#{dates_attributes.keys.join(' and ')} is set"
       end
       attributes[:duration] = duration
+    end
+
+    def set_ignore_non_working_days(name, ignore_non_working_days)
+      attributes = work_package_attributes(name.to_sym)
+      attributes[:ignore_non_working_days] = ignore_non_working_days
     end
 
     def add_follows_relation(predecessor:, follower:, delay:)
@@ -168,6 +184,13 @@ module ScheduleHelpers
         representer.add_cell(span(work_package_attributes(name)))
       end
       representer.to_s
+    end
+
+    def compact_dates
+      @first_day, @last_day = work_packages_attributes.pluck(:start_date, :due_date).flatten.compact.minmax
+      @monday = ([@first_day, @last_day, @monday].compact.first - 1).next_occurring(:monday)
+      extend_calendar_range(@monday, @monday + 6)
+      self
     end
 
     protected
@@ -223,12 +246,6 @@ module ScheduleHelpers
       else
         WorkPackages::Shared::WorkingDays.new
       end
-    end
-
-    def next_monday
-      date = Time.zone.today
-      date += 1.day while date.wday != 1
-      date
     end
 
     def predecessors_by_followers

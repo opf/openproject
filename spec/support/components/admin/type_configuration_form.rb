@@ -30,9 +30,8 @@ module Components
   module Admin
     class TypeConfigurationForm
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
-
-      def initialize; end
 
       def add_button_dropdown
         page.find '.form-configuration--add-group', text: 'Group'

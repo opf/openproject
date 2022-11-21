@@ -1,0 +1,39 @@
+# Schema: Values::PropertyModel
+---
+type: object
+required:
+  - _type
+  - property
+  - value
+  - _links
+properties:
+  _type:
+    type: string
+    enum:
+      - Values::Property
+  property:
+    type: string
+    description: The key of the key - value pair represented by the Values::Property
+  value:
+    type: string
+    description: The value of the key - value pair represented by the Values::Property
+  _links:
+    type: object
+    required:
+      - self
+      - schema
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This key - value pair.
+
+              **Resource**: Storage
+      schema:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The schema describing the key - value pair.
+
+              **Resource**: Schema

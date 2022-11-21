@@ -1,7 +1,6 @@
 require_relative '../spec_helper'
 
 describe 'Password change with OTP',
-         with_2fa_ee: true,
          type: :feature,
          with_settings: {
            plugin_openproject_two_factor_authentication: {

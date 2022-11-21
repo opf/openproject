@@ -142,9 +142,9 @@ import {
   WorkPackageQuickinfoMacroComponent,
 } from 'core-app/shared/components/fields/macros/work-package-quickinfo-macro.component';
 import {
-  SlideToggleComponent,
-  slideToggleSelector,
-} from 'core-app/shared/components/slide-toggle/slide-toggle.component';
+  SpotSwitchComponent,
+  spotSwitchSelector,
+} from 'core-app/spot/components/switch/switch.component';
 import { BackupComponent, backupSelector } from 'core-app/core/setup/globals/components/admin/backup.component';
 import {
   EnterpriseBaseComponent,
@@ -159,6 +159,10 @@ import {
   enterpriseBannerSelector,
 } from 'core-app/shared/components/enterprise-banner/enterprise-banner.component';
 import {
+  EnterprisePageComponent,
+  enterprisePageSelector,
+} from 'core-app/shared/components/enterprise-page/enterprise-page.component';
+import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector,
 } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
@@ -171,10 +175,6 @@ import {
   homescreenNewFeaturesBlockSelector,
 } from 'core-app/features/homescreen/blocks/new-features.component';
 import { MainMenuToggleComponent, mainMenuToggleSelector } from 'core-app/core/main-menu/main-menu-toggle.component';
-import {
-  ConfirmFormSubmitController,
-  confirmFormSubmitSelector,
-} from 'core-app/shared/components/modals/confirm-form-submit/confirm-form-submit.directive';
 import {
   MainMenuResizerComponent,
   mainMenuResizerSelector,
@@ -203,6 +203,7 @@ import {
   CalendarSidemenuComponent,
   opCalendarSidemenuSelector,
 } from 'core-app/features/calendar/sidemenu/calendar-sidemenu.component';
+import { OpModalOverlayComponent, opModalOverlaySelector } from 'core-app/shared/components/modal/modal-overlay.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -232,12 +233,12 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: contentTabsSelector, cls: ContentTabsComponent },
   { selector: globalSearchTitleSelector, cls: GlobalSearchTitleComponent },
   { selector: copyToClipboardSelector, cls: CopyToClipboardDirective },
-  { selector: confirmFormSubmitSelector, cls: ConfirmFormSubmitController },
   { selector: mainMenuResizerSelector, cls: MainMenuResizerComponent },
   { selector: mainMenuToggleSelector, cls: MainMenuToggleComponent },
   { selector: globalSearchSelector, cls: GlobalSearchInputComponent },
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
   { selector: enterpriseBannerSelector, cls: EnterpriseBannerComponent },
+  { selector: enterprisePageSelector, cls: EnterprisePageComponent },
   { selector: noResultsSelector, cls: NoResultsComponent },
   { selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent },
   { selector: freeTrialButtonSelector, cls: FreeTrialButtonComponent },
@@ -255,8 +256,9 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: attributeLabelMacro, cls: AttributeLabelMacroComponent, embeddable: true },
   { selector: quickInfoMacroSelector, cls: WorkPackageQuickinfoMacroComponent, embeddable: true },
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
-  { selector: slideToggleSelector, cls: SlideToggleComponent },
+  { selector: spotSwitchSelector, cls: SpotSwitchComponent },
   { selector: backupSelector, cls: BackupComponent },
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
   { selector: ianMenuSelector, cls: IanMenuComponent },
+  { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
 ];

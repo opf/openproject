@@ -64,11 +64,13 @@ export class WidgetTimeEntriesCurrentUserMenuComponent extends WidgetAbstractMen
       linkText: this.i18n.t('js.grid.configure'),
       onClick: () => {
         this.opModalService.show(TimeEntriesCurrentUserConfigurationModalComponent, this.injector, this.locals)
-          .closingEvent.subscribe((modal:TimeEntriesCurrentUserConfigurationModalComponent) => {
-            if (modal.options) {
-              this.onConfigured.emit(modal.options);
-            }
-          });
+          .subscribe(
+            (modal) => modal.closingEvent.subscribe(() => {
+              if (modal.options) {
+                this.onConfigured.emit(modal.options);
+              }
+            }),
+          );
         return true;
       },
     };

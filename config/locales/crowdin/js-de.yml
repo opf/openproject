@@ -26,6 +26,9 @@ de:
       loading: "Laden…"
       updating: "Aktualisiere…"
     attachments:
+      delete: "Anhang löschen"
+      delete_confirmation: |
+        Sind Sie sicher, dass Sie diese Datei löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.
       draggable_hint: |
         Ziehen Sie diesen Anhang auf ein editierbares Feld, um das Bild oder den Anhang einzubinden. Geöffnete Felder werden automatisch geöffnet während Sie das Attachment mit der Maus ziehen und halten.
     autocomplete_select:
@@ -82,6 +85,10 @@ de:
     button_open_fullscreen: "Vollbildansicht öffnen"
     button_show_cards: "Kartenansicht anzeigen"
     button_show_list: "Listenansicht anzeigen"
+    button_show_table: "Tabellenansicht anzeigen"
+    button_show_gantt: "Gantt-Ansicht anzeigen"
+    button_show_fullscreen: "Vollbildansicht anzeigen"
+    button_more_actions: "Weitere Aktionen"
     button_quote: "Zitieren"
     button_save: "Speichern"
     button_settings: "Einstellungen"
@@ -220,6 +227,8 @@ de:
           quick_overview: "Erhalten Sie einen schnellen Überblick über Projektmanagement und Teamzusammenarbeit mit der OpenProject Enterprise Edition."
         upsale:
           become_hero: "Werde zum Held!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "Was sind die Vorteile von Enterprise on-premises?"
             high_security: "Sicherheitsfunktionen"
@@ -232,6 +241,7 @@ de:
             professional_support_text: "Sie bekommen zuverlässigen und persönlichen Support von Experten, die sich mit dem Einsatz von OpenProject in geschäftskritischen Umgebungen auskennen."
           button_start_trial: "Kostenlose Testversion starten"
           button_upgrade: "Jetzt Upgrade durchführen"
+          button_contact_us: "Contact us for a demo"
           button_book_now: "Jetzt buchen"
           confidence: >
             OpenProject bietet eine bewährte und hoch-skalierbare Projektmanagement-Software für Unternehmen - mit Open Source und open mind.
@@ -289,15 +299,15 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Keine endlose Suche nach Dateien! Mit der neuen <b>Nextcloud Integration</b> in OpenProject 12. können Sie nun Dateien direkt im jeweiligen Arbeitspaket finden und immer die richtige Version zur Hand haben.</li> <li>Wir haben <b>einen neuen Datumswähler</b> mit aktualisiertem Eingabeverhalten und einem Informationsbanner eingeführt, der einen Button zur Darstellung von Relationen im Gantt-Diagramm enthält.</li> <li>Wir haben die Möglichkeit hinzugefügt <b>Zeitaufwand für andere Benutzer zu verbuchen.</b></li> <li>Markieren Sie Benachrichtigungen auch außerhalb des Benachrichtigungszentrums.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Keine endlose Suche nach Dateien! Mit der neuen <b>Nextcloud Integration</b> in OpenProject 12. können Sie nun Dateien direkt im jeweiligen Arbeitspaket finden und immer die richtige Version zur Hand haben.</li> <li>Wir haben <b>einen neuen Datumswähler</b> mit aktualisiertem Eingabeverhalten und einem Informationsbanner eingeführt, der einen Button zur Darstellung von Relationen im Gantt-Diagramm enthält.</li> <li>Wir haben die Möglichkeit hinzugefügt <b>Zeitaufwand für andere Benutzer zu verbuchen.</b></li> <li>Markieren Sie Benachrichtigungen auch außerhalb des Benachrichtigungszentrums.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
     label_activate: "Aktiviere"
     label_assignee: 'Zugewiesen an'
     label_add_column_after: "Spalte danach hinzufügen"
@@ -529,18 +539,33 @@ de:
       no_unread: "Keine ungelesenen Benachrichtigungen"
       reasons:
         mentioned: 'erwähnt'
-        watched: 'beobachtet'
+        watched: 'Beobachter'
         assigned: 'zugewiesen'
         responsible: 'verantwortlich'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'erstellt'
+        scheduled: 'geplant'
+        commented: 'kommentiert'
+        processed: 'verarbeitet'
+        prioritized: 'priorisiert'
+        dateAlert: 'Date alert'
+      date_alerts:
+        milestone_date: 'Milestone date'
+        overdue: 'Overdue'
+        overdue_since: 'since %{difference_in_days}'
+        property_today: 'is today'
+        property_is: 'is in %{difference_in_days}'
+        property_was: 'was %{difference_in_days} ago'
+        property_is_deleted: 'is deleted'
+        upsale:
+          title: 'Date alerts'
+          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'Ungelesen'
+        unread_title: 'Ungelesene anzeigen'
         all: 'Alle'
+        all_title: 'Alle anzeigen'
       center:
+        label_actor_and: 'und'
         and_more_users:
           one: 'und ein weiterer'
           other: 'und %{count} weitere'
@@ -562,22 +587,34 @@ de:
       menu:
         accountable: 'Verantwortlich'
         by_project: 'Ungelesen pro Projekt'
-        by_reason: 'Beteiligung'
+        by_reason: 'Reason'
         inbox: 'Eingang'
-        mentioned: '@erwähnt'
-        watching: 'Beobachtet'
+        mentioned: 'Erwähnt'
+        watched: 'Beobachter'
+        date_alert: 'Date alert'
       settings:
         change_notification_settings: 'Um Ihre Benachrichtigungseinstellungen anzuzeigen und zu ändern, <a target="_blank" href="%{url}">klicken Sie hier</a>'
         title: "Benachrichtigungseinstellungen"
         notify_me: "Benachrichtige mich"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: every day
+              P3D: every 3 days
+              P7D: every week
         reasons:
           mentioned:
-            title: 'Wenn ich @erwähnt werde'
+            title: 'Mentioned'
             description: 'Jedes Mal eine Benachrichtigung erhalten, wenn ich irgendwo erwähnt werde'
-          involved:
-            title: 'Mir zugewiesen oder verantwortlich'
-            description: 'Benachrichtigungen für Aktivitäten auf Arbeitspaketen erhalten, wenn ich zugewiesen oder verantwortlich bin'
-          watched: 'Aktualisierungen auf beobachteten Objekten'
+          assignee: 'Zugewiesen an'
+          responsible: 'Verantwortlich'
+          watched: 'Watcher'
           work_package_commented: 'Alle neuen Kommentare'
           work_package_created: 'Neue Arbeitspakete'
           work_package_processed: 'Änderungen am Status'
@@ -585,11 +622,18 @@ de:
           work_package_scheduled: 'Alle Datumsänderungen'
         global:
           immediately:
-            title: 'Sofort benachrichtigen'
-            description: 'Diese Einstellungen gelten für alle Projekte. Sie können unten projektspezifische Ausnahmen erstellen.'
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
           delayed:
-            title: 'Außerdem benachrichtigen für'
-            description: 'Benachrichtigungen für diese Aktivitäten bei Arbeitspaketen in allen Projekten erhalten:'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects'
+          date_alerts:
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          start_date: Start Date
+          due_date: Finish Date
+          overdue: When Overdue
         project_specific:
           title: 'Projektspezifische Benachrichtigungseinstellungen'
           description: 'Diese projektspezifischen Einstellungen ersetzen die Standardeinstellungen oben'
@@ -739,9 +783,7 @@ de:
     field_value_enter_prompt: "Einen Wert für '%{field}' eingeben"
     project_menu_details: "Details"
     scheduling:
-      title: 'Scheduling'
-      manual: 'Manual'
-      default: 'Default'
+      manual: 'Manuelle Planung'
     sort:
       sorted_asc: 'Aufsteigende Sortierung angewendet, '
       sorted_dsc: 'Absteigende Sortierung angewendet, '
@@ -752,7 +794,6 @@ de:
       activate_no: 'aktivieren um Sortierung zu entfernen'
     text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
     text_query_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählte Ansicht löschen möchten?"
-    text_attachment_destroy_confirmation: "Sind Sie sicher, dass Sie diesen Anhang löschen möchten?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt-Diagramm'
@@ -850,9 +891,7 @@ de:
         click_on_show_relations_to_open_gantt: 'Klicken Sie auf "%{button_name}" für eine GANTT-Übersicht.'
         show_relations: 'Beziehungen anzeigen'
         ignore_non_working_days:
-          title: 'Working days'
-          false: 'Work week'
-          true: 'Include weekends'
+          title: 'Nur Werktage'
       description_filter: "Filter"
       description_enter_text: "Text eingeben"
       description_options_hide: "Optionen ausblenden"
@@ -872,6 +911,8 @@ de:
       message_work_package_read_only: "Das Arbeitspaket ist in diesem Status gesperrt. Kein Attribut außer des Status selbst kann darin verändert werden."
       message_work_package_status_blocked: "Das Arbeitspaket ist auf geschlossene Status- und Versions-Attribute gesetzt, der Status kann nicht verändert werden."
       placeholder_filter_by_text: "Titel, Beschreibung, Kommentare, ..."
+      filters:
+        title: 'Arbeitspakete filtern'
       inline_create:
         title: 'Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen'
       create:
@@ -908,7 +949,7 @@ de:
         description: "Beschreibung"
         date: "Datum"
         dueDate: "Endtermin"
-        duration: "Duration"
+        duration: "Dauer"
         estimatedTime: "Geschätzter Aufwand"
         spentTime: "Aufgewendete Zeit"
         category: "Kategorie"
@@ -1045,12 +1086,14 @@ de:
       button_save: "Speichern"
       button_submit: "OK"
       button_cancel: "Abbrechen"
+      button_delete: "Löschen"
       form_submit:
         title: 'Bestätigen, um fortzufahren'
         text: 'Sind Sie sicher, dass Sie diese Aktion durchführen möchten?'
       destroy_work_package:
         title: "Löschen von %{label} bestätigen"
-        text: "Sind Sie sicher, dass Sie %{label} löschen möchten?"
+        single_text: "Sind Sie sicher, dass Sie das Arbeitspaket löschen möchten?"
+        bulk_text: "Sind Sie sicher, dass Sie die folgenden %{label} löschen möchten?"
         has_children: "Dieses Arbeitspaket hat %{childUnits}:"
         confirm_deletion_children: "Ich bestätige, dass alle untergordneten Elemente der hier aufgeführten Arbeitspakete rekursiv entfernt werden."
         deletes_children: "Alle untergeordneten Arbeitspaketen und deren Nachkommen werden auch rekursiv gelöscht."
@@ -1168,13 +1211,13 @@ de:
       role:
         label: 'Rolle in %{project}'
         no_roles_found: 'Keine Rollen gefunden'
-        description: 'Dies ist die Rolle, die %{principal} erhalten wird, wenn sie Ihrem Projekt beitreten. Die Rolle legt fest, welche Maßnahmen sie ergreifen dürfen und welche Informationen ihnen erlaubt sind. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions"  target="_blank"> Erfahren Sie mehr über Rollen und Berechtigungen. </a>'
+        description: 'Dies ist die Rolle, die der Benutzer erhält, wenn er Ihrem Projekt beitritt. Die Rolle legt fest, welche Aktionen sie ergreifen dürfen und welche Informationen ihnen zugänglich sind. <a href="https://www.openproject.org/de/docs/system-admin-guide/users-permissions/roles-permissions/" target="_blank"> Erfahren Sie mehr über Rollen und Berechtigungen. </a>'
         required: 'Bitte eine Rolle auswählen'
         next_button: 'Weiter'
       message:
         label: 'Einladungsnachricht'
-        description: 'Wir werden eine E-Mail an %{principal} senden, zu der Sie hier eine persönliche Nachricht hinzufügen können. Eine Erklärung für die Einladung könnte nützlich sein oder vielleicht ein paar Informationen über das Projekt, um den Start zu erleichtern.'
-        next_button: 'Einladung überprüfen'
+        description: 'Wir senden dem Benutzer eine E-Mail, der Sie hier eine persönliche Nachricht ergänzen können. Eine Erklärung für die Einladung oder nützliche Informationen zum eingeladenen Projekt könnten nützlich sein, dem Benutzer bei der Mitarbeit zu unterstützen.'
+        next_button: 'Weiter'
       summary:
         next_button: 'Einladung senden'
       success:
@@ -1195,7 +1238,7 @@ de:
       search_placeholder: 'Projekt durchsuchen...'
       include_subprojects: 'Alle Unterprojekte einbeziehen'
       tooltip:
-        include_all_selected: '"Alle Unterprojekte einbeziehen" ist derzeit ausgewählt.'
+        include_all_selected: 'Das Projekt ist bereits enthalten, da alle Unterprojekte einbezogen sind.'
         current_project: 'Dies ist das aktuelle Projekt, in dem Sie sich befinden.'
         does_not_match_search: 'Projekt entspricht nicht den Suchkriterien.'
       no_results: 'Kein Projekt entspricht Ihren Suchkriterien.'

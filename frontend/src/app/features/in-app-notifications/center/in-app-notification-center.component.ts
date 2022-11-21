@@ -77,7 +77,11 @@ export class InAppNotificationCenterComponent implements OnInit {
     },
     {
       key: 'watched',
-      title: this.I18n.t('js.notifications.menu.watching'),
+      title: this.I18n.t('js.notifications.menu.watched'),
+    },
+    {
+      key: 'dateAlert',
+      title: this.I18n.t('js.notifications.menu.date_alert'),
     },
   ];
 

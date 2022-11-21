@@ -48,7 +48,7 @@ At the top of the user list is a filter box. Filter by status or name, then clic
 
 Handling locking and unlocking of users is also done from the user list. To disable a user's access click the **Lock permanently** link next to a user. Use the **Unlock** link to restore the user's access.
 
-If you are using [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide) locking a user will make a new user available to add to the system within your booked plan.
+If you are using [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide) locking a user will free up a user license and so you could add another user to the system within your booked plan.
 
 > **Note**: The previous activities from a locked user will still be displayed in the system.
 
@@ -213,4 +213,4 @@ You will then be asked to type in the username in order to delete the user perma
 
 ![delete user](image-20200115162533470.png)
 
-> **Note**: Deleting a user account is an irreversible action and cannot be reversed. The previous activities from this user will still be displayed in the system but reassigned to "deleted user".
+> **Note**: Deleting a user account is an irreversible action and cannot be reversed. The previous activities from this user will still be displayed in the system but reassigned to "Deleted user". This is also true for the Time and cost and the Budget modules. Spent time will be still be visible for "Deleted user" inside a Work package. Time and cost reports will contain the entries with reference to "Deleted user". Labor budgets that have been setup for the user are displayed under "Deleted user", too. If you would like to keep track of the user's name in connection with the mentioned activities, the spent time and the budget, you are able to keep the user's name in the historical data by simply [locking the user](#lock-and-unlock-users).

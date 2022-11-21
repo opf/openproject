@@ -41,7 +41,11 @@ import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/vie
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Subject,
+} from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -79,12 +83,14 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('inspectorPane') inspectorElement:ElementRef;
 
-  constructor(private I18n:I18nService,
+  constructor(
+    private I18n:I18nService,
     private elementRef:ElementRef,
     public ifcData:IfcModelsDataService,
     private ifcViewerService:IFCViewerService,
     private currentUserService:CurrentUserService,
-    private currentProjectService:CurrentProjectService) {
+    private currentProjectService:CurrentProjectService,
+  ) {
   }
 
   ngOnInit():void {
@@ -94,8 +100,9 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // we have to wait until view is initialized before constructing the ifc viewer,
     // as it needs all view children ready and rendered
-    combineLatest(
-      this.currentUserService
+    combineLatest([
+      this
+        .currentUserService
         .hasCapabilities$(
           [
             'ifc_models/create',
@@ -105,7 +112,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
           this.currentProjectService.id as string,
         ),
       this.viewInitialized$,
-    )
+    ])
       .pipe(take(1))
       .subscribe(([manageIfcModelsAllowed]) => {
         this.ifcViewerService.newViewer(

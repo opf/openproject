@@ -28,7 +28,7 @@
 
 class CustomField < ApplicationRecord
   include CustomField::OrderStatements
-
+  scope :required, -> { where(is_required: true) }
   has_many :custom_values, dependent: :delete_all
   # WARNING: the inverse_of option is also required in order
   # for the 'touch: true' option on the custom_field association in CustomOption
@@ -41,7 +41,7 @@ class CustomField < ApplicationRecord
            inverse_of: 'custom_field'
   accepts_nested_attributes_for :custom_options
 
-  acts_as_list scope: 'type = \'#{self.class}\''
+  acts_as_list scope: "type = '#{self.class}'"
 
   validates :field_format, presence: true
   validates :custom_options,
@@ -140,7 +140,7 @@ class CustomField < ApplicationRecord
 
   def value_of(value)
     if list?
-      custom_options.where(value:).pluck(:id).first
+      custom_options.where(value:).pick(:id)
     else
       CustomValue.new(custom_field: self, value:).valid? && value
     end
@@ -303,9 +303,9 @@ class CustomField < ApplicationRecord
 
   def possible_values_from_arg(arg)
     if arg.is_a?(Array)
-      arg.compact.map(&:strip).reject(&:blank?)
+      arg.compact.map(&:strip).compact_blank
     else
-      arg.to_s.split(/[\n\r]+/).map(&:strip).reject(&:blank?)
+      arg.to_s.split(/[\n\r]+/).map(&:strip).compact_blank
     end
   end
 

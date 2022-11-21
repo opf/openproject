@@ -42,10 +42,6 @@ export class ChildPagesMacroModalComponent extends OpModalComponent implements A
 
   public showClose = true;
 
-  public closeOnEscape = true;
-
-  public closeOnOutsideClick = true;
-
   public selectedPage:string;
 
   public selectedIncludeParent:boolean;

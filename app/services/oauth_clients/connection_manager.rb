@@ -151,7 +151,7 @@ module OAuthClients
       # `yield` needs to returns a ServiceResult:
       #   success: result= any object with data
       #   failure: result= :error or :not_authorized
-      yield_service_result = yield
+      yield_service_result = yield(oauth_client_token)
 
       if yield_service_result.failure? && yield_service_result.result == :not_authorized
         refresh_service_result = refresh_token
@@ -162,7 +162,7 @@ module OAuthClients
         end
 
         oauth_client_token.reload
-        yield_service_result = yield # Should contain result=<data> in case of success
+        yield_service_result = yield(oauth_client_token) # Should contain result=<data> in case of success
       end
 
       yield_service_result

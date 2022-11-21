@@ -71,6 +71,20 @@ describe Projects::CopyService, 'integration', type: :model do
       .and_return(new_project_role.id.to_s)
   end
 
+  describe '.copyable_dependencies' do
+    it 'includes dependencies for work packages as well as for their attachments' do
+      expect(described_class.copyable_dependencies.pluck(:identifier))
+        .to include(::Projects::Copy::WorkPackagesDependentService.identifier,
+                    ::Projects::Copy::WorkPackageAttachmentsDependentService.identifier)
+    end
+
+    it 'includes dependencies for wiki as well as for their pages\'s attachments' do
+      expect(described_class.copyable_dependencies.pluck(:identifier))
+        .to include(::Projects::Copy::WikiDependentService.identifier,
+                    ::Projects::Copy::WikiPageAttachmentsDependentService.identifier)
+    end
+  end
+
   describe 'call' do
     subject { instance.call(params) }
 
@@ -288,6 +302,35 @@ describe Projects::CopyService, 'integration', type: :model do
         expect(subject).to be_success
         expect(project_copy.wiki.wiki_menu_items.count).to eq 3
       end
+
+      context 'with attachments' do
+        let!(:attachment) { create(:attachment, container: source_wiki_page) }
+
+        context 'when requested' do
+          let(:only_args) { %i[wiki wiki_page_attachments] }
+
+          it 'copies them' do
+            expect(subject).to be_success
+            expect(subject.errors).to be_empty
+            expect(project_copy.wiki.pages.count).to eq 2
+
+            page = project_copy.wiki.pages.find_by(title: source_wiki_page.title)
+            expect(page.attachments.count).to eq(1)
+            expect(page.attachments.first.author).to eql(current_user)
+          end
+        end
+
+        context 'when not requested' do
+          it 'ignores them' do
+            expect(subject).to be_success
+            expect(subject.errors).to be_empty
+            expect(project_copy.wiki.pages.count).to eq 2
+
+            page = project_copy.wiki.pages.find_by(title: source_wiki_page.title)
+            expect(page.attachments.count).to eq(0)
+          end
+        end
+      end
     end
 
     describe 'valid queries' do
@@ -366,7 +409,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
       let(:only_args) { %w[work_packages] }
 
-      describe '#attachments' do
+      context 'with attachments' do
         let!(:attachment) { create(:attachment, container: work_package) }
 
         context 'when requested' do
@@ -699,6 +742,34 @@ describe Projects::CopyService, 'integration', type: :model do
           expect(cv).to be_kind_of Array
           expect(cv.count).to eq 2
           expect(cv.map(&:formatted_value)).to contain_exactly('A', 'B')
+        end
+      end
+
+      context 'with disabled work package custom field' do
+        it 'is still disabled in the copy' do
+          custom_field = create(:text_wp_custom_field)
+          create(:type_task,
+                 projects: [source],
+                 custom_fields: [custom_field])
+
+          expect(subject).to be_success
+
+          expect(source.work_package_custom_fields).to eq([])
+          expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
+        end
+      end
+
+      context 'with enabled work package custom field' do
+        it 'is still enabled in the copy' do
+          custom_field = create(:text_wp_custom_field, projects: [source])
+          create(:type_task,
+                 projects: [source],
+                 custom_fields: [custom_field])
+
+          expect(subject).to be_success
+
+          expect(source.work_package_custom_fields).to eq([custom_field])
+          expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
         end
       end
     end

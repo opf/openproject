@@ -205,8 +205,8 @@ describe CustomFieldFormBuilder do
                   id="user#{custom_field.id}"
                   name="user[#{custom_field.id}]"
                   no_label="true"><option
-                  value=\"\" label=\" \"></option>
-                  <option value=\"#{custom_option.id}\">my_option</option></select>
+                  value="" label=" "></option>
+                  <option value="#{custom_option.id}">my_option</option></select>
         }).at_path('select')
       end
 
@@ -220,9 +220,9 @@ describe CustomFieldFormBuilder do
             <select class="custom-class form--select"
                     id="user#{custom_field.id}"
                     name="user[#{custom_field.id}]"
-                    no_label="true"><option value=\"\">---
+                    no_label="true"><option value="">---
                     Please select ---</option>
-                    <option value=\"#{custom_option.id}\">my_option</option></select>
+                    <option value="#{custom_option.id}">my_option</option></select>
           }).at_path('select')
         end
       end
@@ -239,7 +239,7 @@ describe CustomFieldFormBuilder do
                     id="user#{custom_field.id}"
                     name="user[#{custom_field.id}]"
                     no_label="true"><option
-                    value=\"#{custom_option.id}\">my_option</option></select>
+                    value="#{custom_option.id}">my_option</option></select>
           }).at_path('select')
         end
       end
@@ -274,7 +274,7 @@ describe CustomFieldFormBuilder do
                   id="user#{custom_field.id}"
                   name="user[#{custom_field.id}]"
                   no_label="true">
-            <option value=\"\" label=\" \"></option>
+            <option value="" label=" "></option>
             <option value="#{user1.id}">#{user1.name}</option>
             <option value="#{user2.id}">#{user2.name}</option>
           </select>
@@ -292,7 +292,7 @@ describe CustomFieldFormBuilder do
                     id="user#{custom_field.id}"
                     name="user[#{custom_field.id}]"
                     no_label="true">
-              <option value=\"\">--- Please select ---</option>
+              <option value="">--- Please select ---</option>
               <option value="#{user1.id}">#{user1.name}</option>
               <option value="#{user2.id}">#{user2.name}</option>
             </select>
@@ -329,7 +329,7 @@ describe CustomFieldFormBuilder do
                   id="user#{custom_field.id}"
                   name="user[#{custom_field.id}]"
                   no_label="true">
-            <option value=\"\" label=\" \"></option>
+            <option value="" label=" "></option>
             <option value="#{version1.id}">#{version1.name}</option>
             <option value="#{version2.id}">#{version2.name}</option>
           </select>
@@ -347,7 +347,7 @@ describe CustomFieldFormBuilder do
                     id="user#{custom_field.id}"
                     name="user[#{custom_field.id}]"
                     no_label="true">
-              <option value=\"\">--- Please select ---</option>
+              <option value="">--- Please select ---</option>
               <option value="#{version1.id}">#{version1.name}</option>
               <option value="#{version2.id}">#{version2.name}</option>
             </select>

@@ -47,11 +47,11 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
+import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
+import { ConfirmDialogOptions } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
+import { getIconForMimeType } from 'core-app/shared/components/storages/functions/storages.functions';
+import { IFileIcon } from 'core-app/shared/components/storages/icons.mapping';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
-import {
-  getIconForMimeType,
-} from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -72,7 +72,8 @@ export class AttachmentListItemComponent extends UntilDestroyedMixin implements 
 
   public text = {
     dragHint: this.I18n.t('js.attachments.draggable_hint'),
-    destroyConfirmation: this.I18n.t('js.text_attachment_destroy_confirmation'),
+    deleteTitle: this.I18n.t('js.attachments.delete'),
+    deleteConfirmation: this.I18n.t('js.attachments.delete_confirmation'),
     removeFile: (arg:unknown):string => this.I18n.t('js.label_remove_file', arg),
   };
 
@@ -92,6 +93,7 @@ export class AttachmentListItemComponent extends UntilDestroyedMixin implements 
     private readonly I18n:I18nService,
     private readonly pathHelper:PathHelperService,
     private readonly timezoneService:TimezoneService,
+    private readonly confirmDialogService:ConfirmDialogService,
     private readonly principalsResourceService:PrincipalsResourceService,
     private readonly principalRendererService:PrincipalRendererService,
   ) {
@@ -174,14 +176,21 @@ export class AttachmentListItemComponent extends UntilDestroyedMixin implements 
     return AttachmentListItemComponent.imageFileExtensions.indexOf(ext.toLowerCase()) > -1;
   }
 
-  public confirmRemoveAttachment($event:JQuery.TriggeredEvent):boolean {
-    if (!window.confirm(this.text.destroyConfirmation)) {
-      $event.stopImmediatePropagation();
-      $event.preventDefault();
-      return false;
-    }
-
-    this.removeAttachment.emit();
-    return false;
+  public confirmRemoveAttachment():void {
+    const options:ConfirmDialogOptions = {
+      text: {
+        text: this.text.deleteConfirmation,
+        title: this.text.deleteTitle,
+        button_continue: this.text.deleteTitle,
+      },
+      icon: {
+        continue: 'delete',
+      },
+      dangerHighlighting: true,
+    };
+    void this.confirmDialogService
+      .confirm(options)
+      .then(() => { this.removeAttachment.emit(); })
+      .catch(() => { /* confirmation rejected */ });
   }
 }

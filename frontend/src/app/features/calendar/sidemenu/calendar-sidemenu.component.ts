@@ -1,9 +1,9 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  Input,
+  Component,
   ElementRef,
   HostBinding,
+  Input,
 } from '@angular/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
@@ -25,10 +25,12 @@ export class CalendarSidemenuComponent extends UntilDestroyedMixin {
 
   @Input() projectId:string|undefined;
 
-  canCreateCalendar$ = this.currentUserService.hasCapabilities$(
-    'calendars/create',
-    this.currentProjectService.id || undefined,
-  )
+  canCreateCalendar$ = this
+    .currentUserService
+    .hasCapabilities$(
+      'calendars/create',
+      this.currentProjectService.id || null,
+    )
     .pipe(this.untilDestroyed());
 
   text = {
