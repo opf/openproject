@@ -1,5 +1,4 @@
 <op-attachment-list
-  data-qa-selector="op-attachments--list"
   [ngClass]="{
     'op-attachments--list': true,
     'op-attachments--list_dragging': dragging
@@ -11,6 +10,7 @@
 ></op-attachment-list>
 
 <input
+  *ngIf="allowUploading && resource.canAddAttachments"
   #hiddenFileInput
   type="file"
   id="attachment_files"

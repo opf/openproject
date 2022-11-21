@@ -58,7 +58,7 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
     it 'can upload an image via attaching and drag & drop' do
       # called the same for all Wysiwyg dditors no matter if for work packages
       # or not
-      container = page.find('[data-qa-selector="op-attachments--list"]')
+      container = page.find('[data-qa-selector="op-attachments"]')
       scroll_to_element(container)
 
       ##
