@@ -32,7 +32,6 @@ module Journable::Timestamps
   extend ActiveSupport::Concern
 
   class_methods do
-
     # Allows to query historic data of journables.
     #
     # For example, to check which work packages were assigned to a
@@ -41,11 +40,8 @@ module Journable::Timestamps
     #     WorkPackage.where(assigned_to_id: 123).at_timestamp(1.year.ago)
     #
     def at_timestamp(timestamp)
-      relation = self.all
-      relation = Journable::HistoricActiveRecordRelation.new(relation, timestamp:)
-      return relation
+      Journable::HistoricActiveRecordRelation.new(all, timestamp:)
     end
-
   end
 
   # Instantiates a journable with historic data from the given timestap.
@@ -53,23 +49,26 @@ module Journable::Timestamps
   #     WorkPackage.find(1).at_timestamp(1.year.ago)
   #
   def at_timestamp(timestamp)
-    if journal = self.journals.at_timestamp(timestamp).first
-      attributes = journal.data.attributes.merge({
-        "id" => self.id,
-        "created_at" => self.created_at,
-        "updated_at" => journal.updated_at,
-        "timestamp" => timestamp,
-        "position" => (self.position if self.respond_to? :position)
-      })
+    if journal = journals.at_timestamp(timestamp).first
+      attributes = journal.data.attributes.merge(
+        {
+          "id" => id,
+          "created_at" => created_at,
+          "updated_at" => journal.updated_at,
+          "timestamp" => timestamp,
+          "position" => (position if respond_to? :position)
+        }
+      )
       journable = self.class.instantiate(attributes)
       journable.readonly!
-      return journable
+      journable
     end
   end
 
   def historic?
     attributes["timestamp"].present?
   end
+
   def historical?
     historic?
   end
@@ -80,7 +79,7 @@ module Journable::Timestamps
   #
   def rollback!
     raise ActiveRecord::RecordNotSaved, "This is no historic data. You can only revert to historic data." unless historic?
-    self.class.find(id).update! self.attributes.except("id", "timestamp")
-  end
 
+    self.class.find(id).update! attributes.except("id", "timestamp")
+  end
 end

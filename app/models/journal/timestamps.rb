@@ -26,13 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# rubocop:disable Style/ClassCheck
+#   Prefer `kind_of?` over `is_a?` because it reads well before vowel and consonant sounds.
+#   E.g.: `relation.kind_of? ActiveRecord::Relation`
+
 module Journal::Timestamps
   # See: https://github.com/opf/openproject/pull/11243
 
   extend ActiveSupport::Concern
 
   class_methods do
-
     # Select all journals that are the most current at the given timestamp
     # for their respective journables.
     #
@@ -50,15 +53,17 @@ module Journal::Timestamps
     # a journable at a given timestamp.
     #
     def at_timestamp(timestamp)
-      raise ArgumentError, "Expected timestamp to be an ActiveSupport::TimeWithZone or DateTime" unless timestamp.kind_of? ActiveSupport::TimeWithZone or timestamp.kind_of? DateTime
+      unless timestamp.kind_of? ActiveSupport::TimeWithZone or timestamp.kind_of? DateTime
+        raise ArgumentError, "Expected timestamp to be an ActiveSupport::TimeWithZone or DateTime"
+      end
+
       timestamp = timestamp.in_time_zone if timestamp.kind_of? DateTime
 
-      where(id:
-        where(created_at: (..timestamp)) \
-            .select("distinct on (journable_type, journable_id) id") \
-            .reorder(:journable_type, :journable_id, created_at: :desc)
-      )
+      where(id: where(created_at: (..timestamp)) \
+          .select("distinct on (journable_type, journable_id) id") \
+          .reorder(:journable_type, :journable_id, created_at: :desc))
     end
-
   end
 end
+
+# rubocop:enable Style/ClassCheck

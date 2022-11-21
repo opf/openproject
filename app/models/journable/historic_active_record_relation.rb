@@ -26,6 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# rubocop:disable Style/ClassCheck
+#   Prefer `kind_of?` over `is_a?` because it reads well before vowel and consonant sounds.
+#   E.g.: `relation.kind_of? ActiveRecord::Relation`
+
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/PerceivedComplexity
+
 class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # See: https://github.com/opf/openproject/pull/11243
 
@@ -35,15 +42,15 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
 
   def initialize(relation, timestamp:)
     raise ArgumentError, "Expected ActiveRecord::Relation" unless relation.kind_of? ActiveRecord::Relation
+
+    super(relation.klass)
     relation.instance_variables.each do |key|
-      self.instance_variable_set key, relation.instance_variable_get(key)
+      instance_variable_set key, relation.instance_variable_get(key)
     end
 
     self.timestamp = timestamp
-    self.readonly!
-    self.instance_variable_set :@table, model.journal_class.arel_table
-
-    return self
+    readonly!
+    instance_variable_set :@table, model.journal_class.arel_table
   end
 
   # We need to patch the `pluck` method of an active-record relation that
@@ -59,86 +66,150 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     super
   end
 
+  alias_method :original_build_arel, :build_arel
+
   # Patch the arel object, which is used to construct the sql query, in order
   # to modify the query to search for historic data.
   #
-  alias_method :original_build_arel, :build_arel
-  def call_original_build_arel
-    original_build_arel
-  end
   def build_arel(aliases = nil)
     relation = self
 
-    # Switch the database table from `work_packages` to `work_package_journals`.
-    relation.instance_variable_set :@table, model.journal_class.arel_table
+    relation = switch_to_journals_database_table(relation)
+    relation = substitute_database_table_in_where_clause(relation)
+    relation = add_timestamp_condition(relation)
+    relation = add_join_on_journables_table_with_created_at_column(relation)
+    relation = select_columns_from_the_appropriate_tables(relation)
 
-    # Modify there where clauses such that the work-packages table is substituted
-    # with the work-package-journals table.
+    # Based on the previous modifications, build the algebra object.
+    @arel = relation.call_original_build_arel(aliases)
+    @arel = modify_order_clauses(@arel)
+    @arel = move_journals_join_up(@arel)
+    @arel = modify_joins(@arel)
+
+    @arel
+  end
+
+  def call_original_build_arel(aliases = nil)
+    original_build_arel(aliases)
+  end
+
+  private
+
+  # Switch the database table, e.g. from `work_packages` to `work_package_journals`.
+  #
+  def switch_to_journals_database_table(relation)
+    relation.instance_variable_set :@table, model.journal_class.arel_table
+    relation
+  end
+
+  # Modify there where clauses such that e.g. the work-packages table is substituted
+  # with the work-package-journals table.
+  #
+  # When the where clause contains the `id` column, use `journals.journable_id` instead.
+  #
+  def substitute_database_table_in_where_clause(relation)
     relation.where_clause.instance_variable_get(:@predicates).each do |predicate|
       if predicate.kind_of? String
         predicate.gsub! "#{model.table_name}.", "#{model.journal_class.table_name}."
-      elsif predicate.left.relation == self.arel_table
+      elsif predicate.left.relation == arel_table
         if predicate.right.respond_to? :name and predicate.right.name == "id"
           predicate.right.instance_variable_set(:@name, "journable_id")
           predicate.left.relation = Journal.arel_table
         else
-          predicate.left.relation = self.journal_class.arel_table
+          predicate.left.relation = journal_class.arel_table
         end
       end
     end
+    relation
+  end
 
-    # Add a timestamp condition: Select the work package journals that are the
-    # current ones at the given timestamp.
-    relation = relation \
-        .joins("INNER JOIN \"journals\" ON \"journals\".\"data_type\" = '#{model.journal_class.name}' AND \"journals\".\"data_id\" = \"#{model.journal_class.table_name}\".\"id\"") \
+  # Add a timestamp condition: Select the work package journals that are the
+  # current ones at the given timestamp.
+  #
+  def add_timestamp_condition(relation)
+    relation \
+        .joins("INNER JOIN \"journals\" ON \"journals\".\"data_type\" = '#{model.journal_class.name}'
+            AND \"journals\".\"data_id\" = \"#{model.journal_class.table_name}\".\"id\"") \
         .merge(Journal.at_timestamp(timestamp))
+  end
 
-    # Join the journables table itself because we need to take the 'created_at' attribute from that.
-    relation = relation \
-        .joins("INNER JOIN (SELECT id, created_at FROM \"#{model.table_name}\") AS journables ON \"journables\".\"id\" = \"journals\".\"journable_id\"")
+  # Join the journables table itself because we need to take the `created_at` attribute from that.
+  # The `created_at` column is not present in the `work_package_journals` table.
+  #
+  def add_join_on_journables_table_with_created_at_column(relation)
+    relation \
+        .joins("INNER JOIN (SELECT id, created_at FROM \"#{model.table_name}\") AS journables
+            ON \"journables\".\"id\" = \"journals\".\"journable_id\"")
+  end
 
-    # At this point, the id is wrong. The sql statement returns the id of the work package journal,
-    # but active record instantiates this into the WorkPackage model. Because the resulting model
-    # will be a WorkPackage, we need a work-package id, which we take from the journals table.
+  # Gather the columns we need in our model from the different tables in the sql query:
+  #
+  # - the `work_packages` table (journables)
+  # - the `work_package_journals` table (data)
+  # - the `journals` table
+  #
+  # Also, add the `timestamp` as column so that we have it as attribute in our model.
+  #
+  def select_columns_from_the_appropriate_tables(relation)
     if relation.select_values.count == 0
-      relation = relation.select("'#{timestamp}' as timestamp, #{model.journal_class.table_name}.*, journals.journable_id as id, journables.created_at as created_at, journals.created_at as updated_at")
-    elsif relation.select_values.count == 1
+      relation = relation.select("'#{timestamp}' as timestamp,
+          #{model.journal_class.table_name}.*,
+          journals.journable_id as id,
+          journables.created_at as created_at,
+          journals.created_at as updated_at")
+    elsif relation.select_values.count == 1 and
+        relation.select_values.first.respond_to? :relation and
+        relation.select_values.first.relation.name == model.journal_class.table_name and
+        relation.select_values.first.name == "id"
       # For sub queries, we need to use the journals.journable_id as well.
       # See https://github.com/fiedl/openproject/issues/3.
-      if relation.select_values.first.respond_to? :relation and relation.select_values.first.relation.name == model.journal_class.table_name and relation.select_values.first.name == "id"
-        relation.instance_variable_get(:@values)[:select] = []
-        relation = relation.select("journals.journable_id as id")
-      end
+      relation.instance_variable_get(:@values)[:select] = []
+      relation = relation.select("journals.journable_id as id")
     end
+    relation
+  end
 
-    # Based on the previous modifications, build the algebra object.
-    @arel = relation.call_original_build_arel
-
-    # Modify order clauses to use the work-pacakge-journals table.
-    @arel.instance_variable_get(:@ast).instance_variable_get(:@orders).each do |order_clause|
+  # Modify order clauses to use the work-pacakge-journals table.
+  #
+  def modify_order_clauses(arel)
+    arel.instance_variable_get(:@ast).instance_variable_get(:@orders).each do |order_clause|
       if order_clause.kind_of? Arel::Nodes::SqlLiteral
         order_clause.gsub! "#{model.table_name}.", "#{model.journal_class.table_name}."
       elsif order_clause.expr.relation == model.arel_table
         order_clause.expr.relation = model.journal_class.arel_table
       end
     end
+    arel
+  end
 
-    # Move the journals join to the beginning because other joins depend on it.
-    @arel.instance_variable_get(:@ast).instance_variable_get(:@cores).each do |core|
+  # Move the journals join to the beginning because other joins depend on it.
+  #
+  def move_journals_join_up(arel)
+    arel.instance_variable_get(:@ast).instance_variable_get(:@cores).each do |core|
       array_of_joins = core.instance_variable_get(:@source).right
-      if journals_join_index = array_of_joins.find_index { |join| join.kind_of?(Arel::Nodes::StringJoin) && join.left.include?("INNER JOIN \"journals\" ON \"journals\".\"data_type\"") }
+      journals_join_index = array_of_joins.find_index do |join|
+        join.kind_of?(Arel::Nodes::StringJoin) and
+        join.left.include?("INNER JOIN \"journals\" ON \"journals\".\"data_type\"")
+      end
+      if journals_join_index
         journals_join = array_of_joins[journals_join_index]
         array_of_joins.delete_at(journals_join_index)
         array_of_joins.insert(0, journals_join)
       end
     end
+    arel
+  end
 
-    # Modify the joins to point to the journable_id.
-    @arel.instance_variable_get(:@ast).instance_variable_get(:@cores).each do |core|
+  # Modify the joins to point to the journable_id.
+  #
+  def modify_joins(arel)
+    arel.instance_variable_get(:@ast).instance_variable_get(:@cores).each do |core|
       core.instance_variable_get(:@source).right.each do |node|
         if node.kind_of?(Arel::Nodes::Join) and node.right.kind_of?(Arel::Nodes::On)
           [node.right.expr.left, node.right.expr.right].each do |attribute|
-            if attribute.respond_to? :relation and (attribute.relation == journal_class.arel_table) and (attribute.name == "id")
+            if attribute.respond_to? :relation and
+                (attribute.relation == journal_class.arel_table) and
+                (attribute.name == "id")
               attribute.relation = Journal.arel_table
               attribute.name = "journable_id"
             end
@@ -146,10 +217,10 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
         end
       end
     end
-
-    return @arel
+    arel
   end
-
-  # TODO: Add tests when having several work packages
-
 end
+
+# rubocop:enable Style/ClassCheck
+# rubocop:enable Metrics/AbcSize
+# rubocop:enable Metrics/PerceivedComplexity
