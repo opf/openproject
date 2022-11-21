@@ -138,6 +138,7 @@ ko:
         자동으로 새 사용자를 만듭니다.
         OpenProject의 기존 계정만 LDAP를 통해 인증할 수 있게 하려면 이 확인란을 선택하지 마세요!
     connection_encryption: '연결 암호화'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: '시스템 계정'
     system_account_legend: |
       OpenProject는 LDAP 트리에서 사용자 및 그룹을 찾기 위해 시스템 계정을 통한 읽기 전용 액세스 권한을 필요로 합니다.
@@ -149,13 +150,18 @@ ko:
       OpenProject 사용자의 특성을 정의하기 위해 사용되는 LDAP 특성(특성 매핑)과 관련이 있습니다.
     tls_mode:
       plain: '없음'
-      simple_tls: '단순 TLS'
-      start_tls: 'TLS 시작'
-      plain_description: "일반 암호화 되지 않은 연결 TLS 협상 없음"
-      simple_tls_description: "암시적 TLS 암호화이지만, 인증서 유효성 검사가 없습니다. LDAP 연결에 대해 주의를 기울이고 암시적 신뢰에 따라 사용하십시오."
-      start_tls_description: "완전한 유효성 검사를 사용하는 명시적 TLS 암호화입니다. TLS/SSL에서 LDAP을 사용하십시오."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         본 섹션에서는 이 LDAP 인증 소스의 연결 보안에 대해 설명합니다. 자세한 내용은 <a href="%{link}">Net::LDAP 문서</a>를 참조하십시오.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: 포럼에 대한 포스트가 현재 없습니다.
@@ -417,6 +423,7 @@ ko:
         host: "호스트"
         onthefly: "자동 사용자 생성"
         port: "포트"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "리포지토리"
       comment:
@@ -625,6 +632,11 @@ ko:
           "보안 컨텍스트"를 제공하지 않습니다. HTTPS 또는 localhost 같은 루프백 주소를 사용하세요.
         wrong_length: "너무 짧습니다 (최소 %{count} 자 이상이어야 합니다)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:

@@ -138,6 +138,7 @@ ro:
         atunci când aceștia se autentifică pentru prima dată cu OpenProject.
         Lăsați această casetă debifată pentru a permite doar conturilor existente în OpenProject să se autentifice prin LDAP!
     connection_encryption: 'Criptarea conexiunii'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Contul de sistem'
     system_account_legend: |
       OpenProject necesită acces doar pentru citire printr-un cont de sistem pentru a căuta utilizatori și grupuri în arborele LDAP.
@@ -149,13 +150,18 @@ ro:
       ce atribute LDAP sunt utilizate pentru a defini atributele unui utilizator OpenProject (cartografiere de atribute).
     tls_mode:
       plain: 'niciunul'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Conexiune simplă necriptată, fără negociere TLS."
-      simple_tls_description: "Criptare TLS implicită, dar fără validarea certificatului. A se utiliza cu prudență și cu încredere implicită în conexiunea LDAP."
-      start_tls_description: "Criptare TLS explicită cu validare completă. Se utilizează pentru LDAP prin TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Această secțiune se referă la securitatea conexiunii acestei surse de autentificare LDAP. Pentru mai multe informații, consultați <a href="%{link}">documentația Net::LDAP</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: În prezent nu există mesaje pentru acest forum.
@@ -420,6 +426,7 @@ ro:
         host: "Server gazdă"
         onthefly: "Crearea automată a utilizatorilor"
         port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repo"
       comment:
@@ -628,6 +635,11 @@ ro:
           nu oferă un "Context securizat". Folosiţi fie HTTPS sau o adresă de tip buclă, cum ar fi localhost.
         wrong_length: "nu are lungimea corectă (ar trebui să fie de %{count} characters)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:

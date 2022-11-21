@@ -138,6 +138,7 @@ si:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'සම්බන්ධතාවය ගුප්ත කේතනය'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'පද්ධති ගිණුම'
     system_account_legend: |
       OpenProject ඔබේ LDAP ගසෙහි පරිශීලකයින් සහ කණ්ඩායම් බලා ගැනීම සඳහා පද්ධති ගිණුමක් හරහා කියවිය හැකි ප්රවේශයක් අවශ්ය වේ.
@@ -149,13 +150,18 @@ si:
       OpenProject පරිශීලකයෙකුගේ ගුණාංග නිර්වචනය කිරීමට භාවිතා කරන LDAP ගුණාංග මොනවාද යන්න සම්බන්ධ වේ (ගුණාංග සිතියම්කරණය).
     tls_mode:
       plain: 'කිසිවක් නැත'
-      simple_tls: 'සරල_tls'
-      start_tls: 'ආරම්භය_tls'
-      plain_description: "සරල සංකේතාත්මක සම්බන්ධයක්, කිසිදු TLS සාකච්ඡා."
-      simple_tls_description: "ව්යංගාර්ථයෙන් TLS ගුප්තකේතනය, නමුත් සහතික වලංගු කිරීමක් නොමැත. LDAP සම්බන්ධතාවයේ ප්රවේශම් සහගත සහ ව්යංග විශ්වාසයකින් යුතුව භාවිතා කරන්න."
-      start_tls_description: "සම්පූර්ණ වලංගුකරණය සහිත පැහැදිලි TLS සංකේතාංකනය. TLS/SSL හරහා LDAP සඳහා භාවිතා කරන්න."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         මෙම කොටස මෙම LDAP සත්යාපන ප්රභවයේ සම්බන්ධතා ආරක්ෂාව ගැන සැලකිලිමත් වේ. වැඩි විස්තර සඳහා පිවිසෙන්න <a href="%{link}">Net። LDAP ලියකියවිලි</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: සංසදය සඳහා දැනට තනතුරු නොමැත.
@@ -419,6 +425,7 @@ si:
         host: "සත්කාරක"
         onthefly: "Automatic user creation"
         port: "කෙවෙනිය"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "ගබඩාව"
       comment:
@@ -627,6 +634,11 @@ si:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "වැරදි දිග (අක්ෂර %{count} විය යුතුය)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
