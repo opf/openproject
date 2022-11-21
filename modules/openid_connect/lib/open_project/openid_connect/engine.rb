@@ -40,7 +40,7 @@ module OpenProject::OpenIDConnect
       ]
 
       strategy :openid_connect do
-        OpenProject::OpenIDConnect.providers.map(&:to_h).map do
+        OpenProject::OpenIDConnect.providers.map(&:to_h).map do |h|
           h[:single_sign_out_callback] = Proc.new do
             next unless h[:end_session_endpoint]
 
