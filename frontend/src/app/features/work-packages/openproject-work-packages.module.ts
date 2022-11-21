@@ -484,8 +484,6 @@ export class OpenprojectWorkPackagesModule {
       return null;
     });
 
-    // hookService.register('workPackageAttachmentUploadComponent', () => AttachmentsUploadComponent);
-
     hookService.register('workPackageAttachmentListComponent', () => OpAttachmentsComponent);
 
     /** Return specialized work package changeset for editing service */

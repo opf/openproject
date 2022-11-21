@@ -57,21 +57,21 @@
         height: 100%
         left: $spot-spacing-0_75
         width: calc(100% - #{$spot-spacing-1_5})
-        border: 2px dashed var(--light-gray)
+        border: 2px dashed $spot-color-basic-gray-4
         border-radius: 2px
 
     &_dragging
       display: flex
 
     &_dragging-over::after
-      background: #f4f4f4
+      background: $spot-color-basic-gray-6
 
     &_dragging-over:not(#{&}_float)
-      background: #f4f4f4
+      background: $spot-color-basic-gray-6
 
     &-text
       cursor: pointer
-      color: var(--gray-dark)
+      color: $spot-color-basic-gray-3
       font-size: 0.9rem
       font-weight: bold
       line-height: 1.4
