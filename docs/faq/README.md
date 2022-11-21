@@ -180,7 +180,7 @@ Apart from that, you can use [placeholder users](../system-admin-guide/users-per
 
 ### Can I get a notification when a deadline approaches?
 
-Not at the moment. This is a well-known feature requirement and we are currently working on the specification for this with our dev team. It's already on our roadmap and it will be developed in one of the upcoming releases.
+Yes, you can. Starting with OpenProject 12.4 we implemented date alerts and email reminders about upcoming deadlines and overdue tasks. Please refer to [this guide](../user-guide/notifications/) for more details. 
 
 ### Does OpenProject offer resource management?
 
