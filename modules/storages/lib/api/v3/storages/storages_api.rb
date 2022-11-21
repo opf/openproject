@@ -39,6 +39,8 @@ class API::V3::Storages::StoragesAPI < ::API::OpenProjectAPI
 
   # The `:resources` keyword defines the API namespace -> /api/v3/storages/...
   resources :storages do
+    post &::API::V3::Storages::CreateEndpoint.new(model: ::Storages::Storage).mount
+
     # `route_param` extends the route by a route parameter of the endpoint.
     # The input parameter value is parsed into the `:storage_id` symbol.
     route_param :storage_id, type: Integer, desc: 'Storage id' do
@@ -57,6 +59,8 @@ class API::V3::Storages::StoragesAPI < ::API::OpenProjectAPI
       # The block will get called everytime a GET request is sent to this
       # route.
       get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::Storage).mount
+
+      put &::API::V3::Utilities::Endpoints::Update.new(model: ::Storages::Storage).mount
 
       delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::Storages::Storage).mount
 

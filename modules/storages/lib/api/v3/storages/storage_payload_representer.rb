@@ -26,24 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# See also: create_service.rb for comments
-module Storages::Storages
-  class SetAttributesService < ::BaseServices::SetAttributes
-    after_call :remove_host_trailing_slashes
-
-    def set_default_attributes(_params)
-      storage.creator ||= user
-      storage.name ||= I18n.t("storages.provider_types.#{storage.provider_type}.default_name")
-    end
-
-    private
-
-    def remove_host_trailing_slashes
-      storage.host = storage.host&.gsub(/\/+$/, '')
-    end
-
-    def storage
-      model
-    end
+module API::V3::Storages
+  class StoragePayloadRepresenter < StorageRepresenter
+    include ::API::Utilities::PayloadRepresenter
   end
 end

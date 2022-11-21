@@ -35,11 +35,32 @@ module API::V3::Storages
   URN_CONNECTION_AUTH_FAILED = "#{::API::V3::URN_PREFIX}storages:authorization:FailedAuthorization".freeze
   URN_CONNECTION_ERROR = "#{::API::V3::URN_PREFIX}storages:authorization:Error".freeze
 
+  URN_STORAGE_TYPE_NEXTCLOUD = "#{::API::V3::URN_PREFIX}storages:Nextcloud".freeze
+
   class StorageRepresenter < ::API::Decorators::Single
     # LinkedResource module defines helper methods to describe attributes
     include API::Decorators::LinkedResource
     include API::Decorators::DateProperty
     include Storages::Peripherals::StorageUrlHelper
+
+    module ClassMethods
+      private
+
+      def link_without_resource(name, getter:, setter:)
+        link name do
+          instance_eval(&getter)
+        end
+
+        property name,
+                 exec_context: :decorator,
+                 getter: ->(*) {},
+                 setter:,
+                 skip_render: true,
+                 linked_resource: true
+      end
+    end
+
+    extend ClassMethods
 
     def initialize(model, current_user:, embed_links: nil)
       @connection_manager =
@@ -58,16 +79,26 @@ module API::V3::Storages
 
     self_link
 
-    link :type do
-      {
-        href: "#{::API::V3::URN_PREFIX}storages:Nextcloud",
-        title: 'Nextcloud'
-      }
-    end
+    link_without_resource :type,
+                          getter: ->(*) {
+                            { href: URN_STORAGE_TYPE_NEXTCLOUD, title: 'Nextcloud' }
+                          },
+                          setter: ->(fragment:, **) {
+                            break if fragment['href'].blank?
 
-    link :origin do
-      { href: represented.host }
-    end
+                            represented.provider_type = case fragment['href']
+                                                        when URN_STORAGE_TYPE_NEXTCLOUD
+                                                          Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+                                                        end
+                          }
+
+    link_without_resource :origin,
+                          getter: ->(*) { { href: represented.host } },
+                          setter: ->(fragment:, **) {
+                            break if fragment['href'].blank?
+
+                            represented.host = fragment['href'].gsub(/\/+$/, '')
+                          }
 
     link :open do
       { href: storage_url_open(represented) }

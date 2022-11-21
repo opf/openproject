@@ -26,24 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# See also: create_service.rb for comments
-module Storages::Storages
-  class SetAttributesService < ::BaseServices::SetAttributes
-    after_call :remove_host_trailing_slashes
+module API::V3::Storages
+  class OAuthCredentialsRepresenter < ::API::Decorators::Single
+    property :uid, as: :clientId
 
-    def set_default_attributes(_params)
-      storage.creator ||= user
-      storage.name ||= I18n.t("storages.provider_types.#{storage.provider_type}.default_name")
+    property :plaintext_secret, as: :clientSecret
+
+    def _type
+      'OauthCredentials'
     end
 
-    private
-
-    def remove_host_trailing_slashes
-      storage.host = storage.host&.gsub(/\/+$/, '')
-    end
-
-    def storage
-      model
+    link :self do
+      { href: "#{::API::V3::URN_PREFIX}storages:oauth_credentials:no_link_provided" }
     end
   end
 end
