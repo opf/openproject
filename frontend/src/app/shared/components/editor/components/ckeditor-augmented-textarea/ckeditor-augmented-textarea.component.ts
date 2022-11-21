@@ -154,7 +154,8 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     // Listen for form submission to set textarea content
     this.formElement.on('submit.ckeditor change.ckeditor', () => {
       try {
-        this.wrappedTextArea.val(this.ckEditorInstance.getRawData());
+        const data = this.ckEditorInstance.getRawData();
+        this.wrappedTextArea.val(data);
       } catch (e) {
         console.error(`Failed to save CKEditor body to textarea: ${e}.`);
         this.Notifications.addError(e || this.I18n.t('js.error.internal'));
@@ -174,9 +175,19 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     return editor;
   }
 
+  private stopDragging() {
+    // The attachment list listens globally for drag events, but when
+    // an item gets dropped in the editor, this event never makes it to the list.
+    // Manually dispatching the event makes sure the `op-attachments` component
+    // knows we are certainly not dragging anymore.
+    const event = new DragEvent('dragleave');
+    document.body.dispatchEvent(event);
+  }
+
   private setupAttachmentAddedCallback(editor:ICKEditorInstance) {
     editor.model.on('op:attachment-added', () => {
       this.states.forResource(this.resource!)!.putValue(this.resource);
+      this.stopDragging();
     });
   }
 
@@ -199,6 +210,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         }
 
         this.attachments = _.clone(resource!.attachments.elements);
+        this.stopDragging();
       });
   }
 

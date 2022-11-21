@@ -110,6 +110,8 @@ describe 'Upload attachment to documents',
 
       expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 3)
 
+      scroll_to_element(page.find('[data-qa-selector="op-attachments--list"]'))
+
       script = <<~JS
         const event = new DragEvent('dragover');
         document.body.dispatchEvent(event);
@@ -127,7 +129,6 @@ describe 'Upload attachment to documents',
         click_on 'Save'
       end
 
-      byebug
       # Expect both images to be present on the show page
       expect(page).to have_selector('#content img', count: 2)
       expect(page).to have_content('Image uploaded on creation')
