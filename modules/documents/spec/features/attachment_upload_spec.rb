@@ -110,7 +110,7 @@ describe 'Upload attachment to documents',
 
       expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 3)
 
-      scroll_to_element(page.find('[data-qa-selector="op-attachments--list"]'))
+      scroll_to_element(page.find('[data-qa-selector="op-attachments"]'))
 
       script = <<~JS
         const event = new DragEvent('dragover');
