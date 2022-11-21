@@ -303,11 +303,11 @@ ro:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                Versiunea conține diverse funcții noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Activează alertele cu privire la data notificării pentru datele viitoare și sarcinile restante.</li> <li>Eliberăm autentificarea cu doi factori (2FA) pentru ediția Comunității.</li> <li>Opțiunea de afișare a săptămânii de lucru este acum adăugată și planificatorului de echipă.</li> <li> Listează până la 3 persoane pe cardurile de notificare atunci când mai multe persoane au fost implicate în schimbări.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                Versiunea conține diverse funcții noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Activează alertele cu privire la data notificării pentru datele viitoare și sarcinile restante.</li> <li>Eliberăm autentificarea cu doi factori (2FA) pentru ediția Comunității.</li> <li>Opțiunea de afișare a săptămânii de lucru este acum adăugată și planificatorului de echipă.</li> <li> Listează până la 3 persoane pe cardurile de notificare atunci când mai multe persoane au fost implicate în schimbări.</li> </ul>
     label_activate: "Activare"
     label_assignee: 'Executant'
     label_add_column_after: "Adauga o coloana dupa"
@@ -606,7 +606,7 @@ ro:
               P3D: Cu 3 zile înainte
               P7D: ' cu o săptămână înainte '
             overdue:
-              P1D: every day
+              P1D: în fiecare zi
               P3D: la fiecare 3 zile
               P7D: săptămânal
         reasons:

@@ -72,6 +72,10 @@ OPENPROJECT_SAML_SAML_ISSUER="https://<openproject.host>"
 # Otherwise, the certificate fingerprint must be added
 # Either `OPENPROJECT_SAML_SAML_IDP__CERT` or `OPENPROJECT_SAML_SAML_IDP__CERT__FINGERPRINT` must be present!
 OPENPROJECT_SAML_SAML_IDP__CERT="-----BEGIN CERTIFICATE-----<cert one liner>-----END CERTIFICATE-----"
+# If you  this environment variable through a shell, you will need to run it through C style quoting to preserve the newline
+# Otherwise you will get an internal error with this log line "PEM_read_bio_X509: bad base64 decode"
+# OPENPROJECT_SAML_SAML_IDP__CERT=$'-----BEGIN CERTIFICATE-----<cert one liner>-----END CERTIFICATE-----'
+
 OPENPROJECT_SAML_SAML_IDP__CERT__FINGERPRINT="da:39:a3:ee:5e:6b:4b:0d:32:55:bf:ef:95:60:18:90:af:d8:07:09"
 # Replace with your single sign on URL, the exact value depends on your idP implementation
 OPENPROJECT_SAML_SAML_IDP__SSO__TARGET__URL="https://<hostname of your idp>/application/saml/<slug>/sso/binding/post/"
@@ -79,14 +83,13 @@ OPENPROJECT_SAML_SAML_IDP__SSO__TARGET__URL="https://<hostname of your idp>/appl
 # (Optional) Replace with your redirect flow single sign out URL that we should redirect to
 OPENPROJECT_SAML_SAML_IDP__SLO__TARGET__URL=""
 
-# 
 # Which SAMLAttribute we should look for for the corresponding attributes of OpenProject
 # can be a string or URI/URN depending on our idP format
-OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_EMAIL="mail"
-OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LOGIN="mail"
-OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_FIRST__NAME="givenName"
-OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LAST__NAME="sn"
-# You can also specify an array of attributes, the first found value will be used. Example:
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_EMAIL="[mail]"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LOGIN="[mail]"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_FIRST__NAME="[givenName]"
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LAST__NAME="[sn]"
+# You can also specify multiple attributes, the first found value will be used. Example:
 # OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LOGIN="['mail', 'samAccountName', 'uid']"
 ```
 

@@ -12,7 +12,7 @@ it:
       remove_assignee: 'Rimuovi assegnatario'
       two_weeks: '2 settimane'
       one_week: '1 settimana'
-      work_week: 'Work week'
+      work_week: 'Settimana lavorativa'
       today: 'Oggi'
       drag_here_to_remove: 'Trascina qui per rimuovere l''assegnatario e le date di inizio e fine.'
       cannot_drag_here: 'Impossibile rimuovere la macro-attività a causa di permessi o restrizioni di modifica.'

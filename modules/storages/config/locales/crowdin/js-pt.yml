@@ -3,7 +3,7 @@ pt:
   js:
     storages:
       link_files_in_storage: "Vincular arquivos em %{storageType}"
-      link_existing_files: "Link existing files"
+      link_existing_files: "Vincular arquivos existentes"
       login: "Início de sessão de %{storageType}"
       login_to: "Iniciar sessão em %{storageType}"
       no_connection: "Sem conexão de %{storageType}"
@@ -28,10 +28,10 @@ pt:
         remove_confirmation: >
           tem certeza de que deseja desvincular o arquivo deste pacote de trabalho? A desvinculação não afeta o arquivo original e só remove a conexão com este pacote de trabalho.
         remove_short: "Remover link"
-        select: "Select files"
-        select_all: "Select all"
-        selection_none: "Select files to link"
-        selection_any: "Link %{number} files"
+        select: "Selecionar arquivos"
+        select_all: "Selecionar tudo"
+        selection_none: "Selecione arquivos para vincular"
+        selection_any: "Vincular %{number} arquivos"
         not_allowed_tooltip: "Faça o login no Nextcloud para acessar este arquivo"
-        already_linked_file: "This file is already linked to this work package."
-        already_linked_directory: "This directory is already linked to this work package."
+        already_linked_file: "Este arquivo já está vinculado a este pacote de trabalho."
+        already_linked_directory: "Este diretório já está vinculado a este pacote de trabalho."
