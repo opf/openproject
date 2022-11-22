@@ -559,6 +559,44 @@ describe Journable::Timestamps do
             expect(subject).to include work_package
           end
         end
+
+        describe "when chaining a manual order clause using work_packages.id" do
+          # This is used in the manual-sorting feature.
+          subject { WorkPackage.order("work_packages.id DESC").at_timestamp(wednesday) }
+
+          it "transforms the table name" do
+            expect(subject.to_sql).to include "journals.journable_id DESC"
+          end
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
+
+        describe "when chaining an order clause with work_packages.id" do
+          subject { WorkPackage.order(id: :desc).at_timestamp(wednesday) }
+
+          it "transforms the table name" do
+            expect(subject.to_sql).to include "\"journals\".\"journable_id\" DESC"
+          end
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
+
+        describe "when chaining several order clauses" do
+          subject { WorkPackage.order(subject: :asc, id: :desc).at_timestamp(wednesday) }
+
+          it "transforms the table name" do
+            expect(subject.to_sql).to include "\"work_package_journals\".\"subject\" ASC"
+            expect(subject.to_sql).to include "\"journals\".\"journable_id\" DESC"
+          end
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
       end
     end
 

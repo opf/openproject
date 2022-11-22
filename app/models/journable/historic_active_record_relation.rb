@@ -189,8 +189,14 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     arel.instance_variable_get(:@ast).instance_variable_get(:@orders).each do |order_clause|
       if order_clause.kind_of? Arel::Nodes::SqlLiteral
         order_clause.gsub! "#{model.table_name}.", "#{model.journal_class.table_name}."
+        order_clause.gsub! "#{model.journal_class.table_name}.id", "journals.journable_id"
       elsif order_clause.expr.relation == model.arel_table
-        order_clause.expr.relation = model.journal_class.arel_table
+        if order_clause.expr.name == "id"
+          order_clause.expr.name = "journable_id"
+          order_clause.expr.relation = Journal.arel_table
+        else
+          order_clause.expr.relation = model.journal_class.arel_table
+        end
       end
     end
     arel
