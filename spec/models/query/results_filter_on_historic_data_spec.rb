@@ -51,19 +51,19 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
            member_in_project: project_1,
            member_with_permissions: [:view_work_packages])
   end
-  
-  
+
+
   describe "[prelims]" do
     specify "the work package has a journal entry with the historic description" do
       expect(work_package.journals.count).to eq 2
       expect(work_package.journals.first.data.description).to eq "This is the original description of the work package"
     end
-    
+
     specify "the work package has its current description" do
       expect(work_package.description).to eq "This is the current description of the work package"
     end
   end
-  
+
   describe "#work_packages" do
     let(:query) do
       login_as(user_1)
@@ -74,7 +74,7 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
     end
     let(:results) { query.results }
     subject { results.work_packages }
-  
+
     describe "filter for description containing 'current'" do
       let(:search_term) { 'current' }
       it "includes the work package matching today" do
@@ -88,7 +88,7 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
         expect(subject).not_to include work_package
       end
     end
-    
+
     describe "when searching current and historic work packages" do
       before { query.timestamps = [historic_time, Time.zone.now] }
 
@@ -106,7 +106,7 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
         end
       end
     end
-    
+
     describe "when searching only historic work packages" do
       before { query.timestamps = [historic_time] }
 
@@ -119,7 +119,7 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
 
       describe "filter for description containing 'original'" do
         let(:search_term) { 'original' }
-        
+
         it "includes the work package matching in the past" do
           expect(subject).to include work_package
         end
@@ -129,7 +129,7 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
         end
       end
     end
-    
+
     describe "when searching only pre-historic work packages (i.e. when the work package does not exist yet)" do
       before { query.timestamps = [pre_historic_time] }
 

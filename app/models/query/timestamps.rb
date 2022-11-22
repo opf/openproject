@@ -31,7 +31,7 @@ module Query::Timestamps
 
   included do
     serialize :timestamps, Array
-    
+
     # Returns the timestamps the query should be evaluated at.
     #
     # In the database, the timestamps are stored as ISO8601 strings.
@@ -47,10 +47,10 @@ module Query::Timestamps
       }
       return timestamps.any? ? timestamps : [Timestamp.now]
     end
-    
+
     def timestamps=(array)
       super(array.collect { |element| element.respond_to?(:iso8601) ? element.iso8601 : element })
     end
   end
-  
+
 end
