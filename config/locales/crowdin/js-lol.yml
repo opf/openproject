@@ -303,11 +303,11 @@ lol:
             standard:
               learn_about_link: crwdns838609:0crwdne838609:0
               new_features_html: >
-                crwdns838611:0%{list_styling_class}crwdne838611:0
+                crwdns838887:0%{list_styling_class}crwdne838887:0
             bim:
               learn_about_link: crwdns838613:0crwdne838613:0
               new_features_html: >
-                crwdns838615:0%{list_styling_class}crwdne838615:0
+                crwdns838889:0%{list_styling_class}crwdne838889:0
     label_activate: "crwdns787268:0crwdne787268:0"
     label_assignee: 'crwdns809580:0crwdne809580:0'
     label_add_column_after: "crwdns787270:0crwdne787270:0"
@@ -399,6 +399,7 @@ lol:
     label_no_data: "crwdns787440:0crwdne787440:0"
     label_no_due_date: "crwdns787442:0crwdne787442:0"
     label_no_start_date: "crwdns787444:0crwdne787444:0"
+    label_no_date: "crwdns838891:0crwdne838891:0"
     label_no_value: "crwdns787446:0crwdne787446:0"
     label_none: "crwdns787448:0crwdne787448:0"
     label_not_contains: "crwdns787450:0crwdne787450:0"

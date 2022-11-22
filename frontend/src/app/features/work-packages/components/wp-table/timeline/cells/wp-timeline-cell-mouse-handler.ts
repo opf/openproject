@@ -60,7 +60,7 @@ export function registerWorkPackageMouseHandler(this:void,
   bar:HTMLDivElement,
   labels:WorkPackageCellLabels,
   renderer:TimelineCellRenderer,
-  renderInfo:RenderInfo) {
+  renderInfo:RenderInfo):void {
   let mouseDownStartDay:number|null = null; // also flag to signal active drag'n'drop
   renderInfo.change = halEditing.changeFor(renderInfo.workPackage);
 
@@ -174,9 +174,9 @@ export function registerWorkPackageMouseHandler(this:void,
 
       bar.style.pointerEvents = 'none';
 
-      const [clickStart, offsetDayStart] = renderer.cursorDateAndDayOffset(ev, renderInfo);
+      const [clickStart, offsetDayStart] = renderer.cursorDateAndDayOffset(evt, renderInfo);
       const dateForCreate = clickStart.format('YYYY-MM-DD');
-      const direction = renderer.onMouseDown(ev, dateForCreate, renderInfo, labels);
+      const direction = renderer.onMouseDown(evt, dateForCreate, renderInfo, labels);
       renderer.update(bar, labels, renderInfo);
 
       if (direction === 'create') {
@@ -212,9 +212,9 @@ export function registerWorkPackageMouseHandler(this:void,
     workPackageTimeline.disableViewParamsCalculation = false;
 
     cell.onmousemove = handleMouseMoveOnEmptyCell;
-    cell.onmousedown = _.noop;
-    cell.onmouseleave = _.noop;
-    cell.onmouseup = _.noop;
+    cell.onmousedown = () => undefined;
+    cell.onmouseleave = () => undefined;
+    cell.onmouseup = () => undefined;
 
     bar.style.pointerEvents = 'auto';
 
@@ -266,7 +266,7 @@ export function registerWorkPackageMouseHandler(this:void,
     // Remember the time before saving the work package to know which work packages to update
     const updatedAt = moment().toISOString();
 
-    return loadingIndicator.table.promise = halEditing
+    return (loadingIndicator.table.promise = halEditing
       .save<WorkPackageResource, WorkPackageChangeset>(change)
       .then((result) => {
         notificationService.showSave(result.resource);
@@ -280,6 +280,6 @@ export function registerWorkPackageMouseHandler(this:void,
             halEvents.push(result.resource, { eventType: 'updated' });
             return querySpace.timelineRendered.pipe(take(1)).toPromise();
           });
-      });
+      }));
   }
 }

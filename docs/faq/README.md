@@ -180,7 +180,7 @@ Apart from that, you can use [placeholder users](../system-admin-guide/users-per
 
 ### Can I get a notification when a deadline approaches?
 
-Not at the moment. This is a well-known feature requirement and we are currently working on the specification for this with our dev team. It's already on our roadmap and it will be developed in one of the upcoming releases.
+Yes, you can. Starting with OpenProject 12.4 we implemented date alerts and email reminders about upcoming deadlines and overdue tasks. Please refer to [this guide](../user-guide/notifications/) for more details. 
 
 ### Does OpenProject offer resource management?
 
@@ -209,7 +209,7 @@ Please have a look at our [demo video](https://www.youtube.com/watch?v=ThA4_17ye
 
 ### Which IFC format are you using for conversion in the BIM module?
 
-IFC2x3 and IFC4. We accept those formats and convert them to some other format that is optimized for web.
+IFC2x3 and IFC4. We accept those formats and convert them to a smaller format (XKT) that is optimized for browsing the models on the web.
 
 ### Is there a way to use OpenProject BIM for free, too?
 
@@ -261,7 +261,7 @@ For more information please contact us.
 
 ### How can I migrate from Community Edition or Enterprise on-premises to Enterprise cloud?
 
-We will need a [backup](../system-admin-guide/backup) of your OpenProject Installation which we will restore to your new Enterprise cloud. Please calculate with a downtime of approximately 60 minutes in regular cases. We generally Please contact us to plan the migration and get more instructions.
+We will need a [backup](../system-admin-guide/backup) of your OpenProject Installation which we will restore to your new Enterprise cloud. Please calculate with a downtime of approximately 60 minutes in regular cases. Please contact us to plan the migration and get more instructions.
 
 ### How can I migrate from Enterprise cloud to Enterprise on-premises?
 
@@ -307,7 +307,7 @@ Yes, we do.
 
 ### Is there a limitation of participants for the trainings?
 
-No, you can join with as many people from your organization as you like. However, or most we recommend not more than 20-25 people so there's enough opportunity for everyone to ask questions.
+No, you can join with as many people from your organization as you like. However, we recommend not more than 20-25 people so there's enough opportunity for everyone to ask questions.
 *This answer only refers to e.g. Getting Started training and custom trainings, not to the OpenProject certification!*
 
 ### Can trainings be conducted remotely, too (e.g. the Custom training)?

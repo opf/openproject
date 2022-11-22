@@ -93,13 +93,22 @@ module DemoData
     end
 
     def seed_settings
-      welcome = demo_data_for('welcome')
-
-      if welcome.present?
-        Setting.welcome_title = welcome[:title]
-        Setting.welcome_text = welcome[:text]
-        Setting.welcome_on_homescreen = 1
+      seedable_welcome_settings
+        .select { |k,| Settings::Definition[k].writable? }
+        .each do |k, v|
+        Setting[k] = v
       end
+    end
+
+    def seedable_welcome_settings
+      welcome = demo_data_for('welcome')
+      return {} if welcome.blank?
+
+      {
+        welcome_title: welcome[:title],
+        welcome_text: welcome[:text],
+        welcome_on_homescreen: 1
+      }
     end
 
     def reset_project(key)

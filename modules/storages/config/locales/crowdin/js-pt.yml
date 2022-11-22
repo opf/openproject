@@ -4,10 +4,13 @@ pt:
     storages:
       link_files_in_storage: "Vincular arquivos em %{storageType}"
       link_existing_files: "Vincular arquivos existentes"
+      upload_files: "Upload files"
       login: "Início de sessão de %{storageType}"
       login_to: "Iniciar sessão em %{storageType}"
       no_connection: "Sem conexão de %{storageType}"
       open_storage: "Abrir %{storageType}"
+      select_location: "Select location"
+      choose_location: "Choose location"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -30,8 +33,10 @@ pt:
         remove_short: "Remover link"
         select: "Selecionar arquivos"
         select_all: "Selecionar tudo"
-        selection_none: "Selecione arquivos para vincular"
-        selection_any: "Vincular %{number} arquivos"
+        selection:
+          zero: "Select files to link"
+          one: "Link 1 file"
+          other: "Link %{count} files"
         not_allowed_tooltip: "Faça o login no Nextcloud para acessar este arquivo"
         already_linked_file: "Este arquivo já está vinculado a este pacote de trabalho."
         already_linked_directory: "Este diretório já está vinculado a este pacote de trabalho."

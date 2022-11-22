@@ -61,8 +61,7 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
     header: this.i18n.t('js.storages.file_links.select'),
     buttons: {
       openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.locals.storageTypeName as string }),
-      submit: ():string => this.i18n.t('js.storages.file_links.selection_any', { number: this.selectedFileCount }),
-      submitEmptySelection: this.i18n.t('js.storages.file_links.selection_none'),
+      submit: (count:number):string => this.i18n.t('js.storages.file_links.selection', { count }),
       cancel: this.i18n.t('js.button_cancel'),
       selectAll: this.i18n.t('js.storages.file_links.select_all'),
     },
