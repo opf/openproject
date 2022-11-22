@@ -93,6 +93,7 @@ class ::Query::Results
       .where(query.statement)
       .includes(all_includes)
       .joins(all_joins)
+      .references(:projects)
   end
 
   def work_package_scope
