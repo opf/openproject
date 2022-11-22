@@ -94,6 +94,6 @@ describe 'Read-only statuses affect work package editing',
     subject_field.expect_read_only
 
     # Expect attachments not available
-    expect(page).to have_no_selector '[data-qa-selector="op-attachments--drop-box"]'
+    expect(page).not_to have_selector '[data-qa-selector="op-attachments--drop-box"]'
   end
 end
