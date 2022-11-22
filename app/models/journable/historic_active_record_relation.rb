@@ -124,6 +124,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     relation.where_clause.instance_variable_get(:@predicates).each do |predicate|
       if predicate.kind_of? String
         predicate.gsub! "#{model.table_name}.", "#{model.journal_class.table_name}."
+        predicate.gsub! "#{model.journal_class.table_name}.id", "journals.journable_id"
       elsif predicate.left.relation == arel_table
         if predicate.right.respond_to? :name and predicate.right.name == "id"
           predicate.right.instance_variable_set(:@name, "journable_id")

@@ -522,6 +522,19 @@ describe Journable::Timestamps do
         it "returns the requested work package" do
           expect(subject).to include work_package
         end
+
+        describe "when the sql where statement includes work_package.id" do
+          # This is used, for example, in 'follows' relations.
+          subject { WorkPackage.where("(work_packages.id IN (#{work_package.id}))").at_timestamp(wednesday) }
+
+          it "transforms the expression to query the correct table" do
+            expect(subject.to_sql).to include "journals.journable_id IN (#{work_package.id})"
+          end
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
       end
 
       describe "when chaining an order clause" do
