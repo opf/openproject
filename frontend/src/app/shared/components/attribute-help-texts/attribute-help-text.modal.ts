@@ -41,6 +41,7 @@ import { HelpTextResource } from 'core-app/features/hal/resources/help-text-reso
 })
 export class AttributeHelpTextModalComponent extends OpModalComponent implements OnInit {
   readonly text = {
+    attachments: this.I18n.t('js.label_attachments'),
     edit: this.I18n.t('js.button_edit'),
     close: this.I18n.t('js.button_close'),
   };

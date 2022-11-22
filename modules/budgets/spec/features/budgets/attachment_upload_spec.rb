@@ -80,4 +80,43 @@ describe 'Upload attachment to budget', js: true do
     expect(page).to have_content('Image uploaded the second time')
     expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
   end
+
+  it 'can upload an image to new and existing budgets via drag & drop on attachment list' do
+    visit projects_budgets_path(project)
+
+    within '.toolbar-items' do
+      click_on "Budget"
+    end
+
+    fill_in "Subject", with: 'New budget'
+    editor.set_markdown "Some content because it's required"
+
+    # adding an image
+    find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+
+    click_on 'Create'
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+
+    within '.toolbar-items' do
+      click_on "Update"
+    end
+
+    script = <<~JS
+      const event = new DragEvent('dragover');
+      document.body.dispatchEvent(event);
+    JS
+    page.execute_script(script)
+
+    # adding an image
+    find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+
+    click_on 'Submit'
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+  end
 end

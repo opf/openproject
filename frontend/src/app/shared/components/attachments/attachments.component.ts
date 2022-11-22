@@ -27,64 +27,104 @@
 //++
 
 import {
-  Component, ElementRef, Input, OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
-import { filter } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
+import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
+import { Observable } from 'rxjs';
 
-export const attachmentsSelector = 'attachments';
+function containsFiles(dataTransfer:DataTransfer):boolean {
+  return dataTransfer.types.indexOf('Files') >= 0;
+}
+
+export const attachmentsSelector = 'op-attachments';
 
 @Component({
   selector: attachmentsSelector,
-  templateUrl: './attachments.html',
+  templateUrl: './attachments.component.html',
+  styleUrls: ['./attachments.component.sass'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit {
+export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
+  @HostBinding('attr.data-qa-selector') public qaSelector = 'op-attachments';
+
+  @HostBinding('id.attachments_fields') public hostId = true;
+
+  @HostBinding('class.op-attachments') public className = true;
+
   @Input('resource') public resource:HalResource;
 
-  public $element:JQuery;
+  @Input() public allowUploading = true;
 
-  public allowUploading:boolean;
+  @Input() public destroyImmediately = true;
 
-  public destroyImmediately:boolean;
+  public attachments$:Observable<IAttachment[]>;
 
-  public text:any;
+  public draggingOverDropZone = false;
 
-  constructor(protected elementRef:ElementRef,
-    protected I18n:I18nService,
-    protected states:States,
-    protected halResourceService:HalResourceService) {
+  public dragging = false;
+
+  @ViewChild('hiddenFileInput') public filePicker:ElementRef<HTMLInputElement>;
+
+  public text = {
+    attachments: this.I18n.t('js.label_attachments'),
+    uploadLabel: this.I18n.t('js.label_add_attachments'),
+    dropFiles: this.I18n.t('js.label_drop_files'),
+    dropFilesHint: this.I18n.t('js.label_drop_files_hint'),
+    foldersWarning: this.I18n.t('js.label_drop_folders_hint'),
+  };
+
+  private get attachmentsSelfLink():string {
+    const attachments = this.resource.attachments as unknown&{ href:string };
+    return attachments.href;
+  }
+
+  private get collectionKey():string {
+    return isNewResource(this.resource) ? 'new' : this.attachmentsSelfLink;
+  }
+
+  constructor(
+    public elementRef:ElementRef,
+    protected readonly I18n:I18nService,
+    protected readonly states:States,
+    protected readonly halResourceService:HalResourceService,
+    protected readonly attachmentsResourceService:AttachmentsResourceService,
+    protected readonly toastService:ToastService,
+    protected readonly timezoneService:TimezoneService,
+    protected readonly cdRef:ChangeDetectorRef,
+  ) {
     super();
 
-    this.text = {
-      attachments: this.I18n.t('js.label_attachments'),
-    };
+    populateInputsFromDataset(this);
   }
 
-  ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
-
-    if (!this.resource) {
+  ngOnInit():void {
+    if (!(this.resource instanceof HalResource)) {
       // Parse the resource if any exists
-      const source = this.$element.data('resource');
-      this.resource = this.halResourceService.createHalResource(source, true);
+      this.resource = this.halResourceService.createHalResource(this.resource, true);
     }
 
-    this.allowUploading = this.$element.data('allow-uploading');
-
-    if (this.$element.data('destroy-immediately') !== undefined) {
-      this.destroyImmediately = this.$element.data('destroy-immediately');
-    } else {
-      this.destroyImmediately = true;
-    }
-
-    this.setupResourceUpdateListener();
-  }
-
-  public setupResourceUpdateListener() {
     this.states.forResource(this.resource)!.changes$()
       .pipe(
         this.untilDestroyed(),
@@ -93,11 +133,139 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit 
       .subscribe((newResource:HalResource) => {
         this.resource = newResource || this.resource;
       });
+
+    // ensure collection is loaded to the store
+    if (!isNewResource(this.resource)) {
+      this.attachmentsResourceService.requireCollection(this.attachmentsSelfLink);
+    }
+
+    const compareCreatedAtTimestamps = (a:IAttachment, b:IAttachment):number => {
+      const rightCreatedAt = this.timezoneService.parseDatetime(b.createdAt);
+      const leftCreatedAt = this.timezoneService.parseDatetime(a.createdAt);
+      return rightCreatedAt.isBefore(leftCreatedAt) ? -1 : 1;
+    };
+
+    this.attachments$ = this
+      .attachmentsResourceService
+      .collection(this.collectionKey)
+      .pipe(
+        this.untilDestroyed(),
+        map((attachments) => attachments.sort(compareCreatedAtTimestamps)),
+        // store attachments for new resources directly into the resource. This way, the POST request to create the
+        // resource embeds the attachments and the backend reroutes the anonymous attachments to the resource.
+        tap((attachments) => {
+          if (isNewResource(this.resource)) {
+            this.resource.attachments = { elements: attachments.map((a) => a._links.self) };
+          }
+        }),
+      );
+
+    document.body.addEventListener('dragover', this.onGlobalDragOver.bind(this));
+    document.body.addEventListener('dragleave', this.onGlobalDragLeave.bind(this));
   }
 
-  // Only show attachment list when allow uploading is set
-  // or when at least one attachment exists
-  public showAttachments() {
-    return this.allowUploading || _.get(this.resource, 'attachments.count', 0) > 0;
+  ngOnDestroy():void {
+    document.body.removeEventListener('dragover', this.onGlobalDragOver.bind(this));
+    document.body.removeEventListener('dragleave', this.onGlobalDragLeave.bind(this));
+  }
+
+  public triggerFileInput():void {
+    this.filePicker.nativeElement.click();
+  }
+
+  public onFilePickerChanged():void {
+    const fileList = this.filePicker.nativeElement.files;
+    if (fileList === null) return;
+
+    const files:UploadFile[] = Array.from(fileList);
+    this.uploadFiles(files);
+  }
+
+  public onDropFiles(event:DragEvent):void {
+    if (event.dataTransfer === null) return;
+
+    // eslint-disable-next-line no-param-reassign
+    event.dataTransfer.dropEffect = 'copy';
+    event.preventDefault();
+    event.stopPropagation();
+
+    const dfFiles = event.dataTransfer.files;
+    const length:number = dfFiles ? dfFiles.length : 0;
+
+    const files:UploadFile[] = [];
+    for (let i = 0; i < length; i++) {
+      files.push(dfFiles[i]);
+    }
+
+    this.uploadFiles(files);
+    this.draggingOverDropZone = false;
+    this.dragging = false;
+  }
+
+  public onDragOver(event:DragEvent):void {
+    if (event.dataTransfer !== null && containsFiles(event.dataTransfer)) {
+      // eslint-disable-next-line no-param-reassign
+      event.dataTransfer.dropEffect = 'copy';
+      this.draggingOverDropZone = true;
+    }
+  }
+
+  public onDragLeave(_event:DragEvent):void {
+    this.draggingOverDropZone = false;
+  }
+
+  public onGlobalDragLeave():void {
+    this.dragging = false;
+
+    this.cdRef.detectChanges();
+  }
+
+  public onGlobalDragOver():void {
+    this.dragging = true;
+
+    this.cdRef.detectChanges();
+  }
+
+  protected uploadFiles(files:UploadFile[]):void {
+    let uploadFiles = files || [];
+    const countBefore = files.length;
+    uploadFiles = this.filterFolders(uploadFiles);
+
+    if (uploadFiles.length === 0) {
+      // If we filtered all files as directories, show a notice
+      if (countBefore > 0) {
+        this.toastService.addNotice(this.text.foldersWarning);
+      }
+
+      return;
+    }
+
+    this
+      .attachmentsResourceService
+      .attachFiles(this.resource, uploadFiles)
+      .subscribe();
+  }
+
+  /**
+   * We try to detect folders by checking for either empty types
+   * or empty file sizes.
+   * @param files
+   */
+  protected filterFolders(files:UploadFile[]):UploadFile[] {
+    return files.filter((file) => {
+      // Folders never have a mime type
+      if (file.type !== '') {
+        return true;
+      }
+
+      // Files however MAY have no mime type as well
+      // so fall back to checking zero or 4096 bytes
+      if (file.size === 0 || file.size === 4096) {
+        console.warn(`Skipping file because of file size (${file.size}) %O`, file);
+        return false;
+      }
+
+      return true;
+    });
   }
 }

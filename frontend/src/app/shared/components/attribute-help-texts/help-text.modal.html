@@ -17,11 +17,15 @@
       [innerHtml]="helpText.helpText.html"
     ></div>
 
-    <attachments
-      *ngIf="helpText && helpText.attachments.elements.length > 0"
-      [resource]="helpText"
-      data-allow-uploading="false"
-    ></attachments>
+    <fieldset class="form--fieldset" *ngIf="helpText && helpText.attachments.elements.length > 0">
+      <legend class="form--fieldset-legend">
+        {{ text.attachments }}
+      </legend>
+      <op-attachments
+        [resource]="helpText"
+        [allowUploading]="false"
+      ></op-attachments>
+    </fieldset>
   </div>
 
   <div class="spot-action-bar">
