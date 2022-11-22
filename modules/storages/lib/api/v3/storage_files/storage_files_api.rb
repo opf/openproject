@@ -54,16 +54,44 @@ module API::V3::StorageFiles
               files_query
                 .call(params[:parent])
                 .map do |files|
-                  API::V3::StorageFiles::StorageFileCollectionRepresenter.new(
-                    files,
-                    self_link: api_v3_paths.storage_files(@storage.id),
-                    current_user:
-                  )
-                end
-                  .match(
-                    on_success: ->(representer) { representer },
-                    on_failure: ->(error) { raise_error(error) }
-                  )
+                API::V3::StorageFiles::StorageFileCollectionRepresenter.new(
+                  files,
+                  self_link: api_v3_paths.storage_files(@storage.id),
+                  current_user:
+                )
+              end
+                .match(
+                  on_success: ->(representer) { representer },
+                  on_failure: ->(error) { raise_error(error) }
+                )
+            },
+            on_failure: ->(error) { raise_error(error) }
+          )
+      end
+
+      # RequestBody:
+      # {
+      #   "fileName": "ape.png",
+      #   "parent": "/Pictures"
+      # }
+      post :prepare_upload do
+        raise ::API::Errors::NotFound unless OpenProject::FeatureDecisions.storage_file_upload_active?
+
+        Storages::Peripherals::StorageRequests
+          .new(storage: @storage)
+          .upload_link_query(
+            user: current_user,
+            finalize_url: nil # ToDo: api_v3_paths.finalize_upload(@storage.id)
+          )
+          .match(
+            on_success: ->(upload_link_query) {
+              upload_link_query
+                .call(request_body)
+                .map { |link| API::V3::StorageFiles::StorageUploadLinkRepresenter.new(link, current_user:) }
+                .match(
+                  on_success: ->(representer) { representer },
+                  on_failure: ->(error) { raise_error(error) }
+                )
             },
             on_failure: ->(error) { raise_error(error) }
           )
