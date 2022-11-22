@@ -21,7 +21,7 @@ export function setPosition(element:HTMLInputElement, offset:number):void {
  * @return {number}
  */
 export function getPosition(evt:any):number {
-  const originalEvt = evt.originalEvent;
+  const originalEvt = evt.originalEvent || evt;
 
   try {
     if (originalEvt.rangeParent) {
