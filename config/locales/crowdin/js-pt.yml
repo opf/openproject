@@ -232,7 +232,7 @@ pt:
           benefits:
             description: "Quais os benefícios da versão Enterprise Edition on-premises?"
             high_security: "Recursos de segurança"
-            high_security_text: "Início de sessão único (SAML, OpenID Connect, CAS), autenticação de dois fatores e sincronização automática de grupos LDAP."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Suporte à instalação"
             installation_text: "Engenheiros de software experientes darão orientações durante todo o processo de instalação e configuração em sua própria infraestrutura."
             premium_features: "Recursos premium"
@@ -303,11 +303,11 @@ pt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                O lançamento contém várias melhorias e recursos novos: <br> <ul class="%{list_styling_class}"> <li>Ative as notificação de alertas de data para datas futuras e tarefas atrasadas.</li> <li>Lançamos a autenticação de dois fatores (A2F) para a edição da Comunidade.</li> <li>A opção de exibição de semana de trabalho também foi adicionada ao planejador de equipe.</li> <li> Liste até 3 pessoas nos cartões de notificação quando várias pessoas estiverem envolvidas nas alterações.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                O lançamento contém várias melhorias e recursos novos: <br> <ul class="%{list_styling_class}"> <li>Ative a notificação de alertas de data para datas futuras e tarefas atrasadas.</li> <li>Lançamos a autenticação de dois fatores (A2F) para a edição da Comunidade.</li> <li>A opção de exibição da semana de trabalho agora também foi adicionada ao planejador de equipe.</li> <li> Liste até 3 pessoas nos cartões de notificação quando várias pessoas estiverem envolvidas nas alterações.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
     label_activate: "Ativar"
     label_assignee: 'Atribuído para'
     label_add_column_after: "Adicionar coluna depois"
@@ -399,6 +399,7 @@ pt:
     label_no_data: "Sem dados para exibir"
     label_no_due_date: "sem data de conclusão"
     label_no_start_date: "nenhuma data de início"
+    label_no_date: "no date"
     label_no_value: "Nenhum valor"
     label_none: "nenhum"
     label_not_contains: "não contém"
@@ -623,20 +624,20 @@ pt:
         global:
           immediately:
             title: 'Participando'
-            description: 'Notificações para todas as atividades nos pacotes de trabalho que você está envolvido (cessionário, responsável ou observador)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: 'Não participando'
-            description: 'NotificaçÕes adicionais para atividades em todos os projetos'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Alertas de data'
-            description: 'Notificações automáticas quando datas importantes estiverem se aproximando para pacotes de trabalho abertos que você esteja envolvido (cessionário, responsável ou observador)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'Com os alertas de data, você receberá uma notificação das futuras datas de início e conclusão, assim você nunca perderá ou esquecerá prazos importante. '
           start_date: Data de início
           due_date: Data de conclusão
           overdue: Quando atrasado
         project_specific:
           title: 'Configurações de notificação específicas de projetos'
-          description: 'Essas configurações específicas de projeto substituem as configurações padrão acima'
+          description: 'These project-specific settings override default settings above.'
           add: 'Adicionar configuração para o projeto'
           already_selected: 'Este projeto já está selecionado'
           remove: 'Remover configurações de projeto'

@@ -233,7 +233,7 @@ ca:
           benefits:
             description: "Quins són els beneficis de l'edició Enterprise on-premises"
             high_security: "Funcions de seguretat"
-            high_security_text: "Inici de sessió únic (SAML, OpenID Connect, CAS), autentificació amb dos passos i sincronització automàtica de grups LDAP."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Suport d'instal·lació"
             installation_text: "Enginyers de programari amb experiència et guien durant tot el procés d'instal·lació i configuració de la teva pròpia estructura."
             premium_features: "Funcions Prèmium"
@@ -304,11 +304,11 @@ ca:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Assignat a'
     label_add_column_after: "Afegir una columna després"
@@ -400,6 +400,7 @@ ca:
     label_no_data: "No hi ha dades per mostrar"
     label_no_due_date: "sense data de final"
     label_no_start_date: "no hi ha data d'inici"
+    label_no_date: "no date"
     label_no_value: "Cap valor"
     label_none: "cap"
     label_not_contains: "no conté"
@@ -624,20 +625,20 @@ ca:
         global:
           immediately:
             title: 'Participant'
-            description: 'Notificacions per a totes les activitats en els paquets de treball en els que estàs involucrat (assignat, responsable o observador)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: 'No participant'
-            description: 'Notificacions addicionals per activitats en tots els projectes'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Alertes per dates'
-            description: 'Notificacions automàtiques quan dates importants s''aproximen per a paquets de treball oberts en els quals estàs involucrat (assignat, responsable o observador)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           start_date: Start Date
           due_date: Finish Date
           overdue: When Overdue
         project_specific:
           title: 'Configuracions de notificacions específiques del projecte'
-          description: 'Aquestes configuracions específiques del projecte anul·len les configuracions per defecte especificades a sobre'
+          description: 'These project-specific settings override default settings above.'
           add: 'Afegeix configuracions pel projecte'
           already_selected: 'Aquest projecte ja està seleccionat'
           remove: 'Elimina les configuracions del projecte'

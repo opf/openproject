@@ -232,7 +232,7 @@ ro:
           benefits:
             description: "Care sunt avantajele ediției Enterprise on-premise?"
             high_security: "Caracteristici de securitate"
-            high_security_text: "Autentificare unică (SAML, OpenID Connect, CAS), autentificare cu doi factori și sincronizare automată a grupurilor LDAP."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Suport pentru instalare"
             installation_text: "Inginerii de software experimentați vă ghidează prin procesul complet de instalare și configurare în propria infrastructură."
             premium_features: "Caracteristici premium"
@@ -303,11 +303,11 @@ ro:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Versiunea conține diverse funcții noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Activează alertele cu privire la data notificării pentru datele viitoare și sarcinile restante.</li> <li>Eliberăm autentificarea cu doi factori (2FA) pentru ediția Comunității.</li> <li>Opțiunea de afișare a săptămânii de lucru este acum adăugată și planificatorului de echipă.</li> <li> Listează până la 3 persoane pe cardurile de notificare atunci când mai multe persoane au fost implicate în schimbări.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Versiunea conține diverse funcții noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Activează alertele cu privire la data notificării pentru datele viitoare și sarcinile restante.</li> <li>Eliberăm autentificarea cu doi factori (2FA) pentru ediția Comunității.</li> <li>Opțiunea de afișare a săptămânii de lucru este acum adăugată și planificatorului de echipă.</li> <li> Listează până la 3 persoane pe cardurile de notificare atunci când mai multe persoane au fost implicate în schimbări.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
     label_activate: "Activare"
     label_assignee: 'Executant'
     label_add_column_after: "Adauga o coloana dupa"
@@ -399,6 +399,7 @@ ro:
     label_no_data: "Nu există date de afișat"
     label_no_due_date: "fără dată de finalizare"
     label_no_start_date: "fără dată început"
+    label_no_date: "no date"
     label_no_value: "Nici o valoare"
     label_none: "niciunul"
     label_not_contains: "nu conține"
@@ -624,20 +625,20 @@ ro:
         global:
           immediately:
             title: 'Participant'
-            description: 'Notificări pentru toate activitățile din pachetele de lucru în care sunteți implicat (desemnat, responsabil sau observator)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: 'Neparticipantă'
-            description: 'Notificări suplimentare pentru activități în toate proiectele'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Alerte date'
-            description: 'Notificări automate atunci când se apropie date importante pentru pachetele de lucru deschise în care sunteți implicat (cesionar, responsabil sau supraveghetor)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'Cu alertele de date, veți fi notificat cu privire la următoarele date de început sau de sfârșit, astfel încât să nu ratați sau să uitați niciodată un termen limită important.'
           start_date: Dată Început
           due_date: Data de Finalizare
           overdue: Când întârzie
         project_specific:
           title: 'Setări de notificare specifice proiectului'
-          description: 'Aceste setări specifice proiectului prevalează asupra setărilor implicite de mai sus'
+          description: 'These project-specific settings override default settings above.'
           add: 'Adăugați o setare pentru proiect'
           already_selected: 'Acest proiect este deja selectat'
           remove: 'Eliminați setările proiectului'

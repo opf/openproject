@@ -233,7 +233,7 @@ uk:
           benefits:
             description: "Які переваги локального випуску Enterprise?"
             high_security: "Функції безпеки"
-            high_security_text: "Єдиний вхід (SAML, OpenID Connect, CAS), двофакторна аутентифікація та автоматична синхронізація груп LDAP."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Підтримка встановлення"
             installation_text: "Досвідчені інженери програмного забезпечення допоможуть вам виконати повне встановлення та налаштувати процес у вашій інфраструктурі."
             premium_features: "Ексклюзивні функції"
@@ -304,11 +304,11 @@ uk:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br><ul class="%{list_styling_class}"><li>Тепер можна активувати сповіщення про заплановані дати й прострочені завдання.</li> <li>Стала доступною двофакторна автентифікація (2FA) для випуску Community.</li> <li>Варіант показу робочого тижня тепер додано в командний планувальник.</li> <li>Тепер можна показувати до 3 користувачів на картках сповіщень, якщо вони причетні до змін.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br><ul class="%{list_styling_class}"><li>Тепер можна активувати сповіщення про заплановані дати й прострочені завдання.</li> <li>Стала доступною двофакторна автентифікація (2FA) для випуску Community.</li> <li>Варіант показу робочого тижня тепер додано в командний планувальник.</li> <li>Тепер можна показувати до 3 користувачів на картках сповіщень, якщо вони причетні до змін.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
     label_activate: "Активувати"
     label_assignee: 'Виконавець'
     label_add_column_after: "Додати стовпець після"
@@ -400,6 +400,7 @@ uk:
     label_no_data: "Немає даних для відображення"
     label_no_due_date: "немає дати завершення"
     label_no_start_date: "немає дати початку"
+    label_no_date: "no date"
     label_no_value: "Значення відсутнє"
     label_none: "нічого"
     label_not_contains: "не містить"
@@ -626,20 +627,20 @@ uk:
         global:
           immediately:
             title: 'Бере участь'
-            description: 'Сповіщення про всі дії з пакетами робіт, з якими ви пов’язані (виконавець, відповідальний або спостерігач)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: 'Не бере участі'
-            description: 'Додаткові сповіщення про дії в усіх проєктах'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Оповіщення про дати'
-            description: 'Автоматичні сповіщення в разі наближення важливих дат для відкритих пакетів робіт, з якими ви пов’язані (виконавець, відповідальний або спостерігач)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'Завдяки оповіщенням про дати ви завжди знатимете про заплановані дати початку або завершення, тож ніколи не пропускатимете важливі терміни та не забуватимете про них.'
           start_date: Дата початку
           due_date: Дата завершення
           overdue: Якщо прострочено
         project_specific:
           title: 'Параметри сповіщень проєкту'
-          description: 'Ці параметри сповіщень проєкту перевизначають стандартні параметри вище'
+          description: 'These project-specific settings override default settings above.'
           add: 'Додати налаштування для проєкту'
           already_selected: 'Цей проєкт уже вибрано'
           remove: 'Вилучити налаштування проєкту'

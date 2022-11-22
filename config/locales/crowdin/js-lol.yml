@@ -232,7 +232,7 @@ lol:
           benefits:
             description: "crwdns804146:0crwdne804146:0"
             high_security: "crwdns804148:0crwdne804148:0"
-            high_security_text: "crwdns804150:0crwdne804150:0"
+            high_security_text: "crwdns839281:0crwdne839281:0"
             installation: "crwdns804152:0crwdne804152:0"
             installation_text: "crwdns804154:0crwdne804154:0"
             premium_features: "crwdns804156:0crwdne804156:0"
@@ -303,11 +303,11 @@ lol:
             standard:
               learn_about_link: crwdns838619:0crwdne838619:0
               new_features_html: >
-                crwdns838621:0%{list_styling_class}crwdne838621:0
+                crwdns839283:0%{list_styling_class}crwdne839283:0
             bim:
               learn_about_link: crwdns838623:0crwdne838623:0
               new_features_html: >
-                crwdns838625:0%{list_styling_class}crwdne838625:0
+                crwdns839285:0%{list_styling_class}crwdne839285:0
     label_activate: "crwdns804248:0crwdne804248:0"
     label_assignee: 'crwdns810600:0crwdne810600:0'
     label_add_column_after: "crwdns804250:0crwdne804250:0"
@@ -399,6 +399,7 @@ lol:
     label_no_data: "crwdns804420:0crwdne804420:0"
     label_no_due_date: "crwdns804422:0crwdne804422:0"
     label_no_start_date: "crwdns804424:0crwdne804424:0"
+    label_no_date: "crwdns839287:0crwdne839287:0"
     label_no_value: "crwdns804426:0crwdne804426:0"
     label_none: "crwdns804428:0crwdne804428:0"
     label_not_contains: "crwdns804430:0crwdne804430:0"
@@ -623,20 +624,20 @@ lol:
         global:
           immediately:
             title: 'crwdns838573:0crwdne838573:0'
-            description: 'crwdns838575:0crwdne838575:0'
+            description: 'crwdns839289:0crwdne839289:0'
           delayed:
             title: 'crwdns838577:0crwdne838577:0'
-            description: 'crwdns838579:0crwdne838579:0'
+            description: 'crwdns839291:0crwdne839291:0'
           date_alerts:
             title: 'crwdns838581:0crwdne838581:0'
-            description: 'crwdns838583:0crwdne838583:0'
+            description: 'crwdns839293:0crwdne839293:0'
             teaser_text: 'crwdns838585:0crwdne838585:0'
           start_date: crwdns838587:0crwdne838587:0
           due_date: crwdns838589:0crwdne838589:0
           overdue: crwdns838591:0crwdne838591:0
         project_specific:
           title: 'crwdns804750:0crwdne804750:0'
-          description: 'crwdns804752:0crwdne804752:0'
+          description: 'crwdns839295:0crwdne839295:0'
           add: 'crwdns804754:0crwdne804754:0'
           already_selected: 'crwdns804756:0crwdne804756:0'
           remove: 'crwdns804758:0crwdne804758:0'

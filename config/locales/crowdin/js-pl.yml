@@ -233,7 +233,7 @@ pl:
           benefits:
             description: "Jakie są korzyści z rozwiązania lokalnego wersji Enterprise?"
             high_security: "Funkcje zabezpieczeń"
-            high_security_text: "Pojedyncze logowanie (SAML, OpenID Connect, CAS), uwierzytelnianie dwuskładnikowe i automatyczna synchronizacja grup LDAP."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Pomoc w instalacji"
             installation_text: "Doświadczeni inżynierowie oprogramowania prowadzą Cię przez cały proces instalacji i konfiguracji w Twojej własnej infrastrukturze."
             premium_features: "Funkcje premium"
@@ -304,11 +304,11 @@ pl:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Aktywuj alerty powiadomień o nadchodzących datach i zaległych zadaniach.</li> <li>Udostępniamy uwierzytelnianie dwuskładnikowe (2FA) dla wersji społecznościowej.</li> <li>Opcja wyświetlania tygodnia roboczego została dodana do planisty zespołu.</li> <li> Lista do 3 osób na kartach powiadomień, gdy wiele osób uczestniczyło w zmianach.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Aktywuj alerty powiadomień o nadchodzących datach i zaległych zadaniach.</li> <li>Udostępniamy uwierzytelnianie dwuskładnikowe (2FA) dla wersji społecznościowej.</li> <li>Opcja wyświetlania tygodnia roboczego została dodana do planisty zespołu.</li> <li> Lista do 3 osób na kartach powiadomień, gdy wiele osób uczestniczyło w zmianach.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
     label_activate: "Aktywuj"
     label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"
@@ -400,6 +400,7 @@ pl:
     label_no_data: "Brak danych do pokazania"
     label_no_due_date: "brak daty ukończenia"
     label_no_start_date: "brak daty rozpoczęcia"
+    label_no_date: "no date"
     label_no_value: "Brak wartości"
     label_none: "Brak"
     label_not_contains: "nie zawierają"
@@ -626,20 +627,20 @@ pl:
         global:
           immediately:
             title: 'Uczestnictwo'
-            description: 'Powiadomienia dla wszystkich aktywności w pakietach roboczych, do których cię zaangażowano (jako osobę: przypisaną, odpowiedzialną, bądź obserwującą)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: 'Brak uczestnictwa'
-            description: 'Dodatkowe powiadomienia dla działań we wszystkich projektach'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Data ostrzeżeń'
-            description: 'Automatyczne powiadomienia, gdy ważne daty zbliżają się do otwartych pakietów roboczych, do których cię zaangażowano (jako osobę: przypisaną, odpowiedzialną bądź obserwującą)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'Dzięki alertom dotyczącym dat będziesz otrzymywać powiadomienia o zbliżających się terminach rozpoczęcia lub zakończenia pracy, dzięki czemu nigdy nie przegapisz ani nie zapomnisz ważnego terminu.'
           start_date: Data rozpoczęcia
           due_date: Data zakończenia
           overdue: Po upływie terminu
         project_specific:
           title: 'Ustawienia powiadomień dla danego projektu'
-          description: 'Te ustawienia dla danego projektu zastępują ustawienia domyślne powyżej'
+          description: 'These project-specific settings override default settings above.'
           add: 'Dodaj ustawienie dla projektu'
           already_selected: 'Ten projekt jest już wybrany'
           remove: 'Usuń ustawienia projektu'

@@ -136,7 +136,7 @@ es:
         Si marca esta casilla, el proyecto abierto creará automáticamente nuevos usuarios a partir de sus entradas LDAP cuando se autentican por primera vez con el proyecto abierto.
         ¡Deje esto sin marcar para permitir que solo las cuentas existentes en el proyecto abierto se autentiquen a través de LDAP!
     connection_encryption: 'Cifrado de conexión'
-    encryption_details: 'LDAPS / STARTTLS options'
+    encryption_details: 'Opciones LDAPS / STARTTLS'
     system_account: 'Cuenta del sistema'
     system_account_legend: |
       El proyecto abierto requiere acceso de solo lectura a través de una cuenta del sistema para buscar usuarios y grupos en su árbol LDAP.
