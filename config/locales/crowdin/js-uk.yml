@@ -304,11 +304,11 @@ uk:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br><ul class="%{list_styling_class}"><li>Тепер можна активувати сповіщення про заплановані дати й прострочені завдання.</li> <li>Стала доступною двофакторна автентифікація (2FA) для випуску Community.</li> <li>Варіант показу робочого тижня тепер додано в командний планувальник.</li> <li>Тепер можна показувати до 3 користувачів на картках сповіщень, якщо вони причетні до змін.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br><ul class="%{list_styling_class}"><li>Тепер можна активувати сповіщення про заплановані дати й прострочені завдання.</li> <li>Стала доступною двофакторна автентифікація (2FA) для випуску Community.</li> <li>Варіант показу робочого тижня тепер додано в командний планувальник.</li> <li>Тепер можна показувати до 3 користувачів на картках сповіщень, якщо вони причетні до змін.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
     label_activate: "Активувати"
     label_assignee: 'Виконавець'
     label_add_column_after: "Додати стовпець після"
@@ -400,6 +400,7 @@ uk:
     label_no_data: "Немає даних для відображення"
     label_no_due_date: "немає дати завершення"
     label_no_start_date: "немає дати початку"
+    label_no_date: "no date"
     label_no_value: "Значення відсутнє"
     label_none: "нічого"
     label_not_contains: "не містить"

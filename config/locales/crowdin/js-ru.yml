@@ -303,11 +303,11 @@ ru:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Активация оповещений о дате уведомления для предстоящих дат и просроченных задач.</li> <li>Мы выпускаем двухфакторную аутентификацию (2FA) для редакции Сообщества.</li> <li>Опция отображения рабочей недели теперь также добавлена в командный планировщик.</li> <li> Список до 3 человек в карточках уведомлений, когда в изменениях участвовали несколько человек.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Активация оповещений о дате уведомления для предстоящих дат и просроченных задач.</li> <li>Мы выпускаем двухфакторную аутентификацию (2FA) для редакции Сообщества.</li> <li>Опция отображения рабочей недели теперь также добавлена в командный планировщик.</li> <li> Список до 3 человек в карточках уведомлений, когда в изменениях участвовали несколько человек.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
     label_activate: "Активировать"
     label_assignee: 'Ответственный'
     label_add_column_after: "Добавить столбец после"
@@ -399,6 +399,7 @@ ru:
     label_no_data: "Нет данных для отображения"
     label_no_due_date: "нет даты окончания"
     label_no_start_date: "без даты начала"
+    label_no_date: "no date"
     label_no_value: "Нет значения"
     label_none: "Ничего"
     label_not_contains: "не содержит"

@@ -303,11 +303,11 @@ pt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                O lançamento contém várias melhorias e recursos novos: <br> <ul class="%{list_styling_class}"> <li>Ative as notificação de alertas de data para datas futuras e tarefas atrasadas.</li> <li>Lançamos a autenticação de dois fatores (A2F) para a edição da Comunidade.</li> <li>A opção de exibição de semana de trabalho também foi adicionada ao planejador de equipe.</li> <li> Liste até 3 pessoas nos cartões de notificação quando várias pessoas estiverem envolvidas nas alterações.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                O lançamento contém várias melhorias e recursos novos: <br> <ul class="%{list_styling_class}"> <li>Ative a notificação de alertas de data para datas futuras e tarefas atrasadas.</li> <li>Lançamos a autenticação de dois fatores (A2F) para a edição da Comunidade.</li> <li>A opção de exibição da semana de trabalho agora também foi adicionada ao planejador de equipe.</li> <li> Liste até 3 pessoas nos cartões de notificação quando várias pessoas estiverem envolvidas nas alterações.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
     label_activate: "Ativar"
     label_assignee: 'Atribuído para'
     label_add_column_after: "Adicionar coluna depois"
@@ -399,6 +399,7 @@ pt:
     label_no_data: "Sem dados para exibir"
     label_no_due_date: "sem data de conclusão"
     label_no_start_date: "nenhuma data de início"
+    label_no_date: "no date"
     label_no_value: "Nenhum valor"
     label_none: "nenhum"
     label_not_contains: "não contém"

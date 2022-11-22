@@ -128,6 +128,7 @@ lol:
       onthefly_register: |
         crwdns494837:0crwdne494837:0
     connection_encryption: 'crwdns494839:0crwdne494839:0'
+    encryption_details: 'crwdns838863:0crwdne838863:0'
     system_account: 'crwdns494841:0crwdne494841:0'
     system_account_legend: |
       crwdns494843:0crwdne494843:0
@@ -137,13 +138,18 @@ lol:
       crwdns494849:0crwdne494849:0
     tls_mode:
       plain: 'crwdns494851:0crwdne494851:0'
-      simple_tls: 'crwdns494853:0crwdne494853:0'
-      start_tls: 'crwdns494855:0crwdne494855:0'
-      plain_description: "crwdns494857:0crwdne494857:0"
-      simple_tls_description: "crwdns494859:0crwdne494859:0"
-      start_tls_description: "crwdns494861:0crwdne494861:0"
+      simple_tls: 'crwdns838865:0crwdne838865:0'
+      start_tls: 'crwdns838867:0crwdne838867:0'
+      plain_description: "crwdns838869:0crwdne838869:0"
+      simple_tls_description: "crwdns838871:0crwdne838871:0"
+      start_tls_description: "crwdns838873:0crwdne838873:0"
       section_more_info_link_html: >
         crwdns494863:0%{link}crwdne494863:0
+    tls_options:
+      verify_peer: "crwdns838875:0crwdne838875:0"
+      verify_peer_description_html: >
+        crwdns838877:0crwdne838877:0
+      tls_certificate_description: "crwdns838879:0crwdne838879:0"
   forums:
     show:
       no_results_title_text: crwdns494865:0crwdne494865:0
@@ -401,6 +407,7 @@ lol:
         host: "crwdns495151:0crwdne495151:0"
         onthefly: "crwdns495153:0crwdne495153:0"
         port: "crwdns495155:0crwdne495155:0"
+        tls_certificate_string: "crwdns838881:0crwdne838881:0"
       changeset:
         repository: "crwdns495157:0crwdne495157:0"
       comment:
@@ -609,6 +616,11 @@ lol:
           crwdns825422:0crwdne825422:0
         wrong_length: "crwdns495487:0%{count}crwdne495487:0"
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "crwdns838883:0%{additional_message}crwdne838883:0"
+              format: "crwdns838885:0%{message}crwdne838885:0"
         attachment:
           attributes:
             content_type:
