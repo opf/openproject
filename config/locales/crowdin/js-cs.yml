@@ -233,7 +233,7 @@ cs:
           benefits:
             description: "Jaké jsou výhody Enterprise on-premises Edice?"
             high_security: "Bezpečnostní prvky"
-            high_security_text: "Jednotné přihlášení (SAML, OpenID Connect, CAS), dvoufaktorové ověřování a automatická synchronizace skupin LDAP."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Instalační podpora"
             installation_text: "Zkušení softwaroví inženýři vás povedou kompletní instalací a instalací ve vaší vlastní infrastruktuře."
             premium_features: "Prémiové funkce"
@@ -304,11 +304,11 @@ cs:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
     label_activate: "Aktivovat"
     label_assignee: 'Řešitel'
     label_add_column_after: "Přidat sloupec za"
@@ -400,6 +400,7 @@ cs:
     label_no_data: "Žádná data k zobrazení"
     label_no_due_date: "žádné datum dokončení"
     label_no_start_date: "žádné datum začátku"
+    label_no_date: "no date"
     label_no_value: "Žádná hodnota"
     label_none: "žádný"
     label_not_contains: "neobsahuje"
@@ -626,20 +627,20 @@ cs:
         global:
           immediately:
             title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           start_date: Start Date
           due_date: Finish Date
           overdue: When Overdue
         project_specific:
           title: "Nastavení upozornění pro konkrétní projekt\n"
-          description: 'Toto specifické nastavení projektu přepíše výchozí nastavení výše'
+          description: 'These project-specific settings override default settings above.'
           add: 'Přidat nastavení pro projekt'
           already_selected: 'Tento projekt je již vybrán'
           remove: 'Odstranit nastavení projektu'

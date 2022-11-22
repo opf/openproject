@@ -40,6 +40,16 @@ RSpec.configure do |config|
 
   # Set the default options
   config.include_context 'with default_url_options set', type: :feature
+
+  # Make it possible to match on value attribute.
+  #
+  # For instance:
+  #
+  #     expect(page).to have_selector(".date input", value: "2022-11-17")
+  #
+  Capybara.modify_selector(:css) do
+    filter(:value) { |node, v| node.value == v }
+  end
 end
 
 ##

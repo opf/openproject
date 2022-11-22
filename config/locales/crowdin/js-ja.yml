@@ -234,7 +234,7 @@ ja:
           benefits:
             description: "オンプレミス版 Enterprise Edition にはどのようなメリットがありますか？"
             high_security: "セキュリティ機能"
-            high_security_text: "シングルサインオン(SAML、OpenID Connect、CAS)、2要素認証、LDAPグループの自動同期。"
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "インストールサポート"
             installation_text: "経験豊富なソフトウェアエンジニアが、あなた独自のインフラストラクチャへの完全なインストールとセットアッププロセスをガイドします。"
             premium_features: "プレミアム機能"
@@ -305,11 +305,11 @@ ja:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
     label_activate: "有効にする"
     label_assignee: 'Assignee'
     label_add_column_after: "後に列を追加"
@@ -401,6 +401,7 @@ ja:
     label_no_data: "表示できるデータがありません。"
     label_no_due_date: "終了日が未設定"
     label_no_start_date: "開始日なし"
+    label_no_date: "no date"
     label_no_value: "値なし"
     label_none: "なし"
     label_not_contains: "含まない"
@@ -624,20 +625,20 @@ ja:
         global:
           immediately:
             title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           start_date: Start Date
           due_date: Finish Date
           overdue: When Overdue
         project_specific:
           title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
+          description: 'These project-specific settings override default settings above.'
           add: 'Add setting for project'
           already_selected: 'This project is already selected'
           remove: 'Remove project settings'

@@ -138,6 +138,7 @@ cs:
         při prvním ověření OpenProject.
         Ponechte toto nezaškrtnuté pro povolení pouze existujících účtů v OpenProject pro ověření pomocí LDAP!
     connection_encryption: 'Šifrování připojení'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Systémový účet'
     system_account_legend: |
       OpenProject vyžaduje přístup pouze pro čtení prostřednictvím systémového účtu pro vyhledávání uživatelů a skupin ve stromu LDAP.
@@ -149,13 +150,18 @@ cs:
       jaké atributy LDAP se používají k definování atributů uživatele OpenProject (mapování atributů).
     tls_mode:
       plain: 'žádný'
-      simple_tls: 'jednoduché_tls'
-      start_tls: 'začátek_tls'
-      plain_description: "Prosté nešifrované připojení, žádné jednání TLS."
-      simple_tls_description: "Implicitní TLS šifrování, ale bez ověření certifikátu. Používejte s opatrností a implicitní důvěru k LDAP připojení."
-      start_tls_description: "Explicitní TLS šifrování s úplnou validací. Použijte pro LDAP nad TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Tato sekce se týká zabezpečení připojení tohoto LDAP autentifikačního zdroje. Pro více informací navštivte <a href="%{link}">síť:LDAP dokumentaci</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: V současné době nejsou k dispozici žádné příspěvky na fórum.
@@ -421,6 +427,7 @@ cs:
         host: "Hostitel"
         onthefly: "Automatické vytváření uživatele"
         port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitář"
       comment:
@@ -629,6 +636,11 @@ cs:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "má chybnou délku (měla by být %{count} znaků)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:

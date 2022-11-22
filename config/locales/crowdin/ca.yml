@@ -136,6 +136,7 @@ ca:
         Si actives aquesta casella, OpenProject automàticament crearà nous usuaris a partir de les seves entrades LDAP durant la seva primera autentificació a OpenProject.
         Deixa-la desactivada si sols voleu permetre a comptes existents a OpenProject que s'autentifiquin via LDAP!
     connection_encryption: 'Encriptació de Connexió'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Compte de Sistema'
     system_account_legend: |
       OpenProject requereix accés de sols lectura mitjançant un compte de sistema per a buscar usuaris i grups al vostre arbre LDAP.
@@ -146,13 +147,18 @@ ca:
       Els camps següents són relacionats amb la manera com els usuaris són creats a OpenProject a partir d'entrades LDAP i quins atributs LDAP són fets servir per a definir els atributs d'un usuari d'OpenProject (associació d'atributs).
     tls_mode:
       plain: 'cap'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Connexió plana no encriptada, sense negociació TLS."
-      simple_tls_description: "Encriptació TLS implícita, però sense validació de certificat. Feu-ho servir amb prudència i amb confiança implícita de la connexió LDAP."
-      start_tls_description: "Encriptació TLS explícita amb validació completa. Feu-ho servir per LDAP sobre TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Aquesta secció concerneix la seguretat de connexió d'aquesta font d'autentificació LDAP. Per a més imformació, visiteu <a href="%{link}">la documentació Xarxa::LDAP</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Ara mateix no hi ha posts en aquest fòrum.
@@ -415,6 +421,7 @@ ca:
         host: "Servidor"
         onthefly: "Creació d'usuari automàtica"
         port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositori"
       comment:
@@ -623,6 +630,11 @@ ca:
           no està proveint un "Context Segur". Utilitza HTTPS o bé una adreça de retroalimentació, com un host local.
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:

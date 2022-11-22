@@ -3,7 +3,7 @@ it:
   js:
     storages:
       link_files_in_storage: "Collega file in %{storageType}"
-      link_existing_files: "Link existing files"
+      link_existing_files: "Collega file esistenti"
       login: "Accesso %{storageType}"
       login_to: "Accedi a %{storageType}"
       no_connection: "Nessuna connessione %{storageType}"
@@ -28,10 +28,10 @@ it:
         remove_confirmation: >
           Vuoi davvero scollegare il file da questa macro-attività? Lo scollegamento non influisce sul file originale e rimuove solo la connessione a questa macro-attività.
         remove_short: "Rimuovi collegamento"
-        select: "Select files"
-        select_all: "Select all"
-        selection_none: "Select files to link"
-        selection_any: "Link %{number} files"
+        select: "Seleziona file"
+        select_all: "Seleziona tutto"
+        selection_none: "Seleziona i file da collegare"
+        selection_any: "Collega %{number} file"
         not_allowed_tooltip: "Accedi a Nextcloud per accedere a questo file"
-        already_linked_file: "This file is already linked to this work package."
-        already_linked_directory: "This directory is already linked to this work package."
+        already_linked_file: "Questo file è già collegato a questa macro-attività."
+        already_linked_directory: "Questa directory è già collegata a questa macro-attività."

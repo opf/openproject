@@ -25,6 +25,8 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+import { ANIMATION_RATE_MS } from 'core-app/core/top-menu/top-menu.service';
+import ClickEvent = JQuery.ClickEvent;
 
 /*
   The action menu is a menu that usually belongs to an OpenProject entity (like an Issue, WikiPage, Meeting, ..).
@@ -41,9 +43,6 @@
     </ul>
   The following code is responsible to open and close the "more functions" submenu.
 */
-import { ANIMATION_RATE_MS } from 'core-app/core/setup/globals/global-listeners/top-menu';
-import ClickEvent = JQuery.ClickEvent;
-
 function closeMenu(event:any) {
   const menu = jQuery(event.data.menu);
   // do not close the menu, if the user accidentally clicked next to a menu item (but still within the menu)

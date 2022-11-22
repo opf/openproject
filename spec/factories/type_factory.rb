@@ -55,6 +55,7 @@ FactoryBot.define do
     end
 
     factory :type_milestone, class: 'Type' do
+      name { 'Milestone' }
       is_milestone { true }
     end
   end
