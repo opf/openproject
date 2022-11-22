@@ -535,6 +535,19 @@ describe Journable::Timestamps do
             expect(subject).to include work_package
           end
         end
+
+        describe "when the sql where statement includes work_package.id" do
+          # This is used in the manual-sorting feature.
+          subject { WorkPackage.where("(\"work_packages\".\"id\" IN (#{work_package.id}))").at_timestamp(wednesday) }
+
+          it "transforms the expression to query the correct table" do
+            expect(subject.to_sql).to include "\"journals\".\"journable_id\" IN (#{work_package.id})"
+          end
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
       end
 
       describe "when chaining an order clause" do
@@ -591,6 +604,37 @@ describe Journable::Timestamps do
           it "transforms the table name" do
             expect(subject.to_sql).to include "\"work_package_journals\".\"subject\" ASC"
             expect(subject.to_sql).to include "\"journals\".\"journable_id\" DESC"
+          end
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
+      end
+
+      describe "when chaining a join" do
+        describe "when joining using active record" do
+          before { work_package.time_entries << create(:time_entry) }
+
+          subject { WorkPackage.joins(:time_entries).at_timestamp(wednesday) }
+
+          it "transforms the table name" do
+            expect(subject.to_sql).to include \
+                "JOIN \"time_entries\" ON \"time_entries\".\"work_package_id\" = \"journals\".\"journable_id\""
+          end
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
+
+        describe "when joining using a manual sql expression" do
+          # This is used in the manual-sorting feature.
+          subject { WorkPackage.joins("LEFT OUTER JOIN ordered_work_packages ON ordered_work_packages.work_package_id = work_packages.id").at_timestamp(wednesday) }
+
+          it "transforms the table name" do
+            expect(subject.to_sql).to include \
+                "LEFT OUTER JOIN ordered_work_packages ON ordered_work_packages.work_package_id = journals.journable_id"
           end
 
           it "returns the requested work package" do
