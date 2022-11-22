@@ -123,7 +123,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   def substitute_database_table_in_where_clause(relation)
     relation.where_clause.instance_variable_get(:@predicates).each do |predicate|
       if predicate.kind_of? String
-        predicate.gsub! "#{model.table_name}.", "#{model.journal_class.table_name}."
+        gsub_table_names_in_sql_string!(predicate)
       elsif predicate.left.relation == arel_table
         if predicate.right.respond_to? :name and predicate.right.name == "id"
           predicate.right.instance_variable_set(:@name, "journable_id")
@@ -142,7 +142,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   def add_timestamp_condition(relation)
     relation \
         .joins("INNER JOIN \"journals\" ON \"journals\".\"data_type\" = '#{model.journal_class.name}'
-            AND \"journals\".\"data_id\" = \"#{model.journal_class.table_name}\".\"id\"") \
+            AND \"journals\".\"data_id\" = \"#{model.journal_class.table_name}\".\"id\"".gsub("\n", "")) \
         .merge(Journal.at_timestamp(timestamp))
   end
 
@@ -152,7 +152,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   def add_join_on_journables_table_with_created_at_column(relation)
     relation \
         .joins("INNER JOIN (SELECT id, created_at FROM \"#{model.table_name}\") AS journables
-            ON \"journables\".\"id\" = \"journals\".\"journable_id\"")
+            ON \"journables\".\"id\" = \"journals\".\"journable_id\"".gsub("\n", ""))
   end
 
   # Gather the columns we need in our model from the different tables in the sql query:
@@ -169,7 +169,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
           #{model.journal_class.table_name}.*,
           journals.journable_id as id,
           journables.created_at as created_at,
-          journals.created_at as updated_at")
+          journals.created_at as updated_at".gsub("\n", ""))
     elsif relation.select_values.count == 1 and
         relation.select_values.first.respond_to? :relation and
         relation.select_values.first.relation.name == model.journal_class.table_name and
@@ -187,9 +187,14 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   def modify_order_clauses(arel)
     arel.instance_variable_get(:@ast).instance_variable_get(:@orders).each do |order_clause|
       if order_clause.kind_of? Arel::Nodes::SqlLiteral
-        order_clause.gsub! "#{model.table_name}.", "#{model.journal_class.table_name}."
+        gsub_table_names_in_sql_string!(order_clause)
       elsif order_clause.expr.relation == model.arel_table
-        order_clause.expr.relation = model.journal_class.arel_table
+        if order_clause.expr.name == "id"
+          order_clause.expr.name = "journable_id"
+          order_clause.expr.relation = Journal.arel_table
+        else
+          order_clause.expr.relation = model.journal_class.arel_table
+        end
       end
     end
     arel
@@ -218,7 +223,9 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   def modify_joins(arel)
     arel.instance_variable_get(:@ast).instance_variable_get(:@cores).each do |core|
       core.instance_variable_get(:@source).right.each do |node|
-        if node.kind_of?(Arel::Nodes::Join) and node.right.kind_of?(Arel::Nodes::On)
+        if node.kind_of? Arel::Nodes::StringJoin
+          gsub_table_names_in_sql_string!(node.left)
+        elsif node.kind_of?(Arel::Nodes::Join) and node.right.kind_of?(Arel::Nodes::On)
           [node.right.expr.left, node.right.expr.right].each do |attribute|
             if attribute.respond_to? :relation and
                 (attribute.relation == journal_class.arel_table) and
@@ -231,6 +238,18 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       end
     end
     arel
+  end
+
+  # Replace table names in sql strings, e.g.
+  #
+  #     "work_package.id" => "journals.journable_id"
+  #     "work_package.subject" => "work_package_journals.subject"
+  #
+  def gsub_table_names_in_sql_string!(sql_string)
+    sql_string.gsub! /(?<!_)#{model.table_name}\.id/, "journals.journable_id"
+    sql_string.gsub! "\"#{model.table_name}\".\"id\"", "\"journals\".\"journable_id\""
+    sql_string.gsub! /(?<!_)#{model.table_name}\./, "#{model.journal_class.table_name}."
+    sql_string.gsub! "\"#{model.table_name}\".", "\"#{model.journal_class.table_name}\"."
   end
 end
 
