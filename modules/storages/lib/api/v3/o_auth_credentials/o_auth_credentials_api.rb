@@ -26,16 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::Storages::CreateEndpoint < API::Utilities::Endpoints::Create
-  include ::API::V3::Utilities::Endpoints::V3Deductions
-  include ::API::V3::Utilities::Endpoints::V3PresentSingle
-
-  def present_success(request, service_call)
-    API::V3::Storages::StorageRepresenter.create(
-      service_call.result,
-      current_user: request.current_user,
-      embed_links: true,
-      created_oauth_application: service_call.dependent_results.first.result
-    )
+module API::V3::OAuthCredentials
+  class OAuthCredentialsAPI < ::API::OpenProjectAPI
+    resources :oauth_credentials do
+      post &::API::V3::Utilities::Endpoints::Create
+              .new(model: ::OAuthClient,
+                   parse_representer: ::API::V3::OAuth::OAuthClientCredentialsRepresenter,
+                   render_representer: ::API::V3::OAuth::OAuthClientCredentialsRepresenter,
+                   params_modifier: ->(params) do
+                     params.merge(integration: @storage)
+                   end)
+              .mount
+    end
   end
 end

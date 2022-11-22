@@ -1,17 +1,12 @@
 # Schema: StorageWriteModel
 ---
 type: object
-required:
-  - _links
 properties:
   name:
     type: string
     description: Storage name, if not provided, falls back to a default.
   _links:
     type: object
-    required:
-      - origin
-      - type
     properties:
       origin:
         allOf:

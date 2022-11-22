@@ -26,16 +26,53 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::Storages::CreateEndpoint < API::Utilities::Endpoints::Create
-  include ::API::V3::Utilities::Endpoints::V3Deductions
-  include ::API::V3::Utilities::Endpoints::V3PresentSingle
+module API::V3::OAuth
+  class OAuthApplicationsRepresenter < ::API::Decorators::Single
+    include API::Decorators::LinkedResource
+    include API::Decorators::DateProperty
 
-  def present_success(request, service_call)
-    API::V3::Storages::StorageRepresenter.create(
-      service_call.result,
-      current_user: request.current_user,
-      embed_links: true,
-      created_oauth_application: service_call.dependent_results.first.result
-    )
+    property :id
+
+    property :uid, as: :client_id
+
+    property :confidential
+
+    property :client_secret,
+             getter: ->(*) { plaintext_secret },
+             skip_render: ->(*) { plaintext_secret.blank? }
+
+    date_time_property :created_at
+
+    date_time_property :updated_at
+
+    property :scopes
+
+    link :owner do
+      next if represented.owner.blank?
+
+      {
+        href: api_v3_paths.user(represented.owner.id),
+        title: represented.owner.name
+      }
+    end
+
+    link :integration do
+      next if represented.integration.blank?
+
+      {
+        href: api_v3_paths.storage(represented.integration.id),
+        title: represented.integration.name
+      }
+    end
+
+    link :redirect_uri do
+      {
+        href: represented.redirect_uri
+      }
+    end
+
+    def _type
+      'OAuthApplication'
+    end
   end
 end

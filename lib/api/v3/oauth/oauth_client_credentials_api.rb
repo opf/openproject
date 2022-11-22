@@ -26,16 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::Storages::CreateEndpoint < API::Utilities::Endpoints::Create
-  include ::API::V3::Utilities::Endpoints::V3Deductions
-  include ::API::V3::Utilities::Endpoints::V3PresentSingle
+module API::V3::OAuth
+  class OAuthClientCredentialsAPI < ::API::OpenProjectAPI
+    resources :oauth_client_credentials do
+      route_param :oauth_client_credentials_id, type: Integer, desc: 'OAuth Client Credentials id' do
+        after_validation do
+          @oauth_client = ::OAuthClient.find(params[:oauth_client_credentials_id])
+        end
 
-  def present_success(request, service_call)
-    API::V3::Storages::StorageRepresenter.create(
-      service_call.result,
-      current_user: request.current_user,
-      embed_links: true,
-      created_oauth_application: service_call.dependent_results.first.result
-    )
+        get &::API::V3::Utilities::Endpoints::Show
+               .new(model: ::OAuthClient,
+                    render_representer: ::API::V3::OAuth::OAuthClientCredentialsRepresenter)
+               .mount
+      end
+    end
   end
 end

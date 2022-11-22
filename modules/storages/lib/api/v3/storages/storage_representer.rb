@@ -62,11 +62,12 @@ module API::V3::Storages
 
     extend ClassMethods
 
-    def initialize(model, current_user:, embed_links: nil)
+    def initialize(model, current_user:, embed_links: nil, created_oauth_application: nil)
       @connection_manager =
         ::OAuthClients::ConnectionManager.new(user: current_user, oauth_client: model.oauth_client)
+      @oauth_application = created_oauth_application || model.oauth_application
 
-      super
+      super(model, current_user:, embed_links:)
     end
 
     property :id
@@ -124,6 +125,18 @@ module API::V3::Storages
 
       { href: @connection_manager.get_authorization_uri, title: 'Authorize' }
     end
+
+    associated_resource :oauth_application,
+                        getter: ->(*) {
+                          ::API::V3::OAuth::OAuthApplicationsRepresenter.create(@oauth_application, current_user:)
+                        },
+                        # representer: ::API::V3::OAuth::OAuthApplicationsRepresenter,
+                        link: ->(*) {
+                          {
+                            href: "/api/v3/oauth_applications/#{@oauth_application.id}",
+                            title: @oauth_application.name
+                          }
+                        }
 
     def _type
       'Storage'

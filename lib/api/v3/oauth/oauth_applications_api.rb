@@ -26,16 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::Storages::CreateEndpoint < API::Utilities::Endpoints::Create
-  include ::API::V3::Utilities::Endpoints::V3Deductions
-  include ::API::V3::Utilities::Endpoints::V3PresentSingle
+module API::V3::OAuth
+  class OAuthApplicationsAPI < ::API::OpenProjectAPI
+    resources :oauth_applications do
+      route_param :oauth_application_id, type: Integer, desc: 'OAuth application id' do
+        after_validation do
+          @application = ::Doorkeeper::Application.find(params[:oauth_application_id])
+        end
 
-  def present_success(request, service_call)
-    API::V3::Storages::StorageRepresenter.create(
-      service_call.result,
-      current_user: request.current_user,
-      embed_links: true,
-      created_oauth_application: service_call.dependent_results.first.result
-    )
+        get &::API::V3::Utilities::Endpoints::Show
+               .new(model: ::Doorkeeper::Application,
+                    render_representer: ::API::V3::OAuth::OAuthApplicationsRepresenter)
+               .mount
+      end
+    end
   end
 end

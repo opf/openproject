@@ -58,6 +58,8 @@ module API
       mount ::API::V3::HelpTexts::HelpTextsAPI
       mount ::API::V3::Memberships::MembershipsAPI
       mount ::API::V3::News::NewsAPI
+      mount ::API::V3::OAuth::OAuthApplicationsAPI
+      mount ::API::V3::OAuth::OAuthClientCredentialsAPI
       mount ::API::V3::Posts::PostsAPI
       mount ::API::V3::Principals::PrincipalsAPI
       mount ::API::V3::Priorities::PrioritiesAPI

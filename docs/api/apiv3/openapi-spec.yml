@@ -251,6 +251,8 @@ paths:
     "$ref": "./paths/notification_read.yml"
   "/api/v3/notifications/{id}/unread_ian":
     "$ref": "./paths/notification_unread.yml"
+  "/api/v3/oauth_credentials/{id}":
+    "$ref": "./paths/oauth_credentials.yml"
   "/api/v3/posts/{id}":
     "$ref": "./paths/post.yml"
   "/api/v3/posts/{id}/attachments":
@@ -359,6 +361,8 @@ paths:
     "$ref": "./paths/storage.yml"
   "/api/v3/storages/{id}/files":
     "$ref": "./paths/storage_files.yml"
+  "/api/v3/storages/{id}/oauth_credentials":
+    "$ref": "./paths/storage_oauth_credentials.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
@@ -654,8 +658,10 @@ components:
       "$ref": "./components/schemas/notification_settings_model.yml"
     Offset_based_pagination:
       "$ref": "./components/schemas/offset_based_pagination.yml"
-    OauthCredentialModel:
-      "$ref": "./components/schemas//oauth_credential_model.yml"
+    OauthCredentialsReadModel:
+      "$ref": "./components/schemas/oauth_credentials_read_model.yml"
+    OauthCredentialsWriteModel:
+      "$ref": "./components/schemas/oauth_credentials_write_model.yml"
     Plain_Text:
       "$ref": "./components/schemas/plain_text.yml"
     Plain_TextModel:
@@ -742,8 +748,6 @@ components:
       "$ref": "./components/schemas/storage_file_location_model.yml"
     StorageReadModel:
       "$ref": "./components/schemas/storage_read_model.yml"
-    StorageUpdateModel:
-      "$ref": "./components/schemas/storage_update_model.yml"
     StorageWriteModel:
       "$ref": "./components/schemas/storage_write_model.yml"
     Time_EntryModel:
@@ -768,12 +772,6 @@ components:
       "$ref": "./components/schemas/update_user.yml"
     Update_group:
       "$ref": "./components/schemas/update_group.yml"
-    Update_membership:
-      "$ref": "./components/schemas/update_membership.yml"
-    Update_project:
-      "$ref": "./components/schemas/update_project.yml"
-    Update_time_entry:
-      "$ref": "./components/schemas/update_time_entry.yml"
     UserCollectionModel:
       "$ref": "./components/schemas/user_collection_model.yml"
     UserCreateModel:
@@ -782,8 +780,6 @@ components:
       "$ref": "./components/schemas/user_model.yml"
     UserPreferencesModel:
       "$ref": "./components/schemas/user_preferences_model.yml"
-    User_PreferenceModel:
-      "$ref": "./components/schemas/user_preference_model.yml"
     ValuesPropertyModel:
       "$ref": "./components/schemas/values_property_model.yml"
     VersionModel:

@@ -26,16 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::Storages::CreateEndpoint < API::Utilities::Endpoints::Create
-  include ::API::V3::Utilities::Endpoints::V3Deductions
-  include ::API::V3::Utilities::Endpoints::V3PresentSingle
+module API::V3::OAuth
+  class OAuthClientCredentialsRepresenter < ::API::Decorators::Single
+    include API::Decorators::LinkedResource
 
-  def present_success(request, service_call)
-    API::V3::Storages::StorageRepresenter.create(
-      service_call.result,
-      current_user: request.current_user,
-      embed_links: true,
-      created_oauth_application: service_call.dependent_results.first.result
-    )
+    property :id
+
+    property :client_id
+
+    property :client_secret,
+             skip_render: true
+
+    property :confidential,
+             getter: ->(*) { client_secret.present? }
+
+    def _type
+      'OAuthClientCredentials'
+    end
   end
 end

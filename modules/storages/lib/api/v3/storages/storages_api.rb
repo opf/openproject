@@ -40,6 +40,7 @@ class API::V3::Storages::StoragesAPI < ::API::OpenProjectAPI
   # The `:resources` keyword defines the API namespace -> /api/v3/storages/...
   resources :storages do
     post &::API::V3::Storages::CreateEndpoint.new(model: ::Storages::Storage).mount
+    # post &::API::V3::Utilities::Endpoints::Create.new(model: ::Storages::Storage).mount
 
     # `route_param` extends the route by a route parameter of the endpoint.
     # The input parameter value is parsed into the `:storage_id` symbol.
@@ -65,6 +66,7 @@ class API::V3::Storages::StoragesAPI < ::API::OpenProjectAPI
       delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::Storages::Storage).mount
 
       mount API::V3::StorageFiles::StorageFilesAPI
+      mount API::V3::OAuthCredentials::OAuthCredentialsAPI
     end
   end
 end

@@ -57,7 +57,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../components/schemas/storage_update_model.yml'
+          $ref: '../components/schemas/storage_write_model.yml'
   responses:
     '200':
       description: OK
