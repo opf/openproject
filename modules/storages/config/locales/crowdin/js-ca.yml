@@ -4,10 +4,13 @@ ca:
     storages:
       link_files_in_storage: "Fitxers enllaçats a %{storageType}"
       link_existing_files: "Enllaça fitxers existents"
+      upload_files: "Upload files"
       login: "%{storageType} inici de sessió"
       login_to: "Inicia sessió a %{storageType}"
       no_connection: "%{storageType} sense connexió"
       open_storage: "Obre %{storageType}"
+      select_location: "Select location"
+      choose_location: "Choose location"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -30,8 +33,10 @@ ca:
         remove_short: "Eliminar enllaç"
         select: "Selecciona fitxers"
         select_all: "Select all"
-        selection_none: "Selecciona fitxers a enllaçar"
-        selection_any: "Enllaça %{number} de fitxers"
+        selection:
+          zero: "Select files to link"
+          one: "Link 1 file"
+          other: "Link %{count} files"
         not_allowed_tooltip: "Si us plau, inicia sessió a Nextcloud per accedir a aquest fitxer"
         already_linked_file: "This file is already linked to this work package."
         already_linked_directory: "This directory is already linked to this work package."

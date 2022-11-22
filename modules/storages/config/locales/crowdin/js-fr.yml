@@ -4,10 +4,13 @@ fr:
     storages:
       link_files_in_storage: "Lier des fichiers dans %{storageType}"
       link_existing_files: "Lier des fichiers existants"
+      upload_files: "Upload files"
       login: "Connexion à %{storageType}"
       login_to: "Connexion à %{storageType}"
       no_connection: "Aucune connexion à %{storageType}"
       open_storage: "Ouvrir %{storageType}"
+      select_location: "Select location"
+      choose_location: "Choose location"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -30,8 +33,10 @@ fr:
         remove_short: "Supprimer le lien"
         select: "Sélectionner les fichiers"
         select_all: "Tout sélectionner"
-        selection_none: "Sélectionner les fichiers à lier"
-        selection_any: "Lier %{number} fichiers"
+        selection:
+          zero: "Select files to link"
+          one: "Link 1 file"
+          other: "Link %{count} files"
         not_allowed_tooltip: "Veuillez vous connecter à Nextcloud pour accéder à ce fichier"
         already_linked_file: "Ce fichier est déjà lié à ce lot de travaux."
         already_linked_directory: "Ce répertoire est déjà lié à ce lot de travaux."

@@ -138,6 +138,7 @@ hu:
         amikor először hitelesítenek az OpenProject segítségével.
         Ha ezt nem jelöli, akkor az OpenProject már létező fiókjai csak az LDAP segítségével hitelesíthetők!
     connection_encryption: 'Kapcsolat titkosítása'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Rendszer fiók'
     system_account_legend: |
       Az OpenProject csak olvasható hozzáférést igényel egy rendszerfiókon keresztül az LDAP-fában lévő felhasználók és csoportok kereséséhez.
@@ -148,13 +149,18 @@ hu:
       Az alábbi mezők a felhasználók létrehozásához kapcsolódnak LDAP bejegyzések alapján az OpenProject-ben, és ahhoz mely LDAP tulajdonságok lesznek felhasználva OpenProject felhasználó tulajdonságainak deffiniálásakor (tulajdonság társítás).
     tls_mode:
       plain: 'Egyik sem'
-      simple_tls: 'Egyszerű_TLS'
-      start_tls: 'Start_TLS'
-      plain_description: "Egyszerű, nem titkosított kapcsolat, nincs TLS egyeztetés."
-      simple_tls_description: "Implicit TLS-titkosítás, de nincs tanúsítvány-érvényesítés. Óvatosan és az LDAP-kapcsolat implicit bizalmával használandó.\n"
-      start_tls_description: "Explicit TLS titkosítás teljes érvényesítéssel. Használja az LDAP TLS/SSL protokollon keresztüli .\n"
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Ez a szakasz az LDAP hitelesítési forrás kapcsolatbiztonságáról szól. További információért keresse fel a <a href="%{link}"> Net :: LDAP dokumentációt </a>
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Jelenleg nincs fórumbejegyzés.
@@ -416,6 +422,7 @@ hu:
         host: "Host"
         onthefly: "Automatikus felhasználó készítés"
         port: "Port szám"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Csomagtároló"
       comment:
@@ -624,6 +631,11 @@ hu:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "nem megfelelő hosszúságú (%{count} karakter szükséges)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:

@@ -4,10 +4,13 @@ ru:
     storages:
       link_files_in_storage: "Файлы ссылок в %{storageType}"
       link_existing_files: "Связать существующие файлы"
+      upload_files: "Загрузить файлы"
       login: "Логин %{storageType}"
       login_to: "Войти в %{storageType}"
       no_connection: "Нет подключения к %{storageType}"
       open_storage: "Открыть %{storageType}"
+      select_location: "Выберите местоположение"
+      choose_location: "Выберите местоположение"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -30,8 +33,12 @@ ru:
         remove_short: "Удалить ссылку"
         select: "Выберите файлы"
         select_all: "Выбрать все"
-        selection_none: "Выберите файлы для связывания"
-        selection_any: "Ссылка на %{number} файлов"
+        selection:
+          zero: "Выберите файлы для ссылки"
+          one: "Ссылка на файл"
+          few: "Ссылка на %{count} файлов"
+          many: "Ссылка на %{count} файлов"
+          other: "Ссылка на %{count} файлов"
         not_allowed_tooltip: "Войдите в Nextcloud для доступа к этому файлу"
         already_linked_file: "Этот файл уже связан с этим пакетом работ."
         already_linked_directory: "Этот каталог уже связан с этим пакетом работ."

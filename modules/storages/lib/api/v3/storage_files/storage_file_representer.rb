@@ -45,7 +45,7 @@ module API::V3::StorageFiles
     property :location
 
     def _type
-      Storages::StorageFile.class.to_s
+      Storages::StorageFile.name.split('::').last
     end
   end
 end

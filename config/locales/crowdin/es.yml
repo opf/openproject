@@ -80,7 +80,7 @@ es:
       buttons:
         upgrade: "Actualizar ahora"
         contact: "Contáctenos para una demostración"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+      enterprise_info_html: "es una característica de la versión Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
       upgrade_info: "Actualice a un plan de pago para activarlo y empezar a usarlo en su equipo."
     journal_aggregation:
       explanation:
@@ -136,6 +136,7 @@ es:
         Si marca esta casilla, el proyecto abierto creará automáticamente nuevos usuarios a partir de sus entradas LDAP cuando se autentican por primera vez con el proyecto abierto.
         ¡Deje esto sin marcar para permitir que solo las cuentas existentes en el proyecto abierto se autentiquen a través de LDAP!
     connection_encryption: 'Cifrado de conexión'
+    encryption_details: 'Opciones LDAPS / STARTTLS'
     system_account: 'Cuenta del sistema'
     system_account_legend: |
       El proyecto abierto requiere acceso de solo lectura a través de una cuenta del sistema para buscar usuarios y grupos en su árbol LDAP.
@@ -146,13 +147,18 @@ es:
       Los siguientes campos están relacionados con cómo se crean los usuarios en el proyecto abierto a partir de entradas LDAP y qué atributos LDAP se utilizan para definir los atributos de un usuario del proyecto abierto (asignación de atributos).
     tls_mode:
       plain: 'ninguno'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Conexión sin cifrado, no hay negociación TLS."
-      simple_tls_description: "Cifrado TLS implícito, pero sin certificación válida. Usar con cuidado y confianza implícita en la conexión LDAP."
-      start_tls_description: "Cifrado TLS explícito con validación completa. Usar para LDAP mediante TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Esta sección es concerniente a la seguridad de conexión de esta fuente de autentificación de LDAP. Para más información, visita <a href="%{link}">la documentación Red::LDAP</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Actualmente no hay publicaciones en el foro.
@@ -416,6 +422,7 @@ es:
         host: "Host"
         onthefly: "Creación automática de usuarios"
         port: "Puerto"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositorio"
       comment:
@@ -577,7 +584,7 @@ es:
         confirmation: "no coincide con %{attribute}."
         could_not_be_copied: "%{dependency} no se pudo copiar (en su totalidad)."
         does_not_exist: "no existe."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} solo está disponible en OpenProject Enterprise Edition"
         error_unauthorized: "no se puede acceder."
         error_readonly: "se intentó escribir pero no se puede escribir."
         email: "no es una dirección de correo válida."
@@ -624,6 +631,11 @@ es:
           no está proveyendo un "Contexto Seguro". Utiliza HTTPS o una dirección loopack, como un localhost.
         wrong_length: "la longitud es incorrecta (debe ser %{count} caracteres)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -756,8 +768,8 @@ es:
         watcher:
           attributes:
             user_id:
-              not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              not_allowed_to_view: "no tiene permiso para ver este recurso."
+              locked: "está bloqueado."
         wiki_page:
           attributes:
             slug:
@@ -2023,8 +2035,8 @@ es:
         mentioned: 'Mencionado'
         subscribed: 'todos'
         prefix: 'Recibido por la configuración de notificaciones: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
+        date_alert_start_date: 'Alerta de fecha'
+        date_alert_due_date: 'Alerta de fecha'
       see_all: 'Ver todo'
       updated_at: 'Actualizado a las %{timestamp} por %{user}'
   mail_body_account_activation_request: "Ha registrado un nuevo usuario (%{value}). La cuenta está pendiente de aprobación:"
@@ -2941,7 +2953,7 @@ es:
   api_v3:
     attributes:
       lock_version: "Versión Bloqueada"
-      property: 'Property'
+      property: 'Propiedad'
     errors:
       code_400: "Solicitud errónea: %{message}"
       code_401: "Tiene que estar autenticado para acceder a este recurso."

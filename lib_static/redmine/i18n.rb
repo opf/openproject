@@ -186,7 +186,7 @@ module Redmine
     end
 
     # Collects all translations for ActiveRecord attributes
-    def all_attribute_translations(locale = current_locale)
+    def all_attribute_translations(locale)
       @cached_attribute_translations ||= {}
       @cached_attribute_translations[locale] ||= begin
         general_attributes = ::I18n.t('attributes', locale:)

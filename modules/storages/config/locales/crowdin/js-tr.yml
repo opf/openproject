@@ -2,18 +2,21 @@
 tr:
   js:
     storages:
-      link_files_in_storage: "Link files in %{storageType}"
-      link_existing_files: "Link existing files"
-      login: "%{storageType} login"
-      login_to: "Login to %{storageType}"
-      no_connection: "No %{storageType} connection"
-      open_storage: "Open %{storageType}"
+      link_files_in_storage: "%{storageType} içindeki dosyaları bağla"
+      link_existing_files: "Mevcut dosyaları bağla"
+      upload_files: "Dosyaları yükle"
+      login: "%{storageType} oturum açma"
+      login_to: "%{storageType}'da oturum açın"
+      no_connection: "%{storageType} bağlantısı yok"
+      open_storage: "%{storageType}'ı açın"
+      select_location: "Konum seç"
+      choose_location: "Konum seç"
       types:
         nextcloud: "Nextcloud"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
-        live_data_error: "Error fetching file details"
+          Bazı %{storageType} ayarları çalışmıyor. Lütfen %{storageType} yöneticinizle iletişime geçin.
+        live_data_error: "Dosya ayrıntıları getirilirken hata oluştu"
         live_data_error_description: >
           Bazı %{storageType} verileri getirilemedi. Lütfen bu sayfayı yeniden yüklemeyi deneyin veya %{storageType} yöneticinizle iletişime geçin.
         no_file_links: "Dosyaları bu iş paketine bağlamak için lütfen bunu %{storageType} aracılığıyla yapın."
@@ -29,9 +32,11 @@ tr:
           Dosyanın bu çalışma paketinden bağlantısını kaldırmak istediğinizden emin misiniz? Bağlantının kaldırılması orijinal dosyayı etkilemez ve yalnızca bu çalışma paketine olan bağlantıyı kaldırır.
         remove_short: "Bağlantıyı kaldır"
         select: "Dosyaları seç"
-        select_all: "Select all"
-        selection_none: "Bağlanacak dosyaları seçin"
-        selection_any: "%{number} dosyayı bağla"
+        select_all: "Tümünü seç"
+        selection:
+          zero: "Bağlanacak dosyaları seçin"
+          one: "1 dosya bağla"
+          other: "%{count} dosya bağla"
         not_allowed_tooltip: "Bu dosyaya erişmek için lütfen Nextcloud'da oturum açın"
-        already_linked_file: "This file is already linked to this work package."
-        already_linked_directory: "This directory is already linked to this work package."
+        already_linked_file: "Bu dosya zaten bu iş paketine bağlı."
+        already_linked_directory: "Bu dizin zaten bu çalışma paketine bağlı."

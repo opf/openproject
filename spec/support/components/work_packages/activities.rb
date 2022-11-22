@@ -46,6 +46,14 @@ module Components
         end
       end
 
+      def expect_notification_count(count)
+        expect(page).to have_selector('[data-qa-selector="tab-counter-Activity"] span', text: count)
+      end
+
+      def expect_no_notification_badge
+        expect(page).not_to have_selector('[data-qa-selector="tab-counter-Activity"] span')
+      end
+
       def hover_action(journal_id, action)
         retry_block do
           # Focus type edit to expose buttons
