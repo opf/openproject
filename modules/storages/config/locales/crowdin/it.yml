@@ -25,9 +25,9 @@ it:
               minimal_nextcloud_version_unmet: "non soddisfa i requisiti minimi di versione (deve essere Nextcloud 23 o superiore)"
               not_nextcloud_server: "non è un server Nextcloud"
               op_application_not_installed: >
-                appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
+                non è installata l'app "Integrazione OpenProject". Installala e riprova.
               authorization_header_missing: >
-                is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
+                non è completamente configurato. L'istanza Nextcloud non riceve l'intestazione "Authorization", che è necessaria per l'autorizzazione basata su un token Bearer delle richieste API. Controlla la configurazione del server HTTP.
         storages/file_link:
           attributes:
             origin_id:
@@ -42,7 +42,6 @@ it:
       replace_provider_type_oauth: "Sostituisci %{provider_type} OAuth"
       save_and_continue_setup: "Salva e continua la configurazione"
       save_and_complete_setup: "Salva e completa la configurazione"
-      cancel: "Annulla"
     page_titles:
       project_settings:
         index: "File di archiviazione disponibili in questo progetto"
@@ -81,8 +80,6 @@ it:
     label_storage: "Archivio"
     label_storages: "Archivi"
     no_results: "Ancora nessun archivio configurato."
-    label_oauth_client_id: "OAuth Client ID"
-    label_oauth_client_secret: "OAuth Client Secret"
     provider_types:
       label: "Tipo di fonte"
       nextcloud:

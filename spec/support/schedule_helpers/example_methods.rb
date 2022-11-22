@@ -28,6 +28,31 @@
 
 module ScheduleHelpers
   module ExampleMethods
+    # Create work packages and relations from a visual chart representation.
+    #
+    # For instance:
+    #
+    #   create_schedule(<<~CHART)
+    #     days       | MTWTFSS |
+    #     main       | XX      |
+    #     follower   |   XXX   | follows main
+    #     start_only |  [      |
+    #     due_only   |    ]    |
+    #   CHART
+    #
+    # is equivalent to:
+    #
+    #   create(:work_package, subject: 'main', start_date: next_monday, due_date: next_monday + 1.day)
+    #   create(:work_package, subject: 'follower', start_date: next_monday + 2.days, due_date: next_monday + 4.days) }
+    #   create(:work_package, subject: 'start_only', start_date: next_monday + 1.day) }
+    #   create(:work_package, subject: 'due_only', due_date: next_monday + 3.days) }
+    #   create(:follows_relation, from: follower, to: main, delay: 0) }
+    #
+    def create_schedule(chart_representation)
+      chart = Chart.for(chart_representation)
+      ScheduleBuilder.from_chart(chart)
+    end
+
     # Change the given work packages according to the given chart representation.
     # Work packages are changed without being saved.
     #
@@ -62,37 +87,29 @@ module ScheduleHelpers
 
     # Expect the given work packages to match a visual chart representation.
     #
+    # It uses +match_schedule+ internally.
+    #
     # For instance:
     #
     #   it 'is scheduled' do
     #     expect_schedule(work_packages, <<~CHART)
-    #       days     | MTWTFSS   |
-    #       main     | XX        |
-    #       follower |   XXX     |
+    #       days     | MTWTFSS |
+    #       main     | XX      |
+    #       follower |   XXX   |
     #     CHART
     #   end
     #
     # is equivalent to:
     #
     #   it 'is scheduled' do
-    #     main = work_packages.find { _1.id == main.id } || main
-    #     expect(main.start_date).to eq(next_monday)
-    #     expect(main.due_date).to eq(next_monday + 1.day)
-    #     follower = work_packages.find { _1.id == follower.id } || follower
-    #     expect(follower.start_date).to eq(next_monday + 2.days)
-    #     expect(follower.due_date).to eq(next_monday + 4.days)
+    #     expect(work_packages).to match_schedule(<<~CHART)
+    #       days     | MTWTFSS |
+    #       main     | XX      |
+    #       follower |   XXX   |
+    #     CHART
     #   end
     def expect_schedule(work_packages, chart)
-      by_id = work_packages.index_by(&:id)
-      chart = Chart.for(chart)
-      chart.work_packages_attributes.each do |attributes|
-        name = attributes[:name]
-        raise ArgumentError, "unable to find WorkPackage :#{name}" unless respond_to?(name)
-
-        work_package = send(name)
-        work_package = by_id[work_package.id] if by_id.has_key?(work_package.id)
-        expect(work_package).to have_attributes(attributes.slice(:subject, :start_date, :due_date))
-      end
+      expect(work_packages).to match_schedule(chart)
     end
   end
 end

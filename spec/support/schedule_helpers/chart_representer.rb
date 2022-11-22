@@ -30,14 +30,29 @@ module ScheduleHelpers
   class ChartRepresenter
     LINE = "%<id>s | %<days>s |".freeze
 
-    def self.normalized_to_s(reference_chart, other_chart)
-      order = reference_chart.work_package_names
-      id_column_size = [reference_chart, other_chart].map(&:id_column_size).max
-      first_day = [reference_chart, other_chart].map(&:first_day).min
-      last_day = [reference_chart, other_chart].map(&:last_day).max
-      [reference_chart, other_chart]
+    def self.normalized_to_s(expected_chart, actual_chart)
+      normalize_ignore_non_working_days_information(expected_chart, actual_chart)
+      order = expected_chart.work_package_names
+      id_column_size = [expected_chart, actual_chart].map(&:id_column_size).max
+      first_day = [expected_chart, actual_chart].map(&:first_day).min
+      last_day = [expected_chart, actual_chart].map(&:last_day).max
+      [expected_chart, actual_chart]
         .map { |chart| chart.with(order:, id_column_size:, first_day:, last_day:) }
         .map(&:to_s)
+    end
+
+    # Define ignore_non_working_days attribute from +actual_chart+ when not
+    # explicitly set in +expected_chart+.
+    def self.normalize_ignore_non_working_days_information(expected_chart, actual_chart)
+      expected_chart.work_packages_attributes.each do |work_package_attributes|
+        next if work_package_attributes.has_key?(:ignore_non_working_days)
+
+        name = work_package_attributes[:name]
+        actual_attributes = actual_chart.work_package_attributes(name)
+        next if actual_attributes.nil? || !actual_attributes.has_key?(:ignore_non_working_days)
+
+        work_package_attributes[:ignore_non_working_days] = actual_attributes[:ignore_non_working_days]
+      end
     end
 
     def initialize(id_column_size:, days_column_size:)

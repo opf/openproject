@@ -35,6 +35,7 @@ import { DeviceService } from 'core-app/core/browser/device.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { MainMenuToggleService } from './main-menu-toggle.service';
+import { TopMenuService } from 'core-app/core/top-menu/top-menu.service';
 
 export const mainMenuToggleSelector = 'main-menu-toggle';
 
@@ -44,35 +45,23 @@ export const mainMenuToggleSelector = 'main-menu-toggle';
   host: {
     class: 'op-app-menu op-main-menu-toggle',
   },
-  template: `
-    <button
-      *ngIf="this.currentProject.id !== null || this.deviceService.isMobile"
-      class="op-app-menu--item-action"
-      id="main-menu-toggle"
-      aria-haspopup="true"
-      type="button"
-      [attr.title]="toggleTitle"
-      (click)="toggleService.toggleNavigation($event)"
-    >
-      <op-icon class="icon-hamburger" aria-hidden="true"></op-icon>
-      <op-icon class="icon-close" aria-hidden="true"></op-icon>
-    </button>
-  `,
+  templateUrl: './main-menu-toggle.component.html',
 })
-
 export class MainMenuToggleComponent extends UntilDestroyedMixin implements OnInit {
   toggleTitle = '';
 
   @InjectField() currentProject:CurrentProjectService;
 
-  constructor(readonly toggleService:MainMenuToggleService,
+  constructor(
+    readonly topMenu:TopMenuService,
+    readonly toggleService:MainMenuToggleService,
     readonly cdRef:ChangeDetectorRef,
     readonly deviceService:DeviceService,
     readonly injector:Injector) {
     super();
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     this.toggleService.initializeMenu();
 
     this.toggleService.titleData$
@@ -84,5 +73,10 @@ export class MainMenuToggleComponent extends UntilDestroyedMixin implements OnIn
         this.toggleTitle = setToggleTitle;
         this.cdRef.detectChanges();
       });
+  }
+
+  toggle(event:Event):void {
+    this.toggleService.toggleNavigation(event);
+    this.topMenu.close();
   }
 }

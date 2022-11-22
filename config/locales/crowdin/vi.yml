@@ -66,6 +66,9 @@ vi:
     enterprise:
       upgrade_to_ee: "Nâng cấp lên bản cho doanh nghiệp"
       add_token: "Upload an Enterprise Edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Thay thế support token hiện tại của bạn"
       order: "Order Enterprise on-premises Edition"
       paste: "Dán Enterprise Edition support token của bạn"
@@ -77,7 +80,7 @@ vi:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
@@ -137,6 +140,7 @@ vi:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Mã hóa kết nối'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Tài khoản hệ thống'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
@@ -148,13 +152,18 @@ vi:
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
       plain: 'không'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Kết nối không được mã hóa, không hỗ trợ TLS."
-      simple_tls_description: "Mã hóa TLS ngầm định, nhưng không có xác nhận chứng chỉ. Sử dụng thận trọng và tin tưởng ngầm định về kết nối LDAP."
-      start_tls_description: "Mã hóa TLS rõ ràng với xác nhận đầy đủ. Sử dụng cho LDAP qua TLS / SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Phần này liên quan đến bảo mật kết nối của nguồn xác thực LDAP này. Để biết thêm thông tin, vui lòng truy cập <a href="%{link}"> tài liệu Net::LDAP</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Hiện tại không có bài viết cho diễn đàn.
@@ -209,6 +218,15 @@ vi:
     ignore_filenames: >
       Chỉ định danh sách các tên cần bỏ qua khi xử lý tệp đính kèm cho thư đến (ví dụ: chữ ký hoặc biểu tượng). Nhập một tên tệp trên mỗi dòng.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Dự án không thể bị xóa: %{errors}"
@@ -408,6 +426,7 @@ vi:
         host: "Máy chủ"
         onthefly: "Tự động tạo người dùng"
         port: "Cổng"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Kho lưu trữ"
       comment:
@@ -529,6 +548,10 @@ vi:
         end_insertion: "Kết thúc chèn"
         end_deletion: "Kết thúc quá trình xóa"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Cha"
         parent_issue: "Cha"
         parent_work_package: "Cha"
@@ -565,7 +588,7 @@ vi:
         confirmation: "không khớp %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "không tồn tại"
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "Có thể không được truy cập."
         error_readonly: "was attempted to be written but is not writable."
         email: "is not a valid email address."
@@ -612,6 +635,11 @@ vi:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "độ dài không đúng (phải là %{count} ký tự)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -662,10 +690,6 @@ vi:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
-        notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -725,6 +749,11 @@ vi:
           attributes:
             permissions:
               dependency_missing: "cần bao gồm '%{dependency}' vì '%{permission}' được chọn."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -735,6 +764,16 @@ vi:
               invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -1892,7 +1931,6 @@ vi:
   label_wiki_start: "Trang bắt đầu"
   label_work_package: "Work Package"
   label_work_package_attachments: "Phần đính kèm công việc"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Danh mục mới"
   label_work_package_category_plural: "Các thể loại work package"
   label_work_package_hierarchy: "Phân cấp công việc"
@@ -1908,6 +1946,7 @@ vi:
   label_workflow: "Quy trình làm việc"
   label_workflow_plural: "Quy trình làm việc"
   label_workflow_summary: "Tóm tắt"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 đóng"
     other: "%{count} đóng"
@@ -1968,7 +2007,7 @@ vi:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -1983,6 +2022,8 @@ vi:
         mentioned: 'Mentioned'
         subscribed: 'tất cả'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
@@ -2145,8 +2186,7 @@ vi:
           tb: "TB"
   onboarding:
     heading_getting_started: "Get an overview"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
-    text_show_again: "Bạn có thể khởi động lại video này từ trình đơn trợ giúp"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Add notes"
@@ -2538,6 +2578,7 @@ vi:
   text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Are you sure?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
   text_assign_to_project: "Assign to the project"
   text_form_configuration: >
@@ -2730,7 +2771,6 @@ vi:
       noneSelection: "(trống)"
       outline: "Initial outline expansion"
       parent: "Show subprojects of"
-      work_package_filters: "Filter work packages"
       work_package_responsible: "Hiện gói công việc"
       work_package_assignee: "Show work packages with assignee"
       types: "Show types"
@@ -2883,10 +2923,22 @@ vi:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+  working_days:
+    info: >
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Nothing to preview"
   api_v3:
     attributes:
       lock_version: "Lock Version"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "You need to be authenticated to access this resource."

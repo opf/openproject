@@ -26,9 +26,20 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+} from '@angular/core';
+import {
+  combineLatest,
+  merge,
+  Observable,
+} from 'rxjs';
+import {
+  catchError,
+  map,
+} from 'rxjs/operators';
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -53,9 +64,6 @@ export class WorkPackageFilesTabComponent implements OnInit {
     attachments: {
       label: this.i18n.t('js.label_attachments'),
     },
-    file_links: {
-      label: this.i18n.t('js.label_nextcloud'),
-    },
   };
 
   showAttachmentHeader$:Observable<boolean>;
@@ -78,9 +86,12 @@ export class WorkPackageFilesTabComponent implements OnInit {
       return;
     }
 
-    const canViewFileLinks = this
-      .currentUserService
-      .hasCapabilities$('file_links/view', project.id);
+    // ToDo: Needs to be fixed after capabilities are available for anonymous user.
+    // https://community.openproject.org/projects/openproject/work_packages/44850/activity
+    const canViewFileLinks = merge(
+      this.currentUserService.isLoggedIn$.pipe(map((isLoggedIn) => !isLoggedIn)),
+      this.currentUserService.hasCapabilities$('file_links/view', project.id),
+    );
 
     this.storages$ = this
       .storagesResourceService

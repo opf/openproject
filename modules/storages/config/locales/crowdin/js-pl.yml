@@ -3,10 +3,14 @@ pl:
   js:
     storages:
       link_files_in_storage: "Połącz pliki w %{storageType}"
+      link_existing_files: "Połącz istniejące pliki"
+      upload_files: "Upload files"
       login: "%{storageType} logowanie"
       login_to: "Zaloguj się do %{storageType}"
       no_connection: "Brak połączenia %{storageType}"
       open_storage: "Otwórz %{storageType}"
+      select_location: "Select location"
+      choose_location: "Choose location"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -24,4 +28,17 @@ pl:
         open: 'Otwórz plik w pamięci'
         open_location: 'Otwórz plik w lokalizacji'
         remove: "Usuń link do pliku"
-        remove_confirmation: "Czy na pewno chcesz odłączyć plik od pakietu roboczego?"
+        remove_confirmation: >
+          Czy na pewno chcesz odłączyć plik od tego pakietu roboczego? Odłączenie nie ma wpływu na oryginalny plik i usuwa tylko połączenie z tym pakietem roboczym.
+        remove_short: "Usuń link"
+        select: "Wybierz pliki"
+        select_all: "Zaznacz wszystkie"
+        selection:
+          zero: "Select files to link"
+          one: "Link 1 file"
+          few: "Link %{count} files"
+          many: "Link %{count} files"
+          other: "Link %{count} files"
+        not_allowed_tooltip: "Zaloguj się do Nextcloud aby uzyskać dostęp do tego pliku"
+        already_linked_file: "Ten plik jest już powiązany z tym pakietem roboczym."
+        already_linked_directory: "Ten katalog jest już powiązany z tym pakietem roboczym."

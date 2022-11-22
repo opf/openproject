@@ -3,10 +3,14 @@ el:
   js:
     storages:
       link_files_in_storage: "Link files in %{storageType}"
+      link_existing_files: "Link existing files"
+      upload_files: "Upload files"
       login: "%{storageType} login"
       login_to: "Login to %{storageType}"
       no_connection: "No %{storageType} connection"
       open_storage: "Open %{storageType}"
+      select_location: "Select location"
+      choose_location: "Choose location"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -24,4 +28,15 @@ el:
         open: 'Open file on storage'
         open_location: 'Open file in location'
         remove: "Remove file link"
-        remove_confirmation: "Are you sure you want to unlink the file from the work package?"
+        remove_confirmation: >
+          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
+        remove_short: "Remove link"
+        select: "Select files"
+        select_all: "Select all"
+        selection:
+          zero: "Select files to link"
+          one: "Link 1 file"
+          other: "Link %{count} files"
+        not_allowed_tooltip: "Please log in to Nextcloud to access this file"
+        already_linked_file: "This file is already linked to this work package."
+        already_linked_directory: "This directory is already linked to this work package."

@@ -29,8 +29,6 @@ require 'support/pages/page'
 
 module Pages
   class WorkPackageCards < Page
-    include Capybara::DSL
-    include RSpec::Matchers
     attr_reader :project
 
     def initialize(project = nil)

@@ -54,6 +54,10 @@ If you want to contribute to the localization of OpenProject and its plugins you
 
 More on this topic can be found in our [blog post](https://www.openproject.org/blog/help-translate-openproject-into-your-language/).
 
+## Packaging process
+
+Please see this separate guide for the [process of building packages of OpenProject](packaging/).
+
 ## Testing
 
 Please add tests to your code to verify functionality, especially if it is a new feature.

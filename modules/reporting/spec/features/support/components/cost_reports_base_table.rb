@@ -29,6 +29,7 @@
 module Components
   class CostReportsBaseTable
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
 
     attr_reader :time_logging_modal

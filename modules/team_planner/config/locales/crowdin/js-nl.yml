@@ -2,21 +2,25 @@
 nl:
   js:
     team_planner:
-      add_existing: 'Add existing'
-      title: 'Team planner'
-      unsaved_title: 'Unnamed team planner'
-      no_data: 'Add assignees to set up your team planner.'
-      add_assignee: 'Add assignee'
-      remove_assignee: 'Remove assignee'
+      add_existing: 'Bestaande toevoegen'
+      add_existing_title: 'Bestaande werkpakketten toevoegen'
+      create_label: 'Team planner'
+      create_title: 'Maak een nieuwe teamplanner'
+      unsaved_title: 'Naamloze teamplanner'
+      no_data: 'Voeg taakontvangers toe om uw team planner op te zetten.'
+      add_assignee: 'Voeg verantwoordelijke toe'
+      remove_assignee: 'Verwijder verantwoordelijke'
       two_weeks: '2-week'
       one_week: '1-week'
-      today: 'Today'
-      drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
-      cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'
+      work_week: 'Work week'
+      today: 'Vandaag'
+      drag_here_to_remove: 'Sleep hierheen om taakontvanger en start- en einddata te verwijderen.'
+      cannot_drag_here: 'Kan het werkpakket niet verwijderen vanwege machtigingen of bewerkingsbeperkingen.'
+      cannot_drag_to_non_working_day: 'Dit werkpakket kan niet starten/eindigen op een niet-werkdag.'
       quick_add:
-        empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
+        empty_state: 'Gebruik het zoekveld om werkpakketten te vinden en sleep ze naar de planner om toe te wijzen aan iemand en begin- en einddatums te definiëren.'
         search_placeholder: 'Zoeken ...'
       modify:
         errors:
-          permission_denied: 'You do not have the necessary permissions to modify this.'
-          fallback: 'This work package cannot be edited.'
+          permission_denied: 'U heeft niet de benodigde rechten om dit te wijzigen.'
+          fallback: 'Dit werkpakket kan niet worden bewerkt.'

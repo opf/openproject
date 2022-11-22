@@ -27,14 +27,14 @@
 #++project_module
 
 module OpenProject::Plugins
-  class ModuleHandler
+  module ModuleHandler
+    module_function
+
     @@disabled_modules = []
 
-    class << self
-      def disable_modules!(module_names)
-        @@disabled_modules += Array(module_names).map(&:to_sym).each do |module_name|
-          OpenProject::AccessControl.remove_modules_permissions(module_name)
-        end
+    def disable_modules!(module_names)
+      @@disabled_modules += Array(module_names).map(&:to_sym).each do |module_name|
+        OpenProject::AccessControl.remove_modules_permissions(module_name)
       end
     end
   end

@@ -16,7 +16,7 @@ export interface DatasetInputsComponent extends DatasetInputsDecorated {
 }
 
 /**
- * The populateInputsFromDataset furnction automatically sets input values from `data` attributes set on a component tag.
+ * The populateInputsFromDataset function automatically sets input values from `data` attributes set on a component tag.
  * This is useful if you're rendering the tag in the backend but want to provide data to the component via its inputs.
  *
  * Usage:
@@ -59,7 +59,8 @@ export function populateInputsFromDataset(instance:DatasetInputsDecorated):any {
     .find((key:string) => typeof (cstr[key] as ɵDirectiveDef<unknown>).declaredInputs === 'object');
 
   if (!declaredInputsParentKey) {
-    throw new Error('Could not find declared inputs for component');
+    console.warn('Could not find declared inputs for component');
+    return;
   }
 
   const input = cstr[declaredInputsParentKey] as ɵDirectiveDef<unknown>;

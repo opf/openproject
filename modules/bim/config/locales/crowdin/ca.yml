@@ -33,10 +33,10 @@ ca:
         button_perform_import: 'Confirma la importació'
         button_proceed: 'Procedeix amb la importació'
         button_back_to_list: 'Torna a la llista'
-        no_permission_to_add_members: 'No teniu suficients permisos per a afegir-los com a membres del projecte.'
-        contact_project_admin: 'Contacteu amb el vostre administrador del projecte per a afegir-los com a membres i començar de nou aquesta importació'
-        continue_anyways: 'Voleu procedir i finalitzar la importació de totes maneres?'
-        description: "Proporcioneu un fitxer BCF-XML v2.1 per a importar-lo al projecte. Podeu examinar-ne els continguts abans de fer-ne la importació."
+        no_permission_to_add_members: 'No tens permisos suficients per a afegir-los com a membres del projecte.'
+        contact_project_admin: 'Contacta amb el teu administrador del projecte per a afegir-los com a membres i començar de nou aquesta importació'
+        continue_anyways: 'Vols procedir i finalitzar la importació de totes maneres?'
+        description: "Proporciona un fitxer BCF-XML v2.1 per importar-lo al projecte. Pots examinar-ne els continguts abans de fer-ne la importació."
         invalid_types_found: 'S''ha trobat noms de tipus de tema invàlids.'
         invalid_statuses_found: 'S''ha trobat noms d''estat invàlids.'
         invalid_priorities_found: 'S''ha trobat noms de prioritat invàlids.'
@@ -52,7 +52,7 @@ ca:
         no_type_provided: 'No s''ha proporcionat cap tipus'
         no_status_provided: 'No s''ha proporcionat cap estat'
         no_priority_provided: 'No s''ha proporcionat cap prioritat'
-        perform_description: "Voleu importar o actualitzar els elements enumerats?"
+        perform_description: "Vols importar o actualitzar els elements enumerats?"
         replace_with_system_user: 'Substituïu-los amb l''usuari "Sistema"'
         import_as_system_user: 'Importa''ls com a l''usuari "Sistema"'
         what_to_do: "Què vols fer?"
@@ -71,7 +71,7 @@ ca:
   oauth:
     scopes:
       bcf_v2_1: "Accés complet a la API BCF v2.1"
-      bcf_v2_1_text: "L'aplicació rebrà accés complet de lectura i escriptura a la API BCF v2.1 d'OpenProject per efectuar les accions en nom vostre."
+      bcf_v2_1_text: "L'aplicació rebrà accés complet de lectura i escriptura a la API BCF v2.1 d'OpenProject per efectuar les accions en el teu nom."
   activerecord:
     models:
       bim/ifc_models/ifc_model: "Model IFC"
@@ -110,7 +110,7 @@ ca:
     label_edit_defaults: 'Editar els predeterminats'
     no_defaults_warning:
       title: 'No hi ha model IFC predeterminat per aquest projecte.'
-      check_1: 'Revisi que ha pujat com a mínim un model IFC.'
+      check_1: 'Revisa que has pujat com a mínim un model IFC.'
       check_2: 'Revisi que com a mínim un model IFC s''ha establert com a "Predeterminat".'
     no_results: "No s'han pujat models IFC en aquest projecte."
     conversion_status:

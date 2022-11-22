@@ -24,8 +24,8 @@ it:
     attributes:
       work_package:
         position: "Posizione"
-        remaining_hours: "Ore rimanenti"
-        remaining_time: "Ore rimanenti"
+        remaining_hours: "Ore rimaste"
+        remaining_time: "Ore rimaste"
         story_points: "Punti della storia"
         backlogs_work_package_type: "Tipo di backlog"
     errors:

@@ -39,11 +39,13 @@ def aggregate_mocked_settings(example, settings)
 end
 
 RSpec.shared_context 'with settings reset' do
-  around do |example|
-    definitions_before = Settings::Definition.all.dup
+  let!(:definitions_before) { Settings::Definition.all.dup }
+
+  before do
     Settings::Definition.send(:reset)
-    example.run
-  ensure
+  end
+
+  after do
     Settings::Definition.send(:reset)
     Settings::Definition.instance_variable_set(:@all, definitions_before)
   end

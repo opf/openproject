@@ -62,10 +62,6 @@ class ProjectsController < ApplicationController
       format.any(*supported_export_formats) do
         export_list(request.format.symbol)
       end
-
-      format.atom do
-        atom_list
-      end
     end
   end
 

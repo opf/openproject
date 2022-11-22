@@ -26,6 +26,9 @@ lol:
       loading: "crwdns808268:0crwdne808268:0"
       updating: "crwdns808270:0crwdne808270:0"
     attachments:
+      delete: "crwdns833334:0crwdne833334:0"
+      delete_confirmation: |
+        crwdns833336:0crwdne833336:0
       draggable_hint: |
         crwdns786846:0crwdne786846:0
     autocomplete_select:
@@ -82,6 +85,10 @@ lol:
     button_open_fullscreen: "crwdns786940:0crwdne786940:0"
     button_show_cards: "crwdns786942:0crwdne786942:0"
     button_show_list: "crwdns786944:0crwdne786944:0"
+    button_show_table: "crwdns833302:0crwdne833302:0"
+    button_show_gantt: "crwdns833304:0crwdne833304:0"
+    button_show_fullscreen: "crwdns833306:0crwdne833306:0"
+    button_more_actions: "crwdns833308:0crwdne833308:0"
     button_quote: "crwdns786946:0crwdne786946:0"
     button_save: "crwdns786948:0crwdne786948:0"
     button_settings: "crwdns786950:0crwdne786950:0"
@@ -220,6 +227,8 @@ lol:
           quick_overview: "crwdns787160:0crwdne787160:0"
         upsale:
           become_hero: "crwdns787162:0crwdne787162:0"
+          enterprise_info_html: "crwdns838379:0%{feature_title}crwdne838379:0"
+          upgrade_info: "crwdns838381:0crwdne838381:0"
           benefits:
             description: "crwdns787164:0crwdne787164:0"
             high_security: "crwdns787166:0crwdne787166:0"
@@ -232,6 +241,7 @@ lol:
             professional_support_text: "crwdns787180:0crwdne787180:0"
           button_start_trial: "crwdns787182:0crwdne787182:0"
           button_upgrade: "crwdns822250:0crwdne822250:0"
+          button_contact_us: "crwdns838383:0crwdne838383:0"
           button_book_now: "crwdns787184:0crwdne787184:0"
           confidence: >
             crwdns787186:0crwdne787186:0
@@ -289,15 +299,15 @@ lol:
           learn_about: "crwdns787258:0crwdne787258:0"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_4':
             standard:
-              learn_about_link: crwdns825714:0crwdne825714:0
+              learn_about_link: crwdns838609:0crwdne838609:0
               new_features_html: >
-                crwdns825716:0%{list_styling_class}crwdne825716:0
+                crwdns838611:0%{list_styling_class}crwdne838611:0
             bim:
-              learn_about_link: crwdns825718:0crwdne825718:0
+              learn_about_link: crwdns838613:0crwdne838613:0
               new_features_html: >
-                crwdns825720:0%{list_styling_class}crwdne825720:0
+                crwdns838615:0%{list_styling_class}crwdne838615:0
     label_activate: "crwdns787268:0crwdne787268:0"
     label_assignee: 'crwdns809580:0crwdne809580:0'
     label_add_column_after: "crwdns787270:0crwdne787270:0"
@@ -529,18 +539,33 @@ lol:
       no_unread: "crwdns787684:0crwdne787684:0"
       reasons:
         mentioned: 'crwdns787686:0crwdne787686:0'
-        watched: 'crwdns787688:0crwdne787688:0'
-        assigned: 'crwdns787690:0crwdne787690:0'
+        watched: 'crwdns836616:0crwdne836616:0'
+        assigned: 'crwdns836618:0crwdne836618:0'
         responsible: 'crwdns787692:0crwdne787692:0'
         created: 'crwdns832420:0crwdne832420:0'
         scheduled: 'crwdns832422:0crwdne832422:0'
         commented: 'crwdns832424:0crwdne832424:0'
         processed: 'crwdns832426:0crwdne832426:0'
         prioritized: 'crwdns832428:0crwdne832428:0'
+        dateAlert: 'crwdns836979:0crwdne836979:0'
+      date_alerts:
+        milestone_date: 'crwdns836981:0crwdne836981:0'
+        overdue: 'crwdns836983:0crwdne836983:0'
+        overdue_since: 'crwdns836985:0%{difference_in_days}crwdne836985:0'
+        property_today: 'crwdns836987:0crwdne836987:0'
+        property_is: 'crwdns836989:0%{difference_in_days}crwdne836989:0'
+        property_was: 'crwdns836991:0%{difference_in_days}crwdne836991:0'
+        property_is_deleted: 'crwdns836993:0crwdne836993:0'
+        upsale:
+          title: 'crwdns838385:0crwdne838385:0'
+          description: 'crwdns838387:0crwdne838387:0'
       facets:
         unread: 'crwdns787694:0crwdne787694:0'
+        unread_title: 'crwdns833310:0crwdne833310:0'
         all: 'crwdns787696:0crwdne787696:0'
+        all_title: 'crwdns833312:0crwdne833312:0'
       center:
+        label_actor_and: 'crwdns835484:0crwdne835484:0'
         and_more_users:
           one: 'crwdns787698:1crwdne787698:1'
           other: 'crwdns787698:5%{count}crwdne787698:5'
@@ -562,22 +587,34 @@ lol:
       menu:
         accountable: 'crwdns787722:0crwdne787722:0'
         by_project: 'crwdns787726:0crwdne787726:0'
-        by_reason: 'crwdns787728:0crwdne787728:0'
+        by_reason: 'crwdns836775:0crwdne836775:0'
         inbox: 'crwdns787730:0crwdne787730:0'
-        mentioned: 'crwdns787732:0crwdne787732:0'
-        watching: 'crwdns787734:0crwdne787734:0'
+        mentioned: 'crwdns836454:0crwdne836454:0'
+        watched: 'crwdns836620:0crwdne836620:0'
+        date_alert: 'crwdns836777:0crwdne836777:0'
       settings:
         change_notification_settings: 'crwdns787736:0%{url}crwdne787736:0'
         title: "crwdns787738:0crwdne787738:0"
         notify_me: "crwdns787740:0crwdne787740:0"
+        reminders:
+          no_notification: crwdns836935:0crwdne836935:0
+          timeframes:
+            normal:
+              PT0S: crwdns836937:0crwdne836937:0
+              P1D: crwdns836939:0crwdne836939:0
+              P3D: crwdns836941:0crwdne836941:0
+              P7D: crwdns836943:0crwdne836943:0
+            overdue:
+              P1D: crwdns838617:0crwdne838617:0
+              P3D: crwdns836947:0crwdne836947:0
+              P7D: crwdns836949:0crwdne836949:0
         reasons:
           mentioned:
-            title: 'crwdns787742:0crwdne787742:0'
+            title: 'crwdns836456:0crwdne836456:0'
             description: 'crwdns787744:0crwdne787744:0'
-          involved:
-            title: 'crwdns787746:0crwdne787746:0'
-            description: 'crwdns787748:0crwdne787748:0'
-          watched: 'crwdns787750:0crwdne787750:0'
+          assignee: 'crwdns834614:0crwdne834614:0'
+          responsible: 'crwdns834616:0crwdne834616:0'
+          watched: 'crwdns836458:0crwdne836458:0'
           work_package_commented: 'crwdns787752:0crwdne787752:0'
           work_package_created: 'crwdns787754:0crwdne787754:0'
           work_package_processed: 'crwdns787756:0crwdne787756:0'
@@ -585,11 +622,18 @@ lol:
           work_package_scheduled: 'crwdns787760:0crwdne787760:0'
         global:
           immediately:
-            title: 'crwdns787762:0crwdne787762:0'
-            description: 'crwdns787764:0crwdne787764:0'
+            title: 'crwdns836460:0crwdne836460:0'
+            description: 'crwdns836462:0crwdne836462:0'
           delayed:
-            title: 'crwdns787766:0crwdne787766:0'
-            description: 'crwdns787768:0crwdne787768:0'
+            title: 'crwdns836464:0crwdne836464:0'
+            description: 'crwdns836466:0crwdne836466:0'
+          date_alerts:
+            title: 'crwdns836468:0crwdne836468:0'
+            description: 'crwdns836470:0crwdne836470:0'
+            teaser_text: 'crwdns836995:0crwdne836995:0'
+          start_date: crwdns836951:0crwdne836951:0
+          due_date: crwdns836953:0crwdne836953:0
+          overdue: crwdns836955:0crwdne836955:0
         project_specific:
           title: 'crwdns787770:0crwdne787770:0'
           description: 'crwdns787772:0crwdne787772:0'
@@ -739,9 +783,7 @@ lol:
     field_value_enter_prompt: "crwdns788014:0%{field}crwdne788014:0"
     project_menu_details: "crwdns788016:0crwdne788016:0"
     scheduling:
-      title: 'crwdns831846:0crwdne831846:0'
-      manual: 'crwdns831848:0crwdne831848:0'
-      default: 'crwdns831850:0crwdne831850:0'
+      manual: 'crwdns834246:0crwdne834246:0'
     sort:
       sorted_asc: 'crwdns788022:0crwdne788022:0'
       sorted_dsc: 'crwdns788024:0crwdne788024:0'
@@ -752,7 +794,6 @@ lol:
       activate_no: 'crwdns788034:0crwdne788034:0'
     text_work_packages_destroy_confirmation: "crwdns788036:0crwdne788036:0"
     text_query_destroy_confirmation: "crwdns788038:0crwdne788038:0"
-    text_attachment_destroy_confirmation: "crwdns788040:0crwdne788040:0"
     timelines:
       quarter_label: 'crwdns788042:0%{quarter_number}crwdne788042:0'
       gantt_chart: 'crwdns788044:0crwdne788044:0'
@@ -850,9 +891,7 @@ lol:
         click_on_show_relations_to_open_gantt: 'crwdns818666:0%{button_name}crwdne818666:0'
         show_relations: 'crwdns818668:0crwdne818668:0'
         ignore_non_working_days:
-          title: 'crwdns832338:0crwdne832338:0'
-          false: 'crwdns832340:0crwdne832340:0'
-          true: 'crwdns832342:0crwdne832342:0'
+          title: 'crwdns834248:0crwdne834248:0'
       description_filter: "crwdns788192:0crwdne788192:0"
       description_enter_text: "crwdns788194:0crwdne788194:0"
       description_options_hide: "crwdns788196:0crwdne788196:0"
@@ -872,6 +911,8 @@ lol:
       message_work_package_read_only: "crwdns788224:0crwdne788224:0"
       message_work_package_status_blocked: "crwdns788226:0crwdne788226:0"
       placeholder_filter_by_text: "crwdns788228:0crwdne788228:0"
+      filters:
+        title: 'crwdns833314:0crwdne833314:0'
       inline_create:
         title: 'crwdns788230:0crwdne788230:0'
       create:
@@ -1045,12 +1086,14 @@ lol:
       button_save: "crwdns788522:0crwdne788522:0"
       button_submit: "crwdns788524:0crwdne788524:0"
       button_cancel: "crwdns788526:0crwdne788526:0"
+      button_delete: "crwdns834144:0crwdne834144:0"
       form_submit:
         title: 'crwdns788528:0crwdne788528:0'
         text: 'crwdns788530:0crwdne788530:0'
       destroy_work_package:
         title: "crwdns788532:0%{label}crwdne788532:0"
-        text: "crwdns788534:0%{label}crwdne788534:0"
+        single_text: "crwdns834146:0crwdne834146:0"
+        bulk_text: "crwdns834148:0%{label}crwdne834148:0"
         has_children: "crwdns788536:0%{childUnits}crwdne788536:0"
         confirm_deletion_children: "crwdns788538:0crwdne788538:0"
         deletes_children: "crwdns788540:0crwdne788540:0"
@@ -1168,13 +1211,13 @@ lol:
       role:
         label: 'crwdns788708:0%{project}crwdne788708:0'
         no_roles_found: 'crwdns788710:0crwdne788710:0'
-        description: 'crwdns810810:0%{principal}crwdne810810:0'
+        description: 'crwdns834150:0crwdne834150:0'
         required: 'crwdns788714:0crwdne788714:0'
         next_button: 'crwdns788716:0crwdne788716:0'
       message:
         label: 'crwdns788718:0crwdne788718:0'
-        description: 'crwdns788720:0%{principal}crwdne788720:0'
-        next_button: 'crwdns788722:0crwdne788722:0'
+        description: 'crwdns834250:0crwdne834250:0'
+        next_button: 'crwdns834154:0crwdne834154:0'
       summary:
         next_button: 'crwdns788724:0crwdne788724:0'
       success:
@@ -1195,7 +1238,7 @@ lol:
       search_placeholder: 'crwdns788748:0crwdne788748:0'
       include_subprojects: 'crwdns809356:0crwdne809356:0'
       tooltip:
-        include_all_selected: 'crwdns809358:0crwdne809358:0'
+        include_all_selected: 'crwdns832842:0crwdne832842:0'
         current_project: 'crwdns809360:0crwdne809360:0'
         does_not_match_search: 'crwdns822880:0crwdne822880:0'
       no_results: 'crwdns825434:0crwdne825434:0'

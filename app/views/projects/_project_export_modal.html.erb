@@ -32,8 +32,8 @@ See COPYRIGHT and LICENSE files for more details.
     <%= I18n.t('js.label_export') %>
   </div>
   <div class="spot-divider"></div>
-  <div class="spot-modal--body">
-    <ul class="spot-export-options">
+  <div class="spot-modal--body spot-container">
+    <ul class="op-export-options">
       <% supported_export_formats.each do |key| %>
         <li class="op-export-options--option">
           <% filter_params = safe_query_params ['filters', 'sortBy'] %>
@@ -45,5 +45,14 @@ See COPYRIGHT and LICENSE files for more details.
         </li>
       <% end %>
     </ul>
+  </div>
+  <div class="spot-action-bar hidden-for-mobile">
+    <div class="spot-action-bar--right">
+      <button
+        class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+        dynamic-content-modal-close-button
+        title=<%= t(:button_cancel) %>
+      ><%= t(:button_cancel) %></button>
+    </div>
   </div>
 </div>

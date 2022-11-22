@@ -213,7 +213,7 @@ IFC2x3 and IFC4. We accept those formats and convert them to some other format t
 
 ### Is there a way to use OpenProject BIM for free, too?
 
-Yes, (only) as part of the Community Edition you can use OpenProject BIM for free. Please have a look [here](../installation-and-operations/changing-to-bim-edition/) to find out how to activate the BIM modules in your on-premises installation.
+Yes, (only) as part of the Community Edition you can use OpenProject BIM for free. Please have a look [here](../installation-and-operations/bim-edition/) to find out how to activate the BIM modules in your on-premises installation.
 
 ### Can a BCF file created from other software e.g. BIMcollab, Solibri, etc. be opened in OpenProject?
 
@@ -277,7 +277,7 @@ If you cancel your subscription for Enterprise on-premises you will be downgrade
 
 ### How can I migrate from an old version of OpenProject to the latest version?
 
-OpenProject changed the database from MySQL (rarely also MariaDB) in older Versions and used PostgreSQL 10 afterwards. With the relase of version 12 OpenProject introduced the PostgreSQL 13 database. For further information on several database migrations, please have a look at [this section](../installation-and-operations/misc).
+OpenProject changed the database from MySQL (rarely also MariaDB) in older Versions and used PostgreSQL 10 afterwards. With the release of version 12 OpenProject introduced the PostgreSQL 13 database. For further information on several database migrations, please have a look at [this section](../installation-and-operations/misc).
 
 ## Other
 

@@ -1,50 +1,62 @@
 import { Injectable } from '@angular/core';
 import {
   catchError,
-  tap,
+  map,
+  switchMap,
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import {
-  collectionKey,
-  insertCollectionIntoState,
-} from 'core-app/core/state/collection-store';
+import { collectionKey } from 'core-app/core/state/collection-store';
 import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import { CapabilitiesStore } from 'core-app/core/state/capabilities/capabilities.store';
 import {
   CollectionStore,
   ResourceCollectionService,
 } from 'core-app/core/state/resource-collection.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Injectable()
 export class CapabilitiesResourceService extends ResourceCollectionService<ICapability> {
-  private get capabilitiesPath():string {
-    return this
-      .apiV3Service
-      .capabilities
-      .path;
-  }
+  @InjectField() toastService:ToastService;
 
-  constructor(
-    private http:HttpClient,
-    private apiV3Service:ApiV3Service,
-    private toastService:ToastService,
-  ) {
-    super();
-  }
-
-  fetchCapabilities(params:ApiV3ListParameters):Observable<IHALCollection<ICapability>> {
-    const collectionURL = collectionKey(params);
+  /**
+   * Require the available capabilities for the given filter params
+   * Returns a cached set if it was loaded already.
+   *
+   * @param params List params to require
+   * @private
+   */
+  public require$(params:ApiV3ListParameters):Observable<ICapability[]> {
+    const key = collectionKey(params);
+    if (this.collectionExists(key) || this.collectionLoading(key)) {
+      return this.loadedCollection(key);
+    }
 
     return this
-      .http
-      .get<IHALCollection<ICapability>>(this.capabilitiesPath + collectionURL)
+      .fetchCapabilities(params)
       .pipe(
-        tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
+        switchMap(() => this.loadedCollection(key)),
+      );
+  }
+
+  /**
+   * Returns the loaded capabilities for a context
+   */
+  public loadedCapabilities$(contextId:string):Observable<ICapability[]> {
+    return this
+      .query
+      .selectAll()
+      .pipe(
+        map((capabilities) => capabilities.filter((cap) => cap._links.context.href.endsWith(`/${contextId}`))),
+      );
+  }
+
+  public fetchCapabilities(params:ApiV3ListParameters):Observable<IHALCollection<ICapability>> {
+    return this
+      .fetchCollection(params)
+      .pipe(
         catchError((error) => {
           this.toastService.addError(error);
           throw error;
@@ -54,5 +66,12 @@ export class CapabilitiesResourceService extends ResourceCollectionService<ICapa
 
   protected createStore():CollectionStore<ICapability> {
     return new CapabilitiesStore();
+  }
+
+  protected basePath():string {
+    return this
+      .apiV3Service
+      .capabilities
+      .path;
   }
 }

@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative './authentication_controller_shared_examples'
 
-describe ::TwoFactorAuthentication::AuthenticationController, with_2fa_ee: true, with_settings: { login_required?: true } do
+describe ::TwoFactorAuthentication::AuthenticationController, with_settings: { login_required?: true } do
   let(:valid_credentials) do
     { username: 'foobar', password: 'AAA1111!!!!' }
   end
@@ -27,7 +27,7 @@ describe ::TwoFactorAuthentication::AuthenticationController, with_2fa_ee: true,
     before do
       allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
         .to receive(:add_default_strategy?)
-        .and_return false
+              .and_return false
       session[:authenticated_user_id] = user.id
       get :request_otp
     end

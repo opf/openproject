@@ -29,7 +29,7 @@
 module Projects::Copy
   class MembersDependentService < Dependency
     def self.human_name
-      I18n.t(:label_member_plural)
+      I18n.t(:'projects.copy.members')
     end
 
     def source_count

@@ -36,249 +36,213 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
   let(:open_status) { create :status }
   let(:closed_status) { create :closed_status }
   let(:aggregate_done_ratio) { 0.0 }
+  let(:ignore_non_working_days) { [false, false, false] }
 
-  context 'for the new ancestor chain' do
-    shared_examples 'attributes of parent having children' do
-      before do
-        children
-      end
+  describe 'done_ratio/estimated_hours propagation' do
+    context 'for the new ancestor chain' do
+      shared_examples 'attributes of parent having children' do
+        before do
+          children
+        end
 
-      it 'updated one work package - the parent' do
-        expect(subject.dependent_results.map(&:result))
+        it 'updated one work package - the parent' do
+          expect(subject.dependent_results.map(&:result))
           .to match_array [parent]
-      end
+        end
 
-      it 'has the expected aggregate done ratio' do
-        expect(subject.dependent_results.first.result.done_ratio)
+        it 'has the expected aggregate done ratio' do
+          expect(subject.dependent_results.first.result.done_ratio)
           .to eq aggregate_done_ratio
-      end
+        end
 
-      it 'has the expected derived estimated_hours' do
-        expect(subject.dependent_results.first.result.derived_estimated_hours)
+        it 'has the expected derived estimated_hours' do
+          expect(subject.dependent_results.first.result.derived_estimated_hours)
           .to eq aggregate_estimated_hours
+        end
+
+        it 'is a success' do
+          expect(subject)
+          .to be_success
+        end
       end
 
-      it 'is a success' do
-        expect(subject)
+      let(:children) do
+        (statuses.size - 1).downto(0).map do |i|
+          create :work_package,
+                 parent:,
+                 status: statuses[i] == :open ? open_status : closed_status,
+                 estimated_hours: estimated_hours[i],
+                 done_ratio: done_ratios[i],
+                 ignore_non_working_days:
+        end
+      end
+      let(:parent) { create :work_package, status: open_status }
+
+      subject do
+        # In the call we only use estimated_hours (instead of also adding
+        # done_ratio) in order to test that changes in estimated hours
+        # trigger a recalculation of done_ration, because estimated hours
+        # act as weights in this calculation.
+        described_class
+          .new(user:,
+               work_package: children.first)
+          .call(%i(estimated_hours))
+      end
+
+      context 'with no estimated hours and no progress' do
+        let(:statuses) { %i(open open open) }
+
+        it 'is a success' do
+          expect(subject)
           .to be_success
+        end
+
+        it 'does not update the parent' do
+          expect(subject.dependent_results)
+          .to be_empty
+        end
+      end
+
+      context 'with 1 out of 3 tasks having estimated hours and 2 out of 3 tasks done' do
+        let(:statuses) do
+          %i(open closed closed)
+        end
+
+        it_behaves_like 'attributes of parent having children' do
+          let(:estimated_hours) do
+            [0.0, 2.0, 0.0]
+          end
+
+          # 66.67 rounded - previous wrong result: 133
+          let(:aggregate_done_ratio) do
+            67
+          end
+          let(:aggregate_estimated_hours) do
+            2.0
+          end
+        end
+
+        context 'with mixed nil and 0 values for estimated hours' do
+          it_behaves_like 'attributes of parent having children' do
+            let(:estimated_hours) do
+              [nil, 2.0, 0.0]
+            end
+
+            # 66.67 rounded - previous wrong result: 100
+            let(:aggregate_done_ratio) do
+              67
+            end
+            let(:aggregate_estimated_hours) do
+              2.0
+            end
+          end
+        end
+      end
+
+      context 'with some values same for done ratio' do
+        it_behaves_like 'attributes of parent having children' do
+          let(:done_ratios) { [20, 20, 50] }
+          let(:estimated_hours) { [nil, nil, nil] }
+
+          let(:aggregate_done_ratio) { 30 }
+          let(:aggregate_estimated_hours) { nil }
+        end
+      end
+
+      context 'with no estimated hours and 1.5 of the tasks done' do
+        it_behaves_like 'attributes of parent having children' do
+          let(:done_ratios) { [0, 50, 100] }
+
+          let(:aggregate_done_ratio) { 50 }
+          let(:aggregate_estimated_hours) { nil }
+        end
+      end
+
+      context 'with estimated hours being 1, 2 and 5' do
+        let(:estimated_hours) { [1, 2, 5] }
+
+        context 'with the last 2 tasks at 100% progress' do
+          it_behaves_like 'attributes of parent having children' do
+            let(:done_ratios) { [0, 100, 100] }
+
+            # (2 + 5 = 7) / 8 estimated hours done
+            let(:aggregate_done_ratio) { 88 } # 87.5 rounded
+            let(:aggregate_estimated_hours) { estimated_hours.sum }
+          end
+        end
+
+        context 'with the last 2 tasks closed (therefore at 100%)' do
+          it_behaves_like 'attributes of parent having children' do
+            let(:statuses) { %i(open closed closed) }
+
+            # (2 + 5 = 7) / 8 estimated hours done
+            let(:aggregate_done_ratio) { 88 } # 87.5 rounded
+            let(:aggregate_estimated_hours) { estimated_hours.sum }
+          end
+        end
+
+        context 'with mixed done ratios, statuses' do
+          it_behaves_like 'attributes of parent having children' do
+            let(:done_ratios) { [50, 75, 42] }
+            let(:statuses) { %i(open open closed) }
+
+            #  50%       75%        100% (42 ignored)
+            # (0.5 * 1 + 0.75 * 2 + 1 * 5 [since closed] = 7)
+            # (0.5 + 1.5 + 5 = 7) / 8 estimated hours done
+            let(:aggregate_done_ratio) { 88 } # 87.5 rounded
+            let(:aggregate_estimated_hours) { estimated_hours.sum }
+          end
+        end
+      end
+
+      context 'with everything playing together' do
+        it_behaves_like 'attributes of parent having children' do
+          let(:statuses) { %i(open open closed open) }
+          let(:done_ratios) { [0, 0, 0, 50] }
+          let(:estimated_hours) { [0.0, 3.0, nil, 7.0] }
+
+          # (0 * 5 + 0 * 3 + 1 * 5 + 0.5 * 7 = 8.5) / 20 est. hours done
+          let(:aggregate_done_ratio) { 43 } # 42.5 rounded
+          let(:aggregate_estimated_hours) { 10.0 }
+        end
       end
     end
 
-    let(:children) do
-      (statuses.size - 1).downto(0).map do |i|
+    context 'for the previous ancestors' do
+      let(:sibling_status) { open_status }
+      let(:sibling_done_ratio) { 50 }
+      let(:sibling_estimated_hours) { 7.0 }
+
+      let!(:grandparent) do
+        create :work_package
+      end
+      let!(:parent) do
+        create :work_package,
+               parent: grandparent
+      end
+      let!(:sibling) do
         create :work_package,
                parent:,
-               status: statuses[i] == :open ? open_status : closed_status,
-               estimated_hours: estimated_hours[i],
-               done_ratio: done_ratios[i]
-      end
-    end
-    let(:parent) { create :work_package, status: open_status }
-
-    subject do
-      # In the call we only use estimated_hours (instead of also adding
-      # done_ratio) in order to test that changes in estimated hours
-      # trigger a recalculation of done_ration, because estimated hours
-      # act as weights in this calculation.
-      described_class
-        .new(user:,
-             work_package: children.first)
-        .call(%i(estimated_hours))
-    end
-
-    context 'with no estimated hours and no progress' do
-      let(:statuses) { %i(open open open) }
-
-      it 'is a success' do
-        expect(subject)
-          .to be_success
+               status: sibling_status,
+               estimated_hours: sibling_estimated_hours,
+               done_ratio: sibling_done_ratio
       end
 
-      it 'does not update the parent' do
-        expect(subject.dependent_results)
-          .to be_empty
-      end
-    end
-
-    context 'with 1 out of 3 tasks having estimated hours and 2 out of 3 tasks done' do
-      let(:statuses) { %i(open closed closed) }
-
-      it_behaves_like 'attributes of parent having children' do
-        let(:estimated_hours) { [0.0, 2.0, 0.0] }
-
-        let(:aggregate_done_ratio) { 67 } # 66.67 rounded - previous wrong result: 133
-        let(:aggregate_estimated_hours) { 2.0 }
+      let!(:work_package) do
+        create :work_package,
+               parent:
       end
 
-      context 'with mixed nil and 0 values for estimated hours' do
-        it_behaves_like 'attributes of parent having children' do
-          let(:estimated_hours) { [nil, 2.0, 0.0] }
+      subject do
+        work_package.parent = nil
+        work_package.save!
 
-          let(:aggregate_done_ratio) { 67 } # 66.67 rounded - previous wrong result: 100
-          let(:aggregate_estimated_hours) { 2.0 }
-        end
-      end
-    end
-
-    context 'with some values same for done ratio' do
-      it_behaves_like 'attributes of parent having children' do
-        let(:done_ratios) { [20, 20, 50] }
-        let(:estimated_hours) { [nil, nil, nil] }
-
-        let(:aggregate_done_ratio) { 30 }
-        let(:aggregate_estimated_hours) { nil }
-      end
-    end
-
-    context 'with no estimated hours and 1.5 of the tasks done' do
-      it_behaves_like 'attributes of parent having children' do
-        let(:done_ratios) { [0, 50, 100] }
-
-        let(:aggregate_done_ratio) { 50 }
-        let(:aggregate_estimated_hours) { nil }
-      end
-    end
-
-    context 'with estimated hours being 1, 2 and 5' do
-      let(:estimated_hours) { [1, 2, 5] }
-
-      context 'with the last 2 tasks at 100% progress' do
-        it_behaves_like 'attributes of parent having children' do
-          let(:done_ratios) { [0, 100, 100] }
-
-          # (2 + 5 = 7) / 8 estimated hours done
-          let(:aggregate_done_ratio) { 88 } # 87.5 rounded
-          let(:aggregate_estimated_hours) { estimated_hours.sum }
-        end
+        described_class
+          .new(user:,
+               work_package:)
+          .call(%i(parent))
       end
 
-      context 'with the last 2 tasks closed (therefore at 100%)' do
-        it_behaves_like 'attributes of parent having children' do
-          let(:statuses) { %i(open closed closed) }
-
-          # (2 + 5 = 7) / 8 estimated hours done
-          let(:aggregate_done_ratio) { 88 } # 87.5 rounded
-          let(:aggregate_estimated_hours) { estimated_hours.sum }
-        end
-      end
-
-      context 'with mixed done ratios, statuses' do
-        it_behaves_like 'attributes of parent having children' do
-          let(:done_ratios) { [50, 75, 42] }
-          let(:statuses) { %i(open open closed) }
-
-          #  50%       75%        100% (42 ignored)
-          # (0.5 * 1 + 0.75 * 2 + 1 * 5 [since closed] = 7)
-          # (0.5 + 1.5 + 5 = 7) / 8 estimated hours done
-          let(:aggregate_done_ratio) { 88 } # 87.5 rounded
-          let(:aggregate_estimated_hours) { estimated_hours.sum }
-        end
-      end
-    end
-
-    context 'with everything playing together' do
-      it_behaves_like 'attributes of parent having children' do
-        let(:statuses) { %i(open open closed open) }
-        let(:done_ratios) { [0, 0, 0, 50] }
-        let(:estimated_hours) { [0.0, 3.0, nil, 7.0] }
-
-        # (0 * 5 + 0 * 3 + 1 * 5 + 0.5 * 7 = 8.5) / 20 est. hours done
-        let(:aggregate_done_ratio) { 43 } # 42.5 rounded
-        let(:aggregate_estimated_hours) { 10.0 }
-      end
-    end
-  end
-
-  context 'for the previous ancestors' do
-    let(:sibling_status) { open_status }
-    let(:sibling_done_ratio) { 50 }
-    let(:sibling_estimated_hours) { 7.0 }
-
-    let!(:grandparent) do
-      create :work_package
-    end
-    let!(:parent) do
-      create :work_package,
-             parent: grandparent
-    end
-    let!(:sibling) do
-      create :work_package,
-             parent:,
-             status: sibling_status,
-             estimated_hours: sibling_estimated_hours,
-             done_ratio: sibling_done_ratio
-    end
-
-    let!(:work_package) do
-      create :work_package,
-             parent:
-    end
-
-    subject do
-      work_package.parent = nil
-      work_package.save!
-
-      described_class
-        .new(user:,
-             work_package:)
-        .call(%i(parent))
-    end
-
-    before do
-      subject
-    end
-
-    it 'is successful' do
-      expect(subject)
-        .to be_success
-    end
-
-    it 'returns the former ancestors in the dependent results' do
-      expect(subject.dependent_results.map(&:result))
-        .to match_array [parent, grandparent]
-    end
-
-    it 'updates the done_ratio of the former parent' do
-      expect(parent.reload(select: :done_ratio).done_ratio)
-        .to eql sibling_done_ratio
-    end
-
-    it 'updates the estimated_hours of the former parent' do
-      expect(parent.reload(select: :derived_estimated_hours).derived_estimated_hours)
-        .to eql sibling_estimated_hours
-    end
-
-    it 'updates the done_ratio of the former grandparent' do
-      expect(grandparent.reload(select: :done_ratio).done_ratio)
-        .to eql sibling_done_ratio
-    end
-
-    it 'updates the estimated_hours of the former grandparent' do
-      expect(grandparent.reload(select: :derived_estimated_hours).derived_estimated_hours)
-        .to eql sibling_estimated_hours
-    end
-  end
-
-  context 'for new ancestors' do
-    let(:status) { open_status }
-    let(:done_ratio) { 50 }
-    let(:estimated_hours) { 7.0 }
-
-    let!(:grandparent) do
-      create :work_package
-    end
-    let!(:parent) do
-      create :work_package,
-             parent: grandparent
-    end
-    let!(:work_package) do
-      create :work_package,
-             status:,
-             estimated_hours:,
-             done_ratio:
-    end
-
-    shared_examples_for 'updates the attributes within the new hierarchy' do
       before do
         subject
       end
@@ -288,37 +252,160 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
           .to be_success
       end
 
-      it 'returns the new ancestors in the dependent results' do
+      it 'returns the former ancestors in the dependent results' do
         expect(subject.dependent_results.map(&:result))
           .to match_array [parent, grandparent]
       end
 
-      it 'updates the done_ratio of the new parent' do
+      it 'updates the done_ratio of the former parent' do
         expect(parent.reload(select: :done_ratio).done_ratio)
-          .to eql done_ratio
+          .to eql sibling_done_ratio
       end
 
-      it 'updates the estimated_hours of the new parent' do
+      it 'updates the estimated_hours of the former parent' do
         expect(parent.reload(select: :derived_estimated_hours).derived_estimated_hours)
-          .to eql estimated_hours
+          .to eql sibling_estimated_hours
       end
 
-      it 'updates the done_ratio of the new grandparent' do
+      it 'updates the done_ratio of the former grandparent' do
         expect(grandparent.reload(select: :done_ratio).done_ratio)
-          .to eql done_ratio
+          .to eql sibling_done_ratio
       end
 
-      it 'updates the estimated_hours of the new grandparent' do
+      it 'updates the estimated_hours of the former grandparent' do
         expect(grandparent.reload(select: :derived_estimated_hours).derived_estimated_hours)
-          .to eql estimated_hours
+          .to eql sibling_estimated_hours
       end
     end
 
-    context 'if setting the parent' do
+    context 'for new ancestors' do
+      let(:status) { open_status }
+      let(:done_ratio) { 50 }
+      let(:estimated_hours) { 7.0 }
+
+      let!(:grandparent) do
+        create :work_package
+      end
+      let!(:parent) do
+        create :work_package,
+               parent: grandparent
+      end
+      let!(:work_package) do
+        create :work_package,
+               status:,
+               estimated_hours:,
+               done_ratio:
+      end
+
+      shared_examples_for 'updates the attributes within the new hierarchy' do
+        before do
+          subject
+        end
+
+        it 'is successful' do
+          expect(subject)
+            .to be_success
+        end
+
+        it 'returns the new ancestors in the dependent results' do
+          expect(subject.dependent_results.map(&:result))
+            .to match_array [parent, grandparent]
+        end
+
+        it 'updates the done_ratio of the new parent' do
+          expect(parent.reload(select: :done_ratio).done_ratio)
+            .to eql done_ratio
+        end
+
+        it 'updates the estimated_hours of the new parent' do
+          expect(parent.reload(select: :derived_estimated_hours).derived_estimated_hours)
+            .to eql estimated_hours
+        end
+
+        it 'updates the done_ratio of the new grandparent' do
+          expect(grandparent.reload(select: :done_ratio).done_ratio)
+            .to eql done_ratio
+        end
+
+        it 'updates the estimated_hours of the new grandparent' do
+          expect(grandparent.reload(select: :derived_estimated_hours).derived_estimated_hours)
+            .to eql estimated_hours
+        end
+      end
+
+      context 'if setting the parent' do
+        subject do
+          work_package.parent = parent
+          work_package.save!
+          work_package.parent_id_was
+
+          described_class
+            .new(user:,
+                 work_package:)
+            .call(%i(parent))
+        end
+
+        it_behaves_like 'updates the attributes within the new hierarchy'
+      end
+
+      context 'if setting the parent_id' do
+        subject do
+          work_package.parent_id = parent.id
+          work_package.save!
+          work_package.parent_id_was
+
+          described_class
+            .new(user:,
+                 work_package:)
+            .call(%i(parent_id))
+        end
+
+        it_behaves_like 'updates the attributes within the new hierarchy'
+      end
+    end
+
+    context 'with old and new parent having a common ancestor' do
+      let(:status) { open_status }
+      let(:done_ratio) { 50 }
+      let(:estimated_hours) { 7.0 }
+
+      let!(:grandparent) do
+        create :work_package,
+               derived_estimated_hours: estimated_hours,
+               done_ratio:
+      end
+      let!(:old_parent) do
+        create :work_package,
+               parent: grandparent,
+               derived_estimated_hours: estimated_hours,
+               done_ratio:
+      end
+      let!(:new_parent) do
+        create :work_package,
+               parent: grandparent
+      end
+      let!(:work_package) do
+        create :work_package,
+               parent: old_parent,
+               status:,
+               estimated_hours:,
+               done_ratio:
+      end
+
       subject do
-        work_package.parent = parent
+        work_package.parent = new_parent
+        # In this test case, derived_estimated_hours and done_ratio will not
+        # inherently change on grandparent. However, if work_package has siblings
+        # then changing its parent could cause derived_estimated_hours and/or
+        # done_ratio on grandparent to inherently change. To verify that
+        # grandparent can be properly updated in that case without making this
+        # test dependent on the implementation details of the
+        # derived_estimated_hours and done_ratio calculations, force
+        # derived_estimated_hours and done_ratio to change at the same time as the
+        # parent.
+        work_package.estimated_hours = (estimated_hours + 1)
+        work_package.done_ratio = (done_ratio + 1)
         work_package.save!
-        work_package.parent_id_was
 
         described_class
           .new(user:,
@@ -326,66 +413,58 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
           .call(%i(parent))
       end
 
-      it_behaves_like 'updates the attributes within the new hierarchy'
-    end
-
-    context 'if setting the parent_id' do
-      subject do
-        work_package.parent_id = parent.id
-        work_package.save!
-        work_package.parent_id_was
-
-        described_class
-          .new(user:,
-               work_package:)
-          .call(%i(parent_id))
+      before do
+        subject
       end
 
-      it_behaves_like 'updates the attributes within the new hierarchy'
+      it 'is successful' do
+        expect(subject)
+          .to be_success
+      end
+
+      it 'returns both the former and new ancestors in the dependent results without duplicates' do
+        expect(subject.dependent_results.map(&:result))
+          .to match_array [new_parent, grandparent, old_parent]
+      end
+
+      it 'updates the done_ratio of the former parent' do
+        expect(old_parent.reload(select: :done_ratio).done_ratio)
+          .to be 0
+      end
+
+      it 'updates the estimated_hours of the former parent' do
+        expect(old_parent.reload(select: :derived_estimated_hours).derived_estimated_hours)
+          .to be_nil
+      end
     end
   end
 
-  context 'with a common ancestor' do
-    let(:status) { open_status }
-    let(:done_ratio) { 50 }
-    let(:estimated_hours) { 7.0 }
-
-    let!(:grandparent) do
+  describe 'ignore_non_working_days propagation' do
+    shared_let(:grandgrandparent) do
       create :work_package,
-             derived_estimated_hours: estimated_hours,
-             done_ratio:
+             subject: 'grandgrandparent'
     end
-    let!(:old_parent) do
+    shared_let(:grandparent) do
       create :work_package,
-             parent: grandparent,
-             derived_estimated_hours: estimated_hours,
-             done_ratio:
+             subject: 'grandparent',
+             parent: grandgrandparent
     end
-    let!(:new_parent) do
+    shared_let(:parent) do
       create :work_package,
+             subject: 'parent',
              parent: grandparent
     end
-    let!(:work_package) do
+    shared_let(:sibling) do
       create :work_package,
-             parent: old_parent,
-             status:,
-             estimated_hours:,
-             done_ratio:
+             subject: 'sibling',
+             parent:
+    end
+    shared_let(:work_package) do
+      create :work_package
     end
 
     subject do
       work_package.parent = new_parent
-      # In this test case, derived_estimated_hours and done_ratio will not
-      # inherently change on grandparent.  However, if work_package has siblings
-      # then changing its parent could cause derived_estimated_hours and/or
-      # done_ratio on grandparent to inherently change.  To verify that
-      # grandparent can be properly updated in that case without making this
-      # test dependent on the implementation details of the
-      # derived_estimated_hours and done_ratio calculations, force
-      # derived_estimated_hours and done_ratio to change at the same time as the
-      # parent.
-      work_package.estimated_hours = (estimated_hours + 1)
-      work_package.done_ratio = (done_ratio + 1)
       work_package.save!
 
       described_class
@@ -394,28 +473,134 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
         .call(%i(parent))
     end
 
-    before do
-      subject
+    let(:new_parent) { parent }
+
+    context 'for the previous ancestors (parent removed)' do
+      let(:new_parent) { nil }
+
+      before do
+        work_package.parent = parent
+        work_package.save
+
+        [grandgrandparent, grandparent, parent, work_package].each do |wp|
+          wp.update_column(:ignore_non_working_days, true)
+        end
+
+        [sibling].each do |wp|
+          wp.update_column(:ignore_non_working_days, false)
+        end
+      end
+
+      it 'is successful' do
+        expect(subject)
+          .to be_success
+      end
+
+      it 'returns the former ancestors in the dependent results' do
+        expect(subject.dependent_results.map(&:result))
+          .to match_array [parent, grandparent, grandgrandparent]
+      end
+
+      it 'sets the ignore_non_working_days property of the former ancestor chain to the value of the
+          only remaining child (former sibling)' do
+        subject
+
+        expect(parent.reload.ignore_non_working_days)
+          .to be_falsey
+
+        expect(grandparent.reload.ignore_non_working_days)
+          .to be_falsey
+
+        expect(grandgrandparent.reload.ignore_non_working_days)
+          .to be_falsey
+
+        expect(sibling.reload.ignore_non_working_days)
+          .to be_falsey
+      end
     end
 
-    it 'is successful' do
-      expect(subject)
-        .to be_success
+    context 'for the new ancestors where the grandparent is on manual scheduling' do
+      before do
+        [grandgrandparent, work_package].each do |wp|
+          wp.update_column(:ignore_non_working_days, true)
+        end
+
+        [grandparent, parent, sibling].each do |wp|
+          wp.update_column(:ignore_non_working_days, false)
+        end
+
+        [grandparent].each do |wp|
+          wp.update_column(:schedule_manually, true)
+        end
+      end
+
+      it 'is successful' do
+        expect(subject)
+          .to be_success
+      end
+
+      it 'returns the former ancestors in the dependent results' do
+        expect(subject.dependent_results.map(&:result))
+          .to match_array [parent]
+      end
+
+      it 'sets the ignore_non_working_days property of the new ancestors' do
+        subject
+
+        expect(parent.reload.ignore_non_working_days)
+          .to be_truthy
+
+        expect(grandparent.reload.ignore_non_working_days)
+          .to be_falsey
+
+        expect(grandgrandparent.reload.ignore_non_working_days)
+          .to be_truthy
+
+        expect(sibling.reload.ignore_non_working_days)
+          .to be_falsey
+      end
     end
 
-    it 'returns both the former and new ancestors in the dependent results without duplicates' do
-      expect(subject.dependent_results.map(&:result))
-        .to match_array [new_parent, grandparent, old_parent]
-    end
+    context 'for the new ancestors where the parent is on manual scheduling' do
+      before do
+        [grandgrandparent, grandparent, work_package].each do |wp|
+          wp.update_column(:ignore_non_working_days, true)
+        end
 
-    it 'updates the done_ratio of the former parent' do
-      expect(old_parent.reload(select: :done_ratio).done_ratio)
-        .to be 0
-    end
+        [parent, sibling].each do |wp|
+          wp.update_column(:ignore_non_working_days, false)
+        end
 
-    it 'updates the estimated_hours of the former parent' do
-      expect(old_parent.reload(select: :derived_estimated_hours).derived_estimated_hours)
-        .to be_nil
+        [parent].each do |wp|
+          wp.update_column(:schedule_manually, true)
+        end
+      end
+
+      it 'is successful' do
+        expect(subject)
+          .to be_success
+      end
+
+      it 'returns the former ancestors in the dependent results' do
+        expect(subject.dependent_results.map(&:result))
+          .to match_array []
+      end
+
+      it 'sets the ignore_non_working_days property of the new ancestors' do
+        subject
+
+        expect(parent.reload.ignore_non_working_days)
+          .to be_falsey
+
+        expect(grandparent.reload.ignore_non_working_days)
+          .to be_truthy
+
+        expect(grandgrandparent.reload.ignore_non_working_days)
+          .to be_truthy
+
+        expect(sibling.reload.ignore_non_working_days)
+          .to be_falsey
+      end
     end
   end
 end

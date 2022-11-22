@@ -90,7 +90,7 @@ export class IanMenuService {
   }
 
   public reload():void {
-    this.ianResourceService.fetchNotifications(IAN_MENU_PROJECT_FILTERS)
+    this.ianResourceService.fetchCollection(IAN_MENU_PROJECT_FILTERS)
       .subscribe((data) => {
         const projectsFilter:ApiV3ListParameters = {
           pageSize: 100,
@@ -108,10 +108,10 @@ export class IanMenuService {
 
         // Only request if there are any groups
         if (data.groups && data.groups.length > 0) {
-          this.projectsResourceService.fetchProjects(projectsFilter).subscribe();
+          this.projectsResourceService.fetchCollection(projectsFilter).subscribe();
         }
       });
-    this.ianResourceService.fetchNotifications(IAN_MENU_REASON_FILTERS)
+    this.ianResourceService.fetchCollection(IAN_MENU_REASON_FILTERS)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       .subscribe((data) => this.store.update({ notificationsByReason: data.groups }));
   }

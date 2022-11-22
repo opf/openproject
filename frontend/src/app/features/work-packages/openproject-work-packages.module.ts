@@ -177,12 +177,15 @@ import { WorkPackageMarkNotificationButtonComponent } from 'core-app/features/wo
 import { WorkPackageFilesTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/files-tab/op-files-tab.component';
 import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { OpenprojectFileLinksModule } from 'core-app/shared/components/file-links/openproject-file-links.module';
+import { OpenprojectStoragesModule } from 'core-app/shared/components/storages/openproject-storages.module';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { DatepickerBannerComponent } from 'core-app/shared/components/datepicker/banner/datepicker-banner.component';
 import { SingleDateModalComponent } from 'core-app/shared/components/datepicker/single-date-modal/single-date.modal';
 import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/multi-date-modal/multi-date.modal';
+import { DatepickerWorkingDaysToggleComponent } from 'core-app/shared/components/datepicker/toggle/datepicker-working-days-toggle.component';
+import { DatepickerSchedulingToggleComponent } from 'core-app/shared/components/datepicker/scheduling-mode/datepicker-scheduling-toggle.component';
+import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 
 @NgModule({
   imports: [
@@ -207,7 +210,7 @@ import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/m
 
     EditFieldControlsModule,
     OpenprojectTabsModule,
-    OpenprojectFileLinksModule,
+    OpenprojectStoragesModule,
   ],
   providers: [
     // Notification service
@@ -238,6 +241,7 @@ import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/m
 
     HalEventsService,
     FileLinksResourceService,
+    StorageFilesResourceService,
 
     StoragesResourceService,
   ],
@@ -394,6 +398,8 @@ import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/m
     MultiDateModalComponent,
     SingleDateModalComponent,
     DatepickerBannerComponent,
+    DatepickerWorkingDaysToggleComponent,
+    DatepickerSchedulingToggleComponent,
 
     // CustomActions
     WpCustomActionComponent,

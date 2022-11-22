@@ -51,6 +51,7 @@ See COPYRIGHT and LICENSE files for more details.
         <%=
           angular_component_tag 'op-enterprise-banner',
                                 inputs: {
+                                  collapsible: true,
                                   textMessage: t('text_wp_status_read_only_html'),
                                   moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:status_read_only][:href],
                                 }

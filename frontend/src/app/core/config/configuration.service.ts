@@ -30,7 +30,6 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationResource } from 'core-app/features/hal/resources/configuration-resource';
 import * as moment from 'moment';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { WeekdayService } from 'core-app/core/days/weekday.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurationService {
@@ -44,13 +43,9 @@ export class ConfigurationService {
   public constructor(
     readonly I18n:I18nService,
     readonly apiV3Service:ApiV3Service,
-    readonly weekdayService:WeekdayService,
   ) {
-    this.initialized = Promise
-      .all([
-        this.loadConfiguration(),
-        this.weekdayService.loadWeekdays().toPromise(),
-      ])
+    this.initialized = this
+      .loadConfiguration()
       .then(() => true)
       .catch(() => false);
   }
@@ -120,6 +115,10 @@ export class ConfigurationService {
 
   public get hostName():string {
     return this.systemPreference('hostName');
+  }
+
+  public get activeFeatureFlags():string[] {
+    return this.systemPreference<string[]>('activeFeatureFlags');
   }
 
   private loadConfiguration() {

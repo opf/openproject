@@ -83,7 +83,7 @@ export class WorkPackagesCalendarPageComponent extends PartitionedQuerySpacePage
   /** Toolbar is not editable */
   titleEditingEnabled = false;
 
-  /** Savable */
+  /** Saveable */
   showToolbarSaveButton = true;
 
   /** Toolbar is always enabled */

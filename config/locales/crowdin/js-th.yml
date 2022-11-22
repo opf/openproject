@@ -26,6 +26,9 @@ th:
       loading: "Loading…"
       updating: "Updating…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         ลากมาฟิลด์เพื่อแก้ไขรูปภาพหรือเอกสารแนบอ้างอิง, ฟิลด์ตัวแก้ไขที่ถูกปิดจะเปิดขึ้นในขณะที่คุณทำการลากต่อไป
     autocomplete_select:
@@ -82,6 +85,10 @@ th:
     button_open_fullscreen: "เปิดมุมมองเต็มหน้าจอ"
     button_show_cards: "Show card view"
     button_show_list: "Show list view"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "อ้างถึง"
     button_save: "บันทึก"
     button_settings: "การตั้งค่า"
@@ -221,6 +228,8 @@ th:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
         upsale:
           become_hero: "Become a hero!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "ประโยชย์ของ Enterprise on-premises Edition มีอย่างไร? "
             high_security: "Security features"
@@ -233,6 +242,7 @@ th:
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
           button_upgrade: "Upgrade now"
+          button_contact_us: "Contact us for a demo"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -290,15 +300,15 @@ th:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_2':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-2-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>No more endless searching for files! With the new <b>Nextcloud integration</b> in OpenProject 12.2, you can now find files directly in the respective work package and always have the correct version at your fingertips.</li> <li>We introduced <b>a new date picker</b> with updated input behaviour and an information banner that includes a button to show releations in the Gantt chart.</li> <li>We added the possibility to <b>log time for other users.</b></li> <li>Mark notifications as read also outside of the notification center.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
     label_activate: "เปิดใช้งาน"
     label_assignee: 'Assignee'
     label_add_column_after: "Add column after"
@@ -530,18 +540,33 @@ th:
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'mentioned'
-        watched: 'watched'
-        assigned: 'assigned'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'accountable'
         created: 'created'
         scheduled: 'scheduled'
         commented: 'commented'
         processed: 'processed'
         prioritized: 'prioritized'
+        dateAlert: 'Date alert'
+      date_alerts:
+        milestone_date: 'Milestone date'
+        overdue: 'Overdue'
+        overdue_since: 'since %{difference_in_days}'
+        property_today: 'is today'
+        property_is: 'is in %{difference_in_days}'
+        property_was: 'was %{difference_in_days} ago'
+        property_is_deleted: 'is deleted'
+        upsale:
+          title: 'Date alerts'
+          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'Unread'
+        unread_title: 'Show unread'
         all: 'ทั้งหมด'
+        all_title: 'Show all'
       center:
+        label_actor_and: 'and'
         and_more_users:
           other: 'and %{count} others'
         no_results:
@@ -562,22 +587,34 @@ th:
       menu:
         accountable: 'Accountable'
         by_project: 'Unread by project'
-        by_reason: 'Involvement'
+        by_reason: 'Reason'
         inbox: 'Inbox'
-        mentioned: '@mentioned'
-        watching: 'Watching'
+        mentioned: 'Mentioned'
+        watched: 'Watcher'
+        date_alert: 'Date alert'
       settings:
         change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
         title: "Notification settings"
         notify_me: "Notify me"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: every day
+              P3D: every 3 days
+              P7D: every week
         reasons:
           mentioned:
-            title: 'I am @mentioned'
+            title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
-          watched: 'Updates on watched items'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
+          watched: 'Watcher'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -585,11 +622,18 @@ th:
           work_package_scheduled: 'All date changes'
         global:
           immediately:
-            title: 'Notify me immediately'
-            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
           delayed:
-            title: 'Also notify me for'
-            description: 'Receive notifications for these activities on work packages in all projects:'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects'
+          date_alerts:
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          start_date: Start Date
+          due_date: Finish Date
+          overdue: When Overdue
         project_specific:
           title: 'Project-specific notification settings'
           description: 'These project-specific settings override default settings above'
@@ -739,9 +783,7 @@ th:
     field_value_enter_prompt: "Enter a value for '%{field}'"
     project_menu_details: "รายละเอียด"
     scheduling:
-      title: 'Scheduling'
-      manual: 'Manual'
-      default: 'Default'
+      manual: 'Manual scheduling'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -752,7 +794,6 @@ th:
       activate_no: 'activate to remove the sort'
     text_work_packages_destroy_confirmation: "คุณแน่ใจหรือไม่ว่าจะลบชุดภารกิจที่เลือก ?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    text_attachment_destroy_confirmation: "คุณแน่ใจหรือไม่ว่าจะไฟล์แนบ?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt chart'
@@ -850,9 +891,7 @@ th:
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
         ignore_non_working_days:
-          title: 'Working days'
-          false: 'Work week'
-          true: 'Include weekends'
+          title: 'Working days only'
       description_filter: "ตัวกรอง"
       description_enter_text: "ป้อนข้อความ"
       description_options_hide: "ซ่อนตัวเลือก"
@@ -872,6 +911,8 @@ th:
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Subject, description, comments, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Click here to add a new work package to this list'
       create:
@@ -1045,12 +1086,14 @@ th:
       button_save: "บันทึก"
       button_submit: "ส่งข้อมูล"
       button_cancel: "ยกเลิก"
+      button_delete: "Delete"
       form_submit:
         title: 'Confirm to continue'
         text: 'Are you sure you want to perform this action?'
       destroy_work_package:
         title: "Confirm deletion of %{label}"
-        text: "Are you sure you want to delete the following %{label} ?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "The work package has %{childUnits}:"
         confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
         deletes_children: "All child work packages and their descendants will also be recursively deleted."
@@ -1166,13 +1209,13 @@ th:
       role:
         label: 'บทบาทใน %{project}'
         no_roles_found: 'ไม่พบบทบาท'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'กรุณาเลือกบทบาท'
         next_button: 'ถัดไป'
       message:
         label: 'ข้อความเชิญ'
-        description: 'เราจะส่งอีเมลไปที่ %{principal} ซึ่งคุณสามารถเพิ่มข้อความส่วนตัวได้ที่นี่ คำอธิบายสำหรับคำเชิญอาจเป็นประโยชน์ หรืออาจเป็นข้อมูลเล็กน้อยเกี่ยวกับโครงการเพื่อช่วยพวกเขาในการเริ่มต้น '
-        next_button: 'ตรวจสอบคำเชิญ'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Send invitation'
       success:
@@ -1193,7 +1236,7 @@ th:
       search_placeholder: 'Search project...'
       include_subprojects: 'Include all sub-projects'
       tooltip:
-        include_all_selected: 'Include all sub-projects is currently selected.'
+        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'

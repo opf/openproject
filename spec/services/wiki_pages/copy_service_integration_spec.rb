@@ -95,6 +95,35 @@ describe WikiPages::CopyService, 'integration', type: :model do
       it 'sets the author to be the current user' do
         expect(copy.content.author).to eq(user)
       end
+
+      context 'with attachments' do
+        let!(:attachment) do
+          create(:attachment,
+                 container: wiki_page)
+        end
+
+        context 'when specifying to copy attachments (default)' do
+          it 'copies the attachment' do
+            expect(copy.attachments.length)
+              .to eq 1
+
+            expect(copy.attachments.first.attributes.slice(:digest, :file, :filesize))
+              .to eq attachment.attributes.slice(:digest, :file, :filesize)
+
+            expect(copy.attachments.first.id)
+              .not_to eq attachment.id
+          end
+        end
+
+        context 'when specifying to not copy attachments' do
+          let(:attributes) { { copy_attachments: false } }
+
+          it 'copies the attachment' do
+            expect(copy.attachments.length)
+              .to eq 0
+          end
+        end
+      end
     end
 
     describe 'to a different wiki' do

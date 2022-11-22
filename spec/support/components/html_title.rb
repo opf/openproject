@@ -29,6 +29,7 @@
 module Components
   class HtmlTitle
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
 
     attr_reader :project

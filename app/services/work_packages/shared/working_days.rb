@@ -61,47 +61,29 @@ module WorkPackages
         due_date
       end
 
-      def add_days(date, count)
-        while count > 0
-          date += 1
-          count -= 1 if working?(date)
-        end
-        while count < 0
-          date -= 1
-          count += 1 if working?(date)
-        end
-        date
-      end
-
-      def soonest_working_day(date)
+      def soonest_working_day(date, delay: nil)
         return unless date
+
+        delay ||= 0
+
+        while delay > 0
+          delay -= 1 if working?(date)
+          date += 1
+        end
 
         until working?(date)
           date += 1
         end
+
         date
-      end
-
-      def delta(previous:, current:)
-        if current < previous
-          return -delta(previous: current, current: previous)
-        end
-
-        delta = 0
-        pos = last_pos = soonest_working_day(previous)
-
-        while pos < current
-          pos += 1
-          if working?(last_pos) && working?(pos)
-            delta += 1
-            last_pos = pos
-          end
-        end
-        delta
       end
 
       def working?(date)
         working_week_day?(date) && working_specific_date?(date)
+      end
+
+      def non_working?(date)
+        !working?(date)
       end
 
       private
@@ -143,22 +125,24 @@ module WorkPackages
 
         # WeekDay day of the week is stored as ISO, meaning Monday is 1 and Sunday is 7.
         # Ruby Date#wday value for Sunday is 0 and it goes until 6 Saturday.
-        # To accomodate both versions 0-6, 1-7, an array of 8 elements is created
+        # To accommodate both versions 0-6, 1-7, an array of 8 elements is created
         # where array[0] = array[7] = value for Sunday
         #
-        # Because the database table for WeekDay could be empty or incomplete
-        # (like in tests), the initial array is built with all days considered
-        # working (value is `true`)
+        # Since Setting.working_days can be empty, the initial array is
+        # built with all days considered working (value is `true`)
+
         @working_week_days = [true] * 8
-        WeekDay.pluck(:day, :working).each do |day, working|
-          @working_week_days[day] = working
+
+        WeekDay.all.each do |week_day|
+          @working_week_days[week_day.day] = week_day.working
         end
+
         @working_week_days[0] = @working_week_days[7] # value for Sunday is present at index 0 AND index 7
         @working_week_days
       end
 
       def non_working_dates
-        @non_working_dates ||= Set.new(NonWorkingDay.pluck(:date))
+        @non_working_dates ||= RequestStore.fetch(:work_package_non_working_dates) { Set.new(NonWorkingDay.pluck(:date)) }
       end
     end
   end

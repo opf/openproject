@@ -87,6 +87,7 @@
       <%=
       angular_component_tag 'op-enterprise-banner',
                             inputs: {
+                              collapsible: true,
                               textMessage: t('ee.upsale.project_filters.description_html'),
                               moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_projects][:href],
                             }

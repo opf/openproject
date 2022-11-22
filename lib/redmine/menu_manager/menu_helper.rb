@@ -170,10 +170,13 @@ module Redmine::MenuManager::MenuHelper
                              lang: menu_item_locale(item)) do
       ''.html_safe + caption + badge_for(item)
     end
+    if item.enterprise_feature.present? && !EnterpriseToken.allows_to?(item.enterprise_feature)
+      link_text << (' '.html_safe + spot_icon('enterprise-badge'))
+    end
     link_text << (' '.html_safe + op_icon(item.icon_after)) if item.icon_after.present?
     html_options = item.html_options(selected:)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
-    html_options[:class] = "#{html_options[:class]}  #{menu_class}--item-action"
+    html_options[:class] = "#{html_options[:class]} #{menu_class}--item-action"
     html_options['data-qa-selector'] = "#{menu_class}--item-action"
 
     link_to link_text, url, html_options

@@ -48,9 +48,9 @@ pt:
         main-menu-hover-font-color: "Fonte do menu principal ao passar o mouse"
         main-menu-border-color: "Margem do menu principal"
       custom_colors: "Cores personalizadas"
-      customize: "Personalize sua instalação do OpenProject com seu próprio logotipo e cores."
+      customize: "Personalize a instalação de seu OpenProject com seu logotipo e cores."
       enterprise_notice: "Como um 'Obrigado!' especial a sua contribuição financeira para desenvolver o OpenProject, esse pequeno recurso está disponível somente para assinantes do suporte da versão Enterprise Edition."
-      enterprise_more_info: "Nota: o logotipo usado será acessível ao público."
+      enterprise_more_info: "Obs.: o logotipo usado pode ser acessado publicamente."
       manage_colors: "Editar opções de seleção de cor"
       instructions:
         alternative-color: "Cor de destaque forte, normalmente usada para o botão mais importante na tela."
@@ -66,6 +66,9 @@ pt:
     enterprise:
       upgrade_to_ee: "Atualizar para a Enterprise Edition"
       add_token: "Fazer upload de um token de suporte Enterprise Edition"
+      delete_token_modal:
+        text: "Tem certeza de que deseja remover o token atual do Enterprise Edition em uso?"
+        title: "Excluir token"
       replace_token: "Substitua seu token atual de suporte"
       order: "Encomendar a Edição Enterprise on-premises"
       paste: "Cole seu token de suporte Enterprise Edition"
@@ -77,7 +80,7 @@ pt:
       buttons:
         upgrade: "Atualizar agora"
         contact: "Contate-nos para uma demonstração"
-      enterprise_info_html: "é um recurso Enterprise <strong class='icon-medal'></strong>."
+      enterprise_info_html: "É um recurso Empresarial <span class='spot-icon spot-icon_enterprise-badge'></span>."
       upgrade_info: "Por favor, faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
     journal_aggregation:
       explanation:
@@ -134,6 +137,7 @@ pt:
         quando eles forem autenticados pela primeira vez com o OpenProject.
         Deixe isso desmarcado para permitir que apenas contas existentes no OpenProject possam se autenticar através do LDAP!
     connection_encryption: 'Criptografia de Conexão'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Conta do sistema'
     system_account_legend: |
       OpenProject requer acesso somente leitura através de uma conta de sistema para procurar usuários e grupos em sua árvore LDAP.
@@ -145,13 +149,18 @@ pt:
       quais atributos LDAP são usados para definir os atributos de um usuário OpenProject (mapeamento de atributos).
     tls_mode:
       plain: 'nenhum'
-      simple_tls: 'simples_tls'
-      start_tls: 'start_tls'
-      plain_description: "Conexão não criptografada, nenhuma negociação TLS."
-      simple_tls_description: "Criptografia TLS Implicita, mas sem validação de certificado. Use com cautela e confiança implícita da conexão LDAP."
-      start_tls_description: "Criptografia TLS explícita com validação completa. Usar para LDAP sobre SSL/TLS."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Esta seção diz respeito à segurança de conexão desta fonte de autenticação LDAP. Para mais informações, visite <a href="%{link}">a documentação Net::LDAP</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Não há postagens no fórum no momento.
@@ -173,7 +182,7 @@ pt:
     execute: 'Executar %{name}'
     upsale:
       title: 'Ações personalizadas'
-      description: 'Ações personalizadas são atalhos de um clique para um conjunto de ações pré-definidas que você pode disponibilizar em certos pacotes de trabalho com base no status, papel, tipo ou projeto.'
+      description: 'As ações personalizadas são atalhos de clique único para um conjunto de ações pré-definidas que você pode disponibilizar em certos pacotes de trabalho com base no estado, função, tipo ou projeto.'
   custom_fields:
     text_add_new_custom_field: >
       Para adicionar campos personalizados a um projeto é necessário criá-los primeiro para depois adicioná-los a este projeto.
@@ -206,6 +215,15 @@ pt:
     ignore_filenames: >
       Especifique uma lista de nomes para ignorar quando processar anexos para mensagens recebidas (por exemplo, assinaturas ou ícones). Digite um nome de arquivo por linha.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Membros do projeto'
+      overviews: 'Visão geral do projeto'
+      queries: 'Pacotes de trabalho: visualizações salvas'
+      wiki_page_attachments: 'Páginas Wiki: anexos'
+      work_package_attachments: 'Pacote de trabalho: anexos'
+      work_package_categories: 'Pacote de trabalho: categorias'
+      work_package_file_links: 'Pacote de trabalho: links de arquivo'
     delete:
       scheduled: "Exclusão foi agendada e será realizada em segundo plano. Você será notificado do resultado."
       schedule_failed: "Projeto não pode ser excluído: %{errors}"
@@ -272,7 +290,7 @@ pt:
     upsale:
       title: Usuários de espaço reservado
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        Usuários reservados são uma maneira de atribuir pacotes de trabalho aos usuários que não fazem parte do seu projeto. Eles podem ser úteis em vários cenários; por exemplo, se você precisa acompanhar as tarefas de uma fonte que ainda não foi nomeada ou disponibilizada, ou, se você não deseja dar a esta pessoa acesso ao OpenProject, mas ainda deseja acompanhar as tarefas atribuídas a ela.
   prioritiies:
     edit:
       priority_color_text: |
@@ -406,6 +424,7 @@ pt:
         host: "Servidor"
         onthefly: "Criação de usuário automático"
         port: "Porta"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositório"
       comment:
@@ -526,14 +545,18 @@ pt:
         duration: "Duração"
         end_insertion: "Final da inserção"
         end_deletion: "Final da exclusão"
-        ignore_non_working_days: "Ignorar dias feriados e fim de semana"
+        ignore_non_working_days: "Ignorar dias não-úteis"
+        include_non_working_days:
+          title: 'Dias úteis'
+          false: 'Apenas dias úteis'
+          true: 'incluindo dias não-úteis'
         parent: "Pai"
         parent_issue: "Pai"
         parent_work_package: "Pai"
         priority: "Prioridade"
         progress: "Progresso (%)"
         readonly: "Somente leitura"
-        schedule_manually: "Agendamento manual"
+        schedule_manually: "Planjamento manual"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"
         subproject: "Subprojeto"
@@ -563,7 +586,7 @@ pt:
         confirmation: "não coincide com %{attribute}."
         could_not_be_copied: "%{dependency} não pôde ser copiado (completamente)."
         does_not_exist: "não existe."
-        error_enterprise_only: "só está disponível no OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} só está disponível no OpenProject Enterprise Edition"
         error_unauthorized: "não pode ser acessado."
         error_readonly: "tentou escrever, mas não é gravável."
         email: "não é um endereço de e-mail válido."
@@ -610,6 +633,11 @@ pt:
           não está fornecendo um "Secure Context". Você pode tanto usar HTTPS  ou um endereço loopback.
         wrong_length: "é o tamanho errado (deve ser %{count} caracteres)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -660,10 +688,6 @@ pt:
               no_notification_reason: 'não pode ficar em branco porque o IAN foi escolhido como um canal.'
             reason_mail_digest:
               no_notification_reason: 'não pode ficar em branco porque o resumo do e-mail foi escolhido como um canal.'
-        notification_settings:
-          only_one_global_setting: 'Só pode haver uma configuração de notificação global.'
-          email_alerts_global: 'As configura de notificação de e-mail só podem ser definidas globalmente.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -723,6 +747,11 @@ pt:
           attributes:
             permissions:
               dependency_missing: "também precisa incluir '%{dependency}', já que '%{permission}' está selecionado."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'Pelo menos um dia da semana deve ser definido como um dia útil.'
+              previous_working_day_changes_unprocessed: 'As alterações anteriores na configuração de dias úteis ainda não foram aplicadas.'
         time_entry:
           attributes:
             hours:
@@ -733,6 +762,16 @@ pt:
               invalid_range: "só pode ser um intervalo de datas válido."
             daily_reminders:
               full_hour: "só pode ser configurado para ser entregue em uma hora completa."
+            notification_settings:
+              only_one_global_setting: 'Só pode haver uma configuração de notificação global.'
+              email_alerts_global: 'As configura de notificação de e-mail só podem ser definidas globalmente.'
+              format: "%{message}"
+              wrong_date: 'Valor incorreto para a Data de início, Prazo ou Atrasadas'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "não possui permissão para visualizar este recurso."
+              locked: "está bloqueado."
         wiki_page:
           attributes:
             slug:
@@ -744,12 +783,12 @@ pt:
               format: "%{message}"
             due_date:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
-              cannot_be_null: "can not be set to null as start date and duration are known."
+              cannot_be_null: "não pode ser definido como nulo já que a data de início e a duração são conhecidas. "
             duration:
-              larger_than_dates: "é maior que o intervalo entre a data de início e de fim."
-              smaller_than_dates: "é menor que o intervalo entre a data de início e a data de término."
-              not_available_for_milestones: "Não está disponível para pacotes de trabalho do tipo marco"
-              cannot_be_null: "can not be set to null as start date and finish date are known."
+              larger_than_dates: "é maior que o intervalo entre a data de início e de conclusão."
+              smaller_than_dates: "é menor que o intervalo entre a data de início e de conclusão."
+              not_available_for_milestones: "não está disponível para pacotes de trabalho do tipo marco"
+              cannot_be_null: "não pode ser definida como nulo já que a data de início e conclusão são conhecidas."
             parent:
               cannot_be_milestone: "não pode ser um marco."
               cannot_be_self_assigned: "não pode ser atribuído a ele mesmo."
@@ -757,7 +796,7 @@ pt:
               not_a_valid_parent: "é inválido."
             start_date:
               violates_relationships: "somente pode ser definida como %{soonest_start} ou posterior para não violar as relações de trabalho do pacote."
-              cannot_be_null: "can not be set to null as finish date and duration are known."
+              cannot_be_null: "não pode ser definido como nulo já que a data de conclusão e a duração são conhecidas. "
             status_id:
               status_transition_invalid: "é inválido porque não existe transição válida da antiga para a nova situação para o papel do usuário atual."
               status_invalid_in_type: "é inválido porque não existe a situação atual neste tipo."
@@ -1164,11 +1203,11 @@ pt:
   default_status_new: "Novo"
   default_status_on_hold: "Em espera"
   default_status_rejected: "Rejeitado"
-  default_status_scheduled: "Agendado"
+  default_status_scheduled: "Planejado"
   default_status_specified: "Especificado"
   default_status_tested: "Testado"
   default_status_test_failed: "Falha no teste"
-  default_status_to_be_scheduled: "A agendar"
+  default_status_to_be_scheduled: "A ser planejado"
   default_priority_low: "Baixa"
   default_priority_normal: "Normal"
   default_priority_high: "Alta"
@@ -1609,7 +1648,7 @@ pt:
   label_index_by_title: "Índice por título"
   label_information: "Informação"
   label_information_plural: "Informações"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: 'Guias de instalação'
   label_integer: "Número inteiro"
   label_internal: "Interno"
   label_introduction_video: "Vídeo de introdução"
@@ -1754,7 +1793,7 @@ pt:
   label_project_new: "Novo projeto"
   label_project_plural: "Projetos"
   label_project_settings: "Configurações do projeto"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "Armazenamentos"
   label_projects_storage_information: "%{count} projetos usando %{storage} de armazenamento em disco"
   label_project_view_all: "Ver todos os projetos"
   label_project_show_details: "Mostrar detalhes do projeto"
@@ -1906,7 +1945,6 @@ pt:
   label_wiki_start: "Página inicial"
   label_work_package: "Pacote de trabalho"
   label_work_package_attachments: "Anexos de pacote de trabalho"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Nova categoria"
   label_work_package_category_plural: "Categorias de pacote de trabalho"
   label_work_package_hierarchy: "Hierarquia de pacotes de trabalho"
@@ -1922,6 +1960,7 @@ pt:
   label_workflow: "Fluxo de Trabalho"
   label_workflow_plural: "Fluxos de trabalho"
   label_workflow_summary: "Sumário"
+  label_working_days: "Dias úteis"
   label_x_closed_work_packages_abbr:
     one: "1 fechado"
     other: "%{count} fechados"
@@ -1998,6 +2037,8 @@ pt:
         mentioned: 'Mencionado'
         subscribed: 'todos'
         prefix: 'Recebido devido à configuração de notificação: %{reason}'
+        date_alert_start_date: 'Alerta de data'
+        date_alert_due_date: 'Alerta de data'
       see_all: 'Ver todas'
       updated_at: 'Atualizado em %{timestamp} por %{user}'
   mail_body_account_activation_request: "Um novo usuário (%{value}) registrou-se. A conta está aguardando sua aprovação:"
@@ -2098,7 +2139,7 @@ pt:
   notice_email_sent: "Um e-mail foi enviado para %{value}"
   notice_failed_to_save_work_packages: "Falha ao salvar %{count} pacote(s) de trabalho de um total de %{total} selecionado: %{ids}."
   notice_failed_to_save_members: "Falha ao salvar o(s) membro(s): %{errors}."
-  notice_deletion_scheduled: "A exclusão foi programada e foi realizada de forma assíncrona."
+  notice_deletion_scheduled: "A exclusão foi planejada e foi realizada de forma assíncrona."
   notice_file_not_found: "A página que você estava tentando acessar não existe ou foi removida."
   notice_forced_logout: "Você foi automaticamente desconectado após %{ttl_time} minutos de inatividade."
   notice_internal_server_error: "Ocorreu um erro na página que você está tentando acessar. Se você continuar a ter problemas, por favor contate o %{app_title} administrador para obter assistência."
@@ -2159,8 +2200,7 @@ pt:
           tb: "TB"
   onboarding:
     heading_getting_started: "Obter visão geral"
-    text_getting_started_description: "Obter visão geral do gerenciamento de projetos e colaboração de equipe com o OpenProject."
-    text_show_again: "Você pode reiniciar este vídeo através do menu ajuda"
+    text_getting_started_description: "Obtenha uma visão geral da gestão de projetos e colaboração entre equipes com o OpenProject. Você pode assistir este vídeo novamente no menu de ajuda."
     welcome: "Bem-vindo ao %{app_title}"
     select_language: "Por favor, selecione seu idioma"
   permission_add_work_package_notes: "Adicionar anotações"
@@ -2361,8 +2401,8 @@ pt:
       update_timeout: "Manter as últimas informações de espaço em disco necessário para um repositório por N minutos. Como contar o espaço em disco necessário de um repositório pode ser custoso, aumente este valor para reduzir o impacto no desempenho."
       oauth_application_details: "O valor secreto do cliente não poderá ser acessado novamente após esta janela ser fechada. Copie estes valores nas configurações de Integração do Nextcloud OpenProject:"
       oauth_application_details_link_text: "Ir para a página de configurações"
-      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
-      setup_documentation_details_link_text: "File Storages setup"
+      setup_documentation_details: "Se você precisar de ajuda para configurar um novo armazenamento de arquivos, confira a documentação:"
+      setup_documentation_details_link_text: "Configuração de armazenamento"
       show_warning_details: "Para usar este armazenamento de arquivos, lembre-se de ativar o módulo e o armazenamento específico nas configurações de projeto de cada projeto desejado."
     subversion:
       existing_title: "Repositório Subversion existente"
@@ -2407,7 +2447,7 @@ pt:
   setting_smtp_authentication: "Autenticação SMTP"
   setting_smtp_user_name: "Usuário SMTP"
   setting_smtp_password: "Senha SMTP"
-  setting_smtp_domain: "Domínio SMTP"
+  setting_smtp_domain: "Domínio SMTP HELO"
   setting_activity_days_default: "Dias exibidos na atividade de projeto"
   setting_app_subtitle: "Subtítulo do aplicativo"
   setting_app_title: "Título da aplicação"
@@ -2552,6 +2592,7 @@ pt:
   text_access_token_hint: "Tokens de acesso permitem que você conceda acesso de aplicativos externos a recursos no OpenProject."
   text_analyze: "Analisar mais: %{subject}"
   text_are_you_sure: "Você tem certeza?"
+  text_are_you_sure_continue: "Tem certeza de que deseja continuar?"
   text_are_you_sure_with_children: "Excluir o pacote de trabalho e todos os pacotes de trabalho filhos?"
   text_assign_to_project: "Atribuir ao projeto"
   text_form_configuration: >
@@ -2745,7 +2786,6 @@ pt:
       noneSelection: "(nenhum)"
       outline: "Expansão do esboço inicial"
       parent: "Visualizar subprojetos de"
-      work_package_filters: "Filtro de pacotes de trabalho"
       work_package_responsible: "Mostrar os pacotes de trabalho com responsável"
       work_package_assignee: "Mostrar os pacotes de trabalho com seus responsáveis"
       types: "Mostrar tipos"
@@ -2878,9 +2918,9 @@ pt:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'Configuração do modo HTTPS  incompatível'
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        Seu aplicativo está em execução com o modo HTTPS definido para <code>%{set_protocol}</code>, mas esta é uma solicitação <code>%{actual_protocol}</code>. Isto resultará em erros! Você precisará definir os seguintes valores de configuração: <code>%{setting_value}</code>. Consulte <a href="%{more_info_path}">a documentação de instalação</a> sobre como definir esta configuração.
     hostname_mismatch:
       title: 'Incompatibilidade de configuração do anfitrião'
       text_html: >
@@ -2899,10 +2939,22 @@ pt:
     destroy:
       info: "Excluir o pacote de trabalho é uma ação irreversível."
       title: "Excluir o pacote de trabalho"
+  working_days:
+    info: >
+      <b>Defina os dias úteis da semana</b><br/> Dias não-úteis serão ignorados ao planejar os pacotes de trabalho e são excluídos ao calcular a duração. Esta opção pode ser anulada em um nível de pacote de trabalho.
+    change_button: "Alterar dias úteis"
+    warning: >
+      Alterar que dias da semana são considerados dias úteis pode afetar os dias de início e conclusão de todos os pacotes de trabalho em todos os projetos nesta instância.
+    journal_note:
+      changed: _**Dias úteis** alterado (%{changes})._
+      days:
+        working: "%{day} agora é um dia útil"
+        non_working: "%{day} agora é um dia não-útil"
   nothing_to_preview: "Nada para visualizar"
   api_v3:
     attributes:
       lock_version: "Bloquear versão"
+      property: 'Propriedade'
     errors:
       code_400: "Requisição inválida: %{message}"
       code_401: "Você precisa estar autenticado para acessar este recurso."
@@ -3061,34 +3113,34 @@ pt:
       oauth_returned_json_error: "OAuth2 retornou um erro JSON"
       oauth_returned_http_error: "OAuth2 retornou um erro de rede"
       oauth_returned_standard_error: "OAuth2 retornou um erro interno"
-      wrong_token_type_returned: "OAuth2 retornou um tipo errado de token, esperando AccessToken::Portador"
+      wrong_token_type_returned: "OAuth2 retornou um tipo errado de token, aguardando AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 comunicou um erro. Entre em contato com o administrador do sistema."
       oauth_client_not_found: "Cliente OAuth2 não encontrado no ponto de extremidade 'callback' (redirect_uri)."
       refresh_token_called_without_existing_token: >
-        Erro interno: Atualizar token sem um token existente anteriormente.
+        Erro interno: refresh_token chamada sem um token existente.
       refresh_token_updated_failed: "Erro durante a atualização do OAuthClientToken"
       oauth_client_not_found_explanation: >
-        Este erro aparece depois que você atualizou o client_id e client_secret no OpenProject, mas não atualizou o campo 'Return URI' no provedor OAuth2.
-      oauth_code_not_present: "O código OAuth2 não foi encontrado no parâmetro 'callback' (redirect_uri)."
+        Este erro é exibido após você atualizar o client_id e client_secret no OpenProject, mas não atualizar o campo 'Return URI' no provedor OAuth2.
+      oauth_code_not_present: "OAuth2 'code' não encontrado no ponto de extremidade 'callback' (redirect_uri)."
       oauth_code_not_present_explanation: >
-        Este erro aparece se você selecionou o parâmetro response_type errado no provedor OAuth2. A resposta _type deve ser 'código' ou similar.
-      oauth_state_not_present: "OAuth2 'state' não encontrado no endpoint 'callback' (redirect_uri)."
+        Este erro é exibido quando você seleciona o response_type incorreto no provedor OAuth2. Resposta _type deve ser 'code' ou similar.
+      oauth_state_not_present: "OAuth2 'state' não encontrado no ponto de extremidade 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
-        O 'state' é usado para indicar ao OpenProject onde continuar após uma autorização OAuth2 bem-sucedida. Um 'state' ausente é um erro interno que pode aparecer durante a configuração. Por favor contate o administrador do sistema.
+        O 'state' é utilizado para indicar ao OpenProject onde continuar após uma autorização OAuth2 bem-sucedida. Um 'state' ausente é um erro interno que pode aparecer durante a configuração. Entre em contate com seu administrador de sistema.
       rack_oauth2:
         client_secret_invalid: "Segredo do cliente inválido (client_secret_invalid)"
         invalid_request: >
-          O Servidor de Autorização do OAuth2 respondeu com 'invalid_request'. Este erro aparece se você tentar autorizar várias vezes ou em caso de problemas técnicos.
-        invalid_response: "O Servidor de Autorização OAuth2 forneceu uma resposta inválida (invalid_response)"
-        invalid_grant: "O Servidor de Autorização OAuth2 pede a você para reautorizar (invalid_grant)."
-        invalid_client: "O Servidor de Autorização OAuth2 não reconhece o OpenProject (invalid_client)."
-        unauthorized_client: "O Servidor de Autorização OAuth2 rejeita o tipo de concessão (unauthorized_client)"
-        unsupported_grant_type: "O Servidor de Autorização OAuth2 pede a você para reautorizar (unported_grant_type)."
-        invalid_scope: "Você não tem permissão para acessar o recurso solicitado (invalid_scope)."
+          O Servidor de Autorização do OAuth2 respondeu com 'invalid_request'. Este erro aparece se você realizar várias tentativas de autorização ou em caso de problemas técnicos.
+        invalid_response: "O Servidor de Autorização do OAuth2 forneceu uma resposta inválida (invalid_response)"
+        invalid_grant: "O Servidor de Autorização do OAuth2 solicita que você autorize novamente (invalid_grant)."
+        invalid_client: "O Servidor de Autorização do OAuth2 não reconhece o OpenProject (invalid_client)."
+        unauthorized_client: "O Servidor de Autorização do OAuth2 rejeita o tipo de concessão (unauthorized_client)"
+        unsupported_grant_type: "O Servidor de Autorização do OAuth2 solicita que você autorize novamente (unported_grant_type)."
+        invalid_scope: "Você não possui permissão para acessar o recurso solicitado (invalid_scope)."
   http:
     request:
-      failed_authorization: "A solicitação do lado do servidor falhou ao se autorizar."
-      missing_authorization: "A solicitação do lado do servidor falhou devido à falta de informações de autorização."
+      failed_authorization: "A solicitação do servidor não conseguiu se autorizar."
+      missing_authorization: "A solicitação do servidor não foi concluída devido à falta de informações de autorização."
     response:
       unexpected: "Resposta inesperada recebida."
   you: você

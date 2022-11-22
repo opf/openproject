@@ -66,6 +66,9 @@ sl:
     enterprise:
       upgrade_to_ee: "Nadgradite v Enterprise Edition"
       add_token: "Naloži Enterprise Edition  podporni žeton"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        title: "Delete token"
       replace_token: "Zamenjajte svoj trenutni podporni žeton"
       order: "Order Enterprise verzija na lokaciji"
       paste: "Prilepite vaš Enterprise Edition podporni žeton."
@@ -77,7 +80,7 @@ sl:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
@@ -134,6 +137,7 @@ sl:
         Če potrdite to polje, bo OpenProject samodejno ustvaril nove uporabnike iz njihovih vnosov LDAP, ko se prvič potrdijo z OpenProject.
         Pustite to polje brez potrditve, da samo obstoječim računom v programu OpenProject dovolite avtentikacijo preko LDAP.
     connection_encryption: 'Šifriranje povezave'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Sistemski račun'
     system_account_legend: |
       OpenProject zahteva dostop "samo za branje" prek sistemskega računa za iskanje uporabnikov in skupin v vašem drevesu LDAP.
@@ -145,13 +149,18 @@ sl:
       kateri atributi LDAP se uporabljajo za definiranje atributov uporabnika OpenProject (preslikava atributov).
     tls_mode:
       plain: 'Brez'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Nekriptirana povezava (brez TLS)"
-      simple_tls_description: "Implicitno šifriranje TLS, vendar ni potrjevanja potrdila. Uporabljajte previdno in implicitno zaupanje povezave LDAP."
-      start_tls_description: "Izrecno šifriranje TLS s popolno veljavnostjo. Uporabite za LDAP prek TLS / SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Razdelek zadeva varnost povezave tega vira za preverjanje pristnosti LDAP. Če želite več informacij, obiščite <a href="%{link}">the Net::LDAP documentation</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Trenutno ni nobenih objav za forum.
@@ -206,6 +215,15 @@ sl:
     ignore_filenames: >
       Določite seznam imen, ki jih ne upoštevate pri obdelavi prilog za dohodne pošte (npr. podpise ali ikone). Vnesite eno ime datoteke v vrstico.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Izbris je predviden in se izvaja v ozadju. Obveščeni boste o rezultatih."
       schedule_failed: "Projekta ni mogoče izbrisati: %{errors}"
@@ -406,6 +424,7 @@ sl:
         host: "Gostitelj"
         onthefly: "Samodejno ustvarjanje uporabnika"
         port: "Vrata"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitorij"
       comment:
@@ -527,6 +546,10 @@ sl:
         end_insertion: "Konec vstavitve"
         end_deletion: "Konec izbrisa"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Nadrejeni"
         parent_issue: "Nadrejeni"
         parent_work_package: "Nadrejeni"
@@ -563,7 +586,7 @@ sl:
         confirmation: "se ne ujema %{attribute}"
         could_not_be_copied: "%{dependency} ni bilo mogoče (v celoti) kopirati."
         does_not_exist: "ne obstaja"
-        error_enterprise_only: "je na voljo samo v OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "morda ni mogoče dostopati."
         error_readonly: "poskušano je bilo napisati, vendar ni mogoče pisati."
         email: "is not a valid email address."
@@ -610,6 +633,11 @@ sl:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "je napačna dolžina (mora biti %{count} znakov). "
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -660,10 +688,6 @@ sl:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
-        notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -723,6 +747,11 @@ sl:
           attributes:
             permissions:
               dependency_missing: "morate vključiti '%{dependency}' kot '%{permission}' je izbrano."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -733,6 +762,16 @@ sl:
               invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -1938,7 +1977,6 @@ sl:
   label_wiki_start: "Začetna stran"
   label_work_package: "Zahtevek"
   label_work_package_attachments: "Priloge delovnega paketa"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Nova kategorija"
   label_work_package_category_plural: "Kategorije delovnih paketov"
   label_work_package_hierarchy: "Hierarhija delovnega paketa"
@@ -1954,6 +1992,7 @@ sl:
   label_workflow: "Potek dela"
   label_workflow_plural: "Potek dela"
   label_workflow_summary: "Povzetek"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 zaprt"
     other: "%{count} zaprtih"
@@ -2014,7 +2053,7 @@ sl:
       center: 'V središče za obvestila'
       see_in_center: 'Preglej komentar v središču za obvestila'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2032,6 +2071,8 @@ sl:
         mentioned: 'Mentioned'
         subscribed: 'vsi'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Registriral se je nov uporabnik (%{value}). Račun čaka na vašo odobritev:"
@@ -2197,8 +2238,7 @@ sl:
           tb: "TB"
   onboarding:
     heading_getting_started: "Pridobite pregled"
-    text_getting_started_description: "Pridobite hiter pregled nad projektnim managementom ter skupinskim delovanjem z OpenProject"
-    text_show_again: "Ta video lahko ponovno zaženete preko menija za pomoč"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Prosimo izberite jezik"
   permission_add_work_package_notes: "Dodaj zapiske"
@@ -2589,6 +2629,7 @@ sl:
   text_access_token_hint: "Žetoni dostopa vam omogočajo, da zunanjim aplikacijam omogočite dostop do virov v OpenProjectu."
   text_analyze: "Nadaljnja analiza: %{subject}"
   text_are_you_sure: "Ste prepričani?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Izbrišite delovni paket in vse njegove podrejene delovne pakete?"
   text_assign_to_project: "Dodeli projektu"
   text_form_configuration: >
@@ -2784,7 +2825,6 @@ sl:
       noneSelection: "(brez)"
       outline: "Začetna širitev orisa"
       parent: "Prikaži podprojekt od"
-      work_package_filters: "Filtriraj delovne pakete"
       work_package_responsible: "Pokažite delovne pakete z odgovornostjo"
       work_package_assignee: "Pokaži delovne pakete z dodeljenimi osebami."
       types: "Prikaži tipe"
@@ -2941,10 +2981,22 @@ sl:
     destroy:
       info: "Brisanje delovnega paketa je nepovraten ukrep."
       title: "Izbriši delovni paket"
+  working_days:
+    info: >
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Ničesar za predogled"
   api_v3:
     attributes:
       lock_version: "Zakleni verzijo"
+      property: 'Property'
     errors:
       code_400: "Slaba zahteva: %{message}"
       code_401: "Za dostop do tega vira morate imeti pooblastila."

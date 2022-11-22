@@ -30,6 +30,7 @@ module Components
   module WorkPackages
     class ContextMenu
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       def open_for(work_package, card_view: false)

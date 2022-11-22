@@ -29,7 +29,9 @@
 require 'spec_helper'
 
 # Concern is included into AccountController and depends on methods available there
-describe AccountController, type: :controller do
+describe AccountController,
+         skip_2fa_stage: true, # Prevent redirects to 2FA stage
+         type: :controller do
   let(:omniauth_strategy) { double('Google Strategy', name: 'google') }
   let(:omniauth_hash) do
     OmniAuth::AuthHash.new(
@@ -466,7 +468,7 @@ describe AccountController, type: :controller do
       end
 
       context 'with a locked account',
-              with_settings: { brute_force_block_after_failed_logins?: false } do
+              with_settings: { brute_force_block_after_failed_logins: 0 } do
         before do
           user.lock
           user.save!

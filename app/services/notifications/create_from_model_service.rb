@@ -141,13 +141,13 @@ class Notifications::CreateFromModelService
   def settings_of_assigned
     project_applicable_settings(User.where(id: group_or_user_ids(journal.data.assigned_to)),
                                 project,
-                                NotificationSetting::INVOLVED)
+                                NotificationSetting::ASSIGNEE)
   end
 
   def settings_of_responsible
     project_applicable_settings(User.where(id: group_or_user_ids(journal.data.responsible)),
                                 project,
-                                NotificationSetting::INVOLVED)
+                                NotificationSetting::RESPONSIBLE)
   end
 
   def settings_of_subscribed
@@ -292,7 +292,13 @@ class Notifications::CreateFromModelService
   end
 
   def remove_self_recipient(receivers)
-    receivers.delete(user_with_fallback.id)
+    if receivers.key?(user_with_fallback.id)
+      self_reasons = receivers[user_with_fallback.id]
+      self_reasons.delete_if { |item| item != NotificationSetting::MENTIONED }
+      if self_reasons.empty?
+        receivers.delete(user_with_fallback.id)
+      end
+    end
   end
 
   def receivers_hash

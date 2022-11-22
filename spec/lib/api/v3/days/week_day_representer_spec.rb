@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Days::WeekDayRepresenter do
-  let(:week_day) { build_stubbed(:week_day, day: 1) }
+  let(:week_day) { build(:week_day, day: 1) }
   let(:representer) { described_class.new(week_day, current_user: instance_double(User, name: 'current_user')) }
 
   describe '#to_json' do
@@ -99,8 +99,8 @@ describe ::API::V3::Days::WeekDayRepresenter do
         end
       end
 
-      it 'changes when the week_day is updated' do
-        week_day.updated_at = 20.seconds.from_now
+      it 'changes when the Setting is updated' do
+        set_week_days('tuesday')
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key

@@ -29,11 +29,13 @@
 module API
   module V3
     module Principals
-      class PrincipalType
+      module PrincipalType
+        module_function
+
         ##
         # Return the appropriate API level type
         # that depend on the AR type of the principal passed in.
-        def self.for(principal)
+        def for(principal)
           case principal
           when User
             :user

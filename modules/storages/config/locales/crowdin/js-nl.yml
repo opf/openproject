@@ -2,26 +2,41 @@
 nl:
   js:
     storages:
-      link_files_in_storage: "Link files in %{storageType}"
+      link_files_in_storage: "Koppel bestanden aan %{storageType}"
+      link_existing_files: "Bestaande bestanden koppelen"
+      upload_files: "Upload files"
       login: "%{storageType} login"
-      login_to: "Login to %{storageType}"
-      no_connection: "No %{storageType} connection"
-      open_storage: "Open %{storageType}"
+      login_to: "Inloggen op %{storageType}"
+      no_connection: "Geen %{storageType} verbinding"
+      open_storage: "%{storageType} openen"
+      select_location: "Select location"
+      choose_location: "Choose location"
       types:
         nextcloud: "Nextcloud"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
-        live_data_error: "Error fetching file details"
+          Sommige %{storageType} instellingen werken niet. Neem contact op met uw %{storageType} beheerder.
+        live_data_error: "Fout bij ophalen bestand details"
         live_data_error_description: >
-          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
-        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+          Sommige %{storageType} gegevens konden niet worden opgehaald. Probeer deze pagina te herladen of neem contact op met uw %{storageType} beheerder.
+        no_file_links: "Om bestanden te koppelen aan dit werkpakket, doe het via %{storageType}."
         not_logged_in: >
-          To add a link, see or upload files related to this work package, please login to %{storageType}.
+          Om een link toetevoegen, bekijk of upload bestanden gerelateerd aan dit werkpakket, log dan in op %{storageType}.
       file_links:
-        download: "Download %{fileName}"
-        no_permission: "You have no permission to see this file."
-        open: 'Open file on storage'
-        open_location: 'Open file in location'
-        remove: "Remove file link"
-        remove_confirmation: "Are you sure you want to unlink the file from the work package?"
+        download: "Downloaden %{fileName}"
+        no_permission: "U heeft geen toestemming om dit bestand te bekijken."
+        open: 'Open bestand in opslag'
+        open_location: 'Open bestand op locatie'
+        remove: "Bestandslink verwijderen"
+        remove_confirmation: >
+          Weet u zeker dat u het bestand van dit werkpakket wilt ontkoppelen? Ontkoppelen heeft geen invloed op het oorspronkelijke bestand en verwijdert alleen de verbinding met dit werkpakket.
+        remove_short: "Koppeling verwijderen"
+        select: "Selecteer bestanden"
+        select_all: "Alles selecteren"
+        selection:
+          zero: "Select files to link"
+          one: "Link 1 file"
+          other: "Link %{count} files"
+        not_allowed_tooltip: "Log in op Nextcloud om toegang te krijgen tot dit bestand"
+        already_linked_file: "Dit bestand is al gekoppeld aan dit werkpakket."
+        already_linked_directory: "Deze map is al gekoppeld aan dit werkpakket."

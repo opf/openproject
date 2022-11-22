@@ -3,10 +3,14 @@ ca:
   js:
     storages:
       link_files_in_storage: "Fitxers enllaçats a %{storageType}"
+      link_existing_files: "Enllaça fitxers existents"
+      upload_files: "Upload files"
       login: "%{storageType} inici de sessió"
       login_to: "Inicia sessió a %{storageType}"
       no_connection: "%{storageType} sense connexió"
       open_storage: "Obre %{storageType}"
+      select_location: "Select location"
+      choose_location: "Choose location"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -24,4 +28,15 @@ ca:
         open: 'Obre el fitxer a l''emmagatzematge'
         open_location: 'Obre la ubicació del fitxer'
         remove: "Elimina l'enllaç del fitxer"
-        remove_confirmation: "Esteu segur que vols desenllaçar el fitxer del paquet de treball?"
+        remove_confirmation: >
+          Estàs segur que vols eliminar l'enllaç de fitxer d'aquest paquet de treball? Eliminar l'enllaç no afecta el fitxer original, només elimina la connexió d'aquest paquet de treball.
+        remove_short: "Eliminar enllaç"
+        select: "Selecciona fitxers"
+        select_all: "Select all"
+        selection:
+          zero: "Select files to link"
+          one: "Link 1 file"
+          other: "Link %{count} files"
+        not_allowed_tooltip: "Si us plau, inicia sessió a Nextcloud per accedir a aquest fitxer"
+        already_linked_file: "This file is already linked to this work package."
+        already_linked_directory: "This directory is already linked to this work package."

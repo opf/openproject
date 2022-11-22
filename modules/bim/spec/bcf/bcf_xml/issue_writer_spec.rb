@@ -82,10 +82,12 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
     </Markup>
     MARKUP
   end
+  let(:vp_snapshot) { nil }
   let(:bcf_issue) do
     create(:bcf_issue_with_comment,
            work_package:,
-           markup:)
+           markup:,
+           vp_snapshot:)
   end
   let(:priority) { create :priority_low }
   let(:current_user) { create(:user) }
@@ -105,6 +107,8 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
     allow(User).to receive(:current).and_return current_user
     bcf_issue.comments.first.journal.update_columns(journable_id: work_package.id, version: 2)
   end
+
+  subject { Nokogiri::XML(described_class.update_from!(work_package).markup) }
 
   shared_examples_for "writes Topic" do
     it "updates the Topic node" do
@@ -150,15 +154,11 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
   context 'no markup present yet' do
     let(:markup) { nil }
 
-    subject { Nokogiri::XML(described_class.update_from!(work_package).markup) }
-
     it_behaves_like 'writes Topic'
     it_behaves_like 'valid markup'
   end
 
   context 'markup already present' do
-    subject { Nokogiri::XML(described_class.update_from!(work_package).markup) }
-
     it_behaves_like 'writes Topic'
     it_behaves_like 'valid markup'
 
@@ -184,6 +184,20 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
       viewpoint_node = subject.at("/Markup/Viewpoints[@Guid='#{uuid}']")
       expect(viewpoint_node.at('Viewpoint').content).to eql("#{uuid}.bcfv")
       expect(viewpoint_node.at('Snapshot').content).to eql("#{uuid}.png")
+    end
+  end
+
+  context 'when bcf_issue snapshot is false' do
+    let(:vp_snapshot) { false }
+
+    it_behaves_like 'writes Topic'
+    it_behaves_like 'valid markup'
+
+    it 'does not provides a Snapshot node' do
+      uuid = bcf_issue.viewpoints.first.uuid
+      viewpoint_node = subject.at("/Markup/Viewpoints[@Guid='#{uuid}']")
+      expect(viewpoint_node.at('Viewpoint').content).to eql("#{uuid}.bcfv")
+      expect(viewpoint_node.at('Snapshot')).to be_nil
     end
   end
 

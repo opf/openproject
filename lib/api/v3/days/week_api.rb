@@ -31,10 +31,14 @@ module API::V3::Days
     helpers ::API::Utilities::UrlPropsParsingHelper
 
     resources :week do
-      get &::API::V3::Utilities::Endpoints::Index.new(model: WeekDay,
-                                                      render_representer: WeekDayCollectionRepresenter,
-                                                      self_path: -> { api_v3_paths.days_week })
-                                                 .mount
+      get do
+        self_link = api_v3_paths.days_week
+        week_days = WeekDay.all
+        WeekDayCollectionRepresenter.new(week_days,
+                                         self_link:,
+                                         current_user:)
+      end
+
       route_param :day, type: Integer, desc: 'WeekDay ID' do
         after_validation do
           @week_day = WeekDay.find_by!(day: declared_params[:day])

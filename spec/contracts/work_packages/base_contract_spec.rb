@@ -600,7 +600,7 @@ describe WorkPackages::BaseContract do
 
     context 'when setting duration and dates while covering non-working days' do
       before do
-        create(:week_days) # sat and sun are weekends
+        week_with_saturday_and_sunday_as_weekend
         work_package.ignore_non_working_days = false
         work_package.duration = 6
         work_package.start_date = "2022-08-22"
@@ -623,7 +623,7 @@ describe WorkPackages::BaseContract do
 
     context 'when setting duration and dates while covering non-working days and duration is too small' do
       before do
-        create(:week_days) # sat and sun are weekends
+        week_with_saturday_and_sunday_as_weekend
         work_package.ignore_non_working_days = false
         work_package.duration = 1
         work_package.start_date = "2022-08-22"
@@ -646,7 +646,7 @@ describe WorkPackages::BaseContract do
 
     context 'when setting duration and dates while covering non-working days and duration is too big' do
       before do
-        create(:week_days) # sat and sun are weekends
+        week_with_saturday_and_sunday_as_weekend
         work_package.ignore_non_working_days = false
         work_package.duration = 99
         work_package.start_date = "2022-08-22"

@@ -77,10 +77,10 @@ describe Queries::Days::DayQuery, type: :model do
 
     context 'with dates out of the default range' do
       let(:from) { 5.days.from_now.to_date }
-      let(:to) { 5.months.from_now.to_date }
+      let(:to) { 153.days.from_now.to_date }
 
       it 'returns all the days' do
-        expect(instance.results.size).to be 149
+        expect(instance.results.size).to eq 149
       end
 
       context 'with dates missing the to date' do

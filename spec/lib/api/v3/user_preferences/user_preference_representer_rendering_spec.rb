@@ -41,7 +41,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
                     }
                   })
   end
-  let(:notification_setting) { build(:notification_setting) }
+  let(:notification_setting) { build(:notification_setting, start_date: 3, due_date: 3, overdue: 3) }
   let(:user) { build_stubbed(:user, preference:) }
   let(:representer) { described_class.new(preference, current_user: user) }
 
@@ -76,15 +76,21 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
     end
   end
 
-  describe 'notification_settings' do
+  describe 'notification_settings', with_ee: %i[date_alerts] do
     it 'renders them as a nested array' do
       expect(subject).to have_json_type(Array).at_path('notifications')
       expect(subject).to be_json_eql(nil.to_json).at_path('notifications/0/_links/project/href')
+      date_keys = [NotificationSetting::START_DATE, NotificationSetting::DUE_DATE, NotificationSetting::OVERDUE]
 
       NotificationSetting.all_settings.each do |key|
-        expect(subject)
-          .to be_json_eql(notification_setting.send(key).to_json)
-                .at_path("notifications/0/#{key.to_s.camelize(:lower)}")
+        if date_keys.include?(key)
+          expect(subject).to be_json_eql("P3D".to_json)
+                         .at_path("notifications/0/#{key.to_s.camelize(:lower)}")
+        else
+          expect(subject)
+                .to be_json_eql(notification_setting.send(key).to_json)
+                      .at_path("notifications/0/#{key.to_s.camelize(:lower)}")
+        end
       end
     end
   end

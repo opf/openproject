@@ -39,6 +39,7 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
 import { SingleDateModalComponent } from 'core-app/shared/components/datepicker/single-date-modal/single-date.modal';
 import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/multi-date-modal/multi-date.modal';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Directive()
 export abstract class DatePickerEditFieldComponent extends EditFieldComponent implements OnInit, OnDestroy {
@@ -46,7 +47,9 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
 
   @InjectField() opModalService:OpModalService;
 
-  protected modal:SingleDateModalComponent|MultiDateModalComponent;
+  @InjectField() deviceService:DeviceService;
+
+  protected modal:SingleDateModalComponent|MultiDateModalComponent|null = null;
 
   ngOnInit():void {
     super.ngOnInit();
@@ -68,23 +71,31 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
 
   public showDatePickerModal():void {
     const component = this.change.schema.isMilestone ? SingleDateModalComponent : MultiDateModalComponent;
-    this.modal = this
-      .opModalService
-      .show<SingleDateModalComponent|MultiDateModalComponent>(component, this.injector, { changeset: this.change, fieldName: this.name }, true);
+    this.opModalService.show<SingleDateModalComponent|MultiDateModalComponent>(
+      component,
+      this.injector,
+      { changeset: this.change, fieldName: this.name },
+      !this.deviceService.isMobile,
+    ).subscribe((modal) => {
+      this.modal = modal;
 
-    const { modal } = this;
-
-    setTimeout(() => {
-      const modalElement = jQuery(modal.elementRef.nativeElement).find('.op-datepicker-modal');
-      const field = jQuery(this.elementRef.nativeElement);
-      modal.reposition(modalElement, field);
-    });
-
-    (modal as OpModalComponent)
-      .closingEvent
-      .pipe(take(1))
-      .subscribe(() => {
-        void this.handler.handleUserSubmit();
+      setTimeout(() => {
+        const modalElement = jQuery(modal.elementRef.nativeElement).find('.op-datepicker-modal');
+        const field = jQuery(this.elementRef.nativeElement);
+        modal.reposition(modalElement, field);
       });
+
+      (modal as OpModalComponent)
+        .closingEvent
+        .pipe(take(1))
+        .subscribe(() => {
+          this.modal = null;
+          this.onModalClosed();
+        });
+    });
+  }
+
+  protected onModalClosed():void {
+    void this.handler.handleUserSubmit();
   }
 }

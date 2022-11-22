@@ -72,8 +72,8 @@ tr:
       text_2fa_enabled: 'Her oturum açıldığında, bu kullanıcıdan varsayılan 2FA cihazından bir OTP belirteci girmesi istenir.'
       text_2fa_disabled: "Kullanıcı, 'Hesabım sayfam' üzerinden bir 2FA cihazı kurmadı"
     upsale:
-      title: 'Two-factor authentication'
-      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
+      title: 'İki faktörlü kimlik doğrulama'
+      description: 'Tüm proje üyelerine iki faktörlü kimlik doğrulama sunarak (veya zorunlu kılarak) OpenProject bulut sunucunuzun güvenliğini güçlendirin.'
     backup_codes:
       none_found: Bu hesap için yedek kod yok.
       singular: Yedek kod

@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns, with_2fa_ee: true do
+describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns do
   describe 'sending messages' do
     let(:phone) { '+49 123456789' }
     let!(:user) { create :user }
@@ -83,9 +83,9 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns, with_2fa_ee
           expect(api).to receive(:set_sms_attributes).and_return(nil)
           expect(api)
             .to receive(:publish)
-            .with(phone_number: phone.gsub(' ', ''),
-                  message: I18n.t('two_factor_authentication.text_otp_delivery_message_sms', app_title: Setting.app_title,
-                                                                                             token: 1234))
+            .with({ phone_number: phone.gsub(' ', ''),
+                    message: I18n.t('two_factor_authentication.text_otp_delivery_message_sms',
+                                    app_title: Setting.app_title, token: 1234) })
             .and_return(api_result)
         end
 

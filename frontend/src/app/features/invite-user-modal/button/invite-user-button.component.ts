@@ -1,4 +1,7 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -36,10 +39,12 @@ export class InviteUserButtonComponent {
 
   public ngOnInit():void {
     this.projectId = this.projectId || this.currentProjectService.id;
-    this.canInviteUsersToProject$ = this.currentUserService.hasCapabilities$(
-      'memberships/create',
-      this.projectId || undefined,
-    );
+    this.canInviteUsersToProject$ = this
+      .currentUserService
+      .hasCapabilities$(
+        'memberships/create',
+        this.projectId || null,
+      );
   }
 
   public onAddNewClick($event:Event):void {

@@ -90,6 +90,17 @@ services:
     depends_on:
       - backend
 
+  storybook:
+    build:
+      <<: *frontend-build
+    command: "npm run storybook:serve"
+    volumes:
+      - ".:/home/dev/openproject"
+    ports:
+      - "6006:6006"
+    networks:
+      - network
+
   db:
     image: postgres:13
     <<: *restart_policy
@@ -174,7 +185,7 @@ services:
 
   # https://vitobotta.com/2019/09/04/rails-parallel-system-tests-selenium-docker/
   selenium-hub:
-    image: selenium/hub:4.0
+    image: selenium/hub:4
     container_name: selenium-hub
     hostname: selenium-hub
     environment:
@@ -189,7 +200,7 @@ services:
       - "4442-4444:4442-4444"
 
   chrome:
-    image: selenium/node-chrome:4.0
+    image: selenium/node-chrome:4
     volumes:
       - /dev/shm:/dev/shm
       - "downloads-test:/home/seluser/Downloads"
@@ -209,7 +220,7 @@ services:
       NODE_MAX_SESSION: "${CI_JOBS:-4}"
 
   firefox:
-    image: selenium/node-firefox:4.0
+    image: selenium/node-firefox:4
     volumes:
       - /dev/shm:/dev/shm
       - "downloads-test:/home/seluser/Downloads"
@@ -229,7 +240,7 @@ services:
       NODE_MAX_SESSION: "${CI_JOBS:-4}"
 
   opera:
-    image: selenium/node-opera:4.0
+    image: selenium/node-opera:4
     volumes:
       - /dev/shm:/dev/shm
       - "downloads-test:/home/seluser/Downloads"
@@ -246,3 +257,6 @@ services:
       # in case we want multiple sessions per container
       NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
       NODE_MAX_SESSION: "${CI_JOBS:-4}"
+
+
+# Volumes below here

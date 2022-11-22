@@ -105,7 +105,8 @@ describe 'Projects copy',
              category:,
              version:,
              description: 'Some description',
-             custom_field_values: { wp_custom_field.id => 'Some wp cf text' })
+             custom_field_values: { wp_custom_field.id => 'Some wp cf text' },
+             attachments: [build(:attachment, filename: 'work_package_attachment.pdf')])
     end
 
     let!(:wiki) { project.wiki }
@@ -113,7 +114,7 @@ describe 'Projects copy',
       create :wiki_page_with_content,
              title: 'Attached',
              wiki:,
-             attachments: [build(:attachment, container: nil, filename: 'attachment.pdf')]
+             attachments: [build(:attachment, container: nil, filename: 'wiki_page_attachment.pdf')]
     end
 
     let(:parent_field) { ::FormFields::SelectFormField.new :parent }
@@ -188,7 +189,7 @@ describe 'Projects copy',
       copied_settings_page.expect_wp_custom_field_active(wp_custom_field)
       copied_settings_page.expect_wp_custom_field_inactive(inactive_wp_custom_field)
 
-      # has types of original project activ
+      # has types of original project active
       copied_settings_page.visit_tab!('types')
 
       active_types.each do |type|
@@ -201,8 +202,8 @@ describe 'Projects copy',
       expect(copied_project.wiki.pages.count).to eq(project.wiki.pages.count)
       copied_page = copied_project.wiki.find_page 'Attached'
       expect(copied_page).not_to be_nil
-      expect(copied_page.attachments.count).to eq 1
-      expect(copied_page.attachments.first.filename).to eq 'attachment.pdf'
+      expect(copied_page.attachments.map(&:filename))
+        .to eq ['wiki_page_attachment.pdf']
 
       # Expect ProjectStores and their FileLinks were copied
       expect(copied_project.projects_storages.count).to eq(project.projects_storages.count)
@@ -237,6 +238,8 @@ describe 'Projects copy',
         .to eql copied_project.versions.find_by(name: version.name)
       expect(copied_work_package.custom_value_attributes)
         .to eql(wp_custom_field.id => 'Some wp cf text')
+      expect(copied_work_package.attachments.map(&:filename))
+        .to eq ['work_package_attachment.pdf']
 
       expect(ActionMailer::Base.deliveries.count)
         .to eql(1)

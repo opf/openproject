@@ -29,7 +29,7 @@
 module Projects::Copy
   class QueriesDependentService < Dependency
     def self.human_name
-      I18n.t(:label_query_plural)
+      I18n.t(:'projects.copy.queries')
     end
 
     def source_count

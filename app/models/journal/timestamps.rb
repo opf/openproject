@@ -26,13 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Journal::Timestamps
-  # See: https://github.com/opf/openproject/pull/11243
+# rubocop:disable Style/ClassCheck
+#   Prefer `kind_of?` over `is_a?` because it reads well before vowel and consonant sounds.
+#   E.g.: `relation.kind_of? ActiveRecord::Relation`
 
+# In the context of the baseline-comparison feature, this module adds the `at_timestamp`
+# scope to the `Journal` class.
+#
+# Usage:
+#
+#     work_package.journals.at_timestamp(1.year.ago)
+#
+# See also:
+#
+# - https://github.com/opf/openproject/pull/11243
+# - https://community.openproject.org/projects/openproject/work_packages/26448
+#
+module Journal::Timestamps
   extend ActiveSupport::Concern
 
   class_methods do
-
     # Select all journals that are the most current at the given timestamp
     # for their respective journables.
     #
@@ -50,16 +63,18 @@ module Journal::Timestamps
     # a journable at a given timestamp.
     #
     def at_timestamp(timestamp)
-      raise ArgumentError, "Expected timestamp to be a Timestamp, an ActiveSupport::TimeWithZone, or a DateTime" unless timestamp.kind_of? Timestamp or timestamp.kind_of? ActiveSupport::TimeWithZone or timestamp.kind_of? DateTime
+      unless timestamp.kind_of? Timestamp or timestamp.kind_of? ActiveSupport::TimeWithZone or timestamp.kind_of? DateTime
+        raise ArgumentError, "Expected timestamp to be a Timestamp, an ActiveSupport::TimeWithZone, or a DateTime"
+      end
+
       timestamp = timestamp.to_time if timestamp.kind_of? Timestamp
       timestamp = timestamp.in_time_zone if timestamp.kind_of? DateTime
 
-      where(id:
-        where(created_at: (..timestamp)) \
-            .select("distinct on (journable_type, journable_id) id") \
-            .reorder(:journable_type, :journable_id, created_at: :desc)
-      )
+      where(id: where(created_at: (..timestamp)) \
+          .select("distinct on (journable_type, journable_id) id") \
+          .reorder(:journable_type, :journable_id, created_at: :desc))
     end
-
   end
 end
+
+# rubocop:enable Style/ClassCheck

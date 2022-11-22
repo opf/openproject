@@ -51,14 +51,8 @@ module Grids
 
     protected
 
-    def initialize_copy(source, params)
-      grid = source.dup
-
-      initialize_new_grid! grid, source, params
-
-      ServiceResult.new success: grid.save, result: grid
+    def set_attributes_params(_params)
+      source.dup.attributes
     end
-
-    def initialize_new_grid!(_new_grid, _original_grid, _params); end
   end
 end

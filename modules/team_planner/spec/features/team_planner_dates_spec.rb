@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner working days', type: :feature, js: true do
+describe 'Team planner working days', js: true do
   before do
     with_enterprise_token(:team_planner_view)
   end
@@ -37,9 +37,9 @@ describe 'Team planner working days', type: :feature, js: true do
   include_context 'with team planner full access'
 
   context 'with week days defined' do
-    let!(:week_days) { create :week_days }
+    let!(:week_days) { week_with_saturday_and_sunday_as_weekend }
 
-    it 'renders sat and sun as non working' do
+    it 'hides sat and sun in the "Work week" view andd renders sat and sun as non working in the "1-week" view' do
       team_planner.visit!
 
       team_planner.expect_empty_state
@@ -49,64 +49,38 @@ describe 'Team planner working days', type: :feature, js: true do
         team_planner.select_user_to_add user.name
       end
 
+      # Initially, in the "Work week" view, non working days are hidden
+      expect(page).to have_selector('.fc-day-mon')
+      expect(page).to have_selector('.fc-day-tue')
+      expect(page).to have_selector('.fc-day-wed')
+      expect(page).to have_selector('.fc-day-thu')
+      expect(page).to have_selector('.fc-day-fri')
+
+      expect(page).not_to have_selector('.fc-day-sat')
+      expect(page).not_to have_selector('.fc-day-sun')
+
+      # In the "1-week" view, non working days are displayed but marked
+      team_planner.switch_view_mode '1-week'
+
       expect(page).to have_selector('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
       expect(page).to have_selector('.fc-day-sun.fc-non-working-day', minimum: 1)
 
-      expect(page).to have_no_selector('.fc-day-mon.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-tue.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-wed.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-thu.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-fri.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-mon.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-tue.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-wed.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-thu.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-fri.fc-non-working-day')
 
       find('.fc-next-button').click
 
       expect(page).to have_selector('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
       expect(page).to have_selector('.fc-day-sun.fc-non-working-day', minimum: 1)
 
-      expect(page).to have_no_selector('.fc-day-mon.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-tue.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-wed.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-thu.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-fri.fc-non-working-day')
-    end
-  end
-
-  context 'with all days marked as weekend' do
-    let!(:week_days) do
-      days = create(:week_days)
-
-      WeekDay.update_all(working: false)
-
-      days
-    end
-
-    it 'renders all as non working' do
-      team_planner.visit!
-
-      team_planner.expect_empty_state
-      retry_block do
-        team_planner.click_add_user
-        page.find('[data-qa-selector="tp-add-assignee"] input')
-        team_planner.select_user_to_add user.name
-      end
-
-      expect(page).to have_selector('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
-      expect(page).to have_selector('.fc-day-sun.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-mon.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-tue.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-wed.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-thu.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-fri.fc-non-working-day', minimum: 1)
-
-      find('.fc-next-button').click
-
-      expect(page).to have_selector('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
-      expect(page).to have_selector('.fc-day-sun.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-mon.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-tue.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-wed.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-thu.fc-non-working-day', minimum: 1)
-      expect(page).to have_selector('.fc-day-fri.fc-non-working-day', minimum: 1)
+      expect(page).not_to have_selector('.fc-day-mon.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-tue.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-wed.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-thu.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-fri.fc-non-working-day')
     end
   end
 end

@@ -1,6 +1,7 @@
 module.exports = {
   extends: [
     "eslint:recommended",
+    "plugin:storybook/recommended",
   ],
   env: {
     browser: true,
@@ -48,6 +49,7 @@ module.exports = {
           "error",
           { "type": "element", "prefix": ["op", "spot"], "style": "kebab-case" }
         ],
+        "@angular-eslint/component-class-suffix": ["error", { "suffixes": ["Component", "Example"] }],
 
         // Warn when new components are being created without OnPush
         "change-detection-strategy/on-push": "error",
@@ -87,9 +89,19 @@ module.exports = {
         // no param reassignment is a pain when trying to set props on elements
         "no-param-reassign": "off",
 
+        // destructuring doesn't always look better, only when object/array destructuring
+        "prefer-destructuring": "off",
+
+        // Sometimes, arrow functions implicit return looks better below, so allow both
+        "implicit-arrow-linebreak": "off",
+
         // No void at all collides with `@typescript-eslint/no-floating-promises` which wants us to handle each promise.
         // Until we do that, `void` is a good way to explicitly mark unhandled promises. 
         "no-void": ["error", { allowAsStatement: true }],
+
+        // Disable no-use for functions and classes
+        "no-use-before-define": ["error", { "functions": false, "classes": false }],
+        "@typescript-eslint/no-use-before-define": ["error", { "functions": false, "classes": false }],
 
         /*
         // Disable use before define, as irrelevant for TS interfaces

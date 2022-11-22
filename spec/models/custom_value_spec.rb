@@ -29,9 +29,11 @@
 require 'spec_helper'
 
 describe CustomValue do
+  shared_let(:version) { create(:version) }
+
   let(:format) { 'bool' }
   let(:custom_field) { create(:custom_field, field_format: format) }
-  let(:custom_value) { create(:custom_value, custom_field:, value:) }
+  let(:custom_value) { create(:custom_value, custom_field:, value:, customized: version) }
 
   describe '#typed_value' do
     subject { custom_value }

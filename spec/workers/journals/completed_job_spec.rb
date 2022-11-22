@@ -32,20 +32,7 @@ describe Journals::CompletedJob, type: :model do
   let(:send_mail) { true }
 
   let(:journal) do
-    build_stubbed(:journal, journable:).tap do |j|
-      allow(Journal)
-        .to receive(:find)
-              .with(j.id.to_s)
-              .and_return(j)
-      allow(Journal)
-        .to receive(:find_by)
-              .with(id: j.id)
-              .and_return(j)
-      allow(Journal)
-        .to receive(:exists?)
-              .with(id: j.id)
-              .and_return(true)
-    end
+    build_stubbed(:journal, journable:)
   end
 
   describe '.schedule' do
@@ -63,6 +50,7 @@ describe Journals::CompletedJob, type: :model do
           .to have_enqueued_job(described_class)
                 .at(Setting.journal_aggregation_time_minutes.to_i.minutes.from_now)
                 .with(journal.id,
+                      journal.updated_at,
                       send_mail)
       end
     end
@@ -94,7 +82,16 @@ describe Journals::CompletedJob, type: :model do
   end
 
   describe '#perform' do
-    subject { described_class.new.perform(journal.id, send_mail) }
+    subject { described_class.new.perform(journal.id, journal.updated_at, send_mail) }
+
+    let(:find_by_journal) { journal }
+
+    before do
+      allow(Journal)
+        .to receive(:find_by)
+              .with(id: journal.id, updated_at: journal.updated_at)
+              .and_return(find_by_journal)
+    end
 
     shared_examples_for 'sends a notification' do |event|
       it 'sends a notification' do
@@ -132,15 +129,9 @@ describe Journals::CompletedJob, type: :model do
                       OpenProject::Events::AGGREGATED_NEWS_JOURNAL_READY
     end
 
-    context 'with a non non-existant journal' do
+    context 'with a non non-existent journal (either because the journable was deleted or the journal updated)' do
       let(:journable) { build_stubbed(:work_package) }
-
-      before do
-        allow(Journal)
-          .to receive(:find_by)
-                .with(id: journal.id)
-                .and_return(nil)
-      end
+      let(:find_by_journal) { nil }
 
       it 'sends no notification' do
         allow(OpenProject::Notifications)

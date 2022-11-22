@@ -186,12 +186,10 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       );
     }
 
-    this.viewsService.fetchViews(params)
+    this.viewsService.fetchResults(params)
       .pipe(this.untilDestroyed())
-      .subscribe((queryCollection) => {
-        queryCollection
-          ._embedded
-          .elements
+      .subscribe((views) => {
+        views
           .sort((a, b) => a._links.query.title.localeCompare(b._links.query.title))
           .forEach((view) => {
             let cat = 'private';

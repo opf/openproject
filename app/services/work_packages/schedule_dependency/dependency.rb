@@ -36,7 +36,8 @@ class WorkPackages::ScheduleDependency::Dependency
                 :schedule_dependency
 
   # Returns the work package ids that this work package directly depends on to
-  # determine its own dates.
+  # determine its own dates. This is used for the order of the dates
+  # computations.
   #
   # The dates of a work package depend on its descendants and predecessors
   # dates.
@@ -51,10 +52,10 @@ class WorkPackages::ScheduleDependency::Dependency
   end
 
   def soonest_start_date
-    soonest_start = follows_relations
-      .filter_map(&:successor_soonest_start)
-      .max
-    WorkPackages::Shared::Days.for(work_package).soonest_working_day(soonest_start)
+    @soonest_start_date ||=
+      follows_relations
+        .filter_map(&:successor_soonest_start)
+        .max
   end
 
   def start_date

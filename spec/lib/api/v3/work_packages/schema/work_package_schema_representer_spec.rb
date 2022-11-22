@@ -331,12 +331,35 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'ignoreNonWorkingDays' do
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'ignoreNonWorkingDays' }
-        let(:type) { 'Boolean' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.ignore_non_working_days') }
-        let(:required) { false }
+      before do
+        allow(schema)
+          .to receive(:writable?)
+                .with(:ignore_non_working_days)
+                .and_return writable
+      end
+
+      context 'when writable' do
         let(:writable) { true }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'ignoreNonWorkingDays' }
+          let(:type) { 'Boolean' }
+          let(:name) { I18n.t('activerecord.attributes.work_package.ignore_non_working_days') }
+          let(:required) { false }
+          let(:writable) { true }
+        end
+      end
+
+      context 'when not writable' do
+        let(:writable) { false }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'ignoreNonWorkingDays' }
+          let(:type) { 'Boolean' }
+          let(:name) { I18n.t('activerecord.attributes.work_package.ignore_non_working_days') }
+          let(:required) { false }
+          let(:writable) { false }
+        end
       end
     end
 

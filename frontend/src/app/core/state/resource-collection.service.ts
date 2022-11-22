@@ -33,20 +33,71 @@ import {
 } from '@datorama/akita';
 import { Observable } from 'rxjs';
 import {
+  catchError,
   filter,
+  finalize,
   map,
   switchMap,
+  tap,
 } from 'rxjs/operators';
-import { CollectionState } from 'core-app/core/state/collection-store';
+import {
+  collectionKey,
+  CollectionResponse,
+  CollectionState,
+  insertCollectionIntoState,
+  removeCollectionLoading,
+  setCollectionLoading,
+} from 'core-app/core/state/collection-store';
 import { omit } from 'lodash';
 import isDefinedEntity from 'core-app/core/state/is-defined-entity';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import {
+  HttpClient,
+  HttpErrorResponse,
+} from '@angular/common/http';
+import {
+  Injectable,
+  Injector,
+} from '@angular/core';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 
 export type CollectionStore<T> = EntityStore<CollectionState<T>>;
 
-export abstract class ResourceCollectionService<T> {
+@Injectable()
+export abstract class ResourceCollectionService<T extends { id:ID }> {
   protected store:CollectionStore<T> = this.createStore();
 
   protected query = new QueryEntity(this.store);
+
+  constructor(
+    readonly injector:Injector,
+    readonly http:HttpClient,
+    readonly apiV3Service:ApiV3Service,
+    readonly toastService:ToastService,
+  ) {
+  }
+
+  /**
+   * Require the results for the given filter params
+   * Returns a cached set if it was loaded already.
+   *
+   * @param params List params to require
+   * @private
+   */
+  public require(params:ApiV3ListParameters):Observable<T[]> {
+    const key = collectionKey(params);
+    if (this.collectionExists(key) || this.collectionLoading(key)) {
+      return this.loadedCollection(key);
+    }
+
+    return this
+      .fetchCollection(params)
+      .pipe(
+        switchMap(() => this.loadedCollection(key)),
+      );
+  }
 
   /**
    * Retrieve a collection from the store
@@ -55,11 +106,35 @@ export abstract class ResourceCollectionService<T> {
    */
   collection(key:string):Observable<T[]> {
     return this
+      .collectionState(key)
+      .pipe(
+        switchMap((collection) => this.query.selectMany(collection?.ids || [])),
+      );
+  }
+
+  /**
+   * Return a collection observable that triggers only when the collection is loaded.
+   * @param key
+   */
+  loadedCollection(key:string):Observable<T[]> {
+    return this
+      .collectionState(key)
+      .pipe(
+        filter((collection) => !!collection),
+        switchMap((collection:CollectionResponse) => this.query.selectMany(collection.ids)),
+      );
+  }
+
+  /**
+   * Return a collection observable that triggers only when the collection is loaded.
+   * @param key
+   */
+  collectionState(key:string):Observable<CollectionResponse|undefined> {
+    return this
       .query
       .select()
       .pipe(
-        map((state) => state.collections[key]?.ids),
-        switchMap((fileLinkIds) => this.query.selectMany(fileLinkIds)),
+        map((state) => state.collections[key]),
       );
   }
 
@@ -92,6 +167,28 @@ export abstract class ResourceCollectionService<T> {
   }
 
   /**
+   * Checks, if the store already has a collection given the key
+   */
+  collectionExists(input:string|ApiV3ListParameters):boolean {
+    const key = typeof input === 'string' ? input : collectionKey(input);
+    return !!this
+      .query
+      .getValue()
+      .collections[key];
+  }
+
+  /**
+   * Checks, if the store already has a collection given the key
+   */
+  collectionLoading(input:string|ApiV3ListParameters):boolean {
+    const key = typeof input === 'string' ? input : collectionKey(input);
+    return this
+      .query
+      .getValue()
+      .loadingCollections[key] === true;
+  }
+
+  /**
    * Clear a collection key
    * @param key Collection key to clear
    */
@@ -116,8 +213,50 @@ export abstract class ResourceCollectionService<T> {
   }
 
   /**
-   * Create a new instance of this resource service's underyling store.
+   * Fetch a given collection, returning only its results
+   */
+  fetchResults(params:ApiV3ListParameters|string):Observable<T[]> {
+    return this
+      .fetchCollection(params)
+      .pipe(
+        map((collection) => collection._embedded.elements),
+      );
+  }
+
+  /**
+   * Fetch a given collection, ensuring it is being flagged as loaded
+   */
+  fetchCollection(params:ApiV3ListParameters|string):Observable<IHALCollection<T>> {
+    const key = typeof params === 'string' ? params : collectionKey(params);
+
+    setCollectionLoading(this.store, key);
+
+    return this
+      .http
+      .get<IHALCollection<T>>(this.basePath() + key)
+      .pipe(
+        tap((collection) => insertCollectionIntoState(this.store, collection, key)),
+        finalize(() => removeCollectionLoading(this.store, key)),
+        catchError((error:unknown) => {
+          this.handleCollectionLoadingError(error as HttpErrorResponse, key);
+          throw error;
+        }),
+      );
+  }
+
+  /**
+   * Create a new instance of this resource service's underlying store.
    * @protected
    */
   protected abstract createStore():CollectionStore<T>;
+
+  /**
+   * Base path for this collection
+   * @protected
+   */
+  protected abstract basePath():string;
+
+  protected handleCollectionLoadingError(error:HttpErrorResponse, _collectionKey:string):void {
+    this.toastService.addError(error);
+  }
 }

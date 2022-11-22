@@ -30,6 +30,7 @@ module Components
   module Timelines
     class TimelineRow
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       attr_reader :container

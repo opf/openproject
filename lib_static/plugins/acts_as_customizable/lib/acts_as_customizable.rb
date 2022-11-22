@@ -131,7 +131,7 @@ module Redmine
             value = cv.value
 
             hash[key] =
-              if existing = hash[key]
+              if (existing = hash[key])
                 Array(existing) << value
               else
                 value

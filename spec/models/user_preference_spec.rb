@@ -179,9 +179,44 @@ describe UserPreference do
         }
       end
 
-      it 'uses the defaults' do
+      it 'returns the stored value' do
         expect(subject.daily_reminders)
           .to eql(settings["daily_reminders"])
+      end
+    end
+  end
+
+  describe '#workdays' do
+    context 'without work days being stored' do
+      it 'uses the defaults' do
+        expect(subject.workdays)
+          .to eq([1, 2, 3, 4, 5])
+      end
+    end
+
+    context 'with work days being stored' do
+      let(:settings) do
+        {
+          "workdays" => [1, 2, 4, 5]
+        }
+      end
+
+      it 'returns the stored value' do
+        expect(subject.workdays)
+          .to eql([1, 2, 4, 5])
+      end
+    end
+
+    context 'with work days being stored and empty' do
+      let(:settings) do
+        {
+          "workdays" => []
+        }
+      end
+
+      it 'return empty array' do
+        expect(subject.workdays)
+          .to eql([])
       end
     end
   end

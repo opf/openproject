@@ -5,7 +5,21 @@ require 'capybara-screenshot/rspec'
 require 'rack_session_access/capybara'
 require 'action_dispatch'
 
-RSpec.configure do |_config|
+RSpec.shared_context 'with default_url_options set' do
+  before do
+    @original_host = default_url_options[:host]
+    @original_port = default_url_options[:port]
+    default_url_options[:host] = Capybara.server_host
+    default_url_options[:port] = Capybara.server_port
+  end
+
+  after do
+    default_url_options[:host] = @original_host # rubocop:disable RSpec/InstanceVariable
+    default_url_options[:port] = @original_port # rubocop:disable RSpec/InstanceVariable
+  end
+end
+
+RSpec.configure do |config|
   Capybara.default_max_wait_time = 4
   Capybara.javascript_driver = :chrome_en
 
@@ -23,6 +37,9 @@ RSpec.configure do |_config|
   else
     Capybara.server_host = ENV.fetch('CAPYBARA_APP_HOSTNAME', 'localhost')
   end
+
+  # Set the default options
+  config.include_context 'with default_url_options set', type: :feature
 end
 
 ##
@@ -51,4 +68,68 @@ end
 
 Rails.application.config do
   config.middleware.use RackSessionAccess::Middleware
+end
+
+# Capture browser logs on failed examples and output them in Progress and
+# Documentation formatters.
+module Capybara::CaptureBrowserLogs
+  RSPEC_TEXT_FORMATTERS = [
+    "RSpec::Core::Formatters::ProgressFormatter",
+    "RSpec::Core::Formatters::DocumentationFormatter"
+  ].freeze
+
+  class << self
+    def after_failed_example(example)
+      return unless example.example_group.include?(Capybara::DSL)
+      return unless failed?(example)
+      return if Capybara.page.current_url.blank?
+      return unless Capybara.page.driver.browser.respond_to?(:manage)
+
+      logs = Capybara.page.driver.browser.manage.instance_variable_get(:@bridge).log("browser")
+      example.metadata[:browser_logs] = logs
+    rescue StandardError => e
+      warn "Unable to get browser logs: #{e}"
+    end
+
+    def change_text_formatter_to_output_captured_browser_logs
+      RSpec.configuration.formatters.each do |formatter|
+        next unless RSPEC_TEXT_FORMATTERS.include?(formatter.class.to_s)
+        next if formatter.singleton_class.included_modules.include?(TextReporter)
+
+        formatter.singleton_class.prepend(TextReporter)
+      end
+    end
+
+    def failed?(example)
+      # reusing private method from capybara-screenshot gem
+      Capybara::Screenshot::RSpec.send(:failed?, example)
+    end
+  end
+
+  module TextReporter
+    def example_failed(notification)
+      super
+      output_browser_logs(notification.example)
+    end
+
+    private
+
+    def output_browser_logs(example)
+      return unless example.metadata[:browser_logs]
+
+      logs = example.metadata[:browser_logs]
+      output.puts("  Browser logs:\n    #{logs.join("\n    ")}")
+    end
+  end
+end
+
+# Output browser logs after failed feature test
+RSpec.configure do |config|
+  config.after(type: :feature) do |example|
+    Capybara::CaptureBrowserLogs.after_failed_example(example)
+  end
+
+  config.before(:suite) do
+    Capybara::CaptureBrowserLogs.change_text_formatter_to_output_captured_browser_logs
+  end
 end

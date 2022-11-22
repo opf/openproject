@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
 describe CostQuery, type: :model, reporting_query_helper: true do
   let(:project) { create(:project) }
@@ -37,72 +37,72 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     before do
       # FIXME: is there a better way to load all filter and groups?
       CostQuery::Filter.all && CostQuery::GroupBy.all
-      CostQuery.chain_initializer.clear
+      described_class.chain_initializer.clear
     end
 
     after(:all) do
-      CostQuery.chain_initializer.clear
+      described_class.chain_initializer.clear
     end
 
     it "contains NoFilter" do
-      expect(@query.chain).to be_a(CostQuery::Filter::NoFilter)
+      expect(query.chain).to be_a(CostQuery::Filter::NoFilter)
     end
 
     it "keeps NoFilter at bottom" do
-      @query.filter :project_id
-      expect(@query.chain.bottom).to be_a(CostQuery::Filter::NoFilter)
-      expect(@query.chain.top).not_to be_a(CostQuery::Filter::NoFilter)
+      query.filter :project_id
+      expect(query.chain.bottom).to be_a(CostQuery::Filter::NoFilter)
+      expect(query.chain.top).not_to be_a(CostQuery::Filter::NoFilter)
     end
 
     it "remembers it's correct parent" do
-      @query.group_by :project_id
-      @query.filter :project_id
-      expect(@query.chain.top.child.child.parent).to eq(@query.chain.top.child)
+      query.group_by :project_id
+      query.filter :project_id
+      expect(query.chain.top.child.child.parent).to eq(query.chain.top.child)
     end
 
     it "places filter after a group_by" do
-      @query.group_by :project_id
-      expect(@query.chain.bottom.parent).to be_a(CostQuery::GroupBy::ProjectId)
-      expect(@query.chain.top).to be_a(CostQuery::GroupBy::ProjectId)
+      query.group_by :project_id
+      expect(query.chain.bottom.parent).to be_a(CostQuery::GroupBy::ProjectId)
+      expect(query.chain.top).to be_a(CostQuery::GroupBy::ProjectId)
 
-      @query.filter :project_id
-      expect(@query.chain.bottom.parent).to be_a(CostQuery::Filter::ProjectId)
-      expect(@query.chain.top).to be_a(CostQuery::GroupBy::ProjectId)
+      query.filter :project_id
+      expect(query.chain.bottom.parent).to be_a(CostQuery::Filter::ProjectId)
+      expect(query.chain.top).to be_a(CostQuery::GroupBy::ProjectId)
     end
 
     it "places rows in front of columns when adding a column first" do
-      @query.column :project_id
-      expect(@query.chain.bottom.parent.type).to eq(:column)
-      expect(@query.chain.top.type).to eq(:column)
+      query.column :project_id
+      expect(query.chain.bottom.parent.type).to eq(:column)
+      expect(query.chain.top.type).to eq(:column)
 
-      @query.row :project_id
-      expect(@query.chain.bottom.parent.type).to eq(:column)
-      expect(@query.chain.top.type).to eq(:row)
+      query.row :project_id
+      expect(query.chain.bottom.parent.type).to eq(:column)
+      expect(query.chain.top.type).to eq(:row)
     end
 
     it "places rows in front of filters" do
-      @query.row :project_id
-      expect(@query.chain.bottom.parent.type).to eq(:row)
-      expect(@query.chain.top.type).to eq(:row)
+      query.row :project_id
+      expect(query.chain.bottom.parent.type).to eq(:row)
+      expect(query.chain.top.type).to eq(:row)
 
-      @query.filter :project_id
-      expect(@query.chain.bottom.parent).to be_a(CostQuery::Filter::ProjectId)
-      expect(@query.chain.top).to be_a(CostQuery::GroupBy::ProjectId)
-      expect(@query.chain.top.type).to eq(:row)
+      query.filter :project_id
+      expect(query.chain.bottom.parent).to be_a(CostQuery::Filter::ProjectId)
+      expect(query.chain.top).to be_a(CostQuery::GroupBy::ProjectId)
+      expect(query.chain.top.type).to eq(:row)
     end
 
     it "returns all filters, including the NoFilter" do
-      @query.filter :project_id
-      @query.group_by :project_id
-      expect(@query.filters.size).to eq(2)
-      expect(@query.filters.map { |f| f.class.underscore_name }).to include "project_id"
+      query.filter :project_id
+      query.group_by :project_id
+      expect(query.filters.size).to eq(2)
+      expect(query.filters.map { |f| f.class.underscore_name }).to include "project_id"
     end
 
     it "returns all group_bys" do
-      @query.filter :project_id
-      @query.group_by :project_id
-      expect(@query.group_bys.size).to eq(1)
-      expect(@query.group_bys.map { |g| g.class.underscore_name }).to include "project_id"
+      query.filter :project_id
+      query.group_by :project_id
+      expect(query.group_bys.size).to eq(1)
+      expect(query.group_bys.map { |g| g.class.underscore_name }).to include "project_id"
     end
 
     it "initializes the chain through a block" do
@@ -112,38 +112,39 @@ describe CostQuery, type: :model, reporting_query_helper: true do
         end
       end
       TestFilter.send(:initialize_query_with) { |query| query.filter(:project_id, value: project.id) }
-      @query.build_new_chain
-      expect(@query.filters.map { |f| f.class.underscore_name }).to include "project_id"
-      expect(@query.filters.detect { |f| f.class.underscore_name == "project_id" }.values).to eq(Array(project.id))
+      query.build_new_chain
+      expect(query.filters.map { |f| f.class.underscore_name }).to include "project_id"
+      expect(query.filters.detect { |f| f.class.underscore_name == "project_id" }.values).to eq(Array(project.id))
     end
 
     context "store and load" do
+      let(:new_query) { described_class.deserialize(query.serialize) }
+
       before do
-        @query.filter :project_id, value: project.id
-        @query.filter :cost_type_id, value: CostQuery::Filter::CostTypeId.available_values.first
-        @query.filter :category_id, value: CostQuery::Filter::CategoryId.available_values.first
-        @query.group_by :activity_id
-        @query.group_by :budget_id
-        @query.group_by :cost_type_id
-        @new_query = CostQuery.deserialize(@query.serialize)
+        query.filter :project_id, value: project.id
+        query.filter :cost_type_id, value: CostQuery::Filter::CostTypeId.available_values.first
+        query.filter :category_id, value: CostQuery::Filter::CategoryId.available_values.first
+        query.group_by :activity_id
+        query.group_by :budget_id
+        query.group_by :cost_type_id
       end
 
       it "serializes the chain correctly" do
         %i[filters group_bys].each do |type|
-          @query.send(type).each do |chainable|
-            expect(@query.serialize[type].collect { |c| c[0] }).to include chainable.class.name.demodulize
+          query.send(type).each do |chainable|
+            expect(query.serialize[type].collect { |c| c[0] }).to include chainable.class.name.demodulize
           end
         end
       end
 
       it "deserializes a serialized query correctly" do
-        expect(@new_query.serialize).to eq(@query.serialize)
+        expect(new_query.serialize).to eq(query.serialize)
       end
 
       it "keeps the order of group bys" do
-        @query.group_bys.each_with_index do |group_by, index|
+        query.group_bys.each_with_index do |group_by, index|
           # check for order
-          @new_query.group_bys.each_with_index do |g, ix|
+          new_query.group_bys.each_with_index do |g, ix|
             if g.instance_of?(group_by.class)
               expect(ix).to eq(index)
             end
@@ -152,11 +153,11 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
 
       it "keeps the right filter values" do
-        @query.filters.each_with_index do |filter, _index|
+        query.filters.each_with_index do |filter, _index|
           # check for presence
-          expect(@new_query.filters.any? do |f|
+          expect(new_query.filters).to be_any do |f|
             f.instance_of?(filter.class) && (filter.respond_to?(:values) ? f.values == filter.values : true)
-          end).to be_truthy
+          end
         end
       end
     end
@@ -164,33 +165,33 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
   describe Report::Chainable do
     describe '#top' do
-      before { @chain = Report::Chainable.new }
+      let(:chain) { described_class.new }
 
       it "returns for an one element long chain that chain as top" do
-        expect(@chain.top).to eq(@chain)
-        expect(@chain).to be_top
+        expect(chain.top).to eq(chain)
+        expect(chain).to be_top
       end
 
       it "does not keep the old top when prepending elements" do
-        Report::Chainable.new @chain
-        expect(@chain.top).not_to eq(@chain)
-        expect(@chain).not_to be_top
+        described_class.new chain
+        expect(chain.top).not_to eq(chain)
+        expect(chain).not_to be_top
       end
 
       it "sets new top when prepending elements" do
-        current = @chain
+        current = chain
         10.times do
           old = current
-          current = Report::Chainable.new(current)
+          current = described_class.new(current)
           expect(old.top).to eq(current)
-          expect(@chain.top).to eq(current)
+          expect(chain.top).to eq(current)
         end
       end
     end
 
     describe '#inherited_attribute' do
       before do
-        @a = Class.new Report::Chainable
+        @a = Class.new described_class
         @a.inherited_attribute :foo, default: 42
         @b = Class.new @a
         @c = Class.new @a

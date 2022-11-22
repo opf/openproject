@@ -28,32 +28,32 @@ sv:
     plugins:
       no_results_title_text: Det finns för närvarande inga tillgängliga plugins.
     custom_styles:
-      color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme: "Färgtema"
+      color_theme_custom: "(Anpassad)"
       colors:
-        alternative-color: "Alternative"
+        alternative-color: "Alternativ"
         content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
-        header-bg-color: "Header background"
-        header-item-bg-hover-color: "Header background on hover"
-        header-item-font-color: "Header font"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
-        main-menu-bg-color: "Main menu background"
-        main-menu-bg-selected-background: "Main menu when selected"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        primary-color: "Primär"
+        primary-color-dark: "Primär (mörk)"
+        header-bg-color: "Rubrikbakgrund"
+        header-item-bg-hover-color: "Rubrikbakgrund vid hovring"
+        header-item-font-color: "Rubriktypsnitt"
+        header-item-font-hover-color: "Rubriktypsnitt vid hovring"
+        header-border-bottom-color: "Rubrikram"
+        main-menu-bg-color: "Huvudmeny bakgrund"
+        main-menu-bg-selected-background: "Huvudmeny när vald"
+        main-menu-bg-hover-background: "Huvudmeny vid hovring"
+        main-menu-font-color: "Typsnitt för huvudmenyn"
+        main-menu-selected-font-color: "Typsnitt för huvudmeny när vald"
+        main-menu-hover-font-color: "Huvudmeny typsnitt vid hovring"
+        main-menu-border-color: "Huvudmeny ram"
       custom_colors: "Anpassade färger"
-      customize: "Customize your OpenProject installation with your own logo and colors."
+      customize: "Anpassa din OpenProject installation med din egen logotyp och färger."
       enterprise_notice: "Som ett särskilt Tack! för det ekonomiska bidraget till utvecklingen av OpenProject, är denna lilla funktion endast tillgänglig för Enterprise Edition support-prenumeranter."
-      enterprise_more_info: "Note: the used logo will be publicly accessible."
+      enterprise_more_info: "Obs: logotypen som används kommer att vara allmänt tillgänglig."
       manage_colors: "Redigera alternativ för valbara färger"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Stark accentfärg som brukar användas för de viktigaste knapparna på skärmen."
         content-link-color: "Teckenfärg på de flesta länkarna."
         primary-color: "Huvudfärg."
         primary-color-dark: "Vanligtvis en mörkare version av huvudfärgen som används för hover-effekter."
@@ -62,12 +62,15 @@ sv:
         header-item-font-hover-color: "Teckenfärg på klickbara objekt i sidhuvudet när man hovrar med muspekaren."
         header-border-bottom-color: "Tunn linje under sidhuvudet. Lämna fältet tomt om du inte vill ha någon linje."
         main-menu-bg-color: "Bakgrundsfärg på den vänstra sidomenyn."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Ändra temat kommer att skriva över din egen stil. Designen kommer då att gå förlorad. Är du säker på att du vill fortsätta?
     enterprise:
       upgrade_to_ee: "Uppgradera till Enterprise Edition"
       add_token: "Ladda upp en Enterprise Edition support-nyckel"
+      delete_token_modal:
+        text: "Är du säker på att du vill ta bort den nuvarande Enterprise Edition-token som används?"
+        title: "Ta bort token"
       replace_token: "Ersätta din nuvarande support-nyckel"
-      order: "Order Enterprise on-premises Edition"
+      order: "Beställ Företag på-plats utgåva"
       paste: "Klistra in din Enterprise Edition support-nyckel"
       required_for_feature: "Denna funktion är endast tillgänglig med en aktiv Enterprise Edition support-nyckel."
       enterprise_link: "För mer information, klicka här."
@@ -75,10 +78,10 @@ sv:
       book_now: 'Boka nu'
       get_quote: 'Få en offert'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
-      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+        upgrade: "Uppgradera nu"
+        contact: "Kontakta oss för en demo"
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+      upgrade_info: "Vänligen uppgradera till en betalplan för att aktivera och börja använda den i ditt team."
     journal_aggregation:
       explanation:
         text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
@@ -88,7 +91,7 @@ sv:
     is_active: visas för tillfället
     is_inactive: visas ej för tillfället
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: 'Alla texter och bilder som du lägger till i detta fält är offentligt synliga för alla inloggade användare!'
     text_overview: 'I den här vyn kan du skapa anpassade hjälptexter för attributvyn. När den är definierad kan dessa texter visas genom att klicka på hjälpikonen bredvid dess tillhörande attribut.'
     label_plural: 'Hjälptexter för attribut'
     show_preview: 'Förhandsgranska text'
@@ -103,7 +106,7 @@ sv:
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
+      cancelled_due_to: "Jobbet avbröts på grund av fel: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Detta LDAP-formulär kräver teknisk kunskap om din LDAP / Active Directory-inställning.
@@ -135,6 +138,7 @@ sv:
         när de först autentiserar med OpenProject.
         Lämna detta avmarkerat för att endast tillåta befintliga konton i OpenProject att autentisera via LDAP!
     connection_encryption: 'Kryptering av anslutning'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Systemkonto'
     system_account_legend: |
       OpenProject kräver skrivskyddad åtkomst via ett systemkonto för att söka upp användare och grupper i ditt LDAP-träd.
@@ -146,13 +150,18 @@ sv:
       vilka LDAP-attribut som används för att definiera attributen för en OpenProject-användare (attributmappning).
     tls_mode:
       plain: 'inga'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Enkel okrypterad anslutning, ingen TLS-förhandling."
-      simple_tls_description: "Implicit TLS-kryptering, men ingen certifikatvalidering. Använd med försiktighet och underförstådd tillit till LDAP-anslutningen."
-      start_tls_description: "Explicit TLS-kryptering med full validering. Använd för LDAP över TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Det här avsnittet gäller anslutningssäkerheten för denna LDAP-autentiseringskälla. För mer information, besök <a href="%{link}">Net:LDAP-dokumentation</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Det finns för närvarande inga inlägg i forumet.
@@ -207,6 +216,15 @@ sv:
     ignore_filenames: >
       Specificera en lista med namn att ignorera när bilagor för inkommande e-post bearbetas (t. ex. signaturer och ikoner). Ange ett filnamn per rad.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Projektet kan inte tas bort: %{errors}"
@@ -406,6 +424,7 @@ sv:
         host: "Host"
         onthefly: "Automatic user creation"
         port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Versionsarkiv"
       comment:
@@ -527,6 +546,10 @@ sv:
         end_insertion: "Slutet av införandet"
         end_deletion: "Slutet av raderingen"
         ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Överordnad"
         parent_issue: "Överordnad"
         parent_work_package: "Överordnad"
@@ -563,7 +586,7 @@ sv:
         confirmation: "matchar inte %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "finns inte."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "åtkomst nekas."
         error_readonly: "försökte skrivas men är inte skrivbart."
         email: "is not a valid email address."
@@ -610,6 +633,11 @@ sv:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "har fel längd (måste vara %{count} tecken)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -660,10 +688,6 @@ sv:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
-        notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -723,6 +747,11 @@ sv:
           attributes:
             permissions:
               dependency_missing: "måste också inkludera '%{dependency}' som '%{permission}' är vald."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -733,6 +762,16 @@ sv:
               invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -1906,7 +1945,6 @@ sv:
   label_wiki_start: "Startsida"
   label_work_package: "Arbetspaket"
   label_work_package_attachments: "Bilagor till arbetspaket"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Ny kategori"
   label_work_package_category_plural: "Arbetspaketkategorier"
   label_work_package_hierarchy: "Arbetspaketshierarki"
@@ -1922,6 +1960,7 @@ sv:
   label_workflow: "Arbetsflöde"
   label_workflow_plural: "Arbetsflöden"
   label_workflow_summary: "Sammanfattning"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "en stängd"
     other: "%{count} stängda"
@@ -1982,7 +2021,7 @@ sv:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -1998,6 +2037,8 @@ sv:
         mentioned: 'Mentioned'
         subscribed: 'alla'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "En ny användare (%{value}) har registrerats. Kontot väntar på ditt godkännande:"
@@ -2161,8 +2202,7 @@ sv:
           tb: "TB"
   onboarding:
     heading_getting_started: "Få en översikt"
-    text_getting_started_description: "Få en snabb överblick över projektledning och samarbete med OpenProject."
-    text_show_again: "Du kan starta om denna video från hjälpmenyn"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
     welcome: "Welcome to %{app_title}"
     select_language: "Välj ditt språk"
   permission_add_work_package_notes: "Lägg till anteckningar"
@@ -2552,6 +2592,7 @@ sv:
   text_access_token_hint: "Åtkomstnycklar gör det möjligt för externa applikationer att komma åt OpenProject-resurser."
   text_analyze: "Vidare analys: %{subject}"
   text_are_you_sure: "Är du säker?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Ta bort arbetspaket och alla underarbetspaket?"
   text_assign_to_project: "Tilldela till projektet"
   text_form_configuration: >
@@ -2745,7 +2786,6 @@ sv:
       noneSelection: "(ingen)"
       outline: "Ursprunglig översikt expansion"
       parent: "Visa delprojekt för"
-      work_package_filters: "Filtrera arbetspaket"
       work_package_responsible: "Visa arbetspaket med huvudansvarig"
       work_package_assignee: "Visa arbetspaket som tilldelats"
       types: "Visa typer"
@@ -2899,10 +2939,22 @@ sv:
     destroy:
       info: "Att radera arbetspaketet går inte att ångra."
       title: "Radera arbetspaketet"
+  working_days:
+    info: >
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Ingenting att förhandsgranska"
   api_v3:
     attributes:
       lock_version: "Lås version"
+      property: 'Property'
     errors:
       code_400: "Felaktig begäran: %{message}"
       code_401: "Du måste autentiseras för att få tillgång till denna resurs."

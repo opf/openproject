@@ -181,7 +181,7 @@ You can choose the **columns displayed by default** in the [System settings](../
 
 ![configure project list](configure-project-list.png)
 
-To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](../../system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields) 
+To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](../../system-admin-guide/custom-fields/custom-fields-projects/#displaying-project-custom-fields).
 
 
 
@@ -219,7 +219,7 @@ It can be exported as .xls or .csv.
 
 Often you need to see information about more than one project at once and want to create project overarching reports.
 
-Click on the **Modules** icon with the dots in the header navigation. These are the project overarching modules in OpenProject.
+Click on the **Modules** icon with the nine squares in the header navigation. These are the project overarching modules in OpenProject.
 
 ![navigation bar modules](navigation-bar-modules-3923134.png)
 

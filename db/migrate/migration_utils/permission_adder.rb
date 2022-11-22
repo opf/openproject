@@ -28,8 +28,10 @@
 
 module Migration
   module MigrationUtils
-    class PermissionAdder
-      def self.add(having, add)
+    module PermissionAdder
+      module_function
+
+      def add(having, add)
         Role
           .joins(:role_permissions)
           .where(role_permissions: { permission: having.to_s })

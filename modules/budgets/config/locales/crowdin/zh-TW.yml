@@ -63,7 +63,7 @@ zh-TW:
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "檢視所有預算"
   label_yes: "是"
-  notice_budget_conflict: "Work packages must be of the same project."
+  notice_budget_conflict: "工作包必須是同一個專案"
   notice_no_budgets_available: "無可用預算"
   permission_edit_budgets: "編輯預算"
   permission_view_budgets: "檢視預算"

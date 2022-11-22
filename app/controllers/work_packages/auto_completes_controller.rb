@@ -43,7 +43,9 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
     query_term = params[:q].to_s
 
     if query_term =~ /\A\d+\z/
-      work_package_scope.visible.where(id: query_term.to_i)
+      work_package_scope
+        .visible.where(id: query_term.to_i)
+        .order("#{WorkPackage.table_name}.updated_at DESC") # :id does not work because...
     else
       []
     end
@@ -55,7 +57,7 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
     work_package_scope
       .visible
       .where(query_term_sql)
-      .order("#{WorkPackage.table_name}.id ASC") # :id does not work because...
+      .order("#{WorkPackage.table_name}.updated_at DESC") # :id does not work because...
       .limit(10)
       .includes(:type)
   end

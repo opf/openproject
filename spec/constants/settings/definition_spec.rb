@@ -29,19 +29,6 @@
 require 'spec_helper'
 
 describe Settings::Definition do
-  shared_context 'with clean definitions' do
-    let!(:definitions_before) { described_class.all.dup }
-
-    before do
-      described_class.send(:reset)
-    end
-
-    after do
-      described_class.send(:reset)
-      described_class.instance_variable_set(:@all, definitions_before)
-    end
-  end
-
   describe '.all' do
     subject(:all) { described_class.all }
 
@@ -70,9 +57,7 @@ describe Settings::Definition do
         .to eq 20
     end
 
-    context 'when overriding from ENV' do
-      include_context 'with clean definitions'
-
+    context 'when overriding from ENV', :settings_reset do
       def value_for(name)
         all.detect { |d| d.name == name }.value
       end
@@ -112,7 +97,7 @@ describe Settings::Definition do
         expect(value_for('default_language')).to eql 'en'
       end
 
-      it 'allows overriding email/smpt configuration from ENV without OPENPROJECT_ prefix even though setting is writable' do
+      it 'allows overriding email/smtp configuration from ENV without OPENPROJECT_ prefix even though setting is writable' do
         stub_const('ENV',
                    {
                      'EMAIL_DELIVERY_CONFIGURATION' => 'legacy',
@@ -156,11 +141,23 @@ describe Settings::Definition do
           .to be false
       end
 
-      it 'overriding date configuration from ENV will cast the value' do
+      it 'overriding datetime configuration from ENV will cast the value' do
         stub_const('ENV', { 'OPENPROJECT_CONSENT__TIME' => '2222-01-01' })
 
         expect(all.detect { |d| d.name == 'consent_time' }.value)
-          .to eql Date.parse('2222-01-01')
+          .to eql DateTime.parse('2222-01-01')
+      end
+
+      it 'overriding timezone configuration from ENV will cast the value' do
+        stub_const('ENV', { 'OPENPROJECT_USER__DEFAULT__TIMEZONE' => 'Europe/Berlin' })
+
+        expect(value_for('user_default_timezone')).to eq 'Europe/Berlin'
+      end
+
+      it 'overriding timezone configuration from ENV with a bogus value' do
+        stub_const('ENV', { 'OPENPROJECT_USER__DEFAULT__TIMEZONE' => 'foobar' })
+
+        expect { value_for('user_default_timezone') }.to raise_error(ArgumentError)
       end
 
       it 'overriding configuration from ENV will set it to non writable' do
@@ -374,15 +371,14 @@ describe Settings::Definition do
       end
     end
 
-    context 'when overriding from file' do
-      include_context 'with clean definitions'
-
+    context 'when overriding from file', :settings_reset do
       let(:file_contents) do
         <<~YAML
           ---
             default:
               edition: 'bim'
               sendmail_location: 'default_location'
+              direct_uploads: false
             test:
               smtp_address: 'test address'
               sendmail_location: 'test location'
@@ -448,6 +444,11 @@ describe Settings::Definition do
           .to eql DateTime.parse("2222-01-01")
       end
 
+      it 'correctly overrides a default by a false value' do
+        expect(all.detect { |d| d.name == 'direct_uploads' }.value)
+          .to be false
+      end
+
       context 'when Rails environment is test' do
         before do
           allow(Rails.env)
@@ -498,9 +499,7 @@ describe Settings::Definition do
       end
     end
 
-    context 'when adding an additional setting' do
-      include_context 'with clean definitions'
-
+    context 'when adding an additional setting', :settings_reset do
       it 'includes the setting' do
         all
 
@@ -544,8 +543,7 @@ describe Settings::Definition do
       end
     end
 
-    context 'when adding a setting late' do
-      include_context 'with clean definitions'
+    context 'when adding a setting late', :settings_reset do
       let(:key) { 'bogus' }
 
       before do
@@ -967,6 +965,34 @@ describe Settings::Definition do
       it 'calls the proc as a default' do
         expect(instance.default)
           .to be false
+      end
+    end
+  end
+
+  describe '#on_change', :settings_reset do
+    context 'for a definition with a callback' do
+      let(:callback) { -> { 'foobar ' } }
+
+      it 'includes the callback' do
+        described_class.add 'bogus',
+                            default: 1,
+                            format: :integer,
+                            on_change: callback
+
+        expect(described_class['bogus'].on_change)
+          .to eq callback
+      end
+    end
+
+    context 'for a definition without a callback' do
+      it 'includes the callback' do
+        described_class.add 'bogus',
+                            default: 1,
+                            format: :integer,
+                            on_change: nil
+
+        expect(described_class['bogus'].on_change)
+          .to be_nil
       end
     end
   end

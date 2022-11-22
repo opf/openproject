@@ -122,7 +122,7 @@ module OpenProject
     # Doing this, it is e.g. possible to avoid having the format of '%{attribute} %{message}' which
     # will always prepend the attribute name to the error message.
     # The formats can then be specified using the `format:` key within the [local].yml file in every
-    # layer of activerecord.errors down to the individual leve of the message, e.g.
+    # layer of activerecord.errors down to the individual level of the message, e.g.
     # activerecord.errors.models.project.attributes.types.format
     config.active_model.i18n_customize_full_message = true
 

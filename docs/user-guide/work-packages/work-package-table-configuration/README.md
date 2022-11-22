@@ -176,7 +176,7 @@ You have three different options to display results in the work package list.
 * A **Hierarchy**, which will display the filtered results within the parent-child-relation.
 * **Group by** will group the list according to a defined attribute.
 
-You have to choose either option when displaying work packages in the list.
+To display the work package table you have to choose one of these options.
 
 To switch between the different criteria, open the [work package table configuration](#work-package-table-configuration) and open the tab **Display settings**. Choose how to display the work packages in the list and click the blue **Apply** button.
 
@@ -224,13 +224,13 @@ When you have configured your work package table, you can save the views to acce
 
 ![Work-packages-save-view](Work-packages-save-view.png)
 
-3. Enter a **Name** for your Saved view (according to the criteria you have chosen in your work package table configuration).
+3. Enter a **Name** for your saved view (according to the criteria you have chosen in your work package table configuration).
 
-   In this example, the list was filtered for Work packages assigned to me which have a High Priority.
+   In this example, the list was filtered for work packages assigned to me which have a high priority.
 
-   **Public views:** Check the Public checkbox if you want to have this work package view accessible also for other users from this project.
+   **Public views:** Check the public checkbox if you want to have this work package view accessible also for other users from this project.
 
-   **Favored:** Check this Favored checkbox if you want to have this work package as a menu item in your Favorite views.
+   **Favored:** Check this favored checkbox if you want to have this work package as a menu item in your favorite views.
 
    Press the blue **Save** button to save your view.
 
@@ -240,7 +240,7 @@ The view will then be saved in the work packages menu in your **Favorite views**
 
 ![Work-packages-favorite-views](Work-packages-favorite-views.png)
 
-If you check the Public visibility, the view will be saved under your Public views in the work package menu:
+If you check the public visibility, the view will be saved under your public views in the work package menu:
 
 ![Work-packages-public-views](Work-packages-public-views.png)
 
@@ -252,6 +252,6 @@ If you make changes to a saved view, e.g. change a filter criteria, you have to 
 
 ![Work-package-change-saved-views](Work-package-change-saved-views.png)
 
-If you want to save a completely new work package view, again click on the Settings and select **Save as...** as described [above](#save-work-package-views). 
+If you want to save a completely new work package view, again click on the settings and select **Save as...** as described [above](#save-work-package-views). 
 
-> **Please note**:  You can't change the default "All open" view. Therefore pressing the disc icon won't have any effect on the default view that is displayed when navigating to the work packages module. 
+> **Please note**:  You can't change the default "All open" view. Therefore pressing the disc icon won't have any effect on the default view that is displayed when navigating to the work packages module. You always have to create a new view (filter, group, etc.), set a name and save it (private or public).

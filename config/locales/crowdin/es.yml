@@ -66,6 +66,9 @@ es:
     enterprise:
       upgrade_to_ee: "Actualizar a Enterprise Edition"
       add_token: "Cargue el token de soporte de versión corporativa"
+      delete_token_modal:
+        text: "¿Está seguro que desea eliminar el token actual de la edición Enterpise usado?"
+        title: "Eliminar token"
       replace_token: "Reemplace su token de apoyo actual"
       order: "Solicitar Enterprise on-premises Edition"
       paste: "Pegue su token de apoyo de versión corporativa"
@@ -77,7 +80,7 @@ es:
       buttons:
         upgrade: "Actualizar ahora"
         contact: "Contáctenos para una demostración"
-      enterprise_info_html: "es una función <strong class='icon-medal'>Enterprise</strong>."
+      enterprise_info_html: "es una característica de la versión Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
       upgrade_info: "Actualice a un plan de pago para activarlo y empezar a usarlo en su equipo."
     journal_aggregation:
       explanation:
@@ -133,6 +136,7 @@ es:
         Si marca esta casilla, el proyecto abierto creará automáticamente nuevos usuarios a partir de sus entradas LDAP cuando se autentican por primera vez con el proyecto abierto.
         ¡Deje esto sin marcar para permitir que solo las cuentas existentes en el proyecto abierto se autentiquen a través de LDAP!
     connection_encryption: 'Cifrado de conexión'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Cuenta del sistema'
     system_account_legend: |
       El proyecto abierto requiere acceso de solo lectura a través de una cuenta del sistema para buscar usuarios y grupos en su árbol LDAP.
@@ -143,13 +147,18 @@ es:
       Los siguientes campos están relacionados con cómo se crean los usuarios en el proyecto abierto a partir de entradas LDAP y qué atributos LDAP se utilizan para definir los atributos de un usuario del proyecto abierto (asignación de atributos).
     tls_mode:
       plain: 'ninguno'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Conexión sin cifrado, no hay negociación TLS."
-      simple_tls_description: "Cifrado TLS implícito, pero sin certificación válida. Usar con cuidado y confianza implícita en la conexión LDAP."
-      start_tls_description: "Cifrado TLS explícito con validación completa. Usar para LDAP mediante TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Esta sección es concerniente a la seguridad de conexión de esta fuente de autentificación de LDAP. Para más información, visita <a href="%{link}">la documentación Red::LDAP</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Actualmente no hay publicaciones en el foro.
@@ -204,6 +213,15 @@ es:
     ignore_filenames: >
       Especifica una lista de nombres a ignorar al procesar archivos adjuntos de emails entrantes (por ejemplo, firmas o iconos). Introduce un nombre de archivo por línea.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Miembros del proyecto'
+      overviews: 'Visión general del proyecto'
+      queries: 'Paquetes de trabajo: vistas guardadas'
+      wiki_page_attachments: 'Páginas wiki: archivos adjuntos'
+      work_package_attachments: 'Paquetes de trabajo: archivos adjuntos'
+      work_package_categories: 'Paquetes de trabajo: categorías'
+      work_package_file_links: 'Paquetes de trabajo: enlaces de archivos'
     delete:
       scheduled: "Se ha programado la eliminación y se ejecutará en segundo plano. Recibirá una notificación con el resultado."
       schedule_failed: "El proyecto no puede ser eliminado: %{errors}"
@@ -404,6 +422,7 @@ es:
         host: "Host"
         onthefly: "Creación automática de usuarios"
         port: "Puerto"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositorio"
       comment:
@@ -525,6 +544,10 @@ es:
         end_insertion: "Final de la inserción"
         end_deletion: "Final de la eliminación"
         ignore_non_working_days: "Ignorar días festivos"
+        include_non_working_days:
+          title: 'Días laborables'
+          false: 'solo días laborables'
+          true: 'incluir días no laborables'
         parent: "Padre"
         parent_issue: "Padre"
         parent_work_package: "Padre"
@@ -561,7 +584,7 @@ es:
         confirmation: "no coincide con %{attribute}."
         could_not_be_copied: "%{dependency} no se pudo copiar (en su totalidad)."
         does_not_exist: "no existe."
-        error_enterprise_only: "solo está disponible en OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} solo está disponible en OpenProject Enterprise Edition"
         error_unauthorized: "no se puede acceder."
         error_readonly: "se intentó escribir pero no se puede escribir."
         email: "no es una dirección de correo válida."
@@ -608,6 +631,11 @@ es:
           no está proveyendo un "Contexto Seguro". Utiliza HTTPS o una dirección loopack, como un localhost.
         wrong_length: "la longitud es incorrecta (debe ser %{count} caracteres)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -658,10 +686,6 @@ es:
               no_notification_reason: 'no puede estar en blanco, ya que se han elegido las notificaciones en la aplicación como un canal.'
             reason_mail_digest:
               no_notification_reason: 'no puede estar en blanco, ya que se ha elegido el resumen de correo como un canal.'
-        notification_settings:
-          only_one_global_setting: 'Solo puede haber una configuración global de notificaciones.'
-          email_alerts_global: 'La configuración de notificaciones por correo electrónico solo se puede establecer globalmente.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -721,6 +745,11 @@ es:
           attributes:
             permissions:
               dependency_missing: "también es necesario incluir «%{dependency}», ya que está seleccionada la opción «%{permission}»."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'Al menos un día de la semana debe definirse como laboral.'
+              previous_working_day_changes_unprocessed: 'Los cambios anteriores en la configuración de días laborables no se han aplicado aún.'
         time_entry:
           attributes:
             hours:
@@ -731,6 +760,16 @@ es:
               invalid_range: "solo puede ser un intervalo de fechas válido."
             daily_reminders:
               full_hour: "solo se puede configurar para la entrega en una hora completa."
+            notification_settings:
+              only_one_global_setting: 'Solo puede haber una configuración global de notificaciones.'
+              email_alerts_global: 'La configuración de notificaciones por correo electrónico solo se puede establecer globalmente.'
+              format: "%{message}"
+              wrong_date: 'Valor incorrecto para Fecha de inicio, Fecha final o Vencido.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "no tiene permiso para ver este recurso."
+              locked: "está bloqueado."
         wiki_page:
           attributes:
             slug:
@@ -1904,7 +1943,6 @@ es:
   label_wiki_start: "Página de inicio"
   label_work_package: "Paquete de trabajo"
   label_work_package_attachments: "Datos adjuntos de paquete de trabajo"
-  label_work_package_file_link_plural: "Enlaces de archivo de paquete de trabajo"
   label_work_package_category_new: "Nueva categoría"
   label_work_package_category_plural: "Categorías de paquete de trabajo"
   label_work_package_hierarchy: "Jerarquía del paquete de trabajo"
@@ -1920,6 +1958,7 @@ es:
   label_workflow: "Flujo de trabajo"
   label_workflow_plural: "Flujos de trabajo"
   label_workflow_summary: "Resumen"
+  label_working_days: "Días laborables"
   label_x_closed_work_packages_abbr:
     one: "1 cerrado"
     other: "%{count} cerrados"
@@ -1980,7 +2019,7 @@ es:
       center: 'Al centro de notificaciones'
       see_in_center: 'Ver comentario en el centro de notificaciones'
       settings: 'Cambiar configuración de correo electrónico'
-    salutation: '¡Hola, %{user}!'
+    salutation: 'Hola %{user}'
     work_packages:
       created_at: 'Creado a las %{timestamp} por %{user} '
       login_to_see_all: 'Inicie sesión para ver todas las notificaciones.'
@@ -1996,6 +2035,8 @@ es:
         mentioned: 'Mencionado'
         subscribed: 'todos'
         prefix: 'Recibido por la configuración de notificaciones: %{reason}'
+        date_alert_start_date: 'Alerta de fecha'
+        date_alert_due_date: 'Alerta de fecha'
       see_all: 'Ver todo'
       updated_at: 'Actualizado a las %{timestamp} por %{user}'
   mail_body_account_activation_request: "Ha registrado un nuevo usuario (%{value}). La cuenta está pendiente de aprobación:"
@@ -2158,8 +2199,7 @@ es:
           tb: "TB"
   onboarding:
     heading_getting_started: "Obtener información general"
-    text_getting_started_description: "Obtenga información general rápida sobre la administración de proyectos y la colaboración en equipo con OpenProject."
-    text_show_again: "Puede reiniciar este vídeo en el menú ayuda"
+    text_getting_started_description: "Obtenga un resumen rápido sobre la gestión de proyectos y la colaboración en equipo con OpenProject. Puedes volver a ver este video des del menú de ayuda."
     welcome: "Bienvenido a %{app_title}"
     select_language: "Seleccione su idioma"
   permission_add_work_package_notes: "Añadir notas"
@@ -2551,6 +2591,7 @@ es:
   text_access_token_hint: "Los tokens de acceso te permiten dar permisos de acceso sobre los recursos de OpenProject a aplicaciones externas."
   text_analyze: "Análisis futuro: %{subject}"
   text_are_you_sure: "¿Estás seguro?"
+  text_are_you_sure_continue: "¿Seguro que quiere continuar?"
   text_are_you_sure_with_children: "¿Eliminar el paquete de trabajo y todos sus paquetes dependientes?"
   text_assign_to_project: "Asignar al proyecto"
   text_form_configuration: >
@@ -2744,7 +2785,6 @@ es:
       noneSelection: "(ninguno)"
       outline: "Extensión del esquema inicial"
       parent: "Mostrar los subproyectos de"
-      work_package_filters: "Filtro de paquetes de trabajo"
       work_package_responsible: "Mostrar paquetes de trabajo con responsable"
       work_package_assignee: "Mostrar paquetes con asignado"
       types: "Mostrar tipos"
@@ -2898,10 +2938,22 @@ es:
     destroy:
       info: "La eliminación del paquete de trabajo no se puede deshacer."
       title: "Eliminar el pauqete de trabajo"
+  working_days:
+    info: >
+      <b>Defina los días laborables de la semana</b><br/> Los días no laborables se omiten al planificar los paquetes de trabajo y se excluyen al calcular la duración. Esto se puede anular a nivel de paquete de trabajo.
+    change_button: "Cambiar los días laborables"
+    warning: >
+      Cambiar qué días de la semana se consideran laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia.
+    journal_note:
+      changed: _**Días laborales** cambiados (%{changes})._
+      days:
+        working: "%{day} es ahora laboral"
+        non_working: "%{day} es ahora no laboral"
   nothing_to_preview: "Nada para previsualizar"
   api_v3:
     attributes:
       lock_version: "Versión Bloqueada"
+      property: 'Propiedad'
     errors:
       code_400: "Solicitud errónea: %{message}"
       code_401: "Tiene que estar autenticado para acceder a este recurso."

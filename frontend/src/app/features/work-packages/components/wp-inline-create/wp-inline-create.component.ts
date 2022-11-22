@@ -31,11 +31,12 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   HostListener,
   Injector,
   Input,
-  EventEmitter,
-  OnInit, Output,
+  OnInit,
+  Output,
 } from '@angular/core';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
@@ -44,12 +45,14 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
-import { Subscription } from 'rxjs';
+import {
+  combineLatest,
+  Subscription,
+} from 'rxjs';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
   inlineCreateCancelClassName,
@@ -113,14 +116,18 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
     this.$element = jQuery(this.elementRef.nativeElement);
   }
 
-  ngAfterViewInit() {
-    this.authorisationService
-      .observeUntil(componentDestroyed(this))
-      .subscribe(() => {
-        this.canReference = this.hasReferenceClass && this.wpInlineCreate.canReference;
-        this.canAdd = this.wpInlineCreate.canAdd;
+  ngAfterViewInit():void {
+    combineLatest([
+      this.wpInlineCreate.canAdd,
+      this.wpInlineCreate.canReference,
+    ])
+      .pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe(([canAdd, canReference]) => {
+        this.canAdd = canAdd;
+        this.canReference = this.hasReferenceClass && canReference;
         this.cdRef.detectChanges();
-
         this.showing.emit(this.canAdd || this.canReference);
       });
 

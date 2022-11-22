@@ -40,6 +40,12 @@ shared_examples_for 'successful response' do |code = 200|
   end
 end
 
+shared_examples_for 'successful no content response' do |code = 204|
+  it "has the status code #{code}" do
+    expect(last_response.status).to eq(code)
+  end
+end
+
 shared_examples_for 'error response' do |code, id, provided_message = nil|
   let(:expected_message) do
     provided_message || message

@@ -37,6 +37,11 @@ module API
 
           patch do
             redirect api_v3_paths.user_preferences('me'), permanent: true
+            # HTTP 301: GET method unchanged, other methods may or may not be
+            # changed to GET depending on the user agent.
+            #
+            # HTTP 308: Method and body not changed
+            status 308
           end
         end
       end
