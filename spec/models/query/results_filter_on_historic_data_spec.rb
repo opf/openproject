@@ -123,9 +123,17 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
         it "includes the work package matching in the past" do
           expect(subject).to include work_package
         end
-        
-        it "returns the work packages in their historic state" do
-          expect(subject.first.description).to eq "This is the original description of the work package"
+
+        it "returns the work packages in their current state" do
+          expect(subject.first.description).to eq "This is the current description of the work package"
+        end
+
+        describe "when chaining at_timestamp" do
+          subject { WorkPackage.at_timestamp(historic_time).where(id: results.work_packages.pluck(:id)) }
+
+          it "returns the work packages in their historic states" do
+            expect(subject.first.description).to eq "This is the original description of the work package"
+          end
         end
       end
     end

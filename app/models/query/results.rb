@@ -51,7 +51,6 @@ class ::Query::Results
       .order(order_option)
       .references(:projects)
       .order(sort_criteria_array)
-      #.at_timestamp(query.timestamps.last)
   end
 
   def work_package_ids
