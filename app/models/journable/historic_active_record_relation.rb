@@ -143,7 +143,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   def add_timestamp_condition(relation)
     relation \
         .joins("INNER JOIN \"journals\" ON \"journals\".\"data_type\" = '#{model.journal_class.name}'
-            AND \"journals\".\"data_id\" = \"#{model.journal_class.table_name}\".\"id\"") \
+            AND \"journals\".\"data_id\" = \"#{model.journal_class.table_name}\".\"id\"".gsub("\n", "")) \
         .merge(Journal.at_timestamp(timestamp))
   end
 
@@ -153,7 +153,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   def add_join_on_journables_table_with_created_at_column(relation)
     relation \
         .joins("INNER JOIN (SELECT id, created_at FROM \"#{model.table_name}\") AS journables
-            ON \"journables\".\"id\" = \"journals\".\"journable_id\"")
+            ON \"journables\".\"id\" = \"journals\".\"journable_id\"".gsub("\n", ""))
   end
 
   # Gather the columns we need in our model from the different tables in the sql query:
@@ -170,7 +170,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
           #{model.journal_class.table_name}.*,
           journals.journable_id as id,
           journables.created_at as created_at,
-          journals.created_at as updated_at")
+          journals.created_at as updated_at".gsub("\n", ""))
     elsif relation.select_values.count == 1 and
         relation.select_values.first.respond_to? :relation and
         relation.select_values.first.relation.name == model.journal_class.table_name and
