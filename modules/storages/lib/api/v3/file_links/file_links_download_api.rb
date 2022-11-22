@@ -32,12 +32,11 @@ class API::V3::FileLinks::FileLinksDownloadAPI < ::API::OpenProjectAPI
 
   helpers do
     def raise_error(error)
-      case error
+      Rails.logger.error(error)
+
+      case error.code
       when :not_found
         raise API::Errors::NotFound.new
-      when :not_authorized
-        Rails.logger.error("An outbound request failed due to an authorization failure!")
-        raise API::Errors::InternalError.new
       else
         raise API::Errors::InternalError.new
       end

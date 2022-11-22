@@ -26,38 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  module ServiceResultRefinements
-    refine ServiceResult do
-      def match(on_success:, on_failure:)
-        if success?
-          on_success.call(result)
-        else
-          on_failure.call(errors)
-        end
-      end
+class Storages::StorageError
+  attr_reader :code, :message, :data
 
-      def bind
-        return self if failure?
+  def initialize(code:, message: nil, data: nil)
+    @code = code
+    @message = message
+    @data = data
+  end
 
-        yield result
-      end
-    end
-
-    refine(ServiceResult.singleton_class) do
-      def chain(initial:, steps:) # rubocop:disable Metrics/AbcSize
-        unless initial.instance_of?(ServiceResult)
-          raise TypeError, "Expected a #{ServiceResult.name.split('::').last}, got #{initial.class.name}."
-        end
-
-        unless steps.instance_of?(Array) && steps.all? { |step| step.instance_of?(Method) }
-          raise TypeError, "Expected an Array of Method, got #{steps.class.name}."
-        end
-
-        steps.map(&:to_proc).reduce(initial) do |state, method|
-          state.bind { |value| method.call(value) }
-        end
-      end
-    end
+  def to_s
+    output = code.to_s
+    output << " | #{message}" unless message.nil?
+    output << " | #{data}" unless data.nil?
+    output
   end
 end

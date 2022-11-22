@@ -84,12 +84,19 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def error(response)
       case response
       when Net::HTTPNotFound
-        ServiceResult.failure(result: :not_found)
+        error_result(:not_found)
       when Net::HTTPUnauthorized
-        ServiceResult.failure(result: :not_authorized)
+        error_result(:not_authorized)
       else
-        ServiceResult.failure(result: :error)
+        error_result(:error)
       end
+    end
+
+    def error_result(code, message = nil, data = nil)
+      ServiceResult.failure(
+        result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
+        errors: Storages::StorageError.new(code:, message:, data:)
+      )
     end
 
     def storage_files(response)

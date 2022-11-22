@@ -45,30 +45,18 @@ module Storages::Peripherals
         .map { |query| query.method(:query).to_proc }
     end
 
-    # ToDo: Remove if implemented
-    # rubocop:disable Lint/UnusedMethodArgument
-    # rubocop:disable Lint/UnusedBlockArgument
     def upload_link_query(user:, finalize_url:)
-      query_stub = ->(payload) do
-        ServiceResult.success(
-          result: Storages::UploadLink.new(
-            "https://example.com/upload/xyz123",
-            nil
-          )
-        )
-      end
-
-      ServiceResult.success(result: query_stub)
+      storage_queries(user)
+        .upload_link_query(finalize_url)
+        .map { |query| query.method(:query).to_proc }
     end
-    # rubocop:enable Lint/UnusedBlockArgument
-    # rubocop:enable Lint/UnusedMethodArgument
 
     private
 
     def storage_queries(user)
       ::Storages::Peripherals::StorageInteraction::StorageQueries
         .new(
-          uri: URI(@storage.host),
+          uri: URI(@storage.host).normalize,
           provider_type: @storage.provider_type,
           user:,
           oauth_client: @oauth_client

@@ -27,37 +27,94 @@
 #++
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
-  class DownloadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
+  class UploadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    def initialize(base_uri:, token:, with_refreshed_token:)
+    URI_BASE_PATH = '/ocs/v2.php/apps/files_sharing/api/v1/shares'.freeze
+    UPLOAD_LINK_BASE = '/public.php/webdav'.freeze
+
+    def initialize(base_uri:, token:, with_refreshed_token:, finalize_url:)
       super()
 
       @base_uri = base_uri
-      @uri = URI::join(base_uri, '/ocs/v2.php/apps/dav/api/v1/direct')
       @token = token
       @with_refreshed_token = with_refreshed_token
+      @finalize_url = finalize_url
     end
 
-    def query(file_link)
-      outbound_response(file_link)
-        .bind { |response_body| direct_download_token(body: response_body) }
-        .map { |download_token| download_link(download_token, file_link.origin_name) }
+    def query(data)
+      ServiceResult.chain(
+        initial: validated(data),
+        steps: [
+          method(:share),
+          method(:file_drop_share),
+          method(:upload_link)
+        ]
+      )
     end
 
     private
 
-    def outbound_response(file_link)
+    def validated(data)
+      if data.nil? || data['fileName'].nil? || data['parent'].nil?
+        error(:error, 'Data is not valid', data)
+      else
+        ServiceResult.success(
+          result: Struct.new(:file_name, :parent)
+                        .new(data['fileName'], data['parent'])
+        )
+      end
+    end
+
+    def share(data)
+      password = SecureRandom.uuid
+
+      outbound_response(
+        method: :post,
+        relative_path: URI_BASE_PATH,
+        payload: {
+          shareType: 3,
+          password:,
+          path: data.parent,
+          expireDate: Date.tomorrow
+        }
+      ).map do |response|
+        Struct.new(:id, :token, :password, :file_name)
+              .new(response.ocs.data.id, response.ocs.data.token, password, data.file_name)
+      end
+    end
+
+    def file_drop_share(share)
+      outbound_response(
+        method: :put,
+        relative_path: "#{URI_BASE_PATH}/#{share.id}",
+        payload: {
+          permissions: 4
+        }
+      ).map { share }
+    end
+
+    def upload_link(share)
+      destination = @base_uri.merge("#{UPLOAD_LINK_BASE}/#{share.file_name}")
+      destination.user = share.token
+      destination.password = share.password
+
+      ServiceResult.success(result: Storages::UploadLink.new(destination))
+    end
+
+    def outbound_response(method:, relative_path:, payload:) # rubocop:disable Metrics/AbcSize
       @with_refreshed_token.call(@token) do |token|
         begin
           response = ServiceResult.success(
-            result: RestClient.post(
-              @uri.to_s,
-              { fileId: file_link.origin_id },
-              {
+            result: RestClient::Request.execute(
+              method:,
+              url: @base_uri.merge(relative_path).to_s,
+              payload: payload.to_json,
+              headers: {
                 'Authorization' => "Bearer #{token.access_token}",
                 'OCS-APIRequest' => 'true',
-                'Accept' => 'application/json'
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json'
               }
             )
           )
@@ -71,6 +128,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           response = error(:error, 'Outbound request failed!')
         end
 
+        # rubocop:disable Style/OpenStructUse
+        # rubocop:disable Style/MultilineBlockChain
         response
           .bind do |r|
             # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
@@ -80,6 +139,9 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
               ServiceResult.success(result: r)
             end
           end
+          .map { |r| JSON.parse(r.body, object_class: OpenStruct) }
+        # rubocop:enable Style/MultilineBlockChain
+        # rubocop:enable Style/OpenStructUse Style/MultilineBlockChain
       end
     end
 
@@ -88,35 +150,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
         errors: Storages::StorageError.new(code:, message:, data:)
       )
-    end
-
-    def download_link(token, origin_name)
-      URI::join(@base_uri, "/index.php/apps/integration_openproject/direct/#{token}/#{CGI.escape(origin_name)}")
-    end
-
-    def direct_download_token(body:)
-      token = parse_direct_download_token(body:)
-      if token.blank?
-        return error(:error, "Received unexpected json response", body)
-      end
-
-      ServiceResult.success(result: token)
-    end
-
-    def parse_direct_download_token(body:)
-      begin
-        json = JSON.parse(body)
-      rescue JSON::ParserError
-        return nil
-      end
-
-      direct_download_url = json.dig('ocs', 'data', 'url')
-      return nil if direct_download_url.blank?
-
-      path = URI.parse(direct_download_url).path
-      return nil if path.blank?
-
-      path.split('/').last
     end
   end
 end

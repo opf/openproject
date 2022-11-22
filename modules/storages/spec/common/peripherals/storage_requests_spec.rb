@@ -146,7 +146,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             on_success: ->(query) do
               result = query.call(file_link)
               expect(result).to be_failure
-              expect(result.result).to be(:not_authorized)
+              expect(result.errors.code).to be(:not_authorized)
             end,
             on_failure: ->(error) do
               raise "Files query could not be created: #{error}"
@@ -168,7 +168,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
               on_success: ->(query) do
                 result = query.call(file_link)
                 expect(result).to be_failure
-                expect(result.result).to be(symbol)
+                expect(result.errors.code).to be(symbol)
               end,
               on_failure: ->(error) do
                 raise "Files query could not be created: #{error}"
@@ -296,7 +296,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
               on_success: ->(query) do
                 result = query.call(nil)
                 expect(result).to be_failure
-                expect(result.result).to be(symbol)
+                expect(result.errors.code).to be(symbol)
               end,
               on_failure: ->(error) do
                 raise "Files query could not be created: #{error}"
@@ -309,5 +309,175 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     it_behaves_like 'outbound is failing', 404, :not_found
     it_behaves_like 'outbound is failing', 401, :not_authorized
     it_behaves_like 'outbound is failing', 500, :error
+  end
+
+  describe '#upload_link_query' do
+    let(:query_payload) do
+      Struct.new(:fileName, :parent).new("ape.png", "/Pictures")
+    end
+
+    let(:uri) do
+      URI::join(url, "/public.php/webdav/#{query_payload[:fileName]}")
+    end
+
+    let(:share_id) { 37 }
+
+    before do
+      allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+      stub_request(:post, "#{url}/ocs/v2.php/apps/files_sharing/api/v1/shares")
+        .with(
+          body: hash_including(
+            {
+              shareType: 3,
+              path: query_payload.parent,
+              expireDate: Date.tomorrow.iso8601
+            }
+          )
+        )
+        .to_return(
+          status: 200,
+          body: {
+            ocs: {
+              data: {
+                id: share_id,
+                token: 'jJ6t8yHe7CEX5Bp'
+              }
+            }
+          }.to_json
+        )
+      stub_request(:put, "#{url}/ocs/v2.php/apps/files_sharing/api/v1/shares/#{share_id}")
+        .with(body: { permissions: 4 })
+        .to_return(status: 200, body: {}.to_json)
+    end
+
+    describe 'with Nextcloud storage type selected' do
+      it 'must return an upload link URL' do
+        subject
+          .upload_link_query(user:, finalize_url: nil)
+          .match(
+            on_success: ->(query) do
+              query.call(query_payload).match(
+                on_success: ->(link) {
+                  expect(link.destination.path).to be_eql("/public.php/webdav/#{query_payload.fileName}")
+                  expect(link.destination.host).to be_eql(URI(url).host)
+                  expect(link.destination.scheme).to be_eql(URI(url).scheme)
+                  expect(link.destination.user).not_to be_nil
+                  expect(link.destination.password).not_to be_nil
+                },
+                on_failure: ->(error) {
+                  raise "Files query could not be executed: #{error}"
+                }
+              )
+            end,
+            on_failure: ->(error) do
+              raise "Files query could not be created: #{error}"
+            end
+          )
+      end
+    end
+
+    describe 'with not supported storage type selected' do
+      before do
+        allow(storage).to receive(:provider_type).and_return('not_supported_storage_type'.freeze)
+      end
+
+      it 'must raise ArgumentError' do
+        expect { subject.download_link_query(user:) }.to raise_error(ArgumentError)
+      end
+    end
+
+    describe 'with missing OAuth token' do
+      before do
+        allow(connection_manager).to receive(:get_access_token).and_return(ServiceResult.failure)
+      end
+
+      it 'must return ":not_authorized" ServiceResult' do
+        expect(subject.download_link_query(user:)).to be_failure
+      end
+    end
+
+    describe 'with first outbound request returning 200 and an empty body' do
+      before do
+        stub_request(:post, "#{url}/ocs/v2.php/apps/files_sharing/api/v1/shares")
+          .with(
+            body: hash_including(
+              {
+                shareType: 3,
+                path: query_payload.parent,
+                expireDate: Date.tomorrow.iso8601
+              }
+            )
+          )
+          .to_return(status: 200)
+      end
+
+      it 'must return :not_authorized ServiceResult' do
+        subject
+          .upload_link_query(user:, finalize_url: nil)
+          .match(
+            on_success: ->(query) do
+              result = query.call(query_payload)
+              expect(result).to be_failure
+              expect(result.errors.code).to be(:not_authorized)
+            end,
+            on_failure: ->(error) do
+              raise "Files query could not be created: #{error}"
+            end
+          )
+      end
+    end
+
+    describe 'with second outbound request returning 200 and an empty body' do
+      before do
+        stub_request(:put, "#{url}/ocs/v2.php/apps/files_sharing/api/v1/shares/#{share_id}")
+          .with(body: { permissions: 4 })
+          .to_return(status: 200)
+      end
+
+      it 'must return :not_authorized ServiceResult' do
+        subject
+          .upload_link_query(user:, finalize_url: nil)
+          .match(
+            on_success: ->(query) do
+              result = query.call(query_payload)
+              expect(result).to be_failure
+              expect(result.errors.code).to be(:not_authorized)
+            end,
+            on_failure: ->(error) do
+              raise "Files query could not be created: #{error}"
+            end
+          )
+      end
+    end
+
+    shared_examples_for 'outbound is failing' do |method = :get, path = '', code = 500, symbol = :error|
+      describe "with outbound request returning #{code}" do
+        before do
+          stub_request(method, "#{url}/ocs/v2.php/apps/files_sharing/api/v1/shares#{path}").to_return(status: code)
+        end
+
+        it "must return :#{symbol} ServiceResult" do
+          subject
+            .upload_link_query(user:, finalize_url: nil)
+            .match(
+              on_success: ->(query) do
+                result = query.call(query_payload)
+                expect(result).to be_failure
+                expect(result.errors.code).to be(symbol)
+              end,
+              on_failure: ->(error) do
+                raise "Files query could not be created: #{error}"
+              end
+            )
+        end
+      end
+    end
+
+    it_behaves_like 'outbound is failing', :post, '', 404, :not_found
+    it_behaves_like 'outbound is failing', :post, '', 401, :not_authorized
+    it_behaves_like 'outbound is failing', :post, '', 500, :error
+    it_behaves_like 'outbound is failing', :put, '/37', 404, :not_found
+    it_behaves_like 'outbound is failing', :put, '/37', 401, :not_authorized
+    it_behaves_like 'outbound is failing', :put, '/37', 500, :error
   end
 end
