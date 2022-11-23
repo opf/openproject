@@ -159,7 +159,10 @@ module CustomFieldsHelper
                                                         [I18n.t(:general_text_no), '0']]), id: field_id)
     when 'list'
       styled_select_tag(field_name,
-                        options_for_select([[I18n.t(:label_no_change_option), '']] + custom_field.possible_values_options(project)), id: field_id)
+                        options_for_select([[I18n.t(:label_no_change_option),
+                                             '']] + custom_field.possible_values_options(project)),
+                        id: field_id,
+                        multiple: custom_field.multi_value?)
     else
       styled_text_field_tag(field_name, '', id: field_id)
     end
