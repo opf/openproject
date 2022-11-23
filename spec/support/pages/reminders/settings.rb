@@ -116,9 +116,9 @@ module Pages
         end
 
         if first && last
-          expect(page).to have_selector('.flatpickr-input') do |node|
+          expect(page).to have_selector('.flatpickr-input') { |node|
             expect(node.value).to eq "#{first.iso8601} - #{last.iso8601}"
-          end
+          }
         end
       end
 
@@ -129,9 +129,9 @@ module Pages
           page.find('.flatpickr-days .flatpickr-day:not(.nextMonthDay)', text: first.day, exact_text: true).click
           page.find('.flatpickr-days .flatpickr-day:not(.nextMonthDay)', text: last.day, exact_text: true).click
 
-          expect(page).to have_selector('.flatpickr-input') do |node|
+          expect(page).to have_selector('.flatpickr-input') { |node|
             expect(node.value).to eq "#{first.iso8601} - #{last.iso8601}"
-          end
+          }
         else
           uncheck 'Temporarily pause daily email reminders'
         end

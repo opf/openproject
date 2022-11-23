@@ -26,15 +26,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Method to wait for the body to be refreshed
-# due to a page reload
+require 'rubocop'
+require 'rubocop/rspec/shared_contexts'
+require 'spec_helper'
+require 'rubocop/rspec/support'
+require 'rubocop/cop/open_project/no_do_end_block_with_rspec_capybara_matcher_in_expect'
 
-def expect_page_reload
-  current_render = Time.parse page.find('body')['data-rendered-at']
+RSpec.describe RuboCop::Cop::OpenProject::NoDoEndBlockWithRSpecCapybaraMatcherInExpect do
+  include RuboCop::RSpec::ExpectOffense
+  include_context 'config'
 
-  yield
+  context 'when using `do .. end` syntax with rspec matcher' do
+    it 'registers an offense' do
+      expect_offense(<<~RUBY)
+        expect(page).to have_selector("input") do |input|
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ The `do .. end` block is associated with `to` and not with Capybara matcher `have_selector`.
+        end
+      RUBY
+    end
 
-  expect(page).to have_selector('body') { |body|
-    Time.parse(body['data-rendered-at']) > current_render
-  }
+    it 'matches only Capybara matchers' do
+      expect_no_offenses(<<~RUBY)
+        expect(foo).to have_received(:bar) do |value|
+          value == 'hello world'
+        end
+      RUBY
+    end
+  end
+
+  context 'when using `{ .. }` syntax with rspec matcher' do
+    it 'does not register an offense' do
+      expect_no_offenses(<<~RUBY)
+        expect(page).to have_selector("input") { |input| }
+      RUBY
+    end
+  end
 end
