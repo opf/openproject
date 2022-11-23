@@ -46,7 +46,6 @@ module Capabilities::Scopes
           ) capabilities
         SQL
 
-        # binding.pry
         select('capabilities.*')
           .from(capabilities_sql)
       end
@@ -130,15 +129,10 @@ module Capabilities::Scopes
           FROM (#{Action.default.to_sql}) actions
           JOIN "role_permissions" ON "role_permissions"."permission" = "actions"."permission"
           JOIN "roles" ON "roles".id = "role_permissions".role_id AND roles.builtin = #{Role::BUILTIN_ANONYMOUS}
-          JOIN (#{Principal.visible.not_builtin_without_anonymous.not_locked_without_anonymous.to_sql}) users
-            ON 1 = 1
+          JOIN users ON users.type = '#{AnonymousUser.name}'
           JOIN "projects"
             ON "projects".active = true
-            AND ("projects".public = true OR EXISTS (SELECT 1
-                                                    FROM members
-                                                    WHERE members.project_id = projects.id
-                                                    AND members.user_id = users.id
-                                                    LIMIT 1))
+            AND "projects".public = true
           LEFT OUTER JOIN enabled_modules
             ON enabled_modules.project_id = projects.id
             AND actions.module = enabled_modules.name
