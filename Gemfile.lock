@@ -512,7 +512,7 @@ GEM
       fog-core
       nokogiri (>= 1.5.11, < 2.0.0)
     formatador (1.1.0)
-    friendly_id (5.4.2)
+    friendly_id (5.5.0)
       activerecord (>= 4.0.0)
     fugit (1.7.2)
       et-orbi (~> 1, >= 1.2.7)
@@ -1044,7 +1044,7 @@ DEPENDENCIES
   ffi (~> 1.15)
   flamegraph
   fog-aws
-  friendly_id (~> 5.4.0)
+  friendly_id (~> 5.5.0)
   fuubar (~> 2.5.0)
   gon (~> 6.4.0)
   grape (~> 1.6.0)
