@@ -63,7 +63,6 @@ module RuboCop::Cop::OpenProject
                                   end
 
     MSG = 'The `do .. end` block is associated with `to` and not with Capybara matcher `%<matcher_method>s`.'.freeze
-    MSG_IMPLICIT_FAILURE = 'That does not work.'.freeze
 
     def_node_matcher :expect_to_with_block?, <<~PATTERN
       # ruby-parse output
