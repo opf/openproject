@@ -304,11 +304,11 @@ es:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                Esta versión contiene nuevas mejoras y funcionalidades:<br> <ul class="%{list_styling_class}"> <li>Active alertas de notificación para fechas próximas y tareas vencidas.</li> <li>Hemos añadido la autenticación en dos fases (2FA) a la edición Community.</li> <li>También se ha añadido la opción para visualizar la semana laboral en el planificador de equipo.</li> <li>Ahora, se muestran hasta 3 personas en las tarjetas de notificación cuando hayan participado varias personas en los cambios.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                Esta versión contiene nuevas mejoras y funcionalidades:<br> <ul class="%{list_styling_class}"> <li>Active alertas de notificación para fechas próximas y tareas vencidas.</li> <li>Hemos añadido la autenticación en dos fases (2FA) a la edición Community.</li> <li>También se ha añadido la opción para visualizar la semana laboral en el planificador de equipo.</li> <li>Ahora, se muestran hasta 3 personas en las tarjetas de notificación cuando hayan participado varias personas en los cambios.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Asignado a'
     label_add_column_after: "Añadir columna a la derecha"
@@ -400,7 +400,7 @@ es:
     label_no_data: "No hay datos disponibles"
     label_no_due_date: "sin fecha límite"
     label_no_start_date: "sin fecha de inicio"
-    label_no_date: "no date"
+    label_no_date: "sin fecha"
     label_no_value: "Sin valor"
     label_none: "ninguno"
     label_not_contains: "no contiene"

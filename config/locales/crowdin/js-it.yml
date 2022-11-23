@@ -304,11 +304,11 @@ it:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Attiva le notifiche sulle date per non dimenticare gli impegni imminenti e le attività scadute.</li> <li>L'autenticazione a due fattori (2FA) è attiva anche per la Community Edition.</li> <li>L'opzione di visualizzazione della settimana lavorativa è ora aggiunta anche al pianificatore del team.</li> <li> Elenca fino a 3 persone nelle schede di notifica quando più persone sono coinvolte nelle modifiche.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Attiva le notifiche sulle date per non dimenticare gli impegni imminenti e le attività scadute.</li> <li>L'autenticazione a due fattori (2FA) è attiva anche per la Community Edition.</li> <li>L'opzione di visualizzazione della settimana lavorativa è ora aggiunta anche al pianificatore del team.</li> <li> Elenca fino a 3 persone nelle schede di notifica quando più persone sono coinvolte nelle modifiche.</li> </ul>
     label_activate: "Attiva"
     label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"
@@ -400,7 +400,7 @@ it:
     label_no_data: "Nessun dato da visualizzare"
     label_no_due_date: "nessuna data di fine"
     label_no_start_date: "nessuna data di inizio"
-    label_no_date: "no date"
+    label_no_date: "Nessuna data"
     label_no_value: "Nessun valore"
     label_none: "nessuno"
     label_not_contains: "non contiene"

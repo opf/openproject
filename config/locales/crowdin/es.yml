@@ -149,16 +149,16 @@ es:
       plain: 'ninguno'
       simple_tls: 'LDAPS'
       start_tls: 'STARTTLS'
-      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
-      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
-      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
+      plain_description: "Abre una conexión sin cifrado al servidor LDAP. No se recomienda para producción."
+      simple_tls_description: "Usar LDAPS. Se requiere un puerto separado en el servidor LDAP. Este modo suele ser obsoleto, recomendamos usar STARTTLS siempre que sea posible."
+      start_tls_description: "Envía un comando STARTTLS después de conectarse al puerto estándar LDAP. Recomendado para conexiones cifradas."
       section_more_info_link_html: >
         Esta sección es concerniente a la seguridad de conexión de esta fuente de autentificación de LDAP. Para más información, visita <a href="%{link}">la documentación Red::LDAP</a>.
     tls_options:
-      verify_peer: "Verify SSL certificate"
+      verify_peer: "Verificar certificado SSL"
       verify_peer_description_html: >
-        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
-      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+        Permite la verificación estricta SSL de la cadena de confianza del certificado. <br/> <strong>Advertencia:</strong> Desmarcar esta opción desactiva la verificación SSL del certificado del servidor LDAP. Esto expone tu conexión a los ataques de intermediario.
+      tls_certificate_description: "Si el certificado de servidor LDAP no está en las fuentes de confianza de este sistema, puede añadirlo manualmente aquí. Introduzca una cadena de certificación PEM X509."
   forums:
     show:
       no_results_title_text: Actualmente no hay publicaciones en el foro.
@@ -422,7 +422,7 @@ es:
         host: "Host"
         onthefly: "Creación automática de usuarios"
         port: "Puerto"
-        tls_certificate_string: "LDAP server SSL certificate"
+        tls_certificate_string: "Certificado SSL del servidor LDAP"
       changeset:
         repository: "Repositorio"
       comment:
@@ -634,7 +634,7 @@ es:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "El certificado SSL proporcionado no es válido: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
