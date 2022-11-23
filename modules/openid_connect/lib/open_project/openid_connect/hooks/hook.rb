@@ -34,7 +34,7 @@ module OpenProject::OpenIDConnect
       # we want to map that to the internal session
       def user_logged_in(context)
         session = context[:session]
-        oidc_sid = session[:oidc_sid]
+        oidc_sid = session['omniauth.openid_sid']
         return if oidc_sid.nil?
 
         ::OpenProject::OpenIDConnect::SessionMapper.handle_login(oidc_sid, session)
