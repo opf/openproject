@@ -687,7 +687,7 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    pg (1.4.4)
+    pg (1.4.5)
     plaintext (0.3.4)
       activesupport (> 2.2.1)
       nokogiri (~> 1.10, >= 1.10.4)
