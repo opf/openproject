@@ -260,7 +260,7 @@ en:
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Installation support"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
+            premium_features: "Premium add-ons"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Professional support"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
@@ -274,7 +274,7 @@ en:
           more_info: "More information"
           text: >
             The OpenProject Enterprise edition builds on top of the Community edition.
-            It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            It includes premium add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
 
