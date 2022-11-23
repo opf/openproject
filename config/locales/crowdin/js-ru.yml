@@ -232,7 +232,7 @@ ru:
           benefits:
             description: "Каковы преимущества корпоративной версии?"
             high_security: "Функции безопасности"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
+            high_security_text: "Один вход (SAML, OpenID Connect, CAS), группы LDAP."
             installation: "Поддержка установки"
             installation_text: "Опытные разработчики ПО проконсультируют вас по всему процессу установки и настройки в вашей инфраструктуре."
             premium_features: "Премиум опции"
@@ -303,11 +303,11 @@ ru:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Активация оповещений о дате уведомления для предстоящих дат и просроченных задач.</li> <li>Мы выпускаем двухфакторную аутентификацию (2FA) для редакции Сообщества.</li> <li>Опция отображения рабочей недели теперь также добавлена в командный планировщик.</li> <li>Список до 3 человек в карточке уведомлений, когда несколько человек участвовали в изменениях.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Активация оповещений о дате уведомления для предстоящих дат и просроченных задач.</li> <li>Мы выпускаем двухфакторную аутентификацию (2FA) для редакции Сообщества.</li> <li>Опция отображения рабочей недели теперь также добавлена в командный планировщик.</li> <li>Список до 3 человек в карточке уведомлений, когда несколько человек участвовали в изменениях.</li> </ul>
     label_activate: "Активировать"
     label_assignee: 'Ответственный'
     label_add_column_after: "Добавить столбец после"
@@ -399,7 +399,7 @@ ru:
     label_no_data: "Нет данных для отображения"
     label_no_due_date: "нет даты окончания"
     label_no_start_date: "без даты начала"
-    label_no_date: "no date"
+    label_no_date: "нет даты"
     label_no_value: "Нет значения"
     label_none: "Ничего"
     label_not_contains: "не содержит"
@@ -626,20 +626,20 @@ ru:
         global:
           immediately:
             title: 'Участие'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Уведомления обо всех действиях в пакетах работ, в которых вы участвуете (назначение, подотчетность или наблюдение).'
           delayed:
             title: 'Неучастие'
-            description: 'Additional notifications for activities in all projects.'
+            description: 'Дополнительные уведомления для деятельности во всех проектах.'
           date_alerts:
             title: 'Дата оповещения'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Автоматическое уведомление, когда приближаются важные даты открытия пакетов работ, в которых вы участвуете (назначение, подотчетность или наблюдатель).'
             teaser_text: 'С уведомлениями о дате вы будете уведомлены о датах начала или окончания предстоящих дат, чтобы вы никогда не пропустили или не забыли важный срок.'
           start_date: Дата начала
           due_date: Дата окончания
           overdue: Когда просрочено
         project_specific:
           title: 'Конкретные настройки уведомлений проекта'
-          description: 'These project-specific settings override default settings above.'
+          description: 'Эти настройки специфического проекта переопределяют параметры по умолчанию выше.'
           add: 'Добавить настройку для проекта'
           already_selected: 'Этот проект уже выбран'
           remove: 'Удалить настройки проекта'
