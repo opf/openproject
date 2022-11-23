@@ -56,7 +56,7 @@ RSpec.describe 'Work package timeline date formatting',
            subject: 'My Subject 2'
   end
 
-  shared_let(:work_package_without_non_workign_days) do
+  shared_let(:work_package_without_non_working_days) do
     create :work_package,
            project:,
            type:,
@@ -287,19 +287,19 @@ RSpec.describe 'Work package timeline date formatting',
         expect { work_package_with_non_working_days.reload }.not_to change { work_package_with_non_working_days }
       end
 
-      context 'when ignore_non_working_days if true' do
-        let(:row) { wp_timeline.timeline_row work_package_without_non_workign_days.id }
+      context 'when ignore_non_working_days is true' do
+        let(:row) { wp_timeline.timeline_row work_package_without_non_working_days.id }
 
         describe 'sets the start, due dates and duration on a drag and drop create over the weekend' do
           subject { row.drag_and_drop(offset_days: 1, days: 8) }
 
           it_behaves_like 'sets dates, duration and displays bar' do
-            let(:target_wp) { work_package_without_non_workign_days }
-            let(:expected_bar_duration) { work_package_without_non_workign_days.duration + 3 }
+            let(:target_wp) { work_package_without_non_working_days }
+            let(:expected_bar_duration) { work_package_without_non_working_days.duration + 3 }
             let(:expected_start_date) { Date.parse('2021-01-05') }
             let(:expected_due_date) { Date.parse('2021-01-12') }
             let(:expected_duration) { 8 }
-            let(:expected_label) { work_package_without_non_workign_days.subject }
+            let(:expected_label) { work_package_without_non_working_days.subject }
           end
         end
       end
