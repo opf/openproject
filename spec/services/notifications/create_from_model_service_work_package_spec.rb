@@ -173,7 +173,7 @@ describe Notifications::CreateFromModelService,
     end
 
     context 'when assignee is placeholder user' do
-      let(:recipient) { create :placeholder_user }
+      let(:recipient) { create(:placeholder_user) }
 
       it_behaves_like 'creates no notification'
     end
@@ -226,7 +226,7 @@ describe Notifications::CreateFromModelService,
     end
 
     context 'when responsible is placeholder user' do
-      let(:recipient) { create :placeholder_user }
+      let(:recipient) { create(:placeholder_user) }
 
       it_behaves_like 'creates no notification'
     end
@@ -840,6 +840,57 @@ describe Notifications::CreateFromModelService,
           let(:note) do
             <<~NOTE
               Hello <mention class="mention" data-type="user" data-id="#{recipient.id}" data-text="@#{recipient.name}">@#{recipient.name}</mention>
+            NOTE
+          end
+
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason: :mentioned,
+                mail_alert_sent: false,
+                mail_reminder_sent: false
+              }
+            end
+          end
+        end
+
+        context "when the added text contains a user mention tag inside a quote" do
+          let(:note) do
+            <<~NOTE
+              #{recipient.name} wrote:
+              > Hello <mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">@#{recipient.name}</mention>
+            NOTE
+          end
+
+          it_behaves_like 'creates no notification'
+        end
+
+        context "when the added text contains a user mention tag inside an invalid quote" do
+          let(:note) do
+            <<~NOTE
+              #{recipient.name} wrote:
+              >Hello <mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">@#{recipient.name}</mention>
+            NOTE
+          end
+
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason: :mentioned,
+                mail_alert_sent: false,
+                mail_reminder_sent: false
+              }
+            end
+          end
+        end
+
+        context "when the added text contains a user mention tag inside a quote and outside" do
+          let(:note) do
+            <<~NOTE
+              Hi <mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">@#{recipient.name}</mention> :
+              > Hello <mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">@#{recipient.name}</mention>
             NOTE
           end
 
