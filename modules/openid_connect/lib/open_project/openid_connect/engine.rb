@@ -78,7 +78,7 @@ module OpenProject::OpenIDConnect
     end
 
     config.to_prepare do
-      ::OpenProject::OpenIDConnect::Hooks::SessionMapperHook
+      ::OpenProject::OpenIDConnect::Hooks::Hook
     end
   end
 end

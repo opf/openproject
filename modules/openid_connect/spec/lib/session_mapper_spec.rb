@@ -41,7 +41,7 @@ describe OpenProject::OpenIDConnect::SessionMapper do
 
   describe 'handle_login' do
     let(:session) { mock_session.new('foo') }
-    let!(:plain_session) { create :user_session, session_id: session.id.private_id }
+    let!(:plain_session) { create(:user_session, session_id: session.id.private_id) }
     let!(:user_session) { Sessions::UserSession.find_by(session_id: plain_session.session_id) }
 
     subject { described_class.handle_login 'oidc_sid_foo', session }
@@ -59,12 +59,12 @@ describe OpenProject::OpenIDConnect::SessionMapper do
   describe 'handle_logout' do
     let(:token) { instance_double(OmniAuth::OpenIDConnect::LogoutToken, sid: 'oidc_foobar') }
 
-    subject { described_class.handle_logout token}
+    subject { described_class.handle_logout token }
 
     context 'when an unrelated session exists' do
-      let!(:plain_session) { create :user_session, session_id: 'internal_foobar' }
+      let!(:plain_session) { create(:user_session, session_id: 'internal_foobar') }
       let!(:user_session) { Sessions::UserSession.find_by(session_id: 'internal_foobar') }
-      let!(:link) { create :user_session_link, oidc_session: 'other_oidc_sid', session: user_session }
+      let!(:link) { create(:user_session_link, oidc_session: 'other_oidc_sid', session: user_session) }
 
       it 'does not delete it' do
         expect { subject }.not_to change(OpenIDConnect::UserSessionLink, :count)
@@ -75,9 +75,9 @@ describe OpenProject::OpenIDConnect::SessionMapper do
     end
 
     context 'when a linked session exists' do
-      let!(:plain_session) { create :user_session, session_id: 'internal_foobar' }
+      let!(:plain_session) { create(:user_session, session_id: 'internal_foobar') }
       let!(:user_session) { Sessions::UserSession.find_by(session_id: 'internal_foobar') }
-      let!(:link) { create :user_session_link, oidc_session: 'oidc_foobar', session: user_session }
+      let!(:link) { create(:user_session_link, oidc_session: 'oidc_foobar', session: user_session) }
 
       it 'deletes the linked session' do
         expect { subject }.to change(OpenIDConnect::UserSessionLink, :count).by(-1)

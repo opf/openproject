@@ -28,7 +28,7 @@
 
 module OpenProject::OpenIDConnect
   module Hooks
-    class SessionMapperHook < OpenProject::Hook::Listener
+    class Hook < OpenProject::Hook::Listener
       ##
       # Once the user has signed in and has an oidc session
       # we want to map that to the internal session
@@ -60,4 +60,3 @@ module OpenProject::OpenIDConnect
     end
   end
 end
-

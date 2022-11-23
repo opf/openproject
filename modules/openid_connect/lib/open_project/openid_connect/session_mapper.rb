@@ -9,7 +9,7 @@ module OpenProject::OpenIDConnect
 
     def self.handle_login(oidc_session, session)
       if oidc_session.blank?
-        Rails.logger.info { "No OIDC session returned from provider. Cannot map session for later logouts. "}
+        Rails.logger.info { "No OIDC session returned from provider. Cannot map session for later logouts." }
         return
       end
 
@@ -20,6 +20,7 @@ module OpenProject::OpenIDConnect
     end
 
     attr_reader :session_link
+
     delegate :oidc_session, to: :session_link
 
     def initialize(link)
@@ -43,7 +44,7 @@ module OpenProject::OpenIDConnect
     end
 
     def delete_old_links!
-      ::OpenIDConnect::UserSessionLink.where(oidc_session: oidc_session).delete_all
+      ::OpenIDConnect::UserSessionLink.where(oidc_session:).delete_all
     end
 
     def find_user_session(session)
@@ -67,7 +68,7 @@ module OpenProject::OpenIDConnect
     def remove_linked_session!
       if session_link.session
         Rails.logger.debug { "Deleting linked session for #{oidc_session}" }
-        session_link.session.destroy!
+        session_link.session.delete
       else
         Rails.logger.debug { "Found session link, but no active user session for #{oidc_session}." }
       end

@@ -29,9 +29,9 @@ require 'spec_helper'
 
 describe OpenIDConnect::UserSessionLink do
   describe 'session' do
-    let(:plain_session) { create :user_session }
+    let(:plain_session) { create(:user_session) }
     let(:user_session) { Sessions::UserSession.find_by(session_id: plain_session.session_id) }
-    let(:link) { create :user_session_link, session: user_session }
+    let(:link) { create(:user_session_link, session: user_session) }
 
     it 'gets deleted when session is deleted' do
       expect(link).to be_present
