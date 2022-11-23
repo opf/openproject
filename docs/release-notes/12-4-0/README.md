@@ -3,18 +3,72 @@ title: OpenProject 12.4.0
 sidebar_navigation:
     title: 12.4.0
 release_version: 12.4.0
-release_date: 2022-11-22
+release_date: 2022-12-05
 ---
 
 # OpenProject 12.4.0
 
-Release date: 2022-11-22
+Release date: 2022-12-05
 
 We released [OpenProject 12.4.0](https://community.openproject.com/versions/1595).
-The release contains several bug fixes and we recommend updating to the newest version.
 
-<!--more-->
-#### Bug fixes and changes
+This release launches a long awaited feature of **date alerts for upcoming due dates (start or finish date)** and **reminders for overdue tasks**.
+
+With OpenProject 12.4 the **2-factor authentication feature becomes part of the Community edition** and adds an additional security layer to your application. Do not take long before you activate it. 
+
+Official **OpenProject HelmCharts** are available from now on. We also added the possibility of choosing a work week as opposed to 1 or 2 week view with the team planer. In addition, user can now tag themselves via @mentioned and can bulk edit the work-package field "subject". 
+
+As usual, the release contains several bug fixes and we recommend updating to the newest version.
+
+## Date alerts for the upcoming dates and overdue tasks
+
+The new OpenProject 12.4 release will bring notification date alerts for upcoming dates and overdue tasks (Enterprise add-on). Within the [Notification settings](.../docs/user-guide/notifications/notification-settings/) in My Account, automatic notifications for important dates and approaching dates can now be adjusted. This can be done for the open work packages you are involved in either as an assignee, accountable or watcher. A reminder can be set for 1 day, 3 days or a week before a start or a due date approaches. 
+Same options are now available for the overdue work package reminders. 
+
+![date-alerts-settings](openproject-date-alerts-settings.png)
+
+The date alerts will appear in a dedicated section in the Notification center. Red color will indicate if a work package is overdue and by how many days. The alerts will also mention in how many days a work package's start date or finish date will approach.
+
+![date-alerts-notifications](openproject-date-alerts-notification-center.png)
+
+>**Please note**: If a date is due in two days and you set a reminder for three days ahead, you will not receive a notification. The notifications are updated automatically once a day.
+In case of overdue work packages, if a reminder is set to be sent for example every day and there already is a date alert notification for this work package in place (from the day before), the old one will be marked as read and replaced by the new notification with the updated overdue date.
+
+Date alerts are an Enterprise add-on and only available in the [Enterprise on-premises and Enterprise cloud](/enterprise-edition/) version of OpenProject.
+
+## 2-factor Authetication (2FA) for the community ediiton
+
+With OpenProject 12.4 users who have OpenProject community edition installed can activate 2-factor authentication. We strongly recommend that you make use of this option and increase your account security. 
+
+![two-factor-authentication](openproject-2-factor-authentication-community-edition-png)
+
+!See [here](...//getting-started/my-account/#two-factor-authentication) how to setup the 2FA under My account.
+
+## Work week for the team planner
+
+It is now possible to choose between a full 1-week view, a 2-week view or only the work week (depending on your Working days settings in the system's Administration) in the [team planner](.../docs/user-guide/team-planner/).
+
+![selecting work week in team planner](openproject-team-planner-work-week.gif)
+
+## OpenProject Helm Charts
+
+Starting with OpenProject 12.4 offical OpenProject Helm charts are availble.
+
+![openproject helm charts](openproject-helm-charts.jpg)
+
+## List up to three people in a notification card
+
+From now on is possible to list up to 3 people in a notification card when multiple people were involved in the changes. 
+
+![openproject notifications center three people tagged](openproject-notifications-three-users-tagged.png)
+
+## Self notifications via @mentioned
+
+## Trap focus within a modal dialogue when tabbing to cycling through interactive elements
+
+## Bulk edit work package "subject" field
+
+### List of all bug fixes and changes
 
 - Epic: Notification date alerts for upcoming and overdue tasks - EE \[[#7693](https://community.openproject.com/wp/7693)\]
 - Epic: Cross-application main menu for dPhoenixSuite/Sovereign Administrative Work Place  \[[#44297](https://community.openproject.com/wp/44297)\]
@@ -43,7 +97,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
-Special thanks for reporting and finding bugs go to
+A gigantic thank you goes out to Sven Kunze for developing the self-tagging feature and the bulk edit option for the subject field.
 
-Sven Kunze, Artur Neumann, Noel Lublovary, Hein Stefans
+Special thanks for reporting and finding bugs also go to Artur Neumann, Noel Lublovary, Hein Stefans.
 
