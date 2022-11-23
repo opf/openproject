@@ -58,7 +58,7 @@ pl:
           subproject: podprojekt
           subtasks: nadrzędny-podrzędny
         board_type_title:
-          assignee: Przypisany do
+          assignee: Przypisana osoba
           status: Status
           version: Wersja
           subproject: Podprojekt

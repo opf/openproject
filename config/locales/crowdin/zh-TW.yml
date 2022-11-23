@@ -68,7 +68,7 @@ zh-TW:
       add_token: "上傳企業版support token"
       delete_token_modal:
         text: "Are you sure you want to remove the current Enterprise Edition token used?"
-        title: "Delete token"
+        title: "刪除Token"
       replace_token: "替換當前 support token"
       order: "Order Enterprise on-premises Edition"
       paste: "貼上您的企業版support token"
@@ -78,7 +78,7 @@ zh-TW:
       book_now: '立即預約'
       get_quote: '獲取報價'
       buttons:
-        upgrade: "Upgrade now"
+        upgrade: "立即更新"
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."

@@ -298,7 +298,8 @@ sudo yum install openproject
 
 Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
-**Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
+> **Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
+>
 
 ### CentOS 7 / RHEL 7
 
@@ -370,11 +371,12 @@ sudo openproject reconfigure #interactive - manual choices are stored in /etc/op
 sudo openproject configure #non-interactive - using values stored in /etc/openproject/installer.dat
 ```
 
-**Notes:**
-
-* Every time you will run the OpenProject wizard, by using `sudo openproject reconfigure` your choices will be persisted in a configuration file at `/etc/openproject/installer.dat` and subsequent executions of `sudo openproject configure` will re-use these values, only showing you the wizard steps for options you have not yet been asked for.
-
-* In the interactive way you can skip dialogs you do not want to change simply by confirming them with `ENTER`.
+> **Notes:**
+>
+> * Every time you will run the OpenProject wizard, by using `sudo openproject reconfigure` your choices will be persisted in a configuration file at `/etc/openproject/installer.dat` and subsequent executions of `sudo openproject configure` will re-use these values, only showing you the wizard steps for options you have not yet been asked for.
+>
+> * In the interactive way you can skip dialogs you do not want to change simply by confirming them with `ENTER`.
+>
 
 ## Step 1: Select your OpenProject Edition
 
@@ -576,7 +578,7 @@ First, enter the fully qualified domain where your OpenProject installation will
 
 
 
-Next, tell OpenProject whether you have SSL termination enabled somewhere in your stack. Please note that you need to set up protocol forwarding by the means mentioned in the [Skip Apache2 Installation](#skip-apache2-web-server-install-not-recommended-1) at step 3 above.
+Next, tell OpenProject whether you have SSL termination enabled somewhere in your stack. Please note that you need to set up protocol forwarding by the means mentioned in the [Skip Apache2 Installation](#skip-apache2-web-server-install-not-recommended) at step 3 above.
 
 ![HTTPS setting](07b-protocol.png)
 

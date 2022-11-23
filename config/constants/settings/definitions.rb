@@ -923,7 +923,7 @@ Settings::Definition.define do
   add :user_default_timezone,
       default: nil,
       format: :string,
-      allowed: ActiveSupport::TimeZone.all + [nil]
+      allowed: ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.canonical_identifier }.sort.uniq + [nil]
 
   add :users_deletable_by_admins,
       default: false
@@ -977,7 +977,7 @@ Settings::Definition.define do
 
   add :work_package_list_default_columns,
       default: %w[id subject type status assigned_to priority],
-      allowed: -> { Query.new.available_columns.map(&:name).map(&:to_s) }
+      allowed: -> { Query.new.displayable_columns.map(&:name).map(&:to_s) }
 
   add :work_package_startdate_is_adddate,
       default: false

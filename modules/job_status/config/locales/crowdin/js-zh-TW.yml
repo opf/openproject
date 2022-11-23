@@ -1,13 +1,13 @@
 zh-TW:
   js:
     job_status:
-      download_starts: 'The download should start automatically.'
-      click_to_download: 'Or click here to download.'
+      download_starts: '將自動開始下載'
+      click_to_download: '或是點擊下載'
       title: 'Background job status'
-      redirect: 'You are being redirected.'
-      redirect_link: 'Please click here to continue.'
-      redirect_errors: 'Due to these errors, you will not be redirected automatically.'
-      errors: 'Some errors have occurred'
+      redirect: '頁面跳轉中...'
+      redirect_link: '請點擊繼續'
+      redirect_errors: '由於這些錯誤，頁面將不會自動重新導向。'
+      errors: '發生了一些錯誤'
       generic_messages:
         not_found: 'This job could not be found.'
         in_queue: 'The job has been queued and will be processed shortly.'

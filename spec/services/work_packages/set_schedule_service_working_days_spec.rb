@@ -593,6 +593,31 @@ describe WorkPackages::SetScheduleService, 'working days' do
         end
       end
     end
+
+    context 'with successor having only duration' do
+      context 'when setting dates on predecessor' do
+        let_schedule(<<~CHART)
+          days              | MTWTFSS |
+          work_package      |         |
+          follower          |         | duration 3, follows work_package
+        CHART
+
+        before do
+          change_schedule([work_package], <<~CHART)
+            days          | MTWTFSS |
+            work_package  |   XX    |
+          CHART
+        end
+
+        it 'schedules successor to start after predecessor and keeps the duration (#44479)' do
+          expect(subject.all_results).to match_schedule(<<~CHART)
+            days          | MTWTFSS   |
+            work_package  |   XX      |
+            follower      |     X..XX |
+          CHART
+        end
+      end
+    end
   end
 
   context 'with a parent' do

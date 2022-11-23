@@ -163,6 +163,18 @@ describe Settings::Definition do
           .to eql Date.parse('2222-01-01')
       end
 
+      it 'overriding timezone configuration from ENV will cast the value' do
+        stub_const('ENV', { 'OPENPROJECT_USER__DEFAULT__TIMEZONE' => 'Europe/Berlin' })
+
+        expect(value_for('user_default_timezone')).to eq 'Europe/Berlin'
+      end
+
+      it 'overriding timezone configuration from ENV with a bogus value' do
+        stub_const('ENV', { 'OPENPROJECT_USER__DEFAULT__TIMEZONE' => 'foobar' })
+
+        expect { value_for('user_default_timezone') }.to raise_error(ArgumentError)
+      end
+
       it 'overriding configuration from ENV will set it to non writable' do
         stub_const('ENV', { 'OPENPROJECT_EDITION' => 'bim' })
 

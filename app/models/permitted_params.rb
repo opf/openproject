@@ -124,6 +124,16 @@ class PermittedParams
     permitted_params.merge(custom_field_values(:work_package))
   end
 
+  def move_work_package(args = {})
+    permitted = permitted_attributes(:move_work_package, args)
+    permitted_params = params.permit(*permitted)
+    permitted_params
+      .merge(custom_field_values(required: false))
+      .merge(type_id: params[:new_type_id],
+             project_id: params[:new_project_id],
+             journal_notes: params[:notes])
+  end
+
   def member
     params.require(:member).permit(*self.class.permitted_attributes[:member])
   end
@@ -133,7 +143,7 @@ class PermittedParams
       scopes = app_params[:scopes]
 
       if scopes.present?
-        app_params[:scopes] = scopes.reject(&:blank?).join(" ")
+        app_params[:scopes] = scopes.compact_blank.join(" ")
       end
 
       app_params
@@ -383,12 +393,8 @@ class PermittedParams
 
   protected
 
-  def custom_field_values(key, required: true)
-    # a hash of arbitrary values is not supported by strong params
-    # thus we do it by hand
-    object = required ? params.require(key) : params.fetch(key, {})
-    values = object[:custom_field_values] || ActionController::Parameters.new
-
+  def custom_field_values(key = nil, required: true)
+    values = build_custom_field_values(key, required:)
     # only permit values following the schema
     # 'id as string' => 'value as string'
     values.select! { |k, v| k.to_i > 0 && (v.is_a?(String) || v.is_a?(Array)) }
@@ -512,8 +518,7 @@ class PermittedParams
           :subject,
           Proc.new do |args|
             # avoid costly allowed_to? if the param is not there at all
-            if args[:params]['work_package'] &&
-               args[:params]['work_package'].has_key?('watcher_user_ids') &&
+            if args[:params]['work_package']&.has_key?('watcher_user_ids') &&
                args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
 
               { watcher_user_ids: [] }
@@ -522,6 +527,15 @@ class PermittedParams
           # attributes unique to :new_work_package
           :journal_notes,
           :lock_version
+        ],
+        move_work_package: %i[
+          assigned_to_id
+          responsible_id
+          start_date
+          due_date
+          status_id
+          version_id
+          priority_id
         ],
         oauth_application: [
           :name,
@@ -622,5 +636,18 @@ class PermittedParams
     (hash || {})
       .keys
       .select { |k| list.any? { |whitelisted| whitelisted.to_s == k.to_s || whitelisted === k } }
+  end
+
+  private
+
+  def build_custom_field_values(key, required:)
+    # When the key is false, it means we do not have a parent key,
+    # so we are searching the whole params hash.
+    key_to_fetch = key || :custom_field_values
+    # a hash of arbitrary values is not supported by strong params
+    # thus we do it by hand
+    object = required ? params.require(key_to_fetch) : params.fetch(key_to_fetch, {})
+    values = key ? object[:custom_field_values] : object
+    values || ActionController::Parameters.new
   end
 end

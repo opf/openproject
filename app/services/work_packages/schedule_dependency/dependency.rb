@@ -52,9 +52,10 @@ class WorkPackages::ScheduleDependency::Dependency
   end
 
   def soonest_start_date
-    follows_relations
-      .filter_map(&:successor_soonest_start)
-      .max
+    @soonest_start_date ||=
+      follows_relations
+        .filter_map(&:successor_soonest_start)
+        .max
   end
 
   def start_date

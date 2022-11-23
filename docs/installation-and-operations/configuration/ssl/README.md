@@ -8,25 +8,20 @@ sidebar_navigation:
 
 ## Package-based installation (DEB/RPM)
 
-SSL configuration can be applied on the first installation, or at any time by reconfiguring the application with:
+SSL configuration can be applied any time by reconfiguring the application with:
 
 ```bash
 sudo openproject reconfigure
 ```
 
-You will be prompted with the same dialogs than on the [initial configuration](../../installation/packaged/#step-3-apache2-web-server-and-ssl-termination) guide. This assumes that you select the **install** option when the **server/autoinstall** dialog appears, and that you have certificate and key files available on your server at a path you know.
+You will be prompted with the same dialogs than on the [initial configuration](../../installation/packaged/#step-3-apache2-web-server-and-ssl-termination) guide. This assumes that you select the **install** option when the **server/autoinstall** dialog appears, and that you have certificate and key files available on your server at a known path.
 
 ## Docker-based installation
 
-The current Docker image does not support SSL by default. Usually you would
-already have an existing Apache or NginX server on your host, with SSL
-configured, which you could use to set up a simple ProxyPass rule to direct
-traffic to the container. Or one of the myriad of other tools (e.g. Traefik) offered by the Docker community to handle this aspect.
+The current Docker image does not use SSL by default. Usually you would already have an existing Apache or NginX server (container) on your host, with SSL configured, which you could use to set up a simple ProxyPass rule to direct traffic to the container. Or one of the myriad of other tools (e.g. Traefik) offered by the Docker community to handle this aspect.
 
-If you really want to enable SSL from within the container, you could try
-mounting a custom apache2 directory when you launch the container with `-v
-my/apache2/conf:/etc/apache2`. This would entirely replace the configuration
-we're using.
+If you really want to enable SSL from within the container, you could try mounting a custom apache2 directory when you launch the container with `-v
+my/apache2/conf:/etc/apache2`. This would entirely replace the configuration we're using.
 
 ## Create a free SSL certificate using let's encrypt
 
@@ -38,7 +33,9 @@ This requires your OpenProject server to be reachable using a domain name (e.g. 
 2. Follow the installation instructions to get the `certbot` CLI installed.
 3. Run the `certbot` CLI to generate the certificate (and only the certificate):
 
-        sudo certbot certonly --apache
+    ```bash
+    sudo certbot certonly --apache
+    ```
 
   The CLI will ask for a few details and to agree to the Let's Encrypt terms of usage. Then it will perform the Let's Encrypt challenge and finally issue a certificate file and a private key file if the challenge succeeded.
 
@@ -54,7 +51,9 @@ This requires your OpenProject server to be reachable using a domain name (e.g. 
 
 4. Let's Encrypt certificates are only valid for 90 days. An entry in your OS crontab should have automatically been added when `certbot` was installed. You can optionally confirm that the renewal will work by issuing the following command in dry-run mode:
 
-        sudo certbot renew --dry-run
+    ```bash
+    sudo certbot renew --dry-run
+    ```
 
 
 ## External SSL termination
@@ -78,7 +77,7 @@ If you're terminating SSL on the outer server, you need to set the `X-Forwarded-
 
 
 
-Finally, to let OpenProject know that it should create links with 'https' when no request is available (for example, when sending emails), you need to set the Protocol setting of OpenProject to `https`. You can set this configuration by setting the ENV `OPENPROJECT_HTTPS=true`.
+Finally, to let OpenProject know that it should create links with 'https' when no request is available (for example, when sending emails), you need to set the Protocol setting of OpenProject to `https`. You can set this configuration by setting the ENV `OPENPROJECT_HTTPS="true"`.
 
 
 _<sup>1</sup> In the packaged installation this means you selected "no" when asked for SSL in the configuration wizard but at the same time take care of SSL termination elsewhere. This can be a manual Apache setup on the same server (not recommended) or an external server, for instance._
