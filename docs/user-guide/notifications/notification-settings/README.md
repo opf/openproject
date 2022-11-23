@@ -49,9 +49,11 @@ For start and finish date dates, you can choose to be alerted the same day, a da
 
 > **Info:** Please note that these are natural days and not working days. For a work package starting on a Monday, "3 days before" would be Friday.
 
-You can also choose to receive a recurring notification (every day, every 3 days or every week) for work packages that are overdue. You can stop receiving these alerts by either unchecking this option, or changing the dates of the relevant work packages.
+You can also choose to receive a recurring notification (every day, every 3 days or every week) for work packages that are overdue. A previously unread overdue date alert is replaced by a new one (for example, if you choose to be alerted every 3 days, and ignore that alert for a week, it will still just count as one notification). You can stop receiving these alerts by either unchecking this option, or changing the dates of the relevant work packages. 
 
-Date alerts notifications will appear in [Notifications center](../#accessing-in-app-notifications), both in the _Inbox_ and the separate _Date alerts_ sections on the left menu.
+Date alerts notifications appear in [Notification center](../#accessing-in-app-notifications), both in the _Inbox_ and the separate _Date alerts_ sections on the left menu.
+
+> **Info:** Date alerts are generated once a day at 1am local time. Please note that when you set up a date alert, work packages that are due earlier that the duration selected will not generate notifications. For example, if you choose to be notified  "3 days before" the finish date, work packages that are due in 2 days at that point in time will not generate a date alert.
 
 ## Non-participating
 
@@ -87,4 +89,4 @@ Once you do so, you will see a table with a column for that project and and the 
 
 ## Email reminders
 
-You can supplement these in-app notifications with email reminders, either at specific times of the day or immediately when someone mentions you. For more information, please read our guide on **[Email reminders](../../../getting-started/my-account#email-reminders)**.
+You can supplement these in-app notifications with email reminders, either at specific times of the day or immediately when someone mentions you. For more information, please read our guide on **[Email reminders](../../../getting-started/my-account#email-reminders)**.	
