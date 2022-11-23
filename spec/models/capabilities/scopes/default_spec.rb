@@ -185,12 +185,26 @@ describe Capabilities::Scopes::Default, type: :model do
       end
     end
 
-    context 'with the anonymous role with an action permission' do
+    context 'with the anonymous role having the action permission in a public project' do
+      let(:anonymous_permissions) { %i[view_members] }
+      let(:project_public) { true }
+      let(:members) { [anonymous_role] }
+
+      it_behaves_like 'is empty'
+    end
+
+    context 'with the anonymous user with an action permission' do
       let(:anonymous_permissions) { %i[view_members] }
       let!(:user) { create(:anonymous) }
       let(:members) { [anonymous_role] }
 
       context 'with the project being private' do
+        it_behaves_like 'is empty'
+      end
+
+      context 'with the anonymous role not having the permission' do
+        let(:anonymous_permissions) { %i[] }
+
         it_behaves_like 'is empty'
       end
 

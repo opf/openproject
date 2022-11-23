@@ -46,6 +46,7 @@ module Capabilities::Scopes
           ) capabilities
         SQL
 
+        # binding.pry
         select('capabilities.*')
           .from(capabilities_sql)
       end
