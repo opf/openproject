@@ -18,19 +18,19 @@ The toast consists of:
 
 There are four types of toasts, each with a specific icon and colour associated with it:
 
-An **Information** toast is blue and provides the user with helpful information about the current view. 
+An **Information** toast is blue (background: Feedback/Info/Light, stroke: Feedback/Info/Dark) and provides the user with helpful information about the current view. 
 
 > Eg: a blue notification toast (as it exists today)
 
-A **Success** toast is green and indicates to the user that an action has been successfully carried out.
+A **Success** toast is green (background: Feedback/Success/Light, stroke: Feedback/Success/Dark)and indicates to the user that an action has been successfully carried out.
 
 > Eg: a green success toast (as it exists today)
 
-A **Warning** toast is orange and indicates that there are potential risks or possibility of error.
+A **Warning** toast is orange (background: Feedback/Warning/Light, stroke: Feedback/Warning/Dark) and indicates that there are potential risks or possibility of error.
 
 > Eg: an orange toast (is this used somewhere?)
 
-An **Error** toast is red and indicates that something did not not go as expected, and that there is a problem.
+An **Error** toast is red (background: Feedback/Error/Light, stroke: Feedback/Error/Dark) and indicates that something did not not go as expected, and that there is a problem.
 
 > Eg: a red toast (as it exists today, when moving an WP in GANTT view is not possible)
 
@@ -42,7 +42,7 @@ The text is generally merely informational, although there might sometimes be a 
 
 > Eg. Blue notification toast with "Load new notifications" link.
 
-Toasts do not disappear automatically; they must be manually closed by the user.
+Toasts generally disappear automatically; they must be manually closed by the user. The only exception is the Success toast, which _can_ disappear automatically, if the user has enabled this in their account settings.
 
 Ideally, only one toast should be visible at any time. Hoever, there are circumstances where multiple toasts might be generated and visible to the user; in this case, the toasts must "pile" vertically with a 1 rem (?) spacing between them.
 
