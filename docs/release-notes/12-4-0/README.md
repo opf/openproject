@@ -64,9 +64,13 @@ From now on is possible to list up to 3 people in a notification card when multi
 
 ## Self notifications via @mentioned
 
-## Trap focus within a modal dialogue when tabbing to cycling through interactive elements
+Users can now notify not only other users but themselves too via @mention. Notification is sent to all the mentioned users as usual.
 
 ## Bulk edit work package "subject" field
+
+It is now possible to bulk edit the subject field for multiple work packages. See how to [bulk edit work packages](.../docs/user-guide/work-packages/edit-work-package/#bulk-edit-work-packages). 
+
+![openproject bulk edit work package subject field](openproject-bulk-edit-subject.png)
 
 ### List of all bug fixes and changes
 
