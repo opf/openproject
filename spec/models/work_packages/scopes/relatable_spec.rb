@@ -586,7 +586,7 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
     context "for a 'follows' relation" do
       let(:relation_type) { Relation::TYPE_FOLLOWS }
 
-      it "contains the predecessor's parent and that parent's predecessor" do
+      it "contains the predecessor's parent and that parent's successor" do
         expect(relatable)
           .to match_array [predecessor_parent, predecessor_parent_successor]
       end
@@ -595,16 +595,16 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
     context "for a 'precedes' relation" do
       let(:relation_type) { Relation::TYPE_PRECEDES }
 
-      it "is empty" do
+      it "contains the predecessor's parent's successor" do
         expect(relatable)
-          .to be_empty
+          .to match_array [predecessor_parent_successor]
       end
     end
 
     context "for a 'blocks' relation" do
       let(:relation_type) { Relation::TYPE_BLOCKS }
 
-      it "contains the predecessor's parent and that parent's predecessor" do
+      it "contains the predecessor's parent and that parent's successor" do
         expect(relatable)
           .to match_array [predecessor_parent, predecessor_parent_successor]
       end
@@ -613,7 +613,7 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
     context "for a 'blocked' relation" do
       let(:relation_type) { Relation::TYPE_BLOCKED }
 
-      it "contains the predecessor's parent and that parent's predecessor" do
+      it "contains the predecessor's parent and that parent's successor" do
         expect(relatable)
           .to match_array [predecessor_parent, predecessor_parent_successor]
       end
@@ -622,7 +622,7 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
     context "for a 'relates' relation" do
       let(:relation_type) { Relation::TYPE_RELATES }
 
-      it "contains the predecessor's parent and that parent's predecessor" do
+      it "contains the predecessor's parent and that parent's successor" do
         expect(relatable)
           .to match_array [predecessor_parent, predecessor_parent_successor]
       end
@@ -728,9 +728,9 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
     context "for a 'follows' relation" do
       let(:relation_type) { Relation::TYPE_FOLLOWS }
 
-      it "is empty" do
+      it "is contains the successor's parent's predecessor" do
         expect(relatable)
-          .to be_empty
+          .to match_array [successor_parent_predecessor]
       end
     end
 
@@ -1061,6 +1061,39 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
       it "contains the predecessor's child" do
         expect(relatable)
           .to match_array [predecessor_child]
+      end
+    end
+  end
+
+  context 'with a blocks work package that has a child and a parent' do
+    let(:blocks_child) do
+      create(:work_package, parent: blocks)
+    end
+    let(:blocks) do
+      create(:work_package, parent: blocks_parent).tap do |bl|
+        create(:relation, from: origin, to: bl, relation_type: Relation::TYPE_BLOCKS)
+      end
+    end
+    let(:blocks_parent) do
+      create(:work_package)
+    end
+    let!(:existing_work_packages) { [origin, blocks, blocks_parent, blocks_child] }
+
+    context "for a 'blocks' relation" do
+      let(:relation_type) { Relation::TYPE_BLOCKS }
+
+      it "contains the parent and the child" do
+        expect(relatable)
+          .to match_array [blocks_parent, blocks_child]
+      end
+    end
+
+    context "for a 'blocked' relation" do
+      let(:relation_type) { Relation::TYPE_BLOCKED }
+
+      it "is empty" do
+        expect(relatable)
+          .to be_empty
       end
     end
   end

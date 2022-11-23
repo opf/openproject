@@ -29,27 +29,40 @@ module WorkPackages::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      # Returns all work packages that are relatable to the provided work package via new a relation of the provided type.
+      # Returns all work packages which can become part of a new relation from or to the provided work package where the
+      # new relation would receive the provided type (e.g. 'blocks').
       #
       # For most relation types, e.g. 'includes', the four following rules must be satisfied:
       # * Non circular: relations cannot form a circle, e.g. a -> b -> c -> a.
       # * Single relation: only one relation can be created between any two work packages. E.g. it is not possible to create
       #   two relations like this:
-      #   * WP 1 --- follows  ---> WP 2
-      #   * WP 1 --- includes ---> WP 2
+      #   * WP 1 ────follows────> WP 2
+      #   * WP 1 ────includes────> WP 2
+      #   The type of the relation is of no relevance for this constraint.
       # * Ancestor/descendant: relations cannot be drawn between ancestor and descendants. It is important to note though,
       #   that relations can be created between any two work packages within the same tree as long as they are not in a direct
-      #   or transitive ancestor/descendant relationship. So a relation between siblings is just as possible as one between
-      #   aunt and nephew. Additionally, a transitive relationship which leaves the tree for any one hop, is exempt from that rule
-      #   so it is possible to have child --- blocks ---> other --- blocks ---> parent.
+      #   or transitive (e.g. parent of the parent or child of the child) ancestor/descendant relationship. So a relation between
+      #   siblings is just as possible as one between aunt and nephew. Additionally, a transitive relationship which leaves the
+      #   tree for any one hop, is exempt from that rule so it is possible to have:
+      #                  WP parent ────┐
+      #                    │         includes
+      #                    │           │
+      #                    │           v
+      #                 hierarchy    other WP
+      #                    │           │
+      #                    │           │
+      #                    v        includes
+      #                  WP child <────┘
       # * No circles between trees: The ancestor/descendant chain is considered bidirectional when calculating relatability.
       #   This means that starting from the work package both the descendants as well as the ancestors are considered. That
       #   way, relations like
-      #     Child tree 1
-      #       --- parent ---> Parent tree 1
-      #       --- follows ---> Parent tree 2
-      #       --- child ---> Child tree 2
-      #       --- follows ---> Child tree 1
+      #                  WP parent1 <────follows──── WP parent2
+      #                    │                            │
+      #                    │                            │
+      #                 hierarchy                    hierarchy
+      #                    │                            │
+      #                    v                            v
+      #                  WP child1 ────follows────> WP child2
       #   are prevented.
       #
       # For some of the relations, this has actual relevance (FOLLOWS, PRECEDES, PARENT because of scheduling) while for the
@@ -69,14 +82,21 @@ module WorkPackages::Scopes
       #   (FOLLOWS relationship) may also not be related to via a PARENT relation. However, parents and children of those
       #   predecessors/successors can be related to. But they still need to be considered in the code since they might be
       #   part of an almost completed circle which would be closed if a work package is added as a parent. E.g. in
-      #     WP1 --- follows ---> WP2 --- parent ---> WP3 --- follows ---> WP4
-      #   WP4 is not a valid parent candidate whereas WP3 is.
+      #                    WP4 <────follows──── WP3
+      #                                          │
+      #                                          │
+      #                                       hierarchy
+      #                                          │
+      #                                          v
+      #                                         WP2 <────follows──── WP1
+      #   WP4 is not a valid parent candidate for WP1 since it would create the structure used as an example in
+      #   "No circle for trees". However WP3 would be relatable to.
       #   Work packages related via follows/precedes to any descendant of a work package are exempt from being relatable right
       #   away as it would create a circle.
       #
       # The implementation focuses on excluding candidates. It does so in two parts:
       #   * Excluding all work packages with which a direct relation already exist.
-      #   * Excluding work packages that are related transitively.
+      #   * Excluding work packages that are related transitively (following a path of direct relationships).
       #
       # The first is straightforward. The second is more complicated and also depends on the type of relation that is
       # queried for. It uses a CTE to recursively find all work packages with which a transitive relationship of interest based
@@ -88,35 +108,40 @@ module WorkPackages::Scopes
       # type. This is to prevent a circle of relationships. For the 'related' type, only the ancestors and descendants are of
       # interest.
       #
-      # For FOLLOWS/PRECEDES relationships both directions need to be taken into account, and again, this includes those of the
-      # hierarchy. This prevents creating relations in a structure like this:
-      #     queried WP
-      #       --- follows ---> Predecessor WP
-      #       --- parent ---> Predecessor's parent WP
-      #       <-- follows --- Predecessor's parent's successor WP
-      # Where neither of the work packages is allowed to become a successor. However, taking both directions is not
-      # necessary from the tree of the queried for work package itself. Just inversing the example above (not the parent child):
-      #     queried WP
-      #       <-- follows --- Successor WP
-      #       --- parent ---> Successor's parent WP
-      #       --- follows --> Successor's parent's predecessor WP
-      # all work package are potential successors.
+      # For PARENT relationships both directions of FOLLOWS/PRECEDES need to be taken into account, and of course,
+      # hierarchy relation are to be included as well. This prevents creating invalid relations in a structure like this:
       #
-      # For PARENT relationships, both directions actually need to be followed even from the queried for work package and
-      # its descendants. However, if the direction of the path is inverted all the work packages on the path
-      # afterwards are valid targets and need not be followed up on. In the example above for FOLLOWS/PRECEDES, both
-      # "Predecessor's parent's successor WP" as well as "Successor's parent's predecessor WP" are valid.
-      # Just for completeness of the example, both parent work packages are valid targets as well. But a predecessor of
-      # the predecessor's target would not be valid.
+      #          WP4 <────follows──── WP3                                        WP6 <────follows──── WP7
+      #                                │                                          │
+      #                                │                                          │
+      #                             hierarchy                                  hierarchy
+      #                                │                                          │
+      #                                v                                          v
+      #                               WP2 <────follows────  WP1 <────follows──── WP5
+      #
+      # where creating a parent relation to both WP4 or WP7 would create a circle between trees.
+      #
+      # The necessity to follow both directions spans to the queried for work package as well as to its descendants.
+      # However, once started from that origin, if the direction of the path is inverted all the work packages on the path
+      # afterwards are valid targets and need not be followed up on:
+      #
+      #                               WP3 <────follows──── WP4     WP7 <────follows──── WP6
+      #                                │                                                 │
+      #                                │                                                 │
+      #                             hierarchy                                         hierarchy
+      #                                │                                                 │
+      #                                v                                                 v
+      #                               WP2 <────follows──────── WP1 <────────follows──── WP5
+      #
+      # In the example above, WP4 as well as WP7 (and for completeness sake WP3 as well as WP6) are valid relation targets,
+      # and every work package related to those two would be as well.
       # It is also important to note, that existing ancestors are of no importance since this part of the structure will change.
       # Creating a parent relationship is destructive since there can only ever be one.
       #
       # The result is a blocklist which will include work packages that can not be related to. The list is not complete
       # as it will not include the work packages related by different relation types so those are added additionally. For the
-      # PARENT relationship, work packages directly related to any of the descendants are added as well. Since work packages
-      # related to the queried work packages only by a path containing both FOLLOWS and PRECEDES relationships are valid targets,
-      # these are filtered out as well. It would be possible to optimize the CTE here to not have them included
-      # in the first place.
+      # PARENT relationship, work packages directly related to any of the descendants are added as well. Ancestors of predecessors
+      # and successors, which needed to be followed are to be removed from the blocklist since they are valid targets.
       #
       # The CTE has the following columns:
       # * id - the id of the work packages currently related. This is the result of the CTE.
@@ -124,7 +149,6 @@ module WorkPackages::Scopes
       #                                    iteration.
       # * origin - boolean to indicate whether the work package is the queried for work package or its ancestor/descendant
       #            (only descendant for PARENT). Such a work package is never a valid target.
-      #            Additionally, it is used to limit proceeding in both directions for FOLLOWS/PRECEDES.
       # * includes_(from_relation/to_relation) - booleans about the direction (from_id -> to_id or to_id -> from_id) of the path
       #                                          (the relations followed).
       #                                          This is relevant for a queried for PARENT relation. In that case, relations need
@@ -137,8 +161,8 @@ module WorkPackages::Scopes
       def relatable(work_package, relation_type)
         return all if work_package.new_record?
 
-        scope = not_having_directed_relation(work_package, relation_type)
-                  .not_having_direct_relation(work_package, relation_type)
+        scope = not_having_direct_relation(work_package, relation_type)
+                  .not_having_transitive_relation(work_package, relation_type)
                   .where.not(id: work_package.id)
 
         # On a parent relationship, explicitly remove the former parent (which might be the current one as well)
@@ -169,7 +193,7 @@ module WorkPackages::Scopes
              .where.not(id: Relation.where(to_id: origin).select(:from_id))
       end
 
-      def not_having_directed_relation(work_package, relation_type)
+      def not_having_transitive_relation(work_package, relation_type)
         sql = <<~SQL.squish
           WITH
             RECURSIVE
@@ -254,12 +278,6 @@ module WorkPackages::Scopes
         unions = [existing_hierarchy_lateral]
 
         case relation_type
-        when Relation::TYPE_FOLLOWS
-          unions << existing_relation_of_type_lateral(Relation::TYPE_FOLLOWS)
-          unions << existing_relation_of_type_lateral(Relation::TYPE_PRECEDES, limit_origin: true)
-        when Relation::TYPE_PRECEDES
-          unions << existing_relation_of_type_lateral(Relation::TYPE_FOLLOWS, limit_origin: true)
-          unions << existing_relation_of_type_lateral(Relation::TYPE_PRECEDES)
         when Relation::TYPE_PARENT
           unions << existing_relation_of_type_lateral(Relation::TYPE_FOLLOWS, limit_direction: true)
           unions << existing_relation_of_type_lateral(Relation::TYPE_PRECEDES, limit_direction: true)
@@ -273,7 +291,7 @@ module WorkPackages::Scopes
       end
 
       # rubocop:disable Metrics/PerceivedComplexity
-      def existing_relation_of_type_lateral(relation_type, limit_origin: false, limit_direction: false)
+      def existing_relation_of_type_lateral(relation_type, limit_direction: false)
         canonical_type = Relation.canonical_type(relation_type)
 
         is_canonical = canonical_type == relation_type
@@ -306,7 +324,6 @@ module WorkPackages::Scopes
             relations
           WHERE (relations.#{direction2} = related.id AND relations.relation_type = :relation_type)
             AND NOT related.from_#{direction2}
-            #{limit_origin ? 'AND NOT related.origin' : ''}
             #{direction_limit ? "AND NOT #{direction_limit}" : ''}
         SQL
 
