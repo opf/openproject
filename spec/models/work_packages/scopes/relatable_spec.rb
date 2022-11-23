@@ -29,12 +29,11 @@ require 'spec_helper'
 describe WorkPackages::Scopes::Relatable, '.relatable scope' do
   create_shared_association_defaults_for_work_package_factory
 
-  let(:project) { create(:project) }
-  let(:origin) { create(:work_package, project:) }
-  let(:unrelated_work_package) { create(:work_package, project:) }
+  let(:origin) { create(:work_package) }
+  let(:unrelated_work_package) { create(:work_package) }
 
   let(:directly_related_work_package) do
-    create(:work_package, project:).tap do |related_wp|
+    create(:work_package).tap do |related_wp|
       create(:relation,
              relation_type: directly_related_work_package_type,
              from: origin,
@@ -43,7 +42,7 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
   end
   let(:directly_related_work_package_type) { relation_type }
   let(:transitively_related_work_package) do
-    create(:work_package, project:).tap do |related_wp|
+    create(:work_package).tap do |related_wp|
       create(:relation,
              relation_type: transitively_related_work_package_type,
              from: directly_related_work_package,
@@ -53,23 +52,23 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
   let(:transitively_related_work_package_type) { relation_type }
 
   let(:parent) do
-    create(:work_package, project:).tap do |p|
+    create(:work_package).tap do |p|
       origin.update(parent: p)
     end
   end
   let(:sibling) do
-    create(:work_package, project:, parent:)
+    create(:work_package, parent:)
   end
   let(:grandparent) do
-    create(:work_package, project:).tap do |p|
+    create(:work_package).tap do |p|
       parent.update(parent: p)
     end
   end
   let(:aunt) do
-    create(:work_package, project:, parent: grandparent)
+    create(:work_package, parent: grandparent)
   end
   let(:origin_child) do
-    create(:work_package, project:, parent: origin)
+    create(:work_package, parent: origin)
   end
   let(:existing_work_packages) { [] }
 
@@ -289,10 +288,10 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context "with two parent child pairs connected by a relation" do
     let(:other_parent) do
-      create(:work_package, project:)
+      create(:work_package)
     end
     let(:other_child) do
-      create(:work_package, project:, parent: other_parent).tap do |wp|
+      create(:work_package, parent: other_parent).tap do |wp|
         create(:relation, from: wp, to: origin_child, relation_type: existing_relation_type)
       end
     end
@@ -409,7 +408,7 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context 'with an ancestor chain of 3 work packages' do
     let(:grand_grandparent) do
-      create(:work_package, project:).tap do |par|
+      create(:work_package).tap do |par|
         grandparent.update(parent: par)
       end
     end
@@ -446,10 +445,10 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context 'with a predecessor having a parent' do
     let(:predecessor_parent) do
-      create(:work_package, project:)
+      create(:work_package)
     end
     let(:predecessor) do
-      create(:work_package, project:, parent: predecessor_parent).tap do |pre|
+      create(:work_package, parent: predecessor_parent).tap do |pre|
         create(:relation, from: origin, to: pre, relation_type: Relation::TYPE_FOLLOWS)
       end
     end
@@ -467,12 +466,12 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context 'with two predecessors being in a hierarchy' do
     let(:predecessor_parent) do
-      create(:work_package, project:).tap do |pre|
+      create(:work_package).tap do |pre|
         create(:relation, from: origin, to: pre, relation_type: Relation::TYPE_FOLLOWS)
       end
     end
     let(:predecessor) do
-      create(:work_package, project:, parent: predecessor_parent).tap do |pre|
+      create(:work_package, parent: predecessor_parent).tap do |pre|
         create(:relation, from: origin, to: pre, relation_type: Relation::TYPE_FOLLOWS)
       end
     end
@@ -490,15 +489,15 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context 'with a predecessor having a parent that has a predecessor' do
     let(:predecessor_parent_predecessor) do
-      create(:work_package, project:).tap do |pre|
+      create(:work_package).tap do |pre|
         create(:relation, from: predecessor_parent, to: pre, relation_type: Relation::TYPE_FOLLOWS)
       end
     end
     let(:predecessor_parent) do
-      create(:work_package, project:)
+      create(:work_package)
     end
     let(:predecessor) do
-      create(:work_package, project:, parent: predecessor_parent).tap do |pre|
+      create(:work_package, parent: predecessor_parent).tap do |pre|
         create(:relation, from: origin, to: pre, relation_type: Relation::TYPE_FOLLOWS)
       end
     end
@@ -561,15 +560,15 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context 'with a predecessor having a parent that has a successor' do
     let(:predecessor_parent_successor) do
-      create(:work_package, project:).tap do |suc|
+      create(:work_package).tap do |suc|
         create(:relation, to: predecessor_parent, from: suc, relation_type: Relation::TYPE_FOLLOWS)
       end
     end
     let(:predecessor_parent) do
-      create(:work_package, project:)
+      create(:work_package)
     end
     let(:predecessor) do
-      create(:work_package, project:, parent: predecessor_parent).tap do |pre|
+      create(:work_package, parent: predecessor_parent).tap do |pre|
         create(:relation, from: origin, to: pre, relation_type: Relation::TYPE_FOLLOWS)
       end
     end
@@ -632,15 +631,15 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context 'with a successor having a parent that has a successor' do
     let(:successor_parent_successor) do
-      create(:work_package, project:).tap do |suc|
+      create(:work_package).tap do |suc|
         create(:relation, to: successor_parent, from: suc, relation_type: Relation::TYPE_FOLLOWS)
       end
     end
     let(:successor_parent) do
-      create(:work_package, project:)
+      create(:work_package)
     end
     let(:successor) do
-      create(:work_package, project:, parent: successor_parent).tap do |suc|
+      create(:work_package, parent: successor_parent).tap do |suc|
         create(:relation, to: origin, from: suc, relation_type: Relation::TYPE_FOLLOWS)
       end
     end
@@ -703,15 +702,15 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context 'with a successor having a parent that has a predecessor' do
     let(:successor_parent_predecessor) do
-      create(:work_package, project:).tap do |pre|
+      create(:work_package).tap do |pre|
         create(:relation, from: successor_parent, to: pre, relation_type: Relation::TYPE_FOLLOWS)
       end
     end
     let(:successor_parent) do
-      create(:work_package, project:)
+      create(:work_package)
     end
     let(:successor) do
-      create(:work_package, project:, parent: successor_parent).tap do |suc|
+      create(:work_package, parent: successor_parent).tap do |suc|
         create(:relation, to: origin, from: suc, relation_type: Relation::TYPE_FOLLOWS)
       end
     end
@@ -774,7 +773,7 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context 'with a parent that has a predecessor' do
     let(:parent_predecessor) do
-      create(:work_package, project:).tap do |pre|
+      create(:work_package).tap do |pre|
         create(:follows_relation, from: parent, to: pre)
       end
     end
@@ -828,7 +827,7 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context 'with a parent that has a successor' do
     let(:parent_successor) do
-      create(:work_package, project:).tap do |suc|
+      create(:work_package).tap do |suc|
         create(:follows_relation, to: parent, from: suc)
       end
     end
@@ -882,15 +881,15 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context 'with a child that has a successor that has a parent and a grandparent' do
     let(:child_successor) do
-      create(:work_package, project:, parent: child_successor_parent).tap do |suc|
+      create(:work_package, parent: child_successor_parent).tap do |suc|
         create(:follows_relation, from: suc, to: origin_child)
       end
     end
     let(:child_successor_parent) do
-      create(:work_package, project:, parent: child_successor_grandparent)
+      create(:work_package, parent: child_successor_grandparent)
     end
     let(:child_successor_grandparent) do
-      create(:work_package, project:)
+      create(:work_package)
     end
     let!(:existing_work_packages) { [origin_child, child_successor, child_successor_parent, child_successor_grandparent] }
 
@@ -933,15 +932,15 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context 'with a child that blocks a work package that has a parent and a grandparent' do
     let(:child_blocked) do
-      create(:work_package, project:, parent: child_blocked_parent).tap do |wp|
+      create(:work_package, parent: child_blocked_parent).tap do |wp|
         create(:relation, relation_type: Relation::TYPE_BLOCKS, from: origin_child, to: wp)
       end
     end
     let(:child_blocked_parent) do
-      create(:work_package, project:, parent: child_blocked_grandparent)
+      create(:work_package, parent: child_blocked_grandparent)
     end
     let(:child_blocked_grandparent) do
-      create(:work_package, project:)
+      create(:work_package)
     end
     let!(:existing_work_packages) { [origin_child, child_blocked, child_blocked_parent, child_blocked_grandparent] }
 
@@ -1002,10 +1001,10 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
 
   context 'with a predecessor that has a child' do
     let(:predecessor_child) do
-      create(:work_package, project:, parent: predecessor)
+      create(:work_package, parent: predecessor)
     end
     let(:predecessor) do
-      create(:work_package, project:).tap do |pre|
+      create(:work_package).tap do |pre|
         create(:relation, from: origin, to: pre, relation_type: Relation::TYPE_FOLLOWS)
       end
     end
