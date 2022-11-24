@@ -27,7 +27,11 @@
 //++
 
 import {
-  Component, HostBinding, Injector, Input, ViewEncapsulation, 
+  Component,
+  HostBinding,
+  Injector,
+  Input,
+  ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
