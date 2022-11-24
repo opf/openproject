@@ -71,7 +71,7 @@ en:
           status: Status
           version: Version
           subproject: Subproject
-          subtasks: Parent-Child
+          subtasks: Parent-child
           basic: Basic
         select_attribute: "Action attribute"
 

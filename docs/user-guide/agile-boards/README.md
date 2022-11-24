@@ -85,10 +85,10 @@ Every list represents a subproject. Within the list you will find the subproject
 
 ![create subproject board](create-subproject-board.png)
 
-### Parent-Child board
+### Parent-child board
 Every list represents a parent work package. Within the list you will find the work package's children. 
 Only work packages from the current project can be selected as a list, i.e. can be chosen as the name of the list.
-The Parent-Child board is ideal for depicting a **work breakdown structure (WBS)**. By moving cards to another list you can reorder the work package as a child to another work package.
+The Parent-child board is ideal for depicting a **work breakdown structure (WBS)**. By moving cards to another list you can reorder the work package as a child to another work package.
 Please note: This will only display one hierarchy level below the displayed work package, i.e. only immediate children and no grandchildren.
 
 ![create parent child board](create-parent-child-board.png)
