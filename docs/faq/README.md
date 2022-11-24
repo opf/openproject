@@ -66,7 +66,7 @@ Terms and conditions regarding GPLv3 are available at [https://www.gnu.org/licen
 
 We offer three different versions of OpenProject. Please get an overview of the different OpenProject Editions [here](https://www.openproject.org/pricing/#features).
 
-The (on-premise) OpenProject Community edition is completely free. The Enterprise cloud and Enterprise on-premises edition offer Enterprise add-ons, hosting and support and thus we are charging for it. Nevertheless, we offer free 14 days trials for the Enterprise versions so that you can get to know their benefits. If you prefer to use the free OpenProject Community edition, you can follow these [installation instructions](https://www.openproject.org/download-and-installation/), please note that you need a Linux server to install the Community edition. It is always possible to upgrade from the Community to the Enterprise cloud and Enterprise on-premises edition – check out the Enterprise add-ons [here](https://www.openproject.org/enterprise-edition/#enterprise-add-on).
+The (on-premise) OpenProject Community edition is completely free. The Enterprise cloud and Enterprise on-premises edition offer Enterprise add-ons, hosting and support and thus we are charging for it. Nevertheless, we offer free 14 days trials for the Enterprise versions so that you can get to know their benefits. If you prefer to use the free OpenProject Community edition, you can follow these [installation instructions](https://www.openproject.org/download-and-installation/), please note that you need a Linux server to install the Community edition. It is always possible to upgrade from the Community to the Enterprise cloud and Enterprise on-premises edition – check out the Enterprise add-ons [here](https://www.openproject.org/enterprise-edition/#enterprise-add-ons).
 
 ### Can I have both users with the Enterprise cloud and others with the Enterprise on-premises edition?
 
@@ -274,7 +274,7 @@ If you [book Enterprise on-premises](../enterprise-guide/enterprise-on-premises-
 
 ### How can I migrate from Enterprise on-premises to Community edition?
 
-If you cancel your subscription for Enterprise on-premises you will be downgraded to Community edition automatically as soon as the subscription period ends. You can keep all your data but won't be able to use the [Enterprise add-ons](https://www.openproject.org/de/enterprise-edition/#enterprise-add-on) and won't be eligible for support any more.
+If you cancel your subscription for Enterprise on-premises you will be downgraded to Community edition automatically as soon as the subscription period ends. You can keep all your data but won't be able to use the [Enterprise add-ons](https://www.openproject.org/de/enterprise-edition/#enterprise-add-ons) and won't be eligible for support any more.
 
 ### How can I migrate from an old version of OpenProject to the latest version?
 

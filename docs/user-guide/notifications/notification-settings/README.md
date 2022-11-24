@@ -13,12 +13,12 @@ You can configure how and for what events you wish to be notified through Notifi
 
 Notification settings are divided into four sections:
 
-| Topic                                               | Description                                                  |
-| --------------------------------------------------- | :----------------------------------------------------------- |
-| [Participating](#participating)                     | Be notified of activities on some or all of the work packages in which you are participating (as assignee, responsible or watcher). |
-| [Date alerts](#date-alerts-enterprise-add-on)       | Be notified of approaching start or end dates, and when things are overdue. |
-| [Non-participating](#non-participating)             | Be notified of activities on work packages in which you are not participating. |
-| [Project-specific](#project-specific-notifications) | Fine-tune your notification settings at the level of individual projects. |
+| Topic                                               | Description                                                                                                                          |
+|-----------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------|
+| [Participating](#participating)                     | Be notified of activities on some or all of the work packages in which you are participating (as assignee, responsible or watcher).  |
+| [Date alerts](#date-alerts-enterprise-add-on)       | Be notified of approaching start or end dates, and when things are overdue.                                                          |
+| [Non-participating](#non-participating)             | Be notified of activities on work packages in which you are not participating.                                                       |
+| [Project-specific](#project-specific-notifications) | Fine-tune your notification settings at the level of individual projects.                                                            |
 
 
 ![A screenshot of the notification settings page](Notification-settings-12.4-overall.png)
@@ -55,7 +55,7 @@ For **overdue dates**, you can also choose to receive a recurring notification (
 
 > **Info:** A previously unread notification for an overdue date alert is marked as read and replaced by a new one with the updated due date (for example, if you choose to be alerted every day for an overdue work package, and ignore that alert for a week, you will still see only one notification for this work package). You can stop receiving these alerts by either unchecking this option, or changing or removing the dates of the work package.
 
-Date alerts notifications appear in [Notification center](../#accessing-in-app-notifications), both in the _Inbox_ and the separate _Date alerts_ sections on the left menu.
+Date alerts notifications appear in [Notification center](../#access-in-app-notifications), both in the _Inbox_ and the separate _Date alerts_ sections on the left menu.
 
 ## Non-participating
 
