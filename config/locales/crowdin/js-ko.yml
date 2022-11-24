@@ -632,9 +632,9 @@ ko:
             title: '날짜 경보'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: '날짜 경보를 사용하면, 중요 마감일을 놓치거나 잊지 않도록 향후 시작 날짜 또는 종료 날짜에 대한 알림을 받게 됩니다.'
-          start_date: 시작 날짜
-          due_date: 완료 날짜
-          overdue: 기한이 지난 경우
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: '프로젝트별 알림 설정'
           description: 'These project-specific settings override default settings above.'

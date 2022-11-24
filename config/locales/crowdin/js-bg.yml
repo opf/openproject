@@ -633,9 +633,9 @@ bg:
             title: 'Date alerts'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          start_date: Start Date
-          due_date: Finish Date
-          overdue: When Overdue
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: 'Project-specific notification settings'
           description: 'These project-specific settings override default settings above.'

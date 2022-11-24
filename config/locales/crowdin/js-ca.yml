@@ -228,12 +228,12 @@ ca:
           quick_overview: "Obté una visió general ràpida de la gestió de projectes i col·laboració d'equips amb l'edició Enterprise d'OpenProject."
         upsale:
           become_hero: "Sigues un heroi!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
-          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          enterprise_info_html: "%{feature_title} és una funció Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
+          upgrade_info: "Si us plau, actualitza a una versió de pagament per tal d'activar i començar a utilitzar-la en el teu equip."
           benefits:
             description: "Quins són els beneficis de l'edició Enterprise on-premises"
             high_security: "Funcions de seguretat"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
+            high_security_text: "Inici de sessió únic (SAML, OpenID Conenct, CAS), grups LDAP."
             installation: "Suport d'instal·lació"
             installation_text: "Enginyers de programari amb experiència et guien durant tot el procés d'instal·lació i configuració de la teva pròpia estructura."
             premium_features: "Funcions Prèmium"
@@ -242,7 +242,7 @@ ca:
             professional_support_text: "Obté un suport de confiança i d'alt nivell dels nostres enginyers de suport sèniors amb experiència en manegar OpenProject en ambients empresarials crítics."
           button_start_trial: "Inicia la prova gratuïta"
           button_upgrade: "Actualitza ara"
-          button_contact_us: "Contact us for a demo"
+          button_contact_us: "Contacta amb nosaltres per una demostració"
           button_book_now: "Reserva ara"
           confidence: >
             Tenim la certesa i confiança d'una eina de gestió de projectes testejat i suportat en ambients empresarials - amb Codi Obert i amb una mentalitat oberta.
@@ -304,11 +304,11 @@ ca:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                Aquesta versió conté vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>Activa les notificacions d'alertes per dates per a properes tasques o vençudes.</li> <li>També s'allibera el segon factor d'autentificació (2FA) per a l'edició Community.</li> <li>L'opció de mostrar només la setmana laboral s'ha afegit al planificador d'equips.</li> <li>Fins a 3 persones poden ser ara enumerades a la targeta de notificació quan múltiples persones estan involucrades en els canvis.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                Aquesta versió conté vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>Activa les notificacions d'alertes per dates per a properes tasques o vençudes.</li> <li>També s'allibera el segon factor d'autentificació (2FA) per a l'edició Community.</li> <li>L'opció de mostrar només la setmana laboral s'ha afegit al planificador d'equips.</li> <li>Fins a 3 persones poden ser ara enumerades a la targeta de notificació quan múltiples persones estan involucrades en els canvis.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Assignat a'
     label_add_column_after: "Afegir una columna després"
@@ -400,7 +400,7 @@ ca:
     label_no_data: "No hi ha dades per mostrar"
     label_no_due_date: "sense data de final"
     label_no_start_date: "no hi ha data d'inici"
-    label_no_date: "no date"
+    label_no_date: "sense data"
     label_no_value: "Cap valor"
     label_none: "cap"
     label_not_contains: "no conté"
@@ -541,7 +541,7 @@ ca:
       no_unread: "No hi ha notificacions sense llegir"
       reasons:
         mentioned: 'mencionat'
-        watched: 'Observador'
+        watched: 'observador'
         assigned: 'assignat a'
         responsible: 'responsable'
         created: 'creat'
@@ -549,18 +549,18 @@ ca:
         commented: 'comentat'
         processed: 'processat'
         prioritized: 'prioritzat'
-        dateAlert: 'Date alert'
+        dateAlert: 'Alerta per dates'
       date_alerts:
-        milestone_date: 'Milestone date'
-        overdue: 'Overdue'
-        overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
-        property_is: 'is in %{difference_in_days}'
-        property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        milestone_date: 'Data de fita'
+        overdue: 'Vençut'
+        overdue_since: 'des de %{difference_in_days}'
+        property_today: 'és avui'
+        property_is: 'és en %{difference_in_days}'
+        property_was: 'va ser fa %{difference_in_days}'
+        property_is_deleted: 'eliminat'
         upsale:
-          title: 'Date alerts'
-          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          title: 'Alertes per dates'
+          description: 'Amb les alertes per dates, se''t notificarà quan una data d''inici o finalització s''apropi de tal manera que no se''t puguin oblidar o passar dates rellevants.'
       facets:
         unread: 'Sense llegir'
         unread_title: 'Mostrar no llegits'
@@ -593,23 +593,23 @@ ca:
         inbox: 'Safata d''entrada'
         mentioned: 'Mencionat'
         watched: 'Observador'
-        date_alert: 'Avís de data'
+        date_alert: 'Alerta per dates'
       settings:
         change_notification_settings: 'Per veure i canviar la configuració de notificacions, <a target="_blank" href="%{url}">fes clic aquí</a>'
         title: "Configuració de notificacions"
         notify_me: "Notifica’m"
         reminders:
-          no_notification: No notification
+          no_notification: Sense notificació
           timeframes:
             normal:
-              PT0S: same day
-              P1D: 1 day before
-              P3D: 3 days before
-              P7D: a week before
+              PT0S: el mateix dia
+              P1D: 1 dia abans
+              P3D: 3 dies abans
+              P7D: una setmana abans
             overdue:
-              P1D: every day
-              P3D: every 3 days
-              P7D: every week
+              P1D: cada dia
+              P3D: cada 3 dies
+              P7D: cada setmana
         reasons:
           mentioned:
             title: 'Mencionat'
@@ -625,20 +625,20 @@ ca:
         global:
           immediately:
             title: 'Participant'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Notificacions per a totes les activitats en els paquets de treball en els que estàs involucrat (assignat, responsable o observador).'
           delayed:
             title: 'No participant'
-            description: 'Additional notifications for activities in all projects.'
+            description: 'Notificacions addicionals per activitats en tots els projectes.'
           date_alerts:
             title: 'Alertes per dates'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
-            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          start_date: Start Date
-          due_date: Finish Date
-          overdue: When Overdue
+            description: 'Notificacions automàtiques quan dates importants s''aproximen per a paquets de treball oberts en els quals estàs involucrat (assignat, responsable o observador).'
+            teaser_text: 'Amb les alertes per dates, se''t notificarà quan una data d''inici o finalització s''apropi de tal manera que no se''t puguin oblidar o passar dates rellevants.'
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: 'Configuracions de notificacions específiques del projecte'
-          description: 'These project-specific settings override default settings above.'
+          description: 'Aquestes configuracions específiques de projecte anul·len les configuracions per defecte especificades a sobre.'
           add: 'Afegeix configuracions pel projecte'
           already_selected: 'Aquest projecte ja està seleccionat'
           remove: 'Elimina les configuracions del projecte'

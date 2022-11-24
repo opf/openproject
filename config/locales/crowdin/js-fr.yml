@@ -633,9 +633,9 @@ fr:
             title: 'Alarmes'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'Avec les alarmes, vous serez informé(e) à l''approche des dates de début ou de fin vous concernant afin de ne jamais manquer ou oublier une échéance importante.'
-          start_date: Date de début
-          due_date: Terminer à
-          overdue: En cas de retard
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: 'Paramètres de notification spécifiques au projet'
           description: 'These project-specific settings override default settings above.'

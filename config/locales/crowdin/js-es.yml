@@ -633,9 +633,9 @@ es:
             title: 'Alertas de fecha'
             description: 'Notificaciones automáticas cuando se acercan fechas importantes para paquetes de trabajo abiertos en los que está involucrado (asignado, responsable u observador).'
             teaser_text: 'Con las alertas de fecha, recibirá notificaciones de próximas fechas de inicio o finalización para que nunca olvide una fecha límite importante.'
-          start_date: Fecha de inicio
-          due_date: Fecha de finalización
-          overdue: Cuando esté vencida
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: 'Configuración de notificaciones específicas de proyectos'
           description: 'Esta configuración específica de proyectos reemplaza los ajustes predeterminados anteriores.'

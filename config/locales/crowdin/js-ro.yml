@@ -633,9 +633,9 @@ ro:
             title: 'Alerte date'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'Cu alertele de date, veți fi notificat cu privire la următoarele date de început sau de sfârșit, astfel încât să nu ratați sau să uitați niciodată un termen limită important.'
-          start_date: Dată Început
-          due_date: Data de Finalizare
-          overdue: Când întârzie
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: 'Setări de notificare specifice proiectului'
           description: 'These project-specific settings override default settings above.'

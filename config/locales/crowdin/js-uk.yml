@@ -635,9 +635,9 @@ uk:
             title: 'Оповіщення про дати'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'Завдяки оповіщенням про дати ви завжди знатимете про заплановані дати початку або завершення, тож ніколи не пропускатимете важливі терміни та не забуватимете про них.'
-          start_date: Дата початку
-          due_date: Дата завершення
-          overdue: Якщо прострочено
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: 'Параметри сповіщень проєкту'
           description: 'These project-specific settings override default settings above.'

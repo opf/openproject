@@ -632,9 +632,9 @@ pt:
             title: 'Alertas de data'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'Com os alertas de data, você receberá uma notificação das futuras datas de início e conclusão, assim você nunca perderá ou esquecerá prazos importante. '
-          start_date: Data de início
-          due_date: Data de conclusão
-          overdue: Quando atrasado
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: 'Configurações de notificação específicas de projetos'
           description: 'These project-specific settings override default settings above.'
