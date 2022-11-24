@@ -14,7 +14,7 @@ To download the latest version (v2.2.3) of our OpenProject Revit AddIn click her
 
 
 
-> **Note**: OpenProject BIM Issue Management is a Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
+> **Note**: OpenProject BIM Issue Management is an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
 
 
 ## Before usage

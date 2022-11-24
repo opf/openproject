@@ -74,4 +74,3 @@ To do this change the color values (entered as color hex code) in the *Custom Co
 
 As soon as you press the **Save** button your changes are applied and the colors of your OpenProject environment are adjusted accordingly.
 
- 

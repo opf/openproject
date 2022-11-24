@@ -11,12 +11,12 @@ Welcome to OpenProject! We are glad to have you here. In this section we will co
 
 ## Overview
 
-| Popular Topics                                               | Description                                                  |
-| ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [About OpenProject](#about-openproject)                      | What is OpenProject?                                         |
-| [First steps to get started](#first-steps-to-get-started)    | The first steps to get started with OpenProject.             |
-| [The entire Project Management Life-Cycle](#the-entire-project-management-life-cycle) | Find out more how OpenProject supports the different project phases. |
-| [OpenProject products](#openproject-products)                | What is the difference between the Community, Cloud and Enterprise Edition? |
+| Popular Topics                                                                        | Description                                                                                |
+|---------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------|
+| [About OpenProject](#about-openproject)                                               | What is OpenProject?                                                                       |
+| [First steps to get started](#first-steps-to-get-started)                             | The first steps to get started with OpenProject.                                           |
+| [The entire Project Management Life-Cycle](#the-entire-project-management-life-cycle) | Find out more how OpenProject supports the different project phases.                       |
+| [OpenProject products](#openproject-products)                                         | What is the difference between the Community, Enterprise cloud and Enterprise on-premises? |
 
 ## About OpenProject
 

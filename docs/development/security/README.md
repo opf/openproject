@@ -46,7 +46,7 @@ Administrators are provided with [fine-grained role-based access control mechani
 
 Admins can set a specific session duration in the system administration, so that it is guaranteed that a session is automatically terminated after inactivity.
 
-### Two-factor authentication (Enterprise add-on)
+### Two-factor authentication
 
 Secure your authentication mechanisms with a second factor by TOTP standard (or SMS, depending on your instance) to be entered by users upon logging in.
 

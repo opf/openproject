@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Activate Enterprise on-premises
   priority: 990
 description: Activate the OpenProject Enterprise on-premises edition.
-keywords: Activate Enterprise edition, token, license key
+keywords: activate, enterprise on-premises, token, license key
 ---
 # Activate the Enterprise on-premises edition
 

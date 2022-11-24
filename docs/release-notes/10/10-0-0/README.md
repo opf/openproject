@@ -8,7 +8,7 @@ release_date: 2019-09-23
 
 # OpenProject 10.0
 
-OpenProject 10 introduces drag and drop ordering of work packages in the work package table and Gantt view. The project overview dashboard has been completely rewritten to provide a modern and flexible overview of the project. In addition, work package description and custom fields now have task lists you can create and manage within the CKEditor5 WYSIWYG editor. A new card view on the work package page provides quick overview of the tasks. Users of the Cloud and Enterprise edition benefit from graphs which can be included in the project overview page.
+OpenProject 10 introduces drag and drop ordering of work packages in the work package table and Gantt view. The project overview dashboard has been completely rewritten to provide a modern and flexible overview of the project. In addition, work package description and custom fields now have task lists you can create and manage within the CKEditor5 WYSIWYG editor. A new card view on the work package page provides quick overview of the tasks. Users of the Enterprise cloud and Enterprise on-premises benefit from graphs which can be included in the project overview page.
 
 Read below to get a detailed overview of what is new in OpenProject 10.
 
@@ -50,9 +50,9 @@ The overview pages of users upgrading from earlier versions to OpenProject 10 wi
 
 
 
-## Graphs on project overview page (Cloud / Enterprise edition)
+## Graphs on project overview page (Enterprise add-on)
 
-As a user of the Cloud or Enterprise edition, you can add graphs to the overview page. This enables you to visualize important project information - directly form the project overview page.
+As a user of the Enterprise cloud or Enterprise on-premises, you can add graphs to the overview page. This enables you to visualize important project information - directly form the project overview page.
 
 Therefore, you can quickly communicate e.g. who is assigned to which work packages, how many tasks are still open and more. To give you maximum flexibility, you can choose from seven different types of graphs, such as bar charts, pie charts and line graphs.
 
@@ -226,7 +226,7 @@ You will find useful information in the OpenProject [FAQ]() or you can post your
 
 ### Upgrading your installation to OpenProject 10.0.
 
-If you're using the OpenProject Cloud edition, you are already running on the latest version of OpenProject 10.0. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
+If you're using the OpenProject Enterprise cloud edition, you are already running on the latest version of OpenProject 10.0. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
 
 [Please visit our upgrade guides for more information](../../../installation-and-operations/operation/upgrading).
 

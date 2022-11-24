@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Backups
   priority: 710
-description: Backups in the cloud edition.
+description: Backups in the Enterprise cloud edition.
 keywords: backups
 ---
 
@@ -16,7 +16,7 @@ Your Enterprise cloud data is backed up continuously and retained for 30 days. W
 
 ## Resource limitations for attachments
 
-Currently resource limitations in the Enterprise Cloud allow a Backup to contain attachments only in the case if the file size of all attachments of your instance are less than 1 GB of data. Please contact us at [support@openproject.com](mailto:support@openproject.com) in order to manually request a complete backup containing the SQL dump including all attachments or try to delete unused attachments in order to get below 1 GB of data usage.
+Currently resource limitations in the Enterprise cloud allow a Backup to contain attachments only in the case if the file size of all attachments of your instance are less than 1 GB of data. Please contact us at [support@openproject.com](mailto:support@openproject.com) in order to manually request a complete backup containing the SQL dump including all attachments or try to delete unused attachments in order to get below 1 GB of data usage.
 
 In this case you cannot check the **Include attachments** check-box like on the screen-shot below, it will be grayed out:
 

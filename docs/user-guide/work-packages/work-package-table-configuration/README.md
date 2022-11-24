@@ -14,7 +14,7 @@ keywords: work packages table configuration, work package list, columns, filter,
 | [Filter work packages](#filter-work-packages)                                       | How to filter in the work package table.                                         |
 | [Sort the work package list](#sort-the-work-package-list)                           | How to sort within the work package table.                                       |
 | [Display settings](#flat-list-hierarchy-mode-and-group-by)                          | Get to know the flat list, the hierarchy mode, the group by and the sum feature. |
-| [Attribute highlighting (Enterprise add-on)](#attribute-highlighting-premium-feature) | How to highlight certain attributes in the work package table.                   |
+| [Attribute highlighting (Enterprise add-on)](#attribute-highlighting-enterprise-add-on) | How to highlight certain attributes in the work package table.                   |
 | [Save work package views](#save-work-package-views)                                 | How to save a new work package view and how to change existing ones.             |
 
 You can configure the work package table view in OpenProject to display the information that you need in the list.

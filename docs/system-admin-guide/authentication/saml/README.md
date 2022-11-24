@@ -11,7 +11,7 @@ keywords: SAML, SSO, single sign-on, authentication
 
 You can integrate your active directory or other SAML compliant identity provider in your OpenProject Enterprise edition.
 
-## Enterprise Cloud
+## Enterprise cloud
 
 For the moment in the Enterprise cloud OpenProject DevOps team has to apply the configuration for you. The configuration has to be provided in a support ticket, e.g. as an ENV environment file.
 Experience shows that configuring this can be tricky, though. So it may take a bit until the correct configuration is finished with your SAML provider.

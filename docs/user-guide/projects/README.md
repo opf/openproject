@@ -169,7 +169,7 @@ To get an overview of all your projects, press the **Projects lists** button at 
 
 You will then get a list of all your projects in OpenProject. You can use this projects overview to **create a multi project status dashboard** if you include your own [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), e.g. custom status options, Accountable, Project duration, and more.
 
-**Please note:** Project custom fields are a Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
+**Please note:** Project custom fields are an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
 With the **arrow** on the right you can display the **project description**.
 
