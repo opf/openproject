@@ -22,7 +22,7 @@ Both the community edition and enterprise edition allow you to create an unlimit
 <div class="glossary">
 **Module** is defined as an independent unit of functionality that can be used to extend and improve the existing core functions.</div>
 
-Within a project Modules can be activated and deactivated under "Modules" in the project settings menu by project members who have sufficient permissions to adjust project settings. Which modules will be available within projects is controlled in the global Administration settings (please see [System admin guide](.../system-admin-guide/system-settings/project-system-settings/) to see how this is done).
+Within a project Modules can be activated and deactivated under "Modules" in the project settings menu by project members who have sufficient permissions to adjust project settings. Which modules will be available within projects is controlled in the global Administration settings (please see [System admin guide](../system-admin-guide/system-settings/project-system-settings/) to see how this is done).
 
 Please choose the module or topic you want to learn more about.
 

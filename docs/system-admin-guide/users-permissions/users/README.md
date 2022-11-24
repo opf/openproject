@@ -178,8 +178,8 @@ To enter a new hourly rate, click on the **Update** icon next to the rate histor
 The **Avatar** tab shows the default icon to be shown for this user. A custom image can be uploaded as the avatar. In addition, the users can also use their [Gravatar](https://en.wikipedia.org/wiki/Gravatar). The user can manage this in their Profile. These features can be disabled in the [avatar settings](../avatars).
 
 ### Two-factor authentication (2FA)
-This tab shows whether a user has activated a device for two-factor authentication in their account. You can see the devices and delete them if necessary. 
-Please note: As this is a [Enterprise add-on](https://www.openproject.org/enterprise-edition/#premium-features) this tab won't be visible in the Community edition. 
+
+This tab shows whether a user has activated a device for two-factor authentication in their account. You can see the devices and delete them if necessary.
 
 ## Authentication
 

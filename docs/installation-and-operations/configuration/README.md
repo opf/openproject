@@ -180,12 +180,12 @@ Configuring OpenProject through environment variables is described in detail [in
 * [`attachments_storage`](#attachments-storage) (default: file)
 * [`direct_uploads`](#direct-uploads) (default: true)
 * [`fog_download_url_expires_in`](#fog-download-url-expires-in) (default: 21600)
-* [`hidden_menu_items`](#hidden-menu-items) (default: {})
+* [`hidden_menu_items`](#hidden-menu-items-admin-menu) (default: {})
 * [`disabled_modules`](#disabled-modules) (default: [])
 * [`blacklisted_routes`](#blacklisted-routes) (default: [])
 * [`global_basic_auth`](#global-basic-auth)
-* [`apiv3_enable_basic_auth`](#apiv3-basic-auth-control)
-* [`enterprise_limits`](#enterprise-limits)
+* [`apiv3_enable_basic_auth`](#apiv3-enable-basic-auth)
+* [`enterprise_fail_fast`](#enterprise-fail-fast)
 * [`backup_enabled`](#backup-enabled)
 * [`show_community_links`](#show-community-links)
 * [`web`](#web) (nested configuration)
@@ -216,7 +216,7 @@ OPENPROJECT_SESSION__STORE="{ :active_record_store: { drop_old_sessions_on_logou
 ```
 
 
-### disable local password login
+### disable password login
 
 If you enable this option you have to configure at least one omniauth authentication
 provider to take care of authentication instead of the password login.
@@ -561,7 +561,9 @@ OPENPROJECT_WEB_MAX__THREADS="16"
 
 > **NOTE:** Timeouts only are supported when using at least 2 workers.
 
-### 2fa enforced
+### Two-factor authentication
+
+#### 2fa enforced
 
 You can set the available 2FA strategies and/or enforce or disable 2FA system-wide.
 

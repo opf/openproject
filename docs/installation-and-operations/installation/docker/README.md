@@ -67,7 +67,7 @@ If you want to start from scratch and remove the existing data you will have to 
 
 ### Configuration
 
-Please see the [advanced configuration guide's docker paragraphs](../configuration#docker)
+Please see the [advanced configuration guide's docker paragraphs](../../configuration/#docker)
 
 #### BIM edition
 
@@ -177,7 +177,7 @@ docker rm openproject
 
 ### Configuration
 
-Please see the [advanced configuration guide's docker paragraphs](../configuration#docker)
+Please see the [advanced configuration guide's docker paragraphs](../../configuration#docker)
 
 #### Disabling HTTPS mode
 
