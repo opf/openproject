@@ -25,7 +25,7 @@ With in-app notifications, will will be notified about important changes that ar
 
 ## Access in-app notifications
 
-When there are notifications that require your attention, you will see a red badge on the notification bell icon on the right edge of the top header. The number on the badge indicates the number of total unread notifications. (Up to 99, after which the badg will simply indicate "99+").
+When there are notifications that require your attention, you will see a red badge on the notification bell icon on the right edge of the top header. The number on the badge indicates the number of total unread notifications (up to 99, after which the badge will simply indicate "99+").
 
 To view the notifications, click on this bell icon. 
 
@@ -59,7 +59,7 @@ Click on the **Mark as read** button represented by the envelope icon on the rig
 
   ![notifications-bottom-bar](notifications-bottom-bar-4292960.png)
 
-- Addtionally, you can mark notifications as read in the work package full screen view by clicking on the envelope icon in the upper right corner of the details view.
+- Additionally, you can mark notifications as read in the work package full screen view by clicking on the envelope icon in the upper right corner of the details view.
 
 ![notification-full-screen-view-work-package](notification-full-screen-view-work-package.png)
 
@@ -75,9 +75,9 @@ You can also affect which notifications are visible on the screen (area 3):
 - You can also choose to view either only **Unread** notification or **All**, which will also display notifications previously marked as read.
 - You can also **Mark all as read** if you want to clean your notification inbox in one click.
 
-> **Info:** The **Mark all as read** button this clears all _visible_ notification rows. If you have a very large number unread notifications, the oldest ones might not be visible on the page. In this case, you might have to click button multiple times to clear your inbox completely.
+> **Info:** The **Mark all as read** button clears all _visible_ notification rows. If you have a very large number unread notifications, the oldest ones might not be visible on the page. In this case, you might have to click the button multiple times to clear your inbox completely.
 
-If you would like to view your current notification preferences or modify them, click on the [**Notification settings**](./notification-settings) button (4). You can also access your settings via *My account* > *Notification settings*.
+If you would like to view your current notification preferences or modify them, click on the [**Notification settings**](./notification-settings) button (4). You can also access your settings via your Avatar in the top right corner > *My account* > *Notification settings*.
 
 In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To learn more about Email reminders, [click here](../../getting-started/my-account/#email-reminders).
 
