@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Enterprise cloud FAQ
   priority: 001
 description: Frequently asked questions regarding Enterprise cloud
-keywords: Enterprise cloud FAQ, Cloud edition, hosted by OpenProject
+keywords: Enterprise cloud, FAQ, cloud edition, hosted by OpenProject
 ---
 
 # Frequently asked questions (FAQ) for Enterprise cloud
@@ -18,7 +18,7 @@ You can do this in your OpenProject instance in the administration. The number o
 
 ## How can I change my payment details (e.g. new credit card)?
 
-Please have a look at [this instruction](../manage-cloud-subscription/) for the Cloud edition to change your payment details.
+Please have a look at [this instruction](../manage-cloud-subscription/) for the Enterprise cloud edition to change your payment details.
 
 
 ## Does OpenProject comply with GDPR?
@@ -27,15 +27,15 @@ Yes. The protection of personal data is for OpenProject more than just a legal r
 
 ## Is the Enterprise cloud certified?
 
-The data center (AWS) we use for Enterprise Cloud edition is ISO27001 certified.
+The data center (AWS) we use for Enterprise cloud edition is ISO27001 certified.
 
 For more information please visit the [information regarding security measures](https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures) on our website.
 
-## Does OpenProject employ sub-processors for the OpenProject Cloud edition from outside the EU?
+## Does OpenProject employ sub-processors for the OpenProject Enterprise cloud edition from outside the EU?
 
-A list of all sub-processors used in the OpenProject Enterprise Cloud can be found [here](https://www.openproject.org/legal/data-processing-agreement/sub-processors/).
+A list of all sub-processors used in the OpenProject Enterprise cloud can be found [here](https://www.openproject.org/legal/data-processing-agreement/sub-processors/).
 
-Please note: For the OpenProject Enterprise Cloud we currently have two SaaS infrastructures:
+Please note: For the OpenProject Enterprise cloud we currently have two SaaS infrastructures:
 
 **OpenProject.com** 
 

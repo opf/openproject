@@ -17,7 +17,7 @@ release_date: 2020-02-20
 
 We released OpenProject 10.4. The new release of the open source project management software contains a new time tracking widget for the My page which facilitates visualizing and logging time spent on your tasks. Additionally, cost reports can now be exported to Excel.
 
-Cloud and Enterprise edition users can now choose between the default OpenProject theme, a light theme and a dark theme. This provides a good starting point for further design customization.
+Enterprise cloud and Enterprise on-premises users can now choose between the default OpenProject theme, a light theme and a dark theme. This provides a good starting point for further design customization.
 
 Read below to get a detailed overview of what is new in OpenProject 10.4.
 
@@ -39,7 +39,7 @@ The Excel spreadsheet lists the tracked time, cost, as well as the different cos
 
 ### Light and dark theme for OpenProject (Enterprise add-on)
 
-Cloud and Enterprise edition users can now easily customize the look and feel of their OpenProject environment by using a custom logo and adjusting the color theme. With OpenProject 10.4 this gets a lot easier - thanks to default themes. Simply choose between the OpenProject theme, the light theme and the dark theme.
+Enterprise cloud and Enterprise on-premises users can now easily customize the look and feel of their OpenProject environment by using a custom logo and adjusting the color theme. With OpenProject 10.4 this gets a lot easier - thanks to default themes. Simply choose between the OpenProject theme, the light theme and the dark theme.
 
 These themes are optimized and fulfill accessibility requirements. You can further customize them by starting with one of the default themes and adjusting individual colors based on your needs.
 
@@ -217,7 +217,7 @@ For the upcoming BIM specific release we are focusing on more building industry 
 
 Follow the [upgrade guide for the packaged installation or Docker installation](../../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 10.4.
 
-We update hosted OpenProject environments (Cloud edition) automatically.
+We update hosted OpenProject environments (Enterprise cloud) automatically.
 
 
 

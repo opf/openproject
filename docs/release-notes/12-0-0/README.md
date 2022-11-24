@@ -212,7 +212,7 @@ OpenProject 12.0 will deprecate PostgreSQL versions < 13. This will result in a 
 
 ## Installation and Updates
 
-To use OpenProject 12.0 right away, create an instance and [test 14 days for free in the Cloud](https://start.openproject.com/).
+To use OpenProject 12.0 right away, create an instance and [test Enterprise cloud 14 days for free](https://start.openproject.com/).
 
 Prefer to run OpenProject 12.0 in your own infrastructure?
 Here you can find the [Installation guidelines](../../installation-and-operations) for OpenProject.
@@ -223,7 +223,7 @@ Want to upgrade from your self-managed Community version to try out the Enterpri
 
 Follow the [upgrade guide for the packaged installation or Docker installation](../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 12.0. Please note the blue box on top of the page.
 
-We update the hosted OpenProject environments (Enterprise Cloud) automatically.
+We update the hosted OpenProject environments (Enterprise cloud) automatically.
 
 ## Credits and contributions
 

@@ -305,7 +305,7 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 
 ## Installation and Updates
 
-To use OpenProject 11.0 right away, create an instance and [test 14 days for free in the Cloud](https://start.openproject.com/).
+To use OpenProject 11.0 right away, create an instance and [test Enterprise cloud 14 days for free](https://start.openproject.com/).
 
 Prefer to run OpenProject 11.0 in your own infrastructure?
 Here you can find the [Installation guidelines](../../../installation-and-operations) for OpenProject.
@@ -317,7 +317,7 @@ Navigate to the -> *Administration*-> *Enterprise edition* and request your tria
 
 Follow the [upgrade guide for the packaged installation or Docker installation](../../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.0. Please note the blue box on top of the page.
 
-We update the hosted OpenProject environments (Enterprise Cloud) automatically.
+We update the hosted OpenProject environments (Enterprise cloud) automatically.
 
 ## Credits and contributions
 
