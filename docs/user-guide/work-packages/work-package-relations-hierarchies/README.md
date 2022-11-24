@@ -46,7 +46,7 @@ The selected relation status will be automatically displayed in the work package
 
 
 
-## Display relations in work package list (Premium feature)
+## Display relations in work package list (Enterprise add-on)
 
 As a user of [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [Enterprise cloud](https://www.openproject.org/hosting/) you can display relations as columns in the work package list.
 

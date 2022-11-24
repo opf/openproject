@@ -16,7 +16,7 @@ Notification settings are divided into four sections:
 | Topic                                               | Description                                                  |
 | --------------------------------------------------- | :----------------------------------------------------------- |
 | [Participating](#participating)                     | Be notified of activities on some or all of the work packages in which you are participating (as assignee, responsible or watcher). |
-| [Date alerts](#date-alerts-premium-feature)         | Be notified of approaching start or end dates, and when things are overdue. |
+| [Date alerts](#date-alerts-enterprise-add-on)       | Be notified of approaching start or end dates, and when things are overdue. |
 | [Non-participating](#non-participating)             | Be notified of activities on work packages in which you are not participating. |
 | [Project-specific](#project-specific-notifications) | Fine-tune your notification settings at the level of individual projects. |
 
@@ -35,11 +35,11 @@ You cannot disable notifications for when you are mentioned since the goal of me
 
 > **Info**: Modifying these settings may cause you to miss updates and changes that are relevant to you. We do not recommend changing them unless you are absolutely certain of the consequences.
 
-## Date alerts (Premium feature)
+## Date alerts (Enterprise add-on)
 
 Starting with 12.4, Open Project offers notification for date alerts.
 
-> **Note**: Date alerts are a Premium feature and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
+> **Note**: Date alerts are a Enterprise add-on and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
 
 Date alerts allow you to receive a notification when a start date or a finish date is approaching for a work package you are participating in (that is, for which you are assignee, accountable or a watcher). 
 

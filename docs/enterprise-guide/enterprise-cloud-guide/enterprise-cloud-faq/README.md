@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Enterprise cloud FAQ
   priority: 001
 description: Frequently asked questions regarding Enterprise cloud
-keywords: Enterprise cloud FAQ, Cloud Edition, hosted by OpenProject
+keywords: Enterprise cloud FAQ, Cloud edition, hosted by OpenProject
 ---
 
 # Frequently asked questions (FAQ) for Enterprise cloud
@@ -27,11 +27,11 @@ Yes. The protection of personal data is for OpenProject more than just a legal r
 
 ## Is the Enterprise cloud certified?
 
-The data center (AWS) we use for Enterprise Cloud Edition is ISO27001 certified.
+The data center (AWS) we use for Enterprise Cloud edition is ISO27001 certified.
 
 For more information please visit the [information regarding security measures](https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures) on our website.
 
-## Does OpenProject employ sub-processors for the OpenProject Cloud Edition from outside the EU?
+## Does OpenProject employ sub-processors for the OpenProject Cloud edition from outside the EU?
 
 A list of all sub-processors used in the OpenProject Enterprise Cloud can be found [here](https://www.openproject.org/legal/data-processing-agreement/sub-processors/).
 
@@ -55,7 +55,7 @@ Yes, you can create your custom domain name. For this service we charge €100 p
 
 ## Can I import my OpenProject community instance into my Enterprise cloud environment?
 
-Yes, we provide an upload possibility of your data to move from a Community Edition installation to the Enterprise cloud edition.
+Yes, we provide an upload possibility of your data to move from a Community edition installation to the Enterprise cloud edition.
 To import your community instance into our cloud environment, please send us the following files:
 
 1. The database SQL dump of your local installation

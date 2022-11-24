@@ -1,7 +1,7 @@
 Rails plugins with Frontends
 ====================
 
-OpenProject Community Edition has some plugins that contain a frontend,
+OpenProject Community edition has some plugins that contain a frontend,
 e.g., [Costs](https://github.com/finnlabs/openproject-costs/) or [My Project Page](https://github.com/finnlabs/openproject-my_project_page/).
 
 For developing these plugins, they need to be linked so either the Legacy or Angular frontend can see and process them.

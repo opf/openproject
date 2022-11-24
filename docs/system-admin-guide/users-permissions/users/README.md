@@ -15,7 +15,7 @@ The user list provides an overview of all users in OpenProject. You can create n
 </div>
 To manage users click on your avatar (top right corner) and select *Administration*. Select *Users and permissions -> Users*. The list of current users is shown.
 
-In the Community Edition there is no limit to the number of users. In Enterprise editions (cloud and on-premises) the user limit is based on your subscription. The number of users for your subscription is thus not bound to names. For example, if you block a user you can add a new one without upgrading. 
+In the Community edition there is no limit to the number of users. In Enterprise editions (cloud and on-premises) the user limit is based on your subscription. The number of users for your subscription is thus not bound to names. For example, if you block a user you can add a new one without upgrading. 
 
 | Topic                                           | Content                                                  |
 | ----------------------------------------------- | -------------------------------------------------------- |
@@ -178,6 +178,7 @@ To enter a new hourly rate, click on the **Update** icon next to the rate histor
 The **Avatar** tab shows the default icon to be shown for this user. A custom image can be uploaded as the avatar. In addition, the users can also use their [Gravatar](https://en.wikipedia.org/wiki/Gravatar). The user can manage this in their Profile. These features can be disabled in the [avatar settings](../avatars).
 
 ### Two-factor authentication (2FA)
+
 This tab shows whether a user has activated a device for two-factor authentication in their account. You can see the devices and delete them if necessary.
 
 ## Authentication

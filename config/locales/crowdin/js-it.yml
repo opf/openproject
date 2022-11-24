@@ -228,12 +228,12 @@ it:
           quick_overview: "Veloce panoramica sulla gestione dei progetti e il lavoro di squadra in OpenProject Enterprise Edition."
         upsale:
           become_hero: "Diventa un eroe!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
-          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          enterprise_info_html: "%{feature_title} è una funzionalità Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
+          upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
           benefits:
             description: "Quali sono i benefici dell'Edizione Impresa in sede?"
             high_security: "Funzionalità di sicurezza"
-            high_security_text: "Accesso single sign on (SAML, OpenID Connect, CAS), autenticazione a due fattori e sincronizzazione automatica dei gruppi LDAP."
+            high_security_text: "Singolo segno su (SAML, OpenID Connect, CAS), gruppi LDAP."
             installation: "Assistenza all'installazione"
             installation_text: "I nostri ingegneri del software esperti ti guidano durante il processo di installazione e configurazione nella tua infrastruttura."
             premium_features: "Funzionalità Premium"
@@ -242,7 +242,7 @@ it:
             professional_support_text: "Ottieni un supporto affidabile e di livello da esperti tecnici con conoscenze dettagliate sulla gestione di OpenProject in ambienti critici per le imprese."
           button_start_trial: "Inizia la prova gratuita"
           button_upgrade: "Aggiorna ora"
-          button_contact_us: "Contact us for a demo"
+          button_contact_us: "Contattaci per una demo"
           button_book_now: "Prenota ora"
           confidence: >
             Forniamo la sicurezza di un software di gestione di progetti di classe aziendale collaudato e supportato, con l'Open Source e una mente aperta.
@@ -304,11 +304,11 @@ it:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Attiva le notifiche sulle date per non dimenticare gli impegni imminenti e le attività scadute.</li> <li>L'autenticazione a due fattori (2FA) è attiva anche per la Community Edition.</li> <li>L'opzione di visualizzazione della settimana lavorativa è ora aggiunta anche al pianificatore del team.</li> <li> Elenca fino a 3 persone nelle schede di notifica quando più persone sono coinvolte nelle modifiche.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Attiva le notifiche sulle date per non dimenticare gli impegni imminenti e le attività scadute.</li> <li>L'autenticazione a due fattori (2FA) è attiva anche per la Community Edition.</li> <li>L'opzione di visualizzazione della settimana lavorativa è ora aggiunta anche al pianificatore del team.</li> <li> Elenca fino a 3 persone nelle schede di notifica quando più persone sono coinvolte nelle modifiche.</li> </ul>
     label_activate: "Attiva"
     label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"
@@ -400,6 +400,7 @@ it:
     label_no_data: "Nessun dato da visualizzare"
     label_no_due_date: "nessuna data di fine"
     label_no_start_date: "nessuna data di inizio"
+    label_no_date: "Nessuna data"
     label_no_value: "Nessun valore"
     label_none: "nessuno"
     label_not_contains: "non contiene"
@@ -540,26 +541,26 @@ it:
       no_unread: "Nessuna nuova notifica"
       reasons:
         mentioned: 'menzionato'
-        watched: 'watcher'
-        assigned: 'assignee'
+        watched: 'osservatore'
+        assigned: 'assegnatario'
         responsible: 'responsabile'
         created: 'creato'
         scheduled: 'programmato'
         commented: 'commentato'
         processed: 'elaborato'
         prioritized: 'prioritizzato'
-        dateAlert: 'Date alert'
+        dateAlert: 'Avviso data'
       date_alerts:
-        milestone_date: 'Milestone date'
-        overdue: 'Overdue'
-        overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
-        property_is: 'is in %{difference_in_days}'
-        property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        milestone_date: 'Data inizio'
+        overdue: 'In ritardo'
+        overdue_since: 'da %{difference_in_days}'
+        property_today: 'è oggi'
+        property_is: 'tra %{difference_in_days}'
+        property_was: 'era %{difference_in_days} fa'
+        property_is_deleted: 'è eliminato'
         upsale:
-          title: 'Date alerts'
-          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          title: 'Avvisi data'
+          description: 'Con gli avvisi sulle date, sarai avvisato delle prossime date di inizio o di fine in modo da non perdere mai o dimenticare una scadenza importante.'
       facets:
         unread: 'Non Letta'
         unread_title: 'Mostra non letti'
@@ -588,34 +589,34 @@ it:
       menu:
         accountable: 'Responsabile'
         by_project: 'Non letto dal progetto'
-        by_reason: 'Reason'
+        by_reason: 'Motivo'
         inbox: 'Posta In Arrivo'
-        mentioned: 'Mentioned'
-        watched: 'Watcher'
-        date_alert: 'Date alert'
+        mentioned: 'Menzionato'
+        watched: 'Osservatore'
+        date_alert: 'Avviso data'
       settings:
         change_notification_settings: 'Per visualizzare e modificare le impostazioni di notifica, <a target="_blank" href="%{url}">fai clic qui</a>'
         title: "Impostazioni notifiche"
         notify_me: "Avvisami"
         reminders:
-          no_notification: No notification
+          no_notification: Nessuna notifica
           timeframes:
             normal:
-              PT0S: same day
-              P1D: 1 day before
-              P3D: 3 days before
-              P7D: a week before
+              PT0S: stesso giorno
+              P1D: 1 giorno prima
+              P3D: 3 giorni prima
+              P7D: una settimana prima
             overdue:
-              P1D: every day
-              P3D: every 3 days
-              P7D: every week
+              P1D: ogni giorno
+              P3D: ogni 3 giorni
+              P7D: ogni settimana
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'Menzionato'
             description: 'Ricevi una notifica ogni volta che qualcuno ti menziona ovunque'
           assignee: 'Assegnatario'
           responsible: 'Responsabile'
-          watched: 'Watcher'
+          watched: 'Osservatore'
           work_package_commented: 'Tutti i nuovi commenti'
           work_package_created: 'Nuove macro-attività'
           work_package_processed: 'Tutte le modifiche di stato'
@@ -623,21 +624,21 @@ it:
           work_package_scheduled: 'Tutte le modifiche della data'
         global:
           immediately:
-            title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            title: 'Partecipazione'
+            description: 'Notifiche per tutte le attività nelle macro-attività in cui sei coinvolto (assegnatario, responsabile od osservatore)'
           delayed:
-            title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            title: 'Non partecipante'
+            description: 'Notifiche aggiuntive sulle attività in tutti i progetti'
           date_alerts:
-            title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
-            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          start_date: Start Date
-          due_date: Finish Date
-          overdue: When Overdue
+            title: 'Avvisi data'
+            description: 'Notifiche automatiche quando si avvicinano date importanti per le macro-attività aperte in cui sei coinvolto (assegnatario, responsabile od osservatore)'
+            teaser_text: 'Con gli avvisi sulle date, sarai avvisato delle prossime date di inizio o di fine in modo da non perdere mai o dimenticare una scadenza importante.'
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: 'Impostazioni di notifica specifiche del progetto'
-          description: 'Queste impostazioni specifiche di progetto sostituiscono le impostazioni predefinite sopra'
+          description: 'Queste impostazioni specifiche del progetto sostituiscono le impostazioni predefinite sopra.'
           add: 'Aggiungi impostazione per il progetto'
           already_selected: 'Questo progetto è già selezionato'
           remove: 'Rimuovi impostazioni progetto'

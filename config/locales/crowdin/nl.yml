@@ -136,6 +136,7 @@ nl:
         Als u dit selectievakje aanvinkt, zal OpenProject automatisch nieuwe gebruikers aanmaken van hun LDAP-items wanneer ze eerst verifiëren met OpenProject.
         Laat dit uitgevinkt om alleen bestaande accounts in OpenProject te laten verifiëren via LDAP!
     connection_encryption: 'Verbinding encryptie'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Systeem account'
     system_account_legend: |
       OpenProject vereist alleen-lezen toegang via een systeemaccount om gebruikers en groepen in uw LDAP-boomstructuur op te zoeken.
@@ -146,13 +147,18 @@ nl:
       De volgende velden zijn gerelateerd aan hoe gebruikers worden aangemaakt in OpenProject van LDAP items en welke LDAP attributen worden gebruikt om de attributen van een OpenProject gebruiker te definiëren (attribuut toewijzing).
     tls_mode:
       plain: 'geen'
-      simple_tls: 'eenvoudige_tls'
-      start_tls: 'start_tls'
-      plain_description: "Geen TLS-onderhandelingen."
-      simple_tls_description: "Impliciet TLS encryptie, maar geen certificaat validatie. Gebruik voorzichtig en impliciet vertrouwen van de LDAP-verbinding."
-      start_tls_description: "TLS-encryptie uitbreiden met volledige validatie. Gebruik voor LDAP via TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Deze sectie heeft betrekking op de verbindingsbeveiliging van deze LDAP authenticatie bron. Voor meer informatie bezoek <a href="%{link}">het net::LDAP documentatie</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Er zijn momenteel geen berichten voor het forum.
@@ -416,6 +422,7 @@ nl:
         host: "Host"
         onthefly: "Automatische gebruiker aanmaken"
         port: "Poort"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
       comment:
@@ -624,6 +631,11 @@ nl:
           bevat geen "Secure Context". Gebruik HTTPS of een loopbackadres, zoals localhost.
         wrong_length: "is de verkeerde lengte (dient %{count} karakters te zijn)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:

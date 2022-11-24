@@ -46,7 +46,7 @@ Administrators are provided with [fine-grained role-based access control mechani
 
 Admins can set a specific session duration in the system administration, so that it is guaranteed that a session is automatically terminated after inactivity.
 
-### Two-factor authentication (Premium feature)
+### Two-factor authentication (Enterprise add-on)
 
 Secure your authentication mechanisms with a second factor by TOTP standard (or SMS, depending on your instance) to be entered by users upon logging in.
 
@@ -58,7 +58,7 @@ This badge shows the current status of your OpenProject installation. It will in
 
 Security updates allow a fast fix of security issues in the system. Relevant channels will be monitored regarding security topics and the responsible contact person will be informed. Software packages for security fixes will be provided promptly.
 
-### LDAP sync (Premium feature)
+### LDAP sync (Enterprise add-on)
 
 Synchronize OpenProject users and groups with your company’s LDAP to update users and group memberships based on LDAP group members.
 

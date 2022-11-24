@@ -36,11 +36,11 @@ Click the green **+ Type** button to add a new work package type in the system, 
 
 ![Sys-admin-add-work-package-type](Sys-admin-add-work-package-type.png)
 
-## Work package form configuration (Premium feature)
+## Work package form configuration (Enterprise add-on)
 
 You can freely **configure the attributes shown** for each work package type to decide which attributes are shown in the form and how they are grouped.
 
-> **Note**: Some parts of the Work package form configuration are a premium feature and only available for the [OpenProject Cloud Edition](https://www.openproject.org/hosting/) and the [Enterprise On-premises Edition](https://www.openproject.org/enterprise-edition/).
+> **Note**: Some parts of the Work package form configuration are a Enterprise add-on and only available for the [OpenProject Cloud edition](https://www.openproject.org/hosting/) and the [Enterprise On-premises edition](https://www.openproject.org/enterprise-edition/).
 > The Enterprise edition allows you to customize form configuration with these additional features:
 >
 > - **Add new attribute groups**
@@ -54,7 +54,7 @@ You can then decide for each attribute which group it should be assigned to (usi
 
 Inactive attributes shown in the grey color on the right. Attributes which have been removed are shown in the *Inactive* column on the right *(3)*. This column also includes [custom fields](../../custom-fields) which have been created. The custom fields also can be added with drag and drop to the active form (the blue part on the left) to be displayed in the form.
 
-To add additional group, click the **+ Group** button *(4)* and select **Add attribute group**. Give the new group a name. You can then assign attributes (e.g. custom fields) via drag and drop. Note that adding attribute groups is only possible  with the [OpenProject Enterprise Edition](https://www.openproject.org/enterprise-edition/) and the [OpenProject Cloud Edition](https://www.openproject.org/hosting/).
+To add additional group, click the **+ Group** button *(4)* and select **Add attribute group**. Give the new group a name. You can then assign attributes (e.g. custom fields) via drag and drop. Note that adding attribute groups is only possible  with the [OpenProject Enterprise edition](https://www.openproject.org/enterprise-edition/) and the [OpenProject Cloud edition](https://www.openproject.org/hosting/).
 
 In case you made a mistake, click the *Reset to defaults (5)* button to reset all settings to the original state.
 
@@ -72,11 +72,11 @@ Watch the following video to see how you can customize your work packages with c
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Forms-and-Custom-Fields-1.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
-## Add table of related work packages to a work package form (Premium feature)
+## Add table of related work packages to a work package form (Enterprise add-on)
 
 Also, you can add a table of related work packages to your work package form. Click the green **+ Group** button and choose **Add table of related work package** from the drop-down list.
 
-**Note**: To Add a table of related work package in OpenProject is a Premium Feature and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
+**Note**: To Add a table of related work package in OpenProject is a Enterprise add-on and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
 
 ![Sys-admin-table-of-related-work-packages](Sys-admin-table-of-related-work-packages.png)
 

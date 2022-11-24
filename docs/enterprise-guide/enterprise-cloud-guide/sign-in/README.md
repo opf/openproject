@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Sign in
   priority: 997
-description: Sign in to your OpenProject Cloud Edition.
+description: Sign in to your OpenProject Cloud edition.
 keywords: sing in
 ---
 
