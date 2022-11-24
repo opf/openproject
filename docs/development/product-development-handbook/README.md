@@ -314,8 +314,8 @@ Once tested and stabilized, a new OpenProject version is rolled out in stages:
 
 1. DevOps creates release branch for new version.
 2. Marketing / PM creates news and release notes.
-3. DevOps deploys new release on Cloud Edition trials.
-4. DevOps deploys new release on Cloud Edition production.
+3. DevOps deploys new release on Cloud edition trials.
+4. DevOps deploys new release on Cloud edition production.
 5. DevOps releases new OpenProject version for on-premise installations (Packager, Docker, notify UCS).
 6. DevOps / Marketing update documentation for new release (technical, marketing information).
 

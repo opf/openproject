@@ -66,7 +66,7 @@ With these additional settings, you have absolute freedom which custom fields ar
 ## Create a multi-select custom field (Premium feature)
 
 For work package custom fields of type **List** and **User** you may also select **multi-select custom fields** to select more than one value at once.
-Please note that this feature is only available in the [Enterprise Edition](https://www.openproject.org/enterprise-edition/) and [Cloud Edition](https://www.openproject.org/hosting/).
+Please note that this feature is only available in the [Enterprise edition](https://www.openproject.org/enterprise-edition/) and [Cloud edition](https://www.openproject.org/hosting/).
 
 To create a multi-select custom field follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field). Select format *List* or format *User* and check the option *Allow multi-select*.
 

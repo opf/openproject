@@ -6,7 +6,7 @@ sidebar_navigation:
 
 # Install OpenProject with Docker
 
-[Docker](https://www.docker.com/) is a way to distribute self-contained applications easily. We provide a Docker image for the Community Edition that you can very easily
+[Docker](https://www.docker.com/) is a way to distribute self-contained applications easily. We provide a Docker image for the Community edition that you can very easily
 install and upgrade on your servers. However, contrary to the manual or package-based installation, your machine needs to have the Docker Engine
 installed first, which usually requires a recent operating system. Please see the [Docker Engine installation page](https://docs.docker.com/install) if you don't have Docker installed.
 
@@ -69,7 +69,7 @@ If you want to start from scratch and remove the existing data you will have to 
 
 Please see the [advanced configuration guide's docker paragraphs](../configuration#docker)
 
-#### BIM Edition
+#### BIM edition
 
 In order to install or change to BIM inside a Docker environment, please navigate to the [Docker Installation for OpenProject BIM](../../bim-edition/#docker-installation-openproject-bim) paragraph at the BIM edition documentation. 
 

@@ -2,8 +2,8 @@
 sidebar_navigation:
   title: Support
   priority: 700
-description: Cloud Edition Support
-keywords: Cloud Edition support
+description: Cloud edition Support
+keywords: Cloud edition support
 ---
 # Enterprise cloud edition support
 

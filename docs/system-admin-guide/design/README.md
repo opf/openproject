@@ -11,7 +11,7 @@ As an OpenProject premium feature you can replace the default  OpenProject logo 
 
 Navigate to -> *Administration* -> *Design* in order to customize your OpenProject theme and logo.
 
-The design page provides several options to customize your OpenProject Enterprise Edition:
+The design page provides several options to customize your OpenProject Enterprise edition:
 
 1. Choose a default color theme: OpenProject, Light or Dark. Press the Save button to apply your changes.
 

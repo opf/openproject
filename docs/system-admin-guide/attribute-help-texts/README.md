@@ -14,7 +14,7 @@ keywords: attribute help texts, help texts for projects and work packages
 This way you will reduce wrong entries for attributes. This is especially relevant for company specific custom fields.
 </div>
 
-> **Note**: Attribute help texts are a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
+> **Note**: Attribute help texts are a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
 
 
 ## Overview

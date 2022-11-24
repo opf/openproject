@@ -7,9 +7,9 @@ keywords: SAML, SSO, single sign-on, authentication
 ---
 # SAML
 
-> **NOTE**: This documentation is valid for the OpenProject Enterprise Edition only.
+> **NOTE**: This documentation is valid for the OpenProject Enterprise edition only.
 
-You can integrate your active directory or other SAML compliant identity provider in your OpenProject Enterprise Edition.
+You can integrate your active directory or other SAML compliant identity provider in your OpenProject Enterprise edition.
 
 ## Enterprise Cloud
 

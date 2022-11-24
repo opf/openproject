@@ -44,15 +44,15 @@ We are currently seeing elevated response times and degraded performance. We are
 
 (8:15 UTC) OpenProject email notifciation service has been restored.
 
-(7:28 UTC) We are aware of degradede mail notifications on our OpenProject Cloud Edition service due to a technical issue with our mail notification provider and are actively working on resolving it.
+(7:28 UTC) We are aware of degradede mail notifications on our OpenProject Cloud edition service due to a technical issue with our mail notification provider and are actively working on resolving it.
 
 * * *
 
 ### April 20th, 2018
 
-(3:00 UTC) The OpenProject Cloud Edition is currently not available in Russia since the IP address is being blocked in connection with blocking Telegram ([more information](https://www.bbc.com/news/technology-43797176)).
+(3:00 UTC) The OpenProject Cloud edition is currently not available in Russia since the IP address is being blocked in connection with blocking Telegram ([more information](https://www.bbc.com/news/technology-43797176)).
 
-(3:00 UTC) The OpenProject Cloud Edition service is currently not available in Russia.
+(3:00 UTC) The OpenProject Cloud edition service is currently not available in Russia.
 
 * * *
 

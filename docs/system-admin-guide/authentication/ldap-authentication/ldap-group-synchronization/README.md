@@ -8,7 +8,7 @@ keywords: synchronize ldap groups
 
 # Synchronize LDAP and OpenProject groups (Premium feature)
 
-Note: This feature is available for the Enterprise on-premises only, for OpenProject versions 7.4+. For more information and differences to Community Edition, [see this page](https://www.openproject.org/enterprise-edition/).
+Note: This feature is available for the Enterprise on-premises only, for OpenProject versions 7.4+. For more information and differences to Community edition, [see this page](https://www.openproject.org/enterprise-edition/).
 
 In OpenProject Enterprise on-premises, you can synchronize LDAP group memberships defined through the [groupOfNames](https://tools.ietf.org/html/rfc4519#section-3.5) LDAP object class. This guide assumes that you:
 

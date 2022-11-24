@@ -2,8 +2,8 @@
 sidebar_navigation:
   title: Subscribe
   priority: 960
-description: Book the OpenProject Cloud Edition.
-keywords: Book Cloud Edition
+description: Book the OpenProject Cloud edition.
+keywords: Book Cloud edition
 ---
 # Book the Enterprise cloud edition
 
