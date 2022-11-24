@@ -52,7 +52,7 @@ gem 'warden-basic_auth', '~> 0.2.1'
 
 gem 'will_paginate', '~> 3.3.0'
 
-gem 'friendly_id', '~> 5.4.0'
+gem 'friendly_id', '~> 5.5.0'
 
 gem 'acts_as_list', '~> 1.0.1'
 gem 'acts_as_tree', '~> 2.9.0'
@@ -298,11 +298,11 @@ group :development, :test do
   gem 'lefthook', require: false
 
   # Brakeman scanner
-  gem 'brakeman', '~> 5.3.0'
+  gem 'brakeman', '~> 5.4.0'
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.13.0', require: false
+gem 'bootsnap', '~> 1.14.0', require: false
 
 # API gems
 gem 'grape', '~> 1.6.0'
