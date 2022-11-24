@@ -233,7 +233,7 @@ fil:
           benefits:
             description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Installation support"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
             premium_features: "Premium features"
@@ -625,20 +625,20 @@ fil:
         global:
           immediately:
             title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          start_date: Start Date
-          due_date: Finish Date
-          overdue: When Overdue
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
+          description: 'These project-specific settings override default settings above.'
           add: 'Add setting for project'
           already_selected: 'This project is already selected'
           remove: 'Remove project settings'

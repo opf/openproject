@@ -233,7 +233,7 @@ lt:
           benefits:
             description: "Kokie yra Enterprise on-premises Edition privalumai?"
             high_security: "Saugumo funkcijos"
-            high_security_text: "Vienas prisijungimas (naudojant SAML, OpenID Connect, CAS), dviejų lygių autentifikacija ir automatinis LDAP grupių sinchronizavimas."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Diegimo pagalba"
             installation_text: "Patyręs programų inžinierius ves jus per visą diegimo ir nustatymo procesą naudojant jūsų pačių infrastruktūrą."
             premium_features: "„Premium“ funkcijos"
@@ -627,20 +627,20 @@ lt:
         global:
           immediately:
             title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          start_date: Start Date
-          due_date: Finish Date
-          overdue: When Overdue
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: 'Konkrečių projektų pranešimų nustatymai'
-          description: 'Šie konkrečių projektų nustatymai permuša aukščiau esančius numatytuosius nustatymus'
+          description: 'These project-specific settings override default settings above.'
           add: 'Pridėti nustatymą projektui'
           already_selected: 'Šis projektas jau pažymėtas'
           remove: 'Išimti projekto nustatymus'

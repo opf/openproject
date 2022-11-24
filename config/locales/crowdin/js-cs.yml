@@ -233,7 +233,7 @@ cs:
           benefits:
             description: "Jaké jsou výhody Enterprise on-premises Edice?"
             high_security: "Bezpečnostní prvky"
-            high_security_text: "Jednotné přihlášení (SAML, OpenID Connect, CAS), dvoufaktorové ověřování a automatická synchronizace skupin LDAP."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Instalační podpora"
             installation_text: "Zkušení softwaroví inženýři vás povedou kompletní instalací a instalací ve vaší vlastní infrastruktuře."
             premium_features: "Prémiové funkce"
@@ -627,20 +627,20 @@ cs:
         global:
           immediately:
             title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          start_date: Start Date
-          due_date: Finish Date
-          overdue: When Overdue
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: "Nastavení upozornění pro konkrétní projekt\n"
-          description: 'Toto specifické nastavení projektu přepíše výchozí nastavení výše'
+          description: 'These project-specific settings override default settings above.'
           add: 'Přidat nastavení pro projekt'
           already_selected: 'Tento projekt je již vybrán'
           remove: 'Odstranit nastavení projektu'

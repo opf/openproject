@@ -233,7 +233,7 @@ uk:
           benefits:
             description: "Які переваги локального випуску Enterprise?"
             high_security: "Функції безпеки"
-            high_security_text: "Єдиний вхід (SAML, OpenID Connect, CAS), двофакторна аутентифікація та автоматична синхронізація груп LDAP."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Підтримка встановлення"
             installation_text: "Досвідчені інженери програмного забезпечення допоможуть вам виконати повне встановлення та налаштувати процес у вашій інфраструктурі."
             premium_features: "Ексклюзивні функції"
@@ -627,20 +627,20 @@ uk:
         global:
           immediately:
             title: 'Бере участь'
-            description: 'Сповіщення про всі дії з пакетами робіт, з якими ви пов’язані (виконавець, відповідальний або спостерігач)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: 'Не бере участі'
-            description: 'Додаткові сповіщення про дії в усіх проєктах'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Оповіщення про дати'
-            description: 'Автоматичні сповіщення в разі наближення важливих дат для відкритих пакетів робіт, з якими ви пов’язані (виконавець, відповідальний або спостерігач)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'Завдяки оповіщенням про дати ви завжди знатимете про заплановані дати початку або завершення, тож ніколи не пропускатимете важливі терміни та не забуватимете про них.'
-          start_date: Дата початку
-          due_date: Дата завершення
-          overdue: Якщо прострочено
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: 'Параметри сповіщень проєкту'
-          description: 'Ці параметри сповіщень проєкту перевизначають стандартні параметри вище'
+          description: 'These project-specific settings override default settings above.'
           add: 'Додати налаштування для проєкту'
           already_selected: 'Цей проєкт уже вибрано'
           remove: 'Вилучити налаштування проєкту'

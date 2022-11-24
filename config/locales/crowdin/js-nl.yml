@@ -233,7 +233,7 @@ nl:
           benefits:
             description: "Wat zijn de voordelen van de Enterprise on-premises Editie?"
             high_security: "Beveiliging functies"
-            high_security_text: "Eenmalige aanmelding (SAML, OpenID Connect, CAS), tweestapsverificatie en automatische synchronisatie van LDAP groepen."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Installatie ondersteuning"
             installation_text: "Ervaren softwareingenieurs begeleiden u door het volledige installatieproces in uw eigen infrastructuur."
             premium_features: "Premium functies"
@@ -625,20 +625,20 @@ nl:
         global:
           immediately:
             title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          start_date: Start Date
-          due_date: Finish Date
-          overdue: When Overdue
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: 'Project-specifieke meldingsinstellingen'
-          description: 'Deze project-specifieke instellingen overschrijven standaard instellingen hierboven'
+          description: 'These project-specific settings override default settings above.'
           add: 'Instelling voor project toevoegen'
           already_selected: 'Dit project is al geselecteerd'
           remove: 'Remove project settings'

@@ -233,7 +233,7 @@ ko:
           benefits:
             description: "Enterprise on-premises Edition의 장점은 무엇입니까?"
             high_security: "보안 기능"
-            high_security_text: "SSO(SAML, OpenID Connect, CAS), 2단계 인증 및 LDAP 그룹의 자동 동기화."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "설치 지원"
             installation_text: "숙련된 소프트웨어 엔지니어들이 사용자 고유 인프라에서 완전한 설치 및 설정 프로세스를 안내해줍니다."
             premium_features: "프리미엄 기능"
@@ -624,20 +624,20 @@ ko:
         global:
           immediately:
             title: '참여'
-            description: '귀하가 참여하고 있는 작업 패키지의 모든 활동에 대한 알림(담당자, 책임자 또는 주시자)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: '참여하지 않음'
-            description: '모든 프로젝트의 활동에 대한 추가 알림'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: '날짜 경보'
-            description: '귀하가 참여하고 있는 오픈 작업 패키지에 대한 중요 날짜가 다가올 때 자동 알림(담당자, 책임자 또는 주시자)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: '날짜 경보를 사용하면, 중요 마감일을 놓치거나 잊지 않도록 향후 시작 날짜 또는 종료 날짜에 대한 알림을 받게 됩니다.'
-          start_date: 시작 날짜
-          due_date: 완료 날짜
-          overdue: 기한이 지난 경우
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: '프로젝트별 알림 설정'
-          description: '이러한 프로젝트별 설정은 위의 기본 설정을 재정의합니다.'
+          description: 'These project-specific settings override default settings above.'
           add: '프로젝트에 대한 설정 추가'
           already_selected: '이 프로젝트는 이미 선택되었습니다.'
           remove: '프로젝트 설정 제거'
