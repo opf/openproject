@@ -36,11 +36,11 @@ Click the green **+ Type** button to add a new work package type in the system, 
 
 ![Sys-admin-add-work-package-type](Sys-admin-add-work-package-type.png)
 
-## Work package form configuration (Premium feature)
+## Work package form configuration (Enterprise add-on)
 
 You can freely **configure the attributes shown** for each work package type to decide which attributes are shown in the form and how they are grouped.
 
-> **Note**: Some parts of the Work package form configuration are a premium feature and only available for the [OpenProject Cloud edition](https://www.openproject.org/hosting/) and the [Enterprise On-premises edition](https://www.openproject.org/enterprise-edition/).
+> **Note**: Some parts of the Work package form configuration are a Enterprise add-on and only available for the [OpenProject Cloud edition](https://www.openproject.org/hosting/) and the [Enterprise On-premises edition](https://www.openproject.org/enterprise-edition/).
 > The Enterprise edition allows you to customize form configuration with these additional features:
 >
 > - **Add new attribute groups**
@@ -72,11 +72,11 @@ Watch the following video to see how you can customize your work packages with c
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Forms-and-Custom-Fields-1.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
-## Add table of related work packages to a work package form (Premium feature)
+## Add table of related work packages to a work package form (Enterprise add-on)
 
 Also, you can add a table of related work packages to your work package form. Click the green **+ Group** button and choose **Add table of related work package** from the drop-down list.
 
-**Note**: To Add a table of related work package in OpenProject is a Premium Feature and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
+**Note**: To Add a table of related work package in OpenProject is a Enterprise add-on and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
 
 ![Sys-admin-table-of-related-work-packages](Sys-admin-table-of-related-work-packages.png)
 

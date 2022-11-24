@@ -6,7 +6,7 @@ description: Synchronize LDAP groups.
 keywords: synchronize ldap groups
 ---
 
-# Synchronize LDAP and OpenProject groups (Premium feature)
+# Synchronize LDAP and OpenProject groups (Enterprise add-on)
 
 Note: This feature is available for the Enterprise on-premises only, for OpenProject versions 7.4+. For more information and differences to Community edition, [see this page](https://www.openproject.org/enterprise-edition/).
 

@@ -179,7 +179,7 @@ The **Avatar** tab shows the default icon to be shown for this user. A custom im
 
 ### Two-factor authentication (2FA)
 This tab shows whether a user has activated a device for two-factor authentication in their account. You can see the devices and delete them if necessary. 
-Please note: As this is a [premium feature](https://www.openproject.org/enterprise-edition/#premium-features) this tab won't be visible in the Community edition. 
+Please note: As this is a [Enterprise add-on](https://www.openproject.org/enterprise-edition/#premium-features) this tab won't be visible in the Community edition. 
 
 ## Authentication
 

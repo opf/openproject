@@ -5,9 +5,9 @@ sidebar_navigation:
 description: Custom color, theme and logo.
 keywords: custom color, theme and logo
 ---
-# Set custom color theme and logo (Premium feature)
+# Set custom color theme and logo (Enterprise add-on)
 
-As an OpenProject premium feature you can replace the default  OpenProject logo with your own logo. In addition, you can define your own color theme which allows you to implement your corporate identity in OpenProject.
+As an OpenProject Enterprise add-on you can replace the default  OpenProject logo with your own logo. In addition, you can define your own color theme which allows you to implement your corporate identity in OpenProject.
 
 Navigate to -> *Administration* -> *Design* in order to customize your OpenProject theme and logo.
 

@@ -22,7 +22,7 @@ Welcome to the central overview of frequently asked questions for OpenProject.
 
 ## Learn more about OpenProject
 
-### How do I get access to the OpenProject premium features?
+### How do I get access to the OpenProject Enterprise add-ons?
 We offer the premium functions of OpenProject (incl. boards) for two different OpenProject variants:
 
 * For the OpenProject Enterprise cloud edition (hosted by us),
@@ -31,8 +31,8 @@ We offer the premium functions of OpenProject (incl. boards) for two different O
 If you want to run OpenProject on your own server, the OpenProject Enterprise on-premises edition is the right option.
 Have you already installed the [OpenProject Community edition](https://www.openproject.org/download-and-installation/)? If yes, you can request a trial license for the OpenProject Enterprise on-premises edition by clicking on the button "Free trial license" [here](https://www.openproject.org/de/enterprise-edition/) and test the Enterprise on-premises edition for 14 days for free.
 
-### Can I have some users with premium features and some without?
-As the Enterprise premium features affect the whole instance (e.g. with Agile Boards and project custom fields) it's not possible to upgrade only some users.
+### Can I have some users with Enterprise add-ons and some without?
+As the Enterprise Enterprise add-ons affect the whole instance (e.g. with Agile Boards and project custom fields) it's not possible to upgrade only some users.
 
 ### What are the system requirements?
 
@@ -65,7 +65,7 @@ Terms and conditions regarding GPLv3 are available at [https://www.gnu.org/licen
 
 We offer three different versions of OpenProject. Please get an overview of the different OpenProject Editions [here](https://www.openproject.org/pricing/#features).
 
-The (on-premise) OpenProject Community edition is completely free. The Enterprise cloud and Enterprise on-premises edition offer premium features, hosting and support and thus we are charging for it. Nevertheless, we offer free 14 days trials for the Enterprise versions so that you can get to know their benefits. If you prefer to use the free OpenProject Community edition, you can follow these [installation instructions](https://www.openproject.org/download-and-installation/), please note that you need a Linux server to install the Community edition. It is always possible to upgrade from the Community to the Enterprise cloud and Enterprise on-premises edition – check out the premium features [here](https://www.openproject.org/enterprise-edition/#premium-features).
+The (on-premise) OpenProject Community edition is completely free. The Enterprise cloud and Enterprise on-premises edition offer Enterprise add-ons, hosting and support and thus we are charging for it. Nevertheless, we offer free 14 days trials for the Enterprise versions so that you can get to know their benefits. If you prefer to use the free OpenProject Community edition, you can follow these [installation instructions](https://www.openproject.org/download-and-installation/), please note that you need a Linux server to install the Community edition. It is always possible to upgrade from the Community to the Enterprise cloud and Enterprise on-premises edition – check out the Enterprise add-ons [here](https://www.openproject.org/enterprise-edition/#premium-features).
 
 ### Can I have both users with the Enterprise cloud and others with the Enterprise on-premises edition?
 
@@ -269,11 +269,11 @@ We will need a [backup](../system-admin-guide/backup) which we will restore into
 
 ### How can I migrate from Community edition to Enterprise on-premises?
 
-If you [book Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition) you will receive an Enterprise token. Use it to activate the Enterprise premium features. For detailed activation instructions please refer to the [Enterprise activation guide](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/). You can keep your data that you created in the Community edition.
+If you [book Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition) you will receive an Enterprise token. Use it to activate the Enterprise Enterprise add-ons. For detailed activation instructions please refer to the [Enterprise activation guide](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/). You can keep your data that you created in the Community edition.
 
 ### How can I migrate from Enterprise on-premises to Community edition?
 
-If you cancel your subscription for Enterprise on-premises you will be downgraded to Community edition automatically as soon as the subscription period ends. You can keep all your data but won't be able to use the [premium features](https://www.openproject.org/de/enterprise-edition/#premium-features) and won't be eligible for support any more.
+If you cancel your subscription for Enterprise on-premises you will be downgraded to Community edition automatically as soon as the subscription period ends. You can keep all your data but won't be able to use the [Enterprise add-ons](https://www.openproject.org/de/enterprise-edition/#premium-features) and won't be eligible for support any more.
 
 ### How can I migrate from an old version of OpenProject to the latest version?
 

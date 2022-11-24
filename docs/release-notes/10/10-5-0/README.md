@@ -49,7 +49,7 @@ The summary of news will now be displayed in the news widget on the project over
 
 ## Upgrade to the OpenProject Enterprise edition
 
-With OpenProject 10.5 it is now much easier to upgrade an existing Community installation to the Enterprise edition. Within your system Administration under -> Enterprise edition you now have the possibility to start a 14 days free trial for the Enterprise edition. Also, you can upgrade directly to get professional support, premium features, and additional security features. The Enterprise token will be generated and updated in your Community installation.
+With OpenProject 10.5 it is now much easier to upgrade an existing Community installation to the Enterprise edition. Within your system Administration under -> Enterprise edition you now have the possibility to start a 14 days free trial for the Enterprise edition. Also, you can upgrade directly to get professional support, Enterprise add-ons, and additional security features. The Enterprise token will be generated and updated in your Community installation.
 
  ![Enterprise-edition-upgrade](Enterprise-edition-upgrade.png)
 

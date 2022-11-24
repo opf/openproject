@@ -33,7 +33,7 @@ Please use the link "Manage subscription" in the email you received confirming y
 
 ## Is it possible to only upgrade *some* users to the Enterprise edition?
 
-This is not possible, as the Premium features affect the whole OpenProject instance and not the individual users.
+This is not possible, as the Enterprise add-ons affect the whole OpenProject instance and not the individual users.
 
 ## I didn't receive my license key / Enterprise token
 
@@ -43,9 +43,9 @@ The Enterprise token is sent to the email address used to create the subscriptio
 
 Yes, for Enterprise on-premises and for Community edition you will have to choose your own domain name during [initial configuration](../../../installation-and-operations/installation/packaged/#initial-configuration) after installing OpenProject.
 
-## Are also the premium features open source?
+## Are also the Enterprise add-ons open source?
 
-Yes, all features, also the premium features, are developed under the GPL v3.
+Yes, all features, also the Enterprise add-ons, are developed under the GPL v3.
 
 ## Why do you not offer all features for free?
 
@@ -57,7 +57,7 @@ Please use the link "Manage subscription" in the first email you received from o
 
 ## How can I downgrade from Enterprise on-premises to Community edition?
 
-To downgrade to the Community edition you will simply need to cancel the paid Enterprise plan. As soon as the subscription terminates, you will automatically switch back to the Community version. Please note that you will not be able to use the premium features anymore and you will not be eligible for support. As soon as your subscription or your trial ends you will automatically be downgraded to the Community edition.
+To downgrade to the Community edition you will simply need to cancel the paid Enterprise plan. As soon as the subscription terminates, you will automatically switch back to the Community version. Please note that you will not be able to use the Enterprise add-ons anymore and you will not be eligible for support. As soon as your subscription or your trial ends you will automatically be downgraded to the Community edition.
 
 ## Can I migrate from the hosted Enterprise cloud edition to a self-hosted Community or Enterprise on-premises edition?
 

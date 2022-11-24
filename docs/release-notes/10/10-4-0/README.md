@@ -37,7 +37,7 @@ The Excel spreadsheet lists the tracked time, cost, as well as the different cos
 
 ![Export cost reports](Export-cost-report-1536x1065.png)
 
-### Light and dark theme for OpenProject (Premium feature)
+### Light and dark theme for OpenProject (Enterprise add-on)
 
 Cloud and Enterprise edition users can now easily customize the look and feel of their OpenProject environment by using a custom logo and adjusting the color theme. With OpenProject 10.4 this gets a lot easier - thanks to default themes. Simply choose between the OpenProject theme, the light theme and the dark theme.
 

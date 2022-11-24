@@ -21,7 +21,7 @@ You can adjust the following:
 
 6. **Work packages / Projects export limit**. This setting defines how many work packages and projects you can export at the same time, for example in the work package list. This limit can only be changed in self hosted versions of OpenProject.
 
-7. **Default highlighting mode** (premium feature) defines which should be the default [attribute highlighting](../../../user-guide/work-packages/work-package-table-configuration/#attribute-highlighting-premium-feature) mode, e.g. to highlight the following criteria in the work package table. This setting is only available for Enterprise on-premises and Enterprise cloud users.
+7. **Default highlighting mode** (Enterprise add-on) defines which should be the default [attribute highlighting](../../../user-guide/work-packages/work-package-table-configuration/#attribute-highlighting-premium-feature) mode, e.g. to highlight the following criteria in the work package table. This setting is only available for Enterprise on-premises and Enterprise cloud users.
 
    ![default highlighting mode](image-20200116133247958.png)
 

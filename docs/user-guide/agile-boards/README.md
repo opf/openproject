@@ -12,7 +12,7 @@ Boards support agile project management methodologies, such as Scrum or Kanban.
 
 Our Agile boards can be for anything you would like to keep track of within your projects: Tasks to be done, Bugs to be fixed, Things to be reviewed, Features to be developed, Risks to be monitored, Ideas to be spread, anything! The boards consist of lists (columns) and cards. You can choose between a Basic board and various advanced Action boards.
 
-> **Note**: The basic board is included in the OpenProject Community edition. OpenProject Action boards are a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
+> **Note**: The basic board is included in the OpenProject Community edition. OpenProject Action boards are a Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
 
 
 | Topic                                                     | Content                                                                          |
@@ -55,7 +55,7 @@ The Basic board is included in the OpenProject Community edition. You can freely
 
 ![Board types basic board](Board-types-basic-board.png)
 
-## Action boards (Premium feature)
+## Action boards (Enterprise add-on)
 
 In an Action board each lists represents a value of an attribute of the contained work packages (cards), e.g. there's a list for the status "New" and a list for the status "In Progress" in the Status board.
 Moving work packages (cards) between two lists will update them automatically, based on the list to which they're moved.

@@ -35,7 +35,7 @@ Your Enterprise on-premises edition is now active.
 
 ## Order the Enterprise on-premises edition
 
-If you want to **order the Enterprise on-premises edition** click on the **+ Order Enterprise edition** button shown on the page. You can also [request a trial token](../enterprise-on-premises-trial) to test the premium features included in the Enterprise on-premises edition.
+If you want to **order the Enterprise on-premises edition** click on the **+ Order Enterprise edition** button shown on the page. You can also [request a trial token](../enterprise-on-premises-trial) to test the Enterprise add-ons included in the Enterprise on-premises edition.
 
 ![Order-Enterprise-on-premises](Upgrade-to-Enterprise-on-premises.png)
 
