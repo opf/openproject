@@ -137,6 +137,7 @@ ja:
       onthefly_register: |
         チェックを入れると、OpenProjectは初回認証時に自動的にLDAPエントリーに新規ユーザー登録します。LDAPの既存ユーザーのみ許可する場合はチェックを外してください。
     connection_encryption: '接続の暗号化'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'システムアカウント'
     system_account_legend: |
       OpenProject は、LDAP ツリー内のユーザーとグループを検索するために、システムアカウントを介して読み取り専用アクセスを必要とします。
@@ -147,13 +148,18 @@ ja:
       以下のフィールドは、LDAPエントリからOpenProjectのユーザーの作成方法とアトリビュートマッピングに関連しています。
     tls_mode:
       plain: 'なし'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "平文の暗号化されていない接続。TLSネゴシエーションはありません。"
-      simple_tls_description: "暗黙的にTLS暗号化します。証明書を検証しません。暗黙的にLDAP接続を信頼します、注意して使用してください。"
-      start_tls_description: "完全な検証を行い明示的にTLS暗号化します。TLS/SSL経由のLDAPを使用します。"
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         このセクションは、このLDAP認証元の接続セキュリティを考慮します。詳細については、<a href="%{link}">Net::LDAPドキュメント</a>を参照してください。
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: 現在、フォーラムへの投稿はありません。
@@ -414,6 +420,7 @@ ja:
         host: "ホスト"
         onthefly: "ユーザーの自動作成"
         port: "ポート番号"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "リポジトリ"
       comment:
@@ -622,6 +629,11 @@ ja:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "は%{count}文字を入力してください。"
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:

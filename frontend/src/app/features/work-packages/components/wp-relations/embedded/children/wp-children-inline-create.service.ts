@@ -33,6 +33,11 @@ import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/
 import { WpRelationInlineCreateServiceInterface } from 'core-app/features/work-packages/components/wp-relations/embedded/wp-relation-inline-create.service.interface';
 import { WpRelationInlineAddExistingComponent } from 'core-app/features/work-packages/components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import {
+  Observable,
+  of,
+} from 'rxjs';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Injectable()
 export class WpChildrenInlineCreateService extends WorkPackageInlineCreateService implements WpRelationInlineCreateServiceInterface {
@@ -71,16 +76,21 @@ export class WpChildrenInlineCreateService extends WorkPackageInlineCreateServic
    */
   public referenceTarget:WorkPackageResource|null = null;
 
-  public get canAdd() {
-    return !!(this.referenceTarget && this.canCreateWorkPackages && this.canAddChild);
+  public get canAdd():Observable<boolean> {
+    if (!(this.referenceTarget && this.canAddChild)) {
+      return of(false);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return this.canCreateWorkPackages(idFromLink(this.referenceTarget.project.href));
   }
 
-  public get canReference() {
-    return !!(this.referenceTarget && this.canAddChild);
+  public get canReference():Observable<boolean> {
+    return of(!!this.referenceTarget && this.canAddChild);
   }
 
-  public get canAddChild() {
-    return this.schema && !this.schema.isMilestone && this.referenceTarget!.changeParent;
+  public get canAddChild():boolean {
+    return !!(this.schema && !this.schema.isMilestone && this.referenceTarget?.changeParent);
   }
 
   /**

@@ -137,6 +137,7 @@ sl:
         Če potrdite to polje, bo OpenProject samodejno ustvaril nove uporabnike iz njihovih vnosov LDAP, ko se prvič potrdijo z OpenProject.
         Pustite to polje brez potrditve, da samo obstoječim računom v programu OpenProject dovolite avtentikacijo preko LDAP.
     connection_encryption: 'Šifriranje povezave'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Sistemski račun'
     system_account_legend: |
       OpenProject zahteva dostop "samo za branje" prek sistemskega računa za iskanje uporabnikov in skupin v vašem drevesu LDAP.
@@ -148,13 +149,18 @@ sl:
       kateri atributi LDAP se uporabljajo za definiranje atributov uporabnika OpenProject (preslikava atributov).
     tls_mode:
       plain: 'Brez'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Nekriptirana povezava (brez TLS)"
-      simple_tls_description: "Implicitno šifriranje TLS, vendar ni potrjevanja potrdila. Uporabljajte previdno in implicitno zaupanje povezave LDAP."
-      start_tls_description: "Izrecno šifriranje TLS s popolno veljavnostjo. Uporabite za LDAP prek TLS / SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Razdelek zadeva varnost povezave tega vira za preverjanje pristnosti LDAP. Če želite več informacij, obiščite <a href="%{link}">the Net::LDAP documentation</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Trenutno ni nobenih objav za forum.
@@ -418,6 +424,7 @@ sl:
         host: "Gostitelj"
         onthefly: "Samodejno ustvarjanje uporabnika"
         port: "Vrata"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitorij"
       comment:
@@ -626,6 +633,11 @@ sl:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "je napačna dolžina (mora biti %{count} znakov). "
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:

@@ -138,6 +138,7 @@ tr:
         OpenProject ile ilk kimlik doğrulaması yaptıklarında.
         Yalnızca OpenProject’deki mevcut hesapların LDAP üzerinden kimlik doğrulaması yapmasına izin vermek için işaretlenmemiş bırakın!
     connection_encryption: 'Bağlantı şifreleme'
+    encryption_details: 'LDAPS / STARTTLS seçenekleri'
     system_account: 'Sistem hesabı'
     system_account_legend: |
       OpenProject, LDAP ağacınızdaki kullanıcıları ve grupları aramak için bir sistem hesabı üzerinden salt okunur erişim gerektirir.
@@ -149,13 +150,18 @@ tr:
       OpenProject kullanıcısının niteliklerini tanımlamak için hangi LDAP niteliklerinin kullanıldığı (özellik eşlemesi).
     tls_mode:
       plain: 'hiçbiri'
-      simple_tls: 'basit_tls'
-      start_tls: 'başlat_tls'
-      plain_description: "Düz şifrelenmemiş bağlantı, TLS anlaşması yok."
-      simple_tls_description: "Örtülü TLS şifrelemesi, ancak sertifika doğrulaması yok. LDAP bağlantısına dikkat ve örtülü güven ile kullanın."
-      start_tls_description: "Tam doğrulama ile açık TLS şifrelemesi. TLS / SSL üzerinden LDAP için kullanın."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "LDAP sunucusuna şifrelenmemiş bir bağlantı açar. Üretim için tavsiye edilmez."
+      simple_tls_description: "LDAPS'yi kullanın. LDAP sunucusunda ayrı bir bağlantı noktası gerektirir. Bu mod genellikle kullanımdan kaldırılmıştır, mümkün olduğunda STARTTLS kullanmanızı öneririz."
+      start_tls_description: "Standart LDAP bağlantı noktasına bağlandıktan sonra bir STARTTLS komutu gönderir. Şifreli bağlantılar için önerilir."
       section_more_info_link_html: >
         Bu bölüm, bu LDAP kimlik doğrulama kaynağının bağlantı güvenliği ile ilgilidir. Daha fazla bilgi için <a href="%{link}">the Net::LDAP belgelerini </a> ziyaret edin.
+    tls_options:
+      verify_peer: "SSL sertifikasını doğrula"
+      verify_peer_description_html: >
+        Sertifika güvenilir zincirinin katı SSL doğrulamasını etkinleştirir. <br/> <strong>Uyarı:</strong> Bu seçeneğin işaretini kaldırmak, LDAP sunucu sertifikasının SSL doğrulamasını devre dışı bırakır. Bu, Man in the Middle saldırılarıyla bağlantınızı ortaya çıkarır.
+      tls_certificate_description: "LDAP sunucusu sertifikası bu sistemin güvenilir kaynaklarında yoksa buradan manuel olarak ekleyebilirsiniz. Bir PEM X509 sertifika dizisi girin."
   forums:
     show:
       no_results_title_text: Forumda şu anda yayın yok.
@@ -419,6 +425,7 @@ tr:
         host: "Sunucu"
         onthefly: "Otomatik kullanıcı oluşturma"
         port: "Port"
+        tls_certificate_string: "LDAP sunucusu SSL sertifikası"
       changeset:
         repository: "Depo"
       comment:
@@ -627,6 +634,11 @@ tr:
           bir "Güvenli Bağlam" sağlamıyor. HTTPS veya localhost gibi bir geri döngü adresi kullanın.
         wrong_length: "uzunluğu yanlıştır (%{count} karakter olmalıdır)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "Sağlanan SSL sertifikası geçersiz: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:

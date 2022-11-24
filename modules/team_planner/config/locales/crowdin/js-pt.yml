@@ -12,7 +12,7 @@ pt:
       remove_assignee: 'Remover responsável'
       two_weeks: '2 semanas'
       one_week: '1 semana'
-      work_week: 'Work week'
+      work_week: 'Semana de trabalho'
       today: 'Hoje'
       drag_here_to_remove: 'Arraste aqui para remover o responsável e as datas de início e término.'
       cannot_drag_here: 'Não é possível remover o pacote de trabalho devido a permissões ou restrições de edição.'

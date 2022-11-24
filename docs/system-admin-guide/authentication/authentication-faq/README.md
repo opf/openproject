@@ -35,11 +35,11 @@ In addition, we ask you to check if there are general difficulties with sending 
 
 ## Is it possible to only allow authentication via SSO (not via user name / password)?
 
-Yes, for Enterprise on-premises and Community Edition there is a [configuration option](../../../installation-and-operations/configuration/#disable-password-login) to disable the password login.
+Yes, for Enterprise on-premises and Community edition there is a [configuration option](../../../installation-and-operations/configuration/#disable-password-login) to disable the password login.
 
 ## Which authentication providers are supported for single sign-on?
 
-We do support the main authentication providers, such as CAS, SAML, OpenID Connect, Kerberos, and Okta. Please note that single sign-on is a premium feature and can only be activated for Enterprise cloud and Enterprise on-premises.
+We do support the main authentication providers, such as CAS, SAML, OpenID Connect, Kerberos, and Okta. Please note that single sign-on is a Enterprise add-on and can only be activated for Enterprise cloud and Enterprise on-premises.
 
 ## Is it possible to use a custom SSO provider (e.g. Keycloak) with the Enterprise cloud edition?
 

@@ -228,12 +228,12 @@ uk:
           quick_overview: "Отримайте стислий огляд управління проєктами та командної роботи в OpenProject Enterprise."
         upsale:
           become_hero: "Стань героєм!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
-          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          enterprise_info_html: "%{feature_title} – це функція версії Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
+          upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
           benefits:
             description: "Які переваги локального випуску Enterprise?"
             high_security: "Функції безпеки"
-            high_security_text: "Єдиний вхід (SAML, OpenID Connect, CAS), двофакторна аутентифікація та автоматична синхронізація груп LDAP."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Підтримка встановлення"
             installation_text: "Досвідчені інженери програмного забезпечення допоможуть вам виконати повне встановлення та налаштувати процес у вашій інфраструктурі."
             premium_features: "Ексклюзивні функції"
@@ -242,7 +242,7 @@ uk:
             professional_support_text: "Отримайте надійну, комплексну підтримку від досвідчених інженерів, які знають усе про запуск OpenProject у критично важливих для бізнесу середовищах."
           button_start_trial: "Розпочати безкоштовну пробну версію"
           button_upgrade: "Оновити"
-          button_contact_us: "Contact us for a demo"
+          button_contact_us: "Зв’яжіться з нами, щоб отримати демоверсію"
           button_book_now: "Забронювати зараз"
           confidence: >
             Ми надаємо перевірене програмне забезпечення корпоративного класу з — з відкритим кодом і серцем — та забезпечуємо його підтримку.
@@ -304,11 +304,11 @@ uk:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
     label_activate: "Активувати"
     label_assignee: 'Виконавець'
     label_add_column_after: "Додати стовпець після"
@@ -400,6 +400,7 @@ uk:
     label_no_data: "Немає даних для відображення"
     label_no_due_date: "немає дати завершення"
     label_no_start_date: "немає дати початку"
+    label_no_date: "no date"
     label_no_value: "Значення відсутнє"
     label_none: "нічого"
     label_not_contains: "не містить"
@@ -540,33 +541,33 @@ uk:
       no_unread: "Немає непрочитаних сповіщень"
       reasons:
         mentioned: 'згадано'
-        watched: 'watcher'
-        assigned: 'assignee'
+        watched: 'спостерігач'
+        assigned: 'виконавець'
         responsible: 'відповідальний'
         created: 'створено'
         scheduled: 'заплановано'
         commented: 'прокоментовано'
         processed: 'оброблено'
         prioritized: 'надано пріоритет'
-        dateAlert: 'Date alert'
+        dateAlert: 'Оповіщення про дату'
       date_alerts:
-        milestone_date: 'Milestone date'
-        overdue: 'Overdue'
-        overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
-        property_is: 'is in %{difference_in_days}'
-        property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        milestone_date: 'Дата віхи'
+        overdue: 'Прострочено'
+        overdue_since: 'на %{difference_in_days}'
+        property_today: 'сьогодні'
+        property_is: 'через %{difference_in_days}'
+        property_was: '%{difference_in_days} тому'
+        property_is_deleted: 'видалено'
         upsale:
-          title: 'Date alerts'
-          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          title: 'Оповіщення про дати'
+          description: 'Завдяки оповіщенням про дати ви завжди знатимете про заплановані дати початку або завершення, тож ніколи не пропускатимете важливі терміни та не забуватимете про них.'
       facets:
         unread: 'Непрочитані'
         unread_title: 'Показати непрочитані'
         all: 'Всі'
         all_title: 'Показати всі'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 'і'
         and_more_users:
           one: 'і ще 1'
           few: 'і ще %{count}'
@@ -590,34 +591,34 @@ uk:
       menu:
         accountable: 'Відповідальний'
         by_project: 'Непрочитані проєктом'
-        by_reason: 'Reason'
+        by_reason: 'Причина'
         inbox: 'Вхідні'
-        mentioned: 'Mentioned'
-        watched: 'Watcher'
-        date_alert: 'Date alert'
+        mentioned: 'Згадано'
+        watched: 'Спостерігач'
+        date_alert: 'Оповіщення про дату'
       settings:
         change_notification_settings: 'Щоб переглянути та змінити налаштування сповіщень, <a target="_blank" href="%{url}">натисніть тут</a>'
         title: "Налаштування сповіщень"
         notify_me: "Сповіщати мене"
         reminders:
-          no_notification: No notification
+          no_notification: Немає сповіщень
           timeframes:
             normal:
-              PT0S: same day
-              P1D: 1 day before
-              P3D: 3 days before
-              P7D: a week before
+              PT0S: того ж дня
+              P1D: за 1 день
+              P3D: за 3 дні
+              P7D: за тиждень
             overdue:
-              P1D: every day
-              P3D: every 3 days
-              P7D: every week
+              P1D: щодня
+              P3D: кожні 3 дні
+              P7D: щотижня
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'Згадано'
             description: 'Отримувати сповіщення щоразу, коли хтось згадує мене де завгодно'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
-          watched: 'Watcher'
+          assignee: 'Виконавець'
+          responsible: 'Відповідальний'
+          watched: 'Спостерігач'
           work_package_commented: 'Усі нові коментарі'
           work_package_created: 'Нові пакети робіт'
           work_package_processed: 'Усі зміни статусу'
@@ -625,21 +626,21 @@ uk:
           work_package_scheduled: 'Усі зміни дат'
         global:
           immediately:
-            title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            title: 'Бере участь'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
-            title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            title: 'Не бере участі'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
-            title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
-            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          start_date: Start Date
-          due_date: Finish Date
-          overdue: When Overdue
+            title: 'Оповіщення про дати'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            teaser_text: 'Завдяки оповіщенням про дати ви завжди знатимете про заплановані дати початку або завершення, тож ніколи не пропускатимете важливі терміни та не забуватимете про них.'
+          start_date: Start date
+          due_date: Finish date
+          overdue: When overdue
         project_specific:
           title: 'Параметри сповіщень проєкту'
-          description: 'Ці параметри сповіщень проєкту перевизначають стандартні параметри вище'
+          description: 'These project-specific settings override default settings above.'
           add: 'Додати налаштування для проєкту'
           already_selected: 'Цей проєкт уже вибрано'
           remove: 'Вилучити налаштування проєкту'

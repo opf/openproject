@@ -48,6 +48,13 @@ export class WpSingleViewService {
       map((notifications) => notifications.length),
     );
 
+  nonDateAlertNotificationsCount$ = this
+    .selectNotifications$
+    .pipe(
+      map((notifications) => notifications.filter((notification) => notification.reason !== 'dateAlert')),
+      map((notifications) => notifications.length),
+    );
+
   hasNotifications$ = this
     .selectNotificationsCount$
     .pipe(

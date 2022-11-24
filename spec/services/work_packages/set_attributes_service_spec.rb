@@ -1295,17 +1295,13 @@ describe WorkPackages::SetAttributesService,
   end
 
   context 'when switching the type' do
-    let(:target_type) { build_stubbed(:type) }
+    let(:target_type) { build_stubbed(:type, is_milestone:) }
     let(:work_package) do
       build_stubbed(:work_package, start_date: Time.zone.today - 6.days, due_date: Time.zone.today)
     end
 
-    context 'with a type that is no milestone' do
-      before do
-        allow(target_type)
-          .to receive(:is_milestone?)
-                .and_return(false)
-      end
+    context 'to a non-milestone type' do
+      let(:is_milestone) { false }
 
       it 'keeps the start date' do
         instance.call(type: target_type)
@@ -1328,59 +1324,74 @@ describe WorkPackages::SetAttributesService,
       end
     end
 
-    context 'with a type that is a milestone and with both dates set' do
-      before do
-        allow(target_type)
-          .to receive(:is_milestone?)
-                .and_return(true)
+    context 'to a milestone type' do
+      let(:is_milestone) { true }
+
+      context 'with both dates set' do
+        it 'sets the start date to the due date' do
+          instance.call(type: target_type)
+
+          expect(work_package.start_date).to eq work_package.due_date
+        end
+
+        it 'keeps the due date' do
+          instance.call(type: target_type)
+
+          expect(work_package.due_date).to eql Time.zone.today
+        end
+
+        it 'sets the duration to 1 (to be changed to 0 later on)' do
+          instance.call(type: target_type)
+
+          expect(work_package.duration).to eq 1
+        end
       end
 
-      it 'sets the start date to the due date' do
-        instance.call(type: target_type)
+      context 'with only the start date set' do
+        let(:work_package) do
+          build_stubbed(:work_package, start_date: Time.zone.today - 6.days)
+        end
 
-        expect(work_package.start_date).to eql Time.zone.today
-      end
+        it 'keeps the start date' do
+          instance.call(type: target_type)
 
-      it 'keeps the due date' do
-        instance.call(type: target_type)
+          expect(work_package.start_date).to eql Time.zone.today - 6.days
+        end
 
-        expect(work_package.due_date).to eql Time.zone.today
-      end
+        it 'set the due date to the start date' do
+          instance.call(type: target_type)
 
-      it 'sets the duration to 1 (to be changed to 0 later on)' do
-        instance.call(type: target_type)
+          expect(work_package.due_date).to eql work_package.start_date
+        end
 
-        expect(work_package.duration).to eq 1
-      end
-    end
+        it 'keeps the duration at 1 (to be changed to 0 later on)' do
+          instance.call(type: target_type)
 
-    context 'with a type that is a milestone and with only the start date set' do
-      let(:work_package) do
-        build_stubbed(:work_package, start_date: Time.zone.today - 6.days)
-      end
+          expect(work_package.duration).to eq 1
+        end
 
-      before do
-        allow(target_type)
-          .to receive(:is_milestone?)
-                .and_return(true)
-      end
+        context 'with a new work package' do
+          let(:work_package) do
+            build(:work_package, start_date: Time.zone.today - 6.days)
+          end
+          let(:call_attributes) { { type: target_type, start_date: Time.zone.today - 6.days, due_date: nil, duration: nil } }
 
-      it 'keeps the start date' do
-        instance.call(type: target_type)
+          before do
+            instance.call(call_attributes)
+          end
 
-        expect(work_package.start_date).to eql Time.zone.today - 6.days
-      end
+          it 'keeps the start date' do
+            expect(work_package.start_date).to eq Time.zone.today - 6.days
+          end
 
-      it 'set the due date to the start date' do
-        instance.call(type: target_type)
+          it 'set the due date to the start date' do
+            expect(work_package.due_date).to eq work_package.start_date
+          end
 
-        expect(work_package.due_date).to eql Time.zone.today - 6.days
-      end
-
-      it 'keeps the duration at 1 (to be changed to 0 later on)' do
-        instance.call(type: target_type)
-
-        expect(work_package.duration).to eq 1
+          it 'keeps the duration at 1 (to be changed to 0 later on)' do
+            expect(work_package.duration).to eq 1
+          end
+        end
       end
     end
   end

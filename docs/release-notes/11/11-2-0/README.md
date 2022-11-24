@@ -13,7 +13,7 @@ Release date: 2021-03-09
 We released [OpenProject 11.2.0](https://community.openproject.com/versions/1461).
 This new release will bring many new features and bug fixes that will improve classical as well as agile project management. 
 
-## Placeholder users (premium feature)
+## Placeholder users (Enterprise add-on)
 
 A new concept of placeholder users has been introduced with 11.2. Within the *Administration* -> *Users and permissions* you are now able to create placeholder users without an email address and without taking away any license seats.
 
@@ -101,7 +101,7 @@ To use OpenProject 11.2 right away, create a free trial instance for our [OpenPr
 Prefer to run OpenProject 11.2 in your own infrastructure?
  Here you can find the [Installation guidelines](../../../installation-and-operations) for OpenProject.
 
-Want to upgrade from a Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/enterprise-edition/)
+Want to upgrade from a Community version to try out the Enterprise Enterprise add-ons? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/enterprise-edition/)
 
 ## Migrating to OpenProject 11.2
 

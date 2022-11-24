@@ -439,6 +439,8 @@ class PermittedParams
           attr_lastname
           attr_mail
           attr_admin
+          verify_peer
+          tls_certificate_string
         ),
         forum: %i(
           name

@@ -31,7 +31,6 @@ import { registerRequestForConfirmation } from 'core-app/core/setup/globals/glob
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { scrollHeaderOnMobile } from 'core-app/core/setup/globals/global-listeners/top-menu-scroll';
 import { setupToggableFieldsets } from 'core-app/core/setup/globals/global-listeners/toggable-fieldset';
-import { TopMenu } from 'core-app/core/setup/globals/global-listeners/top-menu';
 import { installMenuLogic } from 'core-app/core/setup/globals/global-listeners/action-menu';
 import { makeColorPreviews } from 'core-app/core/setup/globals/global-listeners/color-preview';
 import { dangerZoneValidation } from 'core-app/core/setup/globals/global-listeners/danger-zone-validation';
@@ -127,9 +126,6 @@ export function initializeGlobalListeners():void {
 
   // Toggable fieldsets
   setupToggableFieldsets();
-
-  // Top menu click handling
-  new TopMenu(jQuery('.op-app-header'));
 
   // Action menu logic
   jQuery('.project-actions, .toolbar-items').each((idx:number, menu:HTMLElement) => {

@@ -29,7 +29,11 @@
 require 'net/ldap'
 
 class LdapAuthSource < AuthSource
-  enum tls_mode: %w[plain_ldap simple_tls start_tls]
+  enum tls_mode: {
+    plain_ldap: 0,
+    simple_tls: 1,
+    start_tls: 2
+  }.freeze, _default: :start_tls
   validates :tls_mode, inclusion: { in: tls_modes.keys }
 
   validates_presence_of :host, :port, :attr_login
@@ -39,9 +43,10 @@ class LdapAuthSource < AuthSource
   validates_numericality_of :port, only_integer: true
 
   validate :validate_filter_string
+  validate :validate_tls_certificate_string, if: -> { tls_certificate_string.present? }
 
-  before_validation :strip_ldap_attributes
   after_initialize :set_default_port
+  before_validation :strip_ldap_attributes
 
   def authenticate(login, password)
     return nil if login.blank? || password.blank?
@@ -138,6 +143,22 @@ class LdapAuthSource < AuthSource
     Net::LDAP::Filter.from_rfc2254(filter_string) if filter_string.present?
   end
 
+  def ldap_connection_options
+    {
+      host:,
+      port:,
+      force_no_page: OpenProject::Configuration.ldap_force_no_page,
+      encryption: ldap_encryption
+    }
+  end
+
+  def read_ldap_certificates
+    return if tls_certificate_string.blank?
+
+    # Using load will allow multiple PEM certificates to be passed
+    OpenSSL::X509::Certificate.load(tls_certificate_string)
+  end
+
   private
 
   def strip_ldap_attributes
@@ -147,10 +168,11 @@ class LdapAuthSource < AuthSource
   end
 
   def initialize_ldap_con(ldap_user, ldap_password)
-    options = { host: host,
-                port: port,
-                force_no_page: OpenProject::Configuration.ldap_force_no_page,
-                encryption: ldap_encryption }
+    unless plain_ldap? || verify_peer?
+      Rails.logger.info { "SSL connection to LDAP host #{host} is set up to skip certificate verification." }
+    end
+
+    options = ldap_connection_options
     unless ldap_user.blank? && ldap_password.blank?
       options.merge!(auth: { method: :simple, username: ldap_user,
                              password: ldap_password })
@@ -159,12 +181,35 @@ class LdapAuthSource < AuthSource
   end
 
   def ldap_encryption
-    return nil if tls_mode.to_s == 'plain_ldap'
+    return nil if plain_ldap?
 
     {
       method: tls_mode.to_sym,
-      tls_options: Setting.ldap_tls_options.with_indifferent_access
+      tls_options:
     }
+  end
+
+  def cert_store
+    @cert_store ||= OpenSSL::X509::Store.new.tap do |store|
+      store.set_default_paths
+      provided_certs = Array(read_ldap_certificates)
+      provided_certs.each { |cert| store.add_cert cert }
+    end
+  end
+
+  def tls_options
+    {
+      verify_mode: tls_verify_mode,
+      cert_store:
+    }.compact
+  end
+
+  def tls_verify_mode
+    if verify_peer?
+      OpenSSL::SSL::VERIFY_PEER
+    else
+      OpenSSL::SSL::VERIFY_NONE
+    end
   end
 
   # Check if a DN (user record) authenticates with the password
@@ -188,11 +233,12 @@ class LdapAuthSource < AuthSource
     ldap_con.search(base: base_dn,
                     filter: filter,
                     attributes: search_attributes) do |entry|
-      attrs = if onthefly_register?
-                get_user_attributes_from_ldap_entry(entry)
-              else
-                { dn: entry.dn }
-              end
+      attrs =
+        if onthefly_register?
+          get_user_attributes_from_ldap_entry(entry)
+        else
+          { dn: entry.dn }
+        end
 
       Rails.logger.debug { "DN found for #{login}: #{attrs[:dn]}" }
     end
@@ -214,5 +260,11 @@ class LdapAuthSource < AuthSource
     parsed_filter_string
   rescue Net::LDAP::FilterSyntaxInvalidError
     errors.add :filter_string, :invalid
+  end
+
+  def validate_tls_certificate_string
+    read_ldap_certificates
+  rescue OpenSSL::X509::CertificateError => e
+    errors.add :tls_certificate_string, :invalid_certificate, additional_message: e.message
   end
 end
