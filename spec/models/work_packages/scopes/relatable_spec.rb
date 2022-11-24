@@ -1096,5 +1096,56 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
           .to be_empty
       end
     end
+
+    context "for a 'parent' relation" do
+      let(:relation_type) { Relation::TYPE_PARENT }
+
+      it "contains the parent" do
+        expect(relatable)
+          .to match_array [blocks_parent]
+      end
+    end
+  end
+
+  context 'with a blocked work package that has a child and a parent' do
+    let(:blocked_child) do
+      create(:work_package, parent: blocked)
+    end
+    let(:blocked) do
+      create(:work_package, parent: blocked_parent).tap do |bl|
+        create(:relation, from: origin, to: bl, relation_type: Relation::TYPE_BLOCKED)
+      end
+    end
+    let(:blocked_parent) do
+      create(:work_package)
+    end
+    let!(:existing_work_packages) { [origin, blocked, blocked_parent, blocked_child] }
+
+    context "for a 'blocks' relation" do
+      let(:relation_type) { Relation::TYPE_BLOCKS }
+
+      it "is empty" do
+        expect(relatable)
+          .to be_empty
+      end
+    end
+
+    context "for a 'blocked' relation" do
+      let(:relation_type) { Relation::TYPE_BLOCKED }
+
+      it "contains the parent and the child" do
+        expect(relatable)
+          .to match_array [blocked_parent, blocked_child]
+      end
+    end
+
+    context "for a 'parent' relation" do
+      let(:relation_type) { Relation::TYPE_PARENT }
+
+      it "contains the parent" do
+        expect(relatable)
+          .to match_array [blocked_parent]
+      end
+    end
   end
 end

@@ -95,10 +95,16 @@ module WorkPackages::Scopes
       #   away as it would create a circle.
       #
       # The implementation focuses on excluding candidates. It does so in two parts:
-      #   * Excluding all work packages with which a direct relation already exist.
+      #   * Excluding all work packages with which a direct relation already exist (with additions for PARENT relations).
       #   * Excluding work packages that are related transitively (following a path of direct relationships).
       #
-      # The first is straightforward. The second is more complicated and also depends on the type of relation that is
+      # The first is straightforward for all relation types except for PARENT relations. For that majority, whenever there is
+      # a relation of any type except PARENT either to or from the work package queried for, it is excluded. For PARENT relations,
+      # both the descendants of the queried for work package as well as the decendants of any directly related work packages are
+      # excluded as well since creating a PARENT relationship to one such work package would result in a relation up or down the
+      # hierarchy which violates the ancestor/descendant rule.
+      #
+      # The second exclusion of candidates is more complicated and also depends on the type of relation that is
       # queried for. It uses a CTE to recursively find all work packages with which a transitive relationship of interest based
       # on the rules outlined above exist.
       #
@@ -161,36 +167,21 @@ module WorkPackages::Scopes
       def relatable(work_package, relation_type)
         return all if work_package.new_record?
 
-        scope = not_having_direct_relation(work_package, relation_type)
+        scope = if relation_type == Relation::TYPE_PARENT
+                  not_having_potential_tree_relation(work_package)
+                else
+                  where.not(id: directly_related(work_package))
+                end
+
+        scope = scope
                   .not_having_transitive_relation(work_package, relation_type)
                   .where.not(id: work_package.id)
-
-        # On a parent relationship, explicitly remove the former parent (which might be the current one as well)
-        # from the list of work packages one can relate to. This is not strictly necessary since it would not
-        # cause faulty relationships but doing it removes the parent from places where it should not show up,
-        # e.g. in an auto completer.
-        if relation_type == Relation::TYPE_PARENT && work_package.parent_id_was
-          scope = scope.where.not(id: work_package.parent_id_was)
-        end
 
         if Setting.cross_project_work_package_relations
           scope
         else
           scope.where(project: work_package.project)
         end
-      end
-
-      def not_having_direct_relation(work_package, relation_type)
-        origin = if relation_type == Relation::TYPE_PARENT
-                   WorkPackageHierarchy
-                     .where(ancestor_id: work_package.id)
-                     .select(:descendant_id)
-                 else
-                   work_package.id
-                 end
-
-        where.not(id: Relation.where(from_id: origin).select(:to_id))
-             .where.not(id: Relation.where(to_id: origin).select(:from_id))
       end
 
       def not_having_transitive_relation(work_package, relation_type)
@@ -208,6 +199,22 @@ module WorkPackages::Scopes
       end
 
       private
+
+      def not_having_potential_tree_relation(work_package)
+        # On a parent relationship, explicitly remove the former parent (which might be the current one as well)
+        # from the list of work packages one can relate to. This is not strictly necessary since it would not
+        # cause faulty relationships but doing it removes the parent from places where it should not show up,
+        # e.g. in an auto completer.
+        scope = if work_package.parent_id_was
+                  where.not(id: work_package.parent_id_was)
+                else
+                  all
+                end
+
+        scope
+          .where.not(id: directly_related(descendant_or_self_ids_of(work_package)))
+          .where.not(id: descendant_or_self_ids_of(directly_related(descendant_or_self_ids_of(work_package))))
+      end
 
       def non_relatable_paths_sql(work_package, relation_type)
         <<~SQL.squish
@@ -364,6 +371,12 @@ module WorkPackages::Scopes
         else
           '1 = 1'
         end
+      end
+
+      def descendant_or_self_ids_of(work_packages)
+        WorkPackageHierarchy
+          .where(ancestor_id: work_packages)
+          .select(:descendant_id)
       end
     end
   end
