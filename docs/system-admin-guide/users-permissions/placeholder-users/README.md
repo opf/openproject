@@ -6,7 +6,7 @@ description: Manage placeholder users in in OpenProject.
 keywords: placeholder user, example, wildcard, place holder
 ---
 
-# Placeholder users (Premium feature)
+# Placeholder users (Enterprise add-on)
 
 In [OpenProject Enterprise on-premises](https://www.openproject.org/enterprise-edition/) and [OpenProject Enterprise cloud](https://www.openproject.org/hosting/) you can add placeholder users to your instance. They can be created without an email address and do not need license seats.
 

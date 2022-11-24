@@ -98,7 +98,7 @@ describe UserPreferences::ParamsContract do
           it 'displays the error message containing the feature name' do
             contract.validate
             expect(contract.errors.full_messages)
-              .to eq(["Date Alerts is only available in the OpenProject Enterprise Edition"])
+              .to eq(["Date Alerts is only available in the OpenProject Enterprise edition"])
           end
         end
       end

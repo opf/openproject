@@ -11,15 +11,15 @@ release_date: 2022-05-03
 Release date: 2022-05-03
 
 We released [OpenProject 12.1.0](https://community.openproject.com/versions/1493).
-This release will introduce a new module, the team planner. With this Enterprise feature, you can visually assign work packages in a weekly or bi-weekly planning calendar view to your team, and keep an eye on everybody’s workload.
+This release will introduce a new module, the team planner. With this Enterprise add-on, you can visually assign work packages in a weekly or bi-weekly planning calendar view to your team, and keep an eye on everybody’s workload.
 
 Also, we are proud to give the basic agile boards to the Community version of OpenProject with 12.1. Now, making it possible to create agile boards also in the free Community version.
 
 As always, the release contains many more improvements and bug fixes and we recommend updating to the newest version promptly.
 
-## Team planner (premium feature)
+## Team planner (Enterprise add-on)
 
-A new team planner module (Enterprise feature) allows you to visually assign tasks to team members to get an overview of who is working on what. You can display in a weekly or bi-weekly view all work packages assigend to your team.
+A new team planner module (Enterprise add-on) allows you to visually assign tasks to team members to get an overview of who is working on what. You can display in a weekly or bi-weekly view all work packages assigend to your team.
 
 ![openproject-team-planner-view](openproject-team-planner-view.gif)
 

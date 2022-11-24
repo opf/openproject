@@ -126,7 +126,7 @@ Lastly, click on *Create* to save the LDAP authentication  mode. You will be red
 
 
 
-With the [OpenProject Enterprise Edition](https://www.openproject.org/enterprise-edition/) it is possible to [synchronize LDAP and OpenProject groups](./ldap-group-synchronization).
+With the [OpenProject Enterprise edition](https://www.openproject.org/enterprise-edition/) it is possible to [synchronize LDAP and OpenProject groups](./ldap-group-synchronization).
 
 
 ## Multiple LDAP connections

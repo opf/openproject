@@ -203,7 +203,7 @@ To use OpenProject 11.3 right away, create a free trial instance for our [OpenPr
 Prefer to run OpenProject 11.3 in your own infrastructure?
  Here you can find the [Installation guidelines](../../../installation-and-operations) for OpenProject.
 
-Want to upgrade from a Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/enterprise-edition/)
+Want to upgrade from a Community version to try out the Enterprise add-ons? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/enterprise-edition/)
 
 ## Migrating to OpenProject 11.3
 
