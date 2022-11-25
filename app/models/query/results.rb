@@ -47,7 +47,7 @@ class ::Query::Results
     work_package_scope
       .where(id: work_package_ids)
       .includes(all_includes)
-      .joins(all_joins)
+      .joins(sort_criteria_joins)
       .order(order_option)
       .references(:projects)
       .order(sort_criteria_array)

@@ -49,7 +49,7 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
            firstname: 'user',
            lastname: '1',
            member_in_project: project_1,
-           member_with_permissions: [:view_work_packages])
+           member_with_permissions: [:view_work_packages, :view_file_links])
   end
 
 
@@ -152,6 +152,55 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
         let(:search_term) { 'original' }
         it "does not include the work package because it does not exist yet at that time" do
           expect(subject).not_to include work_package
+        end
+      end
+    end
+
+    describe "when filtering for file links" do
+      # https://github.com/opf/openproject/pull/11678#issuecomment-1326171087
+
+      let(:storage_1) { create(:storage, creator: user_1) }
+      let(:file_link_1) { create(:file_link, creator: user_1, container: work_package, storage: storage_1) }
+      let(:project_storage_1) { create(:project_storage, project: project_1, storage: storage_1) }
+      before do
+        project_storage_1
+        file_link_1
+      end
+
+      let(:query) do
+        login_as(user_1)
+        build(:query, user: user_1, project: nil).tap do |query|
+          query.filters.clear
+          query.add_filter 'file_link_origin_id', '=', [file_link_1.origin_id.to_s]
+        end
+      end
+
+      it "includes the work package" do
+        expect(subject).to include work_package
+      end
+
+      it "includes the work package only once" do
+        expect(subject.uniq).to eq subject
+      end
+
+      describe "when having second reference to the same external file" do
+        let(:storage_2) { create(:storage, creator: user_1) }
+        let(:file_link_2) { create(:file_link, creator: user_1, container: work_package, storage: storage_2) }
+        let(:project_storage_2) { create(:project_storage, project: project_2, storage: storage_2) }
+        let(:project_2) { create :project }
+        let(:file_link_2) { create(:file_link, creator: user_1, container: work_package, storage: storage_2, origin_id: file_link_1.origin_id) }
+
+        before do
+          project_storage_2
+          file_link_2
+        end
+
+        it "includes the work package" do
+          expect(subject).to include work_package
+        end
+
+        it "includes the work package only once" do
+          expect(subject.uniq).to eq subject
         end
       end
     end
