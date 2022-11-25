@@ -65,7 +65,7 @@ en:
           - name: Planners
           - name: Structural Engineers
         welcome:
-          title: "Welcome to OpenProject BIM Edition!"
+          title: "Welcome to OpenProject BIM edition!"
           text: |
             Checkout the demo projects to get started with some examples.
 

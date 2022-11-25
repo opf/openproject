@@ -22,8 +22,9 @@ Welcome to the central overview of frequently asked questions for OpenProject.
 
 ## Learn more about OpenProject
 
-### How do I get access to the OpenProject premium features?
-We offer the premium functions of OpenProject (incl. boards) for two different OpenProject variants:
+### How do I get access to the OpenProject Enterprise add-ons?
+
+We offer the Enterprise add-ons of OpenProject (incl. boards) for two different OpenProject variants:
 
 * For the OpenProject Enterprise cloud edition (hosted by us),
 * For the self-hosted (on-premises) OpenProject Enterprise on-premises edition
@@ -31,8 +32,8 @@ We offer the premium functions of OpenProject (incl. boards) for two different O
 If you want to run OpenProject on your own server, the OpenProject Enterprise on-premises edition is the right option.
 Have you already installed the [OpenProject Community edition](https://www.openproject.org/download-and-installation/)? If yes, you can request a trial license for the OpenProject Enterprise on-premises edition by clicking on the button "Free trial license" [here](https://www.openproject.org/de/enterprise-edition/) and test the Enterprise on-premises edition for 14 days for free.
 
-### Can I have some users with premium features and some without?
-As the Enterprise premium features affect the whole instance (e.g. with Agile Boards and project custom fields) it's not possible to upgrade only some users.
+### Can I have some users with Enterprise add-ons and some without?
+As the Enterprise Enterprise add-ons affect the whole instance (e.g. with Agile Boards and project custom fields) it's not possible to upgrade only some users.
 
 ### What are the system requirements?
 
@@ -53,7 +54,7 @@ Here are resources to get to know OpenProject:
 
 ### Can I run OpenProject as a single user?
 
-Our minimum plan for the Enterprise cloud edition and Enterprise on-premises edition is five users. Our pricing scheme covers three subscription options: Community Edition ($0), Enterprise cloud (€5.95/member/month or $7.25/member/month), and Enterprise on-premises (€5.95/member/month or $7.25/member/month). We recommend to start the [Community version](https://www.openproject.org/download-and-installation/) free of charge if the five user minimum is an issue for you.
+Our minimum plan for the Enterprise cloud edition and Enterprise on-premises edition is five users. Our pricing scheme covers three subscription options: Community edition ($0), Enterprise cloud (€5.95/member/month or $7.25/member/month), and Enterprise on-premises (€5.95/member/month or $7.25/member/month). We recommend to start the [Community version](https://www.openproject.org/download-and-installation/) free of charge if the five user minimum is an issue for you.
 
 ### OpenProject is Open Source. Which kind of license does it come with? What am I allowed to do? What can I change?
 
@@ -65,9 +66,9 @@ Terms and conditions regarding GPLv3 are available at [https://www.gnu.org/licen
 
 We offer three different versions of OpenProject. Please get an overview of the different OpenProject Editions [here](https://www.openproject.org/pricing/#features).
 
-The (on-premise) OpenProject Community edition is completely free. The Enterprise cloud and Enterprise on-premises edition offer premium features, hosting and support and thus we are charging for it. Nevertheless, we offer free 14 days trials for the Enterprise versions so that you can get to know their benefits. If you prefer to use the free OpenProject Community edition, you can follow these [installation instructions](https://www.openproject.org/download-and-installation/), please note that you need a Linux server to install the Community edition. It is always possible to upgrade from the Community to the Enterprise cloud and Enterprise on-premises edition – check out the premium features [here](https://www.openproject.org/enterprise-edition/#premium-features).
+The (on-premise) OpenProject Community edition is completely free. The Enterprise cloud and Enterprise on-premises edition offer Enterprise add-ons, hosting and support and thus we are charging for it. Nevertheless, we offer free 14 days trials for the Enterprise versions so that you can get to know their benefits. If you prefer to use the free OpenProject Community edition, you can follow these [installation instructions](https://www.openproject.org/download-and-installation/), please note that you need a Linux server to install the Community edition. It is always possible to upgrade from the Community to the Enterprise cloud and Enterprise on-premises edition – check out the Enterprise add-ons [here](https://www.openproject.org/enterprise-edition/#enterprise-add-ons).
 
-### Can I have both users with the Enterprise cloud and others with the Enterprise on-premises Edition?
+### Can I have both users with the Enterprise cloud and others with the Enterprise on-premises edition?
 
 This is only possible if you book two different plans for OpenProject. The users won't be able to work together directly. We strongly recommend using either Enterprise cloud *or* Enterprise on-premises, if you want to collaborate with all colleagues.
 
@@ -78,12 +79,12 @@ All users working in OpenProject Enterprise cloud/on-premises need a license in 
 ### How many projects can I manage in OpenProject at once?
 
 The number of projects is always unlimited.
-For the paid versions Enterprise or Cloud Edition, the price differs according to the number of users.
+For the paid versions Enterprise on-premises or Enterprise cloud edition, the price differs according to the number of users.
 However, if you're still using an old OpenProject subscription there may be limits to the number of projects. In this case please contact us.
 
-### What is the difference between Enterprise on-premises and Community Edition regarding LDAP?
+### What is the difference between Enterprise on-premises and Community edition regarding LDAP?
 
-In the Community Edition and in the Enterprise on-premises edition you can use the standard LDAP authentication. However, the Enterprise on-premises edition also includes LDAP group synchronization. This allows you to synchronize group members from LDAP with groups in OpenProject. The respective documentation can be found [here](../system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/#synchronize-ldap-and-openproject-groups-premium-feature).
+In the Community edition and in the Enterprise on-premises edition you can use the standard LDAP authentication. However, the Enterprise on-premises edition also includes LDAP group synchronization. This allows you to synchronize group members from LDAP with groups in OpenProject. The respective documentation can be found [here](../system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/#synchronize-ldap-and-openproject-groups-enterprise-add-on).
 
 ## How to ... in OpenProject
 
@@ -103,7 +104,7 @@ Look in your spam folder for the email.
 
 Ask your system admin to [set a new password for you](../system-admin-guide/users-permissions/users/#manage-user-settings).
 
-If you are the system administrator of an on-premises installation (Enterprise on-premises or Community Edition) please have a look at [this FAQ](../installation-and-operations/operation/faq/#i-lost-access-to-my-admin-account-how-do-i-reset-my-password).
+If you are the system administrator of an on-premises installation (Enterprise on-premises or Community edition) please have a look at [this FAQ](../installation-and-operations/operation/faq/#i-lost-access-to-my-admin-account-how-do-i-reset-my-password).
 
 ### How can I reverse changes?
 
@@ -115,7 +116,7 @@ Please use these resources to find out about the latest changes and re-do them m
 
 You can invite new users in the system administration as long as you have enough licenses.
 
-For the Community Edition you can have as many users as you need for free.
+For the Community edition you can have as many users as you need for free.
 If you are using Enterprise on-premises, please write an email to sales @ openproject.com.
 
 If you are using the Enterprise cloud, you can easily upgrade or downgrade the number of users by navigating to *Administration -> Billing -> Manage subscription* and choosing the new amount of users which you need in your system. Find out more [here](../enterprise-guide/enterprise-cloud-guide/manage-cloud-subscription).
@@ -145,7 +146,7 @@ Please go to [openproject.org/newsletter/](https://www.openproject.org/newslette
 
 ## FAQ regarding features
 
-Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community Edition [here](https://www.openproject.org/pricing/#features). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](https://community.openproject.com).
+Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community edition [here](https://www.openproject.org/pricing/#features). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](https://community.openproject.com).
 
 ### Is it possible to use multiple languages in OpenProject?
 
@@ -213,7 +214,7 @@ IFC2x3 and IFC4. We accept those formats and convert them to a smaller format (X
 
 ### Is there a way to use OpenProject BIM for free, too?
 
-Yes, (only) as part of the Community Edition you can use OpenProject BIM for free. Please have a look [here](../installation-and-operations/bim-edition/) to find out how to activate the BIM modules in your on-premises installation.
+Yes, (only) as part of the Community edition you can use OpenProject BIM for free. Please have a look [here](../installation-and-operations/bim-edition/) to find out how to activate the BIM modules in your on-premises installation.
 
 ### Can a BCF file created from other software e.g. BIMcollab, Solibri, etc. be opened in OpenProject?
 
@@ -225,7 +226,7 @@ Furthermore, we are planning a direct integration into Solibri. Then you don't n
 
 Yes, the so-called camera position is stored in the BCF-issues, so that exactly the same camera position is assumed when you click on the BCF-issue. These are called viewpoints. If you have several models, e.g. architecture and technical building equipment, these must be activated (made visible) before you click on the BCF-issue. In the same way, BCF-elements of the model can be hidden or selected via the viewpoint.
 
-In our [introductory video](https://www.youtube.com/watch?v=ThA4_17yedg) to the OpenProject BIM Edition the basics are shown very well. In particular, the integration of BCF management into the rest of the project management of a construction project is the strength of OpenProject.
+In our [introductory video](https://www.youtube.com/watch?v=ThA4_17yedg) to the OpenProject BIM edition the basics are shown very well. In particular, the integration of BCF management into the rest of the project management of a construction project is the strength of OpenProject.
 
 ### Can I add photos from my mobile/phone to BIM issues?
 
@@ -259,7 +260,7 @@ At the moment there are these ways to migrate:
 
 For more information please contact us.
 
-### How can I migrate from Community Edition or Enterprise on-premises to Enterprise cloud?
+### How can I migrate from Community edition or Enterprise on-premises to Enterprise cloud?
 
 We will need a [backup](../system-admin-guide/backup) of your OpenProject Installation which we will restore to your new Enterprise cloud. Please calculate with a downtime of approximately 60 minutes in regular cases. Please contact us to plan the migration and get more instructions.
 
@@ -267,13 +268,13 @@ We will need a [backup](../system-admin-guide/backup) of your OpenProject Instal
 
 We will need a [backup](../system-admin-guide/backup) which we will restore into your Enterprise on-premises edition. Please calculate with a downtime of approximately 60 minutes in regular cases. This way you can keep all your data.
 
-### How can I migrate from Community Edition to Enterprise on-premises?
+### How can I migrate from Community edition to Enterprise on-premises?
 
-If you [book Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition) you will receive an Enterprise token. Use it to activate the Enterprise premium features. For detailed activation instructions please refer to the [Enterprise activation guide](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/). You can keep your data that you created in the Community Edition.
+If you [book Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition) you will receive an Enterprise token. Use it to activate the Enterprise Enterprise add-ons. For detailed activation instructions please refer to the [Enterprise activation guide](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/). You can keep your data that you created in the Community edition.
 
-### How can I migrate from Enterprise on-premises to Community Edition?
+### How can I migrate from Enterprise on-premises to Community edition?
 
-If you cancel your subscription for Enterprise on-premises you will be downgraded to Community Edition automatically as soon as the subscription period ends. You can keep all your data but won't be able to use the [premium features](https://www.openproject.org/de/enterprise-edition/#premium-features) and won't be eligible for support any more.
+If you cancel your subscription for Enterprise on-premises you will be downgraded to Community edition automatically as soon as the subscription period ends. You can keep all your data but won't be able to use the [Enterprise add-ons](https://www.openproject.org/de/enterprise-edition/#enterprise-add-ons) and won't be eligible for support any more.
 
 ### How can I migrate from an old version of OpenProject to the latest version?
 
@@ -293,7 +294,7 @@ If in doubt on how you should start, you can also just [contact us](https://www.
 
 We offer our Professional Support for Enterprise on-premises users and Enterprise cloud users. Please write an email to support@openproject.com.
 
-If you use the Community Edition please feel free to use our [forums](https://community.openproject.org/projects/openproject/forums) for exchange with other users.
+If you use the Community edition please feel free to use our [forums](https://community.openproject.org/projects/openproject/forums) for exchange with other users.
 
 To learn more about OpenProject and how its features work please have a look at [this FAQ](#how-can-i-learn-more-about-openproject).
 

@@ -378,7 +378,7 @@ sudo openproject configure #non-interactive - using values stored in /etc/openpr
 > * In the interactive way you can skip dialogs you do not want to change simply by confirming them with `ENTER`.
 >
 
-## Step 1: Select your OpenProject Edition
+## Step 1: Select your OpenProject edition
 
 OpenProject comes in two editions:
 

@@ -9,7 +9,7 @@ export const pricingUrl = 'https://www.openproject.org/pricing';
 
 export const enterpriseDocsUrl:{ [key:string]:string } = {
   website: 'https://www.openproject.org/enterprise-edition/',
-  boards: 'https://www.openproject.org/docs/user-guide/agile-boards/#action-boards-premium-feature',
-  tableHighlighting: 'https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/#attribute-highlighting-premium-feature',
-  graphWidgets: 'https://www.openproject.org/docs/user-guide/project-overview/#work-package-graph-widgets-premium-feature',
+  boards: 'https://www.openproject.org/docs/user-guide/agile-boards/#action-boards-enterprise-add-on',
+  tableHighlighting: 'https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/#attribute-highlighting-enterprise-add-on',
+  graphWidgets: 'https://www.openproject.org/docs/user-guide/project-overview/#work-package-graph-widgets-enterprise-add-on',
 };

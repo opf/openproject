@@ -129,9 +129,20 @@ The **OpenProject Integration** page on your Nextcloud tab should also indicate 
 
 ![Integration successfully set up on the Nextcloud end, three green checks visible](3_2_05-NC_Success.png)
 
+The integration is now complete, and your OpenProject and Nextcloud instances are ready to share information. 
+
+Additional settings on this page also allow you, as an administrator, to define default settings for options that are available to each user. These can of course be overriden by a user to their liking:
+
+![Admin settings to configure default settings for all users](NC_admin-defaults-user-options.png)
+
+- **Enable navigation link** displays a link to the OpenProject instance in the Nextcloud header 
+- **Enable unified search for tickets** allows users to search for OpenProject work packages via the universal search bar in Nextcloud
+- **Enable notifications for activity in my work packages** sends users Nextcloud notifications when there are updates to linked OpenProject work packages
+
+
 #### 5. Add your new Nextcloud file storage to a project
 
-The integration is now complete, and your OpenProject and Nextcloud instances are ready to share information. The next step is to make the Nextcloud file storage you just created available to individual projects.
+Now that the integration is set up, the next step is to make the Nextcloud file storage you just created available to individual projects.
 
 To do so, navigate to any existing project in your OpenProject instance and click on  **Project settings** **→ Modules**. There, active the **File Storages** module by clicking on the checkbox next to it and then clicking on **Save**.
 

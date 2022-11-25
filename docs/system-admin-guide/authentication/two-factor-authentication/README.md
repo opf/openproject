@@ -13,7 +13,7 @@ To activate and **configure two-factor authentication** for OpenProject, navigat
 
 From the GUI you are able to configure the following options:
 
-1. **Enforce 2FA** (two-factor authentication) for every user. All users will be forced to [register a 2FA device](../../../getting-started/my-account/#two-factor-authentication-premium-feature) on their next login.
+1. **Enforce 2FA** (two-factor authentication) for every user. All users will be forced to [register a 2FA device](../../../getting-started/my-account/#two-factor-authentication) on their next login.
 2. **Remember 2FA login** for a given number of days, e.g. 30 days.
 3. Press the blue **Apply** button to save your changes.
 

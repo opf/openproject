@@ -677,7 +677,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'readonly' do
-      context 'with the enterprise feature enabled', with_ee: %i[readonly_work_packages] do
+      context 'with the enterprise add-on enabled', with_ee: %i[readonly_work_packages] do
         it_behaves_like 'has basic schema properties' do
           let(:path) { 'readonly' }
           let(:type) { 'Boolean' }
@@ -688,7 +688,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
-      context 'without the enterprise feature' do
+      context 'without the enterprise add-on' do
         it 'has no such property' do
           expect(subject).not_to have_json_path('readonly')
         end

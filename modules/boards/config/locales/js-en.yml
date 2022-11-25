@@ -8,7 +8,7 @@ en:
       label_board_type: 'Board type'
 
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Upgrade now'
       lists:
         delete: 'Delete list'
@@ -71,7 +71,7 @@ en:
           status: Status
           version: Version
           subproject: Subproject
-          subtasks: Parent-Child
+          subtasks: Parent-child
           basic: Basic
         select_attribute: "Action attribute"
 

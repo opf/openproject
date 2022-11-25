@@ -14,7 +14,7 @@ keywords: work packages table configuration, work package list, columns, filter,
 | [Filter work packages](#filter-work-packages)                                       | How to filter in the work package table.                                         |
 | [Sort the work package list](#sort-the-work-package-list)                           | How to sort within the work package table.                                       |
 | [Display settings](#flat-list-hierarchy-mode-and-group-by)                          | Get to know the flat list, the hierarchy mode, the group by and the sum feature. |
-| [Attribute highlighting (Premium Feature)](#attribute-highlighting-premium-feature) | How to highlight certain attributes in the work package table.                   |
+| [Attribute highlighting (Enterprise add-on)](#attribute-highlighting-enterprise-add-on) | How to highlight certain attributes in the work package table.                   |
 | [Save work package views](#save-work-package-views)                                 | How to save a new work package view and how to change existing ones.             |
 
 You can configure the work package table view in OpenProject to display the information that you need in the list.
@@ -110,7 +110,7 @@ There are several options to filter for the assignee of a work package. You can 
 
 ![assignee-or-assignee-group-filter](assignee-or-assignee-group-filter.png)
 
-### Advanced filters (premium feature)
+### Advanced filters (Enterprise add-on)
 
 With the advanced filter you can run a full text search and filter and search not only headings and text contents but also file names or file contents of attached documents to work packages.
 
@@ -194,7 +194,7 @@ Use it to quickly collapse or expand all groups at the same time. Find out [here
 To display the sums of eligible work package attributes, go to the work package table configuration and click on the tab **Display settings** (see screenshot above). When you tick the box next to **Display sums** the sums of Estimated time and Remaining hours as well as custom fields of the type Integer or Float will be displayed at the bottom of the work package list. 
 If you group the work package list, sums will be shown for each group.
 
-## Attribute highlighting (Premium Feature)
+## Attribute highlighting (Enterprise add-on)
 
 You can highlight attributes in the work package list to emphasize the importance of certain attributes and have important topics at a glance.
 

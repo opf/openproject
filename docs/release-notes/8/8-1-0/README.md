@@ -11,9 +11,9 @@ release_date: 2018-10-26
 OpenProject 8.1 includes several improvements: A new guided tour helps
 new users with onboarding and graphs are shown in the roadmap.
 
-For users of the [Cloud Edition](https://www.openproject.org/hosting/)
+For users of the [Enterprise cloud](https://www.openproject.org/hosting/)
 or [Enterprise
-Edition](https://www.openproject.org/enterprise-edition/) the
+edition](https://www.openproject.org/enterprise-edition/) the
 conditional formatting has been improved: It is now possible to
 highlight work packages based on the type as well.
 
@@ -36,7 +36,7 @@ graph.
 
 ![Graphs-roadmap](Graphs-roadmap-1.png)
 
-## Highlighting based on type (Enterprise Edition / Cloud Edition)
+## Highlighting based on type (Enterprise add-on)
 
 As an addition to the conditional formatting which was introduced with
 OpenProject 8.0, it is possible to highlight work package rows based on

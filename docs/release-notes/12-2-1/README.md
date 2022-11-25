@@ -49,7 +49,7 @@ For these installations, you will need to set the environment variable `OPENPROJ
 For more information on this setting and how to configure it for your installation type, please see the respective installation pages:
 
 - [Packaged installation](../../installation-and-operations/installation/packaged/#step-3-apache2-web-server-and-ssl-termination)
-- [Docker installation](../../installation-and-operations/installation/docker/#initial-configuration)
+- [Docker installation](../../installation-and-operations/installation/docker/#configuration)
 
 <!--more-->
 ## All bug fixes
