@@ -42,11 +42,6 @@ module Principals::Scopes
                          AnonymousUser.name,
                          DeletedUser.name])
       end
-
-      def not_builtin_without_anonymous
-        where.not(type: [SystemUser.name,
-                         DeletedUser.name])
-      end
     end
   end
 end
