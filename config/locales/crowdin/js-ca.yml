@@ -633,9 +633,9 @@ ca:
             title: 'Alertes per dates'
             description: 'Notificacions automàtiques quan dates importants s''aproximen per a paquets de treball oberts en els quals estàs involucrat (assignat, responsable o observador).'
             teaser_text: 'Amb les alertes per dates, se''t notificarà quan una data d''inici o finalització s''apropi de tal manera que no se''t puguin oblidar o passar dates rellevants.'
-          start_date: Start date
-          due_date: Finish date
-          overdue: When overdue
+          start_date: Data d'inici
+          due_date: Data de finalització
+          overdue: Quan vençut
         project_specific:
           title: 'Configuracions de notificacions específiques del projecte'
           description: 'Aquestes configuracions específiques de projecte anul·len les configuracions per defecte especificades a sobre.'
