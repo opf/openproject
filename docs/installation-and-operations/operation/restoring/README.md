@@ -83,6 +83,8 @@ sudo pg_restore --clean --if-exists --dbname $(sudo openproject config:get DATAB
 
 As the `pg_restore` tries to apply the username from the dumped database as the owner, you might see errors if you restoring to a database with a different username. In this case, please add `--no-owner` as a command line argument.
 
+> **NOTE:** If the backup was made in the OpenProject Enterprise-Cloud, please navigate to [Changing the database schema from cloud to on-premises](./#changing-the-database-schema-from-cloud-to-on-premises)
+
 #### Troubleshooting
 
 **Restore fails with something like 'Error while PROCESSING TOC [...] cannot drop constraint'**
@@ -101,6 +103,10 @@ You can get these values from the `DATABASE_URL` as shown above.
 ```psql
 DROP DATABASE openproject; CREATE DATABASE openproject OWNER openproject;
 ```
+
+
+
+Please 
 
 Once done you can exit the psql console by entering `\q`.
 Now you can restore the database as seen above.
@@ -126,14 +132,25 @@ This assumes that the database container is called `compose_db_1`. Find out the 
 If you are using docker-compose this is what you do after you started everything for the first time using `docker-compose up -d`:
 
 1. Stop the OpenProject container using `docker-compose stop web worker`.
+
 2. Drop the existing, seeded database using `docker exec -it compose_db_1 psql -U postgres -c 'drop database openproject;'`
+
 3. If your database doesn't have an openproject user yet, create it with this command: `docker exec -it compose_db_1 psql -U postgres -c 'create user openproject;'` 
+
 4. Recreate the database using `docker exec -it compose_db_1 psql -U postgres -c 'create database openproject owner openproject;'`
+
 5. Copy the dump onto the container: `docker cp openproject.sql compose_db_1:/`
+
 6. Source the dump with psql on the container: `docker exec -it compose_db_1 psql -U postgres` followed first by `\c openproject` and then by `\i openproject.sql`. You can leave this console by entering `\q` once it's done.
+
 7. Delete the dump on the container: `docker exec -it compose_db_1 rm openproject.sql`
+
+   > **NOTE:** If the backup was made in the OpenProject Enterprise-Cloud, please navigate to [Changing the database schema from cloud to on-premises](./#changing-the-database-schema-from-cloud-to-on-premises)
+
 8. Run the seeder once to perform any migrations `docker-compose start seeder`
+
 9. Restart the web and worker processes: `docker-compose start web worker`
+
 10. Confirm with `docker-compose logs -f` that the processes are starting up correctly.
 
 ### Using the all-in-one container
@@ -191,6 +208,8 @@ CREATE DATABASE openproject OWNER openproject;
 \i openproject.sql
 ```
 
+> **NOTE:** If the backup was made in the OpenProject Enterprise-Cloud, please navigate to [Changing the database schema from cloud to on-premises](./#changing-the-database-schema-from-cloud-to-on-premises)
+
 Once this has finished you can quit `psql` (using `\q`) and the container (`exit`).
 
 **Importing backups from a package-based installation**
@@ -241,3 +260,41 @@ You may need to create the `files` directory if it doesn't exist yet.
 
 Start the container as described in the [installation section](../../installation/docker/#one-container-per-process-recommended)
 mounting `/var/lib/openproject/pgdata` (and `/var/lib/openproject/assets/` for attachments).
+
+## Changing the database schema from cloud to on-premises
+
+At the restore from the Cloud to the Local on-premises instance you should beware of the following steps:
+
+1. Stop OpenProject on-premises  but keep the database up and running.
+2. Connect to your PSQL database.
+
+2. The `public` schema in the on-premises database needs to be dropped if it exists.
+
+```psql
+openproject=# DROP SCHEMA public CASCADE;
+DROP SCHEMA
+```
+
+3. The cloud's database schema name can be listed with the following command.
+
+```psql
+openproject=# \dn
+(...)
+```
+
+3. The schema with "name of a long number" needs to be renamed after import to `public`.
+
+```psql
+openproject=# ALTER SCHEMA "123456789_1234567_1234567a_123b_12c3_1234_c2a1a123c123" RENAME TO "public";
+ALTER SCHEMA
+```
+
+4. OPTIONAL: The `protocol` in the `settings` table could be changed from `https`to `http`. (This is only recommended if you do not like to use HTTPS)
+
+```psql
+openproject=# UPDATE settings SET value = 'http' WHERE name = 'protocol';
+UPDATE 1
+```
+
+
+
