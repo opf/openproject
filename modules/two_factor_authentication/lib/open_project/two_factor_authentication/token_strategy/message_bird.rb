@@ -159,13 +159,12 @@ module OpenProject::TwoFactorAuthentication
           pause = '<break time="500ms"/>'
         end
 
-        I18n.with_locale(locale_key) do
-          I18n.t "two_factor_authentication.text_otp_delivery_message_#{channel}",
-                 pause:,
-                 token: token_value,
-                 app_title: Setting.app_title,
-                 fallback:, raise: raise_on_missing
-        end
+        I18n.t "two_factor_authentication.text_otp_delivery_message_#{channel}",
+               pause:,
+               token: token_value,
+               locale: locale_key,
+               app_title: Setting.app_title,
+               fallback:, raise: raise_on_missing
       end
 
       ##

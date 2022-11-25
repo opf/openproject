@@ -44,27 +44,13 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
       let(:locale) { 'de' }
 
       it 'returns the correct language and message' do
-        expect(I18n).to receive(:t)
-          .twice
-          .with('two_factor_authentication.text_otp_delivery_message_sms',
-                hash_including(locale: 'de'))
-          .and_return 'localized string'
+        expected_message = I18n.t("two_factor_authentication.text_otp_delivery_message_sms",
+                                  app_title: Setting.app_title,
+                                  locale: 'de',
+                                  token: '1234')
 
-        expect(subject[:language]).to eq :'de-de'
-        expect(subject[:message]).to eq 'localized string'
-      end
-    end
-
-    context 'unsupported locale' do
-      before do
-        allow(user).to receive(:language).and_return 'unsupported'
-        # Allow I18n to receive unsupported language
-        allow(I18n).to receive(:enforce_available_locales!).and_call_original
-        allow(I18n).to receive(:enforce_available_locales!).with('unsupported')
-      end
-
-      it 'falls back to english' do
-        expect(subject[:language]).to eq :'en-us'
+        expect(subject[:language]).to be :'de-de'
+        expect(subject[:message]).to eql expected_message
       end
     end
   end
