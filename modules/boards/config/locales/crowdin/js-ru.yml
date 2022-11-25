@@ -7,7 +7,7 @@ ru:
       label_unnamed_list: 'Список досок без имени'
       label_board_type: 'Тип доски'
       upsale:
-        teaser_text: 'Хотите автоматизировать свои рабочие процессы с досками? Продвинутые доски являются корпоративной функцией. Пожалуйста, обновитесь до платного плана.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Обновить сейчас'
       lists:
         delete: 'Удалить список'
@@ -62,7 +62,7 @@ ru:
           status: Статус
           version: Версия
           subproject: Подпроект
-          subtasks: Родитель-Потомок
+          subtasks: Parent-child
           basic: Базовый
         select_attribute: "Атрибут действия"
       add_list_modal:

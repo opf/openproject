@@ -5,8 +5,8 @@ ru:
       remove: 'Удалить виджет'
       configure: 'Настроить виджет'
       upsale:
-        text: "Некоторые виджеты, как и виджет пакета работ, доступны только в Enterprise Edition."
-        link: 'Корпоративная версия.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: 'Пользовательский текст'

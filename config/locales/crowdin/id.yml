@@ -49,7 +49,7 @@ id:
         main-menu-border-color: "Batas menu utama"
       custom_colors: "Warna kostum"
       customize: "Customize your OpenProject installation with your own logo and colors."
-      enterprise_notice: "Sebagai 'Terima Kasih' spesial untuk finansial konstributor untuk mengembangkan OpenProject, fitur kecil ini hanya akan tersedia untuk Enterprise Edition dukungan pelanggan."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Edit warna pilih opsi"
       instructions:
@@ -64,15 +64,15 @@ id:
         main-menu-bg-color: "Warna latar belakang menu sisi kiri."
       theme_warning: mengubah tema akan mengubah custom style anda. Desain akan menghilang. Apakah anda ingin melanjutkannya?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
-      add_token: "Unggah sebuah token bantuan edisi enterprise"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Delete token"
       replace_token: "Gantilah token bantuan yang sedang digunakan"
-      order: "Pesan Edisi Perusahaan di tempat"
-      paste: "Tempelkan token pendukung Edisi Perusahaan Anda"
-      required_for_feature: "Fitur ini hanya tersedia bersama dengan sebuah token pendukung Edisi Perusahaan yang aktif."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This feature is only available with an active Enterprise edition support token."
       enterprise_link: "Untuk informasi lebih lanjut, klik di sini."
       start_trial: 'Start free trial'
       book_now: 'Book now'
@@ -319,7 +319,7 @@ id:
       settings: "Pengaturan"
       form_configuration: "Form configuration"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Project"
       enabled_projects: "Proyek-proyek yang diaktifkan"
       edit_query: "Merubah tabel"
@@ -583,7 +583,7 @@ id:
         confirmation: "tidak sesuai dengan %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "tidak ditemukan."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         email: "is not a valid email address."
@@ -1269,7 +1269,7 @@ id:
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Pilihan tidak ada."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Gagal untuk menghapus isian ini.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
@@ -1357,10 +1357,10 @@ id:
     blocks:
       community: "OpenProject community"
       upsale:
-        title: "Tingkatkan ke edisi enterprise"
+        title: "Upgrade to Enterprise edition"
         more_info: "Informasi lebih lanjut"
     links:
-      upgrade_enterprise_edition: "Tingkatkan ke edisi enterprise"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrasi instalasi anda ke PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
@@ -1576,7 +1576,7 @@ id:
   label_enumerations: "Enumerasi"
   label_enterprise: "Perusahaan"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
-  label_enterprise_edition: "Edisi Perusahaan"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Environment"
   label_estimates_and_time: "Perkiraan dan waktu"
   label_equals: "adalah"
@@ -2587,11 +2587,11 @@ id:
   text_custom_field_hint_activate_per_project_and_type: >
     Field-field kustom perlu diaktifkan per jenis paket kerja dan per proyek.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    The Enterprise edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    The Enterprise edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    The Enterprise edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Logo putih dalam latar belakang transparan lebih disarankan. Untuk hasil terbaik pada keduanya, konvensional dan tampilan retina, pastikan dimensi gambar Anda adalah 460px kali 110px.
   text_custom_favicon_instructions: >
@@ -2891,7 +2891,7 @@ id:
   warning_user_limit_reached: >
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
