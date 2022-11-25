@@ -126,10 +126,6 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
         let(:expected_language) { :'en-us' }
 
         before do
-          I18n.with_locale(locale) do
-            # Force loading of locale which are not all loaded in tests
-          end
-
           allow(subject.strategy)
             .to receive(:has_localized_text?)
                   .with(locale)
