@@ -7,7 +7,7 @@ ro:
       label_unnamed_list: 'Listă fără nume'
       label_board_type: 'Tipul de placă'
       upsale:
-        teaser_text: 'Doriți să automatizați fluxurile de lucru cu forumuri? Secţiunile avansate sunt o caracteristică de întreprindere. Vă rugăm să faceţi upgrade la un plan plătit.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Actualizează acum'
       lists:
         delete: 'Ștergeți lista'
@@ -62,7 +62,7 @@ ro:
           status: Stare
           version: Versiune
           subproject: Subproiect
-          subtasks: Părinte-copil
+          subtasks: Parent-child
           basic: De baza
         select_attribute: "Atributul de acțiune"
       add_list_modal:

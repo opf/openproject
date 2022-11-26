@@ -49,7 +49,7 @@ es:
         main-menu-border-color: "Borde del menú principal"
       custom_colors: "Colores personalizados"
       customize: "Personalice su instalación de OpenProject con su logotipo y colores."
-      enterprise_notice: "Para agradecerle su contribución económica al desarrollo de OpenProject, esta insignificante función solo está disponible para los suscriptores que apoyan la versión corporativa."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Nota: el logotipo utilizado será de acceso público."
       manage_colors: "Editar opciones de selección de colores"
       instructions:
@@ -64,15 +64,15 @@ es:
         main-menu-bg-color: "Color de fondo del menú lateral izquierdo."
       theme_warning: Al cambiar el tema, se sobrescribirá su estilo personalizado y, como consecuencia, se perderá el diseño. ¿Seguro que quiere continuar?
     enterprise:
-      upgrade_to_ee: "Actualizar a Enterprise Edition"
-      add_token: "Cargue el token de soporte de versión corporativa"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "¿Está seguro que desea eliminar el token actual de la edición Enterpise usado?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Eliminar token"
       replace_token: "Reemplace su token de apoyo actual"
-      order: "Solicitar Enterprise on-premises Edition"
-      paste: "Pegue su token de apoyo de versión corporativa"
-      required_for_feature: "Esta función solo está disponible con un token de apoyo activo de versión corporativa."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This feature is only available with an active Enterprise edition support token."
       enterprise_link: "Para obtener más información, haga clic aquí."
       start_trial: 'Iniciar prueba gratuita'
       book_now: 'Reservar ahora'
@@ -319,7 +319,7 @@ es:
       settings: "Configuración"
       form_configuration: "Configuración del formulario"
       more_info_text_html: >
-        La edición Enterprise te permite personalizar el formulario de configuración con estas funcionalidades adicionales: <br><ul class="%{list_styling_class}"><li><b>Añade nuevos grupos de atributo</b></li> <li><b>Renombra grupos de atributo</b></li> <li><b>Añada tablas de paquetes de trabajo relacionados</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Proyectos"
       enabled_projects: "Proyectos habilitados"
       edit_query: "Editar tabla"
@@ -584,7 +584,7 @@ es:
         confirmation: "no coincide con %{attribute}."
         could_not_be_copied: "%{dependency} no se pudo copiar (en su totalidad)."
         does_not_exist: "no existe."
-        error_enterprise_only: "%{action} solo está disponible en OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "no se puede acceder."
         error_readonly: "se intentó escribir pero no se puede escribir."
         email: "no es una dirección de correo válida."
@@ -1286,7 +1286,7 @@ es:
   error_cookie_missing: 'No se encuentra la cookie de OpenProject. Por favor asegúrese de que las cookies están habilitadas, ya que sin ellas esta aplicación no funcionará correctamente.'
   error_custom_option_not_found: "Esta opción no existe."
   error_enterprise_activation_user_limit: "Su cuenta no puede ser activada (se alcanzó el límite del usuario). Por favor, contacte su administrador para obtener acceso."
-  error_enterprise_token_invalid_domain: "La versión Enterprise Edition no está activa. Su dominio del token de Enterprise (%{actual}) no coincide con el nombre de host del sistema (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'No se puede eliminar esta entrada.'
   error_in_dependent: "Error al intentar alterar el objeto dependiente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error al crear el objeto dependiente: %{dependent_class} - %{related_subject}: %{error}"
@@ -1374,10 +1374,10 @@ es:
     blocks:
       community: "Comunidad de OpenProject"
       upsale:
-        title: "Actualizar hasta versión Enterprise"
+        title: "Upgrade to Enterprise edition"
         more_info: "Más información"
     links:
-      upgrade_enterprise_edition: "Actualizar hasta versión Enterprise"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrando su instalación a PostgreSQL"
       user_guides: "Guia de usuario"
       faq: "Preguntas Frecuentes"
@@ -1593,7 +1593,7 @@ es:
   label_enumerations: "Enumeraciones"
   label_enterprise: "Empresa"
   label_enterprise_active_users: "%{current}/%{limit} usuarios activos que han reservado"
-  label_enterprise_edition: "Versión corporativa"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Entorno"
   label_estimates_and_time: "Valores estimados y tiempo"
   label_equals: "es"
@@ -2607,11 +2607,11 @@ es:
   text_custom_field_hint_activate_per_project_and_type: >
     Los campos personalizados se deben activar en cada tipo de paquete de trabajo y en cada proyecto por separado.
   text_wp_custom_field_html: >
-    La edición Enterprise añadirá estas funcionalidades adicionales para los atributos personalizados de los paquetes de trabajo: <br> <ul> <li><b>Permitir la selección múltiple de atributos personalizados de tipo Lista o Usuario</b></li> </ul>
+    The Enterprise edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    La edición Enterprise añadirá estas funcionalidades adicionales para los campos de estado de los paquetes de trabajo: <br> <ul> <li><b>Permitir marcar como solo lectura los paquetes de trabajo en estados específicos</b></li> </ul>
+    The Enterprise edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    La edición Enterprise añadirá estas funcionalidades adicionales para los atributos personalizados de los proyectos: <br> <ul> <li><b>Añadir atributos personalizados para proyectos a tu lista de proyectos para crear una vista porfolio de proyectos</b></li> </ul>
+    The Enterprise edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Se recomienda usar un logotipo blanco sobre un fondo transparente. Para obtener los mejores resultados, tanto en pantallas convencionales como en las del tipo Retina, asegúrese de que las dimensiones de la imagen sean de 460 × 60 px.
   text_custom_favicon_instructions: >
@@ -2912,7 +2912,7 @@ es:
   warning_user_limit_reached: >
     Alcanzado el límite de usuarios. No se puede activar ningún usuario más. <a href="%{upgrade_url}">actualice su plan</a> o bloquee miembros para permitir usuarios adicionales.
   warning_user_limit_reached_instructions: >
-    Has alcanzado el límite de usuarios (%{current}/%{max} usuarios activos). Por favor, contacta con sales@openproject.com para mejorar tu plan a la edición Enterprise y añadir usuarios adicionales.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:

@@ -49,7 +49,7 @@ nl:
         main-menu-border-color: "Hoofd menu rand"
       custom_colors: "Aangepaste kleuren"
       customize: "Pas uw OpenProject installatie aan met uw eigen logo en kleuren."
-      enterprise_notice: "Als een speciale 'Bedankt!' voor hun financiële bijdrage aan het ontwikkelen van OpenProject, is deze kleine functie alleen beschikbaar voor Enterprise Edition ondersteuning abonnees."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Opmerking: het gebruikte logo is openbaar toegankelijk."
       manage_colors: "Bewerk de kleur selectie opties"
       instructions:
@@ -64,15 +64,15 @@ nl:
         main-menu-bg-color: "De kleur van de achtergrond van de linkerzijde menu's."
       theme_warning: Als u het thema wijzigt, wordt uw aangepaste stijl overschreven. Het ontwerp gaat dan verloren. Weet je zeker dat je door wilt gaan?
     enterprise:
-      upgrade_to_ee: "Upgrade naar de Enterprise Edition"
-      add_token: "Uploadeneen Enterprise Edition ondersteuningstoken"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "Weet u zeker dat u de huidige gebruikte Enterprise Edition token wilt verwijderen?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Verwijder token"
       replace_token: "Uw huidige ondersteuningstoken vervangen"
-      order: "Order Enterprise on premises Edition"
-      paste: "Plak uw Enterprise Edition ondersteuningstoken"
-      required_for_feature: "Deze functie is alleen beschikbaar met een actieve Enterprise Edition ondersteuningstoken."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This feature is only available with an active Enterprise edition support token."
       enterprise_link: "Klik hier voor meer informatie."
       start_trial: 'Start gratis proefperiode'
       book_now: 'Boek nu'
@@ -319,7 +319,7 @@ nl:
       settings: "Instellingen"
       form_configuration: "Formulierconfiguratie"
       more_info_text_html: >
-        Enterprise Edition stelt u in staat om de vorm configuratie aan te passen met deze extra functies: <br> <ul class="%{list_styling_class}"> <li><b>Voeg nieuwe attribuut groepen toe</b></li> <li><b>Hernoem attribuut groepen</b></li> <li><b>Voeg een tabel toe van gerelateerde werkpakketten</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projecten"
       enabled_projects: "Ingeschakelde projecten"
       edit_query: "Tabel bewerken"
@@ -584,7 +584,7 @@ nl:
         confirmation: "komt niet overeen met %{attribute}."
         could_not_be_copied: "%{dependency} kon niet (volledig) worden gekopieerd."
         does_not_exist: "bestaat niet."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "geen toegang."
         error_readonly: "werd geprobeerd te schrijven maar is niet schrijfbaar."
         email: "is geen geldig e-mailadres."
@@ -1286,7 +1286,7 @@ nl:
   error_cookie_missing: 'De cookie voor OpenProject ontbreekt. Zorg ervoor dat cookies zijn ingeschakeld aangezien deze toepassing anders niet goed zal functioneren.'
   error_custom_option_not_found: "Optie bestaat niet."
   error_enterprise_activation_user_limit: "Uw account kon niet worden geactiveerd (gebruikerslimiet bereikt). Neem contact op met uw beheerder om toegang te krijgen."
-  error_enterprise_token_invalid_domain: "De Enterprise Edition is niet actief. Het domein van uw Enterprise token (%{actual}) komt niet overeen met de hostnaam van het systeem (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Fout bij het verwijderen van deze ingave.'
   error_in_dependent: "Fout bij poging tot wijziging van afhankelijke object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Fout bij het maken van afhankelijke object: %{dependent_class} - %{related_subject}: %{error}"
@@ -1374,10 +1374,10 @@ nl:
     blocks:
       community: "OpenProject gemeenschap"
       upsale:
-        title: "Upgrade naar Enterprise Edition"
+        title: "Upgrade to Enterprise edition"
         more_info: "Meer informatie"
     links:
-      upgrade_enterprise_edition: "Upgrade naar Enterprise Edition"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Uw installatie overzetten naar PostgreSQL"
       user_guides: "Gebruikershandleidingen"
       faq: "Veelgestelde vragen (FAQ)"
@@ -1593,7 +1593,7 @@ nl:
   label_enumerations: "Opsommingen"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} gereserveerd actieve gebruikers"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Omgeving"
   label_estimates_and_time: "Schattingen en tijden"
   label_equals: "is"
@@ -2607,11 +2607,11 @@ nl:
   text_custom_field_hint_activate_per_project_and_type: >
     Aangepaste velden moeten worden geactiveerd per werkpakket type en per project.
   text_wp_custom_field_html: >
-    De Enterprise Edition zal deze extra functies toevoegen voor aangepaste velden van het werkpakket: <br> <ul> <li><b>Meervoudige selectie toestaan voor aangepaste velden van type lijst of Gebruiker</b></li> </ul>
+    The Enterprise edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    De Enterprise Edition zal deze extra functies toevoegen voor statussen van werkpakketten: <br> <ul> <li><b>Toestaan om werkpakketten alleen te markeren voor specifieke statussen</b></li> </ul>
+    The Enterprise edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    De Enterprise Edition zal deze extra functies toevoegen voor de aangepaste velden van de projecten: <br> <ul> <li><b>Voeg aangepaste velden toe voor projecten aan uw projectlijst om een projectefeuilles te maken</b></li> </ul>
+    The Enterprise edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Een wit logo op transparante achtergrond wordt aanbevolen. Voor de beste resultaten op zowel conventionele en retina displays, doet u door ervoor te zorgen dat uw afbeelding afmetingen zijn 460px bij 60px.
   text_custom_favicon_instructions: >
@@ -2912,7 +2912,7 @@ nl:
   warning_user_limit_reached: >
     Gebruikerslimiet bereikt. U kunt geen gebruikers meer activeren. <a href="%{upgrade_url}">upgrade uw abbonement</a> of blokkeer gebruikers om extra gebruikers toegang te geven.
   warning_user_limit_reached_instructions: >
-    U bereikt uw gebruikerslimiet (%{current}/%{max} actieve gebruikers). Neem contact op met sales@openproject.com om te upgraden van uw Enterprise Edition-abonnement en extra gebruikers toevoegen.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:

@@ -49,7 +49,7 @@ ja:
         main-menu-border-color: "メインメニューの枠線"
       custom_colors: "カスタム色"
       customize: "Customize your OpenProject installation with your own logo and colors."
-      enterprise_notice: "OpenProject開発の金融面への貢献として、特に '感謝します!' この小さな機能はエンタープライズ版サポート購入者のみ利用できます。"
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "色の選択オプションを編集"
       instructions:
@@ -64,15 +64,15 @@ ja:
         main-menu-bg-color: "左サイドメニューの背景色。"
       theme_warning: テーマを変更した場合、カスタムスタイルが上書きされ、失われます。本当に続けますか？
     enterprise:
-      upgrade_to_ee: "エンタープライズ版にアップグレード"
-      add_token: "エンタープライズ版サポートのトークンをアップロード"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Delete token"
       replace_token: "現在のサポート トークンを置き換え"
-      order: "オンプレミス版 Enterprise Edition を注文する"
-      paste: "エンタープライズ版サポートのトークンを貼り付け"
-      required_for_feature: "この機能は、アクティブなエンタープライズ版のサポート トークンでのみ利用可能です。"
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This feature is only available with an active Enterprise edition support token."
       enterprise_link: "詳細については、ここをクリックしてください。"
       start_trial: '無料トライアルを開始'
       book_now: '今すぐ予約'
@@ -318,7 +318,7 @@ ja:
       settings: "設定"
       form_configuration: "フォーム設定"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "プロジェクト"
       enabled_projects: "有効なプロジェクト"
       edit_query: "テーブルを編集"
@@ -582,7 +582,7 @@ ja:
         confirmation: "は%{attribute} と一致しません。"
         could_not_be_copied: "%{dependency} を（完全に）コピーできませんでした。"
         does_not_exist: "は存在しません。"
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "アクセスできません。"
         error_readonly: "書けませんでした。"
         email: "is not a valid email address."
@@ -1268,7 +1268,7 @@ ja:
   error_cookie_missing: 'OpenProject のcookieが見つかりません。cookieが有効であることを確認してください。そうしないとこのアプリケーションは正しく動作しません。'
   error_custom_option_not_found: "オプションが存在しません。"
   error_enterprise_activation_user_limit: "あなたのアカウントを有効にすることができませんでした（ユーザー制限に達しました）。アクセスするには管理者に連絡してください。"
-  error_enterprise_token_invalid_domain: "Enterprise Edition がアクティブではありません。Enterprise トークンのドメイン (%{actual}) がシステムのホスト名(%{expected}) と一致しません。"
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'このエントリを削除できませんでした。'
   error_in_dependent: "依存オブジェクトを変更しようとしてエラーが発生しました: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
@@ -1356,10 +1356,10 @@ ja:
     blocks:
       community: "OpenProject コミュニティ"
       upsale:
-        title: "エンタープライズ版にアップグレード"
+        title: "Upgrade to Enterprise edition"
         more_info: "詳細情報"
     links:
-      upgrade_enterprise_edition: "エンタープライズ版にアップグレード"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "PostgreSQL にインストールを移行しています"
       user_guides: "ユーザーガイド"
       faq: "FAQ"
@@ -1575,7 +1575,7 @@ ja:
   label_enumerations: "列挙型の一覧"
   label_enterprise: "エンタープライズ"
   label_enterprise_active_users: "%{current}/%{limit} 予約済みのアクティブユーザー"
-  label_enterprise_edition: "エンタープライズ版"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "環境"
   label_estimates_and_time: "見積もりと 時間"
   label_equals: "等しい"
@@ -2588,11 +2588,11 @@ ja:
   text_custom_field_hint_activate_per_project_and_type: >
     カスタムフィールドは、ワークパッケージタイプごと、およびプロジェクトごとにアクティブにする必要があります。
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    The Enterprise edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    The Enterprise edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    The Enterprise edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     透明な背景の白いロゴをお勧めします。 従来、および Retina ディスプレイの両方で最高の結果となるように、画像の寸法は、460px x 60px を確認してください。
   text_custom_favicon_instructions: >
@@ -2891,7 +2891,7 @@ ja:
   warning_user_limit_reached: >
     ユーザー制限に達しました。 これ以上ユーザーをアクティブにすることはできません。 追加のユーザーが参加できるように<a href="%{upgrade_url}">プランをアップグレード</a>するか、メンバーをブロックしてください。
   warning_user_limit_reached_instructions: >
-    ユーザー制限（%{current}/%{max} アクティブユーザー）に達しました。 sales@openproject.com に連絡してEnterprise Editionプランをアップグレードし、ユーザーを追加してください。
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:

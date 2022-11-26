@@ -223,19 +223,19 @@ lol:
           status_label: "crwdns787152:0crwdne787152:0"
           status_confirmed: "crwdns787154:0crwdne787154:0"
           status_waiting: "crwdns787156:0crwdne787156:0"
-          test_ee: "crwdns787158:0crwdne787158:0"
-          quick_overview: "crwdns787160:0crwdne787160:0"
+          test_ee: "crwdns839457:0crwdne839457:0"
+          quick_overview: "crwdns839459:0crwdne839459:0"
         upsale:
           become_hero: "crwdns787162:0crwdne787162:0"
           enterprise_info_html: "crwdns838379:0%{feature_title}crwdne838379:0"
           upgrade_info: "crwdns838381:0crwdne838381:0"
           benefits:
-            description: "crwdns787164:0crwdne787164:0"
+            description: "crwdns839461:0crwdne839461:0"
             high_security: "crwdns787166:0crwdne787166:0"
             high_security_text: "crwdns839329:0crwdne839329:0"
             installation: "crwdns787170:0crwdne787170:0"
             installation_text: "crwdns787172:0crwdne787172:0"
-            premium_features: "crwdns787174:0crwdne787174:0"
+            premium_features: "crwdns839463:0crwdne839463:0"
             premium_features_text: "crwdns787176:0crwdne787176:0"
             professional_support: "crwdns787178:0crwdne787178:0"
             professional_support_text: "crwdns787180:0crwdne787180:0"
@@ -248,9 +248,9 @@ lol:
           link_quote: "crwdns787188:0crwdne787188:0"
           more_info: "crwdns825474:0crwdne825474:0"
           text: >
-            crwdns787190:0crwdne787190:0
+            crwdns839465:0crwdne839465:0
           unlimited: "crwdns787192:0crwdne787192:0"
-          you_contribute: "crwdns809574:0crwdne809574:0"
+          you_contribute: "crwdns839467:0crwdne839467:0"
     custom_actions:
       date:
         specific: 'crwdns787196:0crwdne787196:0'
@@ -280,7 +280,7 @@ lol:
           two: "crwdns787232:0crwdne787232:0"
           three: "crwdns787234:0crwdne787234:0"
       upsale_for_more: "crwdns825476:0crwdne825476:0"
-      upsale_link: 'crwdns787238:0crwdne787238:0'
+      upsale_link: 'crwdns839469:0crwdne839469:0'
     general_text_no: "crwdns787240:0crwdne787240:0"
     general_text_yes: "crwdns787242:0crwdne787242:0"
     general_text_No: "crwdns787244:0crwdne787244:0"
@@ -708,8 +708,8 @@ lol:
         reset_title: "crwdns787870:0crwdne787870:0"
         confirm_reset: >
           crwdns787872:0crwdne787872:0
-        upgrade_to_ee: "crwdns787874:0crwdne787874:0"
-        upgrade_to_ee_text: "crwdns787876:0crwdne787876:0"
+        upgrade_to_ee: "crwdns839471:0crwdne839471:0"
+        upgrade_to_ee_text: "crwdns839473:0crwdne839473:0"
         more_information: "crwdns787878:0crwdne787878:0"
         nevermind: "crwdns787880:0crwdne787880:0"
       edit:
@@ -856,7 +856,7 @@ lol:
       zooms: "crwdns788138:0crwdne788138:0"
       outlines: "crwdns788140:0crwdne788140:0"
     upsale:
-      ee_only: 'crwdns822258:0crwdne822258:0'
+      ee_only: 'crwdns839475:0crwdne839475:0'
     wiki_formatting:
       strong: "crwdns788144:0crwdne788144:0"
       italic: "crwdns788146:0crwdne788146:0"
@@ -1047,7 +1047,7 @@ lol:
         upsale:
           attribute_highlighting: 'crwdns788452:0crwdne788452:0'
           relation_columns: 'crwdns788454:0crwdne788454:0'
-          check_out_link: 'crwdns788456:0crwdne788456:0'
+          check_out_link: 'crwdns839477:0crwdne839477:0'
         relation_filters:
           filter_work_packages_by_relation_type: 'crwdns788458:0crwdne788458:0'
       tabs:
@@ -1191,9 +1191,9 @@ lol:
           description: 'crwdns788674:0crwdne788674:0'
         placeholder:
           title: 'crwdns788676:0crwdne788676:0'
-          title_no_ee: 'crwdns788678:0crwdne788678:0'
+          title_no_ee: 'crwdns839479:0crwdne839479:0'
           description: 'crwdns788680:0crwdne788680:0'
-          description_no_ee: 'crwdns788682:0%{eeHref}crwdne788682:0'
+          description_no_ee: 'crwdns839481:0%{eeHref}crwdne839481:0'
       principal:
         label:
           name_or_email: 'crwdns788684:0crwdne788684:0'
