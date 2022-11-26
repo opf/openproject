@@ -304,11 +304,11 @@ fr:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Activer les alertes de notification pour les dates à venir et les tâches en retard.</li> <li>Nous publions l'authentification à deux facteurs (2FA) pour l'édition Communautaire.</li> <li>L'option d'affichage de la semaine de travail est maintenant également ajoutée au planificateur de l'équipe.</li> <li>Listez jusqu'à 3 personnes dans une carte de notification lorsque plusieurs personnes ont été impliquées dans les changements.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Activer les alertes de notification pour les dates à venir et les tâches en retard.</li> <li>Nous publions l'authentification à deux facteurs (2FA) pour l'édition Communautaire.</li> <li>L'option d'affichage de la semaine de travail est maintenant également ajoutée au planificateur de l'équipe.</li> <li>Listez jusqu'à 3 personnes dans une carte de notification lorsque plusieurs personnes ont été impliquées dans les changements.</li> </ul>
     label_activate: "Activer"
     label_assignee: 'Responsable'
     label_add_column_after: "Ajouter une colonne au-dessus"
@@ -400,7 +400,7 @@ fr:
     label_no_data: "Aucune donnée à afficher"
     label_no_due_date: "pas de date de fin"
     label_no_start_date: "pas de date de début"
-    label_no_date: "no date"
+    label_no_date: "pas de date"
     label_no_value: "Aucune valeur"
     label_none: "aucune"
     label_not_contains: "ne contient pas"
@@ -633,9 +633,9 @@ fr:
             title: 'Alarmes'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'Avec les alarmes, vous serez informé(e) à l''approche des dates de début ou de fin vous concernant afin de ne jamais manquer ou oublier une échéance importante.'
-          start_date: Start date
-          due_date: Finish date
-          overdue: When overdue
+          start_date: Date de début
+          due_date: Date de fin
+          overdue: En cas de retard
         project_specific:
           title: 'Paramètres de notification spécifiques au projet'
           description: 'These project-specific settings override default settings above.'

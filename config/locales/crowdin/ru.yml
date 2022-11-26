@@ -49,7 +49,7 @@ ru:
         main-menu-border-color: "Граница главного меню"
       custom_colors: "Настроить цвета"
       customize: "Настройте свой OpenProject своими логотипом и цветами."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise edition support subscribers."
+      enterprise_notice: "Особые «Спасибо!» за их финансовый вклад в разработку OpenProject, эта крошечная функция доступна только для подписчиков корпоративной версии."
       enterprise_more_info: "Примечание: используемый логотип будет общедоступным."
       manage_colors: "Изменить цвет выбранных опций"
       instructions:
@@ -64,15 +64,15 @@ ru:
         main-menu-bg-color: "Цвет фона меню слева."
       theme_warning: Изменение темы перезапишет ваш пользовательский стиль. Дизайн будет утерян. Вы уверены, что хотите продолжить?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
-      add_token: "Upload an Enterprise edition support token"
+      upgrade_to_ee: "Обновить до корпоративной версии"
+      add_token: "Загрузить токен поддержки корпоративной версии"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        text: "Вы уверены, что хотите удалить текущий токен корпоративной версии?"
         title: "Удалить токен"
       replace_token: "Замените ваш текущий маркер поддержки"
-      order: "Order Enterprise on-premises edition"
-      paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This feature is only available with an active Enterprise edition support token."
+      order: "Закажите корпоративную версию"
+      paste: "Вставьте ваш маркер поддержки корпоративной версии"
+      required_for_feature: "Эта функция доступна только с маркером поддержки корпоративной версии."
       enterprise_link: "Для получения дополнительной информации нажмите здесь."
       start_trial: 'Бесплатная пробная версия'
       book_now: 'Заказать сейчас'
@@ -321,7 +321,7 @@ ru:
       settings: "Параметры"
       form_configuration: "Настройка форм"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Корпоративная версия позволяет вам настраивать конфигурацию форм с этими дополнительными функциями: <br> <ul class="%{list_styling_class}"> <li><b>Добавление новых групп атрибутов</b></li> <li><b>Переименование групповых атрибутов</b></li> <li><b>Добавление таблицы связанных пакетов работ</b></li> </ul>
       projects: "Проекты"
       enabled_projects: "Доступные проекты"
       edit_query: "Изменить таблицу"
@@ -588,7 +588,7 @@ ru:
         confirmation: "не совпадает со значением поля %{attribute}."
         could_not_be_copied: "%{dependency} не может быть скопировано (полностью)."
         does_not_exist: "не существует."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} доступен только в корпоративной версии OpenProject"
         error_unauthorized: "не доступен."
         error_readonly: "запись не разрешена."
         email: "неверный адрес электронной почты."
@@ -1322,7 +1322,7 @@ ru:
   error_cookie_missing: 'Отсутствуют cookie OpenProject. Пожалуйста, убедитесь, что Cookie разрешены. Без них приложение не будет функционировать должным образом.'
   error_custom_option_not_found: "Параметр не существует."
   error_enterprise_activation_user_limit: "Ваша учетная запись не может быть активирована (достигнут предел пользователя). Обратитесь к администратору для получения доступа."
-  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "Версия Enterprise не активна. Домен вашего токена предприятия (%{actual}) не соответствует названию системного имени (%{expected})."
   error_failed_to_delete_entry: 'Не удалось удалить эту запись.'
   error_in_dependent: "Ошибка при попытке изменить зависимый объект: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Ошибка при создании зависимого объекта: %{dependent_class} - %{related_subject}: %{error}"
@@ -1410,10 +1410,10 @@ ru:
     blocks:
       community: "OpenProject сообщество"
       upsale:
-        title: "Upgrade to Enterprise edition"
+        title: "Обновитесь до корпоративной версии"
         more_info: "Больше информации"
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
+      upgrade_enterprise_edition: "Обновитесь до корпоративной версии"
       postgres_migration: "Перенос вашей установки в PostgreSQL"
       user_guides: "Руководство пользователя"
       faq: "ЧаВо"
@@ -1629,7 +1629,7 @@ ru:
   label_enumerations: "Перечисления"
   label_enterprise: "Предприятие"
   label_enterprise_active_users: "%{current}/%{limit} забронировано активных пользователей"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "Корпоративная версия"
   label_environment: "Переменные среды"
   label_estimates_and_time: "Оценки и время"
   label_equals: "—"
@@ -2645,11 +2645,11 @@ ru:
   text_custom_field_hint_activate_per_project_and_type: >
     Настраиваемые поля нужно включать для каждого типа комплекса работ и для каждого проекта в отдельности.
   text_wp_custom_field_html: >
-    The Enterprise edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    Редакция Enterprise добавит эти дополнительные возможности для пользовательских полей пакетов работ: <br> <ul> <li><b>Разрешить мульти-выбор для пользовательских полей типа Список или Пользователь</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    Корпоративная версия добавит эти дополнительные возможности для пользовательских полей пакетов работ: <br> <ul> <li><b>Разрешить мульти-выбор для пользовательских полей типа Список или Пользователь</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    Корпоративная версия добавит эти дополнительные возможности для пользовательских полей проектов: <br> <ul> <li><b>Добавить пользовательские поля для проектов в ваш список проектов для создания представления портфеля проектов</b></li> </ul>
   text_custom_logo_instructions: >
     Рекомендуется использовать белый логотип с прозрачным фоном. Для оптимального отображения на обычных и retina-дисплеях размер картинки должен быть 460 на 110 пикселей.
   text_custom_favicon_instructions: >
@@ -2954,7 +2954,7 @@ ru:
   warning_user_limit_reached: >
     Достигнут предел пользователя. Вы более не можете активировать пользователей. <a href="%{upgrade_url}">, обновите ваш план</a> или блок участников для дополнительных пользователей.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    Вы достигли вашего пользовательского предела (%{current}/%{max} активных пользователей). Пожалуйста, свяжитесь с sales@openproject.com для обновления своего плана до Корпоративной версии и добавьте дополнительных пользователей.
   warning_protocol_mismatch_html: >
 
   warning_bar:
