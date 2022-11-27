@@ -224,7 +224,7 @@ it:
           status_label: "Stato:"
           status_confirmed: "confermato"
           status_waiting: "email inviata, in attesa di conferma"
-          test_ee: "Test the Enterprise edition 14 days for free"
+          test_ee: "Prova l'Enterprise Edition gratuitamente per 14 giorni"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Diventa un eroe!"
@@ -236,7 +236,7 @@ it:
             high_security_text: "Singolo segno su (SAML, OpenID Connect, CAS), gruppi LDAP."
             installation: "Assistenza all'installazione"
             installation_text: "I nostri ingegneri del software esperti ti guidano durante il processo di installazione e configurazione nella tua infrastruttura."
-            premium_features: "Enterprise add-ons"
+            premium_features: "Componenti aggiuntivi Enterprise"
             premium_features_text: "Tabelloni Agile, tema e logo personalizzati, grafici, flussi di lavoro intelligenti con azioni personalizzate, ricerca completa di allegati nelle macro-attività e campi personalizzati a selezione multipla."
             professional_support: "Supporto professionale"
             professional_support_text: "Ottieni un supporto affidabile e di livello da esperti tecnici con conoscenze dettagliate sulla gestione di OpenProject in ambienti critici per le imprese."
@@ -281,7 +281,7 @@ it:
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
       upsale_for_more: "I filtri avanzati consentono di filtrare anche i nomi dei file e il contenuto degli allegati delle macro-attività. Esegui l'upgrade a un piano a pagamento per utilizzare questa funzione."
-      upsale_link: 'Enterprise edition.'
+      upsale_link: 'Enterprise Edition.'
     general_text_no: "no"
     general_text_yes: "si"
     general_text_No: "No"
@@ -633,8 +633,8 @@ it:
             title: 'Avvisi data'
             description: 'Notifiche automatiche quando si avvicinano date importanti per le macro-attività aperte in cui sei coinvolto (assegnatario, responsabile od osservatore)'
             teaser_text: 'Con gli avvisi sulle date, sarai avvisato delle prossime date di inizio o di fine in modo da non perdere mai o dimenticare una scadenza importante.'
-          start_date: Start date
-          due_date: Finish date
+          start_date: Data di inizio
+          due_date: Data di fine
           overdue: When overdue
         project_specific:
           title: 'Impostazioni di notifica specifiche del progetto'
@@ -857,7 +857,7 @@ it:
       zooms: "Livello di zoom"
       outlines: "Livello della gerarchia"
     upsale:
-      ee_only: 'Enterprise edition feature'
+      ee_only: 'Funzionalità Enterprise edition'
     wiki_formatting:
       strong: "Grassetto"
       italic: "Corsivo"

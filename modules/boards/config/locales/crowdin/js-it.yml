@@ -62,7 +62,7 @@ it:
           status: Stato
           version: Versione
           subproject: Sottoprogetto
-          subtasks: Parent-child
+          subtasks: genitore-figlio
           basic: Base
         select_attribute: "Attributo azione"
       add_list_modal:
