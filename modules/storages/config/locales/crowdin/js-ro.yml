@@ -4,13 +4,13 @@ ro:
     storages:
       link_files_in_storage: "Link-ul fişierelor în %{storageType}"
       link_existing_files: "Legaţi fişierele existente"
-      upload_files: "Upload files"
+      upload_files: "Încarcă fişiere"
       login: "%{storageType} autentificare"
       login_to: "Autentificare în %{storageType}"
       no_connection: "Nu există %{storageType} conexiune"
       open_storage: "Deschide %{storageType}"
-      select_location: "Select location"
-      choose_location: "Choose location"
+      select_location: "Selectați locația"
+      choose_location: "Alege Locația"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -34,10 +34,10 @@ ro:
         select: "Selectați fișierele"
         select_all: "Selectați tot"
         selection:
-          zero: "Select files to link"
-          one: "Link 1 file"
-          few: "Link %{count} files"
-          other: "Link %{count} files"
+          zero: "Selectaţi fişierele pentru a conecta"
+          one: "Link 1 fișier"
+          few: "Link %{count} fișiere"
+          other: "Link %{count} de fișiere"
         not_allowed_tooltip: "Vă rugăm să vă autentificaţi în Nextcloud pentru a accesa acest fişier"
         already_linked_file: "Acest fișier este deja legat la acest pachet de lucru."
         already_linked_directory: "Acest director este deja conectat la acest pachet de lucru."
