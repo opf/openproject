@@ -30,6 +30,8 @@ module API::V3::OAuth
   class OAuthClientCredentialsRepresenter < ::API::Decorators::Single
     include API::Decorators::LinkedResource
 
+    self_link title: false
+
     property :id
 
     property :client_id

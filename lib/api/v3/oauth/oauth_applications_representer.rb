@@ -31,9 +31,11 @@ module API::V3::OAuth
     include API::Decorators::LinkedResource
     include API::Decorators::DateProperty
 
+    self_link
+
     property :id
 
-    property :uid, as: :client_id
+    property :uid, as: :clientId
 
     property :confidential
 
@@ -65,7 +67,7 @@ module API::V3::OAuth
       }
     end
 
-    link :redirect_uri do
+    link :redirectUri do
       {
         href: represented.redirect_uri
       }

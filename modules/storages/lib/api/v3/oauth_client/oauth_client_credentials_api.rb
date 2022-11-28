@@ -26,18 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::Storages
-  class OAuthCredentialsRepresenter < ::API::Decorators::Single
-    property :uid, as: :clientId
-
-    property :plaintext_secret, as: :clientSecret
-
-    def _type
-      'OauthCredentials'
-    end
-
-    link :self do
-      { href: "#{::API::V3::URN_PREFIX}storages:oauth_credentials:no_link_provided" }
+module API::V3::OAuthClient
+  class OAuthClientCredentialsAPI < ::API::OpenProjectAPI
+    resources :oauth_credentials do
+      post &::API::V3::Utilities::Endpoints::Create
+              .new(model: ::OAuthClient,
+                   parse_representer: ::API::V3::OAuth::OAuthClientCredentialsRepresenter,
+                   render_representer: ::API::V3::OAuth::OAuthClientCredentialsRepresenter,
+                   params_modifier: ->(params) do
+                     params.merge(integration: @storage)
+                   end)
+              .mount
     end
   end
 end

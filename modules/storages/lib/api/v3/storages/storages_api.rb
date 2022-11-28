@@ -61,12 +61,12 @@ class API::V3::Storages::StoragesAPI < ::API::OpenProjectAPI
       # route.
       get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::Storage).mount
 
-      put &::API::V3::Utilities::Endpoints::Update.new(model: ::Storages::Storage).mount
+      patch &::API::V3::Utilities::Endpoints::Update.new(model: ::Storages::Storage).mount
 
       delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::Storages::Storage).mount
 
       mount API::V3::StorageFiles::StorageFilesAPI
-      mount API::V3::OAuthCredentials::OAuthCredentialsAPI
+      mount API::V3::OAuthClient::OAuthClientCredentialsAPI
     end
   end
 end

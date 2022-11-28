@@ -1,0 +1,53 @@
+# Schema: OAuthApplicationReadModel
+---
+type: object
+required:
+  - id
+  - _type
+  - clientId
+  - confidential
+properties:
+  id:
+    type: integer
+    minimum: 1
+  _type:
+    type: string
+    enum:
+      - OauthClientCredentials
+  clientId:
+    type: string
+    description: OAuth 2 client id
+  clientSecret:
+    type: string
+    description: OAuth 2 client secret
+  confidential:
+    type: boolean
+    description: true, if OAuth 2 credentials are confidential, false, if no secret is stored
+  createdAt:
+    type: string
+    format: date-time
+    description: The time the OAuth 2 Application was created at
+  updatedAt:
+    type: string
+    format: date-time
+    description: The time the OAuth 2 Application was last updated
+  scopes:
+    type: array
+    description: An array of the scopes of the OAuth 2 Application
+    items:
+      type: string
+  _links:
+    type: object
+    required:
+      - owner
+      - redirectUri
+    properties:
+      owner:
+      integration:
+      redirectUri:
+
+example:
+  id: 1337
+  _type: OauthClientCredentials
+  clientId: O5h6WObhMg1Z8IcLHRE3_LMh4jJYmmca2V6OTFSv8DA
+  confidential: true

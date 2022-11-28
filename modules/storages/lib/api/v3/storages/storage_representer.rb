@@ -127,15 +127,25 @@ module API::V3::Storages
     end
 
     associated_resource :oauth_application,
+                        skip_render: ->(*) { !current_user.admin? },
                         getter: ->(*) {
                           ::API::V3::OAuth::OAuthApplicationsRepresenter.create(@oauth_application, current_user:)
                         },
-                        # representer: ::API::V3::OAuth::OAuthApplicationsRepresenter,
                         link: ->(*) {
                           {
                             href: "/api/v3/oauth_applications/#{@oauth_application.id}",
                             title: @oauth_application.name
                           }
+                        }
+
+    associated_resource :oauth_client,
+                        as: :oauthClientCredentials,
+                        skip_render: ->(*) { !current_user.admin? || represented.oauth_client.blank? },
+                        representer: ::API::V3::OAuth::OAuthClientCredentialsRepresenter,
+                        link: ->(*) {
+                          return { href: nil } if represented.oauth_client.blank?
+
+                          { href: "/api/v3/oauth_client_credentials/#{represented.oauth_client.id}" }
                         }
 
     def _type

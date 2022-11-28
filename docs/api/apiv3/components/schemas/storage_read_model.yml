@@ -28,10 +28,13 @@ properties:
   _embedded:
     type: object
     required:
-      - oauthCredentials
+      - oauthApplication
+      - oauthClientCredentials
     properties:
-      oauthCredentials:
-        $ref: './oauth_credentials_read_model.yml'
+      oauthApplication:
+        $ref: './oauth_client_credentials_read_model.yml'
+      oauthClientCredentials:
+        $ref: './oauth_client_credentials_read_model.yml'
   _links:
     type: object
     required:
@@ -93,7 +96,18 @@ properties:
               - urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
               
               **Resource**: N/A
-      oauthCredentials:
+      oauthApplication:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The OAuth 2 provider application linked to the storage.
+
+              # Conditions
+
+              - User has role `admin`
+
+              **Resource**: OAuthApplication
+      oauthClientCredentials:
         allOf:
           - $ref: './link.yml'
           - description: |-
@@ -103,7 +117,7 @@ properties:
 
               - User has role `admin`
 
-              **Resource**: OauthCredentials
+              **Resource**: OAuthClientCredentials
 example:
   id: 1337
   _type: Storage
@@ -127,5 +141,8 @@ example:
     authorize:
       href: https://nextcloud.deathstar.rocks/authorize/
       title: Authorize
-    oauthCredentials:
+    oauthApplication:
+      href: /api/v3/oauth_credentials/42
+      title: It's no moon (Nextcloud)
+    oauthClientCredentials:
       href: /api/v3/oauth_credentials/42

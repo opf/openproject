@@ -361,8 +361,8 @@ paths:
     "$ref": "./paths/storage.yml"
   "/api/v3/storages/{id}/files":
     "$ref": "./paths/storage_files.yml"
-  "/api/v3/storages/{id}/oauth_credentials":
-    "$ref": "./paths/storage_oauth_credentials.yml"
+  "/api/v3/storages/{id}/oauth_client_credentials":
+    "$ref": "./paths/storage_oauth_client_credentials.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
@@ -658,10 +658,10 @@ components:
       "$ref": "./components/schemas/notification_settings_model.yml"
     Offset_based_pagination:
       "$ref": "./components/schemas/offset_based_pagination.yml"
-    OauthCredentialsReadModel:
-      "$ref": "./components/schemas/oauth_credentials_read_model.yml"
-    OauthCredentialsWriteModel:
-      "$ref": "./components/schemas/oauth_credentials_write_model.yml"
+    OauthClientCredentialsReadModel:
+      "$ref": "./components/schemas/oauth_client_credentials_read_model.yml"
+    OauthClientCredentialsWriteModel:
+      "$ref": "./components/schemas/oauth_client_credentials_write_model.yml"
     Plain_Text:
       "$ref": "./components/schemas/plain_text.yml"
     Plain_TextModel:
