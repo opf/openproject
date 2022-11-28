@@ -28,7 +28,7 @@
 
 module API::V3::OAuthClient
   class OAuthClientCredentialsAPI < ::API::OpenProjectAPI
-    resources :oauth_credentials do
+    resources :oauth_client_credentials do
       post &::API::V3::Utilities::Endpoints::Create
               .new(model: ::OAuthClient,
                    parse_representer: ::API::V3::OAuth::OAuthClientCredentialsRepresenter,

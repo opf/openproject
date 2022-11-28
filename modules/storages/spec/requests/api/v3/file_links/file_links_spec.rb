@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 file links resource', type: :request do
+describe 'API v3 file links resource' do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }
@@ -42,7 +42,8 @@ describe 'API v3 file links resource', type: :request do
   let(:work_package) { create(:work_package, author: current_user, project:) }
   let(:another_work_package) { create(:work_package, author: current_user, project:) }
 
-  let(:storage) { create(:storage, creator: current_user) }
+  let(:oauth_application) { create(:oauth_application) }
+  let(:storage) { create(:storage, creator: current_user, oauth_application:) }
   let(:another_storage) { create(:storage, creator: current_user) }
 
   let(:oauth_client) { create(:oauth_client, integration: storage) }

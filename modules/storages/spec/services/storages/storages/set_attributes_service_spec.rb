@@ -61,7 +61,7 @@ describe ::Storages::Storages::SetAttributesService, type: :model do
     ::Storages::Storages::CreateContract
   end
 
-  let(:params) { {} }
+  let(:params) { { provider_type: Storages::Storage::PROVIDER_TYPE_NEXTCLOUD } }
 
   before do
     allow(model_instance)
@@ -131,10 +131,7 @@ describe ::Storages::Storages::SetAttributesService, type: :model do
 
     it 'assigns the params' do
       expect(model_instance.name).to eq 'Foobar'
-    end
-
-    it 'cannot assign provider_type to anything else than "nextcloud"' do
-      expect(model_instance.provider_type).to eq Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+      expect(model_instance.provider_type).to eq 'foo provider'
     end
   end
 

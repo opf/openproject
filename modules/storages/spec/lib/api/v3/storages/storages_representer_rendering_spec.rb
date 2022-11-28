@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::Storages::StorageRepresenter, 'rendering' do
-  let(:storage) { build_stubbed(:storage) }
+  let(:oauth_application) { build_stubbed(:oauth_application) }
+  let(:storage) { build_stubbed(:storage, oauth_application:) }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(storage, current_user: user) }
   let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
@@ -66,6 +67,21 @@ describe ::API::V3::Storages::StorageRepresenter, 'rendering' do
         let(:link) { 'authorizationState' }
         let(:href) { 'urn:openproject-org:api:v3:storages:authorization:Connected' }
         let(:title) { 'Connected' }
+      end
+    end
+
+    describe 'oauthApplication' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'oauthApplication' }
+        let(:href) { "/api/v3/oauth_applications/#{oauth_application.id}" }
+        let(:title) { oauth_application.name }
+      end
+    end
+
+    describe 'oauthClientCredentials' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'oauthClientCredentials' }
+        let(:href) { nil }
       end
     end
   end

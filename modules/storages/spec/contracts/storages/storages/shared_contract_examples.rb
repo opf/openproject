@@ -95,13 +95,13 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
       context 'as host is not a URL' do
         let(:storage_host) { '---invalid-url---' }
 
-        include_examples 'contract is invalid', host: :url
+        include_examples 'contract is invalid', host: I18n.t('activerecord.errors.messages.invalid_url')
       end
 
       context 'as host is an empty string' do
         let(:storage_host) { '' }
 
-        include_examples 'contract is invalid', host: :url
+        include_examples 'contract is invalid', host: I18n.t('activerecord.errors.messages.invalid_url')
       end
 
       context 'as host is longer than 255' do

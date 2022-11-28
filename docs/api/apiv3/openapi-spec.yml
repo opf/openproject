@@ -251,8 +251,8 @@ paths:
     "$ref": "./paths/notification_read.yml"
   "/api/v3/notifications/{id}/unread_ian":
     "$ref": "./paths/notification_unread.yml"
-  "/api/v3/oauth_credentials/{id}":
-    "$ref": "./paths/oauth_credentials.yml"
+  "/api/v3/oauth_client_credentials/{id}":
+    "$ref": "./paths/oauth_client_credentials.yml"
   "/api/v3/posts/{id}":
     "$ref": "./paths/post.yml"
   "/api/v3/posts/{id}/attachments":
@@ -658,9 +658,9 @@ components:
       "$ref": "./components/schemas/notification_settings_model.yml"
     Offset_based_pagination:
       "$ref": "./components/schemas/offset_based_pagination.yml"
-    OauthClientCredentialsReadModel:
+    OAuthClientCredentialsReadModel:
       "$ref": "./components/schemas/oauth_client_credentials_read_model.yml"
-    OauthClientCredentialsWriteModel:
+    OAuthClientCredentialsWriteModel:
       "$ref": "./components/schemas/oauth_client_credentials_write_model.yml"
     Plain_Text:
       "$ref": "./components/schemas/plain_text.yml"

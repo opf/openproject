@@ -22,4 +22,4 @@ post:
       content:
         application/hal+json:
           schema:
-            $ref: '../components/schemas/oauth_credentials_write_model.yml'
+            $ref: '../components/schemas/oauth_client_credentials_write_model.yml'

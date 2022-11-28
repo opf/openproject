@@ -13,23 +13,23 @@ end
 OpenProject::Inflector.rule do |basename, abspath|
   case basename
   when /\Aoauth_(.*)_api\z/
-    'OAuth' + default_inflect($1, abspath) + 'API'
+    "OAuth#{default_inflect($1, abspath)}API"
   when /\Aapi_(.*)\z/
-    'API' + default_inflect($1, abspath)
+    "API#{default_inflect($1, abspath)}"
   when /\A(.*)_api\z/
-    default_inflect($1, abspath) + 'API'
+    "#{default_inflect($1, abspath)}API"
   when 'api'
     'API'
   when /\Aar_(.*)\z/
-    'AR' + default_inflect($1, abspath)
+    "AR#{default_inflect($1, abspath)}"
   when /\Aoauth_(.*)\z/
-    'OAuth' + default_inflect($1, abspath)
+    "OAuth#{default_inflect($1, abspath)}"
   when /\A(.*)_oauth\z/
-    default_inflect($1, abspath) + 'OAuth'
+    "#{default_inflect($1, abspath)}OAuth"
   when 'oauth'
     'OAuth'
   when /\A(.*)_sso\z/
-    default_inflect($1, abspath) + 'SSO'
+    "#{default_inflect($1, abspath)}SSO"
   end
 end
 

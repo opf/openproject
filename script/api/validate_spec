@@ -18,7 +18,7 @@ begin
     file.puts full_spec
   end
 
-  `npx @redocly/openapi-cli lint #{openapi_yaml_spec_path} --max-problems 200`
+  `npx @redocly/openapi-cli lint #{openapi_yaml_spec_path}`
 
   status = $?.exitstatus
 ensure

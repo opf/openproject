@@ -113,6 +113,10 @@ module OpenProject::Storages
 
     # This helper methods adds a method on the `api_v3_paths` helper. It is created with one parameter (storage_id)
     # and the return value is a string.
+    add_api_path :storages do
+      "#{root}/storages"
+    end
+
     add_api_path :storage do |storage_id|
       "#{root}/storages/#{storage_id}"
     end
@@ -123,6 +127,10 @@ module OpenProject::Storages
 
     add_api_path :prepare_upload do |storage_id|
       "#{root}/storages/#{storage_id}/files/prepare_upload"
+    end
+
+    add_api_path :storage_oauth_client_credentials do |storage_id|
+      "#{root}/storages/#{storage_id}/oauth_client_credentials"
     end
 
     add_api_path :file_links do |work_package_id|
