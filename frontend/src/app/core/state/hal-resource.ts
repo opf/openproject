@@ -12,6 +12,10 @@ export interface IHalResourceLinks {
   self:IHalResourceLink;
 }
 
+export interface IHalMethodResourceLink extends IHalResourceLink {
+  method:string;
+}
+
 export type FormattableFormat = 'markdown'|'custom';
 
 export interface IFormattable {
