@@ -5,6 +5,7 @@ module OpenProject::OpenIDConnect
       new(link).expire!
     rescue StandardError => e
       Rails.logger.error { "Failed to handle OIDC session logout: #{e.message}" }
+      raise e
     end
 
     def self.handle_login(oidc_session, session)
