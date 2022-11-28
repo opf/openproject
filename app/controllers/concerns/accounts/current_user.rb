@@ -127,7 +127,7 @@ module Accounts::CurrentUser
   # Login the current user
   def login_user(user)
     ::Users::LoginService
-      .new(controller: self)
+      .new(controller: self, request:)
       .call(user)
   end
 
