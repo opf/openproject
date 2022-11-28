@@ -148,7 +148,11 @@ RSpec.describe 'Work package timeline date formatting',
     it 'shows english ISO dates' do
       expect(page).to have_selector('.wp-timeline--header-element', text: '01')
       expect(page).to have_selector('.wp-timeline--header-element', text: '02')
-      expect(page).to have_no_selector('.wp-timeline--header-element', text: '53')
+
+      # Most years do not have 53 weeks. Some do.
+      unless Date.current.beginning_of_year.saturday?
+        expect(page).not_to have_selector('.wp-timeline--header-element', text: '53')
+      end
 
       # expect moment to return week 01 for start date and due date
       expect_date_week work_package.start_date.iso8601, '01'
