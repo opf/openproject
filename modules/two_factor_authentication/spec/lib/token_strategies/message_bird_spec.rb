@@ -1,11 +1,11 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require_relative '../../spec_helper'
 require 'messagebird'
 
 describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
   let(:channel) { :sms }
   let(:locale) { 'en' }
-  let(:user) { create :user, language: locale }
-  let(:device) { create :two_factor_authentication_device_sms, user:, channel: }
+  let(:user) { create(:user, language: locale) }
+  let(:device) { create(:two_factor_authentication_device_sms, user:, channel:) }
   let(:strategy) { described_class.new user:, device:, channel: }
 
   before do
@@ -31,7 +31,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
       end
     end
 
-    context 'en' do
+    context 'with en' do
       let(:locale) { 'en' }
 
       it 'returns the correct language and message' do
@@ -40,7 +40,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
       end
     end
 
-    context 'de' do
+    context 'with de' do
       let(:locale) { 'de' }
 
       it 'returns the correct language and message' do
@@ -50,6 +50,20 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
                                   token: '1234')
 
         expect(subject[:language]).to be :'de-de'
+        expect(subject[:message]).to eql expected_message
+      end
+    end
+
+    context 'with unsupported locale ar (Arabic is not supported in message bird)' do
+      let(:locale) { 'ar' }
+
+      it 'falls back to english' do
+        expected_message = I18n.t("two_factor_authentication.text_otp_delivery_message_sms",
+                                  app_title: Setting.app_title,
+                                  locale: 'en',
+                                  token: '1234')
+
+        expect(subject[:language]).to eq :'en-us'
         expect(subject[:message]).to eql expected_message
       end
     end
