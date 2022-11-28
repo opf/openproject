@@ -229,8 +229,6 @@ default:
 
 Be sure to choose the correct indentation and base key. The items below the `saml` key should be indented two spaces more than `saml` already is. And `saml` can will need to be placed in the `default` or `production` group so it will already be indented. You will get an YAML parsing error otherwise when trying to start OpenProject.
 
-#### 
-
 ### 2. Configuration details
 
 In this section, we detail some of the required and optional configuration options for SAML.
@@ -493,11 +491,11 @@ In Keycloak, use the following steps to set up a SAML integration OpenProject:
 You will be forwarded to the settings tab  of the new client. Change these settings:
 
 - Enable **Sign Documents**
-- **Master SAML Processing URL**: Set to ``https://<Your OpenProject hostname>/auth/saml` 
+- **Master SAML Processing URL**: Set to `https://<Your OpenProject hostname>/auth/saml` 
 - **Name ID Format** Set to username
 - Expand section "Fine Grain SAML Endpoint Configuration"
-  - **Assertion Consumer Service POST Binding URL**: Set to ``https://<Your OpenProject hostname>/auth/saml/callback` 
-  - **Assertion Consumer Service Redirect Binding URL**: Set to ``https://<Your OpenProject hostname>/auth/saml/callback` 
+  - **Assertion Consumer Service POST Binding URL**: Set to `https://<Your OpenProject hostname>/auth/saml/callback` 
+  - **Assertion Consumer Service Redirect Binding URL**: Set to `https://<Your OpenProject hostname>/auth/saml/callback` 
 
 Go the "Mappers" tab and create the following mappers. Note that the "User attribute" values might differ depending on your LDAP or Keycloak configuration.
 
