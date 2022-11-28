@@ -107,9 +107,13 @@ module OpenProject
       #                                  including user info and credentials.
       # @yieldparam context The context from which the callback is called, e.g. a Controller.
       def self.after_login(&)
+        ActiveSupport::Deprecation.warn(
+          "after_login does not return the actually logged in user and has been deprecated. " \
+          "Please use OpenProject::Hook omniauth_user_authorized or user_logged_in hooks instead",
+          caller
+        )
         add_after_login_callback AfterLoginBlockCallback.new(&)
       end
-      OpenProject::Deprecation.deprecate_method(self, :after_login)
 
       ##
       # Registers a new callback to decide whether or not a user is to be authorized.
