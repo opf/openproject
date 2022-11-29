@@ -403,7 +403,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :enterprise,
             { controller: '/enterprises', action: :show },
             caption: :label_enterprise_edition,
-            icon: 'icon2 icon-headset',
+            icon: 'icon2 icon-enterprise-addons',
             if: proc { User.current.admin? && OpenProject::Configuration.ee_manager_visible? }
 
   menu.push :admin_costs,
