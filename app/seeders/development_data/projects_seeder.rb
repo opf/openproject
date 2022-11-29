@@ -80,7 +80,7 @@ module DevelopmentData
         version_data = project_data_for('scrum-project', 'versions')
         if version_data.is_a? Array
           version_data.each do |attributes|
-            p.versions << Version.create!(
+            p.versions.create!(
               name: attributes[:name],
               status: attributes[:status],
               sharing: attributes[:sharing]
