@@ -68,10 +68,10 @@ module WorkPackages::Scopes
       # For some of the relations, this has actual relevance (FOLLOWS, PRECEDES, PARENT because of scheduling) while for the
       # most, it is simply a question of semantics which is not manifested in code (all the other).
       #
-      # For the sake of this scope, the parent relation (Relation::TYPE_PARENT) is also included in the list of relation_types
-      # even though it is not stored in the same data structure. All Relation::TYPE_* values can be provided even those that
-      # are not canonical, e.g. Relation::TYPE_PRECEDES. The calculation for those relation types are then inverted and the
-      # canonical type is used, e.g. Relation::TYPE_FOLLOWS.
+      # For the sake of this scope, hierarchy relations (Relation::TYPE_PARENT and Relation::TYPE_CHILD) are also included
+      # in the list of possible relation_types even though they are not stored in the same data structure. All
+      # Relation::TYPE_* values can be provided even those that are not canonical, e.g. Relation::TYPE_PRECEDES.
+      # The calculations for those relation types are then inverted and the canonical type is used, e.g. Relation::TYPE_FOLLOWS.
       #
       # There are a couple of exceptions and additions to the limitations outlined above for the following types:
       # * Relation::TYPE_RELATES: Since this is essentially undirected and does not carry a lot of semantic, the work packages
@@ -94,6 +94,11 @@ module WorkPackages::Scopes
       #   "No circle for trees". However WP3 would be relatable to.
       #   Work packages related via follows/precedes to any descendant of a work package are exempt from being relatable right
       #   away as it would create a circle.
+      # * Relation::TYPE_CHILD: The relation essentially follows the same rules, albeit inverted, as PARENT since it is
+      #   the non canonical equivalent of it. Again, the parent relation of current children will be altered upon creating a new
+      #   relation. Because of that, all descendants (as opposed to ancestors as is the case for PARENT) can be related to.
+      #   The following in depth discussion focuses on the PARENT relation to walk through the special cases of the hierarchical
+      #   relation. Whenever PARENT is mentioned, CHILD is also included.
       #
       # The implementation focuses on excluding candidates. It does so in two parts:
       #   * Excluding all work packages with which a direct relation already exist (with additions for PARENT relations).
@@ -101,7 +106,7 @@ module WorkPackages::Scopes
       #
       # The first is straightforward for all relation types except for PARENT relations. For that majority, whenever there is
       # a relation of any type except PARENT either to or from the work package queried for, it is excluded. For PARENT relations,
-      # both the descendants of the queried for work package as well as the decendants of any directly related work packages are
+      # both the descendants of the queried for work package as well as the descendants of any directly related work packages are
       # excluded as well since creating a PARENT relationship to one such work package would result in a relation up or down the
       # hierarchy which violates the ancestor/descendant rule.
       #
@@ -168,8 +173,11 @@ module WorkPackages::Scopes
       def relatable(work_package, relation_type)
         return all if work_package.new_record?
 
-        scope = if relation_type == Relation::TYPE_PARENT
-                  not_having_potential_tree_relation(work_package)
+        scope = case relation_type
+                when Relation::TYPE_PARENT
+                  not_having_potential_tree_relation_parent(work_package)
+                when Relation::TYPE_CHILD
+                  not_having_potential_tree_relation_child(work_package)
                 else
                   where.not(id: directly_related(work_package))
                 end
@@ -211,7 +219,7 @@ module WorkPackages::Scopes
 
       private
 
-      def not_having_potential_tree_relation(work_package)
+      def not_having_potential_tree_relation_parent(work_package)
         # On a parent relationship, explicitly remove the former parent (which might be the current one as well)
         # from the list of work packages one can relate to. This is not strictly necessary since it would not
         # cause faulty relationships but doing it removes the parent from places where it should not show up,
@@ -225,6 +233,16 @@ module WorkPackages::Scopes
         scope
           .where.not(id: directly_related(descendant_or_self_ids_of(work_package)))
           .where.not(id: descendant_or_self_ids_of(directly_related(descendant_or_self_ids_of(work_package))))
+      end
+
+      def not_having_potential_tree_relation_child(work_package)
+        # On a child relationship, explicitly remove the current children from the list of work packages
+        # one can relate to. This is not strictly necessary since it would not cause faulty relationships
+        # but doing it removes the children from places where it should not show up,
+        # e.g. in an auto completer.
+        where.not(id: directly_related(ancestor_or_self_ids_of(work_package)))
+          .where.not(id: ancestor_or_self_ids_of(directly_related(ancestor_or_self_ids_of(work_package))))
+          .where.not(id: where(parent_id: work_package.id).select(:id))
       end
 
       def non_relatable_paths_sql(work_package, relation_type)
@@ -261,8 +279,11 @@ module WorkPackages::Scopes
       end
 
       def non_recursive_relatable_values(work_package, relation_type)
-        hierarchy_condition = if relation_type == Relation::TYPE_PARENT
+        hierarchy_condition = case relation_type
+                              when Relation::TYPE_PARENT
                                 "work_package_hierarchies.ancestor_id = :id"
+                              when Relation::TYPE_CHILD
+                                "work_package_hierarchies.descendant_id = :id"
                               else
                                 "(work_package_hierarchies.ancestor_id = :id OR work_package_hierarchies.descendant_id = :id)"
                               end
@@ -279,7 +300,7 @@ module WorkPackages::Scopes
             false from_to_id,
             false includes_from_relation,
             false includes_to_relation,
-            work_package_hierarchies.descendant_id = :id includes_hierarchy,
+            false includes_hierarchy,
             true origin
           FROM
             work_package_hierarchies
@@ -293,14 +314,13 @@ module WorkPackages::Scopes
       end
 
       def joined_existing_connections(relation_type)
-        unions = [existing_hierarchy_lateral]
+        unions = [existing_hierarchy_lateral(with_descendants: relation_type != Relation::TYPE_CHILD)]
 
         case relation_type
-        when Relation::TYPE_PARENT
+        when Relation::TYPE_PARENT, Relation::TYPE_CHILD
           unions << existing_relation_of_type_lateral(Relation::TYPE_FOLLOWS, limit_direction: true)
           unions << existing_relation_of_type_lateral(Relation::TYPE_PRECEDES, limit_direction: true)
         else
-          unions << existing_hierarchy_lateral
           unions << existing_relation_of_type_lateral(relation_type)
         end
 
@@ -350,7 +370,10 @@ module WorkPackages::Scopes
       end
       # rubocop:enable Metrics/PerceivedComplexity
 
-      def existing_hierarchy_lateral
+      def existing_hierarchy_lateral(with_descendants: true)
+        hierarchy_condition = ["work_package_hierarchies.descendant_id = related.id"]
+        hierarchy_condition << "work_package_hierarchies.ancestor_id = related.id" if with_descendants
+
         <<~SQL.squish
           SELECT
             CASE
@@ -363,20 +386,20 @@ module WorkPackages::Scopes
             false from_to_id,
             related.includes_from_relation,
             related.includes_to_relation,
-            work_package_hierarchies.descendant_id = related.id includes_hierarchy,
+            true includes_hierarchy,
             false origin
           FROM
             work_package_hierarchies
           WHERE
             related.from_hierarchy = false AND
-            (work_package_hierarchies.ancestor_id = related.id OR work_package_hierarchies.descendant_id = related.id)
+            (#{hierarchy_condition.join(' OR ')})
             AND (work_package_hierarchies.generations != 0)
         SQL
       end
 
       def blocklist_condition(relation_type)
         case relation_type
-        when Relation::TYPE_PARENT
+        when Relation::TYPE_PARENT, Relation::TYPE_CHILD
           "NOT includes_hierarchy"
         else
           '1 = 1'
@@ -387,6 +410,12 @@ module WorkPackages::Scopes
         WorkPackageHierarchy
           .where(ancestor_id: work_packages)
           .select(:descendant_id)
+      end
+
+      def ancestor_or_self_ids_of(work_packages)
+        WorkPackageHierarchy
+          .where(descendant_id: work_packages)
+          .select(:ancestor_id)
       end
     end
   end
