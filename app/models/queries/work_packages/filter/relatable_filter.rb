@@ -47,12 +47,6 @@ class Queries::WorkPackages::Filter::RelatableFilter < Queries::WorkPackages::Fi
   end
 
   def scope
-    WorkPackage.relatable(WorkPackage.find_by(id: values.first), Relation.canonical_type(operator))
-  end
-
-  private
-
-  def canonical_operator
-    Relation.canonical_type(operator)
+    WorkPackage.relatable(WorkPackage.find_by(id: values.first), operator)
   end
 end
