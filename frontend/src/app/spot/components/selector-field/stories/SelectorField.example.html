@@ -1,20 +1,20 @@
 <div class="spot-container">
-  <spot-selector-field [label]="'not checked'">
+  <spot-selector-field label="not checked">
     <spot-checkbox slot="input"></spot-checkbox>
   </spot-selector-field>
-  <spot-selector-field [label]="'checked'">
+  <spot-selector-field label="checked">
     <spot-checkbox
       slot="input"
       [checked]="true"
     ></spot-checkbox>
   </spot-selector-field>
-  <spot-selector-field [label]="'mixed'">
+  <spot-selector-field label="mixed">
     <spot-checkbox
       slot="input"
       [(ngModel)]="mixed"
     ></spot-checkbox>
   </spot-selector-field>
-  <spot-selector-field [label]="'disabled and checked'">
+  <spot-selector-field label="disabled and checked">
     <spot-checkbox
       slot="input"
       [disabled]="true"
@@ -24,19 +24,19 @@
 
   <hr class="spot-divider">
 
-  <spot-selector-field [label]="'switched off'">
+  <spot-selector-field label="switched off">
     <spot-switch
       slot="input"
       [checked]="false"
     ></spot-switch>
   </spot-selector-field>
-  <spot-selector-field [label]="'switched on'">
+  <spot-selector-field label="switched on">
     <spot-switch
       slot="input"
       [checked]="true"
     ></spot-switch>
   </spot-selector-field>
-  <spot-selector-field [label]="'switched off and disabled'">
+  <spot-selector-field label="switched off and disabled">
     <spot-switch
       slot="input"
       [checked]="false"
