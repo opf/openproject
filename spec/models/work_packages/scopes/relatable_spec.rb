@@ -390,18 +390,18 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
         create(:follows_relation, from: origin_child, to: aunt)
       end
 
-      it 'contains aunt' do
+      it 'contains aunt and grandparent' do
         expect(relatable)
-          .to match_array [aunt]
+          .to match_array [aunt, grandparent]
       end
     end
 
     context "for a 'relates' relation" do
       let(:relation_type) { Relation::TYPE_RELATES }
 
-      it 'contains aunt' do
+      it 'contains aunt and grandparent' do
         expect(relatable)
-          .to match_array [aunt]
+          .to match_array [aunt, grandparent]
       end
     end
   end

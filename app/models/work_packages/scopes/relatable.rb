@@ -75,7 +75,8 @@ module WorkPackages::Scopes
       #
       # There are a couple of exceptions and additions to the limitations outlined above for the following types:
       # * Relation::TYPE_RELATES: Since this is essentially undirected and does not carry a lot of semantic, the work packages
-      #   are simply somehow related, such relations do not follow the "non circular" nor the "ancestor/descendant" rule.
+      #   are simply somehow related, such relations only follow the "single relation" rule (which includes their direct
+      #   parent/children) and  none of the other.
       # * Relation::TYPE_PARENT: Since creating a new relationship will remove the old parent relationship, current ancestors
       #   (except the direct parent) are relatable to. Descendants however are not since that would create a circle.
       #   In addition to the existing hierarchy, the FOLLOWS relationships are taken into account. Predecessors and successors
@@ -185,17 +186,27 @@ module WorkPackages::Scopes
       end
 
       def not_having_transitive_relation(work_package, relation_type)
-        sql = <<~SQL.squish
-          WITH
-            RECURSIVE
-            #{non_relatable_paths_sql(work_package, relation_type)}
+        if relation_type == Relation::TYPE_RELATES
+          # Bypassing the recursive query in this case as only children and parent needs to be excluded.
+          # Using this more complicated statement since
+          # where.not(parent:id: work_package.id)
+          # will lead to
+          # "parent_id != 123" which excludes
+          # work packages having parent_id NULL.
+          where.not(id: where(id: work_package.parent_id).or(where(parent_id: work_package.id)).select(:id))
+        else
+          sql = <<~SQL.squish
+            WITH
+              RECURSIVE
+              #{non_relatable_paths_sql(work_package, relation_type)}
 
-            SELECT id
-            FROM related
-            WHERE #{blocklist_condition(relation_type)}
-        SQL
+              SELECT id
+              FROM related
+              WHERE #{blocklist_condition(relation_type)}
+          SQL
 
-        where("work_packages.id NOT IN (#{Arel.sql(sql)})")
+          where("work_packages.id NOT IN (#{Arel.sql(sql)})")
+        end
       end
 
       private
@@ -288,9 +299,8 @@ module WorkPackages::Scopes
         when Relation::TYPE_PARENT
           unions << existing_relation_of_type_lateral(Relation::TYPE_FOLLOWS, limit_direction: true)
           unions << existing_relation_of_type_lateral(Relation::TYPE_PRECEDES, limit_direction: true)
-        when Relation::TYPE_RELATES
-          # Nothing
         else
+          unions << existing_hierarchy_lateral
           unions << existing_relation_of_type_lateral(relation_type)
         end
 
