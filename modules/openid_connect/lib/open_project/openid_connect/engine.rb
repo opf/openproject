@@ -54,6 +54,14 @@ module OpenProject::OpenIDConnect
             ::OpenProject::OpenIDConnect::SessionMapper.handle_logout(logout_token)
           end
 
+          # Allow username mapping from 'preferred_username' claim
+          h[:openproject_attribute_map] = Proc.new do |auth|
+            {}.tap do |additional|
+              preferred_username = auth.dig('extra', 'raw_info', 'preferred_username')
+              additional[:login] = preferred_username if preferred_username.present?
+            end
+          end
+
           h
         end
       end
