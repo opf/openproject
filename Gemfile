@@ -174,8 +174,8 @@ gem 'sprockets', '~> 3.7.2' # lock sprockets below 4.0
 gem 'sprockets-rails', '~> 3.4.2'
 
 gem 'puma', '~> 5.6'
-gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 gem 'puma-plugin-statsd', '~> 2.0'
+gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 
 gem 'nokogiri', '~> 1.13.9'
 
