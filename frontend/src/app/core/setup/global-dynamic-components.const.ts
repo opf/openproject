@@ -164,7 +164,8 @@ import {
 } from 'core-app/shared/components/enterprise-page/enterprise-page.component';
 import {
   OpListCalendarComponent,
-  listCalendarSelector,} from 'core-app/shared/components/op-list-calendar/op-list-calendar.component'
+  listCalendarSelector,
+} from 'core-app/shared/components/op-list-calendar/op-list-calendar.component';
 import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector,
