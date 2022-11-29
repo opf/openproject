@@ -44,6 +44,20 @@ With OpenProject 12.4 users who have OpenProject community edition installed can
 
 !See [here](...//getting-started/my-account/#two-factor-authentication) how to setup the 2FA under My account.
 
+
+
+## LDAP connection encryption changes
+
+In previous versions of OpenProject, there were three connection security modes that were hard to differentiate, especially with regards to actual verification of SSL certificates.
+
+The LDAP connection encryption settings have been improved and extended with separate options to ensure SSL verification can be enabled. In case of self-signed certificates, a custom PEM X509 certificate or certificate chain can be added per connection.
+
+**Important note:** For previous LDAP connections, this results in the `Verify SSL certificate` option being unchecked after migrating to OpenProject 12.4. This was the default even for STARTTLS connections (only the host name of the certificate was checked by default). The option will be enabled if you manually set the `OPENPROJECT_LDAP__TLS__OPTIONS="{ verify_mode: 1 }"` and that setting has been deprecated.
+
+Please double-check your existing LDAP connections and enable Verification of SSL certificates manually after upgrading to OpenProject 12.4.0. If you have self-signed certificates, make use of the custom certificate option to mitigate MITM attack vectors.
+
+![Improved LDAP encryption options](ldap-encryption-options.png)
+
 ## Work week for the team planner
 
 It is now possible to choose between a full 1-week view, a 2-week view or only the work week (depending on your Working days settings in the system's Administration) in the [team planner](.../docs/user-guide/team-planner/).
