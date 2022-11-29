@@ -149,10 +149,14 @@ RSpec.describe 'Work package timeline date formatting',
       expect(page).to have_selector('.wp-timeline--header-element', text: '01')
       expect(page).to have_selector('.wp-timeline--header-element', text: '02')
 
-      # Most years do not have 53 weeks. Some do.
-      unless Date.current.beginning_of_year.saturday?
-        expect(page).not_to have_selector('.wp-timeline--header-element', text: '53')
-      end
+      # According to the Canadian locale (https://savvytime.com/week-number/canada/2022)
+      # the first week of the year is the week where 1st of January falls.
+      # If that is last year, then we need to add an offset +1 week to the total number of years.
+      current_year = Date.current.year
+      week_offset = current_year - Date.new(current_year, 1, 1).beginning_of_week.year
+
+      weeks_this_year = Date.new(current_year, 12, 28).cweek + week_offset
+      expect(page).not_to have_selector('.wp-timeline--header-element', text: weeks_this_year + 1)
 
       # expect moment to return week 01 for start date and due date
       expect_date_week work_package.start_date.iso8601, '01'
