@@ -26,41 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  class StorageRequests
-    def initialize(storage:)
-      @storage = storage
-      @oauth_client = storage.oauth_client
-    end
+class Storages::StorageError
+  attr_reader :code, :log_message, :data
 
-    def download_link_query(user:)
-      storage_queries(user)
-        .download_link_query
-        .map { |query| query.method(:query).to_proc }
-    end
+  def initialize(code:, log_message: nil, data: nil)
+    @code = code
+    @log_message = log_message
+    @data = data
+  end
 
-    def files_query(user:)
-      storage_queries(user)
-        .files_query
-        .map { |query| query.method(:query).to_proc }
-    end
-
-    def upload_link_query(user:, finalize_url:)
-      storage_queries(user)
-        .upload_link_query(finalize_url)
-        .map { |query| query.method(:query).to_proc }
-    end
-
-    private
-
-    def storage_queries(user)
-      ::Storages::Peripherals::StorageInteraction::StorageQueries
-        .new(
-          uri: URI(@storage.host).normalize,
-          provider_type: @storage.provider_type,
-          user:,
-          oauth_client: @oauth_client
-        )
-    end
+  def to_s
+    output = code.to_s
+    output << " | #{log_message}" unless log_message.nil?
+    output << " | #{data}" unless data.nil?
+    output
   end
 end

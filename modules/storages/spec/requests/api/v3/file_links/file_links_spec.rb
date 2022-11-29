@@ -74,7 +74,7 @@ describe 'API v3 file links resource', type: :request do
       .to receive(:new).and_return(connection_manager)
     allow(connection_manager)
       .to receive(:get_access_token)
-      .and_return(ServiceResult.success(result: oauth_client_token))
+            .and_return(ServiceResult.success(result: oauth_client_token))
     allow(connection_manager)
       .to receive(:authorization_state).and_return(:connected)
     allow(connection_manager)
@@ -502,7 +502,12 @@ describe 'API v3 file links resource', type: :request do
 
       describe 'due to authorization failure' do
         before do
-          allow(storage_requests).to receive(:download_link_query).and_return(ServiceResult.failure(result: :not_authorized))
+          allow(storage_requests).to receive(:download_link_query).and_return(
+            ServiceResult.failure(
+              result: :not_authorized,
+              errors: Storages::StorageError.new(code: :not_authorized)
+            )
+          )
           get path
         end
 
@@ -511,7 +516,12 @@ describe 'API v3 file links resource', type: :request do
 
       describe 'due to internal error' do
         before do
-          allow(storage_requests).to receive(:download_link_query).and_return(ServiceResult.failure(result: :error))
+          allow(storage_requests).to receive(:download_link_query).and_return(
+            ServiceResult.failure(
+              result: :error,
+              errors: Storages::StorageError.new(code: :error)
+            )
+          )
           get path
         end
 
@@ -520,7 +530,12 @@ describe 'API v3 file links resource', type: :request do
 
       describe 'due to not found' do
         before do
-          allow(storage_requests).to receive(:download_link_query).and_return(ServiceResult.failure(result: :not_found))
+          allow(storage_requests).to receive(:download_link_query).and_return(
+            ServiceResult.failure(
+              result: :not_found,
+              errors: Storages::StorageError.new(code: :not_found)
+            )
+          )
           get path
         end
 
@@ -532,7 +547,7 @@ describe 'API v3 file links resource', type: :request do
       let(:download_link_query) do
         Struct.new('DownloadLinkQuery', :error) do
           def query(_)
-            ServiceResult.failure(result: error)
+            ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error))
           end
         end.new(error)
       end
