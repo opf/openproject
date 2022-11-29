@@ -30,13 +30,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class DownloadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    def initialize(base_uri:, token:, with_refreshed_token:)
+    def initialize(base_uri:, token:, retry_proc:)
       super()
 
       @base_uri = base_uri
       @uri = URI::join(base_uri, '/ocs/v2.php/apps/dav/api/v1/direct')
       @token = token
-      @with_refreshed_token = with_refreshed_token
+      @retry_proc = retry_proc
     end
 
     def query(file_link)
@@ -48,7 +48,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     private
 
     def outbound_response(file_link)
-      @with_refreshed_token.call(@token) do |token|
+      @retry_proc.call(@token) do |token|
         begin
           response = ServiceResult.success(
             result: RestClient.post(
@@ -83,10 +83,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       end
     end
 
-    def error(code, message = nil, data = nil)
+    def error(code, log_message = nil, data = nil)
       ServiceResult.failure(
         result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
-        errors: Storages::StorageError.new(code:, message:, data:)
+        errors: Storages::StorageError.new(code:, log_message:, data:)
       )
     end
 

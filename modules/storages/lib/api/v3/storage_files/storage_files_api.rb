@@ -29,19 +29,7 @@
 module API::V3::StorageFiles
   class StorageFilesAPI < ::API::OpenProjectAPI
     using Storages::Peripherals::ServiceResultRefinements
-
-    helpers do
-      def raise_error(error)
-        Rails.logger.error(error)
-
-        case error.code
-        when :not_found
-          raise API::Errors::NotFound.new
-        else
-          raise API::Errors::InternalError.new
-        end
-      end
-    end
+    helpers Storages::Peripherals::StorageErrorHelper
 
     resources :files do
       get do

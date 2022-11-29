@@ -40,11 +40,11 @@ module Storages::Peripherals::StorageInteraction
     def download_link_query
       case @provider_type
       when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-        with_connection_manager do |token, with_refreshed_token|
+        retry_with_refreshed_token do |token, with_refreshed_token_proc|
           ::Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery.new(
             base_uri: @uri,
             token:,
-            with_refreshed_token:
+            retry_proc: with_refreshed_token_proc
           )
         end
       else
@@ -55,11 +55,11 @@ module Storages::Peripherals::StorageInteraction
     def upload_link_query(finalize_url)
       case @provider_type
       when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-        with_connection_manager do |token, with_refreshed_token|
+        retry_with_refreshed_token do |token, with_refreshed_token_proc|
           ::Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQuery.new(
             base_uri: @uri,
             token:,
-            with_refreshed_token:,
+            retry_proc: with_refreshed_token_proc,
             finalize_url:
           )
         end
@@ -71,11 +71,11 @@ module Storages::Peripherals::StorageInteraction
     def files_query
       case @provider_type
       when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-        with_connection_manager do |token, with_refreshed_token|
+        retry_with_refreshed_token do |token, with_refreshed_token_proc|
           ::Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery.new(
             base_uri: @uri,
             token:,
-            with_refreshed_token:
+            retry_proc: with_refreshed_token_proc
           )
         end
       else
@@ -85,7 +85,7 @@ module Storages::Peripherals::StorageInteraction
 
     private
 
-    def with_connection_manager
+    def retry_with_refreshed_token
       connection_manager = ::OAuthClients::ConnectionManager.new(user: @user, oauth_client: @oauth_client)
       connection_manager.get_access_token.match(
         on_success: ->(token) do
@@ -95,8 +95,8 @@ module Storages::Peripherals::StorageInteraction
       )
     end
 
-    def error(code, message = nil, data = nil)
-      ServiceResult.failure(errors: Storages::StorageError.new(code:, message:, data:))
+    def error(code, log_message = nil, data = nil)
+      ServiceResult.failure(errors: Storages::StorageError.new(code:, log_message:, data:))
     end
   end
 end

@@ -42,21 +42,13 @@ module Storages::Peripherals
 
         yield result
       end
-    end
 
-    refine(ServiceResult.singleton_class) do
-      def chain(initial:, steps:) # rubocop:disable Metrics/AbcSize
-        unless initial.instance_of?(ServiceResult)
-          raise TypeError, "Expected a #{ServiceResult.name.split('::').last}, got #{initial.class.name}."
+      def >>(other)
+        unless other.respond_to?(:call)
+          raise TypeError, "Expected an object responding to 'call', got #{other.class.name}."
         end
 
-        unless steps.instance_of?(Array) && steps.all? { |step| step.instance_of?(Method) }
-          raise TypeError, "Expected an Array of Method, got #{steps.class.name}."
-        end
-
-        steps.map(&:to_proc).reduce(initial) do |state, method|
-          state.bind { |value| method.call(value) }
-        end
+        bind(&other)
       end
     end
   end

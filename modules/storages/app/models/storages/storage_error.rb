@@ -27,17 +27,17 @@
 #++
 
 class Storages::StorageError
-  attr_reader :code, :message, :data
+  attr_reader :code, :log_message, :data
 
-  def initialize(code:, message: nil, data: nil)
+  def initialize(code:, log_message: nil, data: nil)
     @code = code
-    @message = message
+    @log_message = log_message
     @data = data
   end
 
   def to_s
     output = code.to_s
-    output << " | #{message}" unless message.nil?
+    output << " | #{log_message}" unless log_message.nil?
     output << " | #{data}" unless data.nil?
     output
   end

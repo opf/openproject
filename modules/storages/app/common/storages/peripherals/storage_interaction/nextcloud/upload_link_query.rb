@@ -28,29 +28,25 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class UploadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
-    using Storages::Peripherals::ServiceResultRefinements
+    using Storages::Peripherals::ServiceResultRefinements # use '>>' (bind) operator for ServiceResult
 
     URI_BASE_PATH = '/ocs/v2.php/apps/files_sharing/api/v1/shares'.freeze
     UPLOAD_LINK_BASE = '/public.php/webdav'.freeze
 
-    def initialize(base_uri:, token:, with_refreshed_token:, finalize_url:)
+    def initialize(base_uri:, token:, retry_proc:, finalize_url:)
       super()
 
       @base_uri = base_uri
       @token = token
-      @with_refreshed_token = with_refreshed_token
+      @retry_proc = retry_proc
       @finalize_url = finalize_url
     end
 
     def query(data)
-      ServiceResult.chain(
-        initial: validated(data),
-        steps: [
-          method(:share),
-          method(:file_drop_share),
-          method(:upload_link)
-        ]
-      )
+      validated(data) >>
+        method(:create_file_share) >>
+        method(:apply_drop_permission) >>
+        method(:build_upload_link)
     end
 
     private
@@ -66,7 +62,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       end
     end
 
-    def share(data)
+    def create_file_share(data)
       password = SecureRandom.uuid
 
       outbound_response(
@@ -84,7 +80,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       end
     end
 
-    def file_drop_share(share)
+    def apply_drop_permission(share)
       outbound_response(
         method: :put,
         relative_path: "#{URI_BASE_PATH}/#{share.id}",
@@ -94,7 +90,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       ).map { share }
     end
 
-    def upload_link(share)
+    def build_upload_link(share)
       destination = @base_uri.merge("#{UPLOAD_LINK_BASE}/#{share.file_name}")
       destination.user = share.token
       destination.password = share.password
@@ -103,7 +99,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def outbound_response(method:, relative_path:, payload:) # rubocop:disable Metrics/AbcSize
-      @with_refreshed_token.call(@token) do |token|
+      @retry_proc.call(@token) do |token|
         begin
           response = ServiceResult.success(
             result: RestClient::Request.execute(
@@ -145,10 +141,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       end
     end
 
-    def error(code, message = nil, data = nil)
+    def error(code, log_message = nil, data = nil)
       ServiceResult.failure(
         result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
-        errors: Storages::StorageError.new(code:, message:, data:)
+        errors: Storages::StorageError.new(code:, log_message:, data:)
       )
     end
   end

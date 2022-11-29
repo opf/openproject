@@ -178,9 +178,9 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       end
     end
 
-    it_behaves_like 'outbound is failing', 404, :not_found
-    it_behaves_like 'outbound is failing', 401, :not_authorized
-    it_behaves_like 'outbound is failing', 500, :error
+    include_examples 'outbound is failing', 404, :not_found
+    include_examples 'outbound is failing', 401, :not_authorized
+    include_examples 'outbound is failing', 500, :error
   end
 
   describe '#files_query' do
@@ -306,9 +306,9 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       end
     end
 
-    it_behaves_like 'outbound is failing', 404, :not_found
-    it_behaves_like 'outbound is failing', 401, :not_authorized
-    it_behaves_like 'outbound is failing', 500, :error
+    include_examples 'outbound is failing', 404, :not_found
+    include_examples 'outbound is failing', 401, :not_authorized
+    include_examples 'outbound is failing', 500, :error
   end
 
   describe '#upload_link_query' do
@@ -473,11 +473,11 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       end
     end
 
-    it_behaves_like 'outbound is failing', :post, '', 404, :not_found
-    it_behaves_like 'outbound is failing', :post, '', 401, :not_authorized
-    it_behaves_like 'outbound is failing', :post, '', 500, :error
-    it_behaves_like 'outbound is failing', :put, '/37', 404, :not_found
-    it_behaves_like 'outbound is failing', :put, '/37', 401, :not_authorized
-    it_behaves_like 'outbound is failing', :put, '/37', 500, :error
+    include_examples 'outbound is failing', :post, '', 404, :not_found
+    include_examples 'outbound is failing', :post, '', 401, :not_authorized
+    include_examples 'outbound is failing', :post, '', 500, :error
+    include_examples 'outbound is failing', :put, '/37', 404, :not_found
+    include_examples 'outbound is failing', :put, '/37', 401, :not_authorized
+    include_examples 'outbound is failing', :put, '/37', 500, :error
   end
 end

@@ -26,11 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::UploadFinalizeLink
-  attr_reader :destination, :payload
+module Storages::Peripherals
+  module StorageErrorHelper
+    def raise_error(error)
+      Rails.logger.error(error)
 
-  def initialize(destination = '', payload = nil)
-    @destination = destination
-    @payload = payload
+      case error.code
+      when :not_found
+        raise API::Errors::NotFound.new
+      else
+        raise API::Errors::InternalError.new
+      end
+    end
   end
 end
