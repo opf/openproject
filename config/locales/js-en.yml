@@ -930,7 +930,7 @@ en:
       zooms: "Zoom level"
       outlines: "Hierarchy level"
     upsale:
-      ee_only: 'Enterprise edition feature'
+      ee_only: 'Enterprise edition add-on'
     wiki_formatting:
       strong: "Strong"
       italic: "Italic"
