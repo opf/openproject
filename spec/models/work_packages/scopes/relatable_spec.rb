@@ -930,6 +930,57 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
     end
   end
 
+  context 'with a child that has a predecessor that has a parent and a grandparent' do
+    let(:child_predecessor) do
+      create(:work_package, parent: child_predecessor_parent).tap do |pre|
+        create(:follows_relation, from: origin_child, to: pre)
+      end
+    end
+    let(:child_predecessor_parent) do
+      create(:work_package, parent: child_predecessor_grandparent)
+    end
+    let(:child_predecessor_grandparent) do
+      create(:work_package)
+    end
+    let!(:existing_work_packages) { [origin_child, child_predecessor, child_predecessor_parent, child_predecessor_grandparent] }
+
+    context "for a 'parent' relation" do
+      let(:relation_type) { Relation::TYPE_PARENT }
+
+      it "contains the parent of the child's predecessor" do
+        expect(relatable)
+          .to match_array [child_predecessor_parent, child_predecessor_grandparent]
+      end
+    end
+
+    context "for a 'precedes' relation" do
+      let(:relation_type) { Relation::TYPE_PRECEDES }
+
+      it "is empty" do
+        expect(relatable)
+          .to be_empty
+      end
+    end
+
+    context "for a 'follows' relation" do
+      let(:relation_type) { Relation::TYPE_FOLLOWS }
+
+      it "contains the child's predecessor and the parent of that" do
+        expect(relatable)
+          .to match_array [child_predecessor, child_predecessor_parent, child_predecessor_grandparent]
+      end
+    end
+
+    context "for a 'relates' relation" do
+      let(:relation_type) { Relation::TYPE_RELATES }
+
+      it "contains the child's predecessor and the parent of that" do
+        expect(relatable)
+          .to match_array [child_predecessor, child_predecessor_parent, child_predecessor_grandparent]
+      end
+    end
+  end
+
   context 'with a child that blocks a work package that has a parent and a grandparent' do
     let(:child_blocked) do
       create(:work_package, parent: child_blocked_parent).tap do |wp|
