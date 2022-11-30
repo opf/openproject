@@ -71,8 +71,8 @@ export class NotificationSettingsTableComponent implements OnInit {
     work_package_prioritized_header: this.I18n.t('js.notifications.settings.reasons.work_package_prioritized'),
     work_package_scheduled_header: this.I18n.t('js.notifications.settings.reasons.work_package_scheduled'),
     remove_project_settings: this.I18n.t('js.notifications.settings.project_specific.remove'),
-    startDate: this.I18n.t('js.notifications.settings.global.start_date'),
-    dueDate: this.I18n.t('js.notifications.settings.global.due_date'),
+    startDate: this.I18n.t('js.work_packages.properties.startDate'),
+    dueDate: this.I18n.t('js.work_packages.properties.dueDate'),
     overdue: this.I18n.t('js.notifications.settings.global.overdue'),
   };
 
