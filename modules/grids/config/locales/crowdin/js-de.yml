@@ -5,8 +5,8 @@ de:
       remove: 'Widget entfernen'
       configure: 'Widget konfigurieren'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
-        link: 'Enterprise edition.'
+        text: "Einige Widgets wie das Arbeitspaket-Graphen Widget sind nur in der Enterprise Edition verfügbar."
+        link: 'Enterprise Edition'
       widgets:
         custom_text:
           title: 'Benutzerdefinierter Text'

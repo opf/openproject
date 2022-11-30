@@ -80,7 +80,7 @@ es:
       buttons:
         upgrade: "Actualizar ahora"
         contact: "Contáctenos para una demostración"
-      enterprise_info_html: "es una característica de la versión Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
+      enterprise_info_html: "es una funcionalidad de la versión Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
       upgrade_info: "Actualice a un plan de pago para activarlo y empezar a usarlo en su equipo."
     journal_aggregation:
       explanation:
@@ -1221,7 +1221,7 @@ es:
   default_type_bug: "Error"
   default_type_deliverable: "Entregable"
   default_type_epic: "Epico"
-  default_type_feature: "Característica"
+  default_type_feature: "Funcionalidad"
   default_type_milestone: "Avance"
   default_type_phase: "Fase"
   default_type_task: "Tarea"
@@ -1260,11 +1260,11 @@ es:
   ee:
     upsale:
       form_configuration:
-        description: "Personalice la configuración del formulario con estas características adicionales:"
+        description: "Personalice la configuración del formulario con estas funcionalidades adicionales:"
         add_groups: "Añadir nuevos grupos de atributos"
         rename_groups: "Cambiar nombre de grupos de atributos"
       project_filters:
-        description_html: "Filtrar y ordenar en campos personalizados es una característica de edición empresarial."
+        description_html: "Filtrar y ordenar en campos personalizados es una funcionalidad de edición Enterprise."
   enumeration_activities: "Actividades de seguimiento del tiempo"
   enumeration_work_package_priorities: "Prioridades del paquete de trabajo"
   enumeration_reported_project_statuses: "Estatus del proyecto reportado"
@@ -1719,7 +1719,7 @@ es:
   label_name: "Nombre"
   label_never: "Nunca"
   label_new: "Nuevo"
-  label_new_features: "Nuevas características"
+  label_new_features: "Nuevas funcionalidades"
   label_new_statuses_allowed: "Nuevos estados permitidos"
   label_news_singular: "Noticias"
   label_news_added: "Noticias añadidas"
@@ -1973,7 +1973,7 @@ es:
     zero: "0 abiertos"
   label_x_projects:
     one: "1 proyecto"
-    other: "%{count} projectos"
+    other: "%{count} proyectos"
     zero: "sin proyectos"
   label_yesterday: "ayer"
   label_role_type: "Tipo"
@@ -2731,7 +2731,7 @@ es:
     enable_type_in_project: 'Habilitar tipo "%{type}"'
     end: "Final"
     errors:
-      not_implemented: "La línea de tiempo no puede procesarse porque utiliza una característica que no se ha implementado todavía."
+      not_implemented: "La línea de tiempo no puede procesarse porque utiliza una funcionalidad que no se ha implementado todavía."
       report_comparison: "La línea de tiempo no puede hacer las comparaciones configuradas. Consulte la sección pertinente en la configuración, re-iniciarla puede ayudar a resolver este problema."
       report_epicfail: "No se pudo cargar la línea de tiempo debido a un error inesperado."
       report_timeout: "No se pudo cargar la línea de tiempo en una cantidad razonable de tiempo."
