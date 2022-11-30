@@ -64,11 +64,11 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
 
   describe '#writable?' do
     it 'percentage done is writable' do
-      expect(subject.writable?(:percentage_done)).to be true
+      expect(subject.writable?(:done_ratio)).to be true
     end
 
     it 'estimated time is writable' do
-      expect(subject.writable?(:estimated_time)).to be true
+      expect(subject.writable?(:estimated_hours)).to be true
     end
 
     it 'start date is writable' do

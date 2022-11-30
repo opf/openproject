@@ -230,7 +230,13 @@ module API
         def default_writable_property(property)
           -> do
             if represented.respond_to?(:writable?)
-              represented.writable?(property)
+              property_name = ::API::Utilities::PropertyNameConverter.to_ar_name(
+                property,
+                context: represented.model,
+                collapse_cf_name: false
+              )
+
+              represented.writable?(property_name)
             else
               false
             end

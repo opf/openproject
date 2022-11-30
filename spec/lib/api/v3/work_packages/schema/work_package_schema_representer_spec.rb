@@ -334,7 +334,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       before do
         allow(schema)
           .to receive(:writable?)
-                .with(:ignore_non_working_days)
+                .with('ignore_non_working_days')
                 .and_return writable
       end
 
@@ -367,7 +367,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       before do
         allow(schema)
           .to receive(:writable?)
-          .with(:date)
+          .with('date')
           .and_return true
 
         allow(schema)
@@ -387,7 +387,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         before do
           allow(schema)
             .to receive(:writable?)
-            .with(:date)
+            .with('date')
             .and_return false
         end
 
@@ -417,7 +417,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       before do
         allow(schema)
           .to receive(:writable?)
-          .with(:start_date)
+          .with('start_date')
           .and_return true
 
         allow(schema)
@@ -437,7 +437,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         before do
           allow(schema)
             .to receive(:writable?)
-            .with(:start_date)
+            .with('start_date')
             .and_return false
         end
 
@@ -467,7 +467,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       before do
         allow(schema)
           .to receive(:writable?)
-          .with(:due_date)
+          .with('due_date')
           .and_return true
 
         allow(schema)
@@ -485,7 +485,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'when not writable' do
         before do
-          allow(schema).to receive(:writable?).with(:due_date).and_return false
+          allow(schema).to receive(:writable?).with('due_date').and_return false
         end
 
         it_behaves_like 'has basic schema properties' do
@@ -566,7 +566,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       before do
         allow(schema)
           .to receive(:writable?)
-          .with(:estimated_time)
+          .with('estimated_hours')
           .and_return true
       end
 
@@ -582,7 +582,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         before do
           allow(schema)
             .to receive(:writable?)
-            .with(:estimated_time)
+            .with('estimated_hours')
             .and_return false
         end
 
@@ -640,7 +640,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     describe 'percentageDone' do
       before do
-        allow(schema).to receive(:writable?).with(:percentage_done).and_return true
+        allow(schema).to receive(:writable?).with('done_ratio').and_return true
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -653,7 +653,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'when not writable' do
         before do
-          allow(schema).to receive(:writable?).with(:percentage_done).and_return false
+          allow(schema).to receive(:writable?).with('done_ratio').and_return false
         end
 
         it_behaves_like 'has basic schema properties' do
@@ -917,7 +917,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     describe 'priorities' do
       before do
-        allow(schema).to receive(:writable?).with(:priority).and_return true
+        allow(schema).to receive(:writable?).with('priority').and_return true
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -938,7 +938,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context 'when not writable' do
         before do
-          allow(schema).to receive(:writable?).with(:priority).and_return false
+          allow(schema).to receive(:writable?).with('priority').and_return false
         end
 
         it_behaves_like 'has basic schema properties' do
