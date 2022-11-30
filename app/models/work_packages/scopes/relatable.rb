@@ -365,9 +365,6 @@ module WorkPackages::Scopes
       # rubocop:enable Metrics/PerceivedComplexity
 
       def existing_hierarchy_lateral(with_descendants: true)
-        hierarchy_condition = ["work_package_hierarchies.descendant_id = related.id"]
-        hierarchy_condition << "work_package_hierarchies.ancestor_id = related.id" if with_descendants
-
         <<~SQL.squish
           SELECT
             CASE
@@ -385,7 +382,7 @@ module WorkPackages::Scopes
             work_package_hierarchies
           WHERE
             related.from_hierarchy = false AND
-            (#{hierarchy_condition.join(' OR ')})
+            (work_package_hierarchies.descendant_id = related.id OR work_package_hierarchies.ancestor_id = related.id)
             AND (work_package_hierarchies.generations != 0)
         SQL
       end
