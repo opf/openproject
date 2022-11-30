@@ -94,6 +94,13 @@ describe Users::SetAttributesService, type: :model do
         .to(all(be_a(NotificationSetting).and(be_new_record)))
     end
 
+    it 'sets the default language', with_settings: { default_language: 'de' } do
+      call
+
+      expect(model_instance.language)
+        .to eql 'de'
+    end
+
     context 'with params' do
       let(:params) do
         {
