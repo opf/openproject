@@ -126,7 +126,8 @@ class WorkPackage < ApplicationRecord
          :include_spent_time,
          :involving_user,
          :left_join_self_and_descendants,
-         :relatable
+         :relatable,
+         :directly_related
 
   acts_as_watchable
 
