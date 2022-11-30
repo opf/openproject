@@ -274,7 +274,7 @@ en:
           more_info: "More information"
           text: >
             The OpenProject Enterprise edition builds on top of the Community edition.
-            It includes enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
 
@@ -307,7 +307,7 @@ en:
           one: "First sorting criteria"
           two: "Second sorting criteria"
           three: "Third sorting criteria"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
       upsale_link: 'Enterprise edition.'
     general_text_no: "no"
     general_text_yes: "yes"
@@ -764,7 +764,7 @@ en:
           Warning: Are you sure you want to reset the form configuration?
           This will reset the attributes to their default group and disable ALL custom fields.
         upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "More information"
         nevermind: "Nevermind"
       edit:
@@ -1271,7 +1271,7 @@ en:
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
           title: 'Placeholder user'
-          title_no_ee: 'Placeholder user (Enterprise edition only feature)'
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Has no access to the project and no emails are sent out.'
           description_no_ee: 'Has no access to the project and no emails are sent out.
             <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
