@@ -1430,4 +1430,84 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
       end
     end
   end
+
+  context 'with a predecessor chain where the first has parent and child' do
+    let(:direct_predecessor) do
+      create(:work_package).tap do |pre|
+        create(:follows_relation, from: origin, to: pre)
+      end
+    end
+    let(:transitive_predecessor) do
+      create(:work_package, parent: transitive_predecessor_parent).tap do |pre|
+        create(:follows_relation, from: direct_predecessor, to: pre)
+      end
+    end
+    let(:transitive_predecessor_parent) do
+      create(:work_package)
+    end
+    let(:transitive_predecessor_child) do
+      create(:work_package, parent: transitive_predecessor)
+    end
+    let!(:existing_work_packages) do
+      [direct_predecessor, transitive_predecessor, transitive_predecessor_parent, transitive_predecessor_child]
+    end
+
+    context "for a 'parent' relation" do
+      let(:relation_type) { Relation::TYPE_PARENT }
+
+      it "contains the parent at the beginning of the chain" do
+        expect(relatable)
+          .to match_array [transitive_predecessor_parent]
+      end
+    end
+
+    context "for a 'child' relation" do
+      let(:relation_type) { Relation::TYPE_CHILD }
+
+      it "contains the child at the beginning of the chain" do
+        expect(relatable)
+          .to match_array [transitive_predecessor_child]
+      end
+    end
+  end
+
+  context 'with a successor chain where the last has parent and child' do
+    let(:direct_successor) do
+      create(:work_package).tap do |suc|
+        create(:follows_relation, to: origin, from: suc)
+      end
+    end
+    let(:transitive_successor) do
+      create(:work_package, parent: transitive_successor_parent).tap do |suc|
+        create(:follows_relation, to: direct_successor, from: suc)
+      end
+    end
+    let(:transitive_successor_parent) do
+      create(:work_package)
+    end
+    let(:transitive_successor_child) do
+      create(:work_package, parent: transitive_successor)
+    end
+    let!(:existing_work_packages) do
+      [direct_successor, transitive_successor, transitive_successor_parent, transitive_successor_child]
+    end
+
+    context "for a 'parent' relation" do
+      let(:relation_type) { Relation::TYPE_PARENT }
+
+      it "contains the parent at the beginning of the chain" do
+        expect(relatable)
+          .to match_array [transitive_successor_parent]
+      end
+    end
+
+    context "for a 'child' relation" do
+      let(:relation_type) { Relation::TYPE_CHILD }
+
+      it "contains the child at the beginning of the chain" do
+        expect(relatable)
+          .to match_array [transitive_successor_child]
+      end
+    end
+  end
 end

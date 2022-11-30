@@ -380,7 +380,7 @@ module WorkPackages::Scopes
             false from_to_id,
             related.includes_from_relation,
             related.includes_to_relation,
-            true includes_hierarchy
+            #{with_descendants ? 'work_package_hierarchies.descendant_id = related.id' : 'work_package_hierarchies.ancestor_id = related.id'} includes_hierarchy
           FROM
             work_package_hierarchies
           WHERE
