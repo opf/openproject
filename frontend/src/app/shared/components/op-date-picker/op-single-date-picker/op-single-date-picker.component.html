@@ -8,8 +8,9 @@
   [required]="required"
   [disabled]="disabled"
   (click)="openOnClick()"
+  (keydown.enter)="enterPressed.emit(dateValue)"
   (keydown.escape)="close()"
-  (blur)="closeOnOutsideClick($event)"
   (input)="onInputChange()"
+  (blur)="onBlurred($event)"
   type="text"
 >
