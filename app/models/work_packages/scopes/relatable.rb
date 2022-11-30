@@ -159,8 +159,6 @@ module WorkPackages::Scopes
       # * id - the id of the work packages currently related. This is the result of the CTE.
       # * from_(hierarchy/from_id/to_id) - booleans to prevent that the CTE returns back the path calculated in the previous
       #                                    iteration.
-      # * origin - boolean to indicate whether the work package is the queried for work package or its ancestor/descendant
-      #            (only descendant for PARENT). Such a work package is never a valid target.
       # * includes_(from_relation/to_relation) - booleans about the direction (from_id -> to_id or to_id -> from_id) of the path
       #                                          (the relations followed).
       #                                          This is relevant for a queried for PARENT relation. In that case, relations need
@@ -253,8 +251,7 @@ module WorkPackages::Scopes
                    from_to_id,
                    includes_from_relation,
                    includes_to_relation,
-                   includes_hierarchy,
-                   origin) AS (
+                   includes_hierarchy) AS (
 
               #{non_recursive_relatable_values(work_package, relation_type)}
 
@@ -267,8 +264,7 @@ module WorkPackages::Scopes
                 relations.from_to_id,
                 relations.includes_from_relation,
                 relations.includes_to_relation,
-                relations.includes_hierarchy,
-                relations.origin
+                relations.includes_hierarchy
               FROM
                 related
               JOIN LATERAL (
@@ -300,8 +296,7 @@ module WorkPackages::Scopes
             false from_to_id,
             false includes_from_relation,
             false includes_to_relation,
-            false includes_hierarchy,
-            true origin
+            false includes_hierarchy
           FROM
             work_package_hierarchies
           WHERE
@@ -355,8 +350,7 @@ module WorkPackages::Scopes
             #{false_on_canonical} from_to_id,
             related.includes_from_relation OR #{true_on_canonical} includes_from_relation,
             related.includes_to_relation OR #{false_on_canonical} includes_to_relation,
-            false includes_hierarchy,
-            false origin
+            false includes_hierarchy
           FROM
             relations
           WHERE (relations.#{direction2} = related.id AND relations.relation_type = :relation_type)
@@ -386,8 +380,7 @@ module WorkPackages::Scopes
             false from_to_id,
             related.includes_from_relation,
             related.includes_to_relation,
-            true includes_hierarchy,
-            false origin
+            true includes_hierarchy
           FROM
             work_package_hierarchies
           WHERE
