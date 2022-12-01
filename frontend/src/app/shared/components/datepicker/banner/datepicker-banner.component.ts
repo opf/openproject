@@ -98,7 +98,7 @@ export class DatepickerBannerComponent {
       )
       .subscribe((ids) => {
         const props = {
-          c: ['id', 'subject', 'type', 'status', 'assignee', 'project', 'createdAt'],
+          c: ['id', 'subject', 'type', 'status', 'assignee', 'project', 'startDate', 'dueDate'],
           t: 'id:asc',
           tv: true,
           hi: true,
