@@ -22,7 +22,7 @@ As usual, the release contains several bug fixes and we recommend updating to th
 
 ## Date alerts for the upcoming dates and overdue tasks
 
-The new OpenProject 12.4 release will bring notification date alerts for upcoming dates and overdue tasks (Enterprise add-on). Within the [Notification settings](.../docs/user-guide/notifications/notification-settings/) in My Account, automatic notifications for important dates and approaching dates can now be adjusted. This can be done for the open work packages you are involved in either as an assignee, accountable or watcher. A reminder can be set for 1 day, 3 days or a week before a start or a due date approaches. 
+The new OpenProject 12.4 release will bring notification date alerts for upcoming dates and overdue tasks (Enterprise add-on). Within the [Notification settings](../../user-guide/notifications/notification-settings/) in My Account, automatic notifications for important dates and approaching dates can now be adjusted. This can be done for the open work packages you are involved in either as an assignee, accountable or watcher. A reminder can be set for 1 day, 3 days or a week before a start or a due date approaches. 
 Same options are now available for the overdue work package reminders. 
 
 ![date-alerts-settings](openproject-date-alerts-settings.png)
@@ -34,7 +34,7 @@ The date alerts will appear in a dedicated section in the Notification center. R
 >**Please note**: If a date is due in two days and you set a reminder for three days ahead, you will not receive a notification. The notifications are updated automatically once a day.
 In case of overdue work packages, if a reminder is set to be sent for example every day and there already is a date alert notification for this work package in place (from the day before), the old one will be marked as read and replaced by the new notification with the updated overdue date.
 
-Date alerts are an Enterprise add-on and only available in the [Enterprise on-premises and Enterprise cloud](/enterprise-edition/) version of OpenProject.
+Date alerts are an Enterprise add-on and only available in the [Enterprise on-premises and Enterprise cloud](https://www.openproject.org/enterprise-edition) version of OpenProject.
 
 ## 2-factor Authetication (2FA) for the community ediiton
 
@@ -42,7 +42,7 @@ With OpenProject 12.4 users who have OpenProject community edition installed can
 
 ![two-factor-authentication](openproject-2-factor-authentication-community-edition-png)
 
-!See [here](...//getting-started/my-account/#two-factor-authentication) how to setup the 2FA under My account.
+!See [here](../../getting-started/my-account/#two-factor-authentication) how to setup the 2FA under My account.
 
 
 
@@ -60,13 +60,13 @@ Please double-check your existing LDAP connections and enable Verification of SS
 
 ## Work week for the team planner
 
-It is now possible to choose between a full 1-week view, a 2-week view or only the work week (depending on your Working days settings in the system's Administration) in the [team planner](.../docs/user-guide/team-planner/).
+It is now possible to choose between a full 1-week view, a 2-week view or only the work week (depending on your Working days settings in the system's Administration) in the [team planner](../../user-guide/team-planner/).
 
 ![selecting work week in team planner](openproject-team-planner-work-week.gif)
 
 ## OpenProject Helm Charts
 
-Starting with OpenProject 12.4 offical [OpenProject Helm charts](.../docs/installation-and-operations/installation/kubernetes/#helm) are availble.
+Starting with OpenProject 12.4 offical [OpenProject Helm charts](../../installation-and-operations/installation/kubernetes/#helm) are availble.
 
 ![openproject helm charts](openproject-helm-charts.jpg)
 
@@ -82,7 +82,7 @@ Users can now notify not only other users but themselves too via @mention. Notif
 
 ## Bulk edit work package "subject" field
 
-It is now possible to bulk edit the subject field for multiple work packages. See how to [bulk edit work packages](.../docs/user-guide/work-packages/edit-work-package/#bulk-edit-work-packages). 
+It is now possible to bulk edit the subject field for multiple work packages. See how to [bulk edit work packages](../../user-guide/work-packages/edit-work-package/#bulk-edit-work-packages). 
 
 ![openproject bulk edit work package subject field](openproject-bulk-edit-subject.png)
 
