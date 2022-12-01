@@ -46,7 +46,7 @@ export class EnterprisePageComponent {
   };
 
   image = {
-    enterprise_edition: imagePath('enterprise_edition.png'),
+    enterprise_edition: imagePath('enterprise-add-on.svg'),
   };
 
   constructor(
