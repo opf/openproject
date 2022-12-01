@@ -37,10 +37,12 @@ import {
 import {
   CalendarOptions,
   DateSelectArg,
+  EventClickArg,
   EventDropArg,
   EventInput,
+  ToolbarInput,
 } from '@fullcalendar/core';
-import { EventClickArg, FullCalendarComponent, ToolbarInput } from '@fullcalendar/angular';
+import { FullCalendarComponent } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
@@ -246,7 +248,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         el.style.removeProperty('pointer-events');
         this.removeBackGroundEvents();
       },
-      eventClick: (evt:EventClickArg) => {
+        eventClick: (evt:EventClickArg) => {
         const workPackageId = (evt.event.extendedProps.workPackage as WorkPackageResource).id as string;
         // Currently the calendar widget is shown on multiple pages,
         // but only the calendar module itself is a partitioned query space which can deal with a split screen request

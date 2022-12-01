@@ -38,14 +38,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  CalendarApi,
   CalendarOptions,
   DateSelectArg,
   EventApi,
   EventContentArg,
   EventDropArg,
   EventInput,
-  RawOptionsFromRefiners,
-  ViewOptionRefiners,
 } from '@fullcalendar/core';
 import {
   BehaviorSubject,
@@ -118,8 +117,14 @@ import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { RawOptionsFromRefiners } from '@fullcalendar/core/internal';
+import { ViewOptionRefiners } from '@fullcalendar/common';
+import {
+  ResourceApi,
+  ResourceLabelMountArg,
+} from '@fullcalendar/resource';
 
-export type TeamPlannerViewOptionKey = 'resourceTimelineWorkWeek' | 'resourceTimelineWeek' | 'resourceTimelineTwoWeeks';
+export type TeamPlannerViewOptionKey = 'resourceTimelineWorkWeek'|'resourceTimelineWeek'|'resourceTimelineTwoWeeks';
 export type TeamPlannerViewOptions = { [K in TeamPlannerViewOptionKey]:RawOptionsFromRefiners<Required<ViewOptionRefiners>> };
 
 @Component({
@@ -430,7 +435,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         const api = this.ucCalendar.getApi();
 
         // This also removes the skeleton resources that are rendered initially
-        api.getResources().forEach((resource) => resource.remove());
+        api.getResources().forEach((resource:ResourceApi) => resource.remove());
 
         principals.forEach((principal) => {
           const id = principal._links.self.href;
@@ -523,7 +528,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             resourceAreaWidth: this.isMobile ? '60px' : '180px',
             select: this.handleDateClicked.bind(this) as unknown,
             resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
-            resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
+            resourceLabelWillUnmount: (data:ResourceLabelMountArg) => this.unrenderTemplate(data.resource.id),
             // DnD configuration
             editable: true,
             droppable: true,
