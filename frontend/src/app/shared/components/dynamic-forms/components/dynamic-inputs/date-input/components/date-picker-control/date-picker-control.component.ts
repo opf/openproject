@@ -70,9 +70,8 @@ export class DatePickerControlComponent extends OpSingleDatePickerComponent impl
     this.onControlTouch();
   }
 
-  closeOnOutsideClick(/*event:MouseEvent*/):void {
-    // super.closeOnOutsideClick(event);
-    this.onControlTouch();
+  close():void {
+    super.close();
   }
 
   public parser(data:string):string|null {
