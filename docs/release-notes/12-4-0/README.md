@@ -16,7 +16,7 @@ This release launches a long awaited feature of **date alerts for upcoming due d
 
 With OpenProject 12.4 the **2-factor authentication feature becomes part of the Community edition** and adds an additional security layer to your application. Do not take long before you activate it. 
 
-Official **OpenProject HelmCharts** are available from now on. We also added the possibility of choosing a work week as opposed to 1 or 2 week view with the team planer. In addition, user can now tag themselves via @mentioned and can bulk edit the work-package field "subject". 
+Official **OpenProject HelmCharts** are available from now on. We also added the possibility of choosing a work week as opposed to 1 or 2 week view with the team planer. In addition, users can now tag themselves via @mentioned and can bulk edit the work-package field "subject". 
 
 As usual, the release contains several bug fixes and we recommend updating to the newest version.
 
@@ -66,7 +66,7 @@ It is now possible to choose between a full 1-week view, a 2-week view or only t
 
 ## OpenProject Helm Charts
 
-Starting with OpenProject 12.4 offical OpenProject Helm charts are availble.
+Starting with OpenProject 12.4 offical [OpenProject Helm charts](.../docs/installation-and-operations/installation/kubernetes/#helm) are availble.
 
 ![openproject helm charts](openproject-helm-charts.jpg)
 
