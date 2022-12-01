@@ -228,7 +228,7 @@ es:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "¡Conviértete en un héroe!"
-          enterprise_info_html: "%{feature_title} es una funcionalidad de la versión Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Actualice a un plan de pago para activarla y empiece a usarla en su equipo."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -249,7 +249,7 @@ es:
           link_quote: "Solicitar presupuesto"
           more_info: "Más información"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Ilimitado"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
@@ -280,7 +280,7 @@ es:
           one: "Primer criterio de ordenación"
           two: "Segundo criterio de ordenación"
           three: "Tercer criterio de ordenación"
-      upsale_for_more: "Los filtros avanzados te permiten también filtrar los nombres de los archivos y el contenido de los archivos adjuntos del paquete de trabajo. Por favor, actualice a un plan de pago para utilizar esta funcionalidad."
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
       upsale_link: 'Edición Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
@@ -633,8 +633,6 @@ es:
             title: 'Alertas de fecha'
             description: 'Notificaciones automáticas cuando se acercan fechas importantes para paquetes de trabajo abiertos en los que está involucrado (asignado, responsable u observador).'
             teaser_text: 'Con las alertas de fecha, recibirá notificaciones de próximas fechas de inicio o finalización para que nunca olvide una fecha límite importante.'
-          start_date: Fecha de inicio
-          due_date: Fecha de finalización
           overdue: Cuando vencido
         project_specific:
           title: 'Configuración de notificaciones específicas de proyectos'
@@ -710,7 +708,7 @@ es:
         confirm_reset: >
           Advertencia: ¿Está seguro de que quiere restablecer la configuración del formulario? Se restablecerán los atributos al grupo predeterminado y se deshabilitarán TODOS los campos personalizados.
         upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "Más información"
         nevermind: "No importa"
       edit:
@@ -857,7 +855,7 @@ es:
       zooms: "Nivel de zoom"
       outlines: "Nivel de jerarquía"
     upsale:
-      ee_only: 'Funcionalidad de la edición Enterprise'
+      ee_only: 'Enterprise edition add-on'
     wiki_formatting:
       strong: "Negrita"
       italic: "Cursiva"
@@ -1192,7 +1190,7 @@ es:
           description: 'Permisos basados en el rol asignado en el proyecto seleccionado'
         placeholder:
           title: 'Usuario de marcador de posición'
-          title_no_ee: 'Usuario de marcador de posición (funcionalidad solo edición Enterprise)'
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'No tiene acceso al proyecto y no se enviarán correos electrónicos.'
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:

@@ -49,7 +49,7 @@ lol:
         main-menu-border-color: "crwdns796362:0crwdne796362:0"
       custom_colors: "crwdns796364:0crwdne796364:0"
       customize: "crwdns823890:0crwdne823890:0"
-      enterprise_notice: "crwdns839355:0crwdne839355:0"
+      enterprise_notice: "crwdns839509:0crwdne839509:0"
       enterprise_more_info: "crwdns823892:0crwdne823892:0"
       manage_colors: "crwdns796370:0crwdne796370:0"
       instructions:
@@ -72,7 +72,7 @@ lol:
       replace_token: "crwdns796396:0crwdne796396:0"
       order: "crwdns839363:0crwdne839363:0"
       paste: "crwdns839365:0crwdne839365:0"
-      required_for_feature: "crwdns839367:0crwdne839367:0"
+      required_for_feature: "crwdns839511:0crwdne839511:0"
       enterprise_link: "crwdns796404:0crwdne796404:0"
       start_trial: 'crwdns796406:0crwdne796406:0'
       book_now: 'crwdns796408:0crwdne796408:0'
@@ -80,7 +80,7 @@ lol:
       buttons:
         upgrade: "crwdns810522:0crwdne810522:0"
         contact: "crwdns810524:0crwdne810524:0"
-      enterprise_info_html: "crwdns838473:0crwdne838473:0"
+      enterprise_info_html: "crwdns839513:0crwdne839513:0"
       upgrade_info: "crwdns810528:0crwdne810528:0"
     journal_aggregation:
       explanation:
@@ -305,7 +305,7 @@ lol:
       settings: "crwdns796654:0crwdne796654:0"
       form_configuration: "crwdns796656:0crwdne796656:0"
       more_info_text_html: >
-        crwdns839369:0%{list_styling_class}crwdne839369:0
+        crwdns839515:0%{list_styling_class}crwdne839515:0
       projects: "crwdns796658:0crwdne796658:0"
       enabled_projects: "crwdns796660:0crwdne796660:0"
       edit_query: "crwdns796662:0crwdne796662:0"
@@ -1245,11 +1245,11 @@ lol:
   ee:
     upsale:
       form_configuration:
-        description: "crwdns798010:0crwdne798010:0"
+        description: "crwdns839517:0crwdne839517:0"
         add_groups: "crwdns798012:0crwdne798012:0"
         rename_groups: "crwdns798014:0crwdne798014:0"
       project_filters:
-        description_html: "crwdns798016:0crwdne798016:0"
+        description_html: "crwdns839519:0crwdne839519:0"
   enumeration_activities: "crwdns798018:0crwdne798018:0"
   enumeration_work_package_priorities: "crwdns798020:0crwdne798020:0"
   enumeration_reported_project_statuses: "crwdns798022:0crwdne798022:0"
@@ -2580,11 +2580,11 @@ lol:
   text_custom_field_hint_activate_per_project_and_type: >
     crwdns800382:0crwdne800382:0
   text_wp_custom_field_html: >
-    crwdns839381:0crwdne839381:0
+    crwdns839521:0crwdne839521:0
   text_wp_status_read_only_html: >
-    crwdns839383:0crwdne839383:0
+    crwdns839523:0crwdne839523:0
   text_project_custom_field_html: >
-    crwdns839385:0crwdne839385:0
+    crwdns839525:0crwdne839525:0
   text_custom_logo_instructions: >
     crwdns800384:0crwdne800384:0
   text_custom_favicon_instructions: >

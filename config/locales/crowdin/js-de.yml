@@ -227,7 +227,7 @@ de:
           quick_overview: "Erhalten Sie einen schnellen Überblick über Projektmanagement und Teamzusammenarbeit mit der OpenProject Enterprise Edition."
         upsale:
           become_hero: "Werde zum Held!"
-          enterprise_info_html: "ist ein Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> Add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Bitte steigen Sie auf einen kostenpflichtigen Plan um, um dieses Add-on zu aktivieren und in Ihrem Team zu verwenden."
           benefits:
             description: "Was sind die Vorteile von Enterprise on-premises?"
@@ -248,7 +248,7 @@ de:
           link_quote: "Angebot anfordern"
           more_info: "Weitere Informationen"
           text: >
-            Die OpenProject Enterprise Edition baut auf der Community Edition auf. Sie umfasst Enterprise Add-ons und professionelle Unterstützung und richtet sich primär an Organisationen mit mehr als 10 Benutzern, die unternehmenskritische Projekte mit OpenProject verwalten.
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unbegrenzt"
           you_contribute: "Auch Software-Entwickler müssen ihre Rechnungen bezahlen. Durch ein Upgrade auf die Enterprise Edition unterstützen Sie diese Open-Source-Community und tragen zur Entwicklung, Wartung und kontinuierlichen Verbesserung von OpenProject bei."
     custom_actions:
@@ -279,7 +279,7 @@ de:
           one: "Erstes Sortierkriterium"
           two: "Zweites Sortierkriterium"
           three: "Drittes Sortierkriterium"
-      upsale_for_more: "Erweiterte Filter erlauben es Ihnen auch nach Dateinamen und Inhalten von Arbeitspaket-Anhängen zu filtern. Um diese Funktion zu nutzen, upgraden Sie bitte auf einen unserer kostenpflichtigen Enterprise-Pläne."
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
       upsale_link: 'Enterprise Edition'
     general_text_no: "nein"
     general_text_yes: "ja"
@@ -632,8 +632,6 @@ de:
             title: 'Datums-Erinnerungen'
             description: 'Automatische Benachrichtigungen, wenn wichtige Termine für offene Arbeitspakete bevorstehen, an denen Sie beteiligt (z. B. zugewiesen, verantwortlich oder Beobachter) sind.'
             teaser_text: 'Mit Datums-Erinnerungen werden Sie über bevorstehende Start- oder Endtermine informiert, so dass Sie nie einen wichtigen Termin verpassen oder übersehen.'
-          start_date: Anfangstermin
-          due_date: Endtermin
           overdue: Wenn überfällig
         project_specific:
           title: 'Projektspezifische Benachrichtigungseinstellungen'
@@ -709,7 +707,7 @@ de:
         confirm_reset: >
           Achtung: Wollen Sie die Formkonfiguration wirklich zurücksetzen? Alle Attribute und Gruppen werden auf ihre Standardwerte zurück gesetzt und ALLE benutzerdefinierten Felder entfernt.
         upgrade_to_ee: "Enterprise on-premises bestellen"
-        upgrade_to_ee_text: "Wow! Wenn du dieses Feature benötigst, bist du ein super Pro! Würdest du uns OpenProject-Entwickler unterstützen, indem du ein Enterprise Edition-Kunde wirst?"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "Weitere Informationen"
         nevermind: "Nein danke"
       edit:
@@ -856,7 +854,7 @@ de:
       zooms: "Zoomstufe"
       outlines: "Hierarchie-Stufe"
     upsale:
-      ee_only: 'Enterprise Add-on'
+      ee_only: 'Enterprise edition add-on'
     wiki_formatting:
       strong: "Fett"
       italic: "Kursiv"
@@ -1191,7 +1189,7 @@ de:
           description: 'Berechtigungen basierend auf der zugewiesenen Rolle im ausgewählten Projekt'
         placeholder:
           title: 'Platzhalter-Benutzer'
-          title_no_ee: 'Platzhalter-Benutzer (nur Enterprise Edition)'
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails verschickt.'
           description_no_ee: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails versendet. <br>Schau dir die <a href="%{eeHref}" target="_blank">Enterprise Edition an</a>'
       principal:

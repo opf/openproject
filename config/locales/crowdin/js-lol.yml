@@ -227,7 +227,7 @@ lol:
           quick_overview: "crwdns839391:0crwdne839391:0"
         upsale:
           become_hero: "crwdns804144:0crwdne804144:0"
-          enterprise_info_html: "crwdns838509:0%{feature_title}crwdne838509:0"
+          enterprise_info_html: "crwdns839527:0%{feature_title}crwdne839527:0"
           upgrade_info: "crwdns838511:0crwdne838511:0"
           benefits:
             description: "crwdns839393:0crwdne839393:0"
@@ -248,7 +248,7 @@ lol:
           link_quote: "crwdns804170:0crwdne804170:0"
           more_info: "crwdns825448:0crwdne825448:0"
           text: >
-            crwdns839397:0crwdne839397:0
+            crwdns839529:0crwdne839529:0
           unlimited: "crwdns804174:0crwdne804174:0"
           you_contribute: "crwdns839399:0crwdne839399:0"
     custom_actions:
@@ -279,7 +279,7 @@ lol:
           one: "crwdns804210:0crwdne804210:0"
           two: "crwdns804212:0crwdne804212:0"
           three: "crwdns804214:0crwdne804214:0"
-      upsale_for_more: "crwdns825450:0crwdne825450:0"
+      upsale_for_more: "crwdns839531:0crwdne839531:0"
       upsale_link: 'crwdns839401:0crwdne839401:0'
     general_text_no: "crwdns804220:0crwdne804220:0"
     general_text_yes: "crwdns804222:0crwdne804222:0"
@@ -632,8 +632,6 @@ lol:
             title: 'crwdns838581:0crwdne838581:0'
             description: 'crwdns839293:0crwdne839293:0'
             teaser_text: 'crwdns838585:0crwdne838585:0'
-          start_date: crwdns839349:0crwdne839349:0
-          due_date: crwdns839351:0crwdne839351:0
           overdue: crwdns839353:0crwdne839353:0
         project_specific:
           title: 'crwdns804750:0crwdne804750:0'
@@ -709,7 +707,7 @@ lol:
         confirm_reset: >
           crwdns804852:0crwdne804852:0
         upgrade_to_ee: "crwdns839403:0crwdne839403:0"
-        upgrade_to_ee_text: "crwdns839405:0crwdne839405:0"
+        upgrade_to_ee_text: "crwdns839533:0crwdne839533:0"
         more_information: "crwdns804858:0crwdne804858:0"
         nevermind: "crwdns804860:0crwdne804860:0"
       edit:
@@ -856,7 +854,7 @@ lol:
       zooms: "crwdns805118:0crwdne805118:0"
       outlines: "crwdns805120:0crwdne805120:0"
     upsale:
-      ee_only: 'crwdns839407:0crwdne839407:0'
+      ee_only: 'crwdns839535:0crwdne839535:0'
     wiki_formatting:
       strong: "crwdns805124:0crwdne805124:0"
       italic: "crwdns805126:0crwdne805126:0"
@@ -1191,7 +1189,7 @@ lol:
           description: 'crwdns805654:0crwdne805654:0'
         placeholder:
           title: 'crwdns805656:0crwdne805656:0'
-          title_no_ee: 'crwdns839411:0crwdne839411:0'
+          title_no_ee: 'crwdns839537:0crwdne839537:0'
           description: 'crwdns805660:0crwdne805660:0'
           description_no_ee: 'crwdns839413:0%{eeHref}crwdne839413:0'
       principal:

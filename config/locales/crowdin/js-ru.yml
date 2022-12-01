@@ -227,7 +227,7 @@ ru:
           quick_overview: "Узнайте вкратце об управлении проектами и совместной работе в OpenProject корпоративной версии."
         upsale:
           become_hero: "Стать героем!"
-          enterprise_info_html: "%{feature_title} является корпоративной <span class='spot-icon spot-icon_enterprise-badge'></span> функцией."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
           benefits:
             description: "Каковы преимущества корпоративной версии?"
@@ -248,7 +248,7 @@ ru:
           link_quote: "Оценка стоимости"
           more_info: "Больше информации"
           text: >
-            Корпоративная версия OpenProject построена поверх версии Сообщества. В него входят дополнения к предприятиям и профессиональная поддержка, ориентированная главным образом на организации с более чем 10 пользователями, которые управляют критически важными для бизнеса проектами с помощью OpenProject.
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Без ограничений"
           you_contribute: "Разработчикам тоже нужно оплачивать счета. Обновившись до корпоративной версии вы поддержите это сообщество с открытым исходным кодом и внесете свой вклад в его разработку, обслуживание и постоянное совершенствование."
     custom_actions:
@@ -279,7 +279,7 @@ ru:
           one: "Первый критерий сортировки"
           two: "Второй критерий сортировки"
           three: "Третий критерий сортировки"
-      upsale_for_more: "Расширенные фильтры позволяют также фильтровать имена файлов и содержимое вложений пакета работ. Пожалуйста, перейдите на платный тарифный план, чтобы использовать эту функцию."
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
       upsale_link: 'Корпоративная версия.'
     general_text_no: "нет"
     general_text_yes: "Да"
@@ -634,8 +634,6 @@ ru:
             title: 'Дата оповещения'
             description: 'Автоматическое уведомление, когда приближаются важные даты открытия пакетов работ, в которых вы участвуете (назначение, подотчетность или наблюдатель).'
             teaser_text: 'С уведомлениями о дате вы будете уведомлены о датах начала или окончания предстоящих дат, чтобы вы никогда не пропустили или не забыли важный срок.'
-          start_date: Дата начала
-          due_date: Дата окончания
           overdue: Когда просрочено
         project_specific:
           title: 'Конкретные настройки уведомлений проекта'
@@ -711,7 +709,7 @@ ru:
         confirm_reset: >
           Предупреждение: хотите сбросить форму? Это сбросит атрибуты к первоначальным значениям группы и запретит правку настраиваемых полей.
         upgrade_to_ee: "Обновление до корпоративной версии"
-        upgrade_to_ee_text: "Ух ты! Если вам нужна эта функция, вы – супер профессионал! Не хотите поддержать OpenSource разработчиков, став клиентом корпоративной версии?"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "Больше информации"
         nevermind: "Неважно"
       edit:
@@ -858,7 +856,7 @@ ru:
       zooms: "Масштаб"
       outlines: "Уровень иерархии"
     upsale:
-      ee_only: 'Этот функционал только в корпоративной версии'
+      ee_only: 'Enterprise edition add-on'
     wiki_formatting:
       strong: "Жирный"
       italic: "Наклонный"
@@ -1197,7 +1195,7 @@ ru:
           description: 'Права доступа, основанные на назначенной роли в выбранном проекте'
         placeholder:
           title: 'Пользователь-заполнитель'
-          title_no_ee: 'Пользователь-заполнитель (только для корпоративной версии)'
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Нет доступа к проекту и письма не отправляются.'
           description_no_ee: 'Нет доступа к проекту и письма не отправляются. <br>Попробуйте <a href="%{eeHref}" target="_blank">корпоративную версию</a>'
       principal:
