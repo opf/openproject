@@ -171,9 +171,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
       return true;
     }
 
-    if (this.isEditable) {
-      this.handleUserActivate(event);
-    }
+    this.handleUserActivate(event);
 
     this.opContextMenu.close();
     event.preventDefault();
@@ -192,6 +190,10 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   }
 
   public handleUserActivate(evt:MouseEvent|KeyboardEvent|null):boolean {
+    if (!this.isEditable) {
+      return false;
+    }
+
     let positionOffset = 0;
 
     // This can be both a direct click as well as a "click" via keyboard, e.g. the <Enter> key.

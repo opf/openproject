@@ -234,7 +234,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:type) { 'Integer' }
         let(:name) { custom_field.name }
         let(:required) { false }
-        let(:writable) { true }
+        let(:writable) { false }
       end
     end
 
