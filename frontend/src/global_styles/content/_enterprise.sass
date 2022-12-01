@@ -57,6 +57,11 @@
 .enterprise-addons--button-icon
   font-size: 1rem !important
 
+:has(.hide_breadcrumb)
+  #breadcrumb:has(:not(.-show))
+    display: block
+    visibility: hidden
+
 .spot-icon_enterprise-addons
   color: $spot-color-feedback-warning-dark
 
