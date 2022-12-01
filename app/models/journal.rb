@@ -56,6 +56,9 @@ class Journal < ApplicationRecord
   # logs like the history on issue#show
   scope :changing, -> { where(['version > 1']) }
 
+  scope :for_wiki_content, -> { where(journable_type: "WikiContent") }
+  scope :for_work_package, -> { where(journable_type: "WorkPackage") }
+
   # In conjunction with the included Comparable module, allows comparison of journal records
   # based on their corresponding version numbers, creation timestamps and IDs.
   def <=>(other)
@@ -92,11 +95,11 @@ class Journal < ApplicationRecord
   end
 
   def new_value_for(prop)
-    details[prop].last if details.keys.include? prop
+    details[prop].last if details.key? prop
   end
 
   def old_value_for(prop)
-    details[prop].first if details.keys.include? prop
+    details[prop].first if details.key? prop
   end
 
   def previous
