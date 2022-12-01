@@ -80,7 +80,7 @@ lt:
       buttons:
         upgrade: "Užsisakykite dabar"
         contact: "Susisiekite su mumis dėl demonstracijos"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> add-on."
       upgrade_info: "Prašome atsinaujinti į mokamą planą, kad aktyvuotumėte ir pradėtumėte ji naudoti savo komandoje."
     journal_aggregation:
       explanation:
@@ -1298,7 +1298,7 @@ lt:
         add_groups: "Pridėti naujas atributų grupes"
         rename_groups: "Pervadinti atributų grupes"
       project_filters:
-        description_html: "Filtravimas ir rikiavimas pagal pritaikytus laukus yra tik Enterprise edition galimybė."
+        description_html: "Filtering and sorting on custom fields is an enterprise edition add-on."
   enumeration_activities: "Laiko sekimo veiklos"
   enumeration_work_package_priorities: "Darbų paketo prioritetai"
   enumeration_reported_project_statuses: "Pranešta projekto būsena"

@@ -80,7 +80,7 @@ lol:
       buttons:
         upgrade: "crwdns655649:0crwdne655649:0"
         contact: "crwdns655651:0crwdne655651:0"
-      enterprise_info_html: "crwdns836929:0crwdne836929:0"
+      enterprise_info_html: "crwdns839501:0crwdne839501:0"
       upgrade_info: "crwdns655655:0crwdne655655:0"
     journal_aggregation:
       explanation:
@@ -1249,7 +1249,7 @@ lol:
         add_groups: "crwdns496575:0crwdne496575:0"
         rename_groups: "crwdns496577:0crwdne496577:0"
       project_filters:
-        description_html: "crwdns496579:0crwdne496579:0"
+        description_html: "crwdns839503:0crwdne839503:0"
   enumeration_activities: "crwdns496581:0crwdne496581:0"
   enumeration_work_package_priorities: "crwdns496583:0crwdne496583:0"
   enumeration_reported_project_statuses: "crwdns496585:0crwdne496585:0"

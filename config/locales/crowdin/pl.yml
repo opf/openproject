@@ -80,7 +80,7 @@ pl:
       buttons:
         upgrade: "Zmień plan teraz"
         contact: "Skontaktuj się z nami, aby uzyskać demo"
-      enterprise_info_html: "jest funkcją wersji Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> add-on."
       upgrade_info: "Aby ją aktywować i zacząć korzystać z niej w zespole, przejdź na plan płatny."
     journal_aggregation:
       explanation:
@@ -1298,7 +1298,7 @@ pl:
         add_groups: "Dodaj nowe grupy atrybutów"
         rename_groups: "Zmień grupy atrybutów"
       project_filters:
-        description_html: "Filtrowanie i sortowanie pól niestandardowych jest funkcją edycji enterprise."
+        description_html: "Filtering and sorting on custom fields is an enterprise edition add-on."
   enumeration_activities: "Działania śledzenia czasu"
   enumeration_work_package_priorities: "Priorytety pakietów roboczych"
   enumeration_reported_project_statuses: "Status zgłoszonego projektu"

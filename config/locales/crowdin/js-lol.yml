@@ -227,7 +227,7 @@ lol:
           quick_overview: "crwdns839459:0crwdne839459:0"
         upsale:
           become_hero: "crwdns787162:0crwdne787162:0"
-          enterprise_info_html: "crwdns838379:0%{feature_title}crwdne838379:0"
+          enterprise_info_html: "crwdns839505:0%{feature_title}crwdne839505:0"
           upgrade_info: "crwdns838381:0crwdne838381:0"
           benefits:
             description: "crwdns839461:0crwdne839461:0"
@@ -856,7 +856,7 @@ lol:
       zooms: "crwdns788138:0crwdne788138:0"
       outlines: "crwdns788140:0crwdne788140:0"
     upsale:
-      ee_only: 'crwdns839475:0crwdne839475:0'
+      ee_only: 'crwdns839507:0crwdne839507:0'
     wiki_formatting:
       strong: "crwdns788144:0crwdne788144:0"
       italic: "crwdns788146:0crwdne788146:0"
