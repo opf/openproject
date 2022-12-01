@@ -131,27 +131,6 @@ describe 'OpenID Connect',
       end
     end
 
-    context 'with a preferred_username claim and mapping' do
-      let(:user_info) do
-        {
-          sub: '87117114115116',
-          name: 'Hans Wurst',
-          email: 'h.wurst@finn.de',
-          given_name: 'Hans',
-          family_name: 'Wurst',
-          preferred_username: 'h.wurst'
-        }
-      end
-
-      it 'maps to the login' do
-        click_on_signin
-        redirect_from_provider
-
-        user = User.find_by(login: 'h.wurst')
-        expect(user).to be_present
-      end
-    end
-
     context 'with a custom claim and mapping' do
       let(:user_info) do
         {
