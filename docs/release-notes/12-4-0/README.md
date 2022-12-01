@@ -40,7 +40,7 @@ Date alerts are an Enterprise add-on and only available in the [Enterprise on-pr
 
 With OpenProject 12.4 users who have OpenProject community edition installed can activate 2-factor authentication. We strongly recommend that you make use of this option and increase your account security. 
 
-![two-factor-authentication](openproject-2-factor-authentication-community-edition-png)
+![two-factor-authentication](openproject-2-factor-authentication-community-edition.png)
 
 !See [here](../../getting-started/my-account/#two-factor-authentication) how to setup the 2FA under My account.
 
