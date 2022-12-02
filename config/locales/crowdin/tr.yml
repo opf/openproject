@@ -49,7 +49,7 @@ tr:
         main-menu-border-color: "Ana menü kenarlığı"
       custom_colors: "Özel renkler"
       customize: "OpenProject kurulumunuzu kendi logonuz ve renklerinizle özelleştirin."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise edition support subscribers."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Not: Kullanılan logo herkese açık olacaktır."
       manage_colors: "Renk seçim seçeneklerini düzenle"
       instructions:
@@ -72,7 +72,7 @@ tr:
       replace_token: "Geçerli destek anahtarını değiştirin"
       order: "Order Enterprise on-premises edition"
       paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This feature is only available with an active Enterprise edition support token."
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Daha fazla bilgi için burayı tıklatın."
       start_trial: 'Deneme sürümüne başla'
       book_now: 'Şimdi rezervasyon yaptırın'
@@ -80,7 +80,7 @@ tr:
       buttons:
         upgrade: "Hemen Yükselt"
         contact: "Demo için bizimle iletişime geçin"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> add-on."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Etkinleştirmek ve ekibinizde kullanmaya başlamak için lütfen ücretli bir plana yükseltin."
     journal_aggregation:
       explanation:
@@ -322,7 +322,7 @@ tr:
       settings: "Ayarlar"
       form_configuration: "Formu yapılandırma"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projeler"
       enabled_projects: "Etkin projeler"
       edit_query: "Tabloyu düzenle"
@@ -1263,11 +1263,11 @@ tr:
   ee:
     upsale:
       form_configuration:
-        description: "Form yapılandırmasını bu ek özelliklerle kullanın:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Yeni öznitelik grubu ekleyin"
         rename_groups: "Öznitelik grubunun adını değiştirin"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition add-on."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Zaman izleme faaliyetleri"
   enumeration_work_package_priorities: "İş paketi öncelikleri"
   enumeration_reported_project_statuses: "Bildirilen proje durumları"
@@ -2611,11 +2611,11 @@ tr:
   text_custom_field_hint_activate_per_project_and_type: >
     Özel alanların iş paketi türü ve proje bazında aktive edilmesi gerekiyor.
   text_wp_custom_field_html: >
-    The Enterprise edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Saydam arka plan üzerinde beyaz bir logo önerilir. Hem geleneksel en iyi sonuçları almak ve retina görüntüler için resm boyutlarının 60px ye 460px olduğundan emin olun.
   text_custom_favicon_instructions: >

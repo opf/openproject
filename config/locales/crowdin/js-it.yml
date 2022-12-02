@@ -228,7 +228,7 @@ it:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Diventa un eroe!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -249,7 +249,7 @@ it:
           link_quote: "Richiedi un preventivo"
           more_info: "Ulteriori informazioni"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Illimitato"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
@@ -280,7 +280,7 @@ it:
           one: "Primo criterio di ordinamento"
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
-      upsale_for_more: "I filtri avanzati consentono di filtrare anche i nomi dei file e il contenuto degli allegati delle macro-attività. Esegui l'upgrade a un piano a pagamento per utilizzare questa funzione."
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "no"
     general_text_yes: "si"
@@ -633,8 +633,6 @@ it:
             title: 'Avvisi data'
             description: 'Notifiche automatiche quando si avvicinano date importanti per le macro-attività aperte in cui sei coinvolto (assegnatario, responsabile od osservatore)'
             teaser_text: 'Con gli avvisi sulle date, sarai avvisato delle prossime date di inizio o di fine in modo da non perdere mai o dimenticare una scadenza importante.'
-          start_date: Data di inizio
-          due_date: Data di fine
           overdue: When overdue
         project_specific:
           title: 'Impostazioni di notifica specifiche del progetto'
@@ -710,7 +708,7 @@ it:
         confirm_reset: >
           Attenzione: vuoi reimpostare la configurazione del modulo? Tutti gli attributi torneranno al loro gruppo predefinito e TUTTI i campi personalizzati verranno disattivati.
         upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "Altre informazioni"
         nevermind: "Lascia stare"
       edit:
@@ -1192,7 +1190,7 @@ it:
           description: 'I permessi basati sul ruolo assegnato nel progetto selezionato'
         placeholder:
           title: 'Utente segnaposto'
-          title_no_ee: 'Placeholder user (Enterprise edition only feature)'
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Non ha accesso al progetto e non è inviata alcuna email.'
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:

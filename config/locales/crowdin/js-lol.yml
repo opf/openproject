@@ -227,7 +227,7 @@ lol:
           quick_overview: "crwdns839459:0crwdne839459:0"
         upsale:
           become_hero: "crwdns787162:0crwdne787162:0"
-          enterprise_info_html: "crwdns839505:0%{feature_title}crwdne839505:0"
+          enterprise_info_html: "crwdns839569:0%{feature_title}crwdne839569:0"
           upgrade_info: "crwdns838381:0crwdne838381:0"
           benefits:
             description: "crwdns839461:0crwdne839461:0"
@@ -248,7 +248,7 @@ lol:
           link_quote: "crwdns787188:0crwdne787188:0"
           more_info: "crwdns825474:0crwdne825474:0"
           text: >
-            crwdns839465:0crwdne839465:0
+            crwdns839571:0crwdne839571:0
           unlimited: "crwdns787192:0crwdne787192:0"
           you_contribute: "crwdns839467:0crwdne839467:0"
     custom_actions:
@@ -279,7 +279,7 @@ lol:
           one: "crwdns787230:0crwdne787230:0"
           two: "crwdns787232:0crwdne787232:0"
           three: "crwdns787234:0crwdne787234:0"
-      upsale_for_more: "crwdns825476:0crwdne825476:0"
+      upsale_for_more: "crwdns839573:0crwdne839573:0"
       upsale_link: 'crwdns839469:0crwdne839469:0'
     general_text_no: "crwdns787240:0crwdne787240:0"
     general_text_yes: "crwdns787242:0crwdne787242:0"
@@ -632,8 +632,6 @@ lol:
             title: 'crwdns836468:0crwdne836468:0'
             description: 'crwdns839335:0crwdne839335:0'
             teaser_text: 'crwdns836995:0crwdne836995:0'
-          start_date: crwdns839337:0crwdne839337:0
-          due_date: crwdns839339:0crwdne839339:0
           overdue: crwdns839341:0crwdne839341:0
         project_specific:
           title: 'crwdns787770:0crwdne787770:0'
@@ -709,7 +707,7 @@ lol:
         confirm_reset: >
           crwdns787872:0crwdne787872:0
         upgrade_to_ee: "crwdns839471:0crwdne839471:0"
-        upgrade_to_ee_text: "crwdns839473:0crwdne839473:0"
+        upgrade_to_ee_text: "crwdns839575:0crwdne839575:0"
         more_information: "crwdns787878:0crwdne787878:0"
         nevermind: "crwdns787880:0crwdne787880:0"
       edit:
@@ -1191,7 +1189,7 @@ lol:
           description: 'crwdns788674:0crwdne788674:0'
         placeholder:
           title: 'crwdns788676:0crwdne788676:0'
-          title_no_ee: 'crwdns839479:0crwdne839479:0'
+          title_no_ee: 'crwdns839577:0crwdne839577:0'
           description: 'crwdns788680:0crwdne788680:0'
           description_no_ee: 'crwdns839481:0%{eeHref}crwdne839481:0'
       principal:

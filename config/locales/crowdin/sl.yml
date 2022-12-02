@@ -49,7 +49,7 @@ sl:
         main-menu-border-color: "Meja glavnega menija"
       custom_colors: "Barve po meri"
       customize: "Customize your OpenProject installation with your own logo and colors."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise edition support subscribers."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Uredi možnosti izbire barve"
       instructions:
@@ -72,7 +72,7 @@ sl:
       replace_token: "Zamenjajte svoj trenutni podporni žeton"
       order: "Order Enterprise on-premises edition"
       paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This feature is only available with an active Enterprise edition support token."
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Za več informacij kliknite tukaj."
       start_trial: 'Začnite z brezplačno preizkusno dobo'
       book_now: 'Rezerviraj'
@@ -80,7 +80,7 @@ sl:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> add-on."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
@@ -320,7 +320,7 @@ sl:
       settings: "Nastavitve"
       form_configuration: "Konfiguracija obrazca"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekti"
       enabled_projects: "Omogočeni projekti"
       edit_query: "Uredi tabelo"
@@ -1294,11 +1294,11 @@ sl:
   ee:
     upsale:
       form_configuration:
-        description: "Prilagodite konfiguracijo obrazca s temi dodatnimi funkcijami:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Dodajte nove skupine atributov"
         rename_groups: "Preimenujte skupine atributov"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition add-on."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Dejavnosti spremljanja časa"
   enumeration_work_package_priorities: "Prednostne naloge delovnega paketa"
   enumeration_reported_project_statuses: "Poročano stanje projekta"
@@ -2645,11 +2645,11 @@ sl:
   text_custom_field_hint_activate_per_project_and_type: >
     Polja po meri je treba aktivirati  za vrsto delovnega paketa in za projekt.
   text_wp_custom_field_html: >
-    The Enterprise edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Priporočljiv je bel logotip na transparentnem ozadju. Za najboljše rezultate na običajnih zaslonih in mrežnici se prepričajte, da so dimenzije vaše slike 460px za 60px.
   text_custom_favicon_instructions: >
