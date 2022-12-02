@@ -72,7 +72,7 @@ de:
       replace_token: "Aktuellen Enterprise-Edition Support Token ersetzen"
       order: "Enterprise on-premises bestellen"
       paste: "Enterprise-Edition Support Token hier einfügen"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      required_for_feature: "Dieses Add-on ist nur mit einem aktiven Enterprise-Edition Support-Token verfügbar."
       enterprise_link: "Klicken Sie hier für weitere Informationen."
       start_trial: 'Kostenlose Testversion starten'
       book_now: 'Jetzt buchen'
