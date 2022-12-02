@@ -29,6 +29,8 @@ export class EnterprisePageComponent {
 
   @Input() public more_info:string;
 
+  @Input() public hide_breadcrumb = false;
+
   text = {
     button_contact_us: this.I18n.t('js.admin.enterprise.upsale.button_contact_us'),
     upgrade: this.I18n.t('js.admin.enterprise.upsale.button_upgrade'),
@@ -46,7 +48,7 @@ export class EnterprisePageComponent {
   };
 
   image = {
-    enterprise_edition: imagePath('enterprise_edition.png'),
+    enterprise_edition: imagePath('enterprise-add-on.svg'),
   };
 
   constructor(

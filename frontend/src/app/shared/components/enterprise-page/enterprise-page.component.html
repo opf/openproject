@@ -1,4 +1,5 @@
-<div class="upsale-notification">
+<div class="upsale-notification" 
+    [ngClass]="{ 'upsale-notification_hide-breadcrumb': hide_breadcrumb }">
   <h2 [textContent]="feature_title"></h2>
     <p *ngIf="feature_description">{{feature_description}}</p>
     <p *ngIf="!feature_description" class="upsale--feature-reference">

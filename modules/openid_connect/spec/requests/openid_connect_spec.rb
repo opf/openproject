@@ -131,7 +131,7 @@ describe 'OpenID Connect',
       end
     end
 
-    context 'with a preferred_username claim' do
+    context 'with a custom claim and mapping' do
       let(:user_info) do
         {
           sub: '87117114115116',
@@ -139,15 +139,27 @@ describe 'OpenID Connect',
           email: 'h.wurst@finn.de',
           given_name: 'Hans',
           family_name: 'Wurst',
-          preferred_username: 'h.wurst'
+          foobar: 'a.truly.random.value'
         }
+      end
+
+      before do
+        allow(Setting).to receive(:plugin_openproject_openid_connect).and_return(
+          'providers' => {
+            'heroku' => {
+              'attribute_map' => { login: :foobar },
+              'identifier' => 'does not',
+              'secret' => 'matter'
+            }
+          }
+        )
       end
 
       it 'maps to the login' do
         click_on_signin
         redirect_from_provider
 
-        user = User.find_by(login: 'h.wurst')
+        user = User.find_by(login: 'a.truly.random.value')
         expect(user).to be_present
       end
     end
