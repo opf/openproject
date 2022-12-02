@@ -934,7 +934,7 @@ GEM
     test-prof (1.0.11)
     thor (1.2.1)
     tilt (2.0.11)
-    timecop (0.9.5)
+    timecop (0.9.6)
     timeout (0.3.0)
     trailblazer-option (0.1.2)
     ttfunk (1.7.0)
