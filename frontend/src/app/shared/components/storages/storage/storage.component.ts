@@ -201,8 +201,6 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   private instantiateStorageInformation(fileLinks:IFileLink[]):StorageInformationBox[] {
-    // ToDo: Replace with anonymous user capabilities check.
-    // https://community.openproject.org/projects/openproject/work_packages/44850/activity
     if (!this.isLoggedIn) {
       return [];
     }

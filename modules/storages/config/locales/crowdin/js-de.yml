@@ -4,13 +4,13 @@ de:
     storages:
       link_files_in_storage: "Verknüpfen Sie Dateien in %{storageType}"
       link_existing_files: "Vorhandene Dateien verknüpfen"
-      upload_files: "Upload files"
+      upload_files: "Dateien hochladen"
       login: "%{storageType} Login"
       login_to: "Bei %{storageType} anmelden"
       no_connection: "Keine %{storageType} Verbindung"
       open_storage: "Öffne %{storageType}"
-      select_location: "Select location"
-      choose_location: "Choose location"
+      select_location: "Speicherort auswählen"
+      choose_location: "Speicherort wählen"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -32,11 +32,11 @@ de:
           Sind Sie sicher, dass Sie die Verknüpfung der Datei aus diesem Arbeitspaket entfernen möchten? Das Entfernen der Verknüpfung wirkt sich nicht auf die Originaldatei aus und entfernt nur die Verbindung zu diesem Arbeitspaket.
         remove_short: "Link entfernen"
         select: "Dateien auswählen"
-        select_all: "Select all"
+        select_all: "Alle auswählen"
         selection:
-          zero: "Select files to link"
-          one: "Link 1 file"
-          other: "Link %{count} files"
+          zero: "Dateien zum Verlinken auswählen"
+          one: "Eine Datei verknüpfen"
+          other: "%{count} Dateien verknüpfen"
         not_allowed_tooltip: "Bitte melden Sie sich bei Nextcloud an, um auf diese Datei zuzugreifen"
-        already_linked_file: "This file is already linked to this work package."
-        already_linked_directory: "This directory is already linked to this work package."
+        already_linked_file: "Die Datei ist bereits mit diesem Arbeitspaket verknüpft."
+        already_linked_directory: "Das Verzeichnis ist bereits mit diesem Arbeitspaket verknüpft."

@@ -28,11 +28,11 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class FilesQuery < Storages::Peripherals::StorageInteraction::StorageQuery
-    def initialize(base_uri:, token:, with_refreshed_token:)
+    def initialize(base_uri:, token:, retry_proc:)
       super()
       @uri = base_uri
       @token = token
-      @with_refreshed_token = with_refreshed_token
+      @retry_proc = retry_proc
       @base_path = "/remote.php/dav/files/#{token.origin_user_id}"
     end
 
@@ -40,7 +40,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       http = Net::HTTP.new(@uri.host, @uri.port)
       http.use_ssl = @uri.scheme == 'https'
 
-      result = @with_refreshed_token.call(@token) do |token|
+      result = @retry_proc.call(@token) do |token|
         response = http.propfind(
           "#{@base_path}#{requested_folder(parent)}",
           requested_properties,
@@ -84,12 +84,19 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def error(response)
       case response
       when Net::HTTPNotFound
-        ServiceResult.failure(result: :not_found)
+        error_result(:not_found)
       when Net::HTTPUnauthorized
-        ServiceResult.failure(result: :not_authorized)
+        error_result(:not_authorized)
       else
-        ServiceResult.failure(result: :error)
+        error_result(:error)
       end
+    end
+
+    def error_result(code, log_message = nil, data = nil)
+      ServiceResult.failure(
+        result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
+        errors: Storages::StorageError.new(code:, log_message:, data:)
+      )
     end
 
     def storage_files(response)

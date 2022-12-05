@@ -10,6 +10,7 @@ import { ProjectResource } from 'core-app/features/hal/resources/project-resourc
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { MAGIC_PAGE_NUMBER } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
 @Component({
   templateUrl: './subprojects.component.html',
@@ -65,6 +66,7 @@ export class WidgetSubprojectsComponent extends AbstractWidgetComponent implemen
     return {
       sortBy: [['name', 'asc']],
       filters: [['parent_id', '=', [this.currentProject.id!]]],
+      pageSize: MAGIC_PAGE_NUMBER,
     };
   }
 }

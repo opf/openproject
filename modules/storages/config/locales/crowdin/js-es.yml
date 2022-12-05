@@ -4,13 +4,13 @@ es:
     storages:
       link_files_in_storage: "Enlace archivos en %{storageType}"
       link_existing_files: "Enlazar archivos existentes"
-      upload_files: "Upload files"
+      upload_files: "Subir archivos"
       login: "%{storageType} iniciar sesión"
       login_to: "Iniciar sesión en %{storageType}"
       no_connection: "No hay conexión para %{storageType}"
       open_storage: "Abrir %{storageType}"
-      select_location: "Select location"
-      choose_location: "Choose location"
+      select_location: "Seleccionar ubicación"
+      choose_location: "Seleccionar ubicación"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -34,9 +34,9 @@ es:
         select: "Seleccionar archivos"
         select_all: "Seleccionar todo"
         selection:
-          zero: "Select files to link"
-          one: "Link 1 file"
-          other: "Link %{count} files"
+          zero: "Seleccionar archivos a enlazar"
+          one: "Enlazar 1 archivo"
+          other: "Enlazar %{count} archivos"
         not_allowed_tooltip: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"
         already_linked_file: "El archivo ya está vinculado a este paquete de trabajo."
         already_linked_directory: "El directorio ya está vinculado a este paquete de trabajo."

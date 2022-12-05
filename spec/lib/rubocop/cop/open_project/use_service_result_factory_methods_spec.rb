@@ -26,10 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'rubocop'
-require 'rubocop/rspec/shared_contexts'
 require 'spec_helper'
-require 'rubocop/rspec/support'
 require 'rubocop/cop/open_project/use_service_result_factory_methods'
 
 RSpec.describe RuboCop::Cop::OpenProject::UseServiceResultFactoryMethods do

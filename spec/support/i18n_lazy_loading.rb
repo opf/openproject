@@ -56,6 +56,11 @@ module I18nLazyLoading
       I18nLazyLoading.load_locale(locale)
       super
     end
+
+    def t(*args, **options)
+      I18nLazyLoading.load_locale(options[:locale]) if options[:locale]
+      super
+    end
   end
 
   def self.install

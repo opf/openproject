@@ -253,7 +253,7 @@ describe 'custom field inplace editor', js: true do
       expect(work_package.custom_value_for(custom_field.id).formatted_value).to eq '03/30/2021'
 
       field.activate!
-      field.clear
+      field.clear with_backspace: true
       field.submit_by_enter
 
       field.expect_state_text '-'

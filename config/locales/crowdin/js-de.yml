@@ -227,28 +227,28 @@ de:
           quick_overview: "Erhalten Sie einen schnellen Überblick über Projektmanagement und Teamzusammenarbeit mit der OpenProject Enterprise Edition."
         upsale:
           become_hero: "Werde zum Held!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
-          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          enterprise_info_html: "%{feature_title} ist ein Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> Add-on."
+          upgrade_info: "Bitte steigen Sie auf einen kostenpflichtigen Plan um, um dieses Add-on zu aktivieren und in Ihrem Team zu verwenden."
           benefits:
             description: "Was sind die Vorteile von Enterprise on-premises?"
             high_security: "Sicherheitsfunktionen"
-            high_security_text: "Single Sign on (SAML, OpenID Connect, CAS), Zwei-Faktor-Authentifizierung und automatische Synchronisation von LDAP-Gruppen."
+            high_security_text: "Single Sign on (SAML, OpenID Connect, CAS), LDAP Gruppen."
             installation: "Installations-Support"
             installation_text: "Erfahrene Software-Ingenieure führen Sie durch den gesamten Installations- und Einrichtungsprozess in Ihrer eigenen Infrastruktur."
-            premium_features: "Premiumfunktionen"
+            premium_features: "Enterprise Add-ons"
             premium_features_text: "Agile Boards, benutzerdefinierte Farben und Logo, Graphen, intelligente Workflows mit benutzerdefinierten Aktionen, Volltextsuche für Anhänge von Arbeitspaketen und Mehrfachauswahl benutzerdefinierter Felder."
             professional_support: "Professioneller Support"
             professional_support_text: "Sie bekommen zuverlässigen und persönlichen Support von Experten, die sich mit dem Einsatz von OpenProject in geschäftskritischen Umgebungen auskennen."
           button_start_trial: "Kostenlose Testversion starten"
           button_upgrade: "Jetzt Upgrade durchführen"
-          button_contact_us: "Contact us for a demo"
+          button_contact_us: "Kontaktieren Sie uns für eine Demo"
           button_book_now: "Jetzt buchen"
           confidence: >
             OpenProject bietet eine bewährte und hoch-skalierbare Projektmanagement-Software für Unternehmen - mit Open Source und open mind.
           link_quote: "Angebot anfordern"
           more_info: "Weitere Informationen"
           text: >
-            Die OpenProject Enterprise Edition baut auf der Community Edition auf. Die Enterprise Edition umfasst Premium-Funktionen und professionelle Unterstützung und richtet sich primär an Organisationen mit mehr als 10 Benutzern, die unternehmenskritische Projekte mit OpenProject verwalten.
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unbegrenzt"
           you_contribute: "Auch Software-Entwickler müssen ihre Rechnungen bezahlen. Durch ein Upgrade auf die Enterprise Edition unterstützen Sie diese Open-Source-Community und tragen zur Entwicklung, Wartung und kontinuierlichen Verbesserung von OpenProject bei."
     custom_actions:
@@ -279,8 +279,8 @@ de:
           one: "Erstes Sortierkriterium"
           two: "Zweites Sortierkriterium"
           three: "Drittes Sortierkriterium"
-      upsale_for_more: "Erweiterte Filter erlauben es Ihnen auch nach Dateinamen und Inhalten von Arbeitspaket-Anhängen zu filtern. Um diese Funktion zu nutzen, upgraden Sie bitte auf einen unserer kostenpflichtigen Enterprise-Pläne."
-      upsale_link: 'Enterprise-Edition.'
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
+      upsale_link: 'Enterprise Edition'
     general_text_no: "nein"
     general_text_yes: "ja"
     general_text_No: "Nein"
@@ -301,13 +301,13 @@ de:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/de/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Datums-Erinnerungen für anstehende Termine und überfällige Aufgaben aktivieren.</li> <li>Wir stellen Zwei-Faktor-Authentifizierung (2FA) für die Community Edition zur Verfügung.</li> <li>Der Teamplaner erhält eine zusätzliche Arbeitswochen-Ansicht.</li> <li>Bis bis zu drei Personen werden in einer Benachrichtigungskarte aufgelistet, wenn mehrere Personen an den Änderungen beteiligt waren.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/de/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li> List up to 3 people in a the notification cards when multiple people were involved in the changes.</li> </ul>
+                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Datums-Erinnerungen für anstehende Termine und überfällige Aufgaben aktivieren.</li> <li>Wir stellen Zwei-Faktor-Authentifizierung (2FA) für die Community Edition zur Verfügung.</li> <li>Der Teamplaner erhält eine zusätzliche Arbeitswochen-Ansicht.</li> <li>Bis bis zu drei Personen werden in einer Benachrichtigungskarte aufgelistet, wenn mehrere Personen an den Änderungen beteiligt waren.</li> </ul>
     label_activate: "Aktiviere"
     label_assignee: 'Zugewiesen an'
     label_add_column_after: "Spalte danach hinzufügen"
@@ -399,6 +399,7 @@ de:
     label_no_data: "Nichts anzuzeigen"
     label_no_due_date: "kein Endtermin"
     label_no_start_date: "kein Startdatum"
+    label_no_date: "Kein Datum"
     label_no_value: "Kein Wert"
     label_none: "keine"
     label_not_contains: "enthält nicht"
@@ -547,18 +548,18 @@ de:
         commented: 'kommentiert'
         processed: 'verarbeitet'
         prioritized: 'priorisiert'
-        dateAlert: 'Date alert'
+        dateAlert: 'Datums-Erinnerung'
       date_alerts:
-        milestone_date: 'Milestone date'
-        overdue: 'Overdue'
-        overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
-        property_is: 'is in %{difference_in_days}'
-        property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        milestone_date: 'Datum des Meilensteins'
+        overdue: 'Überfällig'
+        overdue_since: 'seit %{difference_in_days}'
+        property_today: 'ist heute'
+        property_is: 'ist in %{difference_in_days}'
+        property_was: 'war vor %{difference_in_days}'
+        property_is_deleted: 'wurde gelöscht'
         upsale:
-          title: 'Date alerts'
-          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          title: 'Datums-Erinnerungen'
+          description: 'Mit Datums-Erinnerungen werden Sie über bevorstehende Start- oder Endtermine informiert, so dass Sie nie einen wichtigen Termin verpassen oder übersehen.'
       facets:
         unread: 'Ungelesen'
         unread_title: 'Ungelesene anzeigen'
@@ -587,34 +588,34 @@ de:
       menu:
         accountable: 'Verantwortlich'
         by_project: 'Ungelesen pro Projekt'
-        by_reason: 'Reason'
+        by_reason: 'Grund'
         inbox: 'Eingang'
         mentioned: 'Erwähnt'
         watched: 'Beobachter'
-        date_alert: 'Date alert'
+        date_alert: 'Datums-Erinnerung'
       settings:
         change_notification_settings: 'Um Ihre Benachrichtigungseinstellungen anzuzeigen und zu ändern, <a target="_blank" href="%{url}">klicken Sie hier</a>'
         title: "Benachrichtigungseinstellungen"
         notify_me: "Benachrichtige mich"
         reminders:
-          no_notification: No notification
+          no_notification: Keine Benachrichtigung
           timeframes:
             normal:
-              PT0S: same day
-              P1D: 1 day before
-              P3D: 3 days before
-              P7D: a week before
+              PT0S: am selben Tag
+              P1D: 1 Tag vorher
+              P3D: 3 Tage vorher
+              P7D: eine Woche vorher
             overdue:
-              P1D: every day
-              P3D: every 3 days
-              P7D: every week
+              P1D: jeden Tag
+              P3D: alle 3 Tage
+              P7D: jede Woche
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'Erwähnt'
             description: 'Jedes Mal eine Benachrichtigung erhalten, wenn ich irgendwo erwähnt werde'
           assignee: 'Zugewiesen an'
           responsible: 'Verantwortlich'
-          watched: 'Watcher'
+          watched: 'Beobachter'
           work_package_commented: 'Alle neuen Kommentare'
           work_package_created: 'Neue Arbeitspakete'
           work_package_processed: 'Änderungen am Status'
@@ -622,21 +623,19 @@ de:
           work_package_scheduled: 'Alle Datumsänderungen'
         global:
           immediately:
-            title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            title: 'Beteiligt'
+            description: 'Benachrichtigungen für alle Aktivitäten in Arbeitspaketen, an denen Sie beteiligt sind (Beauftragter, Verantwortlicher oder Beobachter).'
           delayed:
-            title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            title: 'Nicht beteiligt'
+            description: 'Zusätzliche Benachrichtigungen für Aktivitäten in allen Projekten.'
           date_alerts:
-            title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
-            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          start_date: Start Date
-          due_date: Finish Date
-          overdue: When Overdue
+            title: 'Datums-Erinnerungen'
+            description: 'Automatische Benachrichtigungen, wenn wichtige Termine für offene Arbeitspakete bevorstehen, an denen Sie beteiligt (z. B. zugewiesen, verantwortlich oder Beobachter) sind.'
+            teaser_text: 'Mit Datums-Erinnerungen werden Sie über bevorstehende Start- oder Endtermine informiert, so dass Sie nie einen wichtigen Termin verpassen oder übersehen.'
+          overdue: Wenn überfällig
         project_specific:
           title: 'Projektspezifische Benachrichtigungseinstellungen'
-          description: 'Diese projektspezifischen Einstellungen ersetzen die Standardeinstellungen oben'
+          description: 'Diese projektspezifischen Einstellungen überschreiben die Standardeinstellungen oben'
           add: 'Einstellung für Projekt hinzufügen'
           already_selected: 'Dieses Projekt ist bereits ausgewählt'
           remove: 'Projektspezifische Einstellungen entfernen'
@@ -708,7 +707,7 @@ de:
         confirm_reset: >
           Achtung: Wollen Sie die Formkonfiguration wirklich zurücksetzen? Alle Attribute und Gruppen werden auf ihre Standardwerte zurück gesetzt und ALLE benutzerdefinierten Felder entfernt.
         upgrade_to_ee: "Enterprise on-premises bestellen"
-        upgrade_to_ee_text: "Wow! Wenn du dieses Feature benötigst, bist du ein super Pro! Würdest du uns OpenProject-Entwickler unterstützen, indem du ein Enterprise Edition-Kunde wirst?"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "Weitere Informationen"
         nevermind: "Nein danke"
       edit:
@@ -855,7 +854,7 @@ de:
       zooms: "Zoomstufe"
       outlines: "Hierarchie-Stufe"
     upsale:
-      ee_only: 'Enterprise Edition Funktion'
+      ee_only: 'Enterprise edition add-on'
     wiki_formatting:
       strong: "Fett"
       italic: "Kursiv"
@@ -1190,7 +1189,7 @@ de:
           description: 'Berechtigungen basierend auf der zugewiesenen Rolle im ausgewählten Projekt'
         placeholder:
           title: 'Platzhalter-Benutzer'
-          title_no_ee: 'Platzhalter-Benutzer (nur Enterprise Edition)'
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails verschickt.'
           description_no_ee: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails versendet. <br>Schau dir die <a href="%{eeHref}" target="_blank">Enterprise Edition an</a>'
       principal:

@@ -45,12 +45,18 @@ module Storages::Peripherals
         .map { |query| query.method(:query).to_proc }
     end
 
+    def upload_link_query(user:, finalize_url:)
+      storage_queries(user)
+        .upload_link_query(finalize_url)
+        .map { |query| query.method(:query).to_proc }
+    end
+
     private
 
     def storage_queries(user)
       ::Storages::Peripherals::StorageInteraction::StorageQueries
         .new(
-          uri: URI(@storage.host),
+          uri: URI(@storage.host).normalize,
           provider_type: @storage.provider_type,
           user:,
           oauth_client: @oauth_client

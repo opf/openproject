@@ -49,7 +49,7 @@ ro:
         main-menu-border-color: "Frontieră meniu principal"
       custom_colors: "Culori personalizate"
       customize: "Personalizează-ți instalația OpenProject cu propriul logo și culori."
-      enterprise_notice: "Ca și un semn al reconoștinței noastre, această opțiune este disponiblă doar utlizatorilor care dețin versiunea Enterprise."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Notă: logo-ul utilizat va fi accesibil publicului."
       manage_colors: "Modificați opțiunile de selecție ale culorilor"
       instructions:
@@ -64,15 +64,15 @@ ro:
         main-menu-bg-color: "Culoarea de fundal pentru meniul din partea stângă."
       theme_warning: Schimbarea temei va suprascrie stilul personalizat. În acest caz, designul va fi pierdut. Sunteți sigur că doriți să continuați?
     enterprise:
-      upgrade_to_ee: "Achiziționați versiunea Enterprise"
-      add_token: "Încărcați un token de suport Enterprise Edition"
+      upgrade_to_ee: "Actualizare la ediția Enterprise"
+      add_token: "Încărcați un token de suport pentru ediția Enterprise"
       delete_token_modal:
-        text: "Sunteți sigur că doriți să eliminați tokenul Enterprise Edition curent?"
+        text: "Sunteți sigur că doriți să eliminați actualul token Enterprise edition utilizat?"
         title: "Ștergeți tokenul"
       replace_token: "Înlocuiți tokenul de suport actual"
-      order: "Comandați versiunea Enterprise"
-      paste: "Lipiți token-ul de suport Enterprise Edition"
-      required_for_feature: "Această funcție este disponibilă numai cu un token de asistență Enterprise Edition activ."
+      order: "Comandați ediția Enterprise on-premise"
+      paste: "Lipiți token-ul de suport pentru ediția Enterprise"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Pentru mai multe informații, faceți click aici."
       start_trial: 'Începeți o încercare gratuită'
       book_now: 'Rezervă acum'
@@ -80,7 +80,7 @@ ro:
       buttons:
         upgrade: "Actualizează acum"
         contact: "Contactați-ne pentru o demonstrație"
-      enterprise_info_html: "este o Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> caracteristică."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Vă rugăm să treceți la un plan plătit pentru a-l activa și a începe să îl utilizați în echipa dumneavoastră."
     journal_aggregation:
       explanation:
@@ -138,7 +138,7 @@ ro:
         atunci când aceștia se autentifică pentru prima dată cu OpenProject.
         Lăsați această casetă debifată pentru a permite doar conturilor existente în OpenProject să se autentifice prin LDAP!
     connection_encryption: 'Criptarea conexiunii'
-    encryption_details: 'LDAPS / STARTTLS options'
+    encryption_details: 'LDAPS / STARTTLS opțiuni'
     system_account: 'Contul de sistem'
     system_account_legend: |
       OpenProject necesită acces doar pentru citire printr-un cont de sistem pentru a căuta utilizatori și grupuri în arborele LDAP.
@@ -152,16 +152,16 @@ ro:
       plain: 'niciunul'
       simple_tls: 'LDAPS'
       start_tls: 'STARTTLS'
-      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
-      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
-      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
+      plain_description: "Deschide o conexiune necriptată la serverul LDAP. Nu se recomandă pentru producție."
+      simple_tls_description: "Utilizați LDAPS. Necesită un port separat pe serverul LDAP. Acest mod este adesea depreciat, recomandăm utilizarea STARTTLS ori de câte ori este posibil."
+      start_tls_description: "Trimite o comandă STARTTLS după conectarea la portul LDAP standard. Recomandată pentru conexiuni criptate."
       section_more_info_link_html: >
         Această secțiune se referă la securitatea conexiunii acestei surse de autentificare LDAP. Pentru mai multe informații, consultați <a href="%{link}">documentația Net::LDAP</a>.
     tls_options:
-      verify_peer: "Verify SSL certificate"
+      verify_peer: "Verificarea certificatului SSL"
       verify_peer_description_html: >
-        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
-      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+        Activează verificarea SSL strictă a lanțului de încredere al certificatului. <br/> <strong>Avertisment:</strong> Debifarea acestei opțiuni dezactivează verificarea SSL a certificatului serverului LDAP. Acest lucru expune conexiunea ta cu Omul în timpul atacurilor din Mijloc.
+      tls_certificate_description: "Dacă certificatul serverului LDAP nu se află în sursele de încredere ale acestui sistem, îl puteți adăuga manual aici. Introduceți un șir de certificate PEM X509."
   forums:
     show:
       no_results_title_text: În prezent nu există mesaje pentru acest forum.
@@ -322,7 +322,7 @@ ro:
       settings: "Setări"
       form_configuration: "Configurarea formularului"
       more_info_text_html: >
-        Ediția Enterprise vă permite să personalizați configurația formularului cu aceste caracteristici suplimentare: <br> <ul class="%{list_styling_class}"> <li><b>Adăugați noi grupuri de atribut</b></li> <li><b>Redenumiți grupurile de atribute</b></li> <li><b>Adăugați un tabel cu pachetele de lucru aferente</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Proiecte"
       enabled_projects: "Proiecte activate"
       edit_query: "Editează tabelul"
@@ -426,7 +426,7 @@ ro:
         host: "Server gazdă"
         onthefly: "Crearea automată a utilizatorilor"
         port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        tls_certificate_string: "Certificat SSL pentru serverul LDAP"
       changeset:
         repository: "Repo"
       comment:
@@ -588,7 +588,7 @@ ro:
         confirmation: "nu se potrivește cu %{attribute}."
         could_not_be_copied: "%{dependency} nu a putut fi copiat (integral)."
         does_not_exist: "nu există."
-        error_enterprise_only: "%{action} este disponibil doar în OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} este disponibil doar în ediția OpenProject Enterprise"
         error_unauthorized: "nu pot fi accesate."
         error_readonly: "a fost încercat să fie scris, dar nu este inscriptibil."
         email: "nu este o adresă de e-mail validă."
@@ -638,7 +638,7 @@ ro:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Certificatul SSL furnizat nu este valabil: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -1280,11 +1280,11 @@ ro:
   ee:
     upsale:
       form_configuration:
-        description: "Personalizați configurația formularului cu aceste caracteristici suplimentare:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Adăugarea de noi grupuri de atribute"
         rename_groups: "Redenumirea grupurilor de atribute"
       project_filters:
-        description_html: "Filtrarea și sortarea pe câmpuri personalizate este o caracteristică a ediției enterprise."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Activități de urmărire timp activate"
   enumeration_work_package_priorities: "Priorități pentru pachetele de lucru"
   enumeration_reported_project_statuses: "Stările proiectului raportat"
@@ -1306,7 +1306,7 @@ ro:
   error_cookie_missing: 'Cookie-ul OpenProject lipseşte. Vă rugăm să verificați setările referitoare la cookies, această aplicație nu va funcţiona corespunzător fără acestea.'
   error_custom_option_not_found: "Opțiunea nu există."
   error_enterprise_activation_user_limit: "Contul dvs. nu a putut fi activat (limita utilizatorilor a fost atinsă). Contactați administratorul dvs. pentru a avea acces."
-  error_enterprise_token_invalid_domain: "Ediția Enterprise Edition nu este activă. Domeniul (%{actual}) al token-ului Enterprise nu se potrivește cu numele de gazdă al sistemului (%{expected})."
+  error_enterprise_token_invalid_domain: "Ediția Enterprise nu este activă. Domeniul token-ului Enterprise (%{actual}) nu se potrivește cu numele de gazdă al sistemului (%{expected})."
   error_failed_to_delete_entry: 'Nu s-a reușit ștergerea acestei intrări.'
   error_in_dependent: "Eroare la încercarea de a modifica un obiect dependent: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Eroare la încercarea de a crea un obiect dependent: %{dependent_class} - %{related_subject}: %{error}"
@@ -1394,10 +1394,10 @@ ro:
     blocks:
       community: "Comunitatea OpenProject"
       upsale:
-        title: "Achiziționați versiunea Enterprise"
+        title: "Actualizați la ediția Enterprise"
         more_info: "Mai multe informatii"
     links:
-      upgrade_enterprise_edition: "Achiziționați versiunea Enterprise"
+      upgrade_enterprise_edition: "Actualizați la ediția Enterprise"
       postgres_migration: "Migrarea instalației dvs. către PostgreSQL"
       user_guides: "Ghiduri utilizator"
       faq: "Întrebări Frecvente"
@@ -1613,7 +1613,7 @@ ro:
   label_enumerations: "Enumerări"
   label_enterprise: "Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} numărul de utilizatori activi rezervați"
-  label_enterprise_edition: "Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise"
+  label_enterprise_edition: "Ediția Enterprise"
   label_environment: "Mediu"
   label_estimates_and_time: "Estimări și timp"
   label_equals: "este"
@@ -2629,11 +2629,11 @@ ro:
   text_custom_field_hint_activate_per_project_and_type: >
     Câmpurile personalizate trebuie să fie activate pentru fiecare pachet de lucru și pentru fiecare proiect.
   text_wp_custom_field_html: >
-    Ediția Enterprise va adăuga aceste caracteristici suplimentare pentru câmpurile personalizate ale pachetelor de lucru: <br> <ul> <li><b>Permite multi-selectare pentru câmpuri personalizate tip Listă sau Utilizator</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    Ediția Enterprise va adăuga aceste caracteristici suplimentare pentru câmpurile de statusuri ale pachetelor de lucru: <br> <ul> <li><b>Permite marcarea pachetelor de lucru numai în citire pentru anumite statusuri</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    Ediția Enterprise va adăuga aceste caracteristici suplimentare pentru câmpurile personalizate ale proiectelor: <br> <ul> <li><b>Adăugați câmpuri personalizate pentru proiecte în lista de proiecte pentru a crea o vizualizare a portofoliului de proiecte</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Este recomandată utilizarea unui logo cu fundal transparent. Pentru a obține rezultate satisfăcătoare pe afișajele convenționale dar și pe cele de tipe retina, asigurați-vă că dimensiunea imaginii este de 460px pe 110px.
   text_custom_favicon_instructions: >
@@ -2937,7 +2937,7 @@ ro:
   warning_user_limit_reached: >
     A fost atinsă limita de utilizatori. Nu mai puteți activa alți utilizatori. Vă rugăm să <a href="%{upgrade_url}">vă actualizați planul</a> sau să blocați membrii pentru a permite accesul la utilizatori suplimentari.
   warning_user_limit_reached_instructions: >
-    Ați atins limita de utilizatori (%{current}/%{max} utilizatori activi). Vă rugăm să contactați sales@openproject.com pentru a vă actualiza planul Enterprise Edition și a adăuga utilizatori suplimentari.
+    Ați atins limita de utilizatori (%{current}/%{max} utilizatori activi). Vă rugăm să contactați sales@openproject.com pentru a vă actualiza planul ediției Enterprise și a adăuga utilizatori suplimentari.
   warning_protocol_mismatch_html: >
 
   warning_bar:

@@ -93,13 +93,14 @@
     </div>
   </div>
 
-  <div *ngFor="let group of groupedFields; trackBy:trackByName"
-       [hidden]="shouldHideGroup(group)"
-       [attr.data-group-name]="group.name"
-       [ngClass]="'__overflowing_' + group.id"
-       [attr.data-overflowing-identifier]="'.__overflowing_' + group.id"
-       class="attributes-group __overflowing_element_container">
-
+  <div
+    *ngFor="let group of groupedFields; trackBy:trackByName"
+    [hidden]="shouldHideGroup(group)"
+    [attr.data-group-name]="group.name"
+    [ngClass]="'__overflowing_' + group.id"
+    [attr.data-overflowing-identifier]="'.__overflowing_' + group.id"
+    class="attributes-group __overflowing_element_container"
+  >
     <ng-container wp-isolated-query-space *ngIf="group.isolated">
       <ndc-dynamic [ndcDynamicComponent]="attributeGroupComponent(group)"
                    [ndcDynamicInputs]="{ workPackage: workPackage,

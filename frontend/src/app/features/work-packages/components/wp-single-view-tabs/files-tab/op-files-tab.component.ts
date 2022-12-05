@@ -33,7 +33,6 @@ import {
 } from '@angular/core';
 import {
   combineLatest,
-  merge,
   Observable,
 } from 'rxjs';
 import {
@@ -54,7 +53,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
   selector: 'op-files-tab',
-  templateUrl: './op-files-tab.html',
+  templateUrl: './op-files-tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageFilesTabComponent implements OnInit {
@@ -86,12 +85,7 @@ export class WorkPackageFilesTabComponent implements OnInit {
       return;
     }
 
-    // ToDo: Needs to be fixed after capabilities are available for anonymous user.
-    // https://community.openproject.org/projects/openproject/work_packages/44850/activity
-    const canViewFileLinks = merge(
-      this.currentUserService.isLoggedIn$.pipe(map((isLoggedIn) => !isLoggedIn)),
-      this.currentUserService.hasCapabilities$('file_links/view', project.id),
-    );
+    const canViewFileLinks = this.currentUserService.hasCapabilities$('file_links/view', project.id);
 
     this.storages$ = this
       .storagesResourceService
