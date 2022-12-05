@@ -122,9 +122,20 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #
   def substitute_database_table_in_where_clause(relation)
     relation.where_clause.instance_variable_get(:@predicates).each do |predicate|
-      if predicate.kind_of? String
-        gsub_table_names_in_sql_string!(predicate)
-      elsif predicate.left.relation == arel_table
+      substitute_database_table_in_predicate(predicate)
+    end
+    relation
+  end
+
+  def substitute_database_table_in_predicate(predicate)
+    case predicate
+    when String
+      gsub_table_names_in_sql_string!(predicate)
+    when Arel::Nodes::In,
+         Arel::Nodes::NotIn,
+         Arel::Nodes::Equality,
+         Arel::Nodes::NotEqual
+      if predicate.left.relation == arel_table
         if predicate.right.respond_to? :name and predicate.right.name == "id"
           predicate.right.instance_variable_set(:@name, "journable_id")
           predicate.left.relation = Journal.arel_table
@@ -132,8 +143,12 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
           predicate.left.relation = journal_class.arel_table
         end
       end
+    when Arel::Nodes::Grouping
+      substitute_database_table_in_predicate(predicate.expr.left)
+      substitute_database_table_in_predicate(predicate.expr.right)
+    else
+      raise NotImplementedError, "FIXME A predicate of type #{predicate.class.name} is not handled, yet."
     end
-    relation
   end
 
   # Add a timestamp condition: Select the work package journals that are the
@@ -251,6 +266,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     sql_string.gsub! /(?<!_)#{model.table_name}\./, "#{model.journal_class.table_name}."
     sql_string.gsub! "\"#{model.table_name}\".", "\"#{model.journal_class.table_name}\"."
   end
+
+  class NotImplementedError < StandardError; end
 end
 
 # rubocop:enable Style/ClassCheck
