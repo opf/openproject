@@ -33,7 +33,7 @@ module Storages::Peripherals
         if success?
           on_success.call(result)
         else
-          on_failure.call(result)
+          on_failure.call(errors)
         end
       end
 
@@ -41,6 +41,14 @@ module Storages::Peripherals
         return self if failure?
 
         yield result
+      end
+
+      def >>(other)
+        unless other.respond_to?(:call)
+          raise TypeError, "Expected an object responding to 'call', got #{other.class.name}."
+        end
+
+        bind(&other)
       end
     end
   end

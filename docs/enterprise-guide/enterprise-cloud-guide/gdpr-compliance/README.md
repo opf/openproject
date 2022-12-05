@@ -63,7 +63,7 @@ This is now possible by controllers on their own using the [backup feature of Op
 
 ## Signing a Data Processing Agreement (DPA) for the Enterprise cloud
 
-For EU customers it is required by the GDPR to sign a data processing agreement (sometimes called data processing addendum) before using our Cloud edition.
+For EU customers it is required by the GDPR to sign a data processing agreement (sometimes called data processing addendum) before using our Enterprise cloud edition.
 
 With OpenProject 11.1, we have automated this process in order to reduce manual  effort on both sides. This way, it is even easier to comply with GDPR.  
 

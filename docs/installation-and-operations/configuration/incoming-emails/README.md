@@ -122,7 +122,7 @@ If a matching account is found, the mail handler impersonates the user to create
 If no matching account is found, the mail is rejected. To override this behavior and allow unknown mail address
 to create work packages, set the option `no_permission_check=1` and specify with `unknown_user=accept`
 
-**Note**: This feature only provides a mapping of mail to user account, it does not authenticate the user based on the mail. Since you can easily spoof mail addresses, you should not rely on the authenticity of work packages created that way. At the moment in the OpenProject Enterprise Cloud work package generation by emails can only be triggered by registered email addresses.
+**Note**: This feature only provides a mapping of mail to user account, it does not authenticate the user based on the mail. Since you can easily spoof mail addresses, you should not rely on the authenticity of work packages created that way. At the moment in the OpenProject Enterprise cloud work package generation by emails can only be triggered by registered email addresses.
 
 **Users with mail suffixes**
 

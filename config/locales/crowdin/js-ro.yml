@@ -223,19 +223,19 @@ ro:
           status_label: "Stare:"
           status_confirmed: "confirmat"
           status_waiting: "e-mail trimis - aștept confirmarea"
-          test_ee: "Testați gratuit ediția Enterprise Edition timp de 14 zile"
-          quick_overview: "Obțineți o imagine de ansamblu rapidă a managementului de proiect și a colaborării în echipă cu OpenProject Enterprise Edition."
+          test_ee: "Testați gratuit ediția Enterprise timp de 14 zile"
+          quick_overview: "Obțineți o imagine de ansamblu rapidă a gestionării proiectelor și a colaborării în echipă cu OpenProject Enterprise edition."
         upsale:
           become_hero: "Deveniți un erou!"
-          enterprise_info_html: "%{feature_title} este o Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> caracteristică."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Vă rugăm să treceți la un plan plătit pentru a-l activa și a începe să îl utilizați în echipa dumneavoastră."
           benefits:
             description: "Care sunt avantajele ediției Enterprise on-premise?"
             high_security: "Caracteristici de securitate"
-            high_security_text: "Autentificare unică (SAML, OpenID Connect, CAS), autentificare cu doi factori și sincronizare automată a grupurilor LDAP."
+            high_security_text: "Autentificare unică (SAML, OpenID Connect, CAS), grupuri LDAP."
             installation: "Suport pentru instalare"
             installation_text: "Inginerii de software experimentați vă ghidează prin procesul complet de instalare și configurare în propria infrastructură."
-            premium_features: "Caracteristici premium"
+            premium_features: "Enterprise add-on-uri"
             premium_features_text: "Tablouri agile, temă și logo personalizate, grafice, fluxuri de lucru inteligente cu acțiuni personalizate, căutare în text complet pentru atașamentele pachetelor de lucru și câmpuri personalizate cu selectare multiplă."
             professional_support: "Suport profesional"
             professional_support_text: "Beneficiați de asistență fiabilă, de înaltă calitate, din partea unor ingineri de asistență seniori cu cunoștințe de specialitate în ceea ce privește utilizarea OpenProject în medii critice pentru afaceri."
@@ -248,9 +248,9 @@ ro:
           link_quote: "Obțineți o ofertă"
           more_info: "Mai multe informatii"
           text: >
-            Ediția OpenProject Enterprise Edition se bazează pe ediția Community Edition. Aceasta include caracteristici premium și asistență profesională, destinate în principal organizațiilor cu peste 10 utilizatori care gestionează proiecte critice de afaceri cu OpenProject.
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Nelimitat"
-          you_contribute: "Dezvoltatorii trebuie să își plătească și ei facturile. Prin actualizarea la Enterprise Edition, veți sprijini acest efort al comunității open source și veți contribui la dezvoltarea, întreținerea și îmbunătățirea continuă a acestuia."
+          you_contribute: "Dezvoltatorii trebuie să își plătească și ei facturile. Prin actualizarea la Enterprise edition, veți sprijini acest efort al comunității open source și veți contribui la dezvoltarea, întreținerea și îmbunătățirea continuă a acestuia."
     custom_actions:
       date:
         specific: 'pe'
@@ -279,8 +279,8 @@ ro:
           one: "Primul criteriu de sortare"
           two: "Al doilea criteriu de sortare"
           three: "Al treilea criteriu de sortare"
-      upsale_for_more: "Filtrele avansate vă permit să filtrați și numele fișierelor și conținutul atașamentelor la pachetele de lucru. Vă rugăm să treceți la un plan cu plată pentru a utiliza această caracteristică."
-      upsale_link: 'Versiunea Enterprise.'
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
+      upsale_link: 'Ediția Enterprise.'
     general_text_no: "nu"
     general_text_yes: "da"
     general_text_No: "Nu"
@@ -303,11 +303,11 @@ ro:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Versiunea conține diverse funcții noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Activează alertele cu privire la data notificării pentru datele viitoare și sarcinile restante.</li> <li>Eliberăm autentificarea cu doi factori (2FA) pentru ediția Comunității.</li> <li>Opțiunea de afișare a săptămânii de lucru este acum adăugată și planificatorului de echipă.</li> <li> Listează până la 3 persoane pe cardurile de notificare atunci când mai multe persoane au fost implicate în schimbări.</li> </ul>
+                Versiunea conține diverse funcții noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Activează alertele cu privire la data notificării pentru datele viitoare și sarcinile restante.</li> <li>Eliberăm autentificarea cu doi factori (2FA) pentru ediția Comunității.</li> <li>Opțiunea de afișare a săptămânii de lucru este acum adăugată și planificatorului de echipă.</li> <li> Listează până la 3 persoane pe cardul de notificare atunci când mai multe persoane au fost implicate în schimbări.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Versiunea conține diverse funcții noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Activează alertele cu privire la data notificării pentru datele viitoare și sarcinile restante.</li> <li>Eliberăm autentificarea cu doi factori (2FA) pentru ediția Comunității.</li> <li>Opțiunea de afișare a săptămânii de lucru este acum adăugată și planificatorului de echipă.</li> <li> Listează până la 3 persoane pe cardurile de notificare atunci când mai multe persoane au fost implicate în schimbări.</li> </ul>
+                Versiunea conține diverse funcții noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Activează alertele cu privire la data notificării pentru datele viitoare și sarcinile restante.</li> <li>Eliberăm autentificarea cu doi factori (2FA) pentru ediția Comunității.</li> <li>Opțiunea de afișare a săptămânii de lucru este acum adăugată și planificatorului de echipă.</li> <li> Listează până la 3 persoane pe cardul de notificare atunci când mai multe persoane au fost implicate în schimbări.</li> </ul>
     label_activate: "Activare"
     label_assignee: 'Executant'
     label_add_column_after: "Adauga o coloana dupa"
@@ -399,6 +399,7 @@ ro:
     label_no_data: "Nu există date de afișat"
     label_no_due_date: "fără dată de finalizare"
     label_no_start_date: "fără dată început"
+    label_no_date: "fără dată"
     label_no_value: "Nici o valoare"
     label_none: "niciunul"
     label_not_contains: "nu conține"
@@ -624,20 +625,18 @@ ro:
         global:
           immediately:
             title: 'Participant'
-            description: 'Notificări pentru toate activitățile din pachetele de lucru în care sunteți implicat (desemnat, responsabil sau observator)'
+            description: 'Notificări pentru toate activitățile din pachetele de lucru în care sunteți implicat (desemnat, responsabil sau observator).'
           delayed:
             title: 'Neparticipantă'
-            description: 'Notificări suplimentare pentru activități în toate proiectele'
+            description: 'Notificări suplimentare pentru activitățile din toate proiectele.'
           date_alerts:
             title: 'Alerte date'
-            description: 'Notificări automate atunci când se apropie date importante pentru pachetele de lucru deschise în care sunteți implicat (cesionar, responsabil sau supraveghetor)'
+            description: 'Notificări automate atunci când se apropie date importante pentru pachetele de lucru deschise în care sunteți implicat (desemnat, responsabil sau observator).'
             teaser_text: 'Cu alertele de date, veți fi notificat cu privire la următoarele date de început sau de sfârșit, astfel încât să nu ratați sau să uitați niciodată un termen limită important.'
-          start_date: Dată Început
-          due_date: Data de Finalizare
-          overdue: Când întârzie
+          overdue: În caz de întârziere
         project_specific:
           title: 'Setări de notificare specifice proiectului'
-          description: 'Aceste setări specifice proiectului prevalează asupra setărilor implicite de mai sus'
+          description: 'Aceste setări specifice proiectului prevalează asupra setărilor implicite de mai sus.'
           add: 'Adăugați o setare pentru proiect'
           already_selected: 'Acest proiect este deja selectat'
           remove: 'Eliminați setările proiectului'
@@ -708,8 +707,8 @@ ro:
         reset_title: "Resetarea configurației formularului"
         confirm_reset: >
           Antenție: Sunteți sigur că doriți să resetați congurația formularului? Această acțiune va reseta toate atributele înapoi la grupul implicit și va dezactiva TOATE câmpurile personalizate.
-        upgrade_to_ee: "Actualizare la Enterprise on-premise Edition"
-        upgrade_to_ee_text: "Hopa! Dacă aveți nevoie de această opțiune înseamnă că sunteți un profesionist! Dacă doriți, puteți susține acest produs achiziționând Versiunea Enterprise."
+        upgrade_to_ee: "Actualizare la ediția Enterprise on-premise"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "Mai multe informatii"
         nevermind: "Asta e..."
       edit:
@@ -856,7 +855,7 @@ ro:
       zooms: "Orizont de timp"
       outlines: "Nivel ierarhic"
     upsale:
-      ee_only: 'Funcția Enterprise Edition'
+      ee_only: 'Enterprise edition add-on'
     wiki_formatting:
       strong: "Aldin"
       italic: "Italic"
@@ -1047,7 +1046,7 @@ ro:
         upsale:
           attribute_highlighting: 'Aveți nevoie ca anumite pachete de lucru să iasă în evidență?'
           relation_columns: 'Aveți nevoie să vedeți relațiile din lista pachetelor de lucru?'
-          check_out_link: 'Achiziționați versiunea Enterprise'
+          check_out_link: 'Consultați ediția Enterprise.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrare pachete de lucru'
       tabs:
@@ -1193,9 +1192,9 @@ ro:
           description: 'Permisiuni bazate pe rolul atribuit în proiectul selectat'
         placeholder:
           title: 'Utilizator Placeholder'
-          title_no_ee: 'Utilizator de tip "Placeholder" (caracteristică doar pentru Enterprise Edition)'
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Nu are acces la proiect și nu se trimite niciun e-mail.'
-          description_no_ee: 'Nu are acces la proiect și nu se trimite niciun e-mail. <br>Consultați <a href="%{eeHref}" target="_blank">ediția Enterprise</a></br>Edition'
+          description_no_ee: 'Nu are acces la proiect și nu se trimite niciun e-mail.  <br>Verificați<a href="%{eeHref}" ținta="_blank">ediția Enterprise</a>'
       principal:
         label:
           name_or_email: 'Numele și adresa dvs. de e-mail.'

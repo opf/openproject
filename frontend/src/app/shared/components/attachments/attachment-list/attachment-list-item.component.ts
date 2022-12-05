@@ -56,10 +56,10 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[op-attachment-list-item]',
-  templateUrl: './attachment-list-item.html',
+  templateUrl: './attachment-list-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttachmentListItemComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
+export class OpAttachmentListItemComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   @Input() public attachment:IAttachment;
 
   @Input() public index:number;
@@ -173,7 +173,7 @@ export class AttachmentListItemComponent extends UntilDestroyedMixin implements 
 
   private get isImage():boolean {
     const ext = this.attachment.fileName.split('.').pop() || '';
-    return AttachmentListItemComponent.imageFileExtensions.indexOf(ext.toLowerCase()) > -1;
+    return OpAttachmentListItemComponent.imageFileExtensions.indexOf(ext.toLowerCase()) > -1;
   }
 
   public confirmRemoveAttachment():void {

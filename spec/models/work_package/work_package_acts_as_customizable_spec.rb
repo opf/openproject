@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, 'acts_as_customizable', type: :model do
+describe WorkPackage, 'acts_as_customizable' do
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type]) }
   let(:user) { create(:user) }
@@ -37,12 +37,12 @@ describe WorkPackage, 'acts_as_customizable', type: :model do
 
   let(:work_package) { create(:work_package, project:, type:) }
   let(:new_work_package) do
-    WorkPackage.new type:,
-                    project:,
-                    author: user,
-                    status:,
-                    priority:,
-                    subject: 'some subject'
+    described_class.new type:,
+                        project:,
+                        author: user,
+                        status:,
+                        priority:,
+                        subject: 'some subject'
   end
 
   def setup_custom_field(cf)
@@ -85,7 +85,7 @@ describe WorkPackage, 'acts_as_customizable', type: :model do
     end
 
     it 'says to respond to valid custom field accessors' do
-      expect(work_package.respond_to?(included_cf.accessor_name)).to be_truthy
+      expect(work_package).to respond_to(included_cf.accessor_name)
     end
 
     it 'really responds to valid custom field accessors' do
@@ -93,7 +93,7 @@ describe WorkPackage, 'acts_as_customizable', type: :model do
     end
 
     it 'says to not respond to foreign custom field accessors' do
-      expect(work_package.respond_to?(other_cf.accessor_name)).to be_falsey
+      expect(work_package).not_to respond_to(other_cf.accessor_name)
     end
 
     it 'does really not respond to foreign custom field accessors' do
@@ -126,6 +126,14 @@ describe WorkPackage, 'acts_as_customizable', type: :model do
       # assert that there is only one error
       expect(work_package.errors.size).to eq 1
       expect(work_package.errors["custom_field_#{cf2.id}"].size).to eq 1
+    end
+  end
+
+  it_behaves_like 'acts_as_customizable included' do
+    let(:model_instance) { work_package }
+    let(:custom_field) { create(:string_wp_custom_field) }
+    before do
+      setup_custom_field(custom_field)
     end
   end
 end

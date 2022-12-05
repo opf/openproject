@@ -49,7 +49,7 @@ si:
         main-menu-border-color: "ප්රධාන මෙනු දේශ"
       custom_colors: "අභිරුචි වර්ණ"
       customize: "Customize your OpenProject installation with your own logo and colors."
-      enterprise_notice: "විශේෂ 'ස්තූතියි! ' OpenProject සංවර්ධනය කිරීම සඳහා ඔවුන්ගේ මූල්ය දායකත්වය සඳහා, මෙම කුඩා විශේෂාංගය ලබා ගත හැක්කේ Enterprise Edition සහාය ග්රාහකයින් සඳහා පමණි."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "වර්ණ තෝරා ගැනීමේ විකල්ප සංස්කරණය කරන්න"
       instructions:
@@ -64,15 +64,15 @@ si:
         main-menu-bg-color: "වම් පැත්තේ මෙනුවේ පසුබිම් වර්ණය."
       theme_warning: තේමාව වෙනස් කිරීම ඔබට අභිරුචි විලාසිතාව උඩින් ලියනු ඇත. එවිට සැලසුම අහිමි වනු ඇත. ඔබට දිගටම කරගෙන යාමට අවශ්ය බව ඔබට විශ්වාසද?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
-      add_token: "ව්යවසාය සංස්කරණය සහාය ටෝකනය උඩුගත කරන්න"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Delete token"
       replace_token: "ඔබගේ වර්තමාන ආධාරක ටෝකනය ප්රතිස්ථාපනය කරන්න"
-      order: "Order Enterprise on-premises Edition"
-      paste: "ඔබගේ ව්යවසාය සංස්කරණය සහාය ටෝකනය අලවන්න"
-      required_for_feature: "මෙම අංගය ලබා ගත හැක්කේ සක්රීය ව්යවසාය සංස්කරණ ආධාරක ටෝකනයක් සමඟ පමණි."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "වැඩි විස්තර සඳහා මෙහි ක්ලික් කරන්න."
       start_trial: 'Start free trial'
       book_now: 'Book now'
@@ -80,7 +80,7 @@ si:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span> feature."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
@@ -322,7 +322,7 @@ si:
       settings: "සැකසුම්"
       form_configuration: "ආකෘති වින්යාසය"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "ව්‍යාපෘති"
       enabled_projects: "සබල කළ ව්‍යාපෘති"
       edit_query: "වගුව සංස්කරණය"
@@ -587,7 +587,7 @@ si:
         confirmation: "%{attribute}නොගැලපේ."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "නොපවතී."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "ප්රවේශ විය නොහැක."
         error_readonly: "ලිවීමට උත්සාහ කළ නමුත් එය ලිවිය නොහැක."
         email: "is not a valid email address."
@@ -1263,11 +1263,11 @@ si:
   ee:
     upsale:
       form_configuration:
-        description: "මෙම අතිරේක ලක්ෂණ සමඟ ආකෘති වින්යාසය අභිරුචිකරණය කරන්න:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "නව ගුණාංග කණ්ඩායම් එකතු කරන්න"
         rename_groups: "ගුණාංග කණ්ඩායම් නැවත නම් කරන්න"
       project_filters:
-        description_html: "අභිරුචි ක්ෂේත්ර මත පෙරීම සහ වර්ග කිරීම ව්යවසාය සංස්කරණ අංගයකි."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "කාලය සොයා ගැනීමේ ක්රියාකාරකම්"
   enumeration_work_package_priorities: "වැඩ පැකේජ ප්රමුඛතා"
   enumeration_reported_project_statuses: "වාර්තා කරන ලද ව්යාපෘති තත්ත්වය"
@@ -1289,7 +1289,7 @@ si:
   error_cookie_missing: 'OpenProject කුකිය අස්ථානගත වී ඇත. මෙම යෙදුම නොමැතිව නිසි ලෙස ක්රියා නොකරන බැවින් කුකීස් සක්රීය කර ඇති බවට සහතික වන්න.'
   error_custom_option_not_found: "විකල්පය නොපවතී."
   error_enterprise_activation_user_limit: "ඔබගේ ගිණුම සක්රිය කළ නොහැක (පරිශීලක සීමාව කරා ළඟා විය). ප්රවේශය ලබා ගැනීම සඳහා කරුණාකර ඔබේ පරිපාලක අමතන්න."
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'මෙම ප්රවේශය මකා දැමීමට අසමත් විය.'
   error_in_dependent: "යැපෙන වස්තුව වෙනස් කිරීමට උත්සාහ කිරීමේ දෝෂය: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
@@ -1377,10 +1377,10 @@ si:
     blocks:
       community: "විවෘත ව්යාපෘති ප්රජාව"
       upsale:
-        title: "ව්යවසාය සංස්කරණයට උත්ශ්රේණි කිරීම"
+        title: "Upgrade to Enterprise edition"
         more_info: "වැඩි විස්තර"
     links:
-      upgrade_enterprise_edition: "ව්යවසාය සංස්කරණයට උත්ශ්රේණි කිරීම"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "ඔබගේ ස්ථාපනය PostgreSQL වෙත සංක්රමණය කිරීම"
       user_guides: "පරිශීලක මාර්ගෝපදේශ"
       faq: "නිතර අසන ප්රශ්න"
@@ -1596,7 +1596,7 @@ si:
   label_enumerations: "enumerations"
   label_enterprise: "ව්යවසාය"
   label_enterprise_active_users: "%{current}/%{limit} වෙන් කර ඇති සක්රීය පරිශීලකයින්"
-  label_enterprise_edition: "ව්යවසාය සංස්කරණය"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "පරිසරය"
   label_estimates_and_time: "ඇස්තමේන්තු සහ වේලාව"
   label_equals: "වේ"
@@ -2611,11 +2611,11 @@ si:
   text_custom_field_hint_activate_per_project_and_type: >
     වැඩ පැකේජ වර්ගය අනුව සහ ව්යාපෘතිය අනුව අභිරුචි ක්ෂේත්ර සක්රිය කළ යුතුය.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     විනිවිද පෙනෙන පසුබිම මත සුදු ලාංඡනය නිර්දේශ කරනු ලැබේ. දෙකම මත හොඳම ප්රතිඵල සඳහා, සාම්ප්රදායික හා දෘෂ්ටි විතානයේ ප්රදර්ශනය, ඔබගේ රූපයේ මානයන් 60px විසින් 460px බවට වග බලා ගන්න.
   text_custom_favicon_instructions: >
@@ -2917,7 +2917,7 @@ si:
   warning_user_limit_reached: >
     පරිශීලක සීමාව ළඟා විය. ඔබට තවත් පරිශීලකයින් සක්රිය කළ නොහැක. කරුණාකර <a href="%{upgrade_url}">ඔබගේ සැලැස්ම උත්ශ්රේණි කිරීම</a> හෝ අතිරේක පරිශීලකයින් සඳහා ඉඩ ලබා දීම සඳහා සාමාජිකයින් අවහිර කරන්න.
   warning_user_limit_reached_instructions: >
-    ඔබ ඔබේ පරිශීලක සීමාවට ළඟා විය (%{current}/%{max} ක්රියාකාරී පරිශීලකයින්). කරුණාකර සම්බන්ධ වන්න sales@openproject.com ඔබගේ ව්යවසාය සංස්කරණය සැලැස්ම වැඩිදියුණු කිරීමට සහ අතිරේක පරිශීලකයින් එකතු කිරීමට.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:

@@ -39,5 +39,9 @@ FactoryBot.define do
     factory :default_status do
       is_default { true }
     end
+
+    trait :readonly do
+      is_readonly { true }
+    end
   end
 end

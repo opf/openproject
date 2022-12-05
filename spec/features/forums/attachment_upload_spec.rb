@@ -89,4 +89,45 @@ describe 'Upload attachment to forum message', js: true do
 
     expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
   end
+
+  it 'can upload an image to new and existing messages via drag & drop on attachments' do
+    index_page.visit!
+    click_link forum.name
+
+    create_page = index_page.click_create_message
+    create_page.set_subject 'A new message'
+
+    expect(page).not_to have_selector('[data-qa-selector="op-attachment-list-item"]')
+
+    editor.set_markdown "Some text because it's required"
+
+    # adding an image
+    find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+    expect(page).not_to have_selector('op-toasters-upload-progress')
+
+    show_page = create_page.click_save
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+
+    within '.toolbar-items' do
+      click_on "Edit"
+    end
+
+    script = <<~JS
+      const event = new DragEvent('dragover');
+      document.body.dispatchEvent(event);
+    JS
+    page.execute_script(script)
+
+    find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+    expect(page).not_to have_selector('op-toasters-upload-progress')
+
+    show_page.click_save
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+  end
 end

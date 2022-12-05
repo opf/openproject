@@ -74,7 +74,7 @@ module Components
       end
 
       def hover_bar(offset_days: 0)
-        container.hover
+        wait_until_hoverable
         offset_x = offset_days * 30
         page.driver.browser.action.move_to(@container.native, offset_x).perform
       end
@@ -105,12 +105,21 @@ module Components
       end
 
       def drag_and_drop(offset_days: 0, days: 1)
-        container.hover
+        wait_until_hoverable
         offset_x_start = offset_days * 30
         start_dragging(container, offset_x: offset_x_start)
         offset_x = ((days - 1) * 30) + offset_x_start
         drag_element_to(container, offset_x:)
         drag_release
+      end
+
+      private
+
+      def wait_until_hoverable
+        # The timeline element and the mouse handlers are lazily loaded and can
+        # be hidden if no dates are set. Finding it waits until the lazy loading
+        # has completed.
+        container.find('.timeline-element', visible: :all)
       end
     end
   end

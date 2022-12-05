@@ -76,7 +76,7 @@ We recommend that each type has the following status options:
 
 ### Activating the "OpenProject BIM" theme (optional)
 
-OpenProject installations with a valid Enterprise Edition token can switch to the BIM 
+OpenProject installations with a valid Enterprise on-premises edition token can switch to the BIM 
 theme.
 
 Go to _-> Administration -> Design_ and from the _Themes_ drop down menu choose _OpenProject BIM_.

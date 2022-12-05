@@ -61,9 +61,9 @@ module Pages
           work_package_prioritized
           work_package_scheduled
         ].each do |type|
-          expect(page).to have_selector("input[type='checkbox'][data-qa-global-notification-type='#{type}']") do |checkbox|
+          expect(page).to have_selector("input[type='checkbox'][data-qa-global-notification-type='#{type}']") { |checkbox|
             checkbox.checked? == setting[type]
-          end
+          }
         end
       end
 

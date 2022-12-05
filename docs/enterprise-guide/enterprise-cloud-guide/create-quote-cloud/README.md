@@ -12,7 +12,7 @@ If you would like to request a quote for OpenProject Enterprise cloud you can do
 
 To create a quote please, **click on the BUY NOW teaser**, e.g. in the application header or or in the project menu.
 
-![Cloud-edition-buy-now-teaser](Cloud-edition-buy-now-teaser.png)
+![Enterprise cloud edition](Cloud-edition-buy-now-teaser.png)
 
 You will be directed to -> *Administration* -> *Billing*.
 

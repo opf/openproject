@@ -156,7 +156,7 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
         let(:type) { 'Integer' }
         let(:name) { custom_field.name }
         let(:required) { false }
-        let(:writable) { true }
+        let(:writable) { false }
       end
     end
 

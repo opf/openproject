@@ -40,7 +40,8 @@
 
     .inline-edit--display-field
       white-space: normal
-      word-break: break-all
+      overflow-wrap: break-word
+      hyphens: auto
 
 // Subject field
 .wp-new--subject-wrapper
@@ -78,21 +79,6 @@
     // Allow only vertical resizing of the textarea
     textarea
       resize: vertical
-
-
-  // Implement two column layout for WP full screen view
-  &_with-columns
-    @media screen and (min-width: 92rem), print
-      .-columns-2
-        @include two-column-layout
-
-      @supports (column-span: all)
-        // Remove the outline on focus since that breaks the column in chrome
-        // Chrome bug https://bugs.chromium.org/p/chromium/issues/detail?id=565116
-        body
-          .attributes-key-value--value-container
-            *:focus
-              outline: 1px solid $gray
 
 .detail-panel-description
   margin: 0

@@ -35,7 +35,8 @@ module API::V3::StorageFiles
     link :destination do
       {
         href: represented.destination,
-        method: :post
+        method: :post,
+        title: 'Upload File'
       }
     end
 
@@ -43,8 +44,10 @@ module API::V3::StorageFiles
       next if represented.finalize.nil?
 
       {
-        href: represented.finalize,
-        method: :post
+        href: represented.finalize.destination,
+        method: :post,
+        title: 'Conclude file upload',
+        payload: represented.finalize.payload
       }
     end
 

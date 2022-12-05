@@ -27,22 +27,8 @@
 #++
 
 class API::V3::FileLinks::FileLinksDownloadAPI < ::API::OpenProjectAPI
-  helpers Storages::Peripherals::StorageUrlHelper
   using Storages::Peripherals::ServiceResultRefinements
-
-  helpers do
-    def raise_error(error)
-      case error
-      when :not_found
-        raise API::Errors::NotFound.new
-      when :not_authorized
-        Rails.logger.error("An outbound request failed due to an authorization failure!")
-        raise API::Errors::InternalError.new
-      else
-        raise API::Errors::InternalError.new
-      end
-    end
-  end
+  helpers Storages::Peripherals::StorageUrlHelper, Storages::Peripherals::StorageErrorHelper
 
   resources :download do
     get do

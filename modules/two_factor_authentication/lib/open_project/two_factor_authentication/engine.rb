@@ -34,8 +34,7 @@ module OpenProject::TwoFactorAuthentication
                     { controller: '/two_factor_authentication/two_factor_settings', action: :show },
                     caption: ->(*) { I18n.t('two_factor_authentication.label_two_factor_authentication') },
                     parent: :authentication,
-                    if: ->(*) { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.configurable_by_ui? },
-                    enterprise_feature: 'two_factor_authentication'
+                    if: ->(*) { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.configurable_by_ui? }
              end
 
     patches %i[User]
