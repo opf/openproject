@@ -6,7 +6,7 @@ class CreateProjectJournals < ActiveRecord::Migration[7.0]
       t.text :description
       t.boolean :public, null: false
       t.bigint :parent_id
-      t.string :identifier
+      t.string :identifier, null: false
       t.boolean :active, null: false
       t.boolean :templated, null: false
     end
