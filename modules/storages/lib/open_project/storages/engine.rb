@@ -40,6 +40,10 @@ module OpenProject::Storages
     # please see comments inside ActsAsOpEngine class
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer 'openproject_storages.feature_decisions' do
+      OpenProject::FeatureDecisions.add :storage_file_linking
+    end
+
     # For documentation see the definition of register in "ActsAsOpEngine"
     # This corresponds to the openproject-storage.gemspec
     # Pass a block to the plugin (for defining permissions, menu items and the like)
@@ -110,6 +114,10 @@ module OpenProject::Storages
     # and the return value is a string.
     add_api_path :storage do |storage_id|
       "#{root}/storages/#{storage_id}"
+    end
+
+    add_api_path :storage_files do |storage_id|
+      "#{root}/storages/#{storage_id}/files"
     end
 
     add_api_path :file_links do |work_package_id|

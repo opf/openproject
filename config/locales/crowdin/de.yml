@@ -49,7 +49,7 @@ de:
         main-menu-border-color: "Rahmenfarbe des Hauptmenüs"
       custom_colors: "Benutzerdefinierte Farben"
       customize: "Passen Sie Ihre OpenProject Installation mit Ihrem eigenen Logo und eigenen Farben an."
-      enterprise_notice: "Als ein besonderes Dankeschön für Ihre finanzielle Unterstützung in der Entwicklung von OpenProject ist diese Funktionalität nur in Verknüpfung mit einem Enterprise-Edition Abonnement verfügbar."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Hinweis: Das verwendete Logo wird öffentlich zugänglich sein."
       manage_colors: "Farbauswahloptionen bearbeiten"
       instructions:
@@ -67,12 +67,12 @@ de:
       upgrade_to_ee: "Auf Enterprise-Edition upgraden"
       add_token: "Enterprise-Edition Support Token hochladen"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        text: "Sind Sie sicher, dass Sie das aktuelle Enterprise Edition-Token entfernen möchten?"
         title: "Token löschen"
       replace_token: "Aktuellen Enterprise-Edition Support Token ersetzen"
       order: "Enterprise on-premises bestellen"
       paste: "Enterprise-Edition Support Token hier einfügen"
-      required_for_feature: "Diese Funktion ist nur mit einem aktiven Enterprise-Edition-Support Token verfügbar."
+      required_for_feature: "Dieses Add-on ist nur mit einem aktiven Enterprise-Edition Support-Token verfügbar."
       enterprise_link: "Klicken Sie hier für weitere Informationen."
       start_trial: 'Kostenlose Testversion starten'
       book_now: 'Jetzt buchen'
@@ -80,7 +80,7 @@ de:
       buttons:
         upgrade: "Jetzt Upgrade durchführen"
         contact: "Kontaktieren Sie uns für eine Demo"
-      enterprise_info_html: "ist eine Enterprise <strong class='icon-medal'></strong> Funktion."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Bitte steigen Sie auf einen kostenpflichtigen Plan um, um diese Funktion zu aktivieren und in Ihrem Team zu verwenden."
     journal_aggregation:
       explanation:
@@ -136,6 +136,7 @@ de:
         Wenn Sie dieses Häkchen setzen, erstellt OpenProject automatisch neue Benutzer aus ihren zugehörigen LDAP-Einträgen, wenn sie sich zuerst mit OpenProject anmelden.
         Lassen Sie sie deaktiviert, um nur existierenden Konten in OpenProject die Authentifizierung über LDAP zu ermöglichen!
     connection_encryption: 'Verbindungsverschlüsselung'
+    encryption_details: 'LDAPS / STARTTLS Optionen'
     system_account: 'Systemkonto'
     system_account_legend: |
       OpenProject benötigt lesenden Zugriff über ein LDAP-Systemkonto, um Benutzer und Gruppen in Ihrem LDAP-Baum zu suchen.
@@ -146,13 +147,18 @@ de:
       Die folgenden Felder beziehen sich darauf, wie Benutzer in OpenProject aus LDAP-Einträgen erstellt werden und welche LDAP-Attribute verwendet werden, um die Attribute eines OpenProject-Benutzers (Attributzuordnung) zu definieren.
     tls_mode:
       plain: 'keine'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Unverschlüsselte Verbindung."
-      simple_tls_description: "Implizite TLS-Verschlüsselung ohne Verifikation. Mit Bedacht verwenden, da diese Option in impliziten Vertrauen in die LDAP-Verbindung resultiert."
-      start_tls_description: "Explizite TLS-Verschlüsselung mit Verifikation der Zertifikatskette. Für LDAP over TLS/SSL verwenden."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Öffnet eine unverschlüsselte Verbindung zum LDAP-Server. Wird für Produktionsumgebungen nicht empfohlen."
+      simple_tls_description: "LDAPS verwenden. Benötigt einen separaten Port auf dem LDAP-Server. Dieser Modus ist oft veraltet, wir empfehlen STARTTLS zu verwenden, wann immer dies möglich ist."
+      start_tls_description: "Sendet einen STARTTLS-Befehl nach der Verbindung zum Standard-LDAP-Port. Empfohlen für verschlüsselte Verbindungen."
       section_more_info_link_html: >
         Dieser Abschnitt betrifft die Verbindungssicherheit dieser LDAP-Authentifizierungsquelle. Besuchen Sie für weitere Informationen die <a href="%{link}">Net::LDAP Dokumentation</a>.
+    tls_options:
+      verify_peer: "SSL-Zertifikat überprüfen"
+      verify_peer_description_html: >
+        Aktiviert die strikte SSL-Überprüfung der vertrauenswürdigen Zertifikatskette. <br/> <strong>Warnung:</strong> Ausstellen dieser Option deaktiviert die SSL-Überprüfung des LDAP-Serverzertifikats. Ihre Verbindung wird anfällig für Man-In-The-Middle (MITM) Angriffe.
+      tls_certificate_description: "Wenn sich das LDAP-Server-Zertifikat nicht in den vertrauenswürdigen Quellen dieses Systems befindet, können Sie es hier manuell hinzufügen. Fügen Sie an dieser Stelle ein oder mehrere PEM X509 Zertifkate ein."
   forums:
     show:
       no_results_title_text: Zur Zeit existieren keine Forumseinträge für dieses Forum.
@@ -207,6 +213,15 @@ de:
     ignore_filenames: >
       Geben Sie eine Liste von Dateinamen an, die beim Verarbeiten von Anhängen für eingehende Mails (z.B. Signaturen oder Symbole) ignoriert werden sollen. Geben Sie einen Dateinamen pro Zeile ein.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Projektmitglieder'
+      overviews: 'Projektübersicht'
+      queries: 'Arbeitspakete: gespeicherte Ansichten'
+      wiki_page_attachments: 'Wiki-Seiten: Anhänge'
+      work_package_attachments: 'Arbeitspakete: Anhänge'
+      work_package_categories: 'Arbeitspakete: Kategorien'
+      work_package_file_links: 'Arbeitspakete: Datei-Links'
     delete:
       scheduled: "Die Löschung wurde geplant und wird im Hintergrund durchgeführt. Sie werden über das Ergebnis informiert."
       schedule_failed: "Projekt kann nicht gelöscht werden: %{errors}"
@@ -302,7 +317,7 @@ de:
       settings: "Einstellungen"
       form_configuration: "Formularkonfiguration"
       more_info_text_html: >
-        Mit der Enterprise Edition können Sie die Formularkonfiguration mit diesen zusätzlichen Funktionen anpassen: <br> <ul class="%{list_styling_class}"> <li><b>Neue Attributgruppen hinzufügen</b></li> <li><b>Attributgruppen umbenennen</b></li> </li> <li><b>Eine Tabelle mit verwandten Arbeitspaketen hinzufügen</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekte"
       enabled_projects: "Aktivierte Projekte"
       edit_query: "Tabelle bearbeiten"
@@ -405,6 +420,7 @@ de:
         host: "Host"
         onthefly: "Benutzer automatisch erzeugen"
         port: "Port"
+        tls_certificate_string: "LDAP-Server SSL-Zertifikat"
       changeset:
         repository: "Projektarchiv"
       comment:
@@ -529,7 +545,7 @@ de:
         include_non_working_days:
           title: 'Werktage'
           false: 'Nur Werktage'
-          true: 'include non-working days'
+          true: 'Mit Wochenenden'
         parent: "Übergeordnetes Arbeitspaket"
         parent_issue: "Übergeordnetes Arbeitspaket"
         parent_work_package: "Übergeordnetes Arbeitspaket"
@@ -613,6 +629,11 @@ de:
           stellt keinen "Secure Context" zur Verfügung: Benutzen Sie entweder HTTPS oder eine Loopback-Adresse, wie z.B. localhost.
         wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "Das zur Verfügung gestellte SSL-Zertifikat ist ungültig: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -663,10 +684,6 @@ de:
               no_notification_reason: 'kann nicht leer sein, da In-App-Benachrichtigung als Kanal ausgewählt ist.'
             reason_mail_digest:
               no_notification_reason: 'darf nicht leer sein, da tägliche E-Mail-Übersicht als Kanal ausgewählt ist.'
-        notification_settings:
-          only_one_global_setting: 'Es darf nur eine globale Benachrichtigungseinstellung geben.'
-          email_alerts_global: 'Die E-Mail-Benachrichtigungseinstellungen können nur global gesetzt werden.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -729,8 +746,8 @@ de:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
-              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
+              working_days_are_missing: 'Mindestens ein Wochentag muss als Arbeitstag definiert werden.'
+              previous_working_day_changes_unprocessed: 'Die vorherigen Änderungen an der Konfiguration der Arbeitstage wurden noch nicht angewendet.'
         time_entry:
           attributes:
             hours:
@@ -741,6 +758,16 @@ de:
               invalid_range: "kann nur ein gültiger Datumsbereich sein."
             daily_reminders:
               full_hour: "kann nur in vollen Stunden konfiguriert werden."
+            notification_settings:
+              only_one_global_setting: 'Es darf nur eine globale Benachrichtigungseinstellung geben.'
+              email_alerts_global: 'Die E-Mail-Benachrichtigungseinstellungen können nur global gesetzt werden.'
+              format: "%{message}"
+              wrong_date: 'Falscher Wert für Startdatum, Fälligkeitsdatum oder Überfälligkeit.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "darf diese Ressource nicht sehen."
+              locked: "ist gesperrt."
         wiki_page:
           attributes:
             slug:
@@ -1231,11 +1258,11 @@ de:
   ee:
     upsale:
       form_configuration:
-        description: "Anpassen der Form-Konfiguration mit diesen zusätzlichen Funktionen:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Neue Attributgruppen hinzufügen"
         rename_groups: "Attributgruppen umbenennen"
       project_filters:
-        description_html: "Filtern und Sortieren auf benutzerdefinierten Feldern ist eine Funktion der Enterprise Edition."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Aktivitäten für Zeiterfassung"
   enumeration_work_package_priorities: "Arbeitspaket-Prioritäten"
   enumeration_reported_project_statuses: "Gemeldeter Projekt-Status"
@@ -1345,10 +1372,10 @@ de:
     blocks:
       community: "OpenProject Community"
       upsale:
-        title: "Auf Enterprise Edition upgraden"
+        title: "Auf Enterprise-Edition upgraden"
         more_info: "Weitere Informationen"
     links:
-      upgrade_enterprise_edition: "Auf Enterprise Edition upgraden"
+      upgrade_enterprise_edition: "Auf Enterprise-Edition upgraden"
       postgres_migration: "Migration Ihrer Installation zu PostgreSQL"
       user_guides: "Benutzerhandbuch"
       faq: "Häufig gestellte Fragen"
@@ -1564,7 +1591,7 @@ de:
   label_enumerations: "Aufzählungen"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
-  label_enterprise_edition: "Enterprise-Edition"
+  label_enterprise_edition: "Enterprise Edition"
   label_environment: "Umgebung"
   label_estimates_and_time: "Schätzungen & Zeiten"
   label_equals: "ist"
@@ -1914,7 +1941,6 @@ de:
   label_wiki_start: "Hauptseite"
   label_work_package: "Arbeitspaket"
   label_work_package_attachments: "Anhänge des Arbeitspakets"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Neue Kategorie"
   label_work_package_category_plural: "Arbeitspaket-Kategorien"
   label_work_package_hierarchy: "Arbeitspakethierarchie"
@@ -1930,7 +1956,7 @@ de:
   label_workflow: "Workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Zusammenfassung"
-  label_working_days: "Working days"
+  label_working_days: "Werktage"
   label_x_closed_work_packages_abbr:
     one: "1 geschlossen"
     other: "%{count} geschlossen"
@@ -1991,7 +2017,7 @@ de:
       center: 'Zur Benachrichtigungszentrale'
       see_in_center: 'Kommentar in Benachrichtigungszentrale öffnen'
       settings: 'E-Mail-Einstellungen ändern'
-    salutation: 'Hello %{user}'
+    salutation: 'Hallo %{user}'
     work_packages:
       created_at: 'Erstellt %{timestamp} von %{user} '
       login_to_see_all: 'Melden Sie sich an, um alle Benachrichtigungen zu sehen.'
@@ -2007,6 +2033,8 @@ de:
         mentioned: 'Erwähnt'
         subscribed: 'alle'
         prefix: 'Erhalten aufgrund Benachrichtigungseinstellung: %{reason}'
+        date_alert_start_date: 'Datums-Erinnerung'
+        date_alert_due_date: 'Datums-Erinnerung'
       see_all: 'Alle anzeigen'
       updated_at: 'Aktualisiert %{timestamp} von %{user} '
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
@@ -2170,7 +2198,7 @@ de:
           tb: "TB"
   onboarding:
     heading_getting_started: "Erhalten Sie einen Überblick"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
+    text_getting_started_description: "Erhalten Sie einen schnellen Überblick über die Projektverwaltung und die Zusammenarbeit mit OpenProject. Sie können dieses Video über das Hilfe-Menü neu starten."
     welcome: "Willkommen zu %{app_title}"
     select_language: "Bitte wählen Sie Ihre Sprache"
   permission_add_work_package_notes: "Kommentare hinzufügen"
@@ -2371,8 +2399,8 @@ de:
       update_timeout: "Speichere die Informationen bzgl. des genutzten Festplattenspeichers eines Projektarchivs für N Minuten.\nErhöhen Sie diesen Wert zur Verbesserung der Performance, da die Erfassung des genutzten Festplattenspeichers Ressourcen-intensiv ist."
       oauth_application_details: "Der Client Geheimcode wird nach dem Schließen dieses Fensters nicht mehr zugänglich sein. Bitte kopieren Sie diese Werte in die Nextcloud OpenProject Integrationseinstellungen:"
       oauth_application_details_link_text: "Zu den Einstellungen gehen"
-      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
-      setup_documentation_details_link_text: "File Storages setup"
+      setup_documentation_details: "Wenn Sie Hilfe bei der Konfiguration eines neuen Datei-Speichers benötigen, konsultieren Sie bitte die Dokumentation: "
+      setup_documentation_details_link_text: "Datei-Speicher einrichten"
       show_warning_details: "Um diesen Dateispeicher nutzen zu können, müssen Sie das Modul und den spezifischen Speicher in den Projekteinstellungen jedes gewünschten Projekts aktivieren."
     subversion:
       existing_title: "Vorhandenes Subversion Projektarchiv"
@@ -2562,7 +2590,7 @@ de:
   text_access_token_hint: "Zugangs-Tokens erlauben es externen Applikationen Zugriff auf OpenProject zu erhalten."
   text_analyze: "Weiter analysieren: %{subject}"
   text_are_you_sure: "Sind Sie sicher?"
-  text_are_you_sure_continue: "Are you sure you want to continue?"
+  text_are_you_sure_continue: "Sind Sie sicher, dass Sie fortfahren möchten?"
   text_are_you_sure_with_children: "Lösche Aufgabe und alle Unteraufgaben?"
   text_assign_to_project: "Dem Projekt zuweisen"
   text_form_configuration: >
@@ -2578,11 +2606,11 @@ de:
   text_custom_field_hint_activate_per_project_and_type: >
     Benutzerdefinierte Felder müssen jeweils in Arbeitspaket-Typ und Projekt aktiviert werden.
   text_wp_custom_field_html: >
-    Die Enterprise Edition fügt diese zusätzlichen Funktionen für benutzerdefinierte Felder von Arbeitspaketen hinzu: <br> <ul> <li><b>Erlaubt Mehrfachauswahl für benutzerdefinierte Felder der Typenliste oder Benutzer</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    Die Enterprise Edition fügt diese zusätzlichen Funktionen für die Statusfelder der Arbeitspakete hinzu: <br> <ul> <li><b>Erlaubt die Markierung von Arbeitspaketen als read-only für bestimmte Status</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    Die Enterprise Edition fügt diese zusätzlichen Funktionen für die benutzerdefinierten Felder der Projekte hinzu: <br> <ul> <li><b>Fügt benutzerdefinierte Felder für Projekte zu Ihrer Projektliste hinzu, um eine Portfolioansicht zu erstellen</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Ein weißes Logo mit transparentem Hintergrund wird empfohlen. Für ein optimales Ergebnis für konventionelle und Retina-Displays sollte die Bildabmessungen 460 x 110 Pixel betragen.
   text_custom_favicon_instructions: >
@@ -2911,19 +2939,20 @@ de:
       title: "Arbeitspaket löschen"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
-    change_button: "Change working days"
+      <b>Definieren Sie die Arbeitstage der Woche</b><br/> Arbeitsfreie Tage werden bei der Planung der Arbeitspakete übersprungen und bei Berechnung der Dauer ausgenommen. Diese Einstellung kann pro Arbeitspaket überschrieben werden.
+    change_button: "Arbeitstage ändern"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Änderungen an Arbeitstagen können den Start und das Ende aller Arbeitspakete in allen Projekten in dieser Instanz beeinflussen.
     journal_note:
-      changed: _**Working days** changed (%{changes})._
+      changed: _**Arbeitstage ** geändert (%{changes})._
       days:
-        working: "%{day} is now working"
-        non_working: "%{day} is now non-working"
+        working: "%{day} ist jetzt ein Arbeitstag"
+        non_working: "%{day} ist jetzt kein Arbeitstag"
   nothing_to_preview: "Keine Vorschau verfügbar"
   api_v3:
     attributes:
       lock_version: "Version sperren"
+      property: 'Eigenschaft'
     errors:
       code_400: "Ungültige Anfrage: %{message}"
       code_401: "Sie müssen sich authentifizieren, um auf die Ressource zugreifen zu können."

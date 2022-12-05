@@ -59,8 +59,11 @@ module API
 
             @writable_attributes ||= contract.writable_attributes
 
-            property_name = ::API::Utilities::PropertyNameConverter.to_ar_name(property, context: work_package)
-
+            property_name = ::API::Utilities::PropertyNameConverter.to_ar_name(
+              property,
+              context: work_package,
+              collapse_cf_name: false
+            )
             @writable_attributes.include?(property_name)
           end
 

@@ -50,6 +50,7 @@ import {
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 import { ConfirmDialogOptions } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
+import { isDirectory } from 'core-app/shared/components/file-links/file-link-icons/file-icons.helper';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -112,14 +113,14 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
     this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
 
-    this.downloadAllowed = this.originData.mimeType !== 'application/x-op-directory';
+    this.downloadAllowed = !isDirectory(this.originData.mimeType);
 
     this.text.title.downloadFileLink = this.i18n.t(
       'js.storages.file_links.download',
       { fileName: this.fileLink.originData.name },
     );
 
-    this.viewAllowed = this.fileLink._links.permission.href === fileLinkViewAllowed;
+    this.viewAllowed = !this.fileLink._links.permission || this.fileLink._links.permission.href === fileLinkViewAllowed;
   }
 
   ngAfterViewInit():void {

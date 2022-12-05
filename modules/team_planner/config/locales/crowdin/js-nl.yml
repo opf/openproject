@@ -3,19 +3,20 @@ nl:
   js:
     team_planner:
       add_existing: 'Bestaande toevoegen'
-      add_existing_title: 'Add existing work packages'
+      add_existing_title: 'Bestaande werkpakketten toevoegen'
       create_label: 'Team planner'
-      create_title: 'Create new team planner'
+      create_title: 'Maak een nieuwe teamplanner'
       unsaved_title: 'Naamloze teamplanner'
       no_data: 'Voeg taakontvangers toe om uw team planner op te zetten.'
       add_assignee: 'Voeg verantwoordelijke toe'
       remove_assignee: 'Verwijder verantwoordelijke'
       two_weeks: '2-week'
       one_week: '1-week'
+      work_week: 'Work week'
       today: 'Vandaag'
       drag_here_to_remove: 'Sleep hierheen om taakontvanger en start- en einddata te verwijderen.'
       cannot_drag_here: 'Kan het werkpakket niet verwijderen vanwege machtigingen of bewerkingsbeperkingen.'
-      cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'
+      cannot_drag_to_non_working_day: 'Dit werkpakket kan niet starten/eindigen op een niet-werkdag.'
       quick_add:
         empty_state: 'Gebruik het zoekveld om werkpakketten te vinden en sleep ze naar de planner om toe te wijzen aan iemand en begin- en einddatums te definiëren.'
         search_placeholder: 'Zoeken ...'

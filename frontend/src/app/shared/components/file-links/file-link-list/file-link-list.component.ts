@@ -36,6 +36,7 @@ import {
   BehaviorSubject,
   Observable,
 } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -55,7 +56,15 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { StorageActionButton } from 'core-app/shared/components/file-links/storage-information/storage-action-button';
-import { StorageInformationBox } from 'core-app/shared/components/file-links/storage-information/storage-information-box';
+import {
+  StorageInformationBox,
+} from 'core-app/shared/components/file-links/storage-information/storage-information-box';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import {
+  FilePickerModalComponent,
+} from 'core-app/shared/components/file-links/file-picker-modal/file-picker-modal.component';
+import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 
 @Component({
   selector: 'op-file-link-list',
@@ -79,6 +88,8 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   showLinkFilesAction = new BehaviorSubject<boolean>(false);
 
+  private isLoggedIn = false;
+
   private readonly storageTypeMap:Record<string, string> = {};
 
   text = {
@@ -96,8 +107,13 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     },
     actions: {
       linkFile: (storageType:string):string => this.i18n.t('js.storages.link_files_in_storage', { storageType }),
+      linkExisting: this.i18n.t('js.storages.link_existing_files'),
     },
   };
+
+  public get storageFileLinkingEnabled():boolean {
+    return this.configurationService.activeFeatureFlags.includes('storageFileLinking');
+  }
 
   private get storageFilesLocation():string {
     return this.storage._links.open.href;
@@ -105,9 +121,11 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
 
   constructor(
     private readonly i18n:I18nService,
-    private readonly fileLinkResourceService:FileLinksResourceService,
-    private readonly currentUserService:CurrentUserService,
     private readonly cookieService:CookieService,
+    private readonly opModalService:OpModalService,
+    private readonly currentUserService:CurrentUserService,
+    private readonly configurationService:ConfigurationService,
+    private readonly fileLinkResourceService:FileLinksResourceService,
   ) {
     super();
   }
@@ -120,6 +138,10 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     this.disabled = this.storage._links.authorizationState.href !== storageConnected;
 
     this.fileLinks$ = this.fileLinkResourceService.collection(this.collectionKey);
+
+    this.currentUserService.isLoggedIn$
+      .pipe(this.untilDestroyed())
+      .subscribe((isLoggedIn) => { this.isLoggedIn = isLoggedIn; });
 
     this.fileLinks$
       .pipe(this.untilDestroyed())
@@ -145,7 +167,29 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
     window.open(this.storageFilesLocation, '_blank');
   }
 
+  public openLinkFilesDialog():void {
+    this.fileLinks$
+      .pipe(take(1))
+      .subscribe((fileLinks) => {
+        const locals = {
+          storageType: this.storage._links.type.href,
+          storageTypeName: this.storageType,
+          storageName: this.storage.name,
+          storageLocation: this.storageFilesLocation,
+          storageLink: this.storage._links.self,
+          addFileLinksHref: (this.resource.$links as unknown&{ addFileLink:IHalResourceLink }).addFileLink.href,
+          collectionKey: this.collectionKey,
+          fileLinks,
+        };
+        this.opModalService.show<FilePickerModalComponent>(FilePickerModalComponent, 'global', locals);
+      });
+  }
+
   private instantiateStorageInformation(fileLinks:IFileLink[]):StorageInformationBox[] {
+    if (!this.isLoggedIn) {
+      return [];
+    }
+
     switch (this.storage._links.authorizationState.href) {
       case storageFailedAuthorization:
         return [this.failedAuthorizationInformation];
@@ -155,7 +199,7 @@ export class FileLinkListComponent extends UntilDestroyedMixin implements OnInit
         if (fileLinks.length === 0) {
           return [this.emptyStorageInformation];
         }
-        if (fileLinks.filter((fileLink) => fileLink._links.permission.href === fileLinkViewError).length > 0) {
+        if (fileLinks.filter((fileLink) => fileLink._links.permission?.href === fileLinkViewError).length > 0) {
           this.disabled = true;
           return [this.fileLinkErrorInformation];
         }

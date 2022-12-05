@@ -40,12 +40,15 @@
 
     + .spot-divider
       margin-top: $spot-spacing-1
-  
+
     > .spot-icon
       width: $spot-spacing-1-5
       height: $spot-spacing-1-5
       margin-right: $spot-spacing-0-5
       font-size: 1rem
+
+    &-title
+      flex-grow: 1
 
     &_highlight
       background-color: var(--header-bg-color)
@@ -66,3 +69,7 @@
 
     &:focus
       outline-style: none
+
+  &--cancel-button
+    @media (max-width: 680px)
+      display: none

@@ -46,8 +46,8 @@ class Journal < ApplicationRecord
   belongs_to :journable, polymorphic: true
   belongs_to :data, polymorphic: true, dependent: :destroy
 
-  has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :destroy
-  has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :destroy
+  has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :delete_all
+  has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :delete_all
 
   has_many :notifications, dependent: :destroy
 

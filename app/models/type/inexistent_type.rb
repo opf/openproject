@@ -27,4 +27,5 @@
 #++
 
 class Type::InexistentType < Type
+  include InexistentModel
 end

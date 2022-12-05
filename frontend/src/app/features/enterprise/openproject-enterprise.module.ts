@@ -37,7 +37,6 @@ import { EETrialWaitingComponent } from 'core-app/features/enterprise/enterprise
 import { EEActiveTrialComponent } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-trial.component';
 import { EEActiveSavedTrialComponent } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FreeTrialButtonComponent } from 'core-app/features/enterprise/free-trial-button/free-trial-button.component';
 
 @NgModule({
   imports: [
@@ -50,7 +49,6 @@ import { FreeTrialButtonComponent } from 'core-app/features/enterprise/free-tria
     EnterpriseTrialService,
   ],
   exports: [
-    FreeTrialButtonComponent,
   ],
   declarations: [
     EnterpriseBaseComponent,
@@ -59,7 +57,6 @@ import { FreeTrialButtonComponent } from 'core-app/features/enterprise/free-tria
     EETrialWaitingComponent,
     EEActiveTrialComponent,
     EEActiveSavedTrialComponent,
-    FreeTrialButtonComponent,
   ],
 })
 export class OpenprojectEnterpriseModule {

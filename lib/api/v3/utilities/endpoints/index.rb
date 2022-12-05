@@ -64,7 +64,7 @@ module API
                              calculated_self_path(request),
                              scope ? request.instance_exec(&scope) : model)
             else
-              render_error(query)
+              raise_query_errors(query)
             end
           end
 
@@ -134,8 +134,12 @@ module API
             render_representer.ancestors.include?(::API::Decorators::OffsetPaginatedCollection)
           end
 
-          def render_error(query)
-            raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+          def calculated_self_path(request)
+            if self_path.respond_to?(:call)
+              request.instance_exec(&self_path)
+            else
+              request.api_v3_paths.send(self_path)
+            end
           end
 
           def calculated_self_path(request)

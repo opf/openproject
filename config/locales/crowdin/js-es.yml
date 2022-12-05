@@ -224,31 +224,34 @@ es:
           status_label: "Estado:"
           status_confirmed: "confirmado"
           status_waiting: "correo electrónico enviado - esperando confirmación"
-          test_ee: "Pruebe la edición Enterprise de forma gratuita durante 14 días"
-          quick_overview: "Obtenga un resumen rápido sobre la gestión de proyectos y la colaboración en equipo con OpenProject edición Enterprise."
+          test_ee: "Test the Enterprise edition 14 days for free"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "¡Conviértete en un héroe!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          upgrade_info: "Actualice a un plan de pago para activarla y empiece a usarla en su equipo."
           benefits:
-            description: "¿Cuáles son las ventajas de la edición Enterprise on-premises?"
-            high_security: "Características de seguridad"
-            high_security_text: "Inicio de sesión único (SAML, OpenID Connect, CAS), autenticación en dos fases y sincronización automática de grupos de LDAP."
+            description: "What are the benefits of the Enterprise on-premises edition?"
+            high_security: "Funcionalidades de seguridad"
+            high_security_text: "Inicio de sesión único (SAML, OpenID Connect, CAS), grupos LDAP."
             installation: "Ayuda en la instalación"
             installation_text: "Nuestros ingenieros de software especializados le guiarán en todo el proceso de instalación y configuración en su propia infraestructura."
-            premium_features: "Funciones prémium"
+            premium_features: "Enterprise add-ons"
             premium_features_text: "Paneles Agile, tema y logotipo personalizados, gráficos, flujos de trabajo inteligentes con acciones personalizadas, búsqueda de texto completo en archivos adjuntos de paquetes de trabajo y campos personalizados de selección múltiple."
             professional_support: "Soporte profesional"
             professional_support_text: "Obtenga ayuda rápida y de confianza de nuestros agentes de asistencia con conocimientos especializados sobre cómo ejecutar OpenProject en entornos empresariales críticos."
           button_start_trial: "Iniciar prueba gratuita"
           button_upgrade: "Actualizar ahora"
+          button_contact_us: "Contacte con nosotros para solicitar una demostración"
           button_book_now: "Reservar ahora"
           confidence: >
             Ofrecemos la confianza de un software de gestión de proyectos de categoría empresarial probado y con asistencia: de código abierto y mente abierta.
           link_quote: "Solicitar presupuesto"
           more_info: "Más información"
           text: >
-            OpenProject edición Enterprise se basa en la edición de la comunidad (edición Community). Incluye características premium y asistencia profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Ilimitado"
-          you_contribute: "Los desarrolladores también tienen que pagar sus facturas. Al actualizar a edición Enterprise, apoyará el esfuerzo de la comunidad de código abierto y contribuirá a su desarrollo, mantenimiento y mejora continua."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: 'en'
@@ -277,7 +280,7 @@ es:
           one: "Primer criterio de ordenación"
           two: "Segundo criterio de ordenación"
           three: "Tercer criterio de ordenación"
-      upsale_for_more: "Los filtros avanzados te permiten también filtrar los nombres de los archivos y el contenido de los archivos adjuntos del paquete de trabajo. Por favor, actualice a un plan de pago para utilizar esta característica."
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
       upsale_link: 'Edición Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
@@ -293,19 +296,19 @@ es:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Obtenga información sobre nuevas características y actualizaciones de productos."
-          learn_about: "Más información sobre las nuevas características"
+          text_new_features: "Obtenga información sobre nuevas funcionalidades y actualizaciones de productos."
+          learn_about: "Más información sobre las nuevas funcionalidades"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                La versión contiene varias nuevas funcionalidades y mejoras: <br> <ul class="%{list_styling_class}"> <li>Defina su semana global de trabajo (fines de semana y días no laborables de la semana).</li> <li>Calcule la duración en función de las fechas de inicio y final y también la posibilidad de considerar los días no laborables (fines de semana) en la programación.</li> <li>Añada consejos útiles a las acciones más esenciales.</li> <li>Al copiar un proyecto también se copiarán los enlaces de archivos adjuntos a todos los paquetes de trabajo.</li> </ul>
+                Esta versión contiene nuevas mejoras y funcionalidades:<br> <ul class="%{list_styling_class}"> <li>Active alertas de notificación para fechas próximas y tareas vencidas.</li> <li>Hemos añadido la autenticación en dos fases (2FA) a la edición Community.</li> <li>También se ha añadido la opción para visualizar la semana laboral en el planificador de equipo.</li> <li>Ahora, se muestran hasta 3 personas en las tarjetas de notificación cuando hayan participado varias personas en los cambios.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                La versión contiene varias nuevas funcionalidades y mejoras: <br> <ul class="%{list_styling_class}"> <li>Defina su semana global de trabajo (fines de semana y días no laborables de la semana).</li> <li>Calcule la duración en función de las fechas de inicio y final y también la posibilidad de considerar los días no laborables (fines de semana) en la programación.</li> <li>Añada consejos útiles a las acciones más esenciales.</li> <li>Al copiar un proyecto también se copiarán los enlaces de archivos adjuntos a todos los paquetes de trabajo.</li> </ul>
+                Esta versión contiene nuevas mejoras y funcionalidades:<br> <ul class="%{list_styling_class}"> <li>Active alertas de notificación para fechas próximas y tareas vencidas.</li> <li>Hemos añadido la autenticación en dos fases (2FA) a la edición Community.</li> <li>También se ha añadido la opción para visualizar la semana laboral en el planificador de equipo.</li> <li>Ahora, se muestran hasta 3 personas en las tarjetas de notificación cuando hayan participado varias personas en los cambios.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Asignado a'
     label_add_column_after: "Añadir columna a la derecha"
@@ -397,6 +400,7 @@ es:
     label_no_data: "No hay datos disponibles"
     label_no_due_date: "sin fecha límite"
     label_no_start_date: "sin fecha de inicio"
+    label_no_date: "sin fecha"
     label_no_value: "Sin valor"
     label_none: "ninguno"
     label_not_contains: "no contiene"
@@ -504,7 +508,7 @@ es:
         project_selection: 'Haga clic en uno de los proyectos de demostración que hemos preparado. Los datos de demostración solo están disponibles en inglés actualmente. <br> El <b>proyecto general de demostración</b> es la opción recomendada para la gestión de proyectos clásica, mientras que el <b>proyecto de Scrum</b> es más adecuado para la gestión de proyectos Agile.'
         quick_add_button: 'Haga clic en el icono del signo más (+) en el menú de navegación del encabezado para <b>crear un proyecto</b> o <b>invitar a compañeros</b>.'
         sidebar_arrow: "Usa la flecha de retorno en la esquina superior izquierda para regresar al <b>menú principal</b> del proyecto."
-        welcome: 'Realice un paseo de introducción de tres minutos para conocer las <b>características más importantes</b>. <br> Le recomendamos que complete todos los pasos. Puede volver a iniciar el paseo en cualquier momento.'
+        welcome: 'Realice un paseo de introducción de tres minutos para conocer las <b>funcionalidades más importantes</b>. <br> Le recomendamos que complete todos los pasos. Puede volver a iniciar el paseo en cualquier momento.'
         wiki: 'En la <b>wiki</b>, puede elaborar documentos y compartir conocimientos con su equipo.'
         backlogs:
           overview: "Administre su trabajo en la vista de <b>trabajos pendientes</b>."
@@ -514,7 +518,7 @@ es:
           task_board: "En el panel de tareas, se muestra el <b>progreso de este sprint</b>. Haga clic en el icono del signo más (+) junto a una historia de usuario para añadir nuevas tareas o impedimentos. <br> Puede actualizar el estado mediante las funciones de arrastrar y colocar."
         boards:
           overview: 'Seleccione los <b>paneles</b> para cambiar la vista y gestione su proyecto con la vista de paneles Agile.'
-          lists_kanban: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta característica le permite crear un <b>panel Kanban</b>.'
+          lists_kanban: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta funcionalidad le permite crear un <b>panel Kanban</b>.'
           lists_basic: 'Aquí puede crear varias listas (columnas) en el panel Agile.'
           add: 'Haga clic en el icono del signo más (+) para <b>crear una tarjeta</b> o <b>añadir una tarjeta existente</b> a la lista en el panel.'
           drag: 'Arrastre y coloque las tarjetas en una lista específica para cambiar el orden o moverlas a otra lista. <br> Para ver los detalles, haga clic en el icono de información (i) de la esquina superior derecha o haga doble clic en una tarjeta.'
@@ -537,7 +541,7 @@ es:
       no_unread: "No hay notificaciones sin leer"
       reasons:
         mentioned: 'mencionado'
-        watched: 'observado'
+        watched: 'observador'
         assigned: 'asignado'
         responsible: 'responsable'
         created: 'creado'
@@ -545,12 +549,25 @@ es:
         commented: 'comentado'
         processed: 'procesado'
         prioritized: 'priorizar'
+        dateAlert: 'Alerta de fecha'
+      date_alerts:
+        milestone_date: 'Fecha de hito'
+        overdue: 'Vencido'
+        overdue_since: 'desde %{difference_in_days}'
+        property_today: 'es hoy'
+        property_is: 'está en %{difference_in_days}'
+        property_was: 'era hace %{difference_in_days}'
+        property_is_deleted: 'se ha eliminado'
+        upsale:
+          title: 'Alertas de fecha'
+          description: 'Con las alertas de fecha, recibirá notificaciones de próximas fechas de inicio o finalización para que nunca olvide una fecha límite importante.'
       facets:
         unread: 'No leídas'
         unread_title: 'Mostrar no leídos'
         all: 'Todos'
         all_title: 'Mostrar todos'
       center:
+        label_actor_and: 'y'
         and_more_users:
           one: 'y 1 más'
           other: 'y %{count} más'
@@ -572,22 +589,34 @@ es:
       menu:
         accountable: 'Responsable'
         by_project: 'Sin leer por proyecto'
-        by_reason: 'Implicación'
+        by_reason: 'Motivo'
         inbox: 'Bandeja de entrada'
-        mentioned: '@mencionado'
-        watching: 'Observando'
+        mentioned: 'Mencionado'
+        watched: 'Observador'
+        date_alert: 'Alerta de fecha'
       settings:
         change_notification_settings: 'Para ver y cambiar los ajustes de notificaciones, <a target="_blank" href="%{url}">haga clic aquí</a>'
         title: "Ajustes de notificación"
         notify_me: "Notifícame"
+        reminders:
+          no_notification: Sin notificación
+          timeframes:
+            normal:
+              PT0S: mismo día
+              P1D: 1 día antes
+              P3D: 3 días antes
+              P7D: una semana antes
+            overdue:
+              P1D: todos los días
+              P3D: cada 3 días
+              P7D: todas las semanas
         reasons:
           mentioned:
-            title: 'Estoy @mencionado'
+            title: 'Mencionado'
             description: 'Recibir una notificación cada vez que un usuario me mencione'
-          involved:
-            title: 'Asignado a mi usuario o responsable'
-            description: 'Recibe notificaciones para todas las actividades relacionadas con paquetes de trabajo en los cuales mi rol es asignado/a o responsable'
-          watched: 'Actualizaciones en elementos observados'
+          assignee: 'Asignado a'
+          responsible: 'Responsable'
+          watched: 'Observador'
           work_package_commented: 'Todos los nuevos comentarios'
           work_package_created: 'Nuevos paquetes de trabajo'
           work_package_processed: 'Todos los cambios de estado'
@@ -595,14 +624,19 @@ es:
           work_package_scheduled: 'Todos los cambios de fecha'
         global:
           immediately:
-            title: 'Notificarme de inmediato'
-            description: 'Estos ajustes se aplican en todos los proyectos. A continuación, puede crear excepciones específicas para proyectos.'
+            title: 'Participado'
+            description: 'Notificaciones para todas las actividades en paquetes de trabajo en los que usted está involucrado (asignado, responsable u observador).'
           delayed:
-            title: 'También notificarme sobre'
-            description: 'Recibir notificaciones de estas actividades de paquetes de trabajo en todos los proyectos:'
+            title: 'No participando'
+            description: 'Notificaciones adicionales para actividades en todos los proyectos.'
+          date_alerts:
+            title: 'Alertas de fecha'
+            description: 'Notificaciones automáticas cuando se acercan fechas importantes para paquetes de trabajo abiertos en los que está involucrado (asignado, responsable u observador).'
+            teaser_text: 'Con las alertas de fecha, recibirá notificaciones de próximas fechas de inicio o finalización para que nunca olvide una fecha límite importante.'
+          overdue: Cuando vencido
         project_specific:
           title: 'Configuración de notificaciones específicas de proyectos'
-          description: 'Esta configuración específica de proyectos reemplaza los ajustes predeterminados anteriores'
+          description: 'Esta configuración específica de proyectos reemplaza los ajustes predeterminados anteriores.'
           add: 'Añadir configuración para el proyecto'
           already_selected: 'Este proyecto ya está seleccionado'
           remove: 'Eliminar configuración del proyecto'
@@ -673,8 +707,8 @@ es:
         reset_title: "Restablecer la configuración del formulario"
         confirm_reset: >
           Advertencia: ¿Está seguro de que quiere restablecer la configuración del formulario? Se restablecerán los atributos al grupo predeterminado y se deshabilitarán TODOS los campos personalizados.
-        upgrade_to_ee: "Actualizar a edición Enterprise on-premises"
-        upgrade_to_ee_text: "¡Vaya! Si necesita está opción, entonces ¡eres un usuario experto! ¿Te importaría apoyar a los desarrolladores de OpenSource convirtiéndose en un cliente de la edición Enterprise?"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "Más información"
         nevermind: "No importa"
       edit:
@@ -821,7 +855,7 @@ es:
       zooms: "Nivel de zoom"
       outlines: "Nivel de jerarquía"
     upsale:
-      ee_only: 'Función de la edición Enterprise'
+      ee_only: 'Enterprise edition add-on'
     wiki_formatting:
       strong: "Negrita"
       italic: "Cursiva"
@@ -1012,7 +1046,7 @@ es:
         upsale:
           attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
           relation_columns: '¿Necesita ver las relaciones en la lista de paquetes de trabajo?'
-          check_out_link: 'Vea la edición Enterprise.'
+          check_out_link: 'Check out the Enterprise edition.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrar paquetes de trabajo por tipo de relación'
       tabs:
@@ -1156,9 +1190,9 @@ es:
           description: 'Permisos basados en el rol asignado en el proyecto seleccionado'
         placeholder:
           title: 'Usuario de marcador de posición'
-          title_no_ee: 'Usuario de marcador de posición (característica solo disponible en edición Enterprise)'
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'No tiene acceso al proyecto y no se enviarán correos electrónicos.'
-          description_no_ee: 'No tiene acceso al proyecto y no se enviarán correos electrónicos. <br>Consulte <a href="%{eeHref}" target="_blank">edición Enterprise</a>'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
           name_or_email: 'Nombre o dirección de correo electrónico'

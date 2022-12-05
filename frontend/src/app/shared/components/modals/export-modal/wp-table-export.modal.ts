@@ -29,13 +29,7 @@ interface ExportLink extends HalLink {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpTableExportModalComponent extends OpModalComponent implements OnInit {
-  /* Close on escape? */
-  public closeOnEscape = true;
-
-  /* Close on outside click */
-  public closeOnOutsideClick = true;
-
-  public $element:JQuery;
+  public $element:HTMLElement;
 
   public exportOptions:{ identifier:string, label:string, url:string }[];
 
@@ -46,7 +40,8 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
     cancelButton: this.I18n.t('js.button_cancel'),
   };
 
-  constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+  constructor(
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
     readonly querySpace:IsolatedQuerySpace,
@@ -54,19 +49,23 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
     readonly httpClient:HttpClient,
     readonly wpTableColumns:WorkPackageViewColumnsService,
     readonly loadingIndicator:LoadingIndicatorService,
-    readonly toastService:ToastService) {
+    readonly toastService:ToastService,
+  ) {
     super(locals, cdRef, elementRef);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
 
     if (this.locals.link) {
       this.requestExport(this.locals.link);
     } else {
-      this.querySpace.results
+      void this.querySpace.results
         .valuesPromise()
-        .then((results) => this.exportOptions = this.buildExportOptions(results!));
+        .then((results:WorkPackageCollectionResource) => {
+          this.exportOptions = this.buildExportOptions(results);
+          this.cdRef.detectChanges();
+        });
     }
   }
 
@@ -77,12 +76,12 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
       return {
         identifier: link.identifier,
         label: link.title,
-        url: this.addColumnsToHref(format.href!),
+        url: this.addColumnsToHref(format.href as string),
       };
     });
   }
 
-  private triggerByLink(url:string, event:MouseEvent) {
+  triggerByLink(url:string, event:MouseEvent):void {
     event.preventDefault();
     this.requestExport(url);
   }
@@ -136,7 +135,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
     return url.toString();
   }
 
-  protected get afterFocusOn():JQuery {
-    return jQuery('#work-packages-settings-button');
+  protected get afterFocusOn():HTMLElement {
+    return document.getElementById('work-packages-settings-button') as HTMLElement;
   }
 }

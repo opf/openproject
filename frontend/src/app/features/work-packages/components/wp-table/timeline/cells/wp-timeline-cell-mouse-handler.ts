@@ -40,7 +40,10 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { take } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageCellLabels } from './wp-timeline-cell-labels';
-import { MouseDirection, TimelineCellRenderer } from './timeline-cell-renderer';
+import {
+  MouseDirection,
+  TimelineCellRenderer,
+} from './timeline-cell-renderer';
 import { RenderInfo } from '../wp-timeline';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import Moment = moment.Moment;
@@ -57,9 +60,7 @@ export function registerWorkPackageMouseHandler(this:void,
   bar:HTMLDivElement,
   labels:WorkPackageCellLabels,
   renderer:TimelineCellRenderer,
-  renderInfo:RenderInfo) {
-  const querySpace:IsolatedQuerySpace = injector.get(IsolatedQuerySpace);
-
+  renderInfo:RenderInfo):void {
   let mouseDownStartDay:number|null = null; // also flag to signal active drag'n'drop
   renderInfo.change = halEditing.changeFor(renderInfo.workPackage);
 
@@ -70,7 +71,7 @@ export function registerWorkPackageMouseHandler(this:void,
   bar.onmousedown = (ev:MouseEvent) => {
     if (ev.which === 1) {
       // Left click only
-      workPackageMouseDownFn(bar, ev);
+      workPackageMouseDownFn(ev);
     }
   };
 
@@ -83,14 +84,13 @@ export function registerWorkPackageMouseHandler(this:void,
     renderer.update(bar, labels, renderInfo);
   }
 
-  function getCursorOffsetInDaysFromLeft(renderInfo:RenderInfo, ev:MouseEvent) {
+  function getCursorOffsetInDaysFromLeft(ev:MouseEvent):number {
     const leftOffset = workPackageTimeline.getAbsoluteLeftCoordinates();
     const cursorOffsetLeftInPx = ev.clientX - leftOffset;
-    const cursorOffsetLeftInDays = Math.floor(cursorOffsetLeftInPx / renderInfo.viewParams.pixelPerDay);
-    return cursorOffsetLeftInDays;
+    return Math.floor(cursorOffsetLeftInPx / renderInfo.viewParams.pixelPerDay);
   }
 
-  function workPackageMouseDownFn(bar:HTMLDivElement, ev:MouseEvent) {
+  function workPackageMouseDownFn(ev:MouseEvent) {
     ev.preventDefault();
 
     // add/remove css class while drag'n'drop is active
@@ -99,7 +99,7 @@ export function registerWorkPackageMouseHandler(this:void,
     jBody.on('mouseup.timelinecell', () => bar.classList.remove(classNameActiveDrag));
 
     workPackageTimeline.disableViewParamsCalculation = true;
-    mouseDownStartDay = getCursorOffsetInDaysFromLeft(renderInfo, ev);
+    mouseDownStartDay = getCursorOffsetInDaysFromLeft(ev);
 
     // If this wp is a parent element, changing it is not allowed
     // if it is not on 'Manual scheduling' mode
@@ -113,12 +113,12 @@ export function registerWorkPackageMouseHandler(this:void,
 
     jBody.on('mousemove.timelinecell', createMouseMoveFn(direction));
     jBody.on('keyup.timelinecell', keyPressFn);
-    jBody.on('mouseup.timelinecell', () => deactivate(false));
+    jBody.on('mouseup.timelinecell', () => deactivate(direction, false));
   }
 
   function createMouseMoveFn(direction:MouseDirection) {
     return (ev:JQuery.MouseMoveEvent) => {
-      const days = getCursorOffsetInDaysFromLeft(renderInfo, ev.originalEvent!) - mouseDownStartDay!;
+      const days = getCursorOffsetInDaysFromLeft(ev.originalEvent as MouseEvent) - (mouseDownStartDay as number);
       const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
       const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
 
@@ -127,9 +127,9 @@ export function registerWorkPackageMouseHandler(this:void,
   }
 
   function keyPressFn(ev:JQuery.TriggeredEvent) {
-    const kev:KeyboardEvent = ev as any;
+    const kev:KeyboardEvent = ev.originalEvent as KeyboardEvent;
     if (kev.keyCode === KeyCodes.ESCAPE) {
-      deactivate(true);
+      deactivate(null, true);
     }
   }
 
@@ -163,32 +163,32 @@ export function registerWorkPackageMouseHandler(this:void,
     };
 
     // create logic
-    cell.onmousedown = (ev) => {
+    cell.onmousedown = (evt) => {
       placeholderForEmptyCell.remove();
 
-      ev.preventDefault();
+      evt.preventDefault();
 
-      if (renderer.cursorOrDatesAreNonWorking(ev, renderInfo)) {
+      if (renderer.cursorOrDatesAreNonWorking(evt, renderInfo)) {
         return;
       }
 
       bar.style.pointerEvents = 'none';
 
-      const [clickStart, offsetDayStart] = renderer.cursorDateAndDayOffset(ev, renderInfo);
+      const [clickStart, offsetDayStart] = renderer.cursorDateAndDayOffset(evt, renderInfo);
       const dateForCreate = clickStart.format('YYYY-MM-DD');
-      const mouseDownType = renderer.onMouseDown(ev, dateForCreate, renderInfo, labels);
+      const direction = renderer.onMouseDown(evt, dateForCreate, renderInfo, labels);
       renderer.update(bar, labels, renderInfo);
 
-      if (mouseDownType === 'create') {
-        deactivate(false);
+      if (direction === 'create') {
+        deactivate(direction, false);
         return;
       }
 
-      jBody.on('mousemove.emptytimelinecell', mouseMoveOnEmptyCellFn(offsetDayStart, mouseDownType));
-      jBody.on('mouseup.emptytimelinecell', () => deactivate(false));
+      jBody.on('mousemove.emptytimelinecell', mouseMoveOnEmptyCellFn(offsetDayStart, direction));
+      jBody.on('mouseup.emptytimelinecell', () => deactivate(direction, false));
 
       cell.onmouseup = () => {
-        deactivate(false);
+        deactivate(direction, false);
       };
 
       jBody.on('keyup.timelinecell', keyPressFn);
@@ -207,13 +207,14 @@ export function registerWorkPackageMouseHandler(this:void,
     };
   }
 
-  function deactivate(cancelled:boolean) {
+  function deactivate(direction:MouseDirection|null, cancelled:boolean) {
+    const change = renderInfo.change;
     workPackageTimeline.disableViewParamsCalculation = false;
 
     cell.onmousemove = handleMouseMoveOnEmptyCell;
-    cell.onmousedown = _.noop;
-    cell.onmouseleave = _.noop;
-    cell.onmouseup = _.noop;
+    cell.onmousedown = () => undefined;
+    cell.onmouseleave = () => undefined;
+    cell.onmouseup = () => undefined;
 
     bar.style.pointerEvents = 'auto';
 
@@ -223,25 +224,32 @@ export function registerWorkPackageMouseHandler(this:void,
     mouseDownStartDay = null;
 
     // Cancel changes if the startDate or dueDate are not allowed
-    const { startDate, dueDate } = renderInfo.change.projectedResource;
-    const invalidDates = renderer.cursorOrDatesAreNonWorking([moment(startDate), moment(dueDate)], renderInfo);
+    const { startDate, dueDate } = change.projectedResource;
+    const invalidDates = renderer.cursorOrDatesAreNonWorking([moment(startDate), moment(dueDate)], renderInfo, direction);
 
-    if (cancelled || renderInfo.change.isEmpty() || invalidDates) {
+    if (cancelled || change.isEmpty() || invalidDates) {
       cancelChange();
-    } else {
-      const stopAndRefresh = () => {
+      return;
+    }
+
+    // Remove due date from sending if we moved the work package as is
+    // and duration was set
+    const duration = change.pristineResource.duration as string|null;
+    if (direction === 'both' && duration) {
+      change.clearValue('dueDate');
+      change.setValue('duration', duration);
+    }
+
+    // Persist the changes
+    saveWorkPackage(renderInfo.change)
+      .then(() => {
         renderInfo.change.clear();
         renderer.onMouseDownEnd(labels, renderInfo.change);
-      };
-
-      // Persist the changes
-      saveWorkPackage(renderInfo.change)
-        .then(stopAndRefresh)
-        .catch((error) => {
-          notificationService.handleRawError(error, renderInfo.workPackage);
-          cancelChange();
-        });
-    }
+      })
+      .catch((error) => {
+        notificationService.handleRawError(error, renderInfo.workPackage);
+        cancelChange();
+      });
   }
 
   function cancelChange() {
@@ -258,7 +266,7 @@ export function registerWorkPackageMouseHandler(this:void,
     // Remember the time before saving the work package to know which work packages to update
     const updatedAt = moment().toISOString();
 
-    return loadingIndicator.table.promise = halEditing
+    return (loadingIndicator.table.promise = halEditing
       .save<WorkPackageResource, WorkPackageChangeset>(change)
       .then((result) => {
         notificationService.showSave(result.resource);
@@ -272,6 +280,6 @@ export function registerWorkPackageMouseHandler(this:void,
             halEvents.push(result.resource, { eventType: 'updated' });
             return querySpace.timelineRendered.pipe(take(1)).toPromise();
           });
-      });
+      }));
   }
 }

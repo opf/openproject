@@ -139,7 +139,7 @@ class AccountController < ApplicationController
   end
 
   def allow_registration?
-    allow = Setting.self_registration? && !OpenProject::Configuration.disable_password_login?
+    allow = Setting::SelfRegistration.enabled? && !OpenProject::Configuration.disable_password_login?
 
     invited = session[:invitation_token].present?
     get = request.get? && allow
@@ -162,7 +162,7 @@ class AccountController < ApplicationController
       handle_expired_token token
     elsif token.user.invited?
       activate_by_invite_token token
-    elsif Setting.self_registration?
+    elsif Setting::SelfRegistration.enabled?
       activate_self_registered token
     else
       invalid_token_and_redirect

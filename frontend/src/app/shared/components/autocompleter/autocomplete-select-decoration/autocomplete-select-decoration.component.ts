@@ -80,7 +80,7 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
   /** Get the selected options */
   public selected:SelectItem|SelectItem[];
 
-  /** Get the selected options especially fot the project autocompleter  */
+  /** Get the selected options especially for the project autocompleter  */
   public currentProjectSelection:{ id:string, name:string }|{ id:string, name:string }[];
 
   /** The input name we're syncing selections to */

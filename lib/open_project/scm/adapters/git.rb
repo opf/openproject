@@ -275,7 +275,7 @@ module OpenProject
         def lastrev(path, rev)
           return nil if path.nil?
 
-          args = %w|log --no-color --encoding=UTF-8 --date=iso --pretty=fuller --no-merges -n 1|
+          args = %w|log --no-abbrev-commit --no-color --encoding=UTF-8 --date=iso --pretty=fuller --no-merges -n 1|
           args << rev if rev
           args << '--' << path unless path.empty?
           lines = capture_git(args).lines
@@ -387,7 +387,7 @@ module OpenProject
         end
 
         def build_revision_args(path, identifier_from, identifier_to, options)
-          args = %w|log --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller|
+          args = %w|log --no-abbrev-commit --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller|
           args << '--reverse' if options[:reverse]
           args << '--all' if options[:all]
           args << '-n' << options[:limit].to_i.to_s if options[:limit]
@@ -404,9 +404,9 @@ module OpenProject
         def diff(path, identifier_from, identifier_to = nil)
           args = []
           if identifier_to
-            args << 'diff' << '--no-color' << identifier_to << identifier_from
+            args << 'diff' << '--no-abbrev-commit' << '--no-color' << identifier_to << identifier_from
           else
-            args << 'show' << '--no-color' << identifier_from
+            args << 'show' << '--no-abbrev-commit' << '--no-color' << identifier_from
           end
           args << '--' << scm_encode(@path_encoding, 'UTF-8', path) unless path.empty?
           capture_git(args).lines

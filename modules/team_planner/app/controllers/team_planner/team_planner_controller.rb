@@ -1,7 +1,9 @@
 module ::TeamPlanner
   class TeamPlannerController < BaseController
+    include EnterpriseTrialHelper
     before_action :find_optional_project
     before_action :authorize
+    before_action :require_ee_token, except: %i[upsale]
     before_action :find_plan_view, only: %i[destroy]
 
     menu_item :team_planner_view
@@ -14,6 +16,8 @@ module ::TeamPlanner
       render layout: 'angular/angular'
     end
 
+    def upsale; end
+
     def destroy
       if @view.destroy
         flash[:notice] = t(:notice_successful_delete)
@@ -22,6 +26,12 @@ module ::TeamPlanner
       end
 
       redirect_to action: :index
+    end
+
+    def require_ee_token
+      unless EnterpriseToken.allows_to?(:team_planner_view)
+        redirect_to action: :upsale
+      end
     end
 
     current_menu_item :index do

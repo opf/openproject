@@ -1,4 +1,8 @@
-<div class="spot-modal spot-modal_wide op-wp-table-export">
+<div class="spot-modal spot-modal_wide op-wp-table-export"
+    tabindex="0"
+    cdkFocusInitial
+    cdkTrapFocus
+    [cdkTrapFocusAutoCapture]="true">
 
   <div class="spot-modal--header">{{text.title}}</div>
 
@@ -22,11 +26,11 @@
       </li>
     </ul>
   </div>
-  <div class="spot-action-bar">
+  <div class="spot-action-bar hidden-for-mobile">
     <div class="spot-action-bar--right">
       <button
         type="button"
-        class="button button_no-margin spot-action-bar--action"
+        class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
         (click)="closeMe()"
         >
         {{ text.cancelButton }}

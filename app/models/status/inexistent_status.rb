@@ -26,4 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Status::InexistentStatus < Status; end
+class Status::InexistentStatus < Status
+  include InexistentModel
+end

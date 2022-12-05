@@ -49,7 +49,7 @@ tr:
         main-menu-border-color: "Ana menü kenarlığı"
       custom_colors: "Özel renkler"
       customize: "OpenProject kurulumunuzu kendi logonuz ve renklerinizle özelleştirin."
-      enterprise_notice: "OpenProject'in geliştirilmesine finansal destek verenlere özel olarak 'Teşekkür ederiz!'. Bu küçük özellik sadece Enterprise Sürüm alan destekçilerimize özeldir."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Not: Kullanılan logo herkese açık olacaktır."
       manage_colors: "Renk seçim seçeneklerini düzenle"
       instructions:
@@ -64,15 +64,15 @@ tr:
         main-menu-bg-color: "Sol taraftaki menünün arka plan rengi."
       theme_warning: Temayı değiştirmek size özel stilin üzerine yazacaktır. Tasarım daha sonra kaybolacak. Devam etmek istediğine emin misin?
     enterprise:
-      upgrade_to_ee: "Enterprise Edition sürümüne geçin"
-      add_token: "Enterprise Editon versiyonu destek anahtarını yükleyin"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Delete token"
       replace_token: "Geçerli destek anahtarını değiştirin"
-      order: "Enterprise on-premises Edition sipariş edin"
-      paste: "Enterprise Editon versiyonu destek anahtarını yapıştırın"
-      required_for_feature: "Bu özellik yalnızca bir etkin Enterprise Edition destek anahtarı ile kullanılabilir."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Daha fazla bilgi için burayı tıklatın."
       start_trial: 'Deneme sürümüne başla'
       book_now: 'Şimdi rezervasyon yaptırın'
@@ -80,7 +80,7 @@ tr:
       buttons:
         upgrade: "Hemen Yükselt"
         contact: "Demo için bizimle iletişime geçin"
-      enterprise_info_html: "bir Kurumsal  <strong class='icon-medal'></strong>  özelliktir."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Etkinleştirmek ve ekibinizde kullanmaya başlamak için lütfen ücretli bir plana yükseltin."
     journal_aggregation:
       explanation:
@@ -138,6 +138,7 @@ tr:
         OpenProject ile ilk kimlik doğrulaması yaptıklarında.
         Yalnızca OpenProject’deki mevcut hesapların LDAP üzerinden kimlik doğrulaması yapmasına izin vermek için işaretlenmemiş bırakın!
     connection_encryption: 'Bağlantı şifreleme'
+    encryption_details: 'LDAPS / STARTTLS seçenekleri'
     system_account: 'Sistem hesabı'
     system_account_legend: |
       OpenProject, LDAP ağacınızdaki kullanıcıları ve grupları aramak için bir sistem hesabı üzerinden salt okunur erişim gerektirir.
@@ -149,13 +150,18 @@ tr:
       OpenProject kullanıcısının niteliklerini tanımlamak için hangi LDAP niteliklerinin kullanıldığı (özellik eşlemesi).
     tls_mode:
       plain: 'hiçbiri'
-      simple_tls: 'basit_tls'
-      start_tls: 'başlat_tls'
-      plain_description: "Düz şifrelenmemiş bağlantı, TLS anlaşması yok."
-      simple_tls_description: "Örtülü TLS şifrelemesi, ancak sertifika doğrulaması yok. LDAP bağlantısına dikkat ve örtülü güven ile kullanın."
-      start_tls_description: "Tam doğrulama ile açık TLS şifrelemesi. TLS / SSL üzerinden LDAP için kullanın."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "LDAP sunucusuna şifrelenmemiş bir bağlantı açar. Üretim için tavsiye edilmez."
+      simple_tls_description: "LDAPS'yi kullanın. LDAP sunucusunda ayrı bir bağlantı noktası gerektirir. Bu mod genellikle kullanımdan kaldırılmıştır, mümkün olduğunda STARTTLS kullanmanızı öneririz."
+      start_tls_description: "Standart LDAP bağlantı noktasına bağlandıktan sonra bir STARTTLS komutu gönderir. Şifreli bağlantılar için önerilir."
       section_more_info_link_html: >
         Bu bölüm, bu LDAP kimlik doğrulama kaynağının bağlantı güvenliği ile ilgilidir. Daha fazla bilgi için <a href="%{link}">the Net::LDAP belgelerini </a> ziyaret edin.
+    tls_options:
+      verify_peer: "SSL sertifikasını doğrula"
+      verify_peer_description_html: >
+        Sertifika güvenilir zincirinin katı SSL doğrulamasını etkinleştirir. <br/> <strong>Uyarı:</strong> Bu seçeneğin işaretini kaldırmak, LDAP sunucu sertifikasının SSL doğrulamasını devre dışı bırakır. Bu, Man in the Middle saldırılarıyla bağlantınızı ortaya çıkarır.
+      tls_certificate_description: "LDAP sunucusu sertifikası bu sistemin güvenilir kaynaklarında yoksa buradan manuel olarak ekleyebilirsiniz. Bir PEM X509 sertifika dizisi girin."
   forums:
     show:
       no_results_title_text: Forumda şu anda yayın yok.
@@ -210,6 +216,15 @@ tr:
     ignore_filenames: >
       Gelen postalar için ekleri işlerken yok sayılacak adların bir listesini belirtin (örneğin, imzalar veya simgeler). Her satıra bir dosya adı girin.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Proje üyeleri'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Çalışma paketleri: dosya bağlantıları'
     delete:
       scheduled: "Silme planlandı ve arka planda gerçekleştirilir. Sonuçtan haberdar edileceksiniz."
       schedule_failed: "Proje silinemiyor: %{errors}"
@@ -307,7 +322,7 @@ tr:
       settings: "Ayarlar"
       form_configuration: "Formu yapılandırma"
       more_info_text_html: >
-        Enterprise Edition, şu ek özelliklerle form yapılandırmasını özelleştirmenize olanak tanır: <br> <ul class="%{list_styling_class}"> <li><b>Yeni özellik grupları ekleyin</b></li> <li><b >Özellik gruplarını yeniden adlandırın</b></li> <li><b>İlgili iş paketlerinin bir tablosunu ekleyin</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projeler"
       enabled_projects: "Etkin projeler"
       edit_query: "Tabloyu düzenle"
@@ -410,6 +425,7 @@ tr:
         host: "Sunucu"
         onthefly: "Otomatik kullanıcı oluşturma"
         port: "Port"
+        tls_certificate_string: "LDAP sunucusu SSL sertifikası"
       changeset:
         repository: "Depo"
       comment:
@@ -532,9 +548,9 @@ tr:
         end_deletion: "Silme işlemi bitti"
         ignore_non_working_days: "Çalışma dışı günleri yoksay"
         include_non_working_days:
-          title: 'Working days'
-          false: 'working days only'
-          true: 'include non-working days'
+          title: 'İş Günleri'
+          false: 'Sadece iş günleri'
+          true: 'çalışılmayan günleri dahil et'
         parent: "Üst"
         parent_issue: "Üst"
         parent_work_package: "Üst"
@@ -571,7 +587,7 @@ tr:
         confirmation: "%{attribute} eşleşmiyor."
         could_not_be_copied: "%{dependency} (tam olarak) kopyalanamadı."
         does_not_exist: "mevcut değil."
-        error_enterprise_only: "sadece OpenProject'in ticari sürümlerinde mevcuttur"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "erişilemez."
         error_readonly: "yazılmaya çalışıldı fakat yazılabilir değil."
         email: "Geçerli bir e-posta adresi değil.\n"
@@ -618,6 +634,11 @@ tr:
           bir "Güvenli Bağlam" sağlamıyor. HTTPS veya localhost gibi bir geri döngü adresi kullanın.
         wrong_length: "uzunluğu yanlıştır (%{count} karakter olmalıdır)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "Sağlanan SSL sertifikası geçersiz: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -668,10 +689,6 @@ tr:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
-        notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -743,9 +760,19 @@ tr:
         user_preference:
           attributes:
             pause_reminders:
-              invalid_range: "can only be a valid date range."
+              invalid_range: "yalnızca geçerli bir tarih aralığı olabilir."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -765,7 +792,7 @@ tr:
               cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "kilometre taşı olamaz."
-              cannot_be_self_assigned: "cannot be assigned to itself."
+              cannot_be_self_assigned: "kendisine atanamaz."
               cannot_be_in_another_project: "başka bir projede olamaz."
               not_a_valid_parent: "geçersizdir."
             start_date:
@@ -1236,11 +1263,11 @@ tr:
   ee:
     upsale:
       form_configuration:
-        description: "Form yapılandırmasını bu ek özelliklerle kullanın:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Yeni öznitelik grubu ekleyin"
         rename_groups: "Öznitelik grubunun adını değiştirin"
       project_filters:
-        description_html: "Özel alanlara filtre uygulama ve sıralama, kurumsal sürüm özelliğidir."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Zaman izleme faaliyetleri"
   enumeration_work_package_priorities: "İş paketi öncelikleri"
   enumeration_reported_project_statuses: "Bildirilen proje durumları"
@@ -1262,7 +1289,7 @@ tr:
   error_cookie_missing: 'OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi için, tarayıcınızda çerezlere izin verildiğine emin olun.'
   error_custom_option_not_found: "Seçenek yok."
   error_enterprise_activation_user_limit: "Hesabınız etkinleştirilemedi (kullanıcı limitine ulaşıldı). Erişim sağlamak için lütfen yöneticinize başvurun."
-  error_enterprise_token_invalid_domain: "Enterprise Edition etkin değil. Kurumsal simgenizin etki alanı (%{actual}) sistemin ana makine adıyla (%{expected}) eşleşmiyor."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Girdi silinemedi.'
   error_in_dependent: "Bağımlı nesneyi değiştirmeye çalışırken hata: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
@@ -1280,7 +1307,7 @@ tr:
   error_no_type_in_project: "Bu proje ile ilişkili bir tür yok. Lütfen Proje ayarlarını kontrol edin."
   error_omniauth_registration_timed_out: "Harici bir kimlik doğrulama sağlayıcısı aracılığıyla kayıt zaman aşımına uğradı. Lütfen tekrar deneyin."
   error_omniauth_invalid_auth: "Kimlik sağlayıcısından döndürülen kimlik doğrulama bilgileri geçersizdi. Daha fazla yardım için lütfen yöneticinizle iletişime geçin."
-  error_password_change_failed: 'An error occurred when trying to change the password.'
+  error_password_change_failed: 'Şifreyi değiştirmeye çalışırken bir hata oluştu.'
   error_scm_command_failed: "Depoya erişmeye çalışılırken bir hata oluştu:%{value}"
   error_scm_not_found: "Depoda girme veya düzeltme bulunamadı."
   error_unable_delete_status: "İş paketi durumu en az bir tarafından kullanılır beri silinemez iş paketi."
@@ -1350,10 +1377,10 @@ tr:
     blocks:
       community: "OpenProject topluluğu"
       upsale:
-        title: "Enterprise Edition sürümüne yükseltme"
+        title: "Upgrade to Enterprise edition"
         more_info: "Daha fazla bilgi"
     links:
-      upgrade_enterprise_edition: "Enterprise Edition sürümüne yükseltme"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Kurulumunuzu PostgreSQL'e taşıyın"
       user_guides: "Kullanıcı rehberleri"
       faq: "SSS"
@@ -1375,7 +1402,7 @@ tr:
   menus:
     admin:
       mail_notification: "E-posta bildirimleri"
-      mails_and_notifications: "Emails and notification"
+      mails_and_notifications: "E-postalar ve bildirim"
       aggregation: 'Kümelenme'
       api_and_webhooks: "API and webhooks"
     quick_add:
@@ -1495,7 +1522,7 @@ tr:
   label_check_uncheck_all_in_column: "Sütunundaki tümü işaretle / işaretini kaldır"
   label_check_uncheck_all_in_row: "Sıralı tümü işaretle / işaretini kaldır"
   label_child_element: "Alt eleman"
-  label_chronological_order: "Oldest first"
+  label_chronological_order: "Önce en eski"
   label_close_versions: "Tamamlanmış sürümleri kapat"
   label_closed_work_packages: "kapalı"
   label_collapse: "Daralt"
@@ -1545,7 +1572,7 @@ tr:
   label_diff: "fark"
   label_diff_inline: "satır içi"
   label_diff_side_by_side: "yan yana"
-  label_digital_accessibility: 'Digital accessibility (DE)'
+  label_digital_accessibility: 'Dijital erişilebilirlik (DE)'
   label_disabled: "devre dışı"
   label_display: "Göster"
   label_display_per_page: "Sayfa başına: %{value}"
@@ -1569,7 +1596,7 @@ tr:
   label_enumerations: "Sayım Listesi"
   label_enterprise: "Kurumsal"
   label_enterprise_active_users: "%{current}/%{limit} aktif kullanıcı rezervasyonu"
-  label_enterprise_edition: "Kurumsal Sürüm"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Ortam"
   label_estimates_and_time: "Tahminler & zaman"
   label_equals: "şuysa"
@@ -1668,7 +1695,7 @@ tr:
   lable_membership_updated: 'Üye güncellendi'
   label_menu_badge:
     pre_alpha: 'pre-alpha'
-    alpha: 'alpha'
+    alpha: 'alfa'
     beta: 'beta'
   label_menu_item_name: "Menü öğesinin ismi"
   label_message: "İleti"
@@ -1767,7 +1794,7 @@ tr:
   label_project_new: "Yeni proje"
   label_project_plural: "Projeler"
   label_project_settings: "Proje Ayarları"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "Depolamalar"
   label_projects_storage_information: "%{count} proje %{storage} disk alanı kullanıyor"
   label_project_view_all: "Tüm projeleri görüntüle"
   label_project_show_details: "Proje detaylarını göster"
@@ -1919,7 +1946,6 @@ tr:
   label_wiki_start: "Başlangıç sayfası"
   label_work_package: "İş paketi"
   label_work_package_attachments: "İş paketi ekleri"
-  label_work_package_file_link_plural: "Work package file links"
   label_work_package_category_new: "Yeni kategori"
   label_work_package_category_plural: "İş paketi kategorileri"
   label_work_package_hierarchy: "İş paketi hiyerarşisi"
@@ -1935,7 +1961,7 @@ tr:
   label_workflow: "İş akışı"
   label_workflow_plural: "İş Akışları"
   label_workflow_summary: "Özet"
-  label_working_days: "Working days"
+  label_working_days: "İş Günleri"
   label_x_closed_work_packages_abbr:
     one: "1 kapalı"
     other: "%{count} kapatıldı"
@@ -1986,7 +2012,7 @@ tr:
     digests:
       including_mention_singular: 'including a mention'
       including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
+      unread_notification_singular: 'Okunmamış 1 bildirim'
       unread_notification_plural: '%{number_unread} unread notifications'
       you_have: 'You have'
     logo_alt_text: 'Logo'
@@ -1996,7 +2022,7 @@ tr:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hello %{user}'
+    salutation: 'Merhaba %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -2012,7 +2038,9 @@ tr:
         mentioned: 'Mentioned'
         subscribed: 'tüm'
         prefix: 'Received because of the notification setting: %{reason}'
-      see_all: 'See all'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
+      see_all: 'Tümünü gör'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Yeni bir kullanıcı ( %{value}) kaydoldu. Hesap onayınızı bekliyor:"
   mail_body_account_information: "Hesap bilgilerinizi giriniz"
@@ -2025,7 +2053,7 @@ tr:
   mail_body_backup_token_warning: Bu siz değildiyseniz, hemen OpenProject'te oturum açın ve yeniden sıfırlayın.
   mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
   mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
-  mail_body_incoming_email_error_logs: "Logs"
+  mail_body_incoming_email_error_logs: "Günlükler"
   mail_body_lost_password: "Parolanızı değiştirmek için aşağıdaki bağlantıyı tıklayın:"
   mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Proje üyesi davet e-postası"
@@ -2583,11 +2611,11 @@ tr:
   text_custom_field_hint_activate_per_project_and_type: >
     Özel alanların iş paketi türü ve proje bazında aktive edilmesi gerekiyor.
   text_wp_custom_field_html: >
-    Enterprise Edition, iş paketlerinin özel alanları için şu ek özellikleri ekleyecektir: <br> <ul> <li><b>List veya User türündeki özel alanlar için çoklu seçime izin ver</b></li> </ul >
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    Enterprise Edition, iş paketlerinin durum alanları için şu ek özellikleri ekleyecektir: <br> <ul> <li><b>İş paketlerinin belirli durumlar için salt okunur olarak işaretlenmesine izin ver</b></li> </ul >
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    Enterprise Edition, projelerin özel alanları için şu ek özellikleri ekleyecektir: <br> <ul> <li><b>Proje portföy görünümü oluşturmak için Proje listenize projeler için özel alanlar ekleyin</b></li> < /ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Saydam arka plan üzerinde beyaz bir logo önerilir. Hem geleneksel en iyi sonuçları almak ve retina görüntüler için resm boyutlarının 60px ye 460px olduğundan emin olun.
   text_custom_favicon_instructions: >
@@ -2888,7 +2916,7 @@ tr:
   warning_user_limit_reached: >
     Kullanıcı limitine ulaşıldı. Daha fazla kullanıcıyı etkinleştiremezsiniz. Lütfen <a href="%{upgrade_url}"> planınızı yükseltin </a> veya ek kullanıcılara izin vermek için üyeleri engelleyin.
   warning_user_limit_reached_instructions: >
-    Kullanıcı sınırınıza ulaştınız (%{current}/%{max} aktif kullanıcılar). Enterprise Edition planınızı yükseltmek ve ek kullanıcılar eklemek için lütfen sales@openproject.com adresine başvurun.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2929,6 +2957,7 @@ tr:
   api_v3:
     attributes:
       lock_version: "Sürümü Kilitle"
+      property: 'Property'
     errors:
       code_400: "Geçersiz istek: %{message}"
       code_401: "Bu kaynağa erişim sağlayabilmeniz için yetkilendirilmiş olmalısınız"
@@ -3072,7 +3101,7 @@ tr:
     my_registered_applications: "OAuth uygulamalarını kayıtedin"
   oauth_client:
     urn_connection_status:
-      connected: "Connected"
+      connected: "Bağlandı"
       error: "Hata"
       failed_authorization: "Authorization failed"
     labels:
@@ -3114,7 +3143,7 @@ tr:
   http:
     request:
       failed_authorization: "The server side request failed authorizing itself."
-      missing_authorization: "The server side request failed due to missing authorization information."
+      missing_authorization: "Yetkilendirme bilgileri eksik olduğundan sunucu tarafı isteği başarısız oldu."
     response:
-      unexpected: "Unexpected response received."
+      unexpected: "Beklenilmeyen bir yanıt alındı."
   you: sen

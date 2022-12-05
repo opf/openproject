@@ -127,7 +127,7 @@ module Bim
 
         convert!(ifc_filepath, 'dae') do |target_file|
           # To include IfcSpace entities, which by default are excluded by
-          # IfcConvert, together with IfcOpeningElement, we need ot over-
+          # IfcConvert, together with IfcOpeningElement, we need to over-
           # write the default exclude parameter to only exclude
           # IfcOpeningElements.
           # https://github.com/IfcOpenShell/IfcOpenShell/wiki#ifconvert

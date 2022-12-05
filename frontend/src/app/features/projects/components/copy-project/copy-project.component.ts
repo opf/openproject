@@ -68,7 +68,8 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   }
 
   private fieldSettingsPipe(dynamicFieldsSettings:IOPFormlyFieldSettings[]):IOPFormlyFieldSettings[] {
-    return dynamicFieldsSettings.map((field) => ({ ...field, hide: this.isHiddenField(field.key) }));
+    return this.sortedCopyFields(dynamicFieldsSettings)
+      .map((field) => ({ ...field, hide: this.isHiddenField(field.key) }));
   }
 
   private isPrimaryAttribute(to?:IOPFormlyTemplateOptions):boolean {
@@ -85,5 +86,31 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
 
   private isMeta(property:string|undefined):boolean {
     return !!property && (property.startsWith('copy') || property === 'sendNotifications');
+  }
+
+  // Sorts the copy options by their label.
+  // The order of the rest of the fields is left unchanged but all copy options are returned first.
+  private sortedCopyFields(dynamicFieldsSettings:IOPFormlyFieldSettings[]):IOPFormlyFieldSettings[] {
+    const sortedCopyFields = dynamicFieldsSettings
+      .filter((field) => field.key && field.key.startsWith('_meta.copy'))
+      .sort((fieldA, fieldB) => {
+        if (!fieldA.templateOptions
+          || !fieldA.templateOptions.label
+          || !fieldB.templateOptions
+          || !fieldB.templateOptions.label) {
+          return 0;
+        }
+
+        return fieldA.templateOptions.label.localeCompare(fieldB.templateOptions.label);
+      });
+
+    const nonCopyFields = dynamicFieldsSettings
+      .filter((field) => !field.key || !field.key.startsWith('_meta.copy'));
+
+    // Now all copy fields are before the non Copy fields.
+    // That way, the "Sent notifications" is after the copy fields.
+    // For the rest, it does not make a difference since the _meta
+    // fields are rendered in a separate group.
+    return sortedCopyFields.concat(nonCopyFields);
   }
 }

@@ -89,6 +89,8 @@ module Settings
       if format == :hash
         self.value = {} if value.nil?
         value.deep_merge! other_value.deep_stringify_keys
+      elsif format == :datetime && !other_value.is_a?(DateTime)
+        self.value = DateTime.parse(other_value)
       else
         self.value = other_value
       end
@@ -230,9 +232,10 @@ module Settings
         envs = ['default', Rails.env]
         envs.delete('default') if Rails.env.test? # The test setup should govern the configuration
         envs.each do |env|
-          next unless file_config.dig(env, definition.name)
+          next unless (env_config = file_config[env])
+          next unless env_config.has_key?(definition.name)
 
-          definition.override_value(file_config.dig(env, definition.name))
+          definition.override_value(env_config[definition.name])
         end
       end
 

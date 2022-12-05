@@ -30,22 +30,7 @@ class Authorization::EnterpriseService
   attr_accessor :token
 
   GUARDED_ACTIONS = %i(
-    define_custom_style
-    multiselect_custom_fields
-    edit_attribute_groups
-    work_package_query_relation_columns
-    attribute_help_texts
-    two_factor_authentication
-    ldap_groups
-    custom_fields_in_projects_list
-    custom_actions
-    conditional_highlighting
-    readonly_work_packages
-    attachment_filters
-    board_view
-    grid_widget_wp_graph
-    placeholder_users
-    team_planner_view
+    non_action
   ).freeze
 
   def initialize(token)
@@ -68,7 +53,7 @@ class Authorization::EnterpriseService
 
   def process(action)
     # Every non-expired token
-    GUARDED_ACTIONS.include?(action)
+    GUARDED_ACTIONS.include?(action.to_sym)
   end
 
   def result(bool)

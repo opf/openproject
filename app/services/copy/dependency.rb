@@ -47,6 +47,13 @@ module Copy
       identifier.capitalize
     end
 
+    ##
+    # Dependencies the current dependency itself supports.
+    # The most common case for this are attachment services.
+    def self.copy_dependencies
+      []
+    end
+
     def initialize(source:, target:, user:)
       @source = source
       @target = target

@@ -223,31 +223,34 @@ pt:
           status_label: "Situação:"
           status_confirmed: "confirmado"
           status_waiting: "e-mail enviado - aguardando confirmação"
-          test_ee: "Teste a Enterprise Edition gratuitamente durante 14 dias"
-          quick_overview: "Obtenha uma visão geral da gestão de projetos e colaboração entre equipes com o OpenProject Enterprise Edition."
+          test_ee: "Test the Enterprise edition 14 days for free"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Torne-se um herói!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          upgrade_info: "Faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
           benefits:
-            description: "Quais os benefícios da versão Enterprise Edition on-premises?"
+            description: "What are the benefits of the Enterprise on-premises edition?"
             high_security: "Recursos de segurança"
-            high_security_text: "Início de sessão único (SAML, OpenID Connect, CAS), autenticação de dois fatores e sincronização automática de grupos LDAP."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Suporte à instalação"
             installation_text: "Engenheiros de software experientes darão orientações durante todo o processo de instalação e configuração em sua própria infraestrutura."
-            premium_features: "Recursos premium"
+            premium_features: "Enterprise add-ons"
             premium_features_text: "Painéis práticos, gráficos de temas e logotipos personalizados, fluxos de trabalho inteligentes com ações personalizadas, pesquisa de texto completo para anexos em pacotes de trabalho e campos personalizados de multi-seleção."
             professional_support: "Suporte profissional"
             professional_support_text: "Receba suporte confiável de alto nível de engenheiros sênior, com conhecimento especializado sobre a gestão do OpenProject em ambientes de negócios críticos."
           button_start_trial: "Iniciar avaliação gratuita"
           button_upgrade: "Faça o upgrade agora"
+          button_contact_us: " Contate-nos para obter uma demonstração"
           button_book_now: "Reservar agora"
           confidence: >
             Fornecemos toda a segurança de um software de gestão de projetos de classe empresarial, testado e com suporte - com código aberto e mente aberta.
           link_quote: "Solicitar uma cotação"
           more_info: "Mais informações"
           text: >
-            O OpenProject Enterprise Edition foi construído a partir do Community Edition. Ele conta com recursos premium e suporte profissional, com foco principal em organizações com mais de 10 usuários que gerenciam projetos de negócios críticos com o OpenProject.
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Ilimitado"
-          you_contribute: "Os desenvolvedores também têm contas a pagar. Ao atualizar para a versão Entreprise Edition, você dará suporte a este esforço da comunidade de código aberto e contribuirá para o seu desenvolvimento, manutenção e melhoria contínua."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: 'ligado'
@@ -276,8 +279,8 @@ pt:
           one: "Primeiro critério de ordenação"
           two: "Segundo critério de ordenação"
           three: "Terceiro critério de ordenação"
-      upsale_for_more: "Os filtros avançados permitem que você também filtre por nomes de arquivos e conteúdo dos anexos do pacote de trabalho. Faça o upgrade para um plano pago para usar este recurso. "
-      upsale_link: 'Enterprise Edition.'
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
+      upsale_link: 'Enterprise edition.'
     general_text_no: "não"
     general_text_yes: "sim"
     general_text_No: "Não"
@@ -296,15 +299,15 @@ pt:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                A versão possui vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Defina sua semana de trabalho global (finais de semana e dias não-úteis da semana).</li> <li>Calcule a duração com base nas datas de início e conclusão e da possibilidade de considerar dias não-úteis (finais de semana) no planejamento.</li> <li>Adicione dicas de ferramentas úteis às ações mais importantes.</li> <li>Copiar um projeto também copiará os links de arquivos para todos os pacotes de trabalho.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                A versão possui vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Defina sua semana de trabalho global (finais de semana e dias não-úteis da semana).</li> <li>Calcule a duração com base nas datas de início e conclusão e da possibilidade de considerar dias não-úteis (finais de semana) no planejamento.</li> <li>Adicione dicas de ferramentas úteis às ações mais importantes.</li> <li>Copiar um projeto também copiará os links de arquivos para todos os pacotes de trabalho.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
     label_activate: "Ativar"
     label_assignee: 'Atribuído para'
     label_add_column_after: "Adicionar coluna depois"
@@ -396,6 +399,7 @@ pt:
     label_no_data: "Sem dados para exibir"
     label_no_due_date: "sem data de conclusão"
     label_no_start_date: "nenhuma data de início"
+    label_no_date: "no date"
     label_no_value: "Nenhum valor"
     label_none: "nenhum"
     label_not_contains: "não contém"
@@ -536,20 +540,33 @@ pt:
       no_unread: "Nenhuma notificação não lida"
       reasons:
         mentioned: 'mencionado'
-        watched: 'observado'
-        assigned: 'atribuído'
+        watched: 'observador'
+        assigned: ' cessionário'
         responsible: 'responsável'
         created: 'criado'
         scheduled: 'planejado'
         commented: 'comentado'
         processed: 'processado'
         prioritized: 'priorizado'
+        dateAlert: 'Alerta de data'
+      date_alerts:
+        milestone_date: 'Data de marco'
+        overdue: 'Atrasado'
+        overdue_since: 'desde %{difference_in_days}'
+        property_today: 'é hoje'
+        property_is: 'está em %{difference_in_days}'
+        property_was: 'há %{difference_in_days}'
+        property_is_deleted: 'foi excluído'
+        upsale:
+          title: 'Alertas de data'
+          description: 'Com os alertas de data, você receberá uma notificação das futuras datas de início e conclusão, assim você nunca perderá ou esquecerá prazos importante. '
       facets:
         unread: 'Não lido'
         unread_title: 'Mostrar não lidas'
         all: 'Todos'
         all_title: 'Mostrar todas'
       center:
+        label_actor_and: 'e'
         and_more_users:
           one: 'e 1 outro'
           other: 'e %{count} outros'
@@ -571,22 +588,34 @@ pt:
       menu:
         accountable: 'Responsável'
         by_project: 'Não lido por projeto'
-        by_reason: 'Envolvimento'
+        by_reason: 'Motivo'
         inbox: 'Caixa de entrada'
-        mentioned: '@mencionado'
-        watching: 'Observando'
+        mentioned: 'Mencionado'
+        watched: 'Observador'
+        date_alert: 'Alerta de data'
       settings:
         change_notification_settings: 'Para visualizar e alterar suas configurações de notificação, <a target="_blank" href="%{url}">clique aqui</a>'
         title: "Configurações de notificação"
         notify_me: "Notifique-me"
+        reminders:
+          no_notification: Sem notificação
+          timeframes:
+            normal:
+              PT0S: mesmo dia
+              P1D: 1 dia antes
+              P3D: 3 dias antes
+              P7D: uma semana antes
+            overdue:
+              P1D: todo dia
+              P3D: a cada 3 dias
+              P7D: Toda semana
         reasons:
           mentioned:
-            title: 'Eu sou @mencionado'
+            title: 'Mencionado'
             description: 'Receber uma notificação sempre que alguém me mencionar'
-          involved:
-            title: 'Atribuído a mim ou responsável'
-            description: 'Receba notificações para todas as atividades nos pacotes de trabalho atribuídos a mim ou de minha responsabilidade'
-          watched: 'Atualizações em itens observados'
+          assignee: 'Cessionário'
+          responsible: 'Responsável'
+          watched: 'Observador'
           work_package_commented: 'Todos os novos comentários'
           work_package_created: 'Novos pacotes de trabalho'
           work_package_processed: 'Todas as mudanças de situação'
@@ -594,14 +623,19 @@ pt:
           work_package_scheduled: 'Todas as alterações de data'
         global:
           immediately:
-            title: 'Notifique-me imediatamente'
-            description: 'Estas configurações aplicam-se a todos os projetos. Você pode criar exceções específicas para projetos abaixo.  '
+            title: 'Participando'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
-            title: 'Também notifique-me por'
-            description: 'Receber notificações para estas atividades em pacotes de trabalho em todos os projetos:'
+            title: 'Não participando'
+            description: 'Additional notifications for activities in all projects.'
+          date_alerts:
+            title: 'Alertas de data'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            teaser_text: 'Com os alertas de data, você receberá uma notificação das futuras datas de início e conclusão, assim você nunca perderá ou esquecerá prazos importante. '
+          overdue: When overdue
         project_specific:
           title: 'Configurações de notificação específicas de projetos'
-          description: 'Essas configurações específicas de projeto substituem as configurações padrão acima'
+          description: 'These project-specific settings override default settings above.'
           add: 'Adicionar configuração para o projeto'
           already_selected: 'Este projeto já está selecionado'
           remove: 'Remover configurações de projeto'
@@ -672,8 +706,8 @@ pt:
         reset_title: "Voltar para a configuração padrão do formulário"
         confirm_reset: >
           Aviso: Tem certeza de que deseja redefinir a configuração de formulário? Isto irá redefinir os atributos para o grupo padrão e desativar TODOS os campos personalizados.
-        upgrade_to_ee: "Atualizar para a versão Enterprise Edition"
-        upgrade_to_ee_text: "Uau! Se você precisa desse recurso, você é um super profissional! Você se importaria de apoiar desenvolvedores de código aberto tornando-se um cliente Enterprise Edition ?"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "Mais informações"
         nevermind: "Deixa pra lá"
       edit:
@@ -820,7 +854,7 @@ pt:
       zooms: "Nível de zoom"
       outlines: "Nível de hierarquia"
     upsale:
-      ee_only: 'Recurso Enterprise Edition'
+      ee_only: 'Enterprise edition add-on'
     wiki_formatting:
       strong: "Negrito"
       italic: "Itálico"
@@ -1011,7 +1045,7 @@ pt:
         upsale:
           attribute_highlighting: 'Precisa de certos pacotes de trabalho para se destacar da massa?'
           relation_columns: 'Precisa ver as relações na lista de pacotes de trabalho?'
-          check_out_link: 'Confira a versão Enterprise Edition.'
+          check_out_link: 'Check out the Enterprise edition.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrar pacotes de trabalho por tipo de relação'
       tabs:
@@ -1155,9 +1189,9 @@ pt:
           description: 'Permissões baseadas no papel atribuído no projeto selecionado'
         placeholder:
           title: 'Usuário do espaço reservado'
-          title_no_ee: 'Usuário do espaço reservado (recurso presente na Enterprise Edition)'
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Não possui acesso ao projeto e nenhum e-mail é enviado.'
-          description_no_ee: 'Não possui acesso ao projeto e nenhum e-mail é enviado. <br>Confira a <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
           name_or_email: 'Nome ou endereço de e-mail'

@@ -26,7 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import {
+  Injectable,
+  Injector,
+} from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
@@ -35,15 +38,15 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { BoardInlineAddAutocompleterComponent } from 'core-app/features/boards/board/inline-add/board-inline-add-autocompleter.component';
 import { GonService } from 'core-app/core/gon/gon.service';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class BoardInlineCreateService extends WorkPackageInlineCreateService {
-  constructor(readonly injector:Injector,
+  constructor(
+    readonly injector:Injector,
     protected readonly querySpace:IsolatedQuerySpace,
     protected readonly halResourceService:HalResourceService,
-    protected readonly pathHelperService:PathHelperService,
-    protected readonly Gon:GonService,
-    protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService) {
+  ) {
     super(injector);
   }
 
@@ -57,12 +60,22 @@ export class BoardInlineCreateService extends WorkPackageInlineCreateService {
    */
   public referenceTarget:WorkPackageResource|null = null;
 
-  public get canAdd() {
-    return this.authorisationService.can('work_packages', 'createWorkPackage');
+  public get canAdd():Observable<boolean> {
+    return this
+      .currentUser
+      .hasCapabilities$(
+        ['work_packages/create'],
+        this.currentProject.id || 'global',
+      );
   }
 
-  public get canReference() {
-    return this.authorisationService.can('work_packages', 'editWorkPackage');
+  public get canReference():Observable<boolean> {
+    return this
+      .currentUser
+      .hasCapabilities$(
+        ['work_packages/update'],
+        this.currentProject.id || 'global',
+      );
   }
 
   /**

@@ -12,10 +12,11 @@ pt:
       remove_assignee: 'Remover responsável'
       two_weeks: '2 semanas'
       one_week: '1 semana'
+      work_week: 'Semana de trabalho'
       today: 'Hoje'
       drag_here_to_remove: 'Arraste aqui para remover o responsável e as datas de início e término.'
       cannot_drag_here: 'Não é possível remover o pacote de trabalho devido a permissões ou restrições de edição.'
-      cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'
+      cannot_drag_to_non_working_day: 'Esse pacote de trabalho não pode começar/terminar em um fim de semana'
       quick_add:
         empty_state: 'Use o campo de pesquisa para encontrar pacotes de trabalho e arraste-os para o planejador para atribuí-los para alguém e definir as datas de início e término.'
         search_placeholder: 'Pesquisar...'

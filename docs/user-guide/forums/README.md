@@ -87,7 +87,7 @@ You will get a list of all messages within this forum.
 
 Click the **Watch** icon in the top right corner of the forum.
 
-You will then be notified via e-mail according to your [e-mail notifications](../../getting-started/my-account/#notifications-settings) about new massages and replies in a forum.
+You will then be notified via e-mail according to your [e-mail notifications](../../getting-started/my-account/#notifications-settings) about new messages and replies in a forum.
 
 ![Forum-watcher](Forum-watcher.png)
 

@@ -59,7 +59,8 @@ module Queries::Operators
     Queries::Operators::Requires,
     Queries::Operators::Required,
     Queries::Operators::Parent,
-    Queries::Operators::Children
+    Queries::Operators::Children,
+    Queries::Operators::Child
   ]
 
   OPERATORS = Hash[*(operators.map { |o| [o.symbol.to_s, o] }).flatten].freeze

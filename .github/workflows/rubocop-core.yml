@@ -1,4 +1,4 @@
-name: "Core/Backend-Linting"
+name: rubocop
 
 on:
   pull_request:

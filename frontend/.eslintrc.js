@@ -92,9 +92,16 @@ module.exports = {
         // destructuring doesn't always look better, only when object/array destructuring
         "prefer-destructuring": "off",
 
+        // Sometimes, arrow functions implicit return looks better below, so allow both
+        "implicit-arrow-linebreak": "off",
+
         // No void at all collides with `@typescript-eslint/no-floating-promises` which wants us to handle each promise.
         // Until we do that, `void` is a good way to explicitly mark unhandled promises. 
         "no-void": ["error", { allowAsStatement: true }],
+
+        // Disable no-use for functions and classes
+        "no-use-before-define": ["error", { "functions": false, "classes": false }],
+        "@typescript-eslint/no-use-before-define": ["error", { "functions": false, "classes": false }],
 
         /*
         // Disable use before define, as irrelevant for TS interfaces

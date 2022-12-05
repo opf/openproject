@@ -31,14 +31,16 @@ module RequiresEnterpriseGuard
 
   included do
     class_attribute :enterprise_action
-    validate :has_enterprise
+    class_attribute :enterprise_condition
+    # Validate when no enterprise_condition is set, or when it evaluates to true
+    validate :has_enterprise, if: -> { enterprise_condition.nil? || instance_exec(&enterprise_condition) }
   end
 
   module_function
 
   def has_enterprise
     unless EnterpriseToken.allows_to?(enterprise_action)
-      errors.add :base, :error_enterprise_only
+      errors.add :base, :error_enterprise_only, action: enterprise_action.to_s.titleize
     end
   end
 end

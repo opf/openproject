@@ -13,7 +13,7 @@ tr:
         creator: "Oluşturan"
         provider_type: "Sağlayıcı türü"
       storages/file_link:
-        origin_id: "Origin Id"
+        origin_id: "Kaynak kimliği"
     errors:
       messages:
         not_linked_to_project: "projeye bağlı değildir."
@@ -22,44 +22,44 @@ tr:
           attributes:
             host:
               cannot_be_connected_to: "ile bağlanamaz."
-              minimal_nextcloud_version_unmet: "does not meet minimal version requirements (must be Nextcloud 23 or higher)"
+              minimal_nextcloud_version_unmet: "minimum sürüm gereksinimlerini karşılamıyor (Nextcloud 23 veya üstü olmalıdır)"
               not_nextcloud_server: "bir Nextcloud sunucusu değil"
               op_application_not_installed: >
-                appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
+                "OpenProject entegrasyonu" uygulamasının yüklü olmadığı görülüyor. Lütfen önce kurun ve sonra tekrar deneyin.
               authorization_header_missing: >
-                is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
+                tam olarak kurulmamıştır. Nextcloud örneği, API isteklerinin Taşıyıcı belirteci tabanlı yetkilendirmesi için gerekli olan "Yetkilendirme" başlığını almaz. Lütfen HTTP sunucu yapılandırmanızı iki kez kontrol edin.
         storages/file_link:
           attributes:
             origin_id:
-              only_numeric_or_uuid: "can only be numeric or uuid."
+              only_numeric_or_uuid: "yalnızca sayısal veya uuid olabilir."
   api_v3:
     errors:
-      too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
+      too_many_elements_created_at_once: "Aynı anda çok fazla öğe oluşturuldu. En fazla %{max} bekleniyordu, %{actual} alındı."
   storages:
     buttons:
       done_continue_setup: "Tamamlandı. Kuruluma devam et"
-      replace_openproject_oauth: "Replace OpenProject OAuth"
-      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
-      save_and_continue_setup: "Save and continue setup"
-      save_and_complete_setup: "Save and complete setup"
+      replace_openproject_oauth: "OpenProject OAuth'u değiştirin"
+      replace_provider_type_oauth: "%{provider_type} OAuth'u değiştirin"
+      save_and_continue_setup: "Kaydet ve kuruluma devam et"
+      save_and_complete_setup: "Kaydet ve kurulumu tamamla"
     page_titles:
       project_settings:
-        index: "File storages available in this project"
+        index: "Bu projedeki mevcut dosya depoları"
         new: "Bu projeye bir dosya deposu ekle"
     instructions:
-      type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
-      type_link_text: "“Integration OpenProject”"
+      type: "Lütfen Nextcloud bulut sunucunuzda yönetici ayrıcalıklarına sahip olduğunuzdan ve kurulumu yapmadan önce aşağıdaki uygulamanın kurulu olduğundan emin olun:"
+      type_link_text: "“Entegrasyon OpenProject”"
       name: "Kullanıcıların birden fazla depolama alanı arasında ayrım yapabilmesi için depolama alanınıza bir ad verin."
-      host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
-      no_storage_set_up: "There are no file storages set up, yet."
-      setting_up_additional_storages: "For setting up additional file storages, please visit"
-      setting_up_additional_storages_non_admin: "Administrators can set up additional file storages in Administration / File Storages."
-      setting_up_storages: "For setting up file storages, please visit"
-      setting_up_storages_non_admin: "Administrators can set up file storages in Administration / File Storages."
-      all_available_storages_already_added: "All available storages are already added to the project."
-      copy_from: "Copy this value from"
+      host: "Lütfen https dahil olmak üzere depolama alanınızın ana bilgisayar adresini ekleyin:"
+      no_storage_set_up: "Henüz ayarlanmış bir dosya deposu yok."
+      setting_up_additional_storages: "Ek dosya depoları ayarlamak için lütfen adresi ziyaret edin."
+      setting_up_additional_storages_non_admin: "Yöneticiler, Yönetim'de ek dosya depoları kurabilir"
+      setting_up_storages: "Dosya depolarını ayarlamak için lütfen adresi ziyaret edin."
+      setting_up_storages_non_admin: "Yöneticiler, Yönetim'de dosya depoları kurabilir"
+      all_available_storages_already_added: "Mevcut tüm depolar zaten projeye eklenmiştir."
+      copy_from: "Bu değeri şuradan kopyala"
       nextcloud:
-        integration: "Nextcloud Administration / OpenProject"
+        integration: "Nextcloud Yönetimi / OpenProject"
     delete_warning:
       storage: >
         Bu depolama alanını silmek istediğinizden emin misiniz? Bu, depolamayı kullanıldığı tüm projelerden de siler. Ayrıca, iş paketlerinden o depoda saklanan dosyalara olan tüm bağlantıları da siler.
@@ -69,12 +69,12 @@ tr:
     label_file_link: "Dosya bağlantısı"
     label_file_links: "Dosya bağlantıları"
     label_name: "İsim"
-    label_host: "Host URL"
+    label_host: "Barındırıcı URL'si"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "OAuth uygulaması ayrıntıları"
-    label_oauth_client_details: "OAuth client details"
+    label_oauth_client_details: "OAuth istemci ayrıntıları"
     label_provider_type: "Sağlayıcı türü"
     label_new_storage: "Yeni depolama"
     label_storage: "Depolama"

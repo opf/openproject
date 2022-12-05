@@ -277,6 +277,8 @@ module ApplicationHelper
 
     css << "env-#{Rails.env}"
 
+    css << "env-#{Rails.env}"
+
     # Add browser specific classes to aid css fixes
     css += browser_specific_classes
 

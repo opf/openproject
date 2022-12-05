@@ -14,20 +14,20 @@ been combined.
 
 Additionally, you can resize the Gantt chart via drag and drop and the
 work package status is highlighted more prominently. As a user of the
-[Cloud Edition](https://www.openproject.org/hosting/) or 
-[Enterprise Edition](https://www.openproject.org/enterprise-edition/), 
+[Enterprise cloud](https://www.openproject.org/hosting/) or 
+[Enterprise on-premises](https://www.openproject.org/enterprise-edition/), 
 custom fields are shown in the project list.
 
 In addition, two factor authentication is available for Enterprise
-Edition and Cloud Edition users.
+edition and Enterprise cloud edition users.
 
 ## Updated project list (project portfolio list)
 
 With OpenProject 7.4 the project list is combined with the project admin
 list. As a user you can choose to expand or collapse the project
 description. As a result, you can see all projects in one place.  
-As a user of the [Enterprise Edition](https://www.openproject.org/enterprise-edition/) 
-or [Cloud Edition](https://www.openproject.org/hosting/),  
+As a user of the [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) 
+or [Enterprise cloud](https://www.openproject.org/hosting/),  
 you can also see
 project custom fields (e.g. project status, project responsible)
 directly in the list. You can also filter by those project custom
@@ -76,9 +76,9 @@ create e.g. bugs or tasks.
 
 
 
-## Two factor authentication (Enterprise Edition / Cloud Edition)
+## Two factor authentication (Enterprise add-on)
 
-Users of the Enterprise Edition and Cloud Edition can activate two
+Users of the OpenProject Enterprise cloud and Enterprise on-premises edition can activate two
 factor authentication with OpenProject 7.4 to increase the security of
 their OpenProject environments.  
 You can choose between authentication by text message or authentication

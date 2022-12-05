@@ -49,7 +49,7 @@ ko:
         main-menu-border-color: "기본 메뉴 테두리"
       custom_colors: "사용자 정의 색상"
       customize: "고유한 로고와 색상으로 OpenProject 설치를 사용자 지정하세요."
-      enterprise_notice: "OpenProject 개발에의 재정적인 후원에 대한 특별한 감사로 이 작은 기능은 Enterprise Edition 후원자에게만 지원됩니다."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "참고: 사용된 로그는 공개적으로 액세스 가능합니다."
       manage_colors: "색상 선택 옵션 편집"
       instructions:
@@ -64,15 +64,15 @@ ko:
         main-menu-bg-color: "왼쪽 메뉴의 배경색입니다."
       theme_warning: 테마를 변경하면 사용자 정의 스타일을 덮어 씁니다. 그러면 디자인이 손실됩니다. 너 정말 계속하고 싶니?
     enterprise:
-      upgrade_to_ee: "Enterprise Edition으로 업그레이드"
-      add_token: "Enterprise Edition 지원 토큰을 업로드하세요."
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "사용된 현재 Enterprise Edition 토큰을 제거하시겠습니까?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "토큰 제거"
       replace_token: "당신의 현재 지원 토큰을 바꾸세요."
-      order: "Enterprise on-premises Edition 주문하기"
-      paste: "당신의 Enterprise Edition 지원 토큰을 붙여넣으세요."
-      required_for_feature: "이 기능은 활성화 된 Enterprise Edition 지원 토큰에서만 가능합니다."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "더 자세한 내용은 여기를 클릭하세요."
       start_trial: '무료 평가판 시작'
       book_now: '지금 예약'
@@ -80,7 +80,7 @@ ko:
       buttons:
         upgrade: "지금 업그레이드"
         contact: "당사에 데모 요청하기"
-      enterprise_info_html: "- Enterprise <strong class='icon-medal'></strong> 기능입니다."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "활성화하고 팀에서 사용하려면 유료 플랜으로 업그레이드하세요."
     journal_aggregation:
       explanation:
@@ -138,6 +138,7 @@ ko:
         자동으로 새 사용자를 만듭니다.
         OpenProject의 기존 계정만 LDAP를 통해 인증할 수 있게 하려면 이 확인란을 선택하지 마세요!
     connection_encryption: '연결 암호화'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: '시스템 계정'
     system_account_legend: |
       OpenProject는 LDAP 트리에서 사용자 및 그룹을 찾기 위해 시스템 계정을 통한 읽기 전용 액세스 권한을 필요로 합니다.
@@ -149,13 +150,18 @@ ko:
       OpenProject 사용자의 특성을 정의하기 위해 사용되는 LDAP 특성(특성 매핑)과 관련이 있습니다.
     tls_mode:
       plain: '없음'
-      simple_tls: '단순 TLS'
-      start_tls: 'TLS 시작'
-      plain_description: "일반 암호화 되지 않은 연결 TLS 협상 없음"
-      simple_tls_description: "암시적 TLS 암호화이지만, 인증서 유효성 검사가 없습니다. LDAP 연결에 대해 주의를 기울이고 암시적 신뢰에 따라 사용하십시오."
-      start_tls_description: "완전한 유효성 검사를 사용하는 명시적 TLS 암호화입니다. TLS/SSL에서 LDAP을 사용하십시오."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         본 섹션에서는 이 LDAP 인증 소스의 연결 보안에 대해 설명합니다. 자세한 내용은 <a href="%{link}">Net::LDAP 문서</a>를 참조하십시오.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: 포럼에 대한 포스트가 현재 없습니다.
@@ -210,6 +216,15 @@ ko:
     ignore_filenames: >
       받는 메일의 첨부 파일을 처리할 때 무시할 이름 목록을 지정하십시오(예: 서명 또는 아이콘). 라인 하나에 파일 이름 하나를 입력하십시오.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: '프로젝트 멤버'
+      overviews: '프로젝트 개요'
+      queries: '작업 패키지: 저장된 보기'
+      wiki_page_attachments: 'Wiki 페이지: 첨부 파일'
+      work_package_attachments: '작업 패키지: 첨부 파일'
+      work_package_categories: '작업 패키지: 카테고리'
+      work_package_file_links: '작업 패키지: 파일 링크'
     delete:
       scheduled: "삭제가 예약되었으며 백그라운드에서 수행됩니다. 결과 알림이 제공될 것입니다."
       schedule_failed: "프로젝트를 삭제할 수 없습니다: %{errors}"
@@ -306,7 +321,7 @@ ko:
       settings: "설정"
       form_configuration: "양식 구성"
       more_info_text_html: >
-        Enterprise Edition에서는 다음과 같은 추가 기능으로 양식 구성을 사용자 지정할 수 있습니다: <br> <ul class="%{list_styling_class}"> <li><b>새로운 특성 그룹 추가</b></li> <li><b>특성 그룹 이름 바꾸기</b></li> <li><b>관련 작업 패키지 테이블 추가</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "프로젝트"
       enabled_projects: "활성화 된 프로젝트"
       edit_query: "테이블 편집"
@@ -408,6 +423,7 @@ ko:
         host: "호스트"
         onthefly: "자동 사용자 생성"
         port: "포트"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "리포지토리"
       comment:
@@ -569,7 +585,7 @@ ko:
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
         could_not_be_copied: "%{dependency}을(를) (완전히) 복사할 수 없습니다."
         does_not_exist: "존재하지 않음"
-        error_enterprise_only: "- OpenProject Enterprise Edition에서만 사용할 수 있습니다"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
         email: "- 유효한 이메일 주소가 아닙니다."
@@ -616,6 +632,11 @@ ko:
           "보안 컨텍스트"를 제공하지 않습니다. HTTPS 또는 localhost 같은 루프백 주소를 사용하세요.
         wrong_length: "너무 짧습니다 (최소 %{count} 자 이상이어야 합니다)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -666,10 +687,6 @@ ko:
               no_notification_reason: '- IAN이 채널로 선택되었으므로 비워둘 수 없습니다.'
             reason_mail_digest:
               no_notification_reason: '- 메일 요약이 채널로 선택되었으므로 비워둘 수 없습니다.'
-        notification_settings:
-          only_one_global_setting: '전역 알림 설정은 하나만 있어야 합니다.'
-          email_alerts_global: '이메일 알림 설정은 전역으로만 설정할 수 있습니다.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -744,6 +761,16 @@ ko:
               invalid_range: "- 유효한 날짜 범위만 가능합니다."
             daily_reminders:
               full_hour: "- 1시간 전송만 구성할 수 있습니다."
+            notification_settings:
+              only_one_global_setting: '전역 알림 설정은 하나만 있어야 합니다.'
+              email_alerts_global: '이메일 알림 설정은 전역으로만 설정할 수 있습니다.'
+              format: "%{message}"
+              wrong_date: '시작 날짜, 기한 또는 기한 지남 값이 잘못되었습니다.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "- 이 리소스를 볼 수 없습니다."
+              locked: "- 잠겨 있습니다."
         wiki_page:
           attributes:
             slug:
@@ -1218,11 +1245,11 @@ ko:
   ee:
     upsale:
       form_configuration:
-        description: "이 추가적인 기능들로 양식 구성을 커스텀하세요;"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "새로운 특성 그룹 추가"
         rename_groups: "특성 그룹 이름 바꾸기"
       project_filters:
-        description_html: "사용자 지정 필드의 필터링 및 정렬은 엔터프라이즈 버전의 기능입니다."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "시간 추적 활동"
   enumeration_work_package_priorities: "작업 패키지 우선 순위"
   enumeration_reported_project_statuses: "보고된 프로젝트 상태"
@@ -1244,7 +1271,7 @@ ko:
   error_cookie_missing: 'OpenProject 쿠키가 없습니다. 이 응용 프로그램은 쿠키 없이 제대로 작동하지 않으므로, 쿠키를 활성화해야 합니다.'
   error_custom_option_not_found: "존재하지 않는 옵션입니다."
   error_enterprise_activation_user_limit: "사용자 계정을 활성화할 수 없습니다(사용자 제한에 도달함). 액세스하려면 관리자에게 문의하세요."
-  error_enterprise_token_invalid_domain: "Enterprise Edition이 활성화되지 않았습니다. 해당 Enterprise 토큰의 도메인(%{actual})이 시스템의 호스트 이름(%{expected})과 일치하지 않습니다."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: '항목 삭제에 실패하였습니다.'
   error_in_dependent: "종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "종속 개체를 생성하려는 중에 오류가 발생했습니다: %{dependent_class} - %{related_subject}: %{error}"
@@ -1332,10 +1359,10 @@ ko:
     blocks:
       community: "OpenProject 커뮤니티"
       upsale:
-        title: "Enterprise Edition으로 업그레이드 하세요."
+        title: "Upgrade to Enterprise edition"
         more_info: "더보기"
     links:
-      upgrade_enterprise_edition: "Enterprise Edition으로 업그레이드 하세요."
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "설치를 PostgreSQL로 마이그레이션"
       user_guides: "사용자 가이드"
       faq: "FAQ"
@@ -1551,7 +1578,7 @@ ko:
   label_enumerations: "열거형"
   label_enterprise: "엔터프라이즈"
   label_enterprise_active_users: "예약 활성 사용자 %{current}/%{limit}명"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "환경"
   label_estimates_and_time: "견적 및 시간"
   label_equals: "일치함"
@@ -1901,7 +1928,6 @@ ko:
   label_wiki_start: "시작 페이지"
   label_work_package: "작업 패키지"
   label_work_package_attachments: "작업 패키지 첨부 파일"
-  label_work_package_file_link_plural: "작업 패키지 파일 링크"
   label_work_package_category_new: "새 카테고리"
   label_work_package_category_plural: "작업 패키지 카테고리"
   label_work_package_hierarchy: "작업 패키지 계층 구조"
@@ -1993,6 +2019,8 @@ ko:
         mentioned: '멘션됨'
         subscribed: '모두'
         prefix: '수신 이유는 다음 알림 설정입니다: %{reason}'
+        date_alert_start_date: '날짜 경보'
+        date_alert_due_date: '날짜 경보'
       see_all: '모두 보기'
       updated_at: '%{timestamp}, %{user} 님이 업데이트함'
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
@@ -2560,11 +2588,11 @@ ko:
   text_custom_field_hint_activate_per_project_and_type: >
     사용자 지정 필드는 작업 패키지 유형 및 프로젝트별로 활성화해야 합니다.
   text_wp_custom_field_html: >
-    Enterprise Edition은 작업 패키지의 사용자 지정 필드에 대해 다음과 같은 추가적인 기능을 추가합니다: <br> <ul> <li><b>목록 또는 사용자 유형의 사용자 지정 필드에서 다중 선택 허용</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    Enterprise Edition은 작업 패키지의 상태 필드에 대해 다음과 같은 추가적인 기능을 추가합니다: <br> <ul> <li><b>특정 상태에 대해 작업 패키지를 읽기 전용으로 표시 허용</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    Enterprise Edition은 프로젝트의 사용자 지정 필드에 대해 다음과 같은 추가적인 기능을 추가합니다: <br> <ul> <li><b>프로젝트 목록에 프로젝트에 대한 사용자 지정 필드를 추가하여 프로젝트 포트폴리오 보기 만들기</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     투명한 배경에 흰색 로고가 권장됩니다. 기존 디스플레이와 레티나 디스플레이 둘 다에서 최상의 결과를 위해 이미지의 크기는 460px x 60px여야 합니다.
   text_custom_favicon_instructions: >
@@ -2864,7 +2892,7 @@ ko:
   warning_user_limit_reached: >
     사용자 제한에 도달했습니다. 더 이상 사용자를 활성화할 수 없습니다. <a href="%{upgrade_url}">플랜을 업그레이드</a>하거나 멤버를 차단하여 추가 사용자를 허용하세요.
   warning_user_limit_reached_instructions: >
-    사용자 제한(활성 사용자 %{current}/%{max}명)에 도달했습니다. sales@openproject.com으로 연락하여 Enterprise Edition 플랜을 업그레이드하고 사용자를 더 추가하세요.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2905,6 +2933,7 @@ ko:
   api_v3:
     attributes:
       lock_version: "잠금 버전"
+      property: '속성'
     errors:
       code_400: "잘못된 요청: %{message}"
       code_401: "접근하기 위해서 인증해야 합니다."

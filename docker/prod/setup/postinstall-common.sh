@@ -8,7 +8,11 @@ pushd "${APP_PATH}/frontend"
 export NG_CLI_ANALYTICS=ci # so angular cli doesn't block waiting for user input
 
 # Installing frontend dependencies
+<<<<<<< .merge_file_7Bw4c7
 RAILS_ENV=production npm install
+=======
+npm install
+>>>>>>> .merge_file_V2igHy
 
 popd
 

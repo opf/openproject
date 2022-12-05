@@ -97,10 +97,14 @@ export abstract class AbstractDatePickerDirective extends UntilDestroyedMixin im
   }
 
   closeOnOutsideClick(event:MouseEvent):void {
-    if (!(event.relatedTarget
-      && this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget as HTMLElement))) {
+    if (this.isOutsideClick(event)) {
       this.close();
     }
+  }
+
+  isOutsideClick(event:MouseEvent):boolean {
+    return (!(event.relatedTarget
+      && this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget as HTMLElement)));
   }
 
   close():void {

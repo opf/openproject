@@ -23,9 +23,23 @@ import { SbTooltipComponent } from './Tooltip.component';
   }}
 />
 
-## Tooltip
+# Tooltip
 
-The include projects drop modal allows users to include projects other than the current one, so that the current view (be it table view, the team planner, boards view...) also displays work packages of these included projects.
+> Example of a tooltip
+
+Tooltips are used to provide additional information about an interactive element on mouse hover. 
+
+By default, they take 100% of the width of the containing element. However, max-width should be specified manually for each tooltip, depending on the circumstances and placement of the element. 
+
+Tooltips have a min-width of X rem.
+
+Tooltips automatically align themselves to the top or the bottom of the element it is attached to, depending on the positioning of the element in the viewport.
+
+## Options
+
+Tooltips by default have a dark gray background (_Gray 1: #333_), but a lighter version is also available with a sky blue background in the default theme (_Feedback/Info/Light_).
+
+> Example of a tooltip with a light background
 
 export const Template = (args) => ({
   parameters: {
