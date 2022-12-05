@@ -9,9 +9,13 @@ export function teamPlannerTourSteps():OnboardingStep[] {
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       onNext() {
         jQuery('.team-planner-view-menu-item ~ .toggler')[0].click();
-        waitForElement('.op-sidemenu--items', '#main-menu', () => {
-          jQuery(".op-sidemenu--item-action:contains('Team planner')")[0].click();
-        });
+
+        waitForElement(
+          '.op-sidemenu--item-action',
+          '#main-menu',
+          (match) => match.click(),
+          (match) => !!match.textContent?.includes('Team planner'),
+        );
       },
     },
     {
