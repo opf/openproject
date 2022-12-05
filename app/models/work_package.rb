@@ -124,8 +124,10 @@ class WorkPackage < ApplicationRecord
          :for_scheduling,
          :include_derived_dates,
          :include_spent_time,
+         :involving_user,
          :left_join_self_and_descendants,
-         :relatable
+         :relatable,
+         :directly_related
 
   acts_as_watchable
 
@@ -314,7 +316,6 @@ class WorkPackage < ApplicationRecord
   def type_id=(tid)
     self.type = nil
     result = write_attribute(:type_id, tid)
-    @custom_field_values = nil
     result
   end
 
@@ -449,6 +450,10 @@ class WorkPackage < ApplicationRecord
   # Overrides Redmine::Acts::Customizable::ClassMethods#available_custom_fields
   def self.available_custom_fields(work_package)
     WorkPackage::AvailableCustomFields.for(work_package.project, work_package.type)
+  end
+
+  def custom_field_cache_key
+    [project_id, type_id]
   end
 
   protected

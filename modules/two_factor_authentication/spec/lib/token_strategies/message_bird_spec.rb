@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 require 'messagebird'
 
-describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird, with_2fa_ee: true do
+describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
   let(:channel) { :sms }
   let(:locale) { 'en' }
   let(:user) { create :user, language: locale }

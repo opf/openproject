@@ -338,9 +338,9 @@ describe WorkPackage, type: :model do
         include_context 'for work package with custom value'
 
         let(:modified_custom_value) do
-          create :custom_value,
+          create(:work_package_custom_value,
                  value: 'true',
-                 custom_field:
+                 custom_field:)
         end
 
         before do
@@ -359,9 +359,9 @@ describe WorkPackage, type: :model do
         include_context 'for work package with custom value'
 
         let(:unmodified_custom_value) do
-          create :custom_value,
+          create(:work_package_custom_value,
                  value: 'false',
-                 custom_field:
+                 custom_field:)
         end
 
         before do

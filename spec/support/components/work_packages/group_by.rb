@@ -30,6 +30,7 @@ module Components
   module WorkPackages
     class GroupBy
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       def enable_via_header(name)

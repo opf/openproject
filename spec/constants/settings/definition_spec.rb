@@ -29,19 +29,6 @@
 require 'spec_helper'
 
 describe Settings::Definition do
-  shared_context 'with clean definitions' do
-    let!(:definitions_before) { described_class.all.dup }
-
-    before do
-      described_class.send(:reset)
-    end
-
-    after do
-      described_class.send(:reset)
-      described_class.instance_variable_set(:@all, definitions_before)
-    end
-  end
-
   describe '.all' do
     subject(:all) { described_class.all }
 
@@ -71,7 +58,7 @@ describe Settings::Definition do
     end
 
     context 'when overriding from ENV' do
-      include_context 'with clean definitions'
+      include_context 'with clean setting definitions'
 
       def value_for(name)
         all.detect { |d| d.name == name }.value
@@ -112,7 +99,7 @@ describe Settings::Definition do
         expect(value_for('default_language')).to eql 'en'
       end
 
-      it 'allows overriding email/smpt configuration from ENV without OPENPROJECT_ prefix even though setting is writable' do
+      it 'allows overriding email/smtp configuration from ENV without OPENPROJECT_ prefix even though setting is writable' do
         stub_const('ENV',
                    {
                      'EMAIL_DELIVERY_CONFIGURATION' => 'legacy',
@@ -156,11 +143,11 @@ describe Settings::Definition do
           .to be false
       end
 
-      it 'overriding date configuration from ENV will cast the value' do
+      it 'overriding datetime configuration from ENV will cast the value' do
         stub_const('ENV', { 'OPENPROJECT_CONSENT__TIME' => '2222-01-01' })
 
         expect(all.detect { |d| d.name == 'consent_time' }.value)
-          .to eql Date.parse('2222-01-01')
+          .to eql DateTime.parse('2222-01-01')
       end
 
       it 'overriding timezone configuration from ENV will cast the value' do
@@ -387,7 +374,7 @@ describe Settings::Definition do
     end
 
     context 'when overriding from file' do
-      include_context 'with clean definitions'
+      include_context 'with clean setting definitions'
 
       let(:file_contents) do
         <<~YAML
@@ -517,7 +504,7 @@ describe Settings::Definition do
     end
 
     context 'when adding an additional setting' do
-      include_context 'with clean definitions'
+      include_context 'with clean setting definitions'
 
       it 'includes the setting' do
         all
@@ -563,7 +550,7 @@ describe Settings::Definition do
     end
 
     context 'when adding a setting late' do
-      include_context 'with clean definitions'
+      include_context 'with clean setting definitions'
       let(:key) { 'bogus' }
 
       before do
@@ -990,7 +977,7 @@ describe Settings::Definition do
   end
 
   describe '#on_change' do
-    include_context 'with clean definitions'
+    include_context 'with clean setting definitions'
 
     context 'for a definition with a callback' do
       let(:callback) { -> { 'foobar ' } }

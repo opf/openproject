@@ -2,7 +2,6 @@ require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
 describe 'Login with enforced 2FA',
-         with_2fa_ee: true,
          type: :feature,
          with_settings: {
            plugin_openproject_two_factor_authentication: {

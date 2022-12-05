@@ -2,8 +2,8 @@
 sidebar_navigation:
   title: Enterprise cloud guide
   priority: 999
-description: OpenProject Enterprise Cloud guide.
-keywords: Cloud edition, enterprise cloud
+description: OpenProject Enterprise cloud guide.
+keywords: cloud edition, enterprise cloud
 ---
 # Enterprise cloud guide
 
@@ -29,7 +29,7 @@ Welcome to the OpenProject **Enterprise cloud guide**.
 | [Support](./support)                                                                                        | How to get support as Enterprise cloud user.                                                      |
 | [GDPR and DPA](./gdpr-compliance)                                                                           | Review and sign a Data Processing Agreement (DPA).                                                |
 
-The OpenProject Enterprise cloud edition contains all OpenProject Community features plus the additional OpenProject premium features, as well as professional support.
+The OpenProject Enterprise cloud edition contains all OpenProject Community features plus the additional OpenProject Enterprise add-ons, as well as professional support.
 
 For the Enterprise cloud edition the OpenProject experts will take care of the installation as well as maintenance of your OpenProject installation, so you will be able to concentrate on your core business. We will perform regular backups of your Enterprise cloud edition. You will have the latest OpenProject release installed. Hence, you do not have to take care of updates or installation of security patches yourself.
 

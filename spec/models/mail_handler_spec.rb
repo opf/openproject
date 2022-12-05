@@ -621,7 +621,10 @@ describe MailHandler, type: :model do
 
         it 'sends notifications to watching users' do
           # User gets all updates
-          user = create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages))
+          user = create(:user,
+                        member_in_project: project,
+                        member_with_permissions: %i(view_work_packages),
+                        notification_settings: [build(:notification_setting, all: true)])
 
           expect do
             perform_enqueued_jobs do
@@ -1195,7 +1198,7 @@ describe MailHandler, type: :model do
         it 'updates a work package with attachment' do
           allow(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
-          # Mail with two attachemnts, one of which is skipped by signature.asc filename match
+          # Mail with two attachments, one of which is skipped by signature.asc filename match
           submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
 
           work_package.reload
@@ -1233,7 +1236,7 @@ describe MailHandler, type: :model do
           assignee = create(:user,
                             member_in_project: project,
                             member_with_permissions: %i(view_work_packages),
-                            notification_settings: [build(:notification_setting, involved: true)])
+                            notification_settings: [build(:notification_setting, assignee: true, responsible: true)])
 
           work_package.update_column(:assigned_to_id, assignee.id)
 
@@ -1242,7 +1245,7 @@ describe MailHandler, type: :model do
             perform_enqueued_jobs do
               subject
             end
-          end.to change(Notification, :count).by(2)
+          end.to change(Notification, :count).by(1)
         end
       end
 

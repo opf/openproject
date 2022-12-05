@@ -49,7 +49,7 @@ cs:
         main-menu-border-color: "Okraj hlavního menu"
       custom_colors: "Vlastní barvy"
       customize: "Přizpůsobte si instalaci OpenProject vlastním logem a barvami."
-      enterprise_notice: "Jako zvláštní 'Děkujeme!' za jejich finanční příspěvky na vývoj OpenProjektu, je tato malá funkce dostupná pouze pro podporu Enterprise Edition."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Poznámka: použité logo bude veřejně přístupné."
       manage_colors: "Upravit možnosti výběru barvy"
       instructions:
@@ -64,15 +64,15 @@ cs:
         main-menu-bg-color: "Barva pozadí levého menu."
       theme_warning: Změna motivu přepíše váš vlastní styl. Vzhled pak bude ztracen. Jste si jisti, že chcete pokračovat?
     enterprise:
-      upgrade_to_ee: "Upgradovat na Enterprise Edition"
-      add_token: "Nahrát podpůrný token Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Delete token"
       replace_token: "Nahradit aktuální podpůrný token"
-      order: "Upgradovat na Enterprise Edition on premises"
-      paste: "Vložte svůj podpůrný token Enterprise Edition"
-      required_for_feature: "Tato funkce je dostupná pouze s aktivním podpůrným tokenem pro Enterprise Edition."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Pro více informací klikněte zde."
       start_trial: 'Začít zkušební verzi'
       book_now: 'Rezervujte nyní'
@@ -80,7 +80,7 @@ cs:
       buttons:
         upgrade: "Upgradovat nyní"
         contact: "Kontaktujte nás pro demo"
-      enterprise_info_html: "je funkcí Enterprise<strong class='icon-medal'></strong>."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Přejděte na placenou verzi a začněte ji používat ve vašem týmu."
     journal_aggregation:
       explanation:
@@ -138,6 +138,7 @@ cs:
         při prvním ověření OpenProject.
         Ponechte toto nezaškrtnuté pro povolení pouze existujících účtů v OpenProject pro ověření pomocí LDAP!
     connection_encryption: 'Šifrování připojení'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Systémový účet'
     system_account_legend: |
       OpenProject vyžaduje přístup pouze pro čtení prostřednictvím systémového účtu pro vyhledávání uživatelů a skupin ve stromu LDAP.
@@ -149,13 +150,18 @@ cs:
       jaké atributy LDAP se používají k definování atributů uživatele OpenProject (mapování atributů).
     tls_mode:
       plain: 'žádný'
-      simple_tls: 'jednoduché_tls'
-      start_tls: 'začátek_tls'
-      plain_description: "Prosté nešifrované připojení, žádné jednání TLS."
-      simple_tls_description: "Implicitní TLS šifrování, ale bez ověření certifikátu. Používejte s opatrností a implicitní důvěru k LDAP připojení."
-      start_tls_description: "Explicitní TLS šifrování s úplnou validací. Použijte pro LDAP nad TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Tato sekce se týká zabezpečení připojení tohoto LDAP autentifikačního zdroje. Pro více informací navštivte <a href="%{link}">síť:LDAP dokumentaci</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: V současné době nejsou k dispozici žádné příspěvky na fórum.
@@ -210,6 +216,15 @@ cs:
     ignore_filenames: >
       Zadejte seznam názvů, které budou ignorovány při zpracování příloh pro příchozí poštu (např. podpisy nebo ikony). Zadejte jeden název souboru na řádek.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Odstranění bylo naplánováno a je dokončeno na pozadí. Výsledek vám bude oznámen."
       schedule_failed: "Projekt nelze odstranit: %{errors}"
@@ -307,7 +322,7 @@ cs:
       settings: "Nastavení"
       form_configuration: "Konfigurace formuláře"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekty"
       enabled_projects: "Povolit projekty"
       edit_query: "Upravit tabulku"
@@ -412,6 +427,7 @@ cs:
         host: "Hostitel"
         onthefly: "Automatické vytváření uživatele"
         port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitář"
       comment:
@@ -573,7 +589,7 @@ cs:
         confirmation: "neshoduje se s %{attribute}."
         could_not_be_copied: "%{dependency} nemůže být (zcela) zkopírován."
         does_not_exist: "neexistuje."
-        error_enterprise_only: "je k dispozici pouze v OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "není přístupný."
         error_readonly: "se pokusil být napsán, ale není zapisovatelný."
         email: "není platná e-mailová adresa"
@@ -620,6 +636,11 @@ cs:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "má chybnou délku (měla by být %{count} znaků)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -670,10 +691,6 @@ cs:
               no_notification_reason: 'nemůže být prázdné, protože IAN je vybrán jako kanál.'
             reason_mail_digest:
               no_notification_reason: 'nemůže být prázdné, protože poštovní digest je vybrán jako kanál.'
-        notification_settings:
-          only_one_global_setting: 'Musí existovat pouze jedno globální nastavení notifikací.'
-          email_alerts_global: 'Nastavení e-mailových notifikací lze nastavit pouze globálně.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -748,6 +765,16 @@ cs:
               invalid_range: "může být pouze platný časový rozsah."
             daily_reminders:
               full_hour: "lze nakonfigurovat pouze za celou hodinu."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -1270,11 +1297,11 @@ cs:
   ee:
     upsale:
       form_configuration:
-        description: "Přizpůsobte si konfiguraci formuláře s těmito doplňkovými funkcemi:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Přidat nové skupiny atributů"
         rename_groups: "Přejmenovat skupiny atributů"
       project_filters:
-        description_html: "Filtrování a třídění vlastních polí je funkcí enterprise edice."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Sledování času"
   enumeration_work_package_priorities: "Priority pracovního balíčku"
   enumeration_reported_project_statuses: "Nahlášený stav projektu"
@@ -1296,7 +1323,7 @@ cs:
   error_cookie_missing: 'OpenProject cookie chybí. Ujistěte se, že jsou soubory cookie povoleny, protože aplikace nebude správně fungovat.'
   error_custom_option_not_found: "Nastavení neexistuje."
   error_enterprise_activation_user_limit: "Váš účet nebyl aktivován (dosažen limit počtu uživatelů). Prosím obraťte se na správce pro získání přístupu."
-  error_enterprise_token_invalid_domain: "Enterprise Edition není aktivní. Doména Tvoje Enterprise tokenu (%{actual}) neodpovídá hostiteli systému (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Nepodařilo se odstranit tento záznam.'
   error_in_dependent: "Chyba při pokusu o změnu závislého objektu: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Chyba při pokusu o vytvoření závislého objektu: %{dependent_class} - %{related_subject}: %{error}"
@@ -1384,10 +1411,10 @@ cs:
     blocks:
       community: "OpenProject komunita"
       upsale:
-        title: "Upgradovat na Enterprise Edition"
+        title: "Upgrade to Enterprise edition"
         more_info: "Více informací"
     links:
-      upgrade_enterprise_edition: "Upgradovat na Enterprise Edici"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrujte vaši instalaci na PostgreSQL"
       user_guides: "Uživatelské příručky"
       faq: "FAQ - často kladené dotazy"
@@ -1603,7 +1630,7 @@ cs:
   label_enumerations: "Číselníky"
   label_enterprise: "Podniky"
   label_enterprise_active_users: "%{current}/%{limit} rezervováno aktivních uživatelů"
-  label_enterprise_edition: "Enterprise Edice"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Prostředí"
   label_estimates_and_time: "Odhady a čas"
   label_equals: "je"
@@ -1953,7 +1980,6 @@ cs:
   label_wiki_start: "Úvodní stránka"
   label_work_package: "Pracovní balíček"
   label_work_package_attachments: "Přílohy pracovních balíčků"
-  label_work_package_file_link_plural: "Odkazy na souborů pracovních balíčků"
   label_work_package_category_new: "Nová kategorie"
   label_work_package_category_plural: "Kategorie pracovních balíčků"
   label_work_package_hierarchy: "Hierarchie pracovních balíčků"
@@ -2048,6 +2074,8 @@ cs:
         mentioned: 'Zmíněné'
         subscribed: 'vše'
         prefix: 'Obdrženo z důvodu nastavení notifikací: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'Zobrazit vše'
       updated_at: 'Aktualizováno v %{timestamp} uživatelem %{user}'
   mail_body_account_activation_request: "Nový uživatel (%{value}) byl zaregistrován. Účet čeká na Vaše schválení:"
@@ -2620,11 +2648,11 @@ cs:
   text_custom_field_hint_activate_per_project_and_type: >
     Vlastní pole je třeba aktivovat podle typu pracovního balíčku a podle projektu.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Doporučuje se bílé logo na průhledném pozadí. Pro nejlepší výsledky na displejích klasického i retina se ujistěte, že rozměry vašeho obrázku jsou 460px do 60px.
   text_custom_favicon_instructions: >
@@ -2929,7 +2957,7 @@ cs:
   warning_user_limit_reached: >
     Váš limit počtu uživatelů byl dosažen. Nelze aktivovat více uživatelů. Prosím <a href="%{upgrade_url}">upgradujte váš cenový plán</a> nebo zablokujte některé stávající členy pro přidání dalších uživatelů.
   warning_user_limit_reached_instructions: >
-    Limit počtu uživatelů (%{current}/%{max} aktivních uživatelů) dosažen. Prosím kontaktujte sales@openproject.com a upgradujte vaši Enterprise Edition a přidejte další uživatele.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2970,6 +2998,7 @@ cs:
   api_v3:
     attributes:
       lock_version: "Uzamknout verzi"
+      property: 'Property'
     errors:
       code_400: "Špatný požadavek: %{message}"
       code_401: "Pro přístup k tomuto prostředku musíte být přihlášeni."

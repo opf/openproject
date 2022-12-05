@@ -446,8 +446,8 @@ describe ::Query::Results, type: :model, with_mail: false do
 
     context 'when filtering by precedes and ordering by id' do
       let(:query) do
-        build :query,
-              project: project1
+        build(:query,
+              project: project1)
       end
 
       before do
@@ -458,6 +458,12 @@ describe ::Query::Results, type: :model, with_mail: false do
         query.add_filter('precedes', '=', [wp_p1[0].id.to_s])
 
         query.sort_criteria = [['id', 'asc']]
+
+        # Reload is necessary as it fixes the lft/rgt columns of nested set
+        # that on some runs end up being the same as project2 (reason unknown),
+        # whereby the filter ends up with an invalid value since project2 gets loaded when
+        # executing project1.self_and_descendants where the wp_p1[0] is not in.
+        project1.reload
       end
 
       it 'returns the work packages preceding the filtered for work package' do

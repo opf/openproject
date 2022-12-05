@@ -3,7 +3,6 @@ require_relative '../shared_2fa_examples'
 
 describe 'Login with 2FA remember cookie',
          type: :feature,
-         with_2fa_ee: true,
          with_settings: {
            plugin_openproject_two_factor_authentication: {
              active_strategies: [:developer],

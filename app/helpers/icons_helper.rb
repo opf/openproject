@@ -36,6 +36,11 @@ module IconsHelper
     %(<i class="#{classnames}" #{title} aria-hidden="true"></i>).html_safe
   end
 
+  def spot_icon(icon_name, title: nil)
+    classnames = "spot-icon spot-icon_#{icon_name}"
+    content_tag(:span, title, class: classnames.to_s)
+  end
+
   ##
   # Icon wrapper with an invisible label
   def icon_wrapper(icon_class, label)

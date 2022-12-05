@@ -185,6 +185,7 @@ import { SingleDateModalComponent } from 'core-app/shared/components/datepicker/
 import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/multi-date-modal/multi-date.modal';
 import { DatepickerWorkingDaysToggleComponent } from 'core-app/shared/components/datepicker/toggle/datepicker-working-days-toggle.component';
 import { DatepickerSchedulingToggleComponent } from 'core-app/shared/components/datepicker/scheduling-mode/datepicker-scheduling-toggle.component';
+import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 
 @NgModule({
   imports: [
@@ -240,6 +241,7 @@ import { DatepickerSchedulingToggleComponent } from 'core-app/shared/components/
 
     HalEventsService,
     FileLinksResourceService,
+    StorageFilesResourceService,
 
     StoragesResourceService,
   ],

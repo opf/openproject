@@ -215,6 +215,29 @@ describe ::API::V3::Utilities::DateTimeFormatter do
     end
   end
 
+  describe 'format_duration_from_days' do
+    it 'formats floats' do
+      expect(subject.format_duration_from_days(5.0)).to eq('P5D')
+    end
+
+    it 'formats fractional floats' do
+      expect(subject.format_duration_from_days(5.5)).to eq('P5DT12H')
+    end
+
+    it 'includes minutes and seconds' do
+      expect(subject.format_duration_from_days(5.501)).to eq('P5DT12H1M26S')
+    end
+
+    it 'formats ints' do
+      expect(subject.format_duration_from_days(5)).to eq('P5D')
+    end
+
+    it_behaves_like 'can format nil' do
+      let(:method) { :format_duration_from_days }
+      let(:input) { 5 }
+    end
+  end
+
   describe 'parse_duration_to_days' do
     it 'parses ISO 8601 durations of full days' do
       expect(subject.parse_duration_to_days('P5D', 'prop')).to eq(5)

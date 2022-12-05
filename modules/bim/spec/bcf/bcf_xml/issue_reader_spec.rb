@@ -153,7 +153,7 @@ describe ::OpenProject::Bim::BcfXml::IssueReader do
   context 'on updating import' do
     describe '#update_comment' do
       let(:work_package) { create(:work_package) }
-      let!(:bcf_issue) { create :bcf_issue_with_comment, work_package: }
+      let!(:bcf_issue) { create(:bcf_issue_with_comment, work_package:) }
 
       before do
         allow(subject).to receive(:issue).and_return(bcf_issue)

@@ -94,7 +94,7 @@ shared_examples 'create placeholder user request flow' do
 
       expect(last_response.status).to eq(422)
       expect(parsed_response['message'])
-        .to eq('is only available in the OpenProject Enterprise Edition')
+        .to eq('Placeholder Users is only available in the OpenProject Enterprise edition')
 
       expect(last_response.body)
         .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyConstraintViolation'.to_json)

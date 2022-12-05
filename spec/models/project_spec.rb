@@ -29,9 +29,9 @@
 require 'spec_helper'
 require File.expand_path('../support/shared/become_member', __dir__)
 
-describe Project, type: :model do
+describe Project do
   include BecomeMember
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   let(:active) { true }
   let(:project) { create(:project, active:) }
@@ -55,13 +55,13 @@ describe Project, type: :model do
   end
 
   describe '#archived?' do
-    context 'if active' do
+    context 'if archived' do
       it 'is true' do
         expect(project).not_to be_archived
       end
     end
 
-    context 'if not active' do
+    context 'if not archived' do
       let(:active) { false }
 
       it 'is false' do
@@ -105,7 +105,7 @@ describe Project, type: :model do
 
     context 'with copy project permission' do
       it 'is true' do
-        expect(project.copy_allowed?).to be_truthy
+        expect(project).to be_copy_allowed
       end
     end
 
@@ -113,7 +113,7 @@ describe Project, type: :model do
       let(:permission_granted) { false }
 
       it 'is false' do
-        expect(project.copy_allowed?).to be_falsey
+        expect(project).not_to be_copy_allowed
       end
     end
   end
@@ -192,7 +192,189 @@ describe Project, type: :model do
     end
   end
 
+  describe '#members' do
+    let(:role) { create(:role) }
+    let(:active_user) { create(:user) }
+    let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
+
+    let(:inactive_user) { create(:user, status: Principal.statuses[:locked]) }
+    let!(:inactive_member) { create(:member, project:, user: inactive_user, roles: [role]) }
+
+    it 'only includes active members' do
+      expect(project.members)
+        .to eq [active_member]
+    end
+  end
+
   include_examples 'creates an audit trail on destroy' do
     subject { create(:attachment) }
+  end
+
+  describe '#users' do
+    let(:role) { create(:role) }
+    let(:active_user) { create(:user) }
+    let!(:active_member) { create(:member, project:, user: active_user, roles: [role]) }
+
+    let(:inactive_user) { create(:user, status: Principal.statuses[:locked]) }
+    let!(:inactive_member) { create(:member, project:, user: inactive_user, roles: [role]) }
+
+    it 'only includes active users' do
+      expect(project.users)
+        .to eq [active_user]
+    end
+  end
+
+  include_examples 'creates an audit trail on destroy' do
+    subject { create(:attachment) }
+  end
+
+  describe '#close_completed_versions' do
+    let!(:completed_version) do
+      create(:version, project:, effective_date: Date.parse('2000-01-01')).tap do |v|
+        create(:work_package, version: v, status: create(:closed_status))
+      end
+    end
+    let!(:ineffective_version) do
+      create(:version, project:, effective_date: Date.current + 1.day).tap do |v|
+        create(:work_package, version: v, status: create(:closed_status))
+      end
+    end
+    let!(:version_with_open_wps) do
+      create(:version, project:, effective_date: Date.parse('2000-01-01')).tap do |v|
+        create(:work_package, version: v)
+      end
+    end
+
+    before do
+      project.close_completed_versions
+    end
+
+    it 'closes the completed version' do
+      expect(completed_version.reload.status)
+        .to eq 'closed'
+    end
+
+    it 'keeps the version with the not yet reached date open' do
+      expect(ineffective_version.reload.status)
+        .to eq 'open'
+    end
+
+    it 'keeps the version with open work packages open' do
+      expect(version_with_open_wps.reload.status)
+        .to eq 'open'
+    end
+  end
+
+  describe 'hierarchy methods' do
+    shared_let(:root_project) { create(:project) }
+    shared_let(:parent_project) { create(:project, parent: root_project) }
+    shared_let(:child_project1) { create(:project, parent: parent_project) }
+    shared_let(:child_project2) { create(:project, parent: parent_project) }
+
+    describe '#parent' do
+      it 'returns the parent' do
+        expect(parent_project.parent)
+          .to eq root_project
+      end
+    end
+
+    describe '#root' do
+      it 'returns the root of the hierarchy' do
+        expect(child_project1.root)
+          .to eq root_project
+      end
+    end
+
+    describe '#ancestors' do
+      it 'returns the ancestors of the work package' do
+        expect(child_project1.ancestors)
+          .to eq [root_project, parent_project]
+      end
+
+      it 'returns empty array if there are no ancestors' do
+        expect(root_project.ancestors)
+          .to be_empty
+      end
+    end
+
+    describe '#desendants' do
+      it 'returns the descendants of the work package' do
+        expect(root_project.descendants)
+          .to eq [parent_project, child_project1, child_project2]
+      end
+
+      it 'returns empty array if there are no descendants' do
+        expect(child_project2.descendants)
+          .to be_empty
+      end
+    end
+
+    describe '#children' do
+      it 'returns the children of the work package' do
+        expect(parent_project.children)
+          .to eq [child_project1, child_project2]
+      end
+
+      it 'returns empty array if there are no descendants' do
+        expect(child_project2.children)
+          .to be_empty
+      end
+    end
+  end
+
+  describe '#rolled_up_types' do
+    let!(:parent) do
+      create(:project, types: [parent_type]).tap do |p|
+        project.update_attribute(:parent, p)
+      end
+    end
+    let!(:child1) { create(:project, parent: project, types: [child1_type, shared_type]) }
+    let!(:child2) { create(:project, parent: project, types: [child2_type], active: false) }
+
+    let!(:unused_type) { create(:type) }
+    let!(:parent_type) { create(:type) }
+    let!(:child1_type) { create(:type) }
+    let!(:child2_type) { create(:type) }
+    let!(:shared_type) { create(:type) }
+
+    let!(:project_type) do
+      create(:type).tap do |t|
+        project.types = [t, shared_type]
+      end
+    end
+
+    it 'includes all types of active projects starting from receiver down to the leaves' do
+      project.reload
+
+      expect(project.rolled_up_types)
+        .to eq [child1_type, project_type, shared_type].sort_by(&:position)
+    end
+  end
+
+  describe '#enabled_module_names=', with_settings: { default_projects_modules: %w(work_package_tracking repository) } do
+    context 'when assigning a new value' do
+      let(:new_value) { %w(work_package_tracking news) }
+
+      subject do
+        project.enabled_module_names = new_value
+      end
+
+      it 'sets the value' do
+        subject
+
+        expect(project.reload.enabled_module_names.sort)
+          .to eql new_value.sort
+      end
+
+      it 'keeps already assigned modules intact (same id)' do
+        expect { subject }
+          .not_to change { project.reload.enabled_modules.find { |em| em.name == 'work_package_tracking' }.id }
+      end
+    end
+  end
+
+  it_behaves_like 'acts_as_customizable included' do
+    let(:model_instance) { project }
+    let(:custom_field) { create(:string_project_custom_field) }
   end
 end

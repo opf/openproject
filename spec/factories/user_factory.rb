@@ -49,7 +49,7 @@ FactoryBot.define do
     end
 
     callback(:after_build) do |user, evaluator|
-      evaluator.preferences.each do |key, val|
+      evaluator.preferences&.each do |key, val|
         user.pref[key] = val
       end
     end
@@ -58,9 +58,8 @@ FactoryBot.define do
       user.pref.save if factory.preferences.present?
 
       if user.notification_settings.empty?
-        all_true = NotificationSetting.all_settings.index_with(true)
         user.notification_settings = [
-          create(:notification_setting, user:, **all_true)
+          create(:notification_setting, user:)
         ]
       end
 

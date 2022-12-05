@@ -139,7 +139,12 @@ class BaseContract < Disposable::Twin
   end
 
   def writable?(attribute)
-    writable_attributes.include?(attribute.to_s)
+    property_name = ::API::Utilities::PropertyNameConverter.to_ar_name(
+      attribute,
+      context: model,
+      collapse_cf_name: false
+    )
+    writable_attributes.include?(property_name)
   end
 
   def valid?(*_args)

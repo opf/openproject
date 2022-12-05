@@ -53,7 +53,8 @@ module Pages
 
       def expect_global_represented(setting)
         %i[
-          involved
+          assignee
+          responsible
           work_package_commented
           work_package_created
           work_package_processed
@@ -86,6 +87,22 @@ module Pages
         checked ? checkbox.check : checkbox.uncheck
       end
 
+      def enable_date_alert(type, checked)
+        checkbox = page.find "input[type='checkbox'][data-qa-global-notification-type='op-settings-#{type}-date-active']"
+        checked ? checkbox.check : checkbox.uncheck
+      end
+
+      def set_reminder(label, time)
+        select_box = page.find "select[data-qa-global-notification-type='op-reminder-settings-#{label}-alerts']"
+        select_box.select time
+      end
+
+      def expect_no_date_alert_setting(label)
+        expect(page).not_to have_selector(
+          "select[data-qa-global-notification-type='op-reminder-settings-#{label}-alerts']"
+        )
+      end
+
       def configure_project(project: nil, **types)
         types.each { |type| set_project_option(*type, project) }
       end
@@ -93,6 +110,19 @@ module Pages
       def set_project_option(type, checked, project)
         checkbox = page.find "input[type='checkbox'][data-qa-project='#{project}'][data-qa-project-notification-type='#{type}']"
         checked ? checkbox.check : checkbox.uncheck
+      end
+
+      def set_project_reminder(label, time, project)
+        select_box =
+          page.find "select[data-qa-project='#{project}']" \
+                    "[data-qa-project-notification-type='op-reminder-settings-#{label}-alerts']"
+        select_box.select time
+      end
+
+      def expect_no_project_date_alert_setting(label, project)
+        expect(page).not_to have_selector(
+          "select[data-qa-project='#{project}'][data-qa-project-notification-type='op-reminder-settings-#{label}-alerts']"
+        )
       end
 
       def save

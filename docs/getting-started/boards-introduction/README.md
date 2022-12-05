@@ -6,11 +6,11 @@ description: Introduction to agile Boards in OpenProject.
 keywords: Agile Boards
 ---
 
-# Introduction to agile boards (premium feature)
+# Introduction to agile boards (Enterprise add-on)
 
 This document provides an initial introduction to the boards in OpenProject, i.e. how to use a Kanban board to manage your tasks in an agile way.
 
-> **Note**: The agile board is a premium feature and only available for the [OpenProject Cloud Edition](https://www.openproject.org/hosting/) and the [Enterprise On-premises Edition](https://www.openproject.org/enterprise-edition/).
+> **Note**: The agile board is an Enterprise add-on and only available for the [OpenProject Enterprise cloud](https://www.openproject.org/hosting/) and the [Enterprise On-premises edition](https://www.openproject.org/enterprise-edition/).
 
 
 

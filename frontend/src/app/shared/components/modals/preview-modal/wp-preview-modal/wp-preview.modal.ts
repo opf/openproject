@@ -74,7 +74,7 @@ export class WpPreviewModalComponent extends OpModalComponent implements OnInit 
         this.workPackage = workPackage;
         this.cdRef.detectChanges();
 
-        const modal = jQuery(this.elementRef.nativeElement).find('.op-wp-preview-modal');
+        const modal = jQuery(this.elementRef.nativeElement);
         this.reposition(modal, this.locals.event.target);
       });
   }

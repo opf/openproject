@@ -29,6 +29,7 @@
 class RepositorySettingsPage
   include Rails.application.routes.url_helpers
   include Capybara::DSL
+  include Capybara::RSpecMatchers
 
   def initialize(project)
     @project = project

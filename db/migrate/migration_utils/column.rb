@@ -37,7 +37,7 @@ module Migration
         @name = name
         @ar_column = connection.columns(table.to_s).find { |col| col.name == name.to_s }
 
-        raise ArgumentError, "Column not found: #{field}" if ar_column.nil?
+        raise ArgumentError, "Column not found: #{name}" if ar_column.nil?
       end
 
       def change_type!(type)

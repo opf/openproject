@@ -7,15 +7,13 @@ keywords: two-factor authentication
 ---
 # Two-factor authentication (2FA)
 
-Note: This feature is available for the Enterprise on-premises only. For more information and differences to Community Edition, [see this page](https://www.openproject.org/pricing/).
-
 ## Basic 2FA using TOTP
 
 To activate and **configure two-factor authentication** for OpenProject, navigate to -> *Administration* -> *Authentication* and choose -> *two-factor authentication*.
 
 From the GUI you are able to configure the following options:
 
-1. **Enforce 2FA** (two-factor authentication) for every user. All users will be forced to [register a 2FA device](../../../getting-started/my-account/#two-factor-authentication-premium-feature) on their next login.
+1. **Enforce 2FA** (two-factor authentication) for every user. All users will be forced to [register a 2FA device](../../../getting-started/my-account/#two-factor-authentication) on their next login.
 2. **Remember 2FA login** for a given number of days, e.g. 30 days.
 3. Press the blue **Apply** button to save your changes.
 

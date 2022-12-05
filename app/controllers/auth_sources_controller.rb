@@ -34,8 +34,10 @@ class AuthSourcesController < ApplicationController
   before_action :block_if_password_login_disabled
 
   def index
-    @auth_sources = AuthSource.page(page_param)
-                    .per_page(per_page_param)
+    @auth_sources = AuthSource
+      .order(id: :asc)
+      .page(page_param)
+      .per_page(per_page_param)
 
     render 'auth_sources/index'
   end

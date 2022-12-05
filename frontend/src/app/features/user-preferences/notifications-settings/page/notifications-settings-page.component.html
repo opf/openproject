@@ -16,30 +16,11 @@
         type="checkbox"
         slot="input"
       />
-      <p slot="description">{{ text.mentioned.description }}</p>
   </spot-selector-field>
-
-  <spot-selector-field
-    class="op-notifications-settings--bold-label"
-    [label]="text.involved.title"
-    [control]="form.get('involved')"
-  >
-    <input
-      slot="input"
-      type="checkbox"
-      formControlName="involved"
-      data-qa-global-notification-type="involved"
-    />
-    <p slot="description">{{ text.involved.description }}</p>
-  </spot-selector-field>
-
-  <h5>{{ text.alsoNotifyFor.title }}</h5>
-  <p>{{ text.alsoNotifyFor.description }}</p>
 
   <spot-selector-field
     [label]="text.watched"
-    [control]="form.get('watched')"
-  >
+    [control]="form.get('watched')">
     <input
       disabled
       checked
@@ -47,6 +28,139 @@
       slot="input"
     />
   </spot-selector-field>
+
+  <spot-selector-field
+    [label]="text.assignee"
+    [control]="form.get('assignee')"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="assignee"
+      data-qa-global-notification-type="assignee"
+    />
+  </spot-selector-field>
+
+  <spot-selector-field
+    [label]="text.responsible"
+    [control]="form.get('responsible')"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="responsible"
+      data-qa-global-notification-type="responsible"
+    />
+  </spot-selector-field>
+
+  <h5>{{ text.dateAlerts.title }}</h5>
+  <p>{{ text.dateAlerts.description }}</p>
+  <div *ngIf="!eeShowBanners">
+    <div
+      class="op-reminder-settings-date-alerts--row"
+      formGroupName="startDate"
+    >
+      <input
+        type="checkbox"
+        formControlName="active"
+        class="op-reminder-settings-date-alerts--active"
+        data-qa-global-notification-type="op-settings-start-date-active"
+        id="op-settings-start-date"
+      />
+      <label
+        class="op-reminder-settings-date-alerts--label"
+        [textContent]="text.startDate"
+        for="op-settings-start-date"
+      ></label>
+      <select
+        formControlName="time"
+        class="op-reminder-settings-date-alerts--time form--select -narrow"
+        data-qa-global-notification-type= "op-reminder-settings-start-date-alerts"
+        required="true"
+        *ngIf="dateAlertsStatuses.startDate"
+      >
+        <option
+          *ngFor="let availableTime of availableTimes"
+          [value]="availableTime.value"
+        >
+          {{availableTime.title}}
+        </option>
+      </select>
+    </div>
+
+    <div
+      class="op-reminder-settings-date-alerts--row"
+      formGroupName="dueDate"
+    >
+      <input
+        type="checkbox"
+        formControlName="active"
+        class="op-reminder-settings-date-alerts--active"
+        data-qa-global-notification-type= "op-settings-due-date-active"
+        id="op-settings-due-date"
+      />
+      <label
+        class="op-reminder-settings-date-alerts--label"
+        [textContent]="text.dueDate"
+        for="op-settings-due-date"
+      ></label>
+      <select
+        formControlName="time"
+        class="op-reminder-settings-date-alerts--time form--select -narrow"
+        data-qa-global-notification-type= "op-reminder-settings-due-date-alerts"
+        required="true"
+        *ngIf="dateAlertsStatuses.dueDate"
+      >
+        <option
+          *ngFor="let availableTime of availableTimes"
+          [value]="availableTime.value">
+          {{availableTime.title}}
+        </option>
+      </select>
+    </div>
+
+    <div
+      class="op-reminder-settings-date-alerts--row"
+      formGroupName="overdue"
+    >
+      <input
+        formControlName="active"
+        type="checkbox"
+        class="op-reminder-settings-date-alerts--active"
+        data-qa-global-notification-type="op-settings-overdue-date-active"
+        id="op-settings-overdue-date">
+      <label
+        class="op-reminder-settings-date-alerts--label"
+        [textContent]="text.overdue"
+        for="op-settings-overdue-date"
+      ></label>
+      <select
+        formControlName="time"
+        class="op-reminder-settings-date-alerts--time form--select -narrow"
+        data-qa-global-notification-type="op-reminder-settings-overdue-alerts"
+        required="true"
+        *ngIf="dateAlertsStatuses.overdue"
+      >
+        <option
+          *ngFor="let availableTime of availableTimesOverdue"
+          [value]="availableTime.value">
+          {{availableTime.title}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <op-enterprise-banner
+    *ngIf="eeShowBanners"
+    [moreInfoLink]="text.more_info_link"
+    [collapsible]="true"
+    [textMessage]="text.teaser_text"
+    opReferrer="notifications#date-alerts"
+    class="op-date-alert-ee-banner">
+  </op-enterprise-banner>
+
+  <h5>{{ text.alsoNotifyFor.title }}</h5>
+  <p>{{ text.alsoNotifyFor.description }}</p>
 
   <spot-selector-field
     [label]="text.work_package_created"
@@ -103,7 +217,6 @@
     />
   </spot-selector-field>
 
-  <hr />
 
   <h5>{{text.projectSpecific.title}}</h5>
   <p>{{text.projectSpecific.description}}</p>

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Version, type: :model do
+describe Version do
   subject(:version) { build(:version, name: 'Test Version') }
 
   it { is_expected.to be_valid }
@@ -87,21 +87,21 @@ describe Version, type: :model do
       version.sharing = 'system'
       version.save!
 
-      expect(Version.systemwide).to match_array [version]
+      expect(described_class.systemwide).to match_array [version]
     end
 
     it 'is empty if the version is not shared' do
       version.sharing = 'none'
       version.save!
 
-      expect(Version.systemwide).to be_empty
+      expect(described_class.systemwide).to be_empty
     end
 
     it 'is empty if the version is shared with the project hierarchy' do
       version.sharing = 'hierarchy'
       version.save!
 
-      expect(Version.systemwide).to be_empty
+      expect(described_class.systemwide).to be_empty
     end
   end
 
@@ -252,7 +252,7 @@ describe Version, type: :model do
     end
 
     it 'is empty for a new version' do
-      expect(Version.new.projects).to be_empty
+      expect(described_class.new.projects).to be_empty
     end
 
     it 'returns project the version is defined in for unshared' do
@@ -370,5 +370,140 @@ describe Version, type: :model do
           .to be_nil
       end
     end
+  end
+
+  describe '#completed_percent and #closed_percent' do
+    create_shared_association_defaults_for_work_package_factory
+
+    let(:project) { create(:project) }
+    let(:version) { create(:version, project:) }
+    let(:closed_status) { create(:status, is_closed: true) }
+
+    context 'without a work package' do
+      it 'is 0 for completed_percent' do
+        expect(version.completed_percent)
+          .to eq 0
+      end
+
+      it 'is 0 for closed_percent' do
+        expect(version.closed_percent)
+          .to eq 0
+      end
+    end
+
+    context 'with assigned work packages that are not begun' do
+      before do
+        create(:work_package, version:)
+        create(:work_package, version:, done_ratio: 0)
+      end
+
+      it 'is 0 for completed_percent' do
+        expect(version.completed_percent)
+          .to eq 0
+      end
+
+      it 'is 0 for closed_percent' do
+        expect(version.closed_percent)
+          .to eq 0
+      end
+    end
+
+    context 'with assigned work packages that are closed' do
+      before do
+        create(:work_package, status: closed_status, version:)
+        create(:work_package, status: closed_status, version:, done_ratio: 20)
+        create(:work_package, status: closed_status, version:, done_ratio: 70, estimated_hours: 25)
+        create(:work_package, status: closed_status, version:, estimated_hours: 15)
+      end
+
+      it 'is 100 for completed_percent' do
+        expect(version.completed_percent)
+          .to eq 100
+      end
+
+      it 'is 100 for closed_percent' do
+        expect(version.closed_percent)
+          .to eq 100
+      end
+    end
+
+    context 'with assigned work packages that have only done ratio' do
+      before do
+        create(:work_package, version:)
+        create(:work_package, version:, done_ratio: 20)
+        create(:work_package, version:, done_ratio: 70)
+      end
+
+      it 'considers the done ratio of open work packages' do
+        expect(version.completed_percent)
+          .to eq (0.0 + 20.0 + 70.0) / 3
+      end
+
+      it 'is 0 for closed_percent' do
+        expect(version.closed_percent)
+          .to eq 0
+      end
+    end
+
+    context 'with assigned work packages that have only done ratio with one being closed' do
+      before do
+        create(:work_package, version:)
+        create(:work_package, version:, done_ratio: 20)
+        create(:work_package, status: closed_status, version:)
+      end
+
+      it 'considers the done ratio of open work packages' do
+        expect(version.completed_percent)
+          .to eq (0.0 + 20.0 + 100.0) / 3
+      end
+
+      it 'is 33 for closed_percent' do
+        expect(version.closed_percent)
+          .to eq 100.0 / 3
+      end
+    end
+
+    context 'with assigned work packages that have weighted done ratio' do
+      before do
+        create(:work_package, version:, estimated_hours: 10)
+        create(:work_package, version:, done_ratio: 30, estimated_hours: 20)
+        create(:work_package, version:, done_ratio: 10, estimated_hours: 40)
+        create(:work_package, status: closed_status, version:, estimated_hours: 25)
+      end
+
+      it 'considers the weighted done ratio of open work packages' do
+        expect(version.completed_percent)
+          .to eq ((10.0 * 0) + (20.0 * 0.3) + (40 * 0.1) + (25.0 * 1)) / 95.0 * 100
+      end
+
+      it 'is considers the weighted closed_percent' do
+        expect(version.closed_percent)
+          .to eq 25.0 / 95.0 * 100
+      end
+    end
+
+    context 'with assigned work packages that have partly weighted done ratio' do
+      before do
+        create(:work_package, version:, done_ratio: 20)
+        create(:work_package, version:, done_ratio: 30, estimated_hours: 10)
+        create(:work_package, version:, done_ratio: 10, estimated_hours: 40)
+        create(:work_package, status: closed_status, version:)
+      end
+
+      it 'considers the weighted done ratio of open work packages and uses default weighting if unset' do
+        expect(version.completed_percent)
+          .to eq ((25.0 * 0.2) + (25.0 * 1) + (10.0 * 0.3) + (40.0 * 0.1)) / 100.0 * 100
+      end
+
+      it 'is considers the weighted closed_percent using average for the estimated hours' do
+        expect(version.closed_percent)
+          .to eq 25.0 / 100.0 * 100
+      end
+    end
+  end
+
+  it_behaves_like 'acts_as_customizable included' do
+    let(:model_instance) { version }
+    let(:custom_field) { create(:version_custom_field) }
   end
 end

@@ -5,6 +5,8 @@
 <ul class="icon-list">
 <li><span class="icon icon-accessibility"></span>accessibility</li>
 <li><span class="icon icon-accountable"></span>accountable</li>
+<li><span class="icon icon-activity-history"></span>activity-history</li>
+<li><span class="icon icon-add-attachment"></span>add-attachment</li>
 <li><span class="icon icon-add-link"></span>add-link</li>
 <li><span class="icon icon-add"></span>add</li>
 <li><span class="icon icon-align-center"></span>align-center</li>
@@ -43,6 +45,7 @@
 <li><span class="icon icon-calendar"></span>calendar</li>
 <li><span class="icon icon-calendar2"></span>calendar2</li>
 <li><span class="icon icon-camera"></span>camera</li>
+<li><span class="icon icon-cancel-circle"></span>cancel-circle</li>
 <li><span class="icon icon-cancel"></span>cancel</li>
 <li><span class="icon icon-cart"></span>cart</li>
 <li><span class="icon icon-changeset-down"></span>changeset-down</li>
@@ -51,6 +54,7 @@
 <li><span class="icon icon-chart1"></span>chart1</li>
 <li><span class="icon icon-chart2"></span>chart2</li>
 <li><span class="icon icon-chart3"></span>chart3</li>
+<li><span class="icon icon-checkmark-circle"></span>checkmark-circle</li>
 <li><span class="icon icon-checkmark"></span>checkmark</li>
 <li><span class="icon icon-close"></span>close</li>
 <li><span class="icon icon-code-tag"></span>code-tag</li>
@@ -71,6 +75,8 @@
 <li><span class="icon icon-custom-development"></span>custom-development</li>
 <li><span class="icon icon-custom-fields"></span>custom-fields</li>
 <li><span class="icon icon-cut"></span>cut</li>
+<li><span class="icon icon-date-alert"></span>date-alert</li>
+<li><span class="icon icon-date-alerts"></span>date-alerts</li>
 <li><span class="icon icon-delete-folder"></span>delete-folder</li>
 <li><span class="icon icon-delete"></span>delete</li>
 <li><span class="icon icon-dependency"></span>dependency</li>
@@ -80,9 +86,12 @@
 <li><span class="icon icon-download-arrow"></span>download-arrow</li>
 <li><span class="icon icon-download"></span>download</li>
 <li><span class="icon icon-drag-handle"></span>drag-handle</li>
+<li><span class="icon icon-dropdown-open"></span>dropdown-open</li>
+<li><span class="icon icon-dropdown"></span>dropdown</li>
 <li><span class="icon icon-duplicate"></span>duplicate</li>
 <li><span class="icon icon-edit"></span>edit</li>
 <li><span class="icon icon-email-alert"></span>email-alert</li>
+<li><span class="icon icon-enterprise-addons"></span>enterprise-addons</li>
 <li><span class="icon icon-enterprise"></span>enterprise</li>
 <li><span class="icon icon-enumerations"></span>enumerations</li>
 <li><span class="icon icon-error"></span>error</li>
@@ -217,6 +226,7 @@
 <li><span class="icon icon-rubber"></span>rubber</li>
 <li><span class="icon icon-save"></span>save</li>
 <li><span class="icon icon-search"></span>search</li>
+<li><span class="icon icon-select-all"></span>select-all</li>
 <li><span class="icon icon-send-mail"></span>send-mail</li>
 <li><span class="icon icon-server-key"></span>server-key</li>
 <li><span class="icon icon-settings"></span>settings</li>

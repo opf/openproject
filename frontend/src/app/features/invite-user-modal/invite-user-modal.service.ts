@@ -47,16 +47,14 @@ export class OpInviteUserModalService {
   }
 
   public open(projectId:string|null = this.currentProjectService.id) {
-    const modal = this.opModalService.show(
+    this.opModalService.show(
       InviteUserModalComponent,
       'global',
       { projectId },
-    );
-
-    modal
+    ).subscribe((modal) => modal
       .closingEvent
       .subscribe((modal:InviteUserModalComponent) => {
         this.close.emit(modal.data);
-      });
+      }));
   }
 }

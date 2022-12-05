@@ -5,7 +5,21 @@ require 'capybara-screenshot/rspec'
 require 'rack_session_access/capybara'
 require 'action_dispatch'
 
-RSpec.configure do |_config|
+RSpec.shared_context 'with default_url_options set' do
+  before do
+    @original_host = default_url_options[:host]
+    @original_port = default_url_options[:port]
+    default_url_options[:host] = Capybara.server_host
+    default_url_options[:port] = Capybara.server_port
+  end
+
+  after do
+    default_url_options[:host] = @original_host # rubocop:disable RSpec/InstanceVariable
+    default_url_options[:port] = @original_port # rubocop:disable RSpec/InstanceVariable
+  end
+end
+
+RSpec.configure do |config|
   Capybara.default_max_wait_time = 4
   Capybara.javascript_driver = :chrome_en
 
@@ -22,6 +36,19 @@ RSpec.configure do |_config|
     Capybara.app_host = "http://#{hostname}"
   else
     Capybara.server_host = ENV.fetch('CAPYBARA_APP_HOSTNAME', 'localhost')
+  end
+
+  # Set the default options
+  config.include_context 'with default_url_options set', type: :feature
+
+  # Make it possible to match on value attribute.
+  #
+  # For instance:
+  #
+  #     expect(page).to have_selector(".date input", value: "2022-11-17")
+  #
+  Capybara.modify_selector(:css) do
+    filter(:value) { |node, v| node.value == v }
   end
 end
 
@@ -66,6 +93,7 @@ module Capybara::CaptureBrowserLogs
       return unless example.example_group.include?(Capybara::DSL)
       return unless failed?(example)
       return if Capybara.page.current_url.blank?
+      return unless Capybara.page.driver.browser.respond_to?(:manage)
 
       logs = Capybara.page.driver.browser.manage.instance_variable_get(:@bridge).log("browser")
       example.metadata[:browser_logs] = logs

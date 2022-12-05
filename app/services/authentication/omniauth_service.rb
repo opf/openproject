@@ -96,6 +96,8 @@ module Authentication
     # After login flow
     def tap_service_result(call)
       if call.success? && user.active?
+        OpenProject::Hook.call_hook :omniauth_user_authorized, { auth_hash:, controller: }
+        # Call deprecated login hook
         OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, self
       end
 

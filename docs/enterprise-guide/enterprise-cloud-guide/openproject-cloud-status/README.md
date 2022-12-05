@@ -2,13 +2,13 @@
 sidebar_navigation:
   title: Cloud Status 
   priority: 002
-description: Report of outages and degraded services for our cloud edition customers
-keywords: cloud status, incidents
+description: Report of outages and degraded services for our Enterprise cloud customers
+keywords: enterprise cloud, status, incidents
 ---
 
 # OpenProject cloud status page
 
-On this page, we will report any outages and reports of degraded services for our cloud edition customers.
+On this page, we will report any outages and reports of degraded services for our Enterprise cloud edition customers.
 
 * * *
 
@@ -44,15 +44,15 @@ We are currently seeing elevated response times and degraded performance. We are
 
 (8:15 UTC) OpenProject email notifciation service has been restored.
 
-(7:28 UTC) We are aware of degradede mail notifications on our OpenProject Cloud Edition service due to a technical issue with our mail notification provider and are actively working on resolving it.
+(7:28 UTC) We are aware of degradede mail notifications on our OpenProject Enterprise cloud edition service due to a technical issue with our mail notification provider and are actively working on resolving it.
 
 * * *
 
 ### April 20th, 2018
 
-(3:00 UTC) The OpenProject Cloud Edition is currently not available in Russia since the IP address is being blocked in connection with blocking Telegram ([more information](https://www.bbc.com/news/technology-43797176)).
+(3:00 UTC) The OpenProject Enterprise cloud edition is currently not available in Russia since the IP address is being blocked in connection with blocking Telegram ([more information](https://www.bbc.com/news/technology-43797176)).
 
-(3:00 UTC) The OpenProject Cloud Edition service is currently not available in Russia.
+(3:00 UTC) The OpenProject Enterprise cloud edition service is currently not available in Russia.
 
 * * *
 

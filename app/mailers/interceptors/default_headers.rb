@@ -1,10 +1,12 @@
 module Interceptors
-  class DefaultHeaders
-    def self.delivering_email(mail)
+  module DefaultHeaders
+    module_function
+
+    def delivering_email(mail)
       mail.headers(default_headers)
     end
 
-    def self.default_headers
+    def default_headers
       {
         'X-Mailer' => 'OpenProject',
         'X-OpenProject-Host' => Setting.host_name,

@@ -320,7 +320,7 @@ module WorkPackages
     def validate_people_visible(attribute, id_attribute, list)
       id = model[id_attribute]
 
-      return if id.nil? || model.changed.exclude?(id_attribute)
+      return if id.nil? || id == 0 || model.changed.exclude?(id_attribute)
 
       unless principal_visible?(id, list)
         errors.add attribute,

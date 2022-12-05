@@ -88,9 +88,7 @@ export class WorkPackageFilesTabComponent implements OnInit {
       return;
     }
 
-    const canViewFileLinks = this
-      .currentUserService
-      .hasCapabilities$('file_links/view', project.id);
+    const canViewFileLinks = this.currentUserService.hasCapabilities$('file_links/view', project.id);
 
     this.storages$ = this
       .storagesResourceService

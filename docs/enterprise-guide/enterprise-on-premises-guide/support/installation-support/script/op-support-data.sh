@@ -96,7 +96,7 @@ cat /etc/[A-Za-z]*[_-][rv]e[lr]*
 echo "---"
 
 #CHECK FILESYSTEMS ON LOCALHOST
-echo Filesystems on locahost
+echo Filesystems on localhost
 cat /etc/fstab | grep -vE "^#"
 echo "---"
 df -h

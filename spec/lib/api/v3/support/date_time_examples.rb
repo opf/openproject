@@ -34,13 +34,14 @@ shared_examples_for 'has ISO 8601 date only' do
   end
 
   it 'indicates date only as ISO 8601' do
-    called_with_expected = false
-    expect(::API::V3::Utilities::DateTimeFormatter).to receive(:format_date) do |actual, *_|
-      called_with_expected = true if actual.eql? date
-    end.at_least(:once)
+    allow(::API::V3::Utilities::DateTimeFormatter).to receive(:format_date)
 
-    subject # we need to resolve the subject for calls to occur
-    expect(called_with_expected).to be_truthy
+    subject
+
+    expect(::API::V3::Utilities::DateTimeFormatter)
+      .to have_received(:format_date)
+      .with(date, anything)
+      .at_least(:once)
   end
 end
 
@@ -50,13 +51,13 @@ shared_examples_for 'has UTC ISO 8601 date and time' do
   end
 
   it 'indicates date and time as ISO 8601' do
-    called_with_expected = false
-    expect(::API::V3::Utilities::DateTimeFormatter).to receive(:format_datetime) do |actual, *_|
-      # ActiveSupport flaws :eql? we circumvent that by calling utc (which is equally valid)
-      called_with_expected = true if actual.utc.eql? date.utc
-    end.at_least(:once)
+    allow(::API::V3::Utilities::DateTimeFormatter).to receive(:format_datetime)
 
-    subject # we need to resolve the subject for calls to occur
-    expect(called_with_expected).to be_truthy
+    subject
+
+    expect(::API::V3::Utilities::DateTimeFormatter)
+      .to have_received(:format_datetime)
+      .with(date.utc, anything)
+      .at_least(:once)
   end
 end

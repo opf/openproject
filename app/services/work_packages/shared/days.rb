@@ -28,9 +28,11 @@
 
 module WorkPackages
   module Shared
-    class Days
+    module Days
+      module_function
+
       # Returns the right day computation instance for the given instance.
-      def self.for(work_package)
+      def for(work_package)
         work_package.ignore_non_working_days ? AllDays.new : WorkingDays.new
       end
     end

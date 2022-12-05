@@ -42,7 +42,7 @@ For more information, see [TESTING](./TESTING.md).
 
 ## Plugins
 
-OpenProject Community Edition has some plugins that contain a frontend,
+OpenProject Community edition has some plugins that contain a frontend,
 e.g., [Costs](https://github.com/finnlabs/openproject-costs/)
 or [My Project Page](https://github.com/finnlabs/openproject-my_project_page/).
 

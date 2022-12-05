@@ -81,6 +81,20 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   activeCollection$ = this.query.select('activeCollection');
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  activeReason$:Observable<string|null> = this.uiRouterGlobals.params$!.pipe(
+    this.untilDestroyed(),
+    distinctUntilChanged(),
+    map((params) => {
+      if (params.filter === 'reason') {
+        return params.name as string;
+      }
+
+      return null;
+    }),
+    shareReplay(1),
+  );
+
   loading$:Observable<boolean> = this.query.selectLoading();
 
   selectNotifications$:Observable<INotification[]> = this
@@ -153,7 +167,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     }),
     switchMap(() => this
       .resourceService
-      .fetchNotifications(this.params)
+      .fetchCollection(this.params)
       .pipe(
         switchMap(
           (results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))
@@ -252,11 +266,11 @@ export class IanCenterService extends UntilDestroyedMixin {
       });
   }
 
-  openSplitScreen(wpId:string|null):void {
+  openSplitScreen(wpId:string|null, tabIdentifier:string = 'activity'):void {
     void this.state.go(
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
       `${this.state.current.data.baseRoute}.details.tabs`,
-      { workPackageId: wpId, tabIdentifier: 'activity' },
+      { workPackageId: wpId, tabIdentifier },
     );
   }
 

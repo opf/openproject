@@ -62,19 +62,13 @@ module API
           end
 
           get do
-            service = WorkPackageCollectionFromQueryParamsService
-                      .new(current_user)
-                      .call(combined_params)
-
-            if service.success?
-              service.result
-            else
-              api_errors = service.errors.full_messages.map do |message|
-                ::API::Errors::InvalidQuery.new(message)
-              end
-
-              raise ::API::Errors::MultipleErrors.create_if_many api_errors
+            call = raise_invalid_query_on_service_failure do
+              WorkPackageCollectionFromQueryParamsService
+                        .new(current_user)
+                        .call(combined_params)
             end
+
+            call.result
           end
         end
       end

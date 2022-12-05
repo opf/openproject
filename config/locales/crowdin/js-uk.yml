@@ -224,31 +224,34 @@ uk:
           status_label: "Статус:"
           status_confirmed: "Підтверджено"
           status_waiting: "Лист надіслано - очікуємо підтвердження"
-          test_ee: "Отримайте Enterprise Edition на 14 днів безкоштовно"
-          quick_overview: "Отримайте стислий огляд управління проєктами та командної роботи в OpenProject Enterprise."
+          test_ee: "Test the Enterprise edition 14 days for free"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Стань героєм!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
           benefits:
-            description: "Які переваги локального випуску Enterprise?"
+            description: "What are the benefits of the Enterprise on-premises edition?"
             high_security: "Функції безпеки"
-            high_security_text: "Єдиний вхід (SAML, OpenID Connect, CAS), двофакторна аутентифікація та автоматична синхронізація груп LDAP."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Підтримка встановлення"
             installation_text: "Досвідчені інженери програмного забезпечення допоможуть вам виконати повне встановлення та налаштувати процес у вашій інфраструктурі."
-            premium_features: "Ексклюзивні функції"
+            premium_features: "Enterprise add-ons"
             premium_features_text: "Дошки Agile, власні тема й логотип, діаграми, розумні робочі процеси з користувацькими діями, повнотекстовий пошук у вкладеннях пакетів робіт і можливість вибору кількість власних полів."
             professional_support: "Професійна підтримка"
             professional_support_text: "Отримайте надійну, комплексну підтримку від досвідчених інженерів, які знають усе про запуск OpenProject у критично важливих для бізнесу середовищах."
           button_start_trial: "Розпочати безкоштовну пробну версію"
           button_upgrade: "Оновити"
+          button_contact_us: "Зв’яжіться з нами, щоб отримати демоверсію"
           button_book_now: "Забронювати зараз"
           confidence: >
             Ми надаємо перевірене програмне забезпечення корпоративного класу з — з відкритим кодом і серцем — та забезпечуємо його підтримку.
           link_quote: "Дізнатися ціну"
           more_info: "Додаткові відомості"
           text: >
-            Випуск OpenProject Enterprise Edition створено на основі Community Edition. Він включає ексклюзивні функції та професійну підтримку й призначений здебільшого для організацій із більш ніж 10 користувачами, які керують критично важливими для бізнесу проєктами в OpenProject.
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Необмежено"
-          you_contribute: "Розробники теж повинні оплачувати свої рахунки. Придбавши Enterprise Edition, ви суттєво допоможете спільноті Open Source і зробите свій внесок у її розвиток, підтримання й безперервне поліпшення."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: 'на'
@@ -277,8 +280,8 @@ uk:
           one: "Перший критерій впорядкування"
           two: "Другий критерій впорядкування"
           three: "Третій критерій впорядкування"
-      upsale_for_more: "Розширені фільтри дають також змогу фільтрувати список за іменами файлів і вмістом вкладень пакетів робіт. Щоб користуватися цією функцією, перейдіть на платний план."
-      upsale_link: 'корпоративне видання.'
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
+      upsale_link: 'Enterprise edition.'
     general_text_no: "ні"
     general_text_yes: "так"
     general_text_No: "Ні"
@@ -297,15 +300,15 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br><ul class="%{list_styling_class}"><li>Визначення робочого тижня на глобальному рівні (вихідні й неробочі дні тижня).</li> <li>Обчислення тривалості за датами початку й закінчення та можливість враховувати неробочі дні (вихідні) під час планування.</li> <li>Додавання змістовних підказок до найважливіших дій.</li> <li>Копіювання посилань на файли, вкладені в усі пакети робіт, одночасно з копіюванням проєкту.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br><ul class="%{list_styling_class}"><li>Визначення робочого тижня на глобальному рівні (вихідні й неробочі дні тижня).</li> <li>Обчислення тривалості за датами початку й закінчення та можливість враховувати неробочі дні (вихідні) під час планування.</li> <li>Додавання змістовних підказок до найважливіших дій.</li> <li>Копіювання посилань на файли, вкладені в усі пакети робіт, одночасно з копіюванням проєкту.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
     label_activate: "Активувати"
     label_assignee: 'Виконавець'
     label_add_column_after: "Додати стовпець після"
@@ -397,6 +400,7 @@ uk:
     label_no_data: "Немає даних для відображення"
     label_no_due_date: "немає дати завершення"
     label_no_start_date: "немає дати початку"
+    label_no_date: "no date"
     label_no_value: "Значення відсутнє"
     label_none: "нічого"
     label_not_contains: "не містить"
@@ -537,20 +541,33 @@ uk:
       no_unread: "Немає непрочитаних сповіщень"
       reasons:
         mentioned: 'згадано'
-        watched: 'відстежено'
-        assigned: 'призначено'
+        watched: 'спостерігач'
+        assigned: 'виконавець'
         responsible: 'відповідальний'
         created: 'створено'
         scheduled: 'заплановано'
         commented: 'прокоментовано'
         processed: 'оброблено'
         prioritized: 'надано пріоритет'
+        dateAlert: 'Оповіщення про дату'
+      date_alerts:
+        milestone_date: 'Дата віхи'
+        overdue: 'Прострочено'
+        overdue_since: 'на %{difference_in_days}'
+        property_today: 'сьогодні'
+        property_is: 'через %{difference_in_days}'
+        property_was: '%{difference_in_days} тому'
+        property_is_deleted: 'видалено'
+        upsale:
+          title: 'Оповіщення про дати'
+          description: 'Завдяки оповіщенням про дати ви завжди знатимете про заплановані дати початку або завершення, тож ніколи не пропускатимете важливі терміни та не забуватимете про них.'
       facets:
         unread: 'Непрочитані'
         unread_title: 'Показати непрочитані'
         all: 'Всі'
         all_title: 'Показати всі'
       center:
+        label_actor_and: 'і'
         and_more_users:
           one: 'і ще 1'
           few: 'і ще %{count}'
@@ -574,22 +591,34 @@ uk:
       menu:
         accountable: 'Відповідальний'
         by_project: 'Непрочитані проєктом'
-        by_reason: 'Залучення'
+        by_reason: 'Причина'
         inbox: 'Вхідні'
-        mentioned: '@згадано'
-        watching: 'Відстеження'
+        mentioned: 'Згадано'
+        watched: 'Спостерігач'
+        date_alert: 'Оповіщення про дату'
       settings:
         change_notification_settings: 'Щоб переглянути та змінити налаштування сповіщень, <a target="_blank" href="%{url}">натисніть тут</a>'
         title: "Налаштування сповіщень"
         notify_me: "Сповіщати мене"
+        reminders:
+          no_notification: Немає сповіщень
+          timeframes:
+            normal:
+              PT0S: того ж дня
+              P1D: за 1 день
+              P3D: за 3 дні
+              P7D: за тиждень
+            overdue:
+              P1D: щодня
+              P3D: кожні 3 дні
+              P7D: щотижня
         reasons:
           mentioned:
-            title: 'Мене @згадано'
+            title: 'Згадано'
             description: 'Отримувати сповіщення щоразу, коли хтось згадує мене де завгодно'
-          involved:
-            title: 'Призначено мені або відповідальній особі'
-            description: 'Отримувати сповіщення про всі дії щодо пакетів робіт, які я виконую або за які несу відповідальність'
-          watched: 'Оновлення щодо відстежуваних елементів'
+          assignee: 'Виконавець'
+          responsible: 'Відповідальний'
+          watched: 'Спостерігач'
           work_package_commented: 'Усі нові коментарі'
           work_package_created: 'Нові пакети робіт'
           work_package_processed: 'Усі зміни статусу'
@@ -597,14 +626,19 @@ uk:
           work_package_scheduled: 'Усі зміни дат'
         global:
           immediately:
-            title: 'Негайно сповіщати мене'
-            description: 'Ці параметри стосуються всіх проєктів. Створити винятки для окремих проєктів можна нижче.'
+            title: 'Бере участь'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
-            title: 'Також сповіщати мене про'
-            description: 'Отримувати сповіщення про ці дії з робочими пакетами в усіх проєктах:'
+            title: 'Не бере участі'
+            description: 'Additional notifications for activities in all projects.'
+          date_alerts:
+            title: 'Оповіщення про дати'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            teaser_text: 'Завдяки оповіщенням про дати ви завжди знатимете про заплановані дати початку або завершення, тож ніколи не пропускатимете важливі терміни та не забуватимете про них.'
+          overdue: When overdue
         project_specific:
           title: 'Параметри сповіщень проєкту'
-          description: 'Ці параметри сповіщень проєкту перевизначають стандартні параметри вище'
+          description: 'These project-specific settings override default settings above.'
           add: 'Додати налаштування для проєкту'
           already_selected: 'Цей проєкт уже вибрано'
           remove: 'Вилучити налаштування проєкту'
@@ -675,8 +709,8 @@ uk:
         reset_title: "Скидання конфігурації форми"
         confirm_reset: >
           Попередження: Справді скинути конфігурацію форми? Це призведе до скидання атрибутів до групи за замовчуванням і вимкнення всіх користувацьких полів.
-        upgrade_to_ee: "Перейти на локальний корпоративний випуск"
-        upgrade_to_ee_text: "Оце Так! Якщо вам потрібна ця функція, ви супер-про! Чи не могли б ви підтримати розробників OpenSource, ставши клієнтом Enterprise Edition?"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "Більше інформації"
         nevermind: "Nevermind"
       edit:
@@ -823,7 +857,7 @@ uk:
       zooms: "Рівень масштабування"
       outlines: "Рівень ієрархії"
     upsale:
-      ee_only: 'Функція Enterprise Edition'
+      ee_only: 'Enterprise edition add-on'
     wiki_formatting:
       strong: "Жирний"
       italic: "Курсив"
@@ -1014,7 +1048,7 @@ uk:
         upsale:
           attribute_highlighting: 'Потрібні певні робочі пакети, щоб виділитися зі скупчення?'
           relation_columns: 'Потрібно бачити відносини у списку робочих пакетів?'
-          check_out_link: 'Перегляньте Enterprise Edition.'
+          check_out_link: 'Check out the Enterprise edition.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Фільтрувати пакети робіт за типом зв’язку'
       tabs:
@@ -1162,9 +1196,9 @@ uk:
           description: 'Дозволи, що ґрунтуються на призначеній ролі у вибраному проєкті'
         placeholder:
           title: 'Прототип користувача'
-          title_no_ee: 'Прототип користувача (лише в Enterprise Edition)'
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Немає доступу до проєкту; електронні листи не відправляються.'
-          description_no_ee: 'Немає доступу до проєкту; електронні листи не відправляються. <br>Ознайомтеся з перевагами <a href="%{eeHref}" target="_blank">Enterprise Edition</a>.'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
           name_or_email: 'Ім‘я або електронна адреса'

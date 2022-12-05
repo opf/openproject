@@ -586,7 +586,7 @@ describe CostlogController, type: :controller do
       it_behaves_like 'successful update'
     end
 
-    describe "WHEN the user is allowed ot update own cost_entries
+    describe "WHEN the user is allowed to update own cost_entries
               WHEN updating something" do
       let(:expected_units) { cost_entry.units + 20 }
 

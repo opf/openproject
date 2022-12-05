@@ -37,13 +37,7 @@ export const WpTableConfigurationModalPrependToken = new InjectionToken<Componen
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpGraphConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
-  /* Close on escape? */
-  public closeOnEscape = false;
-
-  /* Close on outside click */
-  public closeOnOutsideClick = false;
-
-  public $element:JQuery;
+  public $element:HTMLElement;
 
   public text = {
     title: this.I18n.t('js.chart.modal_title'),
@@ -79,7 +73,7 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
   }
 
   ngOnInit():void {
-    this.$element = jQuery(this.elementRef.nativeElement);
+    this.$element = this.elementRef.nativeElement as HTMLElement;
 
     this.loadingIndicator.indicator('modal').promise = this.graphConfiguration.loadForms()
       .then(() => {
@@ -134,7 +128,7 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
     return true;
   }
 
-  protected get afterFocusOn():JQuery {
+  protected get afterFocusOn():HTMLElement {
     return this.$element;
   }
 }

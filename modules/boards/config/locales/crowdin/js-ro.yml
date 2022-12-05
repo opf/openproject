@@ -2,12 +2,12 @@
 ro:
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: 'Creează un nou panou'
       label_unnamed_board: 'Consiliul de administrație fără nume'
       label_unnamed_list: 'Listă fără nume'
       label_board_type: 'Tipul de placă'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
+        teaser_text: 'Doriți să vă automatizați fluxurile de lucru cu Boards? Tablourile avansate sunt un add-on pentru Enterprise. Vă rugăm să treceți la un plan plătit.'
         upgrade: 'Actualizează acum'
       lists:
         delete: 'Ștergeți lista'

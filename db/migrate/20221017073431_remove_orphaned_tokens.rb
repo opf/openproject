@@ -16,7 +16,7 @@ class RemoveOrphanedTokens < ActiveRecord::Migration[7.0]
   end
 
   def down
-    # Nothing to do
+    remove_foreign_key :tokens, :users
   end
 
   def change_column_type!(table, column, type)

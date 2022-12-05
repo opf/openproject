@@ -152,21 +152,12 @@ describe 'inline create work package', js: true do
     it_behaves_like 'inline create work package' do
       let(:callback) do
         -> {
-          # Set project
+          # Set project which will also select the type (first one in the selected project)
           project_field = wp_table.edit_field(nil, :project)
           project_field.expect_active!
 
           project_field.openSelectField
           project_field.set_value project.name
-
-          sleep 1
-
-          # Set type
-          type_field = wp_table.edit_field(nil, :type)
-          type_field.expect_active!
-
-          type_field.openSelectField
-          type_field.set_value type.name
         }
       end
     end

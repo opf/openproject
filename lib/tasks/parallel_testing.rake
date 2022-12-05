@@ -45,8 +45,10 @@ def check_for_pending_migrations
 end
 
 namespace :parallel do
-  class ParallelParser
-    def self.with_args(args, allow_seed = true)
+  module ParallelParser
+    module_function
+
+    def with_args(args, allow_seed = true)
       options = {}
       parseable_args = args[2..-1]
       if parseable_args
@@ -103,14 +105,13 @@ namespace :parallel do
       rspec_options += " #{additional_options}"
     end
     group_options += " -o '#{rspec_options}'" if rspec_options.length.positive?
-    cmd = "bundle exec parallel_test --verbose --verbose-rerun-command --type rspec #{parallel_options} #{group_options} #{folders} #{pattern}"
+    cmd = "bundle exec parallel_test --verbose --verbose-command --type rspec #{parallel_options} #{group_options} #{folders} #{pattern}"
     sh cmd
   end
 
   desc 'Run all suites in parallel (one after another)'
   task all: ['parallel:plugins:specs',
              'parallel:plugins:features',
-             :spec_legacy,
              :rspec]
 
   namespace :plugins do
@@ -129,7 +130,7 @@ namespace :parallel do
 
     desc 'Run plugin unit specs in parallel'
     task units: [:environment] do
-      pattern = "--pattern 'spec/(?!features\/)'"
+      pattern = "--pattern 'spec/(?!features/)'"
 
       ParallelParser.with_args(ARGV) do |options|
         ARGV.each { |a| task(a.to_sym) {} }
@@ -140,22 +141,13 @@ namespace :parallel do
 
     desc 'Run plugin feature specs in parallel'
     task features: [:environment] do
-      pattern = "--pattern 'spec\/features'"
+      pattern = "--pattern 'spec/features'"
 
       ParallelParser.with_args(ARGV) do |options|
         ARGV.each { |a| task(a.to_sym) {} }
 
         run_specs options, plugin_spec_paths, pattern
       end
-    end
-  end
-
-  desc 'Run legacy specs in parallel'
-  task :spec_legacy do
-    ParallelParser.with_args(ARGV) do |options|
-      ARGV.each { |a| task(a.to_sym) {} }
-
-      run_specs options, 'spec_legacy', '', additional_options: '-I spec_legacy'
     end
   end
 
@@ -170,7 +162,7 @@ namespace :parallel do
 
   desc 'Run feature specs in parallel'
   task features: [:environment] do
-    pattern = "--pattern 'spec\/features\/'"
+    pattern = "--pattern 'spec/features/'"
 
     ParallelParser.with_args(ARGV) do |options|
       ARGV.each { |a| task(a.to_sym) {} }
@@ -181,7 +173,7 @@ namespace :parallel do
 
   desc 'Run unit specs in parallel'
   task units: [:environment] do
-    pattern = "--pattern 'spec/(?!features\/)'"
+    pattern = "--pattern 'spec/(?!features/)'"
 
     ParallelParser.with_args(ARGV) do |options|
       ARGV.each { |a| task(a.to_sym) {} }

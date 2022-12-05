@@ -30,6 +30,8 @@ import {
   Injector,
   NgModule,
 } from '@angular/core';
+import { A11yModule } from '@angular/cdk/a11y';
+import { UIRouterGlobals } from '@uirouter/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
@@ -52,6 +54,8 @@ import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/
 import { DatePickerModule } from 'core-app/shared/components/op-date-picker/date-picker.module';
 import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
 import { EnterpriseBannerComponent } from 'core-app/shared/components/enterprise-banner/enterprise-banner.component';
+import { EnterprisePageComponent } from 'core-app/shared/components/enterprise-page/enterprise-page.component';
+import { FreeTrialButtonComponent } from 'core-app/features/enterprise/free-trial-button/free-trial-button.component';
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -84,8 +88,6 @@ import { OpProjectIncludeListComponent } from './components/project-include/list
 import { OpLoadingProjectListComponent } from './components/searchable-project-list/loading-project-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
-import { UIRouterGlobals } from '@uirouter/core';
-import { A11yModule } from '@angular/cdk/a11y';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -182,6 +184,8 @@ export function bootstrapModule(injector:Injector):void {
 
     // Enterprise Edition
     EnterpriseBannerComponent,
+    EnterprisePageComponent,
+    FreeTrialButtonComponent,
 
     DynamicModule,
 
@@ -198,7 +202,6 @@ export function bootstrapModule(injector:Injector):void {
     ViewsResourceService,
   ],
   declarations: [
-    OpDateTimeComponent,
     ViewSelectComponent,
 
     ToastsContainerComponent,
@@ -237,6 +240,8 @@ export function bootstrapModule(injector:Injector):void {
 
     // Enterprise Edition
     EnterpriseBannerComponent,
+    EnterprisePageComponent,
+    FreeTrialButtonComponent,
 
     HomescreenNewFeaturesBlockComponent,
 

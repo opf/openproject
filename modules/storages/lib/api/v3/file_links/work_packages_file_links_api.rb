@@ -30,57 +30,51 @@
 # functionality from the Grape REST API framework. It is mounted in lib/api/v3/work_packages/work_packages_api.rb,
 # which puts the file_links namespace behind the provided namespace of the work packages api
 # -> /api/v3/work_packages/:id/file_links/...
-module API
-  module V3
-    module FileLinks
-      class WorkPackagesFileLinksAPI < ::API::OpenProjectAPI
-        # helpers is defined by the grape framework. They make methods from the
-        # module available from within the endpoint context.
-        helpers API::V3::Utilities::StoragesHelpers
+class API::V3::FileLinks::WorkPackagesFileLinksAPI < ::API::OpenProjectAPI
+  # helpers is defined by the grape framework. They make methods from the
+  # module available from within the endpoint context.
+  helpers Storages::Peripherals::Scopes
 
-        # The `:resources` keyword defines the API namespace -> /api/v3/work_packages/:id/file_links/...
-        resources :file_links do
-          # Get the list of FileLinks related to a work package, with updated information from Nextcloud.
-          get do
-            # API supports query filters on storages, for example { storage: { operator: '=', values: [storage_id] }
-            query = ParamsToQueryService
-                      .new(::Storages::Storage,
-                           current_user,
-                           query_class: ::Queries::Storages::FileLinks::FileLinkQuery)
-                      .call(params)
+  # The `:resources` keyword defines the API namespace -> /api/v3/work_packages/:id/file_links/...
+  resources :file_links do
+    # Get the list of FileLinks related to a work package, with updated information from Nextcloud.
+    get do
+      # API supports query filters on storages, for example { storage: { operator: '=', values: [storage_id] }
+      query = ParamsToQueryService
+                .new(::Storages::Storage,
+                     current_user,
+                     query_class: ::Queries::Storages::FileLinks::FileLinkQuery)
+                .call(params)
 
-            unless query.valid?
-              message = I18n.t('api_v3.errors.missing_or_malformed_parameter')
-              raise ::API::Errors::InvalidQuery.new(message)
-            end
-
-            # Get a (potentially huge...) list of all FileLinks for the work package.
-            file_links = query.results
-                              .where(id: visible_file_links_scope
-                                           .where(container_id: @work_package.id, container_type: 'WorkPackage'))
-
-            # Synchronize with Nextcloud. StorageAPI has handled OAuth2 for us before.
-            # We ignore the result, because partial errors (storage network issues) are written to each FileLink
-            service_result = ::Storages::FileLinkSyncService
-                               .new(user: current_user)
-                               .call(file_links)
-
-            ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(
-              service_result.result,
-              self_link: api_v3_paths.file_links(@work_package.id),
-              current_user:
-            )
-          end
-
-          post &CreateEndpoint
-                  .new(
-                    model: ::Storages::FileLink,
-                    parse_service: ParseCreateParamsService,
-                    render_representer: FileLinkCollectionRepresenter
-                  )
-                  .mount
-        end
+      unless query.valid?
+        message = I18n.t('api_v3.errors.missing_or_malformed_parameter')
+        raise ::API::Errors::InvalidQuery.new(message)
       end
+
+      # Get a (potentially huge...) list of all FileLinks for the work package.
+      file_links = query.results
+                        .where(id: visible_file_links
+                                     .where(container_id: @work_package.id, container_type: 'WorkPackage'))
+
+      # Synchronize with Nextcloud. StorageAPI has handled OAuth2 for us before.
+      # We ignore the result, because partial errors (storage network issues) are written to each FileLink
+      service_result = ::Storages::FileLinkSyncService
+                         .new(user: current_user)
+                         .call(file_links)
+
+      ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(
+        service_result.result,
+        self_link: api_v3_paths.file_links(@work_package.id),
+        current_user:
+      )
     end
+
+    post &::API::V3::FileLinks::CreateEndpoint
+            .new(
+              model: ::Storages::FileLink,
+              parse_service: Storages::Peripherals::ParseCreateParamsService,
+              render_representer: ::API::V3::FileLinks::FileLinkCollectionRepresenter
+            )
+            .mount
   end
 end

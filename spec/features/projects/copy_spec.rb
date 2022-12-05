@@ -189,7 +189,7 @@ describe 'Projects copy',
       copied_settings_page.expect_wp_custom_field_active(wp_custom_field)
       copied_settings_page.expect_wp_custom_field_inactive(inactive_wp_custom_field)
 
-      # has types of original project activ
+      # has types of original project active
       copied_settings_page.visit_tab!('types')
 
       active_types.each do |type|

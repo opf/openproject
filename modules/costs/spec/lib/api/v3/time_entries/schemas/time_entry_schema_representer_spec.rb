@@ -40,6 +40,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
   let(:user) { build_stubbed(:user) }
   let(:assigned_project) { nil }
   let(:activity) { build_stubbed(:time_entry_activity) }
+  let(:writable_attributes) { %w(spent_on hours project work_package activity comment user) }
 
   let(:contract) do
     contract = double('contract',
@@ -50,7 +51,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
 
     allow(contract)
       .to receive(:writable?) do |attribute|
-      %w(spent_on hours project work_package activity comment user).include?(attribute.to_s)
+      writable_attributes.include?(attribute.to_s)
     end
 
     allow(contract)
@@ -270,6 +271,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
     context 'custom value' do
       let(:custom_field) { build_stubbed(:text_time_entry_custom_field) }
       let(:path) { "customField#{custom_field.id}" }
+      let(:writable_attributes) { ["customField#{custom_field.id}"] }
 
       before do
         allow(contract)
@@ -282,6 +284,17 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
         let(:name) { custom_field.name }
         let(:required) { false }
         let(:writable) { true }
+      end
+
+      context 'with schema not writable' do
+        let(:writable_attributes) { [] }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'Formattable' }
+          let(:name) { custom_field.name }
+          let(:required) { false }
+          let(:writable) { false }
+        end
       end
     end
   end

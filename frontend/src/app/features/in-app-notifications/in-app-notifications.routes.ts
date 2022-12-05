@@ -32,6 +32,7 @@ import { WorkPackageSplitViewComponent } from 'core-app/features/work-packages/r
 import { InAppNotificationCenterComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center.component';
 import { InAppNotificationCenterPageComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center-page.component';
 import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routing/wp-base/wp--base.component';
+import { InAppNotificationsDateAlertsUpsaleComponent } from 'core-app/features/in-app-notifications/date-alerts-upsale/ian-date-alerts-upsale.component';
 
 export interface INotificationPageQueryParameters {
   filter?:string;
@@ -50,6 +51,11 @@ export const IAN_ROUTES:Ng2StateDeclaration[] = [
     views: {
       '!$default': { component: WorkPackagesBaseComponent },
     },
+  },
+  {
+    url: '/date_alerts',
+    name: 'notifications.date_alerts_upsale',
+    component: InAppNotificationsDateAlertsUpsaleComponent,
   },
   {
     name: 'notifications.center',

@@ -378,7 +378,7 @@ sudo openproject configure #non-interactive - using values stored in /etc/openpr
 > * In the interactive way you can skip dialogs you do not want to change simply by confirming them with `ENTER`.
 >
 
-## Step 1: Select your OpenProject Edition
+## Step 1: Select your OpenProject edition
 
 OpenProject comes in two editions:
 
@@ -462,7 +462,7 @@ If you wish to install OpenProject under a server path prefix, such as `yourdoma
 
 #### SSL/TLS configuration
 
-> **Note:** With OpenProject version 12.2 **HTTPS confugration** was set to be **default** for every installation. **Now best practice is to proceed by selecting `yes` for using HTTPS (SSL/TLS)** and generating the needed certificates, otherwise you will have to manually deactivate HTTPS on the command line.
+> **Note:** With OpenProject version 12.2 **HTTPS configuration** was set to be **default** for every installation. **Now best practice is to proceed by selecting `yes` for using HTTPS (SSL/TLS)** and generating the needed certificates, otherwise you will have to manually deactivate HTTPS on the command line.
 
 OpenProject can configure Apache to support HTTPS (SSL/TLS). If you have SSL certificates and want to use SSL/TLS (recommended), select **Yes**.
 

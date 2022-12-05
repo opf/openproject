@@ -30,9 +30,8 @@ module Components
   module WorkPackages
     class DisplayRepresentation
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
-
-      def initialize; end
 
       def switch_to_card_layout
         expect_button 'Card'
