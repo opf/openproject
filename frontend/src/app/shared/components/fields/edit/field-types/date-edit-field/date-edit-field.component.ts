@@ -36,17 +36,17 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 @Component({
   template: `
     <op-single-date-picker
-        tabindex="-1"
-        (changed)="onValueSelected($event)"
-        (canceled)="onCancel()"
-        (blurred)="submit($event)"
-        (enterPressed)="submit($event)"
-        [initialDate]="formatter(value)"
-        [required]="required"
-        [disabled]="inFlight"
-        [id]="handler.htmlId"
-        classes="inline-edit--field">
-    </op-single-date-picker>
+      tabindex="-1"
+      (changed)="onValueSelected($event)"
+      (canceled)="onCancel()"
+      (blurred)="submit($event)"
+      (enterPressed)="submit($event)"
+      [value]="formatter(value)"
+      [required]="required"
+      [disabled]="inFlight"
+      [id]="handler.htmlId"
+      classes="inline-edit--field"
+    ></op-single-date-picker>
   `,
 })
 export class DateEditFieldComponent extends EditFieldComponent implements OnInit {

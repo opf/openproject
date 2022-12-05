@@ -9,7 +9,6 @@ import { IntegerInputComponent } from 'core-app/shared/components/dynamic-forms/
 import { SelectInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-input/select-input.component';
 import { ProjectInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/project-input/project-input.component';
 import { SelectProjectStatusInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-project-status-input/select-project-status-input.component';
-import { DatePickerControlModule } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/date-input/components/date-picker-control/date-picker-control.module';
 import { BooleanInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/boolean-input/boolean-input.component';
 import { DynamicFormComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component';
 import { FormattableTextareaInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component';
@@ -58,7 +57,6 @@ import { OpSpotModule } from 'core-app/spot/spot.module';
     NgSelectModule,
     NgOptionHighlightModule,
     InviteUserButtonModule,
-    DatePickerControlModule,
     FormattableControlModule,
   ],
   declarations: [

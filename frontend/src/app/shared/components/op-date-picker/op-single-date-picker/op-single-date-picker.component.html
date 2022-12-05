@@ -2,21 +2,35 @@
   [open]="isOpen"
   (closed)="close()"
 >
-  <input
+  <!--input
     #dateInput
+
+    class="spot-input"
+
     [id]="id"
     [name]="name"
     [value]="initialDate || ''"
-    class="spot-input"
     [size]="size"
     [required]="required"
     [disabled]="disabled"
+
     (click)="open()"
+    (focus)="open()"
     (keydown.enter)="enterPressed.emit(dateValue)"
     (keydown.escape)="close()"
-    (blur)="close()"
     (input)="onInputChange()"
+
     type="text"
     slot="trigger"
-  >
+  /-->
+  <button
+    slot="trigger"
+    type="button"
+    [disabled]="disabled"
+    (click)="open()"
+  >{{ value || 'Select a date' }}</button>
+
+  <div
+    slot="body"
+  >body</div>
 </spot-drop-modal>

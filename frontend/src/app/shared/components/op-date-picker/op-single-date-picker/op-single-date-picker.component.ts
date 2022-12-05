@@ -32,21 +32,31 @@ import {
   Input,
   Output,
   OnDestroy,
+  forwardRef,
 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 /* eslint-disable-next-line change-detection-strategy/on-push */
 @Component({
   selector: 'op-single-date-picker',
   templateUrl: './op-single-date-picker.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => OpSingleDatePickerComponent),
+      multi: true,
+    },
+  ],
 })
-export class OpSingleDatePickerComponent implements OnDestroy {
+export class OpSingleDatePickerComponent implements ControlValueAccessor, OnDestroy {
   @Output() public changed = new EventEmitter();
 
   @Output() public blurred = new EventEmitter<string>();
 
   @Output() public enterPressed = new EventEmitter<string>();
 
-  @Input() public initialDate = '';
+  @Input() public value = '';
 
   @Input() public id = '';
 
@@ -62,6 +72,10 @@ export class OpSingleDatePickerComponent implements OnDestroy {
 
   isOpen = false;
 
+  constructor(
+    protected timezoneService:TimezoneService,
+  ) {}
+
   open() {
     this.isOpen = true;
   }
@@ -70,24 +84,41 @@ export class OpSingleDatePickerComponent implements OnDestroy {
     this.isOpen = false;
   }
 
-  onInputChange():void {
-    if (this.inputIsValidDate()) {
-      this.changed.emit(this.currentValue);
-    }
-  }
-
-  get dateValue():string {
-    if (this.inputIsValidDate()) {
-      return this.currentValue;
-    }
-
-    return '';
-  }
-
   protected inputIsValidDate():boolean {
     return (/\d{4}-\d{2}-\d{2}/.exec(this.currentValue)) !== null;
   }
 
+  public formatter(data:string):string {
+    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
+      const d = this.timezoneService.parseDate(data);
+
+      return this.timezoneService.formattedISODate(d);
+    }
+    return data;
+  }
+
   ngOnDestroy():void {
+  }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  onControlChange:(_?:unknown) => void = () => { };
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  onControlTouch:(_?:unknown) => void = () => { };
+
+  writeValue(date:string):void {
+    this.value = date; //this.formatter(date);
+  }
+
+  registerOnChange(fn:(_:unknown) => void):void {
+    this.onControlChange = fn;
+  }
+
+  registerOnTouched(fn:(_:unknown) => void):void {
+    this.onControlTouch = fn;
+  }
+
+  setDisabledState(disabled:boolean):void {
+    this.disabled = disabled;
   }
 }
