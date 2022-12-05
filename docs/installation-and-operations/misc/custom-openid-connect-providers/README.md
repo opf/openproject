@@ -1,7 +1,7 @@
 # Custom OpenID Connect providers
 
 OpenProject's admin interface only allows you to configure providers from a pre-defined list.
-This includes Google and Azure right now.
+This includes Google Workspace and Microsoft Azure Active Directory right now. Find out how to use those in the [OpenID Providers Authentication Guide](https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/).
 
 You can still use an arbitrary provider. But for the time being there is no user interface for this.
 That means you will have to do it directly using the console on the server or via environment variables.
