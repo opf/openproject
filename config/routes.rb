@@ -331,13 +331,6 @@ OpenProject::Application.routes.draw do
 
   scope 'admin' do
     resource :announcements, only: %i[edit update]
-    constraints(Enterprise) do
-      resource :enterprise, only: %i[show create destroy]
-      scope controller: 'enterprises' do
-        post 'enterprise/save_trial_key' => 'enterprises#save_trial_key'
-        delete 'enterprise/delete_trial_key' => 'enterprises#delete_trial_key'
-      end
-    end
     resources :enumerations
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'

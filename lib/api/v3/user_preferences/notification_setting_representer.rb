@@ -35,7 +35,7 @@ module API
 
         NotificationSetting.all_settings.each do |setting|
           if setting.in?(NotificationSetting.date_alert_settings)
-            duration_property setting, if: ->(*) { EnterpriseToken.allows_to?(:date_alerts) }
+            duration_property setting
           else
             property setting
           end

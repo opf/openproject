@@ -32,7 +32,6 @@ module LdapGroups
     self.cron_expression = '*/30 * * * *'
 
     def perform
-      return unless EnterpriseToken.allows_to?(:ldap_groups)
       return if skipped?
 
       ::LdapGroups::SynchronizationService.synchronize!

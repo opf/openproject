@@ -40,15 +40,8 @@ module Users
     validate :user_allowed_to_add
     validate :authentication_defined
     validate :type_is_user
-    validate :user_limit_not_exceeded
 
     private
-
-    def user_limit_not_exceeded
-      if OpenProject::Enterprise.user_limit_reached?
-        errors.add :base, :user_limit_reached
-      end
-    end
 
     def authentication_defined
       errors.add :password, :blank if model.active? && no_auth?

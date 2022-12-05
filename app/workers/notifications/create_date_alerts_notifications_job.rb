@@ -33,7 +33,6 @@ module Notifications
     self.cron_expression = '*/15 * * * *'
 
     def perform
-      return unless EnterpriseToken.allows_to?(:date_alerts)
 
       service = Service.new(times_from_scheduled_to_execution)
       service.call
