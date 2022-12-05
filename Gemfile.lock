@@ -391,6 +391,9 @@ GEM
     date_validator (0.12.0)
       activemodel (>= 3)
       activesupport (>= 3)
+    debug (1.7.0)
+      irb (>= 1.5.0)
+      reline (>= 0.3.1)
     deckar01-task_list (2.3.2)
       html-pipeline
     declarative (0.0.20)
@@ -558,6 +561,9 @@ GEM
       ice_cube (~> 0.16)
     ice_cube (0.16.4)
     interception (0.5)
+    io-console (0.5.11)
+    irb (1.5.1)
+      reline (>= 0.3.0)
     iso8601 (0.13.0)
     jmespath (1.6.2)
     json (2.6.2)
@@ -795,6 +801,8 @@ GEM
       json
     redcarpet (3.5.1)
     regexp_parser (2.6.1)
+    reline (0.3.1)
+      io-console (~> 0.5)
     representable (3.2.0)
       declarative (< 0.1.0)
       trailblazer-option (>= 0.1.1, < 0.2.0)
@@ -1021,6 +1029,7 @@ DEPENDENCIES
   danger-brakeman
   dashboards!
   date_validator (~> 0.12.0)
+  debug
   deckar01-task_list (~> 2.3.1)
   delayed_cron_job (~> 0.9.0)
   delayed_job_active_record (~> 4.1.5)
