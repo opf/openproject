@@ -28,13 +28,6 @@ Release date: 2022-12-02
 [Release Notes](12-3-4/)
 
 
-## 12.4.0
-
-Release date: 2022-12-05
-
-[Release Notes](12-4-0/)
-
-
 ## 12.3.3
 
 Release date: 2022-11-23
