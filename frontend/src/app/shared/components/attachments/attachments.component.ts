@@ -62,7 +62,6 @@ export const attachmentsSelector = 'op-attachments';
 @Component({
   selector: attachmentsSelector,
   templateUrl: './attachments.component.html',
-  styleUrls: ['./attachments.component.sass'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -71,9 +70,9 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
 
   @HostBinding('id.attachments_fields') public hostId = true;
 
-  @HostBinding('class.op-attachments') public className = true;
+  @HostBinding('class.op-file-section') public className = true;
 
-  @Input('resource') public resource:HalResource;
+  @Input() public resource:HalResource;
 
   @Input() public allowUploading = true;
 
@@ -162,11 +161,13 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
 
     document.body.addEventListener('dragover', this.onGlobalDragOver.bind(this));
     document.body.addEventListener('dragleave', this.onGlobalDragLeave.bind(this));
+    document.body.addEventListener('drop', this.onGlobalDrop.bind(this));
   }
 
   ngOnDestroy():void {
     document.body.removeEventListener('dragover', this.onGlobalDragOver.bind(this));
     document.body.removeEventListener('dragleave', this.onGlobalDragLeave.bind(this));
+    document.body.removeEventListener('drop', this.onGlobalDrop.bind(this));
   }
 
   public triggerFileInput():void {
@@ -186,8 +187,6 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
 
     // eslint-disable-next-line no-param-reassign
     event.dataTransfer.dropEffect = 'copy';
-    event.preventDefault();
-    event.stopPropagation();
 
     const dfFiles = event.dataTransfer.files;
     const length:number = dfFiles ? dfFiles.length : 0;
@@ -215,6 +214,12 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
   }
 
   public onGlobalDragLeave():void {
+    this.dragging = false;
+
+    this.cdRef.detectChanges();
+  }
+
+  public onGlobalDrop():void {
     this.dragging = false;
 
     this.cdRef.detectChanges();

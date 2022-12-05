@@ -27,6 +27,9 @@ en:
           To add a link, see or upload files related to this work package, please login to %{storageType}.
 
       file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from
+          within %{storageType}.
         download: "Download %{fileName}"
         no_permission: "You have no permission to see this file."
         open: 'Open file on storage'
