@@ -1,16 +1,22 @@
-<input
-  #dateInput
-  [id]="id"
-  [name]="name"
-  [value]="initialDate || ''"
-  [ngClass]="classes + ' op-input'"
-  [size]="size"
-  [required]="required"
-  [disabled]="disabled"
-  (click)="openOnClick()"
-  (keydown.enter)="enterPressed.emit(dateValue)"
-  (keydown.escape)="close()"
-  (input)="onInputChange()"
-  (blur)="onBlurred($event)"
-  type="text"
+<spot-drop-modal
+  [open]="isOpen"
+  (closed)="close()"
 >
+  <input
+    #dateInput
+    [id]="id"
+    [name]="name"
+    [value]="initialDate || ''"
+    class="spot-input"
+    [size]="size"
+    [required]="required"
+    [disabled]="disabled"
+    (click)="open()"
+    (keydown.enter)="enterPressed.emit(dateValue)"
+    (keydown.escape)="close()"
+    (blur)="close()"
+    (input)="onInputChange()"
+    type="text"
+    slot="trigger"
+  >
+</spot-drop-modal>

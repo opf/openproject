@@ -1,0 +1,14 @@
+<spot-drop-modal
+  [open]="isOpened"
+  (closed)="onModalClosed"
+>
+  <input
+    slot="trigger"
+    [value]="dates"
+    (click)="showDatePickerModal()"
+    class="op-input"
+    type="text"
+  />
+
+  <div slot="body">body</div>
+</spot-drop-modal>

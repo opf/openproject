@@ -18,15 +18,17 @@ import { InviteUserButtonModule } from 'core-app/features/invite-user-modal/butt
 import { DateInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/date-input/date-input.component';
 import { DynamicFieldGroupWrapperComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component';
 import { FormattableControlModule } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.module';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { UserInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/user-input/user-input.component';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
+import { OpSpotModule } from 'core-app/spot/spot.module';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     AttributeHelpTextModule,
+    OpSpotModule,
     FormlyModule.forRoot({
       types: [
         { name: 'booleanInput', component: BooleanInputComponent },
@@ -50,7 +52,7 @@ import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-he
         },
       ],
     }),
-    OPSharedModule,
+    OpSharedModule,
 
     // Input dependencies
     NgSelectModule,

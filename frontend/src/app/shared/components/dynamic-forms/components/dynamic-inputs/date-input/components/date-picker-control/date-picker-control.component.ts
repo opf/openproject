@@ -51,12 +51,14 @@ export class DatePickerControlComponent extends OpSingleDatePickerComponent impl
   }
 
   ngAfterViewInit():void {
+    /*
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.initializeDatepicker();
         this.changeDetectorRef.detectChanges();
       });
     });
+    */
   }
 
   onInputChange():void {
@@ -68,8 +70,8 @@ export class DatePickerControlComponent extends OpSingleDatePickerComponent impl
     this.onControlTouch();
   }
 
-  closeOnOutsideClick(event:MouseEvent):void {
-    super.closeOnOutsideClick(event);
+  closeOnOutsideClick(/*event:MouseEvent*/):void {
+    // super.closeOnOutsideClick(event);
     this.onControlTouch();
   }
 
@@ -81,11 +83,13 @@ export class DatePickerControlComponent extends OpSingleDatePickerComponent impl
   }
 
   public formatter(data:string):string {
+    /*
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       const d = this.timezoneService.parseDate(data);
 
       return this.timezoneService.formattedISODate(d);
     }
-    return '';
+    */
+    return data;
   }
 }

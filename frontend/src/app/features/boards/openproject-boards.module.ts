@@ -27,7 +27,7 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { UIRouterModule } from '@uirouter/angular';
@@ -60,7 +60,7 @@ import { TileViewComponent } from './tile-view/tile-view.component';
 
 @NgModule({
   imports: [
-    OPSharedModule,
+    OpSharedModule,
     OpenprojectWorkPackagesModule,
     OpenprojectModalModule,
     DragScrollModule,

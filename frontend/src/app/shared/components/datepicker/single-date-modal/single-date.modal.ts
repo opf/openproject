@@ -74,6 +74,7 @@ import {
 import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Component({
+  selector: 'op-single-date-modal',
   templateUrl: './single-date.modal.html',
   styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,

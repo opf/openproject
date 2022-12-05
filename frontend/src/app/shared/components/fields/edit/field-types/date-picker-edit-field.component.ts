@@ -45,11 +45,7 @@ import { DeviceService } from 'core-app/core/browser/device.service';
 export abstract class DatePickerEditFieldComponent extends EditFieldComponent implements OnInit, OnDestroy {
   @InjectField() readonly timezoneService:TimezoneService;
 
-  @InjectField() opModalService:OpModalService;
-
   @InjectField() deviceService:DeviceService;
-
-  protected modal:SingleDateModalComponent|MultiDateModalComponent|null = null;
 
   ngOnInit():void {
     super.ngOnInit();
@@ -66,10 +62,10 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
 
   ngOnDestroy():void {
     super.ngOnDestroy();
-    this.modal?.closeMe();
   }
 
   public showDatePickerModal():void {
+    /*
     const component = this.change.schema.isMilestone ? SingleDateModalComponent : MultiDateModalComponent;
     this.opModalService.show<SingleDateModalComponent|MultiDateModalComponent>(
       component,
@@ -93,6 +89,7 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
           this.onModalClosed();
         });
     });
+    */
   }
 
   protected onModalClosed():void {

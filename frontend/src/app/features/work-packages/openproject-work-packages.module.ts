@@ -30,7 +30,7 @@ import {
   Injector,
   NgModule,
 } from '@angular/core';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -189,7 +189,7 @@ import { StorageFilesResourceService } from 'core-app/core/state/storage-files/s
 @NgModule({
   imports: [
     // Commons
-    OPSharedModule,
+    OpSharedModule,
     // Display + Edit field functionality
     OpenprojectFieldsModule,
     // CKEditor

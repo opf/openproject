@@ -252,7 +252,7 @@ export function bootstrapModule(injector:Injector):void {
     OpLoadingProjectListComponent,
   ],
 })
-export class OPSharedModule {
+export class OpSharedModule {
   constructor(injector:Injector) {
     bootstrapModule(injector);
   }
