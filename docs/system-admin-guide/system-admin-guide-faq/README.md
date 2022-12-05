@@ -3,7 +3,6 @@ sidebar_navigation:
   title: System admin FAQ
   priority: 001
 description: Frequently asked questions regarding system administration
-robots: index, follow
 keywords: system admin FAQ, global admin, administration, system settings
 ---
 

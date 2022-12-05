@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 //++
 
 /*jslint white: false, nomen: true, devel: true, on: true, debug: false, evil: true, onevar: false, browser: true, white: false, indent: 2 */
-/*global window, $, $$, Reporting, Effect, Ajax, selectAllOptions, moveOptions, moveOptionUp, moveOptionDown */
+/*global _, dragula, I18n, jQuery, Reporting*/
 
 Reporting.GroupBys = (function($){
   var group_by_container_ids = function() {
@@ -59,6 +59,7 @@ Reporting.GroupBys = (function($){
            .attr('class', 'in_row group-by--label')
            .attr('for', group_by.attr('id'))
            .attr('id', group_by.attr('id') + '_label')
+           .attr('title', text)
            .html(text);
   };
 
@@ -106,7 +107,7 @@ Reporting.GroupBys = (function($){
   };
 
   var create_group_by = function(field, caption) {
-    var group_by, label, right_arrow, left_arrow, remove_button;
+    var group_by, label, remove_button;
     group_by = $('<span></span>');
     group_by.attr('class', 'group-by--selected-element');
     group_by.attr('data-group-by', field);
@@ -146,8 +147,7 @@ Reporting.GroupBys = (function($){
   };
 
   var add_group_by = function(field, caption, container) {
-    var group_by, add_groups_select_box, added_container;
-    add_groups_select_box = container.find('select').first();
+    var group_by, added_container;
     group_by = Reporting.GroupBys.create_group_by(field, caption);
     added_container = container.find('.group-by--selected-elements');
     added_container.append(group_by);

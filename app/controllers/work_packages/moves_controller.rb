@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -98,7 +96,6 @@ class WorkPackages::MovesController < ApplicationController
   end
 
   def prepare_for_work_package_move
-    @work_packages = @work_packages.includes(:ancestors)
     @copy = params.has_key? :copy
     @allowed_projects = WorkPackage.allowed_target_projects_on_move(current_user)
     @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
@@ -106,8 +103,7 @@ class WorkPackages::MovesController < ApplicationController
     @types = @target_project.types
     @available_versions = @target_project.assignable_versions
     @available_statuses = Workflow.available_statuses(@project)
-    @notes = params[:notes]
-    @notes ||= ''
+    @notes = params[:notes] || ''
   end
 
   def permitted_create_params
@@ -123,6 +119,8 @@ class WorkPackages::MovesController < ApplicationController
       .merge(type_id: params[:new_type_id],
              project_id: params[:new_project_id],
              journal_notes: params[:notes])
-      .reject { |_, v| v.blank? }
+      .compact_blank
+      # 'none' is used in the frontend as a value to unset the property, e.g. the assignee.
+      .transform_values { |v| v == 'none' ? nil : v }
   end
 end

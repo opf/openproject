@@ -72,8 +72,8 @@ lt:
       text_2fa_enabled: 'Kiekvieną kartą prisijungiant, naudotojo bus paprašoma įvesti OTB žetoną iš jo numatytojo 2FA įrenginio.'
       text_2fa_disabled: "Naudotojas nenustatė savo 2FA įrenginio savo „Mano paskyros puslapyje“"
     upsale:
-      title: 'Dviejų veiksnių autentifikacija yra mokama savybė'
-      description: 'Sustiprinkite jūsų vidinės ir išorinės autentifikacijos mechanizmus antru veiksniu.'
+      title: 'Dviejų veiksnių autentifikavimas'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: Ši paskyra neturi atsarginių kodų.
       singular: Atsarginis kodas
@@ -135,8 +135,6 @@ lt:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS pristatymas nepavyko'
       voice_delivery_failed: 'MessageBird balso skambutis nepavyko.'
-    restdt:
-      delivery_failed_with_code: 'Žetono pristatymas nepavyko. (Klaidos kodas %{code})'
     strategies:
       totp: 'Autentifikatoriaus aplikacija'
       sns: 'Amazon SNS'

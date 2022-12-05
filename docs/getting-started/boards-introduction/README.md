@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Agile boards introduction
   priority: 500
 description: Introduction to agile Boards in OpenProject.
-robots: index, follow
 keywords: Agile Boards
 ---
 
@@ -11,9 +10,7 @@ keywords: Agile Boards
 
 This document provides an initial introduction to the boards in OpenProject, i.e. how to use a Kanban board to manage your tasks in an agile way.
 
-<div class="alert alert-info" role="alert">
-**Note**: The agile board is a premium feature and only available for the [OpenProject Cloud Edition](https://www.openproject.org/hosting/) and the [Enterprise On-premises Edition](https://www.openproject.org/enterprise-edition/).
-</div>
+> **Note**: The agile board is a premium feature and only available for the [OpenProject Cloud Edition](https://www.openproject.org/hosting/) and the [Enterprise On-premises Edition](https://www.openproject.org/enterprise-edition/).
 
 
 
@@ -27,9 +24,9 @@ Agile boards is only one of OpenProject's features. Find a comprehensive compari
 
 
 | Topic                                                       | Content                                    |
-| ----------------------------------------------------------- | ------------------------------------------ |
-| [What is a Board?](#what-is-a-board)                       | Find out what a Board in OpenProject is.   |
-| [Manage your work in a Board](#manage-your-work-in-a-board) | How to manage your work in an agile Board? |
+|-------------------------------------------------------------|--------------------------------------------|
+| [What is a Board?](#what-is-a-board)                        | Find out what a Board in OpenProject is.   |
+| [Manage your work in a Board](#manage-your-work-in-a-board) | How to manage your work in an agile Board. |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Agile-Boards.mp4" type="video/mp4" controls="" style="width:100%"></video>
 

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,6 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { States } from 'core-app/core/states/states.service';
 import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
-import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
@@ -123,13 +122,8 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   public switchToManualSorting(query:QueryResource):boolean {
     const { manualSortObject } = this;
     if (manualSortObject && !this.isManualSortingMode) {
-      if (query && isPersistedResource(query)) {
-        // Save the query if it is persisted
-        query.sortBy = [manualSortObject];
-        return true;
-      }
-      // Query cannot be saved, just update the props for now
-      this.update([manualSortObject]);
+      query.setSortBy([manualSortObject]);
+      return true;
     }
 
     return false;

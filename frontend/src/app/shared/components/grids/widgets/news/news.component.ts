@@ -6,8 +6,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { NewsResource } from 'core-app/features/hal/resources/news-resource';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
@@ -34,7 +34,7 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
     protected readonly injector:Injector,
     readonly timezone:TimezoneService,
     readonly currentProject:CurrentProjectService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly cdr:ChangeDetectorRef,
   ) {
     super(i18n, injector);
@@ -87,7 +87,7 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   private get newsDmParams() {
-    const params:Apiv3ListParameters = {
+    const params:ApiV3ListParameters = {
       sortBy: [['created_at', 'desc']],
       pageSize: 3,
     };

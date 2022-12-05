@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,18 +34,17 @@ class Enumeration < ApplicationRecord
   acts_as_list scope: 'type = \'#{type}\''
   acts_as_tree order: 'position ASC'
 
+  before_save :unmark_old_default_value, if: :became_default_value?
   before_destroy :check_integrity
 
-  validates_presence_of :name
-  validates_uniqueness_of :name,
-                          scope: %i(type project_id),
-                          case_sensitive: false
-  validates_length_of :name, maximum: 30
+  validates :name, presence: true
+  validates :name,
+            uniqueness: { scope: %i(type project_id),
+                          case_sensitive: false }
+  validates :name, length: { maximum: 30 }
 
   scope :shared, -> { where(project_id: nil) }
   scope :active, -> { where(active: true) }
-
-  before_save :unmark_old_default_value, if: :became_default_value?
 
   # let all child classes have Enumeration as it's model name
   # used to not having to create another route for every subclass of Enumeration
@@ -97,7 +94,7 @@ class Enumeration < ApplicationRecord
   end
 
   def unmark_old_default_value
-    Enumeration.where(type: type).update_all(is_default: false)
+    Enumeration.where(type:).update_all(is_default: false)
   end
 
   # Overloaded on concrete classes
@@ -131,7 +128,7 @@ class Enumeration < ApplicationRecord
   def to_s; name end
 
   # Does the +new+ Hash override the previous Enumeration?
-  def self.overridding_change?(new, previous)
+  def self.overriding_change?(new, previous)
     if same_active_state?(new['active'], previous.active) && same_custom_values?(new, previous)
       false
     else
@@ -182,5 +179,5 @@ end
 
 # Force load the subclasses in development mode
 %w(time_entry_activity issue_priority).each do |enum_subclass|
-  require_dependency enum_subclass
+  require enum_subclass
 end

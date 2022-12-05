@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: State management
 description: Get an overview of how frontend state management works
-robots: index, follow
 keywords: state management, stores, input states
 ---
 
@@ -154,10 +153,9 @@ This might then look like the following, with green color for added objects, and
 
 ## 🔗 Code references
 
-- [`StatesService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/components/states.service.ts) Global `States` cache of MultiInputStates
-- [`IsolatedQuerySpace`](https://github.com/opf/openproject/blob/dev/frontend/src/app/modules/work_packages/query-space/isolated-query-space.ts) Query space `StatesGroup`. Is instantiated multiple times whenever a work package query is loaded. See [the separate concept guide](../queries) for more information.
+- [`StatesService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/core/states/states.service.ts) Global `States` cache of MultiInputStates
+- [`IsolatedQuerySpace`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/directives/query-space/isolated-query-space.ts) Query space `StatesGroup`. Is instantiated multiple times whenever a work package query is loaded. See [the separate concept guide](../queries) for more information.
 - [ReactiveStates](https://github.com/ReactiveStates/reactivestates)  library we use for the StatesGroup. This was developed by Roman primarily for us during AngularJS times.
-
 
 
 ## Discussions

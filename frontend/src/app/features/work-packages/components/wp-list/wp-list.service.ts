@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,29 +32,40 @@ import { AuthorisationService } from 'core-app/core/model-auth/model-auth.servic
 import { StateService } from '@uirouter/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
+import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { from, Observable, of } from 'rxjs';
+import {
+  from,
+  Observable,
+  of,
+} from 'rxjs';
 import { input } from 'reactivestates';
 import {
-  catchError, mergeMap, share, switchMap, take,
+  catchError,
+  mapTo,
+  mergeMap,
+  share,
+  switchMap,
+  take,
 } from 'rxjs/operators';
 import {
   WorkPackageViewPaginationService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { APIv3QueriesPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-queries-paths';
-import { APIv3QueryPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-paths';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3QueriesPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-queries-paths';
+import { ApiV3QueryPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-paths';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';
 import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
+import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
 
 export interface QueryDefinition {
-  queryParams:{ query_id?:string, query_props?:string };
+  queryParams:{ query_id?:string|null, query_props?:string|null };
   projectIdentifier?:string;
 }
 
@@ -90,7 +101,7 @@ export class WorkPackagesListService {
     protected UrlParamsHelper:UrlParamsHelperService,
     protected authorisationService:AuthorisationService,
     protected $state:StateService,
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
     protected states:States,
     protected querySpace:IsolatedQuerySpace,
     protected pagination:PaginationService,
@@ -98,6 +109,7 @@ export class WorkPackagesListService {
     protected wpTablePagination:WorkPackageViewPaginationService,
     protected wpStatesInitialization:WorkPackageStatesInitializationService,
     protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
+    protected wpQueryView:WorkPackagesQueryViewService,
   ) { }
 
   /**
@@ -107,7 +119,7 @@ export class WorkPackagesListService {
    * @param queryParams
    * @param projectIdentifier
    */
-  private streamQueryRequest(queryParams:{ query_id?:string, query_props?:string }, projectIdentifier?:string):Observable<QueryResource> {
+  private streamQueryRequest(queryParams:{ query_id?:string|null, query_props?:string|null }, projectIdentifier?:string):Observable<QueryResource> {
     const decodedProps = this.getCurrentQueryProps(queryParams);
     const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
     const stream = this
@@ -128,7 +140,7 @@ export class WorkPackagesListService {
    * Load a query.
    * The query is either a persisted query, identified by the query_id parameter, or the default query. Both will be modified by the parameters in the query_props parameter.
    */
-  public fromQueryParams(queryParams:{ query_id?:string, query_props?:string }, projectIdentifier?:string):Observable<QueryResource> {
+  public fromQueryParams(queryParams:{ query_id?:string|null, query_props?:string }, projectIdentifier?:string):Observable<QueryResource> {
     this.queryRequests.clear();
     this.queryRequests.putValue({ queryParams, projectIdentifier });
 
@@ -142,7 +154,7 @@ export class WorkPackagesListService {
   /**
    * Get the current decoded query props, if any
    */
-  public getCurrentQueryProps(params:{ query_props?:string }):string|null {
+  public getCurrentQueryProps(params:{ query_props?:string|null }):string|null {
     if (params.query_props) {
       return decodeURIComponent(params.query_props);
     }
@@ -161,8 +173,7 @@ export class WorkPackagesListService {
    * Reloads the current query and set the pagination to the first page.
    */
   public reloadQuery(query:QueryResource, projectIdentifier?:string):Observable<QueryResource> {
-    const pagination = { ...this.wpTablePagination.current, page: 1 };
-    const queryParams = this.UrlParamsHelper.encodeQueryJsonParams(query, pagination);
+    const queryParams = this.extractParamsFromQuery(query, { pa: 1 });
 
     this.queryRequests.clear();
     this.queryRequests.putValue({
@@ -178,6 +189,25 @@ export class WorkPackagesListService {
   }
 
   /**
+   * Extract a set of query params from the current query resource
+   * @param query The query to derive props from
+   * @param additional Additional props to append
+   */
+  public extractParamsFromQuery(
+    query:QueryResource,
+    additional:Record<string, unknown> = {},
+  ):string {
+    return this.UrlParamsHelper.encodeQueryJsonParams(
+      query,
+      {
+        pa: this.wpTablePagination.current.page,
+        pp: this.wpTablePagination.current.perPage,
+        ...additional,
+      },
+    );
+  }
+
+  /**
    * Update the query from an existing (probably unsaved) query.
    *
    * Will choose the correct path:
@@ -188,7 +218,7 @@ export class WorkPackagesListService {
   public loadQueryFromExisting(query:QueryResource, additionalParams:Object, projectIdentifier?:string):Observable<QueryResource> {
     const params = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additionalParams);
 
-    let path:APIv3QueriesPaths|APIv3QueryPaths;
+    let path:ApiV3QueriesPaths|ApiV3QueryPaths;
 
     if (query.id) {
       path = this.apiV3Service.queries.id(query.id);
@@ -232,21 +262,17 @@ export class WorkPackagesListService {
     query.name = name;
 
     const promise = this
-      .apiV3Service
-      .queries
-      .post(query, form)
-      .toPromise();
-
-    void promise
-      .then((query) => {
+      .createQueryAndView(query, form)
+      .toPromise()
+      .then((createdQuery) => {
         this.toastService.addSuccess(this.I18n.t('js.notice_successful_create'));
 
         // Reload the query, and then reload the menu
-        this.reloadQuery(query).subscribe(() => {
-          this.states.changes.queries.next(query.id!);
+        this.reloadQuery(createdQuery).subscribe(() => {
+          this.states.changes.queries.next(createdQuery.id);
         });
 
-        return query;
+        return createdQuery;
       });
 
     return promise;
@@ -282,10 +308,10 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  public save(query?:QueryResource) {
-    query = query || this.currentQuery;
+  public async save(givenQuery?:QueryResource):Promise<unknown> {
+    const query = givenQuery || this.currentQuery;
 
-    const form = this.querySpace.queryForm.value!;
+    const form = await this.querySpace.queryForm.valuesPromise();
 
     const promise = this
       .apiV3Service
@@ -306,6 +332,13 @@ export class WorkPackagesListService {
       });
 
     return promise;
+  }
+
+  public async createOrSave(query:QueryResource):Promise<unknown> {
+    if (!isPersistedResource(query)) {
+      return this.create(query, 'New manually sorted query');
+    }
+    return this.save(query);
   }
 
   public toggleStarred(query:QueryResource):Promise<any> {
@@ -341,7 +374,7 @@ export class WorkPackagesListService {
     return this.querySpace.query.value!;
   }
 
-  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:string, projectIdentifier?:string|null):Promise<QueryResource> {
+  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:string|null, projectIdentifier?:string|null):Promise<QueryResource> {
     this.toastService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {
@@ -383,5 +416,20 @@ export class WorkPackagesListService {
       return true;
     }
     return this.configuration.initialized;
+  }
+
+  private createQueryAndView(query:QueryResource, form:QueryFormResource|undefined) {
+    return this
+      .apiV3Service
+      .queries
+      .post(query, form)
+      .pipe(
+        switchMap((createdQuery) => this
+          .wpQueryView
+          .create(createdQuery)
+          .pipe(
+            mapTo(createdQuery),
+          )),
+      );
   }
 }

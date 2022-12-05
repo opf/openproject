@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,12 +31,9 @@ namespace :setting do
   task set: :environment do |_t, args|
     args.extras.each do |tuple|
       key, value = tuple.split('=')
-      setting = Setting.find_by(name: key)
-      if setting.nil?
-        Setting.create! name: key, value: value
-      else
-        setting.update! value: value
-      end
+      setting = Setting.find_or_initialize_by(name: key)
+      setting.set_value! value, force: true
+      setting.save!
     end
   end
 
@@ -45,6 +42,27 @@ namespace :setting do
     setting = Setting.find_by(name: args[:key])
     unless setting.nil?
       puts(setting.value)
+    end
+  end
+
+  desc 'Allow to set a Setting read from an ENV var. Example: rake setting:set_to_env[smtp_address=SMTP_HOST]'
+  task set_to_env: :environment do |_t, args|
+    args.extras.each do |tuple|
+      setting_name, env_var_name = tuple.split('=')
+
+      next unless Settings::Definition.exists? setting_name
+      next unless ENV.has_key? env_var_name
+
+      setting = Setting.find_or_initialize_by(name: setting_name)
+      setting.set_value! ENV[env_var_name].presence, force: true
+      setting.save!
+    end
+  end
+
+  desc 'List the supported environment variables to override settings'
+  task available_envs: :environment do
+    Settings::Definition.all.sort_by(&:name).each do |definition|
+      puts "#{Settings::Definition.possible_env_names(definition).first} (default=#{definition.default.inspect})"
     end
   end
 end

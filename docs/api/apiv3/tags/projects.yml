@@ -16,21 +16,22 @@ description: |-
 
   ## Linked Properties
 
-  | Link         | Description                                                                                           | Type          | Constraints | Supported operations |Condition                                              |
-  | :----------: | -------------                                                                                         | ----          | ----------- | -------------------- |-----------------------------------------              |
-  | self         | This project                                                                                          | Project       | not null    | READ                 |                                                       |
-  | categories   | Categories available in this project                                                                  | Collection    | not null    | READ                 |                                                       |
-  | types        | Types available in this project                                                                       | Collection    | not null    | READ                 | **Permission**: view work packages or manage types    |
-  | versions     | Versions available in this project                                                                    | Collection    | not null    | READ                 | **Permission**: view work packages or manage versions |
-  | memberships  | Memberships in the  project                                                                           | Collection    | not null    | READ                 | **Permission**: view members                          |
-  | workPackages | Work Packages of this project                                                                         | Collection    | not null    | READ                 |                                                       |
-  | parent       | Parent project of the project                                                                         | Project       |             | READ/WRITE           | **Permission** edit project                           |
-  | status       | Denotes the status of the project, so whether the project is on track, at risk or is having trouble.  | ProjectStatus |             | READ/WRITE           | **Permission** edit project                           |
+  | Link         | Description                                                                                                         | Type          | Constraints | Supported operations |Condition                                                                                  |
+  | :----------: | -------------                                                                                                       | ----          | ----------- | -------------------- |-----------------------------------------                                                  |
+  | self         | This project                                                                                                        | Project       | not null    | READ                 |                                                                                           |
+  | ancestors    | Array of all ancestors of the project, down from the root node (first element) to the parent (last element).        | Collection    | not null    | READ                 | **Permission** view project on the ancestor project. Non visible projects will be omitted |
+  | categories   | Categories available in this project                                                                                | Collection    | not null    | READ                 |                                                                                           |
+  | types        | Types available in this project                                                                                     | Collection    | not null    | READ                 | **Permission**: view work packages or manage types                                        |
+  | versions     | Versions available in this project                                                                                  | Collection    | not null    | READ                 | **Permission**: view work packages or manage versions                                     |
+  | memberships  | Memberships in the project                                                                                          | Collection    | not null    | READ                 | **Permission**: view members                                                              |
+  | workPackages | Work Packages of this project                                                                                       | Collection    | not null    | READ                 |                                                                                           |
+  | parent       | Parent project of the project                                                                                       | Project       |             | READ/WRITE           | **Permission** edit project                                                               |
+  | status       | Denotes the status of the project, so whether the project is on track, at risk or is having trouble.                | ProjectStatus |             | READ/WRITE           | **Permission** edit project                                                               |
 
   Depending on custom fields defined for projects, additional links might exist.
 
-  Note, that the parent link may contain the "undisclosed uri" `urn:openproject-org:api:v3:undisclosed` in case a
-  parent project is defined but the client lacks permission to see it. See the
+  Note, that the parent and ancestor links may contain the "undisclosed uri" `urn:openproject-org:api:v3:undisclosed` in case an
+  ancestor project is defined but the client lacks permission to see it. See the
   [general introduction into links' properties](https://www.openproject.org/docs/api/basic-objects/#local-properties) for more information.
 
   ## Local Properties

@@ -72,8 +72,8 @@ vi:
       text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from his default 2FA device.'
       text_2fa_disabled: "The user did not set up a 2FA device through his 'My account page'"
     upsale:
-      title: 'Two-factor authentication is an enterprise feature'
-      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+      title: 'Two-factor authentication'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: No backup codes exist for this account.
       singular: Backup code
@@ -136,8 +136,6 @@ vi:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS delivery failed.'
       voice_delivery_failed: 'MessageBird voice call failed.'
-    restdt:
-      delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
     strategies:
       totp: 'Ứng dụng xác thực'
       sns: 'Amazon SNS'

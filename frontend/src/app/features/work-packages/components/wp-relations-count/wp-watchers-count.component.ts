@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageWatchersService } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class WorkPackageWatchersCountComponent extends UntilDestroyedMixin imple
 
   public count = 0;
 
-  constructor(protected apiV3Service:APIV3Service,
+  constructor(protected apiV3Service:ApiV3Service,
     protected wpWatcherService:WorkPackageWatchersService,
     protected cdRef:ChangeDetectorRef) {
     super();

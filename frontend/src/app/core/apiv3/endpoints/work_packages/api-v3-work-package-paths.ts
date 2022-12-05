@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,14 +27,15 @@
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { Apiv3RelationsPaths } from 'core-app/core/apiv3/endpoints/relations/apiv3-relations-paths';
-import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
-import { APIV3WorkPackagesPaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths';
+import { ApiV3RelationsPaths } from 'core-app/core/apiv3/endpoints/relations/apiv3-relations-paths';
+import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
+import { ApiV3WorkPackagesPaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { ApiV3WorkPackageForm } from 'core-app/core/apiv3/endpoints/work_packages/apiv3-work-package-form';
 
-export class APIV3WorkPackagePaths extends CachableAPIV3Resource<WorkPackageResource> {
+export class ApiV3WorkPackagePaths extends ApiV3Resource<WorkPackageResource> {
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/relations
-  public readonly relations = this.subResource('relations', Apiv3RelationsPaths);
+  public readonly relations = this.subResource('relations', ApiV3RelationsPaths);
 
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/revisions
   public readonly revisions = this.subResource('revisions');
@@ -51,10 +52,10 @@ export class APIV3WorkPackagePaths extends CachableAPIV3Resource<WorkPackageReso
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/github_pull_requests
   public readonly github_pull_requests = this.subResource('github_pull_requests');
 
-  // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/gitlab_merge_requests
-  public readonly gitlab_merge_requests = this.subResource('gitlab_merge_requests');
+  // /api/v3/(projects/:projectIdentifier)/work_packages/(:workPackageId)/form
+  public readonly form:ApiV3WorkPackageForm = this.subResource('form', ApiV3WorkPackageForm);
 
   protected createCache():StateCacheService<WorkPackageResource> {
-    return (this.parent as APIV3WorkPackagesPaths).cache;
+    return (this.parent as ApiV3WorkPackagesPaths).cache;
   }
 }

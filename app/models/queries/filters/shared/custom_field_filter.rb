@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +50,7 @@ module Queries::Filters::Shared::CustomFieldFilter
       custom_field_context.custom_fields(context).map do |cf|
         cf_accessor = custom_field_accessor(cf)
         begin
-          create!(name: cf_accessor, custom_field: cf, context: context)
+          create!(name: cf_accessor, custom_field: cf, context:)
         rescue ::Queries::Filters::InvalidError
           Rails.logger.error "Failed to map custom field filter for #{cf_accessor} (CF##{cf.id}."
           nil
@@ -76,7 +74,7 @@ module Queries::Filters::Shared::CustomFieldFilter
       custom_field = find_by_accessor(name)
       raise ::Queries::Filters::InvalidError if custom_field.nil?
 
-      from_custom_field!(custom_field: custom_field, **options)
+      from_custom_field!(custom_field:, **options)
     end
 
     ##
@@ -84,7 +82,7 @@ module Queries::Filters::Shared::CustomFieldFilter
     def from_custom_field!(custom_field:, **options)
       constant_name = subfilter_module(custom_field)
       clazz = "::Queries::Filters::Shared::CustomFields::#{constant_name}".constantize
-      clazz.create!(custom_field: custom_field, custom_field_context: custom_field_context, **options)
+      clazz.create!(custom_field:, custom_field_context:, **options)
     rescue NameError => e
       Rails.logger.error "Failed to constantize custom field filter for #{name}. #{e}"
       raise ::Queries::Filters::InvalidError

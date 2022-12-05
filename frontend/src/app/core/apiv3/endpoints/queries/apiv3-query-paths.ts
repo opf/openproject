@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { APIV3QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
-import { Apiv3QueryForm } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-form';
+import { ApiV3QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
+import { ApiV3QueryForm } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-form';
 import { Observable } from 'rxjs';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
@@ -37,14 +37,14 @@ import { QueryFiltersService } from 'core-app/features/work-packages/components/
 import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
 import { PaginationObject } from 'core-app/shared/components/table-pagination/pagination-service';
 
-export class APIv3QueryPaths extends APIv3GettableResource<QueryResource> {
+export class ApiV3QueryPaths extends ApiV3GettableResource<QueryResource> {
   @InjectField() private queryFilters:QueryFiltersService;
 
   // Static paths
-  readonly form = this.subResource('form', Apiv3QueryForm);
+  readonly form = this.subResource('form', ApiV3QueryForm);
 
   // Order path
-  readonly order = new APIV3QueryOrder(this.injector, this.path, 'order');
+  readonly order = new ApiV3QueryOrder(this.injector, this.path, 'order');
 
   /**
    * Stream the response for the given query request

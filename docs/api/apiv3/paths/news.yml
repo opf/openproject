@@ -128,20 +128,12 @@ get:
       description: OK
       headers: {}
     '400':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
-                message:
-                - Filters Invalid filter does not exist.
-      description: Returned if the client sends invalid request parameters e.g. filters
-      headers: {}
+      $ref: "../components/responses/invalid_request_body.yml"
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:

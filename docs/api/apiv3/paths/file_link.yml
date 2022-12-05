@@ -1,0 +1,87 @@
+# /api/v3/file_links/{id}
+---
+get:
+  summary: Gets a file link.
+  operationId: view_file_link
+  tags:
+    - File links
+  description: |-
+    Gets a single file link resource of a work package.
+  parameters:
+    - name: id
+      description: File link id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 42
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/file_link_read_model.yml'
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package, view file links
+
+delete:
+  summary: Removes a file link.
+  operationId: delete_file_link
+  tags:
+    - File links
+  description: |-
+    Removes a file link on a work package.
+    
+    The request contains only the file link identifier as a path parameter. No request body is needed.
+  parameters:
+    - name: id
+      description: File link id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 42
+  responses:
+    '200':
+      description: OK
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage file links
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the work package or the file link does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view work package, view file links

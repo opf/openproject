@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,8 +45,8 @@ module Queries
         {
           filters: filters.map { |f| { name: f.name, operator: f.operator, values: f.values } },
           orders: orders.to_h { |o| [o.attribute, o.direction] },
-          group_by: group_by,
-          user: user
+          group_by:,
+          user:
         }
       end
 

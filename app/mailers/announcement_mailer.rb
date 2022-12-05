@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ class AnnouncementMailer < ApplicationMailer
   include OpenProject::TextFormatting
   helper :mail_notification
 
-  def announce(user, subject:, body:, body_header: nil, body_subheader: nil)
+  def announce(user, subject:, body:, salutation: :firstname, body_header: nil, body_subheader: nil)
     with_locale_for(user) do
       localized_subject = localized(subject)
 
@@ -43,14 +43,15 @@ class AnnouncementMailer < ApplicationMailer
            subject: localized_subject do |format|
         locals = {
           body: localized(body),
-          user: user,
+          user:,
+          salutation: user_salutation(user, salutation),
           header_summary: localized_subject,
           body_header: localized(body_header),
           body_subheader: localized(body_subheader)
         }
 
-        format.html { render locals: locals }
-        format.text { render locals: locals }
+        format.html { render locals: }
+        format.text { render locals: }
       end
     end
   end
@@ -62,6 +63,15 @@ class AnnouncementMailer < ApplicationMailer
       I18n.t(input)
     else
       input
+    end
+  end
+
+  def user_salutation(user, salutation)
+    case salutation
+    when :firstname
+      I18n.t(:'mail.salutation', user: user.firstname)
+    else
+      salutation % { firstname: user.firstname, lastname: user.lastname, name: user.name }
     end
   end
 end

@@ -12,12 +12,9 @@ import { OPSharedModule } from 'core-app/shared/shared.module';
 import { OpInviteUserModalService } from 'core-app/features/invite-user-modal/invite-user-modal.service';
 import { InviteUserModalComponent } from './invite-user.component';
 import { ProjectSelectionComponent } from './project-selection/project-selection.component';
-import { ProjectSearchComponent } from './project-selection/project-search.component';
 import { PrincipalComponent } from './principal/principal.component';
 import { PrincipalSearchComponent } from './principal/principal-search.component';
-import { RoleComponent } from './role/role.component';
 import { RoleSearchComponent } from './role/role-search.component';
-import { MessageComponent } from './message/message.component';
 import { SummaryComponent } from './summary/summary.component';
 import { SuccessComponent } from './success/success.component';
 
@@ -46,12 +43,9 @@ export function initializeServices(injector:Injector) {
   declarations: [
     InviteUserModalComponent,
     ProjectSelectionComponent,
-    ProjectSearchComponent,
     PrincipalComponent,
     PrincipalSearchComponent,
-    RoleComponent,
     RoleSearchComponent,
-    MessageComponent,
     SuccessComponent,
     SummaryComponent,
   ],

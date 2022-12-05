@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 Gem::Specification.new do |s|
   s.name        = "budgets"
   s.version     = '1.0.0'
@@ -7,4 +5,5 @@ Gem::Specification.new do |s|
   s.summary     = "OpenProject Budgets."
 
   s.files = Dir["{app,config,db,lib}/**/*"]
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

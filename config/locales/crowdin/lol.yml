@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -48,8 +48,9 @@ lol:
         main-menu-hover-font-color: "crwdns796360:0crwdne796360:0"
         main-menu-border-color: "crwdns796362:0crwdne796362:0"
       custom_colors: "crwdns796364:0crwdne796364:0"
-      customize: "crwdns796366:0crwdne796366:0"
+      customize: "crwdns823890:0crwdne823890:0"
       enterprise_notice: "crwdns796368:0crwdne796368:0"
+      enterprise_more_info: "crwdns823892:0crwdne823892:0"
       manage_colors: "crwdns796370:0crwdne796370:0"
       instructions:
         alternative-color: "crwdns796372:0crwdne796372:0"
@@ -65,6 +66,9 @@ lol:
     enterprise:
       upgrade_to_ee: "crwdns796392:0crwdne796392:0"
       add_token: "crwdns796394:0crwdne796394:0"
+      delete_token_modal:
+        text: "crwdns834510:0crwdne834510:0"
+        title: "crwdns834512:0crwdne834512:0"
       replace_token: "crwdns796396:0crwdne796396:0"
       order: "crwdns796398:0crwdne796398:0"
       paste: "crwdns796400:0crwdne796400:0"
@@ -73,6 +77,15 @@ lol:
       start_trial: 'crwdns796406:0crwdne796406:0'
       book_now: 'crwdns796408:0crwdne796408:0'
       get_quote: 'crwdns796410:0crwdne796410:0'
+      buttons:
+        upgrade: "crwdns810522:0crwdne810522:0"
+        contact: "crwdns810524:0crwdne810524:0"
+      enterprise_info_html: "crwdns810526:0crwdne810526:0"
+      upgrade_info: "crwdns810528:0crwdne810528:0"
+    journal_aggregation:
+      explanation:
+        text: "crwdns810530:0%{webhook_link}crwdne810530:0"
+        link: "crwdns810532:0crwdne810532:0"
   announcements:
     show_until: crwdns796412:0crwdne796412:0
     is_active: crwdns796414:0crwdne796414:0
@@ -84,6 +97,8 @@ lol:
     show_preview: 'crwdns796424:0crwdne796424:0'
     add_new: 'crwdns796426:0crwdne796426:0'
     edit: "crwdns796428:0%{attribute_caption}crwdne796428:0"
+    enterprise:
+      description: 'crwdns825438:0crwdne825438:0'
   auth_sources:
     index:
       no_results_content_title: crwdns796430:0crwdne796430:0
@@ -149,8 +164,8 @@ lol:
     edit: 'crwdns796508:0%{name}crwdne796508:0'
     execute: 'crwdns796510:0%{name}crwdne796510:0'
     upsale:
-      title: 'crwdns796512:0crwdne796512:0'
-      description: 'crwdns796514:0crwdne796514:0'
+      title: 'crwdns810534:0crwdne810534:0'
+      description: 'crwdns823898:0crwdne823898:0'
   custom_fields:
     text_add_new_custom_field: >
       crwdns796516:0crwdne796516:0
@@ -247,9 +262,9 @@ lol:
       irreversible: "crwdns796628:0crwdne796628:0"
       confirmation: "crwdns796630:0%{name}crwdne796630:0"
     upsale:
-      title: crwdns796632:0crwdne796632:0
+      title: crwdns810536:0crwdne810536:0
       description: >
-        crwdns796634:0crwdne796634:0
+        crwdns830170:0crwdne830170:0
   prioritiies:
     edit:
       priority_color_text: |
@@ -274,6 +289,8 @@ lol:
     edit:
       settings: "crwdns796654:0crwdne796654:0"
       form_configuration: "crwdns796656:0crwdne796656:0"
+      more_info_text_html: >
+        crwdns825440:0%{list_styling_class}crwdne825440:0
       projects: "crwdns796658:0crwdne796658:0"
       enabled_projects: "crwdns796660:0crwdne796660:0"
       edit_query: "crwdns796662:0crwdne796662:0"
@@ -431,9 +448,12 @@ lol:
         code: 'crwdns796868:0crwdne796868:0'
         explanation: 'crwdns796870:0crwdne796870:0'
         codes:
+          not_started: 'crwdns810538:0crwdne810538:0'
           on_track: 'crwdns796872:0crwdne796872:0'
           at_risk: 'crwdns796874:0crwdne796874:0'
           off_track: 'crwdns796876:0crwdne796876:0'
+          finished: 'crwdns810540:0crwdne810540:0'
+          discontinued: 'crwdns810542:0crwdne810542:0'
       query:
         column_names: "crwdns796878:0crwdne796878:0"
         relations_to_type_column: "crwdns796880:0%{type}crwdne796880:0"
@@ -444,7 +464,6 @@ lol:
       repository:
         url: "crwdns796890:0crwdne796890:0"
       role:
-        assignable: "crwdns796892:0crwdne796892:0"
         permissions: "crwdns796894:0crwdne796894:0"
       time_entry:
         activity: "crwdns796896:0crwdne796896:0"
@@ -490,20 +509,27 @@ lol:
         begin_deletion: "crwdns796960:0crwdne796960:0"
         children: "crwdns796962:0crwdne796962:0"
         done_ratio: "crwdns796964:0crwdne796964:0"
+        duration: "crwdns823904:0crwdne823904:0"
         end_insertion: "crwdns796966:0crwdne796966:0"
         end_deletion: "crwdns796968:0crwdne796968:0"
-        version: "crwdns796970:0crwdne796970:0"
+        ignore_non_working_days: "crwdns823906:0crwdne823906:0"
+        include_non_working_days:
+          title: 'crwdns834514:0crwdne834514:0'
+          false: 'crwdns834516:0crwdne834516:0'
+          true: 'crwdns834518:0crwdne834518:0'
         parent: "crwdns796972:0crwdne796972:0"
         parent_issue: "crwdns796974:0crwdne796974:0"
         parent_work_package: "crwdns796976:0crwdne796976:0"
         priority: "crwdns796978:0crwdne796978:0"
         progress: "crwdns796980:0crwdne796980:0"
+        readonly: "crwdns823908:0crwdne823908:0"
         schedule_manually: "crwdns796982:0crwdne796982:0"
         spent_hours: "crwdns796984:0crwdne796984:0"
         spent_time: "crwdns796986:0crwdne796986:0"
         subproject: "crwdns796988:0crwdne796988:0"
         time_entries: "crwdns796990:0crwdne796990:0"
         type: "crwdns796992:0crwdne796992:0"
+        version: "crwdns796970:0crwdne796970:0"
         watcher: "crwdns796994:0crwdne796994:0"
       'doorkeeper/application':
         uid: "crwdns796996:0crwdne796996:0"
@@ -535,6 +561,7 @@ lol:
         even: "crwdns797044:0crwdne797044:0"
         exclusion: "crwdns797046:0crwdne797046:0"
         file_too_large: "crwdns797048:0%{count}crwdne797048:0"
+        filter_does_not_exist: "crwdns810544:0crwdne810544:0"
         format: "crwdns797050:0%{expected}crwdne797050:0"
         format_nested: "crwdns797052:0%{expected}crwdnd797052:0%{path}crwdne797052:0"
         greater_than: "crwdns797054:0%{count}crwdne797054:0"
@@ -569,6 +596,8 @@ lol:
         unknown_property: "crwdns797112:0crwdne797112:0"
         unknown_property_nested: "crwdns797114:0%{path}crwdne797114:0"
         unremovable: "crwdns797116:0crwdne797116:0"
+        url_not_secure_context: >
+          crwdns825170:0crwdne825170:0
         wrong_length: "crwdns797118:0%{count}crwdne797118:0"
       models:
         attachment:
@@ -600,7 +629,7 @@ lol:
               fragment_present: 'crwdns797148:0crwdne797148:0'
               invalid_uri: 'crwdns797150:0crwdne797150:0'
               relative_uri: 'crwdns797152:0crwdne797152:0'
-              secured_uri: 'crwdns797154:0crwdne797154:0'
+              secured_uri: 'crwdns825172:0crwdne825172:0'
               forbidden_uri: 'crwdns797156:0crwdne797156:0'
             scopes:
               not_match_configured: "crwdns797158:0crwdne797158:0"
@@ -684,6 +713,11 @@ lol:
           attributes:
             permissions:
               dependency_missing: "crwdns797244:0%{dependency}crwdnd797244:0%{permission}crwdne797244:0"
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'crwdns834520:0crwdne834520:0'
+              previous_working_day_changes_unprocessed: 'crwdns834522:0crwdne834522:0'
         time_entry:
           attributes:
             hours:
@@ -701,8 +735,16 @@ lol:
         work_package:
           is_not_a_valid_target_for_time_entries: "crwdns797254:0%{id}crwdne797254:0"
           attributes:
+            assigned_to:
+              format: "crwdns830342:0%{message}crwdne830342:0"
             due_date:
               not_start_date: "crwdns797256:0crwdne797256:0"
+              cannot_be_null: "crwdns834524:0crwdne834524:0"
+            duration:
+              larger_than_dates: "crwdns823910:0crwdne823910:0"
+              smaller_than_dates: "crwdns823912:0crwdne823912:0"
+              not_available_for_milestones: "crwdns823914:0crwdne823914:0"
+              cannot_be_null: "crwdns834526:0crwdne834526:0"
             parent:
               cannot_be_milestone: "crwdns797258:0crwdne797258:0"
               cannot_be_self_assigned: "crwdns797260:0crwdne797260:0"
@@ -710,6 +752,7 @@ lol:
               not_a_valid_parent: "crwdns797264:0crwdne797264:0"
             start_date:
               violates_relationships: "crwdns797266:0%{soonest_start}crwdne797266:0"
+              cannot_be_null: "crwdns834528:0crwdne834528:0"
             status_id:
               status_transition_invalid: "crwdns797268:0crwdne797268:0"
               status_invalid_in_type: "crwdns797270:0crwdne797270:0"
@@ -839,7 +882,7 @@ lol:
     id: "crwdns797448:0crwdne797448:0"
     is_default: "crwdns797450:0crwdne797450:0"
     is_for_all: "crwdns797452:0crwdne797452:0"
-    is_public: "crwdns797454:0crwdne797454:0"
+    public: "crwdns797472:0crwdne797472:0"
     #kept for backwards compatibility
     issue: "crwdns797456:0crwdne797456:0"
     lastname: "crwdns797458:0crwdne797458:0"
@@ -849,7 +892,6 @@ lol:
     password: "crwdns797466:0crwdne797466:0"
     priority: "crwdns797468:0crwdne797468:0"
     project: "crwdns797470:0crwdne797470:0"
-    public: "crwdns797472:0crwdne797472:0"
     responsible: "crwdns797474:0crwdne797474:0"
     role: "crwdns797476:0crwdne797476:0"
     roles: "crwdns797478:0crwdne797478:0"
@@ -863,6 +905,7 @@ lol:
     updated_on: "crwdns797494:0crwdne797494:0"
     uploader: "crwdns797496:0crwdne797496:0"
     user: "crwdns797498:0crwdne797498:0"
+    value: "crwdns810546:0crwdne810546:0"
     version: "crwdns797500:0crwdne797500:0"
     work_package: "crwdns797502:0crwdne797502:0"
   backup:
@@ -1204,6 +1247,7 @@ lol:
   error_enterprise_token_invalid_domain: "crwdns798058:0%{actual}crwdnd798058:0%{expected}crwdne798058:0"
   error_failed_to_delete_entry: 'crwdns798060:0crwdne798060:0'
   error_in_dependent: "crwdns798062:0%{dependent_class}crwdnd798062:0%{related_id}crwdnd798062:0%{related_subject}crwdnd798062:0%{error}crwdne798062:0"
+  error_in_new_dependent: "crwdns810548:0%{dependent_class}crwdnd810548:0%{related_subject}crwdnd810548:0%{error}crwdne810548:0"
   error_invalid_selected_value: "crwdns798064:0crwdne798064:0"
   error_journal_attribute_not_present: "crwdns798066:0%{attribute}crwdne798066:0"
   error_pdf_export_too_many_columns: "crwdns798068:0crwdne798068:0"
@@ -1313,7 +1357,9 @@ lol:
   menus:
     admin:
       mail_notification: "crwdns798246:0crwdne798246:0"
-      incoming_outgoing: "crwdns798248:0crwdne798248:0"
+      mails_and_notifications: "crwdns810550:0crwdne810550:0"
+      aggregation: 'crwdns825698:0crwdne825698:0'
+      api_and_webhooks: "crwdns810554:0crwdne810554:0"
     quick_add:
       label: "crwdns798250:0crwdne798250:0"
   my_account:
@@ -1321,7 +1367,7 @@ lol:
       no_results:
         title: "crwdns798252:0crwdne798252:0"
         description: "crwdns798254:0crwdne798254:0"
-      access_token: "crwdns798256:0crwdne798256:0"
+      access_tokens: "crwdns823916:0crwdne823916:0"
       headers:
         action: "crwdns798258:0crwdne798258:0"
         expiration: "crwdns798260:0crwdne798260:0"
@@ -1411,7 +1457,6 @@ lol:
   label_consent_settings: "crwdns798418:0crwdne798418:0"
   label_wiki_menu_item: crwdns798420:0crwdne798420:0
   label_select_main_menu_item: crwdns798422:0crwdne798422:0
-  label_select_project: "crwdns798424:0crwdne798424:0"
   label_required_disk_storage: "crwdns798426:0crwdne798426:0"
   label_send_invitation: crwdns798428:0crwdne798428:0
   label_change_plural: "crwdns798430:0crwdne798430:0"
@@ -1477,6 +1522,7 @@ lol:
   label_diff: "crwdns798550:0crwdne798550:0"
   label_diff_inline: "crwdns798552:0crwdne798552:0"
   label_diff_side_by_side: "crwdns798554:0crwdne798554:0"
+  label_digital_accessibility: 'crwdns823918:0crwdne823918:0'
   label_disabled: "crwdns798556:0crwdne798556:0"
   label_display: "crwdns798558:0crwdne798558:0"
   label_display_per_page: "crwdns798560:0%{value}crwdne798560:0"
@@ -1553,6 +1599,7 @@ lol:
   label_index_by_title: "crwdns798702:0crwdne798702:0"
   label_information: "crwdns798704:0crwdne798704:0"
   label_information_plural: "crwdns798706:0crwdne798706:0"
+  label_installation_guides: 'crwdns830172:0crwdne830172:0'
   label_integer: "crwdns798708:0crwdne798708:0"
   label_internal: "crwdns798710:0crwdne798710:0"
   label_introduction_video: "crwdns798712:0crwdne798712:0"
@@ -1596,6 +1643,10 @@ lol:
   label_member_plural: "crwdns798788:0crwdne798788:0"
   lable_membership_added: 'crwdns798790:0crwdne798790:0'
   lable_membership_updated: 'crwdns798792:0crwdne798792:0'
+  label_menu_badge:
+    pre_alpha: 'crwdns810556:0crwdne810556:0'
+    alpha: 'crwdns810558:0crwdne810558:0'
+    beta: 'crwdns810560:0crwdne810560:0'
   label_menu_item_name: "crwdns798794:0crwdne798794:0"
   label_message: "crwdns798796:0crwdne798796:0"
   label_message_last: "crwdns798798:0crwdne798798:0"
@@ -1685,7 +1736,6 @@ lol:
   label_product_version: "crwdns798966:0crwdne798966:0"
   label_professional_support: "crwdns798968:0crwdne798968:0"
   label_profile: "crwdns798970:0crwdne798970:0"
-  label_project_all: "crwdns798972:0crwdne798972:0"
   label_project_count: "crwdns798974:0crwdne798974:0"
   label_project_copy_notifications: "crwdns798976:0crwdne798976:0"
   label_project_latest: "crwdns798978:0crwdne798978:0"
@@ -1694,6 +1744,7 @@ lol:
   label_project_new: "crwdns798984:0crwdne798984:0"
   label_project_plural: "crwdns798986:0crwdne798986:0"
   label_project_settings: "crwdns798988:0crwdne798988:0"
+  label_project_storage_plural: "crwdns834530:0crwdne834530:0"
   label_projects_storage_information: "crwdns798990:0%{count}crwdnd798990:0%{storage}crwdne798990:0"
   label_project_view_all: "crwdns798992:0crwdne798992:0"
   label_project_show_details: "crwdns798994:0crwdne798994:0"
@@ -1701,7 +1752,6 @@ lol:
   label_public_projects: "crwdns798998:0crwdne798998:0"
   label_query_new: "crwdns799000:0crwdne799000:0"
   label_query_plural: "crwdns799002:0crwdne799002:0"
-  label_query_menu_item: "crwdns799004:0crwdne799004:0"
   label_read: "crwdns799006:0crwdne799006:0"
   label_register: "crwdns799008:0crwdne799008:0"
   label_register_with_developer: "crwdns799010:0crwdne799010:0"
@@ -1799,7 +1849,7 @@ lol:
   label_used_by_types: "crwdns799194:0crwdne799194:0"
   label_used_in_projects: "crwdns799196:0crwdne799196:0"
   label_user: "crwdns799198:0crwdne799198:0"
-  label_user_and_permission: "crwdns799200:0crwdne799200:0"
+  label_user_and_permission: "crwdns810562:0crwdne810562:0"
   label_user_named: "crwdns799202:0%{name}crwdne799202:0"
   label_user_activity: "crwdns799204:0%{value}crwdne799204:0"
   label_user_anonymous: "crwdns799206:0crwdne799206:0"
@@ -1846,6 +1896,7 @@ lol:
   label_wiki_start: "crwdns799288:0crwdne799288:0"
   label_work_package: "crwdns799290:0crwdne799290:0"
   label_work_package_attachments: "crwdns799292:0crwdne799292:0"
+  label_work_package_file_link_plural: "crwdns834532:0crwdne834532:0"
   label_work_package_category_new: "crwdns799294:0crwdne799294:0"
   label_work_package_category_plural: "crwdns799296:0crwdne799296:0"
   label_work_package_hierarchy: "crwdns799298:0crwdne799298:0"
@@ -1861,6 +1912,7 @@ lol:
   label_workflow: "crwdns799318:0crwdne799318:0"
   label_workflow_plural: "crwdns799320:0crwdne799320:0"
   label_workflow_summary: "crwdns799322:0crwdne799322:0"
+  label_working_days: "crwdns834534:0crwdne834534:0"
   label_x_closed_work_packages_abbr:
     one: "crwdns799324:0crwdne799324:0"
     other: "crwdns799326:0%{count}crwdne799326:0"
@@ -1921,7 +1973,7 @@ lol:
       center: 'crwdns799404:0crwdne799404:0'
       see_in_center: 'crwdns799406:0crwdne799406:0'
       settings: 'crwdns799408:0crwdne799408:0'
-    salutation: 'crwdns799410:0%{user}crwdne799410:0'
+    salutation: 'crwdns834536:0%{user}crwdne834536:0'
     work_packages:
       created_at: 'crwdns799412:0%{timestamp}crwdnd799412:0%{user}crwdne799412:0'
       login_to_see_all: 'crwdns799414:0crwdne799414:0'
@@ -1948,8 +2000,11 @@ lol:
   mail_body_backup_token_info: crwdns799450:0crwdne799450:0
   mail_body_backup_waiting_period: crwdns799452:0%{hours}crwdne799452:0
   mail_body_backup_token_warning: crwdns799454:0crwdne799454:0
+  mail_body_incoming_email_error: crwdns823920:0crwdne823920:0
+  mail_body_incoming_email_error_in_reply_to: "crwdns823922:0%{received_at}crwdnd823922:0%{from_email}crwdne823922:0"
+  mail_body_incoming_email_error_logs: "crwdns823924:0crwdne823924:0"
   mail_body_lost_password: "crwdns799456:0crwdne799456:0"
-  mail_body_register: "crwdns799458:0crwdne799458:0"
+  mail_body_register: "crwdns810564:0%{app_title}crwdne810564:0"
   mail_body_register_header_title: "crwdns799460:0crwdne799460:0"
   mail_body_register_user: "crwdns799462:0%{name}crwdne799462:0"
   mail_body_register_links_html: |
@@ -1963,6 +2018,7 @@ lol:
   mail_subject_account_activation_request: "crwdns799478:0%{value}crwdne799478:0"
   mail_subject_backup_ready: "crwdns799480:0crwdne799480:0"
   mail_subject_backup_token_reset: "crwdns799482:0crwdne799482:0"
+  mail_subject_incoming_email_error: "crwdns823926:0crwdne823926:0"
   mail_subject_lost_password: "crwdns799484:0%{value}crwdne799484:0"
   mail_subject_register: "crwdns799486:0%{value}crwdne799486:0"
   mail_subject_reminder: "crwdns799488:0%{count}crwdnd799488:0%{days}crwdne799488:0"
@@ -2054,6 +2110,10 @@ lol:
   notice_successful_create: "crwdns799636:0crwdne799636:0"
   notice_successful_delete: "crwdns799638:0crwdne799638:0"
   notice_successful_update: "crwdns799640:0crwdne799640:0"
+  notice_successful_update_custom_fields_added_to_project: |
+    crwdns823928:0%{url}crwdne823928:0
+  notice_successful_update_custom_fields_added_to_type: |
+    crwdns823930:0crwdne823930:0
   notice_to_many_principals_to_display: "crwdns799642:0crwdne799642:0"
   notice_user_missing_authentication_method: crwdns799644:0crwdne799644:0
   notice_user_invitation_resent: crwdns799646:0%{email}crwdne799646:0
@@ -2086,9 +2146,8 @@ lol:
           tb: "crwdns799680:0crwdne799680:0"
   onboarding:
     heading_getting_started: "crwdns799682:0crwdne799682:0"
-    text_getting_started_description: "crwdns799684:0crwdne799684:0"
-    text_show_again: "crwdns799686:0crwdne799686:0"
-    welcome: "crwdns799688:0crwdne799688:0"
+    text_getting_started_description: "crwdns834538:0crwdne834538:0"
+    welcome: "crwdns810566:0%{app_title}crwdne810566:0"
     select_language: "crwdns799690:0crwdne799690:0"
   permission_add_work_package_notes: "crwdns799692:0crwdne799692:0"
   permission_add_work_packages: "crwdns799694:0crwdne799694:0"
@@ -2104,6 +2163,7 @@ lol:
   permission_comment_news: "crwdns799714:0crwdne799714:0"
   permission_commit_access: "crwdns799716:0crwdne799716:0"
   permission_copy_projects: "crwdns799718:0crwdne799718:0"
+  permission_create_backup: "crwdns810568:0crwdne810568:0"
   permission_delete_work_package_watchers: "crwdns799720:0crwdne799720:0"
   permission_delete_work_packages: "crwdns799722:0crwdne799722:0"
   permission_delete_messages: "crwdns799724:0crwdne799724:0"
@@ -2120,13 +2180,14 @@ lol:
   permission_edit_own_time_entries: "crwdns799746:0crwdne799746:0"
   permission_edit_project: "crwdns799748:0crwdne799748:0"
   permission_edit_reportings: "crwdns799750:0crwdne799750:0"
-  permission_edit_time_entries: "crwdns799752:0crwdne799752:0"
+  permission_edit_time_entries: "crwdns824872:0crwdne824872:0"
   permission_edit_timelines: "crwdns799754:0crwdne799754:0"
   permission_edit_wiki_pages: "crwdns799756:0crwdne799756:0"
   permission_export_work_packages: "crwdns799758:0crwdne799758:0"
   permission_export_wiki_pages: "crwdns799760:0crwdne799760:0"
   permission_list_attachments: "crwdns799762:0crwdne799762:0"
-  permission_log_time: "crwdns799764:0crwdne799764:0"
+  permission_log_own_time: "crwdns824874:0crwdne824874:0"
+  permission_log_time: "crwdns824876:0crwdne824876:0"
   permission_manage_forums: "crwdns799766:0crwdne799766:0"
   permission_manage_categories: "crwdns799768:0crwdne799768:0"
   permission_manage_work_package_relations: "crwdns799770:0crwdne799770:0"
@@ -2146,7 +2207,6 @@ lol:
   permission_select_custom_fields: "crwdns799798:0crwdne799798:0"
   permission_select_project_modules: "crwdns799800:0crwdne799800:0"
   permission_manage_types: "crwdns799802:0crwdne799802:0"
-  permission_view_calendar: "crwdns799804:0crwdne799804:0"
   permission_view_changesets: "crwdns799806:0crwdne799806:0"
   permission_view_commit_author_statistics: "crwdns799808:0crwdne799808:0"
   permission_view_work_package_watchers: "crwdns799810:0crwdne799810:0"
@@ -2158,6 +2218,8 @@ lol:
   permission_view_timelines: "crwdns799822:0crwdne799822:0"
   permission_view_wiki_edits: "crwdns799824:0crwdne799824:0"
   permission_view_wiki_pages: "crwdns799826:0crwdne799826:0"
+  permission_work_package_assigned: "crwdns810570:0crwdne810570:0"
+  permission_work_package_assigned_explanation: "crwdns810572:0crwdne810572:0"
   placeholders:
     default: "crwdns799828:0crwdne799828:0"
   project:
@@ -2182,7 +2244,6 @@ lol:
       archived: "crwdns799856:0crwdne799856:0"
   project_module_activity: "crwdns799858:0crwdne799858:0"
   project_module_forums: "crwdns799860:0crwdne799860:0"
-  project_module_calendar: "crwdns799862:0crwdne799862:0"
   project_module_work_package_tracking: "crwdns799864:0crwdne799864:0"
   project_module_news: "crwdns799866:0crwdne799866:0"
   project_module_repository: "crwdns799868:0crwdne799868:0"
@@ -2196,7 +2257,7 @@ lol:
     assigned_to_role: "crwdns799876:0crwdne799876:0"
     member_of_group: "crwdns799878:0crwdne799878:0"
     assignee_or_group: "crwdns799880:0crwdne799880:0"
-    subproject_id: "crwdns799882:0crwdne799882:0"
+    subproject_id: "crwdns810574:0crwdne810574:0"
     only_subproject_id: "crwdns799884:0crwdne799884:0"
     name_or_identifier: "crwdns799886:0crwdne799886:0"
   repositories:
@@ -2282,6 +2343,11 @@ lol:
     storage:
       not_available: "crwdns800022:0crwdne800022:0"
       update_timeout: "crwdns800024:0crwdne800024:0"
+      oauth_application_details: "crwdns823932:0crwdne823932:0"
+      oauth_application_details_link_text: "crwdns823934:0crwdne823934:0"
+      setup_documentation_details: "crwdns834540:0crwdne834540:0"
+      setup_documentation_details_link_text: "crwdns834542:0crwdne834542:0"
+      show_warning_details: "crwdns824146:0crwdne824146:0"
     subversion:
       existing_title: "crwdns800026:0crwdne800026:0"
       existing_introduction: "crwdns800028:0crwdne800028:0"
@@ -2325,7 +2391,7 @@ lol:
   setting_smtp_authentication: "crwdns800092:0crwdne800092:0"
   setting_smtp_user_name: "crwdns800094:0crwdne800094:0"
   setting_smtp_password: "crwdns800096:0crwdne800096:0"
-  setting_smtp_domain: "crwdns800098:0crwdne800098:0"
+  setting_smtp_domain: "crwdns823936:0crwdne823936:0"
   setting_activity_days_default: "crwdns800100:0crwdne800100:0"
   setting_app_subtitle: "crwdns800102:0crwdne800102:0"
   setting_app_title: "crwdns800104:0crwdne800104:0"
@@ -2361,7 +2427,6 @@ lol:
   setting_email_login: "crwdns800164:0crwdne800164:0"
   setting_enabled_scm: "crwdns800166:0crwdne800166:0"
   setting_enabled_projects_columns: "crwdns800168:0crwdne800168:0"
-  setting_notification_retention_period_days: "crwdns800170:0crwdne800170:0"
   setting_feeds_enabled: "crwdns800172:0crwdne800172:0"
   setting_feeds_limit: "crwdns800174:0crwdne800174:0"
   setting_file_max_size_displayed: "crwdns800176:0crwdne800176:0"
@@ -2374,7 +2439,7 @@ lol:
   setting_work_package_list_default_columns: "crwdns800190:0crwdne800190:0"
   setting_work_package_properties: "crwdns800192:0crwdne800192:0"
   setting_work_package_startdate_is_adddate: "crwdns800194:0crwdne800194:0"
-  setting_work_packages_export_limit: "crwdns800196:0crwdne800196:0"
+  setting_work_packages_projects_export_limit: "crwdns824226:0crwdne824226:0"
   setting_journal_aggregation_time_minutes: "crwdns800198:0crwdne800198:0"
   setting_log_requesting_user: "crwdns800200:0crwdne800200:0"
   setting_login_required: "crwdns800202:0crwdne800202:0"
@@ -2434,8 +2499,6 @@ lol:
       whitelist_text_html: >
         crwdns800306:0%{ext_example}crwdnd800306:0%{mime_example}crwdne800306:0
     notifications:
-      retention_text: >
-        crwdns800308:0crwdne800308:0
       events_explanation: 'crwdns800310:0crwdne800310:0'
       delay_minutes_explanation: "crwdns800312:0crwdne800312:0"
     display:
@@ -2473,6 +2536,7 @@ lol:
   text_access_token_hint: "crwdns800356:0crwdne800356:0"
   text_analyze: "crwdns800358:0%{subject}crwdne800358:0"
   text_are_you_sure: "crwdns800360:0crwdne800360:0"
+  text_are_you_sure_continue: "crwdns834544:0crwdne834544:0"
   text_are_you_sure_with_children: "crwdns800362:0crwdne800362:0"
   text_assign_to_project: "crwdns800364:0crwdne800364:0"
   text_form_configuration: >
@@ -2487,6 +2551,12 @@ lol:
     crwdns800380:0crwdne800380:0
   text_custom_field_hint_activate_per_project_and_type: >
     crwdns800382:0crwdne800382:0
+  text_wp_custom_field_html: >
+    crwdns825442:0crwdne825442:0
+  text_wp_status_read_only_html: >
+    crwdns825444:0crwdne825444:0
+  text_project_custom_field_html: >
+    crwdns825446:0crwdne825446:0
   text_custom_logo_instructions: >
     crwdns800384:0crwdne800384:0
   text_custom_favicon_instructions: >
@@ -2518,7 +2588,6 @@ lol:
   text_work_packages_destroy_confirmation: "crwdns800434:0crwdne800434:0"
   text_work_packages_ref_in_commit_messages: "crwdns800436:0crwdne800436:0"
   text_journal_added: "crwdns800438:0%{label}crwdnd800438:0%{value}crwdne800438:0"
-  text_journal_aggregation_time_explanation: "crwdns800440:0crwdne800440:0"
   text_journal_changed_html: "crwdns800442:0%{label}crwdnd800442:0%{old}crwdnd800442:0%{linebreak}crwdnd800442:0%{new}crwdne800442:0"
   text_journal_changed_plain: "crwdns800444:0%{label}crwdnd800444:0%{old}crwdnd800444:0%{linebreak}crwdnd800444:0%{new}crwdne800444:0"
   text_journal_changed_no_detail: "crwdns800446:0%{label}crwdne800446:0"
@@ -2661,7 +2730,6 @@ lol:
       noneSelection: "crwdns800690:0crwdne800690:0"
       outline: "crwdns800692:0crwdne800692:0"
       parent: "crwdns800694:0crwdne800694:0"
-      work_package_filters: "crwdns800696:0crwdne800696:0"
       work_package_responsible: "crwdns800698:0crwdne800698:0"
       work_package_assignee: "crwdns800700:0crwdne800700:0"
       types: "crwdns800702:0crwdne800702:0"
@@ -2793,10 +2861,10 @@ lol:
   warning_protocol_mismatch_html: >
     crwdns800914:0crwdne800914:0
   warning_bar:
-    protocol_mismatch:
-      title: 'crwdns800916:0crwdne800916:0'
+    https_mismatch:
+      title: 'crwdns830174:0crwdne830174:0'
       text_html: >
-        crwdns800918:0%{set_protocol}crwdnd800918:0%{actual_protocol}crwdnd800918:0%{setting_path}crwdne800918:0
+        crwdns830176:0%{set_protocol}crwdnd830176:0%{actual_protocol}crwdnd830176:0%{setting_value}crwdnd830176:0%{more_info_path}crwdne830176:0
     hostname_mismatch:
       title: 'crwdns800920:0crwdne800920:0'
       text_html: >
@@ -2808,7 +2876,6 @@ lol:
   wiki_menu_item_new_main_item_explanation: >
     crwdns800932:0crwdne800932:0
   wiki_menu_item_delete_not_permitted: crwdns800934:0crwdne800934:0
-  query_menu_item_for: "crwdns800936:0%{title}crwdne800936:0"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2816,6 +2883,17 @@ lol:
     destroy:
       info: "crwdns800940:0crwdne800940:0"
       title: "crwdns800942:0crwdne800942:0"
+  working_days:
+    info: >
+      crwdns834546:0crwdne834546:0
+    change_button: "crwdns834548:0crwdne834548:0"
+    warning: >
+      crwdns834550:0crwdne834550:0
+    journal_note:
+      changed: crwdns834552:0%{changes}crwdne834552:0
+      days:
+        working: "crwdns834554:0%{day}crwdne834554:0"
+        non_working: "crwdns834556:0%{day}crwdne834556:0"
   nothing_to_preview: "crwdns800944:0crwdne800944:0"
   api_v3:
     attributes:
@@ -2833,6 +2911,7 @@ lol:
         work_package: "crwdns800964:0crwdne800964:0"
       expected:
         date: "crwdns800966:0crwdne800966:0"
+        datetime: "crwdns810576:0[.lll]crwdne810576:0"
         duration: "crwdns800968:0crwdne800968:0"
       invalid_content_type: "crwdns800970:0%{content_type}crwdnd800970:0%{actual}crwdne800970:0"
       invalid_format: "crwdns800972:0%{property}crwdnd800972:0%{expected_format}crwdnd800972:0%{actual}crwdne800972:0"
@@ -2844,6 +2923,7 @@ lol:
         select: "crwdns800982:0%{invalid}crwdnd800982:0%{supported}crwdne800982:0"
       invalid_user_status_transition: "crwdns800984:0crwdne800984:0"
       missing_content_type: "crwdns800986:0crwdne800986:0"
+      missing_property: "crwdns810578:0%{property}crwdne810578:0"
       missing_request_body: "crwdns800988:0crwdne800988:0"
       missing_or_malformed_parameter: "crwdns800990:0%{parameter}crwdne800990:0"
       multipart_body_error: "crwdns800992:0crwdne800992:0"
@@ -2867,6 +2947,7 @@ lol:
       schema: 'crwdns801020:0crwdne801020:0'
     undisclosed:
       parent: crwdns801022:0crwdne801022:0
+      ancestor: crwdns810580:0crwdne810580:0
   doorkeeper:
     pre_authorization:
       status: 'crwdns801024:0crwdne801024:0'
@@ -2958,4 +3039,51 @@ lol:
     authorization_error: "crwdns801148:0crwdne801148:0"
     revoke_my_application_confirmation: "crwdns801150:0%{token_count}crwdne801150:0"
     my_registered_applications: "crwdns801152:0crwdne801152:0"
+  oauth_client:
+    urn_connection_status:
+      connected: "crwdns823938:0crwdne823938:0"
+      error: "crwdns823940:0crwdne823940:0"
+      failed_authorization: "crwdns823942:0crwdne823942:0"
+    labels:
+      label_oauth_integration: "crwdns823944:0crwdne823944:0"
+      label_redirect_uri: "crwdns823946:0crwdne823946:0"
+      label_request_token: "crwdns823948:0crwdne823948:0"
+      label_refresh_token: "crwdns823950:0crwdne823950:0"
+    errors:
+      oauth_authorization_code_grant_had_errors: "crwdns823952:0crwdne823952:0"
+      oauth_reported: "crwdns823954:0crwdne823954:0"
+      oauth_returned_error: "crwdns823956:0crwdne823956:0"
+      oauth_returned_json_error: "crwdns823958:0crwdne823958:0"
+      oauth_returned_http_error: "crwdns823960:0crwdne823960:0"
+      oauth_returned_standard_error: "crwdns823962:0crwdne823962:0"
+      wrong_token_type_returned: "crwdns823964:0crwdne823964:0"
+      oauth_issue_contact_admin: "crwdns823966:0crwdne823966:0"
+      oauth_client_not_found: "crwdns823968:0crwdne823968:0"
+      refresh_token_called_without_existing_token: >
+        crwdns823970:0crwdne823970:0
+      refresh_token_updated_failed: "crwdns823972:0crwdne823972:0"
+      oauth_client_not_found_explanation: >
+        crwdns823974:0crwdne823974:0
+      oauth_code_not_present: "crwdns823976:0crwdne823976:0"
+      oauth_code_not_present_explanation: >
+        crwdns823978:0crwdne823978:0
+      oauth_state_not_present: "crwdns823980:0crwdne823980:0"
+      oauth_state_not_present_explanation: >
+        crwdns823982:0crwdne823982:0
+      rack_oauth2:
+        client_secret_invalid: "crwdns823984:0crwdne823984:0"
+        invalid_request: >
+          crwdns823986:0crwdne823986:0
+        invalid_response: "crwdns823988:0crwdne823988:0"
+        invalid_grant: "crwdns823990:0crwdne823990:0"
+        invalid_client: "crwdns823992:0crwdne823992:0"
+        unauthorized_client: "crwdns823994:0crwdne823994:0"
+        unsupported_grant_type: "crwdns823996:0crwdne823996:0"
+        invalid_scope: "crwdns823998:0crwdne823998:0"
+  http:
+    request:
+      failed_authorization: "crwdns824000:0crwdne824000:0"
+      missing_authorization: "crwdns824002:0crwdne824002:0"
+    response:
+      unexpected: "crwdns824004:0crwdne824004:0"
   you: crwdns801154:0crwdne801154:0

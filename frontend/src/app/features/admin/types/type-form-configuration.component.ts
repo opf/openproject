@@ -70,13 +70,16 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
 
   private no_filter_query:string;
 
-  constructor(private elementRef:ElementRef,
+  constructor(
+    private elementRef:ElementRef,
     private I18n:I18nService,
     private Gon:GonService,
     private dragula:DragulaService,
     private confirmDialog:ConfirmDialogService,
     private toastService:ToastService,
-    private externalRelationQuery:ExternalRelationQueryConfigurationService) {
+    private externalRelationQuery:ExternalRelationQueryConfigurationService,
+    readonly typeBanner:TypeBannerService,
+  ) {
     super();
   }
 
@@ -154,45 +157,55 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     );
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit():void {
     const menu = jQuery(this.elementRef.nativeElement).find('.toolbar-items');
     installMenuLogic(menu);
   }
 
-  public deactivateAttribute(attribute:TypeFormAttribute) {
+  deactivateAttribute(attribute:TypeFormAttribute):void {
     this.updateInactives(this.inactives.concat(attribute));
   }
 
-  public addGroupAndOpenQuery():void {
+  addGroupAndOpenQuery():void {
     const newGroup = this.createGroup('query');
     this.editQuery(newGroup);
   }
 
-  public editQuery(group:TypeGroup) {
-    // Disable display mode and timeline for now since we don't want users to enable it
-    const disabledTabs = {
-      'display-settings': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
-      timelines: I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
-    };
+  editQuery(group:TypeGroup):void {
+    this.typeBanner.conditional(
+      () => this.typeBanner.showEEOnlyHint(),
+      () => {
+        // Disable display mode and timeline for now since we don't want users to enable it
+        const disabledTabs = {
+          'display-settings': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
+          timelines: I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
+        };
 
-    this.externalRelationQuery.show({
-      currentQuery: JSON.parse(group.query),
-      callback: (queryProps:any) => (group.query = JSON.stringify(queryProps)),
-      disabledTabs,
-    });
+        this.externalRelationQuery.show({
+          currentQuery: JSON.parse(group.query),
+          callback: (queryProps:any) => (group.query = JSON.stringify(queryProps)),
+          disabledTabs,
+        });
+      },
+    );
   }
 
-  public deleteGroup(group:TypeGroup) {
-    if (group.type === 'attribute') {
-      this.updateInactives(this.inactives.concat(group.attributes));
-    }
+  deleteGroup(group:TypeGroup):void {
+    this.typeBanner.conditional(
+      () => this.typeBanner.showEEOnlyHint(),
+      () => {
+        if (group.type === 'attribute') {
+          this.updateInactives(this.inactives.concat(group.attributes));
+        }
 
-    this.groups = this.groups.filter((el) => el !== group);
+        this.groups = this.groups.filter((el) => el !== group);
 
-    return group;
+        return group;
+      },
+    );
   }
 
-  public createGroup(type:TypeGroupType, groupName = '') {
+  createGroup(type:TypeGroupType, groupName = ''):TypeGroup {
     const group:TypeGroup = {
       type,
       name: groupName,
@@ -205,7 +218,7 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     return group;
   }
 
-  public resetToDefault($event:Event):boolean {
+  resetToDefault($event:Event):boolean {
     this.confirmDialog
       .confirm({
         text: {
@@ -227,7 +240,7 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     return false;
   }
 
-  private updateInactives(newValue:TypeFormAttribute[]) {
+  private updateInactives(newValue:TypeFormAttribute[]):void {
     this.inactives = [...newValue].sort((a, b) => a.translation.localeCompare(b.translation));
   }
 
@@ -241,7 +254,7 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     };
   }
 
-  private updateHiddenFields() {
+  private updateHiddenFields():void {
     const hiddenField = this.form.find('.admin-type-form--hidden-field');
     if (this.groups.length === 0) {
       // Ensure we're adding an empty group if deliberately removing

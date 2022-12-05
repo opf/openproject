@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -57,7 +57,7 @@ ca:
     hours: "Hores"
     impediment: "Impediment"
     label_versions_default_fold_state: "Mostra les versions contretes"
-    work_package_is_closed: "Paquet de treball està fet, quan"
+    work_package_is_closed: "Paquet de treball completat, quan"
     label_is_done_status: "L'estat %{status_name} significa fet"
     no_burndown_data: "No hi ha dades de progrés disponibles. És necessari tenir establertes les dates de l'inici i el final del sprint."
     points: "Punts"
@@ -99,7 +99,7 @@ ca:
   backlogs_empty_title: "No hi ha versions definides per a ser utilitzades als backlogs"
   backlogs_empty_action_text: "Per a introduir-vos amb els backlogs, genereu una nova versió i assigneu-la a la columna backlogs."
   button_edit_wiki: "Edita la pàgina wiki"
-  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
+  error_backlogs_task_cannot_be_story: "La configuració és invàlida. El tipus de tasca seleccionada no pot ser alhora un tipus d'història."
   error_intro_plural: "S'han produït els següents errors:"
   error_intro_singular: "S'ha produït el següent error:"
   error_outro: "Corregiu els errors anteriors abans d'enviar-ho una altra vegada."
@@ -110,7 +110,7 @@ ca:
   label_back_to_project: "Tornar a la pàgina del projecte"
   label_backlog: "Backlog"
   label_backlogs: "Backlogs"
-  label_backlogs_unconfigured: "No heu configurat les llistes de pendents encara. Si us plau aneu a %{administration} > %{plugins}, a continuació, feu clic a l'enllaç de %{configure} per a aquest plugin. Una vegada que hagueu establert els camps, torneu a aquesta pàgina per començar a utilitzar l'eina."
+  label_backlogs_unconfigured: "No has configurat les llistes de pendents encara. Si us plau, ves a %{administration} > %{plugins}, a continuació, fes clic a l'enllaç de %{configure} per a aquest plugin. Una vegada hagis omplert els camps, torna a aquesta pàgina per començar a utilitzar l'eina."
   label_blocks_ids: "Identificadors dels paquets de treball bloquejats"
   label_burndown: "Progrés"
   label_column_in_backlog: "Columna al backlog"
@@ -153,7 +153,7 @@ ca:
   remaining_hours: "hores restants"
   required_burn_rate_hours: "ritme de progrés necessari (hores)"
   required_burn_rate_points: "ritme de progrés necessari (punts)"
-  todo_work_package_description: "%{summary}: %{url}%{description}"
+  todo_work_package_description: "%{summary}: %{url}\n%{description}"
   todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Columna al backlog"
   version_settings_display_option_left: "esquerra"

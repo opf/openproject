@@ -4,7 +4,7 @@ import {
   IOPFormlyTemplateOptions,
 } from 'core-app/shared/components/dynamic-forms/typings';
 import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -35,7 +35,7 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   };
 
   constructor(
-    private apiV3Service:APIV3Service,
+    private apiV3Service:ApiV3Service,
     private currentProjectService:CurrentProjectService,
     private pathHelperService:PathHelperService,
     private modalService:OpModalService,
@@ -84,6 +84,6 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   }
 
   private isMeta(property:string|undefined):boolean {
-    return !!property && (property.startsWith('copy') || property == 'sendNotifications');
+    return !!property && (property.startsWith('copy') || property === 'sendNotifications');
   }
 }

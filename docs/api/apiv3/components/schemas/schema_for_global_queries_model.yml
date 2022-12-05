@@ -62,24 +62,28 @@ example:
     required: false
     hasDefault: true
     writable: true
+    deprecated: true
   timelineZoomLevel:
     type: String
     name: Timeline zoom level
     required: false
     hasDefault: true
     writable: true
+    deprecated: true
   timelineLabels:
     type: QueryTimelineLabels
     name: Timeline labels
     required: false
     hasDefault: true
     writable: true
+    deprecated: true
   highlightingMode:
     type: String
     name: Highlighting mode
     required: false
     hasDefault: true
     writable: true
+    deprecated: true
   highlightedAttributes:
     type: "[]QueryColumn"
     name: Highlighted attributes
@@ -87,12 +91,14 @@ example:
     hasDefault: true
     writable: true
     location: _links
+    deprecated: true
   showHierarchies:
     type: Boolean
     name: Show hierarchies
     required: false
     hasDefault: true
     writable: true
+    deprecated: true
   starred:
     type: Boolean
     name: Starred

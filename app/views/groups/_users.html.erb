@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -53,11 +53,14 @@ See COPYRIGHT and LICENSE files for more details.
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%=t(:label_user_new)%></legend>
           <div class="form--field -vertical">
-            <%= hidden_field_tag :user_ids, nil  %>
-            <user-autocompleter data-update-input="user_ids"
-                                data-additional-filter="<%= @autocompleter_filters&.to_json %>"
-                                class="new-group-members--autocomplete">
-            </user-autocompleter>
+            <%=
+            angular_component_tag 'op-user-autocompleter',
+                                  inputs: {
+                                    additionalFilters: autocompleter_filters(@group),
+                                    name: 'user_ids',
+                                  },
+                                  class: "new-group-members--autocomplete"
+            %>
           </div>
           <div>
             <%= styled_button_tag t(:button_add),

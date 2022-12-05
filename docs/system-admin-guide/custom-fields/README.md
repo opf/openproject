@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Custom fields
   priority: 800
 description: Manage custom fields in OpenProject.
-robots: index, follow
 keywords: manage custom fields
 ---
 # Manage custom fields
@@ -43,13 +42,11 @@ Depending on the module, for which the new custom field is being  created, sligh
 
 ## Assigning the custom field to a work package type and project
 
-<div class="alert alert-info" role="alert">
-**Note**: Custom fields need to be activated per work package type and per project. Work package custom fields are only visible when two conditions are met:
-    1. Custom field has been added to the work package type (form configuration).
-    2. Custom field is activated for the project.
-</div>
+> **Note**: Custom fields need to be activated per work package type and per project. Work package custom fields are only visible when two conditions are met:
+>     1. Custom field has been added to the work package type (form configuration).
+>     2. Custom field is activated for the project.
 
-1. [Assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration) (Form configuration). You can do this directly via the link in the custom field overview.
+1. [Assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration-premium-feature) (Form configuration). You can do this directly via the link in the custom field overview.
 
 ![Sys-admin-add-custom-field](Sys-admin-add-custom-field.png)
 
@@ -79,4 +76,4 @@ To create a multi-select custom field follow the same steps as you would when [c
 
 When using multi-select custom fields, you can add as many options as required. The cross icon next to an option will remove it from the selection. The check mark will save your changes.
 
-​       ![Sys-admin-add-multi-select-custom-fields](Sys-admin-add-multi-select-custom-fields.png)
+![Sys-admin-add-multi-select-custom-fields](Sys-admin-add-multi-select-custom-fields.png)

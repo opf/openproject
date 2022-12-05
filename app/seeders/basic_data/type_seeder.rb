@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,20 +48,17 @@ module BasicData
     #
     # @return [Array<Hash>] List of attributes for each type.
     def data
-      colors = Color.all
-      colors = colors.map { |c| { c.name => c.id } }.reduce({}, :merge)
+      colors = Color.pluck(:name, :id).to_h
 
-      type_table.map do |_name, values|
-        color_id = colors[values[2]] || values[2]
-
+      type_table.map do |_name, (position, is_default, color_name, is_in_roadmap, is_milestone, type_name)|
         {
-          name: I18n.t(values[5]),
-          position: values[0],
-          is_default: values[1],
-          color_id: color_id,
-          is_in_roadmap: values[3],
-          is_milestone: values[4],
-          description: type_description(values[5])
+          name: I18n.t(type_name),
+          position:,
+          is_default:,
+          color_id: colors.fetch(color_name),
+          is_in_roadmap:,
+          is_milestone:,
+          description: type_description(type_name)
         }
       end
     end
@@ -110,7 +105,7 @@ module BasicData
     private
 
     def find_query_by_name(name)
-      Query.find_by(name: name).id
+      Query.find_by(name:).id
     end
   end
 end

@@ -1,5 +1,5 @@
 import { Store, StoreConfig } from '@datorama/akita';
-import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 
 export interface IanMenuGroupingData {
   value:string;
@@ -20,16 +20,16 @@ export interface BaseMenuItemData {
 export interface IanMenuState {
   notificationsByProject:IanMenuGroupingData[],
   notificationsByReason:IanMenuGroupingData[],
-  projectsFilter:Apiv3ListParameters,
+  projectsFilter:ApiV3ListParameters,
 }
 
-export const IAN_MENU_PROJECT_FILTERS:Apiv3ListParameters = {
+export const IAN_MENU_PROJECT_FILTERS:ApiV3ListParameters = {
   pageSize: 100,
   groupBy: 'project',
   filters: [['read_ian', '=', false]],
 };
 
-export const IAN_MENU_REASON_FILTERS:Apiv3ListParameters = {
+export const IAN_MENU_REASON_FILTERS:ApiV3ListParameters = {
   pageSize: 100,
   groupBy: 'reason',
   filters: [['read_ian', '=', false]],

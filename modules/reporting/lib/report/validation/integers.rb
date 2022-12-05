@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,12 +33,12 @@ module Report::Validation
       return true if values.empty?
 
       values.flatten.all? do |val|
-        if val.to_i.to_s != val.to_s
+        if val.to_i.to_s == val.to_s
+          true
+        else
           errors[:int] << val
           validate_integers(values - [val])
           false
-        else
-          true
         end
       end
     end

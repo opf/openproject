@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,18 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { RoleResource } from 'core-app/features/hal/resources/role-resource';
-import { APIv3RolePaths } from 'core-app/core/apiv3/endpoints/roles/apiv3-role-paths';
+import { ApiV3RolePaths } from 'core-app/core/apiv3/endpoints/roles/apiv3-role-paths';
 import { Observable } from 'rxjs';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { tap } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
-export class APIv3RolesPaths extends APIv3ResourceCollection<RoleResource, APIv3RolePaths> {
-  constructor(protected apiRoot:APIV3Service,
+export class ApiV3RolesPaths extends ApiV3ResourceCollection<RoleResource, ApiV3RolePaths> {
+  constructor(protected apiRoot:ApiV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'roles', APIv3RolePaths);
+    super(apiRoot, basePath, 'roles', ApiV3RolePaths);
   }
 
   /**

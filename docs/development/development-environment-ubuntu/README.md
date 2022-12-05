@@ -17,7 +17,7 @@ If you find any bugs or you have any recommendations for improving this tutorial
 
 We need an active Ruby and Node JS environment to run OpenProject. To this end, we need some packages installed on the system.o
 
-CPU recommendation: 4 CPUs, Memory recommendation: 8 better 16 GB (in general we meed double the amount of a normal production installation)
+CPU recommendation: 4 CPUs, Memory recommendation: 8 better 16 GB (in general we need double the amount of a normal production installation)
 
 ```bash
 sudo apt-get update
@@ -26,7 +26,7 @@ sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev 
 
 ## Install Ruby
 
-Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "2.7.5"
+Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "3.1.2"
 
 ### Install rbenv and ruby-build
 
@@ -57,23 +57,23 @@ ruby-build is an addon to rbenv that installs ruby versions
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 ```
 
-### Installing ruby-2.7
+### Installing ruby-3.0
 
-With both installed, we can now install the actual ruby version 2.7. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `2.7.5`, which we also require.
+With both installed, we can now install the actual ruby version 3.0. You can check available ruby versions with `rbenv install --list`.
+At the time of this writing, the latest stable version is `3.1.2` which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-rbenv install 2.7.5
+rbenv install 3.1.2
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-rbenv global 2.7.5
+rbenv global 3.1.2
 rbenv rehash
 ```
 
@@ -137,7 +137,7 @@ git clone https://github.com/nodenv/node-build.git $(nodenv root)/plugins/node-b
 
 ### Install latest LTS node version
 
-You can find the latest LTS version here: https://nodejs.org/en/download/
+You can find the latest LTS version here: [nodejs.org/en/download/](https://nodejs.org/en/download/)
 
 At the time of writing this is v16.13.1 Install and activate it with:
 
@@ -159,10 +159,10 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 ruby --version
-ruby 2.7.5p203 (2021-11-24 revision f69aeb8314) [x86_64-linux]
+ruby 3.1.2p20 (2022-04-12 revision 4491bb740a) [x86_64-linux]
 
 bundler --version
-Bundler version 2.2.33
+Bundler version 2.3.12
 
 node --version
 v16.13.1
@@ -176,7 +176,7 @@ npm --version
 In order to create a pull request to the core OpenProject repository, you will want to fork it to your own GitHub account.
 This allows you to create branches and push changes and finally opening a pull request for us to review.
 
-To do that, go to https://github.com/opf/openproject and press "Fork" on the upper right corner.
+To do that, go to [github.com/opf/openproject](https://github.com/opf/openproject) and press "Fork" on the upper right corner.
 
 ```bash
 # Download the repository
@@ -218,6 +218,8 @@ test:
   database: openproject_test
 ```
 
+To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be automatically loaded to the application's environment.
+
 ## Finish the Installation of OpenProject
 
 Install code dependencies, link plugin modules and export translation files.
@@ -246,14 +248,14 @@ gem install foreman
 foreman start -f Procfile.dev
 ```
 The application will be available at `http://127.0.0.1:3000`. To customize bind address and port copy the `.env.example` provided in the root of this
-project as `.env` and [configure values][foreman-env] as required.
+project as `.env` and [configure values](https://ddollar.github.io/foreman/#ENVIRONMENT) as required.
 
 By default a worker process will also be started. In development asynchronous execution of long-running background tasks (sending emails, copying projects,
-etc.) may be of limited use. To disable the worker process:
+etc.) may be of limited use and it has known issues with regards to memory (see background worker section below). To disable the worker process:
 
 echo "concurrency: web=1,assets=1,worker=0" >> .foreman
 
-For more information refer to Foreman documentation section on [default options][foreman-defaults].
+For more information refer to Foreman documentation section on [default options](https://ddollar.github.io/foreman/#DEFAULT-OPTIONS).
 
 You can access the application with the admin-account having the following credentials:
 
@@ -267,7 +269,7 @@ To run OpenProject manually, you need to run the rails server and the webpack fr
 ### Rails web server
 
 ```bash
-RAILS_ENV=development ./bin/rails server
+RAILS_ENV=development bin/rails server
 ```
 
 This will start the development server on port `3000` by default.
@@ -285,6 +287,33 @@ should you be working on the TypeScript / Angular frontend part.
 
 You can then access the application either through `localhost:3000` (Rails server) or through the frontend proxied `http://localhost:4200`, which will provide hot reloading for changed frontend code.
 
+### Background job worker
+
+```bash
+RAILS_ENV=development bin/rails jobs:work
+```
+
+This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
+
+
+
+## Known issues
+
+### Memory management
+
+The delayed_job background worker reloads the application for every job in development mode. This is a know issue and documented here: https://github.com/collectiveidea/delayed_job/issues/823
+
+
+
+### Spawning a lot of browser tabs
+
+If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs before starting the worker, use the following command. **This will remove all currently scheduled jobs, never use this in a production setting.**
+
+```bash
+RAILS_ENV=development bin/rails runner "Delayed::Job.delete_all"
+```
+
+
 ## Start Coding
 
 Please have a look at [our development guidelines](../code-review-guidelines/) for tips and guides on how to start coding. We have advice on how to get your changes back into the OpenProject core as smooth as possible.
@@ -300,6 +329,3 @@ If an error occurs, it should be logged there (as well as in the output to STDOU
 
 If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the appropriate community.openproject.org [forum](https://community.openproject.org/projects/openproject/boards/9).
 [Follow OpenProject on twitter](https://twitter.com/openproject), and follow [the news](https://www.openproject.org/blog) to stay up to date.
-
-[foreman-defaults]:http://ddollar.github.io/foreman/#DEFAULT-OPTIONS
-[foreman-env]:http://ddollar.github.io/foreman/#ENVIRONMENT

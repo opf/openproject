@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +52,7 @@ module API
                         represented.scope = fragment['href']
                       }
 
-        self_link title_getter: ->(*) { nil }
+        self_link title_getter: ->(*) {}
 
         link :updateImmediately,
              cache_if: -> { write_allowed? } do
@@ -92,23 +92,23 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) do
                    represented.widgets.sort_by { |w| w.id.to_i }.map do |widget|
-                     Widgets::WidgetRepresenter.new(widget, current_user: current_user)
+                     Widgets::WidgetRepresenter.new(widget, current_user:)
                    end
                  end,
                  setter: ->(fragment:, **) do
                    represented.widgets = fragment.map do |widget_fragment|
                      Widgets::WidgetRepresenter
-                       .new(::Grids::Widget.new, current_user: current_user)
+                       .new(::Grids::Widget.new, current_user:)
                        .from_hash(widget_fragment.with_indifferent_access)
                    end
                  end
 
         date_time_property :created_at,
-                           writeable: false,
+                           writable: false,
                            render_nil: false
 
         date_time_property :updated_at,
-                           writeable: false,
+                           writable: false,
                            render_nil: false
 
         def _type

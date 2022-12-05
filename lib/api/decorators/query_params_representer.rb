@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ module API
         to_h.to_json
       end
 
-      def to_h(*args)
+      def to_h(*_args)
         p = default_hash
 
         p[:sortBy] = orders_to_v3 if query.ordered?

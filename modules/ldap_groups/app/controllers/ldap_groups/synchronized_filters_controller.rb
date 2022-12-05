@@ -58,7 +58,7 @@ module LdapGroups
       call.on_success do
         count = call.result
         symbol = count > 0 ? :notice : :info
-        flash[symbol] = I18n.t('ldap_groups.synchronized_filters.label_n_groups_found', count: count)
+        flash[symbol] = I18n.t('ldap_groups.synchronized_filters.label_n_groups_found', count:)
       end
 
       call.on_failure do

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,10 +39,6 @@ module Bim::Bcf::API::V2_1::Endpoints
 
     def render_representer
       "::Bim::Bcf::API::V2_1::#{deduce_api_namespace}::SingleRepresenter".constantize
-    end
-
-    def deduce_process_service
-      "::Bim::Bcf::#{deduce_backend_namespace}::DeleteService".constantize
     end
   end
 end

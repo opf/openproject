@@ -14,7 +14,7 @@ export function whenDebugging(cb:() => void) {
  * Log with console.log when DEBUG is defined
  * through webpack.
  */
-export function debugLog(message:string, ...args:any[]) {
+export function debugLog(message:string, ...args:unknown[]):void {
   // eslint-disable-next-line no-console
   whenDebugging(() => console.log(`[DEBUG] ${message}`, ...args));
 }

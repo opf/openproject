@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,8 +63,8 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
   def wp_hashes_with_string(work_packages)
     work_packages.map do |work_package|
       wp_hash = Hash.new
-      work_package.attributes.each { |key, value| wp_hash[key] = Rack::Utils.escape_html(value) }
-      wp_hash['to_s'] = Rack::Utils.escape_html(work_package.to_s)
+      work_package.attributes.each { |key, value| wp_hash[key] = value }
+      wp_hash['to_s'] = work_package.to_s
       wp_hash
     end
   end
@@ -83,19 +81,6 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
   end
 
   def work_package_scope
-    scope = WorkPackage.all
-
-    # The filter on subject in combination with the ORDER BY on id
-    # seems to trip MySql's usage of indexes on the order statement
-    # I haven't seen similar problems on postgresql but there might be as the
-    # data at hand was not very large.
-    #
-    # For MySql we are therefore helping the DB optimizer to use the correct index
-
-    if ActiveRecord::Base.connection_config[:adapter] == 'mysql2'
-      scope = scope.from("#{WorkPackage.table_name} USE INDEX(PRIMARY)")
-    end
-
-    scope
+    WorkPackage.all
   end
 end

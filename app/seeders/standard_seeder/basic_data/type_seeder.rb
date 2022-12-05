@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +33,7 @@ module StandardSeeder
       end
 
       def type_table
-        { # position is_default color_id is_in_roadmap is_milestone
+        { # position is_default color_name is_in_roadmap is_milestone type_name
           task: [1, true, I18n.t(:default_color_blue), true, false, :default_type_task],
           milestone: [2, true, I18n.t(:default_color_green_light), false, true, :default_type_milestone],
           phase: [3, true, 'orange-5', false, false, :default_type_phase],

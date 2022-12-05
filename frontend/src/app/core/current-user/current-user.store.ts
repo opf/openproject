@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,8 +27,10 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { Store, StoreConfig } from '@datorama/akita';
-import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
+import {
+  Store,
+  StoreConfig,
+} from '@datorama/akita';
 
 export interface CurrentUser {
   id:string|null;
@@ -37,7 +39,6 @@ export interface CurrentUser {
 }
 
 export interface CurrentUserState extends CurrentUser {
-  capabilities:CapabilityResource[]|null;
 }
 
 export function createInitialState():CurrentUserState {
@@ -45,7 +46,6 @@ export function createInitialState():CurrentUserState {
     id: null,
     name: null,
     mail: null,
-    capabilities: null,
   };
 }
 

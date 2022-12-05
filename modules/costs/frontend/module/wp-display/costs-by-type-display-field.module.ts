@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@
 import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { ApiV3Service } from "core-app/core/apiv3/api-v3.service";
 
 interface ICostsByType {
     costObjectId:string;
@@ -46,7 +46,7 @@ interface ICostsByType {
 
 export class CostsByTypeDisplayField extends DisplayField {
 
-    @InjectField() apiV3Service:APIV3Service;
+    @InjectField() apiV3Service:ApiV3Service;
 
     public apply(resource:any, schema:IFieldSchema) {
       super.apply(resource, schema);

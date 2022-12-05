@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,16 +30,7 @@ module WorkPackage::Journalized
   extend ActiveSupport::Concern
 
   included do
-    acts_as_journalized data_sql: ->(journable) do
-      <<~SQL
-        LEFT OUTER JOIN
-          (
-            #{Relation.hierarchy.direct.where(to_id: journable.id).limit(1).select('from_id parent_id, to_id').to_sql}
-          ) parent_relation
-        ON
-          #{journable.class.table_name}.id = parent_relation.to_id
-      SQL
-    end
+    acts_as_journalized
 
     # This one is here only to ease reading
     module JournalizedProcs
@@ -91,7 +80,7 @@ module WorkPackage::Journalized
     register_journal_formatter(:cost_association) do |value, journable, field|
       association = journable.class.reflect_on_association(field.to_sym)
       if association
-        record = association.class_name.constantize.find_by_id(value.to_i)
+        record = association.class_name.constantize.find_by(id: value.to_i)
         record&.subject
       end
     end
@@ -105,6 +94,7 @@ module WorkPackage::Journalized
     register_on_journal_formatter(:attachment, /attachments_?\d+/)
     register_on_journal_formatter(:custom_field, /custom_fields_\d+/)
     register_on_journal_formatter(:cost_association, 'budget_id')
+    register_on_journal_formatter(:ignore_non_working_days, 'ignore_non_working_days')
 
     # Joined
     register_on_journal_formatter :named_association, :parent_id, :project_id,
@@ -114,5 +104,6 @@ module WorkPackage::Journalized
                                   :author_id, :responsible_id
     register_on_journal_formatter :datetime, :start_date, :due_date
     register_on_journal_formatter :plaintext, :subject
+    register_on_journal_formatter :day_count, :duration
   end
 end

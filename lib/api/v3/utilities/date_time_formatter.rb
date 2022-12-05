@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,10 +39,15 @@ module API
         def self.parse_date(value, property_name, allow_nil: false)
           return nil if value.nil? && allow_nil
 
-          date_and_time = parse_datetime(value, property_name, allow_nil: allow_nil)
+          begin
+            date_and_time = DateTime.iso8601(value)
+          rescue ArgumentError
+            raise API::Errors::PropertyFormatError.new(property_name,
+                                                       I18n.t('api_v3.errors.expected.date'),
+                                                       value)
+          end
 
           date_only = date_and_time.to_date
-
           # we only want to accept "timeless" dates, e.g. "2015-01-31",
           # but not "2015-01-31T01:02:03".
           # However Date.iso8601 is too generous and would accept that
@@ -64,7 +67,7 @@ module API
             date_and_time = DateTime.iso8601(value)
           rescue ArgumentError
             raise API::Errors::PropertyFormatError.new(property_name,
-                                                       I18n.t('api_v3.errors.expected.date'),
+                                                       I18n.t('api_v3.errors.expected.datetime'),
                                                        value)
           end
 
@@ -94,6 +97,12 @@ module API
                                                        I18n.t('api_v3.errors.expected.duration'),
                                                        duration)
           end
+        end
+
+        def self.parse_duration_to_days(duration, property_name, allow_nil: false)
+          return nil if duration.nil? && allow_nil
+
+          parse_duration_to_hours(duration, property_name).to_i / 24
         end
       end
     end

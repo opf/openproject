@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,12 +49,14 @@ class WorkPackages::DeleteService < ::BaseServices::Delete
   end
 
   def destroy(work_package)
-    work_package.reload.destroy
+    work_package.destroy
+  rescue ActiveRecord::StaleObjectError
+    destroy(work_package.reload)
   end
 
   def destroy_descendants(descendants, result)
     descendants.each do |descendant|
-      result.add_dependent!(ServiceResult.new(success: descendant.destroy, result: descendant))
+      result.add_dependent!(ServiceResult.new(success: destroy(descendant), result: descendant))
     end
   end
 

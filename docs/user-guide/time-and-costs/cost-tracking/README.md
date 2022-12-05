@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Cost tracking
   priority: 798
 description: Time and cost tracking in OpenProject
-robots: index, follow
 keywords: cost tracking, log costs, unit costs
 ---
 
@@ -11,18 +10,22 @@ keywords: cost tracking, log costs, unit costs
 
 You can log unit costs on a work package within a project to keep track on certain units spent in a project, e.g. travel costs or machines.
 
-| Topic                                                        | Content                                             |
-| ------------------------------------------------------------ | --------------------------------------------------- |
-| [Logging costs to a work package](#logging-costs-to-a-work-package) | How to track costs on a work package?               |
-| [Edit logged costs](#edit-logged-costs)                      | How to edit spent costs logged to a work package?   |
-| [Delete logged costs](#delete-logged-costs)                  | How to delete spent costs logged to a work package? |
+| Topic                                                               | Content                                             |
+|---------------------------------------------------------------------|-----------------------------------------------------|
+| [Logging costs to a work package](#logging-costs-to-a-work-package) | How to track costs on a work package.               |
+| [Edit logged costs](#edit-logged-costs)                             | How to edit spent costs logged to a work package.   |
+| [Delete logged costs](#delete-logged-costs)                         | How to delete spent costs logged to a work package. |
 
 
 ## Logging costs to a work package
 
-To track unit costs to a work package select the **Log unit costs** option from the **More functions** drop down menu.
+In order to log unit costs, you must first activate the **Time and costs** module and the **Budget** module in the project settings. Then select a budget from the drop-down menu of the work package details and link it to the selected work package.
 
-![Cost-tracking_log-costs](Cost-tracking_log-costs.png)
+![select-budget-work-package-details](select-budget-work-package-details.png)
+
+To log costs to a work package you can either press the button on the top right in the work package detail view or double-click on the line of the work package in the work package table. In both cases a function menu appears in which you can select **log unit costs**. 
+
+![log-unit-costs](log-unit-costs.png)
 
 A new form is opened, where you can log unit costs. You can edit the following information:
 
@@ -35,7 +38,9 @@ A new form is opened, where you can log unit costs. You can edit the following i
 
 4. The **cost type** field offers a range of pre-defined cost types which can be configured in the [Administration](../../../system-admin-guide/time-and-costs). The units and respective costs per unit category are defined for every cost type separately. Please note that you need certain privileges to be able to  create new cost types and define costs for specific units.
 
-   <div class="glossary">**Cost Types** are defined as types of costs that can be defined by system admins (e.g. consultant days or licenses).</div>
+   <div class="glossary">
+   **Cost Types** are defined as types of costs that can be defined by system admins (e.g. consultant days or licenses).
+   </div>
 
 5. You can enter the number of **units** to be logged.
 
@@ -45,13 +50,13 @@ A new form is opened, where you can log unit costs. You can edit the following i
 
 8. Do not forget to **Save** your time log.
 
-9. ![Cost-tracking-log-costs-details](Cost-tracking-log-costs-details.png)
+9. ![Cost tracking log costs details](Cost-tracking-log-costs-details.png)
 
 The **spent unit costs** as well as the total amount of **overall costs** are displayed on the work packages details view.
 
 
 
-![Cost-tracking-overview](Cost-tracking-overview.png)
+![Cost tracking overview](Cost-tracking-overview.png)
 
 
 
@@ -59,11 +64,11 @@ The **spent unit costs** as well as the total amount of **overall costs** are di
 
 To display and edit the logged costs to a work package, navigate to the work package details view. Here, the total amount of spent costs are displayed. Click on the sum of logged costs on a work package to display the details.
 
-![Edit-logged-costs](Edit-logged-costs.png)
+![Edit logged costs](Edit-logged-costs.png)
 
 The detailed logs are displayed in a cost report. To edit a cost entry, click on the Edit icon with the little pen next to a cost entry.
 
-![Edit-logged-costs-details](Edit-logged-costs-details.png)
+![Edit logged costs details](Edit-logged-costs-details.png)
 
 It will open the details view of the cost entry and you will be able to make your changes just as for [Logging costs to a work package](#logging-costs-to-a-work-package).
 
@@ -71,7 +76,7 @@ In some cases, you might want to change the costs manually so that it differs fr
 
 In this case, click on the **Edit icon**, the little pen, next to the cost entry. Now you can manually enter the costs.
 
-![Edit-costs-details](Edit-costs-details.png)
+![Edit costs details](Edit-costs-details.png)
 
 Do not forget to **save** your changes.
 
@@ -79,4 +84,4 @@ Do not forget to **save** your changes.
 
 If you made a mistake and need to delete logged costs, click on the **delete icon** next to a cost entry in the cost report.
 
-![Delete-cost-entry](Delete-cost-entry.png)
+![Delete cost entry](Delete-cost-entry.png)

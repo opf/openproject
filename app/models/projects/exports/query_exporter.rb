@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +46,7 @@ module Projects::Exports
         .with_latest_activity
         .includes(:custom_values, :status)
         .page(page)
-        .per_page(Setting.work_packages_export_limit.to_i)
+        .per_page(Setting.work_packages_projects_export_limit.to_i)
     end
 
     private
@@ -57,7 +55,8 @@ module Projects::Exports
       [
         { name: :id, caption: Project.human_attribute_name(:id) },
         { name: :identifier, caption: Project.human_attribute_name(:identifier) },
-        { name: :name, caption: Project.human_attribute_name(:name) }
+        { name: :name, caption: Project.human_attribute_name(:name) },
+        { name: :description, caption: Project.human_attribute_name(:description) }
       ]
     end
 
@@ -67,7 +66,7 @@ module Projects::Exports
         .all_columns
         .reject { |_, options| options[:builtin] } # We add builtin columns ourselves
         .select { |name, _| Setting.enabled_projects_columns.include?(name.to_s) }
-        .map { |name, options| { name: name, caption: options[:caption] } }
+        .map { |name, options| { name:, caption: options[:caption] } }
     end
   end
 end

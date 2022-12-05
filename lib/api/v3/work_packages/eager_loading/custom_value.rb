@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -129,41 +127,35 @@ module API
           end
 
           def usages
-            @usages ||= begin
-              ActiveRecord::Base
+            @usages ||= ActiveRecord::Base
                 .connection
                 .select_all(configured_fields_sql)
                 .to_a
                 .uniq
-            end
           end
 
           def custom_field(id)
-            @loaded_custom_fields_by_id ||= begin
-              WorkPackageCustomField
+            @loaded_custom_fields_by_id ||= WorkPackageCustomField
                 .where(id: usages.map { |u| u['custom_field_id'] }.uniq)
                 .index_by(&:id)
-            end
 
             @loaded_custom_fields_by_id[id]
           end
 
           def usage_map
-            @usage_map ||= begin
-              usages.inject(usage_hash) do |hash, by|
-                cf = custom_field(by['custom_field_id'])
-                target_project_id = by['project_id']
+            @usage_map ||= usages.inject(usage_hash) do |hash, by|
+              cf = custom_field(by['custom_field_id'])
+              target_project_id = by['project_id']
 
-                # If the project_id is NOT nil, and the custom_field is `is_for_all`
-                # Ensure that it gets added to hash[nil] (Regression #28435)
-                if by['project_id'].present? && cf.is_for_all
-                  target_project_id = nil
-                end
-
-                hash[target_project_id][by['type_id']] << cf
-
-                hash
+              # If the project_id is NOT nil, and the custom_field is `is_for_all`
+              # Ensure that it gets added to hash[nil] (Regression #28435)
+              if by['project_id'].present? && cf.is_for_all
+                target_project_id = nil
               end
+
+              hash[target_project_id][by['type_id']] << cf
+
+              hash
             end
           end
 

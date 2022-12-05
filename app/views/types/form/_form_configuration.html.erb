@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,14 +33,15 @@ See COPYRIGHT and LICENSE files for more details.
   <div>
     <div class="grid-block -visible-overflow wrap">
       <div class="grid-content -visible-overflow small-12 large-10">
-        <div class="op-toast -info">
-          <div class="op-toast--content">
-            <p><%= t('text_form_configuration') %></p>
-            <br>
-            <p><%= t('text_custom_field_hint_activate_per_project') %></p>
-          </div>
-        </div>
-
+          <%= angular_component_tag 'op-no-results',
+                                    inputs: {
+                                      title: t('text_form_configuration') + t('text_custom_field_hint_activate_per_project'),
+                                    }
+          %><br>
+      </div>
+    </div>
+    <div class="grid-block -visible-overflow wrap">
+      <div class="grid-content -visible-overflow small-12 large-10">
 
         <% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = [] }).to_json %>
         <%= f.hidden_field :attribute_groups, value: '', class: 'admin-type-form--hidden-field'  %>

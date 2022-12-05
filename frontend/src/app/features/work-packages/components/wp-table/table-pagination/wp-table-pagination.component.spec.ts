@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -41,6 +41,8 @@ import { OpIconComponent } from 'core-app/shared/components/icon/icon.component'
 import { IPaginationOptions, PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { PaginationInstance } from 'core-app/shared/components/table-pagination/pagination-instance';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { of } from 'rxjs';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
 
 function setupMocks(paginationService:PaginationService) {
   const options:IPaginationOptions = {
@@ -65,6 +67,10 @@ describe('wpTablePagination Directive', () => {
   beforeEach(waitForAsync(() => {
     window.OpenProject = new OpenProject();
 
+    const WeekdayServiceStub = {
+      loadWeekdays: () => of(true),
+    };
+
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       imports: [
@@ -81,6 +87,7 @@ describe('wpTablePagination Directive', () => {
         PathHelperService,
         WorkPackageViewPaginationService,
         HalResourceService,
+        { provide: WeekdayService, useValue: WeekdayServiceStub },
         ConfigurationService,
         IsolatedQuerySpace,
         I18nService,

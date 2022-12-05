@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,7 +24,11 @@ fr:
     ajax:
       hide: "Masquer"
       loading: "Chargement…"
+      updating: "Mise à jour…"
     attachments:
+      delete: "Supprimer la pièce jointe"
+      delete_confirmation: |
+        Voulez-vous vraiment supprimer ce fichier ? Cette action est irréversible.
       draggable_hint: |
         Faites glisser le champ de l'éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l'éditeur seront ouverts tant que vous continuer à faire glisser.
     autocomplete_select:
@@ -61,6 +65,7 @@ fr:
     button_confirm: "Confirmer"
     button_continue: "Continuer"
     button_copy: "Copier"
+    button_copy_to_other_project: "Copier vers un autre projet"
     button_custom-fields: "Champs personnalisés"
     button_delete: "Supprimer"
     button_delete_watcher: "Supprimer observateur"
@@ -80,6 +85,10 @@ fr:
     button_open_fullscreen: "Ouvrir l'affichage plein écran"
     button_show_cards: "Afficher la vue carte"
     button_show_list: "Afficher la vue liste"
+    button_show_table: "Afficher la vue du tableau"
+    button_show_gantt: "Afficher la vue Gantt"
+    button_show_fullscreen: "Afficher la vue plein écran"
+    button_more_actions: "Plus d'actions"
     button_quote: "Citer"
     button_save: "Enregistrer"
     button_settings: "Paramètres"
@@ -88,9 +97,6 @@ fr:
     button_export-pdf: "Télécharger le PDF"
     button_export-atom: "Télécharger Atom"
     button_create: "Créer"
-    calendar:
-      title: 'Calendrier'
-      too_many: 'Il y a %{count} lots de travaux au total, mais seulement %{max} peuvent être affichés.'
     card:
       add_new: 'Ajouter une nouvelle carte'
       highlighting:
@@ -206,6 +212,7 @@ fr:
             label_expires_at: "Expire le"
             receive_newsletter: Je veux recevoir la <a target="_blank" href="%{link}">newsletter OpenProject</a>.
             taken_domain: Il ne peut y avoir qu'un seul essai actif par domaine.
+            domain_mismatch: Le nom d'hôte de la requête actuelle ne correspond pas au nom d'hôte configuré. Veuillez vérifier les paramètres de votre système.
             taken_email: Chaque utilisateur ne peut créer qu'un essai.
           email_not_received: "Vous n'avez pas reçu d'e-mail ? Vous pouvez renvoyer l'e-mail avec le lien à droite."
           try_another_email: "Ou essayez avec une autre adresse e-mail."
@@ -232,14 +239,16 @@ fr:
             professional_support: "Support professionnel"
             professional_support_text: "Obtenez une assitance fiable et à haut contact de la part d'ingénieurs d'assistance expérimentés qui ont une connaissance approfondie de la mise en œuvre d'OpenProject dans des environnements critiques pour l'entreprise."
           button_start_trial: "Commencer l'essai gratuit"
+          button_upgrade: "Mettre à niveau maintenant"
           button_book_now: "Réserver maintenant"
           confidence: >
             Nous fournissons la confiance d'un logiciel de gestion de projet de classe entreprise testé et supporté - en Open Source et un avec esprit ouvert.
           link_quote: "Obtenir un devis"
+          more_info: "Plus d'informations"
           text: >
             L'Entreprise Edition d'OpenProject s'appuie sur la Community Edition. Elle comprend des fonctionnalités premium et un support professionnel principalement destiné aux organisations comptant plus de 10 utilisateurs gérant des projets critiques avec OpenProject.
           unlimited: "Illimité"
-          you_contribute: "Les développeurs ont aussi besoin payer leurs factures. Avec la version Entreprise, vous contribuez significativement à cet effort de la communauté Open Source."
+          you_contribute: "Les développeurs ont aussi besoin payer leurs factures. En passant à la version Entreprise, vous soutiendrez cet effort communautaire open source et contribuerez à son développement, sa maintenance et son amélioration continue."
     custom_actions:
       date:
         specific: 'le'
@@ -253,6 +262,7 @@ fr:
     enumeration_doc_categories: "Catégories de documents"
     enumeration_work_package_priorities: "Priorités du Lot de Travaux"
     filter:
+      more_values_not_shown: "Il y a %{total} résultats supplémentaires, effectuez une recherche pour filtrer les résultats."
       description:
         text_open_filter: "Ouvrir ce filtre avec les touches « ALT » et fléchées."
         text_close_filter: "Pour sélectionner une entrée, laissez le focus par exemple en appuyant sur enter. Pour quitter sans filtre, sélectionnez la première entrée (vide)."
@@ -267,7 +277,7 @@ fr:
           one: "Premier critère de tri"
           two: "Second critère de tri"
           three: "Troisième critère de tri"
-      upsale_for_more: "Découvrez les options de filtrage avancées"
+      upsale_for_more: "Les filtres avancés vous permettent également de filtrer les noms de fichiers et le contenu des pièces jointes du lot de travaux. Veuillez passer à une offre payante pour utiliser cette fonctionnalité."
       upsale_link: 'Enterprise Edition.'
     general_text_no: "non"
     general_text_yes: "oui"
@@ -287,16 +297,17 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Cette version contient une variété de nouvelle fonctionnalités et d'améliorations : <br> <ul class="%{list_styling_class}"> <li>Avec les nouvelles<b>Notifications intégrées</b> vous recevez toutes les mises à jour importantes directement dans l'application et vous ne recevez plus une multitude d'emails.</li><li>Le nouveau <b>centre de notifications</b> affiche tous les changements, incluant les options de filtres intuitifs, par exemple par raison pour les notifications ou les projets. Il autorise même l'édition directement dans une vue séparée.</li> <li>Amélioration des <b>paramètres de notifications</b> autorisant un réglage précis de pour quels actions et dans quels projets vous voulez recevoir des notifications.</li><li>Des <b>rappels emails</b> peuvent être configurés pour recevoir les mises à jour importantes avec un résumé journalier.</li> <li>L'autocomplétion  des lots de travaux pour les relations affiche maintenant les information supplémentaires (nom du projet, status, ...) pour facilement identifier les lots de travaux correspondants</li> </ul>
+                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Définissez votre semaine de travail globale (week-ends et jours non ouvrables de la semaine).</li> <li>Calculez la durée en fonction des dates de début et de fin et de la possibilité de considérer les jours non ouvrables (week-ends) dans la planification.</li> <li>Ajoutez des infobulles utiles aux actions les plus essentielles.</li> <li>La copie d'un projet copiera également les liens des fichiers attachés dans tous les lots de travaux.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
               new_features_html: >
-                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Centre de notifications : réduisez le nombre de mails que vous recevez. Au lieu de cela, trouvez et agissez sur toutes les notifications pertinentes dans un endroit central.</li> <li>Tous les fichiers IFC téléversés peuvent maintenant également être téléchargés.</li> <li>Le téléversement et le traitement des fichiers IFC sont devenus plus rapides et ont reçu de meilleurs messages d'erreur.</li> <li>Le <a href="https://github.com/opf/openproject-revit-add-in">L'add-in OpenProject Revit</a> a reçu de nombreuses corrections de bugs.</li> </ul>.
+                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Définissez votre semaine de travail globale (week-ends et jours non ouvrables de la semaine).</li> <li>Calculez la durée en fonction des dates de début et de fin et de la possibilité de considérer les jours non ouvrables (week-ends) dans la planification.</li> <li>Ajoutez des infobulles utiles aux actions les plus essentielles.</li> <li>La copie d'un projet copiera également les liens des fichiers attachés dans tous les lots de travaux.</li> </ul>
     label_activate: "Activer"
+    label_assignee: 'Responsable'
     label_add_column_after: "Ajouter une colonne au-dessus"
     label_add_column_before: "Ajouter une colonne avant"
     label_add_columns: "Ajouter des colonnes"
@@ -366,6 +377,7 @@ fr:
     label_in_more_than: "dans plus de"
     label_incoming_emails: "Courriels entrants"
     label_information_plural: "Information"
+    label_invalid: "Non valide"
     label_import: "Importer"
     label_latest_activity: "Dernière activité"
     label_last_updated_on: "Dernière modification le"
@@ -397,6 +409,8 @@ fr:
     label_previous: "Précédent"
     label_per_page: "Par page:"
     label_please_wait: "Veuillez patienter"
+    label_project: "Projet"
+    label_project_list: "Liste des projets"
     label_project_plural: "Projets"
     label_visibility_settings: "Paramètres de visibilité"
     label_quote_comment: "Citer ce commentaire"
@@ -409,6 +423,7 @@ fr:
     label_report: "Rapport"
     label_repository_plural: "Dépôts"
     label_save_as: "Enregistrer sous"
+    label_select_project: "Sélectionner un projet"
     label_select_watcher: "Sélectionner un observateur…"
     label_selected_filter_list: "Filtres sélectionnés"
     label_show_attributes: "Afficher tous les attributs"
@@ -450,10 +465,10 @@ fr:
     label_unwatch: "Ne plus suivre"
     label_unwatch_work_package: "Ne plus suivre le lot de travaux"
     label_uploaded_by: "Téléversé par"
-    label_default_queries: "Vues par défaut"
-    label_starred_queries: "Vue préférées"
-    label_global_queries: "Vues publiques"
-    label_custom_queries: "Vues privées"
+    label_default_queries: "Par défaut"
+    label_starred_queries: "Favori"
+    label_global_queries: "Public"
+    label_custom_queries: "Privé"
     label_columns: "Colonnes"
     label_attachments: Fichiers
     label_drop_files: Déposez des fichiers ici
@@ -466,7 +481,7 @@ fr:
     label_remove_all_files: Supprimer tous les fichiers
     label_add_description: "Ajouter une description pour %{file}"
     label_upload_notification: "Chargement des fichiers..."
-    label_work_package_upload_notification: "Transfert en cours des fichiers pour le lot de travaux #%{id}: %{subject}"
+    label_work_package_upload_notification: "Transfert en cours des fichiers pour le lot de travaux #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} ajouté par %{author}"
     label_files_to_upload: "Ces fichiers vont être transférés:"
     label_rejected_files: "Ces fichiers ne peuvent pas être transférés:"
@@ -484,7 +499,7 @@ fr:
         next: 'Suivante'
         got_it: 'J''ai compris'
       steps:
-        help_menu: 'Le menu Aide (?) fournit des <b>ressources d''aide supplémentaires</b>. Vous y trouverez un guide utilisateur et des vidéos pratiques et plus encore. <br> Profitez de votre travail avec OpenProject !'
+        help_menu: 'Le menu Aide (?) fournit des <b>ressources d''aide supplémentaires</b>. Vous y trouverez un guide utilisateur, des vidéos pratiques et plus encore. <br> Profitez de votre travail avec OpenProject !'
         members: 'Invitez de nouveaux <b>membres</b> à rejoindre votre projet.'
         project_selection: 'Veuillez cliquer sur l''un des projets de démonstration que nous avons préparés. Les données de démonstration ne sont actuellement disponibles qu''en anglais. <br> Le <b>projet démo général</b> convient le mieux pour la gestion de projet classique, tandis que le <b>projet Scrum</b> est meilleur pour la gestion de projet agile.'
         quick_add_button: 'Cliquez sur l''icône plus (+) dans l''en-tête de navigation pour <b>créer un nouveau projet</b> ou <b>inviter des collègues</b>.'
@@ -499,7 +514,8 @@ fr:
           task_board: "Le tableau des tâches visualise la <b>progression pour ce sprint</b>. Cliquez sur l'icône plus (+) à côté d'un récit utilisateur pour ajouter de nouvelles tâches ou obstacles. <br> Le statut peut être mis à jour par glisser-déposer."
         boards:
           overview: 'Sélectionnez <b>tableaux</b> pour déplacer la vue et gérer votre projet en utilisant la vue des tableaux agiles.'
-          lists: 'Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau. Cette fonctionnalité vous permet de créer un <b>tableau Kanban</b>, par exemple.'
+          lists_kanban: 'Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau. Cette fonctionnalité vous permet de créer un <b>tableau Kanban</b>, par exemple.'
+          lists_basic: 'Ici, vous pouvez créer plusieurs listes (colonnes) dans votre tableau agile.'
           add: 'Cliquez sur l''icône plus (+) pour <b>créer une nouvelle carte</b> ou <b>ajouter une carte existante</b> à la liste du tableau.'
           drag: 'Glissez et déposez vos cartes dans une liste donnée pour les réorganiser, ou pour les déplacer dans une autre liste. <br> Vous pouvez cliquer sur l''icône (i) dans le coin supérieur droit ou double-cliquer sur une carte pour ouvrir ses détails.'
         wp:
@@ -510,6 +526,12 @@ fr:
           create_button: 'La touche <b>+ Créer</b> ajoutera un nouveau lot de travaux à votre projet.'
           timeline_button: 'Vous pouvez activer la vue <b>Diagramme de Gantt</b> pour créer une chronologie pour votre projet.'
           timeline: 'Ici vous pouvez <b>modifier votre plan de projet</b>, créer de nouveaux lots de travaux, comme des tâches, des jalons, des phases et plus, ainsi que <b>ajouter des dépendances</b>. Tous les membres de l''équipe peuvent voir et mettre à jour le plan le plus récent à tout moment.'
+        team_planner:
+          overview: 'Le planificateur d''équipe vous permet d''assigner visuellement des tâches aux membres de l''équipe et d''obtenir un aperçu de qui travaille sur quoi.'
+          calendar: 'Le tableau de planification hebdomadaire ou bihebdomadaire affiche tous les lots de travaux assignés aux membres de votre équipe.'
+          add_assignee: 'Pour commencer, ajoutez des responsables au planificateur d''équipe.'
+          add_existing: 'Recherchez les lots de travaux existants et faites-les glisser vers le planificateur d''équipe pour les assigner instantanément à un membre de l''équipe et définir les dates de début et de fin.'
+          card: 'Faites glisser les lots de travaux horizontalement pour les déplacer vers l''arrière ou vers l''avant dans le temps, faites glisser les bords pour changer les dates de début et de fin et faites les même glisser verticalement vers une ligne différente pour les assigner à un autre membre.'
     notifications:
       title: "Notifications"
       no_unread: "Pas de notification non lue"
@@ -518,15 +540,22 @@ fr:
         watched: 'surveillé'
         assigned: 'assigné'
         responsible: 'responsable'
+        created: 'créé'
+        scheduled: 'planifié'
+        commented: 'commenté'
+        processed: 'traité'
+        prioritized: 'priorisé'
       facets:
         unread: 'Non lu'
+        unread_title: 'Afficher les messages non lus'
         all: 'Toutes'
+        all_title: 'Afficher tout'
       center:
         and_more_users:
           one: 'et 1 autre'
           other: 'et %{count} autres'
         no_results:
-          at_all: 'Les nouvelles notifications apparaîtront ici lorsqu''il y a une activité qui vous concerne'
+          at_all: 'De nouvelles notifications apparaîtront ici quand il y a des activités qui vous concernent, en attendant, vous pouvez également afficher et modifier vos paramètres de notification pour configurer quand être notifié.'
           with_current_filter: 'Il n''y a pas de notifications dans cette vue pour le moment'
         mark_all_read: 'Tout marquer comme lu'
         mark_as_read: 'Marquer comme lu'
@@ -534,14 +563,14 @@ fr:
         total_count_warning: "Affichage des %{newest_count} notifications les plus récentes. %{more_count} autres ne sont pas affichées."
         empty_state:
           no_notification: "On dirait que vous êtes à jour."
-          no_notification_with_current_filter: "Changez d'implication ou retournez à la boîte de réception pour voir les notifications"
+          no_notification_with_current_project_filter: "On dirait que vous êtes à jour dans le projet sélectionné."
+          no_notification_with_current_filter: "On dirait que vous êtes à jour pour le filtre %{filter}."
           no_selection: "Cliquez sur une notification pour voir tous les détails de l'activité."
         new_notifications:
           message: 'Il y a de nouvelles notifications.'
           link_text: 'Cliquez ici pour les charger'
       menu:
         accountable: 'Responsable'
-        assigned: 'Assigné'
         by_project: 'Non lu par projet'
         by_reason: 'Participation'
         inbox: 'Boîte de réception'
@@ -589,6 +618,7 @@ fr:
       default: '-'
       subject: 'Saisir le sujet ici'
       selection: 'Veuillez sélectionner'
+      description: 'Description: Cliquez pour modifier...'
       relation_description: 'Cliquez pour ajouter la description pour cette relation'
     project:
       required_outside_context: >
@@ -652,14 +682,7 @@ fr:
         projects: "Projets"
         settings: "Paramètres"
     time_entry:
-      project: 'Projet'
-      work_package: 'Lot de travaux'
       work_package_required: 'Nécessite d''abord la sélection d''un lot de travaux.'
-      activity: 'Activité'
-      comment: 'Commentaire'
-      duration: 'Durée'
-      spent_on: 'date'
-      hours: 'Heures'
       title: 'Consigner temps'
     two_factor_authentication:
       label_two_factor_authentication: 'Authentification à deux facteurs'
@@ -727,7 +750,6 @@ fr:
     project_menu_details: "Détails"
     scheduling:
       manual: 'Planification manuelle'
-      automatic: 'Planification automatique'
     sort:
       sorted_asc: 'Tri par ordre croissant appliqué, '
       sorted_dsc: 'Tri par ordre décroissant appliqué, '
@@ -738,7 +760,6 @@ fr:
       activate_no: 'activer pour supprimer le tri'
     text_work_packages_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer le(s) lot(s) de travaux sélectionné(s) ?"
     text_query_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer la vue sélectionnée ?"
-    text_attachment_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer la pièce jointe ?"
     timelines:
       quarter_label: 'T%{quarter_number}'
       gantt_chart: 'Diagramme de Gantt'
@@ -800,7 +821,7 @@ fr:
       zooms: "Niveau de zoom"
       outlines: "Niveau de hiérarchie"
     upsale:
-      ee_only: 'Fonctionnalité exclusive Version Entreprise'
+      ee_only: 'Fonctionnalité de la version Entreprise'
     wiki_formatting:
       strong: "Gras"
       italic: "Italique"
@@ -828,6 +849,15 @@ fr:
       comment_send_failed: "Une erreur s'est produite. Impossible de soumettre le commentaire."
       comment_updated: "Le commentaire a été mis à jour avec succès."
       confirm_edit_cancel: "Êtes-vous sûr de vouloir annuler l'édition du lot de travaux ?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Planification automatique. Les dates sont dérivées des relations."
+        manually_scheduled: "La planification manuelle est activée, toutes les relations sont ignorées."
+        start_date_limited_by_relations: "Les dates de début et de fin disponibles sont limitées par les relations."
+        changing_dates_affects_follow_relations: "La modification de ces dates affectera les dates des lots de travaux connexes."
+        click_on_show_relations_to_open_gantt: 'Cliquez sur « %{button_name} » pour avoir une vue d''ensemble de GANTT.'
+        show_relations: 'Afficher les relations'
+        ignore_non_working_days:
+          title: 'Jours ouvrés seulement'
       description_filter: "Filtrer"
       description_enter_text: "Saisir texte"
       description_options_hide: "Masquer les options"
@@ -847,10 +877,12 @@ fr:
       message_work_package_read_only: "Paquet de travail est verrouillé. Aucun attribut autre que l’État ne peut être modifié."
       message_work_package_status_blocked: "Le statut du lot de travail n'est pas modifiable en raison de la fermeture du statut et de la version assignés."
       placeholder_filter_by_text: "Objet, description, commentaires, ..."
+      filters:
+        title: 'Filtrer les lots de travaux'
       inline_create:
         title: 'Cliquez ici pour ajouter un nouveau lot de travaux à cette liste'
       create:
-        title: 'Nouveau Lot de Travaux'
+        title: 'Nouveau lot de travaux'
         header: 'Nouveau lot (%{type})'
         header_no_type: 'Nouveau lot de travaux (type non encore spécifié)'
         header_with_parent: 'Nouveau %{type} (enfant de %{parent_type} #%{id})'
@@ -883,6 +915,7 @@ fr:
         description: "Description"
         date: "date"
         dueDate: "Date de fin"
+        duration: "Durée"
         estimatedTime: "Durée estimée"
         spentTime: "Temps passé"
         category: "Catégorie"
@@ -914,7 +947,6 @@ fr:
       placeholders:
         default: "-"
         date: "Sélectionnez la date"
-        formattable: "%{name} : Cliquez pour modifier…"
       query:
         column_names: "Colonnes"
         group_by: "Grouper les résultats par"
@@ -988,7 +1020,8 @@ fr:
         activity: Activité
         relations: Relations
         watchers: Observateurs
-        attachments: Fichiers
+        files: Fichiers
+        files_tab_migration_help: 'Vous pouvez maintenant joindre des fichiers aux lots de travaux via le nouvel onglet :'
       time_relative:
         days: "jours"
         weeks: "semaines"
@@ -1012,22 +1045,21 @@ fr:
       filter: "Filtrer"
       unselected_title: "Lot de travaux"
       search_query_label: "Rechercher les vues enregistrées"
-      search_query_title: "Cliquez pour chercher les vues enregistrées"
-      placeholder_query_title: "Définir un titre pour cette vue"
     modals:
-      label_settings: "Renommer la vue"
       label_name: "Nom"
       label_delete_page: "Effacer la page en cours"
       button_apply: "Appliquer"
       button_save: "Enregistrer"
       button_submit: "Envoyer"
       button_cancel: "Annuler"
+      button_delete: "Supprimer"
       form_submit:
         title: 'Confirmez pour continuer'
         text: 'Êtes-vous sûr de vouloir effectuer cette action ?'
       destroy_work_package:
         title: "Confirmer la suppression de %{label}"
-        text: "Voulez-vous vraiment supprimer le %{label} suivant ?"
+        single_text: "Voulez-vous vraiment supprimer le lot de travaux"
+        bulk_text: "Voulez-vous vraiment supprimer le %{label} suivant ?"
         has_children: "Le lot de travaux a %{childUnits} :"
         confirm_deletion_children: "Je reconnais que TOUS les descendants des lots de travaux de la liste seront supprimés récursivement."
         deletes_children: "Tous les lots de travaux enfants et leurs descendants seront également supprimés récursivement."
@@ -1075,6 +1107,10 @@ fr:
         one: "1h"
         other: "%{count} h"
         zero: "0 h"
+      day:
+        one: "1 jour"
+        other: "%{count} jours"
+        zero: "0 jour"
     zen_mode:
       button_activate: 'Activer le mode zen'
       button_deactivate: 'Désactiver le mode zen'
@@ -1141,13 +1177,13 @@ fr:
       role:
         label: 'Rôle dans %{project}'
         no_roles_found: 'Aucun rôle trouvé.'
-        description: 'C''est le rôle que %{principal} recevra quand il rejoindra votre projet. Le rôle définit quelles actions il est autorisé à entreprendre et quelles informations il peut voir. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> En savoir plus sur les rôles et les permissions. </a>'
+        description: 'C''est le rôle que l''utilisateur recevra quand il rejoindra votre projet. Le rôle définit quelles actions il est autorisé à entreprendre et quelles informations il peut voir. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> En savoir plus sur les rôles et les permissions. </a>'
         required: 'Veuillez sélectionner un rôle'
         next_button: 'Suivante'
       message:
         label: 'Message d''invitation'
-        description: 'Nous enverrons un e-mail à %{principal}, auquel vous pourrez ajouter un message personnel ici. Une explication à l''invitation pourrait être utile, ou peut-être un peu d''informations concernant le projet pour les aider à démarrer.'
-        next_button: 'Vérifier l''invitation'
+        description: 'Nous enverrons un e-mail à l''utilisateur, auquel vous pourrez ajouter un message personnel ici. Une explication concernant l''invitation pourrait être utile, ou peut-être quelques informations concernant le projet pour les aider à démarrer.'
+        next_button: 'Suivant'
       summary:
         next_button: 'Envoyer une invitation'
       success:
@@ -1157,8 +1193,28 @@ fr:
           placeholder: 'Le utilisateur fictif peut maintenant être utilisé dans %{project}. En attendant, vous pouvez déjà planifier des taches avec cet utilisateur et l''assigner à des lots de travaux par exemple.'
           group: 'Le groupe fait maintenant partie du %{project}. Entre-temps, vous pouvez déjà planifier avec ce groupe et l''assigner des lots de travaux par exemple.'
         next_button: 'Continuer'
+    include_projects:
+      toggle_title: 'Inclure les projets'
+      title: 'Projets'
+      clear_selection: 'Effacer la sélection'
+      apply: 'Appliquer'
+      selected_filter:
+        all: 'Tous les projets'
+        selected: 'Uniquement la sélection'
+      search_placeholder: 'Rechercher un projet...'
+      include_subprojects: 'Inclure tous les sous-projets'
+      tooltip:
+        include_all_selected: 'Projet déjà inclus puisque Include tous les sous-projets sont activés.'
+        current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'
+        does_not_match_search: 'Le projet ne correspond pas aux critères de recherche.'
+      no_results: 'Aucun projet ne correspond à vos critères de recherche.'
     forms:
       submit_success_message: 'Le formulaire a bien été envoyé'
       load_error_message: 'Une erreur s''est produite lors du chargement du formulaire'
       validation_error_message: 'Veuillez corriger les erreurs présentes dans le formulaire'
       advanced_settings: 'Paramètres avancés'
+    spot:
+      filter_chip:
+        remove: 'Supprimer'
+      drop_modal:
+        Close: 'Fermer'

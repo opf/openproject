@@ -1,0 +1,161 @@
+# /api/v3/views/{id}
+---
+get:
+  parameters:
+    - description: View id
+      example: 42
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            ViewWorkPackagesTable:
+              "$ref": "../components/examples/view_work_packages_table.yml"
+            ViewTeamPlanner:
+              "$ref": "../components/examples/view_team_planner.yml"
+      description: Returns the result of a single view, dependent of the view type.
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** The required permission depends on the type of the view.
+      headers: { }
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the resource can not be found.
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of
+        a view. That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: { }
+  tags:
+    - Views
+  description: ''
+  operationId: View_view
+  summary: View view
+
+post:
+  parameters:
+    - description: The view identifier
+      name: id
+      in: path
+      required: true
+      example: '1'
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/json:
+        examples:
+          'Views::WorkPackagesTable':
+            value:
+              _links:
+                query:
+                  href: /api/v3/queries/5
+          'Views::TeamPlanner':
+            value:
+              _links:
+                query:
+                  href: /api/v3/queries/5
+        schema:
+          type: object
+          properties:
+            _links:
+              type: object
+              properties:
+                query:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                      format: uri
+  responses:
+    '201':
+      content:
+        application/hal+json:
+          schema:
+            type: object
+          examples:
+            'Views::WorkPackagesTable':
+              "$ref": "../components/examples/view_work_packages_table.yml"
+            'Views::TeamPlanner':
+              "$ref": "../components/examples/view_team_planner.yml"
+      description: Created
+      headers: { }
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _embedded:
+                  details:
+                    attribute: query
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: "Query does not exist."
+      description: |-
+        Returned if:
+
+        * the client tries to modify a read-only property (`PropertyIsReadOnly`)
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+
+        * the client provides a link to an invalid resource (`ResourceTypeMismatch`),
+          e.g. a query not found
+      headers: { }
+  tags:
+    - Views
+  description: |-
+    When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
+    The required fields of a View can be found in its schema, which is embedded in the respective form.
+    Note that it is only allowed to provide properties or links supporting the write operation.
+
+    There are different subtypes of `Views` (e.g. `Views::WorkPackagesTable`) with each having its own
+    endpoint for creating that subtype e.g.
+
+    * `/api/v3/views/work_packages_table` for `Views::WorkPackagesTable`
+    * `/api/v3/views/team_planner` for `Views::TeamPlanner`
+    * `/api/v3/views/work_packages_calendar` for `Views::WorkPackagesCalendar`
+
+    **Not yet implemented** To get the list of available subtypes and by that the endpoints for creating a subtype, use the
+    ```
+      /api/v3/views/schemas
+    ```
+    endpoint.
+  operationId: Create_views
+  summary: Create view

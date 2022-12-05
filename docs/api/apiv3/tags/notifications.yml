@@ -5,7 +5,10 @@ description: |-
 
   ## Actions
 
-  None yet
+  | Link                | Description                                                          | Condition                   |
+  |:-------------------:| -------------------------------------------------------------------- | --------------------------- |
+  | read_ian            | Marks the notification as read                                       | notification is unread      |
+  | unread_ian          | Marks the notification as unread                                     | notification is read        |
 
   ## Linked Properties
 

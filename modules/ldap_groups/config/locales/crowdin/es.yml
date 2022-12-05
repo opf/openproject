@@ -42,8 +42,7 @@ es:
         group_name_attribute_text: 'Especifique el atributo del grupo de LDAP usado para configurar el nombre del grupo de OpenProject.'
         filter_string_text: 'Especifique el filtro LDAP RFC4515 que muestra los grupos en su entorno de LDAP que se sincronizarán con OpenProject.'
         base_dn_text: >
-          Escriba el DN base de búsqueda que quiera usar con este filtro. Necesita estar debajo del DN base de la conexión LDAP seleccionada.
-          Deje esta opción en blanco para reutilizar el DN base de la conexión
+          Escriba el DN base de búsqueda que quiera usar con este filtro. Necesita estar debajo del DN base de la conexión LDAP seleccionada. Deje esta opción en blanco para reutilizar el DN base de la conexión
     synchronized_groups:
       add_new: 'Agregar grupo de LDAP sincronizado'
       destroy:
@@ -53,7 +52,7 @@ es:
         verification: "Escriba el nombre del grupo %{name} para verificar la eliminación."
       help_text_html: |
         Este módulo le permite configurar una sincronización entre los grupos LDAP y el proyecto abierto
-        Depende de que los grupos LDAP que necesiten usar el <em>groupOfNames / memberOf</em> 
+        Depende de que los grupos LDAP que necesiten usar el <em>groupOfNames / memberOf</em>
         conjunto de atributos para trabajar con el proyecto abierto.
         <br/>
         Los grupos se sincronizan cada hora a través de un trabajo amigable
@@ -68,4 +67,6 @@ es:
           Si habilita esta opción, los usuarios detectados también se crearán automáticamente en OpenProject. De lo contrario, solo se añadirán a los grupos las cuentas que existan en OpenProject.
         dn_text: 'Escriba el DN completo del grupo en LDAP'
         group_text: 'Seleccione un grupo de OpenProject existente con el que se sincronizarán los miembros del grupo de LDAP'
+      upsale:
+        description: 'Aproveche los grupos LDAP sincronizados para administrar usuarios, cambiar sus permisos y facilitar la administración de usuarios entre grupos.'
 

@@ -178,13 +178,9 @@ class TableCell < RailsCell
 
   # required by the sort helper
 
-  def controller_name
-    controller.controller_name
-  end
+  delegate :controller_name, to: :controller
 
-  def action_name
-    controller.action_name
-  end
+  delegate :action_name, to: :controller
 
   def options
     super

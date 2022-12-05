@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,10 +63,9 @@ module UsersHelper
 
     both_statuses = user_status + brute_force_status
     if user_status.present? and brute_force_status.present?
-      I18n.t(:status_user_and_brute_force,
+      I18n.t('user.status_user_and_brute_force',
              user: user_status,
-             brute_force: brute_force_status,
-             scope: :user)
+             brute_force: brute_force_status)
     elsif not both_statuses.empty?
       both_statuses
     else
@@ -94,14 +91,14 @@ module UsersHelper
 
     result = ''.html_safe
     (STATUS_CHANGE_ACTIONS[[status, blocked]] || []).each do |title, name|
-      result << (yield I18n.t(title, scope: :user), name) + ' '.html_safe
+      result << ((yield I18n.t(title, scope: :user), name) + ' '.html_safe)
     end
     result
   end
 
   def change_user_status_buttons(user)
     build_change_user_status_action(user) do |title, name|
-      submit_tag(title, name: name, class: 'button')
+      submit_tag(title, name:, class: 'button')
     end
   end
 
@@ -119,14 +116,6 @@ module UsersHelper
               method: :post,
               class: "icon icon-#{icons[name]}"
     end
-  end
-
-  # Options for the new membership projects combo-box
-  #
-  # Disables projects the user is already member in
-  def options_for_membership_project_select(user, projects)
-    options = project_tree_options_for_select(projects, disabled: user.projects.ids.to_set)
-    content_tag('option', "--- #{I18n.t(:actionview_instancetag_blank_option)} ---") + options
   end
 
   def user_name(user)

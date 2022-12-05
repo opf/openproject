@@ -13,7 +13,8 @@
                    summary: "#{I18n.t(:'mail.digests.you_have')} #{digest_summary_text(@notification_ids.length, @mentioned_count)}",
                    button_href: notifications_center_url,
                    button_text: I18n.t(:'mail.notification.center'),
-                   user: @user
+                   user: @user,
+                   salutation: I18n.t(:'mail.salutation', user: @user.firstname)
                  } %>
 
       <% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do | work_package, notifications_by_work_package| %>

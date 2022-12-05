@@ -12,7 +12,7 @@
     <div class="description">Lorem ipsum</div>
     <div class="author">
       <img class="avatar-mini" src="/assets/default-avatar.png" />
-      Anonymus
+      Anonymous
     </div>
   </li>
   <li class="news me">

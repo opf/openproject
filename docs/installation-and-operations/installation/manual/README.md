@@ -61,7 +61,7 @@ sudo passwd openproject #(enter desired password)
 
 ## Install and setup the database server (PostgreSQL)
 
-OpenProject requires PostgreSQL v9.5+. If you system package is too old, you can check https://www.postgresql.org/download/ to get a newer version installed. In our case, Ubuntu 18.04 comes with a recent-enough version so we can use the system packages:
+OpenProject requires PostgreSQL v9.5+. If you system package is too old, you can check [postgresql.org](https://www.postgresql.org/download/) to get a newer version installed. In our case, Ubuntu 18.04 comes with a recent-enough version so we can use the system packages:
 
 ```bash
 [root@host] apt-get install postgresql postgresql-contrib libpq-dev
@@ -95,7 +95,7 @@ Lastly, revert to the previous system user:
 ## Installation of Ruby
 
 The are several possibilities to install Ruby on your machine. We will
-use [rbenv](http://rbenv.org/). Please be aware that the actual installation of a specific Ruby version takes some
+use [rbenv](https://github.com/rbenv/rbenv). Please be aware that the actual installation of a specific Ruby version takes some
 time to finish.
 
 ```bash
@@ -106,16 +106,16 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 2.7.5
+[openproject@host] rbenv install 3.1.2
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 2.7.5
+[openproject@host] rbenv global 3.1.2
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 2.7.5p203 (2021-07-07 revision a21a3b7d23) [x86_64-linux]
+ruby 3.1.2p20 (2022-04-12 revision 4491bb740a) [x86_64-linux]
 ```
 
 ## Installation of Node
@@ -132,7 +132,7 @@ time to finish.
 [openproject@host] echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.profile
 [openproject@host] echo 'eval "$(nodenv init -)"' >> ~/.profile
 [openproject@host] source ~/.profile
-[openproject@host] git clone git://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
+[openproject@host] git clone https://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
 
 [openproject@host] nodenv install 14.16.0
 [openproject@host] nodenv rehash
@@ -142,13 +142,13 @@ time to finish.
 To check our Node installation we run `node --version`. It should output something very similar to:
 
 ```
-v14.16.0
+v16.17.0
 ```
 
 ## Installation of OpenProject
 
 We will install the OpenProject Community Edition. It contains the recommended set of plugins for use
-with OpenProject. For more information, see https://github.com/opf/openproject.
+with OpenProject. For more information, see [github.com/opf/openproject](https://github.com/opf/openproject).
 
 
 ```bash
@@ -214,11 +214,12 @@ rails_cache_store: :memcache
 ```
 
 __NOTE:__ You should validate your `yml` files, for example with
-http://www.yamllint.com/. Both, the `database.yml` and `configuration.yml`
+[yamlchecker.com](https://yamlchecker.com/). Both, the `database.yml` and `configuration.yml`
 file are sensitive to whitespace. It is pretty easy to write
 invalid `yml` files without seeing the error. Validating those files
 prevents you from such errors.
 
+To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be automatically loaded to the application's environment.
 
 ## Finish the installation of OpenProject
 

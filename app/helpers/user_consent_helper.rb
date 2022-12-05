@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,11 +47,11 @@ module ::UserConsentHelper
   def user_consent_instructions(_user, locale: I18n.locale)
     all = Setting.consent_info
 
-    all.fetch(locale) { all.values.first }
+    all.fetch(locale.to_s) { all.values.first }
   end
 
   def consent_checkbox_label(locale: I18n.locale)
-    I18n.t('consent.checkbox_label', locale: locale)
+    I18n.t('consent.checkbox_label', locale:)
   end
 
   def consent_configured?

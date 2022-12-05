@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ import { Observable, zip } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { RelationsStateValue, WorkPackageRelationsService } from './wp-relations.service';
 import { RelatedWorkPackagesGroup } from './wp-relations.interfaces';
@@ -68,7 +68,7 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
   constructor(private I18n:I18nService,
     private wpRelations:WorkPackageRelationsService,
     private cdRef:ChangeDetectorRef,
-    private apiV3Service:APIV3Service) {
+    private apiV3Service:ApiV3Service) {
     super();
   }
 

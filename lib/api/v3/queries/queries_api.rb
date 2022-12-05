@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,8 +47,8 @@ module API
           helpers ::API::V3::Queries::QueryHelper
 
           helpers do
-            def authorize_by_policy(action, &block)
-              authorize_by_with_raise(-> { allowed_to?(action) }, &block)
+            def authorize_by_policy(action, &)
+              authorize_by_with_raise(-> { allowed_to?(action) }, &)
             end
 
             def allowed_to?(action)
@@ -76,8 +76,8 @@ module API
               self_link = api_v3_paths.query_available_projects
 
               ::API::V3::Projects::ProjectCollectionRepresenter.new(available_projects,
-                                                                    self_link: self_link,
-                                                                    current_user: current_user)
+                                                                    self_link:,
+                                                                    current_user:)
             end
           end
 
@@ -96,9 +96,9 @@ module API
             end
           end
 
-          post do
-            create_query request_body, current_user
-          end
+          post &::API::V3::Utilities::Endpoints::Create
+            .new(model: Query)
+            .mount
 
           route_param :id, type: Integer, desc: 'Query ID' do
             after_validation do
@@ -111,9 +111,9 @@ module API
 
             mount API::V3::Queries::UpdateFormAPI
 
-            patch do
-              update_query @query, request_body, current_user
-            end
+            patch &::API::V3::Utilities::Endpoints::Update
+                     .new(model: Query)
+                     .mount
 
             params do
               optional :valid_subset, type: Boolean
@@ -129,7 +129,7 @@ module API
               @query.valid_subset!
 
               # We do not ignore invalid params provided by the client
-              # unless explicily required by valid_subset
+              # unless explicitly required by valid_subset
               query_representer_response(@query, params, params.delete(:valid_subset))
             end
 
@@ -141,37 +141,22 @@ module API
               status 204
             end
 
-            patch :star do
-              authorize_by_policy(:star)
-
-              # Query name is not user-visible, but apparently used as CSS class. WTF.
-              # Normalizing the query name can result in conflicts and empty names in case all
-              # characters are filtered out. A random name doesn't have these problems.
-              query_menu_item = MenuItems::QueryMenuItem
-                                .find_or_initialize_by(navigatable_id: @query.id) do |item|
-                item.name  = SecureRandom.uuid
-                item.title = @query.name
-              end
-              query_menu_item.save!
-
-              @query.valid_subset!
-              query_representer_response(@query, {})
+            namespace :star do
+              patch &::API::V3::Utilities::Endpoints::Update
+                       .new(model: Query,
+                            params_modifier: ->(_params) {
+                              { starred: true }
+                            })
+                       .mount
             end
 
-            patch :unstar do
-              authorize_by_policy(:unstar)
-
-              @query.valid_subset!
-              representer = query_representer_response(@query, {})
-
-              query_menu_item = @query.query_menu_item
-              return representer if @query.query_menu_item.nil?
-
-              query_menu_item.destroy
-
-              @query.reload
-
-              representer
+            namespace :unstar do
+              patch &::API::V3::Utilities::Endpoints::Update
+                       .new(model: Query,
+                            params_modifier: ->(_params) {
+                              { starred: false }
+                            })
+                       .mount
             end
 
             mount API::V3::Queries::Order::QueryOrderAPI

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,7 +73,7 @@ class Queries::Filters::Base
 
   def filter_instance_options
     values = filter_params.map { |key| [key, send(key)] }
-    initial_options.merge(Hash[values])
+    initial_options.merge(values.to_h)
   end
 
   def human_name
@@ -90,9 +88,7 @@ class Queries::Filters::Base
     nil
   end
 
-  def valid_values!
-    type_strategy.valid_values!
-  end
+  delegate :valid_values!, to: :type_strategy
 
   def available?
     true
@@ -108,6 +104,7 @@ class Queries::Filters::Base
 
   def scope
     scope = model.where(where)
+    scope = scope.from(from) if from
     scope = scope.joins(joins) if joins
     scope = scope.left_outer_joins(left_outer_joins) if left_outer_joins
     scope
@@ -122,11 +119,15 @@ class Queries::Filters::Base
   end
 
   def self.all_for(context = nil)
-    create!(name: key, context: context)
+    create!(name: key, context:)
   end
 
   def where
     operator_strategy.sql_for_field(values, self.class.model.table_name, self.class.key)
+  end
+
+  def from
+    nil
   end
 
   def joins
@@ -196,7 +197,7 @@ class Queries::Filters::Base
   end
 
   def validate_presence_of_values
-    if operator_strategy&.requires_value? && (values.nil? || values.reject(&:blank?).empty?)
+    if operator_strategy&.requires_value? && (values.nil? || values.compact_blank.empty?)
       errors.add(:values, I18n.t('activerecord.errors.messages.blank'))
     end
   end

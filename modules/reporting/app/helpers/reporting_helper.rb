@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,7 +62,7 @@ module ReportingHelper
       CostQuery::GroupBy.const_get(name).label
     else
       # note that using WorkPackage.human_attribute_name relies on the attribute
-      # being an work_package attribute or a general attribute for all models whicht might not
+      # being an work_package attribute or a general attribute for all models which might not
       # be the case but so far I have only seen the "comments" attribute in reports
       WorkPackage.human_attribute_name(field)
     end
@@ -106,7 +106,7 @@ module ReportingHelper
     case key.to_sym
     when :activity_id                           then mapped value, Enumeration, "<i>#{I18n.t(:caption_material_costs)}</i>"
     when :project_id                            then link_to_project Project.find(value.to_i)
-    when :user_id, :assigned_to_id, :author_id  then link_to_user(User.find_by_id(value.to_i) || DeletedUser.first)
+    when :user_id, :assigned_to_id, :author_id, :logged_by_id then link_to_user(User.find_by(id: value.to_i) || DeletedUser.first)
     when :tyear, :units                         then h(value.to_s)
     when :tweek                                 then "#{I18n.t(:label_week)} ##{h value}"
     when :tmonth                                then month_name(value.to_i)
@@ -132,7 +132,7 @@ module ReportingHelper
     # Reuses rails cache to locate the custom field
     # and then properly cast the value
     CustomValue
-      .new(custom_field_id: cf_id, value: value)
+      .new(custom_field_id: cf_id, value:)
       .typed_value
   end
 

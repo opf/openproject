@@ -33,6 +33,10 @@ module Users
       format_time user.last_login_on unless user.last_login_on.nil?
     end
 
+    def created_at
+      format_time user.created_at
+    end
+
     def status
       full_user_status user
     end

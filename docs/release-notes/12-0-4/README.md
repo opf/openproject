@@ -23,7 +23,7 @@ OpenProject versions >= 12.0.0 are vulnerable to a SQL injection in the budgets 
 The vulnerability has been fixed in version 12.0.4. Versions prior to 12.0.0 are not affected. If you're upgrading from an older version, ensure you are upgrading to at least version 12.0.4.
 
 #### Workaround
-If you are unable to upgrade in a timely fashion, the following patch can be applied: https://github.com/opf/openproject/pull/9983.patch
+If you are unable to upgrade in a timely fashion, the following patch can be applied: [https://github.com/opf/openproject/pull/9983.patch](https://github.com/opf/openproject/pull/9983.patch)
 
 #### Credits
 This security issue was responsibly disclosed by [Daniel Santos](https://github.com/bananabr) (Twitter [@bananabr](https://twitter.com/bananabr)). Thank you for reaching out to us and your help in identifying this issue. If you have a security vulnerability you would like to disclose, please see our [statement on security](https://www.openproject.org/docs/development/security/).

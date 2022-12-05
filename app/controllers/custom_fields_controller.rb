@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +28,6 @@
 
 class CustomFieldsController < ApplicationController
   layout 'admin'
-
-  helper_method :gon
 
   before_action :require_admin
   before_action :find_custom_field, only: %i(edit update destroy delete_option reorder_alphabetical)
@@ -102,7 +98,7 @@ class CustomFieldsController < ApplicationController
       num_deleted = delete_custom_values! @custom_option
 
       flash[:notice] = I18n.t(
-        :notice_custom_options_deleted, option_value: @custom_option.value, num_deleted: num_deleted
+        :notice_custom_options_deleted, option_value: @custom_option.value, num_deleted:
       )
     else
       flash[:error] = @custom_option.errors.full_messages
@@ -133,8 +129,6 @@ class CustomFieldsController < ApplicationController
 
   def get_custom_field_params
     custom_field_params = permitted_params.custom_field
-
-    custom_field_params.delete :multi_value
 
     custom_field_params
   end

@@ -72,8 +72,8 @@ hu:
       text_2fa_enabled: 'Minden egyes belépésnél szükséged lesz az alapértelmezett 2FA eszközödről beírt OTP tokenre.'
       text_2fa_disabled: "A felhasználó nem állított be 2FA eszközt a „Saját fiókom” oldalon"
     upsale:
-      title: 'A kétlépcsős hitelesítés vállalati szolgáltatás'
-      description: 'Erősítse meg belső vagy külső hitelesítési mechanizmusait egy második tényezővel.'
+      title: 'Kétlépcsős hitelesítés'
+      description: 'Erősítse meg OpenProject-példányának biztonságát kétlépcsős hitelesítés felajánlásával (vagy kényszerítésével) minden projekttag számára.'
     backup_codes:
       none_found: "Ehhez a fiókhoz nincsenek biztonsági kódok.\n"
       singular: Visszaállítási kulcs
@@ -122,7 +122,6 @@ hu:
           Nem tudja beolvasni a kódot az alkalmazásával?
         text_cannot_scan: |
           Ha nem tudja beolvasni a kódot, akkor az alábbi adatok segítségével manuálisan is megadhatja a bejegyzést:
-
         description: |
           Regisztráljon egy alkalmazás-hitelesítőt az OpenProject-hez való használatra az időalapú egyszeri jelszavas hitelesítési szabvány használatával.
           Gyakori példák a Google Authenticator vagy az Authy.
@@ -137,8 +136,6 @@ hu:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS kézbesítése sikertelen.'
       voice_delivery_failed: 'MessageBird hívás sikertelen'
-    restdt:
-      delivery_failed_with_code: 'A token kézbesítése nem sikerült.(Hibakód %{code})'
     strategies:
       totp: 'Hitelesítő alkalmazás'
       sns: 'Amazon SNS'

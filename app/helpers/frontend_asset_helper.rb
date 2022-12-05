@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +30,7 @@ module FrontendAssetHelper
   CLI_DEFAULT_PROXY = 'http://localhost:4200'.freeze
 
   def self.assets_proxied?
-    !ENV['OPENPROJECT_DISABLE_DEV_ASSET_PROXY'].present? && !Rails.env.production? && cli_proxy?
+    ENV['OPENPROJECT_DISABLE_DEV_ASSET_PROXY'].blank? && !Rails.env.production? && cli_proxy?
   end
 
   def self.cli_proxy
@@ -49,10 +47,10 @@ module FrontendAssetHelper
   def include_frontend_assets
     capture do
       %w(vendor.js polyfills.js runtime.js main.js).each do |file|
-        concat javascript_include_tag variable_asset_path(file)
+        concat javascript_include_tag variable_asset_path(file), skip_pipeline: true
       end
 
-      concat stylesheet_link_tag variable_asset_path("styles.css"), media: :all
+      concat stylesheet_link_tag variable_asset_path("styles.css"), media: :all, skip_pipeline: true
     end
   end
 
@@ -62,10 +60,9 @@ module FrontendAssetHelper
     URI.join(FrontendAssetHelper.cli_proxy, "assets/frontend/#{path}")
   end
 
-  def frontend_asset_path(unhashed, options = {})
+  def frontend_asset_path(unhashed)
     file_name = ::OpenProject::Assets.lookup_asset unhashed
-
-    asset_path "assets/frontend/#{file_name}", options.merge(skip_pipeline: true)
+    "/assets/frontend/#{file_name}"
   end
 
   def variable_asset_path(path)

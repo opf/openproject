@@ -13,6 +13,8 @@ get:
     '302':
       content:
         text/plain:
+          schema:
+            type: string
           examples:
             response:
               value: 'You are being redirected to /api/v3/relations?involved={work_package_id}'
@@ -40,20 +42,12 @@ post:
       description: Created
       headers: {}
     '400':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-                message: The request body was not a single JSON object.
-      description: Occurs when the client did not send a valid JSON object in the
-        request body.
-      headers: {}
+      $ref: "../components/responses/invalid_request_body.yml"
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -68,6 +62,8 @@ post:
     '409':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -78,9 +74,15 @@ post:
         Returned if there already exists a relation between the given work packages of **any** type
         or if the relation is not allowed.
       headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
     '422':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:

@@ -87,9 +87,9 @@ The steps for this option is as follows:
 
 3. From your backup, restore the configuration and attachment files ([See our restoring guide](../../operation/restoring/) for more information):
 
-   ​	`tar xzf conf-<timestamp>.tar.gz -C /etc/openproject/conf.d/`
+   `tar xzf conf-<timestamp>.tar.gz -C /etc/openproject/conf.d/`
 
-   ​	`tar xzf attachments-<timestamp>.tar.gz -C /var/db/openproject/files`
+   `tar xzf attachments-<timestamp>.tar.gz -C /var/db/openproject/files`
 
 4. Run `openproject reconfigure` and select to install a PostgreSQL database
 
@@ -110,7 +110,7 @@ The steps for this option is as follows:
 ## Problems with the migration?
 
 
-Please let us know if you have any questions regarding this upgrade path. Reach out to us [through our contact data or form on our website](https://www.openproject.org/contact-us/) with feedback and issues you experienced.
+Please let us know if you have any questions regarding this upgrade path. Reach out to us [through our contact data or form on our website](https://www.openproject.org/contact/) with feedback and issues you experienced.
 
 We're very interested in providing a smooth upgrade at all times, and would like to document issues you experience during the upgrade.
 

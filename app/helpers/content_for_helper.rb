@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +29,8 @@
 module ContentForHelper
   # Thanks to http://blog.plataformatec.com.br/2012/07/flushing-content-blocks-with-rails-4/
   # TODO: This method becomes obsolete with Rails 4 and the 'flush' parameter
-  def single_content_for(name, content = nil, &block)
+  def single_content_for(name, content = nil, &)
     @view_flow.set(name, ActiveSupport::SafeBuffer.new)
-    content_for(name, content, &block)
+    content_for(name, content, &)
   end
 end

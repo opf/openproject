@@ -1,25 +1,25 @@
 import {
-  ChangeDetectorRef, Directive, Injector, OnInit,
+  ChangeDetectorRef,
+  Directive,
+  Injector,
+  OnInit,
 } from '@angular/core';
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 @Directive()
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
-    activity: this.i18n.t('js.time_entry.activity'),
-    comment: this.i18n.t('js.time_entry.comment'),
-    hour: this.i18n.t('js.time_entry.hours'),
-    workPackage: this.i18n.t('js.label_work_package'),
     edit: this.i18n.t('js.button_edit'),
     delete: this.i18n.t('js.button_delete'),
     confirmDelete: {
@@ -31,13 +31,15 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
 
   public entries:TimeEntryResource[] = [];
 
+  public schema:SchemaResource;
+
   private entriesLoaded = false;
 
   public rows:{ date:string, sum?:string, entry?:TimeEntryResource }[] = [];
 
   @InjectField() public readonly timeEntryEditService:TimeEntryEditService;
 
-  @InjectField() public readonly apiV3Service:APIV3Service;
+  @InjectField() public readonly apiV3Service:ApiV3Service;
 
   constructor(readonly injector:Injector,
     readonly timezone:TimezoneService,
@@ -48,66 +50,72 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
     super(i18n, injector);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     this
       .apiV3Service
       .time_entries
       .list({ filters: this.dmFilters(), pageSize: 500 })
-      .subscribe((collection) => {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      .subscribe(async (collection) => {
         this.buildEntries(collection.elements);
+
+        if (collection.count > 0) {
+          this.schema = await this.loadSchema();
+        }
+
         this.entriesLoaded = true;
 
         this.cdr.detectChanges();
       });
   }
 
-  public get total() {
+  public get total():string {
     const duration = this.entries.reduce((current, entry) => current + this.timezone.toHours(entry.hours), 0);
 
     return this.i18n.t('js.units.hour', { count: this.formatNumber(duration) });
   }
 
-  public get anyEntries() {
+  public get anyEntries():boolean {
     return !!this.entries.length;
   }
 
-  public activityName(entry:TimeEntryResource) {
+  public activityName(entry:TimeEntryResource):string {
     return entry.activity.name;
   }
 
-  public projectName(entry:TimeEntryResource) {
+  public projectName(entry:TimeEntryResource):string {
     return entry.project.name;
   }
 
-  public workPackageName(entry:TimeEntryResource) {
-    return `#${entry.workPackage.id}: ${entry.workPackage.name}`;
+  public workPackageName(entry:TimeEntryResource):string {
+    return `#${entry.workPackage.id as string}: ${entry.workPackage.name}`;
   }
 
-  public workPackageId(entry:TimeEntryResource) {
-    return entry.workPackage.id!;
+  public workPackageId(entry:TimeEntryResource):string {
+    return entry.workPackage.id as string;
   }
 
-  public comment(entry:TimeEntryResource) {
+  public comment(entry:TimeEntryResource):string|undefined {
     return entry.comment && entry.comment.raw;
   }
 
-  public hours(entry:TimeEntryResource) {
+  public hours(entry:TimeEntryResource):string {
     return this.formatNumber(this.timezone.toHours(entry.hours));
   }
 
-  public workPackagePath(entry:TimeEntryResource) {
+  public workPackagePath(entry:TimeEntryResource):string {
     return this.pathHelper.workPackagePath(idFromLink(entry.workPackage.href));
   }
 
-  public get isEditable() {
+  public get isEditable():boolean {
     return false;
   }
 
-  public editTimeEntry(entry:TimeEntryResource) {
+  public editTimeEntry(entry:TimeEntryResource):void {
     this
       .apiV3Service
       .time_entries
-      .id(entry.id!)
+      .id(entry.id as string)
       .get()
       .subscribe((loadedEntry) => {
         this.timeEntryEditService
@@ -120,12 +128,12 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
             this.buildEntries(newEntries);
           })
           .catch(() => {
-          // User canceled the modal
+            // User canceled the modal
           });
       });
   }
 
-  public deleteIfConfirmed(event:Event, entry:TimeEntryResource) {
+  public deleteIfConfirmed(event:Event, entry:TimeEntryResource):void {
     event.preventDefault();
     this.confirmDialog.confirm({
       text: this.text.confirmDelete,
@@ -141,7 +149,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       ],
       dangerHighlighting: true,
     }).then(() => {
-      entry.delete().then(() => {
+      void entry.delete().then(() => {
         const newEntries = this.entries.filter((anEntry) => entry.id !== anEntry.id);
 
         this.buildEntries(newEntries);
@@ -165,7 +173,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
         sumsByDateSpent[date] = 0;
       }
 
-      sumsByDateSpent[date] = sumsByDateSpent[date] + this.timezone.toHours(entry.hours);
+      sumsByDateSpent[date] += this.timezone.toHours(entry.hours);
     });
 
     const sortedEntries = entries.sort((a, b) => b.spentOn.localeCompare(a.spentOn));
@@ -175,10 +183,13 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
     sortedEntries.forEach((entry) => {
       if (entry.spentOn !== currentDate) {
         currentDate = entry.spentOn;
-        this.rows.push({ date: this.timezone.formattedDate(currentDate!), sum: this.formatNumber(sumsByDateSpent[currentDate!]) });
+        this.rows.push({
+          date: this.timezone.formattedDate(currentDate),
+          sum: this.formatNumber(sumsByDateSpent[currentDate]),
+        });
       }
 
-      this.rows.push({ date: currentDate!, entry });
+      this.rows.push({ date: currentDate, entry });
     });
     // entries
   }
@@ -187,7 +198,16 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
     return this.i18n.toNumber(value, { precision: 2 });
   }
 
-  public get noEntries() {
+  public get noEntries():boolean {
     return !this.entries.length && this.entriesLoaded;
+  }
+
+  private loadSchema():Promise<SchemaResource> {
+    return this
+      .apiV3Service
+      .time_entries
+      .schema
+      .get()
+      .toPromise();
   }
 }

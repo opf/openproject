@@ -9,8 +9,8 @@ import { WidgetChangeset } from 'core-app/shared/components/grids/widgets/widget
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BehaviorSubject } from 'rxjs';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { Apiv3GridForm } from 'core-app/core/apiv3/endpoints/grids/apiv3-grid-form';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3GridForm } from 'core-app/core/apiv3/endpoints/grids/apiv3-grid-form';
 
 @Injectable()
 export class GridAreaService {
@@ -36,7 +36,7 @@ export class GridAreaService {
 
   public helpMode = false;
 
-  constructor(private apiV3Service:APIV3Service,
+  constructor(private apiV3Service:ApiV3Service,
     private toastService:ToastService,
     private i18n:I18nService) { }
 
@@ -111,7 +111,7 @@ export class GridAreaService {
   }
 
   public saveWidgetChangeset(changeset:WidgetChangeset) {
-    const payload:any = Apiv3GridForm.extractPayload(this.resource, this.schema);
+    const payload:any = ApiV3GridForm.extractPayload(this.resource, this.schema);
 
     const payloadWidget = payload.widgets.find((w:any) => w.id === changeset.pristineResource.id);
     Object.assign(payloadWidget, changeset.changes);

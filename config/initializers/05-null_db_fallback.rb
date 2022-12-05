@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,5 +30,6 @@
 # As initializers and other parts of the boot sequence rely on calls accessing
 # the DB, the null db gem is used to fake the existence of a database in cases where
 # the db has not been created yet.
+require Rails.root.join('config/constants/open_project/null_db_fallback')
 
 OpenProject::NullDbFallback.fallback

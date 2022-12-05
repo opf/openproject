@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,7 +55,7 @@ module VersionSettingsHelper
     setting = version.version_settings.detect { |vs| vs.project_id == project.id || vs.project_id.nil? }
 
     # nil? because some settings in the active codebase do have that right now
-    setting ||= version.version_settings.new(display: VersionSetting::DISPLAY_LEFT, project: project)
+    setting ||= version.version_settings.new(display: VersionSetting::DISPLAY_LEFT, project:)
 
     setting
   end

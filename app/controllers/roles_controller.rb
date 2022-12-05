@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -116,7 +114,7 @@ class RolesController < ApplicationController
     size = params[:page_limit].to_i
     page = params[:page].to_i
 
-    @roles = Role.paginated_search(params[:q], page: page, page_limit: size)
+    @roles = Role.paginated_search(params[:q], page:, page_limit: size)
     # we always get all the items on a page, so just check if we just got the last
     @more = @roles.total_pages > page
     @total = @roles.total_entries

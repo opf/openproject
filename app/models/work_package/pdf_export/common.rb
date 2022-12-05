@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,8 +55,8 @@ module WorkPackage::PDFExport::Common
   def success(content)
     ::Exports::Result
       .new format: :csv,
-           title: title,
-           content: content,
+           title:,
+           content:,
            mime_type: 'application/pdf'
   end
 
@@ -77,7 +75,7 @@ module WorkPackage::PDFExport::Common
     # Such an error would cause the whole export to error.
     pdf.markup_options = {
       image: {
-        loader: ->(_src) { nil },
+        loader: ->(_src) {},
         placeholder: "<i>[#{I18n.t('export.image.omitted')}]</i>"
       }
     }
@@ -88,6 +86,6 @@ module WorkPackage::PDFExport::Common
   end
 
   def position_diff(position_a, position_b)
-    position_a.y - position_b.y + (position_b.page - position_a.page) * pdf.bounds.height
+    position_a.y - position_b.y + ((position_b.page - position_a.page) * pdf.bounds.height)
   end
 end

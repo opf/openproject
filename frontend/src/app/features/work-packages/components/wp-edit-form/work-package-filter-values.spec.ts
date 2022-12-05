@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -54,6 +54,9 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { of } from 'rxjs';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 describe('WorkPackageFilterValues', () => {
   let resource:WorkPackageResource;
@@ -65,6 +68,10 @@ describe('WorkPackageFilterValues', () => {
   let filters:any[];
   let source:any;
 
+  const WeekdayServiceStub = {
+    loadWeekdays: () => of(true),
+  };
+
   function setupTestBed() {
     // noinspection JSIgnoredPromiseFromCall
     void TestBed.configureTestingModule({
@@ -74,6 +81,7 @@ describe('WorkPackageFilterValues', () => {
       ],
       providers: [
         I18nService,
+        { provide: WeekdayService, useValue: WeekdayServiceStub },
         States,
         IsolatedQuerySpace,
         HalEventsService,
@@ -143,7 +151,7 @@ describe('WorkPackageFilterValues', () => {
         subject.applyDefaultsFromFilters(changeset);
 
         expect(changeset.changedAttributes.length).toEqual(0);
-        expect(changeset.value('type').href).toEqual('/api/v3/types/1');
+        expect(changeset.value<HalResource>('type').href).toEqual('/api/v3/types/1');
       }));
     });
 
@@ -162,11 +170,11 @@ describe('WorkPackageFilterValues', () => {
         setupTestBed();
       });
 
-      it('it should not apply the first value (Regression #30817)', (() => {
+      it('it should not keep the second value (Regression #30817)', (() => {
         subject.applyDefaultsFromFilters(changeset);
 
         expect(changeset.changedAttributes.length).toEqual(0);
-        expect(changeset.value('type').href).toEqual('/api/v3/types/2');
+        expect(changeset.value<HalResource>('type').href).toEqual('/api/v3/types/2');
       }));
     });
   });

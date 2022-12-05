@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +51,11 @@ class Authorization::UserAllowedQuery < Authorization::AbstractUserQuery
                                   has_role.and(has_permission)
                                 end
 
-      is_admin = users_table[:admin].eq(true)
+      is_admin = if OpenProject::AccessControl.grant_to_admin?(action)
+                   users_table[:admin].eq(true)
+                 else
+                   Arel::Nodes::Equality.new(1, 0)
+                 end
 
       statement.where(has_role_and_permission.or(is_admin))
     else

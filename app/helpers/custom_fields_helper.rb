@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -93,7 +91,7 @@ module CustomFieldsHelper
           when 'list'
             blank_option = if custom_field.is_required? && custom_field.default_value.blank?
                              "<option value=\"\">--- #{I18n.t(:actionview_instancetag_blank_option)} ---</option>"
-                           elsif custom_field.is_required? && !custom_field.default_value.blank?
+                           elsif custom_field.is_required? && custom_field.default_value.present?
                              ''
                            else
                              '<option></option>'
@@ -176,8 +174,8 @@ module CustomFieldsHelper
 
   # Return a string used to display a custom value
   def format_value(value, custom_field)
-    custom_value = CustomValue.new(custom_field: custom_field,
-                                   value: value)
+    custom_value = CustomValue.new(custom_field:,
+                                   value:)
 
     custom_value.formatted_value
   end

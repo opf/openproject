@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -91,7 +91,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     dragAndDropEnabled: true,
   };
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     readonly injector:Injector,
     readonly $state:StateService,
     readonly keepTab:KeepTabService,
@@ -102,7 +103,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
-    private ngZone:NgZone) {
+    private ngZone:NgZone,
+  ) {
     super();
   }
 
@@ -188,7 +190,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
    * Special handling for clicking on cards.
    * If we are on mobile, a click on the card should directly open the full view
    */
-  handleWorkPackageCardClicked(event:{ workPackageId:string; double:boolean }) {
+  handleWorkPackageCardClicked(event:{ workPackageId:string; double:boolean }):void {
     if (this.deviceService.isMobile) {
       this.openInFullView(event.workPackageId);
     } else {

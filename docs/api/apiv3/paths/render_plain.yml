@@ -14,7 +14,9 @@ post:
       headers: {}
     '415':
       content:
-        application/json:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:

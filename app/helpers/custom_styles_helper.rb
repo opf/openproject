@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,11 +34,11 @@ module CustomStylesHelper
 
   # The default favicon and touch icons are both the same for normal OP and BIM.
   def apply_custom_favicon?
-    CustomStyle.current.favicon.present?
+    apply_custom_styles? && CustomStyle.current.favicon.present?
   end
 
   # The default favicon and touch icons are both the same for normal OP and BIM.
   def apply_custom_touch_icon?
-    CustomStyle.current.touch_icon.present?
+    apply_custom_styles? && CustomStyle.current.touch_icon.present?
   end
 end

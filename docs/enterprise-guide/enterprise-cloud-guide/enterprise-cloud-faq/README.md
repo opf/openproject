@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Enterprise cloud FAQ
   priority: 001
 description: Frequently asked questions regarding Enterprise cloud
-robots: index, follow
 keywords: Enterprise cloud FAQ, Cloud Edition, hosted by OpenProject
 ---
 
@@ -11,7 +10,7 @@ keywords: Enterprise cloud FAQ, Cloud Edition, hosted by OpenProject
 
 ## How can I test the Enterprise cloud version?
 
-Simply create a 14 days free trial on: https://start.openproject.com/. Enter your organization name in small letters, without spaces (e.g. openproject) and press the blue Start Free Trial button.
+Simply create a 14 days free trial on: [start.openproject.com](https://start.openproject.com/). Enter your organization name in small letters, without spaces (e.g. openproject) and press the blue Start Free Trial button.
 
 ## How can I book additional users for the Enterprise cloud?
 
@@ -48,11 +47,11 @@ Starting from April 2022, we will also offer hosting of the OpenProject Enterpri
 
 **Migration after the beta phase in April 2022**
 
-After the end of the beta phase we plan to migrate <u>all</u> customers to the new infrastructure *OpenProject.eu*. Before this migration we (Processor) will notify all clients (Controller) about the new sub-processors by email.  After the expiry of the objection period of two weeks, the modification shall be deemed approved within the meaning of Article 28  (2) GDPR. If the the Controller objects by email to privacy@openproject.com within two weeks we will <u>not</u> migrate their data. For more information please have a look at [§ 8 "Sub-processors](https://www.openproject.org/legal/data-processing-agreement/#-8-sub-processors) in your DPA.
+After the end of the beta phase we plan to migrate <u>all</u> customers to the new infrastructure *OpenProject.eu*. Before this migration we (Processor) notified in March 2022 all clients (Controller) about the new sub-processors by email.  After the expiry of the objection period of two weeks, the modification shall be deemed approved within the meaning of Article 28  (2) GDPR. If the the Controller objects by email to privacy@openproject.com within two weeks we will <u>not</u> migrate their data. For more information please have a look at [Use of sub-processors](https://www.openproject.org/legal/data-processing-agreement/#77-use-of-sub-processors) in your DPA.
 
 ## Can I get a custom domain name instead of example.openproject.com?
 
-Yes, you can create your custom domain name. For this service we charge €100 once-off. Please add it in your booking process (will soon be available) or contact us via email (support@openproject.com).
+Yes, you can create your custom domain name. For this service we charge €100 per month. Please contact us via email (support@openproject.com) if you are interested.
 
 ## Can I import my OpenProject community instance into my Enterprise cloud environment?
 

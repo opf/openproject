@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Manage sprints
   priority: 900
 description: Create a new sprint in the backlogs view.
-robots: index, follow
 keywords: manage sprints
 ---
 
@@ -27,8 +26,6 @@ On the new page, you can specify details of the version such as description, sta
 
 The Column in backlog settings define whether the version should be displayed in the backlogs view on the left side (recommended for sprints) or on the right side (recommended for product backlog, bug backlog, wishlist, etc.)
 
-<div class="alert alert-info" role="alert">
-**Note**: Sprints (versions displayed on the left side of the backlogs page) offer more options – such as opening the task board and displaying the burndown chart.
-</div>
+> **Note**: Sprints (versions displayed on the left side of the backlogs page) offer more options – such as opening the task board and displaying the burndown chart.
 
 ![User-guide-backlogs-manage-versions](User-guide-backlogs-manage-versions.png) 

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,5 +35,12 @@ class Projects::Status < ActiveRecord::Base
             presence: true,
             uniqueness: true
 
-  enum code: %i[on_track at_risk off_track]
+  enum code: {
+    on_track: 0,
+    at_risk: 1,
+    off_track: 2,
+    not_started: 3,
+    finished: 4,
+    discontinued: 5
+  }
 end

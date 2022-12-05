@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,15 +38,14 @@ module Bim::Bcf
                        add_on_persisted_permission: :manage_bcf
 
     def self.has_uuid?(uuid)
-      where(uuid: uuid).exists?
+      where(uuid:).exists?
     end
 
     belongs_to :issue,
-               foreign_key: :issue_id,
                class_name: "Bim::Bcf::Issue",
                touch: true
 
-    has_many :comments, foreign_key: :viewpoint_id, class_name: "Bim::Bcf::Comment"
+    has_many :comments, class_name: "Bim::Bcf::Comment"
     delegate :project, :project_id, to: :issue, allow_nil: true
 
     validates :issue, presence: true
@@ -74,8 +73,8 @@ module Bim::Bcf
 
     def build_snapshot(file, user: User.current)
       ::Attachments::BuildService
-        .bypass_whitelist(user: user)
-        .call(file: file, container: self, filename: file.original_filename, description: 'snapshot')
+        .bypass_whitelist(user:)
+        .call(file:, container: self, filename: file.original_filename, description: 'snapshot')
         .result
     end
   end

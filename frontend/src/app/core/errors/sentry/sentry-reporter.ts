@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,51 +37,19 @@ import { EventHint } from '@sentry/angular';
 import { HttpErrorResponse } from '@angular/common/http';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { HalError } from 'core-app/features/hal/services/hal-error';
+import {
+  ErrorReporterBase,
+  ErrorTags,
+  MessageSeverity,
+} from 'core-app/core/errors/error-reporter-base';
 
-export type ScopeCallback = (scope:Scope) => void;
-export type MessageSeverity = 'fatal'|'error'|'warning'|'log'|'info'|'debug';
-
-export interface CaptureInterface {
-  /** Capture a message */
-  captureMessage(msg:string, level?:MessageSeverity):void;
-
-  /** Capture an exception(!) only */
-  captureException(err:Error):void;
-}
-
-export interface SentryClient extends CaptureInterface {
-  configureScope(scope:ScopeCallback):void;
-
-  withScope(scope:ScopeCallback):void;
-}
-
-export interface ErrorReporter extends CaptureInterface {
-  /** Register a context callback handler */
-  addContext(...callbacks:ScopeCallback[]):void;
-}
-
-interface QueuedMessage {
-  type:'captureMessage'|'captureException';
-  args:unknown[];
-}
-
-export class SentryReporter implements ErrorReporter {
-  private contextCallbacks:ScopeCallback[] = [];
-
-  private messageStack:QueuedMessage[] = [];
-
-  private readonly sentryConfigured:boolean = true;
-
+export class SentryReporter extends ErrorReporterBase {
   private client:Hub;
 
   constructor() {
+    super();
     const sentryElement = document.querySelector('meta[name=openproject_sentry]') as HTMLElement;
-    if (sentryElement !== null) {
-      this.loadSentry(sentryElement);
-    } else {
-      this.sentryConfigured = false;
-      this.messageStack = [];
-    }
+    this.loadSentry(sentryElement);
   }
 
   private loadSentry(sentryElement:HTMLElement) {
@@ -131,30 +99,24 @@ export class SentryReporter implements ErrorReporter {
   public sentryLoaded(client:Hub):void {
     this.client = client;
     client.configureScope(this.setupContext.bind(this));
-
-    // Send all messages from before sentry got loaded
-    this.messageStack.forEach((item) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-      this[item.type].bind(this).apply(item.args);
-    });
   }
 
   public captureMessage(msg:string, severity:MessageSeverity = 'info'):void {
     if (!this.client) {
-      this.handleOfflineMessage('captureMessage', [msg, severity]);
+      debugLog('Sentry is not yet loaded, ignoring %O', msg);
       return;
     }
 
     this.client.withScope((scope:Scope) => {
-      this.setupContext(scope);
-      this.client.captureMessage(msg, Severity.fromString(severity));
+      void this
+        .setupContext(scope)
+        .then(() => this.client.captureMessage(msg, Severity.fromString(severity)));
     });
   }
 
   public captureException(err:Error|string):void {
     if (!this.client || !err) {
-      this.handleOfflineMessage('captureException', [err]);
-      throw (err as Error);
+      debugLog('Sentry is not yet loaded, ignoring error %O', err);
     }
 
     if (typeof err === 'string') {
@@ -163,38 +125,17 @@ export class SentryReporter implements ErrorReporter {
     }
 
     this.client.withScope((scope:Scope) => {
-      this.setupContext(scope);
-      this.client.captureException(err);
+      void this
+        .setupContext(scope)
+        .then(() => this.client.captureException(err));
     });
-  }
-
-  public addContext(...callbacks:ScopeCallback[]):void {
-    this.contextCallbacks.push(...callbacks);
-
-    if (this.client) {
-      /** Add to global context as well */
-      callbacks.forEach((cb) => this.client.configureScope(cb));
-    }
-  }
-
-  /**
-   * Remember a message or error for later handling
-   * @param type
-   * @param args
-   */
-  private handleOfflineMessage(type:'captureMessage'|'captureException', args:unknown[]) {
-    if (this.sentryConfigured) {
-      this.messageStack.push({ type, args });
-    } else {
-      debugLog('[ErrorReporter] Would queue sentry message %O %O, but is not configured.', type, args);
-    }
   }
 
   /**
    * Set up the current scope for the event to be sent.
    * @param scope
    */
-  private setupContext(scope:Scope) {
+  private async setupContext(scope:Scope) {
     scope.setTag('code_origin', 'frontend');
     scope.setTag('locale', window.I18n.locale);
     scope.setTag('domain', window.location.hostname);
@@ -202,7 +143,16 @@ export class SentryReporter implements ErrorReporter {
     scope.setExtra('url_query', window.location.search);
 
     /** Execute callbacks */
-    this.contextCallbacks.forEach((cb) => cb(scope));
+    const results = await this.hookPromises();
+    results.forEach((tags:ErrorTags) => {
+      Object.keys(tags).forEach((key) => {
+        if (key === 'user') {
+          scope.setUser({ id: tags[key] });
+        } else {
+          scope.setTag(key, tags[key]);
+        }
+      });
+    });
   }
 
   /**

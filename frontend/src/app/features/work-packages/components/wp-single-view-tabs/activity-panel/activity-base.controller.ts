@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -41,8 +41,9 @@ import { ActivityEntryInfo } from 'core-app/features/work-packages/components/wp
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
+import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
@@ -73,19 +74,30 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   private initialized = false;
 
+  private comingFromNotifications = false;
+
   constructor(
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly wpActivity:WorkPackagesActivityService,
     readonly storeService:WpSingleViewService,
+    readonly browserDetector:BrowserDetector,
     private wpSingleViewService:WpSingleViewService,
   ) {
     super();
 
     this.reverse = wpActivity.isReversed;
     this.togglerText = this.text.commentsOnly;
+
+    const lastTransitionName = uiRouterGlobals.successfulTransitions.peekTail().from().name as string;
+    const comingFromNotifications = /^notifications/.test(lastTransitionName);
+    const firstRouteOnMobile = lastTransitionName === '' && this.browserDetector.isMobile;
+
+    if (comingFromNotifications || firstRouteOnMobile) {
+      this.comingFromNotifications = true;
+    }
   }
 
   ngOnInit():void {
@@ -101,7 +113,8 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
         this.reloadActivities();
       });
 
-    this.wpSingleViewService.query
+    this
+      .wpSingleViewService
       .selectNotificationsCount$
       .pipe(
         this.untilDestroyed(),
@@ -113,7 +126,9 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   }
 
   private scrollIfNotificationPresent() {
-    this.storeService.query.hasNotifications$
+    this
+      .storeService
+      .hasNotifications$
       .pipe(take(1))
       .subscribe((hasNotification) => {
         if (hasNotification) {
@@ -166,7 +181,6 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   protected hasUnreadNotification(activityHref:string):Observable<boolean> {
     return this
       .storeService
-      .query
       .selectNotifications$
       .pipe(
         map((notifications) => (
@@ -187,6 +201,11 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
     const scrollOffset = notificationElement.offsetTop - (scrollContainer as HTMLElement).offsetTop - this.additionalScrollMargin;
     scrollContainer.scrollTop = scrollOffset;
+
+    // Make sure the scrollContainer is visible on mobile
+    if (this.comingFromNotifications) {
+      scrollContainer.scrollIntoView(true);
+    }
   }
 
   public toggleComments():void {

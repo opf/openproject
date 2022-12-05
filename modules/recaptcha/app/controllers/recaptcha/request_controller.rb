@@ -28,7 +28,7 @@ module ::Recaptcha
 
     def verify
       if valid_recaptcha?
-        save_recpatcha_verification_success!
+        save_recaptcha_verification_success!
         complete_stage_redirect
       else
         fail_recaptcha I18n.t('recaptcha.error_captcha')
@@ -39,14 +39,14 @@ module ::Recaptcha
 
     ##
     # Insert that the account was verified
-    def save_recpatcha_verification_success!
+    def save_recaptcha_verification_success!
       # Remove all previous
       ::Recaptcha::Entry.where(user_id: @authenticated_user.id).delete_all
       ::Recaptcha::Entry.create!(user_id: @authenticated_user.id, version: recaptcha_version)
     end
 
     def recaptcha_version
-      case recaptcha_settings[:recaptcha_type]
+      case recaptcha_settings['recaptcha_type']
       when ::OpenProject::Recaptcha::TYPE_DISABLED
         0
       when ::OpenProject::Recaptcha::TYPE_V2
@@ -59,7 +59,7 @@ module ::Recaptcha
     ##
     #
     def valid_recaptcha?
-      call_args = { secret_key: recaptcha_settings[:secret_key] }
+      call_args = { secret_key: recaptcha_settings['secret_key'] }
       if recaptcha_version == 3
         call_args[:action] = 'login'
       end
@@ -88,7 +88,7 @@ module ::Recaptcha
     end
 
     def skip_if_disabled
-      if recaptcha_settings[:recaptcha_type] == ::OpenProject::Recaptcha::TYPE_DISABLED
+      if recaptcha_settings['recaptcha_type'] == ::OpenProject::Recaptcha::TYPE_DISABLED
         complete_stage_redirect
       end
     end
@@ -100,7 +100,7 @@ module ::Recaptcha
     end
 
     def skip_if_user_verified
-      if ::Recaptcha::Entry.where(user_id: @authenticated_user.id).exists?
+      if ::Recaptcha::Entry.exists?(user_id: @authenticated_user.id)
         Rails.logger.debug { "User #{@authenticated_user.id} already provided recaptcha. Skipping. " }
         complete_stage_redirect
       end

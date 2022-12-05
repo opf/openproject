@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -80,7 +78,7 @@ module Grids::Copy
       if mapper
         mapper.call(value, params).map { |id| [option, id] }
       else
-        ServiceResult.new success: true, result: [option, value]
+        ServiceResult.success result: [option, value]
       end
     end
 
@@ -103,7 +101,7 @@ module Grids::Copy
       existing_query_id = state.query_id_lookup[query_id.to_i] if state.query_id_lookup
 
       if existing_query_id
-        ServiceResult.new(result: existing_query_id, success: true)
+        ServiceResult.success(result: existing_query_id)
       else
         duplicate_query(query_id, params).map(&:id)
       end
@@ -114,14 +112,14 @@ module Grids::Copy
         .new(state, filters)
         .map_filters!
 
-      ServiceResult.new success: true, result: filters
+      ServiceResult.success result: filters
     end
 
     def duplicate_query(query_id, params)
       query = Query.find query_id
 
       ::Queries::CopyService
-        .new(user: user, source: query)
+        .new(user:, source: query)
         .with_state(state)
         .call(params)
     end

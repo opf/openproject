@@ -1,0 +1,48 @@
+# /api/v3/file_links/{id}/open
+---
+get:
+  summary: Creates an opening uri of the linked file.
+  operationId: open_file_link
+  tags:
+    - File links
+  description: |-
+    Creates a uri to open the origin file linked by the given file link. This uri depends on the storage type and
+    is always located on the origin storage itself.
+  parameters:
+    - name: id
+      description: File link id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 42
+    - name: location
+      description: Boolean flag indicating, if the file should be opened directly or rather the directory location.
+      in: query
+      required: false
+      schema:
+        type: boolean
+      example: true 
+  responses:
+    '303':
+      headers:
+        Location:
+          schema:
+            type: string
+            format: uri
+      description: |-
+        Returned if the request was successful. In the `Location` header is the uri where the client can open the origin
+        file on the storage.
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package, view file links

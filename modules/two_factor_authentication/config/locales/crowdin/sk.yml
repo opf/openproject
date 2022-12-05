@@ -72,8 +72,8 @@ sk:
       text_2fa_enabled: 'Po každom prihlásení bude užívateľ požiadaný, aby zadal token OTP zo svojho predvoleného zariadenia 2FA.'
       text_2fa_disabled: "Používateľ neurčil zariadenie 2FA prostredníctvom svojej stránky \"Môj účet\""
     upsale:
-      title: 'Dvojfaktorové overovanie je funkcia Enterprise-Edition'
-      description: 'Posilnite svoje interné alebo externé autentifikačné mechanizmy dvojfaktorovým overovaním.'
+      title: 'Two-factor authentication'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: Pre tento účet neexistujú žiadne záložné kódy.
       singular: Záložný kód
@@ -136,8 +136,6 @@ sk:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS doručenie zlyhalo.'
       voice_delivery_failed: 'MessageBird voice call failed.'
-    restdt:
-      delivery_failed_with_code: 'Doručenie tokenu zlyhalo. (Kód chyby %{code})'
     strategies:
       totp: 'Aplikácia Authenticator'
       sns: 'Amazon SNS'

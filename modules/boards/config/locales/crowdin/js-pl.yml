@@ -2,14 +2,13 @@
 pl:
   js:
     boards:
+      create_new: 'Utwórz nową tablicę'
       label_unnamed_board: 'Tablica bez nazwy'
       label_unnamed_list: 'Lista bez nazwy'
       label_board_type: 'Typ tablicy'
       upsale:
-        teaser_text: 'Usprawnij swoje zwinne zarządzanie projektami dzięki temu elastycznemu widokowi Tablice. Twórz tyle tablic, ile chcesz, dla czegokolwiek, co zechcesz śledzić.'
-        upgrade_to_ee_text: 'Tablice to funkcja wersji Enterprise. Przejdź na plan płatny.'
+        teaser_text: 'Czy chcesz zautomatyzować swoje przepływy pracy za pomocą tablic? Zaawansowane tablice to funkcja wersji Enterprise. Przejdź na płatny plan.'
         upgrade: 'Zmień plan teraz'
-        personal_demo: 'Skontaktuj się z nami, aby uzyskać demo'
       lists:
         delete: 'Usuń listę'
       version:
@@ -63,7 +62,7 @@ pl:
           status: Status
           version: Wersja
           subproject: Podprojekt
-          subtasks: Nadrzędny-podrzędny 
+          subtasks: Nadrzędny-podrzędny
           basic: Podstawowa
         select_attribute: "Atrybut działania"
       add_list_modal:

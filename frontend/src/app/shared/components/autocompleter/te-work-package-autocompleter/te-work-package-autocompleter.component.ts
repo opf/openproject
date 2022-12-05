@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,10 +27,13 @@
 //++
 
 import {
-  AfterViewInit, Component, EventEmitter, Injector, Output, ViewEncapsulation,
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Injector,
+  Output,
+  ViewEncapsulation,
 } from '@angular/core';
-import { of } from 'rxjs';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageAutocompleterComponent } from 'core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component';
 
 export type TimeEntryWorkPackageAutocompleterMode = 'all'|'recent';
@@ -54,8 +57,6 @@ export class TimeEntryWorkPackageAutocompleterComponent extends WorkPackageAutoc
     this.text.all = this.I18n.t('js.label_all');
     this.text.recent = this.I18n.t('js.label_recent');
   }
-
-  public loading = false;
 
   public mode:TimeEntryWorkPackageAutocompleterMode = 'all';
 

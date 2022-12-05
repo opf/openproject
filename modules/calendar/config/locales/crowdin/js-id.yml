@@ -1,0 +1,8 @@
+#English strings go here
+id:
+  js:
+    calendar:
+      create_new: 'Buat kalender baru'
+      title: 'Kalender'
+      too_many: 'Terdapat %{count} paket pekerjaan, tetapi hanya %{max} yang dapat dilihat.'
+      unsaved_title: 'Kalender tanpa nama'

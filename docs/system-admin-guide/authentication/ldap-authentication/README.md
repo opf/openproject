@@ -3,15 +3,12 @@ sidebar_navigation:
   title: LDAP authentication
   priority: 500
 description: Manage LDAP Authentication in OpenProject.
-robots: index, follow
 keywords: ldap authentication
 ---
 
 # Manage LDAP Authentication
 
-<div class="alert alert-info" role="alert">
-**Note**: In order to be able to access the administration panel and manage LDAP authentication you need to be a system admin.
-</div>
+> **Note**: In order to be able to access the administration panel and manage LDAP authentication you need to be a system admin.
 
 To see the list of all available LDAP (Lightweight Directory Access  Protocol) authentications navigate to - > *Administration* and select *-> Authentication* -> *LDAP Authentication* from the menu on the left. You will see the list of all available authentications already created.
 
@@ -72,8 +69,8 @@ You can set other TLS options for the LDAP auth source connection. They are pass
 
 See the following resources for more information:
 
-- https://github.com/ruby-ldap/ruby-net-ldap/blob/master/lib/net/ldap.rb
-- https://ruby.github.io/openssl/OpenSSL/SSL/SSLContext.html
+- [https://github.com/ruby-ldap/ruby-net-ldap/blob/master/lib/net/ldap.rb](https://github.com/ruby-ldap/ruby-net-ldap/blob/master/lib/net/ldap.rb)
+- [https://ruby.github.io/openssl/OpenSSL/SSL/SSLContext.html](https://ruby.github.io/openssl/OpenSSL/SSL/SSLContext.html)
 
 
 #### LDAP system user credentials
@@ -137,3 +134,25 @@ With the [OpenProject Enterprise Edition](https://www.openproject.org/enterprise
 OpenProject supports multiple LDAP connections to source users from. The user's authentication source is remembered the first time it is created (but can be switched in the administration backend). This ensures that the correct connection / LDAP source will be used for the user.
 
 Duplicates in the unique attributes (login, email) are not allowed and a second user with the same attributes will not be able to login. Please ensure that amongst all LDAP connections, a unique attribute is used that does not result in conflicting logins.
+
+
+
+## LDAP user synchronization
+
+By default, OpenProject will synchronize user account details (name, e-mail, login) and their account status from the LDAP through a background worker job every 24 hours. 
+
+### **Enabling status synchronization**
+
+If you wish to synchronize the account status from the LDAP, you can enable status synchronization using the following configuration:
+
+- `ldap_users_sync_status: true`
+- (or the ENV variable `OPENPROJECT_LDAP__USERS__SYNC__STATUS=true`)
+
+The user will be ensured to be active if it can be found in LDAP. Likewise, if the user cannot be found in the LDAP, its associated OpenProject account will be locked.
+
+### Disabling the synchronization job
+
+If for any reason, you do not wish to perform the synchronization at all, you can also remove the synchronization job from being run at all with the following variable:
+
+- `ldap_users_disable_sync_job: true` 
+- (or the ENV variable `OPENPROJECT_LDAP__USERS__DISABLE__SYNC__JOB=true`) 

@@ -1,6 +1,6 @@
 module ::TwoFactorAuthentication
   class AuthenticationController < ApplicationController
-    # Remmeber token functionality
+    # Remember token functionality
     include ::TwoFactorAuthentication::RememberToken
     # Backup tokens functionality
     include ::TwoFactorAuthentication::BackupCodes
@@ -71,7 +71,7 @@ module ::TwoFactorAuthentication
     # with an optional override to use a non-default channel
     def otp_service(user, use_channel: nil, use_device: nil)
       session[:two_factor_authentication_device_id] = use_device.try(:id)
-      ::TwoFactorAuthentication::TokenService.new user: user, use_channel: use_channel, use_device: use_device
+      ::TwoFactorAuthentication::TokenService.new user:, use_channel:, use_device:
     end
 
     ##
@@ -81,7 +81,7 @@ module ::TwoFactorAuthentication
         if session[:two_factor_authentication_device_id]
           user.otp_devices.find(session[:two_factor_authentication_device_id])
         end
-      otp_service(user, use_device: use_device)
+      otp_service(user, use_device:)
     rescue ActiveRecord::RecordNotFound
       render_404
       false

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -64,7 +64,7 @@ ar:
   label_time_zone: "المنطقة الزمنية"
   label_start_date: "تاريخ البدء"
   meeting:
-    copied: "Copied from Meeting #%{id}"
+    copied: "نسخ من الاجتماع #%{id}"
   notice_successful_notification: "تم إرسال الإشعار بنجاح"
   notice_timezone_missing: لم يتم تعيين المنطقة الزمنية و%{zone} مُفترض. لاختيار منطقتك الزمنية، من فضلك اضغط هنا.
   permission_create_meetings: "إنشاء الاجتماعات"
@@ -76,14 +76,14 @@ ar:
   permission_send_meeting_agendas_notification: "أرسِل إشعارًا لمراجعة جداول الأعمال"
   permission_create_meeting_minutes: "إدارة محضر الجلسة"
   permission_send_meeting_minutes_notification: "أرسِل إشعارًا لمراجعة محضر الجلسة"
-  permission_meetings_send_invite: "Invite users to meetings"
-  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  permission_meetings_send_invite: "دعوة المستخدمين إلى الاجتماعات"
+  permission_send_meeting_agendas_icalendar: "إرسال جدول أعمال الاجتماع كمدخل للتقويم"
   project_module_meetings: "الاجتماعات"
   text_duration_in_hours: "المدة بالساعات"
   text_in_hours: "في الساعات"
   text_meeting_agenda_for_meeting: 'جدول أعمال للاجتماع "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
-  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_closing_are_you_sure: "هل أنت متأكد من أنك تريد إغلاق الاجتماع؟"
+  text_meeting_agenda_open_are_you_sure: "سيؤدي هذا إلى استبدال جميع التغييرات في المقرر! هل تريد المتابعة؟"
   text_meeting_minutes_for_meeting: 'محضر الجسلة للاجتماع "%{meeting}"'
   text_review_meeting_agenda: "%{author} طرح %{link} للمراجعة."
   text_review_meeting_minutes: "%{author} طرح %{link} للمراجعة."

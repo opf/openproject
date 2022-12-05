@@ -71,8 +71,8 @@ sl:
       text_2fa_enabled: 'Ob vsaki prijavi bo moral ta uporabnik vnesti žeton OTP iz svoje privzete naprave 2FA.'
       text_2fa_disabled: "Uporabnik ni nastavil naprave 2FA preko strani »Moj račun«"
     upsale:
-      title: 'Dvofaktorska overitev je lastnost podjetja'
-      description: 'Z drugim dejavnikom okrepite notranje ali zunanje mehanizme za preverjanje pristnosti.'
+      title: 'Two-factor authentication'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: "\nZa ta račun ni rezervnih kod."
       singular: Rezervna koda
@@ -122,7 +122,7 @@ sl:
         text_cannot_scan: |
           Če ne morete skenirati kode, lahko vnos vnesete ročno z naslednjimi podrobnostmi:
         description: |
-          Registrirajte program za preverjanje pristnosti aplikacij za uporabo s programom OpenProject tako, da uporabite avtentikacijski standard enkratnega gesla, ki temelji na času. 
+          Registrirajte program za preverjanje pristnosti aplikacij za uporabo s programom OpenProject tako, da uporabite avtentikacijski standard enkratnega gesla, ki temelji na času.
           Pogosti primeri so Google Authenticator ali Authy.
       sms:
         title: 'Uporabite mobilni telefon'
@@ -135,8 +135,6 @@ sl:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS dostava ni uspela.'
       voice_delivery_failed: 'MessageBird glasovni klic ni uspel.'
-    restdt:
-      delivery_failed_with_code: "\nDostava žetona ni uspela. (Koda napake %{code})"
     strategies:
       totp: 'Aplikacija za preverjanje avtenčnosti '
       sns: 'Amazon SNS'

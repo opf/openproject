@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,8 @@ module API
   module Utilities
     module Endpoints
       class Delete
+        include NamespacedLookup
+
         def default_instance_generator(model)
           ->(_params) do
             instance_variable_get("@#{model.name.demodulize.underscore}")
@@ -37,14 +39,14 @@ module API
         end
 
         def initialize(model:,
-                       instance_generator: default_instance_generator(model),
+                       instance_generator: nil,
                        process_service: nil,
                        success_status: 204,
-                       api_name: model.name.demodulize)
+                       api_name: nil)
           self.model = model
-          self.instance_generator = instance_generator
+          self.instance_generator = instance_generator || default_instance_generator(model)
           self.process_service = process_service || deduce_process_service
-          self.api_name = api_name
+          self.api_name = api_name || model.name.demodulize
           self.success_status = success_status
         end
 
@@ -97,15 +99,7 @@ module API
         end
 
         def deduce_process_service
-          "::#{deduce_backend_namespace}::DeleteService".constantize
-        end
-
-        def deduce_backend_namespace
-          demodulized_name.pluralize
-        end
-
-        def demodulized_name
-          model.name.demodulize
+          lookup_namespaced_class("DeleteService")
         end
 
         def deduce_api_namespace

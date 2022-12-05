@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,118 +27,75 @@
 //++
 
 import {
-  ChangeDetectorRef, Component, ElementRef, Input, OnInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
 } from '@angular/core';
+import { map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { filter } from 'rxjs/operators';
-import { States } from 'core-app/core/states/states.service';
-import { trackByHref } from 'core-app/shared/helpers/angular/tracking-functions';
+import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Component({
-  selector: 'attachment-list',
+  selector: 'op-attachment-list',
   templateUrl: './attachment-list.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttachmentListComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public resource:HalResource;
 
-  @Input() public destroyImmediately = true;
+  $attachments:Observable<IAttachment[]>;
 
-  trackByHref = trackByHref;
+  private get attachmentsSelfLink():string {
+    const attachments = this.resource.attachments as unknown&{ href:string };
+    return attachments.href;
+  }
 
-  attachments:HalResource[] = [];
+  private get collectionKey():string {
+    return isNewResource(this.resource) ? 'new' : this.attachmentsSelfLink;
+  }
 
-  deletedAttachments:HalResource[] = [];
-
-  public $element:JQuery;
-
-  public $formElement:JQuery;
-
-  constructor(protected elementRef:ElementRef,
-    protected states:States,
-    protected cdRef:ChangeDetectorRef,
-    protected halResourceService:HalResourceService) {
+  constructor(
+    private readonly timezoneService:TimezoneService,
+    private readonly attachmentsResourceService:AttachmentsResourceService,
+  ) {
     super();
   }
 
-  ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
-
-    this.updateAttachments();
-    this.setupResourceUpdateListener();
-
-    if (!this.destroyImmediately) {
-      this.setupAttachmentDeletionCallback();
+  ngOnInit():void {
+    // ensure collection is loaded to the store
+    if (!isNewResource(this.resource)) {
+      this.attachmentsResourceService.requireCollection(this.attachmentsSelfLink);
     }
-  }
 
-  public setupResourceUpdateListener() {
-    this.states.forResource(this.resource)!
-      .values$()
+    const compareCreatedAtTimestamps = (a:IAttachment, b:IAttachment):number => {
+      const rightCreatedAt = this.timezoneService.parseDatetime(b.createdAt);
+      const leftCreatedAt = this.timezoneService.parseDatetime(a.createdAt);
+      return rightCreatedAt.isBefore(leftCreatedAt) ? -1 : 1;
+    };
+
+    this.$attachments = this
+      .attachmentsResourceService
+      .collection(this.collectionKey)
       .pipe(
         this.untilDestroyed(),
-        filter((newResource) => !!newResource),
-      )
-      .subscribe((newResource:HalResource) => {
-        this.resource = newResource || this.resource;
-
-        this.updateAttachments();
-        this.cdRef.detectChanges();
-      });
+        map((attachments) => attachments.sort(compareCreatedAtTimestamps)),
+        // store attachments for new resources directly into the resource. This way, the POST request to create the
+        // resource embeds the attachments and the backend reroutes the anonymous attachments to the resource.
+        tap((attachments) => {
+          if (isNewResource(this.resource)) {
+            this.resource.attachments = { elements: attachments.map((a) => a._links.self) };
+          }
+        }),
+      );
   }
 
-  ngOnDestroy():void {
-    super.ngOnDestroy();
-    if (!this.destroyImmediately) {
-      this.$formElement.off('submit.attachment-component');
-    }
-  }
-
-  public removeAttachment(attachment:HalResource) {
-    this.deletedAttachments.push(attachment);
-    // Keep the same object as we would otherwise loose the connection to the
-    // resource's attachments array. That way, attachments added after removing one would not be displayed.
-    // This is bad design.
-    const newAttachments = this.attachments.filter((el) => el !== attachment);
-    this.attachments.length = 0;
-    this.attachments.push(...newAttachments);
-
-    this.cdRef.detectChanges();
-  }
-
-  private get attachmentsUpdatable() {
-    return (this.resource.attachments && this.resource.attachmentsBackend);
-  }
-
-  public setupAttachmentDeletionCallback() {
-    this.$formElement = this.$element.closest('form');
-    this.$formElement.on('submit.attachment-component', () => {
-      this.destroyRemovedAttachments();
-    });
-  }
-
-  private destroyRemovedAttachments() {
-    this.deletedAttachments.forEach((attachment) => {
-      this
-        .resource
-        .removeAttachment(attachment);
-    });
-  }
-
-  private updateAttachments() {
-    if (!this.attachmentsUpdatable) {
-      this.attachments = this.resource.attachments.elements;
-      return;
-    }
-
-    this
-      .resource
-      .attachments
-      .updateElements()
-      .then(() => {
-        this.attachments = this.resource.attachments.elements;
-        this.cdRef.detectChanges();
-      });
+  public removeAttachment(attachment:IAttachment):void {
+    this.attachmentsResourceService.removeAttachment(this.collectionKey, attachment).subscribe();
   }
 }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,9 +57,9 @@ module Report::InheritedAttribute
     end
   end
 
-  def define_singleton_method(name, &block)
+  def define_singleton_method(name, &)
     singleton_class.send :attr_writer, name
-    singleton_class.class_eval { define_method(name, &block) }
+    singleton_class.class_eval { define_method(name, &) }
     define_method(name) { instance_variable_get("@#{name}") or singleton_class.send(name) }
   end
 

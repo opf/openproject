@@ -24,22 +24,9 @@
   </ng-template>
 
   <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-    <op-principal
-      *ngIf="isPrincipal(item)"
-      [hide-name]="true"
-      [principal]="item"
-      size="mini"
-    ></op-principal>
     <span [ngOptionHighlight]="search"
           [textContent]="item.name"
           class="ng-option-label ellipsis">
     </span>
-  </ng-template>
-
-  <ng-template ng-footer-tmp *ngIf="showAddNewButton">
-    <op-invite-user-button
-      [projectId]="resource.project?.id"
-      class="op-select-footer"
-    ></op-invite-user-button>
   </ng-template>
 </ng-select>

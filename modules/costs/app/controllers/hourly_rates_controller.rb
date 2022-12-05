@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ class HourlyRatesController < ApplicationController
   # TODO: this should be an index
   def show
     if @project
-      return deny_access unless User.current.allowed_to?(:view_hourly_rates, @project, for: @user)
+      return deny_access unless User.current.allowed_to?(:view_hourly_rates, @project)
 
       @rates = HourlyRate.where(user_id: @user, project_id: @project)
                .order("#{HourlyRate.table_name}.valid_from desc")

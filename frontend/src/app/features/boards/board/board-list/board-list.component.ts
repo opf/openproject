@@ -48,7 +48,7 @@ import {
 import { ChangeItem } from 'core-app/shared/components/fields/changeset/changeset';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -133,7 +133,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public buttonPlaceholder:DisabledButtonPlaceholder|undefined;
 
-  constructor(readonly apiv3Service:APIV3Service,
+  constructor(readonly apiv3Service:ApiV3Service,
     readonly I18n:I18nService,
     readonly state:StateService,
     readonly cdRef:ChangeDetectorRef,

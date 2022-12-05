@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -69,25 +69,28 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     this.renderLabels(vp);
   }
 
-  private renderLabels(vp:TimelineViewParameters) {
-    if (this.activeZoomLevel === vp.settings.zoomLevel) {
-      return;
-    }
-
+  private renderLabels(vp:TimelineViewParameters):void {
     this.innerHeader.empty();
     this.innerHeader.attr('data-current-zoom-level', this.wpTimelineService.zoomLevel);
 
     switch (vp.settings.zoomLevel) {
       case 'days':
-        return this.renderLabelsDays(vp);
+        this.renderLabelsDays(vp);
+        break;
       case 'weeks':
-        return this.renderLabelsWeeks(vp);
+        this.renderLabelsWeeks(vp);
+        break;
       case 'months':
-        return this.renderLabelsMonths(vp);
+        this.renderLabelsMonths(vp);
+        break;
       case 'quarters':
-        return this.renderLabelsQuarters(vp);
+        this.renderLabelsQuarters(vp);
+        break;
       case 'years':
-        return this.renderLabelsYears(vp);
+        this.renderLabelsYears(vp);
+        break;
+      default:
+        return;
     }
 
     this.activeZoomLevel = vp.settings.zoomLevel;

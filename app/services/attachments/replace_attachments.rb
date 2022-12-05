@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,13 +34,11 @@ module Attachments
       private
 
       def set_attributes(attributes)
-        call = super
-
-        if call.success? && call.result.attachments_replacements
-          call.result.attachments = call.result.attachments_replacements
+        super.tap do |call|
+          if call.success? && call.result.attachments_replacements
+            call.result.attachments = call.result.attachments_replacements
+          end
         end
-
-        call
       end
     end
   end

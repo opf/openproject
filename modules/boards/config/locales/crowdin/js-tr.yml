@@ -2,14 +2,13 @@
 tr:
   js:
     boards:
+      create_new: 'Yeni pano oluştur'
       label_unnamed_board: 'Adsız tahta'
       label_unnamed_list: 'Adsız liste'
       label_board_type: 'Yazı tahtası tipi'
       upsale:
-        teaser_text: 'Çevik proje yönetiminizi bu esnek Panolar görünümü ile geliştirin. İzlemek istediğiniz herhangi bir şey için istediğiniz kadar pano oluşturun.'
-        upgrade_to_ee_text: 'Kurulları bir Enterprise özelliğidir. Lütfen ücretli bir plana geçin.'
+        teaser_text: 'Boards ile iş akışlarınızı otomatikleştirmek ister misiniz? Gelişmiş kartlar bir Kurumsal özelliktir. Lütfen ücretli bir plana yükseltin.'
         upgrade: 'Şimdi Yükselt'
-        personal_demo: 'Demo için bizimle iletişime geçin'
       lists:
         delete: 'Listeyi silin'
       version:

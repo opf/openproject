@@ -2,65 +2,85 @@
 ---
 type: object
 properties:
+  _type:
+    type: string
+    enum:
+      - Notification
   id:
     type: integer
     description: Notification id
-    readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
-  subject:
-    type: string
-    description: The subject of the notification
-    readOnly: true
+    minimum: 1
   reason:
     type: string
     description: The reason for the notification (such as mentioned, involved, watched)
-    readOnly: true
   readIAN:
     type: boolean
     description: Whether the notification is marked as read
-    readOnly: true
   createdAt:
     type: string
     format: date-time
     description: The time the notification was created at
-    readOnly: true
   updatedAt:
     type: string
     format: date-time
     description: The time the notification was last updated
-    readOnly: true
+  _embedded:
+    type: object
+    required:
+      - actor
+      - project
+      - activity
+      - resource
+    properties:
+      actor:
+        $ref: './user_model.yml'
+      project:
+        $ref: './project_model.yml'
+      activity:
+        $ref: './activity_model.yml'
+      resource:
+        oneOf:
+          - $ref: './work_package_model.yml'
   _links:
     type: object
     required:
-    - self
-    - project
-    - actor
+      - self
+      - project
+      - actor
+      - activity
+      - resource
     properties:
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This notification
-
-            **Resource**: Notification
-          readOnly: true
+          - "$ref": "./link.yml"
+          - description: |-
+              This notification
+              
+              **Resource**: Notification
+      readIAN:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Request to mark the notification as read. Only available if the notification is currently unread.
+      unreadIAN:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Request to mark the notification as unread. Only available if the notification is currently read.
       project:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The project the notification originated in
-
-            **Resource**: Project
-          readOnly: true
+          - "$ref": "./link.yml"
+          - description: |-
+              The project the notification originated in
+              
+              **Resource**: Project
       actor:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The user that caused the notification
-
-            **Resource**: User
-          readOnly: true
+          - "$ref": "./link.yml"
+          - description: |-
+              The user that caused the notification
+              
+              **Resource**: User
       resource:
         allOf:
           - "$ref": "./link.yml"
@@ -68,7 +88,6 @@ properties:
               The linked resource of the notification, if any.
 
               **Resource**: Polymorphic
-            readOnly: true
       activity:
         allOf:
           - "$ref": "./link.yml"
@@ -76,38 +95,48 @@ properties:
               The journal activity, if the notification originated from a journal entry
 
               **Resource**: Activity
-            readOnly: true
 example:
-  _type: News
+  _type: Notification
   id: 1
-  title: asperiores possimus nam doloribus ab
-  summary: Celebrer spiculum colo viscus claustrum atque. Id nulla culpa sumptus.
-    Comparo crapula depopulo demonstro.
-  description:
-    format: markdown
-    raw: Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur vorago
-      vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria ago
-      consectetur ventito sustineo nihil caecus. Supra officiis eos velociter somniculosus
-      tonsor qui. Suffragium aduro arguo angustus cogito quia tolero vulnus. Supplanto
-      sortitus cresco apud vestrum qui.
-    html: "<p>Videlicet deserunt aequitas cognatus. Concedo quia est quia pariatur
-      vorago vallum. Calco autem atavus accusamus conscendo cornu ulterius. Tam patria
-      ago consectetur ventito sustineo nihil caecus. Supra officiis eos velociter
-      somniculosus tonsor qui. Suffragium aduro arguo angustus cogito quia tolero
-      vulnus. Supplanto sortitus cresco apud vestrum qui.</p>"
-  createdAt: '2015-03-20T12:57:01Z'
+  readIAN: false
+  reason: mentioned
+  createdAt: '2022-04-05T14:38:28Z'
+  updatedAt: '2022-04-06T09:03:24Z'
+  _embedded:
+    author:
+      _hint: User resource shortened for brevity
+      _type: User
+      id: 13
+      name: Darth Nihilus
+    project:
+      _hint: Project resource shortened for brevity
+      _type: Project
+      id: 11
+      name: Jedi Remnant Locator
+    activity:
+      _hint: Activity resource shortened for brevity
+      _type: Activity::Comment
+      id: 180
+      version: 3
+    resource:
+      _hint: WorkPackage resource shortened for brevity
+      _type: WorkPackage
+      id: 77
+      subject: Educate Visas Marr
   _links:
     self:
-      href: "/api/v3/news/1"
-      title: asperiores possimus nam doloribus ab
+      href: '/api/v3/notifications/1'
+    readIAN:
+      href: '/api/v3/notifications/1/read_ian'
+      method: post
+    actor:
+      href: '/api/v3/users/13'
+      title: Darth Nihilus
     project:
-      href: "/api/v3/projects/1"
-      title: A project
-    author:
-      href: "/api/v3/users/2"
-      title: Peggie Feeney
-  _embedded:
-    project:
-      _type: Project...
-    author:
-      _type: User...
+      href: '/api/v3/projects/11'
+      title: Jedi Remnant Locator
+    activity:
+      href: '/api/v3/activities/180'
+    resource:
+      href: '/api/v3/work_packages/77'
+      title: Educate Visas Marr

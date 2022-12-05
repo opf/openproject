@@ -76,7 +76,7 @@ module ::TwoFactorAuthentication
           f.submit I18n.t(:button_delete),
                    class: 'button--link two-factor--delete-button',
                    disabled: deletion_blocked?,
-                   title: title
+                   title:
         end
       end
 

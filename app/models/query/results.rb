@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,9 +41,9 @@ class ::Query::Results
   def work_package_count
     work_package_scope
       .joins(all_filter_joins)
-      .includes(:status, :project)
+      .includes(:project)
       .where(query.statement)
-      .references(:statuses, :projects)
+      .references(:projects)
       .count
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
@@ -62,19 +60,8 @@ class ::Query::Results
       .order(sort_criteria_array)
   end
 
-  def versions
-    scope = Version
-            .visible
-
-    if query.project && (limiting_filter = query.project_limiting_filter)
-      scope.where(limiting_filter.where)
-    end
-
-    scope
-  end
-
   def order_option
-    order_option = [group_by_sort].reject(&:blank?).join(', ')
+    order_option = [group_by_sort].compact_blank.join(', ')
 
     if order_option.blank?
       nil
@@ -92,7 +79,7 @@ class ::Query::Results
   end
 
   def all_includes
-    (%i(status project) +
+    (%i(project) +
       includes_for_columns(include_columns)).uniq
   end
 
@@ -136,25 +123,74 @@ class ::Query::Results
     criteria = ::Query::SortCriteria.new query.sortable_columns
     criteria.available_criteria = aliased_sorting_by_column_name
     criteria.criteria = query.sort_criteria
-    criteria.map_each { |criteria| criteria.map { |raw| Arel.sql raw } }
+    criteria.map_each { |c| c.map { |raw| Arel.sql raw } }
   end
 
   def aliased_sorting_by_column_name
     sorting_by_column_name = query.sortable_key_by_column_name
-
     aliases = include_aliases
+    reflections = reflection_includes
 
-    reflection_includes.each do |inc|
-      sorting_by_column_name[inc.to_s] = Array(sorting_by_column_name[inc.to_s]).map do |column|
-        if column.respond_to?(:call)
-          column.call(aliases[inc])
-        else
-          "#{aliases[inc]}.#{column}"
-        end
-      end
+    sorting_by_column_name.each_with_object({}) do |(column_key, sortable), hash|
+      column_is_association = reflections.include?(column_key.to_sym)
+      columns_hash = columns_hash_for(column_is_association ? column_key : nil)
+      hash[column_key] = if column_is_association
+                           alias_name = aliases[column_key.to_sym]
+                           expand_association_columns(alias_name, sortable, columns_hash)
+                         else
+                           case_insensitive_condition(column_key, sortable, columns_hash)
+                         end
     end
+  end
 
-    sorting_by_column_name
+  ##
+  # Returns the expanded association columns name
+  def expand_association_columns(alias_name, sortable, columns_hash)
+    Array(sortable).map do |column|
+      sort_condition = expand_association_column(column, alias_name)
+      case_insensitive_condition(column, sort_condition, columns_hash)
+    end
+  end
+
+  ##
+  # Returns a single expanded association column name
+  def expand_association_column(column, alias_name)
+    if column.respond_to?(:call)
+      column.call(alias_name)
+    else
+      "#{alias_name}.#{column}"
+    end
+  end
+
+  ##
+  # Return the columns hash for a given association
+  # If the association is nil, then return the WorkPackage.columns_hash
+  def columns_hash_for(association = nil)
+    if association
+      WorkPackage.reflections[association].klass.columns_hash
+    else
+      WorkPackage.columns_hash
+    end
+  end
+
+  ##
+  # Return the case insensitive version for columns with a string type
+  def case_insensitive_condition(column_key, condition, columns_hash)
+    if columns_hash[column_key]&.type == :string
+      "LOWER(#{condition})"
+    elsif custom_field_type(column_key) == "string"
+      condition.map { |c| "LOWER(#{c})" }
+    else
+      condition
+    end
+  end
+
+  ##
+  # Find the custom field type based on the column key
+  def custom_field_type(column_key)
+    (column = query.sortable_columns.detect { |c| c.name.to_s == column_key }) &&
+    column.respond_to?(:custom_field) &&
+    column.custom_field.field_format
   end
 
   # To avoid naming conflicts, joined tables are aliased if they are joined

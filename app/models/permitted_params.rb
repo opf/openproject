@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -188,7 +186,7 @@ class PermittedParams
   end
 
   def my_account_settings
-    user.merge(pref: pref)
+    user.merge(pref:)
   end
 
   def user_register_via_omniauth
@@ -401,7 +399,7 @@ class PermittedParams
   end
 
   def permitted_attributes(key, additions = {})
-    merged_args = { params: params, current_user: current_user }.merge(additions)
+    merged_args = { params:, current_user: }.merge(additions)
 
     self.class.permitted_attributes[key].map do |permission|
       if permission.respond_to?(:call)
@@ -490,11 +488,7 @@ class PermittedParams
           { membership: [
             :project_id,
             { role_ids: [] }
-          ],
-            new_membership: [
-              :project_id,
-              { role_ids: [] }
-            ] }
+          ] }
         ],
         member: [
           role_ids: []
@@ -546,7 +540,7 @@ class PermittedParams
         query: %i(
           name
           display_sums
-          is_public
+          public
           group_by
         ),
         role: [

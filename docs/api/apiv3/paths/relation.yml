@@ -18,6 +18,8 @@ delete:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -32,6 +34,8 @@ delete:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -43,6 +47,10 @@ delete:
 
         **Required permission:** manage work package relations
       headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
   tags:
   - Relations
   description: Deletes the relation.
@@ -96,6 +104,8 @@ get:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -158,20 +168,12 @@ patch:
       description: OK
       headers: {}
     '400':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-                message: The request body was not a single JSON object.
-      description: Occurs when the client did not send a valid JSON object in the
-        request body.
-      headers: {}
+      $ref: "../components/responses/invalid_request_body.yml"
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -183,9 +185,15 @@ patch:
 
         **Required permission:** manage work package relations
       headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
     '422':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:

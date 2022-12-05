@@ -1,6 +1,6 @@
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
-export class Apiv3Paths {
+export class ApiV3Paths {
   readonly apiV3Base:string;
 
   constructor(basePath:string) {

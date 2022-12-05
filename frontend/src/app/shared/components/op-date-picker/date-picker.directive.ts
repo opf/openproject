@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,13 @@
 
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Directive,
   ElementRef,
   EventEmitter,
+  Injector,
   Input,
+  NgZone,
   OnDestroy,
   Output,
   ViewChild,
@@ -64,8 +67,11 @@ export abstract class AbstractDatePickerDirective extends UntilDestroyedMixin im
   protected datePickerInstance:DatePicker;
 
   public constructor(
+    readonly injector:Injector,
     protected timezoneService:TimezoneService,
     protected configurationService:ConfigurationService,
+    protected ngZone:NgZone,
+    protected changeDetectorRef:ChangeDetectorRef,
   ) {
     super();
 
@@ -90,9 +96,9 @@ export abstract class AbstractDatePickerDirective extends UntilDestroyedMixin im
     }
   }
 
-  closeOnOutsideClick(event:any):void {
+  closeOnOutsideClick(event:MouseEvent):void {
     if (!(event.relatedTarget
-      && this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget))) {
+      && this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget as HTMLElement))) {
       this.close();
     }
   }
@@ -110,7 +116,7 @@ export abstract class AbstractDatePickerDirective extends UntilDestroyedMixin im
   }
 
   protected get inputElement():HTMLInputElement {
-    return this.dateInput?.nativeElement;
+    return this.dateInput.nativeElement as HTMLInputElement;
   }
 
   protected abstract initializeDatepicker():void;

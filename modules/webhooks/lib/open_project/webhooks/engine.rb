@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,18 +41,16 @@ module OpenProject::Webhooks
            :plugin_webhooks,
            { controller: 'webhooks/outgoing/admin', action: :index },
            if: Proc.new { User.current.admin? },
-           parent: :in_out,
-           caption: ->(*) { I18n.t('webhooks.plural') }
+           parent: :api_and_webhooks,
+           caption: :'webhooks.plural'
     end
 
-    config.before_configuration do |app|
-      # This is required for the routes to be loaded first as the routes should
-      # be prepended so they take precedence over the core.
-      app.config.paths['config/routes.rb'].unshift File.join(File.dirname(__FILE__), "..", "..", "..", "config", "routes.rb")
+    initializer 'webhooks.subscribe_to_notifications' do |app|
+      app.config.after_initialize do
+        ::OpenProject::Webhooks::EventResources.subscribe!
+      end
     end
 
-    initializer 'webhooks.subscribe_to_notifications' do
-      ::OpenProject::Webhooks::EventResources.subscribe!
-    end
+    add_cron_jobs { CleanupWebhookLogsJob }
   end
 end

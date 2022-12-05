@@ -1,0 +1,13 @@
+#English strings go here
+hu:
+  permission_view_team_planner: "Csoport tervező megtekintése"
+  permission_manage_team_planner: "Csoport tervező kezelése"
+  project_module_team_planner_view: "Csoport tervező"
+  team_planner:
+    label_team_planner: "Csoport tervező"
+    label_create_new_team_planner: "Új csoport tervező létrehozása"
+    label_team_planner_plural: "Csoport tervezők"
+    label_assignees: "Megbízottak"
+    upsale:
+      title: "Csoport tervező"
+      description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."

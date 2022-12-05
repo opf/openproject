@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +47,7 @@ module ReorderLinksHelper
                        class: "icon-context #{icon_class} icon-small")
     link_to(text + icon,
             url.merge("#{name}[move_to]" => direction),
-            method: method,
+            method:,
             title: label)
   end
 end

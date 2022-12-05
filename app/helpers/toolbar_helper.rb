@@ -6,7 +6,7 @@ module ToolbarHelper
     classes = ['toolbar-container', html[:class]].compact.join(' ')
     content_tag :div, class: classes do
       toolbar = content_tag :div, class: 'toolbar' do
-        dom_title(title, link_to, title_class: title_class, title_extra: title_extra) + dom_toolbar do
+        dom_title(title, link_to, title_class:, title_extra:) + dom_toolbar do
           yield if block_given?
         end
       end
@@ -27,7 +27,7 @@ module ToolbarHelper
   end
 
   def breadcrumb_toolbar(*elements, subtitle: '', html: {}, &block)
-    toolbar(title: safe_join(elements, ' &raquo '.html_safe), subtitle: subtitle, html: html, &block)
+    toolbar(title: safe_join(elements, ' &raquo '.html_safe), subtitle:, html:, &block)
   end
 
   protected
@@ -62,14 +62,14 @@ module ToolbarHelper
       opts[:class] = title_class if title_class.present?
 
       content_tag(:h2, title, opts) + (
-        title_extra.present? ? title_extra : ''
+        title_extra.presence || ''
       )
     end
   end
 
-  def dom_toolbar(&block)
+  def dom_toolbar(&)
     return '' unless block_given?
 
-    content_tag :ul, class: 'toolbar-items', &block
+    content_tag(:ul, class: 'toolbar-items', &)
   end
 end

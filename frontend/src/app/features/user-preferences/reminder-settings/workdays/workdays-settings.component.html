@@ -3,9 +3,10 @@
     <h5 [textContent]="text.title"></h5>
   </div>
 
-  <op-checkbox-field
+  <spot-selector-field
     *ngFor="let workday of localeWorkdays; let i = index"
     formArrayName="workdays"
+    [label]="workday"
     [control]="controlForLocalWorkday(workday)"
   >
     <input
@@ -13,10 +14,7 @@
       type="checkbox"
       [formControlName]="indexOfLocalWorkday(workday)"
     />
-    <p slot="description"
-       [textContent]="workday">
-    </p>
-  </op-checkbox-field>
+  </spot-selector-field>
 
   <op-pause-reminders></op-pause-reminders>
 </ng-container>

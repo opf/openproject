@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +42,7 @@ class CustomActions::Conditions::Base
 
   def allowed_values
     associated
-      .map { |value, label| { value: value, label: label } }
+      .map { |value, label| { value:, label: } }
   end
 
   def human_name
@@ -52,8 +50,8 @@ class CustomActions::Conditions::Base
   end
 
   def fulfilled_by?(work_package, _user)
-    work_package.respond_to?(:"#{key}_id") && values.include?(work_package.send(:"#{key}_id")) ||
-      values.empty?
+    values.empty? ||
+    (work_package.respond_to?(:"#{key}_id") && values.include?(work_package.send(:"#{key}_id")))
   end
 
   def key
@@ -112,7 +110,7 @@ class CustomActions::Conditions::Base
   private_class_method :habtm_table
 
   def self.key_id
-    "#{key}_id".to_sym
+    @key_id ||= "#{key}_id".to_sym
   end
   private_class_method :key_id
 

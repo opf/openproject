@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -30,10 +30,10 @@ nl:
         participants_attended: "Aanwezigen"
         participants_invited: "Genodigden"
         start_time: "Tijd"
-        start_time_hour: "Starting time"
+        start_time_hour: "Begintijd"
     errors:
       messages:
-        invalid_time_format: "is not a valid time. Required format: HH:MM"
+        invalid_time_format: "is geen geldige tijd. Vereist formaat: UH:MM"
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Minuten"
@@ -59,12 +59,12 @@ nl:
   label_meeting_date_time: "Datum/Tijd"
   label_meeting_diff: "Diff"
   label_notify: "Verzenden voor revisie"
-  label_icalendar: "Send iCalendar"
+  label_icalendar: "Verstuur iCalendar"
   label_version: "Versie"
   label_time_zone: "Tijdzone"
   label_start_date: "Startdatum"
   meeting:
-    copied: "Copied from Meeting #%{id}"
+    copied: "Gekopieerd van vergadering #%{id}"
   notice_successful_notification: "Notificatie succesvol verzonden"
   notice_timezone_missing: Geen tijdzone is ingesteld en %{zone} is aangenomen. Om uw tijdzone te kiezen, klik dan hier.
   permission_create_meetings: "Creëer vergaderingen"
@@ -73,18 +73,18 @@ nl:
   permission_view_meetings: "Bekijk vergaderingen"
   permission_create_meeting_agendas: "Agenda's beheren"
   permission_close_meeting_agendas: "Sluit agenda's"
-  permission_send_meeting_agendas_notification: "Send review notification for agendas"
-  permission_create_meeting_minutes: "Manage minutes"
-  permission_send_meeting_minutes_notification: "Send review notification for minutes"
+  permission_send_meeting_agendas_notification: "Stuur review notificatie voor agenda's"
+  permission_create_meeting_minutes: "Minuten beheren"
+  permission_send_meeting_minutes_notification: "Stuur een review notificatie voor minuten"
   permission_meetings_send_invite: "Gebruikers uitnodigen voor vergaderingen"
   permission_send_meeting_agendas_icalendar: "Afspraak als agenda-item verzenden"
   project_module_meetings: "Vergaderingen"
-  text_duration_in_hours: "Duration in hours"
+  text_duration_in_hours: "Duur in uren"
   text_in_hours: "in uren"
   text_meeting_agenda_for_meeting: 'agenda voor de vergadering "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_closing_are_you_sure: "Weet u zeker dat u de vergadering wilt sluiten?"
   text_meeting_agenda_open_are_you_sure: "Dit overschrijft alle wijzigingen in de aantekeningen! Wilt u doorgaan?"
   text_meeting_minutes_for_meeting: 'minuten voor de vergadering "%{meeting}"'
   text_review_meeting_agenda: "%{author} heeft de %{link} geselecteerd voor herziening."
   text_review_meeting_minutes: "%{author} heeft de %{link} geselecteerd voor herziening."
-  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
+  text_notificiation_invited: "Deze mail bevat een ics item voor de vergadering hieronder:"

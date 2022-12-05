@@ -7,6 +7,7 @@ import { WorkPackageViewHighlightingService } from 'core-app/features/work-packa
 import { take } from 'rxjs/operators';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { WorkPackageViewIncludeSubprojectsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-include-subprojects.service';
 import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
@@ -17,7 +18,7 @@ import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { WorkPackageViewRelationColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
@@ -27,7 +28,8 @@ import { WorkPackagesListChecksumService } from './wp-list-checksum.service';
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
-  constructor(protected states:States,
+  constructor(
+    protected states:States,
     protected querySpace:IsolatedQuerySpace,
     protected wpTableColumns:WorkPackageViewColumnsService,
     protected wpTableGroupBy:WorkPackageViewGroupByService,
@@ -42,11 +44,12 @@ export class WorkPackageStatesInitializationService {
     protected wpTablePagination:WorkPackageViewPaginationService,
     protected wpTableOrder:WorkPackageViewOrderService,
     protected wpTableAdditionalElements:WorkPackageViewAdditionalElementsService,
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
     protected wpListChecksumService:WorkPackagesListChecksumService,
     protected authorisationService:AuthorisationService,
-    protected wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService) {
-  }
+    protected wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
+    protected wpIncludeSubprojects:WorkPackageViewIncludeSubprojectsService,
+  ) { }
 
   /**
    * Initialize the query and table states from the given query and results.
@@ -128,6 +131,8 @@ export class WorkPackageStatesInitializationService {
 
     this.wpDisplayRepresentation.initialize(query, results);
 
+    this.wpIncludeSubprojects.initialize(query, results);
+
     this.querySpace.additionalRequiredWorkPackages
       .values$()
       .pipe(take(1))
@@ -151,6 +156,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableHierarchies.initialize(query, results);
     this.wpTableHighlighting.initialize(query, results);
     this.wpDisplayRepresentation.initialize(query, results);
+    this.wpIncludeSubprojects.initialize(query, results);
 
     this.authorisationService.initModelAuth('query', query.$links);
     this.authorisationService.initModelAuth('work_packages', results.$links);
@@ -168,6 +174,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableHierarchies.applyToQuery(query);
     this.wpTableOrder.applyToQuery(query);
     this.wpDisplayRepresentation.applyToQuery(query);
+    this.wpIncludeSubprojects.applyToQuery(query);
   }
 
   public clearStates() {
@@ -186,6 +193,7 @@ export class WorkPackageStatesInitializationService {
     this.wpTableGroupBy.clear(reason);
     this.wpTableGroupFold.clear(reason);
     this.wpDisplayRepresentation.clear(reason);
+    this.wpIncludeSubprojects.clear(reason);
     this.wpTableSum.clear(reason);
 
     // Clear rendered state

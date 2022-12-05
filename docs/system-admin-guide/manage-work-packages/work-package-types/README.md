@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Types
   priority: 980
 description: Configure work package types in OpenProject.
-robots: index, follow
 keywords: work package types
 ---
 
@@ -37,9 +36,16 @@ Click the green **+ Type** button to add a new work package type in the system, 
 
 ![Sys-admin-add-work-package-type](Sys-admin-add-work-package-type.png)
 
-## Work package form configuration
+## Work package form configuration (Premium feature)
 
 You can freely **configure the attributes shown** for each work package type to decide which attributes are shown in the form and how they are grouped.
+
+> **Note**: Some parts of the Work package form configuration are a premium feature and only available for the [OpenProject Cloud Edition](https://www.openproject.org/hosting/) and the [Enterprise On-premises Edition](https://www.openproject.org/enterprise-edition/).
+> The Enterprise edition allows you to customize form configuration with these additional features:
+>
+> - **Add new attribute groups**
+> - **Rename attribute groups**
+> - **Add table of related work packages to a work package form**
 
 To configure a type, first select the type from the list of types (see above) and select the tab ***Form configuration*** *(1)*.
 
@@ -54,7 +60,7 @@ In case you made a mistake, click the *Reset to defaults (5)* button to reset al
 
 Finally, **save** the settings to apply them *(6)*.
 
-​      ![Sys-admin-type-form-configuration](Sys-admin-type-form-configuration-1579181896505.png)
+![Sys-admin-type-form-configuration](Sys-admin-type-form-configuration-1579181896505.png)
 
 If you then create a new work package of this type, the input form will have exactly these attributes selected in the form configuration.
 
@@ -66,9 +72,11 @@ Watch the following video to see how you can customize your work packages with c
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Forms-and-Custom-Fields-1.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
-## Add table of related work packages to a work package form
+## Add table of related work packages to a work package form (Premium feature)
 
 Also, you can add a table of related work packages to your work package form. Click the green **+ Group** button and choose **Add table of related work package** from the drop-down list.
+
+**Note**: To Add a table of related work package in OpenProject is a Premium Feature and can only be used with [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
 
 ![Sys-admin-table-of-related-work-packages](Sys-admin-table-of-related-work-packages.png)
 

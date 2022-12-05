@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,16 +29,17 @@
 require 'digest/md5'
 
 class Attachment < ApplicationRecord
-
   belongs_to :container, polymorphic: true
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  belongs_to :author, class_name: 'User'
 
-  validates_presence_of :author, :content_type, :filesize
-  validates_length_of :description, maximum: 255
+  validates :author, :content_type, :filesize, presence: true
+  validates :description, length: { maximum: 255 }
 
   validate :filesize_below_allowed_maximum,
            if: -> { !internal_container? }
   validate :container_changed_more_than_once
+
+  has_paper_trail
 
   # Those columns are currently not displayed in the application and are rarely used
   # at all.
@@ -72,7 +71,7 @@ class Attachment < ApplicationRecord
   # Returns an URL if the attachment is stored in an external (fog) attachment storage
   # or nil otherwise.
   def external_url(expires_in: nil)
-    url = URI.parse file.download_url(external_url_options(expires_in: expires_in)) # returns a path if local
+    url = URI.parse file.download_url(external_url_options(expires_in:)) # returns a path if local
 
     url if url.host
   rescue URI::InvalidURIError
@@ -84,7 +83,7 @@ class Attachment < ApplicationRecord
   # specifically when using S3 for attachments. In the case of S3 the file name for the downloaded
   # file will still be correct as it's part of the URL before the query.
   def external_url_options(expires_in: nil)
-    { content_disposition: content_disposition(include_filename: false), expires_in: expires_in }
+    { content_disposition: content_disposition(include_filename: false), expires_in: }
   end
 
   def external_storage?
@@ -161,9 +160,7 @@ class Attachment < ApplicationRecord
   # rubocop:enable Naming/PredicateName
 
   # Returns true if the file is readable
-  def readable?
-    file.readable?
-  end
+  delegate :readable?, to: :file
 
   def containered?
     container.present?
@@ -232,8 +229,8 @@ class Attachment < ApplicationRecord
     attachment
   end
 
-  def copy!(&block)
-    attachment = copy &block
+  def copy!(&)
+    attachment = copy(&)
 
     attachment.save!
   end
@@ -329,7 +326,7 @@ class Attachment < ApplicationRecord
   end
 
   def allowed_or_author?(user)
-    containered? && !(container.class.attachable_options[:only_user_allowed] && author_id != user.id) && yield ||
-      !containered? && author_id == user.id
+    (containered? && !(container.class.attachable_options[:only_user_allowed] && author_id != user.id) && yield) ||
+      (!containered? && author_id == user.id)
   end
 end

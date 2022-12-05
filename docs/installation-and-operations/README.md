@@ -1,13 +1,12 @@
 ---
 sidebar_navigation:
-  title: Installation & Upgrade Guide
+  title: Installation & operations guide
   priority: 940
-robots: index, follow
 ---
 
 # Installation & operations guide
 
-This page summarizes the options for getting OpenProject, some hosted and some on-premise. With this information you should be able to decide what option is best for you. Find a full feature comparison [here](https://www.openproject.org/pricing/#compare).
+This page summarizes the options for getting OpenProject, some hosted and some on-premise. With this information you should be able to decide what option is best for you. Find a full feature comparison [here](https://www.openproject.org/pricing/#features).
 
 ### On-premises
 
@@ -24,13 +23,11 @@ This page summarizes the options for getting OpenProject, some hosted and some o
 
 All editions can be enhanced by adding **[the BIM module](https://www.openproject.org/bim-project-management/)**, including features for construction project management, i.e. 3D model viewer, BCF management. See how to [switch to that edition](changing-to-bim-edition) in the documentation or how to start a [BIM cloud edition](https://start.openproject.com/go/bim).
 
-Compare the features of these versions [on the website](https://www.openproject.org/pricing/#compare). The Community edition can easily be upgraded to the Enterprise edition.
+Compare the features of these versions [on the website](https://www.openproject.org/pricing/#features). The Community edition can easily be upgraded to the Enterprise edition.
 
 * **Development** - OpenProject is open source; if you want to help with the code, check the [development instructions](../development/) and install a [development environment.](../development/#additional-resources)
 
-<div class="alert alert-info" role="alert">
-**Note**: there are some minor options given in the "Other" row of the table below. These are not recommended but you may wish to try them.
-</div>
+> **Note**: there are some minor options given in the "Other" row of the table below. These are not recommended but you may wish to try them.
 
 ## On-premises installation overview
 

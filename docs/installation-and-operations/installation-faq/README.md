@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Installation & Ops FAQ
   priority: 001
 description: Frequently asked questions regarding installation and operation of OpenProject
-robots: index, follow
 keywords: installation FAQ, upgrades, updates, operation faq
 ---
 
@@ -51,6 +50,10 @@ Ruby support on Windows is notoriously difficult, however you might be able to r
 There's no installation packages for Mac. However, you can use Docker (easier way) or install it manually. 
 Your Mac will have to be reachable from the Internet if you want to collaborate with others. 
 
+### Does the OpenProject docker container run on ARM technology like Apple M1 or Raspberry PI? 
+
+At the moment, OpenProject is supported only on x86-x64 technology (Intel). The Development of OpenProject started 2010, when ARM was out of scope for being supported. With strong ARM processors this might change in the future, but at the moment the only possible solution is to build OpenProject from source on your ARM hardware. OpenProject does not support ARM at the moment.
+
 ### Can I install OpenProject offline?
 
 For the packaged installation there are quite a few dependencies which would have to be loaded during installation (like SQLite3, unzip, poppler-utils, unrtf, ...). Therefore, we recommend  to use a Docker setup for offline installation. A Docker image contains all dependencies and can really be transferred as single files (via docker save ) without further dependencies. Please find out more about air-gapped installation [here](../installation/docker#offlineair-gapped-installation). 
@@ -74,7 +77,7 @@ Please follow these steps:
 1. Make a dump of files you might have uploaded. You can refer to the [Bitnami documentation](https://docs.bitnami.com/general/apps/openproject/) to perform a full dump.
 1. Copy both dumps to the server you want to install OpenProject on.
 1. Install OpenProject using the packaged installation.
-1. By default, this will allow you to install a PostgreSQL database, which we recommend. You can migrate your data from MySQL using https://pgloader.io
+1. By default, this will allow you to install a PostgreSQL database, which we recommend. You can migrate your data from MySQL using [pgloader](https://pgloader.io)
 1. Import the dump into your new database. You can get your configuration by running `sudo openproject config:get DATABASE_URL`
 1. Extract the Bitnami backup, and copy your file assets into the relevant directory (e.g. in `/var/db/openproject/files` for uploaded files)
 1. Restart OpenProject
@@ -115,7 +118,7 @@ Set a higher number of web workers to allow more processes to be handled at the 
 
 There are two different types of emails in OpenProject: One sent directly within the request to the server (this includes the test mail) and one sent asynchronously, via a background job from the backend. The majority of mail sending jobs is run asynchronously to facilitate a faster response time for server request.
 
-Use a browser to call your domain name followed by "health_checks/all" (e.g. https://myopenproject.com/health_checks/all). There should be entries about "delayed_jobs_backed_up" and "delayed_jobs_never_ran". If PASSED is written behind it, everything is good.
+Use a browser to call your domain name followed by "health_checks/all" (e.g. `https://myopenproject.com/health_checks/all`). There should be entries about "delayed_jobs_backed_up" and "delayed_jobs_never_ran". If PASSED is written behind it, everything is good.
 
 If the health check does not return satisfying results, have a look if the background worker is running by entering `ps aux | grep jobs` on the server. If it is not running, no entry is returned. If it is running an entry with "jobs:work" at the end is displayed.
 
@@ -143,7 +146,7 @@ For packaged installations, the openproject package behaves just like every othe
 
 ### After upgrading I receive the error message "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation." What does that mean?
 
-For some updates of OpenProject, the database layout needs to be adapted to support new features and fix bugs. These changes need to be carried out as part of the update process. This is why it is important to always run `sudo openproject configure`as part of the update process. 
+For some updates of OpenProject, the database layout needs to be adapted to support new features and fix bugs. These changes need to be carried out as part of the update process. This is why it is important to always run `sudo openproject configure` as part of the update process. 
 
 Please also have a look at [our upgrade guide](../operation/upgrading).
 

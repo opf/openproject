@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,11 @@ module OpenProject::GithubIntegration
 
     register 'openproject-github_integration',
              author_url: 'https://www.openproject.org/',
-             bundled: true
+             bundled: true do
+      project_module(:github, dependencies: :work_package_tracking) do
+        permission(:show_github_content, {})
+      end
+    end
 
     initializer 'github.register_hook' do
       ::OpenProject::Webhooks.register_hook 'github' do |hook, environment, params, user|
@@ -49,20 +53,14 @@ module OpenProject::GithubIntegration
       end
     end
 
-    initializer 'github.subscribe_to_notifications' do
-      ::OpenProject::Notifications.subscribe('github.check_run',
-                                             &NotificationHandler.method(:check_run))
-      ::OpenProject::Notifications.subscribe('github.issue_comment',
-                                             &NotificationHandler.method(:issue_comment))
-      ::OpenProject::Notifications.subscribe('github.pull_request',
-                                             &NotificationHandler.method(:pull_request))
-    end
-
-    initializer 'github.permissions' do
-      OpenProject::AccessControl.map do |ac_map|
-        ac_map.project_module(:github, dependencies: :work_package_tracking) do |pm_map|
-          pm_map.permission(:show_github_content, {}, {})
-        end
+    initializer 'github.subscribe_to_notifications' do |app|
+      app.config.after_initialize do
+        ::OpenProject::Notifications.subscribe('github.check_run',
+                                               &NotificationHandler.method(:check_run))
+        ::OpenProject::Notifications.subscribe('github.issue_comment',
+                                               &NotificationHandler.method(:issue_comment))
+        ::OpenProject::Notifications.subscribe('github.pull_request',
+                                               &NotificationHandler.method(:pull_request))
       end
     end
 

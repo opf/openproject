@@ -6,9 +6,9 @@ module ::Avatars
       if request.put?
         result = service_request(type: :update)
         if result.success?
-          render plain: result.result, status: 200
+          render plain: result.result, status: :ok
         else
-          render plain: result.errors.full_messages.join(", "), status: 400
+          render plain: result.errors.full_messages.join(", "), status: :bad_request
         end
       else
         head :method_not_allowed

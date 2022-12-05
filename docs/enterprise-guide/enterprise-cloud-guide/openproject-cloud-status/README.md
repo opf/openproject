@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Cloud Status 
   priority: 002
 description: Report of outages and degraded services for our cloud edition customers
-robots: index, follow
 keywords: cloud status, incidents
 ---
 
@@ -51,7 +50,7 @@ We are currently seeing elevated response times and degraded performance. We are
 
 ### April 20th, 2018
 
-(3:00 UTC) The OpenProject Cloud Edition is currently not available in Russia since the IP address is being blocked in connection with blocking Telegram ([more information](http://www.bbc.com/news/technology-43797176)).
+(3:00 UTC) The OpenProject Cloud Edition is currently not available in Russia since the IP address is being blocked in connection with blocking Telegram ([more information](https://www.bbc.com/news/technology-43797176)).
 
 (3:00 UTC) The OpenProject Cloud Edition service is currently not available in Russia.
 

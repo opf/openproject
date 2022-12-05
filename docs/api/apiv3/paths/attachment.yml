@@ -20,6 +20,8 @@ delete:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -36,6 +38,8 @@ delete:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -51,6 +55,10 @@ delete:
         *Note: A client without sufficient permissions shall not be able to test for the existence of an attachment.
         That's why a 404 is returned here, even if a 403 might be more appropriate.*
       headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
   tags:
   - Attachments
   description: Permanently deletes the specified attachment.
@@ -103,6 +111,8 @@ get:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:

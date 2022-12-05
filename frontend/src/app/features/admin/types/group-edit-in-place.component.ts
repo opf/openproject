@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -66,7 +66,7 @@ export class GroupEditInPlaceComponent implements OnInit {
     }
   }
 
-  startEditing() {
+  startEditing():void {
     this.bannerService.conditional(
       () => this.bannerService.showEEOnlyHint(),
       () => {
@@ -75,7 +75,7 @@ export class GroupEditInPlaceComponent implements OnInit {
     );
   }
 
-  saveEdition(event:FocusEvent) {
+  saveEdition(event:FocusEvent):boolean {
     this.leaveEditingMode();
     this.name = this.editedName.trim();
 
@@ -91,12 +91,12 @@ export class GroupEditInPlaceComponent implements OnInit {
     return false;
   }
 
-  reset() {
+  reset():void {
     this.editing = false;
     this.editedName = this.name;
   }
 
-  leaveEditingMode() {
+  leaveEditingMode():void {
     // Only leave Editing mode if name not empty.
     if (this.editedName != null && this.editedName.trim().length > 0) {
       this.editing = false;

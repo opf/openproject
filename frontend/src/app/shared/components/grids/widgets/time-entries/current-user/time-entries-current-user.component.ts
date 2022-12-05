@@ -6,7 +6,7 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
-import { DisplayedDays } from 'core-app/shared/components/calendar/te-calendar/te-calendar.component';
+import { DisplayedDays } from 'core-app/features/calendar/te-calendar/te-calendar.component';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({

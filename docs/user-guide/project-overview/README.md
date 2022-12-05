@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Project overview
   priority: 900
 description: Learn how to configure a project overview page
-robots: index, follow
 keywords: project overview page
 ---
 

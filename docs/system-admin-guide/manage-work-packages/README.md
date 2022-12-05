@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Work packages
   priority: 980
 description: Manage work packages in OpenProject.
-robots: index, follow
 keywords: manage work packages
 ---
 # Manage work packages

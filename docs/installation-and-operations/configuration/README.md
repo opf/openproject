@@ -117,7 +117,7 @@ omniauth provider if additional ones are configured.
 OpenProject uses gravatar images with a `404` fallback by default to render an internal, initials-based avatar.
 You can override this behavior by setting `gravatar_fallback_image` to a different value to always render Gravatars
 
-For supported values, please see https://en.gravatar.com/site/implement/images/
+For supported values, please see [en.gravatar.com/site/implement/images/](https://en.gravatar.com/site/implement/images/)
 
 
 ### Attachments storage
@@ -445,7 +445,7 @@ web:
 As usual these values can be overridden via the environment.
 
 ```
-OPENPROJECT_WEB_WORKERs=2
+OPENPROJECT_WEB_WORKERS=2
 OPENPROJECT_WEB_TIMEOUT=60 # overridden by: RACK_TIMEOUT_SERVICE_TIMEOUT
 OPENPROJECT_WEB_WAIT__TIMEOUT=10 # overridden by: RACK_TIMEOUT_WAIT_TIMEOUT
 OPENPROJECT_WEB_MIN__THREADS=4 # overridden by: RAILS_MIN_THREADS
@@ -519,13 +519,16 @@ OPENPROJECT_STATSD_HOST=127.0.0.1 # overridden by: STATSD_HOST
 OPENPRJOECT_STATSD_PORT=8125 # overridden by: STATSD_PORT
 ```
 
-| ----------- | :---------- |
-| [List of supported environment variables](./environment) | The full list of environment variables you can use to override the default configuration |
-| [Configuring SSL](./ssl) | How to configure SSL so that your OpenProject installation is available over HTTPS |
-| [Configuring outbound emails](./outbound-emails) | How to configure outbound emails for notifications, etc. |
-| [Configuring inbound emails](./incoming-emails) | How to configure inbound emails for work package updates directly from an email |
-| [Configuring a custom database](./database) | How to use an external database |
-| [Configuring a custom web server](./server) | How to use a custom web server (e.g. NginX) with your OpenProject installation |
-| Configuring a custom caching server | How to use a custom caching server with your OpenProject installation |
-| [Configuring Git and Subversion repositories](./repositories) | How to integrate Git and Subversion repositories into OpenProject |
-| [Adding plugins](./plugins) | How to add plugins to your OpenProject installation |
+## Other Configuration Topics
+
+| Topic                                                         | Content                                                                                  |
+|---------------------------------------------------------------|:-----------------------------------------------------------------------------------------|
+| [List of supported environment variables](./environment)      | The full list of environment variables you can use to override the default configuration |
+| [Configuring SSL](./ssl)                                      | How to configure SSL so that your OpenProject installation is available over HTTPS       |
+| [Configuring outbound emails](./outbound-emails)              | How to configure outbound emails for notifications, etc.                                 |
+| [Configuring inbound emails](./incoming-emails)               | How to configure inbound emails for work package updates directly from an email          |
+| [Configuring a custom database](./database)                   | How to use an external database                                                          |
+| [Configuring a custom web server](./server)                   | How to use a custom web server (e.g. NginX) with your OpenProject installation           |
+| Configuring a custom caching server                           | How to use a custom caching server with your OpenProject installation                    |
+| [Configuring Git and Subversion repositories](./repositories) | How to integrate Git and Subversion repositories into OpenProject                        |
+| [Adding plugins](./plugins)                                   | How to add plugins to your OpenProject installation                                      |

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +30,22 @@ class Authorization::EnterpriseService
   attr_accessor :token
 
   GUARDED_ACTIONS = %i(
-    non_action
+    define_custom_style
+    multiselect_custom_fields
+    edit_attribute_groups
+    work_package_query_relation_columns
+    attribute_help_texts
+    two_factor_authentication
+    ldap_groups
+    custom_fields_in_projects_list
+    custom_actions
+    conditional_highlighting
+    readonly_work_packages
+    attachment_filters
+    board_view
+    grid_widget_wp_graph
+    placeholder_users
+    team_planner_view
   ).freeze
 
   def initialize(token)
@@ -41,7 +54,12 @@ class Authorization::EnterpriseService
 
   # Return a true ServiceResult if the token contains this particular action.
   def call(action)
-    allowed = process(action)
+    allowed =
+      if token.nil? || token.token_object.nil? || token.expired?
+        false
+      else
+        process(action)
+      end
 
     result(allowed)
   end

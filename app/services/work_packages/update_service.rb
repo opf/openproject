@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,104 +26,71 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# TODO: use default update base class
-class WorkPackages::UpdateService < ::BaseServices::BaseCallable
+class WorkPackages::UpdateService < ::BaseServices::Update
   include ::WorkPackages::Shared::UpdateAncestors
-  include ::Shared::ServiceContext
-
-  attr_accessor :user,
-                :model,
-                :contract_class
-
-  def initialize(user:, model:, contract_class: WorkPackages::UpdateContract)
-    self.user = user
-    self.model = model
-    self.contract_class = contract_class
-  end
-
-  def perform(send_notifications: true, **attributes)
-    in_context(model, send_notifications) do
-      update(attributes)
-    end
-  end
+  include Attachments::ReplaceAttachments
 
   private
 
-  def update(attributes)
-    result = set_attributes(attributes)
+  def after_perform(service_call)
+    update_related_work_packages(service_call)
+    cleanup(service_call.result)
 
-    if result.success?
-      work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
-      result.merge!(update_dependent)
-    end
+    service_call
+  end
 
-    if save_if_valid(result)
-      update_ancestors([work_package]).each do |ancestor_result|
-        result.merge!(ancestor_result)
+  def update_related_work_packages(service_call)
+    update_ancestors([service_call.result]).each do |ancestor_service_call|
+      ancestor_service_call.dependent_results.each do |ancestor_dependent_service_call|
+        service_call.add_dependent!(ancestor_dependent_service_call)
       end
     end
 
-    result
-  end
-
-  def save_if_valid(result)
-    if result.success?
-      result.success = consolidated_results(result)
-                       .all?(&:save)
+    update_related(service_call.result).each do |related_service_call|
+      service_call.add_dependent!(related_service_call)
     end
-
-    result.success?
   end
 
-  def update_dependent
-    result = ServiceResult.new(success: true, result: work_package)
-
-    result.merge!(update_descendants)
-
-    cleanup if result.success?
-
-    result.merge!(reschedule_related)
-
-    result
+  def update_related(work_package)
+    consolidated_calls(update_descendants(work_package) + reschedule_related(work_package))
+      .each { |dependent_call| dependent_call.result.save(validate: false) }
   end
 
-  def set_attributes(attributes, wp = work_package)
+  def update_descendants(work_package)
+    if work_package.saved_change_to_project_id?
+      attributes = { project: work_package.project }
+
+      work_package.descendants.map do |descendant|
+        set_descendant_attributes(attributes, descendant)
+      end
+    else
+      []
+    end
+  end
+
+  def set_descendant_attributes(attributes, descendant)
     WorkPackages::SetAttributesService
-      .new(user: user,
-           model: wp,
-           contract_class: contract_class)
+      .new(user:,
+           model: descendant,
+           contract_class: WorkPackages::UpdateDependentContract)
       .call(attributes)
   end
 
-  def update_descendants
-    result = ServiceResult.new(success: true, result: work_package)
-
-    if work_package.project_id_changed?
-      attributes = { project: work_package.project }
-
-      work_package.descendants.each do |descendant|
-        result.add_dependent!(set_attributes(attributes, descendant))
-      end
-    end
-
-    result
-  end
-
-  def cleanup
-    if work_package.project_id_changed?
+  def cleanup(work_package)
+    if work_package.saved_change_to_project_id?
       moved_work_packages = [work_package] + work_package.descendants
       delete_relations(moved_work_packages)
       move_time_entries(moved_work_packages, work_package.project_id)
     end
-    if work_package.type_id_changed?
-      reset_custom_values
+    if work_package.saved_change_to_type_id?
+      reset_custom_values(work_package)
     end
   end
 
   def delete_relations(work_packages)
     unless Setting.cross_project_work_package_relations?
       Relation
-        .non_hierarchy_of_work_package(work_packages)
+        .of_work_package(work_packages)
         .destroy_all
     end
   end
@@ -133,44 +98,32 @@ class WorkPackages::UpdateService < ::BaseServices::BaseCallable
   def move_time_entries(work_packages, project_id)
     TimeEntry
       .on_work_packages(work_packages)
-      .update_all(project_id: project_id)
+      .update_all(project_id:)
   end
 
-  def reset_custom_values
+  def reset_custom_values(work_package)
     work_package.reset_custom_values!
   end
 
-  def reschedule_related
-    result = ServiceResult.new(success: true, result: work_package)
+  def reschedule_related(work_package)
+    rescheduled = if work_package.saved_change_to_parent_id? && work_package.parent_id_before_last_save
+                    reschedule_former_siblings(work_package).dependent_results
+                  else
+                    []
+                  end
 
-    if work_package.parent_id_changed?
-      # HACK: we need to persist the parent relation before rescheduling the parent
-      # and the former parent
-      work_package.send(:update_parent_relation)
-
-      result.merge!(reschedule_former_parent) if work_package.parent_id_was
-    end
-
-    result.merge!(reschedule(work_package))
-
-    result
+    rescheduled + reschedule(work_package, [work_package]).dependent_results
   end
 
-  def reschedule_former_parent
-    former_siblings = WorkPackage.includes(:parent_relation).where(relations: { from_id: work_package.parent_id_was })
-
-    reschedule(former_siblings)
+  def reschedule_former_siblings(work_package)
+    reschedule(work_package, WorkPackage.where(parent_id: work_package.parent_id_before_last_save))
   end
 
-  def reschedule(work_packages)
+  def reschedule(work_package, work_packages)
     WorkPackages::SetScheduleService
-      .new(user: user,
+      .new(user:,
            work_package: work_packages)
-      .call(changed_attributes)
-  end
-
-  def changed_attributes
-    work_package.changed.map(&:to_sym)
+      .call(work_package.saved_changes.keys.map(&:to_sym))
   end
 
   # When multiple services change a work package, we still only want one update to the database due to:
@@ -178,21 +131,15 @@ class WorkPackages::UpdateService < ::BaseServices::BaseCallable
   # * having only one journal entry
   # * stale object errors
   # we thus consolidate the results so that one instance contains the changes made by all the services.
-  def consolidated_results(result)
-    result.all_results.group_by(&:id).inject([]) do |a, (_, instances)|
-      master = instances.pop
-
-      instances.each do |instance|
-        master.attributes = instance.changes.map do |attribute, values|
-          [attribute, values.last]
-        end.to_h
+  def consolidated_calls(service_calls)
+    service_calls
+      .group_by { |sc| sc.result.id }
+      .map do |(_, same_work_package_calls)|
+      same_work_package_calls.pop.tap do |master|
+        same_work_package_calls.each do |sc|
+          master.result.attributes = sc.result.changes.transform_values(&:last)
+        end
       end
-
-      a + [master]
     end
-  end
-
-  def work_package
-    model
   end
 end

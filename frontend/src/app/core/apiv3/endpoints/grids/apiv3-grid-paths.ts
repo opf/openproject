@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { Observable } from 'rxjs';
-import { Apiv3GridForm } from 'core-app/core/apiv3/endpoints/grids/apiv3-grid-form';
+import { ApiV3GridForm } from 'core-app/core/apiv3/endpoints/grids/apiv3-grid-form';
 
-export class Apiv3GridPaths extends APIv3GettableResource<GridResource> {
+export class ApiV3GridPaths extends ApiV3GettableResource<GridResource> {
   // Static paths
-  readonly form = this.subResource('form', Apiv3GridForm);
+  readonly form = this.subResource('form', ApiV3GridForm);
 
   /**
    * Update a grid resource or payload

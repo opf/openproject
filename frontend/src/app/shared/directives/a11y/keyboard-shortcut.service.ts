@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -95,7 +95,7 @@ export class KeyboardShortcutService {
       if (elem.is('input') || elem.attr('id') === 'global-search-input') {
         // timeout with delay so that the key is not
         // triggered on the input
-        setTimeout(() => this.FocusHelper.focus(elem), 200);
+        setTimeout(() => this.FocusHelper.focus(elem[0]), 200);
       } else if (elem.is('[href]')) {
         this.clickLink(elem[0] as HTMLLinkElement);
       } else {

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Budgets
   priority: 780
 description: Find out how to create and manage budgets for a project in OpenProject.
-robots: index, follow
 keywords: budgets, project budget, costs
 ---
 
@@ -15,14 +14,14 @@ You can add planned **unit costs** as well as **labor costs** for the project.
 
 Then, you will assign work packages to a budgets. If you log time or costs to this work package the costs will booked to this budget and show the percentage spent for a project budget.
 
-| Topic                                                        | Content                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Create a project budget](#create-a-project-budget)          | How to set up a project budget in OpenProject?               |
-| [Add planned unit costs](#add-planned-unit-costs)            | How to add planned unit costs to a budget?                   |
-| [Add planned labor costs](#add-planned-labor-costs)          | How to add planned labor costs to a budget?                  |
-| [Assign a work package to a budget](#assign-a-work-package-to-a-budget) | How to assign a work package to book time and costs to a project budget? |
-| [View details and update budget](#view-details-and-update-budget) | How to display the details, update, copy or delete a project budget? |
-| [Frequently asked questions (FAQ)](#frequently-asked-questions-faq) | What are frequent questions regarding budgets?               |
+| Topic                                                                   | Content                                                                  |
+|-------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| [Create a project budget](#create-a-project-budget)                     | How to set up a project budget in OpenProject.                           |
+| [Add planned unit costs](#add-planned-unit-costs)                       | How to add planned unit costs to a budget.                               |
+| [Add planned labor costs](#add-planned-labor-costs)                     | How to add planned labor costs to a budget.                              |
+| [Assign a work package to a budget](#assign-a-work-package-to-a-budget) | How to assign a work package to book time and costs to a project budget. |
+| [View details and update budget](#view-details-and-update-budget)       | How to display the details, update, copy or delete a project budget.     |
+| [Frequently asked questions (FAQ)](#frequently-asked-questions-faq)     | What are frequent questions regarding budgets?                           |
 
 ## Create a project budget
 
@@ -109,9 +108,7 @@ You will get and overview of planned as well as spent costs and the available co
 ![Budgets-details-view](Budgets-details-view.png)
 
 
-<div class="alert alert-info" role="alert">
-**Note**: The costs are calculated based on the [configuration for cost types](../../system-admin-guide) and the [configured hourly rate](../time-and-costs/time-tracking/#define-hourly-rate-for-labor-costs) in the user profile.
-</div>
+> **Note**: The costs are calculated based on the [configuration for cost types](../../system-admin-guide) and the [configured hourly rate](../time-and-costs/time-tracking/#define-hourly-rate-for-labor-costs) in the user profile.
 
 ## Frequently asked questions (FAQ)
 

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +34,14 @@ class MailHandler < ActionMailer::Base
 
   class MissingInformation < StandardError; end
 
-  attr_reader :email, :sender_email, :user, :options
+  attr_reader :email, :sender_email, :user, :options, :logs
+
+  def initialize
+    super
+
+    @result = false
+    @logs = []
+  end
 
   ##
   # Code copied from base class and extended with optional options parameter
@@ -72,7 +77,8 @@ class MailHandler < ActionMailer::Base
     @sender_email = email.from.to_a.first.to_s.strip
     # Ignore emails received from the application emission address to avoid hell cycles
     if sender_email.downcase == Setting.mail_from.to_s.strip.downcase
-      log "ignoring email from emission address [#{sender_email}]"
+      log "ignoring email from emission address [#{sender_email}]", report: false
+      # don't report back errors to ourselves
       return false
     end
     # Ignore auto generated emails
@@ -81,7 +87,8 @@ class MailHandler < ActionMailer::Base
       if value
         value = value.to_s.downcase
         if (ignored_value.is_a?(Regexp) && value.match(ignored_value)) || value == ignored_value
-          log "ignoring email with #{key}:#{value} header"
+          log "ignoring email with #{key}:#{value} header", report: false
+          # no point reporting back in case of auto-generated emails
           return false
         end
       end
@@ -98,7 +105,7 @@ class MailHandler < ActionMailer::Base
       when 'accept'
         @user = User.anonymous
       when 'create'
-        @user, password = MailHandler.create_user_from_email(email)
+        @user, password = MailHandler::UserCreator.create_user_from_email(email)
         if @user
           log "[#{@user.login}] account created"
           UserMailer.account_information(@user, password).deliver_later
@@ -108,12 +115,14 @@ class MailHandler < ActionMailer::Base
         end
       else
         # Default behaviour, emails from unknown users are ignored
-        log "ignoring email from unknown user [#{sender_email}]"
+        log "ignoring email from unknown user [#{sender_email}]", report: false
         return false
       end
     end
     User.current = @user
     dispatch
+  ensure
+    report_errors if !@result && Setting.report_incoming_email_errors?
   end
 
   def options=(value)
@@ -153,14 +162,11 @@ class MailHandler < ActionMailer::Base
   # Relying on the subject of the mail, which had been implemented before, is brittle as it relies on the user not altering
   # the subject. Additionally, the subject structure might change, e.g. via localization changes.
   def dispatch
-    if (m, object_id = dispatch_target_from_header)
-      m.call(object_id)
-    else
-      dispatch_to_default
-    end
+    m, object_id = dispatch_target_from_header
+
+    @result = m ? m.call(object_id) : dispatch_to_default
   rescue ActiveRecord::RecordInvalid => e
-    # TODO: send a email to the user
-    logger&.error e.message
+    log "could not save record: #{e.message}", :error
     false
   rescue MissingInformation => e
     log "missing information from #{user}: #{e.message}", :error
@@ -178,7 +184,7 @@ class MailHandler < ActionMailer::Base
     receive_work_package
   end
 
-  REFERENCES_RE = %r{^<?op\.([a-z_]+)-(\d+)@}.freeze
+  REFERENCES_RE = %r{^<?op\.([a-z_]+)-(\d+)@}
 
   ##
   # Find a matching method to dispatch to given the mail's references header.
@@ -190,7 +196,7 @@ class MailHandler < ActionMailer::Base
       object_id = $2.to_i
       method_name = :"receive_#{klass}_reply"
       if self.class.private_instance_methods.include?(method_name)
-        return method(method_name), object_id
+        [method(method_name), object_id]
       end
     end
   end
@@ -242,11 +248,13 @@ class MailHandler < ActionMailer::Base
     if message
       message = message.root
 
-      unless options[:no_permission_check]
-        raise UnauthorizedAction unless user.allowed_to?(:add_messages, message.project)
+      if !options[:no_permission_check] && !user.allowed_to?(:add_messages, message.project)
+        raise UnauthorizedAction
       end
 
-      if !message.locked?
+      if message.locked?
+        log "ignoring reply from [#{sender_email}] to a locked topic"
+      else
         reply = Message.new(subject: email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
                             content: cleaned_up_text_body)
         reply.author = user
@@ -254,8 +262,6 @@ class MailHandler < ActionMailer::Base
         message.children << reply
         add_attachments(reply)
         reply
-      else
-        log "ignoring reply from [#{sender_email}] to a locked topic"
       end
     end
   end
@@ -279,8 +285,8 @@ class MailHandler < ActionMailer::Base
     )
 
     call = ::Attachments::CreateService
-      .new(user: user)
-      .call(container: container, filename: attachment.filename, file: file)
+      .new(user:)
+      .call(container:, filename: attachment.filename, file:)
 
     call.on_failure do
       log "Failed to add attachment #{attachment.filename} for [#{sender_email}]: #{call.message}"
@@ -299,7 +305,7 @@ class MailHandler < ActionMailer::Base
         User
           .active
           .where(['LOWER(mail) IN (?)', addresses])
-          .each do |user|
+          .find_each do |user|
           Services::CreateWatcher
             .new(obj, user)
             .run
@@ -332,18 +338,31 @@ class MailHandler < ActionMailer::Base
 
   # Destructively extracts the value for +attr+ in +text+
   # Returns nil if no matching keyword found
-  def extract_keyword!(text, attr, format = nil)
-    keys = [attr.to_s.humanize]
-    keys << all_attribute_translations(user.language)[attr] if user && user.language.present?
-    keys << all_attribute_translations(Setting.default_language)[attr] if Setting.default_language.present?
+  def extract_keyword!(text, attr, format)
+    keys = human_attr_translations(attr)
+             .compact_blank
+             .uniq
+             .map { |k| Regexp.escape(k) }
 
-    keys.reject!(&:blank?)
-    keys.map! do |k|
-      Regexp.escape(k)
+    value = nil
+
+    text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(?<value>#{format || '.+'})\s*$/i) do |_|
+      value = Regexp.last_match[:value]&.strip
+
+      ''
     end
-    format ||= '.+'
-    text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(#{format})\s*$/i, '')
-    $2&.strip
+
+    value
+  end
+
+  def human_attr_translations(attr)
+    keys = [attr.to_s.humanize]
+
+    [user&.language, Setting.default_language].compact_blank.each do |lang|
+      keys << all_attribute_translations(lang)[attr]
+    end
+
+    keys
   end
 
   def target_project
@@ -370,7 +389,7 @@ class MailHandler < ActionMailer::Base
       'due_date' => wp_due_date_from_keywords,
       'estimated_hours' => wp_estimated_hours_from_keywords,
       'done_ratio' => wp_done_ratio_from_keyword
-    }.delete_if { |_, v| v.blank? }
+    }.compact_blank!
   end
 
   # Returns a Hash of issue custom field values extracted from keywords in the email body
@@ -414,52 +433,6 @@ class MailHandler < ActionMailer::Base
     @full_sanitizer ||= Rails::Html::FullSanitizer.new
   end
 
-  # Returns a User from an email address and a full name
-  def self.new_user_from_attributes(email_address, fullname = nil)
-    user = User.new
-    user.mail = email_address
-    user.login = user.mail
-    user.random_password!
-    user.language = Setting.default_language
-
-    names = fullname.blank? ? email_address.gsub(/@.*\z/, '').split('.') : fullname.split
-    user.firstname = names.shift
-    user.lastname = names.join(' ')
-    user.lastname = '-' if user.lastname.blank?
-
-    unless user.valid?
-      user.login = "user#{SecureRandom.hex(6)}" unless user.errors[:login].blank?
-      user.firstname = '-' unless user.errors[:firstname].blank?
-      user.lastname = '-' unless user.errors[:lastname].blank?
-    end
-
-    user
-  end
-
-  # Creates a user account for the +email+ sender
-  def self.create_user_from_email(email)
-    from = email.header['from'].to_s
-    addr = from
-    name = nil
-    if m = from.match(/\A"?(.+?)"?\s+<(.+@.+)>\z/)
-      addr = m[2]
-      name = m[1]
-    end
-    if addr.present?
-      user = new_user_from_attributes(addr, name)
-      password = user.password
-      if user.save
-        [user, password]
-      else
-        log "failed to create User: #{user.errors.full_messages}", :error
-        nil
-      end
-    else
-      log 'failed to create User: no FROM address found', :error
-      nil
-    end
-  end
-
   def allow_override_option(options)
     if options[:allow_override].is_a?(String)
       options[:allow_override].split(',').map(&:strip)
@@ -470,7 +443,7 @@ class MailHandler < ActionMailer::Base
 
   # Removes the email body of text after the truncation configurations.
   def cleanup_body(body)
-    delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).reject(&:blank?).map { |s| Regexp.escape(s) }
+    delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).compact_blank.map { |s| Regexp.escape(s) }
     unless delimiters.empty?
       regex = Regexp.new("^[> ]*(#{delimiters.join('|')})\s*[\r\n].*", Regexp::MULTILINE)
       body = body.gsub(regex, '')
@@ -486,9 +459,7 @@ class MailHandler < ActionMailer::Base
   end
 
   def ignored_filenames
-    @ignored_filenames ||= begin
-      Setting.mail_handler_ignore_filenames.to_s.split(/[\r\n]+/).reject(&:blank?)
-    end
+    @ignored_filenames ||= Setting.mail_handler_ignore_filenames.to_s.split(/[\r\n]+/).compact_blank
   end
 
   def ignored_filename?(filename)
@@ -498,13 +469,13 @@ class MailHandler < ActionMailer::Base
   end
 
   def create_work_package(project)
-    work_package = WorkPackage.new(project: project)
+    work_package = WorkPackage.new(project:)
     attributes = collect_wp_attributes_from_email_on_create(work_package)
 
     service_call = WorkPackages::CreateService
-                   .new(user: user,
+                   .new(user:,
                         contract_class: work_package_create_contract_class)
-                   .call(**attributes.merge(work_package: work_package).symbolize_keys)
+                   .call(**attributes.merge(work_package:).symbolize_keys)
 
     if service_call.success?
       work_package = service_call.result
@@ -531,7 +502,7 @@ class MailHandler < ActionMailer::Base
     attributes[:attachment_ids] = work_package.attachment_ids + add_attachments(work_package).map(&:id)
 
     service_call = WorkPackages::UpdateService
-                   .new(user: user,
+                   .new(user:,
                         model: work_package,
                         contract_class: work_package_update_contract_class)
                    .call(**attributes.symbolize_keys)
@@ -599,9 +570,38 @@ class MailHandler < ActionMailer::Base
     get_keyword(:done_ratio, override: true, format: '(\d|10)?0')
   end
 
-  def log(message, level = :info)
+  def log(message, level = :info, report: true)
+    logs << "#{level}: #{message}" if report
+
     message = "MailHandler: #{message}"
     logger.public_send(level, message)
+  end
+
+  def report_errors
+    return if logs.empty?
+
+    UserMailer.incoming_email_error(user, mail_as_hash(email), logs).deliver_later
+  end
+
+  def mail_as_hash(email)
+    {
+      message_id: email.message_id,
+      subject: email.subject,
+      from: email.from&.first || '(unknown from address)',
+      quote: incoming_email_quote(email),
+      text: incoming_email_text(email)
+    }
+  end
+
+  def incoming_email_text(mail)
+    mail.text_part.present? ? mail.text_part.body.to_s : mail.body.to_s
+  end
+
+  def incoming_email_quote(mail)
+    quote = incoming_email_text(mail)
+    quoted = String(quote).lines.join("> ")
+
+    "> #{quoted}"
   end
 
   def work_package_create_contract_class

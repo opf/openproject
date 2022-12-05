@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import {
-  Component, ElementRef, EventEmitter, Input, Output, ViewChild,
+  Component, ElementRef, EventEmitter, HostBinding, Input, Output, ViewChild,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
@@ -37,6 +37,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   templateUrl: './wp-relations-group.template.html',
 })
 export class WorkPackageRelationsGroupComponent {
+  @HostBinding('class.attributes-group') className = true;
+
   @Input() public relatedWorkPackages:WorkPackageResource[];
 
   @Input() public workPackage:WorkPackageResource;

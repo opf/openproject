@@ -2,6 +2,7 @@
 <meta name="viewport" content="width=device-width">
 <%= output_title_and_meta_tags %>
 <%= sentry_frontend_tags %>
+<%= appsignal_frontend_tag %>
 
 <% relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || '' %>
 <meta name="app_base_path" content="<%= relative_url_root %>"/>
@@ -21,6 +22,7 @@
 
 <% if Setting.demo_projects_available %><meta name="demo_projects_available" content="true"/><% end %>
 <% if Setting.boards_demo_data_available %><meta name="boards_demo_data_available" content="true"/><% end %>
+<% if Setting.demo_view_of_type_team_planner_seeded %><meta name="demo_view_of_type_team_planner_seeded" content="true"/><% end %>
 <%= csrf_meta_tags %>
 <%= initializer_meta_tag %>
 
@@ -28,6 +30,9 @@
 <%= call_hook :view_layouts_base_html_meta %>
 
 <%= render 'common/favicons' %>
+
+<%# Allow gon output when necessary %>
+<%= include_gon(nonce: content_security_policy_script_nonce) %>
 
 <%# Include CLI assets (development) or prod build assets %>
 <%= include_frontend_assets %>

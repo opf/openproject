@@ -1,0 +1,47 @@
+props:
+  spot-spacing-0_25:
+    value: "0.25rem"
+  spot-spacing-0_5:
+    value: "0.5rem"
+  spot-spacing-0_75:
+    value: "0.75rem"
+  spot-spacing-1:
+    value: "1rem"
+  spot-spacing-1_25:
+    value: "1.25rem"
+  spot-spacing-1_5:
+    value: "1.5rem"
+  spot-spacing-1_75:
+    value: "1.75rem"
+  spot-spacing-2:
+    value: "2rem"
+  spot-spacing-2_25:
+    value: "2.25rem"
+  spot-spacing-2_5:
+    value: "2.5rem"
+  spot-spacing-3:
+    value: "3rem"
+  spot-spacing-3_5:
+    value: "3.5rem"
+  spot-spacing-4:
+    value: "4rem"
+  spot-spacing-4_5:
+    value: "4.5rem"
+  spot-spacing-5:
+    value: "5rem"
+  spot-spacing-5_5:
+    value: "5.5rem"
+  spot-spacing-6:
+    value: "6rem"
+  spot-spacing-7:
+    value: "7rem"
+  spot-spacing-8:
+    value: "8rem"
+  spot-spacing-9:
+    value: "9rem"
+  spot-spacing-10:
+    value: "10rem"
+
+global:
+  type: spacing
+  category: spacings

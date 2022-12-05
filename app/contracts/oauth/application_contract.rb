@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +33,7 @@ module OAuth
     end
 
     validate :validate_client_credential_user
+    validate :validate_integration
 
     attribute :name
     attribute :redirect_uri
@@ -43,13 +42,22 @@ module OAuth
     attribute :owner_type
     attribute :scopes
     attribute :client_credentials_user_id
+    attribute :integration_id
+    attribute :integration_type
 
     private
 
-    def validate_client_credential_user
-      return unless model.client_credentials_user_id.present?
+    def validate_integration
+      if (model.integration_id.nil? && model.integration_type.present?) ||
+         (model.integration_id.present? && model.integration_type.nil?)
+        errors.add :integration, :invalid
+      end
+    end
 
-      unless User.where(id: model.client_credentials_user_id).exists?
+    def validate_client_credential_user
+      return if model.client_credentials_user_id.blank?
+
+      unless User.exists?(id: model.client_credentials_user_id)
         errors.add :client_credentials_user_id, :invalid
       end
     end

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,19 +36,18 @@ module PlaceholderUsers
     # Checks if a given placeholder user may be deleted by a user.
     #
     # @param actor [User] User who wants to delete the given placeholder user.
-    def self.deletion_allowed?(placeholder_user,
-                               actor,
-                               user_allowed_service = Authorization::UserAllowedService.new(actor))
+    def self.deletion_allowed?(placeholder_user, actor)
       actor.allowed_to_globally?(:manage_placeholder_user) &&
-        affected_projects_managed_by_actor?(placeholder_user, user_allowed_service)
+        affected_projects_managed_by_actor?(placeholder_user, actor)
     end
+
+    def self.affected_projects_managed_by_actor?(placeholder_user, actor)
+      placeholder_user.projects.active.empty? ||
+        actor.allowed_to?(:manage_members, placeholder_user.projects.active)
+    end
+    private_class_method :affected_projects_managed_by_actor?
 
     protected
-
-    def self.affected_projects_managed_by_actor?(placeholder_user, user_allowed_service)
-      placeholder_user.projects.active.empty? ||
-        user_allowed_service.call(:manage_members, placeholder_user.projects.active).result
-    end
 
     def deletion_allowed?
       self.class.deletion_allowed?(model, user)
