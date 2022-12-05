@@ -284,6 +284,9 @@ group :development, :test do
   gem 'ruby-prof', require: false
   gem 'stackprof', require: false
 
+  # REPL with debug commands
+  gem 'debug'
+
   gem 'pry-byebug', '~> 3.10.0', platforms: [:mri]
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.5.2'
