@@ -48,13 +48,13 @@ export const OVERVIEW_ROUTES:Ng2StateDeclaration[] = [
   },
 ];
 
-export function uiRouterOverviewConfiguration(uiRouter:UIRouter) {
+export function uiRouterOverviewConfiguration(uiRouter:UIRouter):void {
   // Ensure projects/:project_id/ are being redirected correctly
   // cf., https://community.openproject.com/wp/29754
   uiRouter.urlService.rules
     .when(
-      new RegExp('^/projects(?!/new$)/([^/]+)$'),
-      (match) => `/projects/${match[1]}/`,
+      new RegExp('^/projects(?!/new$)/([^/\\?]+)(\\?.*)?$'),
+      (match:string[]) => `/projects/${match[1]}/${match[2] || ''}`,
     );
 }
 
