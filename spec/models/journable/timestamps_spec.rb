@@ -550,6 +550,27 @@ describe Journable::Timestamps do
         end
       end
 
+      describe "when chaining where clauses with OR (Arel::Nodes::Grouping)" do
+        # https://github.com/opf/openproject/pull/11678#issuecomment-1328011996
+
+        subject do
+          relation = WorkPackage.where(subject: "Foo").or(
+            WorkPackage.where(description: "The work package as it has been on Wednesday")
+          )
+          relation.at_timestamp(wednesday)
+        end
+
+        it "transforms the expression to query the correct table" do
+          expect(subject.to_sql).to include \
+            "\"work_package_journals\".\"subject\" = 'Foo' OR " \
+            "\"work_package_journals\".\"description\" = 'The work package as it has been on Wednesday'"
+        end
+
+        it "returns the requested work package" do
+          expect(subject).to include work_package
+        end
+      end
+
       describe "when chaining an order clause" do
         subject { WorkPackage.at_timestamp(wednesday).order(description: :desc) }
 
