@@ -89,6 +89,7 @@ module Accounts::OmniauthLogin
       .call(user_params)
 
     if call.success?
+      session[:omniauth_provider] = auth_hash[:provider]
       flash[:notice] = call.message if call.message.present?
       login_user_if_active(call.result, just_registered: call.result.just_created?)
     elsif call.includes_error?(:base, :failed_to_activate)

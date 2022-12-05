@@ -221,7 +221,12 @@ describe 'API v3 storages resource', content_type: :json do
 
       describe 'due to authorization failure' do
         before do
-          allow(storage_requests).to receive(:files_query).and_return(ServiceResult.failure(result: :not_authorized))
+          allow(storage_requests).to receive(:files_query).and_return(
+            ServiceResult.failure(
+              result: :not_authorized,
+              errors: Storages::StorageError.new(code: :not_authorized)
+            )
+          )
         end
 
         it { expect(last_response.status).to be(500) }
@@ -229,7 +234,12 @@ describe 'API v3 storages resource', content_type: :json do
 
       describe 'due to internal error' do
         before do
-          allow(storage_requests).to receive(:files_query).and_return(ServiceResult.failure(result: :error))
+          allow(storage_requests).to receive(:files_query).and_return(
+            ServiceResult.failure(
+              result: :error,
+              errors: Storages::StorageError.new(code: :error)
+            )
+          )
         end
 
         it { expect(last_response.status).to be(500) }
@@ -237,7 +247,12 @@ describe 'API v3 storages resource', content_type: :json do
 
       describe 'due to not found' do
         before do
-          allow(storage_requests).to receive(:files_query).and_return(ServiceResult.failure(result: :not_found))
+          allow(storage_requests).to receive(:files_query).and_return(
+            ServiceResult.failure(
+              result: :not_found,
+              errors: Storages::StorageError.new(code: :not_found)
+            )
+          )
         end
 
         it { expect(last_response.status).to be(404) }
@@ -248,7 +263,10 @@ describe 'API v3 storages resource', content_type: :json do
       let(:files_query) do
         Struct.new('FilesQuery', :error) do
           def query(_)
-            ServiceResult.failure(result: error)
+            ServiceResult.failure(
+              result: error,
+              errors: Storages::StorageError.new(code: error)
+            )
           end
         end.new(error)
       end
@@ -303,7 +321,7 @@ describe 'API v3 storages resource', content_type: :json do
       it do
         expect(subject)
           .to(be_json_eql("#{::API::V3::URN_PREFIX}storages:upload_link:no_link_provided".to_json)
-          .at_path('_links/self/href'))
+                .at_path('_links/self/href'))
       end
 
       it { is_expected.to be_json_eql(upload_link.destination.to_json).at_path('_links/destination/href') }
@@ -320,7 +338,12 @@ describe 'API v3 storages resource', content_type: :json do
 
       describe 'due to authorization failure' do
         before do
-          allow(storage_requests).to receive(:upload_link_query).and_return(ServiceResult.failure(result: :not_authorized))
+          allow(storage_requests).to receive(:upload_link_query).and_return(
+            ServiceResult.failure(
+              result: :not_authorized,
+              errors: Storages::StorageError.new(code: :not_authorized)
+            )
+          )
         end
 
         it { expect(last_response.status).to be(500) }
@@ -328,7 +351,12 @@ describe 'API v3 storages resource', content_type: :json do
 
       describe 'due to internal error' do
         before do
-          allow(storage_requests).to receive(:upload_link_query).and_return(ServiceResult.failure(result: :error))
+          allow(storage_requests).to receive(:upload_link_query).and_return(
+            ServiceResult.failure(
+              result: :error,
+              errors: Storages::StorageError.new(code: :error)
+            )
+          )
         end
 
         it { expect(last_response.status).to be(500) }
@@ -336,7 +364,12 @@ describe 'API v3 storages resource', content_type: :json do
 
       describe 'due to not found' do
         before do
-          allow(storage_requests).to receive(:upload_link_query).and_return(ServiceResult.failure(result: :not_found))
+          allow(storage_requests).to receive(:upload_link_query).and_return(
+            ServiceResult.failure(
+              result: :not_found,
+              errors: Storages::StorageError.new(code: :not_found)
+            )
+          )
         end
 
         it { expect(last_response.status).to be(404) }

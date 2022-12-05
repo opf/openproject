@@ -505,7 +505,11 @@ export class TimeEntryCalendarComponent {
   }
 
   private removeTooltip(event:CalendarViewEvent):void {
-    jQuery(event.el).tooltip('disable');
+    const target = jQuery(event.el);
+
+    if (target.tooltip('instance')) {
+      jQuery(event.el).tooltip('disable');
+    }
   }
 
   private prependDuration(event:CalendarViewEvent):void {

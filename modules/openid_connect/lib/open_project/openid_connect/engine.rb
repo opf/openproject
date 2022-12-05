@@ -47,6 +47,21 @@ module OpenProject::OpenIDConnect
             redirect_to "#{omniauth_start_path(h[:name])}/logout"
           end
 
+          # Remember oidc session values when logging in user
+          h[:retain_from_session] = %w[omniauth.openid_sid]
+
+          h[:backchannel_logout_callback] = ->(logout_token) do
+            ::OpenProject::OpenIDConnect::SessionMapper.handle_logout(logout_token)
+          end
+
+          # Allow username mapping from custom 'login' claim
+          h[:openproject_attribute_map] = Proc.new do |auth|
+            {}.tap do |additional|
+              mapped_login = auth.dig(:info, :login)
+              additional[:login] = mapped_login if mapped_login.present?
+            end
+          end
+
           h
         end
       end
@@ -71,32 +86,7 @@ module OpenProject::OpenIDConnect
     end
 
     config.to_prepare do
-      # set a secure cookie in production
-      secure_cookie = !!Rails.configuration.force_ssl
-
-      # register an #after_login callback which sets a cookie containing the access token
-      OpenProject::OmniAuth::Authorization.after_login do |_user, auth_hash, context|
-        # check the configuration
-        if store_access_token?
-          # fetch the access token if it's present
-          access_token = auth_hash.fetch(:credentials, {})[:token]
-          # put it into a cookie
-          if context && access_token
-            controller = context.controller
-            controller.send(:cookies)[:_open_project_session_access_token] = {
-              value: access_token,
-              secure: secure_cookie
-            }
-          end
-        end
-      end
-
-      # for changing the setting at runtime, e.g. for testing, we need to evaluate this each time
-      def self.store_access_token?
-        # TODO: we might want this to be configurable, for now we always enable it
-        # OpenProject::Configuration['omniauth_store_access_token_in_cookie']
-        true
-      end
+      ::OpenProject::OpenIDConnect::Hooks::Hook
     end
   end
 end

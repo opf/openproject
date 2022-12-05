@@ -29,20 +29,7 @@
 module API::V3::StorageFiles
   class StorageFilesAPI < ::API::OpenProjectAPI
     using Storages::Peripherals::ServiceResultRefinements
-
-    helpers do
-      def raise_error(error)
-        case error
-        when :not_found
-          raise API::Errors::NotFound.new
-        when :not_authorized
-          Rails.logger.error("An outbound request failed due to an authorization failure!")
-          raise API::Errors::InternalError.new
-        else
-          raise API::Errors::InternalError.new
-        end
-      end
-    end
+    helpers Storages::Peripherals::StorageErrorHelper
 
     resources :files do
       get do
@@ -59,11 +46,10 @@ module API::V3::StorageFiles
                   self_link: api_v3_paths.storage_files(@storage.id),
                   current_user:
                 )
-              end
-                .match(
-                  on_success: ->(representer) { representer },
-                  on_failure: ->(error) { raise_error(error) }
-                )
+              end.match(
+                on_success: ->(representer) { representer },
+                on_failure: ->(error) { raise_error(error) }
+              )
             },
             on_failure: ->(error) { raise_error(error) }
           )

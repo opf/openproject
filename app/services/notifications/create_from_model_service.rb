@@ -35,7 +35,14 @@ class Notifications::CreateFromModelService
   MENTION_GROUP_ID_PATTERN =
     '<mention[^>]*(?:data-type="group"[^>]*data-id="(\d+)")|(?:data-id="(\d+)"[^>]*data-type="group")[^>]*>)|(?:\bgroup#(\d+)\b'
       .freeze
-  MENTION_PATTERN = Regexp.new("(?:#{MENTION_USER_ID_PATTERN})|(?:#{MENTION_USER_LOGIN_PATTERN})|(?:#{MENTION_GROUP_ID_PATTERN})")
+  COMBINED_MENTION_PATTERN =
+    "(?:#{MENTION_USER_ID_PATTERN})|(?:#{MENTION_USER_LOGIN_PATTERN})|(?:#{MENTION_GROUP_ID_PATTERN})".freeze
+
+  # Skip looking for mentions in quoted lines completely.
+  # We need to allow an optional single white space before the ">", because the `#text_for_mentions`
+  # method appends a white space to the journal details. With the notes it's not the case.
+  NON_QUOTED_LINES = '^(?! ?> ).*'.freeze
+  MENTION_PATTERN = Regexp.new("#{NON_QUOTED_LINES}#{COMBINED_MENTION_PATTERN}")
 
   def initialize(model)
     self.model = model

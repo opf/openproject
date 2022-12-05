@@ -37,6 +37,10 @@ class EditField
     context.find "#{@selector} #{input_selector}"
   end
 
+  def label_element
+    context.find ".wp-replacement-label[data-qa-selector='#{property_name}']"
+  end
+
   def clear(with_backspace: false)
     if with_backspace
       input_element.set(' ', fill_options: { clear: :backspace })
@@ -111,11 +115,11 @@ class EditField
 
   def expect_inactive!
     expect(field_container).to have_selector(display_selector, wait: 10)
-    expect(field_container).to have_no_selector(field_type)
+    expect(field_container).not_to have_selector(field_type)
   end
 
   def expect_enabled!
-    expect(@context).to have_no_selector "#{@selector} #{input_selector}[disabled]"
+    expect(@context).not_to have_selector "#{@selector} #{input_selector}[disabled]"
   end
 
   def expect_invalid
@@ -187,7 +191,7 @@ class EditField
     scroll_to_element(input_element)
     input_element.find('input').set content
 
-    page.find('.ng-option', text: 'Create: ' + content).click
+    page.find('.ng-option', text: "Create: #{content}").click
   end
 
   def type(text)

@@ -47,12 +47,17 @@ class Queries::WorkPackages::Filter::RelatableFilter < Queries::WorkPackages::Fi
   end
 
   def scope
-    WorkPackage.relatable(WorkPackage.find_by(id: values.first), Relation.canonical_type(operator))
+    WorkPackage.relatable(WorkPackage.find_by(id: values.first), scope_operator)
   end
 
   private
 
-  def canonical_operator
-    Relation.canonical_type(operator)
+  # 'children' used to be supported by the API although 'child' would be more fitting.
+  def scope_operator
+    if operator == 'children'
+      Relation::TYPE_CHILD
+    else
+      operator
+    end
   end
 end
