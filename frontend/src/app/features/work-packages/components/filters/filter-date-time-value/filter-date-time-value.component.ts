@@ -27,7 +27,11 @@
 //++
 
 import {
-  Component, Input, OnInit, Output,
+  Component,
+  Input,
+  HostBinding,
+  OnInit,
+  Output,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -43,6 +47,12 @@ import { AbstractDateTimeValueController } from '../abstract-filter-date-time-va
   templateUrl: './filter-date-time-value.component.html',
 })
 export class FilterDateTimeValueComponent extends AbstractDateTimeValueController implements OnInit {
+  @HostBinding('id') get id() {
+    return `div-values-${this.filter.id}`;
+  }
+
+  @HostBinding('class.inline-label') className = true;
+
   @Input() public shouldFocus = false;
 
   @Input() public filter:QueryFilterInstanceResource;

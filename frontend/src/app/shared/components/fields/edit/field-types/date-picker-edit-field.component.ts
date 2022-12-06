@@ -32,13 +32,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { take } from 'rxjs/operators';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
-import { SingleDateModalComponent } from 'core-app/shared/components/datepicker/single-date-modal/single-date.modal';
-import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/multi-date-modal/multi-date.modal';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+// import { SingleDateModalComponent } from 'core-app/shared/components/datepicker/single-date-modal/single-date.modal';
+// import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/multi-date-modal/multi-date.modal';
 import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Directive()

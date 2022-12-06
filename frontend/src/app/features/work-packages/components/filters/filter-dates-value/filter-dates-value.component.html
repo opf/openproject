@@ -1,26 +1,25 @@
-<div id="div-values-{{filter.id}}"
-  class="inline-label">
-  <op-single-date-picker
-    (changed)="begin = parser($event)"
-    [value]="formatter(begin)"
-    [opAutofocus]="shouldFocus"
-    required="true"
-    [id]="'values-' + filter.id + '-begin'"
-    [name]="'v[' + filter.id + ']-begin'"
-    classes="advanced-filters--date-field"
-    size="10"
-  ></op-single-date-picker>
+<!--op-single-date-picker
+  (changed)="begin = parser($event)"
+  [value]="formatter(begin)"
+  [opAutofocus]="shouldFocus"
+  required="true"
+  [id]="'values-' + filter.id + '-begin'"
+  [name]="'v[' + filter.id + ']-begin'"
+  classes="advanced-filters--date-field"
+  size="10"
+></op-single-date-picker-->
 
-  <span class="advanced-filters--affix" [textContent]="text.spacer">
-  </span>
+<span
+  class="advanced-filters--affix"
+  [textContent]="text.spacer"
+></span>
 
-  <op-single-date-picker
-    (changed)="end = parser($event)"
-    [value]="formatter(end)"
-    required="true"
-    [id]="'values-' + filter.id + '-end'"
-    [name]="'v[' + filter.id + ']-end'"
-    classes="advanced-filters--date-field"
-    size="10"
-  ></op-single-date-picker>
-</div>
+<!--op-single-date-picker
+  (changed)="end = parser($event)"
+  [value]="formatter(end)"
+  required="true"
+  [id]="'values-' + filter.id + '-end'"
+  [name]="'v[' + filter.id + ']-end'"
+  classes="advanced-filters--date-field"
+  size="10"
+></op-single-date-picker-->

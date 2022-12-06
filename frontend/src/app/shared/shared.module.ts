@@ -68,6 +68,7 @@ import {
 import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to-clipboard.directive';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
 import { ToastComponent } from './components/toaster/toast.component';
+import { OpSingleDateFormComponent } from './components/datepicker/single-date-form/single-date-form.component';
 import { ToastsContainerComponent } from './components/toaster/toasts-container.component';
 import { UploadProgressComponent } from './components/toaster/upload-progress.component';
 import { ResizerComponent } from './components/resizer/resizer.component';
@@ -193,6 +194,9 @@ export function bootstrapModule(injector:Injector):void {
     OpLoadingProjectListComponent,
 
     ViewSelectComponent,
+
+    // Date pickers
+    OpSingleDateFormComponent,
   ],
   providers: [
     StaticQueriesService,
@@ -247,6 +251,9 @@ export function bootstrapModule(injector:Injector):void {
     OpProjectIncludeComponent,
     OpProjectIncludeListComponent,
     OpLoadingProjectListComponent,
+
+    // Date pickers
+    OpSingleDateFormComponent,
   ],
 })
 export class OpSharedModule {

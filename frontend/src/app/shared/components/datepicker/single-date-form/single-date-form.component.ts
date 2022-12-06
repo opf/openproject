@@ -82,7 +82,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
     DateModalRelationsService,
   ],
 })
-export class SingleDateFormComponent extends UntilDestroyedMixin implements AfterViewInit {
+export class OpSingleDateFormComponent extends UntilDestroyedMixin implements AfterViewInit {
   @Output('savedOrCancelled') savedOrCancelled = new EventEmitter();
 
   @Input('value') value = '';
