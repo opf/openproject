@@ -128,11 +128,6 @@ class Budget < ApplicationRecord
     subject
   end
 
-  # override acts_as_journalized method
-  def activity_type
-    self.class.plural_name
-  end
-
   def material_budget
     @material_budget ||= material_budget_items.visible_costs.inject(BigDecimal('0.0000')) { |sum, i| sum += i.costs }
   end

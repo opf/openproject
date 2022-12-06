@@ -28,6 +28,7 @@
 
 class Journal < ApplicationRecord
   self.table_name = 'journals'
+  self.ignored_columns += ['activity_type']
 
   include ::JournalChanges
   include ::JournalFormatter

@@ -33,7 +33,6 @@ FactoryBot.define do
 
     factory :meeting_content_journal, class: 'Journal' do
       journable_type { 'MeetingContent' }
-      activity_type { 'meetings' }
     end
   end
 end

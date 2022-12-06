@@ -82,12 +82,6 @@ module Acts::Journalized
       def journaled_columns_names
         self.class.journal_class.journaled_attributes
       end
-
-      # Returns the activity type. Should be overridden in the journalized class to offer
-      # multiple types
-      def activity_type
-        self.class.name.underscore.pluralize
-      end
     end
   end
 end
