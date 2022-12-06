@@ -53,8 +53,8 @@ export function uiRouterOverviewConfiguration(uiRouter:UIRouter):void {
   // cf., https://community.openproject.com/wp/29754
   uiRouter.urlService.rules
     .when(
-      new RegExp('^/projects(?!/new$)/([^/\\?]+)(\\?.*)?$'),
-      (match:string[]) => `/projects/${match[1]}/${match[2] || ''}`,
+      new RegExp('^/projects(?!/new$)/([^/?]+)$'),
+      (match:string[]) => `/projects/${match[1]}/${window.location.search}`,
     );
 }
 
