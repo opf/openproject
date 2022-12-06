@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,30 +24,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
-require 'spec_helper'
-require 'rack/test'
-
-describe ::API::V3::WorkPackages::CreateProjectFormAPI, content_type: :json do
-  include Rack::Test::Methods
-  include API::V3::Utilities::PathHelper
-
-  let(:project) { create(:project, id: 5) }
-  let(:post_path) { api_v3_paths.create_project_work_package_form(project.id) }
-  let(:user) { create(:admin) }
-
-  before do
-    login_as(user)
-    post post_path
-  end
-
-  subject(:response) { last_response }
-
-  it 'returns 200(OK)' do
-    expect(response.status).to eq(200)
-  end
-
-  it 'is of type form' do
-    expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
-  end
+class Journal::ProjectJournal < Journal::BaseJournal
+  self.table_name = 'project_journals'
 end

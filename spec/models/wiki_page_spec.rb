@@ -133,7 +133,7 @@ describe WikiPage, type: :model do
       end
 
       it 'destroys the wiki content\'s journals as well' do
-        expect { wiki_page.destroy }.to change(Journal, :count).from(1).to(0)
+        expect { wiki_page.destroy }.to change(Journal.for_wiki_content, :count).from(1).to(0)
       end
     end
 
