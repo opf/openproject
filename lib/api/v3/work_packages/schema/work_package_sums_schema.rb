@@ -38,6 +38,10 @@ module API
           def writable?(_property)
             false
           end
+
+          def work_package
+            nil
+          end
         end
       end
     end

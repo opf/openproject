@@ -122,9 +122,7 @@ class Activities::BaseActivityProvider
   end
 
   def activitied_type
-    activity_type = self.class.name
-
-    class_name = activity_type.demodulize
+    class_name = self.class.name.demodulize
     class_name.gsub('ActivityProvider', '').constantize
   end
 

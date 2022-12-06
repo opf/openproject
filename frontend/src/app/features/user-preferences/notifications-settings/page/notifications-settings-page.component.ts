@@ -6,9 +6,9 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  FormArray,
-  FormControl,
-  FormGroup,
+  UntypedFormGroup,
+  UntypedFormArray,
+  UntypedFormControl,
 } from '@angular/forms';
 import { take } from 'rxjs/internal/operators/take';
 import { UIRouterGlobals } from '@uirouter/core';
@@ -65,27 +65,27 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
 
   public eeShowBanners = false;
 
-  public form = new FormGroup({
-    assignee: new FormControl(false),
-    responsible: new FormControl(false),
-    workPackageCreated: new FormControl(false),
-    workPackageProcessed: new FormControl(false),
-    workPackageScheduled: new FormControl(false),
-    workPackagePrioritized: new FormControl(false),
-    workPackageCommented: new FormControl(false),
-    startDate: new FormGroup({
-      active: new FormControl(false),
-      time: new FormControl(this.availableTimes[1]),
+  public form = new UntypedFormGroup({
+    assignee: new UntypedFormControl(false),
+    responsible: new UntypedFormControl(false),
+    workPackageCreated: new UntypedFormControl(false),
+    workPackageProcessed: new UntypedFormControl(false),
+    workPackageScheduled: new UntypedFormControl(false),
+    workPackagePrioritized: new UntypedFormControl(false),
+    workPackageCommented: new UntypedFormControl(false),
+    startDate: new UntypedFormGroup({
+      active: new UntypedFormControl(false),
+      time: new UntypedFormControl(this.availableTimes[1]),
     }),
-    dueDate: new FormGroup({
-      active: new FormControl(false),
-      time: new FormControl(this.availableTimes[1]),
+    dueDate: new UntypedFormGroup({
+      active: new UntypedFormControl(false),
+      time: new UntypedFormControl(this.availableTimes[1]),
     }),
-    overdue: new FormGroup({
-      active: new FormControl(false),
-      time: new FormControl(this.availableTimesOverdue[0]),
+    overdue: new UntypedFormGroup({
+      active: new UntypedFormControl(false),
+      time: new UntypedFormControl(this.availableTimesOverdue[0]),
     }),
-    projectSettings: new FormArray([]),
+    projectSettings: new UntypedFormArray([]),
   });
 
   text = {
@@ -201,24 +201,24 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
           return;
         }
 
-        const projectSettings = new FormArray([]);
+        const projectSettings = new UntypedFormArray([]);
         projectSettings.clear();
         settings
           .sort(
             (a, b):number => a._links.project.title!.localeCompare(b._links.project.title!),
           )
-          .forEach((setting) => projectSettings.push(new FormGroup({
-            project: new FormControl(setting._links.project),
-            assignee: new FormControl(setting.assignee),
-            responsible: new FormControl(setting.responsible),
-            workPackageCreated: new FormControl(setting.workPackageCreated),
-            workPackageProcessed: new FormControl(setting.workPackageProcessed),
-            workPackageScheduled: new FormControl(setting.workPackageScheduled),
-            workPackagePrioritized: new FormControl(setting.workPackagePrioritized),
-            workPackageCommented: new FormControl(setting.workPackageCommented),
-            startDate: new FormControl(setting.startDate),
-            dueDate: new FormControl(setting.dueDate),
-            overdue: new FormControl(setting.overdue),
+          .forEach((setting) => projectSettings.push(new UntypedFormGroup({
+            project: new UntypedFormControl(setting._links.project),
+            assignee: new UntypedFormControl(setting.assignee),
+            responsible: new UntypedFormControl(setting.responsible),
+            workPackageCreated: new UntypedFormControl(setting.workPackageCreated),
+            workPackageProcessed: new UntypedFormControl(setting.workPackageProcessed),
+            workPackageScheduled: new UntypedFormControl(setting.workPackageScheduled),
+            workPackagePrioritized: new UntypedFormControl(setting.workPackagePrioritized),
+            workPackageCommented: new UntypedFormControl(setting.workPackageCommented),
+            startDate: new UntypedFormControl(setting.startDate),
+            dueDate: new UntypedFormControl(setting.dueDate),
+            overdue: new UntypedFormControl(setting.overdue),
           })));
 
         this.form.setControl('projectSettings', projectSettings);

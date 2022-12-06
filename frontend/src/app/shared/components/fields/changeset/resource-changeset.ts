@@ -319,9 +319,9 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * Access some promised value
    * that should be cached for the lifetime duration of the form.
    */
-  public cacheValue<T>(key:string, request:() => Promise<T>):Promise<T> {
-    if (this.cache[key]) {
-      return this.cache[key] as Promise<T>;
+  public cacheValue<V>(key:string, request:() => Promise<V>):Promise<V> {
+    if (this.cache[key] !== undefined) {
+      return this.cache[key] as Promise<V>;
     }
 
     return this.cache[key] = request();

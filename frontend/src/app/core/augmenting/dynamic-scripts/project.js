@@ -197,9 +197,9 @@ jQuery(function ($) {
   }
 
   function setValueVisibility() {
-    selectedOperator = $(this).val();
-    $filter = $(this).parents('.advanced-filters--filter')
-    $filterValue = $('.advanced-filters--filter-value', $filter);
+    const selectedOperator = $(this).val();
+    const $filter = $(this).parents('.advanced-filters--filter')
+    const $filterValue = $('.advanced-filters--filter-value', $filter);
     if (['*', '!*', 't', 'w'].includes(selectedOperator)) {
       $filterValue.addClass('hidden');
     } else {

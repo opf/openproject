@@ -26,45 +26,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
-require_relative 'support/pages/cost_report_page'
+require 'spec_helper'
 
-describe "updating a cost report's cost type", type: :feature, js: true do
-  let(:project) { create :project_with_types, members: { user => create(:role) } }
-  let(:user) do
-    create(:admin)
+describe "NonExistingJobClass" do
+  let!(:job_with_non_existing_class) do
+    handler = <<~JOB.strip
+      --- !ruby/object:ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper
+      job_data:
+        job_class: WhichShallNotBeNamedJob
+        job_id: 8f72c3c9-a1e0-4e46-b0f2-b517288bb76c
+        provider_job_id:
+        queue_name: default
+        priority: 5
+        arguments:
+        - 42
+        executions: 0
+        exception_executions: {}
+        locale: en
+        timezone: UTC
+        enqueued_at: '2022-12-05T09:41:39Z'
+    JOB
+    Delayed::Job.create(handler:)
   end
-
-  let(:cost_type) do
-    create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
-  end
-
-  let!(:cost_entry) do
-    create :cost_entry, user:, project:, cost_type:
-  end
-
-  let(:report_page) { ::Pages::CostReportPage.new project }
 
   before do
-    login_as(user)
+    # allow to inspect the job is marked as failed after failure in the test
+    allow(Delayed::Worker).to receive(:destroy_failed_jobs).and_return(false)
   end
 
-  it 'works' do
-    report_page.visit!
-    report_page.save(as: 'My Query', public: true)
+  it 'does not crash the worker when processed' do
+    expect { Delayed::Worker.new(exit_on_complete: true).start }
+      .not_to raise_error
 
-    retry_block do
-      cost_query = CostQuery.find_by!(name: 'My Query')
-      raise "Expected path change" unless page.has_current_path?("/projects/#{project.identifier}/cost_reports/#{cost_query.id}")
-      expect(page).to have_field('Labor', checked: true)
-    end
-
-    report_page.switch_to_type cost_type.name
-    expect(page).to have_field(cost_type.name, checked: true, wait: 10)
-
-    click_on "Save"
-
-    click_on "My Query"
-    expect(page).to have_field(cost_type.name, checked: true)
+    job_with_non_existing_class.reload
+    expect(job_with_non_existing_class.last_error).to include("uninitialized constant WhichShallNotBeNamedJob")
+    expect(job_with_non_existing_class.failed_at).to be_within(1).of(Time.current)
   end
 end

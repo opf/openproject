@@ -26,45 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
-require_relative 'support/pages/cost_report_page'
+# This patch adds our job status extension to background jobs carried out when mailing with
+# perform_later.
 
-describe "updating a cost report's cost type", type: :feature, js: true do
-  let(:project) { create :project_with_types, members: { user => create(:role) } }
-  let(:user) do
-    create(:admin)
-  end
-
-  let(:cost_type) do
-    create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
-  end
-
-  let!(:cost_entry) do
-    create :cost_entry, user:, project:, cost_type:
-  end
-
-  let(:report_page) { ::Pages::CostReportPage.new project }
-
-  before do
-    login_as(user)
-  end
-
-  it 'works' do
-    report_page.visit!
-    report_page.save(as: 'My Query', public: true)
-
-    retry_block do
-      cost_query = CostQuery.find_by!(name: 'My Query')
-      raise "Expected path change" unless page.has_current_path?("/projects/#{project.identifier}/cost_reports/#{cost_query.id}")
-      expect(page).to have_field('Labor', checked: true)
+module OpenProject
+  module Patches
+    module DelayedJobAdapter
+      module AllowNonExistingJobClass
+        def log_arguments?
+          super
+        rescue NameError
+          false
+        end
+      end
     end
-
-    report_page.switch_to_type cost_type.name
-    expect(page).to have_field(cost_type.name, checked: true, wait: 10)
-
-    click_on "Save"
-
-    click_on "My Query"
-    expect(page).to have_field(cost_type.name, checked: true)
   end
 end
+
+ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper.prepend(
+  OpenProject::Patches::DelayedJobAdapter::AllowNonExistingJobClass
+)

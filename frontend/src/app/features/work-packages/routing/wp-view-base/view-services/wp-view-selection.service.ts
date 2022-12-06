@@ -6,6 +6,7 @@ import { OPContextMenuService } from 'core-app/shared/components/op-context-menu
 import { WorkPackageViewBaseService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import * as Mousetrap from 'mousetrap';
 
 export interface WorkPackageViewSelectionState {
   // Map of selected rows

@@ -338,7 +338,7 @@ Reporting.Filters = function($){
 
     $(".advanced-filters--filter-value .filter-value").each(function () {
       var select = $(this);
-          select_value = select.val();
+      var select_value = select.val();
 
       select.attr('multiple', select_value && select_value.length > 1);
 

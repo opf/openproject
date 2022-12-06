@@ -32,7 +32,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import {
-  FormBuilder,
+  UntypedFormBuilder,
   Validators,
 } from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -97,7 +97,7 @@ export class EETrialFormComponent {
   constructor(
     readonly elementRef:ElementRef,
     readonly I18n:I18nService,
-    readonly formBuilder:FormBuilder,
+    readonly formBuilder:UntypedFormBuilder,
     readonly currentUserService:CurrentUserService,
     readonly configurationService:ConfigurationService,
     readonly eeTrialService:EnterpriseTrialService,

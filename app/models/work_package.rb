@@ -207,11 +207,6 @@ class WorkPackage < ApplicationRecord
     (usr || User.current).allowed_to?(:view_work_packages, project)
   end
 
-  # ACTS AS JOURNALIZED
-  def activity_type
-    'work_packages'
-  end
-
   # RELATIONS
   def blockers
     # return work_packages that block me
