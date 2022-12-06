@@ -264,6 +264,7 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
     let(:work_package1) { create(:work_package, project: project1) }
     let(:work_package2) { create(:work_package, project: project2) }
     let(:work_package3) { create(:work_package, project: project3) }
+
     before { [work_package1, work_package2, work_package3] }
 
     context 'when ascending' do
@@ -298,6 +299,7 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
     let(:work_package1) { create(:work_package, project: project1, category: category1) }
     let(:work_package2) { create(:work_package, project: project1, category: category2) }
     let(:work_package3) { create(:work_package, project: project1, category: category3) }
+
     before { [work_package1, work_package2, work_package3] }
 
     context 'when ascending' do
@@ -332,6 +334,7 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
     let(:work_package1) { create(:work_package, project: project1, subject: 'WorkPackage A') }
     let(:work_package2) { create(:work_package, project: project1, subject: 'WorkPackage b') }
     let(:work_package3) { create(:work_package, project: project1, subject: 'WorkPackage C') }
+
     before { [work_package1, work_package2, work_package3] }
 
     context 'when ascending' do
@@ -366,6 +369,7 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
     let(:work_package1) { create(:work_package, project: project1, due_date: 3.days.ago) }
     let(:work_package2) { create(:work_package, project: project1, due_date: 2.days.ago) }
     let(:work_package3) { create(:work_package, project: project1, due_date: 1.day.ago) }
+
     before { [work_package1, work_package2, work_package3] }
 
     context 'when ascending' do
@@ -418,9 +422,10 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
              customized: work_package3,
              value: 'String C')
     end
-    before { [work_package1, work_package2, work_package3] }
 
     before do
+      [work_package1, work_package2, work_package3]
+
       work_package1.project.work_package_custom_fields << string_cf
       work_package1.type.custom_fields << string_cf
 
@@ -478,9 +483,10 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
              customized: work_package3,
              value: 3)
     end
-    before { [work_package1, work_package2, work_package3] }
 
     before do
+      [work_package1, work_package2, work_package3]
+
       work_package1.project.work_package_custom_fields << int_cf
       work_package1.type.custom_fields << int_cf
 

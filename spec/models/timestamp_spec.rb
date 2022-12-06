@@ -28,123 +28,131 @@
 
 require 'spec_helper'
 
-describe Timestamp, type: :model do
-  
+describe Timestamp do
   describe ".new" do
     describe "when calling without argument" do
-      subject { Timestamp.new }
-      
+      subject { described_class.new }
+
       it "returns Timestamp.now" do
-        expect(subject.to_s).to eq Timestamp.now.to_s
+        expect(subject.to_s).to eq described_class.now.to_s
       end
     end
-    
+
     describe "when providing an ISO8601 String" do
-      subject { Timestamp.new("PT10S") }
-      
-      it "returns a Timestamp" do
-        expect(subject).to be_kind_of Timestamp
+      subject { described_class.new("PT10S") }
+
+      it "returns a described_class" do
+        expect(subject).to be_a described_class
       end
-      
+
       specify "the argument is retrievable via to_s" do
         expect(subject.to_s).to eq "PT10S"
       end
     end
-      
+
     describe "when providing a Time" do
       let(:time) { Time.zone.now }
-      subject { Timestamp.new(time) }
-      
-      it "returns an absolute Timestamp representing that time (up to full seconds)" do
-        expect(subject).to be_kind_of Timestamp
-        expect(subject.relative?).to eq false
-        expect(subject.to_time).to eq Time.at(time.to_i)
+
+      subject { described_class.new(time) }
+
+      it "returns an absolute described_class representing that time (up to full seconds)" do
+        expect(subject).to be_a described_class
+        expect(subject.relative?).to be false
+        expect(subject.to_time).to eq Time.zone.at(time.to_i)
       end
     end
-    
+
     describe "when providing a non-supported object" do
-      subject { Timestamp.new(:foo) }
-      
+      subject { described_class.new(:foo) }
+
       it "raises an error" do
-        expect { subject }.to raise_error Timestamp::Exception
+        expect { subject }.to raise_error described_class::Exception
       end
     end
   end
-  
+
   describe ".now" do
-    subject { Timestamp.now }
-    
-    it "returns a Timestamp" do
-      expect(subject).to be_kind_of Timestamp
+    subject { described_class.now }
+
+    it "returns a described_class" do
+      expect(subject).to be_a described_class
     end
-    
+
     it "returns a relative timestamp" do
-      expect(subject.relative?).to eq true
+      expect(subject.relative?).to be true
     end
-    
+
     it "corresponds to a duration of 0 seconds (ago)" do
       expect(subject.to_duration).to eq ActiveSupport::Duration.build(0)
     end
   end
-  
+
   describe ".parse" do
     describe "when providing a valid ISO8601 duration" do
-      subject { Timestamp.parse("PT10S") }
-      
-      it "returns a Timestamp representing a time ago that duration" do
-        expect(subject).to be_kind_of Timestamp
+      subject { described_class.parse("PT10S") }
+
+      it "returns a described_class representing a time ago that duration" do
+        expect(subject).to be_a described_class
         expect(subject.to_s).to eq "PT10S"
         expect(subject.to_duration).to eq ActiveSupport::Duration.build(10)
-        expect(subject.relative?).to eq true
+        expect(subject.relative?).to be true
       end
     end
-    
+
     describe "when providing a valid ISO8601 time" do
-      subject { Timestamp.parse("2022-10-29T21:55:58Z") }
-      
-      it "returns a Timestamp representing that absolute time" do
-        expect(subject).to be_kind_of Timestamp
+      subject { described_class.parse("2022-10-29T21:55:58Z") }
+
+      it "returns a described_class representing that absolute time" do
+        expect(subject).to be_a described_class
         expect(subject.to_s).to eq "2022-10-29T21:55:58Z"
-        expect(subject.to_time).to eq Time.parse("2022-10-29T21:55:58Z")
-        expect(subject.relative?).to eq false
+        expect(subject.to_time).to eq Time.zone.parse("2022-10-29T21:55:58Z")
+        expect(subject.relative?).to be false
       end
     end
-    
+
     describe "when providing something invalid" do
-      subject { Timestamp.parse("foo") }
-      
+      subject { described_class.parse("foo") }
+
       it "raises an error" do
         expect { subject }.to raise_error ArgumentError
       end
     end
   end
-  
+
   describe "#relative?" do
-    subject { timestamp.relative?}
+    subject { timestamp.relative? }
+
     describe "for a timestamp representing an absolute time" do
-      let(:timestamp) { Timestamp.new(Time.zone.now - 1.year) }
+      let(:timestamp) { described_class.new(1.year.ago) }
+
       it "returns false" do
-        expect(subject).to eq false
+        expect(subject).to be false
       end
     end
+
     describe "for a timestamp representing a point in time relative to now" do
-      let(:timestamp) { Timestamp.new("PT10S") }
+      let(:timestamp) { described_class.new("PT10S") }
+
       it "returns true" do
-        expect(subject).to eq true
+        expect(subject).to be true
       end
     end
   end
-  
+
   describe "#iso8601" do
     subject { timestamp.iso8601 }
+
     describe "for a timestamp representing an absolute time" do
-      let(:timestamp) { Timestamp.new(Time.zone.now - 1.year) }
+      let(:timestamp) { described_class.new(1.year.ago) }
+
       it "returns an ISO8601 String representing that time" do
         expect(subject).to eq timestamp.to_time.iso8601
       end
     end
+
     describe "for a timestamp representing a point in time relative to now" do
-      let(:timestamp) { Timestamp.new("PT10S") }
+      let(:timestamp) { described_class.new("PT10S") }
+
       it "returns an ISO8601 String representing the duration between that time and now" do
         expect(subject).to eq "PT10S"
         expect(subject).to eq ActiveSupport::Duration.build(10).iso8601
@@ -154,14 +162,18 @@ describe Timestamp, type: :model do
 
   describe "#to_s" do
     subject { timestamp.to_s }
+
     describe "for a timestamp representing an absolute time" do
-      let(:timestamp) { Timestamp.new(Time.zone.now - 1.year) }
+      let(:timestamp) { described_class.new(1.year.ago) }
+
       it "returns an ISO8601 String representing that time" do
         expect(subject).to eq timestamp.to_time.iso8601
       end
     end
+
     describe "for a timestamp representing a point in time relative to now" do
-      let(:timestamp) { Timestamp.new("PT10S") }
+      let(:timestamp) { described_class.new("PT10S") }
+
       it "returns an ISO8601 String representing the duration between that time and now" do
         expect(subject).to eq "PT10S"
         expect(subject).to eq ActiveSupport::Duration.build(10).iso8601
@@ -171,86 +183,98 @@ describe Timestamp, type: :model do
 
   describe "#to_json" do
     subject { timestamp.to_json }
+
     describe "for a timestamp representing an absolute time" do
-      let(:timestamp) { Timestamp.new(Time.zone.now - 1.year) }
+      let(:timestamp) { described_class.new(1.year.ago) }
+
       it "returns an ISO8601 String representing that time" do
         expect(subject).to eq timestamp.to_time.iso8601
       end
     end
+
     describe "for a timestamp representing a point in time relative to now" do
-      let(:timestamp) { Timestamp.new("PT10S") }
+      let(:timestamp) { described_class.new("PT10S") }
+
       it "returns an ISO8601 String representing the duration between that time and now" do
         expect(subject).to eq "PT10S"
         expect(subject).to eq ActiveSupport::Duration.build(10).iso8601
       end
     end
   end
-  
+
   describe "#to_time" do
     subject { timestamp.to_time }
+
     describe "for a timestamp representing an absolute time" do
-      let(:time) { Time.zone.now - 1.year }
-      let(:timestamp) { Timestamp.new(time) }
+      let(:time) { 1.year.ago }
+      let(:timestamp) { described_class.new(time) }
+
       it "returns a Time representing that time (up to full seconds)" do
-        expect(subject).to be_kind_of Time
-        expect(subject).to eq Time.at(time.to_i)
+        expect(subject).to be_a Time
+        expect(subject).to eq Time.zone.at(time.to_i)
       end
     end
+
     describe "for a timestamp representing a point in time relative to now" do
       Timecop.freeze do
-        let(:timestamp) { Timestamp.new("PT10S") }
+        let(:timestamp) { described_class.new("PT10S") }
         it "returns a Time converting the relative time to an absolute time (relative to now at evaluation time)" do
-          expect(subject).to be_kind_of Time
-          expect(Time.at(subject.to_i)).to eq Time.at(10.seconds.ago.to_i)
+          expect(subject).to be_a Time
+          expect(Time.zone.at(subject.to_i)).to eq Time.zone.at(10.seconds.ago.to_i)
         end
       end
     end
+
     describe "for a timestamp representing a point in time relative to now with negative duration" do
       Timecop.freeze do
-        let(:timestamp) { Timestamp.new("PT-10S") }
+        let(:timestamp) { described_class.new("PT-10S") }
         it "returns a Time converting the relative time to an absolute time (relative to now at evaluation time)" do
-          expect(subject).to be_kind_of Time
-          expect(Time.at(subject.to_i)).to eq Time.at(10.seconds.ago.to_i)
+          expect(subject).to be_a Time
+          expect(Time.zone.at(subject.to_i)).to eq Time.zone.at(10.seconds.ago.to_i)
         end
       end
     end
   end
-  
+
   describe "#to_duration" do
     subject { timestamp.to_duration }
+
     describe "for a timestamp representing an absolute time" do
-      let(:time) { Time.zone.now - 1.year }
-      let(:timestamp) { Timestamp.new(time) }
-      it "raises an error because the absolute time does not change when the current time progresses and therefore cannot be represented as constant duration" do
-        expect { subject }.to raise_error Timestamp::Exception
+      let(:time) { 1.year.ago }
+      let(:timestamp) { described_class.new(time) }
+
+      it "raises an error because the absolute time does not change when the current time progresses " \
+         "and therefore cannot be represented as constant duration" do
+        expect { subject }.to raise_error described_class::Exception
       end
     end
+
     describe "for a timestamp representing a point in time relative to now" do
       Timecop.freeze do
-        let(:timestamp) { Timestamp.new("PT10S") }
+        let(:timestamp) { described_class.new("PT10S") }
         it "returns an ActiveSupport::Duration corresponding to the duration between the timestamp and now" do
-          expect(subject).to be_kind_of ActiveSupport::Duration
+          expect(subject).to be_a ActiveSupport::Duration
           expect(subject).to eq ActiveSupport::Duration.build(10)
         end
       end
     end
   end
-  
-  describe "passing a Timestamp to a where clause" do
+
+  describe "passing a described_class to a where clause" do
     subject { Query.where("updated_at < ?", timestamp) }
-    let(:timestamp) { Timestamp.new("PT10S") }
-    
+
+    let(:timestamp) { described_class.new("PT10S") }
+
     it "raises an error because the query interface requires a Time type" do
       expect { subject }.to raise_error TypeError
     end
-    
+
     describe "when converting the timestamp to_time" do
       subject { Query.where("updated_at < ?", timestamp.to_time) }
-      
+
       it "raises no error" do
         expect { subject }.not_to raise_error TypeError
       end
     end
   end
-  
 end

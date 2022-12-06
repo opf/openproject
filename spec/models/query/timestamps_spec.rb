@@ -28,72 +28,75 @@
 
 require 'spec_helper'
 
-describe Query::Timestamps, type: :model do
-  
+describe Query::Timestamps do
   describe "#timestamps" do
     subject { query.timestamps }
+
     describe "after setting timestamps to an array of ISO8601 Strings" do
       let(:query) { Query.new }
+
       before { query.timestamps = ["P-50Y", "2022-10-29T23:01:23Z"] }
-      
+
       it "returns an Array of Timestamp objects" do
-        expect(subject).to be_kind_of Array
+        expect(subject).to be_a Array
         expect(subject.map(&:class).uniq).to eq [Timestamp]
       end
-      
+
       it "remembers which timestamp encodes a relative time" do
-        expect(subject.first.relative?).to eq true
-        expect(subject.last.relative?).to eq false
+        expect(subject.first.relative?).to be true
+        expect(subject.last.relative?).to be false
       end
     end
-    
+
     describe "after setting timestamps to an array of Times" do
       let(:query) { Query.new }
+
       before { query.timestamps = [50.years.ago, Time.zone.now] }
 
       it "returns an Array of Timestamp objects" do
-        expect(subject).to be_kind_of Array
+        expect(subject).to be_a Array
         expect(subject.map(&:class).uniq).to eq [Timestamp]
       end
     end
-    
+
     describe "when not present" do
       let(:query) { Query.new }
+
       before { query.timestamps = [] }
-      
+
       it "still returns the timestamp corresponding to the present time" do
         expect(subject).to eq [Timestamp.now]
       end
     end
-    
+
     describe "[persistence] when saving timestamps to a record" do
-      let(:query) { create :query }
+      let(:query) { create(:query) }
+
       before do
         query.timestamps = ["P-50Y", "2022-10-29T23:01:23Z"]
         query.save!
       end
-      
+
       describe "after reloading the record from the database" do
         let(:reloaded_query) { Query.find(query.id) }
+
         subject { reloaded_query.timestamps }
-        
+
         it "returns an Array of Timestamp objects" do
-          expect(subject).to be_kind_of Array
+          expect(subject).to be_a Array
           expect(subject.map(&:class).uniq).to eq [Timestamp]
         end
-      
+
         it "remembers which timestamp encodes a relative time" do
-          expect(subject.first.relative?).to eq true
-          expect(subject.last.relative?).to eq false
+          expect(subject.first.relative?).to be true
+          expect(subject.last.relative?).to be false
         end
-        
+
         it "remembers the timestamp values" do
           expect(subject.first.iso8601).to eq "P-50Y"
           expect(subject.last.iso8601).to eq "2022-10-29T23:01:23Z"
         end
       end
-      
     end
   end
-  
 end

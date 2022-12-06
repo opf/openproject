@@ -28,12 +28,13 @@
 
 require 'spec_helper'
 
-describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: false do
+describe ::Query::Results, 'Filter on historic data', with_mail: false do
   let(:historic_time) { "2022-08-01".to_datetime }
   let(:pre_historic_time) { historic_time - 1.day }
   let(:recent_time) { 1.hour.ago }
   let!(:work_package) do
-    new_work_package = create :work_package, description: "This is the original description of the work package", project: project_1
+    new_work_package = create(:work_package, description: "This is the original description of the work package",
+                                             project: project1)
     new_work_package.update_columns created_at: historic_time
     new_work_package.journals.first.update_columns created_at: historic_time, updated_at: historic_time
     new_work_package.reload
@@ -43,15 +44,14 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
     new_work_package
   end
 
-  let(:project_1) { create :project }
-  let(:user_1) do
+  let(:project1) { create(:project) }
+  let(:user1) do
     create(:user,
            firstname: 'user',
            lastname: '1',
-           member_in_project: project_1,
-           member_with_permissions: [:view_work_packages, :view_file_links])
+           member_in_project: project1,
+           member_with_permissions: %i[view_work_packages view_file_links])
   end
-
 
   describe "[prelims]" do
     specify "the work package has a journal entry with the historic description" do
@@ -66,17 +66,19 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
 
   describe "#work_packages" do
     let(:query) do
-      login_as(user_1)
-      build(:query, user: user_1, project: nil).tap do |query|
+      login_as(user1)
+      build(:query, user: user1, project: nil).tap do |query|
         query.filters.clear
         query.add_filter 'description', '~', search_term
       end
     end
     let(:results) { query.results }
+
     subject { results.work_packages }
 
     describe "filter for description containing 'current'" do
       let(:search_term) { 'current' }
+
       it "includes the work package matching today" do
         expect(subject).to include work_package
       end
@@ -84,6 +86,7 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
 
     describe "filter for description containing 'original'" do
       let(:search_term) { 'original' }
+
       it "does not include the work package matching only in the past" do
         expect(subject).not_to include work_package
       end
@@ -94,6 +97,7 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
 
       describe "filter for description containing 'current'" do
         let(:search_term) { 'current' }
+
         it "includes the work package matching today" do
           expect(subject).to include work_package
         end
@@ -101,6 +105,7 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
 
       describe "filter for description containing 'original'" do
         let(:search_term) { 'original' }
+
         it "includes the work package matching in the past" do
           expect(subject).to include work_package
         end
@@ -112,6 +117,7 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
 
       describe "filter for description containing 'current'" do
         let(:search_term) { 'current' }
+
         it "does not include the work package matching only in the past" do
           expect(subject).not_to include work_package
         end
@@ -143,6 +149,7 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
 
       describe "filter for description containing 'current'" do
         let(:search_term) { 'current' }
+
         it "does not include the work package matching only in the past" do
           expect(subject).not_to include work_package
         end
@@ -150,6 +157,7 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
 
       describe "filter for description containing 'original'" do
         let(:search_term) { 'original' }
+
         it "does not include the work package because it does not exist yet at that time" do
           expect(subject).not_to include work_package
         end
@@ -159,20 +167,20 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
     describe "when filtering for file links" do
       # https://github.com/opf/openproject/pull/11678#issuecomment-1326171087
 
-      let(:storage_1) { create(:storage, creator: user_1) }
-      let(:file_link_1) { create(:file_link, creator: user_1, container: work_package, storage: storage_1) }
-      let(:project_storage_1) { create(:project_storage, project: project_1, storage: storage_1) }
-      before do
-        project_storage_1
-        file_link_1
-      end
-
+      let(:storage1) { create(:storage, creator: user1) }
       let(:query) do
-        login_as(user_1)
-        build(:query, user: user_1, project: nil).tap do |query|
+        login_as(user1)
+        build(:query, user: user1, project: nil).tap do |query|
           query.filters.clear
-          query.add_filter 'file_link_origin_id', '=', [file_link_1.origin_id.to_s]
+          query.add_filter 'file_link_origin_id', '=', [file_link1.origin_id.to_s]
         end
+      end
+      let(:file_link1) { create(:file_link, creator: user1, container: work_package, storage: storage1) }
+      let(:project_storage1) { create(:project_storage, project: project1, storage: storage1) }
+
+      before do
+        project_storage1
+        file_link1
       end
 
       it "includes the work package" do
@@ -184,15 +192,16 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
       end
 
       describe "when having second reference to the same external file" do
-        let(:storage_2) { create(:storage, creator: user_1) }
-        let(:file_link_2) { create(:file_link, creator: user_1, container: work_package, storage: storage_2) }
-        let(:project_storage_2) { create(:project_storage, project: project_2, storage: storage_2) }
-        let(:project_2) { create :project }
-        let(:file_link_2) { create(:file_link, creator: user_1, container: work_package, storage: storage_2, origin_id: file_link_1.origin_id) }
+        let(:storage2) { create(:storage, creator: user1) }
+        let(:project_storage2) { create(:project_storage, project: project2, storage: storage2) }
+        let(:project2) { create(:project) }
+        let(:file_link2) do
+          create(:file_link, creator: user1, container: work_package, storage: storage2, origin_id: file_link1.origin_id)
+        end
 
         before do
-          project_storage_2
-          file_link_2
+          project_storage2
+          file_link2
         end
 
         it "includes the work package" do
@@ -204,6 +213,5 @@ describe ::Query::Results, 'Filter on historic data', type: :model, with_mail: f
         end
       end
     end
-
   end
 end
