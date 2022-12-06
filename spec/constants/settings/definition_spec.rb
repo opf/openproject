@@ -909,8 +909,8 @@ describe Settings::Definition do
       end
 
       it 'returns the procs return value for writable' do
-        expect(instance.writable?)
-          .to be false
+        expect(instance)
+          .not_to be_writable
       end
 
       it 'returns the procs return value for allowed' do
