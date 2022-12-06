@@ -571,6 +571,96 @@ describe Journable::Timestamps do
         end
       end
 
+      describe "when chaining a where clause with work_packages.updated_at" do
+        # as used by spec/features/work_packages/timeline/timeline_dates_spec.rb
+
+        let(:relation) { WorkPackage.where("work_packages.updated_at > '2022-01-01'") }
+
+        subject { relation.at_timestamp(wednesday) }
+
+        it "transforms the expression to query the correct table" do
+          expect(subject.to_sql).to include \
+            "journals.created_at > '2022-01-01'"
+        end
+
+        it "returns the requested work package" do
+          expect(subject).to include work_package
+        end
+
+        describe "when using quotation marks" do
+          let(:relation) { WorkPackage.where("\"work_packages\".\"updated_at\" > '2022-01-01'") }
+
+          it "transforms the expression to query the correct table" do
+            expect(subject.to_sql).to include \
+              "\"journals\".\"created_at\" > '2022-01-01'"
+          end
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
+
+        describe "when using a hash" do
+          let(:relation) { WorkPackage.where(work_packages: { updated_at: ("2022-01-01".to_datetime).. }) }
+
+          subject { relation.at_timestamp(wednesday) }
+
+          it "transforms the expression to query the correct table" do
+            expect(subject.to_sql).to include \
+              "\"journals\".\"created_at\" >= '2022-01-01"
+          end
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
+      end
+
+      describe "when chaining a where clause with work_packages.created_at" do
+        # as used by spec/features/work_packages/table/queries/filter_spec.rb
+
+        let(:relation) { WorkPackage.where("work_packages.created_at > '2022-01-01'") }
+
+        subject { relation.at_timestamp(wednesday) }
+
+        it "transforms the expression to query the correct table" do
+          expect(subject.to_sql).to include \
+            "journables.created_at > '2022-01-01'"
+        end
+
+        it "returns the requested work package" do
+          expect(subject).to include work_package
+        end
+
+        describe "when using quotation marks" do
+          let(:relation) { WorkPackage.where("\"work_packages\".\"created_at\" > '2022-01-01'") }
+
+          it "transforms the expression to query the correct table" do
+            expect(subject.to_sql).to include \
+              "\"journables\".\"created_at\" > '2022-01-01'"
+          end
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
+
+        describe "when using a hash" do
+          let(:relation) { WorkPackage.where(work_packages: { created_at: ("2022-01-01".to_datetime).. }) }
+
+          subject { relation.at_timestamp(wednesday) }
+
+          it "transforms the expression to query the correct table" do
+            expect(subject.to_sql).to include \
+              "\"journables\".\"created_at\" >= '2022-01-01"
+          end
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
+      end
+
       describe "when chaining an order clause" do
         subject { WorkPackage.at_timestamp(wednesday).order(description: :desc) }
 
