@@ -26,10 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'rubocop'
-require 'rubocop/rspec/shared_contexts'
 require 'spec_helper'
-require 'rubocop/rspec/support'
 require 'rubocop/cop/open_project/no_do_end_block_with_rspec_capybara_matcher_in_expect'
 
 RSpec.describe RuboCop::Cop::OpenProject::NoDoEndBlockWithRSpecCapybaraMatcherInExpect do

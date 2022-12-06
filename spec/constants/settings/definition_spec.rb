@@ -383,7 +383,7 @@ describe Settings::Definition do
               smtp_address: 'test address'
               sendmail_location: 'test location'
               bogus: 'bogusvalue'
-              consent_time: 2222-01-01
+              consent_time: '2222-01-01'
         YAML
       end
 
