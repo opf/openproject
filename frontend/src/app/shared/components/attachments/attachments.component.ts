@@ -160,14 +160,14 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
       );
 
     document.body.addEventListener('dragover', this.onGlobalDragOver.bind(this));
-    document.body.addEventListener('dragleave', this.onGlobalDragLeave.bind(this));
-    document.body.addEventListener('drop', this.onGlobalDrop.bind(this));
+    document.body.addEventListener('dragleave', this.onGlobalDragEnd.bind(this));
+    document.body.addEventListener('drop', this.onGlobalDragEnd.bind(this));
   }
 
   ngOnDestroy():void {
     document.body.removeEventListener('dragover', this.onGlobalDragOver.bind(this));
-    document.body.removeEventListener('dragleave', this.onGlobalDragLeave.bind(this));
-    document.body.removeEventListener('drop', this.onGlobalDrop.bind(this));
+    document.body.removeEventListener('dragleave', this.onGlobalDragEnd.bind(this));
+    document.body.removeEventListener('drop', this.onGlobalDragEnd.bind(this));
   }
 
   public triggerFileInput():void {
@@ -213,13 +213,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
     this.draggingOverDropZone = false;
   }
 
-  public onGlobalDragLeave():void {
-    this.dragging = false;
-
-    this.cdRef.detectChanges();
-  }
-
-  public onGlobalDrop():void {
+  public onGlobalDragEnd():void {
     this.dragging = false;
 
     this.cdRef.detectChanges();

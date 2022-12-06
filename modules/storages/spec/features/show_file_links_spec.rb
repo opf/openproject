@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe 'Showing of file links in work package', type: :feature, js: true do
+describe 'Showing of file links in work package', js: true do
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links manage_file_links) }
   let(:project) { create(:project) }
   let(:current_user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
@@ -56,7 +56,7 @@ describe 'Showing of file links in work package', type: :feature, js: true do
             .and_return(ServiceResult.success(result: oauth_client_token))
     allow(connection_manager)
       .to receive(:authorization_state)
-           .and_return(:connected)
+            .and_return(:connected)
 
     # Mock FileLinkSyncService as if Nextcloud would respond with origin_permission=nil
     allow(::Storages::FileLinkSyncService)
@@ -103,7 +103,7 @@ describe 'Showing of file links in work package', type: :feature, js: true do
     end
 
     it 'must show storage information box with login button' do
-      expect(page.find('[data-qa-selector="op-files-tab--storage-information"]')).to have_selector('button', count: 1)
+      expect(page.find('[data-qa-selector="op-storage--information"]')).to have_button(count: 1)
     end
   end
 
@@ -113,7 +113,7 @@ describe 'Showing of file links in work package', type: :feature, js: true do
     end
 
     it 'must show storage information box' do
-      expect(page).to have_selector('[data-qa-selector="op-files-tab--storage-information"]', count: 1)
+      expect(page).to have_selector('[data-qa-selector="op-storage--information"]', count: 1)
     end
   end
 end

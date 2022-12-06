@@ -20,7 +20,7 @@
   <op-storage-information
     *ngFor="let infoBox of storageErrors | async"
     class="op-files-tab--storage-info-box"
-    data-qa-selector="op-files-tab--storage-information"
+    data-qa-selector="op-storage--information"
     [content]="infoBox"
   ></op-storage-information>
 
@@ -66,15 +66,15 @@
       (dragover)="onDragOver($event)"
       (dragleave)="onDragLeave($event)"
       (drop)="onDropFiles($event)"
+      (click)="openSelectLocationDialog()"
     >
-  <span
-    class="spot-icon spot-icon_attachment op-attachments--drop-box-icon"
-  ></span>
+      <span
+        class="spot-icon spot-icon_upload-arrow op-file-section--drop-box-icon"
+      ></span>
       <label
         class="op-file-section--drop-box-text"
       >
-        {{ text.dropBox.dropFiles }}<br>
-        {{ text.dropBox.dropFilesHint }}
+        {{ text.dropBox.dropFiles() }}
       </label>
     </button>
 
@@ -85,8 +85,8 @@
       <button
         *ngIf="allowUploading"
         type="button"
-        class="spot-link op-file-list--action-button"
-        data-qa-selector="op-file-list--upload-file-button"
+        class="spot-link"
+        data-qa-selector="op-storage--upload-file-button"
         (click)="openSelectLocationDialog()"
       >
         <span class="spot-icon spot-icon_upload-arrow"></span>
@@ -95,8 +95,8 @@
       <button
         *ngIf="allowLinking"
         type="button"
-        class="spot-link op-file-list--action-button"
-        data-qa-selector="op-file-list--link-existing-file-button"
+        class="spot-link"
+        data-qa-selector="op-storage--link-existing-file-button"
         (click)="openLinkFilesDialog()"
       >
         <span class="spot-icon spot-icon_add-link"></span>
