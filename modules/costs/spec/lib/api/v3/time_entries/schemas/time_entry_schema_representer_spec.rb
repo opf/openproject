@@ -40,14 +40,16 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
   let(:user) { build_stubbed(:user) }
   let(:assigned_project) { nil }
   let(:activity) { build_stubbed(:time_entry_activity) }
+  let(:time_entry) { build_stubbed(:time_entry) }
   let(:writable_attributes) { %w(spent_on hours project work_package activity comment user) }
 
   let(:contract) do
-    contract = double('contract',
-                      new_record?: new_record,
-                      id: new_record ? nil : 5,
-                      project: assigned_project,
-                      project_id: project.id)
+    contract = instance_double(new_record ? TimeEntries::CreateContract : TimeEntries::UpdateContract,
+                               new_record?: new_record,
+                               id: new_record ? nil : 5,
+                               project: assigned_project,
+                               project_id: project.id,
+                               model: time_entry)
 
     allow(contract)
       .to receive(:writable?) do |attribute|
@@ -268,10 +270,10 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
       end
     end
 
-    context 'custom value' do
+    context 'for a custom value' do
       let(:custom_field) { build_stubbed(:text_time_entry_custom_field) }
       let(:path) { "customField#{custom_field.id}" }
-      let(:writable_attributes) { ["customField#{custom_field.id}"] }
+      let(:writable_attributes) { ["custom_field_#{custom_field.id}"] }
 
       before do
         allow(contract)

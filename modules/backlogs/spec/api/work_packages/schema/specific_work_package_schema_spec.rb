@@ -74,7 +74,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     login_as(current_user)
   end
 
-  describe '#remaining_time_writable?' do
+  describe '#writable? for remaining_hours' do
     subject { described_class.new(work_package:) }
 
     context 'work_package is a leaf' do
@@ -83,7 +83,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
 
       it 'is writable' do
-        expect(subject.writable?(:remaining_time)).to be(true)
+        expect(subject.writable?(:remaining_hours)).to be(true)
       end
     end
 
@@ -93,7 +93,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
 
       it 'is not writable' do
-        expect(subject.writable?(:remaining_time)).to be(false)
+        expect(subject.writable?(:remaining_hours)).to be(false)
       end
     end
   end

@@ -41,10 +41,12 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
   let(:custom_field) do
     build_stubbed(:int_version_custom_field)
   end
+  let(:version) { build_stubbed(:version) }
 
   let(:contract) do
-    contract = double('contract',
-                      new_record?: new_record)
+    contract = instance_double(new_record ? Versions::CreateContract : Versions::UpdateContract,
+                               new_record?: new_record,
+                               model: version)
 
     allow(contract)
       .to receive(:writable?) do |attribute|
