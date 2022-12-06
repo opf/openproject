@@ -220,11 +220,7 @@ describe('Capabilities service', () => {
       };
 
       service
-<<<<<<< .merge_file_ce94Lk
-        .require$(params)
-=======
         .require(params)
->>>>>>> .merge_file_BrXeW6
         .subscribe((caps) => {
           expect(caps.length).toEqual(1);
         });
@@ -238,11 +234,7 @@ describe('Capabilities service', () => {
       };
 
       service
-<<<<<<< .merge_file_ce94Lk
-        .require$(params)
-=======
         .require(params)
->>>>>>> .merge_file_BrXeW6
         .subscribe((caps) => {
           expect(caps.length).toEqual(1);
         });
@@ -252,11 +244,7 @@ describe('Capabilities service', () => {
       };
 
       service
-<<<<<<< .merge_file_ce94Lk
-        .require$(params)
-=======
         .require(params)
->>>>>>> .merge_file_BrXeW6
         .subscribe((caps) => {
           expect(caps.length).toEqual(2);
         });
@@ -266,11 +254,7 @@ describe('Capabilities service', () => {
       };
 
       service
-<<<<<<< .merge_file_ce94Lk
-        .require$(params)
-=======
         .require(params)
->>>>>>> .merge_file_BrXeW6
         .subscribe((caps) => {
           expect(caps.length).toEqual(1);
         });
@@ -279,17 +263,10 @@ describe('Capabilities service', () => {
     });
 
     it('Should filter by context and all actions', () => {
-<<<<<<< .merge_file_ce94Lk
-      currentUser.hasCapabilities$('asdf/asdf').subscribe((hasCaps) => {
-        expect(hasCaps).toEqual(false);
-      });
-      currentUser.hasCapabilities$('placeholder_users/read').subscribe((hasCaps) => {
-=======
       currentUser.hasCapabilities$('asdf/asdf', 'global').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
       });
       currentUser.hasCapabilities$('placeholder_users/read', 'global').subscribe((hasCaps) => {
->>>>>>> .merge_file_BrXeW6
         expect(hasCaps).toEqual(true);
       });
       currentUser.hasCapabilities$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
