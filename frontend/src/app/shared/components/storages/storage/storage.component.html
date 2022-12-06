@@ -38,6 +38,17 @@
     ></li>
   </ul>
 
+  <input
+    *ngIf="storageFileUploadEnabled"
+    #hiddenFileInput
+    type="file"
+    id="upload_files"
+    name="upload_files"
+    (change)="onFilePickerChanged()"
+    hidden
+    multiple
+  />
+
   <p
     *ngIf="(showLinkFilesAction | async) && (allowEditing$ | async)"
     class="spot-body-small op-file-list--actions"
@@ -57,7 +68,7 @@
       type="button"
       class="spot-link op-file-list--action-button"
       data-qa-selector="op-file-list--upload-file-button"
-      (click)="openSelectLocationDialog()"
+      (click)="triggerFileInput()"
     >
       <span class="spot-icon spot-icon_upload-arrow"></span>
       <span [textContent]="text.actions.uploadFile"></span>

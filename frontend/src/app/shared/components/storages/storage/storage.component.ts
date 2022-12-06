@@ -29,8 +29,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   Input,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import {
   BehaviorSubject,
@@ -78,6 +80,8 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public resource:HalResource;
 
   @Input() public storage:IStorage;
+
+  @ViewChild('hiddenFileInput') public filePicker:ElementRef<HTMLInputElement>;
 
   fileLinks$:Observable<IFileLink[]>;
 
@@ -189,7 +193,18 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
       });
   }
 
-  public openSelectLocationDialog():void {
+  public triggerFileInput():void {
+    this.filePicker.nativeElement.click();
+  }
+
+  public onFilePickerChanged():void {
+    const fileList = this.filePicker.nativeElement.files;
+    if (fileList === null) return;
+
+    this.openSelectLocationDialog(fileList);
+  }
+
+  private openSelectLocationDialog(files:FileList|null):void {
     const locals = {
       storageType: this.storage._links.type.href,
       storageTypeName: this.storageType,
@@ -197,7 +212,12 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
       storageLocation: this.storageFilesLocation,
       storageLink: this.storage._links.self,
     };
-    this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals);
+    this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals)
+      .subscribe((modal) => {
+        modal.closingEvent.subscribe((data) => {
+          console.log(`Uploading ${files?.length || 0} files to ${data.location}`);
+        });
+      });
   }
 
   private instantiateStorageInformation(fileLinks:IFileLink[]):StorageInformationBox[] {

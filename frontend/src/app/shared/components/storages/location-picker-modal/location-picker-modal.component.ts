@@ -39,9 +39,10 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
+import { Breadcrumb } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
 import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import { isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
+import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import {
   StorageFileListItem,
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
@@ -69,6 +70,8 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
     return this.breadcrumbs.crumbs.length > 1;
   }
 
+  public location = '/';
+
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly elementRef:ElementRef,
@@ -88,6 +91,7 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
   }
 
   public chooseLocation():void {
+    this.closingEvent.emit(this);
     this.service.close();
   }
 
@@ -104,5 +108,10 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
       undefined,
       enterDirectoryCallback,
     );
+  }
+
+  protected changeLevel(parent:string|null, crumbs:Breadcrumb[]):void {
+    this.location = parent === null ? '/' : parent;
+    super.changeLevel(parent, crumbs);
   }
 }
