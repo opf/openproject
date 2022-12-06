@@ -36,12 +36,11 @@ class EnterprisesController < ApplicationController
   before_action :require_admin
   before_action :check_user_limit, only: [:show]
   before_action :check_domain, only: [:show]
+  before_action :render_gon
 
   def show
     @current_token = EnterpriseToken.current
     @token = @current_token || EnterpriseToken.new
-
-    helpers.write_augur_to_gon
 
     if !@current_token.present?
       helpers.write_trial_key_to_gon
@@ -94,6 +93,10 @@ class EnterprisesController < ApplicationController
   end
 
   private
+
+  def render_gon
+    helpers.write_augur_to_gon
+  end
 
   def default_breadcrumb
     t(:label_enterprise_edition)
