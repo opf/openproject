@@ -30,10 +30,11 @@ import flatpickr from 'flatpickr';
 import { Instance } from 'flatpickr/dist/types/instance';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { rangeSeparator } from 'core-app/shared/components/op-date-picker/op-range-date-picker/op-range-date-picker.component';
 import { Injector } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { rangeSeparator } from './constants';
+
 import DateOption = flatpickr.Options.DateOption;
 
 export class DatePicker {

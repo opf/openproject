@@ -51,7 +51,6 @@ import { SortHeaderDirective } from 'core-app/features/work-packages/components/
 import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import { OPContextMenuComponent } from 'core-app/shared/components/op-context-menu/op-context-menu.component';
 import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/principal/principal-rendering.module';
-import { DatePickerModule } from 'core-app/shared/components/op-date-picker/date-picker.module';
 import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
 import { EnterpriseBannerComponent } from 'core-app/shared/components/enterprise-banner/enterprise-banner.component';
 import { EnterprisePageComponent } from 'core-app/shared/components/enterprise-page/enterprise-page.component';
@@ -131,7 +130,6 @@ export function bootstrapModule(injector:Injector):void {
     OpenprojectContentLoaderModule,
     OpenprojectAutocompleterModule,
 
-    DatePickerModule,
     FocusModule,
     IconModule,
     AttributeHelpTextModule,
@@ -156,7 +154,6 @@ export function bootstrapModule(injector:Injector):void {
 
     OpSpotModule,
 
-    DatePickerModule,
     FocusModule,
     OpDateTimeComponent,
 

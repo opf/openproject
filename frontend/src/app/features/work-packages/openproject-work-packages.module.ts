@@ -180,7 +180,6 @@ import { OpenprojectStoragesModule } from 'core-app/shared/components/storages/o
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { DatepickerBannerComponent } from 'core-app/shared/components/datepicker/banner/datepicker-banner.component';
-import { SingleDateModalComponent } from 'core-app/shared/components/datepicker/single-date-modal/single-date.modal';
 import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/multi-date-modal/multi-date.modal';
 import { DatepickerWorkingDaysToggleComponent } from 'core-app/shared/components/datepicker/toggle/datepicker-working-days-toggle.component';
 import { DatepickerSchedulingToggleComponent } from 'core-app/shared/components/datepicker/scheduling-mode/datepicker-scheduling-toggle.component';
@@ -395,7 +394,6 @@ import { StorageFilesResourceService } from 'core-app/core/state/storage-files/s
     SaveQueryModalComponent,
     WpDestroyModalComponent,
     MultiDateModalComponent,
-    SingleDateModalComponent,
     DatepickerBannerComponent,
     DatepickerWorkingDaysToggleComponent,
     DatepickerSchedulingToggleComponent,

@@ -2,13 +2,15 @@
   [open]="isOpened"
   (closed)="onModalClosed"
 >
-  <input
+  <button
     slot="trigger"
-    [value]="dates"
+    type="button"
     (click)="showDatePickerModal()"
-    class="op-input"
-    type="text"
-  />
+    class="spot-input"
+  >{{ dates }}</button>
 
-  <div slot="body">body</div>
+  <op-single-date-form
+    value="dates"
+    slot="body"
+  >body</op-single-date-form>
 </spot-drop-modal>

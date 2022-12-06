@@ -33,20 +33,17 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Inject,
+  forwardRef,
   Injector,
+  Input,
+  Output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
-import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
@@ -72,9 +69,10 @@ import {
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
-  selector: 'op-single-date-picker-form',
+  selector: 'op-single-date-form',
   templateUrl: './single-date.modal.html',
   styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -84,18 +82,10 @@ import { DeviceService } from 'core-app/core/browser/device.service';
     DateModalRelationsService,
   ],
 })
-export class SingleDateModalComponent extends OpModalComponent implements AfterViewInit {
-  @InjectField() I18n!:I18nService;
+export class SingleDateFormComponent extends UntilDestroyedMixin implements AfterViewInit {
+  @Output('savedOrCancelled') savedOrCancelled = new EventEmitter();
 
-  @InjectField() timezoneService:TimezoneService;
-
-  @InjectField() halEditing:HalResourceEditingService;
-
-  @InjectField() dateModalScheduling:DateModalSchedulingService;
-
-  @InjectField() dateModalRelations:DateModalRelationsService;
-
-  @InjectField() deviceService:DeviceService;
+  @Input('value') value = '';
 
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
@@ -106,8 +96,6 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
   };
-
-  onDataUpdated = new EventEmitter<string>();
 
   scheduleManually = false;
 
@@ -125,40 +113,19 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
 
   private datePickerInstance:DatePicker;
 
-  private dateUpdates$ = new Subject<string>();
-
-  private dateUpdateRequests$ = this
-    .dateUpdates$
-    .pipe(
-      this.untilDestroyed(),
-      switchMap((date:string) => this
-        .apiV3Service
-        .work_packages
-        .id(this.changeset.id)
-        .form
-        .forPayload({
-          date,
-          lockVersion: this.changeset.value<string>('lockVersion'),
-          ignoreNonWorkingDays: this.ignoreNonWorkingDays,
-        })),
-    )
-    .subscribe((form) => this.updateDatesFromForm(form));
-
   constructor(
-    readonly injector:Injector,
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef,
     readonly configurationService:ConfigurationService,
     readonly apiV3Service:ApiV3Service,
+    readonly cdRef:ChangeDetectorRef,
+    readonly injector:Injector,
+    readonly I18n:I18nService,
+    readonly timezoneService:TimezoneService,
+    readonly halEditing:HalResourceEditingService,
+    readonly dateModalScheduling:DateModalSchedulingService,
+    readonly dateModalRelations:DateModalRelationsService,
+    readonly deviceService:DeviceService,
   ) {
-    super(locals, cdRef, elementRef);
-    this.changeset = locals.changeset as ResourceChangeset;
-    this.htmlId = `wp-datepicker-${locals.fieldName as string}`;
-
-    this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
-
-    this.date = this.changeset.value('date');
+    super();
   }
 
   ngAfterViewInit():void {
@@ -167,7 +134,6 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
       .getMinimalDateFromPreceeding()
       .subscribe((date) => {
         this.initializeDatepicker(date);
-        this.onDataChange();
       });
 
     this
@@ -203,7 +169,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     // If we're single date, update the date
     if (!this.ignoreNonWorkingDays && this.date) {
       // Resent the current start and end dates so duration can be calculated again.
-      this.dateUpdates$.next(this.date);
+      // this.dateUpdates$.next(this.date);
     }
 
     this.cdRef.detectChanges();
@@ -222,11 +188,11 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
       this.changeset.setValue('date', mappedDate(this.date));
     }
 
-    this.closeMe();
+    this.savedOrCancelled.emit();
   }
 
   cancel():void {
-    this.closeMe();
+    this.savedOrCancelled.emit();
   }
 
   updateDate(val:string|null):void {
@@ -279,7 +245,6 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
             this.enforceManualChangesToDatepicker(dates[0]);
           }
 
-          this.onDataChange();
           this.cdRef.detectChanges();
         },
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
@@ -299,10 +264,6 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
   private enforceManualChangesToDatepicker(enforceDate?:Date) {
     const date = parseDate(this.date || '');
     setDates(date, this.datePickerInstance, enforceDate);
-  }
-
-  private onDataChange() {
-    this.onDataUpdated.emit(this.date || '');
   }
 
   /**

@@ -43,7 +43,6 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -78,6 +77,8 @@ import {
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import { DatePicker } from '../datepicker';
+
 import DateOption = flatpickr.Options.DateOption;
 
 export type DateKeys = 'start'|'end';
