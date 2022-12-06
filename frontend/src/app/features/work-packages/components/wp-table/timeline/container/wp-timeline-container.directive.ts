@@ -67,6 +67,7 @@ import {
   zoomLevelOrder,
 } from '../wp-timeline';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import * as Mousetrap from 'mousetrap';
 
 @Component({
   selector: 'wp-timeline-container',
