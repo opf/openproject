@@ -86,7 +86,7 @@ import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
 import { OpProjectIncludeListComponent } from './components/project-include/list/project-include-list.component';
 import { OpLoadingProjectListComponent } from './components/searchable-project-list/loading-project-list.component';
-import { OpListCalendarComponent } from './components/op-list-calendar/op-list-calendar.component';
+import { OpNonWorkingDaysListComponent } from './components/op-non-working-days-list/op-non-working-days-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -200,7 +200,7 @@ export function bootstrapModule(injector:Injector):void {
 
     ViewSelectComponent,
 
-    OpListCalendarComponent,
+    OpNonWorkingDaysListComponent,
   ],
   providers: [
     StaticQueriesService,
@@ -256,7 +256,7 @@ export function bootstrapModule(injector:Injector):void {
     OpProjectIncludeListComponent,
     OpLoadingProjectListComponent,
 
-    OpListCalendarComponent,
+    OpNonWorkingDaysListComponent,
   ],
 })
 export class OPSharedModule {

@@ -24,26 +24,29 @@ import { IDay } from 'core-app/core/state/days/day.model';
 import { CalendarViewEvent } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 
-export const listCalendarSelector = 'op-list-calendar';
+export const nonWorkingDaysListSelector = 'op-non-working-days-list';
 
 @Component({
-  selector: listCalendarSelector,
+  selector: nonWorkingDaysListSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./op-list-calendar.component.sass'],
-  templateUrl: './op-list-calendar.component.html',
+  styleUrls: ['./op-non-working-days-list.component.sass'],
+  templateUrl: './op-non-working-days-list.component.html',
 })
-export class OpListCalendarComponent {
+export class OpNonWorkingDaysListComponent {
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
-  @HostBinding('class.op-list-calendar') className = true;
+  @HostBinding('class.op-non-working-days-list') className = true;
+
+  text = {
+    empty_state_header: this.I18n.t('js.admin.working_days.calendar.empty_state_header'),
+    empty_state_description: this.I18n.t('js.admin.working_days.calendar.empty_state_description'),
+    add_non_working_day: this.I18n.t('js.admin.working_days.add_non_working_day'),
+  };
 
   calendarOptions:CalendarOptions = {
     plugins: [listPlugin],
     initialView: 'listYear',
-    editable: false,
-    fixedWeekCount: false,
-    height: 550,
     headerToolbar: {
       right: 'prev,next',
       center: '',
@@ -57,7 +60,7 @@ export class OpListCalendarComponent {
       const anchor = document.createElement('a');
       anchor.title = 'Delete';
       anchor.href = '#';
-      anchor.classList.add('fc-list-day-side-text', 'op-list-calendar--delete-icon');
+      anchor.classList.add('fc-list-day-side-text', 'op-non-working-days-list--delete-icon');
       anchor.appendChild(opIconElement('icon', 'icon-delete'));
       anchor.addEventListener('click', () => {
         event.remove();
@@ -65,9 +68,9 @@ export class OpListCalendarComponent {
       td.appendChild(anchor);
       el.appendChild(td);
     },
-  };
+    noEventsContent: { html: `<table class="fc-list-table"><tbody><th><div class="fc-list-day-cushion"><a class="fc-list-day-text">${this.text.empty_state_header}</a></div></th><tr class="fc-event"><td>${this.text.empty_state_description}</td></tr></tbody></table>` },
 
-  nonWorkingDays:IDay[];
+  };
 
   constructor(
     readonly elementRef:ElementRef,
@@ -102,5 +105,9 @@ export class OpListCalendarComponent {
       title: NWD.name,
       start: NWD.date,
     })).filter((event) => !!event) as EventInput[];
+  }
+
+  public addNonWorkingDay():void {
+    // opens date picker modal
   }
 }

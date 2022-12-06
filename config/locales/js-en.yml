@@ -278,6 +278,11 @@ en:
           unlimited: "Unlimited"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
 
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
+        add_non_working_day: "Add non-working day"
     custom_actions:
       date:
         specific: 'on'

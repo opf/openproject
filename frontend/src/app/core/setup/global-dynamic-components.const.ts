@@ -163,9 +163,9 @@ import {
   enterprisePageSelector,
 } from 'core-app/shared/components/enterprise-page/enterprise-page.component';
 import {
-  OpListCalendarComponent,
-  listCalendarSelector,
-} from 'core-app/shared/components/op-list-calendar/op-list-calendar.component';
+  OpNonWorkingDaysListComponent,
+  nonWorkingDaysListSelector,
+} from 'core-app/shared/components/op-non-working-days-list/op-non-working-days-list.component';
 import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector,
@@ -242,7 +242,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: globalSearchSelector, cls: GlobalSearchInputComponent },
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
   { selector: enterpriseBannerSelector, cls: EnterpriseBannerComponent },
-  { selector: listCalendarSelector, cls: OpListCalendarComponent },
+  { selector: nonWorkingDaysListSelector, cls: OpNonWorkingDaysListComponent },
   { selector: enterprisePageSelector, cls: EnterprisePageComponent },
   { selector: noResultsSelector, cls: NoResultsComponent },
   { selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent },
