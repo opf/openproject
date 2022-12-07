@@ -131,7 +131,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     case predicate
     when String
       gsub_table_names_in_sql_string!(predicate)
-    when Arel::Nodes::In,
+    when Arel::Nodes::HomogeneousIn,
+         Arel::Nodes::In,
          Arel::Nodes::NotIn,
          Arel::Nodes::Equality,
          Arel::Nodes::NotEqual,
@@ -139,18 +140,22 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
          Arel::Nodes::LessThanOrEqual,
          Arel::Nodes::GreaterThan,
          Arel::Nodes::GreaterThanOrEqual
-      if predicate.left.relation == arel_table and predicate.right.respond_to? :name
-        case predicate.right.name
-        when "id"
-          predicate.right.instance_variable_set(:@name, "journable_id")
-          predicate.left.name = "journable_id"
-          predicate.left.relation = Journal.arel_table
-        when "updated_at"
-          predicate.right.instance_variable_set(:@name, "created_at")
-          predicate.left.name = "created_at"
-          predicate.left.relation = Journal.arel_table
-        when "created_at"
-          predicate.left = Arel::Nodes::SqlLiteral.new("\"journables\".\"created_at\"")
+      if predicate.left.relation == arel_table
+        if predicate.right.respond_to? :name
+          case predicate.right.name
+          when "id"
+            predicate.right.instance_variable_set(:@name, "journable_id")
+            predicate.left.name = "journable_id"
+            predicate.left.relation = Journal.arel_table
+          when "updated_at"
+            predicate.right.instance_variable_set(:@name, "created_at")
+            predicate.left.name = "created_at"
+            predicate.left.relation = Journal.arel_table
+          when "created_at"
+            predicate.left = Arel::Nodes::SqlLiteral.new("\"journables\".\"created_at\"")
+          else
+            predicate.left.relation = journal_class.arel_table
+          end
         else
           predicate.left.relation = journal_class.arel_table
         end
