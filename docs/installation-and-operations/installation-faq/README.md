@@ -22,7 +22,7 @@ If you use the docker images, you need to be familiar with Docker and Docker vol
 
 ### My favorite Linux distribution is not listed. What can I do?
 
-You can either try the manual installation, or ask in the forum whether this could be added to the list of supported distributions. We try to support recent major distributions, but due to maintenance and operations cost cannot freely add to that list.
+You can either try the OUTDATED and OLD manual installation guide, or add a Feature request whether your operating system could be added to the list of supported distributions. We try to support recent major distributions, but due to maintenance and operations cost cannot freely add to that list.
 
 ### What is the better option to run OpenProject in production environments: Docker or Linux packages?
 
