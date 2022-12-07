@@ -43,7 +43,8 @@ describe Users::CreateContract do
         login: user_login,
         mail: user_mail,
         password: user_password,
-        password_confirmation: user_password_confirmation
+        password_confirmation: user_password_confirmation,
+        notification_settings: [NotificationSetting.new]
       }
     end
 
