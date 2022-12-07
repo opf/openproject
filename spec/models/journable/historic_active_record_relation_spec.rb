@@ -115,6 +115,38 @@ describe Journable::HistoricActiveRecordRelation do
       end
     end
 
+    describe "id in array (Arel::Nodes::HomogeneousIn)" do
+      let(:relation) { WorkPackage.where(id: [work_package.id, 999, 9999]) }
+
+      describe "#to_sql" do
+        it "transforms the expression to query the correct table" do
+          expect(subject.to_sql).to include "\"journals\".\"journable_id\" IN (#{work_package.id}, 999, 9999)"
+        end
+      end
+
+      describe "#to_a" do
+        it "returns the requested work package" do
+          expect(subject.to_a).to include work_package
+        end
+      end
+    end
+
+    describe "id in subquery (Arel::Nodes::In)" do
+      let(:relation) { WorkPackage.where(id: WorkPackage.where(id: [work_package.id, 999, 9999])) }
+
+      describe "#to_sql" do
+        it "transforms the expression to query the correct table" do
+          expect(subject.to_sql).to include "\"journals\".\"journable_id\" IN (SELECT \"work_packages\".\"id\""
+        end
+      end
+
+      describe "#to_a" do
+        it "returns the requested work package" do
+          expect(subject.to_a).to include work_package
+        end
+      end
+    end
+
     describe "sql string (as used by Query#statement)" do
       let(:relation) { WorkPackage.where("(work_packages.description ILIKE '%been on Wednesday%')") }
 
