@@ -66,6 +66,7 @@ export class StaticQueriesService {
     recently_created: this.I18n.t('js.work_packages.default_queries.recently_created'),
     all_open: this.I18n.t('js.work_packages.default_queries.all_open'),
     summary: this.I18n.t('js.work_packages.default_queries.summary'),
+    overdue: this.I18n.t('js.notifications.date_alerts.overdue'),
   };
 
   public getStaticName(query:QueryResource):string {
@@ -128,6 +129,15 @@ export class StaticQueriesService {
         uiParams: {
           query_id: '',
           query_props: '{"c":["id","type","subject","status","startDate","dueDate","duration"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
+        },
+        view: 'WorkPackagesTable',
+      },
+      {
+        title: this.text.overdue,
+        uiSref: 'work-packages',
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","type","subject","status","startDate","dueDate","duration"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"dueDate","o":"<t-","v":["1"]},{"n":"status","o":"o","v":[]}]}',
         },
         view: 'WorkPackagesTable',
       },
