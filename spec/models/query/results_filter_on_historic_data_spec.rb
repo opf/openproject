@@ -44,6 +44,18 @@ describe ::Query::Results, 'Filter on historic data', with_mail: false do
     new_work_package
   end
 
+  let!(:work_package2) do
+    new_work_package = create(:work_package, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                                             project: project1)
+    new_work_package.update_columns created_at: historic_time
+    new_work_package.journals.first.update_columns created_at: historic_time, updated_at: historic_time
+    new_work_package.reload
+    new_work_package.update description: "Lorem ipsum", updated_at: recent_time
+    new_work_package.journals.last.update_columns created_at: recent_time, updated_at: recent_time
+    new_work_package.reload
+    new_work_package
+  end
+
   let(:project1) { create(:project) }
   let(:user1) do
     create(:user,
@@ -80,7 +92,7 @@ describe ::Query::Results, 'Filter on historic data', with_mail: false do
       let(:search_term) { 'current' }
 
       it "includes the work package matching today" do
-        expect(subject).to include work_package
+        expect(subject).to eq [work_package]
       end
     end
 
@@ -88,7 +100,7 @@ describe ::Query::Results, 'Filter on historic data', with_mail: false do
       let(:search_term) { 'original' }
 
       it "does not include the work package matching only in the past" do
-        expect(subject).not_to include work_package
+        expect(subject).not_to eq [work_package]
       end
     end
 
@@ -99,7 +111,7 @@ describe ::Query::Results, 'Filter on historic data', with_mail: false do
         let(:search_term) { 'current' }
 
         it "includes the work package matching today" do
-          expect(subject).to include work_package
+          expect(subject).to eq [work_package]
         end
       end
 
@@ -107,8 +119,18 @@ describe ::Query::Results, 'Filter on historic data', with_mail: false do
         let(:search_term) { 'original' }
 
         it "includes the work package matching in the past" do
-          expect(subject).to include work_package
+          expect(subject).to eq [work_package]
         end
+      end
+    end
+
+    describe "when the search matches several work packages" do
+      before { query.timestamps = [historic_time, Time.zone.now] }
+
+      let(:search_term) { 're' }
+
+      it "includes all matching work packages" do
+        expect(subject).to include work_package, work_package2
       end
     end
 
