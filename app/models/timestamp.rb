@@ -14,10 +14,8 @@ class Timestamp
   def self.parse(iso8601_string)
     if iso8601_string.start_with? "P" # ISO8601 "Period"
       ActiveSupport::Duration.parse(iso8601_string)
-    else
-      if Time.zone.parse(iso8601_string).blank?
-        raise ArgumentError, "The string \"#{iso8601_string}\" cannot be parsed to a Time."
-      end
+    elsif Time.zone.parse(iso8601_string).blank?
+      raise ArgumentError, "The string \"#{iso8601_string}\" cannot be parsed to a Time."
     end
     Timestamp.new(iso8601_string)
   end

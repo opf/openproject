@@ -42,15 +42,14 @@ module Query::Timestamps
     # call `timestamp.to_time`.
     #
     def timestamps
-      timestamps = super.collect { |timestamp_string|
+      timestamps = super.collect do |timestamp_string|
         Timestamp.new(timestamp_string)
-      }
-      return timestamps.any? ? timestamps : [Timestamp.now]
+      end
+      timestamps.any? ? timestamps : [Timestamp.now]
     end
 
     def timestamps=(array)
       super(array.collect { |element| element.respond_to?(:iso8601) ? element.iso8601 : element })
     end
   end
-
 end
