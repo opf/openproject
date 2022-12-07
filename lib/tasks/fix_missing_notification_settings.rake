@@ -32,9 +32,9 @@ namespace :migrations do
     ActiveRecord::Base.connection.execute <<~SQL.squish
       INSERT INTO
         notification_settings
-        (user_id, watched, involved, mentioned)
+        (user_id)
       SELECT
-        u.id, true, true, true
+        u.id
       FROM
         users u
       WHERE type = 'User'
