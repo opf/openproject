@@ -138,7 +138,7 @@ class Activities::BaseActivityProvider
 
   def apply_event_projection(query)
     projection = event_projection
-    projection << event_query_projection if respond_to?(:event_query_projection)
+    projection += event_query_projection
 
     query.project(projection)
   end

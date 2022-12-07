@@ -31,6 +31,7 @@ require_relative '../constants/open_project/project_latest_activity'
 Rails.application.reloader.to_prepare do
   OpenProject::Activity.map do |activity|
     activity.register :work_packages, class_name: '::Activities::WorkPackageActivityProvider'
+    activity.register :projects, class_name: 'Activities::ProjectActivityProvider'
     activity.register :changesets, class_name: 'Activities::ChangesetActivityProvider'
     activity.register :news, class_name: 'Activities::NewsActivityProvider',
                              default: false
@@ -43,12 +44,16 @@ Rails.application.reloader.to_prepare do
   OpenProject::ProjectLatestActivity.register on: 'WorkPackage',
                                               attribute: :updated_at
 
-  OpenProject::ProjectLatestActivity.register on: 'News',
-                                              attribute: :updated_at
+  OpenProject::ProjectLatestActivity.register on: 'Project',
+                                              attribute: :updated_at,
+                                              project_id_attribute: :id
 
   OpenProject::ProjectLatestActivity.register on: 'Changeset',
                                               chain: 'Repository',
                                               attribute: :committed_on
+
+  OpenProject::ProjectLatestActivity.register on: 'News',
+                                              attribute: :updated_at
 
   OpenProject::ProjectLatestActivity.register on: 'WikiContent',
                                               chain: %w(Wiki WikiPage),
