@@ -41,17 +41,14 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
+import { DatePicker } from 'core-app/shared/components/datepicker/datepicker';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
-import {
-  debounce,
-  switchMap,
-} from 'rxjs/operators';
+import { debounce } from 'rxjs/operators';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import {
   Subject,
@@ -73,7 +70,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 
 @Component({
   selector: 'op-single-date-form',
-  templateUrl: './single-date.modal.html',
+  templateUrl: './single-date-form.component.html',
   styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -235,7 +232,7 @@ export class OpSingleDateFormComponent extends UntilDestroyedMixin implements Af
         mode: 'single',
         showMonths: this.deviceService.isMobile ? 1 : 2,
         inline: true,
-        onReady: (_date, _datestr, instance) => {
+        onReady: (_date:Date[], _datestr:string, instance:flatpickr.Instance) => {
           instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
           this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
         },

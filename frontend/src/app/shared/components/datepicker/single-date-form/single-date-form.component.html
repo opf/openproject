@@ -1,5 +1,5 @@
 <form
-  class="spot-modal op-datepicker-modal loading-indicator--location"
+  class="spot-container"
   data-qa-selector="op-datepicker-modal"
   [attr.id]="htmlId"
   #modalContainer
@@ -12,7 +12,7 @@
 >
   <op-datepicker-banner [scheduleManually]="scheduleManually"></op-datepicker-banner>
 
-  <div class="spot-modal--body spot-container">
+  <div class="spot-container">
     <div class="op-datepicker-modal--toggle-actions-container">
       <op-datepicker-scheduling-toggle
         name="scheduleManually"

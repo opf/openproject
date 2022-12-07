@@ -17,11 +17,11 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => DatepickerWorkingDaysToggleComponent),
+    useExisting: forwardRef(() => OpDatePickerWorkingDaysToggleComponent),
     multi: true,
   }],
 })
-export class DatepickerWorkingDaysToggleComponent implements ControlValueAccessor {
+export class OpDatePickerWorkingDaysToggleComponent implements ControlValueAccessor {
   @Input() ignoreNonWorkingDays:boolean;
 
   @Input() disabled = false;

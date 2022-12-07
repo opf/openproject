@@ -45,7 +45,7 @@ import { DateModalRelationsService } from 'core-app/shared/components/datepicker
   templateUrl: './datepicker-banner.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DatepickerBannerComponent {
+export class OpDatePickerBannerComponent {
   @Input() scheduleManually = false;
 
   hasRelations$ = this.dateModalRelations.hasRelations$;

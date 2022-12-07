@@ -179,10 +179,6 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { OpenprojectStoragesModule } from 'core-app/shared/components/storages/openproject-storages.module';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
-import { DatepickerBannerComponent } from 'core-app/shared/components/datepicker/banner/datepicker-banner.component';
-import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/multi-date-modal/multi-date.modal';
-import { DatepickerWorkingDaysToggleComponent } from 'core-app/shared/components/datepicker/toggle/datepicker-working-days-toggle.component';
-import { DatepickerSchedulingToggleComponent } from 'core-app/shared/components/datepicker/scheduling-mode/datepicker-scheduling-toggle.component';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 
 @NgModule({
@@ -393,10 +389,6 @@ import { StorageFilesResourceService } from 'core-app/core/state/storage-files/s
     QuerySharingModalComponent,
     SaveQueryModalComponent,
     WpDestroyModalComponent,
-    MultiDateModalComponent,
-    DatepickerBannerComponent,
-    DatepickerWorkingDaysToggleComponent,
-    DatepickerSchedulingToggleComponent,
 
     // CustomActions
     WpCustomActionComponent,

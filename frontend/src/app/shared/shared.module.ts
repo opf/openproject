@@ -68,7 +68,14 @@ import {
 import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to-clipboard.directive';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
 import { ToastComponent } from './components/toaster/toast.component';
+
 import { OpSingleDateFormComponent } from './components/datepicker/single-date-form/single-date-form.component';
+import { OpSingleDatePickerComponent } from './components/datepicker/single-date-picker/single-date-picker.component';
+import { OpDatePickerBannerComponent } from './components/datepicker/banner/datepicker-banner.component';
+import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/multi-date-modal/multi-date.modal';
+import { OpDatePickerWorkingDaysToggleComponent } from 'core-app/shared/components/datepicker/toggle/datepicker-working-days-toggle.component';
+import { OpDatePickerSchedulingToggleComponent } from 'core-app/shared/components/datepicker/scheduling-mode/datepicker-scheduling-toggle.component';
+
 import { ToastsContainerComponent } from './components/toaster/toasts-container.component';
 import { UploadProgressComponent } from './components/toaster/upload-progress.component';
 import { ResizerComponent } from './components/resizer/resizer.component';
@@ -197,6 +204,11 @@ export function bootstrapModule(injector:Injector):void {
 
     // Date pickers
     OpSingleDateFormComponent,
+    OpSingleDatePickerComponent,
+    OpDatePickerBannerComponent,
+    MultiDateModalComponent,
+    OpDatePickerWorkingDaysToggleComponent,
+    OpDatePickerSchedulingToggleComponent,
   ],
   providers: [
     StaticQueriesService,
@@ -254,6 +266,11 @@ export function bootstrapModule(injector:Injector):void {
 
     // Date pickers
     OpSingleDateFormComponent,
+    OpSingleDatePickerComponent,
+    OpDatePickerBannerComponent,
+    MultiDateModalComponent,
+    OpDatePickerWorkingDaysToggleComponent,
+    OpDatePickerSchedulingToggleComponent,
   ],
 })
 export class OpSharedModule {
