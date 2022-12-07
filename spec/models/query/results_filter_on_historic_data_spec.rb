@@ -157,10 +157,30 @@ describe ::Query::Results, 'Filter on historic data', with_mail: false do
         end
 
         describe "when chaining at_timestamp" do
-          subject { WorkPackage.at_timestamp(historic_time).where(id: results.work_packages.pluck(:id)) }
+          # https://github.com/opf/openproject/pull/11678#issuecomment-1324244907
 
-          it "returns the work packages in their historic states" do
-            expect(subject.first.description).to eq "This is the original description of the work package"
+          describe "directly" do
+            subject { results.work_packages.at_timestamp(historic_time) }
+
+            it "returns the work packages in their historic states" do
+              expect(subject.first.description).to eq "This is the original description of the work package"
+            end
+          end
+
+          describe "using a subquery" do
+            subject { WorkPackage.where(id: results.work_packages).at_timestamp(historic_time) }
+
+            it "returns the work packages in their historic states" do
+              expect(subject.first.description).to eq "This is the original description of the work package"
+            end
+          end
+
+          describe "using a pluck-id workaround" do
+            subject { WorkPackage.where(id: results.work_packages.pluck(:id)).at_timestamp(historic_time) }
+
+            it "returns the work packages in their historic states" do
+              expect(subject.first.description).to eq "This is the original description of the work package"
+            end
           end
         end
       end
