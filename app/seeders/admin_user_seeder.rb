@@ -55,18 +55,18 @@ class AdminUserSeeder < Seeder
       user.language = I18n.locale.to_s
       user.status = User.statuses[:active]
       user.force_password_change = force_password_change?
-      user.notification_settings.build(involved: true, mentioned: true, watched: true)
+      user.notification_settings.build(assignee: true, responsible: true, mentioned: true, watched: true)
     end
   end
 
   def force_password_change?
-    Rails.env != 'development' && !force_password_change_disabled?
+    !Rails.env.development? && !force_password_change_disabled?
   end
 
   def force_password_change_disabled?
     off_values = ["off", "false", "no", "0"]
 
-    off_values.include? ENV[force_password_change_env_switch_name]
+    off_values.include? ENV.fetch(force_password_change_env_switch_name, nil)
   end
 
   def force_password_change_env_switch_name

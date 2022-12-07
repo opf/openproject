@@ -73,7 +73,7 @@ it:
       text_2fa_disabled: "L'utente non ha impostato un dispositivo 2FA attraverso la pagina 'Mio Account'"
     upsale:
       title: 'Autenticazione a due fattori'
-      description: 'Rafforza i meccanismi di autenticazione interni o esterni con un secondo fattore.'
+      description: 'Rafforza la sicurezza della tua istanza OpenProject offrendo (o implementando) l''autenticazione a due fattori a tutti i membri del progetto.'
     backup_codes:
       none_found: Non esistono codici di backup per questo account.
       singular: Codice di backup
@@ -136,8 +136,6 @@ it:
     message_bird:
       sms_delivery_failed: 'Consegna MessageBird SMS non riuscita.'
       voice_delivery_failed: 'Chiamata vocale MessageBird non riuscita.'
-    restdt:
-      delivery_failed_with_code: 'Consegna token non riuscita. (Codice errore %{code})'
     strategies:
       totp: 'Applicazione di autenticazione'
       sns: 'Amazon SNS'

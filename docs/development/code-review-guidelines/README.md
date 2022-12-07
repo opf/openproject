@@ -10,7 +10,7 @@ We try to adhere to the [Ruby community styleguide](https://github.com/bbatsov/r
 
 Most of our code does not yet adhere to this styleguide, but we want all new code to adhere to it. You do not have to improve existing code when making changes, but we encourage it. If you do, please do all improvements in a separate commit from the actual change, so the improvements do not hide your actual code changes in a diff.
 
-Before committing, please run your new code through [Rubocop](https://github.com/bbatsov/rubocop). It detects deviations from a lot of things in the style guide and things that are bad practice in general. You obviously do not have to fix issues with existing code. There is a [list of editor plugins](https://github.com/bbatsov/rubocop#editor-integration) in the Rubocop readme.
+Before committing, please run your new code through [Rubocop](https://github.com/bbatsov/rubocop). It detects deviations from a lot of things in the style guide and things that are bad practice in general. You obviously do not have to fix issues with existing code. There is a [list of editor plugins](https://docs.rubocop.org/rubocop/1.31/integration_with_other_tools.html#editor-integration) in the Rubocop docs.
 
 When reviewing code and you think the author has not run the code through Rubocop, please ask them to.
 

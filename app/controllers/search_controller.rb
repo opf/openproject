@@ -105,9 +105,8 @@ class SearchController < ApplicationController
   end
 
   def offset
-    Time.at(Rational(search_params[:offset])) if search_params[:offset]
-  rescue TypeError
-    nil
+    value = Rational(search_params[:offset], exception: false)
+    Time.zone.at(value) if value
   end
 
   def projects_to_search
@@ -129,7 +128,7 @@ class SearchController < ApplicationController
       r, c = klass.search(tokens,
                           projects_to_search,
                           limit: (LIMIT + 1),
-                          offset: offset,
+                          offset:,
                           before: search_params[:previous].nil?)
 
       results += r
@@ -169,7 +168,7 @@ class SearchController < ApplicationController
               scope
             end
 
-    scope.map { |s| [s, scope_class(s)] }.to_h
+    scope.index_with { |s| scope_class(s) }
   end
 
   def scope_class(scope)

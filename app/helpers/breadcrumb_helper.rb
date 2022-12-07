@@ -50,7 +50,7 @@ module BreadcrumbHelper
       end
     end
 
-    content_tag(:ul, breadcrumb_elements.join.html_safe, class: 'op-breadcrumb',  'data-qa-selector': 'op-breadcrumb')
+    content_tag(:ul, breadcrumb_elements.join.html_safe, class: 'op-breadcrumb', 'data-qa-selector': 'op-breadcrumb')
   end
 
   def breadcrumb_paths(*args)

@@ -28,8 +28,16 @@
 
 module OpenProject
   module FeatureDecisions
-    def self.storages_module_active?
-      Setting.feature_storages_module_active
-    end
+    ##
+    # This module is the container for the temporary or permanent feature flags.
+    # Having a flag method instead of a plain Setting, enables
+    # incorporating more logic into flags, such as release date restrictions.
+    #
+    # For example:
+    #
+    #   def self.your_module_active?
+    #     release_date = Date.new(2022,01,01)
+    #     Setting.feature_your_module_active || Date.today > release_date
+    #   end
   end
 end

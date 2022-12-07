@@ -97,7 +97,7 @@ module Activities
 
       @scope.each do |event_type|
         constantized_providers(event_type).each do |provider|
-          events += provider.find_events(event_type, @user, from, to, @options.merge(limit: limit))
+          events += provider.find_events(event_type, @user, from, to, @options.merge(limit:))
         end
       end
 

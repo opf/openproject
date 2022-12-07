@@ -66,7 +66,7 @@ class ModelContract < BaseContract
 
   def readonly_attributes_unchanged
     unauthenticated_changed.each do |attribute|
-      outside_attribute = collect_ancestor_attribute_aliases[attribute] || attribute
+      outside_attribute = ancestor_attribute_aliases[attribute] || attribute
 
       errors.add outside_attribute, :error_readonly
     end
@@ -77,6 +77,9 @@ class ModelContract < BaseContract
   end
 
   def changed_by_user
-    model.respond_to?(:changed_by_user) ? model.changed_by_user : model.changed
+    return model.changed_by_user if model.respond_to?(:changed_by_user)
+    return model.changed_with_custom_fields if model.respond_to?(:changed_with_custom_fields)
+
+    model.changed
   end
 end

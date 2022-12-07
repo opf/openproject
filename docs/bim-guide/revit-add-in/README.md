@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Revit add-in
   priority: 100
 description: How to use the OpenProject BIM - Revit add-in.
-robots: index, follow
 keywords: BIM, BCF, IFC, Viewer
 ---
 
@@ -15,14 +14,12 @@ To download the latest version (v2.2.3) of our OpenProject Revit AddIn click her
 
 
 
-<div class="alert alert-info" role="alert">
-**Note**: OpenProject BIM Issue Management is a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
-</div>
+> **Note**: OpenProject BIM Issue Management is an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
 
 
 ## Before usage
 
-Please check the following steps before using the OpenProject BIM Edition.
+Please check the following steps before using the OpenProject BIM edition.
 
 1. Does OpenProject BIM support your [Version of Revit](#system-requirements)?
 2. Did you already install the latest Version of our OpenProject BIM Addin?
@@ -32,7 +29,7 @@ If you can answer all questions with "yes" you are ready to start using our Revi
 
 
 
-## How to install?
+## How to install
 
 
 
@@ -87,15 +84,15 @@ After you have downloaded the file, please run it to start the installation proc
 
 
 
-## How to update from an earlier version?
+## How to update from an earlier version
 
-If you already have an earlier version installed, simply follow the same steps as for a new installation ([How to install?](#how-to-install)). The existing **OpenProject Revit AddIn** will be updated.
-
-
+If you already have an earlier version installed, simply follow the same steps as for a new installation ([How to install](#how-to-install)). The existing **OpenProject Revit AddIn** will be updated.
 
 
 
-## How to login?
+
+
+## How to login
 
 After Installing the OpenProject BIM AddIn you can find a new tab within the Revit taskbar named "OpenProject". To login you have to open the **settings** first.
 
@@ -169,7 +166,7 @@ The handling of BIM Issues within Revit is similar to OpenProject BIM. There are
 
 ## Synchronize tasks between Revit and OpenProject
 
-OpenProject BIM and Revit automatically synchronize all BIM work packages. You don't have to pay attention to anything else and you can manage your entire project directly in OpenProject. Whatever you do, users of OpenProject BIM Edition will see any changes in the browser as well.  
+OpenProject BIM and Revit automatically synchronize all BIM work packages. You don't have to pay attention to anything else and you can manage your entire project directly in OpenProject. Whatever you do, users of OpenProject BIM edition will see any changes in the browser as well.  
 
 
 
@@ -183,7 +180,7 @@ OpenProject BIM and Revit automatically synchronize all BIM work packages. You d
 
 
 
-## How to uninstall the OpenProject Revit add-in?
+## How to uninstall the OpenProject Revit add-in
 
 To remove the **OpenProject Revit AddIn** remove the AddIn like any other AddIn from Revit. First close any running instance of Revit. Then you'll have to enter the directory `C:\ProgramData\Autodesk\Revit\Addins\<REVIT_VERSION>`. There you must delete the file `OpenProject.Revit.addin` and the folder `OpenProject.Revit`. After a restart of Revit, the **OpenProject Revit AddIn** is no longer available.
 

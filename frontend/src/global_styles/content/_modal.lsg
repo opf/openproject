@@ -3,14 +3,12 @@
 ## Modals: Standard style
 
 ```
-<div class="op-modal">
-  <div class="op-modal--header">
-    <h3>Export</h3>
-    <a class="op-modal--close-button">
-      <i class="icon-close" title="Close popup"></i>
-    </a>
+<div class="spot-modal">
+  <div class="spot-modal--header">
+    Export
   </div>
-  <div class="op-modal--body">
+  <div class="spot-divider"></div>
+  <div class="spot-modal--body spot-container">
     <ul class="export-options">
       <li>
         <a>
@@ -50,60 +48,37 @@
       </li>
     </ul>
   </div>
-</div>
-
-```
-
-## Modals: Highlighted and with footer
-
-```
-<div class="op-modal -highlight">
-  <div class="op-modal--header">
-    <h2>Welcome to OpenProject</h2>
-    <a class="op-modal--close-button" title="Close popup">
-      <i class="icon-close"></i>
-    </a>
-  </div>
-  <div class="op-modal--body">
-    <b>Please select your language</b>
-    <fieldset class="form--fieldset">
-      <div class="form--field">
-        <label class="form--label" title="Language" for="user_language">Language</label>
-        <span class="form--field-container">
-          <span class="form--select-container -slim">
-            <select class="form--select">
-              <option value="de">Deutsch</option>
-              <option selected="selected" value="en">English</option>
-              <option value="fr">Français</option>
-            </select>
-          </span>
-        </span>
-      </div>
-    </fieldset>
-  </div>
-  <div class="op-modal--footer">
-    <button name="button" type="submit" class="button -highlight">Save</button>
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+        <button
+          type="button"
+          class="spot-modal--cancel-button button button_no-margin spot-action-bar--action"
+        >Cancel</button>
+      <button name="button" type="submit" class="button button_no-margin spot-action-bar--action">Close</button>
+    </div>
   </div>
 </div>
-```
-
-## Modals: Danger zone highlighting
 
 ```
-<div class="op-modal -highlight -danger-zone">
-  <div class="op-modal--header">
-    <h3 class="icon-context icon-warning">Confirm deletion of Work Package</h3>
-    <a class="op-modal--close-button" title="Close popup">
-      <i class="icon-close"></i>
-    </a>
+
+## Modals: Danger zone (highlighted buttons)
+
+```
+<div class="spot-modal">
+  <div class="spot-modal--header">
+    <span class="spot-icon spot-icon_warning"></span>
+    <span>Confirm deletion of Work Package</span>
   </div>
-  <div class="op-modal--body">
-    <p>Are you sure you want to delete the following work package?<p>
-    <p> ... </p>
+  <div class="spot-divider"></div>
+  <div class="spot-modal--body spot-container">
+    <p class="spot-body-small">Are you sure you want to delete the following work package?<p>
+    <p class="spot-body-small"> ... </p>
   </div>
-  <div class="op-modal--footer">
-    <button name="button" type="submit" class="button -danger">Continue</button>
-    <button name="button" type="submit" class="button">Cancel</button>
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button name="button" type="button" class="button button_no-margin spot-action-bar--action">Cancel</button>
+      <button name="button" type="submit" class="button button_no-margin -danger spot-action-bar--action">Continue</button>
+    </div>
   </div>
 </div>
 ```

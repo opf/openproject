@@ -100,7 +100,7 @@ module DemoData
 
     def base_work_package_attributes(attributes)
       {
-        project: project,
+        project:,
         author: user,
         assigned_to: find_principal(attributes[:assignee]),
         subject: attributes[:subject],
@@ -146,12 +146,11 @@ module DemoData
     end
 
     def set_time_tracking_attributes!(wp_attr, attributes)
-      start_date = calculate_start_date(attributes[:start])
+      wp_attr.merge!(time_tracking_attributes(attributes))
+    end
 
-      wp_attr[:start_date] = start_date
-      wp_attr[:due_date] = calculate_due_date(start_date, attributes[:duration]) if start_date && attributes[:duration]
-      wp_attr[:done_ratio] = attributes[:done_ratio].to_i if attributes[:done_ratio]
-      wp_attr[:estimated_hours] = attributes[:estimated_hours].to_i if attributes[:estimated_hours]
+    def time_tracking_attributes(attributes)
+      TimeTrackingAttributes.for(attributes)
     end
 
     def set_backlogs_attributes!(wp_attr, attributes)
@@ -197,21 +196,66 @@ module DemoData
     end
 
     def create_relation(to:, from:, type:)
-      from.new_relation.tap do |relation|
-        relation.to = to
-        relation.relation_type = type
-        relation.save!
+      Relation.create!(from:, to:, relation_type: type)
+    end
+
+    class TimeTrackingAttributes
+      def self.for(attributes)
+        new(attributes).work_package_attributes
       end
-    end
 
-    def calculate_start_date(days_ahead)
-      Time.zone.today.monday + (days_ahead || 0).days
-    end
+      def work_package_attributes
+        {
+          start_date:,
+          due_date:,
+          duration:,
+          ignore_non_working_days:,
+          estimated_hours:
+        }
+      end
 
-    # Returns the due date based on the starting date and the duration
-    # but ensures that the due date cannot be before the start date.
-    def calculate_due_date(date, duration)
-      [date + ((duration || 0) - 1).days, date].max
+      private
+
+      attr_reader :attributes
+
+      def initialize(attributes)
+        @attributes = attributes
+      end
+
+      def start_date
+        days_ahead = attributes[:start] || 0
+        Time.zone.today.monday + days_ahead.days
+      end
+
+      def due_date
+        all_days.due_date(start_date, attributes[:duration])
+      end
+
+      def duration
+        days.duration(start_date, due_date)
+      end
+
+      def ignore_non_working_days
+        [start_date, due_date]
+          .compact
+          .any? { |date| working_days.non_working?(date) }
+      end
+
+      def estimated_hours
+        attributes[:estimated_hours]&.to_i
+      end
+
+      def all_days
+        @all_days ||= WorkPackages::Shared::AllDays.new
+      end
+
+      def working_days
+        @working_days ||= WorkPackages::Shared::WorkingDays.new
+      end
+
+      def days
+        ignore_non_working_days ? all_days : working_days
+      end
     end
   end
 end

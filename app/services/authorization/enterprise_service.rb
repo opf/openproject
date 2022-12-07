@@ -39,7 +39,12 @@ class Authorization::EnterpriseService
 
   # Return a true ServiceResult if the token contains this particular action.
   def call(action)
-    allowed = process(action)
+    allowed =
+      if token.nil? || token.token_object.nil? || token.expired?
+        false
+      else
+        process(action)
+      end
 
     result(allowed)
   end
@@ -48,7 +53,7 @@ class Authorization::EnterpriseService
 
   def process(action)
     # Every non-expired token
-    GUARDED_ACTIONS.include?(action)
+    GUARDED_ACTIONS.include?(action.to_sym)
   end
 
   def result(bool)

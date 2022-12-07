@@ -3,7 +3,6 @@ sidebar_navigation:
   title: BIM issue management
   priority: 200
 description: How to use OpenProject BIM Issue Management.
-robots: index, follow
 keywords: BIM, BCF, IFC, BIM Issue Management, BCF-Management
 ---
 

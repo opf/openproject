@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Getting started
   priority: 999
 description: OpenProject getting started guide.
-robots: index, follow
 keywords: getting started guide, tutorial
 ---
 
@@ -15,17 +14,17 @@ Here you will learn about the **first steps with OpenProject**. If you need more
 
 ## Overview
 
-| Topic                                                   | Content                                                      |
-| ------------------------------------------------------- | :----------------------------------------------------------- |
+| Topic                                                   | Content                                                        |
+|---------------------------------------------------------|:---------------------------------------------------------------|
 | [Introduction to OpenProject](openproject-introduction) | Get an introduction about project management with OpenProject. |
-| [Sign in and registration](sign-in-registration)        | Find out how you can register and sign in to OpenProject.    |
-| [Create a project](projects)                            | How to create and set up a new project?                      |
-| [Invite team members](invite-members)                   | How to invite new members?                                   |
-| [Work packages](work-packages-introduction)             | Learn how to create and edit work packages.                  |
-| [Gantt chart](gantt-chart-introduction)                 | Find out how to create a project plan.                       |
-| [Boards](boards-introduction)                           | How to work with agile boards?                               |
-| [My account](my-account)                                | How to configure my account?                                 |
-| [My page](my-page)                                      | Find out more about a personal my page dashboard.            |
+| [Sign in and registration](sign-in-registration)        | Find out how you can register and sign in to OpenProject.      |
+| [Create a project](projects)                            | How to create and set up a new project.                        |
+| [Invite team members](invite-members)                   | How to invite new members.                                     |
+| [Work packages](work-packages-introduction)             | Learn how to create and edit work packages.                    |
+| [Gantt chart](gantt-chart-introduction)                 | Find out how to create a project plan.                         |
+| [Boards](boards-introduction)                           | How to work with agile boards.                                 |
+| [My account](my-account)                                | How to configure my account.                                   |
+| [My page](my-page)                                      | Find out more about a personal my page dashboard.              |
 
 ## 6 steps to get started
 

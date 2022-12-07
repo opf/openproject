@@ -29,7 +29,7 @@
 module Projects::Copy
   class OverviewDependentService < Dependency
     def self.human_name
-      I18n.t(:'overviews.label')
+      I18n.t(:'projects.copy.overviews')
     end
 
     protected
@@ -43,7 +43,7 @@ module Projects::Copy
 
     def duplicate_overview(overview, params)
       ::Overviews::CopyService
-        .new(source: overview, user: user)
+        .new(source: overview, user:)
         .with_state(state)
         .call(params.merge)
         .tap { |call| result.merge!(call, without_success: true) }

@@ -31,8 +31,8 @@ module Exports
     class << self
       attr_reader :lists, :singles, :formatters
 
-      def register(&block)
-        instance_exec(&block)
+      def register(&)
+        instance_exec(&)
       end
 
       def list(model, exporter)

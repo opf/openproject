@@ -30,10 +30,10 @@ require 'rexml/document'
 require 'open3'
 
 module OpenProject
-  module VERSION #:nodoc:
+  module VERSION # :nodoc:
     MAJOR = 12
-    MINOR = 1
-    PATCH = 4
+    MINOR = 4
+    PATCH = 0
 
     class << self
       # Used by semver to define the special version (if any).

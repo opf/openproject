@@ -32,6 +32,7 @@ import { AuthorisationService } from 'core-app/core/model-auth/model-auth.servic
 import { StateService } from '@uirouter/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
+import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -331,6 +332,13 @@ export class WorkPackagesListService {
       });
 
     return promise;
+  }
+
+  public async createOrSave(query:QueryResource):Promise<unknown> {
+    if (!isPersistedResource(query)) {
+      return this.create(query, 'New manually sorted query');
+    }
+    return this.save(query);
   }
 
   public toggleStarred(query:QueryResource):Promise<any> {

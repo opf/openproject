@@ -67,6 +67,7 @@ The [package-based installation](../installation/packaged) requires one of the f
 
 | Distribution (**64 bits only**) |
 | ------------------------------- |
+| Ubuntu 22.04 Jammy              |
 | Ubuntu 20.04 Focal              |
 | Ubuntu 18.04 Bionic Beaver      |
 | Ubuntu 16.04 Xenial Xerus       |

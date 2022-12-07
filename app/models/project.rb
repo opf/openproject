@@ -102,6 +102,8 @@ class Project < ApplicationRecord
                 author: nil,
                 datetime: :created_at
 
+  has_paper_trail
+
   validates :name,
             presence: true,
             length: { maximum: 255 }
@@ -256,17 +258,6 @@ class Project < ApplicationRecord
     @assignable_versions ||= shared_versions.references(:project).with_status_open.order_by_semver_name.to_a
   end
 
-  # Returns a hash of project users grouped by role
-  def users_by_role
-    members.includes(:principal, :roles).inject({}) do |h, m|
-      m.roles.each do |r|
-        h[r] ||= []
-        h[r] << m.principal
-      end
-      h
-    end
-  end
-
   # Returns an AR scope of all custom fields enabled for project's work packages
   # (explicitly associated custom fields and custom fields enabled for all projects)
   def all_work_package_custom_fields
@@ -310,7 +301,7 @@ class Project < ApplicationRecord
       self.enabled_modules = module_names.map do |name|
         enabled_modules.detect do |mod|
           mod.name == name
-        end || EnabledModule.new(name: name)
+        end || EnabledModule.new(name:)
       end
     else
       enabled_modules.clear
@@ -360,7 +351,7 @@ class Project < ApplicationRecord
           ancestors.pop
         end
 
-        current_hierarchy = { project: project, children: [] }
+        current_hierarchy = { project:, children: [] }
         current_tree = ancestors.any? ? ancestors.last[:children] : result
 
         current_tree << current_hierarchy
@@ -377,35 +368,20 @@ class Project < ApplicationRecord
       sort_by_name(result)
     end
 
-    def project_tree_from_hierarchy(projects_hierarchy, level, &block)
+    def project_tree_from_hierarchy(projects_hierarchy, level, &)
       projects_hierarchy.each do |hierarchy|
         project = hierarchy[:project]
         children = hierarchy[:children]
         yield project, level
         # recursively show children
-        project_tree_from_hierarchy(children, level + 1, &block) if children.any?
+        project_tree_from_hierarchy(children, level + 1, &) if children.any?
       end
     end
 
     # Yields the given block for each project with its level in the tree
-    def project_tree(projects, &block)
+    def project_tree(projects, &)
       projects_hierarchy = build_projects_hierarchy(projects)
-      project_tree_from_hierarchy(projects_hierarchy, 0, &block)
-    end
-
-    def project_level_list(projects)
-      list = []
-      project_tree(projects) do |project, level|
-        element = {
-          project: project,
-          level: level
-        }
-
-        element.merge!(yield(project)) if block_given?
-
-        list << element
-      end
-      list
+      project_tree_from_hierarchy(projects_hierarchy, 0, &)
     end
 
     private

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: OpenProject First Look
   priority: 1
 description: Beta testing OpenProject
-robots: index, follow
 keywords: first look, beta testing
 ---
 # OpenProject First Look
@@ -25,6 +24,6 @@ We always appreciate early feedback from the Community:
 
 No matter if you have been using OpenProject for years or just logged in this week, we want to hear from you. Everyone can contribute.
 
-Please get in touch via: community@openproject.org and let us know how you would like to contribute.
+Please get in touch via: info@openproject.com and let us know how you would like to contribute.
 
 Thank you.

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Emails and notification
   priority: 760
 description: incoming and outgoing notification settings in OpenProject.
-robots: index, follow
 keywords: incoming and outgoing notifications
 ---
 # Emails and notification
@@ -12,11 +11,11 @@ Configure **Emails and notification settings** in OpenProject, i.e. email notifi
 
 Navigate to *Administration* -> *Emails and notification*.
 
-| Topic                                                                 | Content                                                    |
-|-----------------------------------------------------------------------|------------------------------------------------------------|
-| [Emails and notification settings](#emails-and-notification-settings) | How to configure the global incoming and outgoing settings |
-| [Email notifications](#email-notifications-settings)                  | How to configure outgoing email notifications?             |
-| [Incoming emails](#incoming-emails-settings)                          | How to configure settings for inbound emails?              |
+| Topic                                                                 | Content                                                     |
+|-----------------------------------------------------------------------|-------------------------------------------------------------|
+| [Emails and notification settings](#emails-and-notification-settings) | How to configure the global incoming and outgoing settings. |
+| [Email notifications](#email-notifications-settings)                  | How to configure outgoing email notifications.              |
+| [Incoming emails](#incoming-emails-settings)                          | How to configure settings for inbound emails.               |
 
 ## Emails and notification settings
 

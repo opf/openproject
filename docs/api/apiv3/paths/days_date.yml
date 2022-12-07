@@ -1,0 +1,29 @@
+# /api/v3/days/{date}
+---
+get:
+  summary: View day
+  operationId: view_day
+  tags:
+    - Work Schedule
+  description: |-
+    View the day information for a given date.
+  parameters:
+    - name: date
+      in: path
+      required: true
+      description: |-
+        The date of the non-working day to view in ISO 8601 format.
+      schema:
+        type: string
+        format: date
+      example: '2022-05-06'
+  responses:
+    '200':
+      description: |-
+        OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/day_model.yml'
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"

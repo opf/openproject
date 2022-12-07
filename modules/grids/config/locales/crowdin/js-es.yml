@@ -5,8 +5,8 @@ es:
       remove: 'Quitar widget'
       configure: 'Configurar widget'
       upsale:
-        text: "Algunos widgets, como el widget del gráfico de paquetes de trabajo, solo están disponibles en la "
-        link: 'Enterprise Edition.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Edición Enterprise.'
       widgets:
         custom_text:
           title: 'Texto personalizado'
@@ -46,11 +46,11 @@ es:
           displayed_days: 'Días mostrados en el widget:'
         time_entries_list:
           title: 'Tiempo gastado (últimos 7 días)'
-          no_results: 'Sin entradas temporales en los últimos 7 días.'
+          no_results: 'Sin registros temporales en los últimos 7 días.'
         work_packages_accountable:
           title: "Paquetes de trabajo de los que soy responsable"
         work_packages_assigned:
-          title: 'Paquetes de trabajo asignados para mí'
+          title: 'Paquetes de trabajo asignados a mí'
         work_packages_created:
           title: 'Paquetes de trabajo creados por mí'
         work_packages_watched:

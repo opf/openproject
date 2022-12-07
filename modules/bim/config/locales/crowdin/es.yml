@@ -78,7 +78,7 @@ es:
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "Archivo IFC"
-        is_default: "Modelo predeterminado"
+        is_default: "Modelo por defecto"
         attachments: "Archivo IFC"
     errors:
       models:
@@ -88,17 +88,17 @@ es:
               ifc_attachment_missing: "No se adjuntó ningún archivo IFC."
               invalid_ifc_file: "El archivo proporcionado no es un archivo IFC válido."
         bim/bcf/viewpoint:
-          bitmaps_not_writable: "«bitmaps» no permite la escritura, ya que aún no se ha implementado."
-          index_not_integer: "«index» no es un entero."
-          invalid_clipping_planes: "«clipping_planes» no es válido."
-          invalid_components: "«components» no es válido."
-          invalid_lines: "«lines» no es válido."
-          invalid_orthogonal_camera: "«orthogonal_camera» no es válido."
-          invalid_perspective_camera: "«perspective_camera» no es válido."
+          bitmaps_not_writable: "los bitmaps no permiten la escritura, ya que aún no se han implementado."
+          index_not_integer: "index no es un entero."
+          invalid_clipping_planes: "clipping_planes no es válido."
+          invalid_components: "components no es válido."
+          invalid_lines: "lines no es válido."
+          invalid_orthogonal_camera: "orthogonal_camera no es válido."
+          invalid_perspective_camera: "perspective_camera no es válido."
           mismatching_guid: "El GUID de json_viewpoint no coincide con el GUID del modelo."
           no_json: "La estructura del código JSON no es correcta."
-          snapshot_type_unsupported: "«snapshot_type» tiene que ser «png» o «jpg»."
-          snapshot_data_blank: "«snapshot_data» tiene que especificarse."
+          snapshot_type_unsupported: "snapshot_type tiene que ser png o jpg."
+          snapshot_data_blank: "snapshot_data tiene que ser especificada."
           unsupported_key: "Se ha incluido una propiedad JSON no admitida."
         bim/bcf/issue:
           uuid_already_taken: "No se puede importar el defecto de BCF porque ya existe otro con el mismo GUID ¿Podría ser \nque este defecto BCF ya fue importado a un proyecto diferente?"

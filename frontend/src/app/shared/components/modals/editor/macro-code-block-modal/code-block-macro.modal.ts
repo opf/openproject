@@ -42,10 +42,6 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
 
   public showClose = true;
 
-  public closeOnEscape = true;
-
-  public closeOnOutsideClick = true;
-
   // Language class from markdown, something like 'language-ruby'
   public languageClass:string;
 
@@ -86,7 +82,7 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
     }
   }
 
-  public applyAndClose(evt:JQuery.TriggeredEvent) {
+  public applyAndClose(evt:Event):void {
     this.content = this.codeMirrorInstance.getValue();
     const lang = this.language || 'text';
     this.languageClass = `language-${lang}`;
@@ -95,7 +91,7 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
     this.closeMe(evt);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit():void {
     import('codemirror').then((imported:any) => {
       const CodeMirror = imported.default;
       this.codeMirrorInstance = CodeMirror.fromTextArea(

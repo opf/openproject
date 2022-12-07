@@ -55,8 +55,7 @@ module OpenProject
           errors << rules_description
         end
         unless password_long_enough(password)
-          errors << I18n.t(:too_short,
-                           scope: %i[activerecord errors messages],
+          errors << I18n.t('activerecord.errors.messages.too_short',
                            count: OpenProject::Passwords::Evaluator.min_length)
         end
         errors
@@ -128,9 +127,8 @@ module OpenProject
       end
 
       def self.rules_description_locale(rules)
-        I18n.t(:weak,
-               scope: %i[activerecord errors models user attributes password],
-               rules: rules,
+        I18n.t('activerecord.errors.models.user.attributes.password.weak',
+               rules:,
                min_count: min_adhered_rules,
                all_count: active_rules.size)
       end

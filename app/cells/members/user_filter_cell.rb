@@ -23,7 +23,7 @@ module Members
 
     def status_members_query(status)
       params = { project_id: project.id,
-                 status: status }
+                 status: }
 
       self.class.filter(params)
     end

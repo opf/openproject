@@ -34,6 +34,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { take } from 'rxjs/internal/operators/take';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 
 @Component({
   selector: 'op-filter-searchable-multiselect-value',
@@ -62,6 +63,12 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   initialRequest$:Observable<CollectionResource>;
 
+  itemTracker = (item:HalResource):string => item.href || item.id || item.name;
+
+  compareByHref = compareByHref;
+
+  resourceType:string|null = null;
+
   readonly text = {
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
@@ -84,6 +91,10 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   }
 
   ngOnInit():void {
+    if (this.filter.id === 'id') {
+      this.resourceType = 'work_packages';
+    }
+
     this.initialRequest$ = this
       .loadCollection('')
       .pipe(
@@ -114,11 +125,11 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   matchingItems(elements:HalResource[], matching:string):Observable<HalResource[]> {
     let filtered:HalResource[];
 
-    if (matching === '') {
+    if (matching === '' || !matching) {
       filtered = elements;
     } else {
       const lowered = matching.toLowerCase();
-      filtered = elements.filter((el) => el.name.toLowerCase().includes(lowered));
+      filtered = elements.filter((el) => (el.id as string).includes(lowered) || el.name.toLowerCase().includes(lowered));
     }
 
     return this.withMeValue(matching, filtered);

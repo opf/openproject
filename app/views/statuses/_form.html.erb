@@ -43,12 +43,11 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <div class="form--field">
-
     <%= f.check_box :is_readonly %>
-    <div class="form--field-instructions">
-      <p><%= t('statuses.edit.status_readonly_html') %></p>
+      <div class="form--field-instructions">
+        <p><%= t('statuses.edit.status_readonly_html') %></p>
+      </div>
 
-    </div>
   </div>
 
   <%= render partial: '/colors/color_autocomplete_field',

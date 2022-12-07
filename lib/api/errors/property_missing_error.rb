@@ -37,7 +37,7 @@ module API
       def initialize(property)
         self.property = property
 
-        message = I18n.t('api_v3.errors.missing_property', property: property)
+        message = I18n.t('api_v3.errors.missing_property', property:)
         super message
       end
 

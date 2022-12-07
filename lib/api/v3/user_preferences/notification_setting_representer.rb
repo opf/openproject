@@ -31,9 +31,14 @@ module API
     module UserPreferences
       class NotificationSettingRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
+        include API::Decorators::DateProperty
 
         NotificationSetting.all_settings.each do |setting|
-          property setting
+          if setting.in?(NotificationSetting.date_alert_settings)
+            duration_property setting
+          else
+            property setting
+          end
         end
 
         associated_resource :project,

@@ -33,12 +33,31 @@ namespace :ldap_groups do
     ::LdapGroups::SynchronizationService.synchronize!
   end
 
+  desc 'Print all members of groups tied to a synchronized group that are not derived from LDAP'
+  task print_unsynced_members: :environment do
+    ::LdapGroups::SynchronizedGroup
+      .includes(:group)
+      .find_each do |sync|
+
+      group = sync.group
+      unsynced_logins = User
+        .where(id: group.user_ids)
+        .where.not(id: sync.users.select(:user_id))
+        .pluck(:login)
+
+      if unsynced_logins.any?
+        puts "In group #{group}, #{unsynced_logins.count} user(s) exist that are not synced from LDAP:"
+        puts unsynced_logins.join(", ")
+      end
+    end
+  end
+
   namespace :development do
     desc 'Create a development LDAP server from the fixtures LDIF'
     task :ldap_server do
       require 'ladle'
-      ldif = ENV['LDIF_FILE'] || Rails.root.join('spec/fixtures/ldap/users.ldif')
-      ldap_server = Ladle::Server.new(quiet: false, port: '12389', domain: 'dc=example,dc=com', ldif: ldif).start
+      ldif = ENV.fetch('LDIF_FILE') { Rails.root.join('spec/fixtures/ldap/users.ldif') }
+      ldap_server = Ladle::Server.new(quiet: false, port: '12389', domain: 'dc=example,dc=com', ldif:).start
 
       puts <<~EOS
                 #{'        '}
@@ -71,7 +90,8 @@ namespace :ldap_groups do
       EOS
 
       puts "Send CTRL+D to stop the server"
-      require 'irb'; binding.irb
+      require 'irb'
+      binding.irb
 
       ldap_server.stop
     end

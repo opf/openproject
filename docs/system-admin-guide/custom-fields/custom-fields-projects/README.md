@@ -3,10 +3,9 @@ sidebar_navigation:
   title: Custom fields for projects
   priority: 700
 description: Custom fields for projects.
-robots: index, follow
 keywords: custom fields for projects, show custom fields
 ---
-# Manage and display custom fields in the project list (Premium feature)
+# Manage and display custom fields in the project list (Enterprise add-on)
 
 As a user of [OpenProject Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [OpenProject Enterprise cloud](https://www.openproject.org/hosting/) you can customize the work package list and show additional project information by adding custom fields to the project list, e.g. adding accountable, project due date, progress, and more.
 
@@ -41,7 +40,7 @@ To do this navigate to a project and select *Project settings* from the side men
 
 
 
-If you selected *Visible* in the custom fields settings, the custom field for projects is also available in the [View all projects](../../../user-guide/projects/#global-projects-overview---view-all-projects) overview.
+If you selected *Visible* in the custom fields settings, the custom field for projects is also available in the [View all projects](../../../user-guide/projects/#projects-list) overview.
 
 Navigate to this project list by selecting *View all projects* from the project selection menu on the top left side.
 
@@ -51,9 +50,7 @@ In the list of all projects you will see the project custom fields displayed as 
 
 ![Sys-admin-display-project-custom-field](Sys-admin-display-project-custom-field.png)
 
-<div class="alert alert-info" role="alert">
-**Please note**: The visibility settings of the project custom fields will be overruled by [these settings](../../system-settings/project-system-settings/#settings-for-the-projects-overview-list) for the projects overview list.
-</div>
+> **Please note**: The visibility settings of the project custom fields will be overruled by [these settings](../../system-settings/project-system-settings/#settings-for-the-projects-overview-list) for the projects overview list.
 
 To change the **order of the project custom fields' columns**, change it in -> *Administration* -> *Custom fields* by using the sorting **arrows**.
 

@@ -1,7 +1,7 @@
 # Schema: Work_PackagesModel
 ---
 allOf:
-  - "$ref": "./collection_model.yml"
+  - $ref: './collection_model.yml'
   - type: object
     required:
       - _links
@@ -14,7 +14,7 @@ allOf:
         properties:
           self:
             allOf:
-              - "$ref": "./link.yml"
+              - $ref: './link.yml'
               - description: |-
                   The work package collection
                   
@@ -33,7 +33,7 @@ allOf:
 example:
   _links:
     self:
-      href: "/api/v3/work_packages"
+      href: '/api/v3/work_packages'
   total: 2
   count: 2
   _type: Collection
@@ -43,11 +43,11 @@ example:
         _type: WorkPackage
         _links:
           self:
-            href: "/api/v3/work_packages/1"
+            href: '/api/v3/work_packages/1'
         id: 1
       - _hint: Work package resource shortened for brevity
         _type: WorkPackage
         _links:
           self:
-            href: "/api/v3/work_packages/2"
+            href: '/api/v3/work_packages/2'
         id: 2

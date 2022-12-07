@@ -37,9 +37,7 @@ module OpenProject
         end
 
         class Integer
-          def to_d
-            to_f.to_d
-          end
+          delegate :to_d, to: :to_f
         end
 
         class String

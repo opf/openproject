@@ -31,10 +31,10 @@ require 'grids/base_contract'
 module Grids
   class CreateContract < BaseContract
     attribute :user_id,
-              writeable: -> { !!model.class.reflect_on_association(:user) }
+              writable: -> { !!model.class.reflect_on_association(:user) }
 
     attribute :project_id,
-              writeable: -> { !!model.class.reflect_on_association(:project) }
+              writable: -> { !!model.class.reflect_on_association(:project) }
 
     attribute :type
 

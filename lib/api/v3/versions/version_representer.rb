@@ -96,7 +96,7 @@ module API
 
         date_property :effective_date,
                       as: 'endDate',
-                      writeable: true
+                      writable: true
 
         property :status
 

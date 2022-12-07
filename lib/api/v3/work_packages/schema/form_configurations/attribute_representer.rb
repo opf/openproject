@@ -37,7 +37,7 @@ module API
             def initialize(model, current_user:, project:, embed_links: false)
               self.project = project
 
-              super(model, current_user: current_user, embed_links: embed_links)
+              super(model, current_user:, embed_links:)
             end
 
             property :name,

@@ -104,7 +104,7 @@ module Exports
 
       call = Attachments::CreateService
                .bypass_whitelist(user: User.current)
-               .call(container: container, file: file, filename: filename, description: '')
+               .call(container:, file:, filename:, description: '')
 
       call.on_success do
         download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(call.result.id)

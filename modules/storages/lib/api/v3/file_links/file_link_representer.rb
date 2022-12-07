@@ -26,113 +26,153 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module FileLinks
-      class FileLinkRepresenter < ::API::Decorators::Single
-        include API::Decorators::LinkedResource
-        include API::Decorators::DateProperty
-        include ::API::Caching::CachedRepresenter
-        include API::V3::FileLinks::StorageUrlHelper
+module API::V3::FileLinks
+  URN_PERMISSION_VIEW = "#{::API::V3::URN_PREFIX}file-links:permission:View".freeze
+  URN_PERMISSION_NOT_ALLOWED = "#{::API::V3::URN_PREFIX}file-links:permission:NotAllowed".freeze
+  URN_PERMISSION_ERROR = "#{::API::V3::URN_PREFIX}file-links:permission:Error".freeze
 
-        property :id
+  PERMISSION_LINKS = {
+    view: {
+      href: URN_PERMISSION_VIEW,
+      title: 'View'
+    },
+    not_allowed: {
+      href: URN_PERMISSION_NOT_ALLOWED,
+      title: 'Not allowed'
+    },
+    error: {
+      href: URN_PERMISSION_ERROR,
+      title: 'Error'
+    }
+  }.freeze
 
-        date_time_property :created_at
+  class FileLinkRepresenter < ::API::Decorators::Single
+    include API::Decorators::LinkedResource
+    include API::Decorators::DateProperty
+    include ::API::Caching::CachedRepresenter
+    include Storages::Peripherals::StorageUrlHelper
 
-        date_time_property :updated_at
+    property :id
 
-        property :originData,
-                 exec_context: :decorator,
-                 getter: ->(*) { make_origin_data(represented) },
-                 setter: ->(fragment:, **) do
-                   parse_origin_data(fragment).each do |attribute, value|
-                     represented[attribute] = value
-                   end
-                 end
+    date_time_property :created_at
 
-        self_link
+    date_time_property :updated_at
 
-        link :delete, cache_if: -> { user_allowed_to_manage?(represented) } do
-          {
-            href: api_v3_paths.file_link(represented.id),
-            method: :delete
-          }
-        end
+    property :originData,
+             exec_context: :decorator,
+             getter: ->(*) { make_origin_data(represented) },
+             setter: ->(fragment:, **) do
+               parse_origin_data(fragment).each do |attribute, value|
+                 represented[attribute] = value
+               end
+             end
 
-        link :creator do
-          {
-            href: api_v3_paths.user(represented.creator_id),
-            title: represented.creator.name
-          }
-        end
+    self_link
 
-        link :originOpen do
-          {
-            href: storage_url_open(represented)
-          }
-        end
+    link :delete, cache_if: -> { user_allowed_to_manage?(represented) } do
+      {
+        href: api_v3_paths.file_link(represented.id),
+        method: :delete
+      }
+    end
 
-        link :staticOriginOpen do
-          {
-            href: api_v3_paths.file_link_open(represented.id)
-          }
-        end
+    link :creator do
+      {
+        href: api_v3_paths.user(represented.creator_id),
+        title: represented.creator.name
+      }
+    end
 
-        associated_resource :storage
+    # Show a permission link only if we have actual permission information for a specific user
+    link :permission, uncacheable: true do
+      next if represented.origin_permission.nil?
 
-        associated_resource :storageUrl,
-                            skip_render: ->(*) { true },
-                            getter: ->(*) {},
-                            setter: ->(fragment:, **) {
-                              break if fragment['href'].blank?
+      PERMISSION_LINKS[represented.origin_permission]
+    end
 
-                              canonical_url = fragment['href'].gsub(/\/+$/, '')
-                              represented.storage = ::Storages::Storage.find_by(host: canonical_url)
-                              represented.storage ||= ::Storages::Storage::InexistentStorage.new(host: canonical_url)
-                            }
+    link :originOpen do
+      {
+        href: storage_url_open_file(represented)
+      }
+    end
 
-        associated_resource :container,
-                            v3_path: :work_package,
-                            representer: ::API::V3::WorkPackages::WorkPackageRepresenter
+    link :staticOriginOpen do
+      {
+        href: api_v3_paths.file_link_open(represented.id)
+      }
+    end
 
-        def _type
-          'FileLink'
-        end
+    link :originOpenLocation do
+      {
+        href: storage_url_open_file(represented, open_location: true)
+      }
+    end
 
-        private
+    link :staticOriginOpenLocation do
+      {
+        href: api_v3_paths.file_link_open(represented.id, true)
+      }
+    end
 
-        def user_allowed_to_manage?(model)
-          current_user.allowed_to?(:manage_file_links, model.container.project)
-        end
+    link :staticOriginDownload do
+      {
+        href: api_v3_paths.file_link_download(represented.id)
+      }
+    end
 
-        def make_origin_data(model)
-          {
-            id: model.origin_id,
-            name: model.origin_name,
-            mimeType: model.origin_mime_type,
-            createdAt: datetime_formatter.format_datetime(model.origin_created_at, allow_nil: true),
-            lastModifiedAt: datetime_formatter.format_datetime(model.origin_updated_at, allow_nil: true),
-            createdByName: model.origin_created_by_name,
-            lastModifiedByName: model.origin_last_modified_by_name
-          }
-        end
+    associated_resource :storage
 
-        def parse_origin_data(origin_data)
-          {
-            origin_id: origin_data["id"].to_s,
-            origin_name: origin_data["name"],
-            origin_mime_type: origin_data["mimeType"],
-            origin_created_by_name: origin_data["createdByName"],
-            origin_last_modified_by_name: origin_data["lastModifiedByName"],
-            origin_created_at: ::API::V3::Utilities::DateTimeFormatter.parse_datetime(origin_data["createdAt"],
-                                                                                      'originData.createdAt',
-                                                                                      allow_nil: true),
-            origin_updated_at: ::API::V3::Utilities::DateTimeFormatter.parse_datetime(origin_data["lastModifiedAt"],
-                                                                                      'originData.lastModifiedAt',
-                                                                                      allow_nil: true)
-          }
-        end
-      end
+    associated_resource :storageUrl,
+                        skip_render: ->(*) { true },
+                        getter: ->(*) {},
+                        setter: ->(fragment:, **) {
+                          break if fragment['href'].blank?
+
+                          canonical_url = fragment['href'].gsub(/\/+$/, '')
+                          represented.storage = ::Storages::Storage.find_by(host: canonical_url)
+                          represented.storage ||= ::Storages::Storage::InexistentStorage.new(host: canonical_url)
+                        }
+
+    associated_resource :container,
+                        v3_path: :work_package,
+                        representer: ::API::V3::WorkPackages::WorkPackageRepresenter
+
+    def _type
+      'FileLink'
+    end
+
+    private
+
+    def user_allowed_to_manage?(model)
+      current_user.allowed_to?(:manage_file_links, model.container.project)
+    end
+
+    def make_origin_data(model)
+      {
+        id: model.origin_id,
+        name: model.origin_name,
+        mimeType: model.origin_mime_type,
+        createdAt: datetime_formatter.format_datetime(model.origin_created_at, allow_nil: true),
+        lastModifiedAt: datetime_formatter.format_datetime(model.origin_updated_at, allow_nil: true),
+        createdByName: model.origin_created_by_name,
+        lastModifiedByName: model.origin_last_modified_by_name
+      }
+    end
+
+    def parse_origin_data(origin_data)
+      {
+        origin_id: origin_data["id"].to_s,
+        origin_name: origin_data["name"],
+        origin_mime_type: origin_data["mimeType"],
+        origin_created_by_name: origin_data["createdByName"],
+        origin_last_modified_by_name: origin_data["lastModifiedByName"],
+        origin_created_at: ::API::V3::Utilities::DateTimeFormatter.parse_datetime(origin_data["createdAt"],
+                                                                                  'originData.createdAt',
+                                                                                  allow_nil: true),
+        origin_updated_at: ::API::V3::Utilities::DateTimeFormatter.parse_datetime(origin_data["lastModifiedAt"],
+                                                                                  'originData.lastModifiedAt',
+                                                                                  allow_nil: true)
+      }
     end
   end
 end

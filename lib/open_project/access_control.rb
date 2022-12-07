@@ -34,12 +34,14 @@ module OpenProject
       def map
         mapper = OpenProject::AccessControl::Mapper.new
         yield mapper
-        @permissions ||= []
-        @permissions += mapper.mapped_permissions
+        @mapped_permissions ||= []
+        @mapped_permissions += mapper.mapped_permissions
         @modules ||= []
         @modules += mapper.mapped_modules
         @project_modules_without_permissions ||= []
         @project_modules_without_permissions += mapper.project_modules_without_permissions
+
+        clear_caches
       end
 
       # Get a sorted array of module names
@@ -53,7 +55,7 @@ module OpenProject
       end
 
       def permissions
-        @permissions.select(&:enabled?)
+        @permissions ||= @mapped_permissions.select(&:enabled?)
       end
 
       def modules
@@ -83,19 +85,19 @@ module OpenProject
       end
 
       def public_permissions
-        @public_permissions ||= @permissions.select(&:public?)
+        @public_permissions ||= @mapped_permissions.select(&:public?)
       end
 
       def members_only_permissions
-        @members_only_permissions ||= @permissions.select(&:require_member?)
+        @members_only_permissions ||= @mapped_permissions.select(&:require_member?)
       end
 
       def loggedin_only_permissions
-        @loggedin_only_permissions ||= @permissions.select(&:require_loggedin?)
+        @loggedin_only_permissions ||= @mapped_permissions.select(&:require_loggedin?)
       end
 
       def global_permissions
-        @permissions.select(&:global?)
+        @global_permissions ||= @mapped_permissions.select(&:global?)
       end
 
       def available_project_modules
@@ -111,7 +113,7 @@ module OpenProject
 
       def project_modules
         @project_modules ||=
-          @permissions
+          @mapped_permissions
             .reject(&:global?)
             .map(&:project_module)
             .including(@project_modules_without_permissions)
@@ -120,7 +122,7 @@ module OpenProject
       end
 
       def modules_permissions(modules)
-        @permissions.select { |p| p.project_module.nil? || modules.include?(p.project_module.to_s) }
+        @mapped_permissions.select { |p| p.project_module.nil? || modules.include?(p.project_module.to_s) }
       end
 
       def contract_actions_map
@@ -141,13 +143,13 @@ module OpenProject
       end
 
       def remove_modules_permissions(module_name)
-        permissions = @permissions
+        permissions = @mapped_permissions
 
         module_permissions = permissions.select { |p| p.project_module.to_s == module_name.to_s }
 
         clear_caches
 
-        @permissions = permissions - module_permissions
+        @mapped_permissions = permissions - module_permissions
       end
 
       def clear_caches
@@ -156,6 +158,9 @@ module OpenProject
         @members_only_permissions = nil
         @project_modules = nil
         @public_permissions = nil
+        @global_permissions = nil
+        @public_permissions = nil
+        @permissions = nil
       end
     end
   end

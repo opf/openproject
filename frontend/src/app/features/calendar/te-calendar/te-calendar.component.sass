@@ -1,4 +1,24 @@
-te-calendar
+@import '../../app/spot/styles/sass/variables'
+
+op-time-entries-calendar
+  // The two media queries below make sure the "Log time" button does not overlap
+  // with the dates on mobile. Instead, it will be shown above the full calendar toolbar.
+  // The media queries are the normal mobile/tablet breakpoints.
+  @media screen and (max-width: 679px)
+    .fc-toolbar-chunk:empty
+      display: none
+
+  @media screen and (min-width: 680px)
+    .te-calendar--create-button
+      position: absolute
+      right: 0
+      top: 0
+      margin-right: 0px
+
+    .fc-toolbar-chunk:last-child
+      flex-basis: 165px
+      flex-shrink: 0
+
   full-calendar
     overflow-x: auto
 
@@ -35,9 +55,6 @@ te-calendar
     .fc-day-header
       padding-top: 5px
 
-    .fc-day
-      background: white !important
-
     .fc-widget-content
       border-left-color: white
 
@@ -51,6 +68,9 @@ te-calendar
 
     .fc-timeGrid-view .fc-day-grid .fc-row .fc-content-skeleton
       padding-bottom: 0
+
+    .fc-timegrid-event-harness .fc-timegrid-event
+      box-shadow: none
 
     .fc-timegrid-slot.fc-timegrid-slot-minor
       border-top: 0
@@ -79,6 +99,7 @@ te-calendar
         opacity: 1
         transition: opacity 1s ease
         background: #EAEAEA
+        border: 1px solid $spot-color-basic-gray-3
 
       .te-calendar--add-icon
         color: black
@@ -119,9 +140,3 @@ te-calendar
       margin-right: 5px
       padding-right: 5px
       font-weight: bold
-
-  .te-calendar--create-button
-    position: absolute
-    right: 0
-    top: 6px
-    margin-right: 0px

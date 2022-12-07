@@ -100,14 +100,6 @@ export class TimezoneService {
   }
 
   /**
-   * Return whether the date is in the past
-   * @param dateString
-   */
-  public inThePast(dateString:string):boolean {
-    return this.daysFromToday(dateString) <= -1;
-  }
-
-  /**
    * Returns the number of days from today the given dateString is apart.
    * Negative means the date lies in the past.
    * @param dateString
@@ -145,8 +137,24 @@ export class TimezoneService {
     return Number(moment.duration(durationString).asHours().toFixed(2));
   }
 
-  public formattedDuration(durationString:string):string {
-    return this.I18n.t('js.units.hour', { count: this.toHours(durationString) });
+  public toDays(durationString:string):number {
+    return Number(moment.duration(durationString).asDays().toFixed(2));
+  }
+
+  public toISODuration(input:string|number, unit:'hours'|'days'):string {
+    return moment.duration(input, unit).toIsoString();
+  }
+
+  public formattedDuration(durationString:string, unit:'hour'|'days' = 'hour'):string {
+    switch (unit) {
+      case 'hour':
+        return this.I18n.t('js.units.hour', { count: this.toHours(durationString) });
+      case 'days':
+        return this.I18n.t('js.units.day', { count: this.toDays(durationString) });
+      default:
+        // Case fallthrough for eslint
+        return '';
+    }
   }
 
   public formattedISODate(date:any):string {

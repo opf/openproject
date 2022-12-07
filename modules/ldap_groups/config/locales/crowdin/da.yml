@@ -42,8 +42,7 @@ da:
         group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
         filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
         base_dn_text: >
-          Indtast søgefasen DN for at bruge dette filter. Det skal være under basen DN for den valgte LDAP- forbindelse.
-          Lad denne mulighed være tom for at genbruge basen DN for forbindelsen
+          Indtast søgefasen DN for at bruge dette filter. Det skal være under basen DN for den valgte LDAP- forbindelse. Lad denne mulighed være tom for at genbruge basen DN for forbindelsen
     synchronized_groups:
       add_new: 'Add synchronized LDAP group'
       destroy:
@@ -67,4 +66,6 @@ da:
           Hvis du aktiverer denne indstilling, vil de fundne brugere også automatisk blive oprettet i OpenProject. Uden det vil kun eksisterende konti i OpenProject blive tilføjet til grupper.
         dn_text: 'Enter the full DN of the group in LDAP'
         group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+      upsale:
+        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
 

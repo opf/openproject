@@ -40,7 +40,7 @@ module API
         # which contains a reference to the columns array as columns[].
         # This will match the Rails +to_query+ output
         def to_json(*_args)
-          to_h(column_key: 'columns[]'.to_sym).to_json
+          to_h(column_key: :'columns[]').to_json
         end
 
         ##
@@ -55,6 +55,7 @@ module API
         def to_h(column_key: :columns)
           p = super
 
+          p[:includeSubprojects] = query.include_subprojects
           p[:showHierarchies] = query.show_hierarchies
           p[:showSums] = query.display_sums?
           p[:groupBy] = query.group_by if query.group_by?

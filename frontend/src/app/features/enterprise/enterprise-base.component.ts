@@ -60,8 +60,7 @@ export class EnterpriseBaseComponent {
 
   public openTrialModal() {
     // cancel request and open first modal window
-    this.eeTrialService.cancelled = true;
-    this.eeTrialService.modalOpen = true;
+    this.eeTrialService.store.update({ cancelled: true, modalOpen: true });
     this.opModalService.show(EnterpriseTrialModalComponent, this.injector);
   }
 

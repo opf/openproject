@@ -65,11 +65,11 @@ module Grids::Configuration
     macroed_getter_setter :to_scope
 
     class << self
-      def widget_strategy(widget_name, &block)
+      def widget_strategy(widget_name, &)
         self._widget_strategies ||= {}
 
         if block_given?
-          self._widget_strategies[widget_name.to_s] = Class.new(Grids::Configuration::WidgetStrategy, &block)
+          self._widget_strategies[widget_name.to_s] = Class.new(Grids::Configuration::WidgetStrategy, &)
         end
 
         self._widget_strategies[widget_name.to_s] ||= Grids::Configuration::WidgetStrategy

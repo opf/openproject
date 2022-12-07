@@ -56,15 +56,11 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
     },
     {
       partial: 'community',
-      if: Proc.new { EnterpriseToken.show_banners? || OpenProject::Configuration.show_community_links? }
+      if: Proc.new { OpenProject::Configuration.show_community_links? }
     },
     {
       partial: 'administration',
       if: Proc.new { User.current.admin? }
-    },
-    {
-      partial: 'upsale',
-      if: Proc.new { EnterpriseToken.show_banners? }
     }
   )
 end

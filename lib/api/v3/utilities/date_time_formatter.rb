@@ -29,14 +29,16 @@
 module API
   module V3
     module Utilities
-      class DateTimeFormatter
-        def self.format_date(date, allow_nil: false)
+      module DateTimeFormatter
+        module_function
+
+        def format_date(date, allow_nil: false)
           return nil if date.nil? && allow_nil
 
           date.to_date.iso8601
         end
 
-        def self.parse_date(value, property_name, allow_nil: false)
+        def parse_date(value, property_name, allow_nil: false)
           return nil if value.nil? && allow_nil
 
           begin
@@ -60,7 +62,7 @@ module API
           date_only
         end
 
-        def self.parse_datetime(value, property_name, allow_nil: false)
+        def parse_datetime(value, property_name, allow_nil: false)
           return nil if value.nil? && allow_nil
 
           begin
@@ -74,19 +76,19 @@ module API
           date_and_time
         end
 
-        def self.format_datetime(datetime, allow_nil: false)
+        def format_datetime(datetime, allow_nil: false)
           return nil if datetime.nil? && allow_nil
 
           datetime.to_datetime.utc.iso8601
         end
 
-        def self.format_duration_from_hours(hours, allow_nil: false)
+        def format_duration_from_hours(hours, allow_nil: false)
           return nil if hours.nil? && allow_nil
 
           Duration.new(seconds: hours * 3600).iso8601
         end
 
-        def self.parse_duration_to_hours(duration, property_name, allow_nil: false)
+        def parse_duration_to_hours(duration, property_name, allow_nil: false)
           return nil if duration.nil? && allow_nil
 
           begin
@@ -97,6 +99,18 @@ module API
                                                        I18n.t('api_v3.errors.expected.duration'),
                                                        duration)
           end
+        end
+
+        def format_duration_from_days(days, allow_nil: false)
+          return nil if days.nil? && allow_nil
+
+          Duration.new(seconds: days * 3600 * 24).iso8601
+        end
+
+        def parse_duration_to_days(duration, property_name, allow_nil: false)
+          return nil if duration.nil? && allow_nil
+
+          parse_duration_to_hours(duration, property_name).to_i / 24
         end
       end
     end

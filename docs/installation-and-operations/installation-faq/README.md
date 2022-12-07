@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Installation & Ops FAQ
   priority: 001
 description: Frequently asked questions regarding installation and operation of OpenProject
-robots: index, follow
 keywords: installation FAQ, upgrades, updates, operation faq
 ---
 
@@ -15,7 +14,7 @@ keywords: installation FAQ, upgrades, updates, operation faq
 
 There's the package based installation (recommended), installation via Docker, using a provider (like Univention, Bitnami, IONOS) and the manual installation.
 
-### What skills should I have for the installation of Community Edition or Enterprise on-premises?
+### What skills should I have for the installation of Community edition or Enterprise on-premises?
 
 If you use the packaged installation, you should have basic knowledge of Linux and the command-line terminal.
 
@@ -35,7 +34,7 @@ You can use a virtual machine as long as the hardware and the operating system m
 
 ### Why is there no installation wizard for desktop as there is for other software?
 
-The Community Edition and Enterprise Edition of OpenProject are not a desktop application but a server application, typically for Linux servers. Therefore there's no typical user interface to install it. 
+The Community edition and Enterprise edition of OpenProject are not a desktop application but a server application, typically for Linux servers. Therefore there's no typical user interface to install it. 
 If you want to install it on Windows or Mac you can use the Docker based installation. Please note that installing on Windows Desktop usually works but is not officially supported.
 The package based installation (for Linux) offers an installation wizard.
 If you already use Univention, you can use it to install OpenProject, too.
@@ -85,7 +84,7 @@ Please follow these steps:
 
 ### Are there extra fees to pay, in terms of installing the OpenProject software?
 
-The Community Edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. 
+The Community edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. 
 The Community edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). 
 If you would like us to install the **Enterprise on-premises edition** for you, we are charging a fee of €150 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition).
 
@@ -147,7 +146,7 @@ For packaged installations, the openproject package behaves just like every othe
 
 ### After upgrading I receive the error message "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation." What does that mean?
 
-For some updates of OpenProject, the database layout needs to be adapted to support new features and fix bugs. These changes need to be carried out as part of the update process. This is why it is important to always run `sudo openproject configure`as part of the update process. 
+For some updates of OpenProject, the database layout needs to be adapted to support new features and fix bugs. These changes need to be carried out as part of the update process. This is why it is important to always run `sudo openproject configure` as part of the update process. 
 
 Please also have a look at [our upgrade guide](../operation/upgrading).
 
@@ -162,7 +161,7 @@ For existing projects you can enable the module in the project settings (*Projec
 
 Mind, that repository integration in the sense that you will be able to checkout the repository through OpenProject **does only work in the packaged installation, not docker**. 
 
-### How can I uninstall OpenProject (Community Edition or Enterprise on-premises)?
+### How can I uninstall OpenProject (Community edition or Enterprise on-premises)?
 
 The package based installation is intended to be run on a dedicated system. Dedicated in this case means that no other application software should be served by the server. The system can be either physical or virtual. Removing OpenProject is then equivalent with removing that system or docker instances. 
 

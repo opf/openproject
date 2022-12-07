@@ -4,11 +4,10 @@ get:
   summary: Creates an opening uri of the linked file.
   operationId: open_file_link
   tags:
-    - Work Packages
     - File links
   description: |-
     Creates a uri to open the origin file linked by the given file link. This uri depends on the storage type and
-    always is located on the origin storage itself.
+    is always located on the origin storage itself.
   parameters:
     - name: id
       description: File link id
@@ -23,7 +22,7 @@ get:
       required: false
       schema:
         type: boolean
-      example: true
+      example: true 
   responses:
     '303':
       headers:
@@ -38,7 +37,7 @@ get:
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
+            $ref: '../components/schemas/error_response.yml'
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound

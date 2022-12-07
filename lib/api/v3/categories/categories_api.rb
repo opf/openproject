@@ -42,7 +42,7 @@ module API
             end
 
             get do
-              CategoryRepresenter.new(@category, current_user: current_user)
+              CategoryRepresenter.new(@category, current_user:)
             end
           end
         end

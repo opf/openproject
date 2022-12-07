@@ -45,13 +45,9 @@ module Queries
         end
 
         def where
-          Array(values).map do |value|
-            column = Relation.relation_column(value)
-
-            operator_strategy.sql_for_field(['1'],
-                                            self.class.model.table_name,
-                                            column)
-          end.join(' OR ')
+          operator_strategy.sql_for_field(values.map { |value| Relation.canonical_type(value) },
+                                          self.class.model.table_name,
+                                          :relation_type)
         end
       end
     end

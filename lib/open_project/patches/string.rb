@@ -28,7 +28,7 @@
 
 module OpenProject
   module Patches
-    module String #:nodoc:
+    module String # :nodoc:
       # Parses hours format and returns a float
       def to_hours
         s = dup
@@ -37,9 +37,9 @@ module OpenProject
           s = $1
         else
           # 230: 2.5
-          s.gsub!(%r{^(\d+):(\d+)$}) { $1.to_i + $2.to_i / 60.0 }
+          s.gsub!(%r{^(\d+):(\d+)$}) { $1.to_i + ($2.to_i / 60.0) }
           # 2h30, 2h, 30m => 2.5, 2, 0.5
-          s.gsub!(%r{^((\d+)\s*(h|hours?))?\s*((\d+)\s*(m|min)?)?$}) { |m| $1 || $4 ? ($2.to_i + $5.to_i / 60.0) : m[0] }
+          s.gsub!(%r{^((\d+)\s*(h|hours?))?\s*((\d+)\s*(m|min)?)?$}) { |m| $1 || $4 ? ($2.to_i + ($5.to_i / 60.0)) : m[0] }
         end
         # 2,5 => 2.5
         s.gsub!(',', '.')

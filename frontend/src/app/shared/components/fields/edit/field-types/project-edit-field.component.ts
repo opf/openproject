@@ -34,14 +34,10 @@ import {
   Inject,
   Injector,
   OnInit,
-  ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
-import { NgSelectComponent } from '@ng-select/ng-select';
 import { HttpClient } from '@angular/common/http';
-import {
-  from,
-  Observable,
-} from 'rxjs';
+import { from } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   EditFieldComponent,
@@ -50,31 +46,29 @@ import {
   OpEditingPortalSchemaToken,
 } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { getPaginatedResults } from 'core-app/core/apiv3/helpers/get-paginated-results';
-import {
-  ApiV3ListFilter,
-  ApiV3ListParameters,
-  listParamsString,
-} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ResourceChangeset } from '../../changeset/resource-changeset';
 import { IFieldSchema } from '../../field.base';
 import { EditFieldHandler } from '../editing-portal/edit-field-handler';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { switchMap } from 'rxjs/operators';
+import {
+  take,
+  tap,
+} from 'rxjs/operators';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   templateUrl: './project-edit-field.component.html',
+  styleUrls: ['./project-edit-field.component.sass'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectEditFieldComponent extends EditFieldComponent implements OnInit {
-  @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
-
   isNew = isNewResource(this.resource);
+
+  url:string;
 
   constructor(
     readonly I18n:I18nService,
@@ -99,7 +93,13 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
     );
   }
 
-  public getOptionsFn = (query:string):Observable<unknown[]> => this.autocomplete(query);
+  initialize():void {
+    if (this.schema.allowedValues) {
+      this.setUrl();
+    } else {
+      this.loadFormAndSetUrl();
+    }
+  }
 
   public onModelChange(project?:IProject):unknown {
     if (project) {
@@ -115,49 +115,29 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
     return this.handler.handleUserSubmit();
   }
 
-  public autocomplete(searchText = ''):Observable<IProject[]> {
-    return from(this.change.getForm())
-      .pipe(
-        switchMap(() => getPaginatedResults<IProject>(
-          (params) => {
-            const collectionURL = listParamsString({ ...this.getParams(searchText), ...params });
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            return this.http.get<IHALCollection<IProject>>(`${this.schema.allowedValues.$link.href as string}${collectionURL}`);
-          },
-        )),
-      );
-  }
-
-  public getParams(searchText = ''):ApiV3ListParameters {
-    const filters:ApiV3ListFilter[] = [
+  public get APIFilters():(string | string[])[][] {
+    const filters = [
       ['active', '=', ['t']],
     ];
-
-    if (searchText) {
-      filters.push([
-        'name_and_identifier',
-        '~',
-        [searchText],
-      ]);
-    }
 
     if (isNewResource(this.resource) && this.change.value('type')) {
       const typeId = idFromLink((this.change.value('type') as HalResource).href);
       filters.push(['type_id', '=', [typeId]]);
     }
 
-    return {
-      filters,
-      pageSize: -1,
-      select: [
-        'elements/id',
-        'elements/identifier',
-        'elements/name',
-        'elements/self',
-        'total',
-        'count',
-        'pageSize',
-      ],
-    };
+    return filters;
+  }
+
+  private loadFormAndSetUrl():void {
+    from(this.change.getForm())
+      .pipe(
+        tap(() => this.setUrl()),
+        take(1),
+      ).subscribe();
+  }
+
+  private setUrl():void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    this.url = this.schema.allowedValues.$link.href as string;
   }
 }

@@ -28,10 +28,13 @@
 
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Directive,
   ElementRef,
   EventEmitter,
+  Injector,
   Input,
+  NgZone,
   OnDestroy,
   Output,
   ViewChild,
@@ -64,8 +67,11 @@ export abstract class AbstractDatePickerDirective extends UntilDestroyedMixin im
   protected datePickerInstance:DatePicker;
 
   public constructor(
+    readonly injector:Injector,
     protected timezoneService:TimezoneService,
     protected configurationService:ConfigurationService,
+    protected ngZone:NgZone,
+    protected changeDetectorRef:ChangeDetectorRef,
   ) {
     super();
 
@@ -90,11 +96,15 @@ export abstract class AbstractDatePickerDirective extends UntilDestroyedMixin im
     }
   }
 
-  closeOnOutsideClick(event:any):void {
-    if (!(event.relatedTarget
-      && this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget))) {
+  closeOnOutsideClick(event:MouseEvent):void {
+    if (this.isOutsideClick(event)) {
       this.close();
     }
+  }
+
+  isOutsideClick(event:MouseEvent):boolean {
+    return (!(event.relatedTarget
+      && this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget as HTMLElement)));
   }
 
   close():void {
@@ -110,7 +120,7 @@ export abstract class AbstractDatePickerDirective extends UntilDestroyedMixin im
   }
 
   protected get inputElement():HTMLInputElement {
-    return this.dateInput?.nativeElement;
+    return this.dateInput.nativeElement as HTMLInputElement;
   }
 
   protected abstract initializeDatepicker():void;

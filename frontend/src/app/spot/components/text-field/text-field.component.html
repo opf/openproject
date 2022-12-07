@@ -2,16 +2,19 @@
 <input
   class="spot-text-field--input"
   [attr.name]="name"
+  [attr.pattern]="pattern"
+  [attr.inputmode]="inputmode"
   [disabled]="disabled"
   [placeholder]="placeholder"
-  [(ngModel)]="value"
-  (focus)="focused = true"
-  (blur)="focused = false"
+  [ngModel]="value"
+  (ngModelChange)="valueChanged($event)"
+  (focus)="onInputFocus($event)"
+  (blur)="onInputBlur($event)"
   #input
 />
 <button
-  *ngIf="showClearButton && value !== ''"
-  (click)="value = ''"
+  *ngIf="showClearButton && value !== '' && !disabled"
+  (click)="valueChanged('')"
   type="button"
   class="spot-text-field--clear-button"
 >

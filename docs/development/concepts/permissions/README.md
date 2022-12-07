@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Permissions
 description: Get an overview of how roles and permissions are handled in the OpenProject application code
-robots: index, follow
 keywords: permissions, roles, RBAC
 ---
 
@@ -122,7 +121,7 @@ user = User.find_by(login: 'foobar')
 user.allowed_to?(:view_members, project) # true or false
 ```
 
-The same is true for permissions outside a project using`user.allowed_to_globally?(permission)`. This will either test a global permission such as `:add_project` or return `true` whenever the user has such a permission in any project.
+The same is true for permissions outside a project using `user.allowed_to_globally?(permission)`. This will either test a global permission such as `:add_project` or return `true` whenever the user has such a permission in any project.
 
 
 
@@ -132,7 +131,7 @@ In the frontend, we have to rely on the API to tell us what actions the user is 
 
 For example, if the user has the permission to create work packages in the OpenProject project on the community, [the collection response of the work packages API](https://community.openproject.com/api/v3/projects/openproject/work_packages?pageSize=0) of it will contain a link `createWorkPackage` that contains the link to the create form API endpoint.
 
-To check these links, one can use the [`ModelAuthService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/common/model-auth/model-auth.service.ts) that gets initialized with the resources being loaded:
+To check these links, one can use the [`ModelAuthService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/core/model-auth/model-auth.service.ts) that gets initialized with the resources being loaded:
 
 ```typescript
 const modelAuth = injector.get(ModelAuthService);

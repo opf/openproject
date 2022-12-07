@@ -42,8 +42,7 @@ pl:
         group_name_attribute_text: 'Wprowadź atrybut grupy LDAP używany do ustawiania nazwy grupy OpenProject.'
         filter_string_text: 'Wprowadź filtr LDAP RFC4515, który zwraca grupy z LDAP w celu ich zsynchronizowania z OpenProject.'
         base_dn_text: >
-          Wprowadź bazową nazwę wyróżniającą wyszukiwania do użycia w tym filtrze. Musi znajdować się poniżej bazowej nazwy wyróżniającej wybranego połączenia LDAP.
-          Pozostaw tę opcję pustą, aby ponownie użyć bazowej nazwy wyróżniającej połączenia
+          Wprowadź bazową nazwę wyróżniającą wyszukiwania do użycia w tym filtrze. Musi znajdować się poniżej bazowej nazwy wyróżniającej wybranego połączenia LDAP. Pozostaw tę opcję pustą, aby ponownie użyć bazowej nazwy wyróżniającej połączenia
     synchronized_groups:
       add_new: 'Dodaj synchronizowaną grupę LDAP'
       destroy:
@@ -67,4 +66,6 @@ pl:
           Jeśli włączysz tę opcję, znalezieni użytkownicy będą również automatycznie tworzeni w OpenProject. Bez niej do grup będą dodawane tylko konta istniejące w OpenProject.
         dn_text: 'Wprowadź pełną nazwę wyróżniającą grupy w LDAP'
         group_text: 'Wybierz istniejącą grupę OpenProject, z którą będą synchronizowani członkowie grupy LDAP'
+      upsale:
+        description: 'Wykorzystaj zsynchronizowane grupy LDAP, aby zarządzać użytkownikami, zmieniać ich uprawnienia lub ułatwiać zarządzanie użytkownikami w różnych grupach.'
 

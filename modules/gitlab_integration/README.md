@@ -1,22 +1,17 @@
 # openproject-gitlab-integration
 
-## NEW VERSION 2.0.5 GA
+## NEW VERSION 2.0.6 GA
 
 Based on the current Github integration (OpenProject 12), this plugin offers the same functionalities as the current plugin for Github (and something else). This version includes changes to the DB and a new view similar to the current Github tab. Only the management of "pipelines" is pending an open issue in Gitlab (https://gitlab.com/gitlab-org/gitlab/-/issues/345028).
 
 ![OP-Gitlab](https://user-images.githubusercontent.com/14983519/143622798-13d1c50b-1186-46e0-a2da-9f50fb14a338.png)
 
-The events captured in the WP activity log are the same as in version 1.0, only this new version includes a UI with all linked MRs, their status, their labels and the last pipeline *(pending the Gitlab issue)*.
-
-If you use **manual** installation, keep in mind that it requires precompiling the assets and updating the DB with new tables.
-
-In case of a **docker** installation, you can follow the steps described in the [OpenProject](https://www.openproject.org/docs/installation-and-operations/installation/docker/#openproject-plugins) documentation (more info in [Configuration](https://github.com/btey/openproject-gitlab-integration/edit/master/README.md#configuration) section).
-
+This 2.x version includes a UI with all linked MRs, their status, their labels and the last pipeline *(pending the Gitlab issue)*.
 ## Introduction
 
 OpenProject module for integration with Gitlab:
-* Latest Gitlab release tested: **14.10**
-* Latest OpenProject release tested: **12.1.0** (for previous versions of OpenProject use v2.0.4)
+* Latest Gitlab release tested: **15.3.1**
+* Latest OpenProject release tested: **12.2.1** (for OpenProject versions earlier than 12.2.0 use v2.0.5, and for version earlier than 12.1.0 use v2.0.4)
 
 This plugin is based on the current [plugin to integrate Github with OpenProject](https://www.openproject.org/docs/system-admin-guide/integrations/github-integration/).
 
@@ -144,7 +139,9 @@ In case of **Docker** installation, follow the official OpenProject documentatio
 * Clone the plugin inside the modules folder: `git clone https://github.com/btey/openproject-gitlab-integration.git --depth=1 modules/gitlab_integration`
 * Apply the changes below in Gemfile.lock and Gemfile.modules (the same ones you would do in a manual install).
 * Build the container: `docker build -t openproject-docker --file=docker/prod/Dockerfile .`
-* Now run the image following the official documentation
+* Now run the image following the official documentation.
+
+In case of **DEB/RPM** based instalation, follow the official OpenProject documentation [here](https://www.openproject.org/docs/installation-and-operations/configuration/plugins/).
 
 In case of [**manual**](https://www.openproject.org/docs/installation-and-operations/installation/manual/) installation, this plugin should be installed in the same place as the Github plugin that comes bundled with OpenProject.
 
@@ -160,21 +157,9 @@ Add the following in **Gemfile.lock**:
 PATH
   remote: modules/gitlab_integration
   specs:
-    openproject-gitlab_integration (1.0.0)
+    openproject-gitlab_integration (2.0.6)
       openproject-webhooks
 ```
-
-> **Note:** Use version 1.0.0 if you only want to capture the events as comments.
-
-```
-PATH
-  remote: modules/gitlab_integration
-  specs:
-    openproject-gitlab_integration (2.0.5)
-      openproject-webhooks
-```
-
-> **Note:** Use version 2.0.5 if you want to capture the events as comments and see the new UI Tab with the linked Merge Requests.
 
 And add this other line in DEPENDENCIES section:
 

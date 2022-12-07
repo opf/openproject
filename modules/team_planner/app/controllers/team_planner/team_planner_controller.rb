@@ -14,8 +14,6 @@ module ::TeamPlanner
       render layout: 'angular/angular'
     end
 
-    def upsale; end
-
     def destroy
       if @view.destroy
         flash[:notice] = t(:notice_successful_delete)

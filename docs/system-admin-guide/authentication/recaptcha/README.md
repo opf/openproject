@@ -3,7 +3,6 @@ sidebar_navigation:
   title: reCAPTCHA
   priority: 600
 description: configure reCAPTCHA for OpenProject.
-robots: index, follow
 keywords: reCAPTCHA
 ---
 # reCAPTCHA configuration

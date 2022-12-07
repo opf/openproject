@@ -1,0 +1,52 @@
+# /api/v3/days
+---
+get:
+  summary: Lists days
+  operationId: list_days
+  tags:
+    - Work Schedule
+  description: |-
+    Lists days information for a given date interval.
+
+    All days from the beginning of current month to the end of following month
+    are returned by default.
+  parameters:
+    - name: filters
+      in: query
+      description: |-
+        JSON specifying filter conditions.
+
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
+        endpoint. Currently supported filters are:
+
+        + date: the inclusive date interval to scope days to look up. When
+          unspecified, default is from the beginning of current month to the end
+          of following month.
+
+          Example: `{ "date": { "operator": "<>d", "values": ["2022-05-02","2022-05-26"] } }`
+          would return days between May 5 and May 26 2022, inclusive.
+
+        + working: when `true`, returns only the working days. When `false`,
+          returns only the non-working days (weekend days and non-working days).
+          When unspecified, returns both working and non-working days.
+
+          Example: `{ "working": { "operator": "=", "values": ["t"] } }`
+          would exclude non-working days from the response.
+      example: '[{ "date": { "operator": "<>d", "values": ["2022-05-02","2022-05-26"] } }, { "working": { "operator": "=", "values": ["f"] } }]'
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: |-
+        OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/day_collection_model.yml'
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"

@@ -3,21 +3,18 @@ sidebar_navigation:
   title: Attribute help texts
   priority: 790
 description: Learn how to set attribute help texts in OpenProject
-robots: index, follow
 keywords: attribute help texts, help texts for projects and work packages
 
 ---
 
-# Attribute help texts (Premium feature)
+# Attribute help texts (Enterprise add-on)
 
 <div class="glossary">
 **Attribute help texts** provide additional information for attributes in work packages and projects. After setting them up they are displayed when users click on the question mark symbol next to custom fields in projects and work packages. 
 This way you will reduce wrong entries for attributes. This is especially relevant for company specific custom fields.
 </div>
 
-<div class="alert alert-info" role="alert">
-**Note**: Attribute help texts are a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
-</div>
+> **Note**: Attribute help texts are an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
 
 
 ## Overview

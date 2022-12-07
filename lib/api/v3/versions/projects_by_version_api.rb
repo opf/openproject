@@ -45,7 +45,7 @@ module API
             Projects::ProjectCollectionRepresenter
               .new(@projects,
                    self_link: path,
-                   current_user: current_user)
+                   current_user:)
           end
         end
       end

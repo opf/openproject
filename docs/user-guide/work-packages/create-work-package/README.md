@@ -2,17 +2,16 @@
 sidebar_navigation:
   title: Create work packages
   priority: 990
-description: How to create Work packages in OpenProject?
-robots: index, follow
-keywords: create Work packages
+description: How to create Work packages in OpenProject.
+keywords: create work packages
 ---
 
 # Create Work packages
 
-| Topic                                                        | Content                                        |
-| ------------------------------------------------------------ | ---------------------------------------------- |
-| [Create Work packages](#how-to-create-work-packages)         | How to create a new Work package in a project? |
-| [Add attachments to a Work package](#add-attachments-to-work-packages) | How to add attachments to a Work package?      |
+| Topic                                                                  | Content                                        |
+|------------------------------------------------------------------------|------------------------------------------------|
+| [Create Work packages](#how-to-create-work-packages)                   | How to create a new Work package in a project. |
+| [Add attachments to a Work package](#add-attachments-to-work-packages) | How to add attachments to a Work package.      |
 
 ## How to create Work packages
 
@@ -43,7 +42,7 @@ This way, you can quickly and easily create new Work packages in the list, just 
 
 ### Create a Work package in the split screen view
 
-In order to enter detailed information to the Work package from the start, you can create a Work package in the split screen view. In the Work package module, click the green **+ Work package** button and select the type of Work package you want to create.
+In order to enter detailed information to the Work package from the start, you can create a Work package in the split screen view. In the Work package module, click the green **+ Create** button and select the type of Work package you want to create.
 
 ![select-work-package-type](1566303633018.png)
 

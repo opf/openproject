@@ -1,51 +1,46 @@
 <div
-  class="op-modal op-modal_autoheight loading-indicator--location"
+  class="spot-modal loading-indicator--location"
   data-indicator-name="modal"
 >
-  <op-modal-header
-    icon="icon-log_time"
-    (close)="closeMe($event)">
-    {{text.title}}
-  </op-modal-header>
+  <div class="spot-modal--header">
+    <span class="spot-icon spot-icon_time"></span>
+    <span [textContent]="text.title"></span>
+  </div>
 
-  <div class="ngdialog-body op-modal--body">
+  <div class="spot-divider"></div>
+
+  <div class="ngdialog-body spot-modal--body spot-container">
     <te-form #editForm
              [changeset]="changeset"
              [showWorkPackageField]="showWorkPackageField"
+             [showUserField]="showUserField"
              (modifiedEntry)="setModifiedEntry($event)">
     </te-form>
   </div>
 
-  <div class="op-modal--footer">
-    <button class="button -highlight"
-            *ngIf="saveAllowed"
-            (click)="saveEntry()"
-            [attr.title]="saveText"
-            [disabled]="formInFlight">
-      <op-icon icon-classes="button--icon icon-checkmark"></op-icon>
-      <span class="button--text"
-            [textContent]="saveText"
-            aria-hidden="true"></span>
-    </button>
-
-    <button class="button"
-            *ngIf="saveAllowed"
-            (click)="closeMe($event)"
-            [attr.title]="text.cancel">
-      <op-icon icon-classes="button--icon icon-close"></op-icon>
-      <span class="button--text"
-            [textContent]="text.cancel"
-            aria-hidden="true"></span>
-    </button>
-
-    <button class="button"
-            *ngIf="deleteAllowed"
-            (click)="destroy()"
-            [attr.title]="text.delete">
-      <op-icon icon-classes="button--icon icon-delete"></op-icon>
-      <span class="button--text"
-            [textContent]="text.delete"
-            aria-hidden="true"></span>
-    </button>
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--left">
+      <button class="button button_no-margin -danger spot-action-bar--action"
+              *ngIf="deleteAllowed"
+              (click)="destroy()"
+              [textContent]="text.delete"
+              [attr.title]="text.delete">
+      </button>
+    </div>
+    <div class="spot-action-bar--right">
+      <button class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+              *ngIf="saveAllowed"
+              (click)="closeMe($event)"
+              [textContent]="text.cancel"
+              [attr.title]="text.cancel">
+      </button>
+      <button class="button -highlight button_no-margin spot-action-bar--action"
+              *ngIf="saveAllowed"
+              (click)="saveEntry()"
+              [attr.title]="text.save"
+              [textContent]="text.save"
+              [disabled]="formInFlight">
+      </button>
+    </div>
   </div>
 </div>

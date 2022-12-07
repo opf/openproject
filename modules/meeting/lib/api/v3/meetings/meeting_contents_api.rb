@@ -40,7 +40,7 @@ module API
           route_param :id do
             get do
               ::API::V3::MeetingContents::MeetingContentRepresenter.new(
-                meeting_content, current_user: current_user, embed_links: true
+                meeting_content, current_user:, embed_links: true
               )
             end
 

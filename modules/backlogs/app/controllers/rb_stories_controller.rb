@@ -49,7 +49,7 @@ class RbStoriesController < RbApplicationController
     story = Story.find(params[:id])
 
     call = Stories::UpdateService
-           .new(user: current_user, story: story)
+           .new(user: current_user, story:)
            .call(attributes: story_params,
                  prev: params[:prev])
 
@@ -68,7 +68,7 @@ class RbStoriesController < RbApplicationController
     story = call.result
 
     respond_to do |format|
-      format.html { render partial: 'story', object: story, status: status, locals: { errors: call.errors } }
+      format.html { render partial: 'story', object: story, status:, locals: { errors: call.errors } }
     end
   end
 

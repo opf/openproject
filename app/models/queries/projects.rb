@@ -33,6 +33,7 @@ module Queries::Projects
     filter Filters::ActiveFilter
     filter Filters::TemplatedFilter
     filter Filters::PublicFilter
+    filter Filters::NameFilter
     filter Filters::NameAndIdentifierFilter
     filter Filters::TypeaheadFilter
     filter Filters::CustomFieldFilter

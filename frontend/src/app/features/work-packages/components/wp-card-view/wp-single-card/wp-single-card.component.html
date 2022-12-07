@@ -6,6 +6,7 @@
   [ngClass]="cardClasses()"
   [title]="cardTitle()"
   (click)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
+  (dblclick)="cardDblClicked.emit({ workPackageId: workPackage.id, event: $event })"
   (contextmenu)="cardContextMenu.emit({ workPackageId: workPackage.id, event: $event })"
 >
 
@@ -50,15 +51,15 @@
              [inEditMode]="isNewResource(workPackage)"
              *ngIf="isNewResource(workPackage)">
     <div class="op-wp-single-card-content -new">
-      <editable-attribute-field [resource]="workPackage"
+      <op-editable-attribute-field [resource]="workPackage"
                                 [wrapperClasses]="'work-packages--type-selector'"
                                 [fieldName]="'type'"
                                 class="op-wp-single-card-content--type">
-      </editable-attribute-field>
-      <editable-attribute-field [resource]="workPackage"
+      </op-editable-attribute-field>
+      <op-editable-attribute-field [resource]="workPackage"
                                 fieldName="subject"
                                 class="op-wp-single-card-content--subject -bold">
-      </editable-attribute-field>
+      </op-editable-attribute-field>
     </div>
   </edit-form>
 

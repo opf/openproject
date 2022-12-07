@@ -37,7 +37,7 @@ pt:
         enabled_text: 'O webhook emitirá payloads para os eventos definidos abaixo.'
         disabled_text: 'Clique no botão editar para ativar o webhook.'
       deliveries:
-        no_results_table: Não foram feitas entregas para este webhook.
+        no_results_table: Nenhuma entrega foi realizada para este webhook nos últimos dias.
         title: 'Entregas recentes'
         time: 'Tempo de entrega'
       form:

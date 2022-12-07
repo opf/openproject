@@ -48,7 +48,7 @@ module API
             next unless embed_links && container_representer
 
             container_representer
-              .create(represented.container, current_user: current_user)
+              .create(represented.container, current_user:)
           end
         end
 
@@ -85,7 +85,7 @@ module API
           {
             href: form_url,
             method: :post,
-            form_fields: form_fields
+            form_fields:
           }
         end
 

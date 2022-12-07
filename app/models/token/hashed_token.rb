@@ -23,7 +23,7 @@ module Token
 
     class << self
       def create_and_return_value(user)
-        create(user: user).plain_value
+        create(user:).plain_value
       end
 
       ##

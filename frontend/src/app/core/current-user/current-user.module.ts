@@ -1,21 +1,27 @@
-import { Injector, NgModule } from '@angular/core';
+import {
+  Injector,
+  NgModule,
+} from '@angular/core';
 
 import { CurrentUserService } from './current-user.service';
 import { CurrentUserStore } from './current-user.store';
 import { CurrentUserQuery } from './current-user.query';
+import { ErrorReporterBase } from 'core-app/core/errors/error-reporter-base';
+import { take } from 'rxjs/operators';
 
-export function bootstrapModule(injector:Injector) {
+export function bootstrapModule(injector:Injector):void {
   const currentUserService = injector.get(CurrentUserService);
 
-  window.ErrorReporter.addContext((scope) => {
-    currentUserService.user$.subscribe(({ id, name, mail }) => {
-      scope.setUser({
-        name,
-        mail,
-        id: id || undefined, // scope expects undefined instead of null
-      });
-    });
-  });
+  (window.ErrorReporter as ErrorReporterBase)
+    .addHook(
+      () => currentUserService
+        .user$
+        .pipe(
+          take(1),
+        )
+        .toPromise()
+        .then(({ id }) => ({ user: id || 'anon' })),
+    );
 
   const userMeta = document.querySelectorAll('meta[name=current_user]')[0] as HTMLElement|undefined;
   currentUserService.setUser({

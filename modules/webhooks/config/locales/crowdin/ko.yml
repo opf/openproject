@@ -37,7 +37,7 @@ ko:
         enabled_text: 'Webhook은 아래에 정의된 이벤트의 페이로드를 내보냅니다.'
         disabled_text: '편집 버튼을 클릭하여 Webhook을 활성화하십시오.'
       deliveries:
-        no_results_table: 이 Webhook에 대한 배달이 진행되지 않았습니다.
+        no_results_table: 지난 며칠 동안 이 Webhook에 대한 배달이 진행되지 않았습니다.
         title: '최근 배달'
         time: '배달 시간'
       form:

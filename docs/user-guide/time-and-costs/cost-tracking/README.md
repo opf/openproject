@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Cost tracking
   priority: 798
 description: Time and cost tracking in OpenProject
-robots: index, follow
 keywords: cost tracking, log costs, unit costs
 ---
 
@@ -11,18 +10,22 @@ keywords: cost tracking, log costs, unit costs
 
 You can log unit costs on a work package within a project to keep track on certain units spent in a project, e.g. travel costs or machines.
 
-| Topic                                                        | Content                                             |
-| ------------------------------------------------------------ | --------------------------------------------------- |
-| [Logging costs to a work package](#logging-costs-to-a-work-package) | How to track costs on a work package?               |
-| [Edit logged costs](#edit-logged-costs)                      | How to edit spent costs logged to a work package?   |
-| [Delete logged costs](#delete-logged-costs)                  | How to delete spent costs logged to a work package? |
+| Topic                                                               | Content                                             |
+|---------------------------------------------------------------------|-----------------------------------------------------|
+| [Logging costs to a work package](#logging-costs-to-a-work-package) | How to track costs on a work package.               |
+| [Edit logged costs](#edit-logged-costs)                             | How to edit spent costs logged to a work package.   |
+| [Delete logged costs](#delete-logged-costs)                         | How to delete spent costs logged to a work package. |
 
 
 ## Logging costs to a work package
 
-To track unit costs to a work package select the **Log unit costs** option from the **More functions** drop down menu.
+In order to log unit costs, you must first activate the **Time and costs** module and the **Budget** module in the project settings. Then select a budget from the drop-down menu of the work package details and link it to the selected work package.
 
-![Cost tracking log costs](Cost-tracking_log-costs.png)
+![select-budget-work-package-details](select-budget-work-package-details.png)
+
+To log costs to a work package you can either press the button on the top right in the work package detail view or double-click on the line of the work package in the work package table. In both cases a function menu appears in which you can select **log unit costs**. 
+
+![log-unit-costs](log-unit-costs.png)
 
 A new form is opened, where you can log unit costs. You can edit the following information:
 
@@ -35,7 +38,9 @@ A new form is opened, where you can log unit costs. You can edit the following i
 
 4. The **cost type** field offers a range of pre-defined cost types which can be configured in the [Administration](../../../system-admin-guide/time-and-costs). The units and respective costs per unit category are defined for every cost type separately. Please note that you need certain privileges to be able to  create new cost types and define costs for specific units.
 
-   <div class="glossary">**Cost Types** are defined as types of costs that can be defined by system admins (e.g. consultant days or licenses).</div>
+   <div class="glossary">
+   **Cost Types** are defined as types of costs that can be defined by system admins (e.g. consultant days or licenses).
+   </div>
 
 5. You can enter the number of **units** to be logged.
 

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-if OpenProject::Configuration.override_bcrypt_cost_factor?
+if OpenProject::Configuration.override_bcrypt_cost_factor.present?
   cost_factor = OpenProject::Configuration.override_bcrypt_cost_factor.to_i
   current = BCrypt::Engine.cost
 

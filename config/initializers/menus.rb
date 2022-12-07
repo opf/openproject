@@ -44,7 +44,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             caption: I18n.t('label_work_package_plural'),
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
-                User.current.allowed_to?(:view_work_packages, nil, global: true)
+                User.current.allowed_to_globally?(:view_work_packages)
             }
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
@@ -52,7 +52,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             caption: I18n.t('label_news_plural'),
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
-                User.current.allowed_to?(:view_news, nil, global: true)
+                User.current.allowed_to_globally?(:view_news)
             }
   menu.push :help,
             OpenProject::Static::Links.help_link,
@@ -140,7 +140,7 @@ Redmine::MenuManager.map :my_menu do |menu|
             icon: 'icon2 icon-locked'
   menu.push :access_token,
             { controller: '/my', action: 'access_token' },
-            caption: I18n.t('my_account.access_tokens.access_token'),
+            caption: I18n.t('my_account.access_tokens.access_tokens'),
             icon: 'icon2 icon-key'
   menu.push :notifications,
             { controller: '/my', action: 'notifications' },
@@ -269,14 +269,18 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/attribute_help_texts' },
             caption: :'attribute_help_texts.label_plural',
             icon: 'icon2 icon-help2',
-            if: Proc.new {
-              User.current.admin?
-            }
+            if: Proc.new { User.current.admin? }
 
   menu.push :enumerations,
             { controller: '/enumerations' },
             if: Proc.new { User.current.admin? },
             icon: 'icon2 icon-enumerations'
+
+  menu.push :working_days,
+            { controller: '/admin/settings/working_days_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_working_days,
+            icon: 'icon2 icon-calendar'
 
   menu.push :settings,
             { controller: '/admin/settings/general_settings', action: :show },
@@ -301,7 +305,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :notification_settings,
             { controller: '/admin/settings/aggregation_settings', action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :'menus.admin.aggregation_and_retention',
+            caption: :'menus.admin.aggregation',
             parent: :mail_and_notifications
 
   menu.push :mail_notifications,
@@ -391,12 +395,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new { User.current.admin? },
             caption: :'timelines.admin_menu.colors',
             icon: 'icon2 icon-status'
-
-  menu.push :enterprise,
-            { controller: '/enterprises', action: :show },
-            caption: :label_enterprise_edition,
-            icon: 'icon2 icon-headset',
-            if: proc { User.current.admin? && OpenProject::Configuration.ee_manager_visible? }
 
   menu.push :admin_costs,
             { controller: '/admin/settings', action: 'show_plugin', id: :costs },
@@ -493,7 +491,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   }.each do |key, caption|
     menu.push :"settings_#{key}",
               { controller: "/projects/settings/#{key}", action: 'show' },
-              caption: caption,
+              caption:,
               parent: :settings
   end
 end

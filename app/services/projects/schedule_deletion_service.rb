@@ -33,7 +33,7 @@
 module Projects
   class ScheduleDeletionService < ::BaseServices::BaseContracted
     def initialize(user:, model:, contract_class: ::Projects::DeleteContract)
-      super(user: user, contract_class: contract_class)
+      super(user:, contract_class:)
       self.model = model
     end
 
@@ -41,12 +41,12 @@ module Projects
 
     def before_perform(_params, _service_result)
       Projects::ArchiveService
-        .new(user: user, model: model)
+        .new(user:, model:)
         .call
     end
 
     def persist(call)
-      DeleteProjectJob.perform_later(user: user, project: model)
+      DeleteProjectJob.perform_later(user:, project: model)
       call
     end
   end

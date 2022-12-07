@@ -38,6 +38,8 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 export class WorkPackageSplitViewToolbarComponent {
   @Input('workPackage') workPackage:WorkPackageResource;
 
+  @Input() displayNotificationsButton:boolean;
+
   public text = {
     button_more: this.I18n.t('js.button_more'),
   };

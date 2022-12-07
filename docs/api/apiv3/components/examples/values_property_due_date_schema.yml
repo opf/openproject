@@ -1,0 +1,13 @@
+# Example: Values::Property schema
+---
+value:
+  _type: 'Schema'
+  property:
+    name: 'Property'
+    type: 'String'
+  value:
+    name: 'Due date'
+    type: 'Date'
+  _links:
+    self:
+      href: 'api/v3/values/schemas/dueDate'

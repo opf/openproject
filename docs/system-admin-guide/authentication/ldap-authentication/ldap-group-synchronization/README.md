@@ -3,13 +3,12 @@ sidebar_navigation:
   title: LDAP group synchronization
   priority: 002
 description: Synchronize LDAP groups.
-robots: index, follow
 keywords: synchronize ldap groups
 ---
 
-# Synchronize LDAP and OpenProject groups (Premium feature)
+# Synchronize LDAP and OpenProject groups (Enterprise add-on)
 
-Note: This feature is available for the Enterprise on-premises only, for OpenProject versions 7.4+. For more information and differences to Community Edition, [see this page](https://www.openproject.org/enterprise-edition/).
+Note: This feature is available for the Enterprise on-premises only, for OpenProject versions 7.4+. For more information and differences to Community edition, [see this page](https://www.openproject.org/enterprise-edition/).
 
 In OpenProject Enterprise on-premises, you can synchronize LDAP group memberships defined through the [groupOfNames](https://tools.ietf.org/html/rfc4519#section-3.5) LDAP object class. This guide assumes that you:
 
@@ -17,11 +16,7 @@ In OpenProject Enterprise on-premises, you can synchronize LDAP group membership
 - have set up your LDAP authentication source (See the “[Manage LDAP authentication](../../ldap-authentication/)” guide)
 - have at least one LDAP entry with a *groupOfNames* object class and members of that group to contain the *`memberOf: <DN of the group>`* attribute to determine the members of a group entry. Right now we do not support LDAP instances that only have *member* attributes, but not the inverse *memberOf* property.
 
-<div class="alert alert-info" role="alert">
-
-**Please note**: OpenProject does not support other attributes other than the `memberOf` property to define groups. Please make sure that user objects have the `memberOf` property for the synchronization to work.
-
-</div>
+> **Please note**: OpenProject does not support other attributes other than the `memberOf` property to define groups. Please make sure that user objects have the `memberOf` property for the synchronization to work.
 
 For the sake of simplicity, we assume that in this guide, your LDAP structure looks like the following:
 
@@ -100,6 +95,14 @@ This method of creating synchronized groups is well-suited for a small number of
 If you need to synchronize a large number of groups that follow a common pattern, consider using the following filter functionality.
 
 
+## FAQ
+
+### Are nested / recursive LDAP groups supported?
+
+No, at this point in time, nested LDAP groups (i.e., group DNs being memberOf of another group entry) are not supported in OpenProject.
+However, there is a feature ticket for this in the wish list: https://community.openproject.org/projects/openproject/work_packages/34049/activity
+
+If you'd like to voice your interest in this feature, please comment it with your use-case to provide visibility.
 
 
 

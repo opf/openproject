@@ -73,7 +73,7 @@ pl:
       text_2fa_disabled: "Użytkownik nie ustawił urządzenia 2FA na swojej stronie \"Moje konto\""
     upsale:
       title: 'Uwierzytelnianie dwuskładnikowe'
-      description: 'Wzmocnij swoje mechanizmy uwierzytelniania wewnętrznego lub zewnętrznego za pomocą drugiego składnika.'
+      description: 'Potwierdź bezpieczeństwo twojej instancji OpenProject poprzez zaoferowanie (lub wyegzekwowanie) uwierzytelnienia dwuskładnikowego wszystkim członkom projektu.'
     backup_codes:
       none_found: Na tym koncie nie ma kodów zapasowych.
       singular: Kod zapasowy
@@ -136,8 +136,6 @@ pl:
     message_bird:
       sms_delivery_failed: 'MessageBird – dostarczenie wiadomości SMS nie powiodło się.'
       voice_delivery_failed: 'MessageBird – połączenie głosowe nie powiodło się.'
-    restdt:
-      delivery_failed_with_code: 'Błąd dostarczania tokenu. (Kod błędu %{code})'
     strategies:
       totp: 'Aplikacja do uwierzytelniania'
       sns: 'Amazon SNS'

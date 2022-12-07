@@ -28,10 +28,6 @@
 
 module API::V3::Utilities
   module StoragesHelpers
-    def reply_with_not_found_if_module_inactive
-      raise ::API::Errors::NotFound unless OpenProject::FeatureDecisions.storages_module_active?
-    end
-
     def visible_storages_scope
       ::Storages::Storage.visible(current_user)
     end

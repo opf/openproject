@@ -5,8 +5,8 @@ vi:
       remove: 'Xóa widget'
       configure: 'Configure widget'
       upsale:
-        text: "Một số widget, như widget biểu đồ gói công việc, chỉ có sẵn trong"
-        link: 'Enterprise Edition.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: 'Custom text'

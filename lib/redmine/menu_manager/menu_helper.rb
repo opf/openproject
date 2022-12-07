@@ -95,14 +95,14 @@ module Redmine::MenuManager::MenuHelper
   # Available options:
   # menu_item_class: Additional classes for the menu item li wrapper
   # drop_down_class: Additional classes for the hidden drop down
-  def render_menu_dropdown(label_node, options = {}, &block)
+  def render_menu_dropdown(label_node, options = {}, &)
     content_tag :li, class: "op-app-menu--item op-app-menu--item_has-dropdown #{options[:menu_item_class]}" do
       concat(label_node)
       concat(content_tag(:ul,
                          style: 'display:none',
                          id: options[:drop_down_id],
                          class: "op-app-menu--dropdown #{options.fetch(:drop_down_class, '')}",
-                         &block))
+                         &))
     end
   end
 
@@ -168,12 +168,13 @@ module Redmine::MenuManager::MenuHelper
     link_text << content_tag(:span,
                              class: "#{menu_class}--item-title #{item.badge(project).present? ? "#{menu_class}--item-title_has-badge" : ''}",
                              lang: menu_item_locale(item)) do
-      ''.html_safe + caption + badge_for(item)
+      title_text = ''.html_safe + caption + badge_for(item)
+      title_text
     end
     link_text << (' '.html_safe + op_icon(item.icon_after)) if item.icon_after.present?
-    html_options = item.html_options(selected: selected)
+    html_options = item.html_options(selected:)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
-    html_options[:class] = "#{html_options[:class]}  #{menu_class}--item-action"
+    html_options[:class] = "#{html_options[:class]} #{menu_class}--item-action"
     html_options['data-qa-selector'] = "#{menu_class}--item-action"
 
     link_to link_text, url, html_options
@@ -189,8 +190,8 @@ module Redmine::MenuManager::MenuHelper
     false
   end
 
-  def first_level_menu_items_for(menu, project = nil, &block)
-    menu_items_for(Redmine::MenuManager.items(menu).root.children, menu, project, &block)
+  def first_level_menu_items_for(menu, project = nil, &)
+    menu_items_for(Redmine::MenuManager.items(menu).root.children, menu, project, &)
   end
 
   private

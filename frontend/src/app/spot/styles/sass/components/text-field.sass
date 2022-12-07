@@ -18,11 +18,23 @@
     color: $spot-color-basic-black
     @include spot-focus
 
+  &:disabled,
+  &_disabled
+    color: $spot-color-basic-gray-3
+    border-color: $spot-color-basic-gray-4
+
+  &:disabled,
+  &_disabled &--input
+    &,
+    &:hover
+      background-color: $spot-color-basic-white
+
   &--input
     background: transparent
     border: 0
     padding: 0
     flex-grow: 1
+    width: 100%
     outline: 0
 
     &:not(:first-child)
@@ -30,6 +42,15 @@
 
     &:not(:last-child)
       margin-right: $spot-spacing-0_5
+
+    &:disabled,
+    &:disabled:hover
+      color: $spot-color-basic-gray-4
+      background-color: $spot-color-basic-white
+
+    &:focus,
+    &:focus-visible
+      outline: none
 
   &--clear-button
     border: 0

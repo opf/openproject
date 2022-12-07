@@ -15,6 +15,9 @@
     [fetchDataDirectly]="true"
     [focusDirectly]="shouldFocus"
     [model]="value"
+    [resource]="resourceType"
+    [compareWith]="compareByHref"
+    [trackByFn]="itemTracker"
     (change)="setValues($event)"
   ></op-autocompleter>
 </div>

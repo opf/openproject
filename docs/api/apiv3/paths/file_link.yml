@@ -4,7 +4,6 @@ get:
   summary: Gets a file link.
   operationId: view_file_link
   tags:
-    - Work Packages
     - File links
   description: |-
     Gets a single file link resource of a work package.
@@ -41,7 +40,6 @@ delete:
   summary: Removes a file link.
   operationId: delete_file_link
   tags:
-    - Work Packages
     - File links
   description: |-
     Removes a file link on a work package.

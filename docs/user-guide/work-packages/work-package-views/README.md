@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Work packages views
   priority: 999
 description: What are the different work packages views?
-robots: index, follow
 keywords: work packages views
 ---
 

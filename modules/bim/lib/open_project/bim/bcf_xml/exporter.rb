@@ -2,7 +2,6 @@ require 'fileutils'
 
 module OpenProject::Bim::BcfXml
   class Exporter < ::WorkPackage::Exports::QueryExporter
-
     def initialize(object, options = {})
       object.add_filter('bcf_issue_associated', '=', ['t'])
       super(object, options)
@@ -139,9 +138,7 @@ module OpenProject::Bim::BcfXml
     end
 
     def dump_file(path, content)
-      File.open(path, "w") do |f|
-        f.write content
-      end
+      File.write(path, content)
     end
 
     def created_by_comment

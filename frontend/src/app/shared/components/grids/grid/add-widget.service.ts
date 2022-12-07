@@ -58,30 +58,35 @@ export class GridAddWidgetService {
 
   private select(area:GridArea) {
     return new Promise<GridWidgetResource>((resolve, reject) => {
-      const modal = this.opModalService.show(AddGridWidgetModalComponent, this.injector, { schema: this.layout.schema });
-      modal.closingEvent.subscribe((modal:AddGridWidgetModalComponent) => {
-        const registered = modal.chosenWidget;
+      this.opModalService.show(
+        AddGridWidgetModalComponent,
+        this.injector,
+        { schema: this.layout.schema },
+      ).subscribe((modal) => {
+        modal.closingEvent.subscribe(() => {
+          const registered = modal.chosenWidget;
 
-        if (!registered) {
-          reject();
-          return;
-        }
+          if (!registered) {
+            reject();
+            return;
+          }
 
-        const source = {
-          _type: 'GridWidget',
-          identifier: registered.identifier,
-          startRow: area.startRow,
-          endRow: area.endRow,
-          startColumn: area.startColumn,
-          endColumn: area.endColumn,
-          options: registered.properties || {},
-        };
+          const source = {
+            _type: 'GridWidget',
+            identifier: registered.identifier,
+            startRow: area.startRow,
+            endRow: area.endRow,
+            startColumn: area.startColumn,
+            endColumn: area.endColumn,
+            options: registered.properties || {},
+          };
 
-        const resource:GridWidgetResource = this.halResource.createHalResource(source);
+          const resource:GridWidgetResource = this.halResource.createHalResource(source);
 
-        resource.grid = this.layout.gridResource;
+          resource.grid = this.layout.gridResource;
 
-        resolve(resource);
+          resolve(resource);
+        });
       });
     });
   }

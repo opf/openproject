@@ -2,12 +2,15 @@
   [open]="opened"
   alignment="bottom-right"
   (closed)="opened = false"
+  class="op-project-list-modal"
+  data-searchable-list-parent="true"
 >
   <button
     slot="trigger"
     type="button"
     class="button"
     (click)="toggleOpen()"
+    [title]="text.toggle_title"
     data-qa-selector="project-include-button"
   >
     {{ text.toggle_title }}
@@ -20,8 +23,8 @@
   </button>
 
   <ng-container slot="body">
-    <div class="op-project-include--header">
-      <h1 class="op-project-include--title">{{ text.title }}</h1>
+    <div class="op-project-list-modal--header op-project-include--header">
+      <h1 class="op-project-list-modal--title">{{ text.title }}</h1>
       <spot-toggle
         [options]="displayModeOptions"
         [(ngModel)]="displayMode"
@@ -29,15 +32,20 @@
     </div>
     <form
       (submit)="onSubmit($event)"
-      class="spot-container op-project-include--body"
+      class="spot-container op-project-list-modal--body"
+      *ngIf="projects$ | async as projects"
     >
       <spot-text-field
-        [disabled]="(loading$ | async)"
         [placeholder]="text.search_placeholder"
         name="project-include-search"
-        [(ngModel)]="searchText"
+        [(ngModel)]="searchableProjectListService.searchText"
         [ngModelOptions]="{standalone: true}"
         data-qa-selector="project-include-search"
+        data-list-focus-catcher-container="true"
+        data-modal-focus-catcher-container="true"
+        (keydown)="searchableProjectListService.onKeydown($event, projects)"
+        (inputFocus)="textFieldFocused = true"
+        (inputBlur)="textFieldFocused = false"
       >
         <span
           slot="before"
@@ -47,21 +55,30 @@
 
       <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
         <ul
+          *ngIf="projects.length > 0; else noResultsTemplate"
           class="op-project-include--list"
-          op-project-list
-          [projects]="projects$ | async"
+          [ngClass]="{ 'spot-list_active': textFieldFocused }"
+          op-project-include-list
+          [projects]="projects"
           [selected]="selectedProjects"
           [includeSubprojects]="includeSubprojects$ | async"
-          [searchText]="searchText"
+          [searchText]="searchableProjectListService.searchText"
           [root]="true"
           (update)="selectedProjects = $event"
           data-qa-selector="project-include-list"
+          data-list-root="true"
         ></ul>
-      </ng-container> 
+
+        <ng-template #noResultsTemplate>
+          <span class="op-project-list-modal--no-results">
+            {{text.no_results}}
+          </span>
+        </ng-template>
+      </ng-container>
 
       <div class="spot-action-bar">
         <div class="spot-action-bar--left">
-          <label class="op-project-include--include-all">
+          <label class="op-project-include--include-all spot-action-bar--action">
             <spot-checkbox
               [(ngModel)]="includeSubprojects"
               [ngModelOptions]="{standalone: true}"
@@ -73,15 +90,15 @@
         <div class="spot-action-bar--right">
           <button
             [disabled]="(loading$ | async)"
-            class="button"
+            class="button spot-action-bar--action"
             type="button"
             (click)="clearSelection()"
           >
             {{ text.clear_selection }}
           </button>
-          <button 
+          <button
             [disabled]="(loading$ | async)"
-            class="button -highlight"
+            class="button -highlight spot-action-bar--action"
           >
             {{ text.apply }}
           </button>
@@ -89,39 +106,11 @@
       </div>
     </form>
   </ng-container>
+
+  <ng-template #loadingTemplate>
+    <op-loading-project-list
+      class="op-project-list-modal--loading"
+      data-qa-selector="op-project-include--loading"
+    ></op-loading-project-list>
+  </ng-template>
 </spot-drop-modal>
-
-<ng-template #loadingTemplate>
-  <op-content-loader
-    class="op-project-include--loading"
-    data-qa-selector="op-project-include--loading"
-    viewBox="0 0 200 140"
-  >
-    <svg:rect x="0" width="12" height="12" rx="1" />
-    <svg:rect x="15" width="100%" height="12" rx="1" />
-
-    <svg:rect x="10" y="16" width="12" height="12" rx="1" />
-    <svg:rect x="25" y="16" width="100%" height="12" rx="1" />
-
-    <svg:rect x="10" y="32" width="12" height="12" rx="1" />
-    <svg:rect x="25" y="32" width="100%" height="12" rx="1" />
-
-    <svg:rect x="20" y="48" width="12" height="12" rx="1" />
-    <svg:rect x="35" y="48" width="100%" height="12" rx="1" />
-
-    <svg:rect x="20" y="64" width="12" height="12" rx="1" />
-    <svg:rect x="35" y="64" width="100%" height="12" rx="1" />
-
-    <svg:rect x="0" y="80" width="12" height="12" rx="1" />
-    <svg:rect x="15" y="80" width="100%" height="12" rx="1" />
-
-    <svg:rect x="10" y="96" width="12" height="12" rx="1" />
-    <svg:rect x="25" y="96" width="100%" height="12" rx="1" />
-
-    <svg:rect x="10" y="112" width="12" height="12" rx="1" />
-    <svg:rect x="25" y="112" width="100%" height="12" rx="1" />
-
-    <svg:rect x="0" y="128" width="12" height="12" rx="1" />
-    <svg:rect x="15" y="128" width="100%" height="12" rx="1" />
-  </op-content-loader>
-</ng-template>

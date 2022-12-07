@@ -33,9 +33,9 @@ import * as URI from 'urijs';
 import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { DurationDisplayField } from './duration-display-field.module';
+import { EstimatedTimeDisplayField } from 'core-app/shared/components/fields/display/field-types/estimated-time-display-field.module';
 
-export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
+export class WorkPackageSpentTimeDisplayField extends EstimatedTimeDisplayField {
   public text = {
     linkTitle: this.I18n.t('js.work_packages.message_view_spent_time'),
     logTime: this.I18n.t('js.button_log_time'),
@@ -100,7 +100,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
 
   private showTimelogWidget(wp:WorkPackageResource) {
     this.timeEntryCreateService
-      .create(moment(new Date()), wp, false)
+      .create(moment(new Date()), wp, { showWorkPackageField: false })
       .catch(() => {
         // do nothing, the user closed without changes
       });

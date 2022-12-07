@@ -3,7 +3,6 @@ sidebar_navigation:
   title: OpenID providers
   priority: 800
 description: OpenID providers for OpenProject.
-robots: index, follow
 keywords: OpenID providers
 ---
 # OpenID providers

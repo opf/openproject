@@ -51,7 +51,7 @@ export type HalSourceLinks = {
 };
 
 export type HalSource = {
-  [key:string]:string|number|null|HalSourceLinks,
+  [key:string]:string|number|boolean|null|HalSourceLinks,
   _links:HalSourceLinks
 };
 

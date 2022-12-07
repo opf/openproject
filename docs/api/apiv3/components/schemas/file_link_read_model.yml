@@ -38,12 +38,15 @@ properties:
     type: object
     required:
       - self
+      - storage
       - container
       - creator
+      - permission
       - originOpen
       - staticOriginOpen
       - originOpenLocation
       - staticOriginOpenLocation
+      - staticOriginDownload
     properties:
       self:
         allOf:
@@ -82,6 +85,16 @@ properties:
               The uri to delete the file link.
 
               **Resource**: N/A
+      permission:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The urn of the user specific file link permission on its storage. Can be one of:
+
+              - urn:openproject-org:api:v3:file-links:permission:View
+              - urn:openproject-org:api:v3:file-links:permission:NotAllowed
+
+              **Resource**: N/A
       originOpen:
         allOf:
           - $ref: './link.yml'
@@ -108,6 +121,13 @@ properties:
           - $ref: './link.yml'
           - description: |-
               A static uri to open the location of the origin file on the storage. Responds with a redirect.
+              
+              **Resource**: N/A
+      staticOriginDownload:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              A static uri to generate a new download URL from the storage. Responds with a redirect.
               
               **Resource**: N/A
 
@@ -157,6 +177,7 @@ example:
         raw: Develop super cool OpenProject API.
         html: "<p>Develop super cool OpenProject API.</p>"
       scheduleManually: false
+      readonly: false
       startDate:
       dueDate:
       createdAt: '2014-08-29T12:40:53Z'
@@ -175,11 +196,16 @@ example:
       title: Obi-Wan Kenobi
     delete:
       href: /api/v3/work_package/17/file_links/1337
+    permission:
+      href: urn:openproject-org:api:v3:file-links:permission:View
+      title: View
     originOpen:
       href: https://nextcloud.deathstar.rocks/index.php/f/5503?openfile=1
     staticOriginOpen:
-      href: /api/v3/work_package/17/file_links/1337/open
+      href: /api/v3/file_links/1337/open
     originOpenLocation:
       href: https://nextcloud.deathstar.rocks/index.php/f/5503?openfile=0
     staticOriginOpenLocation:
-      href: /api/v3/work_package/17/file_links/1337/open?location=true
+      href: /api/v3/file_links/1337/open?location=true
+    staticOriginDownload:
+      href: /api/v3/file_links/1337/download

@@ -10,6 +10,7 @@ import {
 import {
   filter,
   map,
+  shareReplay,
   switchMap,
   throttleTime,
 } from 'rxjs/operators';
@@ -41,7 +42,26 @@ export class InAppNotificationBellComponent {
   unreadCount$ = combineLatest([
     this.storeService.unread$,
     this.polling$,
-  ]).pipe(map(([count]) => count));
+  ]).pipe(
+    map(([count]) => count),
+    shareReplay(1),
+  );
+
+  unreadCountText$ = this
+    .unreadCount$
+    .pipe(
+      map((count) => {
+        if (count > 99) {
+          return '99+';
+        }
+
+        if (count <= 0) {
+          return '';
+        }
+
+        return count;
+      }),
+    );
 
   constructor(
     readonly storeService:IanBellService,

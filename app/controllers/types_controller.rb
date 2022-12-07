@@ -84,7 +84,7 @@ class TypesController < ApplicationController
       .new(@type, current_user)
       .call(permitted_type_params) do |call|
       call.on_success do
-        redirect_to_type_tab_path(@type, t(:notice_successful_update))
+        redirect_to_type_tab_path(@type, update_success_message)
       end
 
       call.on_failure do |result|
@@ -135,8 +135,8 @@ class TypesController < ApplicationController
 
   def redirect_to_type_tab_path(type, notice)
     tab = params["tab"] || "settings"
-    redirect_to(edit_type_tab_path(type, tab: tab),
-                notice: notice)
+    redirect_to(edit_type_tab_path(type, tab:),
+                notice:)
   end
 
   def default_breadcrumb
@@ -157,6 +157,14 @@ class TypesController < ApplicationController
 
   def show_local_breadcrumb
     true
+  end
+
+  def update_success_message
+    if params[:tab].in?(["form_configuration", "projects"])
+      t(:notice_successful_update_custom_fields_added_to_type)
+    else
+      t(:notice_successful_update)
+    end
   end
 
   def destroy_error_message
@@ -183,6 +191,6 @@ class TypesController < ApplicationController
   end
 
   def belonging_wps_url(type_id)
-    work_packages_path query_props: '{"f":[{"n":"type","o":"=","v":[' + type_id.to_s + ']}]}'
+    work_packages_path query_props: "{\"f\":[{\"n\":\"type\",\"o\":\"=\",\"v\":[#{type_id}]}]}"
   end
 end

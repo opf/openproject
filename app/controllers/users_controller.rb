@@ -49,9 +49,6 @@ class UsersController < ApplicationController
   include PasswordConfirmation
   before_action :check_password_confirmation, only: [:destroy]
 
-  include Accounts::UserLimits
-  before_action :enforce_user_limit, only: [:create]
-  before_action -> { enforce_user_limit flash_now: true }, only: [:new]
 
   include SortHelper
   include CustomFieldsHelper
@@ -126,6 +123,7 @@ class UsersController < ApplicationController
         if @user.invited?
           # setting a password for an invited user activates them implicitly
           @user.activate!
+
           send_information = true
         end
 
@@ -168,9 +166,7 @@ class UsersController < ApplicationController
       return
     end
 
-    if (params[:unlock] || params[:activate]) && user_limit_reached?
-      show_user_limit_error!
-
+    if (params[:unlock] || params[:activate]) 
       return redirect_back_or_default(action: 'edit', id: @user)
     end
 
@@ -186,18 +182,16 @@ class UsersController < ApplicationController
     was_activated = (@user.status_change == %w[registered active])
 
     if params[:activate] && @user.missing_authentication_method?
-      flash[:error] = I18n.t(:error_status_change_failed,
-                             errors: I18n.t(:notice_user_missing_authentication_method),
-                             scope: :user)
+      flash[:error] = I18n.t('user.error_status_change_failed',
+                             errors: I18n.t(:notice_user_missing_authentication_method))
     elsif @user.save
       flash[:notice] = I18n.t(:notice_successful_update)
       if was_activated
         UserMailer.account_activated(@user).deliver_later
       end
     else
-      flash[:error] = I18n.t(:error_status_change_failed,
-                             errors: @user.errors.full_messages.join(', '),
-                             scope: :user)
+      flash[:error] = I18n.t('user.error_status_change_failed',
+                             errors: @user.errors.full_messages.join(', '))
     end
     redirect_back_or_default(action: 'edit', id: @user)
   end
@@ -310,7 +304,7 @@ class UsersController < ApplicationController
     if params[:user][:assign_random_password]
       password = OpenProject::Passwords::Generator.random_password
       update_params.merge!(
-        password: password,
+        password:,
         password_confirmation: password,
         force_password_change: true
       )

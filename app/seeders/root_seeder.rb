@@ -88,7 +88,10 @@ class RootSeeder < Seeder
   ##
   # Clears some schema caches and column information.
   def reset_active_record!
-    ActiveRecord::Base.descendants.each do |klass|
+    ActiveRecord::Base
+      .descendants
+      .reject(&:abstract_class?)
+      .each do |klass|
       klass.connection.schema_cache.clear!
       klass.reset_column_information
     end
@@ -99,7 +102,7 @@ class RootSeeder < Seeder
     # #set_language_if_valid here as it
     # would mean to circumvent the default settings
     # for valid_languages.
-    desired_lang = (ENV['OPENPROJECT_SEED_LOCALE'] || :en).to_sym
+    desired_lang = ENV.fetch('OPENPROJECT_SEED_LOCALE', :en).to_sym
 
     if all_languages.include?(desired_lang)
       I18n.locale = desired_lang

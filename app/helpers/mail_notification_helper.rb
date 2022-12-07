@@ -41,7 +41,12 @@ module MailNotificationHelper
 
   def type_color(type, default_fallback)
     color_id = selected_color(type)
-    color_id ? Color.find(color_id).hexcode : default_fallback
+    if color_id
+      color = Color.find(color_id)
+      return color.super_bright? ? darken_color(color.hexcode, 0.75) : color.hexcode
+    end
+
+    default_fallback
   end
 
   def status_colors(status)
@@ -81,6 +86,6 @@ module MailNotificationHelper
               "line-height:#{number}; max-width:0; min-width:0; height:#{number}; width:0; font-size:#{number}"
             end
 
-    content_tag('td', '&nbsp;'.html_safe, style: style)
+    content_tag('td', '&nbsp;'.html_safe, style:)
   end
 end

@@ -66,4 +66,6 @@ zh-TW:
           If you enable this option, found users will also be automatically created in OpenProject. Without it, only existing accounts in OpenProject will be added to groups.
         dn_text: '輸入 LDAP 中群組的完成 DN'
         group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+      upsale:
+        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
 

@@ -18,15 +18,13 @@ module Ldap
       raise NotImplementedError
     end
 
-    # rubocop:disable Metrics/AbcSize
+    protected
+
     def synchronize_user(user, ldap_con)
       Rails.logger.debug { "[LDAP user sync] Synchronizing user #{user.login}." }
 
       update_attributes = user_attributes(user.login, ldap_con)
-      if update_attributes.nil? && user.persisted?
-        Rails.logger.info { "Could not find user #{user.login} in #{ldap.name}. Locking the user." }
-        user.update_column(:status, Principal.statuses[:locked])
-      end
+      lock_user!(user) if update_attributes.nil? && user.persisted?
       return unless update_attributes
 
       if user.new_record?
@@ -35,7 +33,6 @@ module Ldap
         try_to_update(user, update_attributes)
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     # Try to create the user from attributes
     def try_to_update(user, attrs)
@@ -44,8 +41,7 @@ module Ldap
         .call(attrs)
 
       if call.success?
-        # Ensure the user is activated
-        call.result.update_column(:status, Principal.statuses[:active])
+        activate_user!(user)
         Rails.logger.info { "[LDAP user sync] User '#{call.result.login}' updated." }
       else
         Rails.logger.error { "[LDAP user sync] User '#{user.login}' could not be updated: #{call.message}" }
@@ -65,13 +61,39 @@ module Ldap
     end
 
     ##
+    # Locks the given user if this is what the sync service should do.
+    def lock_user!(user)
+      if OpenProject::Configuration.ldap_users_sync_status?
+        Rails.logger.info { "Could not find user #{user.login} in #{ldap.name}. Locking the user." }
+        user.update_column(:status, Principal.statuses[:locked])
+      else
+        Rails.logger.info do
+          "Could not find user #{user.login} in #{ldap.name}. Ignoring due to ldap_users_sync_status being unset"
+        end
+      end
+    end
+
+    ##
+    # Activates the given user if this is what the sync service should do.
+    def activate_user!(user)
+      if OpenProject::Configuration.ldap_users_sync_status?
+        Rails.logger.info { "Activating #{user.login} due to it being synced from LDAP #{ldap.name}." }
+        user.update_column(:status, Principal.statuses[:active])
+      else
+        Rails.logger.info do
+          "Would activate #{user.login} through #{ldap.name} but ignoring due to ldap_users_sync_status being unset."
+        end
+      end
+    end
+
+    ##
     # Get the user attributes of a single matching LDAP entry.
     #
     # If the login matches multiple entries, return nil and issue a warning.
     # If the login does not match, returns nil
     def user_attributes(login, ldap_con)
       # Return the first matching user
-      entries = find_entries_by(login: login, ldap_con: ldap_con)
+      entries = find_entries_by(login:, ldap_con:)
 
       if entries.count == 0
         Rails.logger.info { "[LDAP user sync] Did not find LDAP entry for #{login}" }

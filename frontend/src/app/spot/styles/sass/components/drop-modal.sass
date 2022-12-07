@@ -10,9 +10,8 @@
     opacity: 1
 
     position: fixed
-    top: auto
     height: auto
-    bottom: $spot-spacing-3_5 
+    bottom: $spot-spacing-3_5
     left: $spot-spacing-1
     right: $spot-spacing-1
     width: calc(100vw - (2 * #{$spot-spacing-1}))
@@ -26,14 +25,13 @@
     flex-direction: column
 
     @media #{$spot-mq-landscape}
-      bottom: $spot-spacing-1 
+      bottom: $spot-spacing-1
       right: $spot-spacing-3_5
       max-height: calc(100vh - (2 * #{$spot-spacing-1}))
       width: calc(100vw - (#{$spot-spacing-3_5} + #{$spot-spacing-1}))
 
     @media #{$spot-mq-drop-modal-in-context}
       position: absolute
-      top: unset
       bottom: unset
       left: unset
       right: unset
@@ -43,55 +41,55 @@
       max-height: calc(100vh - (2 * #{$spot-spacing-1}))
 
       &_left-top
-        right: calc(100% + #{$spot-spacing-0_25})
+        right: 100%
         top: 0%
 
       &_left-center
-        right: calc(100% + #{$spot-spacing-0_25})
+        right: 100%
         top: 50%
         transform: translateY(-50%)
 
       &_left-bottom
-        right: calc(100% + #{$spot-spacing-0_25})
+        right: 100%
         bottom: 0%
 
       &_bottom-left
-        top: calc(100% + #{$spot-spacing-0_25})
+        top: 100%
         left: 0%
 
       &_bottom-center
-        top: calc(100% + #{$spot-spacing-0_25})
+        top: 100%
         left: 50%
         transform: translateX(-50%)
 
       &_bottom-right
-        top: calc(100% + #{$spot-spacing-0_25})
+        top: 100%
         right: 0%
 
       &_right-top
-        left: calc(100% + #{$spot-spacing-0_25})
+        left: 100%
         top: 0%
 
       &_right-center
-        left: calc(100% + #{$spot-spacing-0_25})
+        left: 100%
         top: 50%
         transform: translateY(-50%)
 
       &_right-bottom
-        left: calc(100% + #{$spot-spacing-0_25})
+        left: 100%
         bottom: 0%
 
       &_top-left
-        bottom: calc(100% + #{$spot-spacing-0_25})
+        bottom: 100%
         left: 0%
 
       &_top-center
-        bottom: calc(100% + #{$spot-spacing-0_25})
+        bottom: 100%
         left: 50%
         transform: translateX(-50%)
 
       &_top-right
-        bottom: calc(100% + #{$spot-spacing-0_25})
+        bottom: 100%
         right: 0%
 
     // TODO: At some point, this needs to be a cleverer selector.
@@ -101,7 +99,7 @@
     > .spot-container > .spot-action-bar
       border-bottom-left-radius: $border-radius
       border-bottom-right-radius: $border-radius
-  
+
   &_opened::before
     @include spot-z-index("drop-modal", 0)
     display: block

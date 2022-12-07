@@ -3,8 +3,7 @@ sidebar_navigation:
   title: Enterprise cloud FAQ
   priority: 001
 description: Frequently asked questions regarding Enterprise cloud
-robots: index, follow
-keywords: Enterprise cloud FAQ, Cloud Edition, hosted by OpenProject
+keywords: Enterprise cloud, FAQ, cloud edition, hosted by OpenProject
 ---
 
 # Frequently asked questions (FAQ) for Enterprise cloud
@@ -19,7 +18,7 @@ You can do this in your OpenProject instance in the administration. The number o
 
 ## How can I change my payment details (e.g. new credit card)?
 
-Please have a look at [this instruction](../manage-cloud-subscription/) for the Cloud edition to change your payment details.
+Please have a look at [this instruction](../manage-cloud-subscription/) for the Enterprise cloud edition to change your payment details.
 
 
 ## Does OpenProject comply with GDPR?
@@ -28,15 +27,15 @@ Yes. The protection of personal data is for OpenProject more than just a legal r
 
 ## Is the Enterprise cloud certified?
 
-The data center (AWS) we use for Enterprise Cloud Edition is ISO27001 certified.
+The data center (AWS) we use for Enterprise cloud edition is ISO27001 certified.
 
 For more information please visit the [information regarding security measures](https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures) on our website.
 
-## Does OpenProject employ sub-processors for the OpenProject Cloud Edition from outside the EU?
+## Does OpenProject employ sub-processors for the OpenProject Enterprise cloud edition from outside the EU?
 
-A list of all sub-processors used in the OpenProject Enterprise Cloud can be found [here](https://www.openproject.org/legal/data-processing-agreement/sub-processors/).
+A list of all sub-processors used in the OpenProject Enterprise cloud can be found [here](https://www.openproject.org/legal/data-processing-agreement/sub-processors/).
 
-Please note: For the OpenProject Enterprise Cloud we currently have two SaaS infrastructures:
+Please note: For the OpenProject Enterprise cloud we currently have two SaaS infrastructures:
 
 **OpenProject.com** 
 
@@ -48,15 +47,15 @@ Starting from April 2022, we will also offer hosting of the OpenProject Enterpri
 
 **Migration after the beta phase in April 2022**
 
-After the end of the beta phase we plan to migrate <u>all</u> customers to the new infrastructure *OpenProject.eu*. Before this migration we (Processor) notified in March 2022 all clients (Controller) about the new sub-processors by email.  After the expiry of the objection period of two weeks, the modification shall be deemed approved within the meaning of Article 28  (2) GDPR. If the the Controller objects by email to privacy@openproject.com within two weeks we will <u>not</u> migrate their data. For more information please have a look at [§ 8 "Sub-processors](https://www.openproject.org/legal/data-processing-agreement/#-8-sub-processors) in your DPA.
+After the end of the beta phase we plan to migrate <u>all</u> customers to the new infrastructure *OpenProject.eu*. Before this migration we (Processor) notified in March 2022 all clients (Controller) about the new sub-processors by email.  After the expiry of the objection period of two weeks, the modification shall be deemed approved within the meaning of Article 28  (2) GDPR. If the the Controller objects by email to privacy@openproject.com within two weeks we will <u>not</u> migrate their data. For more information please have a look at [Use of sub-processors](https://www.openproject.org/legal/data-processing-agreement/#77-use-of-sub-processors) in your DPA.
 
 ## Can I get a custom domain name instead of example.openproject.com?
 
-Yes, you can create your custom domain name. For this service we charge €100 once-off. Please add it in your booking process (will soon be available) or contact us via email (support@openproject.com).
+Yes, you can create your custom domain name. For this service we charge €100 per month. Please contact us via email (support@openproject.com) if you are interested.
 
 ## Can I import my OpenProject community instance into my Enterprise cloud environment?
 
-Yes, we provide an upload possibility of your data to move from a Community Edition installation to the Enterprise cloud edition.
+Yes, we provide an upload possibility of your data to move from a Community edition installation to the Enterprise cloud edition.
 To import your community instance into our cloud environment, please send us the following files:
 
 1. The database SQL dump of your local installation

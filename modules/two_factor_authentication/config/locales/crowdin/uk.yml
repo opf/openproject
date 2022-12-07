@@ -73,7 +73,7 @@ uk:
       text_2fa_disabled: "Користувач не налаштував пристрій 2FA через свою сторінку \"Мій обліковий запис\""
     upsale:
       title: 'Двофакторна аутентифікація'
-      description: 'Зміцнюйте свої внутрішні або зовнішні механізми аутентифікації другим фактором.'
+      description: 'Посильте безпеку свого екземпляра OpenProject, передбачивши можливість проходити двоетапну автентифікацію (добровільно або примусово) для всіх учасників проєкту.'
     backup_codes:
       none_found: Для цього облікового запису не існує резервних кодів.
       singular: Резервний код
@@ -136,8 +136,6 @@ uk:
     message_bird:
       sms_delivery_failed: 'Помилка доставки SMS MessageBird.'
       voice_delivery_failed: 'Помилка голосового дзвінка MessageBird.'
-    restdt:
-      delivery_failed_with_code: 'Помилка доставки маркера. (Error code %{code})'
     strategies:
       totp: 'Програма-автентифікатор'
       sns: 'Amazon SNS'

@@ -1,12 +1,13 @@
 # /api/v3/storages/{id}
 ---
 get:
-  summary: Gets a file link.
-  operationId: Get_Storage
+  summary: Gets a storage.
+  operationId: get_storage
   tags:
     - File links
   description: |-
-    Gets a storage resource.
+    Gets a storage resource. As a side effect, a live connection to the storages origin is established to retrieve
+    connection state data.
   parameters:
     - name: id
       description: Storage id

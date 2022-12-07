@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Roles and permissions
   priority: 970
 description: Manage roles and permissions in OpenProject.
-robots: index, follow
 keywords: manage roles, manage permissions
 ---
 # Roles and permissions

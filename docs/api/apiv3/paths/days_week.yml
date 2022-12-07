@@ -1,0 +1,59 @@
+# /api/v3/days/week
+---
+get:
+  summary: Lists week days
+  operationId: list_week_days
+  tags:
+    - Work Schedule
+  description: |-
+    Lists week days with work schedule information.
+  responses:
+    '200':
+      description: |-
+        OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/week_day_collection_model.yml'
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+
+patch:
+  summary: Update week days (NOT IMPLEMENTED)
+  operationId: update_week_days
+  tags:
+    - Work Schedule
+  description: |-
+    **(NOT IMPLEMENTED)**
+    Update multiple week days with work schedule information.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/week_day_collection_write_model.yml
+
+  responses:
+    '200':
+      description: |-
+        OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/week_day_collection_model.yml'
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '404':
+      description: |-
+        Returned if a week day resource can not be found.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: The requested resource could not be found.
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"

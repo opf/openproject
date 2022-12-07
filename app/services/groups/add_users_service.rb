@@ -28,13 +28,14 @@
 
 module Groups
   class AddUsersService < ::BaseServices::BaseContracted
+    using CoreExtensions::SquishSql
     include Groups::Concerns::MembershipManipulation
 
     def initialize(group, current_user:, contract_class: AdminOnlyContract)
       self.model = group
 
       super user: current_user,
-            contract_class: contract_class
+            contract_class:
     end
 
     private
@@ -49,7 +50,7 @@ module Groups
     end
 
     def add_to_user_and_projects_cte
-      <<~SQL
+      <<~SQL.squish
         -- select existing users from given IDs
         WITH found_users AS (
           SELECT id as user_id FROM #{User.table_name} WHERE id IN (:user_ids)

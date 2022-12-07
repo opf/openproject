@@ -35,7 +35,7 @@ class Widget::Filters::MultiChoice < Widget::Filters::Base
           type: 'radio',
           name: "values[#{filterName}][]",
           id: "#{filterName}_radio_option_#{i}",
-          value: value
+          value:
         }
         opts[:checked] = 'checked' if filter.values == [value].flatten
         radio_button = tag :input, opts

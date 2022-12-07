@@ -28,7 +28,7 @@
 
 require Rails.root.join('config/constants/open_project/activity')
 
-module Redmine #:nodoc:
+module Redmine # :nodoc:
   class PluginError < StandardError
     attr_reader :plugin_id
 
@@ -108,7 +108,7 @@ module Redmine #:nodoc:
 
       if p.settings
         Settings::Definition.add("plugin_#{id}",
-                                 value: p.settings[:default],
+                                 default: p.settings[:default],
                                  format: :hash,
                                  env_alias: p.settings[:env_alias])
       end
@@ -127,13 +127,7 @@ module Redmine #:nodoc:
       # find circular dependencies
       raise PluginCircularDependency.new(id) if dependencies_for(e.plugin_id).include?(id)
 
-      if RedminePluginLocator.instance.has_plugin? e.plugin_id
-        # The required plugin is going to be loaded later, defer loading this plugin
-        (deferred_plugins[e.plugin_id] ||= []) << [id, block]
-        p
-      else
-        raise
-      end
+      raise
     end
 
     def name(*args)
@@ -154,7 +148,10 @@ module Redmine #:nodoc:
     # (might not be complete at all times!)
     def self.dependencies_for(id)
       direct_deps = deferred_plugins.keys.find_all { |k| deferred_plugins[k].map(&:first).include?(id) }
-      direct_deps.inject([]) { |deps, v| deps << v; deps += dependencies_for(v) }
+      direct_deps.inject([]) do |deps, v|
+        deps << v
+        deps += dependencies_for(v)
+      end
     end
 
     # Returns an array of all registered plugins
@@ -330,11 +327,14 @@ module Redmine #:nodoc:
     #     permission :view_contacts, { contacts: [:list, :show] }, public: true
     #     permission :destroy_contacts, { contacts: :destroy }
     #   end
-    def project_module(name, options = {}, &block)
-      @project_scope = [name, options]
-      instance_eval(&block)
+    def project_module(name, options = {}, &)
+      plugin = self
+      Rails.application.reloader.to_prepare do
+        plugin.instance_eval { @project_scope = [name, options] }
+        plugin.instance_eval(&)
+      end
     ensure
-      @project_scope = nil
+      plugin.instance_eval { @project_scope = nil }
     end
 
     # Registers an activity provider.
@@ -375,7 +375,7 @@ module Redmine #:nodoc:
 
     # Returns +true+ if the plugin can be configured.
     def configurable?
-      settings && settings.is_a?(Hash) && !settings[:partial].blank?
+      settings && settings.is_a?(Hash) && settings[:partial].present?
     end
 
     def mirror_assets

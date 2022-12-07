@@ -7,7 +7,7 @@ sl:
       label_unnamed_list: 'Neimenovani seznam'
       label_board_type: 'Vrsta table'
       upsale:
-        teaser_text: 'Would you like ready-to-use board templates? Advanced boards are an Enterprise feature. Please upgrade to a paid plan.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Nadgradi zdaj'
       lists:
         delete: 'Izbriši seznam'
@@ -49,7 +49,6 @@ sl:
           Osnoven kanban stil odložišča s stolpci za stanja: Za narediti, V delu, Narejeno.
         action_text_assignee: >
           Tabla s samodejnimi stolpci glede na dodeljene člane. Popoln za odpošiljanje delovnih paketov
-
         action_text_version: >
           Tabla s samodejnimi stolpci glede na verzijo lastnosti. Popoln za načrtovanje razvoja projekta.
         action_type:
@@ -63,7 +62,7 @@ sl:
           status: Stanje
           version: Različica
           subproject: Podprojekt
-          subtasks: Starš-Otrok
+          subtasks: Parent-child
           basic: Osnoven
         select_attribute: "Atributi opravil"
       add_list_modal:

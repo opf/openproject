@@ -175,7 +175,7 @@ module API
         # Write-only properties
 
         property :password,
-                 getter: ->(*) { nil },
+                 getter: ->(*) {},
                  render_nil: false,
                  setter: ->(fragment:, represented:, **) {
                    represented.password = represented.password_confirmation = fragment

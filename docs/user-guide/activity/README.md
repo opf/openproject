@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Activity
   priority: 890
 description: Find out about the Activity within a project
-robots: index, follow
 keywords: activity
 ---
 
@@ -29,7 +28,7 @@ Enable the **Activity** module and click the blue **Save** button.
 
 ![project-settings-modules](project-settings-modules.png)
 
-### How to display the Activities of a project?
+### How to display the Activities of a project
 
 The Activities from a project are displayed in the Activity module.
 

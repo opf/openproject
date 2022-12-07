@@ -40,64 +40,69 @@ export class ConfigurationService {
 
   public initialized:Promise<boolean>;
 
-  public constructor(readonly I18n:I18nService,
-    readonly apiV3Service:ApiV3Service) {
-    this.initialized = this.loadConfiguration().then(() => true).catch(() => false);
+  public constructor(
+    readonly I18n:I18nService,
+    readonly apiV3Service:ApiV3Service,
+  ) {
+    this.initialized = this
+      .loadConfiguration()
+      .then(() => true)
+      .catch(() => false);
   }
 
-  public commentsSortedInDescendingOrder() {
+  public commentsSortedInDescendingOrder():boolean {
     return this.userPreference('commentSortDescending');
   }
 
-  public warnOnLeavingUnsaved() {
+  public warnOnLeavingUnsaved():boolean {
     return this.userPreference('warnOnLeavingUnsaved');
   }
 
-  public autoHidePopups() {
+  public autoHidePopups():boolean {
     return this.userPreference('autoHidePopups');
   }
 
-  public isTimezoneSet() {
+  public isTimezoneSet():boolean {
     return !!this.timezone();
   }
 
   public timezone():string {
-    return this.userPreference('timeZone') as string;
+    return this.userPreference('timeZone');
   }
 
-  public isDirectUploads() {
+  public isDirectUploads():boolean {
     return !!this.prepareAttachmentURL;
   }
 
-  public get prepareAttachmentURL() {
-    return _.get(this.configuration, ['prepareAttachment', 'href']);
+  public get prepareAttachmentURL():string {
+    return _.get(this.configuration, ['prepareAttachment', 'href']) as string;
   }
 
-  public get maximumAttachmentFileSize() {
+  public get maximumAttachmentFileSize():number {
     return this.systemPreference('maximumAttachmentFileSize');
   }
 
-  public get perPageOptions() {
+  public get perPageOptions():number[] {
     return this.systemPreference('perPageOptions');
   }
 
-  public dateFormatPresent() {
+  public dateFormatPresent():boolean {
     return !!this.systemPreference('dateFormat');
   }
 
-  public dateFormat() {
+  public dateFormat():string {
     return this.systemPreference('dateFormat');
   }
 
-  public timeFormatPresent() {
+  public timeFormatPresent():boolean {
     return !!this.systemPreference('timeFormat');
   }
 
-  public timeFormat() {
+  public timeFormat():string {
     return this.systemPreference('timeFormat');
   }
 
-  public startOfWeekPresent() {
+  public startOfWeekPresent():boolean {
     return !!this.systemPreference('startOfWeek');
   }
 
@@ -106,6 +111,14 @@ export class ConfigurationService {
       return this.systemPreference('startOfWeek');
     }
     return moment.localeData(I18n.locale).firstDayOfWeek();
+  }
+
+  public get hostName():string {
+    return this.systemPreference('hostName');
+  }
+
+  public get activeFeatureFlags():string[] {
+    return this.systemPreference<string[]>('activeFeatureFlags');
   }
 
   private loadConfiguration() {
@@ -119,11 +132,11 @@ export class ConfigurationService {
       });
   }
 
-  private userPreference(pref:string) {
-    return _.get(this.configuration, ['userPreferences', pref]);
+  private userPreference<T>(pref:string):T {
+    return _.get(this.configuration, ['userPreferences', pref]) as T;
   }
 
-  private systemPreference(pref:string) {
-    return _.get(this.configuration, pref);
+  private systemPreference<T>(pref:string):T {
+    return _.get(this.configuration, pref) as T;
   }
 }

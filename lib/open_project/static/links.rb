@@ -38,9 +38,7 @@ module OpenProject
           OpenProject::Configuration.force_help_link.presence || static_links[:user_guides]
         end
 
-        def [](name)
-          links[name]
-        end
+        delegate :[], to: :links
 
         def links
           @links ||= static_links.merge(dynamic_links)
@@ -72,33 +70,46 @@ module OpenProject
 
         def static_links
           {
-            upsale: {
-              href: 'https://www.openproject.org/enterprise-edition',
-              label: 'homescreen.links.upgrade_enterprise_edition'
+            user_guides: {
+              href: 'https://www.openproject.org/docs/user-guide/',
+              label: 'homescreen.links.user_guides'
             },
-            upsale_benefits_features: {
-              href: 'https://www.openproject.org/enterprise-edition/#premium-features',
-              label: 'noscript_learn_more'
+            installation_guides: {
+              href: 'https://www.openproject.org/docs/installation-and-operations/installation/',
+              label: :label_installation_guides
             },
-            upsale_benefits_installation: {
-              href: 'https://www.openproject.org/enterprise-edition/#installation',
-              label: 'noscript_learn_more'
+            packager_installation: {
+              href: 'https://www.openproject.org/docs/installation-and-operations/installation/packaged/',
+              label: 'Packaged installation'
             },
-            upsale_benefits_security: {
-              href: 'https://www.openproject.org/enterprise-edition/#security-features',
-              label: 'noscript_learn_more'
+            docker_installation: {
+              href: 'https://www.openproject.org/docs/installation-and-operations/installation/docker/',
+              label: 'Docker installation'
             },
-            upsale_benefits_support: {
-              href: 'https://www.openproject.org/enterprise-edition/#professional-support',
-              label: 'noscript_learn_more'
-            },
-            upsale_get_quote: {
-              href: 'https://www.openproject.org/request-quote/',
-              label: 'admin.enterprise.get_quote'
+
+            manual_installation: {
+              href: 'https://www.openproject.org/docs/installation-and-operations/installation/manual/',
+              label: 'Manual installation'
             },
             user_guides: {
               href: 'https://www.openproject.org/docs/user-guide/',
               label: 'homescreen.links.user_guides'
+            },
+            installation_guides: {
+              href: 'https://www.openproject.org/docs/installation-and-operations/installation/',
+              label: :label_installation_guides
+            },
+            packager_installation: {
+              href: 'https://www.openproject.org/docs/installation-and-operations/installation/packaged/',
+              label: 'Packaged installation'
+            },
+            docker_installation: {
+              href: 'https://www.openproject.org/docs/installation-and-operations/installation/docker/',
+              label: 'Docker installation'
+            },
+            manual_installation: {
+              href: 'https://www.openproject.org/docs/installation-and-operations/installation/manual/',
+              label: 'Manual installation'
             },
             upgrade_guides: {
               href: 'https://www.openproject.org/docs/installation-and-operations/operation/upgrading/',
@@ -116,7 +127,7 @@ module OpenProject
               label: 'links.configuration_guide'
             },
             contact: {
-              href: 'https://www.openproject.org/contact-us/',
+              href: 'https://www.openproject.org/contact/',
               label: 'links.get_in_touch'
             },
             glossary: {
@@ -154,6 +165,10 @@ module OpenProject
             data_privacy: {
               href: 'https://www.openproject.org/legal/privacy/',
               label: :label_privacy_policy
+            },
+            digital_accessibility: {
+              href: 'https://www.openproject.org/de/rechtliches/erklaerung-zur-digitalen-barrierefreiheit/',
+              label: :label_digital_accessibility
             },
             report_bug: {
               href: 'https://www.openproject.org/docs/development/report-a-bug/',
@@ -208,7 +223,15 @@ module OpenProject
               href: 'https://www.openproject.org/docs/'
             },
             contact_us: {
-              href: 'https://www.openproject.org/contact-us'
+              href: 'https://www.openproject.org/contact/'
+            },
+            pricing: {
+              href: 'https://www.openproject.org/pricing/'
+            },
+            storage_docs: {
+              setup: {
+                href: 'https://www.openproject.org/docs/system-admin-guide/integrations/nextcloud/'
+              }
             }
           }
         end

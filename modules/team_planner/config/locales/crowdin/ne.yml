@@ -10,4 +10,4 @@ ne:
     label_assignees: "Assignees"
     upsale:
       title: "Team planner"
-      description: "Team planner gives you a complete overview what each team member is working on, one week at a time. Move, stretch and shrink work packages visually, and even drag them from one assignee to another to organise workload. You can even create new work packages or add existing ones, all from within team planner!"
+      description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."

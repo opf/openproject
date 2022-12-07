@@ -195,9 +195,9 @@ class Role < ApplicationRecord
 
   def add_permission(permission)
     if persisted?
-      role_permissions.create(permission: permission)
+      role_permissions.create(permission:)
     else
-      role_permissions.build(permission: permission)
+      role_permissions.build(permission:)
     end
   end
 end

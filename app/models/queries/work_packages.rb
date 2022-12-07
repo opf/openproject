@@ -75,12 +75,14 @@ module Queries::WorkPackages
     filter Filter::RelatableFilter
     filter Filter::MilestoneFilter
     filter Filter::TypeaheadFilter
-
+    filter Filter::DurationFilter
     exclude Filter::RelatableFilter
 
     column Columns::PropertyColumn
     column Columns::CustomFieldColumn
     column Columns::RelationToTypeColumn
     column Columns::RelationOfTypeColumn
+    column Columns::ManualSortingColumn
+    column Columns::TypeaheadColumn
   end
 end

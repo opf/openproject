@@ -34,9 +34,9 @@ class Mails::MemberJob < ApplicationJob
               message: nil)
     case member.principal
     when Group
-      perform_for_group(current_user: current_user, member: member, message: message)
+      perform_for_group(current_user:, member:, message:)
     when User
-      perform_for_user(current_user: current_user, member: member, message: message)
+      perform_for_user(current_user:, member:, message:)
     end
   end
 
@@ -98,12 +98,12 @@ class Mails::MemberJob < ApplicationJob
       .deliver_now
   end
 
-  def every_group_user_member(member, &block)
+  def every_group_user_member(member, &)
     Member
       .of(member.project)
       .where(principal: member.principal.users)
       .includes(:project, :principal, :roles, :member_roles)
-      .each(&block)
+      .each(&)
   end
 
   def sending_disabled?(setting, current_user, user_id, message)
@@ -113,7 +113,7 @@ class Mails::MemberJob < ApplicationJob
     return false if message.present?
 
     NotificationSetting
-      .where(project_id: nil, user_id: user_id)
+      .where(project_id: nil, user_id:)
       .exists?("membership_#{setting}" => false)
   end
 

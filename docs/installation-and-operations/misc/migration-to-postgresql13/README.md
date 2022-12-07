@@ -4,12 +4,8 @@ OpenProject version 12+ will default to PostgreSQL 13. If you have an existing O
 
 ## Package-based installation
 
-<div class="alert alert-info" role="alert">
-
-Please follow this section only if you have installed OpenProject using [this procedure](../../installation/packaged/).
-Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
-
-</div>
+> Please follow this section only if you have installed OpenProject using [this procedure](../../installation/packaged/).
+> Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
 
 Please first check whether this guide applies to you at all. Only PostgreSQL installations that were installed by the OpenProject package are applicable to this guide.
 
@@ -25,7 +21,7 @@ If that is not the case, you are likely using a self-provisioned database or a r
 
 In the following, we assume that you initially let OpenProject setup your PostgreSQL installation, using a local database. 
 
-NOTE: RedHat and CentOS are slightly different, depending on which PostgreSQL pacakge/repository will be used.
+NOTE: RedHat and CentOS are slightly different, depending on which PostgreSQL package/repository will be used.
 For the documentation parts titled RedHat/CentOS RedHat Enterprise Linux 8 was used.
 
 
@@ -137,7 +133,7 @@ include_dir = 'conf.d'
 
 sudo su - postgres -c "cp -p /var/lib/pgsql/10/data/conf.d/custom.conf /var/lib/pgsql/13/data/conf.d/custom.conf"
 sudo su - postgres -c "sed -i 's|45432|45433|' /var/lib/pgsql/10/data/conf.d/custom.conf"
-sudo su - postgres -c "/usr/pgsql-13/bin/pg_ctl start --wait --pgdata=/var/lib/pgsql/13/data -o '-c config_file=/usr/bin/postgresql-13-setup'"
+sudo su - postgres -c "/usr/pgsql-13/bin/pg_ctl start --wait --pgdata=/var/lib/pgsql/13/data -o '-c config_file=/etc/postgresql/13/main/postgresql.conf'"
 
 # Getting the password for the PostgreSQL database from the configuration
 sudo openproject config:get DATABASE_URL
@@ -178,13 +174,8 @@ sudo yum remove pgsql10
 
 ## Compose-based docker installation
 
-<div class="alert alert-info" role="alert">
-
-Please follow this section only if you have installed OpenProject using [this procedure](../../installation/docker/#one-container-per-process-recommended).
-
-Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
-
-</div>
+> Please follow this section only if you have installed OpenProject using [this procedure](../../installation/docker/#one-container-per-process-recommended).
+> Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
 
 You can find the upgrade instructions for your docker-compose setup in the [openproject-deploy](https://github.com/opf/openproject-deploy/blob/stable/12/compose/control/README.md#upgrade) repository.
 
@@ -192,13 +183,8 @@ Remember that you need to have checked out that repository and work in the `comp
 
 ## All-in-one docker installation
 
-<div class="alert alert-info" role="alert">
-
-Please follow this section only if you have installed OpenProject using [this procedure](../../installation/docker/#all-in-one-container).
-
-Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
-
-</div>
+> Please follow this section only if you have installed OpenProject using [this procedure](../../installation/docker/#all-in-one-container).
+> Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
 
 The newer version of OpenProject includes an utility to automatically perform the upgrade for you. Assuming you followed the standard installation procedure, the folder (within the docker container) containing your PostgreSQL data will be located at `/var/openproject/pgdata`.
 
@@ -277,3 +263,20 @@ Please change the command appropriately for other installation methods. Once con
 ```sql
 ANALYZE VERBOSE;
 ```
+
+
+
+## Troubleshooting
+
+###### User "openproject" does not have a valid SCRAM secret - psql: error: FATAL: password authentication failed for user "openproject"
+
+Check `/var/lib/pgsql/13/data/pg_hba.conf` for any appearance of `scram-sha-256` and replace with `md5`
+
+Check `/var/lib/pgsql/13/data/postgresql.conf` for any appearance of `scram-sha-256` and replace with `md5` (search for `encryption`)
+
+Reload Configuration of PostgreSQL server with `systemctl reload postgresql-13`
+
+
+
+
+

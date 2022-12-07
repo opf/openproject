@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Time and costs
   priority: 790
 description: Time tracking and cost reporting in OpenProject.
-robots: index, follow
 keywords: Time tracking, cost reporting
 ---
 
@@ -13,11 +12,11 @@ Time and costs functionality in OpenProject allows keeping track of the resource
 
 Create budgets, log time and costs on specific work packages and create time and cost reports based on your needs. 
 
-| Topic                 | Content                                     |
-| ------------------------------------- | :------------------------------------------ |
-| [Time tracking](time-tracking)       | How to log time to work packages?           |
-| [Cost tracking](cost-tracking)       | How to track unit costs spent in a project? |
-| [Time and cost reporting](reporting) | How to create time and cost reports?        |
+| Topic                                | Content                                     |
+|--------------------------------------|:--------------------------------------------|
+| [Time tracking](time-tracking)       | How to log time to work packages.           |
+| [Cost tracking](cost-tracking)       | How to track unit costs spent in a project. |
+| [Time and cost reporting](reporting) | How to create time and cost reports.        |
 
 ## Time tracking, cost tracking and reporting video tutorial
 

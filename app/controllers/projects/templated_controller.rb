@@ -44,7 +44,7 @@ class Projects::TemplatedController < ApplicationController
     service_call = Projects::UpdateService
                      .new(user: current_user,
                           model: @project)
-                     .call(templated: templated)
+                     .call(templated:)
 
     if service_call.success?
       flash[:notice] = t(:notice_successful_update)

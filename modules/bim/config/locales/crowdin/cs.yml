@@ -130,5 +130,5 @@ cs:
   permission_manage_ifc_models: "Importovat a spravovat IFC modely"
   extraction:
     available:
-      ifc_convert: "IFC conversion pipeline available"
+      ifc_convert: "Je k dispozici konverzní pipeline IFC"
 

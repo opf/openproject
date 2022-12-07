@@ -92,7 +92,8 @@ module API
         end
 
         def schema_with_allowed_link(property,
-                                     href_callback:, type: make_type(property),
+                                     href_callback:,
+                                     type: make_type(property),
                                      name_source: property,
                                      as: camelize(property),
                                      required: true,
@@ -120,7 +121,9 @@ module API
         end
 
         def schema_with_allowed_collection(property,
-                                           value_representer:, link_factory:, type: make_type(property),
+                                           value_representer:,
+                                           link_factory:,
+                                           type: make_type(property),
                                            name_source: property,
                                            as: camelize(property),
                                            values_callback: -> do
@@ -206,10 +209,10 @@ module API
           property property,
                    as: property_alias,
                    exec_context: :decorator,
-                   getter: getter,
+                   getter:,
                    if: show_if,
-                   required: required,
-                   has_default: has_default,
+                   required:,
+                   has_default:,
                    name_source: lambda {
                      API::Decorators::SchemaRepresenter::InstanceMethods
                        .call_or_translate name_source, represented_class
@@ -239,9 +242,9 @@ module API
 
       def self.create(represented, current_user:, self_link: nil, form_embedded: false)
         new(represented,
-            self_link: self_link,
-            current_user: current_user,
-            form_embedded: form_embedded)
+            self_link:,
+            current_user:,
+            form_embedded:)
       end
 
       def self.representable_definitions
@@ -261,7 +264,7 @@ module API
         self.form_embedded = form_embedded
         self.self_link = self_link
 
-        super(represented, current_user: current_user)
+        super(represented, current_user:)
       end
 
       link :self do
@@ -298,14 +301,14 @@ module API
         name = call_or_translate(name_source)
         schema = ::API::Decorators::PropertySchemaRepresenter
                  .new(type: call_or_use(type),
-                      name: name,
-                      location: location,
+                      name:,
+                      location:,
                       description: call_or_use(description),
                       required: call_or_use(required),
                       has_default: call_or_use(has_default),
                       writable: call_or_use(writable),
                       attribute_group: call_or_use(attribute_group),
-                      deprecated: deprecated)
+                      deprecated:)
         schema.min_length = min_length
         schema.max_length = max_length
         schema.regular_expression = regular_expression
@@ -357,8 +360,8 @@ module API
 
         attributes = { type: call_or_use(type),
                        name: call_or_translate(name_source),
-                       current_user: current_user,
-                       value_representer: value_representer,
+                       current_user:,
+                       value_representer:,
                        link_factory: wrapped_link_factory,
                        required: call_or_use(required),
                        has_default: call_or_use(has_default),

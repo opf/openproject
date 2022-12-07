@@ -49,7 +49,7 @@ module Users
       end
     rescue StandardError => e
       Rails.logger.error { "User #{user.login} failed to activate #{e}." }
-      ServiceResult.new(success: false, result: user, message: I18n.t(:notice_activation_failed))
+      ServiceResult.failure(result: user, message: I18n.t(:notice_activation_failed))
     end
 
     private
@@ -59,7 +59,7 @@ module Users
     # for non-invited users
     def ensure_registration_allowed!
       if Setting::SelfRegistration.disabled?
-        ServiceResult.new(success: false, result: user, message: I18n.t('account.error_self_registration_disabled'))
+        ServiceResult.failure(result: user, message: I18n.t('account.error_self_registration_disabled'))
       end
     end
 
@@ -95,7 +95,7 @@ module Users
       user.register
 
       with_saved_user_result(success_message: I18n.t(:notice_account_register_done)) do
-        token = Token::Invitation.create!(user: user)
+        token = Token::Invitation.create!(user:)
         UserMailer.user_signed_up(token).deliver_later
         Rails.logger.info { "Scheduled email activation mail for #{user.login}" }
       end
@@ -130,7 +130,7 @@ module Users
 
     def fail_activation
       Rails.logger.error { "User #{user.login} could not be activated, all options were exhausted." }
-      ServiceResult.new(success: false, message: I18n.t(:notice_activation_failed))
+      ServiceResult.failure(message: I18n.t(:notice_activation_failed))
     end
 
     ##
@@ -139,10 +139,10 @@ module Users
     def with_saved_user_result(success_message: I18n.t(:notice_account_activated))
       if user.save
         yield if block_given?
-        return ServiceResult.new(success: true, result: user, message: success_message)
+        return ServiceResult.success(result: user, message: success_message)
       end
 
-      ServiceResult.new(success: false).tap do |call|
+      ServiceResult.failure.tap do |call|
         # Avoid using the errors from the user
         call.result = user
         call.errors.add(:base, I18n.t(:notice_activation_failed), error: :failed_to_activate)

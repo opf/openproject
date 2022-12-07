@@ -30,42 +30,72 @@
 #   "Representable maps Ruby objects to documents and back"
 # Reference: Roar is a thin layer on top of Representable https://github.com/trailblazer/roar
 # Reference: Roar-Rails integration: https://github.com/apotonick/roar-rails
-module API
-  module V3
-    module Storages
-      class StorageRepresenter < ::API::Decorators::Single
-        # LinkedResource module defines helper methods to describe attributes
-        include API::Decorators::LinkedResource
-        include API::Decorators::DateProperty
+module API::V3::Storages
+  URN_CONNECTION_CONNECTED = "#{::API::V3::URN_PREFIX}storages:authorization:Connected".freeze
+  URN_CONNECTION_AUTH_FAILED = "#{::API::V3::URN_PREFIX}storages:authorization:FailedAuthorization".freeze
+  URN_CONNECTION_ERROR = "#{::API::V3::URN_PREFIX}storages:authorization:Error".freeze
 
-        property :id
+  class StorageRepresenter < ::API::Decorators::Single
+    # LinkedResource module defines helper methods to describe attributes
+    include API::Decorators::LinkedResource
+    include API::Decorators::DateProperty
+    include Storages::Peripherals::StorageUrlHelper
 
-        property :name
+    def initialize(model, current_user:, embed_links: nil)
+      @connection_manager =
+        ::OAuthClients::ConnectionManager.new(user: current_user, oauth_client: model.oauth_client)
 
-        date_time_property :created_at
+      super
+    end
 
-        date_time_property :updated_at
+    property :id
 
-        # A link back to the specific object ("represented")
-        self_link
+    property :name
 
-        link :type do
-          {
-            href: "#{::API::V3::URN_PREFIX}storages:nextcloud",
-            title: 'Nextcloud'
-          }
-        end
+    date_time_property :created_at
 
-        link :origin do
-          {
-            href: represented.host
-          }
-        end
+    date_time_property :updated_at
 
-        def _type
-          'Storage'
-        end
-      end
+    self_link
+
+    link :type do
+      {
+        href: "#{::API::V3::URN_PREFIX}storages:Nextcloud",
+        title: 'Nextcloud'
+      }
+    end
+
+    link :origin do
+      { href: represented.host }
+    end
+
+    link :open do
+      { href: storage_url_open(represented) }
+    end
+
+    link :authorizationState do
+      state = @connection_manager.authorization_state
+      urn = case state
+            when :connected
+              URN_CONNECTION_CONNECTED
+            when :failed_authorization
+              URN_CONNECTION_AUTH_FAILED
+            else
+              URN_CONNECTION_ERROR
+            end
+      title = I18n.t(:"oauth_client.urn_connection_status.#{state}")
+
+      { href: urn, title: }
+    end
+
+    link :authorize do
+      next unless @connection_manager.authorization_state == :failed_authorization
+
+      { href: @connection_manager.get_authorization_uri, title: 'Authorize' }
+    end
+
+    def _type
+      'Storage'
     end
   end
 end

@@ -13,6 +13,9 @@ Release date: 2022-05-17
 We released [OpenProject 12.1.4](https://community.openproject.com/versions/1551).
 The release contains several bug fixes and we recommend updating to the newest version.
 
+**Centos 7 support**
+This version restores support for OpenProject packages on centos 7. A PostgreSQL bump has caused incompatibility issues with the centos7 versions that are shipped and extra effort was needed to provide compatible newer dev headers.
+
 <!--more-->
 #### Bug fixes and changes
 

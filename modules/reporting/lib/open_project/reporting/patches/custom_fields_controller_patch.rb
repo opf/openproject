@@ -67,7 +67,7 @@ module OpenProject::Reporting::Patches
       end
 
       def build_query(report_engine, filters, groups = {})
-        query = report_engine.deserialize({ filters: filters, group_bys: groups })
+        query = report_engine.deserialize({ filters:, group_bys: groups })
         query.serialize
         query
       end

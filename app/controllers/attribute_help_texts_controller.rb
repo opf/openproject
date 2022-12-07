@@ -129,5 +129,4 @@ class AttributeHelpTextsController < ApplicationController
 
     @attribute_scope = AttributeHelpText.const_get(submodule)
   end
-
 end

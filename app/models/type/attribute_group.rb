@@ -50,7 +50,7 @@ class Type::AttributeGroup < Type::FormGroup
 
   def active_members(project)
     members.select do |prop|
-      type.passes_attribute_constraint?(prop, project: project)
+      type.passes_attribute_constraint?(prop, project:)
     end
   end
 end

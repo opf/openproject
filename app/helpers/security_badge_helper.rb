@@ -34,7 +34,7 @@ module SecurityBadgeHelper
       type: OpenProject::Configuration[:installation_type],
       version: OpenProject::VERSION.to_semver,
       db: ActiveRecord::Base.connection.adapter_name.downcase,
-      lang: User.current.try(:language),
+      lang: User.current.try(:language)
     }.merge(args.symbolize_keys)
     uri.query = info.to_query
     uri.to_s

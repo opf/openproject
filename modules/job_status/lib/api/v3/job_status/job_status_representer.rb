@@ -31,7 +31,7 @@ module API
     module JobStatus
       class JobStatusRepresenter < ::API::Decorators::Single
         self_link id_attribute: :job_id,
-                  title_getter: ->(*) { nil }
+                  title_getter: ->(*) {}
 
         property :job_id
 

@@ -27,39 +27,55 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
 } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { distinctUntilChanged, first } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { IPrincipal } from 'core-app/core/state/principals/principal.model';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
-import { IUser } from 'core-app/core/state/principals/user.model';
+import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
+import {
+  getIconForMimeType,
+} from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
+import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
+import { ConfirmDialogOptions } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 
 @Component({
-  selector: 'op-attachment-list-item',
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: '[op-attachment-list-item]',
   templateUrl: './attachment-list-item.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttachmentListItemComponent implements OnInit {
-  @Input() public resource:HalResource;
-
+export class AttachmentListItemComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   @Input() public attachment:IAttachment;
 
   @Input() public index:number;
 
-  @Input() destroyImmediately = true;
-
   @Output() public removeAttachment = new EventEmitter<void>();
+
+  @ViewChild('avatar') avatar:ElementRef;
 
   static imageFileExtensions:string[] = ['jpeg', 'jpg', 'gif', 'bmp', 'png'];
 
   public text = {
     dragHint: this.I18n.t('js.attachments.draggable_hint'),
-    destroyConfirmation: this.I18n.t('js.text_attachment_destroy_confirmation'),
+    deleteTitle: this.I18n.t('js.attachments.delete'),
+    deleteConfirmation: this.I18n.t('js.attachments.delete_confirmation'),
     removeFile: (arg:unknown):string => this.I18n.t('js.label_remove_file', arg),
   };
 
@@ -67,21 +83,58 @@ export class AttachmentListItemComponent implements OnInit {
     return this.text.removeFile({ fileName: this.attachment.fileName });
   }
 
-  public author$:Observable<IUser>;
+  public author$:Observable<IPrincipal>;
 
-  constructor(private readonly principalsResourceService:PrincipalsResourceService,
+  public timestampText:string;
+
+  public fileIcon:IFileIcon;
+
+  private viewInitialized$ = new BehaviorSubject<boolean>(false);
+
+  constructor(
     private readonly I18n:I18nService,
-    private readonly pathHelper:PathHelperService) {
+    private readonly pathHelper:PathHelperService,
+    private readonly timezoneService:TimezoneService,
+    private readonly confirmDialogService:ConfirmDialogService,
+    private readonly principalsResourceService:PrincipalsResourceService,
+    private readonly principalRendererService:PrincipalRendererService,
+  ) {
+    super();
   }
 
   ngOnInit():void {
+    this.fileIcon = getIconForMimeType(this.attachment.contentType);
+
     const authorId = idFromLink(this.attachment._links.author.href);
 
-    this.author$ = this.principalsResourceService.query.selectEntity(authorId)
-      .pipe(
-        switchMap((user) => (user ? of(user) : this.principalsResourceService.fetchUser(authorId))),
-        map((user) => user as IUser),
-      );
+    if (!this.principalsResourceService.exists(authorId)) {
+      this.principalsResourceService.fetchUser(authorId).subscribe();
+    }
+
+    this.timestampText = this.timezoneService.parseDatetime(this.attachment.createdAt).fromNow();
+
+    this.author$ = this.principalsResourceService.lookup(authorId).pipe(first());
+
+    combineLatest([
+      this.author$,
+      this.viewInitialized$.pipe(distinctUntilChanged()),
+    ]).pipe(this.untilDestroyed())
+      .subscribe(([user, initialized]) => {
+        if (!initialized) {
+          return;
+        }
+
+        this.principalRendererService.render(
+          this.avatar.nativeElement,
+          user,
+          { hide: true, link: false },
+          { hide: false, size: 'mini' },
+        );
+      });
+  }
+
+  ngAfterViewInit():void {
+    this.viewInitialized$.next(true);
   }
 
   /**
@@ -106,37 +159,40 @@ export class AttachmentListItemComponent implements OnInit {
     if (this.isImage) {
       el = document.createElement('img');
       el.src = url;
-      el.textContent = this.fileName;
+      el.textContent = this.attachment.fileName;
     } else {
       el = document.createElement('a');
       el.href = url;
-      el.textContent = this.fileName;
+      el.textContent = this.attachment.fileName;
     }
 
     return el;
   }
 
-  public get downloadPath():string {
-    return this.pathHelper.attachmentDownloadPath(String(this.attachment.id), this.fileName);
+  private get downloadPath():string {
+    return this.pathHelper.attachmentDownloadPath(String(this.attachment.id), this.attachment.fileName);
   }
 
-  public get isImage():boolean {
-    const ext = this.fileName.split('.').pop() || '';
+  private get isImage():boolean {
+    const ext = this.attachment.fileName.split('.').pop() || '';
     return AttachmentListItemComponent.imageFileExtensions.indexOf(ext.toLowerCase()) > -1;
   }
 
-  public get fileName():string {
-    return this.attachment.fileName;
-  }
-
-  public confirmRemoveAttachment($event:JQuery.TriggeredEvent):boolean {
-    if (!window.confirm(this.text.destroyConfirmation)) {
-      $event.stopImmediatePropagation();
-      $event.preventDefault();
-      return false;
-    }
-
-    this.removeAttachment.emit();
-    return false;
+  public confirmRemoveAttachment():void {
+    const options:ConfirmDialogOptions = {
+      text: {
+        text: this.text.deleteConfirmation,
+        title: this.text.deleteTitle,
+        button_continue: this.text.deleteTitle,
+      },
+      icon: {
+        continue: 'delete',
+      },
+      dangerHighlighting: true,
+    };
+    void this.confirmDialogService
+      .confirm(options)
+      .then(() => { this.removeAttachment.emit(); })
+      .catch(() => { /* confirmation rejected */ });
   }
 }

@@ -38,8 +38,8 @@ module API
         self.property = property
 
         message = I18n.t('api_v3.errors.invalid_format',
-                         property: property,
-                         expected_format: expected_format,
+                         property:,
+                         expected_format:,
                          actual: actual_value)
         super message
       end

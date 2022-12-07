@@ -88,7 +88,7 @@ module API
                         end
 
                         link_object = {
-                          href: href,
+                          href:,
                           title: value_object.name
                         }
 
@@ -122,7 +122,7 @@ module API
 
           property :name,
                    exec_context: :decorator,
-                   writeable: false
+                   writable: false
 
           def _type
             "#{converted_name.camelize}QueryFilter"
@@ -157,7 +157,7 @@ module API
           end
 
           def query_filter_instance_links_representer(represented)
-            ::API::V3::Queries::Filters::QueryFilterInstanceLinksRepresenter.new represented, current_user: current_user
+            ::API::V3::Queries::Filters::QueryFilterInstanceLinksRepresenter.new represented, current_user:
           end
 
           def represented_is_boolean_list?(represented)

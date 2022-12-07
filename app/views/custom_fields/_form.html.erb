@@ -62,7 +62,9 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% if @custom_field.new_record? || @custom_field.list? || @custom_field.multi_value_possible? %>
       <div class="form--field" id="custom_field_multi_select" style="display:none">
-      <%= f.check_box :multi_value %>
+
+          <%= f.check_box :multi_value %>
+
       </div>
 
     <fieldset class="form--fieldset" id="custom_field_possible_values_attributes">

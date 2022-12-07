@@ -47,6 +47,7 @@ module Projects
       set_default_public(attribute_keys.include?('public'))
       set_default_module_names(attribute_keys.include?('enabled_module_names'))
       set_default_types(attribute_keys.include?('types') || attribute_keys.include?('type_ids'))
+      set_default_active_work_package_custom_fields(attribute_keys.include?('work_package_custom_fields'))
     end
 
     def set_default_public(provided)
@@ -59,6 +60,12 @@ module Projects
 
     def set_default_types(provided)
       model.types = ::Type.default if !provided && model.types.empty?
+    end
+
+    def set_default_active_work_package_custom_fields(provided)
+      return if provided
+
+      model.work_package_custom_fields = WorkPackageCustomField.joins(:types).where(types: { id: model.type_ids })
     end
 
     def update_status(attributes)
@@ -91,7 +98,7 @@ module Projects
     end
 
     def faulty_code?(attributes)
-      attributes && attributes[:code] && !Projects::Status.codes.keys.include?(attributes[:code].to_s)
+      attributes && attributes[:code] && Projects::Status.codes.keys.exclude?(attributes[:code].to_s)
     end
 
     def first_not_set_code

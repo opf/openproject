@@ -15,7 +15,7 @@ We'll use [homebrew](https://brew.sh/) to install most of our requirements. Plea
 
 ## Install Ruby
 
-Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "3.0.4"
+Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "3.1.2"
 
 ### Install rbenv and ruby-build
 
@@ -32,20 +32,20 @@ $ rbenv init
 ### Installing ruby-3.0
 
 With both installed, we can now install the actual ruby version 3.0. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `3.0.4`, which we also require.
+At the time of this writing, the latest stable version is `3.1.2`, which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-rbenv install 3.0.4
+rbenv install 3.1.2
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-rbenv global 3.0.4
+rbenv global 3.1.2
 ```
 
 You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler.
@@ -97,11 +97,11 @@ $ nodenv init
 
 You can find the latest LTS version here: [nodejs.org/en/download](https://nodejs.org/en/download/)
 
-At the time of writing this is v14.17.0. Install and activate it with:
+At the time of writing this is v16.17.0. Install and activate it with:
 
 ```bash
-nodenv install 14.17.0
-nodenv global 14.17.0
+nodenv install 16.17.0
+nodenv global 16.17.0
 ```
 
 ### Update NPM to the latest version
@@ -116,16 +116,16 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 $ ruby --version
-ruby 3.0.4p208 (2022-04-12 revision 3fa771dded) [x86_64-linux]
+ruby 3.1.2p20 (2022-04-12 revision 4491bb740a) [x86_64-linux]
 
 $ bundler --version
 Bundler version 2.3.12
 
 node --version
-v14.17.0
+v16.17.0
 
 npm --version
-7.15.1
+8.12.1
 ```
 
 # Install OpenProject
@@ -167,6 +167,8 @@ test:
   database: openproject_test
 ```
 
+To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be automatically loaded to the application's environment.
+
 ## Finish the Installation of OpenProject
 
 Install code dependencies, link plugin modules and export translation files.
@@ -198,7 +200,7 @@ The application will be available at `http://127.0.0.1:5000`. To customize bind 
 project as `.env` and [configure values](https://ddollar.github.io/foreman/#ENVIRONMENT) as required.
 
 By default a worker process will also be started. In development asynchronous execution of long-running background tasks (sending emails, copying projects,
-etc.) may be of limited use. To disable the worker process:
+etc.) may be of limited use and it has known issues with regards to memory (see background worker section below). To disable the worker process:. To disable the worker process:
 
 echo "concurrency: web=1,assets=1,worker=0" >> .foreman
 
@@ -242,7 +244,17 @@ RAILS_ENV=development bin/rails jobs:work
 
 This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
 
-**Note:** If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs before starting the worker, use the following command. **This will remove all currently scheduled jobs, never use this in a production setting.**
+## Known issues
+
+### Memory management
+
+The delayed_job background worker reloads the application for every job in development mode. This is a know issue and documented here: https://github.com/collectiveidea/delayed_job/issues/823
+
+
+
+### Spawning a lot of browser tabs
+
+If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs before starting the worker, use the following command. **This will remove all currently scheduled jobs, never use this in a production setting.**
 
 ```bash
 RAILS_ENV=development bin/rails runner "Delayed::Job.delete_all"

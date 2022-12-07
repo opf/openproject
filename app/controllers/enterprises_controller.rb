@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 class EnterprisesController < ApplicationController
-  include EnterpriseTrialHelper
+  # include EnterpriseTrialHelper
 
   layout 'admin'
   menu_item :enterprise
@@ -41,11 +41,11 @@ class EnterprisesController < ApplicationController
     @current_token = EnterpriseToken.current
     @token = @current_token || EnterpriseToken.new
 
-    helpers.write_augur_to_gon
+    # helpers.write_augur_to_gon
 
-    if !@current_token.present?
-      helpers.write_trial_key_to_gon
-    end
+    # if !@current_token.present?
+    #   helpers.write_trial_key_to_gon
+    # end
   end
 
   def create
@@ -66,7 +66,7 @@ class EnterprisesController < ApplicationController
       end
       respond_to do |format|
         format.html { render action: :show }
-        format.json { render json: { description: @token.errors.full_messages.join(", ") }, status: 400 }
+        format.json { render json: { description: @token.errors.full_messages.join(", ") }, status: :bad_request }
       end
     end
   end

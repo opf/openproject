@@ -73,7 +73,7 @@ fil:
       text_2fa_disabled: "Ang gumagamit ay hindi nag-set up ng 2FA mula sa kanyang 'Aking account sa pahina'"
     upsale:
       title: 'Two-factor authentication'
-      description: 'Para mapalakas ang iyong panloob o panlabas na pagpapatunay sa mga mekanismo kasama ang pangalawang kadahilanan.'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: Walang mga backup na umiiral para sa account na ito.
       singular: Ang Backup code
@@ -136,8 +136,6 @@ fil:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS delivery failed.'
       voice_delivery_failed: 'MessageBird voice call failed.'
-    restdt:
-      delivery_failed_with_code: 'Ang token sa paghahatid ay bigo. (Error code %{code})'
     strategies:
       totp: 'Ang Aplikasyon sa Authenticator'
       sns: 'Ang SNS sa Amazon'

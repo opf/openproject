@@ -5,7 +5,7 @@ required:
   - id
   - _type
   - name
-  - storageType
+  - _links
 properties:
   id:
     type: integer
@@ -30,7 +30,9 @@ properties:
     required:
       - self
       - type
-      - href
+      - origin
+      - open
+      - authorizationState
     properties:
       self:
         allOf:
@@ -50,8 +52,39 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              Web uri of the storage instance
+              Web URI of the storage instance.
 
+              **Resource**: N/A
+      open:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              URI of the file storage location, from where the user usually starts browsing files.
+
+              **Resource**: N/A
+      authorizationState:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The urn of the storage connection state. Can be one of:
+              
+              - urn:openproject-org:api:v3:storages:authorization:Connected
+              - urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
+              - urn:openproject-org:api:v3:storages:authorization:Error
+              
+              **Resource**: N/A
+      authorize:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The link to the starting point of the authorization cycle for a configured storage provider.
+              
+              # Conditions
+              
+              `authorizationState` is:
+              
+              - urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
+              
               **Resource**: N/A
 example:
   id: 1337
@@ -68,3 +101,11 @@ example:
       title: Nextcloud
     origin:
       href: https://nextcloud.deathstar.rocks/
+    open:
+      href: https://nextcloud.deathstar.rocks/apps/files
+    authorizationState:
+      href: urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
+      title: Failed Authorization
+    authorize:
+      href: https://nextcloud.deathstar.rocks/authorize/
+      title: Authorize

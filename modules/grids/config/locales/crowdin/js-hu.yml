@@ -5,8 +5,8 @@ hu:
       remove: 'Widget eltávolítása'
       configure: 'Widget konfigurálása'
       upsale:
-        text: "Néhány kütyü, például a munkacsomag-grafikon-kütyü, csak a"
-        link: 'Vállalati kiadás.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: 'Egyéni szöveg'

@@ -34,8 +34,8 @@ nl:
           commit_message: Commit bericht
           cmd: Maak branch met lege commit
           title: Snelle snippets voor Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          copy_success: '✅ Gekopieerd!'
+          copy_error: '❌ Kopiëren mislukt!'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: 'Er zijn nog geen pull requests gekoppeld. Koppel een bestaande PR door de code <code>OP#%{wp_id}</code> in de PR-beschrijving te gebruiken of maak een nieuwe PR.'
       github_actions: Acties

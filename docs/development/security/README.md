@@ -12,7 +12,7 @@ For more information on security and data privacy for OpenProject, please visit:
 
 We provide a mailing list for security advisories on OpenProject at [groups.google.com/g/openproject-security](https://groups.google.com/g/openproject-security). Please register there to get immediate notifications as we publish them. No messages except for security advisories or security related announcements will be sent there.
 
-Any security related information will also be published on our [blog and website](https://www.openproject.com)
+Any security related information will also be published on our [blog and website](https://www.openproject.org)
 
 To join this mailing list, please use the UI if you have a google account. If you don't, you can send an empty email to [openproject-security+subscribe@googlegroups.com](mailto:openproject-security+subscribe@googlegroups.com). You will get a join request, which you again have to reply with any content.
 
@@ -46,7 +46,7 @@ Administrators are provided with [fine-grained role-based access control mechani
 
 Admins can set a specific session duration in the system administration, so that it is guaranteed that a session is automatically terminated after inactivity.
 
-### Two-factor authentication (Premium feature)
+### Two-factor authentication
 
 Secure your authentication mechanisms with a second factor by TOTP standard (or SMS, depending on your instance) to be entered by users upon logging in.
 
@@ -58,7 +58,7 @@ This badge shows the current status of your OpenProject installation. It will in
 
 Security updates allow a fast fix of security issues in the system. Relevant channels will be monitored regarding security topics and the responsible contact person will be informed. Software packages for security fixes will be provided promptly.
 
-### LDAP sync (Premium feature)
+### LDAP sync (Enterprise add-on)
 
 Synchronize OpenProject users and groups with your company’s LDAP to update users and group memberships based on LDAP group members.
 

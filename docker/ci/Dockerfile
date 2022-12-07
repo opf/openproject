@@ -1,7 +1,7 @@
-FROM ruby:3.0.4-buster
+FROM ruby:3.1.2-buster
 MAINTAINER operations@openproject.com
 
-ENV NODE_VERSION="14.17.0"
+ENV NODE_VERSION="16.17.0"
 ENV CHROME_SOURCE_URL="https://dl.google.com/dl/linux/direct/google-chrome-stable_current_amd64.deb https://openproject-public.s3.eu-central-1.amazonaws.com/binaries/google-chrome-stable_current_amd64.deb"
 ENV USER=dev
 

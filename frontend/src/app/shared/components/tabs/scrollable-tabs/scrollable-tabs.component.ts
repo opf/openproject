@@ -67,8 +67,7 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
     this.updateScrollableArea();
   }
 
-  // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-  ngOnChanges(changes:SimpleChanges):void {
+  ngOnChanges(_changes:SimpleChanges):void {
     if (this.pane) {
       this.updateScrollableArea();
     }

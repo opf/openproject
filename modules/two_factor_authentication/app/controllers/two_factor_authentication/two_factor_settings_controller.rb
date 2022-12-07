@@ -1,6 +1,5 @@
 module ::TwoFactorAuthentication
   class TwoFactorSettingsController < ApplicationController
-    include EnterpriseTrialHelper
     before_action :require_admin
     before_action :check_enabled
 

@@ -52,7 +52,7 @@ default:
     subversion:
       # SVN uses Apache repository wrapper due to permission errors in multi-user operation
       manages: <%= ENV['SVN_REPOMAN_URL'] %>
-      # Do noot verify SSL certificates when SERVER_PROTOCOL is 'https'.
+      # Do not verify SSL certificates when SERVER_PROTOCOL is 'https'.
       # As we currently only support local repoman installations with packager,
       # this option is set to true by default.
       insecure: true

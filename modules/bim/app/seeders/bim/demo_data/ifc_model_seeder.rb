@@ -81,8 +81,8 @@ module Bim
         attachment = Attachment.new(
           container: model_container,
           author: user,
-          file: file,
-          description: description
+          file:,
+          description:
         )
         attachment.save!
       end

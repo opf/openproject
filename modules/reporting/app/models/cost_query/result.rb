@@ -30,7 +30,7 @@ class CostQuery::Result < Report::Result
   module BaseAdditions
     def inspect
       "<##{self.class}: @fields=#{fields.inspect} @type=#{type.inspect} " \
-      "@size=#{size} @count=#{count} @units=#{units} @real_costs=#{real_costs}>"
+        "@size=#{size} @count=#{count} @units=#{units} @real_costs=#{real_costs}>"
     end
 
     def display_costs?

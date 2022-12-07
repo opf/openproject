@@ -48,6 +48,7 @@ import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { ITileViewEntry } from '../tile-view/tile-view.component';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 
 @Component({
   templateUrl: './new-board-modal.html',
@@ -81,6 +82,8 @@ export class NewBoardModalComponent extends OpModalComponent implements OnInit {
 
     teaser_text: this.I18n.t('js.boards.upsale.teaser_text'),
     upgrade_to_ee_text: this.I18n.t('js.boards.upsale.upgrade'),
+    more_info_ee_link: enterpriseDocsUrl.boards,
+    cancel_button: this.I18n.t('js.button_cancel'),
   };
 
   constructor(

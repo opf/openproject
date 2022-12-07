@@ -59,6 +59,12 @@ export class DynamicFieldsService {
     },
     {
       config: {
+        type: 'userInput',
+      },
+      useForFields: ['User'],
+    },
+    {
+      config: {
         type: 'formattableInput',
         className: '',
         templateOptions: {
@@ -89,8 +95,24 @@ export class DynamicFieldsService {
         },
       },
       useForFields: [
-        'Priority', 'Status', 'Type', 'User', 'Version', 'TimeEntriesActivity',
-        'Category', 'CustomOption', 'Project',
+        'Priority', 'Status', 'Type', 'Version', 'TimeEntriesActivity',
+        'Category', 'CustomOption',
+      ],
+    },
+    {
+      config: {
+        type: 'projectInput',
+        defaultValue: this.selectDefaultValue,
+        templateOptions: {
+          locale: this.I18n.locale,
+          bindLabel: 'name',
+        },
+        expressionProperties: {
+          'templateOptions.clearable': (model:any, formState:any, field:FormlyFieldConfig) => !field.templateOptions?.required,
+        },
+      },
+      useForFields: [
+        'Project',
       ],
     },
     {
@@ -199,6 +221,7 @@ export class DynamicFieldsService {
         ...(maxLength && { maxLength }),
         ...templateOptions,
         ...(fieldOptions && { options: fieldOptions }),
+        allowedValuesHref: fieldSchema?._links?.allowedValues?.href,
       },
     };
 
@@ -219,13 +242,17 @@ export class DynamicFieldsService {
     const inputConfig = inputType.config;
     let configCustomizations;
 
-    if (inputConfig.type === 'integerInput' || inputConfig.type === 'selectInput' || inputConfig.type === 'selectProjectStatusInput') {
+    if (
+      inputConfig.type === 'integerInput'
+      || inputConfig.type === 'selectInput'
+      || inputConfig.type === 'selectProjectStatusInput'
+      || inputConfig.type === 'userInput'
+    ) {
       configCustomizations = {
         className: field.name,
         templateOptions: {
           ...inputConfig.templateOptions,
           ...(this.isMultiSelectField(field) && { multiple: true }),
-          ...(fieldType === 'User' && { showAddNewUserButton: true }),
         },
       };
     } else if (inputConfig.type === 'formattableInput') {

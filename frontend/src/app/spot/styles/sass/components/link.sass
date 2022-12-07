@@ -30,20 +30,11 @@
     width: $spot-spacing-1_5
     height: $spot-spacing-1_5
 
-    &:first-child
-      margin-left: -$spot-spacing-0_25
-
-      &:not(:last-child)
+    &:first-child:not(:last-child)
         margin-right: $spot-spacing-0_25
 
-    &:last-child
-      margin-right: -$spot-spacing-0_25
-
-      &:not(:first-child)
+    &:last-child:not(:first-child)
         margin-left: $spot-spacing-0_25
-
-    &:first-child:last-child
-      margin: 0 -$spot-spacing-0_5
 
   // Ensure op-icon within a link gets inline-block
   // to avoid it receiving any text-decoration on hover

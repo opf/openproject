@@ -106,7 +106,7 @@ class MembersController < ApplicationController
   private
 
   def authorize_for(controller, action)
-    current_user.allowed_to?({ controller: controller, action: action }, @project)
+    current_user.allowed_to?({ controller:, action: }, @project)
   end
 
   def build_members
@@ -140,9 +140,9 @@ class MembersController < ApplicationController
     status = Members::UserFilterCell.status_param(params)
 
     {
-      groups: groups,
-      roles: roles,
-      status: status,
+      groups:,
+      roles:,
+      status:,
       clear_url: project_members_path(@project),
       project: @project
     }
@@ -239,7 +239,7 @@ class MembersController < ApplicationController
     end.compact
   end
 
-  def each_comma_seperated(array, &block)
+  def each_comma_separated(array, &block)
     array.map do |e|
       if e.to_s.match /\d(,\d)*/
         block.call(e)

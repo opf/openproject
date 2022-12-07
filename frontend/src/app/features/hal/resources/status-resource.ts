@@ -34,6 +34,8 @@ export class StatusResource extends HalResource {
 
   isDefault:boolean;
 
+  isReadonly:boolean;
+
   public get state():InputState<this> {
     return this.states.statuses.get(this.href as string) as any;
   }

@@ -48,6 +48,9 @@ import { AttachmentCollectionResource } from 'core-app/features/hal/resources/at
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { of } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
@@ -62,17 +65,23 @@ describe('WorkPackage', () => {
     workPackage = halResourceService.createHalResourceOfType('WorkPackage', { ...source });
   };
 
+  const WeekdayServiceStub = {
+    loadWeekdays: () => of(true),
+  };
+
   beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       imports: [
         OpenprojectHalModule,
+        HttpClientTestingModule,
       ],
       providers: [
         HalResourceService,
         States,
         TimezoneService,
         WorkPackagesActivityService,
+        { provide: WeekdayService, useValue: WeekdayServiceStub },
         ConfigurationService,
         OpenProjectFileUploadService,
         OpenProjectDirectFileUploadService,
@@ -121,13 +130,13 @@ describe('WorkPackage', () => {
       expect(workPackage.canAddAttachments).toEqual(false);
     });
 
-    it('when the work work package has no `addAttachment` link and is not new', () => {
+    it('when the work package has no `addAttachment` link and is not new', () => {
       workPackage.$source.id = 69;
       workPackage.$links.addAttachment = null as any;
       expect(workPackage.canAddAttachments).toEqual(false);
     });
 
-    it('when the work work package has an `addAttachment` link', () => {
+    it('when the work package has an `addAttachment` link', () => {
       workPackage.$links.addAttachment = <any> _.noop;
       expect(workPackage.canAddAttachments).toEqual(true);
     });

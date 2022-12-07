@@ -53,6 +53,7 @@ a.button
     background: var(--content-form-danger-zone-bg-color)
     color: var(--content-form-danger-zone-font-color)
     border-color: var(--content-form-danger-zone-bg-color)
+
     &.icon:before,
     &.icon-context:before
       color: var(--content-form-danger-zone-font-color)
@@ -92,11 +93,22 @@ a.button
     &:hover, &:focus, &.-active
       background: var(--button--background-hover-color)
 
+  &.-without-button-styling
+    @include without-link-styling
+    background: transparent
+    border: none
+    margin: 0
+    padding: 0
+
+    &:hover
+      background: transparent
+
   &.-tiny
     @include button-size(tiny)
 
   &.-small
     @include button-size(small)
+
     &.-with-icon:before
       vertical-align: initial
 
@@ -116,6 +128,21 @@ a.button
 
   &_no-margin
     margin: 0
+
+  .spot-icon
+    // Add rules for using new spot icons boxed within the old buttons
+    font-size: 0.875rem
+    width: 1.5rem
+    height: 1.5rem
+    // prevent icon box to inflate button height
+    margin-top: -1rem
+    margin-bottom: -1rem
+
+    &:not(:last-child)
+      margin-right: 0.25rem
+
+    &:not(:first-child)
+      margin-left: 0.25rem
 
 .button--icon
   @include icon-common

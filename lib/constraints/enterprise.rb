@@ -26,8 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Enterprise
-  def self.matches?(_request)
+module Enterprise
+  module_function
+
+  def matches?(_request)
     OpenProject::Configuration.ee_manager_visible?
   end
 end

@@ -39,15 +39,19 @@ module API
         def formatted_details(journal)
           details = render_details(journal, no_html: true)
           html_details = render_details(journal)
-          formattables = details.zip(html_details)
 
-          formattables.map { |d| { format: 'custom', raw: d[0], html: d[1] } }
+          details
+            .zip(html_details)
+            .map { |d| { format: 'custom', raw: d[0], html: d[1] } }
         end
 
         private
 
         def render_details(journal, no_html: false)
-          journal.details.map { |d| journal.render_detail(d, no_html: no_html) }
+          journal
+            .details
+            .map { |d| journal.render_detail(d, no_html:) }
+            .compact
         end
 
         def journal_note(journal)

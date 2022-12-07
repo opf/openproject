@@ -30,7 +30,8 @@
           class="op-add-existing-pane--wp"
           [attr.data-qa-selector]="'op-add-existing-pane--wp-' + wp.id"
           (stateLinkClicked)="openStateLink($event)"
-          (cardClicked)="calendar.onCardClicked($event)"
+          (cardClicked)="workPackagesCalendar.onCardClicked($event)"
+          (cardDblClicked)="workPackagesCalendar.onCardDblClicked($event)"
         ></wp-single-card>
       </ng-container>
     </div>

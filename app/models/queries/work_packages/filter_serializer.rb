@@ -37,7 +37,7 @@ module Queries::WorkPackages::FilterSerializer
     yaml = serialized_filter_hash
            .gsub('!ruby/object:Syck::DefaultKey {}', '"="')
 
-    (YAML.load(yaml) || {}).each_with_object([]) do |(field, options), array|
+    (YAML.load(yaml, permitted_classes: [Symbol, Date]) || {}).each_with_object([]) do |(field, options), array|
       options = options.with_indifferent_access
       filter = filter_for(field, no_memoization: true)
       filter.operator = options['operator']

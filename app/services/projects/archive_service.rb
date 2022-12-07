@@ -32,7 +32,7 @@ module Projects
     include Projects::Concerns::UpdateDemoData
 
     def initialize(user:, model:, contract_class: Projects::ArchiveContract)
-      super(user: user, contract_class: contract_class)
+      super(user:, contract_class:)
       self.model = model
     end
 

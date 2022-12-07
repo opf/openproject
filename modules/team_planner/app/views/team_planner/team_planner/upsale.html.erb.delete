@@ -1,0 +1,2 @@
+<% html_title(t(:label_administration), t('team_planner.upsale.title')) -%>
+

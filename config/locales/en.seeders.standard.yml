@@ -84,6 +84,7 @@ en:
                   - status
                   - start_date
                   - due_date
+                  - duration
                   - assigned_to
               - name: Milestones
                 type: :default_type_milestone
@@ -130,7 +131,7 @@ en:
                 description:
                 status: default_status_closed
                 type: default_type_milestone
-                duration: 0
+                duration: 1
                 schedule_manually: false
               - start: 0
                 subject: Organize open source conference
@@ -191,7 +192,7 @@ en:
                 description:
                 status: default_status_scheduled
                 type: default_type_milestone
-                duration: 0
+                duration: 1
                 relations:
                   - to: Organize open source conference
                     type: follows
@@ -227,7 +228,7 @@ en:
                 description:
                 status: default_status_new
                 type: default_type_milestone
-                duration: 0
+                duration: 1
                 relations:
                   - to: Follow-up tasks
                     type: follows
@@ -383,8 +384,8 @@ en:
               - subject: New website
                 status: :default_status_specified
                 type: :default_type_epic
-                start: 26
-                duration: 0
+                start: 0
+                duration: 29
                 children:
                   - subject: Newsletter registration form
                     status: :default_status_in_progress
@@ -402,22 +403,22 @@ en:
                     version: Sprint 1
                     position: 2
                     story_points: 3
-                    start: 26
-                    duration: 0
+                    start: 28
+                    duration: 1
                     children:
                       - subject: Create wireframes for new landing page
                         status: :default_status_in_progress
                         type: :default_type_task
                         version: Sprint 1
-                        start: 26
-                        duration: 0
+                        start: 28
+                        duration: 1
               - subject: Contact form
                 status: :default_status_specified
                 type: :default_type_user_story
                 version: Sprint 1
                 position: 5
                 start: 21
-                duration: 0
+                duration: 1
                 story_points: 1
               - subject: Feature carousel
                 status: :default_status_specified
@@ -437,7 +438,7 @@ en:
                 position: 4
                 story_points: 1
                 start: 21
-                duration: 0
+                duration: 1
               - subject: SSL certificate
                 status: :default_status_specified
                 type: :default_type_user_story
@@ -451,7 +452,7 @@ en:
                 version: Product Backlog
                 position: 2
                 start: 23
-                duration: 0
+                duration: 1
               - subject: Choose a content management system
                 status: :default_status_specified
                 type: :default_type_user_story
@@ -466,21 +467,21 @@ en:
                 position: 7
                 story_points: 3
                 start: 25
-                duration: 0
+                duration: 1
                 children:
                   - subject: Set up navigation concept for website.
                     status: :default_status_in_specification
                     type: :default_type_task
                     version: Sprint 1
                     start: 25
-                    duration: 0
+                    duration: 1
               - subject: Internal link structure
                 status: :default_status_closed
                 type: :default_type_user_story
                 version: Product Backlog
                 position: 5
                 start: 25
-                duration: 0
+                duration: 1
               - subject: Develop v1.0
                 status: :default_status_in_progress
                 type: :default_type_phase
@@ -490,7 +491,7 @@ en:
                 status: :default_status_new
                 type: :default_type_milestone
                 start: 18
-                duration: 0
+                duration: 1
                 relations:
                   - to: Develop v1.0
                     type: follows
@@ -503,7 +504,7 @@ en:
                 status: :default_status_new
                 type: :default_type_milestone
                 start: 25
-                duration: 0
+                duration: 1
                 relations:
                   - to: Develop v1.1
                     type: follows
@@ -516,7 +517,7 @@ en:
                 status: :default_status_new
                 type: :default_type_milestone
                 start: 32
-                duration: 0
+                duration: 1
                 relations:
                   - to: Develop v2.0
                     type: follows

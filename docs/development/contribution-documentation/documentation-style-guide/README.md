@@ -1,9 +1,8 @@
 ---
 sidebar_navigation:
   title: Documentation style guide
-  priority: 998
+  priority: 700
 description: What styles and formats to follow when contributing to the OpenProject documentation
-robots: index, follow
 keywords: documentation style guide, style guide, format, style
 ---
 
@@ -285,10 +284,22 @@ To keep tables accessible and scannable, tables should not have any empty cells.
 
 To help tables be easier to maintain, consider adding additional spaces to the column widths to make them consistent. For example:
 
-| **Feature**                                                | **Description**                                              |
-| ---------------------------------------------------------- | ------------------------------------------------------------ |
-| Great feature                                              |  Enhances collaboration between marketing and sales  |
-| Best feature                                               | Use it to synchronize your example table with OpenProject  |
+```markdown
+| **Feature**   | **Description**                                           |
+| ------------- | --------------------------------------------------------- |
+| Great feature | Enhances collaboration between marketing and sales        |
+| Best feature  | Use it to synchronize your example table with OpenProject |
+```
+
+instead of:
+
+```markdown
+| **Feature** | **Description** |
+| ------------- | --------------------------------------------------------- |
+| Great feature | Enhances collaboration between marketing and sales |
+| Best feature | Use it to synchronize your example table with OpenProject |
+```
+
 
 
 ## Headings
@@ -432,8 +443,6 @@ At the moment it is not possible for external contributors to upload videos to t
 Use alert boxes to call attention to information. The alert boxes in the OpenProject documentation have a specific format. Please use the following to be consistent:
 
 ```
-<div class="alert alert-info" role="alert">
-**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-a-new-account).
-</div>
+> **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-a-new-account).
 ```
 

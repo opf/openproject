@@ -10,12 +10,9 @@ module OpenProject::XlsExport
 
     patches %i[CostReportsController]
 
-    initializer 'xls_export.register_hooks' do
-      # don't use require_dependency to not reload hooks in development mode
-
-      require 'open_project/xls_export/hooks/cost_report_hook'
-
-      require 'open_project/xls_export/hooks/work_package_hook'
+    config.to_prepare do
+      OpenProject::XlsExport::Hooks::CostReportHook
+      OpenProject::XlsExport::Hooks::WorkPackageHook
     end
 
     initializer 'xls_export.register_mimetypes' do

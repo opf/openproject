@@ -27,23 +27,26 @@
 //++
 
 import { Injector } from '@angular/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 
 export function workPackageFilesCount(
   workPackage:WorkPackageResource,
   injector:Injector,
 ):Observable<number> {
-  const service = injector.get(AttachmentsResourceService);
-  return service.query.select()
-    .pipe(
-      map((state) => {
-        const attachmentPath = workPackage.$links.attachments.href;
-        if (attachmentPath == null) return 0;
+  const attachmentService = injector.get(AttachmentsResourceService);
+  const fileLinkService = injector.get(FileLinksResourceService);
 
-        return state.collections[attachmentPath]?.ids.length || 0;
-      }),
-    );
+  return combineLatest(
+    [
+      attachmentService.collection(workPackage.$links.attachments.href || ''),
+      fileLinkService.collection(workPackage.$links.fileLinks?.href || ''),
+    ],
+  ).pipe(
+    map(([a, f]) => a.length + f.length),
+  );
 }

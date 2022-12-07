@@ -27,7 +27,6 @@
 #++
 
 class PlaceholderUsersController < ApplicationController
-  #include EnterpriseTrialHelper
   layout 'admin'
   before_action :authorize_global, except: %i[show]
 
@@ -38,7 +37,6 @@ class PlaceholderUsersController < ApplicationController
                                                  destroy]
 
   before_action :authorize_deletion, only: %i[deletion_info destroy]
-
 
   def index
     @placeholder_users = PlaceholderUsers::PlaceholderUserFilterCell.query params

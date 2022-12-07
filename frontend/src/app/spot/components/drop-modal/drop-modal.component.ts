@@ -1,28 +1,41 @@
 import {
+    ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  EventEmitter,
   HostBinding,
   Input,
-  Output,
-  EventEmitter,
   OnDestroy,
+  Output,
 } from '@angular/core';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import SpotDropAlignmentOption from '../../drop-alignment-options';
+import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
 
 @Component({
   selector: 'spot-drop-modal',
   templateUrl: './drop-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpotDropModalComponent implements OnDestroy {
   @HostBinding('class.spot-drop-modal') public className = true;
 
-  @Output() closed = new EventEmitter<void>();
-
+  /**
+   * The alignment of the drop modal. There are twelve alignments in total. You can check which ones they are
+   * from the `SpotDropAlignmentOption` Enum that is available in 'core-app/spot/drop-alignment-options'.
+   */
   @Input() public alignment:SpotDropAlignmentOption = SpotDropAlignmentOption.BottomLeft;
+
+  get alignmentClass():string {
+    return `spot-drop-modal--body_${this.alignment}`;
+  }
 
   public _open = false;
 
+  /**
+   * Boolean indicating whether the modal should be opened
+   */
   @Input('open')
   @HostBinding('class.spot-drop-modal_opened')
   set open(value:boolean) {
@@ -36,6 +49,14 @@ export class SpotDropModalComponent implements OnDestroy {
       setTimeout(() => {
         document.body.addEventListener('click', this.closeEventListener);
         document.body.addEventListener('keydown', this.escapeListener);
+
+        const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
+        if (focusCatcherContainer) {
+          (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement).focus();
+        } else {
+          // Index 1 because the element at index 0 is the trigger button to open the modal
+          (findAllFocusableElementsWithin(this.elementRef.nativeElement)[1] as HTMLElement).focus();
+        }
       });
     } else {
       document.body.removeEventListener('click', this.closeEventListener);
@@ -48,15 +69,34 @@ export class SpotDropModalComponent implements OnDestroy {
     return this._open;
   }
 
-  get alignmentClass():string {
-    return `spot-drop-modal--body_${this.alignment}`;
-  }
+  /**
+   * Emits when the drop modal closes. This is needed because you are usually controlling the opened
+   * state of the modal manually because you have to define the trigger that opens the modal, but can
+   * will close itself automatically if the user interacts outside of it or presses Escape.
+   *
+   * ```
+   * <spot-drop-modal
+   *   [open]="isDropModalOpen"
+   *   (closed)="isDropModalOpen = false"
+   * >
+   *   <button
+   *     slot="trigger"
+   *     type="button"
+   *     (click)="isDropModalOpen = true"
+   *   >Open drop modal</button>
+   * </spot-drop-modal>
+   * ```
+   */
+  @Output() closed = new EventEmitter<void>();
 
   public text = {
     close: this.i18n.t('js.spot.drop_modal.close'),
   };
 
-  constructor(readonly i18n:I18nService) {}
+  constructor(
+    readonly i18n:I18nService,
+    readonly elementRef:ElementRef,
+  ) {}
 
   close():void {
     this.open = false;

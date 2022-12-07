@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Users and permissions
   priority: 997
 description: Manage users and permissions.
-robots: index, follow
 keywords: users, permissions, roles, groups, avatars
 ---
 # Users and permissions

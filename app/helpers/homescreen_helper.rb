@@ -48,7 +48,7 @@ module HomescreenHelper
     link_to label,
             link[:href],
             title: label,
-            target: '_blank'
+            target: '_blank', rel: 'noopener'
   end
 
   ##

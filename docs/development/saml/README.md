@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: SAML development setup
   priority: 920
-robots: index, follow
 ---
 
 # Set up a development SAML idP

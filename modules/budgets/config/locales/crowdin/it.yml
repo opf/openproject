@@ -63,7 +63,7 @@ it:
   label_example_placeholder: 'es. %{decimal}'
   label_view_all_budgets: "Mostra tutti i budget"
   label_yes: "Si"
-  notice_budget_conflict: "La macro-attività deve essere dello stesso progetto."
+  notice_budget_conflict: "Le macro-attività devono essere dello stesso progetto."
   notice_no_budgets_available: "Nessun budget disponibile."
   permission_edit_budgets: "Modifica budget"
   permission_view_budgets: "Visualizza budget"

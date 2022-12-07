@@ -40,7 +40,7 @@ module DemoData
         # create some custom fields and add them to the project
         Array(project_data_for(key, 'custom_fields')).each do |name|
           cf = WorkPackageCustomField.create!(
-            name: name,
+            name:,
             regexp: '',
             is_required: false,
             min_length: false,

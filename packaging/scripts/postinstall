@@ -1,10 +1,14 @@
 #!/bin/bash -e
 
-# Apply SMTP options given in the packager wizard to the settings within
+# Apply previous SMTP options given in the packager wizard to the settings within
 # the database. This will override existing settings.
 # The user can just choose `skip` during `reconfigure` if they do not want that.
 
-source /etc/${APP_NAME}/conf.d/smtp
+SMTP_CONFIG_FILE=/etc/${APP_NAME}/conf.d/smtp
+
+if [ -f "$SMTP_CONFIG_FILE" ]; then
+  source $SMTP_CONFIG_FILE
+fi
 
 if [ "$EMAIL_DELIVERY_METHOD" = "smtp" ]; then
   ${CLI} run rake "setting:set_to_env[\

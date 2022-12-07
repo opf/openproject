@@ -54,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
           .reject { |_, options| !options[:caption] }
           .map { |name, options| [options[:caption], name.to_s, checked: options[:builtin], disabled: options[:builtin]] }
       %>
-
+      
       <div class="form--field">
         <%= setting_multiselect(:enabled_projects_columns, column_choices) %>
       </div>

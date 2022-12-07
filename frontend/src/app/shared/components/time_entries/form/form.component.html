@@ -4,50 +4,62 @@
   [inEditMode]="inEditMode"
   (onSaved)="signalModifiedEntry($event)">
   <div class="attributes-map">
+    <ng-container *ngIf="showUserField && schema.user.writable">
+      <div class="attributes-map--key"
+           [ngClass]="{'-required': isRequired('user')}"
+           [textContent]="schema.user.name">
+      </div>
+      <div class="attributes-map--value">
+        <op-editable-attribute-field [resource]="entry"
+                                  [wrapperClasses]="'-tiny'"
+                                  [fieldName]="'user'">
+        </op-editable-attribute-field>
+      </div>
+    </ng-container>
 
     <div class="attributes-map--key"
-               [ngClass]="{'-required': isRequired('spentOn')}"
-               [textContent]="text.attributes.spentOn">
+         [ngClass]="{'-required': isRequired('spentOn')}"
+         [textContent]="schema.spentOn.name">
     </div>
     <div class="attributes-map--value">
-      <editable-attribute-field [resource]="entry"
+      <op-editable-attribute-field [resource]="entry"
                                 [wrapperClasses]="'-tiny'"
                                 [fieldName]="'spentOn'">
-      </editable-attribute-field>
+      </op-editable-attribute-field>
     </div>
 
     <div class="attributes-map--key"
          [ngClass]="{'-required': isRequired('hours')}"
-         [textContent]="text.attributes.hours">
+         [textContent]="schema.hours.name">
     </div>
     <div class="attributes-map--value">
-      <editable-attribute-field [resource]="entry"
+      <op-editable-attribute-field [resource]="entry"
                                 [wrapperClasses]="'-tiny'"
                                 [fieldName]="'hours'">
-      </editable-attribute-field>
+      </op-editable-attribute-field>
     </div>
 
-    <div *ngIf="showWorkPackageField"
-         class="attributes-map--key"
-         [ngClass]="{'-required': isRequired('workPackage')}"
-         [textContent]="text.attributes.workPackage">
-    </div>
-    <div *ngIf="showWorkPackageField"
-         class="attributes-map--value">
-      <editable-attribute-field [resource]="entry"
-                                [fieldName]="'workPackage'">
-      </editable-attribute-field>
-    </div>
+    <ng-container *ngIf="showWorkPackageField">
+      <div class="attributes-map--key"
+           [ngClass]="{'-required': isRequired('workPackage')}"
+           [textContent]="schema.workPackage.name">
+      </div>
+      <div class="attributes-map--value">
+        <op-editable-attribute-field [resource]="entry"
+                                  [fieldName]="'workPackage'">
+        </op-editable-attribute-field>
+      </div>
+    </ng-container>
 
     <div class="attributes-map--key"
          [ngClass]="{'-required': isRequired('activity')}"
-         [textContent]="text.attributes.activity">
+         [textContent]="schema.activity.name">
     </div>
     <div class="attributes-map--value">
-      <editable-attribute-field *ngIf="workPackageSelected"
+      <op-editable-attribute-field *ngIf="workPackageSelected"
                                 [resource]="entry"
                                 [fieldName]="'activity'">
-      </editable-attribute-field>
+      </op-editable-attribute-field>
       <i *ngIf="!workPackageSelected"
          [textContent]="text.wpRequired">
       </i>
@@ -55,12 +67,12 @@
 
     <div class="attributes-map--key"
          [ngClass]="{'-required': isRequired('comment')}"
-         [textContent]="text.attributes.comment">
+         [textContent]="schema.comment.name">
     </div>
     <div class="attributes-map--value">
-      <editable-attribute-field [resource]="entry"
+      <op-editable-attribute-field [resource]="entry"
                                 [fieldName]="'comment'">
-      </editable-attribute-field>
+      </op-editable-attribute-field>
     </div>
 
     <ng-container *ngFor="let cf of customFields">
@@ -69,9 +81,9 @@
            [textContent]="cf.label">
       </div>
       <div class="attributes-map--value">
-        <editable-attribute-field [resource]="entry"
+        <op-editable-attribute-field [resource]="entry"
                                   [fieldName]="cf.key">
-        </editable-attribute-field>
+        </op-editable-attribute-field>
       </div>
     </ng-container>
   </div>

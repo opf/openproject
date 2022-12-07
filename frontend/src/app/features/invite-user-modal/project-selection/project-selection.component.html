@@ -2,43 +2,48 @@
   [formGroup]="projectAndTypeForm"
   (ngSubmit)="onSubmit($event)"
 >
-  <op-modal-header (close)="close.emit()">{{ text.title }}</op-modal-header>
+  <div class="spot-modal--header">{{text.title}}</div>
 
-  <div class="op-modal--body op-form">
-    <op-form-field
-      label="Project"
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+    <spot-form-field
+      [label]="text.project.label"
       required
     >
-      <op-ium-project-search
-        [opFormBinding]="projectControl"
+      <op-project-autocompleter
         slot="input"
-      ></op-ium-project-search>
+        formControlName="project"
+        [apiFilters]="APIFiltersForProjects"
+        [mapResultsFn]="projectFilterFn.bind(this)"
+        appendTo=".spot-modal-overlay"
+      ></op-project-autocompleter>
 
       <div
-        slot="help-text"
-        *ngIf="projectControl!.errors?.lackingPermission"
+        slot="action"
+        *ngIf="projectControl.errors?.lackingPermission"
       >
         {{ text.project.lackingPermissionInfo }}
       </div>
 
       <div
         slot="errors"
-        class="op-form-field--error"
-        *ngIf="projectControl!.errors?.required"
+        class="spot-form-field--error"
+        *ngIf="projectControl.errors?.required"
       >
         {{ text.project.required }}
       </div>
 
       <div
         slot="errors"
-        class="op-form-field--error"
-        *ngIf="projectControl!.errors?.lackingPermission"
+        class="spot-form-field--error"
+        *ngIf="projectControl.errors?.lackingPermission"
       >
         {{ text.project.lackingPermission }}
       </div>
-    </op-form-field>
+    </spot-form-field>
 
-    <op-form-field>
+    <spot-form-field>
       <op-option-list
         [options]="typeOptions"
         formControlName="type"
@@ -47,17 +52,25 @@
 
       <div
         *ngIf="projectAndTypeForm?.dirty && typeControl?.invalid"
-        class="op-form-field--errors"
+        class="spot-form-field--errors"
         slot="errors"
       >
-        <div class="op-form-field--error">
+        <div class="spot-form-field--error">
           {{ text.type.required }}
         </div>
       </div>
-    </op-form-field>
+    </spot-form-field>
   </div>
 
-  <div class="op-modal--footer">
-    <button class="button -highlight">{{ text.nextButton }}</button>
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button spot-action-bar--action spot-modal--cancel-button"
+        (click)="close.emit()"> {{ text.cancelButton }}
+      </button>
+      <button class="button -highlight spot-action-bar--action">{{ text.nextButton }}</button>
+
+    </div>
   </div>
 </form>

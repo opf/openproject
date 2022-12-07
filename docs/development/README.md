@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Development
   priority: 920
-robots: index, follow
 ---
 
 # Develop OpenProject
@@ -55,6 +54,10 @@ If you want to contribute to the localization of OpenProject and its plugins you
 
 More on this topic can be found in our [blog post](https://www.openproject.org/blog/help-translate-openproject-into-your-language/).
 
+## Packaging process
+
+Please see this separate guide for the [process of building packages of OpenProject](packaging/).
+
 ## Testing
 
 Please add tests to your code to verify functionality, especially if it is a new feature.
@@ -95,7 +98,7 @@ This code of conduct is adapted from the [Contributor Covenant](https://www.cont
 
 If you want to contribute to OpenProject, please make sure to accept our Contributor License Agreement first. The contributor license agreement documents the rights granted by contributors to OpenProject.
 
-[Read and accept the Contributor License Agreement here.](https://www.openproject.org/contributor-license-agreement/)
+[Read and accept the Contributor License Agreement here.](https://www.openproject.org/legal/contributor-license-agreement/)
 
 # Additional resources
 

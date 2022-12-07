@@ -1,0 +1,101 @@
+# Schema: DayCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  This days collection
+
+                  **Resource**: DayCollectionModel
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            description: |-
+              The array of days. Each day has a name and a working status
+              indicating if it is a working or a non-working day.
+            items:
+              $ref: './day_model.yml'
+
+example:
+  _type: Collection
+  total: 5
+  count: 5
+  _links:
+    self:
+      href: '/api/v3/days?filters=[{"interval":{"operator":"<>d","values":["2022-04-29","2022-05-03"]}}]'
+  _embedded:
+    elements:
+      - _type: Day
+        date: '2022-04-29'
+        name: Friday
+        working: true
+        _links:
+          self:
+            href: /api/v3/days/2022-04-29
+          weekday:
+            href: /api/v3/days/week/5
+            title: Friday
+      - _type: Day
+        date: '2022-04-30'
+        name: Saturday
+        working: false
+        _links:
+          self:
+            href: /api/v3/days/2022-04-30
+          nonWorkingReasons:
+            - href: /api/v3/days/week/6
+              title: Saturday
+          weekday:
+            href: /api/v3/days/week/6
+            title: Saturday
+      - _type: Day
+        date: '2022-05-01'
+        name: Sunday (Labour day)
+        working: false
+        _links:
+          self:
+            href: /api/v3/days/2022-05-01
+          nonWorkingReasons:
+            - href: /api/v3/days/week/7
+              title: Sunday
+            - href: /api/v3/days/non_working/2022-05-01
+              title: Labour day
+          weekday:
+            href: /api/v3/days/week/7
+            title: Sunday
+      - _type: Day
+        date: '2022-05-02'
+        name: Monday
+        working: true
+        _links:
+          self:
+            href: /api/v3/days/2022-05-02
+          weekday:
+            href: /api/v3/days/week/1
+            title: Monday
+      - _type: Day
+        date: '2022-05-03'
+        name: Tuesday
+        working: true
+        _links:
+          self:
+            href: /api/v3/days/2022-05-03
+          weekday:
+            href: /api/v3/days/week/2
+            title: Tuesday

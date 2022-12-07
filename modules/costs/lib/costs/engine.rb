@@ -47,17 +47,21 @@ module Costs
         permission :view_time_entries, {}
         permission :view_own_time_entries, {}
 
+        permission :log_own_time,
+                   {},
+                   require: :loggedin
+
         permission :log_time,
+                   {},
+                   require: :loggedin
+
+        permission :edit_own_time_entries,
                    {},
                    require: :loggedin
 
         permission :edit_time_entries,
                    {},
                    require: :member
-
-        permission :edit_own_time_entries,
-                   {},
-                   require: :loggedin
 
         permission :manage_project_activities,
                    { 'projects/settings/time_entry_activities': %i[show update] },
@@ -201,7 +205,7 @@ module Costs
                  }
                },
                getter: ->(*) {
-                 ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter.new(represented, current_user: current_user)
+                 ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter.new(represented, current_user:)
                },
                setter: ->(*) {},
                skip_render: ->(*) { !costs_by_type_visible? }
@@ -249,8 +253,8 @@ module Costs
     end
 
     config.to_prepare do
-      Project.register_latest_project_activity on: 'TimeEntry',
-                                               attribute: :updated_at
+      OpenProject::ProjectActivity.register on: 'TimeEntry',
+                                            attribute: :updated_at
 
       Costs::Patches::MembersPatch.mixin!
 

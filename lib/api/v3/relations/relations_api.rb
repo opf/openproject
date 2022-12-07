@@ -34,7 +34,6 @@ module API
           get &::API::V3::Utilities::Endpoints::Index.new(model: Relation,
                                                           scope: -> {
                                                             Relation
-                                                              .non_hierarchy
                                                               .includes(::API::V3::Relations::RelationRepresenter.to_eager_load)
                                                           },
                                                           render_representer: RelationPaginatedCollectionRepresenter)

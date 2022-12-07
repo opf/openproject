@@ -2,8 +2,7 @@
 sidebar_navigation:
   title: BIM guide
   priority: 975
-description: User guide for the OpenProject BIM Edition.
-robots: index, follow
+description: User guide for the OpenProject BIM edition.
 keywords: BIM user guide
 ---
 # BIM guide
@@ -12,19 +11,17 @@ Welcome to the OpenProject user guide for Building Information Modeling (BIM) wi
 
 On top of the general project management functionalities, OpenProject BIM enables construction teams to better plan, communicate and collaborate in their building projects. OpenProject BIM includes a 3D model viewer (IFC viewer), support of the BIM collaboration format (BCF) for BIM issue management, and much more powerful features, e.g. a [Revit integration](revit-add-in).
 
-<div class="alert alert-info" role="alert">
 
-**Note**: This guide only covers the specific [BIM features and functionalities of OpenProject](https://www.openproject.org/bim-project-management/). To learn more about the core features for project management of OpenProject (which are included in the BIM Edition as well), please visit our [User Guide](../user-guide/).
+> **Note**: This guide only covers the specific [BIM features and functionalities of OpenProject](https://www.openproject.org/bim-project-management/). To learn more about the core features for project management of OpenProject (which are included in the BIM edition as well), please visit our [User Guide](../user-guide/).
 
-</div>
 
 ![BIM Project Management](demo_project_teaser_bim.jpg)
 
 
 
-## Overview of all topics regarding the OpenProject BIM Edition
+## Overview of all topics regarding the OpenProject BIM edition
 
-OpenProject BIM Edition provides powerful features particular designed for the needs of construction industry. Please choose the topic you want to learn more about.
+OpenProject BIM edition provides powerful features particular designed for the needs of construction industry. Please choose the topic you want to learn more about.
 
 ## IFC viewer
 
@@ -50,13 +47,13 @@ Details: [Revit Add-in](revit-add-in)
 
 
 
-## How to get a free trial?
+## How to get a free trial
 
 You easily can start a new BIM trial on our [OpenProject BIM website](https://www.openproject.org/bim-project-management/). The have a look at the full description of how to start a new trial installation just follow the Link: [Create trial installation](../enterprise-guide/enterprise-cloud-guide/create-cloud-trial/).
 
 
 
-## How to enable the BCF module?
+## How to enable the BCF module
 
 The BCF Module and the included IFC viewer can be enabled for every single project. Here you can find the description how to [enable a module](../user-guide/projects/project-settings/modules/) within your ***project settings***.
 
@@ -74,15 +71,15 @@ You found a bug? Please [report it](../development/report-a-bug) to our [OpenPro
 
 ### Can OpenProject features be used within the OpenProject BIM edition?
 
-Yes, you are able to use all known features. Within our BIM Edition you get the full functionality and additionally some features only for the building industry.
+Yes, you are able to use all known features. Within our BIM edition you get the full functionality and additionally some features only for the building industry.
 
 
 
 ### Is it possible to switch my existing OpenProject installation to the BIM edition?
 
-Yes, an existing OpenProject on-premises (self-hosted) installation can easily be switched to the BIM Edition without losing your settings and projects.
+Yes, an existing OpenProject on-premises (self-hosted) installation can easily be switched to the BIM edition without losing your settings and projects.
 
-In our [Installation & Upgrade Guide](../installation-and-operations/changing-to-bim-edition) you can find a description how to switch.
+In our [Installation & Upgrade Guide](../installation-and-operations/bim-edition/) you can find a description how to switch.
 
 
 
@@ -126,11 +123,11 @@ Yes, we want to develop some other integrations to stay interoparable with other
 
 
 
-### How to enable the BCF module?
+### How to enable the BCF module
 
 The BCF Module and the included IFC viewer can be enabled or disabled for every single project. Here you can find the description how to [enable a module](../user-guide/projects/project-settings/modules/) within the project settings. 
 
-*The BCF Module is an OpenProject BIM Premium function. Please make sure, that you are already using the OpenProject BIM Edition ([switch to the BIM Edition](../installation-and-operations/changing-to-bim-edition))*
+*The BCF Module is an OpenProject BIM Enterprise add-on. Please make sure, that you are already using the OpenProject BIM edition ([switch to the BIM edition](../installation-and-operations/bim-edition/))*
 
  
 
