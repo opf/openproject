@@ -34,7 +34,7 @@ module Projects::Activity
   module ActivityScopes
     def latest_project_activity
       @latest_project_activity ||=
-        OpenProject::ProjectActivity.registered.map do |params|
+        OpenProject::ProjectLatestActivity.registered.map do |params|
           build_latest_project_activity_for(on: params[:on].constantize,
                                             chain: Array(params[:chain]).map(&:constantize),
                                             attribute: params[:attribute])

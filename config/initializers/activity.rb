@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../constants/open_project/project_activity'
+require_relative '../constants/open_project/project_latest_activity'
 
 Rails.application.reloader.to_prepare do
   OpenProject::Activity.map do |activity|
@@ -40,21 +40,21 @@ Rails.application.reloader.to_prepare do
                                  default: false
   end
 
-  OpenProject::ProjectActivity.register on: 'WorkPackage',
-                                        attribute: :updated_at
+  OpenProject::ProjectLatestActivity.register on: 'WorkPackage',
+                                              attribute: :updated_at
 
-  OpenProject::ProjectActivity.register on: 'News',
-                                        attribute: :updated_at
+  OpenProject::ProjectLatestActivity.register on: 'News',
+                                              attribute: :updated_at
 
-  OpenProject::ProjectActivity.register on: 'Changeset',
-                                        chain: 'Repository',
-                                        attribute: :committed_on
+  OpenProject::ProjectLatestActivity.register on: 'Changeset',
+                                              chain: 'Repository',
+                                              attribute: :committed_on
 
-  OpenProject::ProjectActivity.register on: 'WikiContent',
-                                        chain: %w(Wiki WikiPage),
-                                        attribute: :updated_at
+  OpenProject::ProjectLatestActivity.register on: 'WikiContent',
+                                              chain: %w(Wiki WikiPage),
+                                              attribute: :updated_at
 
-  OpenProject::ProjectActivity.register on: 'Message',
-                                        chain: 'Forum',
-                                        attribute: :updated_at
+  OpenProject::ProjectLatestActivity.register on: 'Message',
+                                              chain: 'Forum',
+                                              attribute: :updated_at
 end

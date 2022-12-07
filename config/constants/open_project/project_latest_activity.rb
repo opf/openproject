@@ -25,7 +25,7 @@
 #  See COPYRIGHT and LICENSE files for more details.
 
 module OpenProject
-  module ProjectActivity
+  module ProjectLatestActivity
     class << self
       def register(on:, attribute:, chain: [])
         @registered ||= Set.new
