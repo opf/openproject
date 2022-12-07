@@ -76,8 +76,8 @@ class ::Query::Results
   #
   def work_package_ids_for_all_timestamps
     query.timestamps.collect do |timestamp|
-      work_packages_relation.at_timestamp(timestamp).pluck(:id)
-    end.flatten.uniq
+      WorkPackage.where(id: work_packages_relation.at_timestamp(timestamp))
+    end.reduce(:or)
   end
 
   # Returns an active-record relation that applies the filters to find the matching
