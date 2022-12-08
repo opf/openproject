@@ -39,6 +39,9 @@ gem 'responders', '~> 3.0'
 
 gem 'ffi', '~> 1.15'
 
+# Lock mail at 2.7 due to incompatibility
+gem 'mail', '~> 2.7.1'
+
 gem 'rdoc', '>= 2.4.2'
 
 gem 'doorkeeper', '~> 5.5.0'
