@@ -129,7 +129,8 @@ end
 
 def get_log(job)
   cached("job_#{job['id']}.log") do
-    get_http("actions/jobs/#{job['id']}/logs")
+    logs_url = "#{job['run_url']}/logs"
+    get_http(logs_url)
   end
 end
 
