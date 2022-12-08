@@ -76,8 +76,6 @@ Click on the **Mark as read** button represented by the envelope icon on the rig
 
 ![notification-full-screen-view-work-package](notification-full-screen-view-work-package.png)
 
-## 
-
 ## Notifications outside of Notification Center
 
 In-app notifications are also visible directly on work packages, in both full screen and in split-screen views. If there are unread notifications related to the currently-open work package, a small blue badge next to the Activity tab will display indicate this, along with the number of unread notifications.
