@@ -119,6 +119,56 @@ describe Timestamp do
     end
   end
 
+  describe ".parse_multiple" do
+    describe "when providing an empty string" do
+      subject { described_class.parse_multiple("") }
+
+      it "returns an empty array" do
+        expect(subject).to eq []
+      end
+    end
+
+    describe "when providing a single timestamp" do
+      subject { described_class.parse_multiple("PT10S") }
+
+      it "returns an array containing that timestamp" do
+        expect(subject).to eq [described_class.new("PT10S")]
+      end
+    end
+
+    describe "when providing multiple comma-separated timestamps" do
+      subject { described_class.parse_multiple("PT10S,PT20S") }
+
+      it "returns an array containing those timestamps" do
+        expect(subject).to eq [described_class.new("PT10S"), described_class.new("PT20S")]
+      end
+    end
+
+    describe "when providing multiple comma-separated timestamps with whitespace" do
+      subject { described_class.parse_multiple("PT10S, PT20S") }
+
+      it "returns an array containing those timestamps" do
+        expect(subject).to eq [described_class.new("PT10S"), described_class.new("PT20S")]
+      end
+    end
+
+    describe "when providing multiple comma-separated timestamps with whitespace and empty strings" do
+      subject { described_class.parse_multiple("PT10S, , PT20S") }
+
+      it "returns an array containing those timestamps" do
+        expect(subject).to eq [described_class.new("PT10S"), described_class.new("PT20S")]
+      end
+    end
+
+    describe "when providing something invalid" do
+      subject { described_class.parse_multiple("foo") }
+
+      it "raises an error" do
+        expect { subject }.to raise_error ArgumentError
+      end
+    end
+  end
+
   describe "#relative?" do
     subject { timestamp.relative? }
 

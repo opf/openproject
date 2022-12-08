@@ -37,8 +37,9 @@ module API
         return json_parsed unless json_parsed.success?
 
         parsed = parsed_params(params)
+        return parsed unless parsed.success?
 
-        result = without_empty(parsed.merge(json_parsed.result), determine_allowed_empty(params))
+        result = without_empty(parsed.result.merge(json_parsed.result), determine_allowed_empty(params))
 
         ServiceResult.success(result:)
       end
@@ -60,7 +61,7 @@ module API
       end
 
       def parsed_params(params)
-        {
+        ServiceResult.success result: {
           group_by: group_by_from_params(params),
           columns: columns_from_params(params),
           display_sums: boolearize(params[:showSums]),
@@ -70,8 +71,13 @@ module API
           highlighted_attributes: highlighted_attributes_from_params(params),
           display_representation: params[:displayRepresentation],
           show_hierarchies: boolearize(params[:showHierarchies]),
-          include_subprojects: boolearize(params[:includeSubprojects])
+          include_subprojects: boolearize(params[:includeSubprojects]),
+          timestamps: Timestamp.parse_multiple(params[:timestamps])
         }
+      rescue ArgumentError => e
+        result = ServiceResult.failure
+        result.errors.add(:base, e.message)
+        result
       end
 
       def determine_allowed_empty(params)

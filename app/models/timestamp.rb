@@ -40,12 +40,22 @@ class Timestamp
   end
 
   def self.parse(iso8601_string)
+    iso8601_string.strip!
     if iso8601_string.start_with? "P" # ISO8601 "Period"
       ActiveSupport::Duration.parse(iso8601_string)
     elsif Time.zone.parse(iso8601_string).blank?
       raise ArgumentError, "The string \"#{iso8601_string}\" cannot be parsed to a Time."
     end
     Timestamp.new(iso8601_string)
+  end
+
+  # Take a comma-separated string of ISO-8601 timestamps and convert it
+  # into an array of Timestamp objects.
+  #
+  def self.parse_multiple(comma_separated_iso8601_string)
+    comma_separated_iso8601_string.to_s.split(",").compact_blank.collect do |iso8601_string|
+      Timestamp.parse(iso8601_string)
+    end
   end
 
   def self.now
@@ -98,6 +108,10 @@ class Timestamp
 
   def ==(other)
     iso8601 == other.iso8601
+  end
+
+  def eql?(other)
+    self == other
   end
 
   class Exception < StandardError; end
