@@ -52,9 +52,7 @@ import { States } from 'core-app/core/states/states.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
-import {
-  WorkPackageViewFiltersService,
-} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { StateService } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -64,10 +62,12 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import interactionPlugin, { EventDragStartArg, EventDragStopArg, EventResizeDoneArg } from '@fullcalendar/interaction';
-import {
-  HalResourceEditingService,
-} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import interactionPlugin, {
+  EventDragStartArg,
+  EventDragStopArg,
+  EventResizeDoneArg,
+} from '@fullcalendar/interaction';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import {
@@ -248,7 +248,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         el.style.removeProperty('pointer-events');
         this.removeBackGroundEvents();
       },
-        eventClick: (evt:EventClickArg) => {
+      eventClick: (evt:EventClickArg) => {
         const workPackageId = (evt.event.extendedProps.workPackage as WorkPackageResource).id as string;
         // Currently the calendar widget is shown on multiple pages,
         // but only the calendar module itself is a partitioned query space which can deal with a split screen request
