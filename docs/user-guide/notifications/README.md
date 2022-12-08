@@ -27,15 +27,9 @@ With in-app notifications, you will be notified about important changes that are
 
 When there are notifications that require your attention, you will see a red badge on the notification bell icon on the right edge of the top header. The number on the badge indicates the number of total unread notifications (up to 99, after which the badge will simply indicate "99+").
 
-To view the notifications, click on this bell icon. 
+To view the notifications, click the bell icon.  This will take you to **Notification center**.
 
-![A notification bell icon in the top bar has a badge showing the number of unread notifications](NotificationCenter-12.4-badge.png)
-
-
-
-This will take you to **Notification center**. 
-
-![A screenshot of the Notification center with a number of unread notifications](NotificationCenter-12.4-inbox.png)
+![A screenshot of the Notification center with a number of unread notifications](openproject-notification-center-inbox.png)
 
 Each row in Notification center is a work package that has generated a notification. It is possible that you have received multiple notifications for the same work package (if, for example, the date of a work package you are watching was changed by one person and then the status later change by another, that would generate two notifications). A blue badge on the right edge of each row displays the number of unread notifications concerning that particular work package.
 
