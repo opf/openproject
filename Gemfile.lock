@@ -612,11 +612,8 @@ GEM
     loofah (2.19.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    mail (2.8.0)
+    mail (2.7.1)
       mini_mime (>= 0.1.1)
-      net-imap
-      net-pop
-      net-smtp
     marcel (1.0.2)
     matrix (0.4.2)
     messagebird-rest (1.4.2)
@@ -1066,6 +1063,7 @@ DEPENDENCIES
   listen (~> 3.7.0)
   livingstyleguide (~> 2.1.0)
   lograge (~> 0.12.0)
+  mail (~> 2.7.1)
   matrix (~> 0.4.2)
   meta-tags (~> 2.18.0)
   mini_magick (~> 4.12.0)
