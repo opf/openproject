@@ -191,8 +191,8 @@ describe UpdateQueryFromParamsService,
       end
     end
 
-    context "timestamps" do
-      let(:timestamps) { [Timestamp.parse("2022-10-29T23:01:23Z"), Timestamp.parse("P-0Y")] }
+    context "when providing timestamps" do
+      let(:timestamps) { [Timestamp.parse("2022-10-29T23:01:23Z"), Timestamp.parse("PT0S")] }
       let(:params) { { timestamps: } }
 
       it 'sets the timestamps' do

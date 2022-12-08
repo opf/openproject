@@ -110,6 +110,51 @@ describe Timestamp do
       end
     end
 
+    describe "when providing a special shortcut value" do
+      describe "now" do
+        subject { described_class.parse("now") }
+
+        it "returns a Timestamp representing the current time" do
+          expect(subject).to be_a described_class
+          expect(subject.to_iso8601).to eq "PT0S"
+          expect(subject.relative?).to be true
+        end
+      end
+
+      describe "-1y" do
+        subject { described_class.parse("-1y") }
+
+        it "returns a Timestamp representing a time ago that duration" do
+          expect(subject).to be_a described_class
+          expect(subject.to_iso8601).to eq "P-1Y"
+          expect(subject.to_duration).to eq ActiveSupport::Duration.build(-1.year)
+          expect(subject.relative?).to be true
+        end
+      end
+
+      describe "-1y2m" do
+        subject { described_class.parse("-1y2m") }
+
+        it "returns a Timestamp representing a time ago that duration" do
+          expect(subject).to be_a described_class
+          expect(subject.to_iso8601).to eq "P-1Y-2M"
+          expect(subject.to_duration).to eq ActiveSupport::Duration.build(-1.year - 2.months)
+          expect(subject.relative?).to be true
+        end
+      end
+
+      describe "2022-01-01" do
+        subject { described_class.parse("2022-01-01") }
+
+        it "returns a Timestamp representing that absolute time" do
+          expect(subject).to be_a described_class
+          expect(subject.to_iso8601).to eq "2022-01-01T00:00:00Z"
+          expect(subject.to_time).to eq Time.zone.parse("2022-01-01T00:00:00Z")
+          expect(subject.relative?).to be false
+        end
+      end
+    end
+
     describe "when providing something invalid" do
       subject { described_class.parse("foo") }
 

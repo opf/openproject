@@ -336,6 +336,11 @@ describe ::API::V3::ParseQueryParamsService,
         let(:expected) { { timestamps: [Timestamp.parse("2022-10-29T23:01:23Z"), Timestamp.parse("P-0Y")] } }
       end
 
+      it_behaves_like 'transforms' do
+        let(:params) { { timestamps: "-1y, now" } }
+        let(:expected) { { timestamps: [Timestamp.new("P-1Y"), Timestamp.parse("P-0Y")] } }
+      end
+
       describe "for invalid parameters" do
         let(:params) { { timestamps: "foo,bar" } }
 
