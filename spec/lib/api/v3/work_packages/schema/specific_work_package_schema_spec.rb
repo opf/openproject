@@ -176,46 +176,46 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     context 'percentage done' do
       it 'is not writable when inferred by status' do
         allow(Setting).to receive(:work_package_done_ratio).and_return('status')
-        expect(subject.writable?('done_ratio')).to be false
+        expect(subject).not_to be_writable(:done_ratio)
       end
 
       it 'is not writable when disabled' do
         allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
-        expect(subject.writable?('done_ratio')).to be false
+        expect(subject).not_to be_writable(:done_ratio)
       end
 
       it 'is not writable when the work package is a parent' do
         allow(work_package).to receive(:leaf?).and_return(false)
-        expect(subject.writable?('done_ratio')).to be false
+        expect(subject).not_to be_writable(:done_ratio)
       end
 
       it 'is writable when the work package is a leaf' do
         allow(work_package).to receive(:leaf?).and_return(true)
-        expect(subject.writable?('done_ratio')).to be true
+        expect(subject).to be_writable('done_ratio')
       end
     end
 
     context 'estimated time' do
       it 'is writable when the work package is a parent' do
         allow(work_package).to receive(:leaf?).and_return(false)
-        expect(subject.writable?('estimated_hours')).to be true
+        expect(subject).to be_writable(:estimated_hours)
       end
 
       it 'is writable when the work package is a leaf' do
         allow(work_package).to receive(:leaf?).and_return(true)
-        expect(subject.writable?('estimated_hours')).to be true
+        expect(subject).to be_writable(:estimated_hours)
       end
     end
 
     context 'derived estimated time' do
       it 'is not writable when the work package is a parent' do
         allow(work_package).to receive(:leaf?).and_return(false)
-        expect(subject.writable?('derived_estimated_time')).to be false
+        expect(subject).not_to be_writable(:derived_estimated_time)
       end
 
       it 'is not writable when the work package is a leaf' do
         allow(work_package).to receive(:leaf?).and_return(true)
-        expect(subject.writable?('derived_estimated_time')).to be false
+        expect(subject).not_to be_writable(:derived_estimated_time)
       end
     end
 
@@ -229,7 +229,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
 
         context 'scheduled automatically' do
           it 'is not writable' do
-            expect(subject.writable?('start_date')).to be false
+            expect(subject).not_to be_writable(:start_date)
           end
         end
 
@@ -239,7 +239,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
           end
 
           it 'is writable' do
-            expect(subject.writable?('start_date')).to be true
+            expect(subject).to be_writable(:start_date)
           end
         end
       end
@@ -247,7 +247,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       context 'work package is a leaf' do
         it 'is writable' do
           allow(work_package).to receive(:leaf?).and_return(true)
-          expect(subject.writable?('start_date')).to be true
+          expect(subject).to be_writable(:start_date)
         end
       end
     end
@@ -262,7 +262,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
 
         context 'scheduled automatically' do
           it 'is not writable' do
-            expect(subject.writable?('due_date')).to be false
+            expect(subject).not_to be_writable(:due_date)
           end
         end
 
@@ -272,7 +272,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
           end
 
           it 'is writable' do
-            expect(subject.writable?('due_date')).to be true
+            expect(subject).to be_writable(:due_date)
           end
         end
       end
@@ -280,7 +280,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       context 'work package is a leaf' do
         it 'is writable' do
           allow(work_package).to receive(:leaf?).and_return(true)
-          expect(subject.writable?('due_date')).to be true
+          expect(subject).to be_writable(:due_date)
         end
       end
     end
@@ -294,24 +294,24 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
 
       it 'is not writable when the work package is a parent' do
         allow(work_package).to receive(:leaf?).and_return(false)
-        expect(subject.writable?('date')).to be false
+        expect(subject).not_to be_writable(:date)
       end
 
       it 'is writable when the work package is a leaf' do
         allow(work_package).to receive(:leaf?).and_return(true)
-        expect(subject.writable?('date')).to be true
+        expect(subject).to be_writable(:date)
       end
     end
 
     context 'priority' do
       it 'is writable when the work package is a parent' do
         allow(work_package).to receive(:leaf?).and_return(false)
-        expect(subject.writable?('priority')).to be true
+        expect(subject).to be_writable(:priority)
       end
 
       it 'is writable when the work package is a leaf' do
         allow(work_package).to receive(:leaf?).and_return(true)
-        expect(subject.writable?('priority')).to be true
+        expect(subject).to be_writable(:priority)
       end
     end
   end

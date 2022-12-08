@@ -66,8 +66,8 @@ describe Dashboards::GridRegistration do
 
     context 'if the user has the :manage_dashboards permission' do
       it 'is truthy' do
-        expect(described_class.writable?(grid, user))
-          .to be_truthy
+        expect(described_class)
+          .to be_writable(grid, user)
       end
     end
 
@@ -75,8 +75,8 @@ describe Dashboards::GridRegistration do
       let(:allowed) { false }
 
       it 'is falsey' do
-        expect(described_class.writable?(grid, user))
-          .to be_falsey
+        expect(described_class)
+          .not_to be_writable(grid, user)
       end
     end
   end

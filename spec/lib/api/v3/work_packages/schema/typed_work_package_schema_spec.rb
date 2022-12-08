@@ -64,19 +64,19 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
 
   describe '#writable?' do
     it 'percentage done is writable' do
-      expect(subject.writable?(:done_ratio)).to be true
+      expect(subject).to be_writable(:done_ratio)
     end
 
     it 'estimated time is writable' do
-      expect(subject.writable?(:estimated_hours)).to be true
+      expect(subject).to be_writable(:estimated_hours)
     end
 
     it 'start date is writable' do
-      expect(subject.writable?(:start_date)).to be true
+      expect(subject).to be_writable(:start_date)
     end
 
     it 'finish date is writable' do
-      expect(subject.writable?(:due_date)).to be true
+      expect(subject).to be_writable(:due_date)
     end
   end
 
@@ -98,7 +98,7 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
     end
 
     it 'has a writable date' do
-      expect(subject.writable?(:date)).to be true
+      expect(subject).to be_writable(:date)
     end
   end
 
