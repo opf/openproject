@@ -195,7 +195,7 @@ gem 'rest-client', '~> 2.0'
 
 gem 'ruby-progressbar', '~> 1.11.0', require: false
 
-gem 'mini_magick', '~> 4.11.0', require: false
+gem 'mini_magick', '~> 4.12.0', require: false
 
 gem 'validate_url'
 
