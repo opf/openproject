@@ -798,7 +798,7 @@ GEM
       ffi (~> 1.0)
     rbtree3 (0.7.0)
     rchardet (1.8.0)
-    rdoc (6.4.0)
+    rdoc (6.5.0)
       psych (>= 4.0.0)
     recaptcha (5.12.3)
       json
