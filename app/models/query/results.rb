@@ -44,19 +44,31 @@ class ::Query::Results
 
   # Returns the work packages adhering to the filters and ordered by the provided criteria (grouping and sorting)
   def work_packages
+    if query.historic?
+      sorted_work_packages_matching_the_filters_at_any_of_the_given_timestamps
+    else
+      sorted_work_packages_matching_the_filters_today
+    end
+  end
+
+  def sorted_work_packages_matching_the_filters_today
     work_package_scope
-      .where(id: work_package_ids)
+      .where(query.statement)
       .includes(all_includes)
-      .joins(sort_criteria_joins)
+      .joins(all_joins)
       .order(order_option)
       .references(:projects)
       .order(sort_criteria_array)
   end
 
-  def work_package_ids
-    # For filtering on historic data, we need to collect the work package ids
-    # matching the filters for all search timestamps provided in the query.
-    work_package_ids_for_all_timestamps
+  def sorted_work_packages_matching_the_filters_at_any_of_the_given_timestamps
+    work_package_scope
+      .where(id: work_packages_matching_the_filters_at_any_of_the_given_timestamps)
+      .includes(all_includes)
+      .joins(sort_criteria_joins)
+      .order(order_option)
+      .references(:projects)
+      .order(sort_criteria_array)
   end
 
   def order_option
@@ -71,10 +83,10 @@ class ::Query::Results
 
   private
 
-  # For filtering on historic data, this returns the work package ids
-  # matching the filters for all search timestamps provided in the query.
+  # For filtering on historic data, this returns the work packages
+  # matching the filters for any of the timestamps provided in the query.
   #
-  def work_package_ids_for_all_timestamps
+  def work_packages_matching_the_filters_at_any_of_the_given_timestamps
     query.timestamps.collect do |timestamp|
       WorkPackage.where(id: work_packages_relation.at_timestamp(timestamp))
     end.reduce(:or)

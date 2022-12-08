@@ -51,5 +51,11 @@ module Query::Timestamps
     def timestamps=(array)
       super(array.collect { |element| element.respond_to?(:iso8601) ? element.iso8601 : element })
     end
+
+    # Does this query perform a historic search?
+    #
+    def historic?
+      timestamps != [Timestamp.now]
+    end
   end
 end
