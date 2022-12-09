@@ -89,7 +89,7 @@ module API::V3::Storages
 
     link_without_resource :type,
                           getter: ->(*) {
-                            type = STORAGE_TYPE_MAP[represented.provider_type] || represented.provider_type
+                            type = STORAGE_TYPE_URN_MAP[represented.provider_type] || represented.provider_type
 
                             { href: type, title: 'Nextcloud' }
                           },
@@ -97,7 +97,7 @@ module API::V3::Storages
                             href = fragment['href']
                             break if href.blank?
 
-                            represented.provider_type = STORAGE_TYPE_URN_MAP[href] || href
+                            represented.provider_type = STORAGE_TYPE_MAP[href] || href
                           }
 
     link_without_resource :origin,
