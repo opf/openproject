@@ -84,8 +84,8 @@ example:
   name: Vader's secure OAuth app
   clientId: O5h6WObhMg1Z8IcLHRE3_LMh4jJYmmca2V6OTFSv8DA
   confidential: true
-  createdAt: 2022-12-07T12:56:42Z
-  updatedAt: 2022-12-07T12:56:42Z
+  createdAt: '2022-12-07T12:56:42Z'
+  updatedAt: '2022-12-07T12:56:42Z'
   scopes:
     - api_v3
   _links:

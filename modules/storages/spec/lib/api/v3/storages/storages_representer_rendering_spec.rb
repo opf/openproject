@@ -28,18 +28,18 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Storages::StorageRepresenter, 'rendering' do
+describe API::V3::Storages::StorageRepresenter, 'rendering' do
   let(:oauth_application) { build_stubbed(:oauth_application) }
   let(:oauth_client_credentials) { build_stubbed(:oauth_client) }
   let(:storage) { build_stubbed(:storage, oauth_application:, oauth_client: oauth_client_credentials) }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(storage, current_user: user, embed_links: true) }
-  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
+  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
 
   subject(:generated) { representer.to_json }
 
   before do
-    allow(::OAuthClients::ConnectionManager)
+    allow(OAuthClients::ConnectionManager)
       .to receive(:new).and_return(connection_manager)
     allow(connection_manager)
       .to receive(:authorization_state).and_return(:connected)

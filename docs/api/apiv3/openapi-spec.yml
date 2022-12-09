@@ -660,6 +660,8 @@ components:
       "$ref": "./components/schemas/notification_settings_model.yml"
     Offset_based_pagination:
       "$ref": "./components/schemas/offset_based_pagination.yml"
+    OAuthApplicationReadModel:
+      "$ref": "./components/schemas/oauth_application_read_model.yml"
     OAuthClientCredentialsReadModel:
       "$ref": "./components/schemas/oauth_client_credentials_read_model.yml"
     OAuthClientCredentialsWriteModel:

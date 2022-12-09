@@ -45,7 +45,7 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
   let(:project_storage) { create(:project_storage, project:, storage:) }
 
   let(:authorize_url) { 'https://example.com/authorize' }
-  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
+  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
 
   subject(:last_response) do
     get path
@@ -54,7 +54,7 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
   before do
     allow(connection_manager).to receive(:get_authorization_uri).and_return(authorize_url)
     allow(connection_manager).to receive(:authorization_state).and_return(:connected)
-    allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+    allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
     project_storage
     login_as current_user
   end
@@ -99,7 +99,12 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
       describe 'due to authorization failure' do
         before do
-          allow(storage_requests).to receive(:files_query).and_return(ServiceResult.failure(result: :not_authorized))
+          allow(storage_requests).to receive(:files_query).and_return(
+            ServiceResult.failure(
+              result: :not_authorized,
+              errors: Storages::StorageError.new(code: :not_authorized)
+            )
+          )
         end
 
         it { expect(last_response.status).to be(500) }
@@ -107,7 +112,12 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
       describe 'due to internal error' do
         before do
-          allow(storage_requests).to receive(:files_query).and_return(ServiceResult.failure(result: :error))
+          allow(storage_requests).to receive(:files_query).and_return(
+            ServiceResult.failure(
+              result: :error,
+              errors: Storages::StorageError.new(code: :error)
+            )
+          )
         end
 
         it { expect(last_response.status).to be(500) }
@@ -115,7 +125,12 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
       describe 'due to not found' do
         before do
-          allow(storage_requests).to receive(:files_query).and_return(ServiceResult.failure(result: :not_found))
+          allow(storage_requests).to receive(:files_query).and_return(
+            ServiceResult.failure(
+              result: :not_found,
+              errors: Storages::StorageError.new(code: :not_found)
+            )
+          )
         end
 
         it { expect(last_response.status).to be(404) }
@@ -126,7 +141,10 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
       let(:files_query) do
         Struct.new('FilesQuery', :error) do
           def query(_)
-            ServiceResult.failure(result: error)
+            ServiceResult.failure(
+              result: error,
+              errors: Storages::StorageError.new(code: error)
+            )
           end
         end.new(error)
       end
@@ -180,7 +198,7 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
       it do
         expect(subject)
-          .to(be_json_eql("#{::API::V3::URN_PREFIX}storages:upload_link:no_link_provided".to_json)
+          .to(be_json_eql("#{API::V3::URN_PREFIX}storages:upload_link:no_link_provided".to_json)
                 .at_path('_links/self/href'))
       end
 
@@ -198,7 +216,12 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
       describe 'due to authorization failure' do
         before do
-          allow(storage_requests).to receive(:upload_link_query).and_return(ServiceResult.failure(result: :not_authorized))
+          allow(storage_requests).to receive(:upload_link_query).and_return(
+            ServiceResult.failure(
+              result: :not_authorized,
+              errors: Storages::StorageError.new(code: :not_authorized)
+            )
+          )
         end
 
         it { expect(last_response.status).to be(500) }
@@ -206,7 +229,12 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
       describe 'due to internal error' do
         before do
-          allow(storage_requests).to receive(:upload_link_query).and_return(ServiceResult.failure(result: :error))
+          allow(storage_requests).to receive(:upload_link_query).and_return(
+            ServiceResult.failure(
+              result: :error,
+              errors: Storages::StorageError.new(code: :error)
+            )
+          )
         end
 
         it { expect(last_response.status).to be(500) }
@@ -214,7 +242,12 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
       describe 'due to not found' do
         before do
-          allow(storage_requests).to receive(:upload_link_query).and_return(ServiceResult.failure(result: :not_found))
+          allow(storage_requests).to receive(:upload_link_query).and_return(
+            ServiceResult.failure(
+              result: :not_found,
+              errors: Storages::StorageError.new(code: :not_found)
+            )
+          )
         end
 
         it { expect(last_response.status).to be(404) }

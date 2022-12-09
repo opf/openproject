@@ -33,7 +33,7 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
   # Only admins have the right to create/delete storages.
   let(:current_user) { create(:admin) }
   let(:storage_name) { 'Storage 1' }
-  let(:storage_provider_type) { ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+  let(:storage_provider_type) { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
   let(:storage_host) { 'https://host1.example.com' }
   let(:storage_creator) { current_user }
 

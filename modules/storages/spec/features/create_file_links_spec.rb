@@ -42,7 +42,7 @@ describe 'Creating file links in work package', js: true, webmock: true, with_fl
   let(:file_link) { create(:file_link, container: work_package, storage:, origin_id: '22', origin_name: 'jingle.ogg') }
 
   let(:connection_manager) do
-    connection_manager = instance_double(::OAuthClients::ConnectionManager)
+    connection_manager = instance_double(OAuthClients::ConnectionManager)
     allow(connection_manager).to receive(:refresh_token).and_return(ServiceResult.success(result: oauth_client_token))
     allow(connection_manager).to receive(:get_access_token).and_return(ServiceResult.success(result: oauth_client_token))
     allow(connection_manager).to receive(:authorization_state).and_return(:connected)
@@ -54,19 +54,19 @@ describe 'Creating file links in work package', js: true, webmock: true, with_fl
   let(:folder1_xml_response) { create(:webdav_data_folder) }
 
   let(:sync_service) do
-    sync_service = instance_double(::Storages::FileLinkSyncService)
+    sync_service = instance_double(Storages::FileLinkSyncService)
     allow(sync_service).to receive(:call) do |file_links|
       ServiceResult.success(result: file_links.each { |file_link| file_link.origin_permission = :view })
     end
     sync_service
   end
 
-  let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
-  let(:dialog) { ::Components::FilePickerDialog.new }
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
+  let(:dialog) { Components::FilePickerDialog.new }
 
   before do
-    allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
-    allow(::Storages::FileLinkSyncService).to receive(:new).and_return(sync_service)
+    allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+    allow(Storages::FileLinkSyncService).to receive(:new).and_return(sync_service)
 
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}")
       .to_return(status: 207, body: root_xml_response, headers: {})

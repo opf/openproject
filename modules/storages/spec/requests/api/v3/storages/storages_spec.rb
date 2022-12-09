@@ -45,7 +45,7 @@ describe 'API v3 storages resource', content_type: :json, webmock: true do
   let(:project_storage) { create(:project_storage, project:, storage:) }
 
   let(:authorize_url) { 'https://example.com/authorize' }
-  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
+  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
 
   subject(:last_response) do
     get path
@@ -54,7 +54,7 @@ describe 'API v3 storages resource', content_type: :json, webmock: true do
   before do
     allow(connection_manager).to receive(:get_authorization_uri).and_return(authorize_url)
     allow(connection_manager).to receive(:authorization_state).and_return(:connected)
-    allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+    allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
     project_storage
     login_as current_user
   end
@@ -196,7 +196,7 @@ describe 'API v3 storages resource', content_type: :json, webmock: true do
         let(:authorization_state) { :connected }
 
         include_examples 'a storage authorization result',
-                         expected: ::API::V3::Storages::URN_CONNECTION_CONNECTED,
+                         expected: API::V3::Storages::URN_CONNECTION_CONNECTED,
                          has_authorize_link: false
       end
 
@@ -204,7 +204,7 @@ describe 'API v3 storages resource', content_type: :json, webmock: true do
         let(:authorization_state) { :failed_authorization }
 
         include_examples 'a storage authorization result',
-                         expected: ::API::V3::Storages::URN_CONNECTION_AUTH_FAILED,
+                         expected: API::V3::Storages::URN_CONNECTION_AUTH_FAILED,
                          has_authorize_link: true
       end
 
@@ -212,7 +212,7 @@ describe 'API v3 storages resource', content_type: :json, webmock: true do
         let(:authorization_state) { :error }
 
         include_examples 'a storage authorization result',
-                         expected: ::API::V3::Storages::URN_CONNECTION_ERROR,
+                         expected: API::V3::Storages::URN_CONNECTION_ERROR,
                          has_authorize_link: false
       end
     end
