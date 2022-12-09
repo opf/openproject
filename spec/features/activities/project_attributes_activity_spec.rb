@@ -26,33 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Activities::ProjectActivityProvider < Activities::BaseActivityProvider
-  activity_provider_for type: 'project_attributes',
-                        permission: :view_project
+require 'spec_helper'
 
-  def event_query_projection
-    [
-      projection_statement(journals_table, :journable_id, 'project_id'),
-      projection_statement(projects_table, :identifier, 'project_identifier'),
-      projection_statement(projects_table, :name, 'project_name')
-    ]
+describe 'Project attributes activities' do
+  let(:user) do
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %w[view_wiki_pages
+                                       edit_wiki_pages
+                                       view_wiki_edits])
   end
+  let(:project) { create(:project, enabled_module_names: %w[activity]) }
 
-  protected
+  current_user { user }
 
-  def join_with_projects_table(query)
-    query.join(projects_table).on(projects_table[:id].eq(journals_table['journable_id']))
-  end
+  it 'tracks the project\'s activities', js: true do
+    visit project_activity_index_path(project)
 
-  def event_title(event)
-    I18n.t('events.title.project', name: event['project_name'])
-  end
+    check 'Project attributes'
 
-  def event_path(event)
-    url_helpers.project_path(event['project_identifier'])
-  end
+    click_button 'Apply'
 
-  def event_url(event)
-    url_helpers.project_url(event['project_identifier'])
+    within("li.project_attributes") do
+      expect(page)
+        .to have_link("Project: #{project.name}")
+
+      expect(page).to have_selector(".hidden-for-sighted", text: 'Project attributes edited', visible: :hidden)
+    end
   end
 end

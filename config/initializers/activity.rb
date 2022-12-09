@@ -31,8 +31,8 @@ require_relative '../constants/open_project/project_latest_activity'
 Rails.application.reloader.to_prepare do
   OpenProject::Activity.map do |activity|
     activity.register :work_packages, class_name: '::Activities::WorkPackageActivityProvider'
-    activity.register :projects, class_name: 'Activities::ProjectActivityProvider',
-                                 default: false
+    activity.register :project_attributes, class_name: 'Activities::ProjectActivityProvider',
+                                           default: false
     activity.register :changesets, class_name: 'Activities::ChangesetActivityProvider'
     activity.register :news, class_name: 'Activities::NewsActivityProvider',
                              default: false
