@@ -26,16 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::Storages::CreateEndpoint < API::Utilities::Endpoints::Create
-  include ::API::V3::Utilities::Endpoints::V3Deductions
-  include ::API::V3::Utilities::Endpoints::V3PresentSingle
+require 'spec_helper'
 
-  def present_success(request, service_call)
-    API::V3::Storages::StorageRepresenter.create(
-      service_call.result,
-      current_user: request.current_user,
-      embed_links: true,
-      created_oauth_application: service_call.dependent_results.first.result
-    )
+describe 'API v3 oauth applications resource', content_type: :json do
+  include API::V3::Utilities::PathHelper
+
+  let(:current_user) { create(:admin) }
+  let(:oauth_client_credentials) { create(:oauth_client) }
+
+  before do
+    login_as current_user
+
+    get path
+  end
+
+  describe 'GET /api/v3/oauth_client_credentials/:oauth_client_credentials_id' do
+    let(:path) { api_v3_paths.oauth_client_credentials(oauth_client_credentials.id) }
+
+    it_behaves_like 'successful response'
+
+    context 'as non-admin' do
+      let(:current_user) { create(:user) }
+
+      it_behaves_like 'unauthorized access'
+    end
   end
 end

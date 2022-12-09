@@ -251,6 +251,8 @@ paths:
     "$ref": "./paths/notification_read.yml"
   "/api/v3/notifications/{id}/unread_ian":
     "$ref": "./paths/notification_unread.yml"
+  "/api/v3/oauth_applications/{id}":
+    "$ref": "./paths/oauth_application.yml"
   "/api/v3/oauth_client_credentials/{id}":
     "$ref": "./paths/oauth_client_credentials.yml"
   "/api/v3/posts/{id}":

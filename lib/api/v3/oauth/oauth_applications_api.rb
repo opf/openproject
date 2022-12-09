@@ -31,6 +31,7 @@ module API::V3::OAuth
     resources :oauth_applications do
       route_param :oauth_application_id, type: Integer, desc: 'OAuth application id' do
         after_validation do
+          authorize_admin
           @application = ::Doorkeeper::Application.find(params[:oauth_application_id])
         end
 

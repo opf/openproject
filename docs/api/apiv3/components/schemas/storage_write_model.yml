@@ -34,4 +34,4 @@ example:
     origin:
       href: https://nextcloud.deathstar.rocks
     type:
-      href: urn:openproject-org:api:v3:storages:nextcloud
+      href: urn:openproject-org:api:v3:storages:Nextcloud

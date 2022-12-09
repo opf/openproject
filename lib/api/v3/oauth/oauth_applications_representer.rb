@@ -35,6 +35,8 @@ module API::V3::OAuth
 
     property :id
 
+    property :name
+
     property :uid, as: :clientId
 
     property :confidential
@@ -61,8 +63,15 @@ module API::V3::OAuth
     link :integration do
       next if represented.integration.blank?
 
+      href = case represented.integration
+             when Storages::Storage
+               api_v3_paths.storage(represented.integration.id)
+             else
+               raise ArgumentError, 'Invalid integration type.'
+             end
+
       {
-        href: api_v3_paths.storage(represented.integration.id),
+        href:,
         title: represented.integration.name
       }
     end

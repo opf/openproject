@@ -32,7 +32,7 @@ properties:
       - oauthClientCredentials
     properties:
       oauthApplication:
-        $ref: './oauth_client_credentials_read_model.yml'
+        $ref: './oauth_application_read_model.yml'
       oauthClientCredentials:
         $ref: './oauth_client_credentials_read_model.yml'
   _links:
@@ -142,7 +142,7 @@ example:
       href: https://nextcloud.deathstar.rocks/authorize/
       title: Authorize
     oauthApplication:
-      href: /api/v3/oauth_credentials/42
+      href: /api/v3/oauth_application/42
       title: It's no moon (Nextcloud)
     oauthClientCredentials:
-      href: /api/v3/oauth_credentials/42
+      href: /api/v3/oauth_client_credentials/42

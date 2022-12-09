@@ -29,6 +29,7 @@
 module API::V3::OAuth
   class OAuthClientCredentialsRepresenter < ::API::Decorators::Single
     include API::Decorators::LinkedResource
+    include API::Decorators::DateProperty
 
     self_link title: false
 
@@ -41,6 +42,19 @@ module API::V3::OAuth
 
     property :confidential,
              getter: ->(*) { client_secret.present? }
+
+    date_time_property :created_at
+
+    date_time_property :updated_at
+
+    link :integration do
+      next if represented.integration.blank?
+
+      {
+        href: api_v3_paths.storage(represented.integration.id),
+        title: represented.integration.name
+      }
+    end
 
     def _type
       'OAuthClientCredentials'

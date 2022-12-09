@@ -37,6 +37,14 @@ module API::V3::Storages
 
   URN_STORAGE_TYPE_NEXTCLOUD = "#{::API::V3::URN_PREFIX}storages:Nextcloud".freeze
 
+  STORAGE_TYPE_MAP = {
+    URN_STORAGE_TYPE_NEXTCLOUD => Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+  }.freeze
+
+  STORAGE_TYPE_URN_MAP = {
+    Storages::Storage::PROVIDER_TYPE_NEXTCLOUD => URN_STORAGE_TYPE_NEXTCLOUD
+  }.freeze
+
   class StorageRepresenter < ::API::Decorators::Single
     # LinkedResource module defines helper methods to describe attributes
     include API::Decorators::LinkedResource
@@ -62,10 +70,9 @@ module API::V3::Storages
 
     extend ClassMethods
 
-    def initialize(model, current_user:, embed_links: nil, created_oauth_application: nil)
+    def initialize(model, current_user:, embed_links: nil)
       @connection_manager =
         ::OAuthClients::ConnectionManager.new(user: current_user, oauth_client: model.oauth_client)
-      @oauth_application = created_oauth_application || model.oauth_application
 
       super(model, current_user:, embed_links:)
     end
@@ -82,15 +89,15 @@ module API::V3::Storages
 
     link_without_resource :type,
                           getter: ->(*) {
-                            { href: URN_STORAGE_TYPE_NEXTCLOUD, title: 'Nextcloud' }
+                            type = STORAGE_TYPE_MAP[represented.provider_type] || represented.provider_type
+
+                            { href: type, title: 'Nextcloud' }
                           },
                           setter: ->(fragment:, **) {
-                            break if fragment['href'].blank?
+                            href = fragment['href']
+                            break if href.blank?
 
-                            represented.provider_type = case fragment['href']
-                                                        when URN_STORAGE_TYPE_NEXTCLOUD
-                                                          Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-                                                        end
+                            represented.provider_type = STORAGE_TYPE_URN_MAP[href] || href
                           }
 
     link_without_resource :origin,
@@ -129,12 +136,14 @@ module API::V3::Storages
     associated_resource :oauth_application,
                         skip_render: ->(*) { !current_user.admin? },
                         getter: ->(*) {
-                          ::API::V3::OAuth::OAuthApplicationsRepresenter.create(@oauth_application, current_user:)
+                          ::API::V3::OAuth::OAuthApplicationsRepresenter.create(represented.oauth_application, current_user:)
                         },
                         link: ->(*) {
+                          next unless current_user.admin?
+
                           {
-                            href: "/api/v3/oauth_applications/#{@oauth_application.id}",
-                            title: @oauth_application.name
+                            href: api_v3_paths.oauth_application(represented.oauth_application.id),
+                            title: represented.oauth_application.name
                           }
                         }
 
@@ -143,9 +152,11 @@ module API::V3::Storages
                         skip_render: ->(*) { !current_user.admin? || represented.oauth_client.blank? },
                         representer: ::API::V3::OAuth::OAuthClientCredentialsRepresenter,
                         link: ->(*) {
+                          next unless current_user.admin?
+
                           return { href: nil } if represented.oauth_client.blank?
 
-                          { href: "/api/v3/oauth_client_credentials/#{represented.oauth_client.id}" }
+                          { href: api_v3_paths.oauth_client_credentials(represented.oauth_client.id) }
                         }
 
     def _type

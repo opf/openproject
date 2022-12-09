@@ -6,11 +6,15 @@ post:
   tags:
     - File links
   description: |-
-    Creates a storage resource. When creating a storage, a confidential oauth provider is created. The oauth client id
-    and secret are returned in the response.
+    Creates a storage resource. When creating a storage, a confidential OAuth 2 provider application is created
+    automatically. The oauth client id and secret of the created OAuth application are returned in the response.
     
     **IMPORTANT:** This is the only time, the oauth client secret is visible to the consumer. After that, the secret is
     hidden.
+    
+    To update the storage with OAuth client credentials, which enable the storage resource to behave as an OAuth 2
+    client against an external OAuth 2 provider application, another request must be made to create those, see
+    `POST /api/v3/storages/{id}/oauth_client_credentials`.
   requestBody:
     content:
       application/json:
@@ -22,4 +26,4 @@ post:
       content:
         application/hal+json:
           schema:
-            $ref: '../components/schemas/oauth_client_credentials_write_model.yml'
+            $ref: '../components/schemas/storage_read_model.yml'
