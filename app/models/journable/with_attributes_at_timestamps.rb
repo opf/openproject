@@ -70,15 +70,15 @@
 #   work_package.subject  # => "Subject at PT0S (current time)"
 #
 class Journable::WithAttributesAtTimestamps < SimpleDelegator
-  attr_accessor :timestamps, :query, :include_only_changed_attributes
-  attr_accessor :attributes_at_timestamps, :matches_query_at_timestamps
+  attr_accessor :timestamps, :query, :include_only_changed_attributes, :attributes_at_timestamps, :matches_query_at_timestamps
 
   def initialize(journable, timestamps: nil, query: nil, include_only_changed_attributes: false)
     super(journable)
 
     if query and not journable.is_a? WorkPackage
-      raise Journable::NotImplementedError, "Journable::WithAttributesAtTimestamps with query is only implemented for WorkPackages" \
-                                            "at the moment because Query objects currently only support work packages."
+      raise Journable::NotImplementedError, "Journable::WithAttributesAtTimestamps with query " \
+                                            "is only implemented for WorkPackages at the moment " \
+                                            "because Query objects currently only support work packages."
     end
 
     self.query = query
@@ -92,25 +92,27 @@ class Journable::WithAttributesAtTimestamps < SimpleDelegator
   def self.wrap(journable, timestamps: nil, query: nil, include_only_changed_attributes: false)
     journable = journable.at_timestamp(timestamps.last) if timestamps.last.try(:historic?)
     journable = new(journable, timestamps:, query:, include_only_changed_attributes:)
-    timestamps.each do |timestamp|
-      historic_journable = journable.at_timestamp(timestamp)
-      matching_journable = query_work_packages(query:, timestamp:).find_by(id: journable.id) if query
-      journable.assign_historic_attributes(timestamp:, historic_journable:, matching_journable:)
+    (timestamps || query.timestamps || []).each do |timestamp|
+      journable.assign_historic_attributes(
+        timestamp:,
+        historic_journable: journable.at_timestamp(timestamp),
+        matching_journable: (query_work_packages(query:, timestamp:).find_by(id: journable.id) if query)
+      )
     end
     journable
   end
 
   def self.wrap_multiple(journables, timestamps: nil, query: nil, include_only_changed_attributes: false)
-    journables = journables.first.class.at_timestamp(timestamps.last).where(id: journables.map(&:id)) if timestamps.last.try(:historic?)
+    journables = journables.first.class.at_timestamp(timestamps.last).where(id: journables) if timestamps.last.try(:historic?)
     journables = journables.map { |j| new(j, timestamps:, query:, include_only_changed_attributes:) }
     (timestamps || query.timestamps || []).each do |timestamp|
-      historic_journables = WorkPackage.at_timestamp(timestamp).where(id: journables.map(&:id))
-      matching_journables = query_work_packages(query:, timestamp:) if query
-      journables.each do |journable|
-        historic_journable = historic_journables.detect { |j| j.id == journable.id }
-        matching_journable = matching_journables.detect { |j| j.id == journable.id } if query
-        journable.assign_historic_attributes(timestamp:, historic_journable:, matching_journable:)
-      end
+      assign_historic_attributes_to(
+        journables,
+        timestamp:,
+        historic_journables: WorkPackage.at_timestamp(timestamp).where(id: journables),
+        matching_journables: (query_work_packages(query:, timestamp:) if query),
+        query:
+      )
     end
     journables
   end
@@ -120,8 +122,16 @@ class Journable::WithAttributesAtTimestamps < SimpleDelegator
     matches_query_at_timestamps << timestamp if matching_journable
   end
 
+  def self.assign_historic_attributes_to(journables, timestamp:, historic_journables:, matching_journables:, query:)
+    journables.each do |journable|
+      historic_journable = historic_journables.find_by(id: journable.id)
+      matching_journable = matching_journables.find_by(id: journable.id) if query
+      journable.assign_historic_attributes(timestamp:, historic_journable:, matching_journable:)
+    end
+  end
+
   def extract_historic_attributes_from(historic_journable:)
-    OpenStruct.new(
+    convert_attributes_hash_to_struct(
       historic_journable.attributes.select do |key, value|
         not include_only_changed_attributes \
         or not respond_to?(key) \
@@ -129,6 +139,26 @@ class Journable::WithAttributesAtTimestamps < SimpleDelegator
       end
     )
   end
+
+  # This allows us to use the historic attributes in the same way as the current attributes
+  # using methods rather than hash keys.
+  #
+  # Example:
+  #   work_package.baseline_attributes.subject
+  #   work_package.baseline_attributes["subject"]
+  #
+  # Rubocop complains about OpenStruct because it is slightly slower than Struct.
+  # https://docs.rubocop.org/rubocop/cops_style.html#styleopenstructuse
+  #
+  # However, I prefer OpenStruct here because it makes it easier to deal with the
+  # non existing attributes when using `include_only_changed_attributes: true`.
+  #
+  # rubocop:disable Style/OpenStructUse
+  #
+  def convert_attributes_hash_to_struct(attributes)
+    OpenStruct.new(attributes)
+  end
+  # rubocop:enable Style/OpenStructUse
 
   def baseline_timestamp
     timestamps.first

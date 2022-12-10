@@ -60,8 +60,8 @@ describe Journable::WithAttributesAtTimestamps do
         .extract!(*Journal::WorkPackageJournal.attribute_names) \
         .symbolize_keys.merge(attributes)
     create(:work_package_journal, version:,
-           journable:, created_at: timestamp, updated_at: timestamp,
-           data: build(:journal_work_package_journal, journal_attributes))
+                                  journable:, created_at: timestamp, updated_at: timestamp,
+                                  data: build(:journal_work_package_journal, journal_attributes))
   end
 
   before do
@@ -76,10 +76,11 @@ describe Journable::WithAttributesAtTimestamps do
     let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
     let(:query) { nil }
     let(:include_only_changed_attributes) { nil }
+
     subject { described_class.wrap(work_package, timestamps:, query:, include_only_changed_attributes:) }
 
     it "returns a Journable::WithAttributesAtTimestamps instance" do
-      is_expected.to be_a described_class
+      expect(subject).to be_a described_class
     end
 
     it "provides access to the work-package attributes" do
@@ -92,7 +93,7 @@ describe Journable::WithAttributesAtTimestamps do
     end
 
     it "determines whether the journable attributes are historic" do
-      expect(subject.historic?).to eq false
+      expect(subject.historic?).to be false
     end
 
     describe "when providing a query" do
@@ -114,12 +115,13 @@ describe Journable::WithAttributesAtTimestamps do
     describe "with include_only_changed_attributes: true" do
       let(:include_only_changed_attributes) { true }
 
-      it "provides access to the work-package attributes at timestamps where the attribute is different from the work package's attribute" do
+      it "provides access to the work-package attributes at timestamps " \
+         "where the attribute is different from the work package's attribute" do
         expect(subject.attributes_at_timestamps["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
       end
 
       specify "the attributes at timestamps do not include attributes that are the same as the work package's attribute" do
-        expect(subject.attributes_at_timestamps["PT0S"].subject).to eq nil
+        expect(subject.attributes_at_timestamps["PT0S"].subject).to be_nil
       end
     end
 
@@ -135,7 +137,7 @@ describe Journable::WithAttributesAtTimestamps do
       end
 
       it "determines whether the journable attributes are historic" do
-        expect(subject.historic?).to eq true
+        expect(subject.historic?).to be true
       end
     end
 
@@ -156,13 +158,14 @@ describe Journable::WithAttributesAtTimestamps do
     let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
     let(:query) { nil }
     let(:include_only_changed_attributes) { nil }
+
     subject { described_class.wrap_multiple(work_packages, timestamps:, query:, include_only_changed_attributes:) }
 
     context "with a single work package" do
       let(:work_packages) { [work_package] }
 
       it "returns an array of Journable::WithAttributesAtTimestamps instances" do
-        is_expected.to all be_a described_class
+        expect(subject).to all be_a described_class
       end
 
       it "provides access to the work-package attributes" do
@@ -193,12 +196,13 @@ describe Journable::WithAttributesAtTimestamps do
       describe "with include_only_changed_attributes: true" do
         let(:include_only_changed_attributes) { true }
 
-        it "provides access to the work-package attributes at timestamps where the attribute is different from the work package's attribute" do
+        it "provides access to the work-package attributes at timestamps " \
+           "where the attribute is different from the work package's attribute" do
           expect(subject.first.attributes_at_timestamps["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
         end
 
         specify "the attributes at timestamps do not include attributes that are the same as the work package's attribute" do
-          expect(subject.first.attributes_at_timestamps["PT0S"].subject).to eq nil
+          expect(subject.first.attributes_at_timestamps["PT0S"].subject).to be_nil
         end
       end
 
@@ -214,7 +218,7 @@ describe Journable::WithAttributesAtTimestamps do
         end
 
         it "determines whether the journable attributes are historic" do
-          expect(subject.first.historic?).to eq true
+          expect(subject.first.historic?).to be true
         end
       end
     end
@@ -223,6 +227,7 @@ describe Journable::WithAttributesAtTimestamps do
   describe "#baseline_timestamp" do
     let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
     let(:journable) { described_class.wrap(work_package, timestamps:) }
+
     subject { journable.baseline_timestamp }
 
     it "provides simplified access to the baseline timestamp, which is the first given timestamp" do
@@ -233,6 +238,7 @@ describe Journable::WithAttributesAtTimestamps do
   describe "#baseline_attributes" do
     let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
     let(:journable) { described_class.wrap(work_package, timestamps:) }
+
     subject { journable.baseline_attributes }
 
     it "provides access to the work-package attributes at the baseline timestamp" do
@@ -242,7 +248,7 @@ describe Journable::WithAttributesAtTimestamps do
 
   describe "#matches_query_filter_at_baseline_timestamp?" do
     let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
-    let(:journable) { described_class.wrap(work_package, timestamps: timestamps, query: query) }
+    let(:journable) { described_class.wrap(work_package, timestamps:, query:) }
     let(:query) do
       login_as(user1)
       build(:query, user: nil, project: nil).tap do |query|
@@ -257,7 +263,7 @@ describe Journable::WithAttributesAtTimestamps do
       let(:search_term) { "original" }
 
       it "determines whether the journable matches the query at the baseline timestamp" do
-        expect(subject).to eq true
+        expect(subject).to be true
       end
     end
 
@@ -265,7 +271,7 @@ describe Journable::WithAttributesAtTimestamps do
       let(:search_term) { "current" }
 
       it "determines whether the journable matches the query at the baseline timestamp" do
-        expect(subject).to eq false
+        expect(subject).to be false
       end
     end
   end
@@ -273,6 +279,7 @@ describe Journable::WithAttributesAtTimestamps do
   describe "#current_timestamp" do
     let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
     let(:journable) { described_class.wrap(work_package, timestamps:) }
+
     subject { journable.current_timestamp }
 
     it "provides simplified access to the current timestamp, which is the last given timestamp" do
@@ -282,7 +289,7 @@ describe Journable::WithAttributesAtTimestamps do
 
   describe "#matches_query_filter_at_current_timestamp?" do
     let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
-    let(:journable) { described_class.wrap(work_package, timestamps: timestamps, query: query) }
+    let(:journable) { described_class.wrap(work_package, timestamps:, query:) }
     let(:query) do
       login_as(user1)
       build(:query, user: nil, project: nil).tap do |query|
@@ -297,7 +304,7 @@ describe Journable::WithAttributesAtTimestamps do
       let(:search_term) { "original" }
 
       it "determines whether the journable matches the query at the current timestamp" do
-        expect(subject).to eq false
+        expect(subject).to be false
       end
     end
 
@@ -305,7 +312,7 @@ describe Journable::WithAttributesAtTimestamps do
       let(:search_term) { "current" }
 
       it "determines whether the journable matches the query at the current timestamp" do
-        expect(subject).to eq true
+        expect(subject).to be true
       end
     end
   end
