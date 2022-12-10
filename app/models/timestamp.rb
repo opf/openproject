@@ -121,6 +121,10 @@ class Timestamp
     self == other
   end
 
+  def historic?
+    self != Timestamp.now
+  end
+
   class Exception < StandardError; end
 
   # rubocop:disable Metrics/AbcSize
