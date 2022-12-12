@@ -26,15 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Members::Filters::GroupFilter < Queries::Members::Filters::MemberFilter
-  include Queries::Filters::Shared::GroupFilter
-
-  def joins
-    nil
-  end
-
-  def scope
-    scope = model.joins(:principal)
-    scope.where(where)
+namespace :migrations do
+  desc "Fix the missing notification settings"
+  task fix_missing_notification_settings: :environment do
+    ActiveRecord::Base.connection.execute <<~SQL.squish
+      INSERT INTO
+        notification_settings
+        (user_id)
+      SELECT
+        u.id
+      FROM
+        users u
+      WHERE type = 'User'
+      AND NOT EXISTS (SELECT * FROM notification_settings ns WHERE ns.user_id = u.id)
+    SQL
   end
 end

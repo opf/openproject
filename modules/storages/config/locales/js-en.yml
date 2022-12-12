@@ -42,6 +42,9 @@ en:
           zero: "Select files to link"
           one: "Link 1 file"
           other: "Link %{count} files"
+        success_create:
+          one: "Successfully created 1 file link."
+          other: "Successfully created %{count} file links."
         not_allowed_tooltip: "Please log in to Nextcloud to access this file"
         already_linked_file: "This file is already linked to this work package."
         already_linked_directory: "This directory is already linked to this work package."
