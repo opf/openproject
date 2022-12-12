@@ -34,10 +34,10 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
     instance.call(params)
   end
 
-  let(:project) { create :project }
-  let(:role) { create :role }
-  let(:global_role) { create :global_role }
-  let(:current_user) { create :admin }
+  let(:project) { create(:project) }
+  let(:role) { create(:role) }
+  let(:global_role) { create(:global_role) }
+  let(:current_user) { create(:admin) }
   let(:roles) { [role] }
   let(:global_roles) { [global_role] }
   let(:params) { { message: } }
@@ -54,12 +54,12 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
              principal: group,
              roles: global_roles)
 
-      ::Groups::AddUsersService
+      ::Groups::CreateInheritedRolesService
         .new(group, current_user: User.system, contract_class: EmptyContract)
-        .call(ids: users.map(&:id))
+        .call(user_ids: users.map(&:id))
     end
   end
-  let(:users) { create_list :user, 2 }
+  let(:users) { create_list(:user, 2) }
   let(:members) { Member.where(principal: group) }
 
   let(:instance) do
