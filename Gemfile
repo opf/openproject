@@ -39,6 +39,10 @@ gem 'responders', '~> 3.0'
 
 gem 'ffi', '~> 1.15'
 
+# Lock mail at 2.7 due to incompatibility
+# TODO: Remove it once the new version is fixed
+gem 'mail', '~> 2.7.1'
+
 gem 'rdoc', '>= 2.4.2'
 
 gem 'doorkeeper', '~> 5.5.0'
@@ -177,7 +181,7 @@ gem 'puma', '~> 5.6'
 gem 'puma-plugin-statsd', '~> 2.0'
 gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 
-gem 'nokogiri', '~> 1.13.9'
+gem 'nokogiri', '~> 1.13.10'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -195,7 +199,7 @@ gem 'rest-client', '~> 2.0'
 
 gem 'ruby-progressbar', '~> 1.11.0', require: false
 
-gem 'mini_magick', '~> 4.11.0', require: false
+gem 'mini_magick', '~> 4.12.0', require: false
 
 gem 'validate_url'
 
@@ -283,6 +287,9 @@ group :development, :test do
   gem 'rack-mini-profiler', require: false
   gem 'ruby-prof', require: false
   gem 'stackprof', require: false
+
+  # REPL with debug commands
+  gem 'debug'
 
   gem 'pry-byebug', '~> 3.10.0', platforms: [:mri]
   gem 'pry-rails', '~> 0.3.6'

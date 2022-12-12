@@ -1431,7 +1431,7 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
     end
   end
 
-  context 'with a predecessor chain where the first has parent and child' do
+  context 'with a predecessor chain where the first has parent and child and that child has a predecessor' do
     let(:direct_predecessor) do
       create(:work_package).tap do |pre|
         create(:follows_relation, from: origin, to: pre)
@@ -1448,8 +1448,17 @@ describe WorkPackages::Scopes::Relatable, '.relatable scope' do
     let(:transitive_predecessor_child) do
       create(:work_package, parent: transitive_predecessor)
     end
+    let(:transitive_predecessor_child_predecessor) do
+      create(:work_package).tap do |pre|
+        create(:follows_relation, from: transitive_predecessor_child, to: pre)
+      end
+    end
     let!(:existing_work_packages) do
-      [direct_predecessor, transitive_predecessor, transitive_predecessor_parent, transitive_predecessor_child]
+      [direct_predecessor,
+       transitive_predecessor,
+       transitive_predecessor_parent,
+       transitive_predecessor_child,
+       transitive_predecessor_child_predecessor]
     end
 
     context "for a 'parent' relation" do

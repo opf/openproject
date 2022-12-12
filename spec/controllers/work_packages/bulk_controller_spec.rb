@@ -324,7 +324,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
           it { expect(response.response_code).to eq(403) }
 
           describe '#journal' do
-            subject { Journal.count }
+            subject { Journal.for_work_package.count }
 
             it { is_expected.to eq(work_package_ids.count) }
           end

@@ -56,7 +56,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
   end
 
   context 'when not allowed to see the project' do
-    let(:current_user) { build(:user) }
+    let(:current_user) { create(:user) }
 
     it 'fails with HTTP Not Found' do
       expect(subject.status).to eq 404

@@ -52,9 +52,11 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     let(:base_class) { Class.new(::API::Decorators::SchemaRepresenter) }
     let(:modified_class) { described_class.create_schema_representer([custom_field], base_class) }
     let(:schema_writable) { true }
+    let(:model) { build_stubbed(:work_package) }
     let(:schema) do
       double('WorkPackageSchema',
              project_id: 42,
+             model:,
              defines_assignable_values?: true,
              available_custom_fields: [custom_field],
              writable?: schema_writable)

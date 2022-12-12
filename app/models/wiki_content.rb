@@ -48,10 +48,6 @@ class WikiContent < ApplicationRecord
                   }
                 }
 
-  def activity_type
-    'wiki_edits'
-  end
-
   def visible?(user = User.current)
     page.visible?(user)
   end

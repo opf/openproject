@@ -13,6 +13,9 @@ import {
 import { GlobalI18n } from 'core-app/core/i18n/i18n.service';
 import { I18nShim } from './test/i18n-shim';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access no-explicit-any
+(window as any).global = window;
+
 require('expose-loader?_!lodash');
 
 declare const require:any;
@@ -29,6 +32,9 @@ window.I18n = new I18nShim();
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting(),
+  {
+    teardown: { destroyAfterEach: false },
+  },
 );
 
 // Then we find all the tests.

@@ -53,7 +53,11 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
 
     it "is #{'not' unless writable} writable" do
-      expect(subject.writable?(:version)).to eql(writable)
+      if writable
+        expect(subject).to be_writable(:version)
+      else
+        expect(subject).not_to be_writable(:version)
+      end
     end
   end
 
@@ -66,7 +70,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
 
     it "is writable" do
-      expect(subject.writable?(:version)).to be(true)
+      expect(subject).to be_writable(:version)
     end
   end
 
@@ -74,7 +78,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     login_as(current_user)
   end
 
-  describe '#remaining_time_writable?' do
+  describe '#writable? for remaining_hours' do
     subject { described_class.new(work_package:) }
 
     context 'work_package is a leaf' do
@@ -83,7 +87,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
 
       it 'is writable' do
-        expect(subject.writable?(:remaining_time)).to be(true)
+        expect(subject).to be_writable(:remaining_hours)
       end
     end
 
@@ -93,7 +97,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
 
       it 'is not writable' do
-        expect(subject.writable?(:remaining_time)).to be(false)
+        expect(subject).not_to be_writable(:remaining_hours)
       end
     end
   end
