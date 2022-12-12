@@ -27,8 +27,6 @@
 //++
 
 .op-file-list
-  margin-bottom: $spot-spacing-0_75
-
   &--item
     &-action
       text-decoration: none
@@ -42,9 +40,9 @@
 
     &-title
       @include spot-body-small
+      @include text-shortener
 
       word-break: normal
-      @include text-shortener
       padding-right: $spot-spacing-0_5
 
     &-text

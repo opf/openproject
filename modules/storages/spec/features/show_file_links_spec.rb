@@ -104,7 +104,7 @@ describe 'Showing of file links in work package', js: true do
     end
 
     it 'must show storage information box with login button' do
-      expect(page.find('[data-qa-selector="op-files-tab--storage-information"]')).to have_button(count: 1)
+      expect(page.find('[data-qa-selector="op-storage--information"]')).to have_button(count: 1)
     end
   end
 
@@ -114,7 +114,7 @@ describe 'Showing of file links in work package', js: true do
     end
 
     it 'must show storage information box' do
-      expect(page).to have_selector('[data-qa-selector="op-files-tab--storage-information"]', count: 1)
+      expect(page).to have_selector('[data-qa-selector="op-storage--information"]', count: 1)
     end
   end
 end

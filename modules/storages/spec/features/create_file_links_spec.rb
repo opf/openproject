@@ -85,7 +85,7 @@ describe 'Creating file links in work package', js: true, webmock: true, with_fl
       expect(wp_page.all('[data-qa-selector="file-list--item"]').size).to eq 1
       expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: file_link.name)
 
-      wp_page.find('[data-qa-selector="op-file-list--link-existing-file-button"]').click
+      wp_page.find('[data-qa-selector="op-storage--link-existing-file-button"]').click
 
       dialog.expect_open
       dialog.confirm_button_state(selection_count: 0)

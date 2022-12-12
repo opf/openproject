@@ -5,7 +5,7 @@ sidebar_navigation:
 description: An over view of how in-app notifications work in OpenProject and how to manage them.
 keywords: notifications, alert, activity, updates
 ---
-# In-app notifications
+# Notifications
 
 This page will explain how in-app notifications work and how to use them.
 
@@ -27,7 +27,7 @@ With in-app notifications, you will be notified about important changes that are
 
 When there are notifications that require your attention, you will see a red badge on the notification bell icon on the right edge of the top header. The number on the badge indicates the number of total unread notifications (up to 99, after which the badge will simply indicate "99+").
 
-To view the notifications, click the bell icon.  This will take you to **Notification center**.
+To view the notifications, click the bell icon at the top right of the header.  This will take you to **Notification center**.
 
 ![A screenshot of the Notification center with a number of unread notifications](openproject-notification-center-inbox.png)
 
@@ -37,7 +37,7 @@ The work packages are listed in order of freshness. The work packages on top of 
 
 ## Manage notifications
 
-Clicking on a notification with display the activity tab of the relevant work package in split screen. The activity tab will auto-scroll to the last event that generated a notification. 
+Click on a notification to open the Activity tab of this work package in split screen. The Activity tab will auto-scroll to the last event that generated a notification.
 
 > **Info:** Not all work package activity generate notifications. For example, if you received a notification because you were mentioned, there might be other activities on that work package after that, even though the *Activity* tab will auto-scroll to highlight the mention when you click on the notification, since the mention was originally what triggered the notification.
 
@@ -75,8 +75,6 @@ Click on the **Mark as read** button represented by the envelope icon on the rig
 - Additionally, you can mark notifications as read in the work package full screen view by clicking on the envelope icon in the upper right corner of the details view.
 
 ![notification-full-screen-view-work-package](notification-full-screen-view-work-package.png)
-
-## 
 
 ## Notifications outside of Notification Center
 

@@ -96,7 +96,7 @@ class Project < ApplicationRecord
                      project_key: 'id',
                      permission: nil
 
-  include Projects::Journalized
+  acts_as_journalized
 
   # Necessary for acts_as_searchable which depends on the event_datetime method for sorting
   acts_as_event title: Proc.new { |o| "#{Project.model_name.human}: #{o.name}" },
