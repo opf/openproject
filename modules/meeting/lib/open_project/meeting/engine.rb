@@ -81,8 +81,7 @@ module OpenProject::Meeting
     end
 
     config.to_prepare do
-      OpenProject::ProjectLatestActivity.register on: 'Meeting',
-                                                  attribute: :updated_at
+      OpenProject::ProjectLatestActivity.register on: 'Meeting'
 
       PermittedParams.permit(:search, :meetings)
     end

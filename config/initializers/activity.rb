@@ -42,25 +42,20 @@ Rails.application.reloader.to_prepare do
                                  default: false
   end
 
-  OpenProject::ProjectLatestActivity.register on: 'WorkPackage',
-                                              attribute: :updated_at
+  OpenProject::ProjectLatestActivity.register on: 'WorkPackage'
 
   OpenProject::ProjectLatestActivity.register on: 'Project',
-                                              attribute: :updated_at,
                                               project_id_attribute: :id
 
   OpenProject::ProjectLatestActivity.register on: 'Changeset',
                                               chain: 'Repository',
                                               attribute: :committed_on
 
-  OpenProject::ProjectLatestActivity.register on: 'News',
-                                              attribute: :updated_at
+  OpenProject::ProjectLatestActivity.register on: 'News'
 
   OpenProject::ProjectLatestActivity.register on: 'WikiContent',
-                                              chain: %w(Wiki WikiPage),
-                                              attribute: :updated_at
+                                              chain: %w(Wiki WikiPage)
 
   OpenProject::ProjectLatestActivity.register on: 'Message',
-                                              chain: 'Forum',
-                                              attribute: :updated_at
+                                              chain: 'Forum'
 end
