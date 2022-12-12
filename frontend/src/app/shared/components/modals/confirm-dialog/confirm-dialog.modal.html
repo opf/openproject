@@ -14,13 +14,32 @@
     <span class="op-confirm-dialog--text spot-body-small"
           [textContent]="text.text"
     ></span>
-    <span
-      *ngFor="let data of passedData"
-      class="spot-body-small"
-    >
-      <br/>
-      <strong>{{data}}</strong>
-    </span>
+    
+    <ng-container *ngIf="showListData; else showData">
+      <span class="op-confirm-dialog--text spot-body-small"
+      [textContent]="listTitle"
+    ></span>
+      <ul class="op-confirm-dialog--list">
+        <li *ngFor="let data of passedData">
+          <span>{{data}}</span>
+        </li>
+      </ul>
+    </ng-container>
+    
+    <ng-template #showData>
+      <span
+        *ngFor="let data of passedData"
+        class="spot-body-small"
+      >
+        <br/>
+        <strong>{{data}}</strong>
+      </span>
+    </ng-template>
+
+    <span class="op-confirm-dialog--text spot-body-small"
+          [textContent]="warningText"
+    ></span>
+    
   </div>
 
   <div class="spot-action-bar">
