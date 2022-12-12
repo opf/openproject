@@ -38,8 +38,9 @@ import { take } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
@@ -69,6 +70,9 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
       alreadyLinkedFile: this.i18n.t('js.storages.file_links.already_linked_file'),
       alreadyLinkedDirectory: this.i18n.t('js.storages.file_links.already_linked_directory'),
     },
+    toast: {
+      successFileLinksCreated: (count:number):string => this.i18n.t('js.storages.file_links.success_create', { count }),
+    },
   };
 
   public get selectedFileCount():number {
@@ -86,6 +90,7 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
     protected readonly sortFilesPipe:SortFilesPipe,
     protected readonly storageFilesResourceService:StorageFilesResourceService,
     private readonly i18n:I18nService,
+    private readonly toastService:ToastService,
     private readonly timezoneService:TimezoneService,
     private readonly fileLinksResourceService:FileLinksResourceService,
   ) {
@@ -105,6 +110,9 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
       this.locals.addFileLinksHref as string,
       this.storageLink,
       files,
+    ).subscribe(
+      (fileLinks) => { this.toastService.addSuccess(this.text.toast.successFileLinksCreated(fileLinks.count)); },
+      (error) => { this.toastService.addError(error); },
     );
 
     this.service.close();
