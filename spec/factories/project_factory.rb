@@ -89,5 +89,10 @@ FactoryBot.define do
         end
       end
     end
+
+    trait :updated_a_long_time_ago do
+      created_at { 2.years.ago }
+      updated_at { 2.years.ago }
+    end
   end
 end

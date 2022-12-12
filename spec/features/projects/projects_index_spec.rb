@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe 'Projects index page',
-         type: :feature,
          js: true,
          with_settings: { login_required?: false } do
   shared_let(:admin) { create :admin }
@@ -512,39 +511,49 @@ describe 'Projects index page',
     end
 
     describe 'other filter types' do
+      include ActiveSupport::Testing::TimeHelpers
+
       shared_let(:list_custom_field) { create :list_project_custom_field }
       shared_let(:date_custom_field) { create :date_project_custom_field }
       shared_let(:datetime_of_this_week) do
-        today = Date.today
+        today = Date.current
         # Ensure that the date is not today but still in the middle of the week to not run into week-start-issues here.
         date_of_this_week = today + ((today.wday % 7) > 2 ? -1 : 1)
-        DateTime.parse(date_of_this_week.to_s + 'T11:11:11+00:00')
+        DateTime.parse("#{date_of_this_week}T11:11:11+00:00")
       end
       shared_let(:fixed_datetime) { DateTime.parse('2017-11-11T11:11:11+00:00') }
 
       shared_let(:project_created_on_today) do
+        freeze_time
         project = create(:project,
-                         name: 'Created today project',
-                         created_at: DateTime.now)
+                         name: 'Created today project')
         project.custom_field_values = { list_custom_field.id => list_custom_field.possible_values[2],
                                         date_custom_field.id => '2011-11-11' }
         project.save!
         project
+      ensure
+        travel_back
       end
       shared_let(:project_created_on_this_week) do
+        travel_to(datetime_of_this_week)
         create(:project,
-               name: 'Created on this week project',
-               created_at: datetime_of_this_week)
+               name: 'Created on this week project')
+      ensure
+        travel_back
       end
       shared_let(:project_created_on_six_days_ago) do
+        travel_to(DateTime.now - 6.days)
         create(:project,
-               name: 'Created on six days ago project',
-               created_at: DateTime.now - 6.days)
+               name: 'Created on six days ago project')
+      ensure
+        travel_back
       end
       shared_let(:project_created_on_fixed_date) do
+        travel_to(fixed_datetime)
         create(:project,
-               name: 'Created on fixed date project',
-               created_at: fixed_datetime)
+               name: 'Created on fixed date project')
+      ensure
+        travel_back
       end
       shared_let(:todays_wp) do
         # This WP should trigger a change to the project's 'latest activity at' DateTime

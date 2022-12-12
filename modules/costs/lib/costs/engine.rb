@@ -253,8 +253,8 @@ module Costs
     end
 
     config.to_prepare do
-      OpenProject::ProjectActivity.register on: 'TimeEntry',
-                                            attribute: :updated_at
+      OpenProject::ProjectLatestActivity.register on: 'TimeEntry',
+                                                  attribute: :updated_at
 
       Costs::Patches::MembersPatch.mixin!
 
