@@ -31,12 +31,11 @@ require 'spec_helper'
 describe 'API v3 oauth applications resource', content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { create(:admin) }
   let(:oauth_client_credentials) { create(:oauth_client) }
 
-  before do
-    login_as current_user
+  current_user { create(:admin) }
 
+  before do
     get path
   end
 
@@ -46,7 +45,7 @@ describe 'API v3 oauth applications resource', content_type: :json do
     it_behaves_like 'successful response'
 
     context 'as non-admin' do
-      let(:current_user) { create(:user) }
+      current_user { create(:user) }
 
       it_behaves_like 'unauthorized access'
     end

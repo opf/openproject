@@ -74,7 +74,7 @@ module API::V3::Storages
       @connection_manager =
         ::OAuthClients::ConnectionManager.new(user: current_user, oauth_client: model.oauth_client)
 
-      super(model, current_user:, embed_links:)
+      super
     end
 
     property :id

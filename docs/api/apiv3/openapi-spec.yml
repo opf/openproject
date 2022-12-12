@@ -864,6 +864,7 @@ tags:
   - "$ref": "./tags/memberships.yml"
   - "$ref": "./tags/news.yml"
   - "$ref": "./tags/notifications.yml"
+  - "$ref": "./tags/oauth.yml"
   - "$ref": "./tags/posts.yml"
   - "$ref": "./tags/principals.yml"
   - "$ref": "./tags/priorities.yml"
