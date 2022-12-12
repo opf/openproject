@@ -39,13 +39,7 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   loading$ = this.storeService.loading$;
 
-  private totalCount$ = this.bellService.unread$;
-
-  noResultText$ = this
-    .totalCount$
-    .pipe(
-      map((count:number) => (count > 0 ? this.text.no_results.with_current_filter : this.text.no_results.at_all)),
-    );
+  totalCount$ = this.bellService.unread$;
 
   totalCountWarning$ = this
     .storeService
@@ -109,7 +103,10 @@ export class InAppNotificationCenterComponent implements OnInit {
     title: this.I18n.t('js.notifications.title'),
     button_close: this.I18n.t('js.button_close'),
     no_results: {
-      at_all: this.I18n.t('js.notifications.center.no_results.at_all'),
+      at_all: this.I18n.t(
+        'js.notifications.center.no_results.at_all',
+        { url: this.pathService.myNotificationsSettingsPath() },
+      ),
       with_current_filter: this.I18n.t('js.notifications.center.no_results.with_current_filter'),
     },
   };
