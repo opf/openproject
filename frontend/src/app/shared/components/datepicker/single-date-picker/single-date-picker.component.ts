@@ -76,6 +76,8 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterV
 
   @Input() name = '';
 
+  @Input() required = false;
+
   public workingDate:Date = new Date();
 
   public isOpened = false;
