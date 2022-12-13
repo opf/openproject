@@ -1303,16 +1303,19 @@ ja:
   error_external_authentication_failed: "外部認証中にエラーが発生しました。もう一度やり直してください。"
   error_attribute_not_highlightable: "強調表示されない属性: %{attributes}"
   events:
-    project: 'プロジェクトが編集されました。'
     changeset: '変更セットが編集されました。'
     message: メッセージが編集されました。
     news: ニュース
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: 返信済み
     time_entry: '時系列ログが編集されました。'
     wiki_page: 'Wiki ページが編集されました。'
     work_package_closed: '作業が完了'
     work_package_edit: '仕事項目が編集されました。'
     work_package_note: '仕事項目の注記が追加されました。'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "ワークパッケージをエクスポート"
     succeeded: "エクスポートが正常に完了しました。"
@@ -1765,6 +1768,7 @@ ja:
   label_product_version: "製品バージョ​​ン"
   label_professional_support: "プロフェッショナルサポート"
   label_profile: "プロファイル"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "プロジェクトの合計数"
   label_project_copy_notifications: "プロジェクトのコピーの時、コピーした内容をメール通知する"
   label_project_latest: "最新のプロジェクト"

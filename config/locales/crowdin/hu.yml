@@ -1321,16 +1321,19 @@ hu:
   error_external_authentication_failed: "Hiba történt a külső hitelesítés során. Kérjük, próbálja meg újra."
   error_attribute_not_highlightable: "Tulajdonság(ok) nem kiemelhetők: %{attributes}"
   events:
-    project: 'Projekt szerkesztve'
     changeset: 'Commit szerkesztve'
     message: Üzenet szerkesztve
     news: Hírek
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Válaszolt
     time_entry: 'Az időnapló szerkesztve'
     wiki_page: 'A Wiki oldal szerkesztve'
     work_package_closed: 'A feladatcsoport lezárva'
     work_package_edit: 'A feladatcsoport szerkesztve'
     work_package_note: 'A feladatcsoport jegyzet hozzáadva'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Munkacsomagok exportálása"
     succeeded: "Az exportálás sikeresen végetért."
@@ -1783,6 +1786,7 @@ hu:
   label_product_version: "Termékverzió"
   label_professional_support: "Szakmai támogatás"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "A projektek teljes száma"
   label_project_copy_notifications: "E-mail értesítéseket küld a projekt másolás során"
   label_project_latest: "Legújabb projektek"

@@ -1324,16 +1324,19 @@ fil:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Naka-edit ang proyekto'
     changeset: 'Naka-edit ang changeset'
     message: Naka-edit ang mensahe
     news: Mga balita
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Sumagot
     time_entry: 'Naka-edit ang timelog'
     wiki_page: 'Naka-edit ang wike na pahina'
     work_package_closed: 'Isinara ang work package'
     work_package_edit: 'Naka-edit ang work package'
     work_package_note: 'Nadagdag ang talaan ng work package'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1786,6 +1789,7 @@ fil:
   label_product_version: "Produktong bersyon"
   label_professional_support: "Propesyonal na suporta"
   label_profile: "Profile"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Kabuuang bilang ng mga proyekto"
   label_project_copy_notifications: "Magpadala ng mga email na abiso habang ang proyekto ay kinopya"
   label_project_latest: "Pinakamabagong proyekto"

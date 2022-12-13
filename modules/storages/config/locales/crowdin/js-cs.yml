@@ -5,6 +5,8 @@ cs:
       link_files_in_storage: "Prolinkovat soubory v"
       link_existing_files: "Link existing files"
       upload_files: "Upload files"
+      drop_files: >
+        Drop files here to upload them to %{storageType}.
       login: "%{storageType} přihlášení"
       login_to: "Přihlásit se k %{storageType}"
       no_connection: "Žádné připojení %{storageType}"
@@ -23,6 +25,8 @@ cs:
         not_logged_in: >
           Chcete-li přidat odkaz nebo zobrazit soubory související s tímto pracovním balíčkem, přihlaste se do %{storageType}.
       file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Stáhnout %{fileName}"
         no_permission: "Nemáte oprávnění k zobrazení tohoto souboru."
         open: 'Otevřít soubor v úložišti'
@@ -39,6 +43,11 @@ cs:
           few: "Link %{count} files"
           many: "Link %{count} files"
           other: "Link %{count} files"
+        success_create:
+          one: "Successfully created 1 file link."
+          few: "Successfully created %{count} file links."
+          many: "Successfully created %{count} file links."
+          other: "Successfully created %{count} file links."
         not_allowed_tooltip: "Pro přístup k tomuto souboru se přihlaste do Nextcloudu"
         already_linked_file: "This file is already linked to this work package."
         already_linked_directory: "This directory is already linked to this work package."

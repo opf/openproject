@@ -26,15 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Journalized
-  extend ActiveSupport::Concern
+class Activities::ProjectActivityProvider < Activities::BaseActivityProvider
+  activity_provider_for type: 'project_attributes',
+                        permission: :view_project
 
-  included do
-    acts_as_journalized
+  def event_query_projection
+    [
+      projection_statement(journals_table, :journable_id, 'project_id'),
+      projection_statement(projects_table, :identifier, 'project_identifier'),
+      projection_statement(projects_table, :name, 'project_name')
+    ]
   end
 
-  # override acts_as_journalized method
-  def activity_type
-    'project_attributes'
+  protected
+
+  def join_with_projects_table(query)
+    query.join(projects_table).on(projects_table[:id].eq(journals_table['journable_id']))
+  end
+
+  def event_title(event)
+    I18n.t('events.title.project', name: event['project_name'])
+  end
+
+  def event_path(event)
+    url_helpers.project_path(event['project_identifier'])
+  end
+
+  def event_url(event)
+    url_helpers.project_url(event['project_identifier'])
   end
 end

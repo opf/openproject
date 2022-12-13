@@ -1381,16 +1381,19 @@ en:
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
 
   events:
-    project: 'Project edited'
     changeset: 'Changeset edited'
     message: Message edited
     news: News
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Replied
     time_entry: 'Timelog edited'
     wiki_page: 'Wiki page edited'
     work_package_closed: 'Work Package closed'
     work_package_edit: 'Work Package edited'
     work_package_note: 'Work Package note added'
+    title:
+      project: "Project: %{name}"
 
   export:
     your_work_packages_export: "Your work packages export"
@@ -1868,6 +1871,7 @@ en:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "Profile"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Send email notifications during the project copy"
   label_project_latest: "Latest projects"
@@ -3346,13 +3350,13 @@ en:
       oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
       oauth_state_not_present_explanation: >
         The 'state' is used to indicate to OpenProject where to continue
-        after a successful OAuth2 authorization. 
-        A missing 'state' is an internal error that may appear during setup. 
+        after a successful OAuth2 authorization.
+        A missing 'state' is an internal error that may appear during setup.
         Please contact your system administrator.
       rack_oauth2:
         client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
         invalid_request: >
-          OAuth2 Authorization Server responded with 'invalid_request'. 
+          OAuth2 Authorization Server responded with 'invalid_request'.
           This error appears if you try to authorize multiple times or in case of technical issues.
         invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
         invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."

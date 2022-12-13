@@ -5,6 +5,8 @@ ro:
       link_files_in_storage: "Link-ul fişierelor în %{storageType}"
       link_existing_files: "Legaţi fişierele existente"
       upload_files: "Încarcă fişiere"
+      drop_files: >
+        Drop files here to upload them to %{storageType}.
       login: "%{storageType} autentificare"
       login_to: "Autentificare în %{storageType}"
       no_connection: "Nu există %{storageType} conexiune"
@@ -23,6 +25,8 @@ ro:
         not_logged_in: >
           Pentru a adăuga un link, vezi sau încarcă fișiere legate de acest pachet de lucru, te rugăm să te autentifici la %{storageType}.
       file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Descarcă %{fileName}"
         no_permission: "Nu aveți permisiunea de a vedea acest fișier."
         open: 'Deschide fişierul pe stocare'
@@ -38,6 +42,10 @@ ro:
           one: "Link 1 fișier"
           few: "Link %{count} fișiere"
           other: "Link %{count} de fișiere"
+        success_create:
+          one: "Successfully created 1 file link."
+          few: "Successfully created %{count} file links."
+          other: "Successfully created %{count} file links."
         not_allowed_tooltip: "Vă rugăm să vă autentificaţi în Nextcloud pentru a accesa acest fişier"
         already_linked_file: "Acest fișier este deja legat la acest pachet de lucru."
         already_linked_directory: "Acest director este deja conectat la acest pachet de lucru."

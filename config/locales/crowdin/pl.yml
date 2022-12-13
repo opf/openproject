@@ -1355,16 +1355,19 @@ pl:
   error_external_authentication_failed: "Podczas uwierzytelniania zewnętrznego wystąpił błąd. Spróbuj ponownie."
   error_attribute_not_highlightable: "Atrybuty, których nie można wyróżnić: %{attributes}"
   events:
-    project: 'Projekt edytowany'
     changeset: 'Komentarze edytowane'
     message: Wiadomość edytowana
     news: Aktualności
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Odpowiedział
     time_entry: 'Timelog edytowany'
     wiki_page: 'Strona Wiki edytowana'
     work_package_closed: 'Pakiet roboczy zamknięty'
     work_package_edit: 'Pakiet roboczy edytowany'
     work_package_note: 'Notatka pakietu roboczego dodana'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Eksport Twoich pakietów roboczych"
     succeeded: "Eksport został wykonany."
@@ -1817,6 +1820,7 @@ pl:
   label_product_version: "Wersja produktu"
   label_professional_support: "Profesjonalne wsparcie"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Całkowita liczba projektów"
   label_project_copy_notifications: "Wyślij powiadomienia e-mail podczas kopiowania projektów"
   label_project_latest: "Najnowsze projekty"

@@ -1307,16 +1307,19 @@ th:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'โครงการได้รับการแก้ไขแล้ว'
     changeset: 'แก้ไขชุดการเปลี่ยนแปลงแล้ว'
     message: ข้อความได้รับการแก้ไขแล้ว
     news: ข่าวสาร
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: ตอบกลับ
     time_entry: 'บันทึกเวลาได้รับการแก้ไขแล้ว'
     wiki_page: 'หน้าวิกิได้รับการแก้ไขแล้ว'
     work_package_closed: 'ปิดชุดภารกิจแล้ว'
     work_package_edit: 'แก้ไขชุดภารกิจแล้ว'
     work_package_note: 'เพิ่มหมายเหตุชุดภารกิจ'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1769,6 +1772,7 @@ th:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "ข้อมูลส่วนตัว"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "ส่งอีเมล์แจ้งเตือนในระหว่างที่คัดลอกโครงการ"
   label_project_latest: "โครงการล่าสุด"

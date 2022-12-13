@@ -1307,16 +1307,19 @@ zh-TW:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "無法凸顯的屬性: %{attributes}"
   events:
-    project: '專案已編輯'
     changeset: '已編輯變更'
     message: 訊息已編輯
     news: 新知
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: 已回覆
     time_entry: '已編輯時間日誌'
     wiki_page: '維基頁面已編輯'
     work_package_closed: '工作項目關閉'
     work_package_edit: '工作項目已編輯'
     work_package_note: '工作項目註記已新增'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "輸出工作列表"
     succeeded: "輸出完成"
@@ -1769,6 +1772,7 @@ zh-TW:
   label_product_version: "產品版本"
   label_professional_support: "專業支援"
   label_profile: "Profile"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "專案總數"
   label_project_copy_notifications: "在專案複製期間發送電子郵件通知"
   label_project_latest: "最新的專案"

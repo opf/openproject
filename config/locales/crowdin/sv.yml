@@ -1323,16 +1323,19 @@ sv:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribut(en) kan inte markeras: %{attributes}"
   events:
-    project: 'Projektet redigerades'
     changeset: 'Uppdatering redigerades'
     message: Meddelande redigerades
     news: Nyheter
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Svarade
     time_entry: 'Tidrapport redigerades'
     wiki_page: 'Wiki-sida redigerades'
     work_package_closed: 'Arbetspaket stängdes'
     work_package_edit: 'Arbetspaket redigerades'
     work_package_note: 'Anteckning lades till arbetspaketet'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1785,6 +1788,7 @@ sv:
   label_product_version: "Produktversion"
   label_professional_support: "Professionell hjälp"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Totalt antal projekt"
   label_project_copy_notifications: "Skicka e-postaviseringar under projekt kopian"
   label_project_latest: "Senaste projekt"

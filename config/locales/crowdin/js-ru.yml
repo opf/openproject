@@ -573,7 +573,7 @@ ru:
           many: 'и %{count} других'
           other: 'и %{count} других'
         no_results:
-          at_all: 'Новые уведомления связанной с вами деятельности появятся здесь, уведомления и время их получения настраиваются вами.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'На данный момент в этом представлении нет уведомлений'
         mark_all_read: 'Отметить всё как прочитанное'
         mark_as_read: 'Отметить как прочитанное'
@@ -596,7 +596,7 @@ ru:
         watched: 'Наблюдатель'
         date_alert: 'Дата оповещения'
       settings:
-        change_notification_settings: 'Чтобы просмотреть и изменить настройки уведомлений, <a target="_blank" href="%{url}">нажмите здесь</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update'
         title: "Настройки уведомлений"
         notify_me: "Уведомлять меня"
         reminders:

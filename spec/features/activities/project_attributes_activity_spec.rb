@@ -26,27 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Days::DayQuery < Queries::BaseQuery
-  def self.model
-    Day
-  end
+require 'spec_helper'
 
-  def default_scope
-    Day.default_scope
+describe 'Project attributes activities' do
+  let(:user) do
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %w[view_wiki_pages
+                                       edit_wiki_pages
+                                       view_wiki_edits])
   end
+  let(:project) { create(:project, enabled_module_names: %w[activity]) }
 
-  ##
-  # The dates interval filter needs to adjust the `from` clause of the query.
-  # If there are multiple filters with custom from clause (currently not possible),
-  # the first one is applied and the rest is ignored.
-  def apply_filters(scope)
-    scope = super(scope)
-    from_clause_filter = filters.find(&:from)
-    scope = scope.from(from_clause_filter.from) if from_clause_filter
-    scope
-  end
+  current_user { user }
 
-  def results
-    super.reorder(date: :asc)
+  it 'tracks the project\'s activities', js: true do
+    visit project_activity_index_path(project)
+
+    check 'Project attributes'
+
+    click_button 'Apply'
+
+    within("li.project_attributes") do
+      expect(page)
+        .to have_link("Project: #{project.name}")
+
+      expect(page).to have_selector(".hidden-for-sighted", text: 'Project attributes edited', visible: :hidden)
+    end
   end
 end
