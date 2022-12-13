@@ -457,7 +457,7 @@ GEM
       tzinfo
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
-    excon (0.94.0)
+    excon (0.95.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -562,7 +562,7 @@ GEM
     ice_cube (0.16.4)
     interception (0.5)
     io-console (0.5.11)
-    irb (1.5.1)
+    irb (1.6.0)
       reline (>= 0.3.0)
     iso8601 (0.13.0)
     jmespath (1.6.2)
