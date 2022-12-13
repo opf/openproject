@@ -54,6 +54,7 @@ import {
 import {
   LoadingFileListComponent,
 } from 'core-app/shared/components/storages/loading-file-list/loading-file-list.component';
+import { UploadStorageFilesService } from 'core-app/shared/components/storages/services/upload-storage-files.service';
 
 @NgModule({
   imports: [
@@ -78,6 +79,7 @@ import {
   providers: [
     SortFilesPipe,
     CookieService,
+    UploadStorageFilesService,
   ],
 })
 export class OpenprojectStoragesModule {}

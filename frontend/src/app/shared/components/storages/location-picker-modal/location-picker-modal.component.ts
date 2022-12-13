@@ -91,7 +91,6 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
   }
 
   public chooseLocation():void {
-    this.closingEvent.emit(this);
     this.service.close();
   }
 

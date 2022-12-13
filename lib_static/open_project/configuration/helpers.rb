@@ -103,7 +103,8 @@ module OpenProject
         [
           fog_credentials[:host],
           remote_storage_upload_host,
-          remote_storage_download_host
+          remote_storage_download_host,
+          "nextcloud.local"
         ].compact
       end
 

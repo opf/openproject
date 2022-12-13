@@ -70,6 +70,8 @@ import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import {
   LocationPickerModalComponent,
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
+import { UploadStorageFilesService } from 'core-app/shared/components/storages/services/upload-storage-files.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 
 @Component({
   selector: 'op-storage',
@@ -133,11 +135,13 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
 
   constructor(
     private readonly i18n:I18nService,
+    private readonly toastService:ToastService,
     private readonly cookieService:CookieService,
     private readonly opModalService:OpModalService,
     private readonly currentUserService:CurrentUserService,
     private readonly configurationService:ConfigurationService,
     private readonly fileLinkResourceService:FileLinksResourceService,
+    private readonly uploadStorageFilesService:UploadStorageFilesService,
   ) {
     super();
   }
@@ -215,9 +219,29 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
     this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals)
       .subscribe((modal) => {
         modal.closingEvent.subscribe((data) => {
-          console.log(`Uploading ${files?.length || 0} files to ${data.location}`);
+          this.uploadFiles(files, data.location);
         });
       });
+  }
+
+  private uploadFiles(files:FileList|null, location:string):void {
+    if (files === null) {
+      return;
+    }
+
+    // TODO: get prepare upload information
+
+    this.uploadStorageFilesService.uploadFile(files[0])
+      .subscribe(
+        (data) => {
+          this.toastService.addSuccess(`Uploaded file with id ${data}`);
+        }, (error) => {
+          console.error(error);
+        },
+      );
+
+    // TODO: create file links
+    // this.fileLinkResourceService.addFileLinks()
   }
 
   private instantiateStorageInformation(fileLinks:IFileLink[]):StorageInformationBox[] {
