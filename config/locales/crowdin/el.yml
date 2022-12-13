@@ -1320,16 +1320,19 @@ el:
   error_external_authentication_failed: "Παρουσιάστηκε σφάλμα κατά τη διάρκεια της εξωτερικής ταυτοποίησης. Παρακαλούμε προσπαθήστε ξανά."
   error_attribute_not_highlightable: "Δεν είναι δυνατή η επισήμανση του(-ών) χαρακτηριστικού(-ών): %{attributes}"
   events:
-    project: 'Το έργο επεξεργάστηκε'
     changeset: 'Οι αλλαγές επεξεργάστηκαν'
     message: Το μήνυμα επεξεργάστηκε
     news: Νέα
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Απάντησε
     time_entry: 'Η καταγραφή χρόνου επεξεργάστηκε'
     wiki_page: 'Η σελίδα Wiki επεξεργάστηκε'
     work_package_closed: 'Το Πακέτο Εργασίας έκλεισε'
     work_package_edit: 'Το πακέτο εργασίας επεξεργάστηκε'
     work_package_note: 'Προστέθηκε η σημείωση πακέτου εργασίας'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Η εξαγωγή των πακέτων εργασίας σας"
     succeeded: "Η εξαγωγή ολοκληρώθηκε επιτυχώς."
@@ -1782,6 +1785,7 @@ el:
   label_product_version: "Έκδοση προϊόντος"
   label_professional_support: "Επαγγελματική υποστήριξη"
   label_profile: "Προφίλ"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Συνολικός αριθμός έργων"
   label_project_copy_notifications: "Αποστολή ειδοποιήσεων με email κατά την διάρκεια της αντιγραφής του έργου"
   label_project_latest: "Τελευταία έργα"

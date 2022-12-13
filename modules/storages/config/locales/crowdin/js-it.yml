@@ -5,6 +5,8 @@ it:
       link_files_in_storage: "Collega file in %{storageType}"
       link_existing_files: "Collega file esistenti"
       upload_files: "Caricare i files"
+      drop_files: >
+        Drop files here to upload them to %{storageType}.
       login: "Accesso %{storageType}"
       login_to: "Accedi a %{storageType}"
       no_connection: "Nessuna connessione %{storageType}"
@@ -23,6 +25,8 @@ it:
         not_logged_in: >
           Per aggiungere un link, vedere o caricare i file relativi a questo pacchetto di lavoro, accedi a %{storageType}.
       file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Scarica %{fileName}"
         no_permission: "Non hai i permessi per accedere al file."
         open: 'Apri file su memoria'
@@ -37,6 +41,9 @@ it:
           zero: "Seleziona i files da collegare"
           one: "Collega %{count} files"
           other: "Collega %{number} file"
+        success_create:
+          one: "Successfully created 1 file link."
+          other: "Successfully created %{count} file links."
         not_allowed_tooltip: "Accedi a Nextcloud per accedere a questo file"
         already_linked_file: "Questo file è già collegato a questa macro-attività."
         already_linked_directory: "Questa directory è già collegata a questa macro-attività."

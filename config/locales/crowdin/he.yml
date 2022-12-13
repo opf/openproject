@@ -1358,16 +1358,19 @@ he:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'הפרויקט נערך'
     changeset: 'אוסף שינוים נערך'
     message: ההודעה נערכה
     news: חדשות
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: הושב
     time_entry: 'רישום הזמן נערך'
     wiki_page: 'דף וקי נערך'
     work_package_closed: 'חבילת עבודה סגורה'
     work_package_edit: 'חבילת עבודה נערכה'
     work_package_note: 'הערה לחבילת העבודה נוספה'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1820,6 +1823,7 @@ he:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "פרופיל"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Send email notifications during the project copy"
   label_project_latest: "Latest projects"

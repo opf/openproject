@@ -1324,16 +1324,19 @@ et:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Projekti on muudetud'
     changeset: 'Toimikut on muudetud'
     message: Sõnum on muudetud
     news: Uudised
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Vastatud
     time_entry: 'Ajalogi on muudetud'
     wiki_page: 'Viki leht on muudetud'
     work_package_closed: 'Teema on suletud'
     work_package_edit: 'Teemat on uuendatud'
     work_package_note: 'Teemale on lisatud märkus'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1786,6 +1789,7 @@ et:
   label_product_version: "Product version"
   label_professional_support: "Professionaalne kasutajatugi"
   label_profile: "Profiil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Saada e-postiga teateid projekti kopeerimise ajal"
   label_project_latest: "Viimased projektid"

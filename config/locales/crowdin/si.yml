@@ -1324,16 +1324,19 @@ si:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "විශේෂණය (ය) අවධාරණය කළ නොහැකි: %{attributes}"
   events:
-    project: 'සංස්කරණය කරන ලද ව්යාපෘතිය'
     changeset: 'සංස්කරණය කරන ලද වෙනස්'
     message: සංස්කරණය කරන ලද පණිවිඩය
     news: පුවත්
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: පිළිතුරු
     time_entry: 'සංස්කරණය ටයිමෙලෝග්'
     wiki_page: 'විකි පිටුව සංස්කරණය'
     work_package_closed: 'වැඩ පැකේජය වසා'
     work_package_edit: 'සංස්කරණය කරන ලද වැඩ පැකේජය'
     work_package_note: 'වැඩ පැකේජ සටහන එකතු'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1786,6 +1789,7 @@ si:
   label_product_version: "නිෂ්පාදන අනුවාදය"
   label_professional_support: "වෘත්තීය සහාය"
   label_profile: "පැතිකඩ"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "මුළු ව්යාපෘති සංඛ්යාව"
   label_project_copy_notifications: "ව්යාපෘති පිටපත තුළ විද්යුත් තැපැල් දැනුම්දීම් යවන්න"
   label_project_latest: "නවතම ව්යාපෘති"

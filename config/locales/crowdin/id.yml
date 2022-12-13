@@ -1304,16 +1304,19 @@ id:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Project edited'
     changeset: 'Set-Perubahan telah diedit'
     message: Pesan telah diedit
     news: News
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Telah direspon
     time_entry: 'Timelog telah diedit'
     wiki_page: 'Halaman Wiki telah diedit'
     work_package_closed: 'Paket-Penugasan telah berakhir'
     work_package_edit: 'Paket-Penugasan telah diedit'
     work_package_note: 'Catatan Paket-Penugasan telah ditambah'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1766,6 +1769,7 @@ id:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Jumlah proyek"
   label_project_copy_notifications: "Kirim email notifikasi selama meng-copy Project"
   label_project_latest: "Project terbaru"

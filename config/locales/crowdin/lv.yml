@@ -1340,16 +1340,19 @@ lv:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Project edited'
     changeset: 'Changeset edited'
     message: Ziņojums rediģēts
     news: Jaunumi
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Replied
     time_entry: 'Timelog edited'
     wiki_page: 'Wiki page edited'
     work_package_closed: 'Slēgtie pieteikumi'
     work_package_edit: 'Labotie pieteikumi'
     work_package_note: 'Pieteikumam pievienotā piezīme'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1802,6 +1805,7 @@ lv:
   label_product_version: "Product version"
   label_professional_support: "Profesionāls atbalsts"
   label_profile: "Profils"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Kopējais projektu skaits"
   label_project_copy_notifications: "Send email notifications during the project copy"
   label_project_latest: "Jaunākie projekti"

@@ -5,6 +5,8 @@ ca:
       link_files_in_storage: "Fitxers enllaçats a %{storageType}"
       link_existing_files: "Enllaça fitxers existents"
       upload_files: "Carregar fitxers"
+      drop_files: >
+        Drop files here to upload them to %{storageType}.
       login: "%{storageType} inici de sessió"
       login_to: "Inicia sessió a %{storageType}"
       no_connection: "%{storageType} sense connexió"
@@ -23,6 +25,8 @@ ca:
         not_logged_in: >
           Per afegir un enllaç, veure o pujar fitxers relacionats amb aquest paquet de treball si us plau inicia sessió a %{storageType}.
       file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Descarrega %{fileName}"
         no_permission: "No tens permisos per veure aquest fitxer."
         open: 'Obre el fitxer a l''emmagatzematge'
@@ -37,6 +41,9 @@ ca:
           zero: "Selecciona fitxers a enllaçar"
           one: "Enllaça 1 fitxer"
           other: "Enllaça %{count} fitxers"
+        success_create:
+          one: "Successfully created 1 file link."
+          other: "Successfully created %{count} file links."
         not_allowed_tooltip: "Si us plau, inicia sessió a Nextcloud per accedir a aquest fitxer"
         already_linked_file: "Aquest fitxer ja està enllaçat a aquest paquet de treball."
         already_linked_directory: "Aquest directori ja està enllaçat a aquest paquet de treball."

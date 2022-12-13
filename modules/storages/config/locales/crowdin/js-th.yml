@@ -5,6 +5,8 @@ th:
       link_files_in_storage: "Link files in %{storageType}"
       link_existing_files: "Link existing files"
       upload_files: "Upload files"
+      drop_files: >
+        Drop files here to upload them to %{storageType}.
       login: "%{storageType} login"
       login_to: "Login to %{storageType}"
       no_connection: "No %{storageType} connection"
@@ -23,6 +25,8 @@ th:
         not_logged_in: >
           To add a link, see or upload files related to this work package, please login to %{storageType}.
       file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Download %{fileName}"
         no_permission: "You have no permission to see this file."
         open: 'Open file on storage'
@@ -36,6 +40,8 @@ th:
         selection:
           zero: "Select files to link"
           other: "Link %{count} files"
+        success_create:
+          other: "Successfully created %{count} file links."
         not_allowed_tooltip: "Please log in to Nextcloud to access this file"
         already_linked_file: "This file is already linked to this work package."
         already_linked_directory: "This directory is already linked to this work package."

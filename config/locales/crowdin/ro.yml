@@ -1341,16 +1341,19 @@ ro:
   error_external_authentication_failed: "A apărut o eroare în timpul autentificării externe. Vă rugăm să încercați din nou."
   error_attribute_not_highlightable: "Atributul (atributele) nu poate (pot) fi evidențiat(e): %{attributes}"
   events:
-    project: 'Proiect editat'
     changeset: 'Set de schimbări editat'
     message: Mesaj editat
     news: Noutăţi
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Răspuns
     time_entry: 'Jurnal editat'
     wiki_page: 'Pagină wiki editată'
     work_package_closed: 'Pachet de lucru închis'
     work_package_edit: 'Pachet de lucru editat'
     work_package_note: 'Notă adăugată la pachetul de lucru'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Exportul pachetelor de lucru"
     succeeded: "Exportul a fost finalizat cu succes."
@@ -1803,6 +1806,7 @@ ro:
   label_product_version: "Versiune produs"
   label_professional_support: "Suport profesional"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Număr total de proiecte"
   label_project_copy_notifications: "Trimitere notificări e-mail în timpul copierii proiectului"
   label_project_latest: "Ultimele proiecte"

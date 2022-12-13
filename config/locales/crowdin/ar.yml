@@ -1391,16 +1391,19 @@ ar:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'تم تعديل المشروع'
     changeset: 'تم تحرير مجموعة التغييرات'
     message: تم تحرير الرسالة
     news: الأخبار
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: تم الرد
     time_entry: 'تم تحرير Timelog'
     wiki_page: 'تم تحرير صفحة WiKi'
     work_package_closed: 'تم اغلاق مجموعة العمل'
     work_package_edit: 'تم تحريرمجموعة العمل'
     work_package_note: 'لم يتم اضافة مجموعة العمل'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1853,6 +1856,7 @@ ar:
   label_product_version: "إصدار المنتج"
   label_professional_support: "الدعم الفني"
   label_profile: "الصفحة الشخصية"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "العدد الإجمالي للمشاريع"
   label_project_copy_notifications: "إرسال إشعارات البريد الالكتروني أثناء نسخ المشروع"
   label_project_latest: "أحدث المشاريع"
