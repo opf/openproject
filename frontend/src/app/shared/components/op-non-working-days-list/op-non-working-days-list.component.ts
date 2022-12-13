@@ -79,7 +79,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
       anchor.appendChild(opIconElement('icon', 'icon-delete'));
       anchor.addEventListener('click', () => {
         event.remove();
-        this.removedNonWorkingDays.push(event.id);
+        this.removedNonWorkingDays.push(moment(event.id).format('MMMM DD, YYYY'));
       });
       td.appendChild(anchor);
       el.appendChild(td);
