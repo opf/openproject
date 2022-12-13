@@ -57,6 +57,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
   public previewHtml = '';
 
+  private cancelled = false;
+
   public text:Record<string, string> = {};
 
   public initialContent:string;
@@ -84,10 +86,12 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   ngOnDestroy():void {
     super.ngOnDestroy();
 
-    try {
-      this.rawValue = this.editor?.getRawData();
-    } catch (e) {
-      console.error(`Failed to save CKEditor state on destroy: ${e as string}.`);
+    if (!this.cancelled) {
+      try {
+        this.rawValue = this.editor?.getRawData();
+      } catch (e) {
+        console.error(`Failed to save CKEditor state on destroy: ${e as string}.`);
+      }
     }
   }
 
@@ -120,6 +124,11 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
       });
 
     return false;
+  }
+
+  public handleUserCancel():void {
+    this.cancelled = true;
+    this.handler.handleUserCancel();
   }
 
   private get previewContext() {
