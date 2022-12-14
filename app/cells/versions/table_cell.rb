@@ -1,6 +1,6 @@
 module Versions
   class TableCell < ::TableCell
-    columns :name, :project, :start_date, :effective_date, :description, :status, :sharing, :wiki_page_title
+    columns :name, :project, :start_date, :effective_date, :description, :status, :sharing, :color_id, :wiki_page_title
 
     def sortable?
       false

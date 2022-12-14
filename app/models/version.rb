@@ -32,6 +32,7 @@ class Version < ApplicationRecord
 
   belongs_to :project
   has_many :work_packages, dependent: :nullify
+  belongs_to :color
   acts_as_customizable
 
   VERSION_STATUSES = %w(open locked closed).freeze

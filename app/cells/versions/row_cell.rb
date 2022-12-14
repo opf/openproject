@@ -74,6 +74,12 @@ module Versions
       h(format_version_sharing(version.sharing))
     end
 
+    def color_id
+      if version.color_id
+        ::Color.find(version.color_id).name
+      end
+    end
+
     def wiki_page
       return '' if wiki_page_title.blank? || version.project.wiki.nil?
 
@@ -117,6 +123,8 @@ module Versions
     def column_css_class(column)
       if column == :name
         super.to_s + name_css_class
+      elsif column == :color_id
+        "__hl_inline_version_" + version.id.to_s
       else
         super
       end

@@ -48,6 +48,7 @@ module Versions
     attribute :effective_date
     attribute :status
     attribute :sharing
+    attribute :color
     attribute :wiki_page_title do
       validate_page_title_in_wiki
     end

@@ -312,6 +312,7 @@ class PermittedParams
                                                          :wiki_page_title,
                                                          :status,
                                                          :sharing,
+                                                         :color_id,
                                                          version_settings_attributes: %i(id display project_id))
 
     permitted_params.merge(custom_field_values(:version, required: false))

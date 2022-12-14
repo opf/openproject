@@ -71,6 +71,14 @@ See COPYRIGHT and LICENSE files for more details.
                container_class: '-middle' %>
 </div>
 
+<%= render partial: '/colors/color_autocomplete_field',
+           locals: {
+             form: f,
+             object: @version,
+             type: 'version',
+             label: t('versions.edit.version_color_text')
+          } %>
+
 <% if project.enabled_modules.map(&:name).include?("backlogs") %>
 
   <%= version_settings_fields(version, project) %>
