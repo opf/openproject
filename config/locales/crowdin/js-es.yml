@@ -855,7 +855,7 @@ es:
       zooms: "Nivel de zoom"
       outlines: "Nivel de jerarquía"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: 'Add-on de la edición Enterprise'
     wiki_formatting:
       strong: "Negrita"
       italic: "Cursiva"
