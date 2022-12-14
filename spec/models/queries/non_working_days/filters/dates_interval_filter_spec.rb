@@ -26,27 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::Days
-  class NonWorkingDaysAPI < ::API::OpenProjectAPI
-    helpers ::API::Utilities::UrlPropsParsingHelper
+require 'spec_helper'
 
-    resources :non_working do
-      get &::API::V3::Utilities::Endpoints::Index.new(
-        api_name: "Day",
-        model: NonWorkingDay,
-        render_representer: NonWorkingDayCollectionRepresenter,
-        self_path: -> { api_v3_paths.days_non_working }
-      ).mount
+describe Queries::NonWorkingDays::Filters::DatesIntervalFilter do
+  it_behaves_like 'basic query filter' do
+    let(:type) { :date }
+    let(:class_key) { :date }
 
-      route_param :date, type: Date, desc: 'NonWorkingDay DATE' do
-        after_validation do
-          @non_working_day = NonWorkingDay.find_by!(date: declared_params[:date])
-        end
-
-        get &::API::V3::Utilities::Endpoints::Show.new(model: NonWorkingDay,
-                                                       render_representer: NonWorkingDayRepresenter)
-                                                  .mount
+    describe '#available?' do
+      it 'is true' do
+        expect(instance).to be_available
       end
     end
+
+    describe '#allowed_values' do
+      it 'is nil' do
+        expect(instance.allowed_values).to be_nil
+      end
+    end
+
+    it_behaves_like 'non ar filter'
   end
 end

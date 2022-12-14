@@ -26,27 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::Days
-  class NonWorkingDaysAPI < ::API::OpenProjectAPI
-    helpers ::API::Utilities::UrlPropsParsingHelper
+class Queries::NonWorkingDays::Filters::DatesIntervalFilter < Queries::NonWorkingDays::Filters::NonWorkingDayFilter
+  include Queries::Operators::DateRangeClauses
 
-    resources :non_working do
-      get &::API::V3::Utilities::Endpoints::Index.new(
-        api_name: "Day",
-        model: NonWorkingDay,
-        render_representer: NonWorkingDayCollectionRepresenter,
-        self_path: -> { api_v3_paths.days_non_working }
-      ).mount
+  def type
+    :date
+  end
 
-      route_param :date, type: Date, desc: 'NonWorkingDay DATE' do
-        after_validation do
-          @non_working_day = NonWorkingDay.find_by!(date: declared_params[:date])
-        end
+  def self.key
+    :date
+  end
 
-        get &::API::V3::Utilities::Endpoints::Show.new(model: NonWorkingDay,
-                                                       render_representer: NonWorkingDayRepresenter)
-                                                  .mount
-      end
-    end
+  def where
+    lower_boundary, upper_boundary = values.map { |v| v.blank? ? nil : Date.parse(v) }
+    lower_boundary ||= Date.current.beginning_of_year
+    upper_boundary ||= Date.current.end_of_year
+
+    <<-SQL.squish
+      (#{date_range_clause('"non_working_days"', '"date"', lower_boundary, upper_boundary)})
+    SQL
+  end
+
+  def type_strategy
+    @type_strategy ||= Queries::Filters::Strategies::DateInterval.new(self)
+  end
+
+  def connection
+    ActiveRecord::Base::connection
   end
 end
