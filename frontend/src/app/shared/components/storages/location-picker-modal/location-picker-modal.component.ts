@@ -55,6 +55,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
+  public submitted = false;
+
   public readonly text = {
     header: this.i18n.t('js.storages.select_location'),
     buttons: {
@@ -91,6 +93,7 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
   }
 
   public chooseLocation():void {
+    this.submitted = true;
     this.service.close();
   }
 

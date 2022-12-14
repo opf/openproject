@@ -37,8 +37,9 @@ import {
 import {
   BehaviorSubject,
   Observable,
+  throwError,
 } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { catchError, switchMap, take } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -120,6 +121,12 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
       linkExisting: this.i18n.t('js.storages.link_existing_files'),
       uploadFile: this.i18n.t('js.storages.upload_files'),
     },
+    toast: {
+      successFileLinksCreated: (count:number):string => this.i18n.t('js.storages.file_links.success_create', { count }),
+      uploadFailed: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error', { fileName }),
+      linkingAfterUploadFailed: (fileName:string, workPackageId:string):string =>
+        this.i18n.t('js.storages.file_links.link_uploaded_file_error', { fileName, workPackageId }),
+    },
     openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.storageType }),
   };
 
@@ -133,6 +140,10 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
 
   public get storageFilesLocation():string {
     return this.storage._links.open.href;
+  }
+
+  private get addFileLinksHref() {
+    return (this.resource.$links as unknown&{ addFileLink:IHalResourceLink }).addFileLink.href;
   }
 
   constructor(
@@ -192,7 +203,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
           storageName: this.storage.name,
           storageLocation: this.storageFilesLocation,
           storageLink: this.storage._links.self,
-          addFileLinksHref: (this.resource.$links as unknown&{ addFileLink:IHalResourceLink }).addFileLink.href,
+          addFileLinksHref: this.addFileLinksHref,
           collectionKey: this.collectionKey,
           fileLinks,
         };
@@ -220,14 +231,18 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
       storageLink: this.storage._links.self,
     };
     this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals)
-      .subscribe((modal) => {
-        modal.closingEvent.subscribe((data) => {
-          this.uploadFile(files![0], data.location);
+      .subscribe((m) => {
+        m.closingEvent.subscribe((modal) => {
+          if (modal.submitted && files !== null) {
+            this.uploadFile(files[0], modal.location);
+          }
         });
       });
   }
 
   private uploadFile(file:UploadFile, location:string):void {
+    let isUploadError = false;
+
     this.storageFilesResourceService
       .uploadLink(
         this.UploadResourceLink(this.storage._links.self),
@@ -236,18 +251,31 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
       )
       .pipe(
         switchMap((link) => this.uploadStorageFilesService.uploadFile(link, file)),
+        catchError((error) => {
+          isUploadError = true;
+          return throwError(error);
+        }),
+        switchMap((f) => this.fileLinkResourceService.addFileLinks(
+          this.collectionKey,
+          this.addFileLinksHref,
+          this.storage._links.self,
+          [f],
+        )),
       )
       .subscribe(
-        (data) => {
-          this.toastService.addSuccess(`Uploaded file with id ${data}`);
+        (collection) => {
+          this.toastService.addSuccess(this.text.toast.successFileLinksCreated(collection.count));
         },
         (error) => {
+          if (isUploadError) {
+            this.toastService.addError(this.text.toast.uploadFailed(file.name));
+          } else {
+            this.toastService.addError(this.text.toast.linkingAfterUploadFailed(file.name, this.resource.id as string));
+          }
+
           console.error(error);
         },
       );
-
-    // TODO: create file links
-    // this.fileLinkResourceService.addFileLinks()
   }
 
   private UploadResourceLink(storageLink:IHalResourceLink):IHalResourceLink {

@@ -30,15 +30,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+
 import { IUploadLink } from 'core-app/core/state/storage-files/upload-link.model';
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Injectable()
 export class UploadStorageFilesService {
   constructor(
     private readonly httpClient:HttpClient,
+    private readonly timezoneService:TimezoneService,
   ) {}
 
-  public uploadFile(uploadLink:IUploadLink, file:File):Observable<string> {
+  public uploadFile(uploadLink:IUploadLink, file:File):Observable<IStorageFile> {
     const url = new URL(uploadLink._links.destination.href);
     const token = url.username;
     const password = url.password;
@@ -50,23 +54,80 @@ export class UploadStorageFilesService {
       'X-External-Request': 'true',
     };
 
-    const body = '<?xml version="1.0"?>\n'
-      + '<d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">\n'
-      + '  <d:prop>\n'
-      + '        <oc:fileid />\n'
-      + '  </d:prop>\n'
-      + '</d:propfind>';
-
     const method = uploadLink._links.destination.method;
     return this.httpClient
       .request(method, url.toString(), { body: file, headers })
       .pipe(
-        switchMap(() => this.httpClient.request('propfind', url.toString(), { body, headers, responseType: 'text' })),
-        map((xml) => {
-          const fileId = /<oc:fileid>(.*)<\/oc:fileid>/.exec(xml)?.pop();
-          if (!fileId) { throw new Error('no file id found'); }
-          return fileId;
-        }),
+        switchMap(() => this.httpClient.request(
+          'propfind',
+          url.toString(),
+          {
+            body: this.propfindBody,
+            headers,
+            responseType: 'text',
+          },
+        )),
+        map((xml) => this.parseXmlResponse(xml)),
       );
+  }
+
+  private parseXmlResponse(xml:string):IStorageFile {
+    const error = new Error(`Invalid response for uploaded file: ${xml}`);
+
+    const id = /<oc:fileid>(.*)<\/oc:fileid>/.exec(xml)?.pop();
+    if (!id) { throw error; }
+
+    const mimeType = /<d:getcontenttype>(.*)<\/d:getcontenttype>/.exec(xml)?.pop();
+    if (!mimeType) { throw error; }
+
+    const size = /<oc:size>(.*)<\/oc:size>/.exec(xml)?.pop();
+    if (!size) { throw error; }
+
+    const location = /<d:href>(.*)<\/d:href>/.exec(xml)?.pop();
+    if (!location) { throw error; }
+
+    const date = /<d:getlastmodified>(.*)<\/d:getlastmodified>/.exec(xml)?.pop();
+    if (!date) { throw error; }
+    const createdAt = this.timezoneService.parseDatetime(date).toISOString();
+    const lastModifiedAt = createdAt;
+
+    const creator = /<oc:owner-display-name>(.*)<\/oc:owner-display-name>/.exec(xml)?.pop();
+    if (!creator) { throw error; }
+
+    return {
+      id,
+      name: location.split('/').pop() || '',
+      mimeType,
+      size: parseInt(size, 10),
+      location,
+      createdAt,
+      createdByName: creator,
+      lastModifiedAt,
+      lastModifiedByName: creator,
+    };
+  }
+
+  private get propfindBody() {
+    return '<?xml version="1.0"?>\n'
+      + '<d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">\n'
+      + '  <d:prop>\n'
+      + '    <oc:fileid />\n'
+      + '    <d:getlastmodified />\n'
+      + '    <d:getetag />\n'
+      + '    <d:getcontenttype />\n'
+      + '    <d:resourcetype />\n'
+      + '    <oc:fileid />\n'
+      + '    <oc:permissions />\n'
+      + '    <oc:size />\n'
+      + '    <d:getcontentlength />\n'
+      + '    <nc:has-preview />\n'
+      + '    <oc:favorite />\n'
+      + '    <oc:comments-unread />\n'
+      + '    <oc:owner-display-name />\n'
+      + '    <oc:share-types />\n'
+      + '    <nc:contained-folder-count />\n'
+      + '    <nc:contained-file-count />\n'
+      + '  </d:prop>\n'
+      + '</d:propfind>';
   }
 }
