@@ -35,6 +35,7 @@ import { AbstractWorkPackageButtonComponent } from 'core-app/features/work-packa
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
 import { KeepTabService } from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
+import * as Mousetrap from 'mousetrap';
 
 @Component({
   templateUrl: '../wp-button.template.html',
@@ -80,11 +81,17 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
       this.isActive = this.$state.includes(this.activeState);
       this.cdRef.detectChanges();
     });
+    
+    Mousetrap.bind(['i', 'I'], (e) => {
+      this.performAction(e);
+    });
   }
 
   public ngOnDestroy() {
     super.ngOnDestroy();
     this.transitionListener();
+    
+    Mousetrap.unbind(['i', 'I']);
   }
 
   public get label():string {
