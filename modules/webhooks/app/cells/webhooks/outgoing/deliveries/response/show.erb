@@ -2,23 +2,21 @@
   data-augmented-model-wrapper
   data-modal-class-name="webhooks--response-body-modal"
 >
-  <a class="modal-delivery-element--activation-link" title="<%= log_entry.class.human_attribute_name('response_body') %>">
+  <a class="modal-delivery-element--activation-link" title="<%= title %>">
     <%= op_icon('icon-info1') %>
     <%= t(:button_show) %>
   </a>
   <div class="modal-delivery-element">
     <div class="spot-modal--header">
-     <h1 class="spot-subheader-big"> <%= log_entry.class.human_attribute_name('response_body') %> </h1>
+     <h1 class="spot-subheader-big"> <%= title %> </h1>
     </div>
     <div class="spot-divider"></div>
     <div class="spot-modal--body spot-container">
       <h2 class="spot-subheader-extra-small">Headers</h2>
-      <pre class="webhooks--response-headers"><%- log_entry.response_headers.each do |k, v| -%><strong><%= k -%></strong>:  <span><%= v -%></span><br/><%- end -%></pre>
+      <pre class="webhooks--response-headers"><%- response_headers.each do |k, v| -%><strong><%= k -%></strong>:  <span><%= v -%></span><br/><%- end -%></pre>
         <div class="spot-divider"></div>
       <h2 class="spot-subheader-extra-small">Response body</h2>
-      <pre class="webhooks--response-body">
-        <%= log_entry.response_body %>
-      </pre>
+      <pre class="webhooks--response-body"><%= response_body %></pre>
     </div>
     <div class="spot-action-bar hidden-for-mobile">
       <div class="spot-action-bar--right">
