@@ -38,7 +38,7 @@ import {
   BehaviorSubject,
   Observable,
 } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -72,6 +72,8 @@ import {
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
 import { UploadStorageFilesService } from 'core-app/shared/components/storages/services/upload-storage-files.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
+import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 
 @Component({
   selector: 'op-storage',
@@ -142,6 +144,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
     private readonly configurationService:ConfigurationService,
     private readonly fileLinkResourceService:FileLinksResourceService,
     private readonly uploadStorageFilesService:UploadStorageFilesService,
+    private readonly storageFilesResourceService:StorageFilesResourceService,
   ) {
     super();
   }
@@ -219,29 +222,39 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit {
     this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals)
       .subscribe((modal) => {
         modal.closingEvent.subscribe((data) => {
-          this.uploadFiles(files, data.location);
+          this.uploadFile(files![0], data.location);
         });
       });
   }
 
-  private uploadFiles(files:FileList|null, location:string):void {
-    if (files === null) {
-      return;
-    }
-
-    // TODO: get prepare upload information
-
-    this.uploadStorageFilesService.uploadFile(files[0])
+  private uploadFile(file:UploadFile, location:string):void {
+    this.storageFilesResourceService
+      .uploadLink(
+        this.UploadResourceLink(this.storage._links.self),
+        file.name,
+        location,
+      )
+      .pipe(
+        switchMap((link) => this.uploadStorageFilesService.uploadFile(link, file)),
+      )
       .subscribe(
         (data) => {
           this.toastService.addSuccess(`Uploaded file with id ${data}`);
-        }, (error) => {
+        },
+        (error) => {
           console.error(error);
         },
       );
 
     // TODO: create file links
     // this.fileLinkResourceService.addFileLinks()
+  }
+
+  private UploadResourceLink(storageLink:IHalResourceLink):IHalResourceLink {
+    return {
+      href: `${storageLink.href}/files/prepare_upload`,
+      title: 'Upload resource link',
+    };
   }
 
   private instantiateStorageInformation(fileLinks:IFileLink[]):StorageInformationBox[] {

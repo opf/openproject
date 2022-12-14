@@ -85,7 +85,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         method: :put,
         relative_path: "#{URI_BASE_PATH}/#{share.id}",
         payload: {
-          permissions: 4
+          permissions: 5
         }
       ).map { share }
     end

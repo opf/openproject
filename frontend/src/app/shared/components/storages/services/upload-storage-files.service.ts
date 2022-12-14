@@ -30,20 +30,23 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { IUploadLink } from 'core-app/core/state/storage-files/upload-link.model';
 
 @Injectable()
 export class UploadStorageFilesService {
-  private token = 'JXSQ7knPCkgCWtp';
-
-  private password = 'ad84c32b-b4bf-4b6e-bea2-4b2204d1f66e';
-
   constructor(
     private readonly httpClient:HttpClient,
   ) {}
 
-  public uploadFile(file:File):Observable<string> {
+  public uploadFile(uploadLink:IUploadLink, file:File):Observable<string> {
+    const url = new URL(uploadLink._links.destination.href);
+    const token = url.username;
+    const password = url.password;
+    url.username = '';
+    url.password = '';
+
     const headers = {
-      Authorization: `Basic ${btoa(`${this.token}:${this.password}`)}`,
+      Authorization: `Basic ${btoa(`${token}:${password}`)}`,
       'X-External-Request': 'true',
     };
 
@@ -54,11 +57,11 @@ export class UploadStorageFilesService {
       + '  </d:prop>\n'
       + '</d:propfind>';
 
-    const url = `https://nextcloud.local/public.php/webdav/${(file.name)}`;
+    const method = uploadLink._links.destination.method;
     return this.httpClient
-      .put(url, file, { headers })
+      .request(method, url.toString(), { body: file, headers })
       .pipe(
-        switchMap(() => this.httpClient.request('propfind', url, { body, headers, responseType: 'text' })),
+        switchMap(() => this.httpClient.request('propfind', url.toString(), { body, headers, responseType: 'text' })),
         map((xml) => {
           const fileId = /<oc:fileid>(.*)<\/oc:fileid>/.exec(xml)?.pop();
           if (!fileId) { throw new Error('no file id found'); }
