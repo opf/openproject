@@ -6,7 +6,7 @@ ru:
       link_existing_files: "Связать существующие файлы"
       upload_files: "Загрузить файлы"
       drop_files: >
-        Drop files here to upload them to %{storageType}.
+        Перетащите файлы сюда, чтобы загрузить их в %{storageType}.
       login: "Логин %{storageType}"
       login_to: "Войти в %{storageType}"
       no_connection: "Нет подключения к %{storageType}"
@@ -26,7 +26,7 @@ ru:
           Для добавления ссылки, просмотра или загрузки файлов, относящиеся к этому пакету работ, войдите в %{storageType}.
       file_links:
         empty: >
-          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
+          В настоящее время нет файлов связанных с этим пакетом работ. Начните привязку файлов с действием ниже или внутри %{storageType}.
         download: "Скачать %{fileName}"
         no_permission: "У вас недостаточно прав для просмотра этого файла."
         open: 'Открыть файл в хранилище'
@@ -44,10 +44,10 @@ ru:
           many: "Ссылка на %{count} файлов"
           other: "Ссылка на %{count} файлов"
         success_create:
-          one: "Successfully created 1 file link."
-          few: "Successfully created %{count} file links."
-          many: "Successfully created %{count} file links."
-          other: "Successfully created %{count} file links."
+          one: "1 ссылка на файл успешно создана."
+          few: "Успешно создано %{count} ссылок на файл."
+          many: "Успешно создано %{count} ссылок на файл."
+          other: "Успешно создано %{count} ссылок на файл."
         not_allowed_tooltip: "Войдите в Nextcloud для доступа к этому файлу"
         already_linked_file: "Этот файл уже связан с этим пакетом работ."
         already_linked_directory: "Этот каталог уже связан с этим пакетом работ."

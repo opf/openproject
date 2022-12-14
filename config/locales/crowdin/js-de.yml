@@ -594,7 +594,7 @@ de:
         watched: 'Beobachter'
         date_alert: 'Datums-Erinnerung'
       settings:
-        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Benachrichtigungseinstellungen"
         notify_me: "Benachrichtige mich"
         reminders:

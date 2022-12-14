@@ -594,7 +594,7 @@ ko:
         watched: '주시자'
         date_alert: '날짜 경보'
       settings:
-        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "알림 설정"
         notify_me: "알림 받기"
         reminders:

@@ -597,7 +597,7 @@ uk:
         watched: 'Спостерігач'
         date_alert: 'Оповіщення про дату'
       settings:
-        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Налаштування сповіщень"
         notify_me: "Сповіщати мене"
         reminders:

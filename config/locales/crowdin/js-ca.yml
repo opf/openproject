@@ -595,7 +595,7 @@ ca:
         watched: 'Observador'
         date_alert: 'Alerta per dates'
       settings:
-        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Configuració de notificacions"
         notify_me: "Notifica’m"
         reminders:

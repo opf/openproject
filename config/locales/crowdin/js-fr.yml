@@ -595,7 +595,7 @@ fr:
         watched: 'Observateur'
         date_alert: 'Alarmes'
       settings:
-        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Paramètres de notifications"
         notify_me: "M'alerter"
         reminders:

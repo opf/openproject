@@ -594,7 +594,7 @@ lol:
         watched: 'crwdns836620:0crwdne836620:0'
         date_alert: 'crwdns836777:0crwdne836777:0'
       settings:
-        change_notification_settings: 'crwdns842637:0%{url}crwdne842637:0'
+        change_notification_settings: 'crwdns842805:0%{url}crwdne842805:0'
         title: "crwdns787738:0crwdne787738:0"
         notify_me: "crwdns787740:0crwdne787740:0"
         reminders:
