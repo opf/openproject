@@ -1,8 +1,9 @@
 <section
   data-augmented-model-wrapper
+  data-activation-selector=".log-response-<%= id %>-modal--activation-link"
   data-modal-class-name="webhooks--response-body-modal"
 >
-  <a class="modal-delivery-element--activation-link" title="<%= title %>">
+  <a class="log-response-<%= id %>-modal--activation-link" title="<%= title %>">
     <%= op_icon('icon-info1') %>
     <%= t(:button_show) %>
   </a>
