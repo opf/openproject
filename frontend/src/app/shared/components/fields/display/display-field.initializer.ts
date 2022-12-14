@@ -89,6 +89,7 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addSpecificFieldType('WorkPackage', WorkPackageIdDisplayField, 'id', ['id'])
       .addSpecificFieldType('WorkPackage', WorkPackageSpentTimeDisplayField, 'spentTime', ['spentTime'])
       .addSpecificFieldType('WorkPackage', CombinedDateDisplayField, 'combinedDate', ['combinedDate'])
+      .addSpecificFieldType('WorkPackage', HighlightedResourceDisplayField, 'version', ['version'])
       .addSpecificFieldType('TimeEntry', PlainFormattableDisplayField, 'comment', ['comment'])
       .addSpecificFieldType('Project', ProjectStatusDisplayField, 'status', ['status'])
       .addSpecificFieldType('TimeEntry', WorkPackageDisplayField, 'work_package', ['workPackage']);
