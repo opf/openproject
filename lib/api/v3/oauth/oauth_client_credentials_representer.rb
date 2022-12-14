@@ -26,30 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OAuthClients
-  class CreateContract < ::ModelContract
-    include ActiveModel::Validations
+module API::V3::OAuth
+  class OAuthClientCredentialsRepresenter < ::API::Decorators::Single
+    include API::Decorators::LinkedResource
+    include API::Decorators::DateProperty
 
-    attribute :client_id, writable: true
-    validates :client_id, presence: true, length: { maximum: 255 }
+    self_link title: false
 
-    attribute :client_secret, writable: true
-    validates :client_secret, presence: true, length: { maximum: 255 }
+    property :id
 
-    attribute :integration_type, writable: true
-    validates :integration_type, presence: true
+    property :client_id
 
-    attribute :integration_id, writable: true
-    validates :integration_id, presence: true
+    property :client_secret,
+             skip_render: true
 
-    validate :validate_user_allowed
+    property :confidential,
+             getter: ->(*) { client_secret.present? }
 
-    private
+    date_time_property :created_at
 
-    def validate_user_allowed
-      unless user.admin? && user.active?
-        errors.add :base, :error_unauthorized
-      end
+    date_time_property :updated_at
+
+    link :integration do
+      next if represented.integration.blank?
+
+      {
+        href: api_v3_paths.storage(represented.integration.id),
+        title: represented.integration.name
+      }
+    end
+
+    def _type
+      'OAuthClientCredentials'
     end
   end
 end

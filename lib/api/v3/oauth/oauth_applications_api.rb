@@ -26,29 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OAuthClients
-  class CreateContract < ::ModelContract
-    include ActiveModel::Validations
+module API::V3::OAuth
+  class OAuthApplicationsAPI < ::API::OpenProjectAPI
+    resources :oauth_applications do
+      route_param :oauth_application_id, type: Integer, desc: 'OAuth application id' do
+        after_validation do
+          authorize_admin
+          @application = ::Doorkeeper::Application.find(params[:oauth_application_id])
+        end
 
-    attribute :client_id, writable: true
-    validates :client_id, presence: true, length: { maximum: 255 }
-
-    attribute :client_secret, writable: true
-    validates :client_secret, presence: true, length: { maximum: 255 }
-
-    attribute :integration_type, writable: true
-    validates :integration_type, presence: true
-
-    attribute :integration_id, writable: true
-    validates :integration_id, presence: true
-
-    validate :validate_user_allowed
-
-    private
-
-    def validate_user_allowed
-      unless user.admin? && user.active?
-        errors.add :base, :error_unauthorized
+        get &::API::V3::Utilities::Endpoints::Show
+               .new(model: ::Doorkeeper::Application,
+                    render_representer: ::API::V3::OAuth::OAuthApplicationsRepresenter)
+               .mount
       end
     end
   end

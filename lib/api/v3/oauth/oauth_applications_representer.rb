@@ -26,30 +26,64 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OAuthClients
-  class CreateContract < ::ModelContract
-    include ActiveModel::Validations
+module API::V3::OAuth
+  class OAuthApplicationsRepresenter < ::API::Decorators::Single
+    include API::Decorators::LinkedResource
+    include API::Decorators::DateProperty
 
-    attribute :client_id, writable: true
-    validates :client_id, presence: true, length: { maximum: 255 }
+    self_link
 
-    attribute :client_secret, writable: true
-    validates :client_secret, presence: true, length: { maximum: 255 }
+    property :id
 
-    attribute :integration_type, writable: true
-    validates :integration_type, presence: true
+    property :name
 
-    attribute :integration_id, writable: true
-    validates :integration_id, presence: true
+    property :uid, as: :clientId
 
-    validate :validate_user_allowed
+    property :confidential
 
-    private
+    property :client_secret,
+             getter: ->(*) { plaintext_secret },
+             skip_render: ->(*) { plaintext_secret.blank? }
 
-    def validate_user_allowed
-      unless user.admin? && user.active?
-        errors.add :base, :error_unauthorized
-      end
+    date_time_property :created_at
+
+    date_time_property :updated_at
+
+    property :scopes
+
+    link :owner do
+      next if represented.owner.blank?
+
+      {
+        href: api_v3_paths.user(represented.owner.id),
+        title: represented.owner.name
+      }
+    end
+
+    link :integration do
+      next if represented.integration.blank?
+
+      href = case represented.integration
+             when Storages::Storage
+               api_v3_paths.storage(represented.integration.id)
+             else
+               raise ArgumentError, 'Invalid integration type.'
+             end
+
+      {
+        href:,
+        title: represented.integration.name
+      }
+    end
+
+    link :redirectUri do
+      {
+        href: represented.redirect_uri
+      }
+    end
+
+    def _type
+      'OAuthApplication'
     end
   end
 end

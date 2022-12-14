@@ -26,29 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OAuthClients
-  class CreateContract < ::ModelContract
-    include ActiveModel::Validations
+module API::V3::OAuth
+  class OAuthClientCredentialsAPI < ::API::OpenProjectAPI
+    resources :oauth_client_credentials do
+      route_param :oauth_client_credentials_id, type: Integer, desc: 'OAuth Client Credentials id' do
+        after_validation do
+          authorize_admin
+          @oauth_client = ::OAuthClient.find(params[:oauth_client_credentials_id])
+        end
 
-    attribute :client_id, writable: true
-    validates :client_id, presence: true, length: { maximum: 255 }
-
-    attribute :client_secret, writable: true
-    validates :client_secret, presence: true, length: { maximum: 255 }
-
-    attribute :integration_type, writable: true
-    validates :integration_type, presence: true
-
-    attribute :integration_id, writable: true
-    validates :integration_id, presence: true
-
-    validate :validate_user_allowed
-
-    private
-
-    def validate_user_allowed
-      unless user.admin? && user.active?
-        errors.add :base, :error_unauthorized
+        get &::API::V3::Utilities::Endpoints::Show
+               .new(model: ::OAuthClient,
+                    render_representer: ::API::V3::OAuth::OAuthClientCredentialsRepresenter)
+               .mount
       end
     end
   end

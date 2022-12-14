@@ -26,30 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OAuthClients
-  class CreateContract < ::ModelContract
-    include ActiveModel::Validations
+require 'spec_helper'
 
-    attribute :client_id, writable: true
-    validates :client_id, presence: true, length: { maximum: 255 }
+describe 'API v3 oauth applications resource', content_type: :json do
+  include API::V3::Utilities::PathHelper
 
-    attribute :client_secret, writable: true
-    validates :client_secret, presence: true, length: { maximum: 255 }
+  let(:oauth_client_credentials) { create(:oauth_client) }
 
-    attribute :integration_type, writable: true
-    validates :integration_type, presence: true
+  current_user { create(:admin) }
 
-    attribute :integration_id, writable: true
-    validates :integration_id, presence: true
+  before do
+    get path
+  end
 
-    validate :validate_user_allowed
+  describe 'GET /api/v3/oauth_client_credentials/:oauth_client_credentials_id' do
+    let(:path) { api_v3_paths.oauth_client_credentials(oauth_client_credentials.id) }
 
-    private
+    it_behaves_like 'successful response'
 
-    def validate_user_allowed
-      unless user.admin? && user.active?
-        errors.add :base, :error_unauthorized
-      end
+    context 'as non-admin' do
+      current_user { create(:user) }
+
+      it_behaves_like 'unauthorized access'
     end
   end
 end
