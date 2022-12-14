@@ -588,7 +588,7 @@ GEM
       open4 (~> 1.0)
     launchy (2.5.0)
       addressable (~> 2.7)
-    lefthook (1.2.4)
+    lefthook (1.2.5)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.7.1)
