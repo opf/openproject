@@ -40,6 +40,23 @@ describe Version do
       expect(version.status)
         .to eq 'open'
     end
+    
+    it 'leaves color unset/nil' do
+      expect(version.color)
+        .to eq nil
+    end
+  end
+
+  describe 'color setter' do
+    let(:version) { described_class.new }
+
+    it 'allows to set a value' do
+      color = Color.new
+      version.color_id = color.id
+      
+      expect(version.color_id)
+        .to eq color.id
+    end
   end
 
   describe 'validations' do
