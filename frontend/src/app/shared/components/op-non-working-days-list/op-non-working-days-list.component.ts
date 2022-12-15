@@ -4,6 +4,7 @@ import {
   ElementRef,
   HostBinding,
   Injector,
+  Input,
   OnInit,
   ViewChild,
   ViewEncapsulation,
@@ -17,6 +18,7 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import {
   EventInput,
   CalendarOptions,
+  EventApi,
 } from '@fullcalendar/core';
 import listPlugin from '@fullcalendar/list';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -29,6 +31,13 @@ import { ConfirmDialogOptions } from '../modals/confirm-dialog/confirm-dialog.mo
 
 export const nonWorkingDaysListSelector = 'op-non-working-days-list';
 
+export interface INonWorkingDay {
+  id:string|null;
+  name:string;
+  date:string;
+  _deleted:boolean|null;
+}
+
 @Component({
   selector: nonWorkingDaysListSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,6 +49,8 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
   @HostBinding('class.op-non-working-days-list') className = true;
+
+  @Input() public modified_non_working_days:INonWorkingDay[] = [];
 
   text = {
     empty_state_header: this.I18n.t('js.admin.working_days.calendar.empty_state_header'),
@@ -77,9 +88,15 @@ export class OpNonWorkingDaysListComponent implements OnInit {
       anchor.href = '#';
       anchor.classList.add('fc-list-day-side-text', 'op-non-working-days-list--delete-icon');
       anchor.appendChild(opIconElement('icon', 'icon-delete'));
+
+      this.addNonWorkingdayInputs(el, event);
+
       anchor.addEventListener('click', () => {
-        event.remove();
         this.removedNonWorkingDays.push(moment(event.id).format('MMMM DD, YYYY'));
+        if (event.id !== '') {
+          this.addRemovedNonWorkingdayInputs({ id: event.id, name: event.title, date: event.startStr } as unknown as INonWorkingDay);
+        }
+        event.remove();
       });
       td.appendChild(anchor);
       el.appendChild(td);
@@ -100,9 +117,6 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     readonly confirmDialogService:ConfirmDialogService,
   ) {
     populateInputsFromDataset(this);
-  }
-
-  ngOnInit():void {
     document.addEventListener('submit', (evt:Event) => {
       if (this.form_submitted === false) {
         this.form_submitted = true;
@@ -129,6 +143,17 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     });
   }
 
+  ngOnInit():void {
+    if (this.modified_non_working_days.length > 0) {
+      const removedNWD = this.modified_non_working_days.filter((event) => event._deleted === true);
+      if (removedNWD.length > 0) {
+        removedNWD.forEach((NWD) => {
+          this.addRemovedNonWorkingdayInputs(NWD);
+        });
+      }
+    }
+  }
+
   public calendarEventsFunction(
     fetchInfo:{ start:Date },
     successCallback:(events:EventInput[]) => void,
@@ -137,10 +162,11 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     this.dayService.requireNonWorkingYear$(fetchInfo.start)
       .subscribe(
         (days:IDay[]) => {
-          const events = this.mapToCalendarEvents(days);
-          // test
-          this.nonWorkingDays = this.nonWorkingDays.concat(days);
-          this.nonWorkingDays = this.nonWorkingDays.filter((item, pos) => this.nonWorkingDays.indexOf(item) === pos);
+          this.nonWorkingDays = days;
+          if (this.modified_non_working_days.length > 0) {
+            this.mergeEvents(this.modified_non_working_days);
+          }
+          const events = this.mapToCalendarEvents(this.nonWorkingDays);
           successCallback(events);
         },
         failureCallback,
@@ -155,11 +181,65 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     })).filter((event) => !!event) as EventInput[];
   }
 
+  private mergeEvents(modifiedNonWorkingDays:INonWorkingDay[]) {
+    const removedNWD = modifiedNonWorkingDays.filter((event) => event._deleted === true);
+    const addedNWD = modifiedNonWorkingDays.filter((event) => event.id === '').map((NWD) => ({
+      name: NWD.name,
+      date: NWD.date,
+    })) as IDay[];
+
+    this.nonWorkingDays = this.nonWorkingDays.filter((ar) => !removedNWD.find((rm) => (rm._deleted === true && rm.id === ar.id)));
+    this.nonWorkingDays = [...this.nonWorkingDays, ...addedNWD];
+  }
+
+  private addNonWorkingdayInputs(el:HTMLElement, event:EventApi):void {
+    if (event.id !== '') {
+      const inputId = document.createElement('input');
+      inputId.value = event.id || '';
+      inputId.type = 'hidden';
+      inputId.name = `settings[non_working_days_attributes][${event.id}][id]`;
+      el.appendChild(inputId);
+    }
+    const id = event.id !== '' ? event.id : Math.floor(Date.now() / 1000);
+
+    const inputName = document.createElement('input');
+    inputName.value = event.title;
+    inputName.type = 'hidden';
+    inputName.name = `settings[non_working_days_attributes][${id}][name]`;
+    el.appendChild(inputName);
+
+    const inputDate = document.createElement('input');
+    inputDate.value = event.startStr;
+    inputDate.type = 'hidden';
+    inputDate.name = `settings[non_working_days_attributes][${id}][date]`;
+    el.appendChild(inputDate);
+  }
+
+  private addRemovedNonWorkingdayInputs(event:INonWorkingDay):void {
+    const element = jQuery(this.elementRef.nativeElement);
+    if (event.id !== '' && event.id !== null) {
+      element
+        .parent()
+        .append(`<input type="hidden" name="settings[non_working_days_attributes]['${event.id}'][id]" value="${event.id}"/>`);
+
+      element
+        .parent()
+        .append(`<input type="hidden" name="settings[non_working_days_attributes]['${event.id}'][date]" value="${event.date}"/>`);
+
+      element
+        .parent()
+        .append(`<input type="hidden" name="settings[non_working_days_attributes]['${event.id}'][name]" value="${event.name}"/>`);
+
+      element
+        .parent()
+        .append(`<input type="hidden" name="settings[non_working_days_attributes]['${event.id}'][_deleted]" value="true"/>`);
+    }
+  }
+
   public addNonWorkingDay():void {
     // opens date picker modal
-
     // now I am just testing adding new event to the calendar, will be removed
-    const day = { start: '2022-12-22', title: 'test' };
+    const day = { start: '2022-12-22', title: 'test' } as unknown as IDay;
     const api = this.ucCalendar.getApi();
     this.nonWorkingDays.push(day as unknown as IDay);
     api.addEvent({ ...day });
