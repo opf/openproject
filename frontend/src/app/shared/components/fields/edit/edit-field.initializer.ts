@@ -61,11 +61,12 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         'TimeEntriesActivity',
         'Category',
         'CustomOption',
-        'Project'])
+        'Project',
+      ])
       .addFieldType(MultiSelectEditFieldComponent, 'multi-select', [
         '[]CustomOption',
         '[]User',
-        '[]Version'
+        '[]Version',
       ])
       .addFieldType(FloatEditFieldComponent, 'float', ['Float'])
       .addFieldType(WorkPackageEditFieldComponent, 'workPackage', ['WorkPackage'])
