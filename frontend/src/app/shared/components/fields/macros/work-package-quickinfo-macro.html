@@ -2,6 +2,7 @@
   <display-field *ngIf="detailed"
                  [resource]="workPackage"
                  [displayFieldOptions]="{ writable: false }"
+                 containerType="single-view"
                  fieldName="status">
   </display-field>
   <display-field [resource]="workPackage"
@@ -17,17 +18,19 @@
                  [displayFieldOptions]="{ writable: false }"
                  fieldName="subject">
   </display-field>
-  <ng-container *ngIf="detailed">
+  <ng-container *ngIf="detailed && (!!workPackage.startDate || !!workPackage.date)">
     (<display-field *ngIf="!!workPackage.date"
                    [resource]="workPackage"
                    [displayFieldOptions]="{ writable: false }"
-                   fieldName="date">
+                   fieldName="date"
+                   containerType="single-view">
     </display-field>
-    <display-field *ngIf="!workPackage.date"
+    <display-field *ngIf="!!workPackage.startDate"
                    [resource]="workPackage"
                    [displayFieldOptions]="{ writable: false }"
                    [displayClass]="dateDisplayField"
-                   fieldName="startDate">
+                   fieldName="startDate"
+                   containerType="single-view">
     </display-field>)
   </ng-container>
 </ng-container>
