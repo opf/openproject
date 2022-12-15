@@ -28,5 +28,7 @@
 
 FactoryBot.define do
   factory :journal_news_journal, class: 'Journal::NewsJournal' do
+    title { 'abc' }
+    comments_count { 4 }
   end
 end
