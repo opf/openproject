@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -31,11 +29,13 @@
 module API
   module V3
     module Principals
-      class PrincipalType
+      module PrincipalType
+        module_function
+
         ##
         # Return the appropriate API level type
         # that depend on the AR type of the principal passed in.
-        def self.for(principal)
+        def for(principal)
           case principal
           when User
             :user

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -100,9 +98,7 @@ module API
           # readonly
         end
 
-        def reverse_type
-          represented.reverse_type
-        end
+        delegate :reverse_type, to: :represented
 
         def reverse_type=(reverse_type)
           # readonly

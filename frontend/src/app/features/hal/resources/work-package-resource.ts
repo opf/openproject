@@ -51,6 +51,7 @@ export interface WorkPackageResourceEmbedded {
   ancestors:WorkPackageResource[];
   assignee:HalResource|any;
   attachments:AttachmentCollectionResource;
+  fileLinks?:CollectionResource;
   author:HalResource|any;
   availableWatchers:HalResource|any;
   category:HalResource|any;
@@ -187,7 +188,11 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   public getEditorContext(fieldName:string):ICKEditorContext {
-    return { type: fieldName === 'description' ? 'full' : 'constrained', macros: false };
+    return {
+      type: fieldName === 'description' ? 'full' : 'constrained',
+      macros: false,
+      ...(fieldName.startsWith('customField') && { disabledMentions: ['user'] }),
+    };
   }
 
   public isParentOf(otherWorkPackage:WorkPackageResource) {

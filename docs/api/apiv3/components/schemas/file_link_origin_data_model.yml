@@ -1,14 +1,9 @@
-# Schema: File_Link_Origin_DataModel
+# Schema: FileLinkOriginDataModel
 ---
 type: object
 required:
   - id
   - name
-  - mimeType
-  - createdAt
-  - lastModifiedAt
-  - createdByName
-  - lastModifiedByName
 properties:
   id:
     type: string
@@ -19,7 +14,15 @@ properties:
   mimeType:
     type: string
     minLength: 0
-    description: MIME type of the linked file
+    description: |-
+      MIME type of the linked file.
+
+      To link a folder entity, the custom MIME type `application/x-op-directory` MUST be provided. Otherwise it defaults back to
+      an unknown MIME type.
+  size:
+    type: integer
+    minimum: 0
+    description: file size on origin in bytes
   createdAt:
     type: string
     format: date-time

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -98,7 +96,7 @@ module API
 
         date_property :effective_date,
                       as: 'endDate',
-                      writeable: true
+                      writable: true
 
         property :status
 

@@ -41,7 +41,7 @@ describe 'repositories/stats', type: :view do
       render
     end
 
-    it 'should embed the commits per author graph' do
+    it 'embeds the commits per author graph' do
       expect(rendered).to include('commits_per_author')
     end
   end
@@ -52,7 +52,7 @@ describe 'repositories/stats', type: :view do
       render
     end
 
-    it 'should NOT embed the commits per author graph' do
+    it 'does not embed the commits per author graph' do
       expect(rendered).not_to include('commits_per_author')
     end
   end

@@ -212,6 +212,7 @@ export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, modu
   uiRouter.urlService.config.type(
     'opQueryId',
     {
+      pattern: new RegExp(/(?:new|[0-9]+)/),
       encode: (id:string|null) => id || 'new',
       decode: (id:string) => (id === 'new' ? null : id),
       raw: true,
@@ -258,9 +259,6 @@ export function initializeUiRouterListeners(injector:Injector) {
     if (transition.from().data && _.get(state, 'data.menuItem') !== transition.from().data.menuItem) {
       updateMenuItem(_.get(state, 'data.menuItem'), 'add');
     }
-
-    // Reset scroll position, mostly relevant for mobile
-    window.scrollTo(0, 0);
   });
 
   $transitions.onExit({}, (transition:Transition, state:StateDeclaration) => {

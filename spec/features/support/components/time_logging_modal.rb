@@ -29,13 +29,15 @@
 module Components
   class TimeLoggingModal
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
 
     attr_reader :activity_field,
                 :comment_field,
                 :hours_field,
                 :spent_on_field,
-                :work_package_field
+                :work_package_field,
+                :user_field
 
     def initialize
       @activity_field = EditField.new(page, 'activity')
@@ -43,6 +45,7 @@ module Components
       @hours_field = EditField.new(page, 'hours')
       @spent_on_field = EditField.new(page, 'spentOn')
       @work_package_field = EditField.new(page, 'workPackage')
+      @user_field = EditField.new(page, 'user')
     end
 
     def is_visible(visible)
@@ -52,7 +55,7 @@ module Components
             .to have_text(I18n.t('js.button_log_time'))
         end
       else
-        expect(page).to have_no_selector '.op-modal'
+        expect(page).to have_no_selector '.spot-modal'
       end
     end
 
@@ -74,8 +77,13 @@ module Components
 
     def update_field(field_name, value)
       field = field_object field_name
-      field.input_element.click
-      field.set_value value
+      if field_name == 'user'
+        field.unset_value
+        field.autocomplete value
+      else
+        field.input_element.click
+        field.set_value value
+      end
     end
 
     def update_work_package_field(value, recent = false)
@@ -114,26 +122,17 @@ module Components
         'wp-new-inline-edit--field-spentOn'
       when 'work_package'
         'wp-new-inline-edit--field-workPackage'
+      when 'user'
+        'wp-new-inline-edit--field-user'
       end
     end
 
     def field_object(field_name)
-      case field_name
-      when 'activity'
-        activity_field
-      when 'hours'
-        hours_field
-      when 'spent_on'
-        spent_on_field
-      when 'comment'
-        comment_field
-      when 'work_package'
-        work_package_field
-      end
+      send("#{field_name}_field")
     end
 
     def modal_container
-      page.find('.op-modal')
+      page.find('.spot-modal')
     end
   end
 end

@@ -187,7 +187,7 @@ describe CustomActions::Actions::CustomField, type: :model do
     context 'for a list custom field' do
       it 'is :associated_property' do
         expect(instance.type)
-          .to eql(:associated_property)
+          .to be(:associated_property)
       end
     end
 
@@ -196,7 +196,7 @@ describe CustomActions::Actions::CustomField, type: :model do
 
       it 'is :associated_property' do
         expect(instance.type)
-          .to eql(:associated_property)
+          .to be(:associated_property)
       end
     end
 
@@ -205,7 +205,7 @@ describe CustomActions::Actions::CustomField, type: :model do
 
       it 'is :text_property' do
         expect(instance.type)
-          .to eql(:text_property)
+          .to be(:text_property)
       end
     end
 
@@ -214,7 +214,7 @@ describe CustomActions::Actions::CustomField, type: :model do
 
       it 'is :string_property' do
         expect(instance.type)
-          .to eql(:string_property)
+          .to be(:string_property)
       end
     end
 
@@ -223,7 +223,7 @@ describe CustomActions::Actions::CustomField, type: :model do
 
       it 'is :associated_property' do
         expect(instance.type)
-          .to eql(:associated_property)
+          .to be(:associated_property)
       end
     end
 
@@ -232,7 +232,7 @@ describe CustomActions::Actions::CustomField, type: :model do
 
       it 'is :boolean' do
         expect(instance.type)
-          .to eql(:boolean)
+          .to be(:boolean)
       end
     end
 
@@ -241,7 +241,7 @@ describe CustomActions::Actions::CustomField, type: :model do
 
       it 'is :associated_property' do
         expect(instance.type)
-          .to eql(:associated_property)
+          .to be(:associated_property)
       end
 
       describe 'current_user special value' do
@@ -296,7 +296,6 @@ describe CustomActions::Actions::CustomField, type: :model do
           end
         end
       end
-
     end
 
     context 'for an int custom field' do
@@ -304,7 +303,7 @@ describe CustomActions::Actions::CustomField, type: :model do
 
       it 'is :integer_property' do
         expect(instance.type)
-          .to eql(:integer_property)
+          .to be(:integer_property)
       end
     end
 
@@ -313,7 +312,7 @@ describe CustomActions::Actions::CustomField, type: :model do
 
       it 'is :float_property' do
         expect(instance.type)
-          .to eql(:float_property)
+          .to be(:float_property)
       end
     end
 
@@ -322,7 +321,7 @@ describe CustomActions::Actions::CustomField, type: :model do
 
       it 'is :date_property' do
         expect(instance.type)
-          .to eql(:date_property)
+          .to be(:date_property)
       end
     end
   end
@@ -374,22 +373,22 @@ describe CustomActions::Actions::CustomField, type: :model do
 
     context 'for a version custom field' do
       let(:custom_field) { version_custom_field }
+      let(:expected) do
+        # the versions will be sorted which by their name (and the project but that is the same for all of them)
+        versions
+          .sort
+          .map { |o| { value: o.id, label: o.name } }
+      end
       let(:project) { build_stubbed(:project) }
-      let(:a_version) { build_stubbed(:version, name: 'aaaaa', project: project) }
-      let(:m_version) { build_stubbed(:version, name: 'mmmmm', project: project) }
-      let(:z_version) { build_stubbed(:version, name: 'zzzzz', project: project) }
+      let(:a_version) { build_stubbed(:version, name: 'aaaaa', project:) }
+      let(:m_version) { build_stubbed(:version, name: 'mmmmm', project:) }
+      let(:z_version) { build_stubbed(:version, name: 'zzzzz', project:) }
       let(:versions) { [z_version, a_version, m_version] }
 
       before do
         allow(Version)
           .to receive(:systemwide)
           .and_return(versions)
-      end
-      let(:expected) do
-        # the versions will be sorted which by their name (and the project but that is the same for all of them)
-        versions
-          .sort
-          .map { |o| { value: o.id, label: o.name } }
       end
 
       context 'for a non required field' do
@@ -413,6 +412,10 @@ describe CustomActions::Actions::CustomField, type: :model do
 
     context 'for a user custom field' do
       let(:custom_field) { user_custom_field }
+      let(:expected) do
+        values = [{ label: "(Assign to executing user)", value: "current_user" }]
+        values + users.map { |u| { value: u.id, label: u.name } }
+      end
       let(:users) do
         [build_stubbed(:user),
          build_stubbed(:user),
@@ -424,10 +427,6 @@ describe CustomActions::Actions::CustomField, type: :model do
           .to receive(:in_visible_project_or_me)
           .with(User.current)
           .and_return(users)
-      end
-      let(:expected) do
-        values = [{ label: "(Assign to executing user)", value: "current_user" }]
-        values + users.map { |u| { value: u.id, label: u.name } }
       end
 
       context 'for a non required field' do
@@ -514,9 +513,9 @@ describe CustomActions::Actions::CustomField, type: :model do
       let(:custom_field) { version_custom_field }
       let(:project) { build_stubbed(:project) }
       let(:versions) do
-        [build_stubbed(:version, project: project),
-         build_stubbed(:version, project: project),
-         build_stubbed(:version, project: project)]
+        [build_stubbed(:version, project:),
+         build_stubbed(:version, project:),
+         build_stubbed(:version, project:)]
       end
 
       before do
@@ -524,6 +523,7 @@ describe CustomActions::Actions::CustomField, type: :model do
           .to receive(:systemwide)
           .and_return(versions)
       end
+
       it_behaves_like 'associated custom action validations' do
         let(:allowed_values) do
           versions

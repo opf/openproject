@@ -35,7 +35,7 @@ class DocumentsMailer < UserMailer
 
     with_locale_for(user) do
       subject = "[#{@document.project.name}] #{t(:label_document_new)}: #{@document.title}"
-      mail to: user.mail, subject: subject
+      mail to: user.mail, subject:
     end
   end
 

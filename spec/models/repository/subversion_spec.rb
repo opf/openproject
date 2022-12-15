@@ -48,8 +48,8 @@ describe Repository::Subversion, type: :model do
     end
 
     it 'returns an error when trying to save' do
-      expect(instance.save).to eq false
-      expect(instance.errors[:type]).to include I18n.translate('activerecord.errors.models.repository.not_available')
+      expect(instance.save).to be false
+      expect(instance.errors[:type]).to include I18n.t('activerecord.errors.models.repository.not_available')
     end
   end
 
@@ -78,12 +78,9 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    context 'with string disabled types' do
+    context 'with string disabled types',
+            with_config: { 'scm' => { 'subversion' => { 'disabled_types' => %w[managed unknowntype] } } } do
       before do
-        allow(OpenProject::Configuration).to receive(:default_override_source)
-          .and_return('OPENPROJECT_SCM_SUBVERSION_DISABLED__TYPES' => '[managed,unknowntype]')
-
-        OpenProject::Configuration.load
         allow(instance.class).to receive(:scm_config).and_call_original
       end
 
@@ -97,6 +94,7 @@ describe Repository::Subversion, type: :model do
 
   describe 'managed Subversion' do
     let(:managed_path) { '/tmp/managed_svn' }
+
     it 'is not manageable unless configured explicitly' do
       expect(instance.manageable?).to be false
     end
@@ -133,7 +131,7 @@ describe Repository::Subversion, type: :model do
 
       context 'and associated project with parent' do
         let(:parent) { build :project }
-        let(:project) { build :project, parent: parent }
+        let(:project) { build :project, parent: }
 
         before do
           instance.project = project
@@ -161,13 +159,13 @@ describe Repository::Subversion, type: :model do
   describe 'with an actual repository' do
     with_subversion_repository do |repo_dir|
       let(:url)      { "file://#{repo_dir}" }
-      let(:instance) { create(:repository_subversion, url: url, root_url: url) }
+      let(:instance) { create(:repository_subversion, url:, root_url: url) }
 
-      it 'should be available' do
+      it 'is available' do
         expect(instance.scm).to be_available
       end
 
-      it 'should fetch changesets from scratch' do
+      it 'fetches changesets from scratch' do
         instance.fetch_changesets
         instance.reload
 
@@ -176,7 +174,7 @@ describe Repository::Subversion, type: :model do
         expect(instance.changesets.find_by(revision: '1').comments).to eq('Initial import.')
       end
 
-      it 'should fetch changesets incremental' do
+      it 'fetches changesets incremental' do
         instance.fetch_changesets
 
         # Remove changesets with revision > 5
@@ -188,7 +186,7 @@ describe Repository::Subversion, type: :model do
         expect(instance.changesets.count).to eq(14)
       end
 
-      it 'should latest changesets' do
+      it 'latests changesets' do
         instance.fetch_changesets
 
         # with limit
@@ -205,12 +203,12 @@ describe Repository::Subversion, type: :model do
         expect(changesets.map(&:revision)).to eq %w[7 6 5 2]
       end
 
-      it 'should directory listing with square brackets in path' do
+      it 'directories listing with square brackets in path' do
         instance.fetch_changesets
         instance.reload
 
         entries = instance.entries('subversion_test/[folder_with_brackets]')
-        expect(entries).to_not be_nil
+        expect(entries).not_to be_nil
         expect(entries.size).to eq(1)
         expect(entries.first.name).to eq('README.txt')
       end
@@ -218,7 +216,7 @@ describe Repository::Subversion, type: :model do
       context 'with square brackets in base' do
         let(:url) { "file://#{repo_dir}/subversion_test/[folder_with_brackets]" }
 
-        it 'should directory listing with square brackets in base' do
+        it 'directories listing with square brackets in base' do
           instance.fetch_changesets
           instance.reload
 
@@ -226,20 +224,20 @@ describe Repository::Subversion, type: :model do
           expect(instance.file_changes.count).to eq(2)
 
           entries = instance.entries('')
-          expect(entries).to_not be_nil
+          expect(entries).not_to be_nil
           expect(entries.size).to eq(1)
           expect(entries.first.name).to eq('README.txt')
         end
       end
 
-      it 'should show the identifier' do
+      it 'shows the identifier' do
         instance.fetch_changesets
         instance.reload
         c = instance.changesets.find_by(revision: '1')
         expect(c.revision).to eq(c.identifier)
       end
 
-      it 'should find changeset by empty name' do
+      it 'finds changeset by empty name' do
         instance.fetch_changesets
         instance.reload
         ['', ' ', nil].each do |r|
@@ -247,20 +245,20 @@ describe Repository::Subversion, type: :model do
         end
       end
 
-      it 'should identifier nine digit' do
+      it 'identifiers nine digit' do
         c = Changeset.new(repository: instance, committed_on: Time.now,
                           revision: '123456789', comments: 'test')
         expect(c.identifier).to eq(c.revision)
       end
 
-      it 'should format identifier' do
+      it 'formats identifier' do
         instance.fetch_changesets
         instance.reload
         c = instance.changesets.find_by(revision: '1')
         expect(c.format_identifier).to eq(c.revision)
       end
 
-      it 'should format identifier nine digit' do
+      it 'formats identifier nine digit' do
         c = Changeset.new(repository: instance, committed_on: Time.now,
                           revision: '123456789', comments: 'test')
         expect(c.format_identifier).to eq(c.revision)
@@ -268,7 +266,7 @@ describe Repository::Subversion, type: :model do
 
       context 'with windows-1252 encoding',
               with_settings: { commit_logs_encoding: %w(windows-1252) } do
-        it 'should log encoding ignore setting' do
+        it 'logs encoding ignore setting' do
           s1 = "\xC2\x80"
           s2 = "\xc3\x82\xc2\x80"
           if s1.respond_to?(:force_encoding)
@@ -285,7 +283,7 @@ describe Repository::Subversion, type: :model do
         end
       end
 
-      it 'should load previous and next changeset' do
+      it 'loads previous and next changeset' do
         instance.fetch_changesets
         instance.reload
         changeset2 = instance.find_changeset_by_name('2')
@@ -294,7 +292,7 @@ describe Repository::Subversion, type: :model do
         expect(changeset2.next).to eq(changeset3)
       end
 
-      it 'should return nil for no previous or next changeset' do
+      it 'returns nil for no previous or next changeset' do
         instance.fetch_changesets
         instance.reload
         changeset = instance.find_changeset_by_name('1')
@@ -311,10 +309,10 @@ describe Repository::Subversion, type: :model do
         def find_events(user, options = {})
           options[:scope] = ['changesets']
           fetcher = Activities::Fetcher.new(user, options)
-          fetcher.events(Date.today - 30, Date.today + 1)
+          fetcher.events(30.days.ago, 1.day.from_now)
         end
 
-        it 'should find events' do
+        it 'finds events' do
           Changeset.create(repository: instance, committed_on: Time.now,
                            revision: '1', comments: 'test')
           event = find_events(user).first
@@ -322,7 +320,7 @@ describe Repository::Subversion, type: :model do
           expect(event.event_path).to match(/\?rev=1$/)
         end
 
-        it 'should find events with larger numbers' do
+        it 'finds events with larger numbers' do
           Changeset.create(repository: instance, committed_on: Time.now,
                            revision: '123456789', comments: 'test')
           event = find_events(user).first
@@ -369,8 +367,8 @@ describe Repository::Subversion, type: :model do
   it_behaves_like 'repository can be relocated', :subversion
 
   describe 'ciphering' do
-    it 'password is encrypted' do
-      OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
+    context 'with cipher key', with_config: { 'database_cipher_key' => 'secret' } do
+      it 'password is encrypted' do
         r = create(:repository_subversion, password: 'foo')
         expect(r.password)
           .to eql('foo')
@@ -380,8 +378,8 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    it 'password is unencrypted with blank key' do
-      OpenProject::Configuration.with 'database_cipher_key' => '' do
+    context 'with blank cipher key', with_config: { 'database_cipher_key' => '' } do
+      it 'password is unencrypted' do
         r = create(:repository_subversion, password: 'foo')
         expect(r.password)
           .to eql('foo')
@@ -390,8 +388,8 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    it 'password is unencrypted with nil key' do
-      OpenProject::Configuration.with 'database_cipher_key' => nil do
+    context 'with cipher key nil', with_config: { 'database_cipher_key' => nil } do
+      it 'password is unencrypted' do
         r = create(:repository_subversion, password: 'foo')
 
         expect(r.password)
@@ -401,28 +399,35 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    it 'unciphered password is readable if activating cipher later' do
-      OpenProject::Configuration.with 'database_cipher_key' => nil do
+    context 'without a cipher key first but activating it later' do
+      before do
+        WithConfig.new(self).stub_key(:database_cipher_key, nil)
+
         create(:repository_subversion, password: 'clear')
+
+        WithConfig.new(self).stub_key(:database_cipher_key, 'secret')
       end
 
-      OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
-        r = Repository.last
-
-        expect(r.password)
+      it 'unciphered password is readable' do
+        expect(Repository.last.password)
           .to eql('clear')
       end
     end
 
-    context '#encrypt_all' do
-      it 'encrypts formerly unencrypted passwords' do
-        Repository.delete_all
-        OpenProject::Configuration.with 'database_cipher_key' => nil do
+    describe '#encrypt_all' do
+      context 'with unencrypted passwords first but then with an encryption key' do
+        before do
+          Repository.delete_all
+
+          WithConfig.new(self).stub_key(:database_cipher_key, nil)
+
           create(:repository_subversion, password: 'foo')
           create(:repository_subversion, password: 'bar')
+
+          WithConfig.new(self).stub_key(:database_cipher_key, 'secret')
         end
 
-        OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
+        it 'encrypts formerly unencrypted passwords' do
           expect(Repository.encrypt_all(:password))
             .to be_truthy
 
@@ -443,30 +448,29 @@ describe Repository::Subversion, type: :model do
       end
     end
 
-    context '#decrypt_all' do
+    describe '#decrypt_all', with_config: { 'database_cipher_key' => 'secret' } do
       it 'removes cyphering from all passwords' do
         Repository.delete_all
-        OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
-          foo = create(:repository_subversion, password: 'foo')
-          bar = create(:repository_subversion, password: 'bar')
 
-          expect(Repository.decrypt_all(:password))
-            .to be_truthy
+        foo = create(:repository_subversion, password: 'foo')
+        bar = create(:repository_subversion, password: 'bar')
 
-          bar.reload
+        expect(Repository.decrypt_all(:password))
+          .to be_truthy
 
-          expect(bar.password)
-            .to eql('bar')
-          expect(bar.read_attribute(:password))
-            .to eql('bar')
+        bar.reload
 
-          foo.reload
+        expect(bar.password)
+          .to eql('bar')
+        expect(bar.read_attribute(:password))
+          .to eql('bar')
 
-          expect(foo.password)
-            .to eql('foo')
-          expect(foo.read_attribute(:password))
-            .to eql('foo')
-        end
+        foo.reload
+
+        expect(foo.password)
+          .to eql('foo')
+        expect(foo.read_attribute(:password))
+          .to eql('foo')
       end
     end
   end

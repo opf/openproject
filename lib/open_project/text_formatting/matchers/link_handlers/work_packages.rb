@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -63,7 +61,7 @@ module OpenProject::TextFormatting::Matchers
         ApplicationController.helpers.content_tag :macro,
                                                   '',
                                                   class: "macro--wp-quickinfo",
-                                                  data: { id: wp_id, detailed: detailed }
+                                                  data: { id: wp_id, detailed: }
       end
 
       def render_work_package_link(wp_id)

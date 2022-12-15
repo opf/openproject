@@ -33,8 +33,8 @@ describe Queries::Notifications::NotificationQuery, type: :model do
 
   shared_let(:recipient) { create :user, member_in_project: project, member_with_permissions: %i[view_work_packages] }
 
-  shared_let(:work_package) { create :work_package, project: project }
-  shared_let(:notification) { create :notification, recipient: recipient, project: project, resource: work_package }
+  shared_let(:work_package) { create :work_package, project: }
+  shared_let(:notification) { create :notification, recipient:, project:, resource: work_package }
 
   let(:instance) { described_class.new(user: recipient) }
   let(:base_scope) { Notification.visible(recipient).recipient(recipient) }
@@ -95,7 +95,7 @@ describe Queries::Notifications::NotificationQuery, type: :model do
       it 'returns the error on the filter' do
         instance.valid?
 
-        expect(instance.errors[:filters]).to eql ["Not supposed to exist does not exist."]
+        expect(instance.errors[:filters]).to eql ["Not supposed to exist filter does not exist."]
       end
     end
   end

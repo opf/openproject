@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -56,7 +54,7 @@ describe Queries::Members::Filters::GroupFilter, type: :model do
   end
 
   it_behaves_like 'list_optional group query filter' do
-    let(:model) { Member.joins(:principal).merge(User.joins(:groups)) }
+    let(:model) { Member.joins(:principal) }
     let(:valid_values) { [group1.id.to_s] }
   end
 end

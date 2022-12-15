@@ -35,11 +35,16 @@ module API
         class << self
           def ctes(walker_result)
             {
+              visible_projects: visible_projects_sql,
               ancestors: ancestors_sql(walker_result)
             }
           end
 
           protected
+
+          def visible_projects_sql
+            Project.visible.to_sql
+          end
 
           def ancestors_sql(walker_result)
             <<-SQL.squish
@@ -52,7 +57,6 @@ module API
                   FROM projects origin
                   LEFT OUTER JOIN projects ancestors
                   ON ancestors.lft < origin.lft AND ancestors.rgt > origin.rgt
-                  #{visibility_join}
                   WHERE origin.id IN (#{origin_subselect(walker_result).select(:id).to_sql})
                   ORDER by origin.id, ancestors.lft
                 ) ancestors
@@ -73,30 +77,22 @@ module API
               <<-SQL.squish
                 CASE
                   WHEN ancestors.id IS NOT NULL
-                    THEN json_build_object('href', format('/api/v3/projects/%s', ancestors.id), 'title', ancestors.name)
+                    THEN json_build_object('href', format('#{api_v3_paths.project('%s')}', ancestors.id),
+                                           'title', ancestors.name)
                   ELSE NULL
                 END
               SQL
             else
               <<-SQL.squish
                 CASE
-                  WHEN ancestors.id IS NOT NULL AND visible_ancestors.id IS NOT NULL
-                    THEN json_build_object('href', format('/api/v3/projects/%s', ancestors.id), 'title', ancestors.name)
-                  WHEN ancestors.id IS NOT NULL AND visible_ancestors.id IS NULL
-                    THEN json_build_object('href', '#{API::V3::URN_UNDISCLOSED}', 'title', '#{I18n.t(:'api_v3.undisclosed.ancestor')}')
+                  WHEN ancestors.id IS NOT NULL AND ancestors.id IN (SELECT id FROM visible_projects)
+                    THEN json_build_object('href', format('#{api_v3_paths.project('%s')}', ancestors.id),
+                                           'title', ancestors.name)
+                  WHEN ancestors.id IS NOT NULL AND ancestors.id NOT IN (SELECT id FROM visible_projects)
+                    THEN json_build_object('href', '#{API::V3::URN_UNDISCLOSED}',
+                                           'title', #{ActiveRecord::Base.connection.quote(I18n.t(:'api_v3.undisclosed.ancestor'))})
                   ELSE NULL
                 END
-              SQL
-            end
-          end
-
-          def visibility_join
-            if User.current.admin?
-              ''
-            else
-              <<-SQL.squish
-                LEFT OUTER JOIN (#{Project.visible.to_sql}) visible_ancestors
-                ON visible_ancestors.id = ancestors.id
               SQL
             end
           end

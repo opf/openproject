@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -92,7 +90,7 @@ class Authorization::QueryTransformationVisitor < Arel::Visitors::Visitor
     end
   end
 
-  def method_missing(name, *args, &block)
+  def method_missing(name, *args, &)
     super unless name.to_s.start_with?('visit_')
   end
 

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -197,9 +195,9 @@ class Role < ApplicationRecord
 
   def add_permission(permission)
     if persisted?
-      role_permissions.create(permission: permission)
+      role_permissions.create(permission:)
     else
-      role_permissions.build(permission: permission)
+      role_permissions.build(permission:)
     end
   end
 end

@@ -28,7 +28,6 @@
 
 require 'spec_helper'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'form query configuration', type: :feature, js: true do
   shared_let(:admin) { create :admin }
   let(:type_bug) { create :type_bug }
@@ -37,11 +36,22 @@ describe 'form query configuration', type: :feature, js: true do
   let(:project) { create :project, types: [type_bug, type_task] }
   let(:other_project) { create :project, types: [type_task] }
   let!(:work_package) do
-    create :work_package,
-           new_relation.merge(
-             project: project,
-             type: type_bug
-           )
+    create(:work_package,
+           project:,
+           type: type_bug).tap do |wp|
+      case wp_relation_type
+      when :children
+        wp.children = [related_bug, related_task, related_task_other_project]
+      when :blocks
+        [related_bug, related_task, related_task_other_project].each do |related|
+          create(:relation, from: wp, to: related, relation_type: Relation::TYPE_BLOCKS)
+        end
+      when :relates_to
+        [related_bug, related_task, related_task_other_project].each do |related|
+          create(:relation, from: wp, to: related, relation_type: Relation::TYPE_RELATES)
+        end
+      end
+    end
   end
   let(:wp_relation_type) { :children }
   let(:frontend_relation_type) { wp_relation_type }
@@ -52,19 +62,19 @@ describe 'form query configuration', type: :feature, js: true do
     relation
   end
   let!(:related_task) do
-    create :work_package, project: project, type: type_task
+    create :work_package, project:, type: type_task
   end
   let!(:unrelated_task) do
-    create :work_package, subject: 'Unrelated task', type: type_task, project: project
+    create :work_package, subject: 'Unrelated task', type: type_task, project:
   end
   let!(:unrelated_bug) do
-    create :work_package, subject: 'Unrelated bug', type: type_bug, project: project
+    create :work_package, subject: 'Unrelated bug', type: type_bug, project:
   end
   let!(:related_task_other_project) do
     create :work_package, project: other_project, type: type_task
   end
   let!(:related_bug) do
-    create :work_package, project: project, type: type_bug
+    create :work_package, project:, type: type_bug
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -202,14 +212,14 @@ describe 'form query configuration', type: :feature, js: true do
       type_bug.reload
       query = type_bug.attribute_groups.detect { |x| x.key == 'Columns Test' }
       expect(query).to be_present
-      expect(query.attributes.show_hierarchies).to eq(false)
+      expect(query.attributes.show_hierarchies).to be(false)
 
       column_names = query.attributes.columns.map(&:name).sort
       expect(column_names).to eq %i[id subject]
 
       query = type_bug.attribute_groups.detect { |x| x.key == 'Second query' }
       expect(query).to be_present
-      expect(query.attributes.show_hierarchies).to eq(false)
+      expect(query.attributes.show_hierarchies).to be(false)
 
       column_names = query.attributes.columns.map(&:name).sort
       expect(column_names).to eq %i[id]
@@ -322,4 +332,3 @@ describe 'form query configuration', type: :feature, js: true do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

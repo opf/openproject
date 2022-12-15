@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -31,5 +29,5 @@
 class RolePermission < ApplicationRecord
   belongs_to :role
 
-  validates_presence_of :permission
+  validates :permission, presence: true
 end

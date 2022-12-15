@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -64,7 +62,7 @@ module API
                   title = link_value_title(custom_value)
 
                   [{
-                    title: title,
+                    title:,
                     href: link_value_href(custom_field, custom_value)
                   }]
                 else

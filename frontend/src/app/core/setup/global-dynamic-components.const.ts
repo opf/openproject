@@ -13,7 +13,7 @@ import {
   zenModeComponentSelector,
 } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {
-  AttachmentsComponent,
+  OpAttachmentsComponent,
   attachmentsSelector,
 } from 'core-app/shared/components/attachments/attachments.component';
 import {
@@ -86,9 +86,13 @@ import {
   CollapsibleSectionComponent,
 } from 'core-app/shared/components/collapsible-section/collapsible-section.component';
 import {
-  ProjectMenuAutocompleteComponent,
-  projectMenuAutocompleteSelector,
-} from 'core-app/shared/components/autocompleter//project-menu-autocomplete/project-menu-autocomplete.component';
+  OpHeaderProjectSelectComponent,
+  headerProjectSelectSelector,
+} from 'core-app/shared/components/header-project-select/header-project-select.component';
+import {
+  ProjectAutocompleterComponent,
+  projectsAutocompleterSelector,
+} from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter.component';
 import {
   RemoteFieldUpdaterComponent,
   remoteFieldUpdaterSelector,
@@ -138,9 +142,9 @@ import {
   WorkPackageQuickinfoMacroComponent,
 } from 'core-app/shared/components/fields/macros/work-package-quickinfo-macro.component';
 import {
-  SlideToggleComponent,
-  slideToggleSelector,
-} from 'core-app/shared/components/slide-toggle/slide-toggle.component';
+  SpotSwitchComponent,
+  spotSwitchSelector,
+} from 'core-app/spot/components/switch/switch.component';
 import { BackupComponent, backupSelector } from 'core-app/core/setup/globals/components/admin/backup.component';
 import {
   EnterpriseBaseComponent,
@@ -151,22 +155,26 @@ import {
   freeTrialButtonSelector,
 } from 'core-app/features/enterprise/free-trial-button/free-trial-button.component';
 import {
+  EnterpriseBannerComponent,
+  enterpriseBannerSelector,
+} from 'core-app/shared/components/enterprise-banner/enterprise-banner.component';
+import {
+  EnterprisePageComponent,
+  enterprisePageSelector,
+} from 'core-app/shared/components/enterprise-page/enterprise-page.component';
+import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector,
 } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
 import {
-  EnterpriseBannerBootstrapComponent,
-  enterpriseBannerSelector,
-} from 'core-app/shared/components/enterprise-banner/enterprise-banner-bootstrap.component';
+  NoResultsComponent,
+  noResultsSelector,
+} from 'app/shared/components/no-results/no-results.component';
 import {
   HomescreenNewFeaturesBlockComponent,
   homescreenNewFeaturesBlockSelector,
 } from 'core-app/features/homescreen/blocks/new-features.component';
 import { MainMenuToggleComponent, mainMenuToggleSelector } from 'core-app/core/main-menu/main-menu-toggle.component';
-import {
-  ConfirmFormSubmitController,
-  confirmFormSubmitSelector,
-} from 'core-app/shared/components/modals/confirm-form-submit/confirm-form-submit.directive';
 import {
   MainMenuResizerComponent,
   mainMenuResizerSelector,
@@ -195,6 +203,7 @@ import {
   CalendarSidemenuComponent,
   opCalendarSidemenuSelector,
 } from 'core-app/features/calendar/sidemenu/calendar-sidemenu.component';
+import { OpModalOverlayComponent, opModalOverlaySelector } from 'core-app/shared/components/modal/modal-overlay.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -202,7 +211,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: wpEmbeddedTableMacroSelector, cls: EmbeddedTablesMacroComponent, embeddable: true },
   { selector: colorsAutocompleterSelector, cls: ColorsAutocompleterComponent },
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
-  { selector: attachmentsSelector, cls: AttachmentsComponent, embeddable: true },
+  { selector: attachmentsSelector, cls: OpAttachmentsComponent, embeddable: true },
   { selector: usersAutocompleterSelector, cls: UserAutocompleterComponent },
   { selector: membersAutocompleterSelector, cls: MembersAutocompleterComponent },
   { selector: globalSearchTabsSelector, cls: GlobalSearchTabsComponent },
@@ -224,16 +233,18 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: contentTabsSelector, cls: ContentTabsComponent },
   { selector: globalSearchTitleSelector, cls: GlobalSearchTitleComponent },
   { selector: copyToClipboardSelector, cls: CopyToClipboardDirective },
-  { selector: confirmFormSubmitSelector, cls: ConfirmFormSubmitController },
   { selector: mainMenuResizerSelector, cls: MainMenuResizerComponent },
   { selector: mainMenuToggleSelector, cls: MainMenuToggleComponent },
   { selector: globalSearchSelector, cls: GlobalSearchInputComponent },
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
-  { selector: enterpriseBannerSelector, cls: EnterpriseBannerBootstrapComponent },
+  { selector: enterpriseBannerSelector, cls: EnterpriseBannerComponent },
+  { selector: enterprisePageSelector, cls: EnterprisePageComponent },
+  { selector: noResultsSelector, cls: NoResultsComponent },
   { selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent },
   { selector: freeTrialButtonSelector, cls: FreeTrialButtonComponent },
   { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
-  { selector: projectMenuAutocompleteSelector, cls: ProjectMenuAutocompleteComponent },
+  { selector: headerProjectSelectSelector, cls: OpHeaderProjectSelectComponent },
+  { selector: projectsAutocompleterSelector, cls: ProjectAutocompleterComponent },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: opViewSelectSelector, cls: ViewSelectComponent },
@@ -245,8 +256,9 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: attributeLabelMacro, cls: AttributeLabelMacroComponent, embeddable: true },
   { selector: quickInfoMacroSelector, cls: WorkPackageQuickinfoMacroComponent, embeddable: true },
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
-  { selector: slideToggleSelector, cls: SlideToggleComponent },
+  { selector: spotSwitchSelector, cls: SpotSwitchComponent },
   { selector: backupSelector, cls: BackupComponent },
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
   { selector: ianMenuSelector, cls: IanMenuComponent },
+  { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
 ];

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -39,7 +37,8 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
               :child_menus,
               :last,
               :partial,
-              :engine
+              :engine,
+              :enterprise_feature
 
   def initialize(name, url, options)
     raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
@@ -57,6 +56,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @param = options[:param] || :project_id
     @icon = options[:icon]
     @icon_after = options[:icon_after]
+    @enterprise_feature = options[:enterprise_feature]
     @caption = options[:caption]
     @context = options[:context]
     @html_options = options[:html].nil? ? {} : options[:html].dup

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { FormlyForm } from '@ngx-formly/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -47,7 +47,7 @@ export class DynamicFormService {
     this.formSchema = formConfig._embedded?.schema;
     const formPayload = formConfig._embedded?.payload;
     const dynamicForm = {
-      form: new FormGroup({}),
+      form: new UntypedFormGroup({}),
       fields: this._dynamicFieldsService.getConfig(this.formSchema, formPayload),
       model: this._dynamicFieldsService.getModel(formPayload),
     };
@@ -59,11 +59,11 @@ export class DynamicFormService {
     return this._formsService.formatModelToEdit(formModel);
   }
 
-  validateForm$(form:FormGroup, resourceEndpoint:string) {
+  validateForm$(form:UntypedFormGroup, resourceEndpoint:string) {
     return this._formsService.validateForm$(form, resourceEndpoint, this.formSchema);
   }
 
-  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?:'post' | 'patch') {
+  submit$(form:UntypedFormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?:'post' | 'patch') {
     return this._formsService.submit$(form, resourceEndpoint, resourceId, formHttpMethod, this.formSchema);
   }
 }

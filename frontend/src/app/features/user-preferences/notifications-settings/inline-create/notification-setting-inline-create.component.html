@@ -2,38 +2,23 @@
   <button
       *ngIf="!active"
       (click)="active = true"
-      class="wp-inline-create--add-link"
+      class="spot-link"
       type="button"
   >
-    <op-icon icon-classes="icon-context icon-add"></op-icon>
+    <span class="spot-icon spot-icon_add"></span>
     <span [textContent]="text.add_setting"></span>
   </button>
 
-  <op-autocompleter
-      *ngIf="active"
-      [placeholder]="text.please_select"
-      (change)="selectProject($event)"
-      (keydown.escape)="active = false"
-      [fetchDataDirectly]="true"
-      [filters]="autocompleterOptions.filters"
-      [resource]="autocompleterOptions.resource"
-      [getOptionsFn]="autocompleterOptions.getOptionsFn"
-      appendTo="body"
-  >
-    <ng-template op-autocompleter-option-tmp let-item let-index="index" let-search="search">
-      <div
-        *ngIf="item"
-        class="ng-option-label"
-      >
-        <!--Selectable option-->
-        <div [ngOptionHighlight]="search">{{ item.name }}</div>
+  <op-project-autocompleter
+    *ngIf="active"
 
-        <!-- Project already selected -->
-        <div
-          *ngIf="item.disabled"
-          class="ellipsis"
-        >{{ text.already_selected }}</div>
-      </div>
-    </ng-template>
-  </op-autocompleter>
+    (valueChange)="selectProject($event)"
+    (keydown.escape)="active = false"
+
+    [apiFilters]="APIFilters"
+    [mapResultsFn]="this.mapProjectsFn.bind(this)"
+
+    [placeholder]="text.please_select"
+    dropdownPosition="top"
+  ></op-project-autocompleter>
 </div>

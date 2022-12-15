@@ -1,12 +1,13 @@
 #English strings go here
 sv:
-  permission_view_team_planner: "View team planner"
-  permission_manage_team_planner: "Manage team planner"
-  project_module_team_planner_view: "Team planner"
+  permission_view_team_planner: "Visa teamplanerare"
+  permission_manage_team_planner: "Hantera teamplanerare"
+  project_module_team_planner_view: "Team planerare"
   team_planner:
-    label_team_planner: "Team planner"
-    label_team_planner_plural: "Team planners"
-    label_assignees: "Assignees"
+    label_team_planner: "Team planerare"
+    label_create_new_team_planner: "Skapa ny teamplanerare"
+    label_team_planner_plural: "Team planerare"
+    label_assignees: "Utförare"
     upsale:
-      title: "Team planner"
-      description: "Team planner gives you a complete overview what each of team member is working on, one week at a time. Move, stretch and shrink work packages visually, and even drag them from one assignee to another to organise workload. You can even create new work packages or add existing ones, all from within team planner!"
+      title: "Team planerare"
+      description: "Få en fullständig överblick över ditt teams planering med Team Planner. Tänj ut, förkorta och dra-och-släpp arbetspaket för att ändra datum, flytta dem eller ändra utförare."

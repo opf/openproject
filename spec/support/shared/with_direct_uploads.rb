@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -37,9 +35,9 @@ class WithDirectUploads
 
   ##
   # We need this so calls to rspec mocks (allow, expect etc.) will work here as expected.
-  def method_missing(method, *args, &block)
+  def method_missing(method, *args, &)
     if context.respond_to?(method)
-      context.send method, *args, &block
+      context.send(method, *args, &)
     else
       super
     end
@@ -71,8 +69,8 @@ class WithDirectUploads
     form_action = csp_config.form_action.dup
 
     begin
-      csp_config.connect_src = ["'self'", "test-bucket.s3.amazonaws.com"]
-      csp_config.form_action = ["'self'", "test-bucket.s3.amazonaws.com"]
+      csp_config.connect_src << "test-bucket.s3.amazonaws.com"
+      csp_config.form_action << "test-bucket.s3.amazonaws.com"
 
       example.run
     ensure
@@ -176,7 +174,7 @@ class WithDirectUploads
 end
 
 RSpec.configure do |config|
-  config.before(:each) do |example|
+  config.before do |example|
     next unless example.metadata[:with_direct_uploads]
 
     WithDirectUploads.new(self).before example
@@ -192,7 +190,7 @@ RSpec.configure do |config|
     end
   end
 
-  config.around(:each) do |example|
+  config.around do |example|
     enabled = example.metadata[:with_direct_uploads]
 
     if enabled

@@ -31,7 +31,7 @@ it:
         unit: "Nome dell'unità"
         unit_plural: "Nome unità pluralizzato"
       work_package:
-        costs_by_type: "Unita consumate"
+        costs_by_type: "Unità spese"
         labor_costs: "Costi della manodopera"
         material_costs: "Costi unitari"
         overall_costs: "Costi complessivi"
@@ -80,7 +80,7 @@ it:
   label_costlog: "Costi unitari registrati"
   label_cost_plural: "Costi"
   label_cost_type_plural: "Tipo di costo"
-  label_cost_type_specific: "Tipo di costo #%{id}: %{name}"
+  label_cost_type_specific: "Tipo di costo #%{id}: %{name}" #%{id}: %{name}"
   label_costs_per_page: "Costi per pagina"
   label_currency: "Valuta"
   label_currency_format: "Formato della valuta"

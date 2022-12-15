@@ -7,7 +7,7 @@ describe 'activity comments', js: true, with_mail: false do
   let(:project) { create :project, public: true }
   let!(:work_package) do
     create(:work_package,
-           project: project,
+           project:,
            journal_notes: initial_comment)
   end
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
@@ -15,7 +15,7 @@ describe 'activity comments', js: true, with_mail: false do
   let(:comment_field) do
     TextEditorField.new wp_page,
                         'comment',
-                        selector: selector
+                        selector:
   end
   let(:initial_comment) { 'the first comment in this WP' }
 
@@ -120,7 +120,7 @@ describe 'activity comments', js: true, with_mail: false do
 
       describe 'autocomplete' do
         describe 'work packages' do
-          let!(:wp2) { create(:work_package, project: project, subject: 'AutoFoo') }
+          let!(:wp2) { create(:work_package, project:, subject: 'AutoFoo') }
 
           it 'can move to the work package by click (Regression #30928)' do
             comment_field.input_element.send_keys("##{wp2.id}")
@@ -216,6 +216,70 @@ describe 'activity comments', js: true, with_mail: false do
         wp_page.expect_comment subselector: 'blockquote'
         wp_page.expect_comment subselector: 'strong', text: 'a bold'
       end
+    end
+
+    describe 'referencing another work package' do
+      let!(:work_package2) { create(:work_package, project:, type: create(:type)) }
+
+      it 'can reference another work package with all methods' do
+        comment_field.activate!
+
+        # Insert a new reference using the autocompleter
+        comment_field.input_element.send_keys "Single ##{work_package2.id}"
+        expect(page)
+          .to have_selector('.mention-list-item', text: "#{work_package2.type.name} ##{work_package2.id}:")
+
+        find('.mention-list-item', text: "#{work_package2.type.name} ##{work_package2.id}:").click
+
+        # Insert new text, need to do this separately.
+        # No autocompleter used this time.
+        [
+          :return,
+          "Double ###{work_package2.id}",
+          :return,
+          "Triple ####{work_package2.id}",
+          :return
+        ].each do |key|
+          comment_field.input_element.send_keys key
+        end
+
+        comment_field.submit_by_click
+
+        wp_page.expect_comment text: "Single ##{work_package2.id}"
+        expect(page).to have_selector('.user-comment .macro--wp-quickinfo', count: 2)
+        expect(page).to have_selector('.user-comment .work-package--quickinfo.preview-trigger', count: 2)
+      end
+    end
+
+    it 'can move away to another tab, keeping the draft comment' do
+      comment_field.activate!
+      comment_field.input_element.send_keys "I'm typing an important message here ..."
+
+      wp_page.switch_to_tab tab: :files
+      expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]')
+
+      wp_page.switch_to_tab tab: :activity
+
+      comment_field.expect_active!
+      comment_field.ckeditor.expect_value "I'm typing an important message here ..."
+
+      wp_page.switch_to_tab tab: :overview
+
+      comment_field.expect_active!
+      comment_field.ckeditor.expect_value "I'm typing an important message here ..."
+
+      comment_field.cancel_by_click
+
+      # Has removed the draft now
+
+      wp_page.switch_to_tab tab: :files
+      expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]')
+
+      wp_page.switch_to_tab tab: :activity
+      comment_field.expect_inactive!
+
+      wp_page.switch_to_tab tab: :overview
+      comment_field.expect_inactive!
     end
   end
 

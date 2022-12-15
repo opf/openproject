@@ -17,20 +17,14 @@
       cursor: unset
 
     // Note the greater specificity than the standard background colours
-    tbody td.fc-day-today,
-    thead th.fc-day-today
+    table .fc-day-today
       background: rgb(255 255 120 / 20%)
 
-    td.fc-day-sat,
-    td.fc-day-sun
-      background: rgb(109 109 109 / 20%)
-
-    td.fc-day-mon,
-    td.fc-day-tue,
-    td.fc-day-wed,
-    td.fc-day-thu,
-    td.fc-day-fri
+    .fc-day
       background: rgb(205 205 205 / 20%)
+
+    .fc-non-working-day
+      background: rgb(109 109 109 / 20%)
 
     // The days in full calendar are anchor elements which we do not
     // want to like like actual links
@@ -77,8 +71,8 @@
         right: 2px
 
     .fc-event-title-container
-      margin: 0 16px
       line-height: 12px
+      margin: 0 16px
 
       .fc-timegrid-event-condensed &
         white-space: nowrap
@@ -91,10 +85,6 @@
     .fc-event-main
       color: unset
 
-    // Avoid pointer cursor on hover
-    .fc-event-draggable:hover
-      cursor: default
-
     .fc-event:hover
       .fc-event-resizer
         display: flex
@@ -105,9 +95,17 @@
         &:after
           display: block
           content: ''
-          width: 1px
-          background: rgba(0,0,0,0.2)
-          margin: 0 -2px
+
+        &:before
+          height: 100%
+          width: 20px
+
+        &:after
+          border-left: 1px solid
+          border-right: 1px solid
+          border-color: rgba(0,0,0,0.2)
+          width: 4px
+          margin: 0 -4px
           height: 70%
           max-height: 16px
 
@@ -116,7 +114,7 @@
 
         &-end
           justify-content: flex-start
-          margin-right: 2px
+          margin-right: 14px
 
     // ------------------------ END:  Calendar events ------------------------
     // -------
@@ -138,7 +136,8 @@
 
       // ensure to have higher specificity than above extend
       .fc-button-group
-        margin-left: 8px
+        &:not(:first-child)
+          margin-left: 8px
         .fc-button
           margin-right: 0
           margin-bottom: 0
@@ -170,7 +169,6 @@
 
     thead .fc-scroller
       @include no-visible-scroll-bar
-
   // ------------------------ END: Calendar toolbar ------------------------
   // -------
   // ------------------------ END: Full calendar overwrite ------------------------

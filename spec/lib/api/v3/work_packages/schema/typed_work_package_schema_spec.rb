@@ -39,7 +39,8 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
         .and_return(true)
     end
   end
-  subject { described_class.new(project: project, type: type) }
+
+  subject { described_class.new(project:, type:) }
 
   before do
     login_as(current_user)
@@ -54,28 +55,28 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   end
 
   it 'does not know assignable statuses' do
-    expect(subject.assignable_values(:status, current_user)).to eql(nil)
+    expect(subject.assignable_values(:status, current_user)).to be_nil
   end
 
   it 'does not know assignable versions' do
-    expect(subject.assignable_values(:version, current_user)).to eql(nil)
+    expect(subject.assignable_values(:version, current_user)).to be_nil
   end
 
   describe '#writable?' do
     it 'percentage done is writable' do
-      expect(subject.writable?(:percentage_done)).to be true
+      expect(subject).to be_writable(:done_ratio)
     end
 
     it 'estimated time is writable' do
-      expect(subject.writable?(:estimated_time)).to be true
+      expect(subject).to be_writable(:estimated_hours)
     end
 
     it 'start date is writable' do
-      expect(subject.writable?(:start_date)).to be true
+      expect(subject).to be_writable(:start_date)
     end
 
     it 'finish date is writable' do
-      expect(subject.writable?(:due_date)).to be true
+      expect(subject).to be_writable(:due_date)
     end
   end
 
@@ -87,17 +88,17 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
     end
 
     it 'is the value the type has' do
-      is_expected.to be_milestone
+      expect(subject).to be_milestone
 
       allow(type)
         .to receive(:is_milestone?)
         .and_return(false)
 
-      is_expected.not_to be_milestone
+      expect(subject).not_to be_milestone
     end
 
     it 'has a writable date' do
-      expect(subject.writable?(:date)).to be true
+      expect(subject).to be_writable(:date)
     end
   end
 

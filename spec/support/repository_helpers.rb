@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -54,12 +52,12 @@ def with_filesystem_repository(vendor, command = nil, &block)
   block.call(repo_dir)
 end
 
-def with_subversion_repository(&block)
-  with_filesystem_repository('subversion', 'svn', &block)
+def with_subversion_repository(&)
+  with_filesystem_repository('subversion', 'svn', &)
 end
 
-def with_git_repository(&block)
-  with_filesystem_repository('git', 'git', &block)
+def with_git_repository(&)
+  with_filesystem_repository('git', 'git', &)
 end
 
 ##

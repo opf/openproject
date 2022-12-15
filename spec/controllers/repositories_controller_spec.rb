@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -38,7 +36,7 @@ describe RepositoriesController, type: :controller do
   end
   let(:user) do
     create(:user, member_in_project: project,
-                             member_through_role: role)
+                  member_through_role: role)
   end
   let(:role) { create(:role, permissions: []) }
   let (:url) { 'file:///tmp/something/does/not/exist.svn' }
@@ -47,8 +45,8 @@ describe RepositoriesController, type: :controller do
     allow(Setting).to receive(:enabled_scm).and_return(['subversion'])
     repo = build_stubbed(:repository_subversion,
                          scm_type: 'local',
-                         url: url,
-                         project: project)
+                         url:,
+                         project:)
     allow(repo).to receive(:default_branch).and_return('master')
     allow(repo).to receive(:branches).and_return(['master'])
     allow(repo).to receive(:save).and_return(true)
@@ -120,6 +118,7 @@ describe RepositoriesController, type: :controller do
       before do
         get :show, params: { project_id: project.identifier }
       end
+
       it 'renders an empty warning view' do
         expect(response).to render_template 'repositories/empty'
         expect(response.code).to eq('200')
@@ -156,7 +155,7 @@ describe RepositoriesController, type: :controller do
       let(:url) { "file://#{root_url}" }
 
       let(:repository) do
-        create(:repository_subversion, project: project, url: url, root_url: url)
+        create(:repository_subversion, project:, url:, root_url: url)
       end
 
       describe 'commits per author graph' do
@@ -167,14 +166,14 @@ describe RepositoriesController, type: :controller do
         context 'requested by an authorized user' do
           let(:role) do
             create(:role, permissions: %i[browse_repository
-                                                     view_commit_author_statistics])
+                                          view_commit_author_statistics])
           end
 
-          it 'should be successful' do
+          it 'is successful' do
             expect(response).to be_successful
           end
 
-          it 'should have the right content type' do
+          it 'has the right content type' do
             expect(response.content_type).to eq('image/svg+xml')
           end
         end
@@ -182,7 +181,7 @@ describe RepositoriesController, type: :controller do
         context 'requested by an unauthorized user' do
           let(:role) { create(:role, permissions: [:browse_repository]) }
 
-          it 'should return 403' do
+          it 'returns 403' do
             expect(response.code).to eq('403')
           end
         end
@@ -196,7 +195,7 @@ describe RepositoriesController, type: :controller do
             get :committers, params: { project_id: project.id }
           end
 
-          it 'should be successful' do
+          it 'is successful' do
             expect(response).to be_successful
             expect(response).to render_template 'repositories/committers'
           end
@@ -209,7 +208,7 @@ describe RepositoriesController, type: :controller do
                                         commit: 'Update' }
           end
 
-          it 'should be successful' do
+          it 'is successful' do
             expect(response).to redirect_to committers_project_repository_path(project)
             expect(repository.committers).to include(['oliver', user.id])
           end
@@ -224,19 +223,19 @@ describe RepositoriesController, type: :controller do
         describe 'requested by a user with view_commit_author_statistics permission' do
           let(:role) do
             create(:role, permissions: %i[browse_repository
-                                                     view_commit_author_statistics])
+                                          view_commit_author_statistics])
           end
 
           it 'show the commits per author graph' do
-            expect(assigns(:show_commits_per_author)).to eq(true)
+            expect(assigns(:show_commits_per_author)).to be(true)
           end
         end
 
         describe 'requested by a user without view_commit_author_statistics permission' do
           let(:role) { create(:role, permissions: [:browse_repository]) }
 
-          it 'should NOT show the commits per author graph' do
-            expect(assigns(:show_commits_per_author)).to eq(false)
+          it 'does not show the commits per author graph' do
+            expect(assigns(:show_commits_per_author)).to be(false)
           end
         end
       end
@@ -258,11 +257,13 @@ describe RepositoriesController, type: :controller do
 
         context 'with brackets' do
           let(:path) { 'subversion_test/[folder_with_brackets]' }
+
           it_behaves_like 'renders the repository title', '[folder_with_brackets]'
         end
 
         context 'with unicode' do
           let(:path) { 'Föbar/äm/Sägepütz!%5D§' }
+
           it_behaves_like 'renders the repository title', 'Sägepütz!%5D§'
         end
       end
@@ -278,11 +279,13 @@ describe RepositoriesController, type: :controller do
 
         context 'with brackets' do
           let(:path) { 'subversion_test/[folder_with_brackets]' }
+
           it_behaves_like 'renders the repository title', '[folder_with_brackets]'
         end
 
         context 'with unicode' do
           let(:path) { 'Föbar/äm' }
+
           it_behaves_like 'renders the repository title', 'äm'
         end
       end

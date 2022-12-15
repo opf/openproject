@@ -1,28 +1,14 @@
-<div class="op-add-existing-pane--search">
-  <input
-    [ngModel]="searchString$ | async"
-    (ngModelChange)="searchString$.next($event)"
-    class="op-add-existing-pane--search-input"
-    data-qa-selector="op-add-existing-pane--search-input"
-    [placeholder]="text.placeholder"
-  />
-
-  <op-icon
-    class="op-add-existing-pane--search-icon"
-    icon-classes="icon-context icon-search">
-  </op-icon>
-
-  <button
-    *ngIf="isSearching"
-    type="button"
-    (click)="clearInput()"
-    class="op-add-existing-pane--close-search"
-  >
-    <op-icon
-      icon-classes="icon-small icon-close">
-    </op-icon>
-  </button>
-</div>
+<spot-text-field
+  [ngModel]="searchString$ | async"
+  (ngModelChange)="searchString$.next($event)"
+  data-qa-selector="op-add-existing-pane--search-input"
+  [placeholder]="text.placeholder"
+>
+  <span
+    slot="before"
+    class="spot-icon spot-icon_search"
+  ></span>
+</spot-text-field>
 
 <ng-container
   *ngIf="(isLoading$ | async) === false; else loadingTemplate"
@@ -32,7 +18,8 @@
   >
     <div
       #container
-      class="op-add-existing-pane--results">
+      class="op-add-existing-pane--results"
+    >
       <ng-container *ngFor="let wp of currentWorkPackages$ | async">
         <wp-single-card
           [workPackage]="wp"
@@ -43,7 +30,8 @@
           class="op-add-existing-pane--wp"
           [attr.data-qa-selector]="'op-add-existing-pane--wp-' + wp.id"
           (stateLinkClicked)="openStateLink($event)"
-          (cardClicked)="calendar.onCardClicked($event)"
+          (cardClicked)="workPackagesCalendar.onCardClicked($event)"
+          (cardDblClicked)="workPackagesCalendar.onCardDblClicked($event)"
         ></wp-single-card>
       </ng-container>
     </div>
@@ -54,9 +42,11 @@
       class="op-add-existing-pane--empty-state"
       data-qa-selector="op-add-existing-pane--empty-state"
     >
-      <img [src]="image.empty_state" class="op-add-existing-pane--empty-state-image"/>
+      <img
+        *ngIf="(noResultsFound$ | async)?.showImage"
+        [src]="image.empty_state" class="op-add-existing-pane--empty-state-image"/>
       <span
-        [innerHTML]="text.empty_state"
+        [innerHTML]="(noResultsFound$ | async)?.text"
         class="op-add-existing-pane--empty-state-text"
       ></span>
     </div>

@@ -37,12 +37,12 @@ module Pages
         end
 
         def expect_listed(*users)
-          rows = page.all 'td.username'
+          rows = page.all 'td.username a'
           expect(rows.map(&:text)).to include(*users.map(&:login))
         end
 
         def expect_order(*users)
-          rows = page.all 'td.username'
+          rows = page.all 'td.username a'
           expect(rows.map(&:text)).to eq(users.map(&:login))
         end
 
@@ -107,9 +107,9 @@ module Pages
 
         private
 
-        def within_user_row(user, &block)
+        def within_user_row(user, &)
           row = find('tr.user', text: user.login)
-          within row, &block
+          within(row, &)
         end
       end
     end

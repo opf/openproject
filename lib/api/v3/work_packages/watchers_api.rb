@@ -34,34 +34,25 @@ module API
       class WatchersAPI < ::API::OpenProjectAPI
         helpers ::API::Utilities::UrlPropsParsingHelper
 
-        get '/available_watchers' do
-          authorize(:add_work_package_watchers, context: @work_package.project)
-
-          service = ParamsToQueryService.new(User, current_user)
-          query = service.call(params)
-
-          if query.valid?
-            users = query.results.merge(@work_package.addable_watcher_users).includes(:preference)
-            ::API::V3::Users::UserCollectionRepresenter.new(
-              users,
-              self_link: api_v3_paths.users,
-              page: to_i_or_nil(params[:offset]),
-              per_page: resolve_page_size(params[:pageSize]),
-              current_user: current_user
-            )
-          else
-            raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+        resources :available_watchers do
+          after_validation do
+            authorize(:add_work_package_watchers, context: @work_package.project)
           end
+
+          get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
+                 .new(model: User,
+                      scope: -> { @work_package.addable_watcher_users.includes(:preference) })
+                 .mount
         end
 
         resources :watchers do
           helpers do
             def watchers_collection
-              watchers = @work_package.watcher_users.merge(Principal.not_locked)
+              watchers = @work_package.watcher_users.merge(Principal.not_locked, rewhere: true)
               self_link = api_v3_paths.work_package_watchers(@work_package.id)
               Users::UnpaginatedUserCollectionRepresenter.new(watchers,
-                                                              self_link: self_link,
-                                                              current_user: current_user)
+                                                              self_link:,
+                                                              current_user:)
             end
           end
 
@@ -76,7 +67,7 @@ module API
               fail ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.missing_request_body'))
             end
 
-            representer = ::API::V3::Watchers::WatcherRepresenter.create(::Hashie::Mash.new, current_user: current_user)
+            representer = ::API::V3::Watchers::WatcherRepresenter.create(API::ParserStruct.new, current_user:)
             representer.from_hash(request_body)
             user_id = representer.represented.user_id.to_i
 
@@ -95,7 +86,7 @@ module API
               }
             )
 
-            ::API::V3::Users::UserRepresenter.create(user, current_user: current_user)
+            ::API::V3::Users::UserRepresenter.create(user, current_user:)
           end
 
           namespace ':user_id' do

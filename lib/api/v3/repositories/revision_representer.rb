@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -37,7 +35,7 @@ module API
         include API::Decorators::FormattableProperty
 
         self_link path: :revision,
-                  title_getter: ->(*) { nil }
+                  title_getter: ->(*) {}
 
         link :project do
           {

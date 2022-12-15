@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -31,9 +29,7 @@
 class Queries::WorkPackages::Filter::AuthorFilter <
     Queries::WorkPackages::Filter::PrincipalBaseFilter
   def allowed_values
-    @author_values ||= begin
-      me_allowed_value + principal_loader.user_values
-    end
+    @author_values ||= me_allowed_value + principal_loader.user_values
   end
 
   def type

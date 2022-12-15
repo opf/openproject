@@ -1,12 +1,13 @@
 #English strings go here
 es:
-  permission_view_team_planner: "View team planner"
-  permission_manage_team_planner: "Manage team planner"
-  project_module_team_planner_view: "Team planner"
+  permission_view_team_planner: "Ver planificador del equipo"
+  permission_manage_team_planner: "Gestionar planificador del equipo"
+  project_module_team_planner_view: "Planificador de equipo"
   team_planner:
-    label_team_planner: "Team planner"
-    label_team_planner_plural: "Team planners"
-    label_assignees: "Assignees"
+    label_team_planner: "Planificador de equipo"
+    label_create_new_team_planner: "Crear planificador de equipo"
+    label_team_planner_plural: "Planificadores de equipos"
+    label_assignees: "Asignado a"
     upsale:
-      title: "Team planner"
-      description: "Team planner gives you a complete overview what each of team member is working on, one week at a time. Move, stretch and shrink work packages visually, and even drag them from one assignee to another to organise workload. You can even create new work packages or add existing ones, all from within team planner!"
+      title: "Planificador de equipo"
+      description: "Obtén una visión completa de la planificación de tu equipo con el Planificador de Equipo. Alargar, acortar y mover paquetes de trabajo para modificar fechas o cambiar asignados."

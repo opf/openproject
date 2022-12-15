@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -51,10 +49,10 @@ describe UserPreferences::ParamsContract do
       },
       time_zone: 'Brasilia',
       warn_on_leaving_unsaved: true,
-      notification_settings: notification_settings
+      notification_settings:
     }
   end
-  let(:contract) { described_class.new(user_preference, current_user, params: params) }
+  let(:contract) { described_class.new(user_preference, current_user, params:) }
 
   describe 'notification settings' do
     context 'when multiple global settings' do
@@ -86,6 +84,116 @@ describe UserPreferences::ParamsContract do
       end
 
       it_behaves_like 'contract is valid'
+    end
+
+    context 'without enterprise' do
+      context 'when global setting with start_date, due_date and overdue set' do
+        let(:notification_settings) do
+          [
+            { start_date: 1, due_date: 1, overdue: 1 }
+          ]
+        end
+
+        it_behaves_like 'contract is invalid', base: :error_enterprise_only do
+          it 'displays the error message containing the feature name' do
+            contract.validate
+            expect(contract.errors.full_messages)
+              .to eq(["Date Alerts is only available in the OpenProject Enterprise edition"])
+          end
+        end
+      end
+
+      context 'when project setting with start_date, due_date and overdue set' do
+        let(:notification_settings) do
+          [
+            { project_id: 1234, start_date: 1, due_date: 1, overdue: 1 }
+          ]
+        end
+
+        it_behaves_like 'contract is invalid', base: :error_enterprise_only
+      end
+    end
+
+    context 'with enterprise', with_ee: %i[date_alerts] do
+      context 'when project setting with start_date, due_date and overdue set' do
+        let(:notification_settings) do
+          [
+            { project_id: 1234, start_date: 1, due_date: 1, overdue: 1 }
+          ]
+        end
+
+        it_behaves_like 'contract is valid'
+      end
+
+      context 'when global setting with start_date, due_date and overdue set' do
+        let(:notification_settings) do
+          [
+            { start_date: 1, due_date: 1, overdue: 1 }
+          ]
+        end
+
+        it_behaves_like 'contract is valid'
+      end
+
+      context 'when project setting with valid start_date, valid due_date and invalid overdue' do
+        let(:notification_settings) do
+          [
+            { project_id: 1234, start_date: 1, due_date: 1, overdue: 0 }
+          ]
+        end
+
+        it_behaves_like 'contract is invalid', notification_settings: :wrong_date
+      end
+
+      context 'when global setting with invalid start_date, valid due_date and valid overdue' do
+        let(:notification_settings) do
+          [
+            { start_date: -1, due_date: 1, overdue: 1 }
+          ]
+        end
+
+        it_behaves_like 'contract is invalid', notification_settings: :wrong_date
+      end
+
+      context 'when project setting with start_date, due_date and overdue missing' do
+        let(:notification_settings) do
+          [
+            { project_id: 1234, start_date: 1, due_date: 1 }
+          ]
+        end
+
+        it_behaves_like 'contract is valid'
+      end
+
+      context 'when global setting with start_date, due_date and overdue missing' do
+        let(:notification_settings) do
+          [
+            { start_date: 1, due_date: 1 }
+          ]
+        end
+
+        it_behaves_like 'contract is valid'
+      end
+
+      context 'when project setting with valid start_date, invalid due_date and overdue missing' do
+        let(:notification_settings) do
+          [
+            { project_id: 1234, start_date: 1, due_date: 24 }
+          ]
+        end
+
+        it_behaves_like 'contract is invalid', notification_settings: :wrong_date
+      end
+
+      context 'when global setting with invalid start_date, valid due_date and overdue missing' do
+        let(:notification_settings) do
+          [
+            { start_date: 24, due_date: 1 }
+          ]
+        end
+
+        it_behaves_like 'contract is invalid', notification_settings: :wrong_date
+      end
     end
 
     context 'when notification_settings empty' do

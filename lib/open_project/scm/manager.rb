@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -86,9 +84,7 @@ module OpenProject
         end
 
         # Remove a SCM adapter from Redmine's list of supported scms
-        def delete(vendor)
-          registered.delete(vendor)
-        end
+        delegate :delete, to: :registered
       end
     end
   end

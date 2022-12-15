@@ -27,13 +27,17 @@ lol:
       events:
         created: "crwdns494611:0crwdne494611:0"
         updated: "crwdns494613:0crwdne494613:0"
+      explanation:
+        text: >
+          crwdns808280:0%{link}crwdne808280:0
+        link: crwdns808282:0crwdne808282:0
       status:
         enabled: 'crwdns494615:0crwdne494615:0'
         disabled: 'crwdns494617:0crwdne494617:0'
         enabled_text: 'crwdns494619:0crwdne494619:0'
         disabled_text: 'crwdns494621:0crwdne494621:0'
       deliveries:
-        no_results_table: crwdns494623:0crwdne494623:0
+        no_results_table: crwdns825744:0crwdne825744:0
         title: 'crwdns494625:0crwdne494625:0'
         time: 'crwdns494627:0crwdne494627:0'
       form:

@@ -40,42 +40,33 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
   let(:principal) { build_stubbed(:group) }
   let(:assigned_project) { nil }
   let(:assigned_principal) { nil }
-  let(:allowed_roles) do
-    if new_record
-      [build_stubbed(:role),
-       build_stubbed(:role)]
-    end
-  end
+  let(:member) { build_stubbed(:member) }
 
   let(:contract) do
-    contract = double('contract',
-                      new_record?: new_record,
-                      project: assigned_project,
-                      principal: assigned_principal)
+    contract = instance_double(new_record ? Members::CreateContract : Members::UpdateContract,
+                               model: member,
+                               new_record?: new_record,
+                               project: assigned_project,
+                               principal: assigned_principal)
 
     allow(contract)
       .to receive(:writable?) do |attribute|
       writable = %w(roles)
 
       if new_record
-        writable = writable.concat(%w(project principal))
+        writable.concat(%w(project principal))
       end
 
       writable.include?(attribute.to_s)
     end
 
-    allow(contract)
-      .to receive(:assignable_values)
-      .with(:roles, current_user)
-      .and_return(allowed_roles)
-
     contract
   end
   let(:representer) do
     described_class.create(contract,
-                           self_link: self_link,
+                           self_link:,
                            form_embedded: embedded,
-                           current_user: current_user)
+                           current_user:)
   end
 
   context 'generation' do
@@ -83,7 +74,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
 
     describe '_type' do
       it 'is indicated as Schema' do
-        is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
+        expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
       end
     end
 
@@ -162,7 +153,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
               let(:href) do
                 filters = [{ 'principal' => { 'operator' => '!', 'values' => [principal.id.to_s] } }]
 
-                api_v3_paths.path_for(:memberships_available_projects, filters: filters)
+                api_v3_paths.path_for(:memberships_available_projects, filters:)
               end
             end
           end
@@ -215,7 +206,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
                 statuses = [Principal.statuses[:locked].to_s]
                 filters = [{ 'status' => { 'operator' => '!', 'values' => statuses } }]
 
-                api_v3_paths.path_for(:principals, filters: filters)
+                api_v3_paths.path_for(:principals, filters:)
               end
             end
           end
@@ -231,7 +222,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
 
                 filters = [status_filter, member_filter]
 
-                api_v3_paths.path_for(:principals, filters: filters)
+                api_v3_paths.path_for(:principals, filters:)
               end
             end
           end

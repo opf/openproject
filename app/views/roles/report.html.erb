@@ -37,8 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= form_tag(roles_path, method: :put, id: 'permissions_form') do %>
   <%= hidden_field_tag 'permissions[0]', '', id: nil %>
 
-  <% perms_by_module = @permissions.group_by {|p| p.project_module.to_s} %>
-  <% perms_by_module.keys.sort.each do |mod| %>
+  <% group_permissions_by_module(@permissions).each do |mod, mod_permissions| %>
     <% module_name = mod.blank? ? "form--" + I18n.t('attributes.project') : "form--" + l_or_humanize(mod, prefix: 'project_module_').gsub(' ','_') %>
     <fieldset class="form--fieldset -collapsible" id= "<%= module_name %>">
       <legend class="form--fieldset-legend" >
@@ -91,7 +90,7 @@ See COPYRIGHT and LICENSE files for more details.
               </tr>
             </thead>
             <tbody>
-              <% perms_by_module[mod].each do |permission| %>
+              <% mod_permissions.each do |permission| %>
                 <tr class="permission-<%= permission.name %>">
                   <td>
                     <%= link_to_function(

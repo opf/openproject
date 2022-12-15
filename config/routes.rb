@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -73,7 +71,7 @@ OpenProject::Application.routes.draw do
   # forward requests to the proxy
   if FrontendAssetHelper.assets_proxied?
     match '/assets/frontend/*appendix',
-          to: redirect(FrontendAssetHelper.cli_proxy + "/assets/frontend/%{appendix}", status: 307),
+          to: redirect("#{FrontendAssetHelper.cli_proxy}/assets/frontend/%{appendix}", status: 307),
           format: false,
           via: :all
   end
@@ -145,10 +143,7 @@ OpenProject::Application.routes.draw do
 
   resources :custom_fields, except: :show do
     member do
-      match "options/:option_id",
-            to: "custom_fields#delete_option",
-            via: :delete,
-            as: :delete_option_of
+      delete "options/:option_id", to: "custom_fields#delete_option", as: :delete_option_of
 
       post :reorder_alphabetical
     end
@@ -194,7 +189,7 @@ OpenProject::Application.routes.draw do
     end
 
     member do
-      get "settings", to: redirect('projects/%{id}/settings/general/') # rubocop:disable Style/FormatStringToken
+      get "settings", to: redirect('projects/%{id}/settings/general/')
 
       get :copy
 
@@ -202,10 +197,6 @@ OpenProject::Application.routes.draw do
 
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: 'confirm_destroy'
-    end
-
-    collection do
-      get :level_list
     end
 
     resources :versions, only: %i[new create] do
@@ -230,7 +221,6 @@ OpenProject::Application.routes.draw do
       collection do
         post '/new' => 'wiki#create', as: 'create'
         get :export
-        get :date_index
         get '/index' => 'wiki#index'
       end
 
@@ -285,7 +275,7 @@ OpenProject::Application.routes.draw do
 
     resources :members, only: %i[index create update destroy], shallow: true do
       collection do
-        match :autocomplete_for_member, via: %i[get]
+        get :autocomplete_for_member
       end
     end
 
@@ -313,7 +303,7 @@ OpenProject::Application.routes.draw do
       %w{diff annotate changes entry browse}.each do |action|
         get "(/revisions/:rev)/#{action}(/*repo_path)",
             format: 'html',
-            action: action,
+            action:,
             constraints: { rev: /[\w0-9.\-_]+/, repo_path: /.*/ },
             as: "#{action}_revision"
       end
@@ -358,7 +348,9 @@ OpenProject::Application.routes.draw do
     post 'design/themes' => 'custom_styles#update_themes', as: 'update_design_themes'
     resource :custom_style, only: %i[update show create], path: 'design'
 
-    resources :attribute_help_texts, only: %i(index new create edit update destroy)
+    resources :attribute_help_texts, only: %i(index new create edit update destroy) do
+      get :upsale, to: 'attribute_help_texts#upsale', on: :collection, as: :upsale
+    end
 
     resources :groups, except: %i[show] do
       member do
@@ -402,9 +394,11 @@ OpenProject::Application.routes.draw do
 
       resource :authentication, controller: '/admin/settings/authentication_settings', only: %i[show update]
       resource :incoming_mails, controller: '/admin/settings/incoming_mails_settings', only: %i[show update]
-      resource :notifications, controller: '/admin/settings/notifications_settings', only: %i[show update]
+      resource :aggregation, controller: '/admin/settings/aggregation_settings', only: %i[show update]
       resource :mail_notifications, controller: '/admin/settings/mail_notifications_settings', only: %i[show update]
+      resource :api, controller: '/admin/settings/api_settings', only: %i[show update]
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
+      resource :working_days, controller: '/admin/settings/working_days_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
 
       # Redirect /settings to general settings
@@ -472,7 +466,7 @@ OpenProject::Application.routes.draw do
 
     member do
       get '/edit(/:tab)' => 'users#edit', as: 'edit'
-      match '/change_status/:change_action' => 'users#change_status_info', via: :get, as: 'change_status_info'
+      get '/change_status/:change_action' => 'users#change_status_info', as: 'change_status_info'
       post :change_status
       post :resend_invitation
       get :deletion_info
@@ -539,9 +533,8 @@ OpenProject::Application.routes.draw do
 
   # alternate routes for the current user
   scope 'my' do
-    match '/deletion_info' => 'users#deletion_info', via: :get, as: 'delete_my_account_info'
-    match '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', via: :post,
-          as: 'revoke_my_oauth_application'
+    get '/deletion_info' => 'users#deletion_info', as: 'delete_my_account_info'
+    post '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', as: 'revoke_my_oauth_application'
   end
 
   scope controller: 'my' do
@@ -581,9 +574,11 @@ OpenProject::Application.routes.draw do
     get '(/*state)', to: 'angular#notifications_layout', as: :notifications_center
   end
 
-  # Development route for styleguide
-  if Rails.env.development?
-    get '/spot-docs', to: 'angular#empty_layout'
-    get '/styleguide' => redirect('/assets/styleguide.html')
+  # OAuthClient needs a "callback" URL that Nextcloud calls with a "code" (see OAuth2 RFC)
+  scope 'oauth_clients/:oauth_client_id' do
+    get 'callback', controller: 'oauth_clients', action: :callback
   end
+
+  # Routes for design related documentation and examples pages
+  get '/design/styleguide' => redirect('/assets/styleguide.html')
 end

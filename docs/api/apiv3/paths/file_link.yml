@@ -2,9 +2,8 @@
 ---
 get:
   summary: Gets a file link.
-  operationId: Work_Package_Get_File_Link
+  operationId: view_file_link
   tags:
-    - Work Packages
     - File links
   description: |-
     Gets a single file link resource of a work package.
@@ -22,7 +21,7 @@ get:
       content:
         application/hal+json:
           schema:
-            $ref: '../components/schemas/file_link_model.yml'
+            $ref: '../components/schemas/file_link_read_model.yml'
     '404':
       content:
         application/hal+json:
@@ -39,9 +38,8 @@ get:
 
 delete:
   summary: Removes a file link.
-  operationId: Work_Package_Delete_File_Link
+  operationId: delete_file_link
   tags:
-    - Work Packages
     - File links
   description: |-
     Removes a file link on a work package.

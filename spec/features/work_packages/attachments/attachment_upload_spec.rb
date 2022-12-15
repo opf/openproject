@@ -1,10 +1,38 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2022 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require 'spec_helper'
 require 'features/page_objects/notification'
 
 describe 'Upload attachment to work package', js: true do
   let(:role) do
     create :role,
-           permissions: %i[view_work_packages add_work_packages edit_work_packages]
+           permissions: %i[view_work_packages add_work_packages edit_work_packages add_work_package_notes]
   end
   let(:dev) do
     create :user,
@@ -14,7 +42,7 @@ describe 'Upload attachment to work package', js: true do
            member_through_role: role
   end
   let(:project) { create(:project) }
-  let(:work_package) { create(:work_package, project: project, description: 'Initial description') }
+  let(:work_package) { create(:work_package, project:, description: 'Initial description') }
   let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
   let(:attachments) { ::Components::Attachments.new }
   let(:field) { TextEditorField.new wp_page, 'description' }
@@ -28,7 +56,7 @@ describe 'Upload attachment to work package', js: true do
   end
 
   describe 'wysiwyg editor' do
-    context 'on an existing page' do
+    context 'when on an existing page' do
       before do
         wp_page.visit!
         wp_page.ensure_page_loaded
@@ -57,7 +85,7 @@ describe 'Upload attachment to work package', js: true do
         let(:comment_field) do
           TextEditorField.new wp_page,
                               'comment',
-                              selector: selector
+                              selector:
         end
         let(:editor) { Components::WysiwygEditor.new '.work-packages--activity--add-comment' }
 
@@ -76,7 +104,70 @@ describe 'Upload attachment to work package', js: true do
       end
     end
 
-    context 'on a new page' do
+    context 'when on a split page' do
+      let!(:type) { create(:type_task) }
+      let!(:status) { create(:status, is_default: true) }
+      let!(:priority) { create(:priority, is_default: true) }
+      let!(:project) do
+        create(:project, types: [type])
+      end
+      let!(:table) { ::Pages::WorkPackagesTable.new project }
+
+      it 'can add two work packages in a row when uploading (Regression #42933)' do
+        table.visit!
+        new_page = table.create_wp_by_button type
+        subject = new_page.edit_field :subject
+        subject.set_value 'My subject'
+
+        target = find('.ck-content')
+        attachments.drag_and_drop_file(target, image_fixture.path)
+
+        sleep 2
+        expect(page).not_to have_selector('op-toasters-upload-progress')
+
+        editor.in_editor do |_container, editable|
+          expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
+          expect(editable).not_to have_selector('.ck-upload-placeholder-loader')
+        end
+
+        sleep 2
+
+        scroll_to_and_click find('#work-packages--edit-actions-save')
+
+        new_page.expect_and_dismiss_toaster(
+          message: 'Successful creation.'
+        )
+
+        split_view = ::Pages::SplitWorkPackage.new(WorkPackage.last)
+
+        field = split_view.edit_field :description
+        expect(field.display_element).to have_selector('img')
+
+        wp = WorkPackage.last
+        expect(wp.subject).to eq('My subject')
+        expect(wp.attachments.count).to eq(1)
+
+        # create another one
+        new_page = table.create_wp_by_button type
+        subject = new_page.edit_field :subject
+        subject.set_value 'A second task'
+
+        scroll_to_and_click find('#work-packages--edit-actions-save')
+
+        new_page.expect_toast(
+          message: 'Successful creation.'
+        )
+
+        last = WorkPackage.last
+        expect(last.subject).to eq('A second task')
+        expect(last.attachments.count).to eq(0)
+
+        wp.reload
+        expect(wp.attachments.count).to eq(1)
+      end
+    end
+
+    context 'when on a new page' do
       shared_examples 'it supports image uploads via drag & drop' do
         let!(:new_page) { Pages::FullWorkPackageCreate.new }
         let!(:type) { create(:type_task) }
@@ -109,13 +200,6 @@ describe 'Upload attachment to work package', js: true do
 
           sleep 2
 
-          # Besides testing caption functionality this also slows down clicking on the submit button
-          # so that the image is properly embedded
-          caption = page.find('.op-uc-figure .op-uc-figure--description')
-          caption.click(x: 10, y: 10)
-          sleep 0.2
-          caption.base.send_keys('Some image caption')
-
           scroll_to_and_click find('#work-packages--edit-actions-save')
 
           wp_page.expect_toast(
@@ -123,9 +207,7 @@ describe 'Upload attachment to work package', js: true do
           )
 
           field = wp_page.edit_field :description
-
           expect(field.display_element).to have_selector('img')
-          expect(field.display_element).to have_content('Some image caption')
 
           wp = WorkPackage.last
           expect(wp.subject).to eq('My subject')
@@ -163,22 +245,46 @@ describe 'Upload attachment to work package', js: true do
   end
 
   describe 'attachment dropzone' do
+    it 'can drag something to the files tab and have it open' do
+      wp_page.expect_tab 'Activity'
+      attachments.drag_and_drop_file '[data-qa-selector="op-attachments--drop-box"]',
+                                     image_fixture.path,
+                                     :center,
+                                     page.find('[data-qa-tab-id="files"]')
+
+      expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 10)
+      expect(page).not_to have_selector('op-toasters-upload-progress')
+      wp_page.expect_tab 'Files'
+    end
+
+    it 'can drag something from the files tab and create a comment with it' do
+      wp_page.switch_to_tab(tab: 'files')
+
+      attachments.drag_and_drop_file '.work-package-comment',
+                                     image_fixture.path,
+                                     :center,
+                                     page.find('[data-qa-tab-id="activity"]')
+
+      wp_page.expect_tab 'Activity'
+    end
+
     it 'can upload an image via attaching and drag & drop' do
-      container = page.find('.wp-attachment-upload')
-      scroll_to_element(container)
+      wp_page.switch_to_tab(tab: 'files')
+      container = page.find('[data-qa-selector="op-attachments--drop-box"]')
 
       ##
       # Attach file manually
-      expect(page).to have_no_selector('.work-package--attachments--filename')
+      expect(page).to have_no_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
       attachments.attach_file_on_input(image_fixture.path)
       expect(page).not_to have_selector('op-toasters-upload-progress')
-      expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', wait: 5)
+      expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 5)
 
       ##
       # and via drag & drop
       attachments.drag_and_drop_file(container, image_fixture.path)
       expect(page).not_to have_selector('op-toasters-upload-progress')
-      expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', count: 2, wait: 5)
+      expect(page)
+        .to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', count: 2, wait: 5)
     end
   end
 end

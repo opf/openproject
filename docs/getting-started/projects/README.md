@@ -3,8 +3,7 @@ sidebar_navigation:
   title: Projects
   priority: 900
 description: Introduction to projects in OpenProject.
-robots: index, follow
-keywords: open project, create project, project introduction
+keywords: open project, create project, projects introduction
 ---
 # Projects introduction
 
@@ -13,9 +12,9 @@ Get an introduction how to work with projects in OpenProject. To start collabora
 <div class="glossary">
 A **project** is defined as a temporary, goal-driven effort to create a unique output. A project has clearly defined phases, a start and an end date, and its success is measured by whether it meets its stated objectives.
 A project in OpenProject can be understood as a project as defined above. Also, it can be set up as a "workspace" for teams to collaborate on one common topic, e.g. to organize a department.
-<div class="alert alert-info" role="alert">
-**Note**: In order to see a project and work in it, you have to be a [member of the project](../invite-members).
 </div>
+
+> **Note**: In order to see a project and work in it, you have to be a [member of the project](../invite-members).
 
 
 | Topic                                                   | Content                                                      |
@@ -46,25 +45,24 @@ Projects and subprojects are displayed according to their hierarchy in the drop-
 
 Also, you will see your newest projects on the application landing page in the **Projects** section. Here you can simply click on one of the newest visible projects to open it.
 
-![open-project](1566292163068.png)
-
-
+![openproject landing page](openproject-landing-page.png)
 
 ## Create a new project
 
 To create a new project, click the green button **+ Project** directly on the system's home screen in the **Project** section.
 
-![Create-project-home-screen](Create-project-home-screen.png)
+![create a new project over the landing page](create-a-new-project-landing-page.png)
 
 Alternatively, you can use the green **+ button** in the header menu to create a new project.
 
-![create-project-header](create-project-header.png)
+![create project header](create-project-header.png)
 
-- You can either create a completely new project, create a subproject of an existing project or create a (sub)project from a template. For the latter option, choose a [template](../../user-guide/projects/#create-a-project-template-premium-feature) using the drop-down menu.
-- Enter a **name** for your project and click the blue **Create** button.
+- You can either create a completely new project, create a subproject of an existing project or create a (sub)project from a template. For the latter option, choose a [template](../../user-guide/projects/project-templates/#create-a-project-template) using the drop-down menu.
+- Enter a **name** for your project and click the blue **Save** button.
+- Integrate the project into the existing project hierarchy by defining it as a subproject of an existing project.
 - The **Advanced Settings** allow for further configuration, e.g. description, URL, etc.
 
-![image-20200921122508132](image-20200921122508132.png)
+![name your project](name-your-project.png)
 
 By default, creating a new project will set you as project admin, regardless of whether you copied a project, used a template or created a project from scratch. Now, you can get started working on your project.
 
@@ -72,15 +70,13 @@ To configure further project information, see the documentation for [project set
 
 ### View all projects
 
-To view all your projects in which you are a member, click on the **View all projects** link in the **Select a project** drop-down menu.
+To view all your projects in which you are a member, click on the **Projects list** button at the bottom of the action bar after opening the **Select a project** drop-down menu.
 
-![view_all_projects](view_all_projects.png)
+![view all projects](view_all_projects.png)
 
 You will see a list with all your projects and their details.
 
-![view all projects](1569490488827.png)
-
-
+![project overview list](project-overview-list.png)
 
 ## Advanced Project Settings
 

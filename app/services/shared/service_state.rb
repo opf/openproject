@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -48,17 +46,6 @@ module Shared
     # Remember that the state was passed to the given service
     def called!(service)
       service_chain << service
-    end
-
-    # Roll back the context on all used services
-    def rollback!
-      return false if @rolled_back
-
-      service_chain.reverse_each do |service|
-        Rails.logger.debug { "[Service state] Rolling back execution of #{service}." }
-        service.rollback
-      end
-      @rolled_back = true
     end
 
     # Remembered service calls this context was used against

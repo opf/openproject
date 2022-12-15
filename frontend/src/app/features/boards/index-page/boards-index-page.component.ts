@@ -1,5 +1,8 @@
 import {
-  AfterViewInit, Component, Injector, OnInit,
+  AfterViewInit,
+  Component,
+  Injector,
+  OnInit,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -8,12 +11,8 @@ import { Board } from 'core-app/features/boards/board/board';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { NewBoardModalComponent } from 'core-app/features/boards/new-board-modal/new-board-modal.component';
-import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { contactUrl } from 'core-app/core/setup/globals/constants.const';
-import { DomSanitizer } from '@angular/platform-browser';
-import { boardTeaserVideoURL } from 'core-app/features/boards/board-constants.const';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -27,6 +26,7 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
   public text = {
     name: this.I18n.t('js.modals.label_name'),
     create: this.I18n.t('js.button_create'),
+    create_new_board: this.I18n.t('js.boards.create_new'),
     board: this.I18n.t('js.label_board'),
     boards: this.I18n.t('js.label_board_plural'),
     type: this.I18n.t('js.boards.label_board_type'),
@@ -38,11 +38,6 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
     areYouSure: this.I18n.t('js.text_are_you_sure'),
     deleteSuccessful: this.I18n.t('js.notice_successful_delete'),
     noResults: this.I18n.t('js.notice_no_results_to_display'),
-
-    teaser_text: this.I18n.t('js.boards.upsale.teaser_text'),
-    enterprise: this.I18n.t('js.boards.upsale.upgrade_to_ee_text'),
-    upgrade: this.I18n.t('js.boards.upsale.upgrade'),
-    personal_demo: this.I18n.t('js.boards.upsale.personal_demo'),
   };
 
   public canAdd = false;
@@ -55,9 +50,8 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
       map((boards:Board[]) => boards.sort((a, b) => a.name.localeCompare(b.name))),
     );
 
-  teaserVideoURL = this.domSanitizer.bypassSecurityTrustResourceUrl(boardTeaserVideoURL);
-
-  constructor(private readonly boardService:BoardService,
+  constructor(
+    private readonly boardService:BoardService,
     private readonly apiV3Service:ApiV3Service,
     private readonly I18n:I18nService,
     private readonly toastService:ToastService,
@@ -65,8 +59,7 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
     private readonly loadingIndicatorService:LoadingIndicatorService,
     private readonly authorisationService:AuthorisationService,
     private readonly injector:Injector,
-    private readonly bannerService:BannersService,
-    private readonly domSanitizer:DomSanitizer) {
+  ) {
     super();
   }
 
@@ -83,11 +76,11 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
     loadingIndicator.promise = this.boardService.loadAllBoards();
   }
 
-  newBoard() {
+  newBoard():void {
     this.opModalService.show(NewBoardModalComponent, this.injector);
   }
 
-  destroyBoard(board:Board) {
+  destroyBoard(board:Board):void {
     if (!window.confirm(this.text.areYouSure)) {
       return;
     }
@@ -98,17 +91,5 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
         this.toastService.addSuccess(this.text.deleteSuccessful);
       })
       .catch((error) => this.toastService.addError(`Deletion failed: ${error}`));
-  }
-
-  public showBoardIndexView() {
-    return !this.bannerService.eeShowBanners;
-  }
-
-  public eeLink() {
-    return this.bannerService.getEnterPriseEditionUrl({ referrer: 'boards' });
-  }
-
-  public demoLink():string {
-    return contactUrl[this.I18n.locale] || contactUrl.en;
   }
 }

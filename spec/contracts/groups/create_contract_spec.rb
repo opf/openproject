@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -38,7 +36,7 @@ describe Groups::CreateContract do
   it_behaves_like 'group contract' do
     let(:group) do
       Group.new(name: group_name,
-                group_users: group_users)
+                group_users:)
     end
 
     let(:contract) { described_class.new(group, current_user) }

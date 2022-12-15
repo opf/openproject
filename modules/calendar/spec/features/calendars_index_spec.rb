@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -50,8 +48,8 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
 
   let(:query) do
     create(:query_with_view_work_packages_calendar,
-           project: project,
-           user: user,
+           project:,
+           user:,
            public: true)
   end
 
@@ -68,7 +66,7 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
 
     it 'shows an index action' do
       expect(page).to have_text 'There is currently nothing to display.'
-      expect(page).to have_selector '.button', text: 'Create'
+      expect(page).to have_selector '.button', text: 'Calendar'
     end
   end
 
@@ -93,11 +91,11 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
         expect(page).to have_no_selector "[data-qa-selector='calendar-remove-#{query.id}']"
 
         # Does not show the create button
-        expect(page).to have_no_selector '.button', text: 'Create'
+        expect(page).to have_no_selector '.button', text: 'Calendar'
       end
 
       context 'when the view is non-public' do
-        let(:query) { create :query, user: user, project: project, public: false }
+        let(:query) { create :query, user:, project:, public: false }
 
         it 'does not show a non-public view' do
           expect(page).to have_text 'There is currently nothing to display.'
@@ -107,7 +105,7 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
           expect(page).to have_no_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
 
           # Does not show the create button
-          expect(page).to have_no_selector '.button', text: 'Create'
+          expect(page).to have_no_selector '.button', text: 'Calendar'
         end
       end
     end

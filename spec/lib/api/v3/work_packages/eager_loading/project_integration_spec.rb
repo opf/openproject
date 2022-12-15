@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,8 +31,8 @@ require_relative './eager_loading_mock_wrapper'
 
 describe ::API::V3::WorkPackages::EagerLoading::Project do
   let!(:parent_work_package1) { create(:work_package, project: parent_project) }
-  let!(:work_package1) { create(:work_package, project: project, parent: parent_work_package1) }
-  let!(:work_package2) { create(:work_package, project: project, parent: parent_work_package1) }
+  let!(:work_package1) { create(:work_package, project:, parent: parent_work_package1) }
+  let!(:work_package2) { create(:work_package, project:, parent: parent_work_package1) }
   let!(:child_work_package1) { create(:work_package, project: child_project, parent: work_package1) }
   let!(:child_work_package2) { create(:work_package, project: child_project, parent: work_package2) }
   let!(:project) { create(:project) }

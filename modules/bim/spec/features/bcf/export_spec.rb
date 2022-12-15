@@ -36,8 +36,8 @@ describe 'bcf export',
   let(:closed_status) { create(:closed_status, name: 'Closed') }
   let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
 
-  let!(:open_work_package) { create(:work_package, project: project, subject: 'Open WP', status: status) }
-  let!(:closed_work_package) { create(:work_package, project: project, subject: 'Closed WP', status: closed_status) }
+  let!(:open_work_package) { create(:work_package, project:, subject: 'Open WP', status:) }
+  let!(:closed_work_package) { create(:work_package, project:, subject: 'Closed WP', status: closed_status) }
   let!(:open_bcf_issue) { create(:bcf_issue, work_package: open_work_package) }
   let!(:closed_bcf_issue) { create(:bcf_issue, work_package: closed_work_package) }
 
@@ -59,7 +59,7 @@ describe 'bcf export',
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
-           project: project,
+           project:,
            uploader: current_user)
   end
 
@@ -88,7 +88,7 @@ describe 'bcf export',
     expect(page).to have_text("completed successfully")
 
     # Close the modal
-    page.find('.op-modal--close-button').click
+    page.find('.spot-modal-overlay').click
 
     @download_list.refresh_from(page)
 
@@ -96,7 +96,7 @@ describe 'bcf export',
     OpenProject::Bim::BcfXml::Importer.new(
       @download_list.latest_download,
       project,
-      current_user: current_user
+      current_user:
     ).extractor_list
   end
 
@@ -123,7 +123,7 @@ describe 'bcf export',
     extractor_list = export_into_bcf_extractor
     expect(extractor_list.length).to eq(2)
 
-    titles = extractor_list.map { |hash| hash[:title] }
+    titles = extractor_list.pluck(:title)
     expect(titles).to contain_exactly('Open WP', 'Closed WP')
   end
 end

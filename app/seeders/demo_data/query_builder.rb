@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -50,10 +48,12 @@ module DemoData
     def base_attributes
       {
         name: config[:name],
-        user: User.admin.first,
-        public: config[:public] != false,
-        show_hierarchies: config[:hierarchy] == true,
-        timeline_visible: config[:timeline] == true
+        user: User.admin.user.first,
+        public: config.fetch(:public, true),
+        starred: config.fetch(:starred, false),
+        show_hierarchies: config.fetch(:hierarchy, false),
+        timeline_visible: config.fetch(:timeline, false),
+        include_subprojects: true
       }
     end
 
@@ -75,10 +75,15 @@ module DemoData
     end
 
     def create_view(query)
+      type = config.fetch(:module, 'work_packages_table')
       View.create!(
-        type: 'work_packages_table',
-        query: query
+        type:,
+        query:
       )
+
+      # Save information that a view has been seeded.
+      # This information can be used for example in the onboarding tour
+      Setting["demo_view_of_type_#{type}_seeded"] = 'true'
     end
 
     def set_project!(attr)
@@ -122,14 +127,13 @@ module DemoData
       set_version_filter! filters
       set_type_filter! filters
       set_parent_filter! filters
+      set_assignee_filter! filters
 
       filters
     end
 
     def set_status_filter!(filters)
-      status = String(config[:status])
-
-      filters[:status_id] = { operator: "o" } if status == "open"
+      filters[:status_id] = { operator: "o" } if String(config[:status]) == "open"
     end
 
     def set_version_filter!(filters)
@@ -142,14 +146,14 @@ module DemoData
     end
 
     def set_type_filter!(filters)
-      types = Array(config[:type]).map do |name|
-        Type.find_by(name: translate_with_base_url(name))
-      end
+      types = Type
+                .where(name: Array(config[:type]).map { |name| translate_with_base_url(name) })
+                .pluck(:id)
 
-      if !types.empty?
+      if types.any?
         filters[:type_id] = {
           operator: "=",
-          values: types.map(&:id).map(&:to_s)
+          values: types.map(&:to_s)
         }
       end
     end
@@ -159,6 +163,22 @@ module DemoData
         filters[:parent] = {
           operator: "=",
           values: [parent_filter_value]
+        }
+      end
+    end
+
+    def set_assignee_filter!(filters)
+      users = Array(config[:assignee])
+                .map(&:split)
+                .inject(User.user.none) do |scope, (firstname, lastname)|
+                  scope.or(User.user.where(firstname:, lastname:))
+                end
+                .pluck(:id)
+
+      if users.any?
+        filters[:assigned_to_id] = {
+          operator: "=",
+          values: users.map(&:to_s)
         }
       end
     end

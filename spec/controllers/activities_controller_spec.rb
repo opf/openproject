@@ -29,16 +29,16 @@
 require 'spec_helper'
 
 describe ActivitiesController, type: :controller do
-  before :each do
-    allow(@controller).to receive(:set_localization)
+  shared_let(:admin) { create(:admin) }
+  current_user { admin }
 
-    admin = create(:admin)
-    allow(User).to receive(:current).and_return admin
+  before do
+    allow(controller).to receive(:set_localization)
 
     @params = {}
   end
 
-  describe 'index' do
+  describe 'for GET index' do
     shared_examples_for 'valid index response' do
       it { expect(response).to be_successful }
 
@@ -50,7 +50,7 @@ describe ActivitiesController, type: :controller do
       let!(:journal) do
         create(:work_package_journal,
                journable_id: work_package.id,
-               created_at: 3.days.ago.to_date.to_s(:db),
+               created_at: 3.days.ago.to_date.to_fs(:db),
                version: Journal.maximum(:version) + 1,
                data: build(:journal_work_package_journal,
                            subject: work_package.subject,
@@ -70,7 +70,7 @@ describe ActivitiesController, type: :controller do
 
         it do
           assert_select 'h3',
-                        content: /#{3.day.ago.to_date.day}/,
+                        content: /#{3.days.ago.to_date.day}/,
                         sibling: { tag: 'dl',
                                    child: { tag: 'dt',
                                             attributes: { class: /work_package/ },
@@ -111,25 +111,25 @@ describe ActivitiesController, type: :controller do
 
       it 'renders 403' do
         get 'index', params: { project_id: project.id }
-        expect(response.status).to eq(403)
+        expect(response).to have_http_status(:forbidden)
         expect(response).to render_template 'common/error'
       end
     end
 
-    shared_context 'index with params' do
+    shared_context 'for GET index with params' do
       let(:session_values) { defined?(session_hash) ? session_hash : {} }
 
-      before { get :index, params: params, session: session_values }
+      before { get :index, params:, session: session_values }
     end
 
     describe '#atom_feed' do
       let(:user) { create(:user) }
       let(:project) { create(:project) }
 
-      context 'work_package' do
-        let!(:wp_1) do
+      context 'with work packages' do
+        let!(:wp1) do
           create(:work_package,
-                 project: project,
+                 project:,
                  author: user)
         end
 
@@ -138,45 +138,46 @@ describe ActivitiesController, type: :controller do
 
           before { get 'index', format: 'atom' }
 
-          it do
+          it 'contains a link to the work package' do
             assert_select 'entry',
                           child: { tag: 'link',
-                                   attributes: { href: Regexp.new("/work_packages/#{wp_1.id}#") } }
+                                   attributes: { href: Regexp.new("/work_packages/#{wp1.id}#") } }
           end
         end
 
         describe 'list' do
-          let!(:wp_2) do
+          let!(:wp2) do
             create(:work_package,
-                   project: project,
+                   project:,
                    author: user)
           end
 
           let(:params) do
             { project_id: project.id,
+              event_types: [:work_packages],
               format: :atom }
           end
 
-          include_context 'index with params'
+          include_context 'for GET index with params'
 
-          it { expect(assigns(:items).count).to eq(2) }
+          it { expect(assigns(:items).pluck(:event_type)).to match_array(%w[work_package-edit work_package-edit]) }
 
           it { expect(response).to render_template('common/feed') }
         end
       end
 
-      context 'forums' do
+      context 'with forums' do
         let(:forum) do
           create(:forum,
-                 project: project)
+                 project:)
         end
-        let!(:message_1) do
+        let!(:message1) do
           create(:message,
-                 forum: forum)
+                 forum:)
         end
-        let!(:message_2) do
+        let!(:message2) do
           create(:message,
-                 forum: forum)
+                 forum:)
         end
         let(:params) do
           { project_id: project.id,
@@ -184,9 +185,9 @@ describe ActivitiesController, type: :controller do
             format: :atom }
         end
 
-        include_context 'index with params'
+        include_context 'for GET index with params'
 
-        it { expect(assigns(:items).count).to eq(2) }
+        it { expect(assigns(:items).pluck(:event_type)).to match_array(%w[message message]) }
 
         it { expect(response).to render_template('common/feed') }
       end
@@ -197,7 +198,7 @@ describe ActivitiesController, type: :controller do
         let(:default_scope) { ['work_packages', 'changesets'] }
         let(:params) { {} }
 
-        include_context 'index with params'
+        include_context 'for GET index with params'
 
         it { expect(assigns(:activity).scope).to match_array(default_scope) }
 
@@ -209,7 +210,7 @@ describe ActivitiesController, type: :controller do
         let(:params) { {} }
         let(:session_hash) { { activity: [] } }
 
-        include_context 'index with params'
+        include_context 'for GET index with params'
 
         it { expect(assigns(:activity).scope).to match_array(scope) }
 
@@ -220,7 +221,7 @@ describe ActivitiesController, type: :controller do
         let(:scope) { [] }
         let(:params) { { event_types: [''] } }
 
-        include_context 'index with params'
+        include_context 'for GET index with params'
 
         it { expect(assigns(:activity).scope).to match_array(scope) }
 

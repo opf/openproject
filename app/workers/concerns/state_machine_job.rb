@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -60,7 +58,7 @@ module StateMachineJob
     # @param block<Proc> The code to execute as part of the step. The block will be executed in the context of the
     #                    job instance, not the class.
     def self.state(name, to: nil, wait: nil, &block)
-      states[name] = { to: to, wait: wait, block: block }
+      states[name] = { to:, wait:, block: }
     end
 
     private

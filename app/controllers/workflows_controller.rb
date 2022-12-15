@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -71,12 +69,12 @@ class WorkflowsController < ApplicationController
     @source_type = if params[:source_type_id].blank? || params[:source_type_id] == 'any'
                      nil
                    else
-                     ::Type.find_by(id: params[:source_type_id].to_i)
+                     ::Type.find(params[:source_type_id])
                    end
     @source_role = if params[:source_role_id].blank? || params[:source_role_id] == 'any'
                      nil
                    else
-                     Role.find_by(id: params[:source_role_id].to_i)
+                     Role.find(params[:source_role_id])
                    end
 
     @target_types = params[:target_type_ids].blank? ? nil : ::Type.where(id: params[:target_type_ids])

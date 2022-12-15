@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -38,7 +36,7 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
            author: user,
            downloads: -1,
            digest: '',
-           container: container)
+           container:)
   end
 
   let(:job) { described_class.new }
@@ -50,7 +48,7 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
       attachment = Attachment.find(pending_attachment.id)
 
       expect(attachment.downloads)
-        .to eql(0)
+        .to be(0)
       # expect to replace the content type with the actual value
       expect(attachment.content_type)
         .to eql('text/plain')
@@ -66,7 +64,7 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
       journals = Attachment.find(pending_attachment.id).journals
 
       expect(journals.count)
-        .to eql(2)
+        .to be(2)
 
       expect(journals.last.user)
         .to eql(pending_attachment.author)
@@ -86,7 +84,7 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
       journals = container.journals.reload
 
       expect(journals.count)
-        .to eql(2)
+        .to be(2)
 
       expect(journals.last.user)
         .to eql(pending_attachment.author)
@@ -97,7 +95,7 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
       container.reload
 
       expect(container.lock_version)
-        .to eql 0
+        .to be 0
     end
 
     describe 'attachment created event' do

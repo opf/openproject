@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -93,13 +91,11 @@ describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
         { name: 'My copied project',
           identifier: 'my-copied-project',
           "customField#{text_custom_field.id}": {
-            "raw": "CF text"
-          },
-        }
+            raw: "CF text"
+          } }
       end
 
       it 'returns with a redirect to job' do
-
         aggregate_failures do
           expect(response.status).to eq(302)
 
@@ -144,9 +140,8 @@ describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
           identifier: 'my-copied-project',
           _meta: {
             copyWorkPackages: true,
-            copyWiki: false,
-          }
-        }
+            copyWiki: false
+          } }
       end
 
       it 'does not copy the wiki' do
@@ -168,27 +163,28 @@ describe ::API::V3::Projects::Copy::CopyAPI, content_type: :json do
         { name: 'My copied project',
           identifier: 'my-copied-project',
           _meta: {
-            sendNotifications: sendNotifications
-          }
-        }
+            sendNotifications:
+          } }
       end
 
       context 'when false' do
         let(:sendNotifications) { false }
+
         it 'queues the job without notifications' do
           expect(CopyProjectJob)
             .to have_been_enqueued.with do |args|
-            expect(args[:send_mails]).to eq false
+            expect(args[:send_mails]).to be false
           end
         end
       end
 
       context 'when true' do
         let(:sendNotifications) { true }
+
         it 'queues the job with notifications' do
           expect(CopyProjectJob)
             .to have_been_enqueued.with do |args|
-            expect(args[:send_mails]).to eq true
+            expect(args[:send_mails]).to be true
           end
         end
       end

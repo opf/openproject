@@ -35,6 +35,7 @@ import { getType } from 'mime';
 import {
   OpenProjectFileUploadService, UploadBlob, UploadFile, UploadInProgress,
 } from './op-file-upload.service';
+import { EXTERNAL_REQUEST_HEADER } from "core-app/features/hal/http/openproject-header-interceptor";
 
 interface PrepareUploadResult {
   url:string;
@@ -77,9 +78,11 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
           body: result.form,
           // Observe the response, not the body
           observe: 'events',
-          // This is important as the CORS policy for the bucket is * and you can't use credentals then,
+          // This is important as the CORS policy for the bucket is * and you can't use credentials then,
           // besides we don't need them here anyway.
-          withCredentials: false,
+          headers: {
+            [EXTERNAL_REQUEST_HEADER]: 'true',
+          },
           responseType: responseType as 'json',
           // Subscribe to progress events. subscribe() will fire multiple times!
           reportProgress: true,

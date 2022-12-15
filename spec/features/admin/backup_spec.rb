@@ -29,7 +29,12 @@
 require 'spec_helper'
 
 describe 'backup', type: :feature, js: true do
-  let(:current_user) { create :admin, password: user_password, password_confirmation: user_password }
+  let(:current_user) do
+    create :user,
+           global_permissions: [:create_backup],
+           password: user_password,
+           password_confirmation: user_password
+  end
   let!(:backup_token) { create :backup_token, user: current_user }
   let(:user_password) { "adminadmin!" }
 
@@ -89,7 +94,7 @@ describe 'backup', type: :feature, js: true do
 
     it 'works given the correct password' do
       dialog.confirm_flow_with(user_password)
-      
+
       new_token = Token::Backup.find_by(user: current_user)
 
       expect(new_token.plain_value).not_to eq backup_token.plain_value

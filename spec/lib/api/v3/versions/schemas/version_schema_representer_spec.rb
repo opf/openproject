@@ -41,10 +41,12 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
   let(:custom_field) do
     build_stubbed(:int_version_custom_field)
   end
+  let(:version) { build_stubbed(:version) }
 
   let(:contract) do
-    contract = double('contract',
-                      new_record?: new_record)
+    contract = instance_double(new_record ? Versions::CreateContract : Versions::UpdateContract,
+                               new_record?: new_record,
+                               model: version)
 
     allow(contract)
       .to receive(:writable?) do |attribute|
@@ -75,9 +77,9 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
   end
   let(:representer) do
     described_class.create(contract,
-                           self_link: self_link,
+                           self_link:,
                            form_embedded: embedded,
-                           current_user: current_user)
+                           current_user:)
   end
 
   context 'generation' do
@@ -85,7 +87,7 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
 
     describe '_type' do
       it 'is indicated as Schema' do
-        is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
+        expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
       end
     end
 
@@ -156,7 +158,7 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
         let(:type) { 'Integer' }
         let(:name) { custom_field.name }
         let(:required) { false }
-        let(:writable) { true }
+        let(:writable) { false }
       end
     end
 
@@ -242,14 +244,14 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
       end
 
       it 'contains no link to the allowed values' do
-        is_expected
+        expect(subject)
           .not_to have_json_path("#{path}/_links/allowedValues")
       end
 
       it 'embeds the allowed values' do
         allowed_path = "#{path}/_embedded/allowedValues"
 
-        is_expected
+        expect(subject)
           .to be_json_eql(allowed_status.to_json)
           .at_path(allowed_path)
       end
@@ -267,14 +269,14 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
       end
 
       it 'contains no link to the allowed values' do
-        is_expected
+        expect(subject)
           .not_to have_json_path("#{path}/_links/allowedValues")
       end
 
       it 'embeds the allowed values' do
         allowed_path = "#{path}/_embedded/allowedValues"
 
-        is_expected
+        expect(subject)
           .to be_json_eql(allowed_sharings.to_json)
           .at_path(allowed_path)
       end

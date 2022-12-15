@@ -52,7 +52,7 @@ module Pages
 
       drag_n_drop_element(from: start_container, to: end_container)
 
-      ::Pages::SplitWorkPackageCreate.new project: project
+      ::Pages::SplitWorkPackageCreate.new project:
     end
 
     def resize_date(work_package, date, end_date: true)

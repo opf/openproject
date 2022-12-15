@@ -42,14 +42,14 @@ describe 'Lost password', type: :feature do
     expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_lost_email_sent))
 
     perform_enqueued_jobs
-    expect(ActionMailer::Base.deliveries.size).to eql 0
+    expect(ActionMailer::Base.deliveries.size).to be 0
 
     fill_in 'mail', with: user.mail
     click_on 'Submit'
     expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_lost_email_sent))
 
     perform_enqueued_jobs
-    expect(ActionMailer::Base.deliveries.size).to eql 1
+    expect(ActionMailer::Base.deliveries.size).to be 1
 
     # mimic the user clicking on the link in the mail
     token = Token::Recovery.first
@@ -60,7 +60,7 @@ describe 'Lost password', type: :feature do
 
     click_button 'Save'
 
-    expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_password_updated))
+    expect(page).to have_selector('.flash.info', text: I18n.t(:notice_account_password_updated))
 
     login_with user.login, new_password
 

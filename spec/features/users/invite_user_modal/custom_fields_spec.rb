@@ -28,22 +28,21 @@
 
 require 'spec_helper'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
-feature 'Invite user modal custom fields', type: :feature, js: true do
+describe 'Invite user modal custom fields', type: :feature, js: true do
   shared_let(:project) { create :project }
 
   let(:permissions) { %i[view_project manage_members] }
   let(:global_permissions) { %i[manage_user] }
   let(:principal) { build :invited_user }
   let(:modal) do
-    ::Components::Users::InviteUserModal.new project: project,
-                                             principal: principal,
-                                             role: role
+    ::Components::Users::InviteUserModal.new project:,
+                                             principal:,
+                                             role:
   end
   let!(:role) do
     create :role,
            name: 'Member',
-           permissions: permissions
+           permissions:
   end
 
   let!(:boolean_cf) { create :boolean_user_custom_field, name: 'bool', is_required: true }
@@ -51,7 +50,7 @@ feature 'Invite user modal custom fields', type: :feature, js: true do
   let!(:text_cf) { create :text_user_custom_field, name: 'Text', is_required: true }
   let!(:string_cf) { create :string_user_custom_field, name: 'String', is_required: true }
   # TODO float not supported yet
-  #let!(:float_cf) { create :float_user_custom_field, name: 'Float', is_required: true }
+  # let!(:float_cf) { create :float_user_custom_field, name: 'Float', is_required: true }
   let!(:list_cf) { create :list_user_custom_field, name: 'List', is_required: true }
   let!(:list_multi_cf) { create :list_user_custom_field, name: 'Multi list', multi_value: true, is_required: true }
 
@@ -62,7 +61,7 @@ feature 'Invite user modal custom fields', type: :feature, js: true do
   let(:text_field) { ::FormFields::EditorFormField.new text_cf }
   let(:string_field) { ::FormFields::InputFormField.new string_cf }
   # TODO float not supported yet
-  #let(:float_field) { ::FormFields::InputFormField.new float_cf }
+  # let(:float_field) { ::FormFields::InputFormField.new float_cf }
   let(:list_field) { ::FormFields::SelectFormField.new list_cf }
   let(:list_multi_field) { ::FormFields::SelectFormField.new list_multi_cf }
 
@@ -73,7 +72,7 @@ feature 'Invite user modal custom fields', type: :feature, js: true do
            :skip_validations,
            member_in_project: project,
            member_through_role: role,
-           global_permissions: global_permissions
+           global_permissions:
   end
 
   it 'shows the required fields during the principal step' do
@@ -117,11 +116,9 @@ feature 'Invite user modal custom fields', type: :feature, js: true do
     modal.click_next
 
     # Remaining steps
-    modal.role_step
-    modal.invitation_step
     modal.confirmation_step
     modal.click_modal_button 'Send invitation'
-    modal.expect_text "Invite #{principal.mail} to #{project.name}"
+    modal.expect_text "Invite user"
 
     # Close
     modal.click_modal_button 'Send invitation'
@@ -131,7 +128,7 @@ feature 'Invite user modal custom fields', type: :feature, js: true do
     invited = project.users.last
     expect(invited.mail).to eq principal.mail
 
-    expect(invited.custom_value_for(boolean_cf).typed_value).to eq true
+    expect(invited.custom_value_for(boolean_cf).typed_value).to be true
     expect(invited.custom_value_for(integer_cf).typed_value).to eq 1234
     expect(invited.custom_value_for(text_cf).typed_value).to eq 'A **markdown** value'
     expect(invited.custom_value_for(string_cf).typed_value).to eq 'String value'

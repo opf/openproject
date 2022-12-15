@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -28,9 +26,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+shared_context 'with custom field params' do
+  let(:cf1) { create :work_package_custom_field, field_format: 'text' }
+  let(:cf2) { create :work_package_custom_field, field_format: 'text' }
+  let!(:cf3) { create :work_package_custom_field, field_format: 'text' }
+
+  let(:attribute_groups) do
+    {
+      attribute_groups: [
+        { 'type' => 'attribute',
+          'name' => 'group1',
+          'attributes' => [{ 'key' => "custom_field_#{cf1.id}" }, { 'key' => "custom_field_#{cf2.id}" }] },
+        { 'type' => 'attribute',
+          'name' => 'groups',
+          'attributes' => [{ 'key' => "custom_field_#{cf2.id}" }] }
+      ]
+    }
+  end
+
+  let(:params) { attribute_groups }
+end
+
 shared_examples_for 'type service' do
   let(:success) { true }
   let(:params) { {} }
+  let!(:contract) do
+    instance_double(::Types::BaseContract).tap do |contract|
+      allow(contract)
+        .to receive(:validate)
+              .and_return(contract_valid)
+      allow(contract)
+        .to receive(:errors)
+              .and_return(contract_errors)
+      allow(Types::BaseContract)
+        .to receive(:new)
+              .and_return(contract)
+    end
+  end
+  let(:contract_errors) { instance_double(ActiveModel::Errors) }
+  let(:contract_valid) { success }
 
   describe '#call' do
     before do
@@ -44,7 +78,7 @@ shared_examples_for 'type service' do
     end
 
     it 'yields the block with success' do
-      expect(service_call { |call| call.success? }).to be_truthy
+      expect(service_call(&:success?)).to be_truthy
     end
 
     describe 'with attributes' do
@@ -58,15 +92,19 @@ shared_examples_for 'type service' do
     end
 
     describe 'attribute groups' do
+      before do
+        allow(type).to receive(:reset_attribute_groups)
+        allow(type).to receive(:attribute_groups=)
+      end
+
       context 'when not given' do
         let(:params) { { name: 'blubs blubs' } }
 
         it 'set the values provided on the call' do
-          expect(type).not_to receive(:reset_attribute_groups)
-          expect(type).not_to receive(:attribute_groups=)
-
           service_call
 
+          expect(type).not_to have_received(:reset_attribute_groups)
+          expect(type).not_to have_received(:attribute_groups=)
           expect(type.name).to eql params[:name]
         end
       end
@@ -75,10 +113,10 @@ shared_examples_for 'type service' do
         let(:params) { { attribute_groups: [] } }
 
         it 'set the values provided on the call' do
-          expect(type).to receive(:reset_attribute_groups)
-          expect(type).not_to receive(:attribute_groups=)
-
           service_call
+
+          expect(type).to have_received(:reset_attribute_groups)
+          expect(type).not_to have_received(:attribute_groups=)
         end
       end
 
@@ -86,40 +124,115 @@ shared_examples_for 'type service' do
         let(:params) { { attribute_groups: [{ 'type' => 'attribute', 'name' => 'foo', 'attributes' => [] }] } }
 
         it 'set the values provided on the call' do
-          expect(type).not_to receive(:reset_attribute_groups)
-          expect(type).to receive(:attribute_groups=)
-
           service_call
+
+          expect(type).not_to have_received(:reset_attribute_groups)
+          expect(type).to have_received(:attribute_groups=)
         end
       end
     end
 
     describe 'custom fields' do
-      let(:cf1) { create :work_package_custom_field, field_format: 'text' }
-      let(:cf2) { create :work_package_custom_field, field_format: 'text' }
-      let(:params) do
-        {
-          attribute_groups: [
-            { 'type' => 'attribute',
-              'name' => 'group1',
-              'attributes' => [{ 'key' => "custom_field_#{cf1.id}" }, { 'key' => 'custom_field_54' }] },
-            { 'type' => 'attribute',
-              'name' => 'groups',
-              'attributes' => [{ 'key' => "custom_field_#{cf2.id}" }] }
-          ]
-        }
-      end
+      include_context 'with custom field params'
 
       it 'enables the custom fields that are passed via attribute_groups' do
         allow(type)
           .to receive(:work_package_attributes)
           .and_return("custom_field_#{cf1.id}" => {}, "custom_field_#{cf2.id}" => {})
 
-        expect(type)
+        allow(type)
           .to receive(:custom_field_ids=)
           .with([cf1.id, cf2.id])
 
         service_call
+
+        expect(type).to have_received(:custom_field_ids=)
+      end
+
+      context 'when all the projects are associated with the type' do
+        before do
+          type.projects = create_list :project, 2
+        end
+
+        it 'enables the custom fields in the projects' do
+          expect { service_call }
+            .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
+            .from([[], []])
+            .to([[cf1, cf2], [cf1, cf2]])
+        end
+
+        context 'when a custom field is already associated with the type' do
+          before do
+            type.custom_field_ids = [cf1.id]
+          end
+
+          it 'enables the new custom field only' do
+            expect { service_call }
+              .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
+              .from([[], []])
+              .to([[cf2], [cf2]])
+          end
+        end
+
+        context 'when all custom fields are already associated with the type' do
+          before do
+            type.custom_field_ids = [cf1.id, cf2.id]
+          end
+
+          it 'enables no custom field' do
+            expect { service_call }
+              .not_to change { Project.where(id: type.project_ids).map(&:work_package_custom_field_ids) }
+              .from([[], []])
+          end
+        end
+      end
+
+      context 'when a project is being set on the type' do
+        let(:projects) { create_list :project, 2 }
+        let(:active_project) { projects.first }
+        let(:project_ids) { { project_ids: [*projects.map { |p| p.id.to_s }, ""] } }
+        let(:params) do
+          attribute_groups.merge(project_ids)
+        end
+
+        before do
+          type.projects << active_project
+        end
+
+        it 'enables the custom fields for all the projects' do
+          expect { service_call }
+            .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
+            .from([[]])
+            .to([[cf1, cf2], [cf1, cf2]])
+        end
+
+        context 'when a custom field is already associated with the type' do
+          before do
+            type.custom_field_ids = [cf1.id]
+          end
+
+          it 'enables the new cf for the existing project and enables both cfs for the new project' do
+            expect { service_call }
+              .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
+              .from([[]])
+              .to([[cf2], [cf1, cf2]])
+          end
+        end
+
+        context 'when all custom fields are already associated with the type' do
+          let(:params) { project_ids }
+
+          before do
+            type.custom_field_ids = [cf1.id, cf2.id]
+          end
+
+          it 'enables the custom fields in the new project only' do
+            expect { service_call }
+              .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
+              .from([[]])
+              .to([[], [cf1, cf2]])
+          end
+        end
       end
     end
 
@@ -134,43 +247,35 @@ shared_examples_for 'type service' do
         { 'type' => 'query', 'name' => 'group1', 'query' => JSON.dump(query_params) }
       end
       let(:params) { { attribute_groups: [query_group_params] } }
-      let(:query) { create(:query, user_id: 0) }
-      let(:service_result) { ServiceResult.new(success: true, result: query) }
+      let(:query) { Query.new }
+      let(:service_result) { ServiceResult.success(result: query) }
 
       before do
         allow(Query)
           .to receive(:new_default)
           .with(name: "Embedded table: group1")
           .and_return(query)
-
-        parse_service = double('ParseQueryParamsService')
-        allow(::API::V3::UpdateQueryFromV3ParamsService)
-          .to receive(:new)
-          .with(query, user)
-          .and_return(parse_service)
-
-        allow(parse_service)
-          .to receive(:call)
-          .with(query_params)
-          .and_return(service_result)
       end
 
-      it 'assigns the fully parsed query to the type\'s attribute group' do
+      it 'assigns the fully parsed query to the type\'s attribute group with the system user as the querie\'s user' do
         expect(service_call).to be_success
 
         expect(type.attribute_groups[0].query)
           .to eql query
 
         expect(query.filters.length)
-          .to eql 1
+          .to be 1
 
         expect(query.filters[0].name)
-          .to eql :status_id
+          .to be :status_id
+
+        expect(query.user)
+          .to eq User.system
       end
 
-      context 'when the query service reports an error' do
+      context 'when the query parse service reports an error' do
         let(:success) { false }
-        let(:service_result) { ServiceResult.new(success: false, result: nil) }
+        let(:service_result) { ServiceResult.failure(result: nil) }
 
         it 'reports the error' do
           expect(service_call).to be_failure
@@ -181,7 +286,7 @@ shared_examples_for 'type service' do
       end
     end
 
-    context 'on failure' do
+    describe 'on failure' do
       let(:success) { false }
       let(:params) { { name: nil } }
 
@@ -192,8 +297,24 @@ shared_examples_for 'type service' do
       end
 
       it 'returns the errors of the type' do
-        type.name = nil
-        expect(subject.errors.symbols_for(:name)).to include :blank
+        expect(subject.errors)
+          .to eql contract_errors
+      end
+
+      describe 'custom fields' do
+        include_context 'with custom field params'
+
+        context 'when the type is associated with projects' do
+          before do
+            type.projects = create_list :project, 2
+          end
+
+          it 'does not changes project custom fields' do
+            expect { service_call }
+              .not_to change { Project.where(id: type.project_ids).map(&:work_package_custom_field_ids) }
+              .from([[], []])
+          end
+        end
       end
     end
   end

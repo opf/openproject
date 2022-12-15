@@ -32,8 +32,8 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
   subject(:json) do
     ::API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
-           current_user: current_user,
-           url_query: { select: select })
+           current_user:,
+           url_query: { select: })
       .walk(described_class)
       .to_json
   end
@@ -153,6 +153,54 @@ describe ::API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
             }
           }.to_json
         )
+    end
+
+    context 'with relative url root', with_config: { rails_relative_url_root: '/foobar' } do
+      it 'renders correctly' do
+        expect(json)
+          .to be_json_eql(
+                {
+                  _links: {
+                    ancestors: [
+                      {
+                        href: "/foobar/api/v3/projects/#{grandparent.id}",
+                        title: grandparent.name
+                      },
+                      {
+                        href: API::V3::URN_UNDISCLOSED,
+                        title: I18n.t(:'api_v3.undisclosed.ancestor')
+                      }
+                    ]
+                  }
+                }.to_json
+              )
+      end
+    end
+
+    context 'when in a foreign language with single quotes in the translation hint text' do
+      before do
+        I18n.locale = :fr
+      end
+
+      it 'renders as expected' do
+        expect(json)
+          .to be_json_eql(
+            {
+              _links: {
+                ancestors: [
+                  {
+                    href: api_v3_paths.project(grandparent.id),
+                    title: grandparent.name
+                  },
+                  {
+                    href: API::V3::URN_UNDISCLOSED,
+                    title: I18n.t(:'api_v3.undisclosed.ancestor')
+                  }
+                ]
+              }
+            }.to_json
+          )
+      end
     end
   end
 

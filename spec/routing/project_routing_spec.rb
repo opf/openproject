@@ -37,14 +37,14 @@ describe ProjectsController, type: :routing do
     end
 
     it do
-      expect(get('/projects.atom')).to route_to(
-        controller: 'projects', action: 'index', format: 'atom'
+      expect(get('/projects.csv')).to route_to(
+        controller: 'projects', action: 'index', format: 'csv'
       )
     end
 
     it do
-      expect(get('/projects.xml')).to route_to(
-        controller: 'projects', action: 'index', format: 'xml'
+      expect(get('/projects.xls')).to route_to(
+        controller: 'projects', action: 'index', format: 'xls'
       )
     end
   end
@@ -115,14 +115,6 @@ describe ProjectsController, type: :routing do
     it do
       expect(patch('/projects/123/types')).to route_to(
         controller: 'projects', action: 'types', id: '123'
-      )
-    end
-  end
-
-  describe 'level_list' do
-    it do
-      expect(get('/projects/level_list.json')).to route_to(
-        controller: 'projects', action: 'level_list', format: 'json'
       )
     end
   end

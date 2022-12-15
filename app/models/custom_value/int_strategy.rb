@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -30,7 +28,7 @@
 
 class CustomValue::IntStrategy < CustomValue::FormatStrategy
   def typed_value
-    unless value.blank?
+    if value.present?
       value.to_i
     end
   end

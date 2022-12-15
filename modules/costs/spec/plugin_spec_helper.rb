@@ -29,11 +29,11 @@
 module Cost
   module PluginSpecHelper
     def is_member(project, user, permissions = [])
-      role = create(:role, permissions: permissions)
+      role = create(:role, permissions:)
 
-      create(:member, project: project,
-                                   principal: user,
-                                   roles: [role])
+      create(:member, project:,
+                      principal: user,
+                      roles: [role])
       user.reload
     end
   end

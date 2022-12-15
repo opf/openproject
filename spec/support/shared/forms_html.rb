@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -30,13 +28,13 @@
 
 shared_examples_for 'labelled' do
   it 'has a label with title' do
-    is_expected.to have_selector 'label.form--label[title]'
+    expect(subject).to have_selector 'label.form--label[title]'
   end
 end
 
 shared_examples_for 'not labelled' do
   it 'does not have a label with title' do
-    is_expected.not_to have_selector 'label.form--label[title]'
+    expect(subject).not_to have_selector 'label.form--label[title]'
   end
 end
 
@@ -64,7 +62,7 @@ shared_examples_for 'wrapped in container' do |container = 'field-container'|
     end
 
     it 'has the class' do
-      is_expected.to have_selector "span.#{css_class}", count: expected_container_count
+      expect(subject).to have_selector "span.#{css_class}", count: expected_container_count
     end
   end
 end

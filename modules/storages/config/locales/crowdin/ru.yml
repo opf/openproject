@@ -1,0 +1,92 @@
+#English strings go here
+ru:
+  permission_view_file_links: "Просмотр ссылок на файл"
+  permission_manage_file_links: "Управление ссылками файлов"
+  permission_manage_storages_in_project: "Управление файловыми хранилищами в проекте"
+  project_module_storages: "Файловые хранилища"
+  activerecord:
+    models:
+      storages/storage: "Хранилище"
+    attributes:
+      storages/storage:
+        name: "Имя"
+        creator: "Создатель"
+        provider_type: "Тип поставщика"
+      storages/file_link:
+        origin_id: "ID оригинала"
+    errors:
+      messages:
+        not_linked_to_project: "не связан с проектом."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "не может быть подключен."
+              minimal_nextcloud_version_unmet: "не соответствует минимальным требованиям к версии (должен быть Nextcloud 23 или выше)"
+              not_nextcloud_server: "не является сервером Nextcloud"
+              op_application_not_installed: >
+                похоже, что приложение "Интеграция с OpenProject" не установлено. Сначала установите его и повторите попытку.
+              authorization_header_missing: >
+                не полностью настроено. Экземпляр Nextcloud не получает заголовок "Authorization", который необходим для подтверждения запросов API на основе токена Bearer. Пожалуйста, проверьте конфигурацию HTTP сервера.
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "может быть только числовым или uuid."
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Слишком много элементов, созданных сразу. Ожидалось %{max} максимум - получено %{actual}."
+  storages:
+    buttons:
+      done_continue_setup: "Готово. Продолжить установку"
+      replace_openproject_oauth: "Заменить OAuth OpenProject"
+      replace_provider_type_oauth: "Заменить %{provider_type} OAuth"
+      save_and_continue_setup: "Сохранить и продолжить установку"
+      save_and_complete_setup: "Сохранить и завершить установку"
+    page_titles:
+      project_settings:
+        index: "Файловые хранилища, доступные в этом проекте"
+        new: "Добавить хранилище файлов в этот проект"
+    instructions:
+      type: "Перед установкой убедитесь, что у вас есть права администрирования в вашем экземпляре Nextcloud и что перед установкой установлено следующее приложение:"
+      type_link_text: "«Интеграционный OpenProject»"
+      name: "Дайте вашему хранилищу имя, чтобы пользователи могли различать между несколькими хранилищами."
+      host: "Пожалуйста, добавьте адрес вашего хранилища, включая https://. Он не должен быть длиннее 255 символов."
+      no_storage_set_up: "Нет созданных файловых хранилищ."
+      setting_up_additional_storages: "Для настройки дополнительных файловых хранилищ посетите"
+      setting_up_additional_storages_non_admin: "Администраторы могут настроить дополнительные файловые хранилища в Администрировании / Файловых хранилищах."
+      setting_up_storages: "Для настройки файловых хранилищ посетите"
+      setting_up_storages_non_admin: "Администраторы могут настроить файловые хранилища в Администрировании / Файловых хранилищах."
+      all_available_storages_already_added: "Все доступные хранилища уже добавлены в проект."
+      copy_from: "Скопировать это значение из"
+      nextcloud:
+        integration: "Администрирование NextCloud / OpenProject"
+    delete_warning:
+      storage: >
+        Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
+      project_storage: >
+        Вы уверены, что хотите удалить это хранилище файлов из проекта? Это также удалит все ссылки на файлы, хранящиеся в этом хранилище для этого проекта.
+    label_creator: "Создатель"
+    label_file_link: "Ссылка на файл"
+    label_file_links: "Ссылки на файл"
+    label_name: "Имя"
+    label_host: "URL хоста"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
+    label_oauth_application_details: "Подробности приложения OAuth"
+    label_oauth_client_details: "Детали клиента OAuth"
+    label_provider_type: "Тип поставщика"
+    label_new_storage: "Новое хранилище"
+    label_storage: "Хранилище"
+    label_storages: "Хранилища"
+    no_results: "Хранилища пока не настроены."
+    provider_types:
+      label: "Тип поставщика"
+      nextcloud:
+        name: "Nextcloud"
+        name_placeholder: "например,  Nextcloud"
+        default_name: "Мой Nextcloud"
+    confirm_replace_oauth_application: "Вы уверены? Всем пользователям придется снова авторизоваться в OpenProject."
+    confirm_replace_oauth_client: "Вы уверены? Все пользователи должны будут снова авторизоваться на хранилище."
+    oauth_client_details_missing: "Чтобы завершить установку, пожалуйста, добавьте учетные данные клиента OAuth из вашего хранилища."
+    notice_oauth_application_replaced: "Приложение OpenProject OAuth успешно заменено."

@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
+require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
 describe CostQuery, type: :model, reporting_query_helper: true do
   before do
     create(:admin)
     project = create(:project_with_types)
-    work_package = create(:work_package, project: project)
-    create(:time_entry, work_package: work_package, project: project)
-    create(:cost_entry, work_package: work_package, project: project)
+    work_package = create(:work_package, project:)
+    create(:time_entry, work_package:, project:)
+    create(:cost_entry, work_package:, project:)
   end
 
   minimal_query
@@ -48,7 +48,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       CostQuery::Result.new((1..quantity).map { |_i| source })
     end
 
-    it "should travel recursively depth-first" do
+    it "travels recursively depth-first" do
       # build a tree of wrapped and direct results
       w1 = wrapped_result((direct_results 5), 3)
       w2 = wrapped_result wrapped_result((direct_results 3), 2)
@@ -62,7 +62,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
     end
 
-    it "should travel recursively width-first" do
+    it "travels recursively width-first" do
       # build a tree of wrapped and direct results
       w1 = wrapped_result((direct_results 5), 3)
       w2 = wrapped_result wrapped_result((direct_results 3), 2)
@@ -76,7 +76,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
     end
 
-    it "should travel to all results width-first" do
+    it "travels to all results width-first" do
       # build a tree of wrapped and direct results
       w1 = wrapped_result((direct_results 5), 3)
       w2 = wrapped_result wrapped_result((direct_results 3), 2)
@@ -90,7 +90,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(w.count).to eq(count)
     end
 
-    it "should travel to all results width-first" do
+    it "travels to all results width-first" do
       # build a tree of wrapped and direct results
       w1 = wrapped_result((direct_results 5), 3)
       w2 = wrapped_result wrapped_result((direct_results 3), 2)
@@ -104,32 +104,32 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       expect(w.count).to eq(count)
     end
 
-    it "should compute count correctly" do
-      expect(@query.result.count).to eq(Entry.count)
+    it "computes count correctly" do
+      expect(query.result.count).to eq(Entry.count)
     end
 
-    it "should compute units correctly" do
-      expect(@query.result.units).to eq(Entry.all.map { |e| e.units }.sum)
+    it "computes units correctly" do
+      expect(query.result.units).to eq(Entry.all.map(&:units).sum)
     end
 
-    it "should compute real_costs correctly" do
-      expect(@query.result.real_costs).to eq(Entry.all.map { |e| e.overridden_costs || e.costs }.sum)
+    it "computes real_costs correctly" do
+      expect(query.result.real_costs).to eq(Entry.all.map { |e| e.overridden_costs || e.costs }.sum)
     end
 
-    it "should compute count for DirectResults" do
-      expect(@query.result.values[0].count).to eq(1)
+    it "computes count for DirectResults" do
+      expect(query.result.values[0].count).to eq(1)
     end
 
-    it "should compute units for DirectResults" do
-      id_sorted = @query.result.values.sort_by { |r| r[:id] }
+    it "computes units for DirectResults" do
+      id_sorted = query.result.values.sort_by { |r| r[:id] }
       te_result = id_sorted.select { |r| r[:type] == TimeEntry.to_s }.first
       ce_result = id_sorted.select { |r| r[:type] == CostEntry.to_s }.first
       expect(te_result.units.to_s).to eq("1.0")
       expect(ce_result.units.to_s).to eq("1.0")
     end
 
-    it "should compute real_costs for DirectResults" do
-      id_sorted = @query.result.values.sort_by { |r| r[:id] }
+    it "computes real_costs for DirectResults" do
+      id_sorted = query.result.values.sort_by { |r| r[:id] }
       [CostEntry].each do |type|
         result = id_sorted.select { |r| r[:type] == type.to_s }.first
         first = type.all.first
@@ -137,19 +137,19 @@ describe CostQuery, type: :model, reporting_query_helper: true do
       end
     end
 
-    it "should be a column if created with CostQuery.column" do
-      @query.column :project_id
-      expect(@query.result.type).to eq(:column)
+    it "is a column if created with CostQuery.column" do
+      query.column :project_id
+      expect(query.result.type).to eq(:column)
     end
 
-    it "should be a row if created with CostQuery.row" do
-      @query.row :project_id
-      expect(@query.result.type).to eq(:row)
+    it "is a row if created with CostQuery.row" do
+      query.row :project_id
+      expect(query.result.type).to eq(:row)
     end
 
-    it "should show the type :direct for its direct results" do
-      @query.column :project_id
-      expect(@query.result.first.first.type).to eq(:direct)
+    it "shows the type :direct for its direct results" do
+      query.column :project_id
+      expect(query.result.first.first.type).to eq(:direct)
     end
   end
 end

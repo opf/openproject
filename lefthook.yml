@@ -16,4 +16,4 @@ pre-commit:
     rubocop:
       files: git diff --name-only --staged
       glob: "*.rb"
-      run: bundle exec rubocop --force-exclusion {files}
+      run: bin/dirty-rubocop --uncommitted --force-exclusion {files}

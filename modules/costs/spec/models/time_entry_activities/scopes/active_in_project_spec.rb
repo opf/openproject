@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -42,7 +40,7 @@ describe TimeEntryActivities::Scopes::ActiveInProject, type: :model do
     context 'without a project configuration' do
       context 'with the activity being active' do
         it 'includes the activity' do
-          is_expected
+          expect(subject)
             .to match_array [activity, other_activity]
         end
       end
@@ -53,7 +51,7 @@ describe TimeEntryActivities::Scopes::ActiveInProject, type: :model do
         end
 
         it 'excludes the activity' do
-          is_expected
+          expect(subject)
             .to match_array([other_activity])
         end
       end
@@ -61,11 +59,11 @@ describe TimeEntryActivities::Scopes::ActiveInProject, type: :model do
 
     context 'with a project configuration configured to true' do
       before do
-        activity.time_entry_activities_projects.create(project: project, active: true)
+        activity.time_entry_activities_projects.create(project:, active: true)
       end
 
       it 'includes the activity' do
-        is_expected
+        expect(subject)
           .to match_array [activity, other_activity]
       end
 
@@ -75,7 +73,7 @@ describe TimeEntryActivities::Scopes::ActiveInProject, type: :model do
         end
 
         it 'includes the activity' do
-          is_expected
+          expect(subject)
             .to match_array [activity, other_activity]
         end
       end
@@ -87,18 +85,18 @@ describe TimeEntryActivities::Scopes::ActiveInProject, type: :model do
       end
 
       it 'includes the activity' do
-        is_expected
+        expect(subject)
           .to match_array [activity, other_activity]
       end
     end
 
     context 'with a project configuration configured to false' do
       before do
-        activity.time_entry_activities_projects.create(project: project, active: false)
+        activity.time_entry_activities_projects.create(project:, active: false)
       end
 
       it 'excludes the activity' do
-        is_expected
+        expect(subject)
           .to match_array [other_activity]
       end
 
@@ -108,7 +106,7 @@ describe TimeEntryActivities::Scopes::ActiveInProject, type: :model do
         end
 
         it 'excludes the activity' do
-          is_expected
+          expect(subject)
             .to match_array [other_activity]
         end
       end

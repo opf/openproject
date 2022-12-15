@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -177,9 +175,9 @@ module OpenProject
         #
         # If the operation throws an exception or the operation we rethrow a
         # +CommandFailed+ with a meaningful error message.
-        def popen3(args, opts = {}, &block)
+        def popen3(args, opts = {}, &)
           logger.debug "Shelling out: `#{stripped_command(args)}`"
-          Open3.popen3(client_command, *args, opts, &block)
+          Open3.popen3(client_command, *args, opts, &)
         rescue Exceptions::SCMError => e
           raise e
         rescue StandardError => e

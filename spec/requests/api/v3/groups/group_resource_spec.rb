@@ -45,7 +45,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
       end
     end
   end
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i[view_members manage_members] }
   let(:members) do
     create_list(:user, 2)
@@ -181,7 +181,12 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     let(:another_user) do
       create(:user,
              member_in_project: project,
-             member_through_role: another_role)
+             member_through_role: another_role,
+             notification_settings: [
+               build(:notification_setting,
+                     membership_added: true,
+                     membership_updated: true)
+             ])
     end
     let(:body) do
       {
@@ -294,7 +299,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
       it 'returns 422' do
         expect(last_response.status)
-          .to eql(422)
+          .to be(422)
 
         expect(last_response.body)
           .to be_json_eql("Name can't be blank.".to_json)
@@ -359,7 +364,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     context 'with required permissions' do
       current_user { admin }
 
-      it 'should respond with 202' do
+      it 'responds with 202' do
         expect(subject.status).to eq 202
       end
 

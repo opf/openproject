@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -32,9 +30,9 @@ require 'rexml/document'
 require 'open3'
 
 module OpenProject
-  module VERSION #:nodoc:
+  module VERSION # :nodoc:
     MAJOR = 12
-    MINOR = 1
+    MINOR = 5
     PATCH = 0
 
     class << self

@@ -36,7 +36,7 @@ describe CopyProjectJob, type: :model do
   let(:maildouble) { double('Mail::Message', deliver: true) }
 
   before do
-    allow(maildouble).to receive(:deliver_now).and_return nil
+    allow(maildouble).to receive(:deliver_later)
   end
 
   describe 'copy localizes error message' do
@@ -45,7 +45,7 @@ describe CopyProjectJob, type: :model do
     let(:target_project) { create(:project) }
 
     let(:copy_job) do
-      CopyProjectJob.new
+      described_class.new
     end
 
     it 'sets locale correctly' do
@@ -66,7 +66,7 @@ describe CopyProjectJob, type: :model do
   describe 'copy project succeeds with errors' do
     let(:admin) { create(:admin) }
     let(:source_project) { create(:project, types: [type]) }
-    let!(:work_package) { create(:work_package, project: source_project, type: type) }
+    let!(:work_package) { create(:work_package, project: source_project, type:) }
     let(:type) { create(:type_bug) }
     let(:custom_field) do
       create(:work_package_custom_field,
@@ -126,7 +126,7 @@ describe CopyProjectJob, type: :model do
     end
 
     let(:copy_job) do
-      CopyProjectJob.new.tap do |job|
+      described_class.new.tap do |job|
         job.perform user_id: admin.id,
                     source_project_id: source_project.id,
                     target_project_params: params,
@@ -155,7 +155,7 @@ describe CopyProjectJob, type: :model do
     let(:admin) { create(:admin) }
     let(:source_project) { create(:project) }
     let(:copy_job) do
-      CopyProjectJob.new.tap do |job|
+      described_class.new.tap do |job|
         job.perform user_id: admin.id,
                     source_project_id: source_project.id,
                     target_project_params: params,
@@ -188,7 +188,7 @@ describe CopyProjectJob, type: :model do
 
   shared_context 'copy project' do
     before do
-      CopyProjectJob.new.tap do |job|
+      described_class.new.tap do |job|
         job.perform user_id: user.id,
                     source_project_id: project_to_copy.id,
                     target_project_params: params,
@@ -204,7 +204,7 @@ describe CopyProjectJob, type: :model do
     end
 
     describe 'subproject' do
-      let(:params) { { name: 'Copy', identifier: 'copy', parent_id: project.id } }
+      let(:params) { { name: 'Copy', identifier: 'copy' } }
       let(:subproject) do
         create(:project, parent: project).tap do |p|
           create(:member,
@@ -229,11 +229,34 @@ describe CopyProjectJob, type: :model do
         end
 
         it "notifies the user of the success" do
+          perform_enqueued_jobs
+
           mail = ActionMailer::Base.deliveries
-                   .find { |m| m.message_id.start_with? "op.project-#{subject.id}" }
+                                   .find { |m| m.message_id.start_with? "op.project-#{subject.id}" }
 
           expect(mail).to be_present
           expect(mail.subject).to eq "Created project #{subject.name}"
+          expect(mail.to).to eq [user.mail]
+        end
+      end
+
+      describe 'user without add_subprojects permission in parent and when explicitly setting that parent' do
+        let(:params) { { name: 'Copy', identifier: 'copy', parent_id: project.id } }
+
+        include_context 'copy project' do
+          let(:project_to_copy) { subproject }
+        end
+
+        it 'does not copy the project' do
+          expect(subject).to be_nil
+        end
+
+        it "notifies the user of that parent not being allowed" do
+          perform_enqueued_jobs
+
+          mail = ActionMailer::Base.deliveries.first
+          expect(mail).to be_present
+          expect(mail.subject).to eq I18n.t('copy_project.failed', source_project_name: subproject.name)
           expect(mail.to).to eq [user.mail]
         end
       end
@@ -242,8 +265,8 @@ describe CopyProjectJob, type: :model do
         let(:role_add_subproject) { create(:role, permissions: [:add_subprojects]) }
         let(:member_add_subproject) do
           create(:member,
-                 user: user,
-                 project: project,
+                 user:,
+                 project:,
                  roles: [role_add_subproject])
         end
 
@@ -263,6 +286,8 @@ describe CopyProjectJob, type: :model do
         end
 
         it "notifies the user of the success" do
+          perform_enqueued_jobs
+
           mail = ActionMailer::Base.deliveries
                                    .find { |m| m.message_id.start_with? "op.project-#{subject.id}" }
 

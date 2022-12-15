@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe Activities::WorkPackageActivityProvider, type: :model do
-  let(:event_scope)               { 'work_packages' }
-  let(:work_package_edit_event)   { 'work_package-edit' }
+  let(:event_scope) { 'work_packages' }
+  let(:work_package_edit_event) { 'work_package-edit' }
   let(:work_package_closed_event) { 'work_package-closed' }
 
   let(:user) { create :admin }
@@ -47,7 +47,7 @@ describe Activities::WorkPackageActivityProvider, type: :model do
     context 'when a work package has been created' do
       let(:subject) do
         Activities::WorkPackageActivityProvider
-          .find_events(event_scope, user, Date.yesterday, Date.tomorrow, {})
+          .find_events(event_scope, user, Time.zone.yesterday.to_datetime, Time.zone.tomorrow.to_datetime, {})
       end
 
       it 'has the edited event type' do
@@ -66,16 +66,17 @@ describe Activities::WorkPackageActivityProvider, type: :model do
 
       let(:subject) do
         Activities::WorkPackageActivityProvider
-          .find_events(event_scope, user, Date.yesterday, Date.tomorrow, limit: 3)
+          .find_events(event_scope, user, Time.zone.yesterday.to_datetime, Time.zone.tomorrow.to_datetime, limit: 3)
           .map { |a| a.journable_id.to_s }
       end
+
       it { is_expected.to eq(work_packages.reverse.first(3)) }
     end
 
     context 'when a work package has been created and then closed' do
       let(:subject) do
         Activities::WorkPackageActivityProvider
-          .find_events(event_scope, user, Date.yesterday, Date.tomorrow, limit: 10)
+          .find_events(event_scope, user, Time.zone.yesterday.to_datetime, Time.zone.tomorrow.to_datetime, limit: 10)
       end
 
       before do
@@ -87,7 +88,7 @@ describe Activities::WorkPackageActivityProvider, type: :model do
 
       it 'only returns a single event (as it is aggregated)' do
         expect(subject.count)
-          .to eql(1)
+          .to be(1)
       end
 
       it 'has the closed event type' do
@@ -103,7 +104,7 @@ describe Activities::WorkPackageActivityProvider, type: :model do
       let(:child_project3) { create(:project, parent: project) }
       let(:child_project4) { create(:project, parent: project, public: true) }
 
-      let(:parent_work_package) { create(:work_package, project: project) }
+      let(:parent_work_package) { create(:work_package, project:) }
       let(:child1_work_package) { create(:work_package, project: child_project1) }
       let(:child2_work_package) { create(:work_package, project: child_project2) }
       let(:child3_work_package) { create(:work_package, project: child_project3) }
@@ -117,7 +118,7 @@ describe Activities::WorkPackageActivityProvider, type: :model do
         create(:user).tap do |u|
           create(:member,
                  user: u,
-                 project: project,
+                 project:,
                  roles: [create(:role, permissions: [:view_work_packages])])
           create(:member,
                  user: u,
@@ -137,7 +138,14 @@ describe Activities::WorkPackageActivityProvider, type: :model do
         project.reload
 
         Activities::WorkPackageActivityProvider
-          .find_events(event_scope, user, Date.yesterday, Date.tomorrow, project: project, with_subprojects: true)
+          .find_events(
+            event_scope,
+            user,
+            Time.zone.yesterday.to_datetime,
+            Time.zone.tomorrow.to_datetime,
+            project:,
+            with_subprojects: true
+          )
       end
 
       it 'returns only visible work packages' do

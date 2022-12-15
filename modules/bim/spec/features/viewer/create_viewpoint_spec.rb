@@ -38,7 +38,7 @@ describe 'Create viewpoint from BCF details page',
   let!(:model) do
     create(:ifc_model_minimal_converted,
            title: 'minimal',
-           project: project,
+           project:,
            uploader: user)
   end
 
@@ -98,14 +98,14 @@ describe 'Create viewpoint from BCF details page',
   end
 
   context 'with a work package with BCF' do
-    let!(:work_package) { create(:work_package, project: project) }
-    let!(:bcf) { create :bcf_issue, work_package: work_package }
+    let!(:work_package) { create(:work_package, project:) }
+    let!(:bcf) { create :bcf_issue, work_package: }
 
     it_behaves_like 'can create a viewpoint from the BCF details page'
   end
 
   context 'with a work package without BCF' do
-    let!(:work_package) { create(:work_package, project: project) }
+    let!(:work_package) { create(:work_package, project:) }
 
     it_behaves_like 'can create a viewpoint from the BCF details page'
   end

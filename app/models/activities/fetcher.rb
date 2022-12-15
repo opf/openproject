@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -48,21 +46,17 @@ module Activities
 
     # Returns an array of available event types
     def event_types
-      @event_types ||= begin
+      @event_types ||=
         if @project
           OpenProject::Activity.available_event_types.select do |o|
-            @project.self_and_descendants.detect do |_p|
-              permissions = constantized_providers(o).map do |p|
-                p.activity_provider_options[:permission]
-              end.compact
-
-              permissions.all? { |p| @user.allowed_to?(p, @project) }
-            end
+            permissions = constantized_providers(o).map do |activity_provider|
+              activity_provider.activity_provider_options[:permission]
+            end.compact
+            permissions.all? { |p| @user.allowed_to?(p, @project) }
           end
         else
-          OpenProject::Activity.available_event_types
+          OpenProject::Activity.available_event_types.to_a
         end
-      end
     end
 
     # Returns an array of events for the given date range
@@ -92,7 +86,7 @@ module Activities
 
     # Resets the scope to the default scope
     def default_scope!
-      @scope = OpenProject::Activity.default_event_types
+      @scope = OpenProject::Activity.default_event_types.to_a
     end
 
     def events_from_providers(from, to, limit)
@@ -100,7 +94,7 @@ module Activities
 
       @scope.each do |event_type|
         constantized_providers(event_type).each do |provider|
-          events += provider.find_events(event_type, @user, from, to, @options.merge(limit: limit))
+          events += provider.find_events(event_type, @user, from, to, @options.merge(limit:))
         end
       end
 

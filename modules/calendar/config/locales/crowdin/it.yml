@@ -1,6 +1,6 @@
 #English strings go here
 it:
-  label_calendar_plural: "Calendars"
-  permission_view_calendars: "View calendars"
-  permission_manage_calendars: "Manage calendars"
-  project_module_calendar_view: "Calendar"
+  label_calendar_plural: "Calendari"
+  permission_view_calendar: "Visualizza calendari"
+  permission_manage_calendars: "Gestisci calendari"
+  project_module_calendar_view: "Calendario"

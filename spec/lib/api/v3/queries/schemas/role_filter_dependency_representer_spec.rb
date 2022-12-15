@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::RoleFilterDependencyRepresenter, clear_cache: true do
+describe ::API::V3::Queries::Schemas::RoleFilterDependencyRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:filter) { Queries::WorkPackages::Filter::RoleFilter.create! }
@@ -37,7 +37,7 @@ describe ::API::V3::Queries::Schemas::RoleFilterDependencyRepresenter, clear_cac
   let(:instance) do
     described_class.new(filter,
                         operator,
-                        form_embedded: form_embedded)
+                        form_embedded:)
   end
 
   subject(:generated) { instance.to_json }

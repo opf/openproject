@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -35,7 +33,7 @@ task :release, [:version] do |_task, args|
   version = args[:version]
   abort 'Missing version in the form of 1.0.0' unless version.present?
 
-  dir = Pathname.new(ENV['HOME']) + 'dev' + 'openproject' + 'packages'
+  dir = Pathname.new(ENV.fetch('HOME', nil)) + 'dev' + 'openproject' + 'packages'
   FileUtils.mkdir_p dir
 
   commands = [

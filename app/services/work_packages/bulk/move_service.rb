@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -35,7 +33,7 @@ module WorkPackages
 
       def alter_work_package(work_package, params)
         WorkPackages::UpdateService
-          .new(user: user,
+          .new(user:,
                model: work_package)
           .call(**params.symbolize_keys)
       end
@@ -44,8 +42,8 @@ module WorkPackages
         return if OpenProject::Hook.hook_listeners(:controller_work_packages_move_before_save).empty?
 
         call_hook(:controller_work_packages_move_before_save,
-                  params: params,
-                  work_package: work_package,
+                  params:,
+                  work_package:,
                   target_project: params[:project_id] ? Project.find_by(id: params[:project_id]) : nil,
                   copy: false)
       end

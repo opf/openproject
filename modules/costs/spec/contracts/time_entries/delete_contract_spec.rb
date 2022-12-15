@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -110,6 +108,7 @@ describe TimeEntries::DeleteContract do
 
     context 'when has no permission' do
       let(:permissions) { %i[edit_own_time_entries] }
+
       it 'is invalid' do
         expect_valid(false, base: %i(error_unauthorized))
       end

@@ -83,7 +83,7 @@ export class WorkPackagesCalendarPageComponent extends PartitionedQuerySpacePage
   /** Toolbar is not editable */
   titleEditingEnabled = false;
 
-  /** Savable */
+  /** Saveable */
   showToolbarSaveButton = true;
 
   /** Toolbar is always enabled */
@@ -120,8 +120,7 @@ export class WorkPackagesCalendarPageComponent extends PartitionedQuerySpacePage
     this.currentPartition = state.data?.partition || '-split';
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected staticQueryName(query:QueryResource):string {
+  protected staticQueryName(_query:QueryResource):string {
     return this.text.unsaved_title;
   }
 

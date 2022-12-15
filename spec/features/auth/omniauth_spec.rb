@@ -29,18 +29,21 @@
 require 'spec_helper'
 
 describe 'Omniauth authentication', type: :feature do
+  # Load ViewAccountLoginAuthProvider to have this spec passing
+  OpenProject::Hooks::ViewAccountLoginAuthProvider
+
   # Running the tests inside docker changes the hostname. To accommodate that we changed
   # the Capybara app_host, however this change was not being reflected in the Rails host,
   # causing the redirect checks to fail below.
   def self.default_url_options
     host =
       if Capybara.app_host
-        Capybara.app_host.sub(/https?\/\//, "")
+        Capybara.app_host.sub(/https?\/\//, '')
       else
-        'http://www.example.com'
+        'www.example.com'
       end
 
-    { host: host }
+    { host: }
   end
 
   let(:user) do
@@ -74,7 +77,7 @@ describe 'Omniauth authentication', type: :feature do
   end
 
   context 'sign in existing user' do
-    it 'should redirect to back url' do
+    it 'redirects to back url' do
       visit account_lost_password_path
       click_link("Omniauth Developer", match: :first, visible: :all)
 
@@ -87,7 +90,7 @@ describe 'Omniauth authentication', type: :feature do
       expect(current_url).to eql account_lost_password_url
     end
 
-    it 'should sign in user' do
+    it 'signs in user' do
       visit '/auth/developer'
 
       SeleniumHubWaiter.wait
@@ -102,7 +105,7 @@ describe 'Omniauth authentication', type: :feature do
 
     context 'with direct login',
             with_config: { omniauth_direct_login_provider: 'developer' } do
-      it 'should go directly to the developer sign in and then redirect to the back url' do
+      it 'goes directly to the developer sign in and then redirect to the back url' do
         visit my_account_path
         # requires login, redirects to developer login which is why we see the login form now
 
@@ -145,7 +148,7 @@ describe 'Omniauth authentication', type: :feature do
   end
 
   shared_examples 'omniauth user registration' do
-    it 'should register new user' do
+    it 'registers new user' do
       visit '/'
       click_link("Omniauth Developer", match: :first)
 
@@ -172,7 +175,7 @@ describe 'Omniauth authentication', type: :feature do
   context 'register on the fly',
           with_settings: {
             self_registration?: true,
-            self_registration: '3',
+            self_registration: Setting::SelfRegistration.automatic,
             available_languages: [:en]
           } do
     let(:user) do
@@ -186,7 +189,7 @@ describe 'Omniauth authentication', type: :feature do
 
     it_behaves_like 'omniauth user registration'
 
-    it 'should redirect to homesceen' do
+    it 'redirects to homescreen' do
       visit account_lost_password_path
       click_link("Omniauth Developer", match: :first)
 
@@ -215,8 +218,7 @@ describe 'Omniauth authentication', type: :feature do
 
   context 'registration by email',
           with_settings: {
-            self_registration?: true,
-            self_registration: Setting::SelfRegistration.by_email.to_s
+            self_registration: Setting::SelfRegistration.by_email
           } do
     shared_examples 'registration with registration by email' do
       it 'shows a note explaining that the account has to be activated' do
@@ -259,7 +261,7 @@ describe 'Omniauth authentication', type: :feature do
 
   context 'error occurs' do
     shared_examples 'omniauth signin error' do
-      it 'should fail with generic error message' do
+      it 'fails with generic error message' do
         # set omniauth to test mode will redirect all calls to omniauth
         # directly to the callback and by setting the mock_auth provider
         # to a symbol will force omniauth to fail /auth/failure

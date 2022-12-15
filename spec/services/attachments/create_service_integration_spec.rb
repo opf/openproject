@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -32,14 +30,14 @@ require 'spec_helper'
 describe Attachments::CreateService, 'integration', with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:description) { 'a fancy description' }
 
-  subject { described_class.new(user: user) }
+  subject { described_class.new(user:) }
 
   describe '#call' do
     def call_tested_method
-      subject.call container: container,
+      subject.call container:,
                    file: FileHelpers.mock_uploaded_file(name: 'foobar.txt'),
                    filename: 'foobar.txt',
-                   description: description
+                   description:
     end
 
     context 'when journalized' do

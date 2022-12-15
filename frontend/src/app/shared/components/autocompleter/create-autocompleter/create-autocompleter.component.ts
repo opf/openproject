@@ -83,8 +83,6 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @Input() public hideSelected = false;
 
-  @Input() public showAddNewButton:boolean;
-
   @Output() public onChange = new EventEmitter<HalResource>();
 
   @Output() public onKeydown = new EventEmitter<JQuery.TriggeredEvent>();
@@ -95,11 +93,9 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @Output() public onAfterViewInit = new EventEmitter<this>();
 
-  @Output() public onAddNew = new EventEmitter<this>();
+  @Output() public onAddNew = new EventEmitter<HalResource>();
 
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
-
-  @InjectField() readonly opInviteUserModalService:OpInviteUserModalService;
 
   @InjectField() readonly I18n:I18nService;
 
@@ -125,16 +121,6 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   ngAfterViewInit() {
     this.onAfterViewInit.emit(this);
-    if (this.opInviteUserModalService) {
-      this.opInviteUserModalService.close
-        .pipe(
-          this.untilDestroyed(),
-          filter((user) => !!user),
-        )
-        .subscribe((user:HalResource) => {
-          this.onChange.emit(user);
-        });
-    }
   }
 
   public openSelect() {
@@ -192,9 +178,5 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   public focusInputField() {
     this.ngSelectComponent && this.ngSelectComponent.focus();
-  }
-
-  public isPrincipal(item:CreateAutocompleterValueOption) {
-    return item.href && typeFromHref(item.href) !== null;
   }
 }

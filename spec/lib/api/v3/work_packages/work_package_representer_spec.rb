@@ -28,7 +28,6 @@
 
 require 'spec_helper'
 
-# rubocop:disable RSpec:MultipleMemoizedHelpers
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include ::API::V3::Utilities::PathHelper
 
@@ -36,38 +35,42 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:current_user) { member }
   let(:embed_links) { true }
   let(:representer) do
-    described_class.create(work_package, current_user: current_user, embed_links: embed_links)
+    described_class.create(work_package, current_user:, embed_links:)
   end
   let(:parent) { nil }
-  let(:priority) { build_stubbed(:priority, updated_at: Time.now) }
+  let(:priority) { build_stubbed(:priority, updated_at: Time.zone.now) }
   let(:assignee) { nil }
   let(:responsible) { nil }
   let(:schedule_manually) { nil }
-  let(:start_date) { Date.today.to_datetime }
-  let(:due_date) { Date.today.to_datetime }
+  let(:start_date) { Time.zone.today.to_datetime }
+  let(:due_date) { Time.zone.today.to_datetime }
   let(:type_milestone) { false }
   let(:estimated_hours) { nil }
   let(:derived_estimated_hours) { nil }
   let(:spent_hours) { 0 }
-  let(:derived_start_date) { Date.today - 4.days }
-  let(:derived_due_date) { Date.today - 5.days }
-  let(:budget) { build_stubbed(:budget, project: project) }
+  let(:derived_start_date) { Time.zone.today - 4.days }
+  let(:derived_due_date) { Time.zone.today - 5.days }
+  let(:budget) { build_stubbed(:budget, project:) }
+  let(:duration) { nil }
+  let(:ignore_non_working_days) { true }
   let(:work_package) do
-    build_stubbed(:stubbed_work_package,
-                  schedule_manually: schedule_manually,
-                  start_date: start_date,
-                  due_date: due_date,
+    build_stubbed(:work_package,
+                  schedule_manually:,
+                  start_date:,
+                  due_date:,
+                  duration:,
                   done_ratio: 50,
-                  parent: parent,
-                  type: type,
-                  project: project,
-                  priority: priority,
+                  parent:,
+                  type:,
+                  project:,
+                  priority:,
                   assigned_to: assignee,
-                  responsible: responsible,
-                  estimated_hours: estimated_hours,
-                  derived_estimated_hours: derived_estimated_hours,
-                  budget: budget,
-                  status: status) do |wp|
+                  responsible:,
+                  estimated_hours:,
+                  derived_estimated_hours:,
+                  budget:,
+                  ignore_non_working_days:,
+                  status:) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
@@ -97,6 +100,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       add_work_packages
       view_time_entries
       view_changesets
+      view_file_links
+      manage_file_links
       delete_work_packages
     ]
   end
@@ -109,10 +114,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
     type
   end
-  let(:status) { build_stubbed(:status, updated_at: Time.now) }
+  let(:status) { build_stubbed(:status, updated_at: Time.zone.now) }
   let(:available_custom_fields) { [] }
 
-  before(:each) do
+  before do
     login_as current_user
 
     allow(current_user)
@@ -123,14 +128,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
   describe '.new' do
     it 'is prevented as .create is to be used' do
-      expect { described_class.new(work_package, current_user: current_user, embed_links: embed_links) }
+      expect { described_class.new(work_package, current_user:, embed_links:) }
         .to raise_error NoMethodError
     end
   end
 
   include_context 'eager loaded work package representer'
 
-  context 'generation' do
+  describe 'generation' do
     subject(:generated) { representer.to_json }
 
     it { is_expected.to include_json('WorkPackage'.to_json).at_path('_type') }
@@ -141,29 +146,29 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it_behaves_like 'API V3 formattable', 'description' do
         let(:format) { 'markdown' }
         let(:raw) { work_package.description }
-        let(:html) { '<p class="op-uc-p">' + work_package.description + '</p>' }
+        let(:html) { "<p class=\"op-uc-p\">#{work_package.description}</p>" }
       end
 
       describe 'scheduleManually' do
-        context 'no value' do
+        context 'when no value' do
           it 'renders as false (default value)' do
-            is_expected.to be_json_eql(false.to_json).at_path('scheduleManually')
+            expect(subject).to be_json_eql(false.to_json).at_path('scheduleManually')
           end
         end
 
-        context 'false' do
+        context 'when false' do
           let(:schedule_manually) { false }
 
           it 'renders as false' do
-            is_expected.to be_json_eql(false.to_json).at_path('scheduleManually')
+            expect(subject).to be_json_eql(false.to_json).at_path('scheduleManually')
           end
         end
 
-        context 'true' do
+        context 'when true' do
           let(:schedule_manually) { true }
 
           it 'renders as true' do
-            is_expected.to be_json_eql(true.to_json).at_path('scheduleManually')
+            expect(subject).to be_json_eql(true.to_json).at_path('scheduleManually')
           end
         end
       end
@@ -174,11 +179,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:json_path) { 'startDate' }
         end
 
-        context 'no start date' do
+        context 'when it\'s nil' do
           let(:start_date) { nil }
 
           it 'renders as null' do
-            is_expected.to be_json_eql(nil.to_json).at_path('startDate')
+            expect(subject).to be_json_eql(nil.to_json).at_path('startDate')
           end
         end
 
@@ -186,7 +191,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:type_milestone) { true }
 
           it 'has no startDate' do
-            is_expected.to_not have_json_path('startDate')
+            expect(subject).not_to have_json_path('startDate')
           end
         end
       end
@@ -198,11 +203,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             let(:json_path) { 'dueDate' }
           end
 
-          context 'no finish date' do
+          context 'with no finish date' do
             let(:due_date) { nil }
 
             it 'renders as null' do
-              is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
+              expect(subject).to be_json_eql(nil.to_json).at_path('dueDate')
             end
           end
         end
@@ -210,8 +215,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'with a milestone type' do
           let(:type_milestone) { true }
 
-          it 'has no startDate' do
-            is_expected.to_not have_json_path('dueDate')
+          it 'with no startDate' do
+            expect(subject).not_to have_json_path('dueDate')
           end
         end
       end
@@ -225,18 +230,18 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             let(:json_path) { 'date' }
           end
 
-          context 'no finish date' do
+          context 'with no finish date' do
             let(:due_date) { nil }
 
             it 'renders as null' do
-              is_expected.to be_json_eql(nil.to_json).at_path('date')
+              expect(subject).to be_json_eql(nil.to_json).at_path('date')
             end
           end
         end
 
-        context 'with a milestone type' do
-          it 'has no date' do
-            is_expected.to_not have_json_path('date')
+        context 'with not a milestone type' do
+          it 'with no date' do
+            expect(subject).not_to have_json_path('date')
           end
         end
       end
@@ -247,11 +252,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:json_path) { 'derivedStartDate' }
         end
 
-        context 'no derived start date' do
+        context 'with no derived start date' do
           let(:derived_start_date) { nil }
 
           it 'renders as null' do
-            is_expected
+            expect(subject)
               .to be_json_eql(nil.to_json)
               .at_path('derivedStartDate')
           end
@@ -260,9 +265,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'when the work package has a milestone type' do
           let(:type_milestone) { true }
 
-          it 'has no derivedStartDate' do
-            is_expected
-              .to_not have_json_path('derivedStartDate')
+          it 'with no derivedStartDate' do
+            expect(subject)
+              .not_to have_json_path('derivedStartDate')
           end
         end
       end
@@ -273,11 +278,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:json_path) { 'derivedDueDate' }
         end
 
-        context 'no derived due date' do
+        context 'with no derived due date' do
           let(:derived_due_date) { nil }
 
           it 'renders as null' do
-            is_expected
+            expect(subject)
               .to be_json_eql(nil.to_json)
                     .at_path('derivedDueDate')
           end
@@ -286,10 +291,46 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'when the work package has a milestone type' do
           let(:type_milestone) { true }
 
-          it 'has no derivedDueDate' do
-            is_expected
-              .to_not have_json_path('derivedDueDate')
+          it 'with no derivedDueDate' do
+            expect(subject)
+              .not_to have_json_path('derivedDueDate')
           end
+        end
+      end
+
+      describe 'duration' do
+        let(:duration) { 6 }
+
+        it { is_expected.to be_json_eql('P6D'.to_json).at_path('duration') }
+
+        context 'with no duration' do
+          let(:duration) { nil }
+
+          it 'renders as null' do
+            expect(subject).to be_json_eql(nil.to_json).at_path('duration')
+          end
+        end
+
+        context 'when the work_package is a milestone' do
+          let(:type_milestone) { true }
+
+          it 'with no duration' do
+            expect(subject).not_to have_json_path('duration')
+          end
+        end
+      end
+
+      describe 'ignoreNonWorkingDays' do
+        let(:ignore_non_working_days) { true }
+
+        context 'with the value being `true`' do
+          it { is_expected.to be_json_eql(true.to_json).at_path('ignoreNonWorkingDays') }
+        end
+
+        context 'with the value being `false`' do
+          let(:ignore_non_working_days) { false }
+
+          it { is_expected.to be_json_eql(false.to_json).at_path('ignoreNonWorkingDays') }
         end
       end
 
@@ -316,6 +357,32 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it { is_expected.to be_json_eql(work_package.lock_version.to_json).at_path('lockVersion') }
       end
+
+      describe 'readonly' do
+        context 'with no status' do
+          let(:status) { nil }
+
+          it 'renders nothing' do
+            expect(subject).not_to have_json_path('readonly')
+          end
+        end
+
+        context 'when false', with_ee: %i[readonly_work_packages] do
+          let(:status) { build_stubbed :status, is_readonly: false }
+
+          it 'renders as false' do
+            expect(subject).to be_json_eql(false.to_json).at_path('readonly')
+          end
+        end
+
+        context 'when true', with_ee: %i[readonly_work_packages] do
+          let(:status) { build_stubbed :status, is_readonly: true }
+
+          it 'renders as true' do
+            expect(subject).to be_json_eql(true.to_json).at_path('readonly')
+          end
+        end
+      end
     end
 
     describe 'estimatedTime' do
@@ -330,35 +397,38 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to be_json_eql('PT3H45M'.to_json).at_path('derivedEstimatedTime') }
     end
 
-    describe 'spentTime' do
+    # rubocop:disable RSpec:MultipleMemoizedHelpers
+    xdescribe 'spentTime' do
       # spentTime is completely overwritten by costs
       # TODO: move specs from costs to here
     end
+    # rubocop:enable RSpec:MultipleMemoizedHelpers
 
     describe 'percentageDone' do
       describe 'work package done ratio setting behavior' do
-        context 'setting enabled' do
+        context 'when setting enabled' do
           it { expect(parse_json(subject)['percentageDone']).to eq(50) }
         end
 
-        context 'setting disabled' do
+        context 'when setting disabled' do
           before do
             allow(Setting)
               .to receive(:work_package_done_ratio)
               .and_return('disabled')
           end
 
-          it { is_expected.to_not have_json_path('percentageDone') }
+          it { is_expected.not_to have_json_path('percentageDone') }
         end
       end
     end
 
     describe 'custom fields' do
       let(:available_custom_fields) { [build_stubbed(:int_wp_custom_field)] }
+
       it 'uses a CustomFieldInjector' do
-        expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_value_representer)
-          .and_call_original
+        allow(::API::V3::Utilities::CustomFieldInjector).to receive(:create_value_representer).and_call_original
         representer.to_json
+        expect(::API::V3::Utilities::CustomFieldInjector).to have_received(:create_value_representer)
       end
     end
 
@@ -377,7 +447,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is a post link' do
-            is_expected.to be_json_eql('post'.to_json).at_path('_links/update/method')
+            expect(subject).to be_json_eql('post'.to_json).at_path('_links/update/method')
           end
         end
 
@@ -388,11 +458,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'is a patch link' do
-            is_expected.to be_json_eql('patch'.to_json).at_path('_links/updateImmediately/method')
+            expect(subject).to be_json_eql('patch'.to_json).at_path('_links/updateImmediately/method')
           end
         end
 
-        context 'user is not allowed to edit work packages' do
+        context 'when user is not allowed to edit work packages' do
           let(:permissions) { all_permissions - [:edit_work_packages] }
 
           it_behaves_like 'has no link' do
@@ -404,7 +474,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'user is lacks edit permission but has assign_versions' do
+        context 'when user is lacks edit permission but has assign_versions' do
           let(:permissions) { all_permissions - [:edit_work_packages] + [:assign_versions] }
 
           it_behaves_like 'has an untitled link' do
@@ -444,7 +514,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'assignee' do
-        context 'is user' do
+        context 'as a user' do
           let(:assignee) { build_stubbed(:user) }
 
           it_behaves_like 'has a titled link' do
@@ -454,7 +524,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'is group' do
+        context 'as a group' do
           let(:assignee) { build_stubbed(:group) }
 
           it_behaves_like 'has a titled link' do
@@ -464,7 +534,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'is placeholder user' do
+        context 'as a placeholder user' do
           let(:assignee) { build_stubbed(:placeholder_user) }
 
           it_behaves_like 'has a titled link' do
@@ -474,7 +544,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'is deleted user' do
+        context 'as a deleted user' do
           let(:assignee) { build_stubbed(:deleted_user) }
 
           it_behaves_like 'has a titled link' do
@@ -484,7 +554,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'is not set' do
+        context 'as not set' do
           it_behaves_like 'has an empty link' do
             let(:link) { 'assignee' }
           end
@@ -492,7 +562,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'responsible' do
-        context 'is user' do
+        context 'as a user' do
           let(:responsible) { build_stubbed(:user) }
 
           it_behaves_like 'has a titled link' do
@@ -502,7 +572,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'is group' do
+        context 'as a group' do
           let(:responsible) { build_stubbed(:group) }
 
           it_behaves_like 'has a titled link' do
@@ -512,7 +582,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'is placeholder user' do
+        context 'as a placeholder user' do
           let(:responsible) { build_stubbed(:placeholder_user) }
 
           it_behaves_like 'has a titled link' do
@@ -522,7 +592,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'is deleted user' do
+        context 'as a deleted user' do
           let(:responsible) { build_stubbed(:deleted_user) }
 
           it_behaves_like 'has a titled link' do
@@ -532,7 +602,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'is not set' do
+        context 'as not set' do
           it_behaves_like 'has an empty link' do
             let(:link) { 'responsible' }
           end
@@ -552,14 +622,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:embedded_path) { '_embedded/version' }
         let(:href_path) { '_links/version/href' }
 
-        context 'no version set' do
+        context 'when no version set' do
           it_behaves_like 'has an empty link' do
             let(:link) { 'version' }
           end
         end
 
-        context 'version set' do
-          let!(:version) { create :version, project: project }
+        context 'when version is set' do
+          let!(:version) { create :version, project: }
 
           before do
             work_package.version = version
@@ -572,8 +642,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'has the version embedded' do
-            is_expected.to be_json_eql('Version'.to_json).at_path("#{embedded_path}/_type")
-            is_expected.to be_json_eql(version.name.to_json).at_path("#{embedded_path}/name")
+            expect(subject).to be_json_eql('Version'.to_json).at_path("#{embedded_path}/_type")
+            expect(subject).to be_json_eql(version.name.to_json).at_path("#{embedded_path}/name")
           end
         end
       end
@@ -589,8 +659,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         it 'has the project embedded' do
-          is_expected.to be_json_eql('Project'.to_json).at_path("#{embedded_path}/_type")
-          is_expected.to be_json_eql(project.name.to_json).at_path("#{embedded_path}/name")
+          expect(subject).to be_json_eql('Project'.to_json).at_path("#{embedded_path}/_type")
+          expect(subject).to be_json_eql(project.name.to_json).at_path("#{embedded_path}/name")
         end
       end
 
@@ -598,13 +668,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:embedded_path) { '_embedded/category' }
         let(:href_path) { '_links/category/href' }
 
-        context 'no category set' do
+        context 'when no category set' do
           it_behaves_like 'has an empty link' do
             let(:link) { 'category' }
           end
         end
 
-        context 'category set' do
+        context 'when category is set' do
           let!(:category) { build_stubbed :category }
 
           before do
@@ -618,9 +688,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'has the category embedded' do
-            is_expected.to have_json_type(Hash).at_path('_embedded/category')
-            is_expected.to be_json_eql('Category'.to_json).at_path("#{embedded_path}/_type")
-            is_expected.to be_json_eql(category.name.to_json).at_path("#{embedded_path}/name")
+            expect(subject).to have_json_type(Hash).at_path('_embedded/category')
+            expect(subject).to be_json_eql('Category'.to_json).at_path("#{embedded_path}/_type")
+            expect(subject).to be_json_eql(category.name.to_json).at_path("#{embedded_path}/name")
           end
         end
       end
@@ -633,8 +703,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         it 'has the priority embedded' do
-          is_expected.to be_json_eql('Priority'.to_json).at_path('_embedded/priority/_type')
-          is_expected.to be_json_eql(priority.name.to_json).at_path('_embedded/priority/name')
+          expect(subject).to be_json_eql('Priority'.to_json).at_path('_embedded/priority/_type')
+          expect(subject).to be_json_eql(priority.name.to_json).at_path('_embedded/priority/name')
         end
       end
 
@@ -649,7 +719,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it 'has the budget embedded' do
-            is_expected
+            expect(subject)
               .to be_json_eql(budget.subject.to_json)
               .at_path('_embedded/budget/subject')
           end
@@ -657,12 +727,12 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'with the user lacking the view_budgets permission' do
           it 'has no link to the budget' do
-            is_expected
+            expect(subject)
               .not_to have_json_path('_links/budget')
           end
 
           it 'has no budget embedded' do
-            is_expected
+            expect(subject)
               .not_to have_json_path('_embedded/budget')
           end
         end
@@ -684,7 +754,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         it 'embeds the attachments as collection' do
-          is_expected.to be_json_eql('Collection'.to_json).at_path('_embedded/attachments/_type')
+          expect(subject).to be_json_eql('Collection'.to_json).at_path('_embedded/attachments/_type')
         end
 
         it_behaves_like 'has an untitled link' do
@@ -703,10 +773,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         it 'addAttachments is a post link' do
-          is_expected.to be_json_eql('post'.to_json).at_path('_links/addAttachment/method')
+          expect(subject).to be_json_eql('post'.to_json).at_path('_links/addAttachment/method')
         end
 
-        context 'user is not allowed to edit work packages' do
+        context 'when user is not allowed to edit work packages' do
           let(:permissions) { all_permissions - %i[edit_work_packages] }
 
           it_behaves_like 'has no link' do
@@ -715,14 +785,36 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      describe 'fileLinks' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'fileLinks' }
+          let(:href) { api_v3_paths.file_links(work_package.id) }
+        end
+
+        it_behaves_like 'has an untitled action link' do
+          let(:permission) { :manage_file_links }
+          let(:link) { 'addFileLink' }
+          let(:href) { api_v3_paths.file_links(work_package.id) }
+          let(:method) { 'post' }
+        end
+
+        context 'when user has no permission to view file links' do
+          let(:permissions) { all_permissions - %i[view_file_links] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'fileLinks' }
+          end
+        end
+      end
+
       context 'when the user is not watching the work package' do
-        it 'should have a link to watch' do
+        it 'has a link to watch' do
           expect(subject)
             .to be_json_eql(api_v3_paths.work_package_watchers(work_package.id).to_json)
             .at_path('_links/watch/href')
         end
 
-        it 'should not have a link to unwatch' do
+        it 'does not have a link to unwatch' do
           expect(subject).not_to have_json_path('_links/unwatch/href')
         end
       end
@@ -736,19 +828,19 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             .and_return(watchers)
         end
 
-        it 'should have a link to unwatch' do
+        it 'has a link to unwatch' do
           expect(subject)
             .to be_json_eql(api_v3_paths.watcher(current_user.id, work_package.id).to_json)
             .at_path('_links/unwatch/href')
         end
 
-        it 'should not have a link to watch' do
+        it 'does not have a link to watch' do
           expect(subject).not_to have_json_path('_links/watch/href')
         end
       end
 
       context 'when the user has permission to add comments' do
-        it 'should have a link to add comment' do
+        it 'has a link to add comment' do
           expect(subject).to have_json_path('_links/addComment')
         end
       end
@@ -756,20 +848,20 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       context 'when the user does not have the permission to add comments' do
         let(:permissions) { all_permissions - [:add_work_package_notes] }
 
-        it 'should not have a link to add comment' do
+        it 'does not have a link to add comment' do
           expect(subject).not_to have_json_path('_links/addComment/href')
         end
       end
 
       context 'when the user has the permission to add and remove watchers' do
-        it 'should have a link to add watcher' do
+        it 'has a link to add watcher' do
           expect(subject).to be_json_eql(
             api_v3_paths.work_package_watchers(work_package.id).to_json
           )
             .at_path('_links/addWatcher/href')
         end
 
-        it 'should have a link to remove watcher' do
+        it 'has a link to remove watcher' do
           expect(subject).to be_json_eql(
             api_v3_paths.watcher('{user_id}', work_package.id).to_json
           )
@@ -780,7 +872,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       context 'when the user does not have the permission to add watchers' do
         let(:permissions) { all_permissions - [:add_work_package_watchers] }
 
-        it 'should not have a link to add watcher' do
+        it 'does not have a link to add watcher' do
           expect(subject).not_to have_json_path('_links/addWatcher/href')
         end
       end
@@ -788,7 +880,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       context 'when the user does not have the permission to remove watchers' do
         let(:permissions) { all_permissions - [:delete_work_package_watchers] }
 
-        it 'should not have a link to remove watcher' do
+        it 'does not have a link to remove watcher' do
           expect(subject).not_to have_json_path('_links/removeWatcher/href')
         end
       end
@@ -817,7 +909,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when the user has the permission to manage relations' do
-          it 'should have a link to add relation' do
+          it 'has a link to add relation' do
             expect(subject).to have_json_path('_links/addRelation/href')
           end
         end
@@ -825,14 +917,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'when the user does not have the permission to manage relations' do
           let(:permissions) { all_permissions - [:manage_work_package_relations] }
 
-          it 'should not have a link to add relation' do
+          it 'does not have a link to add relation' do
             expect(subject).not_to have_json_path('_links/addRelation/href')
           end
         end
       end
 
       context 'when the user has the permission to add work packages' do
-        it 'should have a link to add child' do
+        it 'has a link to add child' do
           expect(subject).to be_json_eql("/api/v3/projects/#{project.identifier}/work_packages".to_json)
             .at_path('_links/addChild/href')
         end
@@ -841,12 +933,12 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       context 'when the user does not have the permission to add work packages' do
         let(:permissions) { all_permissions - [:add_work_packages] }
 
-        it 'should not have a link to add child' do
+        it 'does not have a link to add child' do
           expect(subject).not_to have_json_path('_links/addChild/href')
         end
       end
 
-      context 'timeEntries' do
+      describe 'timeEntries' do
         context 'when the user has the permission to view time entries' do
           it_behaves_like 'has a titled link' do
             let(:link) { 'timeEntries' }
@@ -861,7 +953,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         context 'when the user does not have the permission to view time entries' do
           let(:permissions) { all_permissions - [:view_time_entries] }
 
-          it 'should not have a link to timeEntries' do
+          it 'does not have a link to timeEntries' do
             expect(subject).not_to have_json_path('_links/timeEntries/href')
           end
         end
@@ -879,27 +971,27 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         describe 'parent' do
           let(:visible_parent) do
-            build_stubbed(:stubbed_work_package) do |wp|
+            build_stubbed(:work_package) do |wp|
               allow(wp)
                 .to receive(:visible?)
                 .and_return(true)
             end
           end
           let(:invisible_parent) do
-            build_stubbed(:stubbed_work_package) do |wp|
+            build_stubbed(:work_package) do |wp|
               allow(wp)
                 .to receive(:visible?)
                       .and_return(false)
             end
           end
 
-          context 'no parent' do
+          context 'with no parent' do
             it_behaves_like 'has an empty link' do
               let(:link) { 'parent' }
             end
           end
 
-          context 'parent is visible' do
+          context 'when parent is visible' do
             let(:parent) { visible_parent }
 
             it_behaves_like 'has a titled link' do
@@ -909,7 +1001,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             end
           end
 
-          context 'parent not visible' do
+          context 'when parent not visible' do
             let(:parent) { invisible_parent }
 
             it_behaves_like 'has an empty link' do
@@ -918,15 +1010,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'ancestors' do
-          let(:root) { build_stubbed(:work_package, project: project) }
+        describe 'ancestors' do
+          let(:root) { build_stubbed(:work_package, project:) }
           let(:intermediate) do
-            build_stubbed(:work_package, parent: root, project: project)
+            build_stubbed(:work_package, parent: root, project:)
           end
 
           context 'when ancestors are visible' do
             before do
-              expect(work_package).to receive(:visible_ancestors)
+              allow(work_package).to receive(:visible_ancestors)
                 .and_return([root, intermediate])
             end
 
@@ -936,23 +1028,25 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                 .to eq(root.subject)
               expect(parse_json(subject)['_links']['ancestors'][1]['title'])
                 .to eq(intermediate.subject)
+              expect(work_package).to have_received(:visible_ancestors)
             end
           end
 
           context 'when ancestors are invisible' do
             before do
-              expect(work_package).to receive(:visible_ancestors)
+              allow(work_package).to receive(:visible_ancestors)
                 .and_return([])
             end
 
             it 'renders empty ancestors' do
               expect(subject).to have_json_size(0).at_path('_links/ancestors')
+              expect(work_package).to have_received(:visible_ancestors)
             end
           end
         end
 
-        context 'children' do
-          let(:work_package) { create(:work_package, project: project) }
+        describe 'children' do
+          let(:work_package) { create(:work_package, project:) }
           let!(:forbidden_work_package) do
             create(:work_package,
                    project: forbidden_project,
@@ -964,7 +1058,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           describe 'visible and invisible children' do
             let!(:child) do
               create(:work_package,
-                     project: project,
+                     project:,
                      parent: work_package)
             end
 
@@ -987,7 +1081,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'logTime' do
         it_behaves_like 'action link' do
           let(:action) { 'logTime' }
-          let(:permission) { :log_time }
+          let(:permission) { :log_own_time }
           let(:href) { api_v3_paths.time_entries }
         end
       end
@@ -1027,6 +1121,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         context 'with feeds disabled', with_settings: { feeds_enabled?: false } do
           let(:permissions) { all_permissions + [:export_work_packages] }
+
           it_behaves_like 'has no link' do
             let(:link) { 'atom' }
           end
@@ -1061,6 +1156,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             let(:link) { 'formConfiguration' }
           end
         end
+
         context 'when admin' do
           let(:current_user) { build_stubbed :admin }
 
@@ -1088,7 +1184,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             }
           ]
 
-          is_expected
+          expect(subject)
             .to be_json_eql(expected.to_json)
             .at_path('_links/customActions')
         end
@@ -1106,13 +1202,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         it { is_expected.to be_json_eql(status.name.to_json).at_path('_embedded/status/name') }
 
         it {
-          is_expected.to be_json_eql(status.is_closed.to_json).at_path('_embedded/status/isClosed')
+          expect(subject).to be_json_eql(status.is_closed.to_json).at_path('_embedded/status/isClosed')
         }
       end
 
       describe 'activities' do
         it 'is not embedded' do
-          is_expected.not_to have_json_path('_embedded/activities')
+          expect(subject).not_to have_json_path('_embedded/activities')
         end
       end
 
@@ -1123,31 +1219,68 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         before do
+          scope = instance_double(ActiveRecord::Relation)
+
           allow(work_package)
-            .to receive_message_chain(:visible_relations, :direct, :non_hierarchy, :includes)
-            .and_return([relation])
+            .to receive(:visible_relations)
+                  .with(current_user)
+                  .and_return(scope)
+          allow(scope)
+            .to receive(:includes)
+                  .and_return([relation])
         end
 
         it 'embeds a collection' do
-          is_expected
+          expect(subject)
             .to be_json_eql('Collection'.to_json)
             .at_path('_embedded/relations/_type')
         end
 
         it 'embeds with an href containing the work_package' do
-          is_expected
+          expect(subject)
             .to be_json_eql(api_v3_paths.work_package_relations(work_package.id).to_json)
             .at_path('_embedded/relations/_links/self/href')
         end
 
         it 'embeds the visible relations' do
-          is_expected
+          expect(subject)
             .to be_json_eql(1.to_json)
             .at_path('_embedded/relations/total')
 
-          is_expected
+          expect(subject)
             .to be_json_eql(api_v3_paths.relation(relation.id).to_json)
             .at_path('_embedded/relations/_embedded/elements/0/_links/self/href')
+        end
+      end
+
+      describe 'fileLinks' do
+        let(:storage) { build_stubbed(:storage) }
+        let(:file_link) { build_stubbed(:file_link, storage:, container: work_package) }
+
+        before do
+          allow(work_package).to receive(:file_links).and_return([file_link])
+        end
+
+        it 'embeds a collection' do
+          expect(subject)
+            .to be_json_eql('Collection'.to_json)
+                  .at_path('_embedded/fileLinks/_type')
+        end
+
+        it 'embeds with an href containing the work_package' do
+          expect(subject)
+            .to be_json_eql(api_v3_paths.file_links(work_package.id).to_json)
+                  .at_path('_embedded/fileLinks/_links/self/href')
+        end
+
+        it 'embeds the visible file links' do
+          expect(subject)
+            .to be_json_eql(1.to_json)
+                  .at_path('_embedded/fileLinks/total')
+
+          expect(subject)
+            .to be_json_eql(api_v3_paths.file_link(file_link.id).to_json)
+                  .at_path('_embedded/fileLinks/_embedded/elements/0/_links/self/href')
         end
       end
 
@@ -1160,7 +1293,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             .to receive(:custom_actions)
             .and_return([unassign_action])
 
-          is_expected
+          expect(subject)
             .to be_json_eql('Unassign'.to_json)
             .at_path('_embedded/customActions/0/name')
         end
@@ -1172,12 +1305,16 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         allow(OpenProject::Cache)
           .to receive(:fetch)
           .and_return({ _links: {} }.to_json)
-        expect(OpenProject::Cache)
-          .to receive(:fetch)
-          .with(representer.json_cache_key)
-          .and_call_original
+
+        allow(OpenProject::Cache)
+         .to receive(:fetch)
+         .with(representer.json_cache_key)
+         .and_call_original
 
         representer.to_json
+
+        expect(OpenProject::Cache)
+          .to have_received(:fetch).with(representer.json_cache_key)
       end
 
       describe '#json_cache_key' do
@@ -1190,7 +1327,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           work_package.assigned_to = assigned_to
           work_package.responsible = responsible
         end
-        let!(:former_cache_key) { representer.json_cache_key }
 
         it 'includes the name of the representer class' do
           expect(representer.json_cache_key)
@@ -1198,46 +1334,55 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         it 'changes when the locale changes' do
-          I18n.with_locale(:fr) do
-            expect(representer.json_cache_key)
-              .not_to eql former_cache_key
-          end
+          expect(
+            I18n.with_locale(:fr) { representer.json_cache_key }
+          ).not_to eq(representer.json_cache_key)
         end
 
         it 'changes when the feeds_enabled? setting is switched' do
-          allow(Setting)
-            .to receive(:feeds_enabled?)
-            .and_return(!Setting.feeds_enabled?)
-
-          expect(representer.json_cache_key)
-            .not_to eql former_cache_key
+          expect do
+            allow(Setting)
+              .to receive(:feeds_enabled?)
+              .and_return(!Setting.feeds_enabled?)
+          end.to change(representer, :json_cache_key)
         end
 
         it 'changes when the work_package_done_ratio setting is changes' do
-          allow(Setting)
-            .to receive(:work_package_done_ratio)
-            .and_return('status')
-
-          expect(representer.json_cache_key)
-            .not_to eql former_cache_key
+          expect do
+            allow(Setting)
+              .to receive(:work_package_done_ratio)
+              .and_return('status')
+          end.to change(representer, :json_cache_key)
         end
 
         it 'changes when the work_package is updated' do
-          work_package.updated_at = Time.now + 20.seconds
-
-          expect(representer.json_cache_key)
-            .not_to eql former_cache_key
+          expect do
+            work_package.updated_at = 20.seconds.from_now
+          end.to change(representer, :json_cache_key)
         end
 
         it 'factors in the eager loaded cache_checksum' do
-          expect(work_package)
+          allow(work_package)
             .to receive(:cache_checksum)
             .and_return(srand)
 
           representer.json_cache_key
+
+          expect(work_package)
+            .to have_received(:cache_checksum)
         end
       end
     end
   end
+
+  describe 'parsing' do
+    describe 'duration' do
+      subject { representer }
+
+      it 'parses form iso8601 format' do
+        subject.duration = 'P6D'
+        expect(subject.represented.duration).to eq(6)
+      end
+    end
+  end
 end
-# rubocop:enable RSpec:MultipleMemoizedHelpers

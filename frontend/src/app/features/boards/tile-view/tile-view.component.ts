@@ -8,6 +8,7 @@ export interface ITileViewEntry {
   icon:string;
   description:string;
   image:string;
+  disabled?:boolean;
 }
 
 @Component({
@@ -22,10 +23,6 @@ export class TileViewComponent {
   @Input() public disable = false;
 
   @Output() public create = new EventEmitter<string>();
-
-  public disabled() {
-    return this.disable;
-  }
 
   public created(attribute:string) {
     this.create.emit(attribute);

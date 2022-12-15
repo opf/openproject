@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-def start_dragging(from)
+def start_dragging(from, offset_x: nil, offset_y: nil)
   scroll_to_element(from)
   page
     .driver
     .browser
     .action
-    .move_to(from.native)
-    .click_and_hold(from.native)
+    .move_to(from.native, offset_x, offset_y)
+    .click_and_hold
     .perform
 end
 
@@ -58,7 +58,7 @@ end
 
 def drag_n_drop_element(from:, to:, offset_x: nil, offset_y: nil)
   start_dragging(from)
-  drag_element_to(to, offset_x: offset_x, offset_y: offset_y)
+  drag_element_to(to, offset_x:, offset_y:)
   drag_release
 end
 

@@ -1,4 +1,4 @@
-<div class="inline-label ng-select-container">
+<div class="inline-label">
   <ng-select
     #ngSelectInstance
     [(ngModel)]="model"
@@ -21,7 +21,7 @@
     [name]="name"
     [id]="id"
     [attr.accesskey]="accesskey||undefined"
-    bindLabel="name"
+    [bindLabel]="bindLabel"
     [bindValue]="bindValue"
     [markFirst]="markFirst"
     [notFoundText]="notFoundText"
@@ -41,6 +41,8 @@
     [searchable]="searchable"
     [selectableGroupAsModel]="selectableGroupAsModel"
     [trackByFn]="trackByFn"
+    [compareWith]="compareWith"
+    [searchFn]="searchFn"
     [labelForId]="labelForId"
     [inputAttrs]="inputAttrs"
     [tabIndex]="tabIndex"
@@ -51,8 +53,8 @@
     [keyDownFn]="keyDownFn"
 
     (change)="changed($event)"
-    (open)="opened($event)"
-    (close)="closed($event)"
+    (open)="opened()"
+    (close)="closed()"
     (blur)="blured($event)"
     (focus)="focused($event)"
     (clear)="cleared($event)"
@@ -97,7 +99,7 @@
       let-search="searchTerm"
     >
       <ng-container
-        [ngTemplateOutlet]="optionTemplate ? optionTemplate : defaultOption"
+        [ngTemplateOutlet]="optionTemplate || defaultOption"
         [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
       ></ng-container>
     </ng-template>
@@ -117,7 +119,7 @@
   </ng-select>
 </div>
 
-<ng-template let-item let-search="search"  #defaultOption [ngSwitch]="true">
+<ng-template let-item let-search="search" #defaultOption [ngSwitch]="true">
   <ng-container *ngSwitchCase="resource === 'work_packages' || resource === 'parent-child'">
     <div class="op-autocompleter--option-wrapper">
       <op-principal
@@ -128,12 +130,13 @@
       ></op-principal>
       <span
         class="op-autocompleter--wp-subject"
+        data-qa-selector="op-autocompleter-item-subject"
       >
         <span
           *ngIf="item.type"
           [ngClass]="highlighting('type', item.type.id)"
           textContent="{{ item.type.name }} "
-          ></span>
+        ></span>
         <span
           [ngOptionHighlight]="search"
           [textContent]="item.subject">
@@ -143,7 +146,7 @@
       <div class="op-autocompleter--wp-content">
         <span
           [ngOptionHighlight]="search"
-          [textContent]="item.project?.name" 
+          [textContent]="item.project?.name"
           class="op-autocompleter--wp-project"
         ></span>
 
@@ -175,15 +178,20 @@
     </div>
   </ng-container>
 
-  <ng-container *ngSwitchCase="resource ==='subproject' || resource ==='version' || resource ==='status' || resource ==='default' || !resource">
+  <ng-container
+    *ngSwitchCase="resource ==='subproject' || resource ==='version' || resource ==='status' || resource ==='default' || !resource">
     <span [ngOptionHighlight]="search">{{ item.name }}</span>
   </ng-container>
 </ng-template>
 
 <ng-template let-item let-search="search" let-clear="clear" #defaultLabel>
   <ng-container *ngIf="resource === 'work_packages'">
-    <span [ngOptionHighlight]="search">
-      {{item.type?.name }} #{{ item.id }} {{ item.subject }}
+    <span
+      *ngIf="item.id"
+      class="ng-value-label"
+      [ngOptionHighlight]="search"
+    >
+      {{item.type?.name }} #{{ item.id }} {{ item.subject || item.name }}
     </span>
   </ng-container>
 

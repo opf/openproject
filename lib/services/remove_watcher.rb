@@ -39,7 +39,7 @@ class Services::RemoveWatcher
       @work_package.watcher_users.delete(@user)
       success.call
       OpenProject::Notifications.send(OpenProject::Events::WATCHER_REMOVED,
-                                      watcher: watcher,
+                                      watcher:,
                                       watcher_remover: User.current)
     else
       failure.call

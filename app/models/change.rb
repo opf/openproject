@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -31,7 +29,7 @@
 class Change < ApplicationRecord
   belongs_to :changeset
 
-  validates_presence_of :changeset_id, :action, :path
+  validates :changeset_id, :action, :path, presence: true
   before_save :init_path
 
   delegate :repository_encoding, to: :changeset, allow_nil: true, prefix: true

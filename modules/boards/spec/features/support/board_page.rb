@@ -31,9 +31,11 @@ require_relative './board_page'
 
 module Pages
   class Board < Page
-    include ::Components::NgSelectAutocompleteHelpers
+    include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
     def initialize(board)
+      super()
+
       @board = board
     end
 
@@ -65,8 +67,8 @@ module Pages
       page.all('[data-qa-selector="op-board-list"]').count
     end
 
-    def within_list(name, &block)
-      page.within(list_selector(name), &block)
+    def within_list(name, &)
+      page.within(list_selector(name), &)
     end
 
     def list_selector(name)
@@ -131,7 +133,9 @@ module Pages
     # Expect the given titled card in the list name to be present (expect=true) or not (expect=false)
     def expect_card(list_name, card_title, present: true)
       within_list(list_name) do
-        expect(page).to have_conditional_selector(present, '[data-qa-selector="op-wp-single-card--content-subject"]', text: card_title)
+        expect(page).to have_conditional_selector(present,
+                                                  '[data-qa-selector="op-wp-single-card--content-subject"]',
+                                                  text: card_title)
       end
     end
 
@@ -152,7 +156,9 @@ module Pages
     def expect_movable(list_name, card_title, movable: true)
       within_list(list_name) do
         expect(page).to have_selector('[data-qa-selector="op-wp-single-card"]', text: card_title)
-        expect(page).to have_conditional_selector(movable, '[data-qa-selector="op-wp-single-card"][data-qa-draggable]', text: card_title)
+        expect(page).to have_conditional_selector(movable,
+                                                  '[data-qa-selector="op-wp-single-card"][data-qa-draggable]',
+                                                  text: card_title)
       end
     end
 
@@ -176,14 +182,14 @@ module Pages
       else
         open_and_fill_add_list_modal query
         page.find('.ng-option', text: option, wait: 10).click
-        page.find('.confirm-form-submit--submit').click
+        page.find('[data-qa-selector="confirmation-modal--confirmed"]').click
       end
     end
 
     def add_list_with_new_value(name)
       open_and_fill_add_list_modal name
 
-      page.find('.op-select-footer--label', text: 'Create ' + name).click
+      page.find('.op-select-footer--label', text: "Create #{name}").click
     end
 
     def save
@@ -260,7 +266,9 @@ module Pages
     end
 
     def back_to_index
-      find('[data-qa-selector="op-back-button"]').click
+      within '#main-menu' do
+        click_link 'Boards'
+      end
     end
 
     def expect_editable_board(editable)
@@ -333,7 +341,7 @@ module Pages
     def open_and_fill_add_list_modal(name)
       open_add_list_modal
       sleep(0.1)
-      page.find('.op-modal .new-list--action-select input').set(name)
+      page.find('.spot-modal .new-list--action-select input').set(name)
     end
 
     def open_add_list_modal
@@ -342,7 +350,7 @@ module Pages
     end
 
     def add_list_modal_shows_warning(value, with_link: false)
-      within page.find('.op-modal') do
+      within page.find('.spot-modal') do
         warning = '.op-toast.-warning'
         link = '.op-toast--content a'
 

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -52,7 +50,7 @@ module BreadcrumbHelper
       end
     end
 
-    content_tag(:ul, breadcrumb_elements.join.html_safe, class: 'op-breadcrumb',  'data-qa-selector': 'op-breadcrumb')
+    content_tag(:ul, breadcrumb_elements.join.html_safe, class: 'op-breadcrumb', 'data-qa-selector': 'op-breadcrumb')
   end
 
   def breadcrumb_paths(*args)

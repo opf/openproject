@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -43,7 +41,7 @@ describe Journal,
     let(:journal) { work_package.journals.first }
     let!(:notification) do
       create(:notification,
-             journal: journal,
+             journal:,
              resource: work_package,
              project: work_package.project)
     end

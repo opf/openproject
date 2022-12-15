@@ -29,6 +29,7 @@
 module Components
   class CostReportsBaseTable
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
 
     attr_reader :time_logging_modal
@@ -38,7 +39,7 @@ module Components
     end
 
     def rows_count(count)
-      expect(page).to have_selector('#result-table tbody tr', count: count)
+      expect(page).to have_selector('#result-table tbody tr', count:)
     end
 
     def expect_action_icon(icon, row, present: true)

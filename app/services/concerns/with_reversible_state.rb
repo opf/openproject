@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -47,12 +45,6 @@ module WithReversibleState
     # Access to the shared service state
     def state
       @state ||= ::Shared::ServiceState.build
-    end
-
-    ##
-    # Rollback changes made
-    def rollback
-      # Nothing to do by default
     end
 
     ##

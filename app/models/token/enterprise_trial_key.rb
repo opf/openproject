@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,7 +31,7 @@ module Token
     include ExpirableToken
 
     def self.validity_time
-      1.days
+      1.day
     end
   end
 end

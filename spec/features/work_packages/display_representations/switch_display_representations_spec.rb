@@ -44,15 +44,15 @@ describe 'Switching work package view',
 
   let(:wp_1) do
     create :work_package,
-           project: project,
+           project:,
            priority: priority1,
-           status: status
+           status:
   end
   let(:wp_2) do
     create :work_package,
-           project: project,
+           project:,
            priority: priority2,
-           status: status
+           status:
   end
 
   before do

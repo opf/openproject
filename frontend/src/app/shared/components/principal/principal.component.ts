@@ -43,8 +43,9 @@ import {
   PrincipalRendererService,
 } from './principal-renderer.service';
 import { PrincipalLike } from './principal-types';
-import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { PrincipalType } from 'core-app/shared/components/principal/principal-helper';
+import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
 
 export const principalSelector = 'op-principal';
 
@@ -53,7 +54,6 @@ export interface PrincipalInput {
   id:string;
 }
 
-@DatasetInputs
 @Component({
   template: '',
   selector: principalSelector,
@@ -70,16 +70,23 @@ export class OpPrincipalComponent implements OnInit {
 
   @Input() size:AvatarSize = 'default';
 
-  public constructor(readonly elementRef:ElementRef,
+  public constructor(
+    readonly elementRef:ElementRef,
     readonly PathHelper:PathHelperService,
     readonly principalRenderer:PrincipalRendererService,
+    readonly principalResourceService:PrincipalsResourceService,
     readonly I18n:I18nService,
     readonly apiV3Service:ApiV3Service,
-    readonly timezoneService:TimezoneService) {
-
+    readonly timezoneService:TimezoneService,
+  ) {
+    populateInputsFromDataset(this);
   }
 
   ngOnInit() {
+    if (!this.principal.name) {
+      return;
+    }
+
     this.principalRenderer.render(
       this.elementRef.nativeElement as HTMLElement,
       this.principal,

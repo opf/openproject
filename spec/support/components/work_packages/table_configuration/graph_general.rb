@@ -31,6 +31,7 @@ module Components
     module TableConfiguration
       class GraphGeneral
         include Capybara::DSL
+        include Capybara::RSpecMatchers
         include RSpec::Matchers
 
         def set_type(name)
@@ -67,8 +68,8 @@ module Components
 
         private
 
-        def within_modal(&block)
-          page.within('.wp-table--configuration-modal', &block)
+        def within_modal(&)
+          page.within('.wp-table--configuration-modal', &)
         end
       end
     end

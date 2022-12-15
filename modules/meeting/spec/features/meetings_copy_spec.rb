@@ -50,7 +50,7 @@ describe 'Meetings copy', type: :feature, js: true do
   let!(:meeting) do
     create(:meeting,
            author: other_user,
-           project: project,
+           project:,
            title: 'Awesome meeting!',
            location: 'Meeting room',
            duration: 1.5,

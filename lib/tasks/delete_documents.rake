@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -36,7 +34,7 @@ namespace :migrations do
 
     class TemporaryDocument < ActiveRecord::Base
       belongs_to :project
-      belongs_to :category, class_name: 'DocumentCategory', foreign_key: 'category_id'
+      belongs_to :category, class_name: 'DocumentCategory'
     end
 
     desc 'Removes all documents'

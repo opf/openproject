@@ -36,44 +36,45 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
   let(:type_task) { create :type_task }
   let(:type_bug) { create :type_bug }
   let(:project) { create(:project, types: [type_task, type_bug]) }
-  let(:work_package_1) do
-    create(:work_package, subject: 'WP1', project: project, type: type_task, created_at: Time.now)
+  let(:work_package1) do
+    create(:work_package, subject: 'WP1', project: project, type: type_task, created_at: Time.zone.now)
   end
-  let(:work_package_2) do
+  let(:work_package2) do
     create(:work_package,
            subject: 'WP2',
            project: project,
-           parent: work_package_1,
+           parent: work_package1,
            type: type_task,
-           created_at: Time.now - 1.minutes)
+           created_at: 1.minute.ago)
   end
-  let(:work_package_3) do
+  let(:work_package3) do
     create(:work_package,
            subject: 'WP3',
            project: project,
-           parent: work_package_2,
+           parent: work_package2,
            type: type_bug,
-           created_at: Time.now - 2.minutes)
+           created_at: 2.minutes.ago)
   end
-  let(:work_package_4) do
+  let(:work_package4) do
     create(:work_package,
            subject: 'WP4',
            project: project,
-           parent: work_package_3,
+           parent: work_package3,
            type: type_bug,
-           created_at: Time.now - 3.minutes)
+           created_at: 3.minutes.ago)
   end
 
   let(:sort_by) { ::Components::WorkPackages::SortBy.new }
   let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
   let(:dialog) { ::Components::ConfirmationDialog.new }
   let(:pagination) { ::Components::TablePagination.new }
+  let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
 
   def expect_query_order(query, expected)
     retry_block do
       query.reload
 
-      # work_package_4 was not positioned
+      # work_package4 was not positioned
       found = query.ordered_work_packages.pluck(:work_package_id)
 
       raise "Backend order is incorrect: #{found} != #{expected}" unless found == expected
@@ -83,10 +84,10 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
   before do
     login_as(user)
 
-    work_package_1
-    work_package_2
-    work_package_3
-    work_package_4
+    work_package1
+    work_package2
+    work_package3
+    work_package4
   end
 
   describe 'hierarchy mode' do
@@ -94,30 +95,27 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
       wp_table.visit!
 
       # Hierarchy enabled
-      wp_table.expect_work_package_order(work_package_1, work_package_2, work_package_3, work_package_4)
-      hierarchies.expect_hierarchy_at(work_package_1, work_package_2, work_package_3)
-      hierarchies.expect_leaf_at(work_package_4)
+      wp_table.expect_work_package_order(work_package1, work_package2, work_package3, work_package4)
+      hierarchies.expect_hierarchy_at(work_package1, work_package2, work_package3)
+      hierarchies.expect_leaf_at(work_package4)
     end
 
-    it 'maintains the order until saved' do
+    it 'maintains the order and automatically saves the query' do
       wp_table.drag_and_drop_work_package from: 3, to: 1
       loading_indicator_saveguard
-      hierarchies.expect_hierarchy_at(work_package_1, work_package_2)
-      hierarchies.expect_leaf_at(work_package_4, work_package_3)
-
-      expect(page).to have_selector('.editable-toolbar-title--save')
-      wp_table.save_as "My sorted query"
+      hierarchies.expect_hierarchy_at(work_package1, work_package2)
+      hierarchies.expect_leaf_at(work_package4, work_package3)
 
       wp_table.expect_and_dismiss_toaster message: 'Successful creation.'
 
       query = nil
       retry_block do
         query = Query.last
-        raise "Query was not yet saved." unless query.name == 'My sorted query'
+        raise "Query was not yet saved." unless query.name == 'New manually sorted query'
       end
 
       # Expect sorted 1 and 2, the rest is not positioned
-      expect_query_order(query, [work_package_1, work_package_4].map(&:id))
+      expect_query_order(query, [work_package1, work_package4].map(&:id))
 
       # Pagination information is shown but no per page options
       pagination.expect_range(1, 4, 4)
@@ -128,72 +126,72 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
       # Move up the hierarchy
       wp_table.drag_and_drop_work_package from: 3, to: 1
       loading_indicator_saveguard
-      hierarchies.expect_hierarchy_at(work_package_1, work_package_2)
-      hierarchies.expect_leaf_at(work_package_3, work_package_4)
+      hierarchies.expect_hierarchy_at(work_package1, work_package2)
+      hierarchies.expect_leaf_at(work_package3, work_package4)
 
       # Keep after table refresh
       page.driver.browser.navigate.refresh
-      hierarchies.expect_hierarchy_at(work_package_1, work_package_2)
-      hierarchies.expect_leaf_at(work_package_3, work_package_4)
+      hierarchies.expect_hierarchy_at(work_package1, work_package2)
+      hierarchies.expect_leaf_at(work_package3, work_package4)
     end
 
     it 'can drag an element completely out of the hierarchy' do
       # Move up the hierarchy
       wp_table.drag_and_drop_work_package from: 3, to: 0
       loading_indicator_saveguard
-      hierarchies.expect_hierarchy_at(work_package_1, work_package_2)
-      hierarchies.expect_leaf_at(work_package_4)
+      hierarchies.expect_hierarchy_at(work_package1, work_package2)
+      hierarchies.expect_leaf_at(work_package4)
 
       # Expect WP has no parent
-      wp_page = Pages::SplitWorkPackage.new(work_package_4)
+      wp_page = Pages::SplitWorkPackage.new(work_package4)
       wp_page.visit!
       wp_page.expect_no_parent
 
       # Keep after table refresh
       page.driver.browser.navigate.refresh
-      hierarchies.expect_hierarchy_at(work_package_1, work_package_2)
-      hierarchies.expect_leaf_at(work_package_3, work_package_4)
+      hierarchies.expect_hierarchy_at(work_package1, work_package2)
+      hierarchies.expect_leaf_at(work_package3, work_package4)
       wp_page.expect_no_parent
     end
 
-    context 'drag an element partly out of the hierarchy' do
-      let(:work_package_5) do
-        create(:work_package, subject: 'WP5', project: project, parent: work_package_1)
+    context 'when dragging an element partly out of the hierarchy' do
+      let(:work_package5) do
+        create(:work_package, subject: 'WP5', project: project, parent: work_package1)
       end
-      let(:work_package_6) do
-        create(:work_package, subject: 'WP6', project: project, parent: work_package_1)
+      let(:work_package6) do
+        create(:work_package, subject: 'WP6', project: project, parent: work_package1)
       end
 
       before do
-        work_package_5
-        work_package_6
-        work_package_4.parent = work_package_2
-        work_package_4.save!
+        work_package5
+        work_package6
+        work_package4.parent = work_package2
+        work_package4.save!
         wp_table.visit!
 
         # Hierarchy enabled
-        wp_table.expect_work_package_order(work_package_1,
-                                           work_package_2,
-                                           work_package_3,
-                                           work_package_4,
-                                           work_package_5,
-                                           work_package_6)
-        hierarchies.expect_hierarchy_at(work_package_1, work_package_2)
-        hierarchies.expect_leaf_at(work_package_3, work_package_4, work_package_5, work_package_6)
+        wp_table.expect_work_package_order(work_package1,
+                                           work_package2,
+                                           work_package3,
+                                           work_package4,
+                                           work_package5,
+                                           work_package6)
+        hierarchies.expect_hierarchy_at(work_package1, work_package2)
+        hierarchies.expect_leaf_at(work_package3, work_package4, work_package5, work_package6)
       end
 
       it 'move below a sibling of my parent' do
         wp_table.drag_and_drop_work_package from: 3, to: 5
 
         loading_indicator_saveguard
-        wp_table.expect_work_package_order(work_package_1,
-                                           work_package_2,
-                                           work_package_3,
-                                           work_package_5,
-                                           work_package_4,
-                                           work_package_6)
-        hierarchies.expect_hierarchy_at(work_package_1, work_package_2)
-        hierarchies.expect_leaf_at(work_package_3, work_package_4, work_package_5, work_package_6)
+        wp_table.expect_work_package_order(work_package1,
+                                           work_package2,
+                                           work_package3,
+                                           work_package5,
+                                           work_package4,
+                                           work_package6)
+        hierarchies.expect_hierarchy_at(work_package1, work_package2)
+        hierarchies.expect_leaf_at(work_package3, work_package4, work_package5, work_package6)
       end
     end
   end
@@ -208,12 +206,12 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
         wp_table.save_as 'Type query'
         wp_table.expect_and_dismiss_toaster message: 'Successful creation.'
-
-        expect(page).to have_selector('.group--value', text: 'Task (2)')
-        expect(page).to have_selector('.group--value', text: 'Bug (2)')
       end
 
       it 'updates the work packages appropriately' do
+        expect(page).to have_selector('.group--value', text: 'Task (2)')
+        expect(page).to have_selector('.group--value', text: 'Bug (2)')
+
         wp_table.drag_and_drop_work_package from: 0, to: 3
 
         expect(page).to have_selector('.group--value', text: 'Task (1)')
@@ -221,6 +219,9 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
       end
 
       it 'dragging item with parent does not result in an error (Regression #30832)' do
+        expect(page).to have_selector('.group--value', text: 'Task (2)')
+        expect(page).to have_selector('.group--value', text: 'Bug (2)')
+
         wp_table.drag_and_drop_work_package from: 1, to: 3
 
         expect(page).to have_selector('.group--value', text: 'Task (1)')
@@ -242,15 +243,15 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
     let!(:priority) { create :default_priority }
 
     before do
-      ::OrderedWorkPackage.create(query: query, work_package: work_package_1, position: 0)
-      ::OrderedWorkPackage.create(query: query, work_package: work_package_2, position: 1)
-      ::OrderedWorkPackage.create(query: query, work_package: work_package_3, position: 2)
-      ::OrderedWorkPackage.create(query: query, work_package: work_package_4, position: 3)
+      ::OrderedWorkPackage.create(query: query, work_package: work_package1, position: 0)
+      ::OrderedWorkPackage.create(query: query, work_package: work_package2, position: 1)
+      ::OrderedWorkPackage.create(query: query, work_package: work_package3, position: 2)
+      ::OrderedWorkPackage.create(query: query, work_package: work_package4, position: 3)
     end
 
     it 'can inline create a work package and it is positioned to the bottom (Regression #31078)' do
       wp_table.visit_query query
-      wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
+      wp_table.expect_work_package_order work_package1, work_package2, work_package3, work_package4
 
       wp_table.click_inline_create
       subject_field = wp_table.edit_field(nil, :subject)
@@ -278,13 +279,13 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
         end
       end
 
-      wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4, inline_created
+      wp_table.expect_work_package_order work_package1, work_package2, work_package3, work_package4, inline_created
 
       # Revisit the query
       wp_table.visit_query query
 
       # Expect same order
-      wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4, inline_created
+      wp_table.expect_work_package_order work_package1, work_package2, work_package3, work_package4, inline_created
     end
   end
 
@@ -298,11 +299,11 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
     it 'can drag and drop and will save the query' do
       wp_table.visit_query query
-      wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
+      wp_table.expect_work_package_order work_package1, work_package2, work_package3, work_package4
 
       wp_table.drag_and_drop_work_package from: 1, to: 3
 
-      wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
+      wp_table.expect_work_package_order work_package1, work_package3, work_package2, work_package4
 
       wp_table.expect_and_dismiss_toaster message: 'Successful update.'
 
@@ -323,26 +324,24 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
     before do
       wp_table.visit!
       hierarchies.disable_via_header
-      wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
+      wp_table.expect_work_package_order work_package1, work_package2, work_package3, work_package4
     end
 
     it 'can sort table rows via DragNDrop' do
       wp_table.drag_and_drop_work_package from: 1, to: 3
 
-      wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
-
-      wp_table.save_as 'Manual sorted query'
+      wp_table.expect_work_package_order work_package1, work_package3, work_package2, work_package4
 
       wp_table.expect_and_dismiss_toaster message: 'Successful creation.'
 
       query = Query.last
-      expect(query.name).to eq 'Manual sorted query'
+      expect(query.name).to eq 'New manually sorted query'
 
-      expect_query_order(query, [work_package_1.id, work_package_3.id, work_package_2.id])
+      expect_query_order(query, [work_package1.id, work_package3.id, work_package2.id])
 
       wp_table.drag_and_drop_work_package from: 0, to: 2
 
-      expect_query_order(query, [work_package_3.id, work_package_1.id, work_package_2.id])
+      expect_query_order(query, [work_package3.id, work_package1.id, work_package2.id])
     end
 
     it 'saves the changed order in a previously saved query' do
@@ -354,11 +353,11 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
       wp_table.drag_and_drop_work_package from: 1, to: 3
 
-      wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
+      wp_table.expect_work_package_order work_package1, work_package3, work_package2, work_package4
 
       query = Query.last
       expect(query.name).to eq 'Manual sorted query'
-      expect_query_order(query, [work_package_1.id, work_package_3.id, work_package_2.id])
+      expect_query_order(query, [work_package1.id, work_package3.id, work_package2.id])
 
       pagination.expect_range(1, 4, 4)
       pagination.expect_no_per_page_options
@@ -367,7 +366,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
     it 'does not loose the current order when switching to manual sorting' do
       # Sort by creation date
       sort_by.update_criteria 'Created on'
-      wp_table.expect_work_package_order work_package_4, work_package_3, work_package_2, work_package_1
+      wp_table.expect_work_package_order work_package4, work_package3, work_package2, work_package1
 
       # Enable manual sorting
       sort_by.open_modal
@@ -375,13 +374,13 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
       sort_by.apply_changes
 
       # Expect same order
-      wp_table.expect_work_package_order work_package_4, work_package_3, work_package_2, work_package_1
+      wp_table.expect_work_package_order work_package4, work_package3, work_package2, work_package1
     end
 
     it 'shows a warning when switching from manual to automatic sorting' do
       wp_table.drag_and_drop_work_package from: 1, to: 3
 
-      wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
+      wp_table.expect_work_package_order work_package1, work_package3, work_package2, work_package4
 
       # Try to sort by creation date
       sort_by.sort_via_header 'Subject'
@@ -389,10 +388,10 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
       # Shows a warning
       dialog.expect_open
       dialog.confirm
-      wp_table.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
+      wp_table.expect_work_package_order work_package1, work_package2, work_package3, work_package4
     end
 
-    context 'the gantt chart' do
+    context 'when view is gantt chart' do
       let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
 
       it 'reloads after drop' do
@@ -400,11 +399,36 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
         wp_timeline.expect_timeline!
         wp_timeline.expect_row_count(4)
 
-        wp_timeline.expect_work_package_order work_package_1, work_package_2, work_package_3, work_package_4
+        wp_timeline.expect_work_package_order work_package1, work_package2, work_package3, work_package4
 
         wp_table.drag_and_drop_work_package from: 1, to: 3
-        wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
-        wp_timeline.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
+        wp_table.expect_work_package_order work_package1, work_package3, work_package2, work_package4
+        wp_timeline.expect_work_package_order work_package1, work_package3, work_package2, work_package4
+      end
+    end
+
+    context 'when view is card' do
+      let(:wp_card) { Pages::WorkPackageCards.new(project) }
+
+      before do
+        display_representation.switch_to_card_layout
+        loading_indicator_saveguard
+      end
+
+      it 'can sort cards via DragNDrop' do
+        wp_card.drag_and_drop_work_package from: 0, to: 3
+
+        wp_card.expect_work_package_order work_package2, work_package3, work_package4, work_package1
+
+        wp_card.expect_and_dismiss_toaster message: 'Successful creation.'
+
+        query = Query.last
+        expect(query.name).to eq 'New manually sorted query'
+        expect_query_order(query, [work_package2.id, work_package3.id, work_package4.id, work_package1.id])
+
+        wp_card.drag_and_drop_work_package from: 0, to: 2
+
+        expect_query_order(query, [work_package3.id, work_package4.id, work_package1.id, work_package2.id])
       end
     end
   end

@@ -42,10 +42,6 @@ export class ChildPagesMacroModalComponent extends OpModalComponent implements A
 
   public showClose = true;
 
-  public closeOnEscape = true;
-
-  public closeOnOutsideClick = true;
-
   public selectedPage:string;
 
   public selectedIncludeParent:boolean;
@@ -77,18 +73,18 @@ export class ChildPagesMacroModalComponent extends OpModalComponent implements A
     // We could provide an autocompleter here to get correct page names
   }
 
-  public applyAndClose(evt:JQuery.TriggeredEvent) {
+  public applyAndClose(evt:Event):void {
     this.changed = true;
     this.page = this.selectedPage;
     this.includeParent = this.selectedIncludeParent;
     this.closeMe(evt);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit():void {
     this.selectedPageInput.nativeElement.focus();
   }
 
-  updateIncludeParent(val:boolean) {
+  updateIncludeParent(val:boolean):void {
     this.selectedIncludeParent = val;
   }
 }

@@ -67,15 +67,14 @@ module Pages
         within(selected_filter) do
           return unless values.any?
 
-          case
-          when name == 'name_and_identifier'
+          if name == 'name_and_identifier'
             set_name_and_identifier_filter(values)
-          when boolean_filter?(name)
+          elsif boolean_filter?(name)
             set_toggle_filter(values)
-          when name == 'created_at'
+          elsif name == 'created_at'
             select(human_operator, from: 'operator')
             set_created_at_filter(human_operator, values)
-          when name =~ /cf_\d+/
+          elsif name =~ /cf_\d+/
             select(human_operator, from: 'operator')
             set_custom_field_filter(selected_filter, human_operator, values)
           end
@@ -84,16 +83,16 @@ module Pages
 
       def set_toggle_filter(values)
         should_active = values.first == 'yes'
-        is_active = page.has_selector? '.slide-toggle.-active'
+        is_active = page.has_selector? '[data-qa-selector="spot-switch-handle"][data-qa-active]'
 
         if should_active != is_active
-          page.find('.slide-toggle .slider').click
+          page.find('[data-qa-selector="spot-switch-handle"]').click
         end
 
         if should_active
-          expect(page).to have_selector('.slide-toggle.-active')
+          expect(page).to have_selector('[data-qa-selector="spot-switch-handle"][data-qa-active]')
         else
-          expect(page).to have_selector('.slide-toggle:not(.-active)')
+          expect(page).to have_selector('[data-qa-selector="spot-switch-handle"]:not([data-qa-active])')
         end
       end
 

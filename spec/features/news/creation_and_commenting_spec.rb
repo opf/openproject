@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -35,7 +33,10 @@ describe 'News creation and commenting', type: :feature, js: true do
   let!(:other_user) do
     create(:user,
            member_in_project: project,
-           member_with_permissions: %i[])
+           member_with_permissions: %i[],
+           notification_settings: [
+             build(:notification_setting, news_added: true, news_commented: true)
+           ])
   end
 
   current_user do
@@ -68,7 +69,7 @@ describe 'News creation and commenting', type: :feature, js: true do
 
     # Creating the news will have sent out mails
     expect(ActionMailer::Base.deliveries.size)
-      .to be 1
+      .to eq 1
 
     expect(ActionMailer::Base.deliveries.last.to)
       .to match_array [other_user.mail]
@@ -91,7 +92,7 @@ describe 'News creation and commenting', type: :feature, js: true do
 
     # Creating the news comment will have sent out mails
     expect(ActionMailer::Base.deliveries.size)
-      .to be 2
+      .to eq 2
 
     expect(ActionMailer::Base.deliveries.last.to)
       .to match_array [other_user.mail]

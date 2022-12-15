@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,7 +31,7 @@ require 'spec_helper'
 describe Users::Scopes::FindByLogin, type: :model do
   let!(:activity) { create(:time_entry_activity) }
   let!(:project) { create(:project) }
-  let!(:user) { create(:user, login: login) }
+  let!(:user) { create(:user, login:) }
   let(:login) { 'Some string' }
   let(:search_login) { login }
 

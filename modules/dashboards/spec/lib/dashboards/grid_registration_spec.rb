@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Dashboards::GridRegistration do
   let(:user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
-  let(:grid) { build_stubbed(:dashboard, project: project) }
+  let(:grid) { build_stubbed(:dashboard, project:) }
 
   describe 'from_scope' do
     context 'with a relative URL root', with_config: { rails_relative_url_root: '/foobar' } do
@@ -56,6 +56,7 @@ describe Dashboards::GridRegistration do
 
   describe 'writable?' do
     let(:allowed) { true }
+
     before do
       allow(user)
         .to receive(:allowed_to?)
@@ -65,8 +66,8 @@ describe Dashboards::GridRegistration do
 
     context 'if the user has the :manage_dashboards permission' do
       it 'is truthy' do
-        expect(described_class.writable?(grid, user))
-          .to be_truthy
+        expect(described_class)
+          .to be_writable(grid, user)
       end
     end
 
@@ -74,8 +75,8 @@ describe Dashboards::GridRegistration do
       let(:allowed) { false }
 
       it 'is falsey' do
-        expect(described_class.writable?(grid, user))
-          .to be_falsey
+        expect(described_class)
+          .not_to be_writable(grid, user)
       end
     end
   end

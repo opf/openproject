@@ -51,7 +51,7 @@ export type HalSourceLinks = {
 };
 
 export type HalSource = {
-  [key:string]:string|number|null|HalSourceLinks,
+  [key:string]:string|number|boolean|null|HalSourceLinks,
   _links:HalSourceLinks
 };
 
@@ -93,11 +93,13 @@ export class HalResource {
    * @param {Function} initializer The initializer callback to HAL-transform all linked and embedded resources.
    *
    */
-  public constructor(public injector:Injector,
+  public constructor(
+    public injector:Injector,
     public $source:any,
     public $loaded:boolean,
     public halInitializer:(halResource:any) => void,
-    $halType:string) {
+    $halType:string,
+  ) {
     this.$halType = $halType;
     this.$initialize($source);
   }

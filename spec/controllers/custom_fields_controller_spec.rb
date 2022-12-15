@@ -74,7 +74,7 @@ describe CustomFieldsController, type: :controller do
       end
 
       before do
-        post :create, params: params
+        post :create, params:
       end
 
       it 'responds with error' do
@@ -95,7 +95,7 @@ describe CustomFieldsController, type: :controller do
       end
 
       before do
-        post :create, params: params
+        post :create, params:
       end
 
       it 'responds ok' do

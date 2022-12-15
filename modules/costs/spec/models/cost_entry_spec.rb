@@ -34,37 +34,37 @@ describe CostEntry, type: :model do
   let(:project) { create(:project_with_types) }
   let(:project2) { create(:project_with_types) }
   let(:work_package) do
-    create(:work_package, project: project,
-                                     type: project.types.first,
-                                     author: user)
+    create(:work_package, project:,
+                          type: project.types.first,
+                          author: user)
   end
   let(:work_package2) do
     create(:work_package, project: project2,
-                                     type: project2.types.first,
-                                     author: user)
+                          type: project2.types.first,
+                          author: user)
   end
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
   let(:klass) { CostEntry }
   let(:cost_entry) do
     member
-    build(:cost_entry, cost_type: cost_type,
-                                  project: project,
-                                  work_package: work_package,
-                                  spent_on: date,
-                                  units: units,
-                                  user: user,
-                                  comments: 'lorem')
+    build(:cost_entry, cost_type:,
+                       project:,
+                       work_package:,
+                       spent_on: date,
+                       units:,
+                       user:,
+                       comments: 'lorem')
   end
 
   let(:cost_entry2) do
-    build(:cost_entry, cost_type: cost_type,
-                                  project: project,
-                                  work_package: work_package,
-                                  spent_on: date,
-                                  units: units,
-                                  user: user,
-                                  comments: 'lorem')
+    build(:cost_entry, cost_type:,
+                       project:,
+                       work_package:,
+                       spent_on: date,
+                       units:,
+                       user:,
+                       comments: 'lorem')
   end
 
   let(:cost_type) do
@@ -78,20 +78,20 @@ describe CostEntry, type: :model do
   end
   let(:first_rate) do
     build(:cost_rate, valid_from: date - 6.days,
-                                 rate: 10.0)
+                      rate: 10.0)
   end
   let(:second_rate) do
     build(:cost_rate, valid_from: date - 4.days,
-                                 rate: 100.0)
+                      rate: 100.0)
   end
   let(:third_rate) do
     build(:cost_rate, valid_from: date - 2.days,
-                                 rate: 1000.0)
+                      rate: 1000.0)
   end
   let(:member) do
-    create(:member, project: project,
-                               roles: [role],
-                               principal: user)
+    create(:member, project:,
+                    roles: [role],
+                    principal: user)
   end
   let(:role) { create(:role, permissions: []) }
   let(:units) { 5.0 }
@@ -152,9 +152,9 @@ describe CostEntry, type: :model do
   describe 'instance' do
     describe '#costs' do
       let(:fourth_rate) do
-        build(:cost_rate, valid_from: date - 1.days,
-                                     rate: 10000.0,
-                                     cost_type: cost_type)
+        build(:cost_rate, valid_from: date - 1.day,
+                          rate: 10000.0,
+                          cost_type:)
       end
 
       describe 'WHEN updating the number of units' do
@@ -162,7 +162,7 @@ describe CostEntry, type: :model do
           cost_entry.spent_on = first_rate.valid_from + 1.day
         end
 
-        it 'should update costs' do
+        it 'updates costs' do
           (0..5).each do |units|
             cost_entry.units = units
             cost_entry.save!
@@ -216,7 +216,7 @@ describe CostEntry, type: :model do
       describe "WHEN a rate's valid from is updated" do
         before do
           cost_entry.save!
-          first_rate.update_attribute(:valid_from, date - 1.days)
+          first_rate.update_attribute(:valid_from, date - 1.day)
           cost_entry.reload
         end
 
@@ -229,7 +229,7 @@ describe CostEntry, type: :model do
           cost_entry.save!
         end
 
-        it 'should take the then active rate to calculate' do
+        it 'takes the then active rate to calculate' do
           (5.days.ago.to_date..Date.today).each do |time|
             cost_entry.spent_on = time
             cost_entry.save!
@@ -358,6 +358,19 @@ describe CostEntry, type: :model do
 
       describe 'WHEN an existing user is provided' do
         it { expect(cost_entry.user).to eq(user) }
+      end
+    end
+
+    describe '#logged_by' do
+      it 'validates' do
+        cost_entry.logged_by = nil
+        expect(cost_entry).not_to be_valid
+        expect(cost_entry.errors[:logged_by_id]).to be_present
+      end
+
+      it 'sets logged_by from current user' do
+        entry = User.execute_as(user2) { described_class.new logged_by: user }
+        expect(entry.logged_by).to eq(user2)
       end
     end
 

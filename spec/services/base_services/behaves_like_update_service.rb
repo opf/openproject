@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -44,11 +42,11 @@ shared_examples 'BaseServices update service' do
     double('contract_class', '<=': true)
   end
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: model_instance,
-                        contract_class: contract_class)
+                        contract_class:)
   end
-  let(:call_attributes) { { some: 'hash'} }
+  let(:call_attributes) { { some: 'hash' } }
   let(:set_attributes_success) do
     true
   end
@@ -66,9 +64,9 @@ shared_examples 'BaseServices update service' do
 
     allow(set_attributes_class)
       .to receive(:new)
-      .with(user: user,
+      .with(user:,
             model: model_instance,
-            contract_class: contract_class,
+            contract_class:,
             contract_options: {})
       .and_return(service)
 
@@ -115,7 +113,7 @@ shared_examples 'BaseServices update service' do
         expect(subject).to be_failure
         expect(subject).to eql set_attributes_result
 
-        expect(model_instance).to_not receive(:save)
+        expect(model_instance).not_to receive(:save)
 
         expect(subject.errors).to eql set_attributes_errors
       end

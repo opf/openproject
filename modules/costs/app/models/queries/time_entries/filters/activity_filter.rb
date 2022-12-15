@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -30,14 +28,12 @@
 
 class Queries::TimeEntries::Filters::ActivityFilter < Queries::TimeEntries::Filters::TimeEntryFilter
   def allowed_values
-    @allowed_values ||= begin
-      # To mask the internal complexity of time entries and to
-      # allow filtering by a combined value only shared activities are
-      # valid values
-      ::TimeEntryActivity
-        .shared
-        .pluck(:name, :id)
-    end
+    # To mask the internal complexity of time entries and to
+    # allow filtering by a combined value only shared activities are
+    # valid values
+    @allowed_values ||= ::TimeEntryActivity
+      .shared
+      .pluck(:name, :id)
   end
 
   def type

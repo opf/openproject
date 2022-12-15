@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -61,7 +59,7 @@ module API
 
                 permissions = %i(view_work_packages manage_versions)
 
-                authorize_any(permissions, projects: projects, user: current_user) do
+                authorize_any(permissions, projects:, user: current_user) do
                   raise ::API::Errors::NotFound.new
                 end
               end

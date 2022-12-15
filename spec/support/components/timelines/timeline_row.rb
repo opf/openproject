@@ -30,6 +30,7 @@ module Components
   module Timelines
     class TimelineRow
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       attr_reader :container
@@ -67,9 +68,58 @@ module Components
             expect(container).to have_selector(".#{className}", visible: :all)
             expect(container).to have_no_selector(".#{className}.not-empty", wait: 0)
           else
-            expect(container).to have_selector(".#{className}.not-empty", text: text)
+            expect(container).to have_selector(".#{className}.not-empty", text:)
           end
         end
+      end
+
+      def hover_bar(offset_days: 0)
+        wait_until_hoverable
+        offset_x = offset_days * 30
+        page.driver.browser.action.move_to(@container.native, offset_x).perform
+      end
+
+      def click_bar(offset_days: 0)
+        hover_bar(offset_days:)
+        page.driver.browser.action.click.perform
+      end
+
+      def expect_hovered_bar(duration: 1)
+        expected_length = duration * 30
+        expect(container).to have_selector('div[class^="__hl_background_"', style: { width: "#{expected_length}px" })
+      end
+
+      def expect_bar(duration: 1)
+        loading_indicator_saveguard
+        expected_length = duration * 30
+        expect(container).to have_selector('.timeline-element', style: { width: "#{expected_length}px" })
+      end
+
+      def expect_no_hovered_bar
+        expect(container).not_to have_selector('div[class^="__hl_background_"')
+      end
+
+      def expect_no_bar
+        loading_indicator_saveguard
+        expect(container).not_to have_selector('.timeline-element')
+      end
+
+      def drag_and_drop(offset_days: 0, days: 1)
+        wait_until_hoverable
+        offset_x_start = offset_days * 30
+        start_dragging(container, offset_x: offset_x_start)
+        offset_x = ((days - 1) * 30) + offset_x_start
+        drag_element_to(container, offset_x:)
+        drag_release
+      end
+
+      private
+
+      def wait_until_hoverable
+        # The timeline element and the mouse handlers are lazily loaded and can
+        # be hidden if no dates are set. Finding it waits until the lazy loading
+        # has completed.
+        container.find('.timeline-element', visible: :all)
       end
     end
   end

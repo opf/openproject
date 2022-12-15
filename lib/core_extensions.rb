@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -29,5 +27,7 @@
 #++
 
 require 'core_extensions/string'
+require 'core_extensions/time_with_zone'
 
 ::String.prepend CoreExtensions::String
+::ActiveSupport::TimeWithZone.include CoreExtensions::TimeWithZone

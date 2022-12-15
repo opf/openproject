@@ -5,12 +5,13 @@ require 'features/page_objects/notification'
 
 describe 'new work package', js: true do
   let(:type_task) { create(:type_task) }
-  let(:type_bug) { create(:type_bug) }
-  let(:types) { [type_task, type_bug] }
+  let(:type_milestone) { create(:type_milestone, position: type_task.position + 1) }
+  let(:type_bug) { create(:type_bug, position: type_milestone.position + 1) }
+  let(:types) { [type_task, type_milestone, type_bug] }
   let!(:status) { create(:status, is_default: true) }
   let!(:priority) { create(:priority, is_default: true) }
   let!(:project) do
-    create(:project, types: types)
+    create(:project, types:)
   end
 
   let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages work_package_assigned] }
@@ -33,7 +34,7 @@ describe 'new work package', js: true do
   let(:toaster) { PageObjects::Notifications.new(page) }
 
   def disable_leaving_unsaved_warning
-    create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
+    create(:user_preference, user:, others: { warn_on_leaving_unsaved: false })
   end
 
   def save_work_package!(expect_success = true)
@@ -44,28 +45,29 @@ describe 'new work package', js: true do
     end
   end
 
-  def create_work_package(type, _project)
+  def click_create_work_package_button(type)
     loading_indicator_saveguard
 
     wp_page.click_create_wp_button(type)
 
     loading_indicator_saveguard
+  end
+
+  def create_work_package(type, *)
+    click_create_work_package_button(type)
     expect(page).to have_focus_on('#wp-new-inline-edit--field-subject')
     wp_page.subject_field.set(subject)
 
     sleep 1
   end
 
-  def create_work_package_globally(type, project)
-    loading_indicator_saveguard
+  def create_work_package_globally(type, project_name)
+    click_create_work_package_button(type)
 
-    wp_page.click_create_wp_button(type)
-
-    loading_indicator_saveguard
     wp_page.subject_field.set(subject)
 
     project_field.openSelectField
-    project_field.set_value project
+    project_field.set_value project_name
 
     sleep 1
 
@@ -92,7 +94,7 @@ describe 'new work package', js: true do
       wp_page.subject_field.set(subject)
       save_work_package!
 
-      # safegurards
+      # safeguards
       wp_page.dismiss_toaster!
       wp_page.expect_no_toaster(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
@@ -112,7 +114,7 @@ describe 'new work package', js: true do
       subject_field.set(subject)
       subject_field.send_keys(:enter)
 
-      # safegurards
+      # safeguards
       wp_page.dismiss_toaster!
       wp_page.expect_no_toaster(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
@@ -182,10 +184,10 @@ describe 'new work package', js: true do
         let(:custom_fields) do
           [custom_field1, custom_field2]
         end
-        let(:type_task) { create(:type_task, custom_fields: custom_fields) }
+        let(:type_task) { create(:type_task, custom_fields:) }
         let(:project) do
           create(:project,
-                 types: types,
+                 types:,
                  work_package_custom_fields: custom_fields)
         end
 
@@ -228,7 +230,7 @@ describe 'new work package', js: true do
     end
 
     it 'allows to go to the full page through the toaster (Regression #37555)' do
-      create_work_package(type_task, project.name)
+      create_work_package(type_task)
       save_work_package!
 
       wp_page.expect_toast message: 'Successful creation. Click here to open this work package in fullscreen view.'
@@ -242,7 +244,7 @@ describe 'new work package', js: true do
     it 'reloads the table and selects the new work package' do
       expect(page).to have_no_selector('.wp--row')
 
-      create_work_package(type_task, project.name)
+      create_work_package(type_task)
       expect(page).to have_selector(safeguard_selector, wait: 10)
 
       wp_page.subject_field.set('new work package')
@@ -276,12 +278,29 @@ describe 'new work package', js: true do
 
   context 'full screen' do
     let(:safeguard_selector) { '.work-package--new-state' }
-    let(:existing_wp) { create :work_package, type: type_bug, project: project }
+    let(:existing_wp) { create :work_package, type: type_bug, project: }
     let(:wp_page) { Pages::FullWorkPackage.new(existing_wp) }
 
     before do
       wp_page.visit!
       wp_page.ensure_page_loaded
+    end
+
+    it 'displays chosen date attribute for milestone type (#44701)' do
+      click_create_work_package_button(type_milestone)
+
+      date_field = wp_page.edit_field(:date)
+
+      date_field.expect_value(I18n.t('js.label_no_date'))
+
+      # Set date
+      date_field.click_to_open_datepicker
+      date = Time.zone.today.iso8601
+      date_field.set_milestone_date date
+      date_field.save!
+
+      # Expect date to be displayed
+      date_field.expect_value date
     end
 
     it_behaves_like 'work package creation workflow' do
@@ -336,6 +355,28 @@ describe 'new work package', js: true do
       assignee_field.expect_state_text user.name
       wp = WorkPackage.last
       expect(wp.assigned_to).to eq user
+    end
+
+    it 'resets the dates when opening the datepicker and cancelling (Regression #44152)' do
+      create_work_package_globally(type_task, project.name)
+      expect(page).to have_selector(safeguard_selector, wait: 10)
+
+      # Open datepicker
+      date_field = wp_page.edit_field(:combinedDate)
+      date_field.click_to_open_datepicker
+
+      # Select date
+      start = (Time.zone.today - 1.day).iso8601
+      date_field.set_start_date start
+
+      due = (Time.zone.today + 1.day).iso8601
+      date_field.set_due_date due
+
+      date_field.expect_value "#{start} - #{due}"
+
+      # Cancel
+      date_field.cancel_by_click
+      date_field.expect_value 'no start date - no finish date'
     end
 
     context 'with a project without type_bug' do
@@ -428,16 +469,16 @@ describe 'new work package', js: true do
   context 'creating child work packages' do
     let!(:parent) do
       create(:work_package,
-             project: project,
+             project:,
              author: user,
              start_date: Date.today - 5.days,
              due_date: Date.today + 5.days)
     end
     let(:context_menu) { Components::WorkPackages::ContextMenu.new }
-    let(:split_create_page) { Pages::SplitWorkPackageCreate.new(project: project) }
+    let(:split_create_page) { Pages::SplitWorkPackageCreate.new(project:) }
     let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_subtasks] }
     let(:wp_page) { Pages::FullWorkPackage.new(parent) }
-    let(:wp_page_create) { Pages::FullWorkPackageCreate.new(project: project) }
+    let(:wp_page_create) { Pages::FullWorkPackageCreate.new(project:) }
 
     it 'from within the table' do
       work_packages_page.visit_index
@@ -449,12 +490,8 @@ describe 'new work package', js: true do
       date_field = split_create_page.edit_field(:combinedDate)
       date_field.expect_value("#{parent.start_date} - #{parent.due_date}")
 
-      date_field.input_element.click
-      sleep 1
-      date_field.clear with_backspace: true
-      date_field.input_element.send_keys :backspace
-
-      date_field.save!
+      date_field.click_to_open_datepicker
+      date_field.update ['', parent.due_date]
 
       subject = split_create_page.edit_field(:subject)
       subject.set_value 'Child'

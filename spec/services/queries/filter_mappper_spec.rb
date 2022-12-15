@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,6 +31,7 @@ require 'spec_helper'
 describe Queries::Copy::FiltersMapper do
   let(:state) { ::Shared::ServiceState.new }
   let(:instance) { described_class.new(state, filters) }
+
   subject { instance.map_filters! }
 
   describe 'with a query filters array' do
@@ -97,6 +96,26 @@ describe Queries::Copy::FiltersMapper do
         expect(subject[0]['parent']['values']).to eq(['1'])
         expect(subject[1]['category_id']['values']).to eq(['2'])
         expect(subject[2]['version_id']['values']).to eq(['3'])
+      end
+    end
+  end
+
+  describe 'with a symbolized filter hash array' do
+    let(:filters) do
+      [
+        { parent: { operator: '=', values: ['1'] } }
+      ]
+    end
+
+    context 'when mapping state exists' do
+      before do
+        state.work_package_id_lookup = { 1 => 11 }
+        state.category_id_lookup = { 2 => 22 }
+        state.version_id_lookup = { 3 => 33 }
+      end
+
+      it 'maps the filters' do
+        expect(subject[0]['parent']['values']).to eq(['11'])
       end
     end
   end

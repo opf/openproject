@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -38,7 +36,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
     build_stubbed(:project)
   end
   let(:work_package) do
-    build_stubbed(:stubbed_work_package, project: project).tap do |wp|
+    build_stubbed(:work_package, project:).tap do |wp|
       allow(wp).to receive(:assignable_versions).and_return []
     end
   end
@@ -46,7 +44,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
     build_stubbed(:user)
   end
   let(:representer) do
-    described_class.new(work_package, current_user: current_user, errors: errors)
+    described_class.new(work_package, current_user:, errors:)
   end
 
   subject(:generated) { representer.to_json }
@@ -196,7 +194,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
                 id: 42,
                 created_at: DateTime.now,
                 updated_at: DateTime.now,
-                type: type)
+                type:)
         end
 
         before do

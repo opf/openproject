@@ -40,7 +40,7 @@ module API
                 WHEN type = 'PlaceholderUser' THEN json_build_object(#{placeholder_user_select_sql(select, walker_result)})
                 WHEN type = 'User' THEN json_build_object(#{user_select_sql(select, walker_result)})
                 END
-              )
+              )::jsonb - '#{API::Decorators::Sql::Hal::TO_BE_REMOVED}'
             SELECT
           end
 

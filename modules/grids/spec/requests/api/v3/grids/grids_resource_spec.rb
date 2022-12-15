@@ -65,14 +65,14 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
     context 'without a page link' do
       let(:params) do
         {
-          "rowCount": 5,
-          "columnCount": 5,
-          "widgets": [{
-            "identifier": "work_packages_assigned",
-            "startRow": 2,
-            "endRow": 4,
-            "startColumn": 2,
-            "endColumn": 5
+          rowCount: 5,
+          columnCount: 5,
+          widgets: [{
+            identifier: "work_packages_assigned",
+            startRow: 2,
+            endRow: 4,
+            startColumn: 2,
+            endColumn: 5
           }]
         }.with_indifferent_access
       end
@@ -83,7 +83,7 @@ describe 'API v3 Grids resource', type: :request, content_type: :json do
 
       it 'does not create a grid' do
         expect(Grids::Grid.count)
-          .to eql(0)
+          .to be(0)
       end
 
       it 'returns the errors' do

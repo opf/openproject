@@ -31,13 +31,14 @@ require 'spec_helper'
 describe Queries::Principals::PrincipalQuery, 'integration', type: :model do
   let(:current_user) { create(:user) }
   let(:instance) { described_class.new }
+  let!(:non_member_role) { create(:non_member) }
 
   before do
     login_as(current_user)
   end
 
   context 'with a member filter' do
-    let(:project) { create(:project) }
+    let(:project) { create(:project, public: true) }
     let(:role) { create(:role) }
     let(:project_user) do
       create(:user,
@@ -50,7 +51,7 @@ describe Queries::Principals::PrincipalQuery, 'integration', type: :model do
                roles: [role])
       end
     end
-    let(:other_project) { create(:project) }
+    let(:other_project) { create(:project, public: true) }
     let(:other_project_user) do
       create(:user,
              member_in_project: other_project,

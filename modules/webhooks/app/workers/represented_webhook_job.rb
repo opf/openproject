@@ -1,6 +1,4 @@
 require 'rest-client'
-
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -63,8 +61,8 @@ class RepresentedWebhookJob < WebhookJob
     end
 
     ::Webhooks::Log.create(
-      webhook: webhook,
-      event_name: event_name,
+      webhook:,
+      event_name:,
       url: webhook.url,
       request_headers: headers,
       request_body: body,

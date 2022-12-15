@@ -1,0 +1,29 @@
+.spot-action-bar
+  display: grid
+  grid-template-columns: 1fr
+  padding: 0 $spot-spacing-1 $spot-spacing-0_75 0
+  background-color: $spot-color-basic-gray-6
+
+  &_transparent
+    background-color: unset
+
+  &--left,
+  &--right
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    align-items: center
+    justify-content: flex-end
+    margin-top: -$spot-spacing-0_25
+
+    > .spot-action-bar--action
+      margin: $spot-spacing-1 0 0 $spot-spacing-1
+
+  @media #{$spot-mq-action-bar-change}
+    grid-template-columns: 1fr auto
+
+    &--left
+      justify-content: flex-start
+
+    &--right
+      justify-content: flex-end

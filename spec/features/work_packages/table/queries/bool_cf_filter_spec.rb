@@ -42,16 +42,16 @@ describe 'Work package filtering by bool custom field', js: true do
   let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
   let!(:work_package_true) do
     create(:work_package,
-           type: type,
-           project: project).tap do |wp|
+           type:,
+           project:).tap do |wp|
       wp.custom_field_values = { bool_cf.id => true }
       wp.save!
     end
   end
   let!(:work_package_false) do
     create(:work_package,
-           type: type,
-           project: project).tap do |wp|
+           type:,
+           project:).tap do |wp|
       wp.custom_field_values = { bool_cf.id => false }
       wp.save!
     end
@@ -59,14 +59,14 @@ describe 'Work package filtering by bool custom field', js: true do
   let!(:work_package_without) do
     # Has no custom field value set
     create(:work_package,
-           type: type,
-           project: project)
+           type:,
+           project:)
   end
   let!(:work_package_other_type) do
     # Does not have the custom field at all
     create(:work_package,
            type: project.types.last,
-           project: project)
+           project:)
   end
 
   current_user do
@@ -86,7 +86,7 @@ describe 'Work package filtering by bool custom field', js: true do
 
     # Turn the added filter to the "true" value.
     # Ideally this would be the default.
-    page.find("#div-values-customField#{bool_cf.id} label").click
+    page.find("#div-values-customField#{bool_cf.id} [data-qa-selector='spot-switch-handle']").click
 
     wp_table.ensure_work_package_not_listed!(work_package_false, work_package_without, work_package_other_type)
     wp_table.expect_work_package_listed(work_package_true)
@@ -103,7 +103,7 @@ describe 'Work package filtering by bool custom field', js: true do
     filters.open
 
     # Inverting the filter
-    page.find("#div-values-customField#{bool_cf.id} label").click
+    page.find("#div-values-customField#{bool_cf.id} [data-qa-selector='spot-switch-handle']").click
 
     wp_table.ensure_work_package_not_listed!(work_package_true)
     wp_table.expect_work_package_listed(work_package_false, work_package_without, work_package_other_type)

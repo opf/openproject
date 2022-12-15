@@ -37,8 +37,8 @@ describe 'Board reference work package spec', type: :feature, js: true do
            member_through_role: role)
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { create(:role, permissions: permissions) }
-  let!(:work_package) { create :work_package, version: version, subject: 'Foo', project: project }
+  let(:role) { create(:role, permissions:) }
+  let!(:work_package) { create :work_package, version:, subject: 'Foo', project: }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
@@ -54,11 +54,11 @@ describe 'Board reference work package spec', type: :feature, js: true do
       assign_versions
     ]
   end
-  let(:board_view) { create :board_grid_with_query, project: project }
+  let(:board_view) { create :board_grid_with_query, project: }
 
   let!(:priority) { create :default_priority }
   let!(:status) { create :default_status }
-  let!(:version) { create :version, name: 'Foo version', project: project }
+  let!(:version) { create :version, name: 'Foo version', project: }
 
   before do
     with_enterprise_token :board_view
@@ -119,7 +119,7 @@ describe 'Board reference work package spec', type: :feature, js: true do
 
       # Add subproject filter
       filters.open
-      filters.add_filter_by('Subproject', 'all', nil, 'subprojectId')
+      filters.add_filter_by('subproject', 'all', nil, 'subprojectId')
       sleep 2
 
       # Reference an existing work package

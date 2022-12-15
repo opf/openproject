@@ -37,7 +37,7 @@ describe 'Custom text widget on my page', type: :feature, js: true do
   let(:project) { create(:project) }
 
   let(:role) do
-    create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
 
   let(:user) do
@@ -72,6 +72,9 @@ describe 'Custom text widget on my page', type: :feature, js: true do
     within custom_text_widget.area do
       find('.inplace-editing--container').click
 
+      sleep 1
+      expect(page).to have_selector('.op-uc-container_editing')
+
       field.set_value('My own little text')
       field.save!
 
@@ -97,7 +100,7 @@ describe 'Custom text widget on my page', type: :feature, js: true do
     editor.drag_attachment image_fixture.path, 'Image uploaded'
 
     within custom_text_widget.area do
-      expect(page).to have_selector('attachment-list-item', text: 'image.png')
+      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
       expect(page).to have_no_selector('notifications-upload-progress')
 
       field.save!
@@ -106,7 +109,7 @@ describe 'Custom text widget on my page', type: :feature, js: true do
         .to have_selector('#content img', count: 1)
 
       expect(page)
-        .to have_no_selector('attachment-list-item', text: 'image.png')
+        .to have_no_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
     end
 
     # ensure no one but the page's user can see the uploaded attachment

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -29,6 +27,8 @@
 #++
 
 class Users::InexistentUser < User
+  include InexistentModel
+
   def self.sti_name
     nil
   end

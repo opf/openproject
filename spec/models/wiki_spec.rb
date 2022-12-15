@@ -31,7 +31,7 @@ require 'spec_helper'
 describe Wiki, type: :model do
   let(:project) { create(:project, disable_modules: 'wiki') }
   let(:start_page) { 'The wiki start page' }
-  let(:wiki) { project.create_wiki start_page: start_page }
+  let(:wiki) { project.create_wiki start_page: }
 
   describe 'creation' do
     it_behaves_like 'acts_as_watchable included' do
@@ -69,7 +69,7 @@ describe Wiki, type: :model do
 
   describe '#slug' do
     context 'with an umlaut' do
-      let(:wiki_page) { create(:wiki_page, wiki: wiki, title: 'Übersicht') }
+      let(:wiki_page) { create(:wiki_page, wiki:, title: 'Übersicht') }
 
       it 'normalizes' do
         expect(wiki_page.slug).to eq 'ubersicht'
@@ -79,7 +79,7 @@ describe Wiki, type: :model do
 
   describe '#find_page' do
     let(:title) { 'Übersicht' }
-    let!(:wiki_page) { create(:wiki_page, wiki: wiki, title: title) }
+    let!(:wiki_page) { create(:wiki_page, wiki:, title:) }
     let(:search_string) { 'Übersicht' }
 
     subject { wiki.find_page(search_string) }
@@ -128,6 +128,50 @@ describe Wiki, type: :model do
       it 'finds the page with the default_language slug title (Regression #38606)' do
         expect(subject)
           .to eq wiki_page
+      end
+    end
+  end
+
+  describe '#find_or_new_page' do
+    let(:title) { 'Übersicht' }
+    let!(:wiki_page) { create(:wiki_page, wiki:, title:) }
+
+    subject { wiki.find_or_new_page(search_string) }
+
+    context 'when using the title of an existing page' do
+      let(:search_string) { title }
+
+      it 'returns that page' do
+        expect(subject)
+          .to eq wiki_page
+      end
+    end
+
+    context 'when using the title in a different case' do
+      let(:search_string) { 'ÜBERSICHT' }
+
+      it 'finds the page' do
+        expect(subject)
+          .to eq wiki_page
+      end
+    end
+
+    context 'when using a different title' do
+      let(:search_string) { title + title }
+
+      it 'returns a wiki page' do
+        expect(subject)
+          .to be_a WikiPage
+      end
+
+      it 'returns an unpersisted record' do
+        expect(subject)
+          .to be_new_record
+      end
+
+      it 'set the title of the new wiki page' do
+        expect(subject.title)
+          .to eq search_string
       end
     end
   end

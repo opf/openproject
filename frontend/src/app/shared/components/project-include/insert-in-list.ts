@@ -1,6 +1,8 @@
 import { IProject } from 'core-app/core/state/projects/project.model';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
-import { IProjectData } from './project-data';
+import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
+
+const UNDISCLOSED_ANCESTOR = 'urn:openproject-org:api:v3:undisclosed';
 
 // Helper function that recursively inserts a project into the hierarchy at the right place
 export const insertInList = (
@@ -9,24 +11,29 @@ export const insertInList = (
   list:IProjectData[],
   ancestors:IHalResourceLink[],
 ):IProjectData[] => {
-  if (!ancestors.length) {
+  // In a set of projects, some of the ancestors may be undisclosed. The client then knows of its existence
+  // but knows nothing more than that. Those projects receive an 'undisclosed' urn for their href. For building
+  // the project hierarchy, they can be ignored.
+  const visibleAncestors = ancestors.filter((ancestor) => ancestor.href !== UNDISCLOSED_ANCESTOR);
+
+  if (!visibleAncestors.length) {
     return [
       ...list,
       {
         id: project.id,
         name: project.name,
         href: project._links.self.href,
-        found: true,
+        disabled: false,
         children: [],
       },
     ];
   }
 
-  const ancestorHref = ancestors[0].href;
+  const ancestorHref = visibleAncestors[0].href;
   const ancestor:IProjectData|undefined = list.find((projectInList) => projectInList.href === ancestorHref);
 
   if (ancestor) {
-    ancestor.children = insertInList(projects, project, ancestor.children, ancestors.slice(1));
+    ancestor.children = insertInList(projects, project, ancestor.children, visibleAncestors.slice(1));
     return [...list];
   }
 
@@ -41,8 +48,8 @@ export const insertInList = (
       id: ancestorProject.id,
       name: ancestorProject.name,
       href: ancestorProject._links.self.href,
-      found: false,
-      children: insertInList(projects, project, [], ancestors.slice(1)),
+      disabled: true,
+      children: insertInList(projects, project, [], visibleAncestors.slice(1)),
     },
   ];
 };

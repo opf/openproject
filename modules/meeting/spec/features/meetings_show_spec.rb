@@ -30,14 +30,14 @@ require 'spec_helper'
 
 describe 'Meetings', type: :feature, js: true do
   let(:project) { create :project, enabled_module_names: %w[meetings] }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:user) do
     create(:user,
            member_in_project: project,
            member_through_role: role)
   end
 
-  let!(:meeting) { create :meeting, project: project, title: 'Awesome meeting!' }
+  let!(:meeting) { create :meeting, project:, title: 'Awesome meeting!' }
 
   before do
     login_as(user)
@@ -56,8 +56,8 @@ describe 'Meetings', type: :feature, js: true do
     end
 
     context 'with an open agenda' do
-      let!(:agenda) { create :meeting_agenda, meeting: meeting, text: 'foo' }
-      let(:agenda_update) { create :meeting_agenda, meeting: meeting, text: 'bla' }
+      let!(:agenda) { create :meeting_agenda, meeting:, text: 'foo' }
+      let(:agenda_update) { create :meeting_agenda, meeting:, text: 'bla' }
 
       it 'shows the agenda' do
         visit meeting_path(meeting)
@@ -106,7 +106,7 @@ describe 'Meetings', type: :feature, js: true do
     end
 
     context 'with a locked agenda' do
-      let!(:agenda) { create :meeting_agenda, meeting: meeting, text: 'foo', locked: true }
+      let!(:agenda) { create :meeting_agenda, meeting:, text: 'foo', locked: true }
 
       it 'shows the minutes when visiting' do
         visit meeting_path(meeting)

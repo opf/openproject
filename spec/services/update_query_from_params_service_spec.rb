@@ -59,7 +59,7 @@ describe UpdateQueryFromParamsService,
           subject
 
           expect(query.group_by)
-            .to eql(nil)
+            .to be_nil
         end
       end
     end
@@ -74,9 +74,9 @@ describe UpdateQueryFromParamsService,
           subject
 
           expect(query.filters.length)
-            .to eql(1)
+            .to be(1)
           expect(query.filters[0].name)
-            .to eql(:status_id)
+            .to be(:status_id)
           expect(query.filters[0].operator)
             .to eql('=')
           expect(query.filters[0].values)
@@ -160,6 +160,34 @@ describe UpdateQueryFromParamsService,
 
         expect(query.highlighting_mode)
           .to eq(:none)
+      end
+    end
+
+    context 'when using include subprojects' do
+      let(:params) do
+        { include_subprojects: }
+      end
+
+      context 'when true' do
+        let(:include_subprojects) { true }
+
+        it 'sets the display_representation' do
+          subject
+
+          expect(query.include_subprojects)
+            .to be true
+        end
+      end
+
+      context 'when false' do
+        let(:include_subprojects) { false }
+
+        it 'sets the display_representation' do
+          subject
+
+          expect(query.include_subprojects)
+            .to be false
+        end
       end
     end
   end

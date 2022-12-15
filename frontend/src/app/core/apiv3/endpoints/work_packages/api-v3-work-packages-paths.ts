@@ -64,6 +64,10 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
    * @param ids
    */
   public requireAll(ids:string[]):Promise<unknown> {
+    if (ids.length === 0) {
+      return Promise.resolve();
+    }
+
     return new Promise<undefined>((resolve, reject) => {
       this
         .loadCollectionsFor(_.uniq(ids))
@@ -157,13 +161,13 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
   protected loadCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
     return this
       .halResourceService
-      .getAllPaginated<WorkPackageCollectionResource>(
+    .getAllPaginated<WorkPackageCollectionResource>(
       this.path,
-      ids.length,
       {
         filters: ApiV3Filter('id', '=', ids).toJson(),
       },
-    );
+    )
+      .toPromise();
   }
 
   protected createCache():WorkPackageCache {

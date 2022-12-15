@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -36,6 +34,7 @@ class TimeEntry < ApplicationRecord
   belongs_to :user
   belongs_to :activity, class_name: 'TimeEntryActivity'
   belongs_to :rate, -> { where(type: %w[HourlyRate DefaultHourlyRate]) }, class_name: 'Rate'
+  belongs_to :logged_by, class_name: 'User'
 
   acts_as_customizable
 

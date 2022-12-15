@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -36,7 +34,7 @@ describe Relations::CreateContract do
   let(:user) { build_stubbed :admin }
 
   let(:relation) do
-    Relation.new from: from, to: to, relation_type: "follows", delay: 42
+    Relation.new from:, to:, relation_type: "follows", delay: 42
   end
 
   subject(:contract) { described_class.new relation, user }
@@ -57,7 +55,7 @@ describe Relations::CreateContract do
       end
 
       it 'is invalid' do
-        is_expected.not_to be_valid
+        expect(subject).not_to be_valid
       end
     end
   end
@@ -72,7 +70,7 @@ describe Relations::CreateContract do
       end
 
       it 'is invalid' do
-        is_expected.not_to be_valid
+        expect(subject).not_to be_valid
       end
     end
   end

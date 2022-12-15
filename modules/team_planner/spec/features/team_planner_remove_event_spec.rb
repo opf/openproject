@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -48,7 +46,7 @@ describe 'Team planner remove event', type: :feature, js: true do
 
   let!(:removable_wp) do
     create :work_package,
-           project: project,
+           project:,
            subject: 'Some task',
            assigned_to: other_user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
@@ -57,7 +55,7 @@ describe 'Team planner remove event', type: :feature, js: true do
 
   let!(:non_removable_wp) do
     create :work_package,
-           project: project,
+           project:,
            subject: 'Parent work package',
            assigned_to: other_user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:wednesday),
@@ -69,7 +67,7 @@ describe 'Team planner remove event', type: :feature, js: true do
   let!(:child_wp) do
     create :work_package,
            parent: non_removable_wp,
-           project: project,
+           project:,
            assigned_to: user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:wednesday),
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)

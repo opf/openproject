@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,7 +31,7 @@ module API
     module TimeEntries
       class TimeEntryCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
         link :createTimeEntry do
-          next unless current_user.allowed_to_globally?(:log_time)
+          next unless current_user.allowed_to_globally?(:log_own_time) || current_user.allowed_to_globally?(:log_time)
 
           {
             href: api_v3_paths.create_time_entry_form,
@@ -42,7 +40,7 @@ module API
         end
 
         link :createTimeEntryImmediately do
-          next unless current_user.allowed_to_globally?(:log_time)
+          next unless current_user.allowed_to_globally?(:log_own_time) || current_user.allowed_to_globally?(:log_time)
 
           {
             href: api_v3_paths.time_entries,

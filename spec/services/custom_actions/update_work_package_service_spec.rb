@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -63,7 +61,7 @@ describe CustomActions::UpdateWorkPackageService do
     action
   end
   let(:user) { build_stubbed(:user) }
-  let(:instance) { described_class.new(action: custom_action, user: user) }
+  let(:instance) { described_class.new(action: custom_action, user:) }
   let(:update_service_call_implementation) do
     -> do
       result
@@ -74,7 +72,7 @@ describe CustomActions::UpdateWorkPackageService do
 
     allow(WorkPackages::UpdateService)
       .to receive(:new)
-      .with(user: user, model: work_package)
+      .with(user:, model: work_package)
       .and_return(wp_service_instance)
 
     allow(wp_service_instance)
@@ -84,9 +82,9 @@ describe CustomActions::UpdateWorkPackageService do
 
     wp_service_instance
   end
-  let(:work_package) { build_stubbed(:stubbed_work_package) }
+  let(:work_package) { build_stubbed(:work_package) }
   let(:result) do
-    ServiceResult.new(result: work_package, success: true)
+    ServiceResult.success(result: work_package)
   end
   let(:validation_result) { true }
   let!(:contract) do
@@ -106,7 +104,7 @@ describe CustomActions::UpdateWorkPackageService do
 
   describe '#call' do
     let(:call) do
-      instance.call(work_package: work_package)
+      instance.call(work_package:)
     end
     let(:subject) { call }
 
@@ -122,7 +120,7 @@ describe CustomActions::UpdateWorkPackageService do
         yielded = call
       end
 
-      instance.call(work_package: work_package, &proc)
+      instance.call(work_package:, &proc)
 
       expect(yielded)
         .to be_success
@@ -159,7 +157,7 @@ describe CustomActions::UpdateWorkPackageService do
       before do
         allow(contract)
           .to receive(:validate) do
-          !work_package.subject.blank?
+          work_package.subject.present?
         end
 
         allow(contract)
@@ -179,10 +177,10 @@ describe CustomActions::UpdateWorkPackageService do
             .not_to eql ''
 
           expect(work_package.status_id)
-            .to eql 100
+            .to be 100
 
           expect(work_package.lock_version)
-            .to eql 200
+            .to be 200
 
           result
         end
@@ -196,8 +194,25 @@ describe CustomActions::UpdateWorkPackageService do
 
     context 'on unfixable validation error' do
       let(:result) do
-        ServiceResult.new(result: work_package, success: false)
+        ServiceResult.failure(result: work_package)
       end
+      let(:update_service_call_implementation) do
+        -> do
+          # check that the work package has all the changes
+          # of the actions when passing it to the update service
+          expect(work_package.subject)
+            .to be_blank
+
+          expect(work_package.status_id)
+            .to be 100
+
+          expect(work_package.lock_version)
+            .to be 200
+
+          result
+        end
+      end
+
       before do
         allow(contract)
           .to receive(:validate)
@@ -210,23 +225,6 @@ describe CustomActions::UpdateWorkPackageService do
         work_package.lock_version = 200
 
         subject
-      end
-
-      let(:update_service_call_implementation) do
-        -> do
-          # check that the work package has all the changes
-          # of the actions when passing it to the update service
-          expect(work_package.subject)
-            .to be_blank
-
-          expect(work_package.status_id)
-            .to eql 100
-
-          expect(work_package.lock_version)
-            .to eql 200
-
-          result
-        end
       end
 
       it 'is failure' do

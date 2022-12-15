@@ -40,16 +40,20 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
   let(:user) { build_stubbed(:user) }
   let(:assigned_project) { nil }
   let(:activity) { build_stubbed(:time_entry_activity) }
+  let(:time_entry) { build_stubbed(:time_entry) }
+  let(:writable_attributes) { %w(spent_on hours project work_package activity comment user) }
 
   let(:contract) do
-    contract = double('contract',
-                      new_record?: new_record,
-                      id: new_record ? nil : 5,
-                      project: assigned_project)
+    contract = instance_double(new_record ? TimeEntries::CreateContract : TimeEntries::UpdateContract,
+                               new_record?: new_record,
+                               id: new_record ? nil : 5,
+                               project: assigned_project,
+                               project_id: project.id,
+                               model: time_entry)
 
     allow(contract)
       .to receive(:writable?) do |attribute|
-      %w(spent_on hours project work_package activity comment).include?(attribute.to_s)
+      writable_attributes.include?(attribute.to_s)
     end
 
     allow(contract)
@@ -68,9 +72,9 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
   end
   let(:representer) do
     described_class.create(contract,
-                           self_link: self_link,
+                           self_link:,
                            form_embedded: embedded,
-                           current_user: current_user)
+                           current_user:)
   end
 
   context 'generation' do
@@ -78,7 +82,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
 
     describe '_type' do
       it 'is indicated as Schema' do
-        is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
+        expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
       end
     end
 
@@ -155,7 +159,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
         let(:type) { 'User' }
         let(:name) { TimeEntry.human_attribute_name('user') }
         let(:required) { true }
-        let(:writable) { false }
+        let(:writable) { true }
         let(:location) { '_links' }
       end
     end
@@ -237,10 +241,39 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
           end
         end
       end
+
+      describe 'user' do
+        let(:path) { 'user' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'User' }
+          let(:name) { TimeEntry.human_attribute_name('user') }
+          let(:required) { true }
+          let(:writable) { true }
+          let(:location) { '_links' }
+        end
+
+        context 'if embedding' do
+          let(:embedded) { true }
+
+          it_behaves_like 'links to allowed values via collection link' do
+            let(:href) do
+              api_v3_paths.path_for :principals,
+                                    filters: [
+                                      { status: { operator: '!', values: [Principal.statuses[:locked].to_s] } },
+                                      { type: { operator: '=', values: ['User'] } },
+                                      { member: { operator: '=', values: [project.id] } }
+                                    ]
+            end
+          end
+        end
+      end
     end
 
-    context 'custom value' do
-      let(:custom_field) { build_stubbed(:time_entry_custom_field) }
+    context 'for a custom value' do
+      let(:custom_field) { build_stubbed(:text_time_entry_custom_field) }
+      let(:path) { "customField#{custom_field.id}" }
+      let(:writable_attributes) { ["custom_field_#{custom_field.id}"] }
 
       before do
         allow(contract)
@@ -248,13 +281,22 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
           .and_return([custom_field])
       end
 
-      let(:path) { "customField#{custom_field.id}" }
-
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Formattable' }
         let(:name) { custom_field.name }
         let(:required) { false }
         let(:writable) { true }
+      end
+
+      context 'with schema not writable' do
+        let(:writable_attributes) { [] }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'Formattable' }
+          let(:name) { custom_field.name }
+          let(:required) { false }
+          let(:writable) { false }
+        end
       end
     end
   end

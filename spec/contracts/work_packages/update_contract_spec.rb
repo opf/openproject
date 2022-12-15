@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -42,8 +40,8 @@ describe WorkPackages::UpdateContract do
   let(:work_package) do
     build_stubbed(:work_package,
                   project: work_package_project,
-                  type: type,
-                  status: status).tap do |wp|
+                  type:,
+                  status:).tap do |wp|
       wp_scope = double('wp scope')
 
       allow(WorkPackage)
@@ -108,6 +106,7 @@ describe WorkPackages::UpdateContract do
 
   describe 'authorization' do
     let(:attributes) { {} }
+
     before do
       work_package.attributes = attributes
       contract.validate
@@ -167,8 +166,8 @@ describe WorkPackages::UpdateContract do
     before do
       allow(user)
         .to receive(:allowed_to?) do |permission, context|
-        permissions.include?(permission) && context == work_package_project ||
-          target_permissions.include?(permission) && context == target_project
+        (permissions.include?(permission) && context == work_package_project) ||
+          (target_permissions.include?(permission) && context == target_project)
       end
 
       allow(work_package)
@@ -191,6 +190,7 @@ describe WorkPackages::UpdateContract do
 
     context 'if the user lacks the permissions' do
       let(:target_permissions) { [] }
+
       it 'is invalid' do
         expect(contract.errors.symbols_for(:project_id)).to match_array([:error_readonly])
       end
@@ -243,13 +243,51 @@ describe WorkPackages::UpdateContract do
     end
   end
 
+  describe 'ignore_non_working_days' do
+    context 'when having children and not being scheduled manually' do
+      before do
+        allow(work_package)
+          .to receive(:leaf?)
+                .and_return(false)
+
+        work_package.ignore_non_working_days = !work_package.ignore_non_working_days
+        work_package.schedule_manually = false
+
+        contract.validate
+      end
+
+      it 'is invalid' do
+        expect(contract.errors.symbols_for(:ignore_non_working_days))
+          .to match_array([:error_readonly])
+      end
+    end
+
+    context 'when having children and being scheduled manually' do
+      before do
+        allow(work_package)
+          .to receive(:leaf?)
+                .and_return(false)
+
+        work_package.ignore_non_working_days = !work_package.ignore_non_working_days
+        work_package.schedule_manually = true
+
+        contract.validate
+      end
+
+      it 'is valid' do
+        expect(contract.errors).to be_empty
+      end
+    end
+  end
+
   describe 'with children' do
     context 'changing to milestone' do
       let(:milestone) { build_stubbed :type, is_milestone: true }
+      let(:children) { [build_stubbed(:work_package)] }
 
       before do
         work_package.type = milestone
-        allow(work_package).to receive_message_chain(:children, :any?).and_return true
+        allow(work_package).to receive(:children).and_return children
         contract.validate
       end
 
@@ -343,27 +381,65 @@ describe WorkPackages::UpdateContract do
   describe 'readonly status' do
     context 'with the status being readonly', with_ee: %i[readonly_work_packages] do
       let(:status) { build_stubbed(:status, is_readonly: true) }
-      let(:new_priority) { build_stubbed(:priority) }
 
-      before do
-        work_package.priority = new_priority
+      describe 'updating the priority' do
+        let(:new_priority) { build_stubbed(:priority) }
 
-        contract.validate
+        before do
+          work_package.priority = new_priority
+
+          contract.validate
+        end
+
+        it 'is invalid' do
+          expect(contract)
+            .not_to be_valid
+        end
+
+        it 'adds an error to the written to attribute' do
+          expect(contract.errors.symbols_for(:priority_id))
+            .to include(:error_readonly)
+        end
+
+        it 'adds an error to base to better explain' do
+          expect(contract.errors.symbols_for(:base))
+            .to include(:readonly_status)
+        end
       end
 
-      it 'is invalid' do
-        expect(contract)
-          .not_to be_valid
-      end
+      describe 'updating the custom field values' do
+        let(:cf1) { create(:string_wp_custom_field) }
 
-      it 'adds an error to the written to attribute' do
-        expect(contract.errors.symbols_for(:priority_id))
-          .to include(:error_readonly)
-      end
+        before do
+          work_package_project.work_package_custom_fields << cf1
+          type.custom_fields << cf1
+          work_package.custom_field_values = { cf1.id => 'test' }
+          contract.validate
+        end
 
-      it 'adds an error to base to better explain' do
-        expect(contract.errors.symbols_for(:base))
-          .to include(:readonly_status)
+        shared_examples_for 'custom_field readonly errors' do
+          it 'adds an error to the written custom field attribute' do
+            expect(contract.errors.symbols_for(:"custom_field_#{cf1.id}"))
+              .to include(:error_readonly)
+          end
+
+          it 'adds an error to base to better explain' do
+            expect(contract.errors.symbols_for(:base))
+              .to include(:readonly_status)
+          end
+        end
+
+        context 'when the subject does not extends OpenProject::ChangedBySystem' do
+          include_examples 'custom_field readonly errors'
+        end
+
+        context 'when the subject extends OpenProject::ChangedBySystem' do
+          before do
+            work_package.extend(OpenProject::ChangedBySystem)
+          end
+
+          include_examples 'custom_field readonly errors'
+        end
       end
     end
   end

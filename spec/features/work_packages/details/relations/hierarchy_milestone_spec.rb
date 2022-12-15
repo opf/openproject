@@ -32,7 +32,7 @@ describe 'work package hierarchies for milestones', js: true, selenium: true do
   let(:user) { create :admin }
   let(:type) { create(:type, is_milestone: true) }
   let(:project) { create(:project, types: [type]) }
-  let(:work_package) { create(:work_package, project: project, type: type) }
+  let(:work_package) { create(:work_package, project:, type:) }
   let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
   let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }

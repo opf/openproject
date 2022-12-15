@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -32,7 +30,7 @@ module AngularHelper
   ##
   # Create a component element tag with the given attributes
   #
-  # Allow setting dynamic inputs for components with the @DatasetInputs decorator
+  # Allow setting dynamic inputs for components with the populateInputsFromDataset functionality
   # by using inputs: { inputName: value }
   def angular_component_tag(component, options = {})
     inputs = (options.delete(:inputs) || {})

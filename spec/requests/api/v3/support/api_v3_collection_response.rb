@@ -30,6 +30,7 @@ require 'spec_helper'
 
 shared_examples_for 'API V3 collection response' do |total, count, element_type, collection_type = 'Collection'|
   subject { last_response.body }
+
   # If an array of elements is provided, those elements are expected
   # to be embedded in the _embedded/elements section in the order provided.
   # Only the id of the element is checked for.
@@ -53,9 +54,19 @@ shared_examples_for 'API V3 collection response' do |total, count, element_type,
     end
   end
 
+  # Allow overriding the expect HTTP status code
+  let(:expected_status_code) { 200 }
+
   it 'returns a collection successfully' do
     aggregate_failures do
-      expect(last_response.status).to eql(200)
+      expect(last_response.status).to eq(expected_status_code)
+      errors = JSON.parse(subject).dig("_embedded", "errors")&.map { _1["message"] }
+      expect(errors).to eq([]) if errors # make errors visible in console if any
+    end
+  end
+
+  it 'contains all elements' do
+    aggregate_failures do
       expect(subject).to be_json_eql(collection_type.to_json).at_path('_type')
       expect(subject).to be_json_eql(count_number.to_json).at_path('count')
       expect(subject).to be_json_eql(total_number.to_json).at_path('total')

@@ -20,6 +20,9 @@ declare global {
 
 @Injectable()
 export class CKEditorSetupService {
+  /** The language CKEditor was able to load, falls back to 'en' */
+  private loadedLocale = 'en';
+
   constructor(private PathHelper:PathHelperService) {
   }
 
@@ -38,8 +41,8 @@ export class CKEditorSetupService {
     wrapper:HTMLElement, context:ICKEditorContext,
     initialData:string|null = null,
   ):Promise<ICKEditorWatchdog> {
-    // Load the bundle
-    await CKEditorSetupService.load();
+    // Load the bundle and the matching locale, if found.
+    await this.load();
 
     const { type } = context;
     const editorClass = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
@@ -47,12 +50,14 @@ export class CKEditorSetupService {
 
     const toolbarWrapper = wrapper.querySelector('.document-editor__toolbar') as HTMLElement;
     const contentWrapper = wrapper.querySelector('.document-editor__editable') as HTMLElement;
+    const uiLocale = this.loadedLocale;
     const contentLanguage = context.options && context.options.rtl ? 'ar' : 'en';
 
     const config = {
       openProject: this.createConfig(context),
       initialData,
       language: {
+        ui: uiLocale,
         content: contentLanguage,
       },
     };
@@ -99,11 +104,20 @@ export class CKEditorSetupService {
   /**
    * Load the ckeditor asset
    */
-  private static load():Promise<unknown> {
+  private async load():Promise<void> {
     // untyped module cannot be dynamically imported
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    return import(/* webpackChunkName: "ckeditor" */ 'core-vendor/ckeditor/ckeditor.js');
+    await import(/* webpackChunkName: "ckeditor" */ 'core-vendor/ckeditor/ckeditor.js');
+
+    try {
+      await import(
+        /* webpackChunkName: "ckeditor-translation" */ `../../../../../../vendor/ckeditor/translations/${I18n.locale}.js`
+      ) as unknown;
+      this.loadedLocale = I18n.locale;
+    } catch (e:unknown) {
+      console.warn(`Failed to load translation for CKEditor: ${e as string}`);
+    }
   }
 
   private createConfig(context:ICKEditorContext):unknown {

@@ -35,7 +35,7 @@ import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/wor
 import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
 
 export type WorkPackageAction = {
-  text:string;
+  text?:string;
   key:string;
   icon?:string;
   indexBy?:(actions:WorkPackageAction[]) => number,

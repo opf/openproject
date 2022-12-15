@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -194,18 +192,16 @@ class UsersController < ApplicationController
     was_activated = (@user.status_change == %w[registered active])
 
     if params[:activate] && @user.missing_authentication_method?
-      flash[:error] = I18n.t(:error_status_change_failed,
-                             errors: I18n.t(:notice_user_missing_authentication_method),
-                             scope: :user)
+      flash[:error] = I18n.t('user.error_status_change_failed',
+                             errors: I18n.t(:notice_user_missing_authentication_method))
     elsif @user.save
       flash[:notice] = I18n.t(:notice_successful_update)
       if was_activated
         UserMailer.account_activated(@user).deliver_later
       end
     else
-      flash[:error] = I18n.t(:error_status_change_failed,
-                             errors: @user.errors.full_messages.join(', '),
-                             scope: :user)
+      flash[:error] = I18n.t('user.error_status_change_failed',
+                             errors: @user.errors.full_messages.join(', '))
     end
     redirect_back_or_default(action: 'edit', id: @user)
   end
@@ -318,7 +314,7 @@ class UsersController < ApplicationController
     if params[:user][:assign_random_password]
       password = OpenProject::Passwords::Generator.random_password
       update_params.merge!(
-        password: password,
+        password:,
         password_confirmation: password,
         force_password_change: true
       )

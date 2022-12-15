@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -28,8 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class EagerLoadingMockWrapper
-  def self.wrap(klass, work_packages)
+module EagerLoadingMockWrapper
+  module_function
+
+  def wrap(klass, work_packages)
     klass_module = klass.module
 
     delegator_class = Class.new(SimpleDelegator) do

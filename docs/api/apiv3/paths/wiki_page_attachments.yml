@@ -53,7 +53,7 @@ get:
                 count: 1
                 total: 1
           schema:
-            "$ref": "../components/schemas/attachments_by_wiki_page_model.yml"
+            "$ref": "../components/schemas/attachments_model.yml"
       description: OK
       headers: {}
     '404':
@@ -228,6 +228,10 @@ post:
         *Note: A client without sufficient permissions shall not be able to test for the existence of a wiki page
         That's why a 404 is returned here, even if a 403 might be more appropriate.*
       headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
     '422':
       content:
         application/hal+json:

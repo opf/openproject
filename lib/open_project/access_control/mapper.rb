@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -37,7 +35,7 @@ module OpenProject
 
       def project_module(name, options = {})
         options[:dependencies] = Array(options[:dependencies]) if options[:dependencies]
-        mapped_modules << { name: name, order: 0 }.merge(options)
+        mapped_modules << { name:, order: 0 }.merge(options)
 
         if block_given?
           @project_module = name

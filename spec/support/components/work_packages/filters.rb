@@ -27,15 +27,16 @@
 #++
 
 require_relative '../../shared/selenium_workarounds'
-require_relative '../ng_select_autocomplete_helpers'
+require_relative '../autocompleter/ng_select_autocomplete_helpers'
 
 module Components
   module WorkPackages
     class Filters
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
       include SeleniumWorkarounds
-      include ::Components::NgSelectAutocompleteHelpers
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       def open
         SeleniumHubWaiter.wait
@@ -51,7 +52,7 @@ module Components
       end
 
       def expect_open
-        expect(page).to have_selector(filters_selector, wait: 5, visible: true)
+        expect(page).to have_selector(filters_selector, wait: 5, visible: :visible)
       end
 
       def expect_closed
@@ -131,6 +132,18 @@ module Components
         end
       end
 
+      def expect_missing_filter_value_by(name, operator, value, selector = nil)
+        add_filter(name)
+
+        id = selector || name.downcase
+
+        set_operator(name, operator, selector)
+
+        expect_missing_value id, value
+
+        remove_filter id
+      end
+
       def expect_no_filter_by(name, selector = nil)
         id = selector || name.downcase
 
@@ -148,6 +161,20 @@ module Components
 
       def remove_filter(field)
         find("#filter_#{field} .advanced-filters--remove-filter-icon").click
+      end
+
+      def open_autocompleter(id)
+        input = page.all("#filter_#{id} .advanced-filters--filter-value .ng-input input").first
+
+        if input
+          input.click
+          input
+        end
+      end
+
+      def close_autocompleter(id)
+        input = open_autocompleter(id)
+        input&.send_keys :escape
       end
 
       protected
@@ -183,6 +210,17 @@ module Components
         end
       end
 
+      def expect_missing_value(id, value)
+        if page.has_selector?("#filter_#{id} .ng-select-container")
+          Array(value).each do |val|
+            dropdown = search_autocomplete page.find("#filter_#{id}"),
+                                           query: val,
+                                           results_selector: '.ng-dropdown-panel-items'
+            expect(dropdown).not_to have_selector('.ng-option', text: val)
+          end
+        end
+      end
+
       def expect_value_placeholder(id)
         if page.has_selector?("#filter_#{id} .ng-select-container")
           expect(page).to have_selector("#filter_#{id} .ng-placeholder", text: I18n.t('js.placeholders.selection'))
@@ -208,15 +246,6 @@ module Components
       def within_values(id)
         page.within("#filter_#{id} .advanced-filters--filter-value", wait: 10) do
           yield page.has_selector?('.ng-select-container')
-        end
-      end
-
-      def close_autocompleter(id)
-        input = page.all("#filter_#{id} .advanced-filters--filter-value .ng-input input").first
-
-        if input
-          input.click
-          input.send_keys :escape
         end
       end
     end

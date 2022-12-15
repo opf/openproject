@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -47,13 +45,14 @@ describe OpenProject::SCM::Adapters::Subversion do
 
     context 'with client command from config' do
       let(:config) { { client_command: '/usr/local/bin/svn' } }
+
       it 'overrides the Subversion client command from config' do
         expect(adapter.client_command).to eq('/usr/local/bin/svn')
       end
     end
 
     shared_examples 'correct client version' do |svn_string, expected_version|
-      it 'should set the correct client version' do
+      it 'sets the correct client version' do
         expect(adapter)
           .to receive(:scm_version_from_command_line)
           .and_return(svn_string)
@@ -72,15 +71,15 @@ describe OpenProject::SCM::Adapters::Subversion do
 
   describe 'invalid repository' do
     describe '.check_availability!' do
-      it 'should not be available' do
+      it 'is not available' do
         expect(Dir.exists?(url)).to be false
         expect(adapter).not_to be_available
         expect { adapter.check_availability! }
           .to raise_error(OpenProject::SCM::Exceptions::SCMUnavailable)
       end
 
-      it 'should raise a meaningful error if shell output fails' do
-        error_string = <<-ERR.strip_heredoc
+      it 'raises a meaningful error if shell output fails' do
+        error_string = <<~ERR
           svn: E215004: Authentication failed and interactive prompting is disabled; see the --force-interactive option
           svn: E215004: Unable to connect to a repository at URL 'file:///tmp/bar.svn'
           svn: E215004: No more credentials or we tried too many times.
@@ -133,7 +132,7 @@ describe OpenProject::SCM::Adapters::Subversion do
 
     describe '.create_empty_svn' do
       context 'with valid root_url' do
-        it 'should create the repository' do
+        it 'creates the repository' do
           expect(Dir.exists?(root_url)).to be true
           expect(Dir.entries(root_url).length).to eq 2
           expect { adapter.create_empty_svn }.not_to raise_error
@@ -142,10 +141,11 @@ describe OpenProject::SCM::Adapters::Subversion do
           expect(Dir.entries(root_url).length).to be >= 5
         end
       end
+
       context 'with non-existing root_url' do
         let(:root_url) { File.join(tmpdir, 'foo', 'bar') }
 
-        it 'should fail' do
+        it 'fails' do
           expect { adapter.create_empty_svn }
             .to raise_error(OpenProject::SCM::Exceptions::CommandFailed)
 
@@ -155,7 +155,7 @@ describe OpenProject::SCM::Adapters::Subversion do
     end
 
     describe '.check_availability!' do
-      it 'should be marked empty' do
+      it 'is marked empty' do
         adapter.create_empty_svn
         expect { adapter.check_availability! }
           .to raise_error(OpenProject::SCM::Exceptions::SCMEmpty)
@@ -179,9 +179,9 @@ describe OpenProject::SCM::Adapters::Subversion do
         expect(out).to include('Repository UUID')
       end
 
-      it 'should be available' do
+      it 'is available' do
         expect(adapter).to be_available
-        expect { adapter.check_availability! }.to_not raise_error
+        expect { adapter.check_availability! }.not_to raise_error
       end
 
       describe '.info' do
@@ -245,7 +245,7 @@ describe OpenProject::SCM::Adapters::Subversion do
 
           expect(entries[4].name).to eq('textfile.txt')
           expect(entries[4].path).to eq('subversion_test/textfile.txt')
-          expect(entries[4]).to_not be_dir
+          expect(entries[4]).not_to be_dir
           expect(entries[4]).to be_file
           expect(entries[4]).not_to be_dir
           expect(entries[4].size).to eq(756)
@@ -358,7 +358,7 @@ describe OpenProject::SCM::Adapters::Subversion do
       describe '.cat' do
         it 'outputs the given file' do
           out = adapter.cat('subversion_test/[folder_with_brackets]/README.txt', 11)
-          expect(out).to eq('This file should be accessible for Redmine, '\
+          expect(out).to eq('This file should be accessible for Redmine, ' \
                             "although its folder contains square\nbrackets.\n")
         end
 
@@ -387,7 +387,7 @@ describe OpenProject::SCM::Adapters::Subversion do
 
         it 'provides the selected diff for the given range' do
           diff = adapter.diff('subversion_test/helloworld.c', 8, 6).map(&:chomp)
-          expect(diff).to eq(<<-DIFF.strip_heredoc.split("\n"))
+          expect(diff).to eq(<<~DIFF.split("\n"))
             Index: helloworld.c
             ===================================================================
             --- helloworld.c	(revision 6)

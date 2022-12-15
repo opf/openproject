@@ -3,10 +3,17 @@ sidebar_navigation:
   title: OpenID providers
   priority: 800
 description: OpenID providers for OpenProject.
-robots: index, follow
 keywords: OpenID providers
 ---
 # OpenID providers
+
+
+| Topic                                                        | Content                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Google Workspace](#google-workspace)                        | How to use Google Workspace as an SSO provider for OpenProject? |
+| [Azure Active Directory](#azure-active-directory)            | How to use Microsoft Azure Active Directory as an SSO provider for OpenProject? |
+| [Custom OpenID Connect Providers](#custom-openid-connect-providers) | Configuration of additional OpenID Connect providers.        |
+| [Troubleshooting](#troubleshooting)                          | Common complications when using OpenID as SSO.               |
 
 To activate and configure OpenID providers in OpenProject, navigate to -> *Administration* -> *Authentication* and choose -> *OpenID providers*.
 
@@ -44,7 +51,7 @@ You can configure the following options.
 3. Create a new project and a new app or edit an existing project and an existing app, setting the following fields (shall be Internal):
    1. **App name** (e.g. EXAMPLE.COM SSO)
    2. **User support email** (e.g. user-support@example.com)
-   3. **App domains** (at minimum, you must provide the Application home page - e.g. https://example.openproject.com)
+   3. **App domains** (at minimum, you must provide the Application home page - e.g. `https://example.openproject.com`)
    4. **Authorized domains** (e.g. openproject.com)
    5. **Developer Contact information** (e.g.  developer@example.com)
    6. Click **SAVE AND CONTINUE** to proceed.
@@ -171,6 +178,12 @@ Sometimes you may need to configure the `tenant` option for the AzureAD connecti
 Currently this is not possible through the user interface.
 
 But you can do it via the console as described [here](../../../installation-and-operations/misc/custom-openid-connect-providers/#custom-openid-connect-providers) where you can add `tenant` next to the other options like `host`, `identifier` and `secret`.
+
+## Custom OpenID Connect Providers
+
+You  can still use an arbitrary provider. But for the time being there is no user interface yet for this. That means you will have to do it directly using the console on the server or via environment variables.
+
+Please continue reading in the [Miscellaneous section of the Installation and Operations Guide](https://www.openproject.org/docs/installation-and-operations/misc/custom-openid-connect-providers/).
 
 ## Troubleshooting
 

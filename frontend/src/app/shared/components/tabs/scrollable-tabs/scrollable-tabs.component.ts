@@ -14,10 +14,12 @@ import {
 } from '@angular/core';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { trackByProperty } from 'core-app/shared/helpers/angular/tracking-functions';
+import { RawParams, StateService } from '@uirouter/core';
 
 @Component({
   templateUrl: 'scrollable-tabs.component.html',
   selector: 'op-scrollable-tabs',
+  styleUrls: ['./scrollable-tabs.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
@@ -48,19 +50,24 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
 
   private pane:Element;
 
+  private debouncedTabActivationTimeout:NodeJS.Timeout|null;
+
+  private dragTargetStack = 0;
+
   constructor(
+    protected readonly $state:StateService,
     private cdRef:ChangeDetectorRef,
     public injector:Injector,
   ) { }
 
   ngAfterViewInit():void {
-    this.container = this.scrollContainer.nativeElement;
-    this.pane = this.scrollPane.nativeElement;
+    this.container = this.scrollContainer.nativeElement as HTMLElement;
+    this.pane = this.scrollPane.nativeElement as HTMLElement;
 
     this.updateScrollableArea();
   }
 
-  ngOnChanges(changes:SimpleChanges):void {
+  ngOnChanges(_changes:SimpleChanges):void {
     if (this.pane) {
       this.updateScrollableArea();
     }
@@ -84,7 +91,49 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  public onScroll(event:any):void {
+  public startDebouncedTabActivation(tab:TabDefinition):void {
+    // 'dragenter' events are always fired before 'dragleave' events. Hence, when dragging directly from one tab to
+    // another, first the dragenter of the new tab is fired, before we get a dragleave from the old one.
+    // Therefor we keep the drag stack, which can raise from 0 to 2. And we only clear the debounced tab activation
+    // completely when we fully leave tabs (which means, drag stack is 0).
+    this.dragTargetStack += 1;
+
+    if (this.debouncedTabActivationTimeout !== null) {
+      this.clearDebouncedTabActivation();
+    }
+
+    this.debouncedTabActivationTimeout = setTimeout(() => {
+      this.currentTabId = tab.id;
+      this.tabSelected.emit(tab);
+
+      const route = this.$state.includes('**.details.*')
+        ? this.$state.$current.name
+        : tab.route;
+
+      if (route) {
+        void this.$state.go(route, tab.routeParams as RawParams);
+      }
+
+      this.debouncedTabActivationTimeout = null;
+    }, 300);
+  }
+
+  public cancelDebouncedTabActivation():void {
+    this.dragTargetStack -= 1;
+
+    if (this.dragTargetStack === 0) {
+      this.clearDebouncedTabActivation();
+    }
+  }
+
+  private clearDebouncedTabActivation():void {
+    if (this.debouncedTabActivationTimeout !== null) {
+      clearTimeout(this.debouncedTabActivationTimeout);
+      this.debouncedTabActivationTimeout = null;
+    }
+  }
+
+  public onScroll():void {
     this.determineScrollButtonVisibility();
   }
 

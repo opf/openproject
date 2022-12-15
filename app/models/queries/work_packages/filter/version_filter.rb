@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -31,10 +29,8 @@
 class Queries::WorkPackages::Filter::VersionFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   def allowed_values
-    @allowed_values ||= begin
-      # as we no longer display the allowed values, the first value is irrelevant
-      versions.pluck(:id).map { |id| [id.to_s, id.to_s] }
-    end
+    # as we no longer display the allowed values, the first value is irrelevant
+    @allowed_values ||= versions.pluck(:id).map { |id| [id.to_s, id.to_s] }
   end
 
   def type

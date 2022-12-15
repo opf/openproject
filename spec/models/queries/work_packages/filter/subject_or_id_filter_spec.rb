@@ -32,11 +32,11 @@ describe Queries::WorkPackages::Filter::SubjectOrIdFilter, type: :model do
   let(:value) { 'bogus' }
   let(:operator) { '**' }
   let(:subject) { 'Some subject' }
-  let(:work_package) { create(:work_package, subject: subject) }
+  let(:work_package) { create(:work_package, subject:) }
   let(:current_user) { create(:user, member_in_project: work_package.project) }
   let(:query) { build_stubbed(:global_query, user: current_user) }
   let(:instance) do
-    described_class.create!(name: :search, context: query, operator: operator, values: [value])
+    described_class.create!(name: :search, context: query, operator:, values: [value])
   end
 
   before do

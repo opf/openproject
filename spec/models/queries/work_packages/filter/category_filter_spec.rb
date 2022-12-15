@@ -50,7 +50,7 @@ describe Queries::WorkPackages::Filter::CategoryFilter, type: :model do
             .to receive_message_chain(:categories, :exists?)
             .and_return false
 
-          expect(instance).to_not be_available
+          expect(instance).not_to be_available
         end
       end
 
@@ -58,7 +58,7 @@ describe Queries::WorkPackages::Filter::CategoryFilter, type: :model do
         let(:project) { nil }
 
         it 'is false' do
-          expect(instance).to_not be_available
+          expect(instance).not_to be_available
         end
       end
     end

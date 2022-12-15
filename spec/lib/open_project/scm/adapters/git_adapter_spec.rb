@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -64,13 +62,14 @@ describe OpenProject::SCM::Adapters::Git do
 
       context 'with client command from config' do
         let(:config) { { client_command: '/usr/local/bin/git' } }
+
         it 'overrides the Git client command from config' do
           expect(adapter.client_command).to eq('/usr/local/bin/git')
         end
       end
 
       shared_examples 'correct client version' do |git_string, expected_version|
-        it 'should set the correct client version' do
+        it 'sets the correct client version' do
           expect(adapter)
             .to receive(:scm_version_from_command_line)
                   .and_return(git_string)
@@ -88,14 +87,14 @@ describe OpenProject::SCM::Adapters::Git do
 
     describe 'invalid repository' do
       describe '.check_availability!' do
-        it 'should not be available' do
+        it 'is not available' do
           expect(Dir.exists?(url)).to be false
           expect(adapter).not_to be_available
           expect { adapter.check_availability! }
             .to raise_error(OpenProject::SCM::Exceptions::SCMUnavailable)
         end
 
-        it 'should raise a meaningful error if shell output fails' do
+        it 'raises a meaningful error if shell output fails' do
           expect { adapter.check_availability! }
             .to raise_error(OpenProject::SCM::Exceptions::SCMUnavailable)
         end
@@ -127,11 +126,13 @@ describe OpenProject::SCM::Adapters::Git do
 
           context 'older Git version' do
             let(:output) { "fatal: bad default revision 'HEAD'\n" }
+
             it_behaves_like 'check_availibility raises empty'
           end
 
           context 'new Git version' do
             let(:output) { "fatal: your current branch 'master' does not have any commits yet\n" }
+
             it_behaves_like 'check_availibility raises empty'
           end
         end
@@ -146,7 +147,7 @@ describe OpenProject::SCM::Adapters::Git do
           # make sure the repository is available before even bothering
           # with the rest of the tests
           expect(adapter).to be_available
-          expect { adapter.check_availability! }.to_not raise_error
+          expect { adapter.check_availability! }.not_to raise_error
         end
 
         it 'reads the git version' do
@@ -161,7 +162,7 @@ describe OpenProject::SCM::Adapters::Git do
           expect(out).to include('master')
         end
 
-        it 'should be using checkout' do
+        it 'is using checkout' do
           if protocol.blank?
             expect(adapter).not_to be_checkout
           else
@@ -169,21 +170,21 @@ describe OpenProject::SCM::Adapters::Git do
           end
         end
 
-        it 'should be available' do
+        it 'is available' do
           expect(adapter).to be_available
-          expect { adapter.check_availability! }.to_not raise_error
+          expect { adapter.check_availability! }.not_to raise_error
         end
 
-        it 'should read tags' do
+        it 'reads tags' do
           expect(adapter.tags).to match_array(%w[tag00.lightweight tag01.annotated])
         end
 
         describe '.branches' do
-          it 'should show the default branch' do
+          it 'shows the default branch' do
             expect(adapter.default_branch).to eq('master')
           end
 
-          it 'should read branches' do
+          it 'reads branches' do
             branches = %w[latin-1-path-encoding master test-latin-1 test_branch]
             expect(adapter.branches).to match_array(branches)
           end
@@ -242,34 +243,34 @@ describe OpenProject::SCM::Adapters::Git do
         end
 
         describe '.revisions' do
-          it 'should retrieve all revisions' do
+          it 'retrieves all revisions' do
             rev = adapter.revisions('', nil, nil, all: true)
             expect(rev.length).to eq(22)
           end
 
-          it 'should retrieve the latest revision' do
+          it 'retrieves the latest revision' do
             rev = adapter.revisions('', nil, nil, all: true)
             expect(rev.latest.identifier).to eq('71e5c1d3dca6304805b143b9d0e6695fb3895ea4')
             expect(rev.latest.format_identifier).to eq('71e5c1d3')
           end
 
-          it 'should retrieve a certain revisions' do
+          it 'retrieves a certain revisions' do
             rev = adapter.revisions('', '899a15d^', '899a15d')
             expect(rev.length).to eq(1)
             expect(rev[0].identifier).to eq('899a15dba03a3b350b89c3f537e4bbe02a03cdc9')
             expect(rev[0].author).to eq('jsmith <jsmith@foo.bar>')
           end
 
-          it 'should retrieve revisions in reverse' do
+          it 'retrieves revisions in reverse' do
             rev = adapter.revisions('', nil, nil, all: true, reverse: true)
             expect(rev.length).to eq(22)
             expect(rev[0].identifier).to eq('7234cb2750b63f47bff735edc50a1c0a433c2518')
             expect(rev[20].identifier).to eq('1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127')
           end
 
-          it 'should retrieve revisions in a specific time frame' do
+          it 'retrieves revisions in a specific time frame' do
             since = Time.gm(2010, 9, 30, 0, 0, 0)
-            rev = adapter.revisions('', nil, nil, all: true, since: since)
+            rev = adapter.revisions('', nil, nil, all: true, since:)
             expect(rev.length).to eq(7)
             expect(rev[0].identifier).to eq('71e5c1d3dca6304805b143b9d0e6695fb3895ea4')
             expect(rev[1].identifier).to eq('1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127')
@@ -277,29 +278,29 @@ describe OpenProject::SCM::Adapters::Git do
             expect(rev[6].identifier).to eq('67e7792ce20ccae2e4bb73eed09bb397819c8834')
           end
 
-          it 'should retrieve revisions in a specific time frame in reverse' do
+          it 'retrieves revisions in a specific time frame in reverse' do
             since = Time.gm(2010, 9, 30, 0, 0, 0)
-            rev = adapter.revisions('', nil, nil, all: true, since: since, reverse: true)
+            rev = adapter.revisions('', nil, nil, all: true, since:, reverse: true)
             expect(rev.length).to eq(7)
             expect(rev[0].identifier).to eq('67e7792ce20ccae2e4bb73eed09bb397819c8834')
             expect(rev[5].identifier).to eq('1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127')
             expect(rev[6].identifier).to eq('71e5c1d3dca6304805b143b9d0e6695fb3895ea4')
           end
 
-          it 'should retrieve revisions by filename' do
+          it 'retrieves revisions by filename' do
             rev = adapter.revisions('filemane with spaces.txt', nil, nil, all: true)
             expect(rev.length).to eq(1)
             expect(rev[0].identifier).to eq('ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
           end
 
-          it 'should retrieve revisions with arbitrary whitespace' do
+          it 'retrieves revisions with arbitrary whitespace' do
             file = ' filename with a leading space.txt '
             rev = adapter.revisions(file, nil, nil, all: true)
             expect(rev.length).to eq(1)
             expect(rev[0].paths[0][:path]).to eq(file)
           end
 
-          it 'should show all paths of a revision' do
+          it 'shows all paths of a revision' do
             rev = adapter.revisions('', '899a15d^', '899a15d')[0]
             expect(rev.paths.length).to eq(3)
             expect(rev.paths[0]).to eq(action: 'M', path: 'README')
@@ -310,7 +311,7 @@ describe OpenProject::SCM::Adapters::Git do
 
         describe '.entries' do
           shared_examples 'retrieve entries' do
-            it 'should retrieve entries from an identifier' do
+            it 'retrieves entries from an identifier' do
               entries = adapter.entries('', '83ca5fd')
               expect(entries.length).to eq(9)
 
@@ -325,7 +326,7 @@ describe OpenProject::SCM::Adapters::Git do
               expect(entries[3].name).to eq(' filename with a leading space.txt ')
             end
 
-            it 'should have a related revision' do
+            it 'has a related revision' do
               entries = adapter.entries('', '83ca5fd')
               rev = entries[0].lastrev
               expect(rev.identifier).to eq('deff712f05a90d96edbd70facc47d944be5897e3')
@@ -427,17 +428,17 @@ describe OpenProject::SCM::Adapters::Git do
         end
 
         describe '.annotate' do
-          it 'should annotate a regular file' do
+          it 'annotates a regular file' do
             annotate = adapter.annotate('sources/watchers_controller.rb')
             expect(annotate).to be_kind_of(OpenProject::SCM::Adapters::Annotate)
             expect(annotate.lines.length).to eq(41)
-            expect(annotate.lines[4].strip).to eq('# This program is free software; '\
+            expect(annotate.lines[4].strip).to eq('# This program is free software; ' \
                                                   'you can redistribute it and/or')
             expect(annotate.revisions[4].identifier).to eq('7234cb2750b63f47bff735edc50a1c0a433c2518')
             expect(annotate.revisions[4].author).to eq('jsmith')
           end
 
-          it 'should annotate moved file' do
+          it 'annotates moved file' do
             annotate = adapter.annotate('renamed_test.txt')
             expect(annotate.lines.length).to eq(2)
             expect(annotate.content).to eq("This is a test\nLet's pretend I'm adding a new feature!")
@@ -449,7 +450,7 @@ describe OpenProject::SCM::Adapters::Git do
             expect(annotate.revisions[1].identifier).to eq('7e61ac704deecde634b51e59daa8110435dcb3da')
           end
 
-          it 'should annotate with identifier' do
+          it 'annotates with identifier' do
             annotate = adapter.annotate('README', 'HEAD~10')
             expect(annotate.lines.length).to eq(1)
             expect(annotate.empty?).to be false
@@ -459,7 +460,7 @@ describe OpenProject::SCM::Adapters::Git do
             expect(annotate.revisions[0].author).to eq('jsmith')
           end
 
-          it 'should raise for an invalid path' do
+          it 'raises for an invalid path' do
             expect { adapter.annotate('does_not_exist.txt') }
               .to raise_error(OpenProject::SCM::Exceptions::CommandFailed)
 
@@ -467,7 +468,7 @@ describe OpenProject::SCM::Adapters::Git do
               .to raise_error(OpenProject::SCM::Exceptions::CommandFailed)
           end
 
-          it 'should return nil for binary path' do
+          it 'returns nil for binary path' do
             expect(adapter.annotate('images/edit.png')).to be_nil
           end
 
@@ -500,7 +501,7 @@ describe OpenProject::SCM::Adapters::Git do
             # The strings returned by capture_out have escaped UTF-8 characters depending on
             # whether we are working on a cloned or bare repository. I don't know why.
             # It doesn't make a difference further down the road, though. So just check both.
-            expect(diff[1] == bare || diff[1] == cloned).to eq true
+            expect(diff[1] == bare || diff[1] == cloned).to be true
           end
 
           it 'provides a negative diff' do
@@ -516,7 +517,7 @@ describe OpenProject::SCM::Adapters::Git do
 
           it 'provides the selected diff for the given range' do
             diff = adapter.diff('README', '61b685f', '2f9c009').map(&:chomp)
-            expect(diff).to eq(<<-DIFF.strip_heredoc.split("\n"))
+            expect(diff).to eq(<<~DIFF.split("\n"))
               diff --git a/README b/README
               index 6cbd30c..b94e68e 100644
               --- a/README

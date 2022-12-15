@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,7 +31,6 @@ module PlaceholderUsersHelper
   # Determine whether the given actor can delete the placeholder user
   def can_delete_placeholder_user?(placeholder, actor = User.current)
     PlaceholderUsers::DeleteContract.deletion_allowed? placeholder,
-                                                       actor,
-                                                       Authorization::UserAllowedService.new(actor)
+                                                       actor
   end
 end

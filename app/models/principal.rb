@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -61,6 +59,8 @@ class Principal < ApplicationRecord
   has_many :projects, through: :memberships
   has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify
 
+  has_paper_trail
+
   scopes :like,
          :human,
          :not_builtin,
@@ -114,7 +114,6 @@ class Principal < ApplicationRecord
     not_locked.like(query).not_in_project(project)
   end
 
-
   def self.me
     where(id: User.current.id)
   end
@@ -165,7 +164,7 @@ class Principal < ApplicationRecord
     # by the #compact call.
     def type_condition(table = arel_table)
       sti_column = table[inheritance_column]
-      sti_names  = ([self] + descendants).map(&:sti_name).compact
+      sti_names = ([self] + descendants).map(&:sti_name).compact
 
       predicate_builder.build(sti_column, sti_names)
     end

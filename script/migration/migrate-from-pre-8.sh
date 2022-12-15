@@ -17,7 +17,7 @@ if [[ -z "$1" ]] || [[ -z "$2" ]]; then
   exit 1
 fi
 
-CURRENT_OP_MAJOR_VERSION=11
+CURRENT_OP_MAJOR_VERSION="12"
 
 SECONDS=0
 
@@ -27,9 +27,11 @@ DUMP_FORMAT=${3:-custom}
 
 MYSQL_CONTAINER=opmysql
 POSTGRES_CONTAINER=oppostgres
+POSTGRES_VERSION=13
 OP7_CONTAINER=op7
 OP8_CONTAINER=op8
 OP10_CONTAINER=op10
+MIGRATE_CONTAINER=migrate8to10
 
 REMOVE_CONTAINERS=true
 
@@ -39,8 +41,14 @@ MYSQL_USER=root
 MYSQL_PWD=root
 DATABASE=openproject
 
-SKIP_STEP_1=false
+SKIP_STEP_1=${SKIP_STEP_1:-false}
 MIGRATION_TIMEOUT_S=600 # wait at most 10 minutes for the migration from 8 to 10 to finish
+
+docker stop $MYSQL_CONTAINER && docker rm $MYSQL_CONTAINER || true
+docker stop $OP7_CONTAINER && docker rm $OP7_CONTAINER || true
+docker stop $OP8_CONTAINER && docker rm $OP8_CONTAINER || true
+docker stop $POSTGRES_CONTAINER && docker rm $POSTGRES_CONTAINER || true
+docker stop $MIGRATE_CONTAINER && docker rm $MIGRATE_CONTAINER || true
 
 if [[ ! "$SKIP_STEP_1" = "true" ]]; then
   # STEP 1: Migrate from current (7) to 8 still in a MySQL database
@@ -162,11 +170,49 @@ fi
 echo
 echo "2) Migrate from 8 to 10 and from MySQL to Postgres"
 
+if [[ "$SKIP_STEP_1" = "true" ]]; then
+  # Start the MySQL database now as the first step was skipped
+  echo
+  echo "2.1) Starting mysql database..."
+  docker ps || true
+  if [[ ! `docker ps | grep $MYSQL_CONTAINER` ]]; then
+    docker run --rm -p $MYSQL_PORT:3306 -d --name $MYSQL_CONTAINER -e MYSQL_ROOT_PASSWORD=$MYSQL_PWD mysql:5.6
+    if [[ $? -gt 0 ]]; then exit 1; fi
+    docker exec -it $MYSQL_CONTAINER mysqladmin ping -u root --password=$MYSQL_PWD --wait=30
+    echo "  database started"
+  else
+    echo "  already running"
+  fi
+
+  echo
+  echo "2.2) Creating MySQL database for migration from OP 8"
+  echo "drop database if exists $DATABASE; create database $DATABASE;" | docker exec -i $MYSQL_CONTAINER mysql -p$MYSQL_PWD
+
+  if [[ $? -gt 0 ]]; then
+    echo "  Could not create database"
+    exit 1
+  else
+    echo "  Created database"
+  fi
+
+  echo
+  echo "2.3) Importing MySQL dump ($MYSQL_DUMP_FILE)"
+
+  cat $MYSQL_DUMP_FILE | docker exec -i $MYSQL_CONTAINER mysql -p$MYSQL_PWD $DATABASE
+
+  if [[ $? -gt 0 ]]; then
+    echo "  Could not import database"
+    exit 1
+  else
+    echo "  Imported database"
+  fi
+fi
+
 echo
-echo "2.1) Starting postgres database"
+echo "2.4) Starting postgres database"
 
 if [[ ! `docker ps | grep $POSTGRES_CONTAINER` ]]; then
-  docker run -p $POSTGRES_PORT:5432 -d --name $POSTGRES_CONTAINER -e POSTGRES_PASSWORD=postgres postgres:9.6
+  docker run -p $POSTGRES_PORT:5432 -d --name $POSTGRES_CONTAINER -e POSTGRES_PASSWORD=postgres postgres:$POSTGRES_VERSION
   if [[ $? -gt 0 ]]; then exit 1; fi
   sleep 10
   echo "  database started"
@@ -175,12 +221,12 @@ else
 fi
 
 echo
-echo "2.2) Migrating from MySQL to Postgres (and 8 to 10)"
+echo "2.5) Migrating from MySQL to Postgres (and 8 to 10)"
 
 docker run \
   --rm \
   -v $PWD:/data \
-  --name migrate8to10 \
+  --name $MIGRATE_CONTAINER \
   -e MYSQL_DATABASE_URL="mysql2://$MYSQL_USER:$MYSQL_PWD@$DOCKER_HOST_IP:$MYSQL_PORT/$DATABASE" \
   -e DATABASE_URL="postgresql://postgres:postgres@$DOCKER_HOST_IP:$POSTGRES_PORT/$DATABASE" \
   -e FORCE_YES=true \
@@ -199,9 +245,9 @@ else
 fi
 
 echo
-echo "2.3) Moving dangling tables from $DATABASE to public"
+echo "2.6) Moving dangling tables from $DATABASE to public"
 
-read -r -d '' MOVE_SCHEMA_FN <<EOF
+MOVE_SCHEMA_FN=$(cat <<-SQLFUNC
 CREATE OR REPLACE FUNCTION move_schema_to_public(old_schema varchar) RETURNS void LANGUAGE plpgsql VOLATILE AS
 \$\$
 DECLARE
@@ -213,14 +259,13 @@ BEGIN
     END LOOP;
 END;
 \$\$;
-EOF
+SQLFUNC
+)
 
-docker exec -e PGPASSWORD=postgres -it migrate8to10 psql \
-  -h $DOCKER_HOST_IP \
-  -p $POSTGRES_PORT \
+docker exec -it $POSTGRES_CONTAINER psql \
   -U postgres \
   -d $DATABASE \
-  -c "$(echo $MOVE_SCHEMA_FN); SELECT * FROM move_schema_to_public('$DATABASE');"
+  -c "$(echo $MOVE_SCHEMA_FN); SELECT * FROM move_schema_to_public('$DATABASE'); DROP SCHEMA IF EXISTS openproject;"
 
 if [[ $? -gt 0 ]]; then
   echo "  Could not move tables from $DATABASE to public. You may have to do this yourself."
@@ -230,9 +275,9 @@ else
 fi
 
 echo
-echo "3.4) Making extra sure primary keys are named correctly"
+echo "2.7) Making extra sure primary keys are named correctly"
 
-docker exec -it migrate8to10 \
+docker exec -it $MIGRATE_CONTAINER \
   bundle exec rake db:migrate:redo VERSION=20190502102512
 
 if [[ $? -gt 0 ]]; then
@@ -242,10 +287,8 @@ else
   echo "  Ensured correct primary key names."
 fi
 
-docker stop migrate8to10 > /dev/null # don't need this anymore
-
 echo
-echo "2.5) Migrating from 10 to current ($CURRENT_OP_MAJOR_VERSION)"
+echo "2.8) Migrating from 10 to current ($CURRENT_OP_MAJOR_VERSION)"
 
 docker pull openproject/community:$CURRENT_OP_MAJOR_VERSION
 
@@ -272,7 +315,7 @@ if [[ "$DUMP_FORMAT" = "sql" ]]; then
 fi
 
 echo
-echo "2.6) Dumping migrated database to $DATABASE-migrated.$EXT"
+echo "2.9) Dumping migrated database to $DATABASE-migrated.$EXT"
 
 OUTPUT_PARAMS="-F custom -f /data/$DATABASE-migrated.dump"
 OUTPUT_FILE="/dev/stdout"
@@ -289,7 +332,7 @@ docker run \
   --rm \
   -e PGPASSWORD=postgres \
   -v /tmp:/data \
-  -it openproject/community:11 pg_dump \
+  -it openproject/community:$CURRENT_OP_MAJOR_VERSION pg_dump \
     -h $DOCKER_HOST_IP \
     -p $POSTGRES_PORT \
     -U postgres \
@@ -314,6 +357,7 @@ if [[ ! "$REMOVE_CONTAINERS" = "false" ]]; then
   docker stop $OP7_CONTAINER && docker rm $OP7_CONTAINER
   docker stop $OP8_CONTAINER && docker rm $OP8_CONTAINER
   docker stop $POSTGRES_CONTAINER && docker rm $POSTGRES_CONTAINER
+  docker stop $MIGRATE_CONTAINER && docker rm $MIGRATE_CONTAINER
 fi
 
 echo "Finished after $(($SECONDS / 60)) minutes."

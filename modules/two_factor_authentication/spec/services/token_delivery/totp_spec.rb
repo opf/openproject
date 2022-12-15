@@ -1,21 +1,16 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Totp, with_2fa_ee: true do
+describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Totp do
   describe 'sending messages' do
     let!(:user) { create :user }
-    let!(:device) { create :two_factor_authentication_device_totp, user: user, default: true }
-
-    before do
-      allow(OpenProject::Configuration)
-        .to receive(:[]).with('2fa')
-        .and_return(active_strategies: [:totp])
-    end
+    let!(:device) { create :two_factor_authentication_device_totp, user:, default: true }
 
     describe '#verify' do
-      subject { ::TwoFactorAuthentication::TokenService.new user: user }
+      subject { ::TwoFactorAuthentication::TokenService.new user: }
+
       let(:result) { subject.verify token }
 
-      context '#valid current token' do
+      context 'with valid current token' do
         let(:token) { device.totp.now }
 
         it 'is validated' do
@@ -30,7 +25,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Totp, with_2fa_e
         end
       end
 
-      context 'invalid token' do
+      context 'with invalid token' do
         let(:token) { 'definitely invalid' }
 
         it 'is not validated' do
@@ -39,7 +34,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Totp, with_2fa_e
         end
       end
 
-      context 'assuming internal error' do
+      context 'with internal error' do
         let(:token) { 1234 }
 
         before do

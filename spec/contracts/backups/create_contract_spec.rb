@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -37,8 +35,6 @@ describe Backups::CreateContract do
   let(:backup_token) { create :backup_token, user: current_user }
 
   include_context 'ModelContract shared context'
-
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
   context 'with regular user who has the :create_backup permission' do
     let(:current_user) { create :user, global_permissions: [:create_backup] }

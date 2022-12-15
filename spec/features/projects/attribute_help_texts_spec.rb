@@ -81,6 +81,7 @@ describe 'Project attribute help texts', type: :feature, js: true do
 
   describe 'as admin' do
     let(:user) { create :admin }
+
     it_behaves_like 'allows to view help texts'
 
     it 'shows the help text on the project create form' do
@@ -88,7 +89,7 @@ describe 'Project attribute help texts', type: :feature, js: true do
 
       page.find('.op-fieldset--legend', text: 'ADVANCED SETTINGS').click
 
-      expect(page).to have_selector('.op-form-field--label attribute-help-text', wait: 10)
+      expect(page).to have_selector('.spot-form-field--label attribute-help-text', wait: 10)
 
       # Open help text modal
       modal.open!

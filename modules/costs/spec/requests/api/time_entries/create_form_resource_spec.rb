@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -41,14 +39,14 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
       TimeEntryActivitiesProject.insert(project_id: project.id, activity_id: tea.id, active: false)
     end
   end
-  let(:custom_field) { create(:time_entry_custom_field) }
+  let(:custom_field) { create(:text_time_entry_custom_field) }
   let(:user) do
     create(:user,
            member_in_project: project,
            member_with_permissions: permissions)
   end
   let(:work_package) do
-    create(:work_package, project: project)
+    create(:work_package, project:)
   end
   let(:other_user) { create(:user) }
   let(:permissions) { %i[log_time view_work_packages] }
@@ -77,7 +75,7 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
 
     it 'does not create a time_entry' do
       expect(TimeEntry.count)
-        .to eql 0
+        .to be 0
     end
 
     context 'with empty parameters' do
@@ -124,7 +122,7 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
           },
           spentOn: Date.today.to_s,
           hours: 'PT5H',
-          "comment": {
+          comment: {
             raw: "some comment"
           },
           "customField#{custom_field.id}": {
@@ -153,6 +151,10 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
           .at_path('_embedded/payload/_links/activity/href')
 
         expect(body)
+          .to be_json_eql(api_v3_paths.user(user.id).to_json)
+          .at_path('_embedded/payload/_links/user/href')
+
+        expect(body)
           .to be_json_eql("some comment".to_json)
           .at_path("_embedded/payload/comment/raw")
 
@@ -167,10 +169,6 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
         expect(body)
           .to be_json_eql("some cf text".to_json)
           .at_path("_embedded/payload/customField#{custom_field.id}/raw")
-
-        # As the user is always the current user, it is not part of the payload
-        expect(body)
-          .not_to have_json_path('_embedded/payload/_links/user')
       end
 
       it 'has the available values listed in the schema' do
@@ -199,6 +197,15 @@ describe ::API::V3::TimeEntries::CreateFormAPI, content_type: :json do
 
       it 'returns 403 Not Authorized' do
         expect(response.status).to eq(403)
+      end
+    end
+
+    context 'without the log_time permisson' do
+      let(:permissions) { %i[log_own_time view_work_packages] }
+
+      it 'does not render the user href' do
+        expect(body)
+          .not_to have_json_path('_embedded/payload/_links/user/href')
       end
     end
   end

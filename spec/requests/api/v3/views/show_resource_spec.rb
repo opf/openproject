@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -43,7 +41,7 @@ describe ::API::V3::Views::ViewsAPI,
   end
   shared_let(:private_user_query) do
     create(:query,
-           project: project,
+           project:,
            public: false,
            user: permitted_user)
   end

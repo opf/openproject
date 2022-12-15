@@ -41,14 +41,14 @@ See COPYRIGHT and LICENSE files for more details.
         <span class="button--text"><%= t('activerecord.models.placeholder_user') %></span>
       <% end %>
     </li>
-  
+
     <%= call_hook(:placeholder_user_admin_action_menu) %>
   <% end %>
 
 <% end %>
 
 
-<% if has_ee%>
+<% if has_ee %>
   <%= rails_cell PlaceholderUsers::PlaceholderUserFilterCell, params %>
   &nbsp;
   <%= rails_cell PlaceholderUsers::TableCell, @placeholder_users, project: @project, current_user: current_user %>
@@ -58,9 +58,7 @@ See COPYRIGHT and LICENSE files for more details.
           feature_title: I18n.t('placeholder_users.upsale.title'),
           feature_description: I18n.t('placeholder_users.upsale.description'),
           feature_reference: 'placeholder_users',
-          feature_image: '',
-          feature_video: ''
+          feature_video: 'enterprise/placeholder_users.mp4'
         }
   %>
 <% end %>
-

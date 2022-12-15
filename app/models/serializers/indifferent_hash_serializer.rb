@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -28,12 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module Serializers
-  class IndifferentHashSerializer
-    def self.dump(hash)
+  module IndifferentHashSerializer
+    module_function
+
+    def dump(hash)
       hash
     end
 
-    def self.load(value)
+    def load(value)
       hash = value.is_a?(Hash) ? value : {}
       hash.with_indifferent_access
     end

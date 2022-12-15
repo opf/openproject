@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -35,6 +33,7 @@ describe ::API::V3::Users::CreateFormAPI, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.create_user_form }
+  let(:body) { response.body }
 
   before do
     login_as(current_user)
@@ -43,7 +42,6 @@ describe ::API::V3::Users::CreateFormAPI, content_type: :json do
   end
 
   subject(:response) { last_response }
-  let(:body) { response.body }
 
   context 'with authorized user' do
     shared_let(:current_user) { create :user, global_permission: :manage_user }
@@ -53,7 +51,10 @@ describe ::API::V3::Users::CreateFormAPI, content_type: :json do
         {}
       end
 
-      it 'returns a payload with validation errors', :aggregate_failures do
+      # rubocop:disable RSpec/ExampleLength
+      it 'returns a payload with validation errors',
+         :aggregate_failures,
+         with_settings: { default_language: :es } do
         expect(response.status).to eq(200)
         expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
 
@@ -64,7 +65,7 @@ describe ::API::V3::Users::CreateFormAPI, content_type: :json do
           .to be_json_eql(''.to_json)
                 .at_path('_embedded/payload/email')
         expect(body)
-          .to be_json_eql(''.to_json)
+          .to be_json_eql('es'.to_json)
                 .at_path('_embedded/payload/language')
         expect(body)
           .to be_json_eql('active'.to_json)
@@ -76,22 +77,19 @@ describe ::API::V3::Users::CreateFormAPI, content_type: :json do
 
         expect(body)
           .to have_json_path('_embedded/validationErrors/password')
-
         expect(body)
           .to have_json_path('_embedded/validationErrors/login')
-
         expect(body)
           .to have_json_path('_embedded/validationErrors/email')
-
         expect(body)
           .to have_json_path('_embedded/validationErrors/firstName')
-
         expect(body)
           .to have_json_path('_embedded/validationErrors/lastName')
 
         expect(body)
           .not_to have_json_path('_links/commit')
       end
+      # rubocop:enable RSpec/ExampleLength
     end
 
     describe 'inviting a user' do
@@ -142,9 +140,9 @@ describe ::API::V3::Users::CreateFormAPI, content_type: :json do
           email: 'cfuser@example.com',
           status: 'invited',
           "customField#{custom_field.id}": "A custom value",
-          "_links": {
+          _links: {
             "customField#{list_custom_field.id}": {
-              "href": custom_option_href
+              href: custom_option_href
             }
           }
         }

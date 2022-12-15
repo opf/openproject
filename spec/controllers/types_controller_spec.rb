@@ -115,12 +115,14 @@ describe TypesController, type: :controller do
 
     describe 'GET index' do
       before { get 'index' }
+
       it { expect(response).to be_successful }
       it { expect(response).to render_template 'index' }
     end
 
     describe 'GET new' do
       before { get 'new' }
+
       it { expect(response).to be_successful }
       it { expect(response).to render_template 'new' }
     end
@@ -135,10 +137,11 @@ describe TypesController, type: :controller do
         end
 
         before do
-          post :create, params: params
+          post :create, params:
         end
 
         it { expect(response).to be_redirect }
+
         it do
           type = ::Type.find_by(name: 'New type')
           expect(response).to redirect_to(action: 'edit', tab: 'settings', id: type.id)
@@ -155,11 +158,12 @@ describe TypesController, type: :controller do
         end
 
         before do
-          post :create, params: params
+          post :create, params:
         end
 
         it { expect(response.status).to eq(200) }
-        it 'should show an error message' do
+
+        it 'shows an error message' do
           expect(response.body).to have_content("Name can't be blank")
         end
       end
@@ -181,15 +185,17 @@ describe TypesController, type: :controller do
         end
 
         before do
-          post :create, params: params
+          post :create, params:
         end
 
         it { expect(response).to be_redirect }
+
         it do
           type = ::Type.find_by(name: 'New type')
           expect(response).to redirect_to(action: 'edit', tab: 'settings', id: type.id)
         end
-        it 'should have the copied workflows' do
+
+        it 'has the copied workflows' do
           expect(::Type.find_by(name: 'New type')
                         .workflows.count).to eq(existing_type.workflows.count)
         end
@@ -200,8 +206,8 @@ describe TypesController, type: :controller do
       render_views
       let(:type) do
         create(:type, name: 'My type',
-                                 is_milestone: true,
-                                 projects: [project])
+                      is_milestone: true,
+                      projects: [project])
       end
 
       before do
@@ -219,8 +225,8 @@ describe TypesController, type: :controller do
       render_views
       let(:type) do
         create(:type, name: 'My type',
-                                 is_milestone: true,
-                                 projects: [project])
+                      is_milestone: true,
+                      projects: [project])
       end
 
       before do
@@ -230,6 +236,7 @@ describe TypesController, type: :controller do
       it { expect(response).to be_successful }
       it { expect(response).to render_template 'edit' }
       it { expect(response).to render_template 'types/form/_projects' }
+
       it {
         expect(response.body).to have_selector "input[@name='type[project_ids][]'][@value='#{project.id}'][@checked='checked']"
       }
@@ -239,8 +246,8 @@ describe TypesController, type: :controller do
       let(:project2) { create(:project) }
       let(:type) do
         create(:type, name: 'My type',
-                                 is_milestone: true,
-                                 projects: [project, project2])
+                      is_milestone: true,
+                      projects: [project, project2])
       end
 
       describe 'WITH type rename' do
@@ -251,16 +258,18 @@ describe TypesController, type: :controller do
         end
 
         before do
-          put :update, params: params
+          put :update, params:
         end
 
         it { expect(response).to be_redirect }
+
         it do
           expect(response).to(
             redirect_to(edit_type_tab_path(id: type.id, tab: "settings"))
           )
         end
-        it 'should be renamed' do
+
+        it 'is renamed' do
           expect(::Type.find_by(name: 'My type renamed').id).to eq(type.id)
         end
       end
@@ -273,16 +282,18 @@ describe TypesController, type: :controller do
         end
 
         before do
-          put :update, params: params
+          put :update, params:
         end
 
         it { expect(response).to be_redirect }
+
         it do
           expect(response).to(
             redirect_to(edit_type_tab_path(id: type.id, tab: :projects))
           )
         end
-        it 'should have no projects assigned' do
+
+        it 'has no projects assigned' do
           expect(::Type.find_by(name: 'My type').projects.count).to eq(0)
         end
       end
@@ -294,12 +305,13 @@ describe TypesController, type: :controller do
       let(:params) { { 'id' => type.id, 'type' => { move_to: 'lower' } } }
 
       before do
-        post :move, params: params
+        post :move, params:
       end
 
       it { expect(response).to be_redirect }
       it { expect(response).to redirect_to(types_path) }
-      it 'should have the position updated' do
+
+      it 'has the position updated' do
         expect(::Type.find_by(name: 'My type').position).to eq(2)
       end
     end
@@ -313,16 +325,18 @@ describe TypesController, type: :controller do
         let(:params) { { 'id' => type.id } }
 
         before do
-          delete :destroy, params: params
+          delete :destroy, params:
         end
 
         it { expect(response).to be_redirect }
         it { expect(response).to redirect_to(types_path) }
-        it 'should have a successful destroy flash' do
+
+        it 'has a successful destroy flash' do
           expect(flash[:notice]).to eq(I18n.t(:notice_successful_delete))
         end
-        it 'should not be present in the database' do
-          expect(::Type.find_by(name: 'My type')).to eq(nil)
+
+        it 'is not present in the database' do
+          expect(::Type.find_by(name: 'My type')).to be_nil
         end
       end
 
@@ -342,12 +356,13 @@ describe TypesController, type: :controller do
         let(:params) { { 'id' => type2.id } }
 
         before do
-          delete :destroy, params: params
+          delete :destroy, params:
         end
 
         it { expect(response).to be_redirect }
         it { expect(response).to redirect_to(types_path) }
-        it 'should show an error message' do
+
+        it 'shows an error message' do
           error_message = [I18n.t(:'error_can_not_delete_type.explanation')]
           error_message.push(I18n.t(:'error_can_not_delete_type.archived_projects',
                                     archived_projects: project2.name))
@@ -355,7 +370,7 @@ describe TypesController, type: :controller do
           expect(sanitize_string(flash[:error])).to eq(sanitize_string(error_message))
         end
 
-        it 'should be present in the database' do
+        it 'is present in the database' do
           expect(::Type.find_by(name: 'My type 2').id).to eq(type2.id)
         end
       end
@@ -363,7 +378,7 @@ describe TypesController, type: :controller do
       describe 'destroy standard type should fail' do
         let(:params) { { 'id' => type3.id } }
 
-        before { delete :destroy, params: params }
+        before { delete :destroy, params: }
 
         it { expect(response).to be_redirect }
         it { expect(response).to redirect_to(types_path) }

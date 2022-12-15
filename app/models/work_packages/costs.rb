@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -85,7 +83,7 @@ module WorkPackages::Costs
 
       CostEntry
         .where(work_package_id: id)
-        .update_all(project_id: project_id)
+        .update_all(project_id:)
     end
   end
 

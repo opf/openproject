@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -42,18 +40,19 @@ describe Projects::CopyService, 'integration', type: :model do
   end
   let(:role) { create :role, permissions: %i[copy_projects] }
   let(:instance) do
-    described_class.new(source: source, user: current_user)
+    described_class.new(source:, user: current_user)
   end
   let(:only_args) { nil }
   let(:target_project_params) do
     { name: 'Some name', identifier: 'some-identifier' }
   end
   let(:params) do
-    { target_project_params: target_project_params, only: only_args }
+    { target_project_params:, only: only_args }
   end
 
   describe 'call' do
     subject { instance.call(params) }
+
     let(:project_copy) { subject.result }
 
     describe 'overview' do
@@ -69,8 +68,8 @@ describe Projects::CopyService, 'integration', type: :model do
         widgets = widget_data.map do |layout, identifier, options|
           build(
             :grid_widget,
-            identifier: identifier,
-            options: options,
+            identifier:,
+            options:,
             start_row: layout[0],
             end_row: layout[1],
             start_column: layout[2],
@@ -78,7 +77,7 @@ describe Projects::CopyService, 'integration', type: :model do
           )
         end
 
-        create :overview, project: source, widgets: widgets, column_count: 2, row_count: widgets.size / 2 + 1
+        create :overview, project: source, widgets:, column_count: 2, row_count: (widgets.size / 2) + 1
       end
 
       let(:overview) { Grids::Overview.find_by(project: project_copy) }

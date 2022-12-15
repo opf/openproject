@@ -16,9 +16,7 @@ module LdapGroups
         link_to synchronized_filter.auth_source.name, edit_ldap_auth_source_path(synchronized_filter.auth_source)
       end
 
-      def base_dn
-        synchronized_filter.base_dn
-      end
+      delegate :base_dn, to: :synchronized_filter
 
       def groups
         synchronized_filter.groups.count

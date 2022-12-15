@@ -30,22 +30,22 @@ require 'spec_helper'
 
 describe 'Invite user modal', type: :feature, js: true do
   shared_let(:project) { create :project }
-  shared_let(:work_package) { create :work_package, project: project }
+  shared_let(:work_package) { create :work_package, project: }
 
   let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
   let(:global_permissions) { %i[] }
   let(:modal) do
-    ::Components::Users::InviteUserModal.new project: project,
-                                             principal: principal,
-                                             role: role,
-                                             invite_message: invite_message
+    ::Components::Users::InviteUserModal.new project:,
+                                             principal:,
+                                             role:,
+                                             invite_message:
   end
   let!(:role) do
     create :role,
            name: 'Member',
-           permissions: permissions
+           permissions:
   end
-  let(:invite_message) { "Welcome to the team. **You'll like it here**."}
+  let(:invite_message) { "Welcome to the team. **You'll like it here**." }
   let(:mail_membership_recipients) { [] }
   let(:mail_invite_recipients) { [] }
 
@@ -53,13 +53,13 @@ describe 'Invite user modal', type: :feature, js: true do
     create :user,
            member_in_project: project,
            member_through_role: role,
-           global_permissions: global_permissions
+           global_permissions:
   end
 
-  shared_examples 'invites the principal to the project' do
+  shared_examples 'invites the principal to the project' do |skip_project_autocomplete = false|
     it 'invites that principal to the project' do
       perform_enqueued_jobs do
-        modal.run_all_steps
+        modal.run_all_steps(skip_project_autocomplete:)
       end
 
       assignee_field.expect_inactive!
@@ -97,6 +97,38 @@ describe 'Invite user modal', type: :feature, js: true do
     end
   end
 
+  describe 'inviting a placeholder on a WP create', with_ee: %i[placeholder_users] do
+    let!(:principal) { create :placeholder_user, name: 'EXISTING PLACEHOLDER' }
+    let(:wp_page) { Pages::FullWorkPackageCreate.new(project:) }
+    let(:assignee_field) { wp_page.edit_field :assignee }
+    let(:subject_field) { wp_page.edit_field :subject }
+    let!(:status) { FactoryBot.create :default_status }
+    let!(:priority) { FactoryBot.create :default_priority }
+    let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_members work_package_assigned] }
+
+    it 'selects the placeholder' do
+      wp_page.visit!
+      subject_field.expect_active!
+      subject_field.set_value 'foobar'
+      assignee_field.expect_active!
+
+      assignee_field.openSelectField
+      find('.ng-dropdown-footer button', text: 'Invite', wait: 10).click
+
+      modal.run_all_steps
+      expect(page).to have_selector('.ng-value-label', text: principal.name)
+
+      wp_page.save!
+      wp_page.expect_and_dismiss_toaster(message: 'Successful creation.')
+
+      assignee_field.expect_inactive!
+      assignee_field.expect_state_text principal
+
+      work_package = WorkPackage.last
+      expect(work_package.assigned_to).to eq principal
+    end
+  end
+
   describe 'inviting a principal to a project' do
     describe 'through the assignee field' do
       let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
@@ -121,6 +153,13 @@ describe 'Invite user modal', type: :feature, js: true do
           let(:added_principal) { principal }
           let(:mail_membership_recipients) { [principal] }
         end
+
+        context 'when keeping the default project selection' do
+          it_behaves_like 'invites the principal to the project', skip_project_autocomplete: true do
+            let(:added_principal) { principal }
+            let(:mail_membership_recipients) { [principal] }
+          end
+        end
       end
 
       context 'with a user to be invited' do
@@ -142,7 +181,7 @@ describe 'Invite user modal', type: :feature, js: true do
 
           it 'does not show the invite user option' do
             modal.project_step
-            ngselect = modal.open_select_in_step principal.mail
+            ngselect = modal.open_select_in_step 'op-ium-principal-search', query: principal.mail
             expect(ngselect).to have_text "No users were found"
             expect(ngselect).not_to have_text "Invite: #{principal.mail}"
           end
@@ -166,7 +205,7 @@ describe 'Invite user modal', type: :feature, js: true do
           end
 
           it 'disables projects for which you do not have rights' do
-            ngselect = modal.open_select_in_step
+            ngselect = modal.open_select_in_step '.ng-select-container'
             expect(ngselect).to have_text "#{project_no_permissions.name}\nYou are not allowed to invite members to this project"
           end
         end
@@ -177,7 +216,7 @@ describe 'Invite user modal', type: :feature, js: true do
           let(:current_user) { create :admin }
 
           it 'disables projects for which you do not have rights' do
-            ngselect = modal.open_select_in_step
+            ngselect = modal.open_select_in_step '.ng-select-container'
             expect(ngselect).to have_no_text archived_project
           end
         end
@@ -204,7 +243,7 @@ describe 'Invite user modal', type: :feature, js: true do
               it 'does not allow to invite a new placeholder' do
                 modal.project_step
 
-                modal.open_select_in_step 'SOME NEW PLACEHOLDER'
+                modal.open_select_in_step 'op-ium-principal-search', query: 'SOME NEW PLACEHOLDER'
 
                 expect(page)
                   .to have_text I18n.t('js.invite_user_modal.principal.no_results_placeholder')

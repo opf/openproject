@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -77,7 +75,7 @@ module BackupHelper
     users = ([user] + User.admin.active).uniq
 
     users.each do |recipient|
-      UserMailer.backup_token_reset(recipient, user: user, waiting_period: waiting_period).deliver_later
+      UserMailer.backup_token_reset(recipient, user:, waiting_period:).deliver_later
     end
   end
 end

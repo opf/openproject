@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -34,6 +32,7 @@ describe API::V3::Utilities::ResourceLinkGenerator do
   include ::API::V3::Utilities::PathHelper
 
   subject { described_class }
+
   describe ':make_link' do
     it 'supports work packages' do
       wp = build_stubbed(:work_package)

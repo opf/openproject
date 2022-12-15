@@ -63,14 +63,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     end
 
     def children_of(ids)
-      includes(:parent_relation)
-        .where(relations: { from_id: ids })
-    end
-
-    # Prevent problems with subclasses of WorkPackage
-    # not having a TypedDag configuration
-    def _dag_options
-      TypedDag::Configuration[WorkPackage]
+      where(parent_id: ids)
     end
   end
 
@@ -130,13 +123,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
       blocks_relations.includes(:to).merge(WorkPackage.with_status_open).map(&:to)
     end
 
-    def blockers
-      # return work_packages that block me
-      return [] if closed?
-
-      blocked_by_relations.includes(:from).merge(WorkPackage.with_status_open).map(&:from)
-    end
-
     def backlogs_enabled?
       !!project.try(:module_enabled?, 'backlogs')
     end
@@ -149,8 +135,8 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     def backlogs_before_validation
       if type_id == Task.type
-        self.estimated_hours = remaining_hours if estimated_hours.blank? && !remaining_hours.blank?
-        self.remaining_hours = estimated_hours if remaining_hours.blank? && !estimated_hours.blank?
+        self.estimated_hours = remaining_hours if estimated_hours.blank? && remaining_hours.present?
+        self.remaining_hours = estimated_hours if remaining_hours.blank? && estimated_hours.present?
       end
     end
   end

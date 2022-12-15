@@ -43,7 +43,7 @@ import {
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
@@ -52,12 +52,12 @@ import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { IView } from 'core-app/core/state/views/view.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { MAGIC_PAGE_NUMBER } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
 export type ViewType = 'WorkPackagesTable'|'Bim'|'TeamPlanner'|'WorkPackagesCalendar';
 
 export const opViewSelectSelector = 'op-view-select';
 
-@DatasetInputs
 @Component({
   selector: opViewSelectSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -65,14 +65,13 @@ export const opViewSelectSelector = 'op-view-select';
 })
 export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
   public text = {
-    search: this.I18n.t('js.toolbar.search_query_label'),
+    search: this.I18n.t('js.global_search.search'),
     label: this.I18n.t('js.toolbar.search_query_label'),
     scope_default: this.I18n.t('js.label_default_queries'),
     scope_starred: this.I18n.t('js.label_starred_queries'),
     scope_global: this.I18n.t('js.label_global_queries'),
     scope_private: this.I18n.t('js.label_custom_queries'),
-    scope_new: this.I18n.t('js.label_create_new_query'),
-    no_results: this.I18n.t('js.work_packages.query.text_no_results'),
+    no_results: this.I18n.t('js.autocompleter.notFoundText'),
   };
 
   public views$:Observable<IOpSidemenuItem[]>;
@@ -104,6 +103,8 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     readonly viewsService:ViewsResourceService,
   ) {
     super();
+
+    populateInputsFromDataset(this);
   }
 
   public set search(input:string) {
@@ -121,23 +122,22 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       .onActivate(...this.menuItems)
       .subscribe(() => this.initializeAutocomplete());
 
-    this.views$ = combineLatest(
+    this.views$ = combineLatest([
       this.search$,
       this.viewCategories$,
-    )
-      .pipe(
-        map(([searchText, categories]) => categories
-          .map((category) => {
-            if (ViewSelectComponent.matchesText(category.title, searchText)) {
-              return category;
-            }
+    ]).pipe(
+      map(([searchText, categories]) => categories
+        .map((category) => {
+          if (ViewSelectComponent.matchesText(category.title, searchText)) {
+            return category;
+          }
 
-            const filteredChildren = category.children
-              ?.filter((query) => ViewSelectComponent.matchesText(query.title, searchText));
-            return { title: category.title, children: filteredChildren, collapsible: true };
-          })
-          .filter((category) => category.children && category.children.length > 0)),
-      );
+          const filteredChildren = category.children
+            ?.filter((query) => ViewSelectComponent.matchesText(query.title, searchText));
+          return { title: category.title, children: filteredChildren, collapsible: true };
+        })
+        .filter((category) => category.children && category.children.length > 0)),
+    );
   }
 
   private initializeAutocomplete():void {
@@ -175,20 +175,23 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       filters: [
         ['type', '=', [this.apiViewType]],
       ],
+      pageSize: MAGIC_PAGE_NUMBER,
     };
 
     if (this.projectId) {
       params.filters?.push(
         ['project', '=', [this.projectId]],
       );
+    } else {
+      params.filters?.push(
+        ['project', '!*', []],
+      );
     }
 
-    this.viewsService.fetchViews(params)
+    this.viewsService.fetchResults(params)
       .pipe(this.untilDestroyed())
-      .subscribe((queryCollection) => {
-        queryCollection
-          ._embedded
-          .elements
+      .subscribe((views) => {
+        views
           .sort((a, b) => a._links.query.title.localeCompare(b._links.query.title))
           .forEach((view) => {
             let cat = 'private';

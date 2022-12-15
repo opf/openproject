@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -169,7 +167,7 @@ describe OpenProject::Hook do
         end
       end
 
-      let(:context) { { foo: 1, bar: 'a'} }
+      let(:context) { { foo: 1, bar: 'a' } }
 
       it 'passes the context through' do
         expect(described_class.call_hook(:view_layouts_base_html_head, **context))
@@ -215,20 +213,20 @@ describe OpenProject::Hook do
         end
       end
       let(:project) do
-        instance_double('Project')
+        instance_double(Project)
       end
       let(:request) do
-        instance_double('ActiveSupport::Request')
+        instance_double(ActionDispatch::Request)
       end
 
       it 'adds to the context' do
         expect(instance.call_hook(:view_layouts_base_html_head, {}))
-          .to match_array [{ project: project, controller: instance, request: request, hook_caller: instance }]
+          .to match_array [{ project:, controller: instance, request:, hook_caller: instance }]
       end
     end
   end
 
-  context 'called within email rendering' do
+  context 'when called within email rendering' do
     let!(:test_hook_link_class) do
       # implicitly adding by class creation
       Class.new(test_hook_class) do
@@ -248,7 +246,6 @@ describe OpenProject::Hook do
       build_stubbed(:work_package,
                     type: build_stubbed(:type),
                     status: build_stubbed(:status)).tap do |wp|
-
         allow(wp)
           .to receive(:reload)
                 .and_return(wp)

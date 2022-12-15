@@ -32,7 +32,7 @@ describe Attachment, type: :model do
   let(:author) { create :user }
   let(:long_description) { 'a' * 300 }
   let(:work_package) { create :work_package }
-  let(:stubbed_work_package) { build_stubbed :stubbed_work_package }
+  let(:stubbed_work_package) { build_stubbed :work_package }
   let(:file) { create :uploaded_jpg, name: 'test.jpg' }
   let(:second_file) { create :uploaded_jpg, name: 'test2.jpg' }
   let(:container) { stubbed_work_package }
@@ -40,17 +40,17 @@ describe Attachment, type: :model do
   let(:attachment) do
     build(
       :attachment,
-      author: author,
-      container: container,
+      author:,
+      container:,
       content_type: nil, # so that it is detected
-      file: file
+      file:
     )
   end
   let(:stubbed_attachment) do
     build_stubbed(
       :attachment,
       author: stubbed_author,
-      container: container
+      container:
     )
   end
 
@@ -150,7 +150,7 @@ describe Attachment, type: :model do
 
   describe 'create' do
     it('creates a jpg file called test') do
-      expect(File.exist?(attachment.diskfile.path)).to eq true
+      expect(File.exist?(attachment.diskfile.path)).to be true
     end
 
     it('has the content type "image/jpeg"') do
@@ -173,11 +173,11 @@ describe Attachment, type: :model do
 
     it 'does not interfere' do
       a1 = Attachment.create!(container: work_package,
-                              file: file,
-                              author: author)
+                              file:,
+                              author:)
       a2 = Attachment.create!(container: work_package,
                               file: second_file,
-                              author: author)
+                              author:)
 
       expect(a1.diskfile.path)
         .not_to eql a2.diskfile.path
@@ -191,7 +191,7 @@ describe Attachment, type: :model do
     before do
       attachment.save!
 
-      expect(File.exist?(attachment.file.path)).to eq true
+      expect(File.exist?(attachment.file.path)).to be true
 
       attachment.destroy
       attachment.run_callbacks(:commit)
@@ -200,13 +200,16 @@ describe Attachment, type: :model do
     end
 
     it "deletes the attachment's file" do
-      expect(File.exist?(attachment.file.path)).to eq false
+      expect(File.exist?(attachment.file.path)).to be false
     end
+  end
+
+  include_examples 'creates an audit trail on destroy' do
+    subject { create(:attachment) }
   end
 
   # We just use with_direct_uploads here to make sure the
   # FogAttachment class is defined and Fog is mocked.
-  # rubocop:disable RSpec/MultipleMemoizedHelpers
   describe "#external_url", with_direct_uploads: true do
     let(:author) { create :user }
 
@@ -214,15 +217,15 @@ describe Attachment, type: :model do
     let(:text_path) { Rails.root.join("spec/fixtures/files/testfile.txt") }
     let(:binary_path) { Rails.root.join("spec/fixtures/files/textfile.txt.gz") }
 
-    let(:image_attachment) { FogAttachment.new author: author, file: File.open(image_path) }
-    let(:text_attachment) { FogAttachment.new author: author, file: File.open(text_path) }
-    let(:binary_attachment) { FogAttachment.new author: author, file: File.open(binary_path) }
+    let(:image_attachment) { FogAttachment.new author:, file: File.open(image_path) }
+    let(:text_attachment) { FogAttachment.new author:, file: File.open(text_path) }
+    let(:binary_attachment) { FogAttachment.new author:, file: File.open(binary_path) }
 
     shared_examples "it has a temporary download link" do
       let(:url_options) { {} }
       let(:query) { attachment.external_url(**url_options).to_s.split("?").last }
 
-      it "should have a default expiry time" do
+      it "has a default expiry time" do
         expect(query).to include "X-Amz-Expires="
         expect(query).not_to include "X-Amz-Expires=3600"
       end
@@ -230,7 +233,7 @@ describe Attachment, type: :model do
       context "with a custom expiry time" do
         let(:url_options) { { expires_in: 1.hour } }
 
-        it "should use that time" do
+        it "uses that time" do
           expect(query).to include "X-Amz-Expires=3600"
         end
       end
@@ -295,19 +298,18 @@ describe Attachment, type: :model do
     describe "for a binary file" do
       before { binary_attachment.save! }
 
-      it "should make S3 use content_disposition 'attachment; filename=...'" do
+      it "makes S3 use content_disposition 'attachment; filename=...'" do
         expect(binary_attachment.content_disposition).to eq "attachment; filename=textfile.txt.gz"
         expect(binary_attachment.external_url.to_s).to include "response-content-disposition=attachment"
       end
     end
   end
-  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe 'full text extraction job on commit' do
     let(:created_attachment) do
       create(:attachment,
-             author: author,
-             container: container)
+             author:,
+             container:)
     end
 
     shared_examples_for 'runs extraction' do

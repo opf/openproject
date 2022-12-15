@@ -6,6 +6,7 @@ shared_examples_for 'is a countable repository' do
     allow(Repository).to receive(:find).and_return(repository)
     allow(Setting).to receive(:repository_storage_cache_minutes).and_return(cache_time)
   end
+
   it 'is countable' do
     expect(repository.scm).to be_storage_available
   end

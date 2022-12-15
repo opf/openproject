@@ -32,7 +32,7 @@ require 'features/page_objects/notification'
 describe 'Upload attachment to documents',
          js: true,
          with_settings: {
-           journal_aggregation_time_minutes: 0,
+           journal_aggregation_time_minutes: 0
          } do
   let!(:user) do
     create :user,
@@ -43,7 +43,8 @@ describe 'Upload attachment to documents',
   let!(:other_user) do
     create :user,
            member_in_project: project,
-           member_with_permissions: %i[view_documents]
+           member_with_permissions: %i[view_documents],
+           notification_settings: [build(:notification_setting, all: true)]
   end
   let!(:category) do
     create(:document_category)
@@ -66,9 +67,15 @@ describe 'Upload attachment to documents',
       select(category.name, from: 'Category')
       fill_in "Title", with: 'New documentation'
 
+      # adding an image via the attachments-list
+      find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+
+      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 1)
+
       # adding an image
       editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
-      expect(page).to have_selector('attachment-list-item', text: 'image.png')
+      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+      expect(page).not_to have_selector('op-toasters-upload-progress')
 
       perform_enqueued_jobs do
         click_on 'Create'
@@ -96,8 +103,27 @@ describe 'Upload attachment to documents',
 
       # editor.click_and_type_slowly 'abc'
       SeleniumHubWaiter.wait
+
+      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+
       editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
-      expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+
+      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 3)
+
+      scroll_to_element(page.find('[data-qa-selector="op-attachments"]'))
+
+      script = <<~JS
+        const event = new DragEvent('dragover');
+        document.body.dispatchEvent(event);
+      JS
+      page.execute_script(script)
+
+      # adding an image via the attachments-list
+      find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+
+      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 4)
+
+      expect(page).not_to have_selector('op-toasters-upload-progress')
 
       perform_enqueued_jobs do
         click_on 'Save'
@@ -107,11 +133,11 @@ describe 'Upload attachment to documents',
       expect(page).to have_selector('#content img', count: 2)
       expect(page).to have_content('Image uploaded on creation')
       expect(page).to have_content('Image uploaded the second time')
-      expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 4)
 
       # Expect a mail to be sent to the user having subscribed to all notifications
       expect(ActionMailer::Base.deliveries.size)
-        .to be 1
+        .to eq 1
 
       expect(ActionMailer::Base.deliveries.last.to)
         .to match_array [other_user.mail]

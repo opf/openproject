@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -51,7 +49,7 @@ class AddWorkPackageNoteService
       end
 
       journal = work_package.journals.last if success
-      ServiceResult.new(success: success, result: journal, errors: errors)
+      ServiceResult.new(success:, result: journal, errors:)
     end
   end
 end

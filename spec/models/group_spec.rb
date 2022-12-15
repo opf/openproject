@@ -29,22 +29,22 @@
 require 'spec_helper'
 require_relative '../support/shared/become_member'
 
-describe Group, type: :model do
+describe Group do
   let(:group) { create(:group) }
   let(:user) { create(:user) }
-  let(:watcher) { create :user }
+  let(:watcher) { create(:user) }
   let(:project) { create(:project_with_types) }
   let(:status) { create(:status) }
   let(:package) do
     build(:work_package, type: project.types.first,
-                                    author: user,
-                                    project: project,
-                                    status: status)
+                         author: user,
+                         project:,
+                         status:)
   end
 
-  it 'should create' do
-    g = Group.new(lastname: 'New group')
-    expect(g.save).to eq true
+  it 'creates' do
+    g = described_class.new(lastname: 'New group')
+    expect(g.save).to be true
   end
 
   describe 'with long but allowed attributes' do
@@ -85,7 +85,7 @@ describe Group, type: :model do
 
       it 'updates the timestamp' do
         updated_at = group.updated_at
-        group.group_users.create(user: user)
+        group.group_users.create(user:)
 
         expect(updated_at < group.reload.updated_at)
           .to be_truthy
@@ -94,7 +94,7 @@ describe Group, type: :model do
 
     context 'when removing a user' do
       it 'updates the timestamp' do
-        group.group_users.create(user: user)
+        group.group_users.create(user:)
         updated_at = group.reload.updated_at
 
         group.group_users.destroy_all
@@ -109,7 +109,7 @@ describe Group, type: :model do
     describe 'group with empty group name' do
       let(:group) { build(:group, lastname: '') }
 
-      it { expect(group.valid?).to be_falsey }
+      it { expect(group).not_to be_valid }
 
       describe 'error message' do
         before do
@@ -127,8 +127,8 @@ describe Group, type: :model do
        build_preference
        create_preference
        create_preference!}.each do |method|
-      it "should not respond to #{method}" do
-        expect(group).to_not respond_to method
+      it "does not respond to #{method}" do
+        expect(group).not_to respond_to method
       end
     end
   end
@@ -136,5 +136,14 @@ describe Group, type: :model do
   describe '#name' do
     it { expect(group).to validate_presence_of :name }
     it { expect(group).to validate_uniqueness_of :name }
+  end
+
+  include_examples 'creates an audit trail on destroy' do
+    subject { create(:attachment) }
+  end
+
+  it_behaves_like 'acts_as_customizable included' do
+    let(:model_instance) { group }
+    let(:custom_field) { create(:string_group_custom_field) }
   end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -60,13 +58,13 @@ module OpenProject
 
       Renderer.format_text text,
                            options.merge(
-                             plain: plain,
-                             object: object,
+                             plain:,
+                             object:,
                              request: try(:request),
-                             current_user: current_user,
-                             attribute: attribute,
-                             only_path: only_path,
-                             project: project
+                             current_user:,
+                             attribute:,
+                             only_path:,
+                             project:
                            )
     end
   end

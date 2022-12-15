@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -38,14 +36,14 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
   include_context 'with CreateFromJournalJob context'
 
   shared_let(:project) { create(:project) }
-  shared_let(:wiki) { create(:wiki, project: project) }
+  shared_let(:wiki) { create(:wiki, project:) }
 
   let(:permissions) { [:view_wiki_pages] }
   let(:send_notifications) { true }
 
   let(:wiki_page) do
     create(:wiki_page,
-           wiki: wiki,
+           wiki:,
            content: build(:wiki_content,
                           author: other_user))
   end
@@ -74,10 +72,20 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
         end
       end
 
-      context 'with the user having registered for involved notifications' do
+      context 'with the user having registered for assignee notifications' do
         let(:recipient_notification_settings) do
           [
-            build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+            build(:notification_setting, **notification_settings_all_false.merge(assignee: true))
+          ]
+        end
+
+        it_behaves_like 'creates no notification'
+      end
+
+      context 'with the user having registered for responsible notifications' do
+        let(:recipient_notification_settings) do
+          [
+            build(:notification_setting, **notification_settings_all_false.merge(responsible: true))
           ]
         end
 
@@ -167,10 +175,20 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
         end
       end
 
-      context 'with the user having registered for involved notifications' do
+      context 'with the user having registered for assignee notifications' do
         let(:recipient_notification_settings) do
           [
-            build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+            build(:notification_setting, **notification_settings_all_false.merge(assignee: true))
+          ]
+        end
+
+        it_behaves_like 'creates no notification'
+      end
+
+      context 'with the user having registered for responsible notifications' do
+        let(:recipient_notification_settings) do
+          [
+            build(:notification_setting, **notification_settings_all_false.merge(responsible: true))
           ]
         end
 

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -29,7 +27,7 @@
 #++
 
 RSpec.configure do |config|
-  config.after(:each) do |_example|
+  config.after do |_example|
     OpenProject::Notifications.subscriptions.clear
   end
 end

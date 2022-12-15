@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -38,10 +36,10 @@ describe ::API::V3::WorkPackages::EagerLoading::Checksum do
   let(:version) { create(:version) }
   let!(:work_package) do
     create(:work_package,
-           responsible: responsible,
+           responsible:,
            assigned_to: assignee,
-           version: version,
-           category: category)
+           version:,
+           category:)
   end
   let!(:type) { work_package.type }
   let!(:project) { work_package.project }

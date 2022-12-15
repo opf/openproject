@@ -34,7 +34,7 @@ describe NotificationSettings::Scopes::Applicable, type: :model do
 
     let!(:user) do
       create(:user,
-             notification_settings: notification_settings)
+             notification_settings:)
     end
     let!(:project) do
       create(:project)
@@ -56,7 +56,7 @@ describe NotificationSettings::Scopes::Applicable, type: :model do
     context 'when global and project settings exist' do
       let(:project_notification_settings) do
         [
-          build(:notification_setting, project: project)
+          build(:notification_setting, project:)
         ]
       end
       let(:global_notification_settings) do

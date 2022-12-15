@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -47,7 +45,7 @@ describe Mails::ReminderJob, type: :model do
 
       allow(Notification)
         .to receive(:unsent_reminders_before)
-              .with(recipient: recipient, time: Time.current)
+              .with(recipient:, time: Time.current)
               .and_return(notifications)
 
       allow(notifications)
@@ -99,7 +97,6 @@ describe Mails::ReminderJob, type: :model do
 
       it 'impersonates the recipient' do
         allow(DigestMailer).to receive(:work_packages) do
-
           expect(User.current)
             .eql receiver
         end

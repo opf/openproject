@@ -6,15 +6,19 @@ set -e
 
 CLI="${APP_NAME}"
 
+# Set the configured admin email
+ADMIN_EMAIL="$(wiz_get "openproject/admin_email" || wiz_get "smtp/admin_email")"
+${CLI} config:set RECOMPILE_RAILS_ASSETS="true"
+
 # Check for custom gems
 custom_gemfile=$(${CLI} config:get CUSTOM_PLUGIN_GEMFILE || echo "")
 if [ -n "$custom_gemfile" ] && [ -f "$custom_gemfile" ]; then
 
         # Need to override the frozen setting for the vendored gems
-        ${CLI} run bundle config --local frozen 0
+        ${CLI} run bundle config set --local frozen 'false'
 
         # Unset deployment, allowing changes to the Gemfile
-        ${CLI} run bundle config unset deployment
+        ${CLI} run bundle config set --local deployment 'false'
 
         # Re-bundle the application including gems
         ${CLI} run bundle install
@@ -108,4 +112,4 @@ fi
 ${CLI} scale web=1 worker=1 || true
 
 # restart
-service ${APP_NAME} restart
+${APP_NAME} restart

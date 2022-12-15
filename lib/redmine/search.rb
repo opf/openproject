@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -35,7 +33,7 @@ module Redmine
     @@available_search_types = []
 
     class << self
-      def map(&_block)
+      def map(&)
         yield self
       end
 

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { FormsService } from './forms.service';
 
 describe('FormsService', () => {
@@ -26,7 +26,7 @@ describe('FormsService', () => {
       ],
     },
   };
-  const formBuilder = new FormBuilder();
+  const formBuilder = new UntypedFormBuilder();
 
   beforeEach(() => {
     TestBed.configureTestingModule({

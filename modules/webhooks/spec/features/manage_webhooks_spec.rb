@@ -83,7 +83,7 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
 
     context 'with existing webhook' do
       let!(:webhook) { create :webhook, name: 'testing' }
-      let!(:log) { create :webhook_log, response_headers: { test: :foo }, webhook: webhook }
+      let!(:log) { create :webhook_log, response_headers: { test: :foo }, webhook: }
 
       it 'shows the delivery' do
         visit admin_outgoing_webhooks_path
@@ -98,7 +98,7 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
         SeleniumHubWaiter.wait
         find('td.response_body a', text: 'Show').click
 
-        page.within('.op-modal') do
+        page.within('.spot-modal') do
           expect(page).to have_selector('.webhooks--response-headers strong', text: 'test')
           expect(page).to have_selector('.webhooks--response-body', text: log.response_body)
         end

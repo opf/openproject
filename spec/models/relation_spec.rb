@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -30,15 +28,16 @@
 require 'spec_helper'
 
 describe Relation, type: :model do
+  create_shared_association_defaults_for_work_package_factory
+
   let(:from) { create(:work_package) }
   let(:to) { create(:work_package) }
   let(:type) { 'relates' }
-  let(:relation) { build(:relation, from: from, to: to, relation_type: type) }
+  let(:relation) { build(:relation, from:, to:, relation_type: type) }
 
   describe 'all relation types' do
     Relation::TYPES.each do |key, type_hash|
       let(:type) { key }
-      let(:column_name) { type_hash[:sym] }
       let(:reversed) { type_hash[:reverse] }
 
       before do
@@ -52,86 +51,15 @@ describe Relation, type: :model do
           expect(relation.relation_type).to eq(reversed)
         end
       end
-
-      it "sets the correct column for '#{key}' to 1" do
-        expect(relation.send(column_name))
-          .to eql 1
-      end
     end
   end
 
-  describe '#relation_type' do
-    Relation::TYPES.each do |key, type_hash|
-      let(:column_name) { type_hash[:sym] }
-      let(:type) { key }
-      let(:reversed) { type_hash[:reverse] }
-      let(:relation) do
-        build_stubbed(:relation,
-                      relation_type: nil,
-                      column_name => column_count)
-      end
-
-      context 'with the column set to 1' do
-        let(:column_count) { 1 }
-
-        it 'deduces the name from the column' do
-          if reversed.nil?
-            expect(relation.relation_type).to eq(type)
-          else
-            expect(relation.relation_type).to eq(reversed)
-          end
-        end
-      end
-
-      context 'with the column set to 2' do
-        let(:column_count) { 2 }
-
-        it 'deduces the name from the column' do
-          if reversed.nil?
-            expect(relation.relation_type).to eq(type)
-          else
-            expect(relation.relation_type).to eq(reversed)
-          end
-        end
-      end
-
-      context 'with the column set to 1 and another column also set to 1' do
-        let(:column_count) { 1 }
-        let(:other_column) do
-          if type == Relation::TYPE_RELATES
-            Relation::TYPE_DUPLICATES
-          else
-            Relation::TYPE_RELATES
-          end
-        end
-        let(:relation) do
-          build_stubbed(:relation,
-                        relation_type: nil,
-                        column_name => 1,
-                        other_column => 1)
-        end
-
-        it 'is "mixed"' do
-          expect(relation.relation_type)
-            .to eql 'mixed'
-        end
-      end
-    end
-  end
-
-  describe '#relation_type=' do
+  describe '#relation_type= / #relation_type' do
     let(:type) { Relation::TYPE_RELATES }
 
-    it 'updates the column value' do
-      relation.save!
-      expect(relation.relates).to eq 1
-
-      relation.relation_type = 'duplicates'
-      relation.save!
-      expect(relation.relation_type).to eq('duplicates')
-
-      expect(relation.relates).to eq 0
-      expect(relation.duplicates).to eq 1
+    it 'sets the type' do
+      relation.relation_type = Relation::TYPE_BLOCKS
+      expect(relation.relation_type).to eq(Relation::TYPE_BLOCKS)
     end
   end
 
@@ -140,7 +68,7 @@ describe Relation, type: :model do
       let(:type) { Relation::TYPE_FOLLOWS }
 
       it 'is not reversed' do
-        expect(relation.save).to eq(true)
+        expect(relation.save).to be(true)
         relation.reload
 
         expect(relation.relation_type).to eq(Relation::TYPE_FOLLOWS)
@@ -151,7 +79,7 @@ describe Relation, type: :model do
       it 'fails validation with invalid date and reverses' do
         relation.delay = 'xx'
         expect(relation).not_to be_valid
-        expect(relation.save).to eq(false)
+        expect(relation.save).to be(false)
 
         expect(relation.relation_type).to eq(Relation::TYPE_FOLLOWS)
         expect(relation.to).to eq(to)
@@ -163,7 +91,7 @@ describe Relation, type: :model do
       let(:type) { Relation::TYPE_PRECEDES }
 
       it 'is reversed' do
-        expect(relation.save).to eq(true)
+        expect(relation.save).to be(true)
         relation.reload
 
         expect(relation.relation_type).to eq(Relation::TYPE_FOLLOWS)
@@ -173,41 +101,148 @@ describe Relation, type: :model do
     end
   end
 
-  describe 'it should validate circular dependency' do
-    let(:otherwp) { create(:work_package) }
-    let(:relation) do
-      build(:relation, from: from, to: to, relation_type: Relation::TYPE_PRECEDES)
-    end
-    let(:relation2) do
-      build(:relation, from: to, to: otherwp, relation_type: Relation::TYPE_PRECEDES)
+  describe '#follows?' do
+    context 'for a follows relation' do
+      let(:type) { Relation::TYPE_FOLLOWS }
+
+      it 'is truthy' do
+        expect(relation)
+          .to be_follows
+      end
     end
 
-    let(:invalid_precedes_relation) do
-      build(:relation, from: otherwp, to: from, relation_type: Relation::TYPE_PRECEDES)
+    context 'for a precedes relation' do
+      let(:type) { Relation::TYPE_PRECEDES }
+
+      it 'is truthy' do
+        expect(relation)
+          .to be_follows
+      end
     end
 
-    let(:invalid_follows_relation) do
-      build(:relation, from: from, to: otherwp, relation_type: Relation::TYPE_FOLLOWS)
+    context 'for a blocks relation' do
+      let(:type) { Relation::TYPE_BLOCKS }
+
+      it 'is falsey' do
+        expect(relation)
+          .not_to be_follows
+      end
+    end
+  end
+
+  describe '#successor_soonest_start' do
+    context 'with a follows relation' do
+      let_schedule(<<~CHART)
+        days     | MTWTFSS |
+        main     | ]       |
+        follower |         | follows main
+      CHART
+
+      it 'returns predecessor due_date + 1' do
+        relation = schedule.follows_relation(from: 'follower', to: 'main')
+        expect(relation.successor_soonest_start).to eq(schedule.tuesday)
+      end
     end
 
-    it 'prevents invalid precedes relations' do
-      expect(relation.save).to eq(true)
-      expect(relation2.save).to eq(true)
-      from.reload
-      to.reload
-      otherwp.reload
-      expect(invalid_precedes_relation.save).to eq(false)
-      expect(invalid_precedes_relation.errors[:base]).not_to be_empty
+    context 'with a follows relation with predecessor having only start date' do
+      let_schedule(<<~CHART)
+        days     | MTWTFSS |
+        main     | [       |
+        follower |         | follows main
+      CHART
+
+      it 'returns predecessor start_date + 1' do
+        relation = schedule.follows_relation(from: 'follower', to: 'main')
+        expect(relation.successor_soonest_start).to eq(schedule.tuesday)
+      end
     end
 
-    it 'prevents invalid follows relations' do
-      expect(relation.save).to eq(true)
-      expect(relation2.save).to eq(true)
-      from.reload
-      to.reload
-      otherwp.reload
-      expect(invalid_follows_relation.save).to eq(false)
-      expect(invalid_follows_relation.errors[:base]).not_to be_empty
+    context 'with a non-follows relation' do
+      let_schedule(<<~CHART)
+        days    | MTWTFSS |
+        main    | X       |
+        related |         |
+      CHART
+      let(:relation) { create(:relation, from: main, to: related) }
+
+      it 'returns nil' do
+        expect(relation.successor_soonest_start).to be_nil
+      end
+    end
+
+    context 'with a follows relation with a delay' do
+      let_schedule(<<~CHART)
+        days       | MTWTFSS |
+        main       | X       |
+        follower_a |         | follows main with delay 0
+        follower_b |         | follows main with delay 1
+        follower_c |         | follows main with delay 3
+      CHART
+
+      it 'returns predecessor due_date + delay + 1' do
+        relation_a = schedule.follows_relation(from: 'follower_a', to: 'main')
+        expect(relation_a.successor_soonest_start).to eq(schedule.tuesday)
+
+        relation_b = schedule.follows_relation(from: 'follower_b', to: 'main')
+        expect(relation_b.successor_soonest_start).to eq(schedule.wednesday)
+
+        relation_c = schedule.follows_relation(from: 'follower_c', to: 'main')
+        expect(relation_c.successor_soonest_start).to eq(schedule.friday)
+      end
+    end
+
+    context 'with a follows relation with a delay and with non-working days in the delay period' do
+      let_schedule(<<~CHART)
+        days            | MTWTFSSmtw |
+        main            | X░ ░ ░░ ░  |
+        follower_delay0 |  ░ ░ ░░ ░  | follows main with delay 0
+        follower_delay1 |  ░ ░ ░░ ░  | follows main with delay 1
+        follower_delay2 |  ░ ░ ░░ ░  | follows main with delay 2
+        follower_delay3 |  ░ ░ ░░ ░  | follows main with delay 3
+      CHART
+
+      it 'returns a date such as the number of working days between both work package is equal to the delay' do
+        set_work_week('monday', 'wednesday', 'friday')
+
+        relation_delay0 = schedule.follows_relation(from: 'follower_delay0', to: 'main')
+        expect(relation_delay0.successor_soonest_start).to eq(schedule.wednesday)
+
+        relation_delay1 = schedule.follows_relation(from: 'follower_delay1', to: 'main')
+        expect(relation_delay1.successor_soonest_start).to eq(schedule.friday)
+
+        relation_delay2 = schedule.follows_relation(from: 'follower_delay2', to: 'main')
+        expect(relation_delay2.successor_soonest_start).to eq(schedule.monday + 7.days)
+
+        relation_delay3 = schedule.follows_relation(from: 'follower_delay3', to: 'main')
+        expect(relation_delay3.successor_soonest_start).to eq(schedule.wednesday + 7.days)
+      end
+    end
+
+    context 'with a follows relation with a delay, non-working days, and follower ignoring non-working days' do
+      let_schedule(<<~CHART)
+        days            | MTWTFSSmtw |
+        main            | X░ ░ ░░ ░  |
+        follower_delay0 |  ░ ░ ░░ ░  | follows main with delay 0, working days include weekends
+        follower_delay1 |  ░ ░ ░░ ░  | follows main with delay 1, working days include weekends
+        follower_delay2 |  ░ ░ ░░ ░  | follows main with delay 2, working days include weekends
+        follower_delay3 |  ░ ░ ░░ ░  | follows main with delay 3, working days include weekends
+      CHART
+
+      it 'returns predecessor due_date + delay + 1 (like without non-working days)' do
+        set_work_week('monday', 'wednesday', 'friday')
+
+        relation_delay0 = schedule.follows_relation(from: 'follower_delay0', to: 'main')
+        expect(relation_delay0.successor_soonest_start).to eq(schedule.tuesday)
+
+        relation_delay1 = schedule.follows_relation(from: 'follower_delay1', to: 'main')
+        expect(relation_delay1.successor_soonest_start).to eq(schedule.wednesday)
+
+        relation_delay2 = schedule.follows_relation(from: 'follower_delay2', to: 'main')
+        expect(relation_delay2.successor_soonest_start).to eq(schedule.thursday)
+
+        relation_delay3 = schedule.follows_relation(from: 'follower_delay3', to: 'main')
+        expect(relation_delay3.successor_soonest_start).to eq(schedule.friday)
+      end
     end
   end
 end

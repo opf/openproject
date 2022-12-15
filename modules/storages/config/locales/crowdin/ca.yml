@@ -1,0 +1,92 @@
+#English strings go here
+ca:
+  permission_view_file_links: "Veure els enllaços del fitxer"
+  permission_manage_file_links: "Administra els enllaços del fitxer"
+  permission_manage_storages_in_project: "Administra els emmagatzematges de fitxers en el projecte"
+  project_module_storages: "Emmagatzematges de fitxers"
+  activerecord:
+    models:
+      storages/storage: "Emmagatzematge"
+    attributes:
+      storages/storage:
+        name: "Nom"
+        creator: "Autor"
+        provider_type: "Tipus de proveïdor"
+      storages/file_link:
+        origin_id: "ID d'origen"
+    errors:
+      messages:
+        not_linked_to_project: "encara no està enllaçat a un projecte."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "no s'ha pogut connectar a."
+              minimal_nextcloud_version_unmet: "no compleix els requeriments mínims de versió (ha de ser Nextcloud 23 o superior)"
+              not_nextcloud_server: "no és un servidor de Nextcloud"
+              op_application_not_installed: >
+                sembla que l'aplicació "OpenProject integration" no està instal·lada. Si us plau, instal·la-la i torna-ho a provar.
+              authorization_header_missing: >
+                no està configurat completament. La instància de Nextcloud no pot rebre la capçalera "Autorització", que és necessària per a autoritzacions d'API basades en tokens Bearer. Si us plau, valida la configuració de servidor HTTP.
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "només pot ser numèric o uuid."
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Masses elements creats alhora. S'esperen %{max} com a màxim, i s'han obtingut %{actual}."
+  storages:
+    buttons:
+      done_continue_setup: "Fet. Continua la instal·lació"
+      replace_openproject_oauth: "Substitueix l'OAuth d'OpenProject"
+      replace_provider_type_oauth: "Substitueix l'OAuth de %{provider_type}"
+      save_and_continue_setup: "Desar i continua la configuració"
+      save_and_complete_setup: "Desar i completa la configuració"
+    page_titles:
+      project_settings:
+        index: "Emmagatzematges de fitxers no disponibles en aquest projecte"
+        new: "Afegeix un emmagatzematge de fitxers a aquest projecte"
+    instructions:
+      type: "Si us plau, assegura't que tens privilegis d'administrador a la instància Nextcloud i tens la següent aplicació instal·lada abans de fer la configuració:"
+      type_link_text: "\"Integració d'OpenProject\""
+      name: "Dona un nom al teu emmagatzematge per tal que els usuaris el puguin diferenciar d'altres."
+      host: "Si us plau, afegeix l'adreça d'allotjament del teu emmagatzematge incloent el https://. No pot més llarg de 255 caràcters."
+      no_storage_set_up: "No hi han emmagatzematges de fitxers configurats encara."
+      setting_up_additional_storages: "Per configurar emmagatzematges de fitxers addicionals, si us plau, visita"
+      setting_up_additional_storages_non_admin: "Els administradors poden configurar emmagatzematges de fitxers addicionals a través d'Administració / Emmagatzematges de fitxers."
+      setting_up_storages: "Per configurar emmagatzematges de fitxers, si us plau, visita"
+      setting_up_storages_non_admin: "Els administradors poden configurar emmagatzematges de fitxers a través d'Administració / Emmagatzematges de fitxers."
+      all_available_storages_already_added: "Tots els emmagatzematges disponibles ja s'han afegit al projecte."
+      copy_from: "Copia aquest valor de"
+      nextcloud:
+        integration: "Administració Nextcloud / OpenProject"
+    delete_warning:
+      storage: >
+        Estàs segur que vols eliminar aquest emmagatzematge? Aquesta acció també eliminarà l'emmagatzematge de tots els projectes on s'utilitza. També eliminarà tots els enllaços de fitxers dels paquets de treball que s'emmagatzemen en aquest emmagatzematge.
+      project_storage: >
+        Estàs segur que vols eliminar aquest emmagatzematge de fitxers d'aquest projecte? Aquesta acció també eliminarà tots els enllaços de fitxers d'aquest projecte que s'emmagatzemen en aquest emmagatzematge.
+    label_creator: "Autor"
+    label_file_link: "Enllaç a fitxer"
+    label_file_links: "Enllaços a fitxer"
+    label_name: "Nom"
+    label_host: "URL d'allotjament"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
+    label_oauth_application_details: "Detalls de l'aplicació OAuth"
+    label_oauth_client_details: "Detalls del client OAuth"
+    label_provider_type: "Tipus de proveïdor"
+    label_new_storage: "Nou emmagatzematge"
+    label_storage: "Emmagatzematge"
+    label_storages: "Emmagatzematges"
+    no_results: "No s'han configurat emmagatzematges encara."
+    provider_types:
+      label: "Tipus de proveïdor"
+      nextcloud:
+        name: "Nextcloud"
+        name_placeholder: "ex. Nextcloud"
+        default_name: "El meu Nextcloud"
+    confirm_replace_oauth_application: "Estàs segur? Tots els usuaris hauran d'autoritzar de nou contra OpenProject."
+    confirm_replace_oauth_client: "Estàs segur? Tots els usuaris hauran d'autoritzar de nou contra l'emmagatzematge."
+    oauth_client_details_missing: "Per tal de completar la configuració, si us plau afegeix les credencials de client OAuth del teu emmagatzematge."
+    notice_oauth_application_replaced: "L'aplicació OAuth d'OpenProject s'ha substituït correctament."

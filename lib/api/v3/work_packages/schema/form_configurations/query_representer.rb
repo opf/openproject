@@ -50,11 +50,11 @@ module API
                                 getter: ->(*) do
                                   next unless embed_links
 
-                                  ::API::V3::Queries::QueryRepresenter.new(query, current_user: current_user)
+                                  ::API::V3::Queries::QueryRepresenter.new(query, current_user:)
                                 end
 
             def _type
-              if relation_type == ::Relation::TYPE_HIERARCHY
+              if relation_type == ::Relation::TYPE_PARENT
                 "WorkPackageFormChildrenQueryGroup"
               else
                 "WorkPackageFormRelationQueryGroup"
@@ -73,9 +73,7 @@ module API
               represented.translated_key
             end
 
-            def query
-              represented.query
-            end
+            delegate :query, to: :represented
           end
         end
       end

@@ -42,10 +42,6 @@ export class WikiIncludePageMacroModalComponent extends OpModalComponent impleme
 
   public showClose = true;
 
-  public closeOnEscape = true;
-
-  public closeOnOutsideClick = true;
-
   public selectedPage:string;
 
   public page = '';
@@ -71,13 +67,13 @@ export class WikiIncludePageMacroModalComponent extends OpModalComponent impleme
     // We could provide an autocompleter here to get correct page names
   }
 
-  public applyAndClose(evt:JQuery.TriggeredEvent) {
+  public applyAndClose(evt:Event):void {
     this.changed = true;
     this.page = this.selectedPage;
     this.closeMe(evt);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit():void {
     this.selectedPageInput.nativeElement.focus();
   }
 }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'group memberships through project members page', type: :feature do
+describe 'group memberships through project members page', type: :feature, js: true do
   shared_let(:admin) { create :admin }
   let(:project) { create :project, name: 'Project 1', identifier: 'project1', members: project_member }
 
@@ -44,14 +44,15 @@ feature 'group memberships through project members page', type: :feature do
   let(:project_member) { {} }
 
   before do
-    create :member, user: bob, project: project, roles: [alpha]
+    create :member, user: bob, project:, roles: [alpha]
   end
 
   context 'given a group with members' do
     let!(:group) { create :group, lastname: 'group1', members: alice }
+
     current_user { bob }
 
-    scenario 'adding group1 as a member with the beta role', js: true do
+    it 'adding group1 as a member with the beta role' do
       members_page.visit!
       members_page.add_user! 'group1', as: 'beta'
 
@@ -63,7 +64,7 @@ feature 'group memberships through project members page', type: :feature do
       let(:project_member) { { group => beta } }
 
       context 'with the members having no roles of their own' do
-        scenario 'removing the group removes its members too' do
+        it 'removing the group removes its members too' do
           members_page.visit!
           expect(members_page).to have_user('Alice Wonderland')
 
@@ -82,7 +83,7 @@ feature 'group memberships through project members page', type: :feature do
             .each   { |m| m.roles << alpha }
         end
 
-        scenario 'removing the group leaves the user without their group roles' do
+        it 'removing the group leaves the user without their group roles' do
           members_page.visit!
           expect(members_page).to have_user('Alice Wonderland', roles: ['alpha', 'beta'])
 
@@ -100,13 +101,14 @@ feature 'group memberships through project members page', type: :feature do
 
   context 'given an empty group in a project' do
     let(:project_member) { { group => beta } }
+
     current_user { admin }
 
     before do
       alice # create alice
     end
 
-    scenario 'adding members to that group adds them to the project too', js: true do
+    it 'adding members to that group adds them to the project too' do
       members_page.visit!
 
       expect(members_page).not_to have_user('Alice Wonderland') # Alice not in the project yet

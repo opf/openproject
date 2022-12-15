@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -56,9 +54,9 @@ module Queries::WorkPackages::Filter::OrFilterForWpMixin
   def create_instances
     filter_configurations.map do |conf|
       conf.filter_class.create!(name: conf.filter_name,
-                                context: context,
+                                context:,
                                 operator: conf.operator,
-                                values: values)
+                                values:)
     end
   end
 

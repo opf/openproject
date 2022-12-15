@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -29,7 +27,7 @@
 #++
 
 module Shared::BlockService
-  def block_with_result(result, &_block)
+  def block_with_result(result, &)
     if block_given?
       yield result
     else

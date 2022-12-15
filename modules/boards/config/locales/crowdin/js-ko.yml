@@ -2,14 +2,13 @@
 ko:
   js:
     boards:
+      create_new: '새 보드 만들기'
       label_unnamed_board: '명명되지 않은 보드'
       label_unnamed_list: '명명되지 않은 목록'
       label_board_type: '보드 유형'
       upsale:
-        teaser_text: '이 유연한 보드 보기에서 애자일 프로젝트 관리를 개선하십시오. 계속 추적하고 싶은 사항에 따라 원하는 만큼 보드를 생성하십시오.'
-        upgrade_to_ee_text: '보드는 Enterprise 기능입니다. 유료 플랜으로 업그레이드하십시오.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: '지금 업그레이드'
-        personal_demo: '저희에게 데모 요청하기'
       lists:
         delete: '목록 삭제'
       version:
@@ -63,7 +62,7 @@ ko:
           status: 상태
           version: 버전
           subproject: 하위 프로젝트
-          subtasks: 부모-자식
+          subtasks: Parent-child
           basic: 기본
         select_attribute: "작업 특성"
       add_list_modal:

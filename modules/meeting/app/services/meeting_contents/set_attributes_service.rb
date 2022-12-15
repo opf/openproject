@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -31,7 +29,6 @@
 module MeetingContents
   class SetAttributesService < ::BaseServices::SetAttributes
     include Attachments::SetReplacements
-
 
     def set_default_attributes(_params)
       model.change_by_system do

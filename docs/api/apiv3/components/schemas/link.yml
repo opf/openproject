@@ -20,7 +20,7 @@ properties:
     default: GET
     description: The HTTP verb to use when requesting the resource
   payload:
-    type: string
+    type: object
     description: The payload to send in the request to achieve the desired result
   identifier:
     type: string

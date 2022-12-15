@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -37,11 +35,20 @@ class Projects::Settings::TypesController < Projects::SettingsController
 
   def update
     if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)
-      flash[:notice] = I18n.t('notice_successful_update')
+      flash[:notice] = success_message
     else
       flash[:error] = @project.errors.full_messages
     end
 
     redirect_to project_settings_types_path(@project.identifier)
+  end
+
+  private
+
+  def success_message
+    ApplicationController.helpers.sanitize(
+      t(:notice_successful_update_custom_fields_added_to_project, url: project_settings_custom_fields_path(@project)),
+      attributes: %w(href target)
+    )
   end
 end

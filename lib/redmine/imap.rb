@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -50,22 +48,13 @@ module Redmine
       def connect_imap(imap_options)
         host = imap_options[:host] || '127.0.0.1'
         port = imap_options[:port] || '143'
-        ssl = ssl_option(imap_options)
-        imap = Net::IMAP.new(host, port, ssl)
+        ssl = imap_options[:ssl]
+        ssl_verification = imap_options[:ssl_verification]
+        imap = Net::IMAP.new(host, port, ssl, nil, ssl_verification)
 
         imap.login(imap_options[:username], imap_options[:password]) unless imap_options[:username].nil?
 
         imap
-      end
-
-      def ssl_option(imap_options)
-        return false if imap_options[:ssl] == false # don't use SSL
-
-        if imap_options[:ssl_verification] == false
-          { verify_mode: OpenSSL::SSL::VERIFY_NONE } # use SSL without verification
-        else
-          true # use SSL with verification
-        end
       end
 
       def receive(message_id, imap, imap_options, options)
@@ -99,7 +88,7 @@ module Redmine
         end
       end
 
-      def log_debug(&_message)
+      def log_debug(&)
         logger.debug(yield) if logger && logger.debug?
       end
 

@@ -119,7 +119,7 @@ end
 
 shared_examples_for 'bcf api unprocessable response' do
   let(:expect422) do
-    { message: message }
+    { message: }
   end
 
   it 'responds 422 UNPROCESSABLE ENTITY', :aggregate_failures do
@@ -131,7 +131,7 @@ end
 
 shared_examples_for 'bcf api not implemented response' do
   it 'responds 501 not implemented', :aggregate_failures do
-    expect(subject.status).to eql 501
+    expect(subject.status).to be 501
 
     expected = {
       message: expected_message

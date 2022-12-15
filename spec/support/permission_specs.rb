@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -38,17 +36,29 @@ module PermissionSpecs
 
       include BecomeMember
 
+      # returns actions defined in routes and controller code for the described
+      # controller class
+      def self.controller_actions
+        Rails.application.routes.routes
+          .map(&:defaults)
+          .select { _1[:controller] == described_class.controller_path }
+          .pluck(:action)
+          .uniq
+          .select { described_class.action_methods.include?(_1) }
+          .sort
+      end
+
       def self.check_permission_required_for(controller_action, permission)
         controller_name, action_name = controller_action.split('#')
 
-        it "should allow calling #{controller_action} when having the permission #{permission} permission" do
+        it "allows calling #{controller_action} when having the permission #{permission}" do
           become_member_with_permissions(project, current_user, permission)
 
           expect(controller.send(:authorize, controller_name, action_name)).to be_truthy
         end
 
-        it "should prevent calling #{controller_action} when not having the permission #{permission} permission" do
-          become_member_with_permissions(project, current_user)
+        it "prevents calling #{controller_action} when not having the permission #{permission}" do
+          become_member(project, current_user)
 
           expect(controller.send(:authorize, controller_name, action_name)).to be_falsey
         end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -38,18 +36,46 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
   end
 
   shared_let(:sub_project) do
-    create(:project, name: 'Child', parent: project, enabled_module_names: enabled_modules)
+    create(:project, name: 'Direct Child', parent: project, enabled_module_names: enabled_modules)
   end
-  shared_let(:sub_sub_project) do
-    create(:project, name: 'Grandchild', parent: sub_project, enabled_module_names: enabled_modules)
+
+  # The user will not receive a membership in this project
+  # which is why it is invisible to the user.
+  shared_let(:sub_sub_project_invisible) do
+    create(:project, name: 'Invisible Grandchild', parent: sub_project, enabled_module_names: enabled_modules)
   end
+
+  shared_let(:sub_sub_sub_project) do
+    create(:project, name: 'Direct grand Grandchild', parent: sub_sub_project_invisible, enabled_module_names: enabled_modules)
+  end
+
   shared_let(:other_project) do
     create(:project, name: 'Other project', enabled_module_names: enabled_modules)
   end
 
+  shared_let(:other_sub_project) do
+    create(:project, name: 'Other Child', parent: other_project, enabled_module_names: enabled_modules)
+  end
+
+  shared_let(:other_sub_sub_project) do
+    create(:project, name: 'First other sub sub child', parent: other_sub_project, enabled_module_names: enabled_modules)
+  end
+
+  shared_let(:another_sub_sub_project) do
+    create(:project, name: 'Second other sub sub child', parent: other_sub_project, enabled_module_names: enabled_modules)
+  end
+
   shared_let(:user) do
     create :user,
-           member_in_projects: [project, sub_project, sub_sub_project, other_project],
+           member_in_projects: [
+             project,
+             sub_project,
+             sub_sub_sub_project,
+             other_project,
+             other_sub_project,
+             other_sub_sub_project,
+             another_sub_sub_project
+           ],
            member_with_permissions: permissions
   end
 
@@ -57,7 +83,15 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     create :user,
            firstname: 'Other',
            lastname: 'User',
-           member_in_projects: [project, other_project, sub_project, sub_sub_project],
+           member_in_projects: [
+             project,
+             sub_project,
+             sub_sub_sub_project,
+             other_project,
+             other_sub_project,
+             other_sub_sub_project,
+             another_sub_sub_project
+           ],
            member_with_permissions: permissions
   end
 
@@ -69,10 +103,10 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
 
   shared_let(:task) do
     create :work_package,
-           project: project,
+           project:,
            type: type_task,
            assigned_to: user,
-           start_date: Time.zone.today - 2.day,
+           start_date: Time.zone.today - 2.days,
            due_date: Time.zone.today + 1.day,
            subject: 'A task for ' + user.name
   end
@@ -89,7 +123,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
 
   shared_let(:sub_sub_bug) do
     create :work_package,
-           project: sub_sub_project,
+           project: sub_sub_sub_project,
            type: type_bug,
            assigned_to: user,
            start_date: Time.zone.today - 1.day,
@@ -99,7 +133,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
 
   shared_let(:other_task) do
     create :work_package,
-           project: project,
+           project:,
            type: type_task,
            assigned_to: other_user,
            start_date: Time.zone.today,
@@ -112,8 +146,8 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
            project: other_project,
            type: type_task,
            assigned_to: other_user,
-           start_date: Time.zone.today - 2.day,
-           due_date: Time.zone.today + 4.day,
+           start_date: Time.zone.today - 2.days,
+           due_date: Time.zone.today + 4.days,
            subject: 'A task for the other user in other-project'
   end
 
@@ -122,10 +156,17 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     project.types << type_task
     sub_project.types << type_bug
     sub_project.types << type_task
-    sub_sub_project.types << type_bug
-    sub_sub_project.types << type_task
+    sub_sub_sub_project.types << type_bug
+    sub_sub_sub_project.types << type_task
+
     other_project.types << type_bug
     other_project.types << type_task
+    other_sub_project.types << type_bug
+    other_sub_project.types << type_task
+    other_sub_sub_project.types << type_bug
+    other_sub_sub_project.types << type_task
+    another_sub_sub_project.types << type_bug
+    another_sub_sub_project.types << type_task
 
     login_as current_user
     work_package_view.visit!
@@ -136,26 +177,44 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.toggle!
     dropdown.expect_open
 
-    dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(other_project.id)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id)
-
-    dropdown.toggle_checkbox(project.id)
-    dropdown.toggle_checkbox(other_project.id)
-    dropdown.toggle_checkbox(sub_sub_project.id)
-
+    dropdown.expect_checkbox(other_sub_project.id)
+    dropdown.expect_checkbox(other_sub_sub_project.id)
+    dropdown.expect_checkbox(another_sub_sub_project.id)
     dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+    dropdown.expect_checkbox(sub_project.id, true)
+    dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
-    dropdown.toggle_checkbox(sub_sub_project.id)
+    dropdown.toggle_include_all_subprojects
 
+    dropdown.expect_checkbox(other_project.id)
+    dropdown.expect_checkbox(other_sub_project.id)
+    dropdown.expect_checkbox(other_sub_sub_project.id)
+    dropdown.expect_checkbox(another_sub_sub_project.id)
     dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id, true)
     dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id)
+    dropdown.expect_checkbox(sub_sub_sub_project.id)
+
+    dropdown.toggle_checkbox(other_sub_project.id)
+    dropdown.toggle_checkbox(sub_sub_sub_project.id)
+
+    dropdown.expect_checkbox(other_project.id)
+    dropdown.expect_checkbox(other_sub_project.id, true)
+    dropdown.expect_checkbox(other_sub_sub_project.id)
+    dropdown.expect_checkbox(another_sub_sub_project.id)
+    dropdown.expect_checkbox(project.id, true)
+    dropdown.expect_checkbox(sub_project.id)
+    dropdown.expect_checkbox(sub_sub_sub_project.id, true)
+
+    dropdown.toggle_checkbox(sub_sub_sub_project.id)
+
+    dropdown.expect_checkbox(other_project.id)
+    dropdown.expect_checkbox(other_sub_project.id, true)
+    dropdown.expect_checkbox(other_sub_sub_project.id)
+    dropdown.expect_checkbox(another_sub_sub_project.id)
+    dropdown.expect_checkbox(project.id, true)
+    dropdown.expect_checkbox(sub_project.id)
+    dropdown.expect_checkbox(sub_sub_sub_project.id)
 
     dropdown.click_button 'Apply'
     dropdown.expect_closed
@@ -163,7 +222,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
 
     dropdown.toggle!
 
-    dropdown.toggle_checkbox(sub_sub_project.id)
+    dropdown.toggle_checkbox(sub_sub_sub_project.id)
     dropdown.click_button 'Apply'
     dropdown.expect_closed
     dropdown.expect_count 3
@@ -174,12 +233,28 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
 
     dropdown.toggle!
 
-    dropdown.expect_checkbox(project.id, true)
-    dropdown.expect_checkbox(other_project.id, true)
-    dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+    dropdown.toggle_include_all_subprojects
 
-    dropdown.toggle_checkbox(sub_sub_project.id)
+    dropdown.expect_checkbox(other_project.id)
+    dropdown.expect_checkbox(other_sub_project.id, true)
+    dropdown.expect_checkbox(other_sub_sub_project.id, true)
+    dropdown.expect_checkbox(another_sub_sub_project.id, true)
+    dropdown.expect_checkbox(project.id, true)
+    dropdown.expect_checkbox(sub_project.id, true)
+    dropdown.expect_checkbox(sub_sub_sub_project.id, true)
+
+    dropdown.toggle_include_all_subprojects
+
+    dropdown.expect_checkbox(other_project.id)
+    dropdown.expect_checkbox(other_sub_project.id, true)
+    dropdown.expect_checkbox(other_sub_sub_project.id)
+    dropdown.expect_checkbox(another_sub_sub_project.id)
+    dropdown.expect_checkbox(project.id, true)
+    dropdown.expect_checkbox(sub_project.id)
+    dropdown.expect_checkbox(sub_sub_sub_project.id, true)
+
+    dropdown.toggle_checkbox(sub_sub_sub_project.id)
+
     dropdown.click_button 'Apply'
     dropdown.expect_closed
     dropdown.expect_count 2
@@ -190,14 +265,46 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.toggle!
     dropdown.expect_open
 
-    dropdown.toggle_checkbox(project.id)
     dropdown.toggle_checkbox(other_project.id)
-    dropdown.toggle_checkbox(sub_sub_project.id)
+    dropdown.toggle_checkbox(project.id)
+    dropdown.toggle_checkbox(sub_sub_sub_project.id)
 
-    dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(other_project.id, true)
+    dropdown.expect_checkbox(other_sub_project.id, true)
+    dropdown.expect_checkbox(other_sub_sub_project.id, true)
+    dropdown.expect_checkbox(another_sub_sub_project.id, true)
+    dropdown.expect_checkbox(project.id, true)
+    dropdown.expect_checkbox(sub_project.id, true)
+    dropdown.expect_checkbox(sub_sub_sub_project.id, true)
+
+    dropdown.click_button 'Apply'
+    dropdown.expect_closed
+    dropdown.expect_count 2
+
+    dropdown.toggle!
+
+    dropdown.click_button 'Clear selection'
+
+    dropdown.expect_checkbox(other_project.id)
+    dropdown.expect_checkbox(other_sub_project.id)
+    dropdown.expect_checkbox(other_sub_sub_project.id)
+    dropdown.expect_checkbox(another_sub_sub_project.id)
+    dropdown.expect_checkbox(project.id, true)
+    dropdown.expect_checkbox(sub_project.id, true)
+    dropdown.expect_checkbox(sub_sub_sub_project.id, true)
+
+    dropdown.toggle_include_all_subprojects
+
+    dropdown.toggle_checkbox(other_sub_project.id)
+    dropdown.toggle_checkbox(sub_sub_sub_project.id)
+
+    dropdown.expect_checkbox(other_project.id)
+    dropdown.expect_checkbox(other_sub_project.id, true)
+    dropdown.expect_checkbox(other_sub_sub_project.id)
+    dropdown.expect_checkbox(another_sub_sub_project.id)
+    dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id, true)
+    dropdown.expect_checkbox(sub_sub_sub_project.id, true)
 
     dropdown.click_button 'Apply'
     dropdown.expect_closed
@@ -207,10 +314,13 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
 
     dropdown.click_button 'Clear selection'
 
-    dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(other_project.id)
+    dropdown.expect_checkbox(other_sub_project.id)
+    dropdown.expect_checkbox(other_sub_sub_project.id)
+    dropdown.expect_checkbox(another_sub_sub_project.id)
+    dropdown.expect_checkbox(project.id, true)
     dropdown.expect_checkbox(sub_project.id)
-    dropdown.expect_checkbox(sub_sub_project.id)
+    dropdown.expect_checkbox(sub_sub_sub_project.id)
 
     dropdown.click_button 'Apply'
     dropdown.expect_closed
@@ -222,76 +332,133 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.toggle!
     dropdown.expect_open
 
-    dropdown.toggle_checkbox(other_project.id)
-    dropdown.toggle_checkbox(sub_sub_project.id)
-
     retry_block do
-      dropdown.search sub_sub_project.name
-      dropdown.expect_checkbox(project.id, true)
+      dropdown.search sub_sub_sub_project.name
+
       dropdown.expect_no_checkbox(other_project.id)
-      dropdown.expect_checkbox(sub_project.id)
-      dropdown.expect_checkbox(sub_sub_project.id, true)
+      dropdown.expect_no_checkbox(other_sub_project.id)
+      dropdown.expect_no_checkbox(other_sub_sub_project.id)
+      dropdown.expect_no_checkbox(another_sub_sub_project.id)
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(sub_project.id, true)
+      dropdown.expect_checkbox(sub_sub_sub_project.id, true)
     end
 
     retry_block do
       dropdown.search other_project.name
-      dropdown.expect_checkbox(other_project.id, true)
+
+      dropdown.expect_checkbox(other_project.id)
+      dropdown.expect_no_checkbox(other_sub_project.id)
+      dropdown.expect_no_checkbox(other_sub_sub_project.id)
+      dropdown.expect_no_checkbox(another_sub_sub_project.id)
       dropdown.expect_no_checkbox(project.id)
       dropdown.expect_no_checkbox(sub_project.id)
-      dropdown.expect_no_checkbox(sub_sub_project.id)
+      dropdown.expect_no_checkbox(sub_sub_sub_project.id)
     end
 
     retry_block do
       dropdown.search ''
+
+      dropdown.expect_checkbox(other_project.id)
+      dropdown.expect_checkbox(other_sub_project.id)
+      dropdown.expect_checkbox(other_sub_sub_project.id)
+      dropdown.expect_checkbox(another_sub_sub_project.id)
       dropdown.expect_checkbox(project.id, true)
-      dropdown.expect_checkbox(other_project.id, true)
-      dropdown.expect_checkbox(sub_project.id)
-      dropdown.expect_checkbox(sub_sub_project.id, true)
+      dropdown.expect_checkbox(sub_project.id, true)
+      dropdown.expect_checkbox(sub_sub_sub_project.id, true)
     end
+
+    dropdown.toggle_checkbox(other_sub_sub_project.id)
 
     retry_block do
       dropdown.set_filter_selected true
+
+      dropdown.expect_checkbox(other_project.id)
+      dropdown.expect_checkbox(other_sub_project.id)
+      dropdown.expect_checkbox(other_sub_sub_project.id, true)
+      dropdown.expect_no_checkbox(another_sub_sub_project.id)
       dropdown.expect_checkbox(project.id, true)
-      dropdown.expect_checkbox(other_project.id, true)
-      dropdown.expect_checkbox(sub_project.id)
-      dropdown.expect_checkbox(sub_sub_project.id, true)
+      dropdown.expect_checkbox(sub_project.id, true)
+      dropdown.expect_checkbox(sub_sub_sub_project.id, true)
+    end
+
+    dropdown.toggle_checkbox(other_project.id)
+
+    retry_block do
+      dropdown.expect_checkbox(other_project.id)
+      dropdown.expect_checkbox(other_sub_project.id)
+      dropdown.expect_checkbox(other_sub_sub_project.id, true)
     end
 
     retry_block do
       dropdown.set_filter_selected false
       dropdown.toggle_checkbox(other_project.id)
+
+      dropdown.expect_checkbox(other_project.id, true)
+      dropdown.expect_checkbox(other_sub_project.id, true)
+      dropdown.expect_checkbox(other_sub_sub_project.id, true)
+      dropdown.expect_checkbox(another_sub_sub_project.id, true)
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_checkbox(sub_project.id, true)
+      dropdown.expect_checkbox(sub_sub_sub_project.id, true)
+    end
+
+    dropdown.toggle_include_all_subprojects
+
+    retry_block do
       dropdown.set_filter_selected true
 
+      dropdown.expect_checkbox(other_project.id, true)
+      dropdown.expect_checkbox(other_sub_project.id)
+      dropdown.expect_checkbox(other_sub_sub_project.id, true)
+      dropdown.expect_no_checkbox(another_sub_sub_project.id)
       dropdown.expect_checkbox(project.id, true)
-      dropdown.expect_checkbox(sub_project.id)
-      dropdown.expect_checkbox(sub_sub_project.id, true)
-
-      dropdown.expect_no_checkbox(other_project.id)
+      dropdown.expect_no_checkbox(sub_project.id)
+      dropdown.expect_no_checkbox(sub_sub_sub_project.id)
     end
 
     retry_block do
       dropdown.search other_project.name
+
+      dropdown.expect_checkbox(other_project.id, true)
+      dropdown.expect_no_checkbox(other_sub_project.id)
+      dropdown.expect_no_checkbox(other_sub_sub_project.id)
+      dropdown.expect_no_checkbox(another_sub_sub_project.id)
       dropdown.expect_no_checkbox(project.id)
-      dropdown.expect_no_checkbox(other_project.id)
       dropdown.expect_no_checkbox(sub_project.id)
-      dropdown.expect_no_checkbox(sub_sub_project.id)
+      dropdown.expect_no_checkbox(sub_sub_sub_project.id)
     end
 
     retry_block do
       dropdown.search ''
-      dropdown.expect_checkbox(project.id, true)
-      dropdown.expect_checkbox(sub_project.id)
-      dropdown.expect_checkbox(sub_sub_project.id, true)
 
-      dropdown.expect_no_checkbox(other_project.id)
+      dropdown.expect_checkbox(other_project.id, true)
+      dropdown.expect_no_checkbox(other_sub_project.id)
+      dropdown.expect_no_checkbox(other_sub_sub_project.id)
+      dropdown.expect_no_checkbox(another_sub_sub_project.id)
+      dropdown.expect_checkbox(project.id, true)
+      dropdown.expect_no_checkbox(sub_project.id)
+      dropdown.expect_no_checkbox(sub_sub_sub_project.id)
     end
 
     retry_block do
       dropdown.set_filter_selected false
+
+      dropdown.expect_checkbox(other_project.id, true)
+      dropdown.expect_checkbox(other_sub_project.id)
+      dropdown.expect_checkbox(other_sub_sub_project.id, true)
+      dropdown.expect_checkbox(another_sub_sub_project.id)
       dropdown.expect_checkbox(project.id, true)
-      dropdown.expect_checkbox(other_project.id)
       dropdown.expect_checkbox(sub_project.id)
-      dropdown.expect_checkbox(sub_sub_project.id, true)
+      dropdown.expect_checkbox(sub_sub_sub_project.id)
     end
+  end
+
+  it 'keeps working even when there are no results (regression #42908)' do
+    dropdown.expect_count 1
+    dropdown.toggle!
+    dropdown.expect_open
+    dropdown.search 'Nonexistent'
+    expect(page).to have_no_selector("[data-qa-selector='op-project-include--loading']")
   end
 end

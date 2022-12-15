@@ -39,7 +39,7 @@
       <button
         type="button"
         *ngIf="userCanQuote"
-        class="op-link"
+        class="spot-link"
         [title]="text.quote_comment"
         (click)="quoteComment()"
       >
@@ -48,7 +48,7 @@
       <button
         *ngIf="userCanEdit"
         type="button"
-        class="op-link"
+        class="spot-link"
         [ngClass]="'edit-activity--' + activityNo"
         [title]="text.edit_comment"
         (click)="activate()"

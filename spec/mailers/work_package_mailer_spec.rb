@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -39,7 +37,7 @@ describe WorkPackageMailer, type: :mailer do
   let(:work_package) do
     build_stubbed(:work_package,
                   type: build_stubbed(:type_standard),
-                  project: project,
+                  project:,
                   assigned_to: assignee)
   end
   let(:project) { build_stubbed(:project) }

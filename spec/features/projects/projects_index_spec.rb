@@ -29,8 +29,6 @@
 require 'spec_helper'
 
 describe 'Projects index page',
-         type: :feature,
-         clear_cache: true,
          js: true,
          with_settings: { login_required?: false } do
   shared_let(:admin) { create :admin }
@@ -60,7 +58,7 @@ describe 'Projects index page',
            name: 'Development project',
            identifier: 'development-project')
   end
-  let(:news) { create(:news, project: project) }
+  let(:news) { create(:news, project:) }
   let(:projects_page) { Pages::Projects::Index.new }
 
   def load_and_open_filters(user)
@@ -89,21 +87,21 @@ describe 'Projects index page',
     end
   end
 
-  feature 'restricts project visibility' do
-    feature 'for a anonymous user' do
-      scenario 'only public projects shall be visible' do
+  describe 'restricts project visibility' do
+    describe 'for a anonymous user' do
+      it 'only public projects shall be visible' do
         Role.anonymous
         visit projects_path
 
-        expect(page).to_not have_text(project.name)
+        expect(page).not_to have_text(project.name)
         expect(page).to have_text(public_project.name)
 
         # Test that the 'More' menu stays invisible on hover
-        expect(page).to_not have_selector('.icon-show-more-horizontal')
+        expect(page).not_to have_selector('.icon-show-more-horizontal')
       end
     end
 
-    feature 'for project members' do
+    describe 'for project members' do
       shared_let(:user) do
         create(:user,
                member_in_project: development_project,
@@ -117,29 +115,29 @@ describe 'Projects index page',
         allow_enterprise_edition
       end
 
-      scenario 'only public project or those the user is member of shall be visible' do
+      it 'only public project or those the user is member of shall be visible' do
         Role.non_member
         login_as(user)
         visit projects_path
 
         expect(page).to have_text(development_project.name)
         expect(page).to have_text(public_project.name)
-        expect(page).to_not have_text(project.name)
+        expect(page).not_to have_text(project.name)
 
         # Non-admin users shall not see invisible CFs.
-        expect(page).to_not have_text(invisible_custom_field.name.upcase)
-        expect(page).to_not have_select('add_filter_select', with_options: [invisible_custom_field.name])
+        expect(page).not_to have_text(invisible_custom_field.name.upcase)
+        expect(page).not_to have_select('add_filter_select', with_options: [invisible_custom_field.name])
       end
     end
 
-    feature 'for admins' do
+    describe 'for admins' do
       before do
         project.update(created_at: 7.days.ago)
 
         news
       end
 
-      scenario 'test that all projects are visible' do
+      it 'test that all projects are visible' do
         login_as(admin)
         visit projects_path
 
@@ -173,7 +171,7 @@ describe 'Projects index page',
         end
       end
 
-      scenario 'test that flash sortBy is being escaped' do
+      it 'test that flash sortBy is being escaped' do
         login_as(admin)
         visit projects_path(sortBy: "[[\"><script src='/foobar.js'></script>\",\"\"]]")
 
@@ -187,30 +185,30 @@ describe 'Projects index page',
     end
   end
 
-  feature 'without valid Enterprise token' do
-    scenario 'CF columns and filters are not visible' do
+  describe 'without valid Enterprise token' do
+    it 'CF columns and filters are not visible' do
       load_and_open_filters admin
 
       # CF's columns are not present:
-      expect(page).to_not have_text(custom_field.name.upcase)
+      expect(page).not_to have_text(custom_field.name.upcase)
       # CF's filters are not present:
-      expect(page).to_not have_select('add_filter_select', with_options: [custom_field.name])
+      expect(page).not_to have_select('add_filter_select', with_options: [custom_field.name])
     end
   end
 
-  feature 'with valid Enterprise token' do
+  describe 'with valid Enterprise token' do
     before do
       allow_enterprise_edition
     end
 
-    scenario 'CF columns and filters are not visible by default' do
+    it 'CF columns and filters are not visible by default' do
       load_and_open_filters admin
 
       # CF's columns are not shown due to setting
-      expect(page).to_not have_text(custom_field.name.upcase)
+      expect(page).not_to have_text(custom_field.name.upcase)
     end
 
-    scenario 'CF columns and filters are visible when added to settings' do
+    it 'CF columns and filters are visible when added to settings' do
       Setting.enabled_projects_columns += ["cf_#{custom_field.id}", "cf_#{invisible_custom_field.id}"]
       load_and_open_filters admin
 
@@ -225,8 +223,8 @@ describe 'Projects index page',
     end
   end
 
-  feature 'with a filter set' do
-    scenario 'it should only show the matching projects and filters' do
+  describe 'with a filter set' do
+    it 'onlies show the matching projects and filters' do
       load_and_open_filters admin
 
       projects_page.set_filter('name_and_identifier',
@@ -236,19 +234,19 @@ describe 'Projects index page',
 
       click_on 'Apply'
       # Filter is applied: Only the project that contains the the word "Plain" gets listed
-      expect(page).to_not have_text(public_project.name)
+      expect(page).not_to have_text(public_project.name)
       expect(page).to have_text(project.name)
       # Filter form is visible and the filter is still set.
       expect(page).to have_selector('li[filter-name="name_and_identifier"]')
     end
   end
 
-  feature 'when paginating' do
+  describe 'when paginating' do
     before do
       allow(Setting).to receive(:per_page_options_array).and_return([1, 5])
     end
 
-    scenario 'it keeps applying filters and order' do
+    it 'keeps applying filters and order' do
       load_and_open_filters admin
 
       SeleniumHubWaiter.wait
@@ -292,6 +290,7 @@ describe 'Projects index page',
       expect(page).to have_no_text(project.name)        # Filtered away
       expect(page).to have_no_text('Next')              # Filters kept active, so there is no third page.
       expect(page).to have_no_text(public_project.name) # That one should be on page 1
+      expect(page).to have_selector('.sort.desc', text: 'NAME')
 
       # Sending the filter form again what implies to compose the request freshly
       SeleniumHubWaiter.wait
@@ -303,11 +302,12 @@ describe 'Projects index page',
       expect(page).to have_no_text(development_project.name) # as it is on the second page
       expect(page).to have_no_text(project.name)             # as it filtered away
       expect(page).to have_text('Next') # as the result set is larger than 1
+      expect(page).to have_selector('.sort.desc', text: 'NAME')
     end
   end
 
-  feature 'when filter of type' do
-    scenario 'Name and identifier gives results in both, name and identifier' do
+  describe 'when filter of type' do
+    it 'Name and identifier gives results in both, name and identifier' do
       load_and_open_filters admin
 
       # Filter on model attribute 'name'
@@ -339,7 +339,7 @@ describe 'Projects index page',
       expect(page).to have_no_text(public_project.name)
     end
 
-    feature 'Active or archived' do
+    describe 'Active or archived' do
       shared_let(:parent_project) do
         create(:project,
                name: 'Parent project',
@@ -352,7 +352,7 @@ describe 'Projects index page',
                parent: parent_project)
       end
 
-      scenario 'filter on "status", archive and unarchive' do
+      it 'filter on "status", archive and unarchive' do
         load_and_open_filters admin
 
         # value selection defaults to "active"'
@@ -394,10 +394,10 @@ describe 'Projects index page',
         projects_page.activate_menu_of(parent_project) do |menu|
           expect(menu).to have_text('Unarchive')
           expect(menu).to have_text('Delete')
-          expect(menu).to_not have_text('Archive')
-          expect(menu).to_not have_text('Copy')
-          expect(menu).to_not have_text('Settings')
-          expect(menu).to_not have_text('New subproject')
+          expect(menu).not_to have_text('Archive')
+          expect(menu).not_to have_text('Copy')
+          expect(menu).not_to have_text('Settings')
+          expect(menu).not_to have_text('New subproject')
 
           SeleniumHubWaiter.wait
           click_link('Unarchive')
@@ -423,7 +423,7 @@ describe 'Projects index page',
       end
     end
 
-    feature 'project status filter' do
+    describe 'project status filter' do
       shared_let(:no_status_project) do
         # A project that never had project status associated.
         create(:project,
@@ -443,7 +443,7 @@ describe 'Projects index page',
                status: create(:project_status, code: nil))
       end
 
-      scenario 'sort and filter on project status' do
+      it 'sort and filter on project status' do
         login_as(admin)
         projects_page.visit!
 
@@ -470,8 +470,8 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).to have_text(green_project.name)
-        expect(page).to_not have_text(gray_project.name)
-        expect(page).to_not have_text(no_status_project.name)
+        expect(page).not_to have_text(gray_project.name)
+        expect(page).not_to have_text(no_status_project.name)
 
         SeleniumHubWaiter.wait
         projects_page.set_filter('project_status_code',
@@ -482,8 +482,8 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).to have_text(green_project.name)
-        expect(page).to_not have_text(gray_project.name)
-        expect(page).to_not have_text(no_status_project.name)
+        expect(page).not_to have_text(gray_project.name)
+        expect(page).not_to have_text(no_status_project.name)
 
         SeleniumHubWaiter.wait
         projects_page.set_filter('project_status_code',
@@ -493,7 +493,7 @@ describe 'Projects index page',
 
         click_on 'Apply'
 
-        expect(page).to_not have_text(green_project.name)
+        expect(page).not_to have_text(green_project.name)
         expect(page).to have_text(gray_project.name)
         expect(page).to have_text(no_status_project.name)
 
@@ -504,46 +504,56 @@ describe 'Projects index page',
 
         click_on 'Apply'
 
-        expect(page).to_not have_text(green_project.name)
+        expect(page).not_to have_text(green_project.name)
         expect(page).to have_text(gray_project.name)
         expect(page).to have_text(no_status_project.name)
       end
     end
 
-    feature 'other filter types' do
+    describe 'other filter types' do
+      include ActiveSupport::Testing::TimeHelpers
+
       shared_let(:list_custom_field) { create :list_project_custom_field }
       shared_let(:date_custom_field) { create :date_project_custom_field }
       shared_let(:datetime_of_this_week) do
-        today = Date.today
+        today = Date.current
         # Ensure that the date is not today but still in the middle of the week to not run into week-start-issues here.
         date_of_this_week = today + ((today.wday % 7) > 2 ? -1 : 1)
-        DateTime.parse(date_of_this_week.to_s + 'T11:11:11+00:00')
+        DateTime.parse("#{date_of_this_week}T11:11:11+00:00")
       end
       shared_let(:fixed_datetime) { DateTime.parse('2017-11-11T11:11:11+00:00') }
 
       shared_let(:project_created_on_today) do
+        freeze_time
         project = create(:project,
-                         name: 'Created today project',
-                         created_at: DateTime.now)
+                         name: 'Created today project')
         project.custom_field_values = { list_custom_field.id => list_custom_field.possible_values[2],
                                         date_custom_field.id => '2011-11-11' }
         project.save!
         project
+      ensure
+        travel_back
       end
       shared_let(:project_created_on_this_week) do
+        travel_to(datetime_of_this_week)
         create(:project,
-               name: 'Created on this week project',
-               created_at: datetime_of_this_week)
+               name: 'Created on this week project')
+      ensure
+        travel_back
       end
       shared_let(:project_created_on_six_days_ago) do
+        travel_to(DateTime.now - 6.days)
         create(:project,
-               name: 'Created on six days ago project',
-               created_at: DateTime.now - 6.days)
+               name: 'Created on six days ago project')
+      ensure
+        travel_back
       end
       shared_let(:project_created_on_fixed_date) do
+        travel_to(fixed_datetime)
         create(:project,
-               name: 'Created on fixed date project',
-               created_at: fixed_datetime)
+               name: 'Created on fixed date project')
+      ensure
+        travel_back
       end
       shared_let(:todays_wp) do
         # This WP should trigger a change to the project's 'latest activity at' DateTime
@@ -559,7 +569,7 @@ describe 'Projects index page',
         SeleniumHubWaiter.wait
       end
 
-      scenario 'selecting operator' do
+      it 'selecting operator' do
         # created on 'today' shows projects that were created today
         projects_page.set_filter('created_at',
                                  'Created on',
@@ -568,8 +578,8 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).to have_text(project_created_on_today.name)
-        expect(page).to_not have_text(project_created_on_this_week.name)
-        expect(page).to_not have_text(project_created_on_fixed_date.name)
+        expect(page).not_to have_text(project_created_on_this_week.name)
+        expect(page).not_to have_text(project_created_on_fixed_date.name)
 
         # created on 'this week' shows projects that were created within the last seven days
         SeleniumHubWaiter.wait
@@ -583,7 +593,7 @@ describe 'Projects index page',
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).to have_text(project_created_on_this_week.name)
-        expect(page).to_not have_text(project_created_on_fixed_date.name)
+        expect(page).not_to have_text(project_created_on_fixed_date.name)
 
         # created on 'on' shows projects that were created within the last seven days
         SeleniumHubWaiter.wait
@@ -597,8 +607,8 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).to have_text(project_created_on_fixed_date.name)
-        expect(page).to_not have_text(project_created_on_today.name)
-        expect(page).to_not have_text(project_created_on_this_week.name)
+        expect(page).not_to have_text(project_created_on_today.name)
+        expect(page).not_to have_text(project_created_on_this_week.name)
 
         # created on 'less than days ago'
         SeleniumHubWaiter.wait
@@ -612,7 +622,7 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).to have_text(project_created_on_today.name)
-        expect(page).to_not have_text(project_created_on_fixed_date.name)
+        expect(page).not_to have_text(project_created_on_fixed_date.name)
 
         # created on 'more than days ago'
         SeleniumHubWaiter.wait
@@ -626,7 +636,7 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).to have_text(project_created_on_fixed_date.name)
-        expect(page).to_not have_text(project_created_on_today.name)
+        expect(page).not_to have_text(project_created_on_today.name)
 
         # created on 'between'
         SeleniumHubWaiter.wait
@@ -640,7 +650,7 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).to have_text(project_created_on_fixed_date.name)
-        expect(page).to_not have_text(project_created_on_today.name)
+        expect(page).not_to have_text(project_created_on_today.name)
 
         # Latest activity at 'today'. This spot check would fail if the data does not get collected from multiple tables
         SeleniumHubWaiter.wait
@@ -653,7 +663,7 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).to have_text(project_created_on_today.name)
-        expect(page).to_not have_text(project_created_on_fixed_date.name)
+        expect(page).not_to have_text(project_created_on_fixed_date.name)
 
         # CF List
         SeleniumHubWaiter.wait
@@ -667,7 +677,7 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).to have_text(project_created_on_today.name)
-        expect(page).to_not have_text(project_created_on_fixed_date.name)
+        expect(page).not_to have_text(project_created_on_fixed_date.name)
 
         # switching to multiselect keeps the current selection
         cf_filter = page.find("li[filter-name='cf_#{list_custom_field.id}']")
@@ -703,7 +713,7 @@ describe 'Projects index page',
           click_on 'Toggle multiselect'
           expect(cf_filter.find(:select, 'value')).not_to be_multiple
           expect(cf_filter).to have_select('value', selected: list_custom_field.possible_values[1].value)
-          expect(cf_filter).to_not have_select('value', selected: list_custom_field.possible_values[3].value)
+          expect(cf_filter).not_to have_select('value', selected: list_custom_field.possible_values[3].value)
         end
 
         click_on 'Apply'
@@ -733,8 +743,8 @@ describe 'Projects index page',
       pending "NOT WORKING YET: Date vs. DateTime issue: Selecting same date for from and to value shows projects of that date"
     end
 
-    feature 'public filter' do
-      scenario 'filter on "public" status' do
+    describe 'public filter' do
+      it 'filter on "public" status' do
         load_and_open_filters admin
 
         expect(page).to have_text(project.name)
@@ -757,7 +767,7 @@ describe 'Projects index page',
     end
   end
 
-  feature 'Non-admins with role with permission' do
+  describe 'Non-admins with role with permission' do
     shared_let(:can_copy_projects_role) do
       create :role, name: 'Can Copy Projects Role', permissions: [:copy_projects]
     end
@@ -799,7 +809,7 @@ describe 'Projects index page',
       news
     end
 
-    scenario 'can see the "More" menu' do
+    it 'can see the "More" menu' do
       # For a simple project member the 'More' menu is not visible.
       login_as(simple_member)
       visit projects_path
@@ -825,10 +835,10 @@ describe 'Projects index page',
       page.find('tbody tr .icon-show-more-horizontal').click
       menu = page.find('tbody tr .project-actions')
       expect(menu).to have_text('Copy')
-      expect(menu).to_not have_text('New subproject')
-      expect(menu).to_not have_text('Delete')
-      expect(menu).to_not have_text('Archive')
-      expect(menu).to_not have_text('Unarchive')
+      expect(menu).not_to have_text('New subproject')
+      expect(menu).not_to have_text('Delete')
+      expect(menu).not_to have_text('Archive')
+      expect(menu).not_to have_text('Unarchive')
 
       # For a project member with :add_subprojects privilege the 'More' menu is visible.
       login_as(can_add_subprojects_manager)
@@ -843,10 +853,10 @@ describe 'Projects index page',
       page.find('tbody tr .icon-show-more-horizontal').click
       menu = page.find('tbody tr .project-actions')
       expect(menu).to have_text('New subproject')
-      expect(menu).to_not have_text('Copy')
-      expect(menu).to_not have_text('Delete')
-      expect(menu).to_not have_text('Archive')
-      expect(menu).to_not have_text('Unrchive')
+      expect(menu).not_to have_text('Copy')
+      expect(menu).not_to have_text('Delete')
+      expect(menu).not_to have_text('Archive')
+      expect(menu).not_to have_text('Unrchive')
 
       # Test admin only properties are invisible
       within('#project-table') do
@@ -864,7 +874,7 @@ describe 'Projects index page',
     end
   end
 
-  feature 'order' do
+  describe 'order' do
     shared_let(:integer_custom_field) { create(:int_project_custom_field) }
     # order is important here as the implementation uses lft
     # first but then reorders in ruby
@@ -903,7 +913,7 @@ describe 'Projects index page',
       child_project_a.save!
     end
 
-    scenario 'allows to alter the order in which projects are displayed' do
+    it 'allows to alter the order in which projects are displayed' do
       Setting.enabled_projects_columns += ["cf_#{integer_custom_field.id}"]
 
       # initially, ordered by name asc on each hierarchical level
@@ -960,13 +970,13 @@ describe 'Projects index page',
     end
   end
 
-  feature 'blacklisted filters' do
-    scenario 'are not visible' do
+  describe 'blacklisted filters' do
+    it 'are not visible' do
       load_and_open_filters admin
 
-      expect(page).to_not have_select('add_filter_select', with_options: ["Principal"])
-      expect(page).to_not have_select('add_filter_select', with_options: ["ID"])
-      expect(page).to_not have_select('add_filter_select', with_options: ["Subproject of"])
+      expect(page).not_to have_select('add_filter_select', with_options: ["Principal"])
+      expect(page).not_to have_select('add_filter_select', with_options: ["ID"])
+      expect(page).not_to have_select('add_filter_select', with_options: ["Subproject of"])
     end
   end
 
@@ -981,7 +991,7 @@ describe 'Projects index page',
 
       allow_enterprise_edition
       allow(Setting)
-        .to receive(:enabled_projects_columns) #<< "cf_#{list_custom_field.id}"
+        .to receive(:enabled_projects_columns) # << "cf_#{list_custom_field.id}"
         .and_return ["cf_#{list_custom_field.id}"]
 
       login_as(admin)

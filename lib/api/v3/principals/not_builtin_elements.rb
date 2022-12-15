@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -49,7 +47,7 @@ module API
                                                raise "unsupported type"
                                              end
 
-                         representer_class.create(model, current_user: current_user)
+                         representer_class.create(model, current_user:)
                        end
                      },
                      exec_context: :decorator,

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -38,12 +36,12 @@ module WorkPackage::PDFExport::Formattable
   # @param markdown [string] The formattable text
   # @param label [string|null] The label to print, if any
   def write_formattable!(work_package, markdown:, label: WorkPackage.human_attribute_name(attribute))
-    height = write_formattable_content(work_package, markdown: markdown, label: label)
+    height = write_formattable_content(work_package, markdown:, label:)
 
     data = make_formattable_label_row(label) +
            make_formattable_border_rows(height, label)
 
-    pdf.table(data, column_widths: column_widths)
+    pdf.table(data, column_widths:)
   end
 
   def write_formattable_content(work_package, markdown:, label: true)

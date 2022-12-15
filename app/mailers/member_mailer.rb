@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -89,14 +87,14 @@ class MemberMailer < ApplicationMailer
         yield if block_given?
 
         mail to: member.principal.mail,
-             subject: subject
+             subject:
       end
     end
   end
 
-  def in_member_locale(member, &block)
+  def in_member_locale(member, &)
     raise ArgumentError unless member.principal.is_a?(User)
 
-    with_locale_for(member.principal, &block)
+    with_locale_for(member.principal, &)
   end
 end

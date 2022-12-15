@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -55,10 +53,10 @@ module BaseServices
 
     def set_attributes(params)
       attributes_service_class
-        .new(user: user,
+        .new(user:,
              model: instance(params),
-             contract_class: contract_class,
-             contract_options: contract_options)
+             contract_class:,
+             contract_options:)
         .call(set_attributes_params(params))
     end
 

@@ -31,10 +31,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= toolbar title: t(:label_overview) %>
 
-<div class="menu-blocks--container">
+<div class="menu-blocks--container" data-qa-selector="menu-blocks--container">
   <% @menu_nodes.each do |menu_node| -%>
-    <%= link_to menu_node.url, { class: 'menu-block' } do %>
-      <%= op_icon('menu-block--icon ' + menu_node.icon.gsub(/icon2/, "icon3")) %>
+    <%= link_to menu_node.url, { class: 'menu-block', 'data-qa-selector': 'menu-block' } do %>
+      <%= op_icon('menu-block--icon ' + (menu_node.icon || '').gsub(/icon2/, "icon3")) %>
       <span class="menu-block--title"> <%= menu_node.caption %> </span>
     <% end %>
   <% end %>

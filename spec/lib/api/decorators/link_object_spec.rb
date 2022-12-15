@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::Decorators::LinkObject do
   include ::API::V3::Utilities::PathHelper
 
-  let(:represented) { Hashie::Mash.new }
+  let(:represented) { API::ParserStruct.new }
 
   context 'minimal constructor call' do
     let(:representer) { described_class.new(represented, property_name: :foo) }

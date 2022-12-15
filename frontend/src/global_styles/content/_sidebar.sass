@@ -13,5 +13,12 @@
       padding-bottom: 10px
 
   &--footer
+    display: grid
     text-align: center
-    padding: 16px
+    padding: 1rem
+
+    @supports (-webkit-touch-callout: none)
+      padding: 1rem 1rem 5rem
+
+    .button .spot-icon
+      margin-right: 0.5rem

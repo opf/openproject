@@ -102,7 +102,7 @@ export class DragAndDropTransformer {
           // Save the query when switching to manual
           const query = this.querySpace.query.value;
           if (query && this.wpTableSortBy.switchToManualSorting(query)) {
-            await this.wpListService.save(query);
+            await this.wpListService.createOrSave(query);
           }
         } catch (e) {
           this.halNotification.handleRawError(e);

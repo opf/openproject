@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -57,7 +55,7 @@ module JobStatus
     # Get the current status object, if any
     def job_status
       ::JobStatus::Status
-        .find_by(job_id: job_id)
+        .find_by(job_id:)
     end
 
     ##
@@ -65,7 +63,7 @@ module JobStatus
     def upsert_status(status:, **args)
       # Can't use upsert, as we only want to insert the user_id once
       # and not update it repeatedly
-      resource = ::JobStatus::Status.find_or_initialize_by(job_id: job_id)
+      resource = ::JobStatus::Status.find_or_initialize_by(job_id:)
 
       if resource.new_record?
         resource.user = User.current # needed so `resource.user` works below
@@ -76,7 +74,7 @@ module JobStatus
       # Update properties with the language of the user
       # to ensure things like the title are correct
       OpenProject::LocaleHelper.with_locale_for(resource.user) do
-        resource.attributes = build_status_attributes(args.merge(status: status))
+        resource.attributes = build_status_attributes(args.merge(status:))
       end
 
       resource.save!

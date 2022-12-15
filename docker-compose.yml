@@ -57,13 +57,14 @@ x-op-backend: &backend
 services:
   backend:
     <<: *backend
+    tty: true
+    stdin_open: true
     command: run-app
     ports:
       - "3000:3000"
     depends_on:
       - db
       - cache
-      - worker
 
   worker:
     <<: *backend
@@ -89,12 +90,25 @@ services:
     depends_on:
       - backend
 
+  storybook:
+    build:
+      <<: *frontend-build
+    command: "npm run storybook:serve"
+    volumes:
+      - ".:/home/dev/openproject"
+    ports:
+      - "6006:6006"
+    networks:
+      - network
+
   db:
-    image: postgres:10
+    image: postgres:13
     <<: *restart_policy
     stop_grace_period: "3s"
     volumes:
       - "pgdata:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: ${DB_USERNAME:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
@@ -111,12 +125,12 @@ services:
 ######### Testing stuff below ############
 
   db-test:
-    image: postgres:10
+    image: postgres:13
     stop_grace_period: "3s"
     volumes:
       - "pgdata-test:/var/lib/postgresql/data"
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_DB: openproject
       POSTGRES_USER: openproject
@@ -158,6 +172,7 @@ services:
       CAPYBARA_SERVER_PORT: 3000
       CAPYBARA_DYNAMIC_BIND_IP: 1
       CAPYBARA_APP_HOSTNAME: backend-test
+      OPENPROJECT_EMAIL__DELIVERY__METHOD: test
       OPENPROJECT_CLI_PROXY: http://frontend-test:4200
       OPENPROJECT_TESTING_NO_HEADLESS: "true"
       OPENPROJECT_TESTING_AUTO_DEVTOOLS: "true"
@@ -171,7 +186,7 @@ services:
 
   # https://vitobotta.com/2019/09/04/rails-parallel-system-tests-selenium-docker/
   selenium-hub:
-    image: selenium/hub:4.0
+    image: selenium/hub:4
     container_name: selenium-hub
     hostname: selenium-hub
     environment:
@@ -186,7 +201,7 @@ services:
       - "4442-4444:4442-4444"
 
   chrome:
-    image: selenium/node-chrome:4.0
+    image: selenium/node-chrome:4
     volumes:
       - /dev/shm:/dev/shm
       - "downloads-test:/home/seluser/Downloads"
@@ -206,7 +221,7 @@ services:
       NODE_MAX_SESSION: "${CI_JOBS:-4}"
 
   firefox:
-    image: selenium/node-firefox:4.0
+    image: selenium/node-firefox:4
     volumes:
       - /dev/shm:/dev/shm
       - "downloads-test:/home/seluser/Downloads"
@@ -226,7 +241,7 @@ services:
       NODE_MAX_SESSION: "${CI_JOBS:-4}"
 
   opera:
-    image: selenium/node-opera:4.0
+    image: selenium/node-opera:4
     volumes:
       - /dev/shm:/dev/shm
       - "downloads-test:/home/seluser/Downloads"
@@ -243,3 +258,6 @@ services:
       # in case we want multiple sessions per container
       NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
       NODE_MAX_SESSION: "${CI_JOBS:-4}"
+
+
+# Volumes below here

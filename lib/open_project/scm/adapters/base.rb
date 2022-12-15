@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -92,7 +90,7 @@ module OpenProject
         def split_path(path)
           Pathname(path.to_s)
             .each_filename
-            .select { |n| !n.blank? }
+            .select { |n| n.present? }
         end
 
         def search_entries(parts, identifier)
@@ -145,7 +143,7 @@ module OpenProject
 
         def with_leading_slash(path)
           path ||= ''
-          path[0, 1] != '/' ? "/#{path}" : path
+          path[0, 1] == '/' ? path : "/#{path}"
         end
 
         def with_trailling_slash(path)

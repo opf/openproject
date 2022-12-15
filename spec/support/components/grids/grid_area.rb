@@ -2,6 +2,7 @@ module Components
   module Grids
     class GridArea
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       attr_accessor :area_selector
@@ -65,8 +66,8 @@ module Components
       def expect_to_span(startRow, startColumn, endRow, endColumn)
         [['grid-row-start', startRow * 2],
          ['grid-column-start', startColumn * 2],
-         ['grid-row-end', endRow * 2 - 1],
-         ['grid-column-end', endColumn * 2 - 1]].each do |style, expected|
+         ['grid-row-end', (endRow * 2) - 1],
+         ['grid-column-end', (endColumn * 2) - 1]].each do |style, expected|
           actual = area.native.style(style)
 
           expect(actual)

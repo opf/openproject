@@ -36,7 +36,7 @@ To avoid this, the application can be started in production mode but before this
 * Search for the places where `OPENPROJECT_RACK_PROFILER_ENABLED` is referenced within the code and remove the references to `Rails.env.development?` from the conditions. At the time of writing, this needs to be done at:
   * `config/initializers/rack_profilier.rb`
   * `config/initializers/secure_headers.rb`
-* Readd the profiling gems to your `Gemfile`/`Gemfile.local`/`Gemfile.profiling` since they would otherwise only be available in the development environment:
+* Read the profiling gems to your `Gemfile`/`Gemfile.local`/`Gemfile.profiling` since they would otherwise only be available in the development environment:
 ```
 gem 'flamegraph'
 gem 'rack-mini-profiler'
@@ -60,3 +60,21 @@ Having a flamegraph displayed is triggered by issuing the request with `pp=flame
 will show the flamegraph for that api request.
 
 The options available can be displayed by adding `pp=help` to a query.
+
+### API patch/post requests
+
+For bodied requests (e.g. patch/post) which typically are triggered not from a browser when profiling, a flamegraph can still be created, e.g.:
+
+`PATCH http://localhost:3000/api/v3/work_packages/1547?pp=async-flamegraph`
+
+will result in a flamegraph being created. Instead of appending `pp=flamegraph`, the appended parameter needs to be `pp=async-flamegraph`.
+
+But that flamegraph will not show up directly in the tools typically used.
+
+The flamegraph needs to be accessed by calling an arbitrary page of the application via the browser after having issued the bodied request (e.g. `http://localhost:3000`). In the lower right corner, sometimes after some waiting, the profiling tools will show a small menu from which the generated flamegraph can be accessed.
+
+![Flamegraph retrieval](flamegraph_retrieval.png)
+
+In case this fails, the flamegraphs are stored in `tmp/miniprofiler` in a file called `mp_timers_[some hash]`. Knowing which file belongs to the previously created flamegraph, the file can be opened by requesting:
+
+`http://localhost:3000/mini-profiler-resources/flamegraph?id=[some hash]`

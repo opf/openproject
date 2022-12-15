@@ -152,7 +152,7 @@ describe 'custom fields', js: true do
         create_list(
           :work_package_custom_value,
           3,
-          custom_field: custom_field,
+          custom_field:,
           value: custom_field.custom_options[1].id
         )
       end
@@ -168,7 +168,7 @@ describe 'custom fields', js: true do
 
         rows = all(".custom-option-value input")
 
-        expect(rows.size).to eql(3)
+        expect(rows.size).to be(3)
 
         expect(rows[0].value).to eql("Playstation")
         expect(rows[1].value).to eql("Nintendo")

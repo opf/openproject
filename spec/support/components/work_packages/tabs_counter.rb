@@ -1,11 +1,9 @@
-require 'features/support/components/ui_autocomplete'
-
 module Components
   module WorkPackages
     class Tabs
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
-      include ::Components::UIAutocompleteHelpers
 
       attr_reader :work_package
 

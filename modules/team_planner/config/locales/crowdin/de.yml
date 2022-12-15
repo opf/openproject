@@ -5,8 +5,9 @@ de:
   project_module_team_planner_view: "Teamplaner"
   team_planner:
     label_team_planner: "Teamplaner"
-    label_team_planner_plural: "Team planners"
-    label_assignees: "Assignees"
+    label_create_new_team_planner: "Neuen Teamplaner erstellen"
+    label_team_planner_plural: "Teamplaner"
+    label_assignees: "Zugewiesene Benutzer"
     upsale:
-      title: "Team planner"
-      description: "Team planner gives you a complete overview what each of team member is working on, one week at a time. Move, stretch and shrink work packages visually, and even drag them from one assignee to another to organise workload. You can even create new work packages or add existing ones, all from within team planner!"
+      title: "Teamplaner"
+      description: "Erhalten Sie einen kompletten Überblick über die Planung Ihres Teams mit dem Teamplaner. Strecken, verkürzen und ziehen Sie Arbeitspakete zur Änderung von Terminen, Verschieben Sie Arbeitspakete oder Ändern Sie die zugewiesenen Benutzer."

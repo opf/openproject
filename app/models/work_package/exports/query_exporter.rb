@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -58,7 +56,7 @@ module WorkPackage::Exports
         .results
         .work_packages
         .page(page)
-        .per_page(Setting.work_packages_export_limit.to_i)
+        .per_page(Setting.work_packages_projects_export_limit.to_i)
     end
   end
 end

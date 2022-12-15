@@ -98,6 +98,7 @@ describe 'Wysiwyg tables',
 
           # Make first row th
           tds.first.click
+          tds.first.send_keys :tab
 
           # Click row toolbar
           editor.click_hover_toolbar_button 'RowRow'
@@ -199,7 +200,11 @@ describe 'Wysiwyg tables',
 
           # Change table styles
           tds = editable.all('.op-uc-table .op-uc-table--cell')
-          tds.first.click
+
+          # For some reason, the entire table is still selected so use tab to move to the next cell
+          tds[0].click
+          tds[0].send_keys :tab
+
           editor.click_hover_toolbar_button 'Table properties'
 
           # Set style to dotted
@@ -222,10 +227,8 @@ describe 'Wysiwyg tables',
 
           # rest is set on table
           expect(editable).to have_selector('table[style*="background-color:red"]')
-          expect(editable).to have_selector('table[style*="border-bottom:10px dotted"]')
-          expect(editable).to have_selector('table[style*="border-right:10px dotted"]')
-          expect(editable).to have_selector('table[style*="border-left:10px dotted"]')
-          expect(editable).to have_selector('table[style*="border-top:10px dotted"]')
+          expect(editable).to have_selector('table[style*="border-style:dotted"]')
+          expect(editable).to have_selector('table[style*="border-width:10px"]')
         end
 
         # Save wiki page
@@ -240,10 +243,8 @@ describe 'Wysiwyg tables',
 
           # rest is set on table
           expect(page).to have_selector('table[style*="background-color:red"]')
-          expect(page).to have_selector('table[style*="border-bottom:10px dotted"]')
-          expect(page).to have_selector('table[style*="border-right:10px dotted"]')
-          expect(page).to have_selector('table[style*="border-left:10px dotted"]')
-          expect(page).to have_selector('table[style*="border-top:10px dotted"]')
+          expect(page).to have_selector('table[style*="border-style:dotted"]')
+          expect(page).to have_selector('table[style*="border-width:10px"]')
         end
 
         # Edit again
@@ -259,10 +260,8 @@ describe 'Wysiwyg tables',
 
           # rest is set on table
           expect(editable).to have_selector('table[style*="background-color:red"]')
-          expect(editable).to have_selector('table[style*="border-bottom:10px dotted"]')
-          expect(editable).to have_selector('table[style*="border-right:10px dotted"]')
-          expect(editable).to have_selector('table[style*="border-left:10px dotted"]')
-          expect(editable).to have_selector('table[style*="border-top:10px dotted"]')
+          expect(editable).to have_selector('table[style*="border-style:dotted"]')
+          expect(editable).to have_selector('table[style*="border-width:10px"]')
         end
       end
 

@@ -34,7 +34,7 @@ describe 'API v3 Query Schema resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:project) { create(:project) }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { [:view_work_packages] }
   let(:user) do
     create(:user,
@@ -59,7 +59,7 @@ describe 'API v3 Query Schema resource', type: :request do
 
     it 'succeeds' do
       expect(subject.status)
-        .to eql(200)
+        .to be(200)
     end
 
     it 'returns the schema' do

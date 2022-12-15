@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -36,8 +34,8 @@ describe 'Team planner error handling', type: :feature, js: true do
 
   let!(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            assigned_to: user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)

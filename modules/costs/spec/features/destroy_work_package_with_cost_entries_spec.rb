@@ -52,16 +52,16 @@ describe 'Deleting time entries', type: :feature, js: true do
     type
   end
   let(:budget) do
-    create(:budget, project: project)
+    create(:budget, project:)
   end
-  let(:other_work_package) { create :work_package, project: project, budget: budget }
+  let(:other_work_package) { create :work_package, project:, budget: }
   let(:cost_entry) do
     create :cost_entry,
-           work_package: work_package,
-           project: project,
+           work_package:,
+           project:,
            units: 2.00,
-           cost_type: cost_type,
-           user: user
+           cost_type:,
+           user:
   end
 
   it 'allows to move the time entry to a different work package' do

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Queries::Queries::QueryQuery, type: :model do
   let(:user) { build_stubbed(:user) }
-  let(:instance) { described_class.new(user: user) }
+  let(:instance) { described_class.new(user:) }
   let(:base_scope) { Query.visible(user).order(id: :desc) }
 
   context 'without a filter' do

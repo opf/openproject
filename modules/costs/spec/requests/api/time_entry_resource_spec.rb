@@ -37,10 +37,10 @@ describe 'API v3 time_entry resource', type: :request do
     create(:user, member_in_project: project, member_through_role: role)
   end
   let(:time_entry) do
-    create(:time_entry, project: project, work_package: work_package, user: current_user)
+    create(:time_entry, project:, work_package:, user: current_user)
   end
   let(:other_time_entry) do
-    create(:time_entry, project: project, work_package: work_package, user: other_user)
+    create(:time_entry, project:, work_package:, user: other_user)
   end
   let(:other_user) do
     create(:user, member_in_project: project, member_through_role: role)
@@ -52,11 +52,11 @@ describe 'API v3 time_entry resource', type: :request do
   let(:work_package) { create(:work_package) }
   let(:other_work_package) { create(:work_package) }
   let(:other_project) { other_work_package.project }
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { %i(view_time_entries view_work_packages) }
-  let(:custom_field) { create(:time_entry_custom_field) }
+  let(:custom_field) { create(:text_time_entry_custom_field) }
   let(:custom_value) do
-    CustomValue.create(custom_field: custom_field,
+    CustomValue.create(custom_field:,
                        value: '1234',
                        customized: time_entry)
   end
@@ -141,15 +141,6 @@ describe 'API v3 time_entry resource', type: :request do
       let(:invisible_time_entry) do
         create(:time_entry, project: other_project, work_package: other_work_package, user: other_user)
       end
-
-      before do
-        time_entry
-        other_time_entry
-        invisible_time_entry
-
-        get path
-      end
-
       let(:path) do
         filter = [{ 'user' => {
           'operator' => '=',
@@ -157,6 +148,14 @@ describe 'API v3 time_entry resource', type: :request do
         } }]
 
         "#{api_v3_paths.time_entries}?#{{ filters: filter.to_json }.to_query}"
+      end
+
+      before do
+        time_entry
+        other_time_entry
+        invisible_time_entry
+
+        get path
       end
 
       it 'contains only the filtered time entries in the response' do
@@ -172,11 +171,11 @@ describe 'API v3 time_entry resource', type: :request do
 
     context 'filtering by work package' do
       let(:unwanted_work_package) do
-        create(:work_package, project: project, type: project.types.first)
+        create(:work_package, project:, type: project.types.first)
       end
 
       let(:other_time_entry) do
-        create(:time_entry, project: project, work_package: unwanted_work_package, user: current_user)
+        create(:time_entry, project:, work_package: unwanted_work_package, user: current_user)
       end
 
       let(:path) do
@@ -211,6 +210,14 @@ describe 'API v3 time_entry resource', type: :request do
       let(:other_time_entry) do
         create(:time_entry, project: other_project, work_package: other_work_package, user: current_user)
       end
+      let(:path) do
+        filter = [{ 'project' => {
+          'operator' => '=',
+          'values' => [other_project.id]
+        } }]
+
+        "#{api_v3_paths.time_entries}?#{{ filters: filter.to_json }.to_query}"
+      end
 
       before do
         create(:member,
@@ -222,15 +229,6 @@ describe 'API v3 time_entry resource', type: :request do
         other_time_entry
 
         get path
-      end
-
-      let(:path) do
-        filter = [{ 'project' => {
-          'operator' => '=',
-          'values' => [other_project.id]
-        } }]
-
-        "#{api_v3_paths.time_entries}?#{{ filters: filter.to_json }.to_query}"
       end
 
       it 'contains only the filtered time entries in the response' do
@@ -248,39 +246,6 @@ describe 'API v3 time_entry resource', type: :request do
       let(:activity) do
         create(:time_entry_activity)
       end
-      let(:another_activity) do
-        create(:time_entry_activity)
-      end
-      let!(:time_entry) do
-        create(:time_entry,
-               project: project,
-               work_package: work_package,
-               user: current_user,
-               activity: activity)
-      end
-      let!(:other_time_entry) do
-        create(:time_entry,
-               project: other_project,
-               work_package: other_work_package,
-               user: current_user,
-               activity: activity)
-      end
-      let!(:another_time_entry) do
-        create(:time_entry,
-               project: project,
-               work_package: work_package,
-               user: current_user,
-               activity: another_activity)
-      end
-
-      before do
-        create(:member,
-               roles: [role],
-               project: other_project,
-               user: current_user)
-        get path
-      end
-
       let(:path) do
         filter = [
           {
@@ -292,6 +257,38 @@ describe 'API v3 time_entry resource', type: :request do
         ]
 
         api_v3_paths.path_for(:time_entries, filters: filter, sort_by: [%w(id asc)])
+      end
+      let(:another_activity) do
+        create(:time_entry_activity)
+      end
+      let!(:time_entry) do
+        create(:time_entry,
+               project:,
+               work_package:,
+               user: current_user,
+               activity:)
+      end
+      let!(:other_time_entry) do
+        create(:time_entry,
+               project: other_project,
+               work_package: other_work_package,
+               user: current_user,
+               activity:)
+      end
+      let!(:another_time_entry) do
+        create(:time_entry,
+               project:,
+               work_package:,
+               user: current_user,
+               activity: another_activity)
+      end
+
+      before do
+        create(:member,
+               roles: [role],
+               project: other_project,
+               user: current_user)
+        get path
       end
 
       it 'contains only the filtered time entries in the response' do
@@ -347,7 +344,7 @@ describe 'API v3 time_entry resource', type: :request do
 
     it 'returns 200 OK' do
       expect(subject.status)
-        .to eql(200)
+        .to be(200)
     end
 
     it 'returns the time entry' do
@@ -369,7 +366,7 @@ describe 'API v3 time_entry resource', type: :request do
 
       it 'returns 404 NOT FOUND' do
         expect(subject.status)
-          .to eql(404)
+          .to be(404)
       end
     end
   end
@@ -379,22 +376,22 @@ describe 'API v3 time_entry resource', type: :request do
     let(:path) { api_v3_paths.time_entries }
     let(:params) do
       {
-        "_links": {
-          "project": {
-            "href": api_v3_paths.project(project.id)
+        _links: {
+          project: {
+            href: api_v3_paths.project(project.id)
           },
-          "activity": {
-            "href": api_v3_paths.time_entries_activity(activity.id)
+          activity: {
+            href: api_v3_paths.time_entries_activity(activity.id)
           },
-          "workPackage": {
-            "href": api_v3_paths.work_package(work_package.id)
+          workPackage: {
+            href: api_v3_paths.work_package(work_package.id)
           }
         },
-        "hours": 'PT5H',
-        "comment": {
+        hours: 'PT5H',
+        comment: {
           raw: "some comment"
         },
-        "spentOn": "2017-07-28",
+        spentOn: "2017-07-28",
         "customField#{custom_field.id}": {
           raw: 'some cf text'
         }
@@ -416,7 +413,7 @@ describe 'API v3 time_entry resource', type: :request do
 
     it 'creates another time entry with the provided values' do
       expect(TimeEntry.count)
-        .to eql 1
+        .to be 1
 
       new_entry = TimeEntry.first
 
@@ -433,7 +430,7 @@ describe 'API v3 time_entry resource', type: :request do
         .to eql work_package
 
       expect(new_entry.hours)
-        .to eql 5.0
+        .to be 5.0
 
       expect(new_entry.comments)
         .to eql "some comment"
@@ -450,7 +447,7 @@ describe 'API v3 time_entry resource', type: :request do
 
       it 'returns 403' do
         expect(subject.status)
-          .to eql(403)
+          .to be(403)
       end
     end
 
@@ -463,7 +460,7 @@ describe 'API v3 time_entry resource', type: :request do
 
       it 'returns 422 and complains about the activity' do
         expect(subject.status)
-          .to eql(422)
+          .to be(422)
 
         expect(subject.body)
           .to be_json_eql("Activity is not set to one of the allowed values.".to_json)
@@ -474,20 +471,20 @@ describe 'API v3 time_entry resource', type: :request do
     context 'when sending invalid params' do
       let(:params) do
         {
-          "_links": {
-            "project": {
-              "href": api_v3_paths.project(project.id)
+          _links: {
+            project: {
+              href: api_v3_paths.project(project.id)
             },
-            "activity": {
-              "href": api_v3_paths.time_entries_activity(activity.id)
+            activity: {
+              href: api_v3_paths.time_entries_activity(activity.id)
             },
-            "workPackage": {
-              "href": api_v3_paths.work_package(work_package.id + 1)
+            workPackage: {
+              href: api_v3_paths.work_package(work_package.id + 1)
             }
           },
-          "hours": 'PT5H',
-          "comment": "some comment",
-          "spentOn": "2017-07-28",
+          hours: 'PT5H',
+          comment: "some comment",
+          spentOn: "2017-07-28",
           "customField#{custom_field.id}": {
             raw: 'some cf text'
           }
@@ -496,7 +493,7 @@ describe 'API v3 time_entry resource', type: :request do
 
       it 'returns 422 and complains about work packages' do
         expect(subject.status)
-          .to eql(422)
+          .to be(422)
 
         expect(subject.body)
           .to be_json_eql("Work package is invalid.".to_json)
@@ -511,9 +508,9 @@ describe 'API v3 time_entry resource', type: :request do
 
     let(:params) do
       {
-        "hours": 'PT10H',
-        "activity": {
-          "href": api_v3_paths.time_entries_activity(activity.id)
+        hours: 'PT10H',
+        activity: {
+          href: api_v3_paths.time_entries_activity(activity.id)
         }
       }
     end
@@ -543,7 +540,7 @@ describe 'API v3 time_entry resource', type: :request do
 
       it 'returns 403' do
         expect(subject.status)
-          .to eql(403)
+          .to be(403)
       end
     end
 
@@ -556,7 +553,7 @@ describe 'API v3 time_entry resource', type: :request do
 
       it 'returns 422 and complains about the activity' do
         expect(subject.status)
-          .to eql(422)
+          .to be(422)
 
         expect(subject.body)
           .to be_json_eql("Activity is not set to one of the allowed values.".to_json)
@@ -567,9 +564,9 @@ describe 'API v3 time_entry resource', type: :request do
     context 'when sending invalid params' do
       let(:params) do
         {
-          "_links": {
-            "workPackage": {
-              "href": api_v3_paths.work_package(work_package.id + 1)
+          _links: {
+            workPackage: {
+              href: api_v3_paths.work_package(work_package.id + 1)
             }
           }
         }
@@ -577,7 +574,7 @@ describe 'API v3 time_entry resource', type: :request do
 
       it 'returns 422 and complains about work packages' do
         expect(subject.status)
-          .to eql(422)
+          .to be(422)
 
         expect(subject.body)
           .to be_json_eql("Work package is invalid.".to_json)
@@ -608,7 +605,7 @@ describe 'API v3 time_entry resource', type: :request do
 
       it 'returns 403' do
         expect(subject.status)
-          .to eql(403)
+          .to be(403)
       end
     end
 

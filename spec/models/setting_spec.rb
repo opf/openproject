@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -31,11 +29,15 @@
 require 'spec_helper'
 
 describe Setting, type: :model do
+  before do
+    described_class.clear_cache
+    described_class.destroy_all
+  end
+
   after do
     described_class.destroy_all
   end
 
-  # OpenProject specific defaults that are set in settings.yml
   describe "OpenProject's default settings" do
     it 'has OpenProject as application title' do
       expect(described_class.app_title).to eq 'OpenProject'
@@ -52,7 +54,7 @@ describe Setting, type: :model do
 
   # checks whether settings can be set and are persisted in the database
   describe 'changing a setting' do
-    context "setting doesn't exist in the database" do
+    context "for a setting that doesn't exist in the database" do
       before do
         described_class.host_name = 'some name'
       end
@@ -65,15 +67,34 @@ describe Setting, type: :model do
         expect(described_class.host_name).to eq 'some name'
       end
 
+      context 'when overwritten' do
+        let!(:setting_definition) do
+          Settings::Definition[:host_name].tap do |setting|
+            allow(setting)
+              .to receive(:writable?)
+                    .and_return false
+          end
+        end
+
+        it 'takes the setting from the definition' do
+          expect(described_class.host_name)
+            .to eql setting_definition.value
+        end
+      end
+
       it 'stores the setting' do
         expect(described_class.find_by(name: 'host_name').value).to eq 'some name'
       end
     end
 
-    context 'setting already exist in the database' do
+    context 'for a setting that already exist in the database' do
       before do
         described_class.host_name = 'some name'
         described_class.host_name = 'some other name'
+      end
+
+      after do
+        described_class.find_by(name: 'host_name').destroy
       end
 
       it 'sets the setting' do
@@ -83,9 +104,146 @@ describe Setting, type: :model do
       it 'stores the setting' do
         expect(described_class.find_by(name: 'host_name').value).to eq 'some other name'
       end
+    end
+  end
 
-      after do
-        described_class.find_by(name: 'host_name').destroy
+  describe '.[setting]' do
+    it 'fetches the value' do
+      expect(described_class.app_title)
+        .to eql('OpenProject')
+    end
+
+    context 'when value is blank but not nil' do
+      it 'is read correctly for array' do
+        expect(Settings::Definition['apiv3_cors_origins'].format).to eq(:array) # safeguard
+        expect(described_class['apiv3_cors_origins']).to eq([])
+      end
+
+      it 'is read correctly for hash' do
+        expect(Settings::Definition['fog'].format).to eq(:hash) # safeguard
+        expect(described_class['fog']).to eq({})
+      end
+    end
+
+    context 'when value was seeded as empty string in database', :settings_reset do
+      let(:setting_name) { "my_setting" }
+
+      subject { described_class[setting_name] }
+
+      before do
+        Settings::Definition.add(
+          setting_name,
+          default: nil,
+          format: setting_format
+        )
+        described_class.create!(name: setting_name, value: '')
+      end
+
+      %i[array boolean date datetime hash symbol].each do |setting_format|
+        context "for a #{setting_format} setting" do
+          let(:setting_format) { setting_format }
+
+          it { is_expected.to be_nil }
+        end
+      end
+
+      context 'for a string setting' do
+        let(:setting_format) { :string }
+
+        it { is_expected.to eq('') }
+      end
+    end
+  end
+
+  describe '.[setting]?' do
+    it 'fetches the value' do
+      expect(described_class.smtp_enable_starttls_auto?)
+        .to be false
+    end
+
+    it 'works for non boolean settings as well (deprecated)' do
+      expect(described_class.app_title?)
+        .to be true
+    end
+  end
+
+  describe '.[setting]=' do
+    it 'sets the value' do
+      described_class.app_title = 'New title'
+
+      expect(described_class.app_title)
+        .to eql('New title')
+    end
+
+    it 'raises an error for a non writable setting' do
+      expect { described_class.smtp_openssl_verify_mode = 'none' }
+        .to raise_error NoMethodError
+    end
+
+    context 'for a integer setting with non-nil default value', :settings_reset do
+      before do
+        Settings::Definition.add(
+          'my_setting',
+          format: :integer,
+          default: 42
+        )
+      end
+
+      it 'does not save it when set to nil' do
+        expect(described_class.my_setting).to eq(42)
+        described_class.my_setting = nil
+        expect(described_class.my_setting).not_to be_nil
+        expect(described_class.my_setting).to eq(42)
+      end
+    end
+
+    context 'for a integer setting with nil default value', :settings_reset do
+      before do
+        Settings::Definition.add(
+          'my_setting',
+          format: :integer,
+          default: nil
+        )
+      end
+
+      it 'saves it when set to nil' do
+        described_class.my_setting = 42
+        expect(described_class.my_setting).to eq(42)
+        described_class.my_setting = nil
+        expect(described_class.my_setting).to be_nil
+      end
+
+      it 'saves it as nil when set to empty string' do
+        described_class.my_setting = 42
+        expect(described_class.my_setting).to eq(42)
+        described_class.my_setting = ''
+        expect(described_class.my_setting).to be_nil
+      end
+    end
+  end
+
+  describe '.[setting]_writable?' do
+    before do
+      allow(Settings::Definition[:host_name])
+        .to receive(:writable?)
+              .and_return writable
+    end
+
+    context 'when definition states it to be writable' do
+      let(:writable) { true }
+
+      it 'is writable' do
+        expect(described_class)
+          .to be_host_name_writable
+      end
+    end
+
+    context 'when definition states it to be non writable' do
+      let(:writable) { false }
+
+      it 'is non writable' do
+        expect(described_class)
+          .not_to be_host_name_writable
       end
     end
   end
@@ -139,10 +297,6 @@ describe Setting, type: :model do
 
   # Check that when reading certain setting values that they get overwritten if needed.
   describe "filter saved settings" do
-    before do
-      described_class.work_package_list_default_highlighting_mode = "inline"
-    end
-
     describe "with EE token", with_ee: [:conditional_highlighting] do
       it "returns the value for 'work_package_list_default_highlighting_mode' without changing it" do
         expect(described_class.work_package_list_default_highlighting_mode).to eq("inline")
@@ -157,9 +311,8 @@ describe Setting, type: :model do
   end
 
   # tests the serialization feature to store complex data types like arrays in settings
-  describe 'serialized settings' do
+  describe 'serialized array settings' do
     before do
-      # note: default_projects_modules is marked as serialized in settings.yml (no type-based automagic here)
       described_class.default_projects_modules = ['some_input']
     end
 
@@ -167,9 +320,50 @@ describe Setting, type: :model do
       expect(described_class.default_projects_modules).to eq ['some_input']
       expect(described_class.find_by(name: 'default_projects_modules').value).to eq ['some_input']
     end
+  end
 
-    after do
-      described_class.find_by(name: 'default_projects_modules').destroy
+  # tests the serialization feature to store complex data types like arrays in settings
+  describe 'serialized hash settings' do
+    before do
+      setting = described_class.create!(name: 'repository_checkout_data')
+      setting.update_columns(
+        value: {
+          git: { enabled: 0 },
+          subversion: { enabled: 0 }
+        }.to_yaml
+      )
+    end
+
+    it 'deserializes hashes stored with symbol keys as string keys' do
+      expected_value = {
+        "git" => { "enabled" => 0 },
+        "subversion" => { "enabled" => 0 }
+      }
+
+      expect(described_class.repository_checkout_data).to eq(expected_value)
+      expect(described_class.find_by(name: 'repository_checkout_data').value).to eq(expected_value)
+    end
+  end
+
+  describe 'serialized hash settings with URI::Generic inside it' do
+    before do
+      setting = described_class.create!(name: 'repository_checkout_data')
+      setting.update_columns(
+        value: {
+          git: { enabled: 1, base_url: URI::Generic.build(scheme: 'https', host: 'git.example.com', path: '/public') },
+          subversion: { enabled: 0 }
+        }.to_yaml
+      )
+    end
+
+    it 'deserializes correctly' do
+      expected_value = {
+        "git" => { "enabled" => 1, "base_url" => "https://git.example.com/public" },
+        "subversion" => { "enabled" => 0 }
+      }
+
+      expect(described_class.repository_checkout_data).to eq(expected_value)
+      expect(described_class.find_by(name: 'repository_checkout_data').value).to eq(expected_value)
     end
   end
 
@@ -186,7 +380,7 @@ describe Setting, type: :model do
       Rails.cache.clear
     end
 
-    context 'cache is empty' do
+    context 'when cache is empty' do
       it 'requests the settings once from database' do
         expect(Setting).to receive(:pluck).with(:name, :value)
           .once
@@ -224,7 +418,7 @@ describe Setting, type: :model do
       end
     end
 
-    context 'cache is not empty' do
+    context 'when cache is not empty' do
       let(:cached_hash) do
         { 'available_languages' => "---\n- en\n- de\n" }
       end
@@ -320,6 +514,123 @@ describe Setting, type: :model do
       described_class.register_callback(:host_name, &cb)
       described_class.host_name = 'some other name'
       expect(collector).to include 'some name'
+    end
+  end
+
+  describe '.reload_mailer_settings!' do
+    before do
+      allow(ActionMailer::Base)
+        .to receive(:perform_deliveries=)
+      allow(ActionMailer::Base)
+        .to receive(:delivery_method=)
+    end
+
+    context 'without smtp_authentication and without ssl' do
+      it 'uses the setting values',
+         with_settings: {
+           email_delivery_method: :smtp,
+           smtp_authentication: :none,
+           smtp_password: 'old',
+           smtp_address: 'smtp.example.com',
+           smtp_domain: 'example.com',
+           smtp_port: 25,
+           smtp_user_name: 'username',
+           smtp_enable_starttls_auto: 1,
+           smtp_ssl: 0
+         } do
+        described_class.reload_mailer_settings!
+        expect(ActionMailer::Base).to have_received(:perform_deliveries=).with(true)
+        expect(ActionMailer::Base).to have_received(:delivery_method=).with(:smtp)
+        expect(ActionMailer::Base.smtp_settings[:smtp_authentication]).to be_nil
+        expect(ActionMailer::Base.smtp_settings).to eq(address: 'smtp.example.com',
+                                                       port: 25,
+                                                       domain: 'example.com',
+                                                       enable_starttls_auto: true,
+                                                       openssl_verify_mode: 'peer',
+                                                       ssl: false)
+      end
+    end
+
+    context 'without smtp_authentication and with ssl' do
+      it 'users the setting values',
+         with_settings: {
+           email_delivery_method: :smtp,
+           smtp_authentication: :none,
+           smtp_password: 'old',
+           smtp_address: 'smtp.example.com',
+           smtp_domain: 'example.com',
+           smtp_port: 25,
+           smtp_user_name: 'username',
+           smtp_enable_starttls_auto: 0,
+           smtp_ssl: 1
+         } do
+        described_class.reload_mailer_settings!
+        expect(ActionMailer::Base).to have_received(:perform_deliveries=).with(true)
+        expect(ActionMailer::Base).to have_received(:delivery_method=).with(:smtp)
+        expect(ActionMailer::Base.smtp_settings[:smtp_authentication]).to be_nil
+        expect(ActionMailer::Base.smtp_settings).to eq(address: 'smtp.example.com',
+                                                       port: 25,
+                                                       domain: 'example.com',
+                                                       enable_starttls_auto: false,
+                                                       openssl_verify_mode: 'peer',
+                                                       ssl: true)
+      end
+    end
+
+    context 'with smtp_authentication and without ssl' do
+      it 'users the setting values',
+         with_settings: {
+           email_delivery_method: :smtp,
+           smtp_password: 'p4ssw0rd',
+           smtp_address: 'smtp.example.com',
+           smtp_domain: 'example.com',
+           smtp_port: 587,
+           smtp_user_name: 'username',
+           smtp_enable_starttls_auto: 1,
+           smtp_ssl: 0
+         } do
+        described_class.reload_mailer_settings!
+        expect(ActionMailer::Base).to have_received(:perform_deliveries=).with(true)
+        expect(ActionMailer::Base).to have_received(:delivery_method=).with(:smtp)
+        expect(ActionMailer::Base.smtp_settings[:smtp_authentication]).to be_nil
+        expect(ActionMailer::Base.smtp_settings).to eq(address: 'smtp.example.com',
+                                                       port: 587,
+                                                       domain: 'example.com',
+                                                       authentication: 'plain',
+                                                       user_name: 'username',
+                                                       password: 'p4ssw0rd',
+                                                       enable_starttls_auto: true,
+                                                       openssl_verify_mode: 'peer',
+                                                       ssl: false)
+      end
+    end
+
+    context 'with smtp_authentication and with ssl' do
+      it 'users the setting values',
+         with_settings: {
+           email_delivery_method: :smtp,
+           smtp_password: 'p4ssw0rd',
+           smtp_address: 'smtp.example.com',
+           smtp_domain: 'example.com',
+           smtp_port: 587,
+           smtp_user_name: 'username',
+           smtp_enable_starttls_auto: 0,
+           smtp_ssl: 1
+         } do
+        described_class.reload_mailer_settings!
+        expect(ActionMailer::Base).to have_received(:perform_deliveries=).with(true)
+        expect(ActionMailer::Base).to have_received(:delivery_method=).with(:smtp)
+        expect(ActionMailer::Base.smtp_settings[:smtp_authentication]).to be_nil
+        expect(ActionMailer::Base.smtp_settings).to eq(address: 'smtp.example.com',
+                                                       port: 587,
+                                                       domain: 'example.com',
+                                                       authentication: 'plain',
+                                                       user_name: 'username',
+                                                       password: 'p4ssw0rd',
+                                                       enable_starttls_auto: false,
+                                                       openssl_verify_mode: 'peer',
+                                                       ssl: true)
+      end
     end
   end
 end

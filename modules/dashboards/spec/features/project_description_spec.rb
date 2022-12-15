@@ -137,9 +137,9 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
       editor.insert_macro 'Insert create work package button'
 
-      expect(page).to have_selector('.op-modal')
+      expect(page).to have_selector('.spot-modal')
       select 'Task', from: 'selected-type'
-      find('.op-modal--submit-button').click
+      find('.spot-modal--submit-button').click
 
       field.save!
 

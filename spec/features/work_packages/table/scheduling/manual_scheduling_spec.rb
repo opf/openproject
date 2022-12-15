@@ -8,22 +8,22 @@ describe 'Manual scheduling', js: true do
 
   let!(:parent) do
     create(:work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            subject: 'Parent')
   end
 
   let!(:child) do
     create(:work_package,
-           project: project,
-           parent: parent,
-           type: type,
+           project:,
+           parent:,
+           type:,
            subject: 'Child')
   end
 
   let!(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let!(:query) do
-    query = build(:query, user: user, project: project)
+    query = build(:query, user:, project:)
     query.column_names = %w(subject start_date due_date)
     query.filters.clear
     query.show_hierarchies = false
@@ -58,11 +58,10 @@ describe 'Manual scheduling', js: true do
         expect(page).to have_selector('input[name="startDate"][disabled]')
         expect(page).to have_selector('input[name="endDate"][disabled]')
         expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Cancel')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"][disabled]', text: 'Save')
+        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Save')
       end
 
       start_date.toggle_scheduling_mode
-      start_date.expect_scheduling_mode manually: true
 
       # Expect editable
       start_date.within_modal do
@@ -93,17 +92,20 @@ describe 'Manual scheduling', js: true do
         expect(page).to have_selector('input[name=startDate][disabled]')
         expect(page).to have_selector('input[name=endDate][disabled]')
         expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Cancel')
-        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"][disabled]', text: 'Save')
+        expect(page).to have_selector('[data-qa-selector="op-datepicker-modal--action"]:not([disabled])', text: 'Save')
       end
 
       start_date.toggle_scheduling_mode
-      start_date.expect_scheduling_mode manually: true
+      start_date.expect_calendar
 
       # Expect not editable
       start_date.within_modal do
         fill_in 'startDate', with: '2020-07-20'
         fill_in 'endDate', with: '2020-07-25'
       end
+
+      # Wait for the debounce to be done
+      sleep 1
 
       start_date.save!
       start_date.expect_state_text '07/20/2020'

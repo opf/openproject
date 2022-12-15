@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# encoding: UTF-8
-
 class Report::Table
   attr_accessor :query
 

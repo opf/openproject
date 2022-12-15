@@ -41,7 +41,7 @@ describe "grid attachments" do
     let(:read_permission) { :view_dashboards }
     let(:update_permission) { :manage_dashboards }
 
-    let(:grid) { create(:dashboard, project: project) }
+    let(:grid) { create(:dashboard, project:) }
 
     let(:missing_permissions_user) { create(:user) }
   end

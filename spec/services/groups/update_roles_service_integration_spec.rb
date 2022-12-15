@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Groups::UpdateRolesService, 'integration', type: :model do
-  subject(:service_call) { instance.call(member: member, message: message) }
+  subject(:service_call) { instance.call(member:, message:) }
 
   let(:project) { create :project }
   let(:role) { create :role }
@@ -40,9 +40,9 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
     create(:group,
            members: users).tap do |group|
       create(:member,
-             project: project,
+             project:,
              principal: group,
-             roles: roles)
+             roles:)
 
       ::Groups::AddUsersService
         .new(group, current_user: User.system, contract_class: EmptyContract)
@@ -54,7 +54,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   let(:message) { "Some message" }
 
   let(:instance) do
-    described_class.new(group, current_user: current_user)
+    described_class.new(group, current_user:)
   end
 
   before do
@@ -122,7 +122,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
              members: users).tap do |group|
         create(:global_member,
                principal: group,
-               roles: roles)
+               roles:)
 
         ::Groups::AddUsersService
           .new(group, current_user: User.system, contract_class: EmptyContract)
@@ -353,6 +353,47 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
     it_behaves_like 'updates timestamp' do
       let(:user) { users.last }
+    end
+
+    it_behaves_like 'sends notification' do
+      let(:user) { users }
+    end
+  end
+
+  context 'when adding a role and the user has a role already granted by a different group' do
+    let(:other_role) { create(:role) }
+
+    let!(:second_group) do
+      create(:group,
+             members: users).tap do |group|
+        create(:member,
+               project:,
+               principal: group,
+               roles: [other_role])
+
+        ::Groups::AddUsersService
+          .new(group, current_user: User.system, contract_class: EmptyContract)
+          .call(ids: users.map(&:id))
+      end
+    end
+
+    let(:users) { [create(:user)] }
+    let(:added_role) { create(:role) }
+
+    before do
+      member.roles << added_role
+    end
+
+    it 'is successful' do
+      expect(service_call)
+        .to be_success
+    end
+
+    it 'keeps the roles the user already had before and adds the new one' do
+      service_call
+
+      expect(Member.find_by(principal: users.first).roles.uniq)
+        .to match_array([role, other_role, added_role])
     end
 
     it_behaves_like 'sends notification' do

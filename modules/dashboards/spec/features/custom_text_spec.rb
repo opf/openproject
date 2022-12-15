@@ -39,12 +39,11 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
   let(:permissions) do
     %i[view_dashboards
        manage_dashboards
-       add_work_packages
-      ]
+       add_work_packages]
   end
 
   let(:role) do
-    create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
 
   let(:user) do
@@ -80,9 +79,9 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
       editor.insert_macro 'Insert create work package button'
 
-      expect(page).to have_selector('.op-modal')
+      expect(page).to have_selector('.spot-modal')
       select 'Task', from: 'selected-type'
-      find('.op-modal--submit-button').click
+      find('.spot-modal--submit-button').click
 
       field.save!
 
@@ -137,7 +136,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
       editor.drag_attachment image_fixture.path, 'Image uploaded'
 
       within custom_text_widget.area do
-        expect(page).to have_selector('attachment-list-item', text: 'image.png')
+        expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
         expect(page).to have_no_selector('notifications-upload-progress')
 
         field.save!
@@ -150,14 +149,14 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
           .to have_selector('#content img', count: 1)
 
         expect(page)
-          .to have_no_selector('attachment-list-item', text: 'image.png')
+          .to have_no_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
       end
     end
   end
 
   context 'for a user lacking edit permissions' do
     let!(:dashboard) do
-      create(:dashboard_with_custom_text, project: project)
+      create(:dashboard_with_custom_text, project:)
     end
 
     let(:permissions) do

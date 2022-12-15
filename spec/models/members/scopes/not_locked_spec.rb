@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -36,31 +34,31 @@ describe Members::Scopes::NotLocked, type: :model do
 
   let!(:invited_user_member) do
     create(:member,
-           project: project,
+           project:,
            roles: [role],
            principal: create(:user, status: Principal.statuses[:invited]))
   end
   let!(:registered_user_member) do
     create(:member,
-           project: project,
+           project:,
            roles: [role],
            principal: create(:user, status: Principal.statuses[:registered]))
   end
   let!(:locked_user_member) do
     create(:member,
-           project: project,
+           project:,
            roles: [role],
            principal: create(:user, status: Principal.statuses[:locked]))
   end
   let!(:active_user_member) do
     create(:member,
-           project: project,
+           project:,
            roles: [role],
            principal: create(:user, status: Principal.statuses[:active]))
   end
   let!(:group_member) do
     create(:member,
-           project: project,
+           project:,
            roles: [role],
            principal: create(:group))
   end

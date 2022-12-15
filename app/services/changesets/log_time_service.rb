@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -37,7 +35,7 @@ module Changesets
 
     def call(work_package, hours)
       service_result = TimeEntries::CreateService
-                       .new(user: user)
+                       .new(user:)
                        .call(combined_parameters(work_package, hours))
 
       log_error(service_result)
@@ -52,8 +50,8 @@ module Changesets
 
     def combined_parameters(work_package, hours)
       params = {
-        hours: hours,
-        work_package: work_package,
+        hours:,
+        work_package:,
         spent_on: changeset.commit_date,
         comments: I18n.t(:text_time_logged_by_changeset, value: changeset.text_tag, locale: Setting.default_language)
       }

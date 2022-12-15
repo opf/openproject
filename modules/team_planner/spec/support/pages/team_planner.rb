@@ -31,7 +31,7 @@ require 'support/pages/work_packages/work_package_cards'
 
 module Pages
   class TeamPlanner < ::Pages::WorkPackageCards
-    include ::Components::NgSelectAutocompleteHelpers
+    include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
     attr_reader :filters
 
@@ -72,9 +72,10 @@ module Pages
     end
 
     def expect_view_mode(text)
-      expect(page).to have_selector('.fc-button-active', text: text)
+      expect(page).to have_selector('[data-qa-selector="op-team-planner--view-select-dropdown"]', text:)
 
       param = {
+        'Work week' => :resourceTimelineWorkWeek,
         '1-week' => :resourceTimelineWeek,
         '2-week' => :resourceTimelineTwoWeeks
       }[text]
@@ -83,7 +84,14 @@ module Pages
     end
 
     def switch_view_mode(text)
-      page.find('.fc-button', text: text).click
+      retry_block do
+        find('[data-qa-selector="op-team-planner--view-select-dropdown"]').click
+
+        within('#op-team-planner--view-select-dropdown') do
+          click_button(text)
+        end
+      end
+
       expect_view_mode(text)
     end
 
@@ -108,24 +116,33 @@ module Pages
       JS
 
       page.execute_script(script, assignee, start_date, end_date)
-      ::Pages::SplitWorkPackageCreate.new project: project
+      ::Pages::SplitWorkPackageCreate.new project:
     end
 
     def remove_assignee(user)
       page.find(%([data-qa-remove-assignee="#{user.id}"])).click
     end
 
-    def within_lane(user, &block)
+    def within_lane(user, &)
       raise ArgumentError.new("Expected instance of principal") unless user.is_a?(Principal)
 
-      type = ::API::V3::Principals::PrincipalType.for(user)
-      href = ::API::V3::Utilities::PathHelper::ApiV3Path.send(type, user.id)
-
-      page.within(%(.fc-timeline-lane[data-resource-id="#{href}"]), &block)
+      page.within(lane(user), &)
     end
 
     def expect_event(work_package, present: true)
-      expect(page).to have_conditional_selector(present, '.fc-event', text: work_package.subject)
+      if present
+        expect(page).to have_selector('.fc-event', text: work_package.subject, wait: 10)
+      else
+        expect(page).to have_no_selector('.fc-event', text: work_package.subject)
+      end
+    end
+
+    def expect_resizable(work_package, resizable: true)
+      if resizable
+        expect(page).to have_selector('.fc-event.fc-event-resizable', text: work_package.subject, wait: 10)
+      else
+        expect(page).to have_selector('.fc-event:not(.fc-event-resizable)', text: work_package.subject, wait: 10)
+      end
     end
 
     def add_assignee(name)
@@ -171,13 +188,21 @@ module Pages
     def drag_wp_by_pixel(work_package, by_x, by_y)
       source = event(work_package)
 
-      drag_by_pixel(element: source, by_x: by_x, by_y: by_y)
+      drag_by_pixel(element: source, by_x:, by_y:)
+    end
+
+    def drag_wp_to_lane(work_package, user)
+      wp_strip = event(work_package)
+      lane = lane(user)
+
+      drag_by_pixel(element: wp_strip, by_x: 0, by_y: y_distance(from: wp_strip, to: lane))
     end
 
     def drag_to_remove_dropzone(work_package, expect_removable: true)
-      source = event(work_package)
-
-      start_dragging(source)
+      retry_block do
+        source = event(work_package)
+        start_dragging(source)
+      end
 
       # Move the footer first to signal we're dragging something
       footer = find('[data-qa-selector="op-team-planner-footer"]')
@@ -210,6 +235,13 @@ module Pages
       page.find('.fc-event', text: work_package.subject)
     end
 
+    def lane(user)
+      type = ::API::V3::Principals::PrincipalType.for(user)
+      href = ::API::V3::Utilities::PathHelper::ApiV3Path.send(type, user.id)
+
+      page.find(%(.fc-timeline-lane[data-resource-id="#{href}"]))
+    end
+
     def expect_wp_not_resizable(work_package)
       expect(page).to have_selector('.fc-event:not(.fc-event-resizable)', text: work_package.subject)
     end
@@ -220,6 +252,24 @@ module Pages
 
     def expect_no_menu_item(name)
       expect(page).not_to have_selector('.op-sidemenu--item-title', text: name)
+    end
+
+    def y_distance(from:, to:)
+      y_center(to) - y_center(from)
+    end
+
+    def y_center(element)
+      element.native.location.y + (element.native.size.height / 2)
+    end
+
+    def wait_for_loaded
+      expect(page).to have_selector('.op-team-planner--wp-loading-skeleton')
+
+      retry_block do
+        raise "Should not be there" if page.has_selector?('.op-team-planner--wp-loading-skeleton')
+
+        sleep 5
+      end
     end
   end
 end

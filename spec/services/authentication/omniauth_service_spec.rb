@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -44,7 +42,7 @@ describe Authentication::OmniauthService do
   let(:controller) { double('Controller', session: session_stub) }
   let(:session_stub) { [] }
 
-  let(:instance) { described_class.new(strategy: strategy, auth_hash: auth_hash, controller: controller) }
+  let(:instance) { described_class.new(strategy:, auth_hash:, controller:) }
   let(:user_attributes) { instance.send :build_omniauth_hash_to_user_attributes }
 
   describe '#contract' do
@@ -57,7 +55,7 @@ describe Authentication::OmniauthService do
     context 'if valid' do
       let(:valid) { true }
 
-      it 'it calls the registration service' do
+      it 'calls the registration service' do
         expect(Users::RegisterUserService)
           .to(receive(:new))
           .with(kind_of(User))
@@ -70,7 +68,7 @@ describe Authentication::OmniauthService do
     context 'if invalid' do
       let(:valid) { false }
 
-      it 'it does not call the registration service' do
+      it 'does not call the registration service' do
         expect(Users::RegisterUserService)
           .not_to(receive(:new))
 
@@ -199,16 +197,17 @@ describe Authentication::OmniauthService do
 
   describe '#identity_url_from_omniauth' do
     let(:auth_hash) { { provider: 'developer', uid: 'veryuniqueid', info: {} } }
+
     subject { instance.send(:identity_url_from_omniauth) }
 
-    it 'should return the correct identity_url' do
+    it 'returns the correct identity_url' do
       expect(subject).to eql('developer:veryuniqueid')
     end
 
     context 'with uid mapped from info' do
       let(:auth_hash) { { provider: 'developer', uid: 'veryuniqueid', info: { uid: 'internal' } } }
 
-      it 'should return the correct identity_url' do
+      it 'returns the correct identity_url' do
         expect(subject).to eql('developer:internal')
       end
     end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -32,7 +30,7 @@ class Journal::MeetingContentJournal < Journal::BaseJournal
   self.table_name = 'meeting_content_journals'
 
   belongs_to :meeting
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  belongs_to :author, class_name: 'User'
 
   def editable?
     false

@@ -14,7 +14,6 @@ describe "Workday notification settings", type: :feature, js: true do
         # Configure the reminders
         settings_page.visit!
 
-        # Expect Mo-Fr to be checked
         settings_page.expect_workdays %w[Monday Tuesday Wednesday Thursday Friday]
         settings_page.expect_non_workdays %w[Saturday Sunday]
 
@@ -36,6 +35,32 @@ describe "Workday notification settings", type: :feature, js: true do
         settings_page.expect_non_workdays %w[Wednesday Thursday]
 
         expect(pref.reload.workdays).to eq [1, 2, 5, 6, 7]
+      end
+
+      it 'can unselect all working days' do
+        # Configure the reminders
+        settings_page.visit!
+
+        settings_page.expect_workdays %w[Monday Tuesday Wednesday Thursday Friday]
+        settings_page.expect_non_workdays %w[Saturday Sunday]
+
+        settings_page.set_workdays Monday: false,
+                                   Tuesday: false,
+                                   Wednesday: false,
+                                   Thursday: false,
+                                   Friday: false,
+                                   Saturday: false,
+                                   Sunday: false
+
+        settings_page.save
+
+        settings_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+
+        settings_page.reload!
+
+        settings_page.expect_non_workdays %w[Monday Tuesday Wednesday Thursday Friday Saturday Sunday]
+
+        expect(pref.reload.workdays).to eq []
       end
     end
 

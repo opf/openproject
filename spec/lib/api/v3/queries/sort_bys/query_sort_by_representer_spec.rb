@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::SortBys::QuerySortByRepresenter, clear_cache: true do
+describe ::API::V3::Queries::SortBys::QuerySortByRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:column_name) { 'status' }
@@ -52,19 +52,19 @@ describe ::API::V3::Queries::SortBys::QuerySortByRepresenter, clear_cache: true 
     end
 
     it 'has _type QuerySortBy' do
-      is_expected
+      expect(subject)
         .to be_json_eql('QuerySortBy'.to_json)
         .at_path('_type')
     end
 
     it 'has id attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql('status-desc'.to_json)
         .at_path('id')
     end
 
     it 'has name attribute' do
-      is_expected
+      expect(subject)
         .to be_json_eql('Status (Descending)'.to_json)
         .at_path('name')
     end
@@ -93,13 +93,13 @@ describe ::API::V3::Queries::SortBys::QuerySortByRepresenter, clear_cache: true 
       let(:direction) { 'asc' }
 
       it 'has id attribute' do
-        is_expected
+        expect(subject)
           .to be_json_eql('status-asc'.to_json)
           .at_path('id')
       end
 
       it 'has name attribute' do
-        is_expected
+        expect(subject)
           .to be_json_eql('Status (Ascending)'.to_json)
           .at_path('name')
       end
@@ -117,13 +117,13 @@ describe ::API::V3::Queries::SortBys::QuerySortByRepresenter, clear_cache: true 
       end
 
       it 'has id attribute' do
-        is_expected
+        expect(subject)
           .to be_json_eql('assignee-desc'.to_json)
           .at_path('id')
       end
 
       it 'has name attribute' do
-        is_expected
+        expect(subject)
           .to be_json_eql('Assignee (Descending)'.to_json)
           .at_path('name')
       end

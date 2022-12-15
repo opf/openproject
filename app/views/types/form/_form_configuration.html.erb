@@ -33,45 +33,26 @@ See COPYRIGHT and LICENSE files for more details.
   <div>
     <div class="grid-block -visible-overflow wrap">
       <div class="grid-content -visible-overflow small-12 large-10">
-        <div class="op-toast -info">
-          <div class="op-toast--content">
-            <p><%= t('text_form_configuration') %></p>
-            <br>
-            <p><%= t('text_custom_field_hint_activate_per_project') %></p>
-          </div>
-        </div>
-
         <% if EnterpriseToken.show_banners? %>
-          <div class="op-toast upsale-notification">
-            <div class="op-toast--content">
-              <h3><%= t('admin.enterprise.upgrade_to_ee') %></h3>
-              <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
-
-              <p><%= t('ee.upsale.form_configuration.description') %></p>
-
-              <ul class="">
-                <li>
-                  <%= t('ee.upsale.form_configuration.add_groups') %>
-                </li>
-                <li>
-                  <%= t('ee.upsale.form_configuration.rename_groups') %>
-                </li>
-              </ul>
-              <p>
-                <br/>
-                <b><%= t('js.admin.enterprise.upsale.become_hero') %></b> <%= t('js.admin.enterprise.upsale.you_contribute') %>
-              </p>
-              <%= link_to("#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration",
-                          { class: 'button -alt-highlight',
-                            aria: { label: t('admin.enterprise.order') },
-                            target: '_blank',
-                            title: t('admin.enterprise.order') }) do %>
-                <%= op_icon('button--icon icon-add') %>
-                <span class="button--text"><%= t('admin.enterprise.order') %></span>
-              <% end %>
-            </div>
-          </div>
+          <%= angular_component_tag 'op-no-results',
+                                    inputs: {
+                                      title: t('text_form_configuration') + t('text_custom_field_hint_activate_per_project'),
+                                    }
+          %>
+          <%= angular_component_tag 'op-enterprise-banner',
+                                    inputs: {
+                                      collapsible: true,
+                                      opReferrer: 'form-configuration',
+                                      textMessage: t('types.edit.more_info_text_html'),
+                                      moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:form_configuration][:href],
+                                    }
+          %>
         <% end %>
+      </div>
+    </div>
+    <div class="grid-block -visible-overflow wrap">
+      <div class="grid-content -visible-overflow small-12 large-10">
+
         <% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = [] }).to_json %>
         <%= f.hidden_field :attribute_groups, value: '', class: 'admin-type-form--hidden-field'  %>
         <%= content_tag('admin-type-form-configuration',

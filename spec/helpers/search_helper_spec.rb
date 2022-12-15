@@ -36,7 +36,7 @@ describe 'search/index', type: :helper do
     allow(helper).to receive(:params).and_return(
       q: 'foobar',
       all_words: '1',
-      scope: scope
+      scope:
     )
     assign(:project, project)
   end
@@ -44,7 +44,6 @@ describe 'search/index', type: :helper do
   describe '#highlight_tokens' do
     let(:maximum_length) { 1300 }
 
-    subject { helper.highlight_tokens title, tokens }
     subject(:highlighted_title) { helper.highlight_tokens title, tokens }
 
     context 'with single token' do
@@ -59,7 +58,11 @@ describe 'search/index', type: :helper do
       let(:tokens) { %w(token another) }
       let(:title) { 'This is a token and another token.' }
       let(:expected_title) do
-        'This is a <span class="search-highlight token-0">token</span> and <span class="search-highlight token-1">another</span> <span class="search-highlight token-0">token</span>.'
+        <<~TITLE.squish
+          This is a <span class="search-highlight token-0">token</span>
+          and <span class="search-highlight token-1">another</span>
+          <span class="search-highlight token-0">token</span>.
+        TITLE
       end
 
       it { is_expected.to eq expected_title }
@@ -67,7 +70,7 @@ describe 'search/index', type: :helper do
 
     context 'with huge content' do
       let(:tokens) { %w(token) }
-      let(:title) { (('1234567890' * 100) + ' token ') * 100 }
+      let(:title) { "#{'1234567890' * 100} token " * 100 }
       let(:highlighted_token) { '<span class="search-highlight token-0">token</span>' }
 
       it { expect(highlighted_title).to include highlighted_token }
@@ -79,9 +82,9 @@ describe 'search/index', type: :helper do
 
     context 'with multibyte title' do
       let(:tokens) { %w(token) }
-      let(:title) { ('й' * 200) + ' token ' + ('й' * 200) }
+      let(:title) { "#{'й' * 200} token #{'й' * 200}" }
       let(:expected_title) do
-        ('й' * 45) + ' ... ' + ('й' * 44) + ' <span class="search-highlight token-0">token</span> ' + ('й' * 44) + ' ... ' + ('й' * 45)
+        "#{'й' * 45} ... #{'й' * 44} <span class=\"search-highlight token-0\">token</span> #{'й' * 45} ... #{'й' * 44}"
       end
 
       it { is_expected.to eq expected_title }
@@ -95,10 +98,10 @@ describe 'search/index', type: :helper do
     let(:attachment_filename) { "attachment_filename.txt" }
     let(:journal) { build_stubbed(:work_package_journal, notes: journal_notes) }
     let(:event) do
-      instance_double('WorkPackage',
+      instance_double(WorkPackage,
                       last_journal: journal,
                       last_loaded_journal: journal,
-                      event_description: event_description,
+                      event_description:,
                       attachment_ids: [42],
                       attachments: [build_stubbed(:attachment, filename: attachment_filename)]).tap do |e|
         scope = instance_double(ActiveRecord::Relation)
@@ -125,7 +128,6 @@ describe 'search/index', type: :helper do
       it 'shows the text in the notes' do
         expect(helper.highlight_tokens_in_event(event, tokens))
           .to eql '<span class="search-highlight token-0">Journals</span> notes'
-
       end
     end
 

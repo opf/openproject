@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -63,7 +61,7 @@ class BackupJob < ::ApplicationJob
 
     file_name = create_backup_archive!(
       file_name: archive_file_name,
-      db_dump_file_name: db_dump_file_name
+      db_dump_file_name:
     )
 
     store_backup file_name, backup: backup, user: user
@@ -95,9 +93,7 @@ class BackupJob < ::ApplicationJob
     @archived
   end
 
-  def status
-    job_status.status
-  end
+  delegate :status, to: :job_status
 
   def db_dump_file_name
     @db_dump_file_name ||= tmp_file_name "openproject", ".sql"
@@ -125,7 +121,7 @@ class BackupJob < ::ApplicationJob
 
   def remove_files!(*files)
     Array(files).each do |file|
-      FileUtils.rm file if File.exist? file
+      FileUtils.rm_rf file
     end
   end
 
@@ -136,8 +132,8 @@ class BackupJob < ::ApplicationJob
   def store_backup(file_name, backup:, user:)
     File.open(file_name) do |file|
       call = Attachments::CreateService
-        .bypass_whitelist(user: user)
-        .call(container: backup, filename: file_name, file: file, description: 'OpenProject backup')
+        .bypass_whitelist(user:)
+        .call(container: backup, filename: file_name, file:, description: 'OpenProject backup')
 
       call.on_success do
         download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(call.result.id)
@@ -162,11 +158,8 @@ class BackupJob < ::ApplicationJob
 
     Zip::File.open(file_name, Zip::File::CREATE) do |zipfile|
       attachments.each do |attachment|
-        # If an attachment is destroyed on disk, skip i
-        diskfile = attachment.diskfile
-        next unless diskfile
-
-        path = diskfile.path
+        path = local_disk_path(attachment)
+        next unless path
 
         zipfile.add "attachment/file/#{attachment.id}/#{attachment[:file]}", path
 
@@ -181,6 +174,20 @@ class BackupJob < ::ApplicationJob
     @archived = true
 
     file_name
+  end
+
+  def local_disk_path(attachment)
+    # If an attachment is destroyed on disk, skip it
+    diskfile = attachment.diskfile
+    return unless diskfile
+
+    diskfile.path
+  rescue StandardError => e
+    Rails.logger.error do
+      "Failed to access attachment #{attachment.id} #{attachment.file&.path} for backup: #{e.message}"
+    end
+
+    nil
   end
 
   def remove_paths!(paths)
@@ -253,14 +260,21 @@ class BackupJob < ::ApplicationJob
   end
 
   def pg_env
-    config = ActiveRecord::Base.connection_db_config.configuration_hash
     entries = pg_env_to_connection_config.map do |key, config_key|
-      value = config[config_key].to_s
+      possible_keys = Array(config_key)
+      value = possible_keys
+        .lazy
+        .filter_map { |key| database_config[key] }
+        .first
 
-      [key.to_s, value] if value.present?
+      [key.to_s, value.to_s] if value.present?
     end
 
     entries.compact.to_h
+  end
+
+  def database_config
+    @database_config ||= ActiveRecord::Base.connection_db_config.configuration_hash
   end
 
   ##
@@ -269,7 +283,7 @@ class BackupJob < ::ApplicationJob
     {
       PGHOST: :host,
       PGPORT: :port,
-      PGUSER: :username,
+      PGUSER: %i[username user],
       PGPASSWORD: :password,
       PGDATABASE: :database
     }

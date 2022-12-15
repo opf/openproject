@@ -29,14 +29,6 @@
 require 'spec_helper'
 
 describe OpenProject::AccessControl do
-  before do
-    OpenProject::AccessControl.instance_variable_set(:'@disabled_project_modules', nil)
-  end
-
-  after do
-    OpenProject::AccessControl.instance_variable_set(:'@disabled_project_modules', nil)
-  end
-
   describe '.sorted_module_names' do
     context 'with bim disabled' do
       before do
@@ -54,7 +46,7 @@ describe OpenProject::AccessControl do
 
       context 'if excluding disabled modules' do
         it 'does not include the bim module' do
-          expect(subject.sorted_module_names(false))
+          expect(subject.sorted_module_names(include_disabled: false))
             .not_to include('bim')
         end
       end
@@ -76,7 +68,7 @@ describe OpenProject::AccessControl do
 
       context 'if excluding disabled modules' do
         it 'includes the bim module' do
-          expect(subject.sorted_module_names(false))
+          expect(subject.sorted_module_names(include_disabled: false))
             .to include('bim')
         end
       end

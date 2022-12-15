@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -32,13 +30,11 @@ class Queries::TimeEntries::Filters::UserFilter < Queries::TimeEntries::Filters:
   include Queries::Filters::Shared::MeValueFilter
 
   def allowed_values
-    @allowed_values ||= begin
-      # We don't care for the first value as we do not display the values visibly
-      me_allowed_value + ::Principal
-                         .in_visible_project
-                         .pluck(:id)
-                         .map { |id| [id, id.to_s] }
-    end
+    # We don't care for the first value as we do not display the values visibly
+    @allowed_values ||= me_allowed_value + ::Principal
+                       .in_visible_project
+                       .pluck(:id)
+                       .map { |id| [id, id.to_s] }
   end
 
   def where

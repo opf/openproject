@@ -31,6 +31,10 @@ module API
         self.embed_map = {
           elements: WorkPackageSqlRepresenter
         }.with_indifferent_access
+
+        def self._type
+          'WorkPackageCollection'
+        end
       end
     end
   end

@@ -38,6 +38,7 @@ import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { teamPlannerEventRemoved } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
+import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 
 @Component({
   selector: 'op-add-existing-pane',
@@ -67,6 +68,21 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
 
   isLoading$ = new BehaviorSubject<boolean>(false);
 
+  noResultsFound$ = this.isEmpty$
+    .pipe(
+      map((resultEmpty) => {
+        if (this.searchString$.getValue().length === 0) {
+          return { showImage: true, text: this.text.empty_state };
+        }
+
+        if (resultEmpty) {
+          return { showImage: false, text: this.text.no_results };
+        }
+
+        return {};
+      }),
+    );
+
   currentWorkPackages$ = combineLatest([
     this.calendarDrag.draggableWorkPackages$,
     this.querySpace.results.values$(),
@@ -88,6 +104,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
   text = {
     empty_state: this.I18n.t('js.team_planner.quick_add.empty_state'),
     placeholder: this.I18n.t('js.team_planner.quick_add.search_placeholder'),
+    no_results: this.I18n.t('js.autocompleter.notFoundText'),
   };
 
   image = {
@@ -101,7 +118,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
     private readonly notificationService:WorkPackageNotificationService,
     private readonly currentProject:CurrentProjectService,
     private readonly urlParamsHelper:UrlParamsHelperService,
-    private readonly calendar:OpCalendarService,
+    private readonly workPackagesCalendar:OpWorkPackagesCalendarService,
     private readonly calendarDrag:CalendarDragDropService,
     private readonly $state:StateService,
     private readonly actions$:ActionsService,
@@ -159,7 +176,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
     const activeFilters = this.wpFilters.currentlyVisibleFilters;
     const filters:ApiV3FilterBuilder = this.urlParamsHelper.filterBuilderFrom(activeFilters);
 
-    filters.add('subjectOrId', '**', [searchString]);
+    filters.add('typeahead', '**', [searchString]);
 
     // Add the existing filter, if any
     this.addExistingFilters(filters);
@@ -188,8 +205,11 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
     return this.searchString$.value !== '';
   }
 
-  showDisabledText(wp:WorkPackageResource):string {
-    return this.calendarDrag.workPackageDisabledExplanation(wp);
+  showDisabledText(wp:WorkPackageResource):{ text:string, orientation:'left'|'right' } {
+    return {
+      text: this.calendarDrag.workPackageDisabledExplanation(wp),
+      orientation: 'left',
+    };
   }
 
   openStateLink(event:{ workPackageId:string; requestedState:string }):void {

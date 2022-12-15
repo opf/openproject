@@ -32,7 +32,7 @@ describe WorkPackage, 'status', type: :model do
   let(:status) { create(:status) }
   let!(:work_package) do
     create(:work_package,
-           status: status)
+           status:)
   end
 
   describe '#readonly' do

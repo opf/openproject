@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -34,7 +32,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions:) }
   let(:permissions) { [:view_work_packages] }
   let(:project) { create(:project_with_types, public: false) }
   let(:base_path) { api_v3_paths.work_packages_by_project project.id }
@@ -58,7 +56,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
   end
 
   context 'when not allowed to see the project' do
-    let(:current_user) { build(:user) }
+    let(:current_user) { create(:user) }
 
     it 'fails with HTTP Not Found' do
       expect(subject.status).to eq 404
@@ -75,7 +73,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
 
   describe 'sorting' do
     let(:query) { { sortBy: '[["id", "desc"]]' } }
-    let(:work_packages) { create_list(:work_package, 2, project: project) }
+    let(:work_packages) { create_list(:work_package, 2, project:) }
 
     it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
       let(:elements) { work_packages.reverse }
@@ -99,8 +97,8 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
     let(:priority2) { create(:priority, name: 'Prio B') }
     let(:work_packages) do
       [
-        create(:work_package, project: project, priority: priority1),
-        create(:work_package, project: project, priority: priority2)
+        create(:work_package, project:, priority: priority1),
+        create(:work_package, project:, priority: priority2)
       ]
     end
 
@@ -124,7 +122,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
     end
     let(:other_project) { create(:project, members: { current_user => role }) }
     let(:work_packages) { [other_project_work_package, project_work_package] }
-    let(:project_work_package) { create(:work_package, project: project) }
+    let(:project_work_package) { create(:work_package, project:) }
     let(:other_project_work_package) { create(:work_package, project: other_project) }
 
     it_behaves_like 'API V3 collection response', 1, 1, 'WorkPackage', 'WorkPackageCollection' do
@@ -139,15 +137,15 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
     let(:work_packages) do
       [
         create(:work_package,
-               project: project,
+               project:,
                priority: priority1,
                estimated_hours: 1),
         create(:work_package,
-               project: project,
+               project:,
                priority: priority2,
                estimated_hours: 2),
         create(:work_package,
-               project: project,
+               project:,
                priority: priority1,
                estimated_hours: 3)
       ]
@@ -193,13 +191,12 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
     end
   end
 
-
   describe 'displaying sums' do
     let(:query) { { showSums: 'true' } }
     let(:work_packages) do
       [
-        create(:work_package, project: project, estimated_hours: 1),
-        create(:work_package, project: project, estimated_hours: 2)
+        create(:work_package, project:, estimated_hours: 1),
+        create(:work_package, project:, estimated_hours: 2)
       ]
     end
 

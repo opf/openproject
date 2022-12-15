@@ -29,9 +29,8 @@
 module Components
   class Dropdown
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
-
-    def initialize; end
 
     def toggle
       trigger_element.click
@@ -45,8 +44,8 @@ module Components
       expect(page).to have_selector('.op-app-menu--dropdown')
     end
 
-    def within_dropdown(&block)
-      page.within('.op-app-menu--dropdown', &block)
+    def within_dropdown(&)
+      page.within('.op-app-menu--dropdown', &)
     end
 
     def trigger_element

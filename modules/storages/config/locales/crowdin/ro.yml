@@ -1,0 +1,92 @@
+#English strings go here
+ro:
+  permission_view_file_links: "Vizualizați link-urile fișierului"
+  permission_manage_file_links: "Gestionează link-urile fișierelor"
+  permission_manage_storages_in_project: "Gestionați stocarea fișierelor în proiect"
+  project_module_storages: "Stocuri de fișiere"
+  activerecord:
+    models:
+      storages/storage: "Depozitare"
+    attributes:
+      storages/storage:
+        name: "Nume"
+        creator: "Creator"
+        provider_type: "Tip flux"
+      storages/file_link:
+        origin_id: "Id de origine"
+    errors:
+      messages:
+        not_linked_to_project: "nu este legat de proiect."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "nu poate fi conectat la acesta."
+              minimal_nextcloud_version_unmet: "nu îndeplinește cerințele minime de versiune (trebuie să fie Nextcloud 23 sau mai mare)"
+              not_nextcloud_server: "nu este un server Nextcloud"
+              op_application_not_installed: >
+                pare să nu aibă aplicația "OpenProject integration". Vă rugăm să o instalați mai întâi și apoi să încercați din nou.
+              authorization_header_missing: >
+                nu este complet configurat. Instanța Nextcloud nu primește headerul de "Autorizare", care este necesar pentru un token purtător pe baza autorizării cererilor API. Vă rugăm să verificaţi de două ori configuraţia serverului HTTP.
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "poate fi doar numeric sau uuid."
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Prea multe elemente create simultan. Se așteaptă cel mult %{max} , a luat %{actual}."
+  storages:
+    buttons:
+      done_continue_setup: "Terminat. Continuă configurarea"
+      replace_openproject_oauth: "Înlocuiește OpenProject OAuth"
+      replace_provider_type_oauth: "Înlocuiește %{provider_type} OAuth"
+      save_and_continue_setup: "Salvează și continuă configurarea"
+      save_and_complete_setup: "Salvează și finalizează configurarea"
+    page_titles:
+      project_settings:
+        index: "Stocare de fișiere disponibile în acest proiect"
+        new: "Adaugă un fișier de stocare în acest proiect"
+    instructions:
+      type: "Asigurați-vă că aveți drepturi de administrare în instanța Nextcloud și că aveți următoarea aplicație instalată înainte de a face configurarea:"
+      type_link_text: "Integrare OpenProject”"
+      name: "Dați un nume stocării pentru ca utilizatorii să poată diferenția între mai multe spațiul de stocare."
+      host: "Vă rugăm să adăugați adresa de găzduire a spațiului de stocare, inclusiv https://. Nu trebuie să fie mai lungă de 255 de caractere."
+      no_storage_set_up: "Nu sunt încă setate stocări de fișiere."
+      setting_up_additional_storages: "Pentru a configura fişiere de stocare suplimentare, vă rugăm să vizitaţi"
+      setting_up_additional_storages_non_admin: "Administratorii pot configura fişiere de stocare suplimentare în Administrare / Stocare fişiere."
+      setting_up_storages: "Pentru configurarea fișierelor, vă rugăm să vizitați"
+      setting_up_storages_non_admin: "Administratorii pot configura spațiul de stocare în Administrare / Stocare fișiere."
+      all_available_storages_already_added: "Toate depozitele disponibile sunt deja adăugate la proiect."
+      copy_from: "Copiază această valoare de la"
+      nextcloud:
+        integration: "Administrare Nextcloud / OpenProject"
+    delete_warning:
+      storage: >
+        Sunteţi sigur că doriţi să ştergeţi acest stocare? Acest lucru va şterge şi stocarea din toate proiectele în care este folosit. În plus, va șterge toate link-urile din pachetele de lucru către fișierele care sunt stocate în stocare.
+      project_storage: >
+        Ești sigur că vrei să ștergi această stocare de fișiere din acest proiect? Acest lucru va elimina, de asemenea, toate link-urile către fișierele stocate în această stocare pentru acest proiect.
+    label_creator: "Creator"
+    label_file_link: "Link-ul fișierului"
+    label_file_links: "Link-uri fișier"
+    label_name: "Nume"
+    label_host: "URL Gazdă"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Ecran Nextcloud"
+    label_oauth_application_details: "Detalii aplicație OAuth"
+    label_oauth_client_details: "Detalii client OAuth"
+    label_provider_type: "Tip flux"
+    label_new_storage: "Stocare nouă"
+    label_storage: "Depozitare"
+    label_storages: "Depozite"
+    no_results: "Nici o stocare setată, încă."
+    provider_types:
+      label: "Tip furnizor"
+      nextcloud:
+        name: "Nextcloud"
+        name_placeholder: "e.g. Nextcloud"
+        default_name: "Nextcloud meu"
+    confirm_replace_oauth_application: "Ești sigur? Toți utilizatorii vor trebui să autorizeze din nou împotriva OpenProject."
+    confirm_replace_oauth_client: "Ești sigur? Toți utilizatorii vor trebui să autorizeze din nou împotriva stocării."
+    oauth_client_details_missing: "Pentru a finaliza configurarea, vă rugăm să adăugați credențialele clientului OAuth din spațiul de stocare."
+    notice_oauth_application_replaced: "Aplicația OpenProject OAuth a fost înlocuită cu succes."

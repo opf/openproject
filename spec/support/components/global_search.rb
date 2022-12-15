@@ -1,9 +1,8 @@
 module Components
   class GlobalSearch
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
-
-    def initialize; end
 
     def container
       page.find('.top-menu-search--input')
@@ -62,7 +61,7 @@ module Components
 
     def expect_scope(text)
       expect(page)
-        .to have_selector('.global-search--project-scope', text: text, wait: 10)
+        .to have_selector('.global-search--project-scope', text:, wait: 10)
     end
 
     def expect_work_package_marked(wp)
@@ -89,8 +88,8 @@ module Components
     end
 
     def find_option(text)
-      expect(page).to have_selector('.global-search--wp-subject', text: text, wait: 10)
-      find('.global-search--wp-subject', text: text)
+      expect(page).to have_selector('.global-search--wp-subject', text:, wait: 10)
+      find('.global-search--wp-subject', text:)
     end
 
     def cancel

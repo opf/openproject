@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -30,9 +28,7 @@
 
 class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter::WorkPackageFilter
   def allowed_values
-    @allowed_values ||= begin
-      roles.map { |r| [r.name, r.id.to_s] }
-    end
+    @allowed_values ||= roles.map { |r| [r.name, r.id.to_s] }
   end
 
   def available?

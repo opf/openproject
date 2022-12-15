@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -38,14 +36,14 @@ FactoryBot.define do
 
     sequence(:name) { |n| "My Project No. #{n}" }
     sequence(:identifier) { |n| "myproject_no_#{n}" }
-    created_at { Time.now }
-    updated_at { Time.now }
+    created_at { Time.zone.now }
+    updated_at { Time.zone.now }
     enabled_module_names { OpenProject::AccessControl.available_project_modules }
     public { false }
     templated { false }
 
     callback(:after_build) do |project, evaluator|
-      disabled_modules = Array(evaluator.disable_modules)
+      disabled_modules = Array(evaluator.disable_modules).map(&:to_s)
       project.enabled_module_names = project.enabled_module_names - disabled_modules
 
       if !evaluator.no_types && project.types.empty?
@@ -57,7 +55,7 @@ FactoryBot.define do
       evaluator.members.each do |user, roles|
         Members::CreateService
           .new(user: User.system, contract_class: EmptyContract)
-          .call(principal: user, project: project, roles: Array(roles))
+          .call(principal: user, project:, roles: Array(roles))
       end
     end
 
@@ -82,7 +80,7 @@ FactoryBot.define do
                   [build(:type)]
                 end
 
-        new(types: types)
+        new(types:)
       end
 
       factory :valid_project do
@@ -90,6 +88,11 @@ FactoryBot.define do
           project.types << build(:type_with_workflow)
         end
       end
+    end
+
+    trait :updated_a_long_time_ago do
+      created_at { 2.years.ago }
+      updated_at { 2.years.ago }
     end
   end
 end

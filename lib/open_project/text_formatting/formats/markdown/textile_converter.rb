@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -421,7 +419,7 @@ module OpenProject::TextFormatting::Formats
             data[:arguments] = args if args.present?
           end
 
-          content_tag :macro, '', class: macro, data: data
+          content_tag :macro, '', class: macro, data:
         end
       end
 

@@ -29,13 +29,13 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Budget, type: :model do
-  let(:budget) { build(:budget, project: project) }
+  let(:budget) { build(:budget, project:) }
   let(:type) { create(:type_feature) }
   let(:project) { create(:project_with_types) }
   let(:user) { create(:user) }
 
   describe 'destroy' do
-    let(:work_package) { create(:work_package, project: project) }
+    let(:work_package) { create(:work_package, project:) }
 
     before do
       budget.author = user
@@ -52,7 +52,7 @@ describe Budget, type: :model do
 
   describe '#existing_material_budget_item_attributes=' do
     let!(:existing_material_budget_item) do
-      create(:material_budget_item, budget: budget, units: 10.0)
+      create(:material_budget_item, budget:, units: 10.0)
 
       budget.material_budget_items.reload.first
     end
@@ -70,7 +70,7 @@ describe Budget, type: :model do
           budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s.to_sym => { units: "0.5" } }
 
           expect(existing_material_budget_item.units)
-            .to eql 0.5
+            .to be 0.5
         end
       end
 

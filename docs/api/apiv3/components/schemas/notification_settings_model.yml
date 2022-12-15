@@ -23,11 +23,58 @@ items:
     - membershipUpdated
     - _links
   properties:
-    watched:
+    documentAdded:
+      type: boolean
+    forumMessages:
       type: boolean
     involved:
       type: boolean
+    membershipAdded:
+      type: boolean
+    membershipUpdated:
+      type: boolean
     mentioned:
+      type: boolean
+    newsAdded:
+      type: boolean
+    newsCommented:
+      type: boolean
+    overdue:
+      type: string
+      description: |-
+        Sets an overdue notification for work packages. It is null when no notification is set,
+        otherwise it holds an ISO8601 formatted duration string with the possible values listed below.
+        The possible values are: none, every day, every 3 days, every week.
+      enum:
+        - ""
+        - P1D
+        - P3D
+        - P1W
+    startDate:
+      type: string
+      description: |-
+        Sets a startDate notification for work packages. It is null when no notification is set,
+        otherwise it holds an ISO8601 formatted duration string with the possible values listed below.
+        The possible values are: none, same day, 1 day before, 3 days before, 1 week before.
+      enum:
+        - ""
+        - PT0S
+        - P1D
+        - P3D
+        - P1W
+    dueDate:
+      type: string
+      description: |-
+        Sets a dueDate notification for work packages. It is null when no notification is set,
+        otherwise it holds an ISO8601 formatted duration string with the possible values listed below.
+        The possible values are: none, same day, 1 day before, 3 days before, 1 week before.
+      enum:
+        - ""
+        - PT0S
+        - P1D
+        - P3D
+        - P1W
+    watched:
       type: boolean
     workPackageCreated:
       type: boolean
@@ -39,21 +86,9 @@ items:
       type: boolean
     workPackageScheduled:
       type: boolean
-    newsAdded:
-      type: boolean
-    newsCommented:
-      type: boolean
-    documentAdded:
-      type: boolean
-    forumMessages:
-      type: boolean
     wikiPageAdded:
       type: boolean
     wikiPageUpdated:
-      type: boolean
-    membershipAdded:
-      type: boolean
-    membershipUpdated:
       type: boolean
     _links:
       type: object
@@ -68,4 +103,3 @@ items:
             href:
               type: string
               format: uri
-    

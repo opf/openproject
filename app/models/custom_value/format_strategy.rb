@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -37,9 +35,7 @@ class CustomValue::FormatStrategy
     @custom_value = custom_value
   end
 
-  def value_present?
-    !value.blank?
-  end
+  delegate :present?, to: :value, prefix: true
 
   # Returns the value of the CustomValue in a typed fashion (i.e. not as the string
   # that is used for representation in the database)

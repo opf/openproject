@@ -1,30 +1,49 @@
 <div
-  class="op-modal op-modal_autoheight confirm-form-submit--modal loading-indicator--location"
-  [ngClass]="{'-highlight -danger-zone' : dangerHighlighting }"
+  class="spot-modal op-confirm-dialog loading-indicator--location"
   data-indicator-name="modal"
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  [cdkTrapFocusAutoCapture]="true"
 >
-  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
+  <div class="spot-modal--header">{{text.title}}</div>
 
-  <div class="op-modal--body">
-    <p>
-      <span [textContent]="text.text"></span>
+  <div *ngIf="divideContent" class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+    <span class="op-confirm-dialog--text spot-body-small"
+          [textContent]="text.text"
+    ></span>
+    <span
+      *ngFor="let data of passedData"
+      class="spot-body-small"
+    >
       <br/>
-      <span *ngFor="let data of passedData">
-        <br/>
-        <strong>{{data}}</strong>
-      </span>
-    </p>
+      <strong>{{data}}</strong>
+    </span>
   </div>
 
-  <div class="op-modal--footer">
-    <button class="confirm-form-submit--continue button"
-            [ngClass]="dangerHighlighting ? '-danger': '-highlight'"
-            (click)="confirmAndClose($event)"
-            [textContent]="text.button_continue"
-    ></button>
-    <button class="confirm-form-submit--cancel button"
-            (click)="closeMe($event)"
-            [textContent]="text.button_cancel"
-    ></button>
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button spot-modal--cancel-button spot-action-bar--action"
+        data-qa-selector="confirmation-modal--cancel"
+        (click)="closeMe($event)"
+      >
+        <span *ngIf="icon.cancel as clazz" class="spot-icon spot-icon_{{clazz}}"></span>
+        <span>{{text.button_cancel}}</span>
+      </button>
+      <button
+        type="button"
+        class="button spot-action-bar--action"
+        data-qa-selector="confirmation-modal--confirmed"
+        [ngClass]="dangerHighlighting ? '-danger': '-highlight'"
+        (click)="confirmAndClose($event)"
+      >
+        <span *ngIf="icon.continue as clazz" class="spot-icon spot-icon_{{clazz}}"></span>
+        <span>{{text.button_continue}}</span>
+      </button>
+    </div>
   </div>
 </div>

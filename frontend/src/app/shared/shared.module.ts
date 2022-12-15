@@ -30,6 +30,8 @@ import {
   Injector,
   NgModule,
 } from '@angular/core';
+import { A11yModule } from '@angular/cdk/a11y';
+import { UIRouterGlobals } from '@uirouter/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
@@ -37,12 +39,10 @@ import { CommonModule } from '@angular/common';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
-import {
-  StateService,
-  UIRouterModule,
-} from '@uirouter/angular';
+import { UIRouterModule } from '@uirouter/angular';
 import { OpSpotModule } from 'core-app/spot/spot.module';
 import { CurrentUserModule } from 'core-app/core/current-user/current-user.module';
+import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
 import { IconTriggeredContextMenuComponent } from 'core-app/shared/components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
@@ -54,7 +54,8 @@ import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/
 import { DatePickerModule } from 'core-app/shared/components/op-date-picker/date-picker.module';
 import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
 import { EnterpriseBannerComponent } from 'core-app/shared/components/enterprise-banner/enterprise-banner.component';
-import { EnterpriseBannerBootstrapComponent } from 'core-app/shared/components/enterprise-banner/enterprise-banner-bootstrap.component';
+import { EnterprisePageComponent } from 'core-app/shared/components/enterprise-page/enterprise-page.component';
+import { FreeTrialButtonComponent } from 'core-app/features/enterprise/free-trial-button/free-trial-button.component';
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -79,30 +80,24 @@ import { AddSectionDropdownComponent } from './components/hide-section/add-secti
 import { HideSectionLinkComponent } from './components/hide-section/hide-section-link/hide-section-link.component';
 import { RemoteFieldUpdaterComponent } from './components/remote-field-updater/remote-field-updater.component';
 import { ShowSectionDropdownComponent } from './components/hide-section/show-section-dropdown.component';
-import { SlideToggleComponent } from './components/slide-toggle/slide-toggle.component';
 import { DynamicBootstrapModule } from './components/dynamic-bootstrap/dynamic-bootstrap.module';
-import { OpCheckboxFieldComponent } from './components/forms/checkbox-field/checkbox-field.component';
-import { OpFormFieldComponent } from './components/forms/form-field/form-field.component';
-import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
-import { OpProjectListComponent } from './components/project-include/project-list.component';
+import { OpProjectIncludeListComponent } from './components/project-include/list/project-include-list.component';
+import { OpLoadingProjectListComponent } from './components/searchable-project-list/loading-project-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 
-export function bootstrapModule(injector:Injector) {
+export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
   const currentProject = injector.get(CurrentProjectService);
-  const routerState = injector.get(StateService);
+  const uiRouterGlobals = injector.get(UIRouterGlobals);
 
-  window.ErrorReporter.addContext((scope) => {
-    if (currentProject.inProjectContext) {
-      scope.setTag('project', currentProject.identifier);
-    }
-
-    scope.setExtra('router state', routerState.current.name);
-  });
+  (window.ErrorReporter).addHook(() => ({
+    project: currentProject.identifier || 'global',
+    'router state': uiRouterGlobals.current.name || 'unknown',
+  }));
 
   const hookService = injector.get(HookService);
   hookService.register('openProjectAngularBootstrap', () => [
@@ -123,6 +118,7 @@ export function bootstrapModule(injector:Injector) {
     FormsModule,
     OpSpotModule,
     // Angular CDK
+    A11yModule,
     PortalModule,
     DragDropModule,
     DragulaModule,
@@ -133,6 +129,7 @@ export function bootstrapModule(injector:Injector) {
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
     OpenprojectContentLoaderModule,
+    OpenprojectAutocompleterModule,
 
     DatePickerModule,
     FocusModule,
@@ -147,12 +144,15 @@ export function bootstrapModule(injector:Injector) {
     FormsModule,
     PortalModule,
     DragDropModule,
+    A11yModule,
     IconModule,
     AttributeHelpTextModule,
     NgSelectModule,
     NgOptionHighlightModule,
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
+    OpenprojectAutocompleterModule,
+    OpenprojectContentLoaderModule,
 
     OpSpotModule,
 
@@ -184,20 +184,16 @@ export function bootstrapModule(injector:Injector) {
 
     // Enterprise Edition
     EnterpriseBannerComponent,
+    EnterprisePageComponent,
+    FreeTrialButtonComponent,
 
     DynamicModule,
 
-    // filter
-
-    SlideToggleComponent,
-
-    OpCheckboxFieldComponent,
-    OpFormFieldComponent,
-    OpFormBindingDirective,
     OpOptionListComponent,
     OpSidemenuComponent,
     OpProjectIncludeComponent,
-    OpProjectListComponent,
+    OpProjectIncludeListComponent,
+    OpLoadingProjectListComponent,
 
     ViewSelectComponent,
   ],
@@ -206,7 +202,6 @@ export function bootstrapModule(injector:Injector) {
     ViewsResourceService,
   ],
   declarations: [
-    OpDateTimeComponent,
     ViewSelectComponent,
 
     ToastsContainerComponent,
@@ -245,20 +240,16 @@ export function bootstrapModule(injector:Injector) {
 
     // Enterprise Edition
     EnterpriseBannerComponent,
-    EnterpriseBannerBootstrapComponent,
+    EnterprisePageComponent,
+    FreeTrialButtonComponent,
 
     HomescreenNewFeaturesBlockComponent,
 
-    // filter
-    SlideToggleComponent,
-
-    OpCheckboxFieldComponent,
-    OpFormFieldComponent,
-    OpFormBindingDirective,
     OpOptionListComponent,
     OpSidemenuComponent,
     OpProjectIncludeComponent,
-    OpProjectListComponent,
+    OpProjectIncludeListComponent,
+    OpLoadingProjectListComponent,
   ],
 })
 export class OPSharedModule {

@@ -37,7 +37,7 @@ describe "wiki page attachments" do
     let(:read_permission) { :view_wiki_pages }
     let(:update_permission) { %i(delete_wiki_pages_attachments edit_wiki_pages) }
 
-    let(:wiki) { create(:wiki, project: project) }
-    let(:wiki_page) { create(:wiki_page, wiki: wiki) }
+    let(:wiki) { create(:wiki, project:) }
+    let(:wiki_page) { create(:wiki_page, wiki:) }
   end
 end

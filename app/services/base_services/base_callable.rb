@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -35,11 +33,11 @@ module BaseServices
 
     include ::WithReversibleState
 
-    def call(*params)
-      self.params = params.first.to_h.deep_symbolize_keys
+    def call(params = {})
+      self.params = params.to_h.deep_symbolize_keys
 
       run_callbacks(:call) do
-        perform(**(params.first || {}).to_h.deep_symbolize_keys)
+        perform(**self.params)
       end
     end
 

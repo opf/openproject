@@ -47,17 +47,21 @@ module Costs
         permission :view_time_entries, {}
         permission :view_own_time_entries, {}
 
+        permission :log_own_time,
+                   {},
+                   require: :loggedin
+
         permission :log_time,
+                   {},
+                   require: :loggedin
+
+        permission :edit_own_time_entries,
                    {},
                    require: :loggedin
 
         permission :edit_time_entries,
                    {},
                    require: :member
-
-        permission :edit_own_time_entries,
-                   {},
-                   require: :loggedin
 
         permission :manage_project_activities,
                    { 'projects/settings/time_entry_activities': %i[show update] },
@@ -201,7 +205,7 @@ module Costs
                  }
                },
                getter: ->(*) {
-                 ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter.new(represented, current_user: current_user)
+                 ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter.new(represented, current_user:)
                },
                setter: ->(*) {},
                skip_render: ->(*) { !costs_by_type_visible? }
@@ -248,12 +252,9 @@ module Costs
              writable: false
     end
 
-    initializer 'costs.register_latest_project_activity' do
-      Project.register_latest_project_activity on: 'TimeEntry',
-                                               attribute: :updated_at
-    end
-
     config.to_prepare do
+      OpenProject::ProjectLatestActivity.register on: 'TimeEntry'
+
       Costs::Patches::MembersPatch.mixin!
 
       ##
@@ -270,7 +271,9 @@ module Costs
         ::Type.add_constraint attribute, constraint
       end
 
-      Queries::Register.column Query, Costs::QueryCurrencyColumn
+      ::Queries::Register.register(::Query) do
+        column Costs::QueryCurrencyColumn
+      end
     end
   end
 end

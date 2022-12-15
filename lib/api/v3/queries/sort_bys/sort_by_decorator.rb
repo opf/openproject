@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -72,13 +70,9 @@ module API
             I18n.t(direction == 'desc' ? :label_descending : :label_ascending)
           end
 
-          def column_name
-            column.name
-          end
+          delegate :name, to: :column, prefix: true
 
-          def column_caption
-            column.caption
-          end
+          delegate :caption, to: :column, prefix: true
 
           private
 

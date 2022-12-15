@@ -238,6 +238,7 @@ describe('UrlParamsHelper', () => {
         sortBy: JSON.stringify([['type', 'desc'], ['status', 'asc']]),
         timelineVisible: false,
         showHierarchies: false,
+        includeSubprojects: false,
         highlightingMode: 'inline',
         'highlightedAttributes[]': ['a', 'b'],
         offset: 10,
@@ -298,6 +299,7 @@ describe('UrlParamsHelper', () => {
         timelineVisible: false,
         showHierarchies: false,
         highlightingMode: 'inline',
+        includeSubprojects: false,
 
         sortBy: '[]',
       };

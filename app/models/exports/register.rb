@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,8 +31,8 @@ module Exports
     class << self
       attr_reader :lists, :singles, :formatters
 
-      def register(&block)
-        instance_exec(&block)
+      def register(&)
+        instance_exec(&)
       end
 
       def list(model, exporter)

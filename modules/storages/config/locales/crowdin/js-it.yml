@@ -1,0 +1,49 @@
+#English strings go here
+it:
+  js:
+    storages:
+      link_files_in_storage: "Collega file in %{storageType}"
+      link_existing_files: "Collega file esistenti"
+      upload_files: "Caricare i files"
+      drop_files: >
+        Drop files here to upload them to %{storageType}.
+      login: "Accesso %{storageType}"
+      login_to: "Accedi a %{storageType}"
+      no_connection: "Nessuna connessione %{storageType}"
+      open_storage: "Apri %{storageType}"
+      select_location: "Seleziona Posizione"
+      choose_location: "Scegli posizione"
+      types:
+        nextcloud: "Nextcloud"
+      information:
+        connection_error: >
+          Alcune impostazioni %{storageType} non funzionano. Contatta l'amministratore %{storageType}.
+        live_data_error: "Errore nel recupero dei dettagli del file"
+        live_data_error_description: >
+          Alcuni dati %{storageType} non possono essere recuperati. Prova a ricaricare questa pagina o contatta l'amministratore %{storageType}.
+        no_file_links: "Per collegare i file a questa macro-attività, farlo tramite %{storageType}."
+        not_logged_in: >
+          Per aggiungere un link, vedere o caricare i file relativi a questo pacchetto di lavoro, accedi a %{storageType}.
+      file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
+        download: "Scarica %{fileName}"
+        no_permission: "Non hai i permessi per accedere al file."
+        open: 'Apri file su memoria'
+        open_location: 'Apri file nella posizione'
+        remove: "Rimuovi collegamento al file"
+        remove_confirmation: >
+          Vuoi davvero scollegare il file da questa macro-attività? Lo scollegamento non influisce sul file originale e rimuove solo la connessione a questa macro-attività.
+        remove_short: "Rimuovi collegamento"
+        select: "Seleziona file"
+        select_all: "Seleziona tutto"
+        selection:
+          zero: "Seleziona i files da collegare"
+          one: "Collega %{count} files"
+          other: "Collega %{number} file"
+        success_create:
+          one: "Successfully created 1 file link."
+          other: "Successfully created %{count} file links."
+        not_allowed_tooltip: "Accedi a Nextcloud per accedere a questo file"
+        already_linked_file: "Questo file è già collegato a questa macro-attività."
+        already_linked_directory: "Questa directory è già collegata a questa macro-attività."

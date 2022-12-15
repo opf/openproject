@@ -45,7 +45,7 @@ describe Costs::QueryCurrencyColumn, type: :model do
 
     context 'with costs enabled' do
       it 'returns the four costs columns' do
-        is_expected
+        expect(subject)
           .to match_array %i[budget material_costs labor_costs overall_costs]
       end
     end
@@ -54,14 +54,14 @@ describe Costs::QueryCurrencyColumn, type: :model do
       let(:costs_enabled) { false }
 
       it 'returns no columns' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
 
     context 'with no context' do
       it 'returns the four costs columns' do
-        is_expected
+        expect(subject)
           .to match_array %i[budget material_costs labor_costs overall_costs]
       end
     end

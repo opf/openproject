@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -37,8 +35,16 @@ module API
       include API::Decorators::FormattableProperty
 
       def initialize(
-        type:, name:, location: nil, required: true, has_default: false, writable: true,
-        attribute_group: nil, description: nil, current_user: nil, deprecated: nil
+        type:,
+        name:,
+        location: nil,
+        required: true,
+        has_default: false,
+        writable: true,
+        attribute_group: nil,
+        description: nil,
+        current_user: nil,
+        deprecated: nil
       )
         @type = type
         @name = name
@@ -50,7 +56,7 @@ module API
         @description = description
         @deprecated = deprecated
 
-        super(nil, current_user: current_user)
+        super(nil, current_user:)
       end
 
       attr_accessor :type,
@@ -87,6 +93,7 @@ module API
                            setter: nil,
                            getter: ->(*) do
                              next unless description.present?
+
                              ::API::Decorators::Formattable.new(description)
                            end
 

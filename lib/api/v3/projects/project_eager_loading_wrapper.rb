@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,6 +31,9 @@ module API
     module Projects
       class ProjectEagerLoadingWrapper < API::V3::Utilities::EagerLoading::EagerLoadingWrapper
         include API::V3::Utilities::EagerLoading::CustomFieldAccessor
+
+        # delegate class check to wrapped object, as there are cases where the type is checked explicitly.
+        delegate :is_a?, to: :__getobj__
 
         class << self
           def wrap(projects)

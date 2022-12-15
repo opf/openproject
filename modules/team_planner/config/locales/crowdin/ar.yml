@@ -1,12 +1,13 @@
 #English strings go here
 ar:
-  permission_view_team_planner: "View team planner"
-  permission_manage_team_planner: "Manage team planner"
-  project_module_team_planner_view: "Team planner"
+  permission_view_team_planner: "عرض مخطط الفريق"
+  permission_manage_team_planner: "إدارة مخطط الفريق"
+  project_module_team_planner_view: "مخطط الفريق"
   team_planner:
-    label_team_planner: "Team planner"
-    label_team_planner_plural: "Team planners"
-    label_assignees: "Assignees"
+    label_team_planner: "مخطط الفريق"
+    label_create_new_team_planner: "إنشاء مخطط فريق جديد"
+    label_team_planner_plural: "مخططي الفريق"
+    label_assignees: "المعينون"
     upsale:
-      title: "Team planner"
-      description: "Team planner gives you a complete overview what each of team member is working on, one week at a time. Move, stretch and shrink work packages visually, and even drag them from one assignee to another to organise workload. You can even create new work packages or add existing ones, all from within team planner!"
+      title: "مخطط الفريق"
+      description: "احصل على نظرة عامة كاملة لتخطيط فريقك مع فريق تخطيط العمل. تمديد, اختصار و سحب و إسقاط مجموعات العمل لتعديل التواريخ أو نقلها أو تغيير المحال إليهم."

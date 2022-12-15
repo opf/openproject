@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -46,7 +44,7 @@ describe CustomActions::UpdateService do
   let(:contract_errors) { double('contract errors') }
   let(:instance) do
     contract
-    described_class.new(action: action, user: user)
+    described_class.new(action:, user:)
   end
   let(:contract) do
     contract_instance = double('contract instance')

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -32,8 +30,8 @@ require 'spec_helper'
 
 describe WorkPackage, 'custom_actions', type: :model do
   let(:work_package) do
-    build_stubbed(:stubbed_work_package,
-                  project: project)
+    build_stubbed(:work_package,
+                  project:)
   end
   let(:project) { create(:project) }
   let(:status) { create(:status) }

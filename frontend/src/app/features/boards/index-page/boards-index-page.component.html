@@ -3,16 +3,16 @@
     <div class="title-container">
       <h2 [textContent]="text.boards"></h2>
     </div>
-    <ul class="toolbar-items"
-        *ngIf="showBoardIndexView()">
+    <ul class="toolbar-items">
       <li *ngIf="canAdd"
           class="toolbar-item">
         <a class="button -alt-highlight"
+           [title]="text.create_new_board"
            (click)="newBoard()">
           <op-icon icon-classes="button--icon icon-add">
           </op-icon>
           <span class="button--text"
-                [textContent]="text.create">
+                [textContent]="text.board">
           </span>
         </a>
       </li>
@@ -22,7 +22,7 @@
 
 <div class="boards--listing-group loading-indicator--location"
      data-indicator-name="boards-module">
-  <div *ngIf="showBoardIndexView() && (boards$ | async) as boards"
+  <div *ngIf="(boards$ | async) as boards"
        class="generic-table--container">
     <div class="generic-table--results-container">
       <table class="generic-table">
@@ -94,7 +94,7 @@
             <op-date-time [dateTimeValue]="board.createdAt"></op-date-time>
           </td>
           <td class="buttons">
-            <button class="op-link"
+            <button class="spot-link"
                     type="button"
                     (click)="destroyBoard(board)"
                     [title]="text.delete"
@@ -106,33 +106,5 @@
         </tbody>
       </table>
     </div>
-  </div>
-</div>
-
-<div *ngIf="!showBoardIndexView()"
-     class="boards--teaser-container">
-  <p>{{ text.teaser_text }}</p>
-  <p>{{ text.enterprise }}</p>
-
-  <a class="button -alt-highlight -with-icon icon-checkmark"
-     [href]="eeLink()"
-     target='blank'>
-    {{ text.upgrade }}
-  </a>
-
-  <a class="button -highlight-inverted"
-     [href]="demoLink()"
-     [textContent]="text.personal_demo"
-     target="_blank"
-  >
-  </a>
-
-  <div class="boards--teaser-video-container">
-    <iframe [src]="teaserVideoURL"
-            class="boards--teaser-video"
-            frameborder="0"
-            allow="autoplay; fullscreen"
-            allowfullscreen>
-    </iframe>
   </div>
 </div>

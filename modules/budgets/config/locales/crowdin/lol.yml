@@ -63,7 +63,7 @@ lol:
   label_example_placeholder: 'crwdns494051:0%{decimal}crwdne494051:0'
   label_view_all_budgets: "crwdns494053:0crwdne494053:0"
   label_yes: "crwdns494055:0crwdne494055:0"
-  notice_budget_conflict: "crwdns494057:0crwdne494057:0"
+  notice_budget_conflict: "crwdns830272:0crwdne830272:0"
   notice_no_budgets_available: "crwdns494059:0crwdne494059:0"
   permission_edit_budgets: "crwdns494061:0crwdne494061:0"
   permission_view_budgets: "crwdns494063:0crwdne494063:0"

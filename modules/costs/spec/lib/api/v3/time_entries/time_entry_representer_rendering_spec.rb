@@ -37,10 +37,10 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
                   spent_on: Date.today,
                   created_at: DateTime.now - 6.hours,
                   updated_at: DateTime.now - 3.hours,
-                  hours: hours,
-                  activity: activity,
-                  project: project,
-                  user: user)
+                  hours:,
+                  activity:,
+                  project:,
+                  user:)
   end
   let(:project) { build_stubbed(:project) }
   let(:work_package) { time_entry.work_package }
@@ -52,7 +52,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
     [:edit_time_entries]
   end
   let(:representer) do
-    described_class.create(time_entry, current_user: current_user, embed_links: true)
+    described_class.create(time_entry, current_user:, embed_links: true)
   end
 
   subject { representer.to_json }
@@ -110,7 +110,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
       end
       let(:custom_value) do
         double('CustomValue',
-               custom_field: custom_field,
+               custom_field:,
                customized: time_entry,
                value: '1',
                typed_value: user)
@@ -163,6 +163,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
     context 'when not allowed to update' do
       let(:permissions) { [] }
+
       it_behaves_like 'has no link' do
         let(:link) { 'updateImmediately' }
       end
@@ -221,6 +222,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
     context 'with an empty comment' do
       let(:time_entry) { build_stubbed(:time_entry) }
+
       it_behaves_like 'formattable property', :comment do
         let(:value) { time_entry.comments }
       end
@@ -253,9 +255,9 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
     end
 
     context 'custom value' do
-      let(:custom_field) { build_stubbed(:time_entry_custom_field) }
+      let(:custom_field) { build_stubbed(:text_time_entry_custom_field) }
       let(:custom_value) do
-        CustomValue.new(custom_field: custom_field,
+        CustomValue.new(custom_field:,
                         value: '1234',
                         customized: time_entry)
       end
@@ -277,7 +279,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
           raw: custom_value.value
         }
 
-        is_expected
+        expect(subject)
           .to be_json_eql(expected.to_json)
           .at_path("customField#{custom_field.id}")
       end

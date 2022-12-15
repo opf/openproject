@@ -39,14 +39,14 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
   let!(:open_status) { create :default_status }
   let!(:type_work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user,
            responsible: user
   end
   let!(:other_type_work_package) do
     create :work_package,
-           project: project,
+           project:,
            type: other_type,
            author: user,
            responsible: user
@@ -54,7 +54,7 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
   let!(:other_project_work_package) do
     create :work_package,
            project: other_project,
-           type: type,
+           type:,
            author: user,
            responsible: user
   end
@@ -69,12 +69,12 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
   end
 
   let(:role) do
-    create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
 
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project: project, user: u, roles: [role])
+      create(:member, project:, user: u, roles: [role])
       create(:member, project: other_project, user: u, roles: [role])
     end
   end
@@ -94,6 +94,12 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
 
   context 'with the permission to save queries' do
     it 'can add the widget and see the work packages of the filtered for types' do
+      # This one always exists by default.
+      # Using it here as a safeguard to govern speed.
+      wp_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+      expect(wp_area)
+        .to have_selector('.subject', text: type_work_package.subject)
+
       dashboard_page.add_widget(1, 1, :row, "Work packages table")
 
       filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
@@ -102,7 +108,7 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
 
       # At the beginning, the default query is displayed
       expect(filter_area.area)
-        .to have_selector('.subject', text: type_work_package.subject, wait: 10)
+        .to have_selector('.subject', text: type_work_package.subject, wait: 30)
 
       expect(filter_area.area)
         .to have_selector('.subject', text: other_type_work_package.subject)

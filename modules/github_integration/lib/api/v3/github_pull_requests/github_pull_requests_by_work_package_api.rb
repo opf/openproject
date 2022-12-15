@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -43,7 +41,7 @@ module API
             GithubPullRequestCollectionRepresenter.new(@github_pull_requests,
                                                        @github_pull_requests.count,
                                                        self_link: path,
-                                                       current_user: current_user)
+                                                       current_user:)
           end
         end
       end

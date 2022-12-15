@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -34,7 +32,7 @@ module Projects
     include Projects::Concerns::UpdateDemoData
 
     def initialize(user:, model:, contract_class: Projects::ArchiveContract)
-      super(user: user, contract_class: contract_class)
+      super(user:, contract_class:)
       self.model = model
     end
 

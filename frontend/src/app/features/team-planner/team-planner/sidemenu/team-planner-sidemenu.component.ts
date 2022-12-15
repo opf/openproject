@@ -1,19 +1,20 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  Input,
+  Component,
   ElementRef,
   HostBinding,
+  Input,
 } from '@angular/core';
-import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { map } from 'rxjs/operators';
 
 export const opTeamPlannerSidemenuSelector = 'op-team-planner-sidemenu';
 
-@DatasetInputs
 @Component({
   selector: opTeamPlannerSidemenuSelector,
   templateUrl: './team-planner-sidemenu.component.html',
@@ -26,18 +27,19 @@ export class TeamPlannerSidemenuComponent extends UntilDestroyedMixin {
 
   @Input() projectId:string|undefined;
 
-  canAddTeamPlanner$ = this.currentUserService.hasCapabilities$(
-    'team_planners/create',
-    this.currentProjectService.id || undefined,
-  )
-    .pipe(this.untilDestroyed());
-
-  text = {
-    create_new_team_planner: this.I18n.t('js.team_planner.create_new'),
-  };
+  canAddTeamPlanner$ = this
+    .currentUserService
+    .hasCapabilities$(
+      'team_planners/create',
+      this.currentProjectService.id || null,
+    )
+    .pipe(
+      map((val) => val && !this.bannersService.eeShowBanners),
+    );
 
   createButton = {
-    title: this.text.create_new_team_planner,
+    text: this.I18n.t('js.team_planner.create_label'),
+    title: this.I18n.t('js.team_planner.create_title'),
     uiSref: 'team_planner.page.show',
     uiParams: {
       query_id: null,
@@ -49,8 +51,11 @@ export class TeamPlannerSidemenuComponent extends UntilDestroyedMixin {
     readonly elementRef:ElementRef,
     readonly currentUserService:CurrentUserService,
     readonly currentProjectService:CurrentProjectService,
+    readonly bannersService:BannersService,
     readonly I18n:I18nService,
   ) {
     super();
+
+    populateInputsFromDataset(this);
   }
 }

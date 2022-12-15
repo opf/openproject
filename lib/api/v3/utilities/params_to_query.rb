@@ -46,7 +46,7 @@ module API
                                        representer,
                                        self_link)
             else
-              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+              raise_query_errors(query)
             end
           end
 
@@ -68,7 +68,7 @@ module API
 
             representer.new(scope,
                             self_link: link,
-                            current_user: current_user)
+                            current_user:)
           end
 
           def paths

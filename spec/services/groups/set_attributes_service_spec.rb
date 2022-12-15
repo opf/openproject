@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -53,9 +51,9 @@ describe Groups::SetAttributesService, type: :model do
   end
   let(:group_valid) { true }
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: group,
-                        contract_class: contract_class)
+                        contract_class:)
   end
   let(:call_attributes) { {} }
   let(:group) do
@@ -126,7 +124,7 @@ describe Groups::SetAttributesService, type: :model do
         expect(updated_group.group_users.map(&:user_id))
           .to eql [first_user.id, second_user.id]
 
-        expect(updated_group.group_users.any?(&:marked_for_destruction?)).to eq false
+        expect(updated_group.group_users.any?(&:marked_for_destruction?)).to be false
       end
     end
 

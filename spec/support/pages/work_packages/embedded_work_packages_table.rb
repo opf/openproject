@@ -28,11 +28,11 @@
 
 require 'support/pages/page'
 require 'support/pages/work_packages/work_packages_table'
-require 'support/components/ng_select_autocomplete_helpers'
+require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
 module Pages
   class EmbeddedWorkPackagesTable < WorkPackagesTable
-    include ::Components::NgSelectAutocompleteHelpers
+    include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
     attr_reader :container
 
@@ -50,7 +50,7 @@ module Pages
       # When using the inline create on initial page load,
       # there is a delay on travis where inline create can be clicked.
       sleep 1
-      container.find('.wp-inline-create--reference-link').click
+      container.find('[data-qa-selector="op-wp-inline-create-reference"]').click
 
       # Returns the autocomplete container
       container.find('[data-qa-selector="wp-relations-autocomplete"]')

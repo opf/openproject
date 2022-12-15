@@ -37,6 +37,7 @@ module Pages
 
     def initialize(project = nil)
       @project = project
+      super()
     end
 
     def visit_query(query)
@@ -67,6 +68,16 @@ module Pages
       end
     end
 
+    def expect_sums_row_with_attributes(attr_value_hash)
+      within(table_container) do
+        attr_value_hash.each do |column, value|
+          expect(page).to have_selector(
+            ".wp-table--sums-row div.#{column}", text: value.to_s, wait: 10
+          )
+        end
+      end
+    end
+
     def expect_work_package_subject(subject)
       within(table_container) do
         expect(page).to have_selector("td.subject",
@@ -75,9 +86,16 @@ module Pages
       end
     end
 
-    def expect_work_package_count(n)
+    def expect_work_package_count(count)
       within(table_container) do
-        expect(page).to have_selector(".wp--row", count: n, wait: 20)
+        expect(page).to have_selector(".wp--row", count: count, wait: 20)
+      end
+    end
+
+    def update_work_package_attributes(work_package, **key_value_map)
+      key_value_map.each do |key, value|
+        field = EditField.new(work_package_container(work_package), key)
+        field.update(value, save: true)
       end
     end
 
@@ -89,7 +107,7 @@ module Pages
       retry_block(args: { tries: 3, base_interval: 5 }) do
         within(table_container) do
           work_packages.each do |wp|
-            page.raise_if_found(".wp-row-#{wp.id} td.subject", text: wp.subject)
+            page.raise_if_found(".wp-row-#{wp.id} td.subject", text: wp.subject, wait: 1)
           end
         end
       end
@@ -134,7 +152,7 @@ module Pages
       # there is a delay on travis where inline create can be clicked.
       sleep 3
 
-      container.find('.wp-inline-create--add-link').click
+      container.find('[data-qa-selector="op-wp-inline-create"]').click
       expect(container).to have_selector('.wp-inline-create-row', wait: 10)
     end
 
@@ -171,60 +189,15 @@ module Pages
     end
 
     def drag_and_drop_work_package(from:, to:)
-      # Wait a bit because drag & drop in selenium is easily offended
-      sleep 1
-
-      rows = page.all('.wp-table--row')
-      source = rows[from]
-      target = rows[to]
-
-      scroll_to_element(source)
-      source.hover
-
-      page
-        .driver
-        .browser
-        .action
-        .move_to(source.native)
-        .click_and_hold(source.find('.wp-table--drag-and-drop-handle', visible: false).native)
-        .perform
-
-      ## Hover over each row to be sure,
-      # that the dragged element is reduced to the minimum height.
-      # Thus we can afterwards drag to the correct position.
-      rows.each do |row|
-        next if row == source
-
-        page
-          .driver
-          .browser
-          .action
-          .move_to(row.native)
-          .perform
-      end
-
-      sleep 2
-
-      scroll_to_element(target)
-
-      page
-        .driver
-        .browser
-        .action
-        .move_to(target.native)
-        .release
-        .perform
-
-      # Wait a bit because drag & drop in selenium is easily offended
-      sleep 1
+      drag_and_drop_list(from: from, to: to, elements: '.wp-table--row', handler: '.wp-table--drag-and-drop-handle')
     end
 
     def row(work_package)
       table_container.find(row_selector(work_package))
     end
 
-    def row_selector(el)
-      id = el.is_a?(WorkPackage) ? el.id.to_s : el.to_s
+    def row_selector(elem)
+      id = elem.is_a?(WorkPackage) ? elem.id.to_s : elem.to_s
       ".wp-row-#{id}-table"
     end
 
@@ -261,6 +234,10 @@ module Pages
 
     def table_container
       find('#content .work-packages-split-view--tabletimeline-side')
+    end
+
+    def work_package_container(work_package)
+      table_container.find(work_package_row_selector(work_package))
     end
 
     def work_package_row_selector(work_package)

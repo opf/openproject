@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -31,6 +29,6 @@
 class WikiRedirect < ApplicationRecord
   belongs_to :wiki
 
-  validates_presence_of :title, :redirects_to
-  validates_length_of :title, :redirects_to, maximum: 255
+  validates :title, :redirects_to, presence: true
+  validates :title, :redirects_to, length: { maximum: 255 }
 end

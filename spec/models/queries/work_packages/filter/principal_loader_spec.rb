@@ -44,7 +44,7 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
 
     describe '#user_values' do
       it 'returns a user array' do
-        expect(instance.user_values).to match_array([[user.name, user.id.to_s]])
+        expect(instance.user_values).to match_array([[nil, user.id.to_s]])
       end
 
       it 'is empty if no user exists' do
@@ -58,7 +58,7 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
 
     describe '#group_values' do
       it 'returns a group array' do
-        expect(instance.group_values).to match_array([[group.name, group.id.to_s]])
+        expect(instance.group_values).to match_array([[nil, group.id.to_s]])
       end
 
       it 'is empty if no group exists' do
@@ -73,9 +73,9 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
     describe '#principal_values' do
       it 'returns an array of principals as [name, id]' do
         expect(instance.principal_values)
-          .to match_array([[group.name, group.id.to_s],
-                           [user.name, user.id.to_s],
-                           [placeholder_user.name, placeholder_user.id.to_s]])
+          .to match_array([[nil, group.id.to_s],
+                           [nil, user.id.to_s],
+                           [nil, placeholder_user.id.to_s]])
       end
 
       it 'is empty if no principal exists' do
@@ -95,16 +95,20 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
 
     before do
       allow(Principal)
-        .to receive_message_chain(:not_locked, :in_visible_project)
+        .to receive(:visible)
         .and_return(matching_principals)
+
+      allow(matching_principals)
+        .to receive(:not_builtin)
+              .and_return(matching_principals)
     end
 
     describe '#user_values' do
       it 'returns a user array' do
-        expect(instance.user_values).to match_array([[user.name, user.id.to_s]])
+        expect(instance.user_values).to match_array([[nil, user.id.to_s]])
       end
 
-      context 'no user exists' do
+      context 'if no user exists' do
         let(:matching_principals) { [group] }
 
         it 'is empty' do
@@ -115,10 +119,10 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
 
     describe '#group_values' do
       it 'returns a group array' do
-        expect(instance.group_values).to match_array([[group.name, group.id.to_s]])
+        expect(instance.group_values).to match_array([[nil, group.id.to_s]])
       end
 
-      context 'no group exists' do
+      context 'if no group exists' do
         let(:matching_principals) { [user] }
 
         it 'is empty' do
@@ -130,12 +134,12 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
     describe '#principal_values' do
       it 'returns an array of principals as [name, id]' do
         expect(instance.principal_values)
-          .to match_array([[group.name, group.id.to_s],
-                           [user.name, user.id.to_s],
-                           [placeholder_user.name, placeholder_user.id.to_s]])
+          .to match_array([[nil, group.id.to_s],
+                           [nil, user.id.to_s],
+                           [nil, placeholder_user.id.to_s]])
       end
 
-      context 'no principals' do
+      context 'if no principals exist' do
         let(:matching_principals) { [] }
 
         it 'is empty' do

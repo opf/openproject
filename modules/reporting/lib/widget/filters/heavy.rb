@@ -32,19 +32,19 @@
 #        But well this is again one of those temporary solutions.
 class Widget::Filters::Heavy < Widget::Filters::Base
   def render
-    # TODO: sometimes filter.values is of the form [["3"]] and somtimes ["3"].
+    # TODO: sometimes filter.values is of the form [["3"]] and sometimes ["3"].
     #       (using cost reporting)
     #       this might be a bug - further research would be fine
     values = filter.values.first.is_a?(Array) ? filter.values.first : filter.values
     opts = Array(values).empty? ? [] : values.map { |i| filter_class.label_for_value(i.to_i) }
     div = content_tag :div, id: "#{filter_class.underscore_name}_arg_1", class: 'advanced-filters--filter-value hidden' do
-      select_options = {  "data-remote-url": url_for(action: 'available_values'),
-                          "data-initially-selected": JSON::dump(Array(filter.values).flatten),
+      select_options = {  'data-remote-url': url_for(action: 'available_values'),
+                          'data-initially-selected': JSON::dump(Array(filter.values).flatten),
                           name: "values[#{filter_class.underscore_name}][]",
-                          "data-loading": '',
+                          'data-loading': '',
                           id: "#{filter_class.underscore_name}_arg_1_val",
                           class: 'advanced-filters--select filter-value',
-                          "data-filter-name": filter_class.underscore_name }
+                          'data-filter-name': filter_class.underscore_name }
       box = content_tag :select, select_options do
         render_widget Widget::Filters::Option, filter, to: '', content: opts
       end

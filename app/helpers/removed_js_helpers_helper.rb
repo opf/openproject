@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -38,7 +36,7 @@ module RemovedJsHelpersHelper
     id = html_options.delete(:id) { "link-to-function-#{SecureRandom.uuid}" }
     csp_onclick(function, "##{id}")
 
-    content_tag(:a, content, html_options.merge(id: id, href: ''))
+    content_tag(:a, content, html_options.merge(id:, href: ''))
   end
 
   ##

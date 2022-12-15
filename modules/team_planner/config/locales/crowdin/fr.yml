@@ -5,8 +5,9 @@ fr:
   project_module_team_planner_view: "Planificateur d'équipe"
   team_planner:
     label_team_planner: "Planificateur d'équipe"
-    label_team_planner_plural: "Team planners"
-    label_assignees: "Assignees"
+    label_create_new_team_planner: "Créer un nouveau planificateur d'équipe"
+    label_team_planner_plural: "Planificateurs d'équipe"
+    label_assignees: "Responsables"
     upsale:
       title: "Planificateur d'équipe"
-      description: "Team planner gives you a complete overview what each of team member is working on, one week at a time. Move, stretch and shrink work packages visually, and even drag them from one assignee to another to organise workload. You can even create new work packages or add existing ones, all from within team planner!"
+      description: "Obtenez un aperçu complet du planning de votre équipe avec le planificateur d'équipe. Allongez, raccourcissez et faites glisser les paquets de travail pour modifier les dates, les déplacer ou changer les assignés."

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -45,7 +43,7 @@ describe SCM::RepositoryFactoryService do
   end
 
   context 'with empty hash' do
-    it 'should not build a repository' do
+    it 'does not build a repository' do
       expect { service.build_temporary }
         .to raise_error KeyError
       expect(service.repository).to be_nil
@@ -57,12 +55,12 @@ describe SCM::RepositoryFactoryService do
       { scm_vendor: 'subversion' }
     end
 
-    it 'should allow temporary build repository' do
+    it 'allows temporary build repository' do
       expect(service.build_temporary).to be true
       expect(service.repository).not_to be_nil
     end
 
-    it 'should not allow to persist a repository' do
+    it 'does not allow to persist a repository' do
       expect { service.build_and_save }
         .to raise_error(ActionController::ParameterMissing)
 
@@ -75,14 +73,14 @@ describe SCM::RepositoryFactoryService do
       { scm_vendor: 'not_subversion', scm_type: 'foo' }
     end
 
-    it 'should not allow to temporary build repository' do
+    it 'does not allow to temporary build repository' do
       expect { service.build_temporary }.not_to raise_error
 
       expect(service.repository).to be_nil
       expect(service.build_error).to include('The SCM vendor not_subversion is disabled')
     end
 
-    it 'should not allow to persist a repository' do
+    it 'does not allow to persist a repository' do
       expect { service.build_temporary }.not_to raise_error
 
       expect(service.repository).to be_nil
@@ -95,7 +93,7 @@ describe SCM::RepositoryFactoryService do
       { scm_vendor: 'subversion', scm_type: 'existing' }
     end
 
-    it 'should not allow to persist a repository without URL' do
+    it 'does not allow to persist a repository without URL' do
       expect(service.build_and_save).not_to be true
 
       expect(service.repository).to be_nil
@@ -111,7 +109,7 @@ describe SCM::RepositoryFactoryService do
       }
     end
 
-    it 'should not allow to persist a repository URL' do
+    it 'does not allow to persist a repository URL' do
       expect(service.build_and_save).not_to be true
 
       expect(service.repository).to be_nil
@@ -127,7 +125,7 @@ describe SCM::RepositoryFactoryService do
       }
     end
 
-    it 'should allow to persist a repository without URL' do
+    it 'allows to persist a repository without URL' do
       expect(service.build_and_save).to be true
       expect(service.repository).to be_kind_of(Repository::Subversion)
     end

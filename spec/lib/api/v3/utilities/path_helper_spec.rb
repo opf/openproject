@@ -33,22 +33,22 @@ describe ::API::V3::Utilities::PathHelper do
 
   shared_examples_for 'path' do |url|
     it 'provides the path' do
-      is_expected.to match(url)
+      expect(subject).to match(url)
     end
 
     it 'prepends the sub uri if configured' do
       allow(OpenProject::Configuration).to receive(:rails_relative_url_root)
         .and_return('/open_project')
 
-      is_expected.to match("/open_project#{url}")
+      expect(subject).to match("/open_project#{url}")
     end
   end
 
-  before(:each) do
+  before do
     RequestStore.store[:cached_root_path] = nil
   end
 
-  after(:each) do
+  after do
     RequestStore.clear!
   end
 
@@ -244,6 +244,12 @@ describe ::API::V3::Utilities::PathHelper do
       subject { helper.notification_unread_ian(42) }
 
       it_behaves_like 'api v3 path', '/notifications/42/unread_ian'
+    end
+
+    describe '#notification_detail' do
+      subject { helper.notification_detail(42, 0) }
+
+      it_behaves_like 'api v3 path', '/notifications/42/details/0'
     end
   end
 
@@ -477,6 +483,14 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'show', :group
   end
 
+  describe 'values paths' do
+    describe '#values_schema' do
+      subject { helper.value_schema('bogus_value') }
+
+      it_behaves_like 'api v3 path', '/values/schemas/bogus_value'
+    end
+  end
+
   describe 'version paths' do
     it_behaves_like 'resource', :version
 
@@ -591,15 +605,9 @@ describe ::API::V3::Utilities::PathHelper do
       end
 
       describe '#available_projects_on_create' do
-        subject { helper.available_projects_on_create(nil) }
+        subject { helper.available_projects_on_create }
 
         it_behaves_like 'api v3 path', '/work_packages/available_projects'
-      end
-
-      describe '#available_projects_on_create with type' do
-        subject { helper.available_projects_on_create(1) }
-
-        it_behaves_like 'api v3 path', '/work_packages/available_projects?for_type=1'
       end
     end
 

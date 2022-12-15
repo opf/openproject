@@ -41,12 +41,12 @@ module API
       def call(params = {}, valid_subset: false)
         update = UpdateQueryFromV3ParamsService
                  .new(query, current_user)
-                 .call(params, valid_subset: valid_subset)
+                 .call(params, valid_subset:)
 
         if update.success?
           representer = results_to_representer(params)
 
-          ServiceResult.new(success: true, result: representer)
+          ServiceResult.success(result: representer)
         else
           update
         end
@@ -62,7 +62,7 @@ module API
         end
 
         collection_representer(results_scope,
-                               params: params,
+                               params:,
                                project: query.project,
                                groups: generate_groups,
                                sums: generate_total_sums)
@@ -77,7 +77,9 @@ module API
       end
 
       def calculate_resulting_params(provided_params)
-        calculate_default_params.merge(provided_params.slice('offset', 'pageSize').symbolize_keys).tap do |params|
+        calculate_default_params
+          .merge(provided_params.slice('offset', 'pageSize').symbolize_keys)
+          .tap do |params|
           if query.manually_sorted?
             params[:query_id] = query.id
             params[:offset] = 1
@@ -89,7 +91,7 @@ module API
             params[:pageSize] = pageSizeParam(params)
           end
 
-          params[:select] = nested_from_csv(provided_params['select'])
+          params[:select] = nested_from_csv(provided_params['select']) if provided_params['select']
         end
       end
 
@@ -107,7 +109,7 @@ module API
 
         results.work_package_count_by_group.map do |group, count|
           ::API::V3::WorkPackages::WorkPackageAggregationGroup.new(
-            group, count, query: query, sums: sums[group], current_user: current_user
+            group, count, query:, sums: sums[group], current_user:
           )
         end
       end
@@ -127,23 +129,21 @@ module API
       end
 
       def format_query_sums(sums)
-        Hashie::Mash.new(format_column_keys(sums).merge(available_custom_fields: WorkPackageCustomField.summable.to_a))
+        API::ParserStruct.new(format_column_keys(sums).merge(available_custom_fields: WorkPackageCustomField.summable.to_a))
       end
 
       def format_column_keys(hash_by_column)
-        ::Hash[
-          hash_by_column.map do |column, value|
-            match = /cf_(\d+)/.match(column.name.to_s)
+        hash_by_column.map do |column, value|
+          match = /cf_(\d+)/.match(column.name.to_s)
 
-            column_name = if match
-                            "custom_field_#{match[1]}"
-                          else
-                            column.name.to_s
-                          end
+          column_name = if match
+                          "custom_field_#{match[1]}"
+                        else
+                          column.name.to_s
+                        end
 
-            [column_name, value]
-          end
-        ]
+          [column_name, value]
+        end.to_h
       end
 
       def collection_representer(work_packages, params:, project:, groups:, sums:)
@@ -152,7 +152,7 @@ module API
         if resulting_params[:select]
           ::API::V3::Utilities::SqlRepresenterWalker
             .new(work_packages,
-                 current_user: current_user,
+                 current_user:,
                  self_path: self_link(project),
                  url_query: resulting_params)
             .walk(::API::V3::WorkPackages::WorkPackageSqlCollectionRepresenter)
@@ -160,14 +160,14 @@ module API
           ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
             work_packages,
             self_link: self_link(project),
-            project: project,
+            project:,
             query: resulting_params,
             page: resulting_params[:offset],
             per_page: resulting_params[:pageSize],
-            groups: groups,
+            groups:,
             total_sums: sums,
             embed_schemas: true,
-            current_user: current_user
+            current_user:
           )
         end
       end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,15 +31,17 @@ class AttributeHelpTextsController < ApplicationController
   menu_item :attribute_help_texts
 
   before_action :require_admin
+  before_action :require_ee_token, except: %i[upsale]
   before_action :find_entry, only: %i(edit update destroy)
   before_action :find_type_scope
-  before_action :require_enterprise_token_grant
 
   def new
     @attribute_help_text = AttributeHelpText.new type: @attribute_scope
   end
 
   def edit; end
+
+  def upsale; end
 
   def update
     call = ::AttributeHelpTexts::UpdateService
@@ -88,6 +88,12 @@ class AttributeHelpTextsController < ApplicationController
 
   protected
 
+  def require_ee_token
+    unless EnterpriseToken.allows_to?(:attribute_help_texts)
+      redirect_to upsale_attribute_help_texts_path
+    end
+  end
+
   def default_breadcrumb
     if action_name == 'index'
       t('attribute_help_texts.label_plural')
@@ -131,9 +137,5 @@ class AttributeHelpTextsController < ApplicationController
     end
 
     @attribute_scope = AttributeHelpText.const_get(submodule)
-  end
-
-  def require_enterprise_token_grant
-    render_404 unless EnterpriseToken.allows_to?(:attribute_help_texts)
   end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -41,7 +39,7 @@ module Grids
           .map do |page, config|
             next unless config && config[:class]
 
-            if config[:id] && config[:class].visible.exists?(config[:id]) || config[:class].visible.any?
+            if (config[:id] && config[:class].visible.exists?(config[:id])) || config[:class].visible.any?
               page
             end
           end.compact

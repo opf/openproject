@@ -26,5 +26,9 @@ module FormFields
         sleep 1
       end
     end
+
+    def search(text)
+      field_container.find('.ng-select-container input').set text
+    end
   end
 end

@@ -39,17 +39,17 @@ describe ApplicationHelper do
     let(:identifier) { project.identifier }
     let(:role) do
       create(:role, permissions: %i[
-                          view_work_packages edit_work_packages view_documents browse_repository view_changesets view_wiki_pages
-                        ])
+               view_work_packages edit_work_packages view_documents browse_repository view_changesets view_wiki_pages
+             ])
     end
     let(:project_member) do
       create :user, member_in_project: project,
-                               member_through_role: role
+                    member_through_role: role
     end
     let(:document) do
       create :document,
              title: 'Test document',
-             project: project
+             project:
     end
 
     before do
@@ -106,7 +106,7 @@ describe ApplicationHelper do
         subject { format_text("#{identifier}:document##{document.id}", project: the_other_project) }
 
         it {
-          is_expected.to eq("<p class=\"op-uc-p\"><a class=\"document op-uc-link\" href=\"/documents/#{document.id}\">Test document</a></p>")
+          expect(subject).to eq("<p class=\"op-uc-p\"><a class=\"document op-uc-link\" href=\"/documents/#{document.id}\">Test document</a></p>")
         }
       end
 
@@ -114,7 +114,7 @@ describe ApplicationHelper do
         subject { format_text("#{identifier}:document:\"#{document.title}\"", project: the_other_project) }
 
         it {
-          is_expected.to eq("<p class=\"op-uc-p\"><a class=\"document op-uc-link\" href=\"/documents/#{document.id}\">Test document</a></p>")
+          expect(subject).to eq("<p class=\"op-uc-p\"><a class=\"document op-uc-link\" href=\"/documents/#{document.id}\">Test document</a></p>")
         }
       end
 

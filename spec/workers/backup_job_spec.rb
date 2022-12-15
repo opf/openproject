@@ -40,10 +40,10 @@ describe BackupJob, type: :model do
     let(:job_status) do
       create(
         :delayed_job_status,
-        user: user,
+        user:,
         reference: backup,
         status: JobStatus::Status.statuses[status],
-        job_id: job_id
+        job_id:
       )
     end
 
@@ -57,17 +57,19 @@ describe BackupJob, type: :model do
 
     let(:db_dump_success) { false }
 
-    let(:arguments) { [{ backup: backup, user: user, **opts.except(:remote_storage) }] }
+    let(:arguments) { [{ backup:, user:, **opts.except(:remote_storage) }] }
 
     let(:user) { create :admin }
 
     before do
-      previous_backup; backup; status # create
+      previous_backup
+      backup
+      status # create
 
       allow(job).to receive(:arguments).and_return arguments
       allow(job).to receive(:job_id).and_return job_id
 
-      expect(Open3).to receive(:capture3).and_return [nil, "Dump failed", db_dump_process_status]
+      allow(Open3).to receive(:capture3).and_return [nil, "Dump failed", db_dump_process_status]
 
       allow_any_instance_of(BackupJob)
         .to receive(:tmp_file_name).with("openproject", ".sql").and_return("/tmp/openproject.sql")
@@ -81,6 +83,31 @@ describe BackupJob, type: :model do
 
     def perform
       job.perform **arguments.first
+    end
+
+    describe '#pg_env' do
+      subject { job.pg_env }
+
+      context 'when config has user reference, not username (regression #44251)' do
+        let(:config_double) do
+          {
+            adapter: :postgresql,
+            password: "blabla",
+            database: "test",
+            user: "foobar"
+          }
+        end
+
+        before do
+          allow(job).to receive(:database_config).and_return(config_double)
+        end
+
+        it 'still sets a PGUSER' do
+          expect(subject['PGUSER']).to eq 'foobar'
+          expect(subject['PGPASSWORD']).to eq 'blabla'
+          expect(subject['PGDATABASE']).to eq 'test'
+        end
+      end
     end
 
     context "with a failed database dump" do
@@ -123,7 +150,12 @@ describe BackupJob, type: :model do
         expect(backup_files).to include "openproject.sql"
       end
 
-      if opts[:include_attachments] != false
+      if opts[:include_attachments] == false
+        it "does not include attachments in the backup" do
+          expect(backup_files).not_to include backed_up_attachment(attachment)
+          expect(backup_files).not_to include backed_up_attachment(pending_direct_upload)
+        end
+      else
         it "includes attachments in the backup" do
           expect(backup_files).to include backed_up_attachment(attachment)
         end
@@ -140,11 +172,6 @@ describe BackupJob, type: :model do
           it "does not clean up files afterwards as none were cached" do
             expect(job).to have_received(:remove_paths!).with([])
           end
-        end
-      else
-        it "does not include attachments in the backup" do
-          expect(backup_files).not_to include backed_up_attachment(attachment)
-          expect(backup_files).not_to include backed_up_attachment(pending_direct_upload)
         end
       end
     end
@@ -173,11 +200,11 @@ describe BackupJob, type: :model do
       allow_any_instance_of(LocalFileUploader).to receive(:cached?).and_return(true)
       allow_any_instance_of(LocalFileUploader)
         .to receive(:local_file)
-        .and_return(File.new(dummy_path))
+              .and_return(File.new(dummy_path))
     end
 
     after do
-      FileUtils.rm dummy_path if File.exist? dummy_path
+      FileUtils.rm_rf dummy_path
     end
 
     it_behaves_like "it creates a backup", remote_storage: true

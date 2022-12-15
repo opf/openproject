@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -41,11 +39,11 @@ describe WorkPackages::ExportJob do
   let(:job) { described_class.new(**jobs_args) }
   let(:jobs_args) do
     {
-      export: export,
-      mime_type: mime_type,
-      user: user,
+      export:,
+      mime_type:,
+      user:,
       options: {},
-      query: query,
+      query:,
       query_attributes: {}
     }
   end
@@ -70,7 +68,7 @@ describe WorkPackages::ExportJob do
 
         expect(Attachments::CreateService)
           .to receive(:bypass_whitelist)
-                .with(user: user)
+                .with(user:)
                 .and_return(service)
 
         expect(Exports::CleanupOutdatedJob)
@@ -78,7 +76,7 @@ describe WorkPackages::ExportJob do
 
         expect(service)
           .to(receive(:call))
-          .and_return(ServiceResult.new(result: attachment, success: true))
+          .and_return(ServiceResult.success(result: attachment))
 
         allow(exporter).to receive(:new).and_return(exporter_instance)
         allow(exporter_instance).to receive(:export!).and_return(result)

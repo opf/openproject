@@ -2,6 +2,7 @@
 ca:
   js:
     calendar:
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
-      unsaved_title: 'Unnamed calendar'
+      create_new: 'Crear nou calendari'
+      title: 'Calendari'
+      too_many: 'Hi ha %{count} paquets de treball en total, però només %{max} es poden mostrar'
+      unsaved_title: 'Calendari sense nom'

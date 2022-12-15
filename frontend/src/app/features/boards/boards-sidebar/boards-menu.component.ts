@@ -7,10 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { BoardService } from 'core-app/features/boards/board/board.service';
 import { Board } from 'core-app/features/boards/board/board';
-import {
-  map,
-  skip,
-} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -31,14 +28,11 @@ export const boardsMenuSelector = 'boards-menu';
 export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
   @HostBinding('class.op-sidebar') className = true;
 
-  selectedBoardId:string;
-
   boardOptions$:Observable<IOpSidemenuItem[]> = this
     .apiV3Service
     .boards
     .observeAll()
     .pipe(
-      skip(1),
       map((boards:Board[]) => {
         const menuItems:IOpSidemenuItem[] = boards.map((board) => ({
           title: board.name,
@@ -60,11 +54,12 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     .currentUserService
     .hasCapabilities$(
       'boards/create',
-      this.currentProject.id || undefined,
+      this.currentProject.id || null,
     )
     .pipe(this.untilDestroyed());
 
   text = {
+    board: this.I18n.t('js.label_board'),
     create_new_board: this.I18n.t('js.boards.create_new'),
   };
 
@@ -88,7 +83,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
       .onActivate('board_view')
       .subscribe(() => {
         this.focusBackArrow();
-        this.boardService.loadAllBoards();
+        void this.boardService.loadAllBoards();
       });
   }
 

@@ -121,6 +121,9 @@ Reporting.Filters = function($){
         $('#rm_' + field).val(field); // set the value, so the serialized form will return this filter
         value_changed(field);
       } else {
+        if (!options.slowly) {
+          console.log('hiding for fade', field_el);
+        }
         options.slowly ? field_el.fadeOut('slow') : field_el.hide();
 
         if (!options.hide_only) { // remember that this filter used to be selected
@@ -321,7 +324,10 @@ Reporting.Filters = function($){
       .on("change", function (evt) {
         var filter_name = $(this).attr("data-filter-name");
         Reporting.Filters.operator_changed(filter_name, $(this));
-        Reporting.fireEvent($('#' + filter_name + "_arg_1_val")[0], "change");
+        const argVal =$('#' + filter_name + "_arg_1_val")[0]; 
+        if (argVal) {
+          Reporting.fireEvent(argVal, "change");
+        }
       });
 
     $(".filter_multi-select")
@@ -332,7 +338,7 @@ Reporting.Filters = function($){
 
     $(".advanced-filters--filter-value .filter-value").each(function () {
       var select = $(this);
-          select_value = select.val();
+      var select_value = select.val();
 
       select.attr('multiple', select_value && select_value.length > 1);
 

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -35,8 +33,8 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
   include_context 'with team planner full access'
 
   let(:current_user) { user }
-  let(:query) { create :query, user: user, project: project, public: true }
-  let(:team_plan) { create :view_team_planner, query: query }
+  let(:query) { create :query, user:, project:, public: true }
+  let(:team_plan) { create :view_team_planner, query: }
 
   before do
     login_as current_user
@@ -49,16 +47,16 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
 
     it 'shows an index action' do
       expect(page).to have_text 'There is currently nothing to display.'
-      expect(page).to have_selector '.button', text: 'Create'
+      expect(page).to have_selector '.button', text: 'Team planner'
     end
 
     it 'can create an action through the sidebar' do
-      click_on 'New team planner'
+      find('[data-qa-selector="team-planner--create-button"]').click
 
       team_planner.expect_title
 
       # Also works from the frontend
-      click_on 'New team planner'
+      find('[data-qa-selector="team-planner--create-button"]').click
 
       team_planner.expect_no_toaster
       team_planner.expect_title
@@ -86,11 +84,11 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
         expect(page).to have_no_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
 
         # Does not show the create button
-        expect(page).to have_no_selector '.button', text: 'Create'
+        expect(page).to have_no_selector '.button', text: 'Team planner'
       end
 
       context 'when the view is non-public' do
-        let(:query) { create :query, user: user, project: project, public: false }
+        let(:query) { create :query, user:, project:, public: false }
 
         it 'does not show a non-public view' do
           expect(page).to have_text 'There is currently nothing to display.'
@@ -100,7 +98,7 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
           expect(page).to have_no_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
 
           # Does not show the create button
-          expect(page).to have_no_selector '.button', text: 'Create'
+          expect(page).to have_no_selector '.button', text: 'Team planner'
         end
       end
     end

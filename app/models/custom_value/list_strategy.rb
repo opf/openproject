@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -37,7 +35,7 @@ class CustomValue::ListStrategy < CustomValue::ARObjectStrategy
 
   def typed_value
     super_value = super
-    super_value && super_value.to_s || nil
+    (super_value && super_value.to_s) || nil
   end
 
   private

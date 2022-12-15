@@ -33,10 +33,7 @@ describe Queries::WorkPackages::Filter::DuplicatedFilter, type: :model do
     let(:class_key) { :duplicated }
 
     it_behaves_like 'filter for relation' do
-      # WP filter forward id duplicated, backwards is duplicates!
-      # 1 -- duplicates --> 2
-      # then to_id: 2, type :duplicated
-      let(:relation_type) { :duplicates }
+      let(:relation_type) { :duplicated }
     end
   end
 end

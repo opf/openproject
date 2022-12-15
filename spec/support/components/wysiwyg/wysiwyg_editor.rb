@@ -1,6 +1,7 @@
 module Components
   class WysiwygEditor
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
     attr_reader :context_selector, :attachments
 
@@ -26,19 +27,22 @@ module Components
     end
 
     def set_markdown(text)
+      # wait for element to be loaded
+      editor_element
+
       textarea = container.find('.op-ckeditor-source-element', visible: :all)
       page.execute_script(
-          'jQuery(arguments[0]).trigger("op:ckeditor:setData", arguments[1])',
-          textarea.native,
-          text
+        'jQuery(arguments[0]).trigger("op:ckeditor:setData", arguments[1])',
+        textarea.native,
+        text
       )
     end
 
     def clear
       textarea = container.find('.op-ckeditor-source-element', visible: :all)
       page.execute_script(
-          'jQuery(arguments[0]).trigger("op:ckeditor:clear")',
-          textarea.native
+        'jQuery(arguments[0]).trigger("op:ckeditor:clear")',
+        textarea.native
       )
     end
 
@@ -72,23 +76,31 @@ module Components
     # Create an image fixture with the optional caption
     def drag_attachment(image_fixture, caption = 'Some caption')
       in_editor do |_container, editable|
-        sleep 0.5
+        # Click the latest figure, if any
+        # Do not wait more than 1 second to check if there is an image
+        images = editable.all('figure.image', wait: 1)
+        if images.count > 0
+          images.last.click
+
+          # Click the "move below figure" button
+          selected = page.all('.ck-widget_selected .ck-widget__type-around__button_after')
+          selected.first&.click
+        end
+
         editable.base.send_keys(:enter, 'some text', :enter, :enter)
 
-        images = editable.all('figure.image')
-        attachments.drag_and_drop_file(editable, image_fixture)
+        attachments.drag_and_drop_file(editable, image_fixture, :bottom)
 
         expect(page)
-            .to have_selector('figure img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
+            .to have_selector('img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
 
-        sleep 3
-        expect(page).not_to have_selector('op-toasters-upload-progress', wait: 5)
+        expect(page).to have_no_selector('op-toasters-upload-progress', wait: 5)
 
         # Get the image uploaded last. As there is no way to distinguish between
         # two uploaded images, from the perspective of the user, we do it by getting
         # the id of the attachment uploaded last.
         last_id = Attachment.last.id
-        image = find("figure img[src^=\"/api/v3/attachments/#{last_id}\"]")
+        image = find("img[src^=\"/api/v3/attachments/#{last_id}\"]")
         # Besides testing caption functionality this also slows down clicking on the submit button
         # so that the image is properly embedded
         figure = image.find(:xpath, '../..')
@@ -97,8 +109,13 @@ module Components
           # Click the figure
           figure.click
           sleep(0.2)
+
+          # Toggle caption with button since newer version of ckeditor
+          click_hover_toolbar_button 'Toggle caption on'
+
           # Locate figcaption to create comment
-          figcaption = figure.find('figcaption')
+          @figure_find = figure.find('figcaption')
+          figcaption = @figure_find
           figcaption.click
           sleep(0.2)
           figcaption.send_keys(caption)
@@ -148,7 +165,7 @@ module Components
     end
 
     def click_autocomplete(text)
-      page.find('.mention-list-item', text: text).click
+      page.find('.mention-list-item', text:).click
     end
 
     def align_table_by_label(editor, table, label)

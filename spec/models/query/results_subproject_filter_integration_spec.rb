@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::Query::Results, 'Subproject filter integration', type: :model, with_mail: false do
   let(:query) do
     build(:query,
-          user: user,
+          user:,
           project: parent_project).tap do |q|
       q.filters.clear
     end
@@ -58,34 +58,112 @@ describe ::Query::Results, 'Subproject filter integration', type: :model, with_m
     login_as user
   end
 
-  context 'when subprojects included', with_settings: { display_subprojects_work_packages: true } do
-    it 'shows the sub work packages' do
-      expect(query_results.work_packages).to match_array [parent_wp, child_wp]
-    end
-  end
-
-  context 'when subprojects not included', with_settings: { display_subprojects_work_packages: false } do
-    it 'does not show the sub work packages' do
-      expect(query_results.work_packages).to match_array [parent_wp]
-    end
-
-    context 'when subproject filter added manually' do
-      before do
-        query.add_filter('subproject_id', '=', [child_project.id])
-      end
-
+  describe 'new default query' do
+    context 'when subprojects included', with_settings: { display_subprojects_work_packages: true } do
       it 'shows the sub work packages' do
         expect(query_results.work_packages).to match_array [parent_wp, child_wp]
       end
     end
 
-    context 'when only subproject filter added manually' do
-      before do
-        query.add_filter('only_subproject_id', '=', [child_project.id])
+    context 'when subprojects not included', with_settings: { display_subprojects_work_packages: false } do
+      it 'does not show the sub work packages' do
+        expect(query_results.work_packages).to match_array [parent_wp]
       end
 
-      it 'shows only the sub work packages' do
-        expect(query_results.work_packages).to match_array [child_wp]
+      context 'when subproject filter added manually' do
+        before do
+          query.add_filter('subproject_id', '=', [child_project.id])
+        end
+
+        it 'shows the sub work packages' do
+          expect(query_results.work_packages).to match_array [parent_wp, child_wp]
+        end
+      end
+
+      context 'when only subproject filter added manually' do
+        before do
+          query.add_filter('only_subproject_id', '=', [child_project.id])
+        end
+
+        it 'shows only the sub work packages' do
+          expect(query_results.work_packages).to match_array [child_wp]
+        end
+      end
+    end
+  end
+
+  describe 'query with overridden include_subprojects = true' do
+    before do
+      query.include_subprojects = true
+    end
+
+    context 'when subprojects included', with_settings: { display_subprojects_work_packages: true } do
+      it 'shows the sub work packages' do
+        expect(query_results.work_packages).to match_array [parent_wp, child_wp]
+      end
+    end
+
+    context 'when subprojects not included', with_settings: { display_subprojects_work_packages: false } do
+      it 'shows the sub work packages' do
+        expect(query_results.work_packages).to match_array [parent_wp, child_wp]
+      end
+
+      context 'when subproject filter added manually' do
+        before do
+          query.add_filter('subproject_id', '=', [child_project.id])
+        end
+
+        it 'shows the sub work packages' do
+          expect(query_results.work_packages).to match_array [parent_wp, child_wp]
+        end
+      end
+
+      context 'when only subproject filter added manually' do
+        before do
+          query.add_filter('only_subproject_id', '=', [child_project.id])
+        end
+
+        it 'shows only the sub work packages' do
+          expect(query_results.work_packages).to match_array [child_wp]
+        end
+      end
+    end
+  end
+
+  describe 'query with overridden include_subprojects = false' do
+    before do
+      query.include_subprojects = false
+    end
+
+    context 'when subprojects included', with_settings: { display_subprojects_work_packages: true } do
+      it 'does not show the sub work packages' do
+        expect(query_results.work_packages).to match_array [parent_wp]
+      end
+    end
+
+    context 'when subprojects not included', with_settings: { display_subprojects_work_packages: false } do
+      it 'does not show the sub work packages' do
+        expect(query_results.work_packages).to match_array [parent_wp]
+      end
+
+      context 'when subproject filter added manually' do
+        before do
+          query.add_filter('subproject_id', '=', [child_project.id])
+        end
+
+        it 'shows the sub work packages' do
+          expect(query_results.work_packages).to match_array [parent_wp, child_wp]
+        end
+      end
+
+      context 'when only subproject filter added manually' do
+        before do
+          query.add_filter('only_subproject_id', '=', [child_project.id])
+        end
+
+        it 'shows only the sub work packages' do
+          expect(query_results.work_packages).to match_array [child_wp]
+        end
       end
     end
   end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -54,7 +52,7 @@ describe IndividualPrincipalHooksHelper, type: :helper do
         expect(helper)
           .to have_received(:call_hook)
                 .with(:view_users_memberships_table_foo,
-                      user: user)
+                      user:)
       end
     end
 
@@ -65,7 +63,7 @@ describe IndividualPrincipalHooksHelper, type: :helper do
         expect(helper)
           .to have_received(:call_hook)
                 .with(:view_placeholder_users_memberships_table_foo,
-                      placeholder_user: placeholder_user)
+                      placeholder_user:)
       end
     end
 
@@ -76,7 +74,7 @@ describe IndividualPrincipalHooksHelper, type: :helper do
         expect(helper)
           .to have_received(:call_hook)
                 .with(:view_users_memberships_table_foo,
-                      user: user,
+                      user:,
                       yay: 'yo')
       end
     end

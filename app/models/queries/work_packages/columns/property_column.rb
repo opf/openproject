@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -127,6 +125,9 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     created_at: {
       sortable: "#{WorkPackage.table_name}.created_at",
       default_order: 'desc'
+    },
+    duration: {
+      sortable: "#{WorkPackage.table_name}.duration"
     }
   }
 

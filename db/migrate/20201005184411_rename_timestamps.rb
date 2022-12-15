@@ -36,6 +36,15 @@ class RenameTimestamps < ActiveRecord::Migration[6.0]
     rename_column table, old_column_name, new_column_name
 
     change_column_default table, new_column_name, from: nil, to: -> { 'CURRENT_TIMESTAMP' }
+
+    # Ensure we reset column information because otherwise,
+    # +updated_on+ will still be used.
+    begin
+      cls = table.to_s.singularize.classify.constantize
+      cls.reset_column_information
+    rescue StandardError => e
+      warn "Could not reset_column_information for table #{table}: #{e.message}"
+    end
   end
 
   def add_timestamp_column(table, column_name, from_column = nil)

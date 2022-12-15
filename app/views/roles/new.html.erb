@@ -33,8 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= breadcrumb_toolbar t(:label_role_new) %>
 
 <%= labelled_tabular_form_for @role, :url => { :action => 'create' }, :html => {:id => 'role_form'}, :as => :role do |f| %>
-<%= render partial: 'form',
-           locals: { f: f, role: @role, roles: @roles, permissions: @permissions, global_permissions: @global_permissions } %>
+<%= render partial: 'form', locals: { f: f, role: @role, roles: @roles } %>
 <br/>
 <%= styled_button_tag t(:button_create), class: '-with-icon icon-checkmark' %>
 <% end %>

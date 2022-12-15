@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -108,7 +106,7 @@ class MembersController < ApplicationController
   private
 
   def authorize_for(controller, action)
-    current_user.allowed_to?({ controller: controller, action: action }, @project)
+    current_user.allowed_to?({ controller:, action: }, @project)
   end
 
   def build_members
@@ -142,9 +140,9 @@ class MembersController < ApplicationController
     status = Members::UserFilterCell.status_param(params)
 
     {
-      groups: groups,
-      roles: roles,
-      status: status,
+      groups:,
+      roles:,
+      status:,
       clear_url: project_members_path(@project),
       project: @project
     }

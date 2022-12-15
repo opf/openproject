@@ -41,55 +41,55 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
   end
   let(:embed_links) { false }
   let(:representer) do
-    described_class.new(represented, current_user: current_user, embed_links: embed_links)
+    described_class.new(represented, current_user:, embed_links:)
   end
 
-  context 'generation' do
-    subject { representer.to_json }
+  subject { representer.to_json }
 
-    describe '_links' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'self' }
-        let(:href) { api_v3_paths.configuration }
+  describe '_links' do
+    it_behaves_like 'has an untitled link' do
+      let(:link) { 'self' }
+      let(:href) { api_v3_paths.configuration }
+    end
+
+    describe 'userPreferences' do
+      context 'if logged in' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'userPreferences' }
+          let(:href) { api_v3_paths.user_preferences(current_user.id) }
+        end
       end
 
-      context 'userPreferences' do
-        context 'if logged in' do
-          it_behaves_like 'has an untitled link' do
-            let(:link) { 'userPreferences' }
-            let(:href) { api_v3_paths.user_preferences(current_user.id) }
-          end
-        end
+      context 'if not logged in' do
+        let(:current_user) { build_stubbed(:anonymous) }
 
-        context 'if not logged in' do
-          let(:current_user) { build_stubbed(:anonymous) }
-
-          it_behaves_like 'has an untitled link' do
-            let(:link) { 'userPreferences' }
-            let(:href) { api_v3_paths.user_preferences(current_user.id) }
-          end
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'userPreferences' }
+          let(:href) { api_v3_paths.user_preferences(current_user.id) }
         end
       end
     end
+  end
 
+  describe 'properties' do
     it 'indicates its type' do
-      is_expected.to be_json_eql('Configuration'.to_json).at_path('_type')
+      expect(subject).to be_json_eql('Configuration'.to_json).at_path('_type')
     end
 
     it 'indicates maximumAttachmentFileSize in Bytes' do
       allow(Setting).to receive(:attachment_max_size).and_return('1024')
-      is_expected.to be_json_eql((1024 * 1024).to_json).at_path('maximumAttachmentFileSize')
+      expect(subject).to be_json_eql((1024 * 1024).to_json).at_path('maximumAttachmentFileSize')
     end
 
     it 'indicates perPageOptions as array of integers' do
       allow(Setting).to receive(:per_page_options).and_return('1, 50 ,   100  ')
-      is_expected.to be_json_eql([1, 50, 100].to_json).at_path('perPageOptions')
+      expect(subject).to be_json_eql([1, 50, 100].to_json).at_path('perPageOptions')
     end
 
-    context 'timeFormat' do
+    describe 'timeFormat' do
       context 'with time format', with_settings: { time_format: '%I:%M %p' } do
         it 'indicates the timeFormat' do
-          is_expected
+          expect(subject)
             .to be_json_eql('hh:mm a'.to_json)
             .at_path('timeFormat')
         end
@@ -97,7 +97,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
 
       context 'with time format', with_settings: { time_format: '%H:%M' } do
         it 'indicates the timeFormat' do
-          is_expected
+          expect(subject)
             .to be_json_eql('HH:mm'.to_json)
             .at_path('timeFormat')
         end
@@ -105,17 +105,17 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
 
       context 'with a time format', with_settings: { time_format: '' } do
         it 'indicates the timeFormat' do
-          is_expected
+          expect(subject)
             .to be_json_eql(nil.to_json)
             .at_path('timeFormat')
         end
       end
     end
 
-    context 'dateFormat' do
+    describe 'dateFormat' do
       context 'without a date format', with_settings: { date_format: '' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(subject)
             .to be_json_eql(nil.to_json)
             .at_path('dateFormat')
         end
@@ -123,15 +123,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
 
       context 'with date format (%Y-%m-%d)', with_settings: { date_format: '%Y-%m-%d' } do
         it 'indicates the dateFormat' do
-          is_expected
-            .to be_json_eql('YYYY-MM-DD'.to_json)
-            .at_path('dateFormat')
-        end
-      end
-
-      context 'with date format (%d/%m/%Y)', with_settings: { date_format: '%Y-%m-%d' } do
-        it 'indicates the dateFormat' do
-          is_expected
+          expect(subject)
             .to be_json_eql('YYYY-MM-DD'.to_json)
             .at_path('dateFormat')
         end
@@ -139,7 +131,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
 
       context 'with date format (%d.%m.%Y)', with_settings: { date_format: '%d.%m.%Y' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(subject)
             .to be_json_eql('DD.MM.YYYY'.to_json)
             .at_path('dateFormat')
         end
@@ -147,7 +139,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
 
       context 'with date format (%d-%m-%Y)', with_settings: { date_format: '%d-%m-%Y' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(subject)
             .to be_json_eql('DD-MM-YYYY'.to_json)
             .at_path('dateFormat')
         end
@@ -155,7 +147,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
 
       context 'with date format (%m/%d/%Y)', with_settings: { date_format: '%m/%d/%Y' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(subject)
             .to be_json_eql('MM/DD/YYYY'.to_json)
             .at_path('dateFormat')
         end
@@ -163,7 +155,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
 
       context 'with date format (%d %b %Y)', with_settings: { date_format: '%d %b %Y' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(subject)
             .to be_json_eql('DD MMM YYYY'.to_json)
             .at_path('dateFormat')
         end
@@ -171,7 +163,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
 
       context 'with date format (%d %B %Y)', with_settings: { date_format: '%d %B %Y' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(subject)
             .to be_json_eql('DD MMMM YYYY'.to_json)
             .at_path('dateFormat')
         end
@@ -179,7 +171,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
 
       context 'with date format (%b %d, %Y)', with_settings: { date_format: '%b %d, %Y' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(subject)
             .to be_json_eql('MMM DD, YYYY'.to_json)
             .at_path('dateFormat')
         end
@@ -187,17 +179,17 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
 
       context 'with date format (%B %d, %Y)', with_settings: { date_format: '%B %d, %Y' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(subject)
             .to be_json_eql('MMMM DD, YYYY'.to_json)
             .at_path('dateFormat')
         end
       end
     end
 
-    context 'startOfWeek' do
+    describe 'startOfWeek' do
       context 'without a setting', with_settings: { start_of_week: '' } do
         it 'is null' do
-          is_expected
+          expect(subject)
             .to be_json_eql(nil.to_json)
             .at_path('startOfWeek')
         end
@@ -205,30 +197,54 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
 
       context 'with `Monday` being set', with_settings: { start_of_week: '1' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(subject)
             .to be_json_eql(1.to_json)
             .at_path('startOfWeek')
         end
       end
     end
 
-    describe '_embedded' do
-      context 'userPreferences' do
-        context 'if embedding' do
-          let(:embed_links) { true }
+    describe 'activeFeatureFlags' do
+      context 'without any active flags' do
+        it 'is an empty array' do
+          expect(subject)
+            .to be_json_eql([].to_json)
+                  .at_path('activeFeatureFlags')
+        end
+      end
 
-          it 'embedds the user preferences' do
-            is_expected
-              .to be_json_eql('UserPreferences'.to_json)
-              .at_path('_embedded/userPreferences/_type')
-          end
+      context 'with active flags' do
+        before do
+          allow(OpenProject::FeatureDecisions)
+            .to receive(:active)
+                  .and_return(%w(the active_flags))
         end
 
-        context 'if not embedding' do
-          it 'embedds the user preferences' do
-            is_expected
-              .not_to have_json_path('_embedded/userPreferences/_type')
-          end
+        it 'is an array of strings of those flags' do
+          expect(subject)
+            .to be_json_eql(%w(the activeFlags).to_json)
+                  .at_path('activeFeatureFlags')
+        end
+      end
+    end
+  end
+
+  describe '_embedded' do
+    describe 'userPreferences' do
+      context 'if embedding' do
+        let(:embed_links) { true }
+
+        it 'embedds the user preferences' do
+          expect(subject)
+            .to be_json_eql('UserPreferences'.to_json)
+            .at_path('_embedded/userPreferences/_type')
+        end
+      end
+
+      context 'if not embedding' do
+        it 'embedds the user preferences' do
+          expect(subject)
+            .not_to have_json_path('_embedded/userPreferences/_type')
         end
       end
     end

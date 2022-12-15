@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -42,11 +40,11 @@ describe OpenProject::FormTagHelper, type: :helper do
 
     it_behaves_like 'not wrapped in container', 'form-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <form accept-charset="UTF-8" action="/feedback" class="form"
           method="post"><input name="utf8"
-          type="hidden" value="&#x2713;" /><p>Form content</p></form>
+          type="hidden" value="&#x2713;" autocomplete="off" /><p>Form content</p></form>
       })
     end
   end
@@ -58,7 +56,7 @@ describe OpenProject::FormTagHelper, type: :helper do
 
     it_behaves_like 'wrapped in container', 'select-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <select class="form--select"
           id="field" name="field"><option value="33">FUN</option></select>
@@ -75,7 +73,7 @@ describe OpenProject::FormTagHelper, type: :helper do
 
     it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="form--text-field"
           id="field" name="field" type="text" value="Something to be seen" />
@@ -93,7 +91,7 @@ describe OpenProject::FormTagHelper, type: :helper do
 
       it_behaves_like 'not wrapped in container', 'label-container'
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <label class="form--label" for="field" title="Label content">Label content</label>
         })
@@ -107,29 +105,29 @@ describe OpenProject::FormTagHelper, type: :helper do
 
       it_behaves_like 'not wrapped in container', 'label-container'
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <label class="form--label" for="field" title="Label content">Label content</label>
         })
       end
     end
 
-    context 'titles' do
-      it 'should use the title from the options if given' do
+    context 'for titles' do
+      it 'uses the title from the options if given' do
         label = helper.styled_label_tag 'field', 'Lautrec', title: 'Carim'
         expect(label).to be_html_eql(%{
           <label for="field" class="form--label" title="Carim">Lautrec</label>
         })
       end
 
-      it 'should prefer the title given in the options over the content' do
+      it 'prefers the title given in the options over the content' do
         label = helper.styled_label_tag('field', nil, title: 'Carim') { 'Lordvessel' }
         expect(label).to be_html_eql(%{
           <label for="field" class="form--label" title="Carim">Lordvessel</label>
         })
       end
 
-      it 'should strip any given inline HTML from the title tag (with block)' do
+      it 'strips any given inline HTML from the title tag (with block)' do
         label = helper.styled_label_tag('field') do
           helper.content_tag :span, 'Sif'
         end
@@ -138,7 +136,7 @@ describe OpenProject::FormTagHelper, type: :helper do
         })
       end
 
-      it 'should strip any given inline HTML from the title tag (with content arg)' do
+      it 'strips any given inline HTML from the title tag (with content arg)' do
         label = helper.styled_label_tag('field', helper.content_tag(:span, 'Sif'))
         expect(label).to be_html_eql(%{
           <label for="field" class="form--label" title="Sif"><span>Sif</span></label>
@@ -154,7 +152,7 @@ describe OpenProject::FormTagHelper, type: :helper do
 
     it_behaves_like 'wrapped in container', 'file-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="form--file-field"
           id="file_field" name="file_field" type="file" />
@@ -169,7 +167,7 @@ describe OpenProject::FormTagHelper, type: :helper do
 
     it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="form--text-field -password"
           id="password" name="password" type="password" value="nopE3king!" />
@@ -184,7 +182,7 @@ describe OpenProject::FormTagHelper, type: :helper do
 
     it_behaves_like 'wrapped in container', 'text-area-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <textarea class="form--text-area" id="field" name="field">
 Words are important</textarea>
@@ -199,7 +197,7 @@ Words are important</textarea>
 
     it_behaves_like 'wrapped in container', 'check-box-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="form--check-box"
           id="field" name="field" type="checkbox" value="1" />
@@ -216,7 +214,7 @@ Words are important</textarea>
 
     it_behaves_like 'wrapped in container', 'radio-button-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="form--radio-button"
           id="field_good_choice" name="field" type="radio" value="good choice" />
@@ -225,16 +223,17 @@ Words are important</textarea>
   end
 
   describe '#styled_submit_tag' do
-    subject(:output) do
+    let(:output) do
       helper.styled_submit_tag('Save it!', options)
     end
+
     subject(:html) do
       Capybara::Node::Simple.new(output)
     end
 
     it_behaves_like 'not wrapped in container', 'submit-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(html).to have_selector('input[type=submit]')
     end
   end
@@ -248,7 +247,7 @@ Words are important</textarea>
 
     it_behaves_like 'not wrapped in container', 'button-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql %{
         <button class="button" name="button" type="submit">Don&#x27;t save!</button>
       }
@@ -264,7 +263,7 @@ Words are important</textarea>
 
     it_behaves_like 'not wrapped in container', 'fieldset-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql %{
         <fieldset
           class="form--fieldset"><legend>Fieldset Legend</legend>
@@ -282,7 +281,7 @@ Words are important</textarea>
 
     it_behaves_like 'wrapped in container', 'search-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="form--search-field"
           id="field" name="field" type="search" value="Find me" />
@@ -299,7 +298,7 @@ Words are important</textarea>
 
     it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="form--text-field -telephone"
           id="field" name="field" type="tel" value="+49 555 111 999" />
@@ -316,7 +315,7 @@ Words are important</textarea>
 
     it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="form--text-field -url"
           id="field" name="field" type="url" value="https://blogger.org/" />
@@ -333,7 +332,7 @@ Words are important</textarea>
 
     it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="form--text-field -email"
           id="field" name="field" type="email" value="joe@blogger.com" />
@@ -350,7 +349,7 @@ Words are important</textarea>
 
     it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="form--text-field -number" id="field" name="field" type="number" value="2" />
       }).at_path('input')
@@ -366,7 +365,7 @@ Words are important</textarea>
 
     it_behaves_like 'wrapped in container', 'range-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="form--range-field" id="field" name="field" type="range" value="2" />
       }).at_path('input')

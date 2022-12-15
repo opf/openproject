@@ -39,7 +39,7 @@ describe 'API::V3::CustomActions::CustomActionsAPI', type: :request do
   let(:project) { create(:project) }
   let(:work_package) do
     create(:work_package,
-           project: project,
+           project:,
            assigned_to: user)
   end
   let(:user) do
@@ -77,7 +77,7 @@ describe 'API::V3::CustomActions::CustomActionsAPI', type: :request do
 
       it 'is a 200 OK' do
         expect(last_response.status)
-          .to eql(200)
+          .to be(200)
       end
     end
 
@@ -88,7 +88,7 @@ describe 'API::V3::CustomActions::CustomActionsAPI', type: :request do
 
       it 'is a 404 NOT FOUND' do
         expect(last_response.status)
-          .to eql(404)
+          .to be(404)
       end
     end
 
@@ -99,7 +99,7 @@ describe 'API::V3::CustomActions::CustomActionsAPI', type: :request do
 
       it 'is a 403 NOT AUTHORIZED' do
         expect(last_response.status)
-          .to eql(403)
+          .to be(403)
       end
     end
   end
@@ -118,7 +118,7 @@ describe 'API::V3::CustomActions::CustomActionsAPI', type: :request do
 
       it 'is a 200 OK' do
         expect(last_response.status)
-          .to eql(200)
+          .to be(200)
       end
 
       it 'returns the altered work package' do
@@ -183,7 +183,7 @@ describe 'API::V3::CustomActions::CustomActionsAPI', type: :request do
 
       it 'returns a 422 error' do
         expect(last_response.status)
-          .to eql 422
+          .to be 422
       end
     end
 
@@ -205,7 +205,7 @@ describe 'API::V3::CustomActions::CustomActionsAPI', type: :request do
 
       it 'returns a 422 error' do
         expect(last_response.status)
-          .to eql 422
+          .to be 422
       end
     end
   end

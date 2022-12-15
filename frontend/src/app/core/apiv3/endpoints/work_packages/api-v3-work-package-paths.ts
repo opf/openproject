@@ -31,6 +31,7 @@ import { ApiV3RelationsPaths } from 'core-app/core/apiv3/endpoints/relations/api
 import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
 import { ApiV3WorkPackagesPaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { ApiV3WorkPackageForm } from 'core-app/core/apiv3/endpoints/work_packages/apiv3-work-package-form';
 
 export class ApiV3WorkPackagePaths extends ApiV3Resource<WorkPackageResource> {
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/relations
@@ -50,6 +51,9 @@ export class ApiV3WorkPackagePaths extends ApiV3Resource<WorkPackageResource> {
 
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/github_pull_requests
   public readonly github_pull_requests = this.subResource('github_pull_requests');
+
+  // /api/v3/(projects/:projectIdentifier)/work_packages/(:workPackageId)/form
+  public readonly form:ApiV3WorkPackageForm = this.subResource('form', ApiV3WorkPackageForm);
 
   protected createCache():StateCacheService<WorkPackageResource> {
     return (this.parent as ApiV3WorkPackagesPaths).cache;

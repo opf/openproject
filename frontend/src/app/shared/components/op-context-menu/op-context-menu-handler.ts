@@ -31,7 +31,7 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
    *
    * @param {Event} openerEvent
    */
-  public positionArgs(openerEvent:JQuery.TriggeredEvent):any {
+  public positionArgs(openerEvent:JQuery.TriggeredEvent|Event):JQueryUI.JQueryPositionOptions {
     return {
       my: 'left top',
       at: 'right bottom',

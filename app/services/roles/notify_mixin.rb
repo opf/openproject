@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -32,6 +30,6 @@ module Roles::NotifyMixin
   private
 
   def notify_changed_roles(action, changed_role)
-    OpenProject::Notifications.send(:roles_changed, action: action, role: changed_role)
+    OpenProject::Notifications.send(:roles_changed, action:, role: changed_role)
   end
 end

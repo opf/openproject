@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -49,10 +47,6 @@ class WikiContent < ApplicationRecord
                     version: o.journal.journable.version
                   }
                 }
-
-  def activity_type
-    'wiki_edits'
-  end
 
   def visible?(user = User.current)
     page.visible?(user)

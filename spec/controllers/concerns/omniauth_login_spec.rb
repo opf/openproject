@@ -29,7 +29,9 @@
 require 'spec_helper'
 
 # Concern is included into AccountController and depends on methods available there
-describe AccountController, type: :controller do
+describe AccountController,
+         skip_2fa_stage: true, # Prevent redirects to 2FA stage
+         type: :controller do
   let(:omniauth_strategy) { double('Google Strategy', name: 'google') }
   let(:omniauth_hash) do
     OmniAuth::AuthHash.new(
@@ -117,7 +119,6 @@ describe AccountController, type: :controller do
             } }
           )
         end
-
 
         context 'available' do
           it 'merges the strategy mapping' do
@@ -281,7 +282,7 @@ describe AccountController, type: :controller do
 
       let(:user) do
         build(:user, force_password_change: false,
-                                identity_url: 'google:123545')
+                     identity_url: 'google:123545')
       end
 
       context 'with an active account' do
@@ -289,13 +290,13 @@ describe AccountController, type: :controller do
           user.save!
         end
 
-        it 'should sign in the user after successful external authentication' do
+        it 'signs in the user after successful external authentication' do
           post :omniauth_login, params: { provider: :google }
 
           expect(response).to redirect_to my_page_path
         end
 
-        it 'should log a successful login' do
+        it 'logs a successful login' do
           post_at = Time.now.utc
           post :omniauth_login, params: { provider: :google }
 
@@ -439,11 +440,11 @@ describe AccountController, type: :controller do
           post :omniauth_login, params: { provider: :google }
         end
 
-        it 'should show an error about a not activated account' do
+        it 'shows an error about a not activated account' do
           expect(flash[:error]).to eql(I18n.t('account.error_inactive_activation_by_mail'))
         end
 
-        it 'should redirect to signin_path' do
+        it 'redirects to signin_path' do
           expect(response).to redirect_to signin_path
         end
       end
@@ -457,17 +458,17 @@ describe AccountController, type: :controller do
           post :omniauth_login, params: { provider: :google }
         end
 
-        it 'should show a notice about the activated account' do
+        it 'shows a notice about the activated account' do
           expect(flash[:notice]).to eq(I18n.t('notice_account_registered_and_logged_in'))
         end
 
-        it 'should activate the user' do
+        it 'activates the user' do
           expect(user.reload).to be_active
         end
       end
 
       context 'with a locked account',
-              with_settings: { brute_force_block_after_failed_logins?: false } do
+              with_settings: { brute_force_block_after_failed_logins: 0 } do
         before do
           user.lock
           user.save!
@@ -475,11 +476,11 @@ describe AccountController, type: :controller do
           post :omniauth_login, params: { provider: :google }
         end
 
-        it 'should show an error indicating a failed login' do
+        it 'shows an error indicating a failed login' do
           expect(flash[:error]).to eql(I18n.t(:notice_account_invalid_credentials))
         end
 
-        it 'should redirect to signin_path' do
+        it 'redirects to signin_path' do
           expect(response).to redirect_to signin_path
         end
       end
@@ -499,12 +500,12 @@ describe AccountController, type: :controller do
         post :omniauth_login, params: { provider: :google }
       end
 
-      it 'should respond with an error' do
+      it 'responds with an error' do
         expect(flash[:error]).to include 'The authentication information returned from the identity provider was invalid.'
         expect(response).to redirect_to signin_path
       end
 
-      it 'should not sign in the user' do
+      it 'does not sign in the user' do
         expect(controller.send(:current_user).logged?).to be_falsey
       end
 
@@ -514,12 +515,12 @@ describe AccountController, type: :controller do
     end
 
     describe 'Error occurs during authentication' do
-      it 'should redirect to login page' do
+      it 'redirects to login page' do
         post :omniauth_failure
         expect(response).to redirect_to signin_path
       end
 
-      it 'should log a warn message' do
+      it 'logs a warn message' do
         expect(Rails.logger).to receive(:warn).with('invalid_credentials')
         post :omniauth_failure, params: { message: 'invalid_credentials' }
       end

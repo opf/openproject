@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -34,7 +32,6 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
          'index',
          content_type: :json,
          type: :request do
-
   include API::V3::Utilities::PathHelper
 
   shared_let(:placeholder1) { create :placeholder_user, name: 'foo' }

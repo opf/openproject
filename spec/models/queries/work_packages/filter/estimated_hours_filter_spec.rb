@@ -56,6 +56,7 @@ describe Queries::WorkPackages::Filter::EstimatedHoursFilter, type: :model do
         before do
           instance.operator = Queries::Operators::None.to_sym.to_s
         end
+
         it 'finds zero and none values' do
           expect(WorkPackage.where(instance.where)).to match_array [work_package_zero_hour, work_package_no_hours]
         end

@@ -72,7 +72,7 @@ lol:
       text_2fa_disabled: "crwdns498127:0crwdne498127:0"
     upsale:
       title: 'crwdns657569:0crwdne657569:0'
-      description: 'crwdns498133:0crwdne498133:0'
+      description: 'crwdns822266:0crwdne822266:0'
     backup_codes:
       none_found: crwdns498137:0crwdne498137:0
       singular: crwdns498139:0crwdne498139:0
@@ -132,8 +132,6 @@ lol:
     message_bird:
       sms_delivery_failed: 'crwdns498311:0crwdne498311:0'
       voice_delivery_failed: 'crwdns498313:0crwdne498313:0'
-    restdt:
-      delivery_failed_with_code: 'crwdns498317:0%{code}crwdne498317:0'
     strategies:
       totp: 'crwdns498319:0crwdne498319:0'
       sns: 'crwdns498321:0crwdne498321:0'

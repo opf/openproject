@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -46,7 +44,7 @@ describe 'Team planner', type: :feature, js: true do
     end
 
     expect(page).to have_content 'There is currently nothing to display.'
-    click_on 'Create'
+    click_on 'Create', match: :first
 
     team_planner.expect_title
 
@@ -64,48 +62,84 @@ describe 'Team planner', type: :feature, js: true do
     filters.expect_available_filter "Assignee's role", present: false
   end
 
-  context 'with an assigned work package' do
+  context 'with an assigned work package', with_settings: { working_days: [1, 2, 3, 4, 5] } do
     let!(:other_user) do
-      create :user,
+      create(:user,
              firstname: 'Other',
              lastname: 'User',
              member_in_project: project,
              member_with_permissions: %w[
                view_work_packages edit_work_packages view_team_planner manage_team_planner
-             ]
+             ])
     end
-    let!(:user_outside_project) { create :user, firstname: 'Not', lastname: 'In Project' }
-    let(:type_task) { create :type_task }
-    let(:type_bug) { create :type_bug }
-    let(:closed_status) { create :status, is_closed: true }
+    let!(:user_outside_project) { create(:user, firstname: 'Not', lastname: 'In Project') }
+    let(:type_task) { create(:type_task) }
+    let(:type_bug) { create(:type_bug) }
+    let(:closed_status) { create(:status, is_closed: true) }
 
     let!(:other_task) do
-      create :work_package,
-             project: project,
+      create(:work_package,
+             project:,
              type: type_task,
              assigned_to: other_user,
-             start_date: Time.zone.today - 1.day,
-             due_date: Time.zone.today + 1.day,
-             subject: 'A task for the other user'
+             start_date: Time.zone.today.monday + 1.day,
+             due_date: Time.zone.today.monday + 3.days,
+             subject: 'A task for the other user')
     end
     let!(:other_bug) do
-      create :work_package,
-             project: project,
+      create(:work_package,
+             project:,
+             type: type_bug,
+             assigned_to: other_user,
+             start_date: Time.zone.today.monday + 1.day,
+             due_date: Time.zone.today.monday + 3.days,
+             subject: 'Another task for the other user')
+    end
+    let!(:closed_bug) do
+      create(:work_package,
+             project:,
              type: type_bug,
              assigned_to: other_user,
              status: closed_status,
-             start_date: Time.zone.today - 1.day,
-             due_date: Time.zone.today + 1.day,
-             subject: 'Another task for the other user'
+             start_date: Time.zone.today.monday + 1.day,
+             due_date: Time.zone.today.monday + 3.days,
+             subject: 'Closed bug')
     end
     let!(:user_bug) do
-      create :work_package,
-             project: project,
+      create(:work_package,
+             project:,
              type: type_bug,
              assigned_to: user,
              start_date: Time.zone.today - 10.days,
              due_date: Time.zone.today + 20.days,
-             subject: 'A task for the logged in user'
+             subject: 'A task for the logged in user')
+    end
+    let!(:user_bug_next_week) do
+      create(:work_package,
+             project:,
+             type: type_bug,
+             assigned_to: user,
+             start_date: Time.zone.today.monday + 7.days,
+             due_date: Time.zone.today.monday + 12.days,
+             subject: 'A task for the logged in user in the next week')
+    end
+    let!(:user_bug_last_week) do
+      create(:work_package,
+             project:,
+             type: type_bug,
+             assigned_to: user,
+             start_date: Time.zone.today.monday - 7.days,
+             due_date: Time.zone.today.monday - 5.days,
+             subject: 'A task for the logged in user in the last week')
+    end
+    let!(:user_bug_on_weekend) do
+      create(:work_package,
+             project:,
+             type: type_bug,
+             assigned_to: user,
+             start_date: Time.zone.today.monday + 5.days,
+             due_date: Time.zone.today.monday + 6.days,
+             subject: 'A task for the logged in user on the weekend')
     end
 
     before do
@@ -113,11 +147,12 @@ describe 'Team planner', type: :feature, js: true do
       project.types << type_task
     end
 
-    it 'renders a basic board' do
+    it 'renders a team planner displaying work packages by assignee and date' do
       team_planner.visit!
 
       team_planner.title
 
+      team_planner.wait_for_loaded
       team_planner.expect_empty_state
       team_planner.expect_assignee(user, present: false)
       team_planner.expect_assignee(other_user, present: false)
@@ -139,13 +174,46 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.expect_assignee user
       team_planner.expect_assignee other_user
 
+      # Starting on the "Work week" by default means that
+      # work packages on the weekend as well as in the last or upcoming week are not displayed.
+      # Those work packages that are displayed, are displayed in the row of their assignee.
+
       team_planner.within_lane(user) do
         team_planner.expect_event user_bug
+        team_planner.expect_event user_bug_next_week, present: false
+        team_planner.expect_event user_bug_last_week, present: false
+        team_planner.expect_event user_bug_on_weekend, present: false
       end
 
       team_planner.within_lane(other_user) do
         team_planner.expect_event other_task
         team_planner.expect_event other_bug
+        team_planner.expect_event closed_bug
+      end
+
+      # Switching to the '1-week' view means that
+      # work packages on the weekend are displayed now but
+      # those outside of the current week are still hidden.
+      team_planner.switch_view_mode('1-week')
+
+      team_planner.within_lane(user) do
+        team_planner.expect_event user_bug
+        team_planner.expect_event user_bug_next_week, present: false
+        team_planner.expect_event user_bug_last_week, present: false
+        team_planner.expect_event user_bug_on_weekend
+      end
+
+      # Switching to the '2-week' view means that
+      # work packages on the weekend and those of the upcoming week are displayed.
+      # Those in the last week are still hidden.
+
+      team_planner.switch_view_mode('2-week')
+
+      team_planner.within_lane(user) do
+        team_planner.expect_event user_bug
+        team_planner.expect_event user_bug_next_week
+        team_planner.expect_event user_bug_last_week, present: false
+        team_planner.expect_event user_bug_on_weekend
       end
 
       # Add filter for type task
@@ -162,6 +230,7 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.within_lane(other_user) do
         team_planner.expect_event other_task
         team_planner.expect_event other_bug, present: false
+        team_planner.expect_event closed_bug, present: false
       end
 
       # Open the split view for that task and change to bug
@@ -181,7 +250,7 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.expect_empty_state
       team_planner.expect_assignee(user, present: false)
       team_planner.expect_assignee(other_user, present: false)
-      
+
       retry_block do
         team_planner.click_add_user
         page.find('[data-qa-selector="tp-add-assignee"] input')
@@ -191,7 +260,7 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.expect_empty_state(present: false)
       team_planner.expect_assignee(user)
       team_planner.expect_assignee(other_user, present: false)
-      
+
       retry_block do
         team_planner.click_add_user
         page.find('[data-qa-selector="tp-add-assignee"] input')
@@ -233,11 +302,11 @@ describe 'Team planner', type: :feature, js: true do
       end
 
       expect(page).to have_selector('.ng-option-disabled', text: "No items found")
-      
+
       retry_block do
         team_planner.select_user_to_add user.name
       end
-      
+
       team_planner.expect_assignee(user)
 
       retry_block do
@@ -247,6 +316,43 @@ describe 'Team planner', type: :feature, js: true do
       end
 
       expect(page).to have_selector('.ng-option-disabled', text: "No items found")
+    end
+  end
+
+  context 'with a readonly work package' do
+    let(:readonly_status) { create(:status, is_readonly: true) }
+
+    let!(:blocked_task) do
+      create(:work_package,
+             project:,
+             assigned_to: user,
+             status: readonly_status,
+             start_date: Time.zone.today - 1.day,
+             due_date: Time.zone.today + 1.day,
+             subject: 'A blocked task')
+    end
+
+    it 'disables editing on readonly tasks' do
+      with_enterprise_token(:team_planner_view, :readonly_work_packages)
+      team_planner.visit!
+
+      team_planner.wait_for_loaded
+      team_planner.expect_empty_state
+      team_planner.expect_assignee(user, present: false)
+
+      retry_block do
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add user.name
+      end
+
+      team_planner.expect_empty_state(present: false)
+      team_planner.expect_assignee user
+
+      team_planner.within_lane(user) do
+        team_planner.expect_event blocked_task
+        team_planner.expect_resizable blocked_task, resizable: false
+      end
     end
   end
 end

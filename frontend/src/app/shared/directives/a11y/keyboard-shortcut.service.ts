@@ -30,6 +30,7 @@ import { Injectable } from '@angular/core';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import * as Mousetrap from 'mousetrap';
 
 const accessKeys = {
   preview: 1,
@@ -95,7 +96,7 @@ export class KeyboardShortcutService {
       if (elem.is('input') || elem.attr('id') === 'global-search-input') {
         // timeout with delay so that the key is not
         // triggered on the input
-        setTimeout(() => this.FocusHelper.focus(elem), 200);
+        setTimeout(() => this.FocusHelper.focus(elem[0]), 200);
       } else if (elem.is('[href]')) {
         this.clickLink(elem[0] as HTMLLinkElement);
       } else {

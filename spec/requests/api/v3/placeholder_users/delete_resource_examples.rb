@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -28,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 
 shared_examples 'deletion allowed' do
-  it 'should respond with 202' do
+  it 'responds with 202' do
     expect(last_response.status).to eq 202
   end
 
-  it 'should lock the account and mark for deletion' do
+  it 'locks the account and mark for deletion' do
     expect(Principals::DeleteJob)
       .to have_been_enqueued
             .with(placeholder)
@@ -48,11 +46,11 @@ shared_examples 'deletion allowed' do
 end
 
 shared_examples 'deletion is not allowed' do
-  it 'should respond with 403' do
+  it 'responds with 403' do
     expect(last_response.status).to eq 403
   end
 
-  it 'should not delete the user' do
+  it 'does not delete the user' do
     expect(PlaceholderUser.exists?(placeholder.id)).to be_truthy
   end
 end

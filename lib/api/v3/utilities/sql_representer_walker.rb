@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -47,8 +45,8 @@ module API
 
         def walk(start)
           result = SqlWalkerResults.new(scope,
-                                        url_query: url_query,
-                                        self_path: self_path)
+                                        url_query:,
+                                        self_path:)
 
           result.selects = embedded_depth_first([], start) do |map, stack, current_representer|
             result.replace_map.merge!(map)
@@ -89,14 +87,14 @@ module API
           url_query[:select]
         end
 
-        def embedded_depth_first(stack, current_representer, &block)
+        def embedded_depth_first(stack, current_representer, &)
           up_map = {}
 
           embed_for(stack).each_key do |key|
             representer = current_representer
                           .embed_map[key]
 
-            up_map[key] = embedded_depth_first(stack.dup << key, representer, &block)
+            up_map[key] = embedded_depth_first(stack.dup << key, representer, &)
           end
 
           yield up_map, stack, current_representer if select_for(stack)

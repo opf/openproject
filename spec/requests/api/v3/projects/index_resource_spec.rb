@@ -43,15 +43,18 @@ describe 'API v3 Project resource index', type: :request, content_type: :json do
     create(:project, public: false)
   end
   let(:parent_project) do
-    create(:project, public: false, members: { current_user => role }).tap do |parent|
+    # Adding two roles in here to guard against regression where projects were returned twice if a user
+    # had multiple roles in the same project.
+    create(:project, public: false, members: { current_user => [role, second_role] }).tap do |parent|
       project.parent = parent
       project.save
     end
   end
   let(:role) { create(:role) }
+  let(:second_role) { create(:role) }
   let(:filters) { [] }
   let(:get_path) do
-    api_v3_paths.path_for :projects, filters: filters
+    api_v3_paths.path_for :projects, filters:
   end
   let(:response) { last_response }
   let(:projects) { [project, other_project] }
@@ -229,7 +232,7 @@ describe 'API v3 Project resource index', type: :request, content_type: :json do
     let(:projects) { [project, parent_project] }
     let(:select) { 'elements/id,elements/name,elements/ancestors,total' }
     let(:get_path) do
-      api_v3_paths.path_for :projects, select: select
+      api_v3_paths.path_for :projects, select:
     end
     let(:expected) do
       {
@@ -261,6 +264,19 @@ describe 'API v3 Project resource index', type: :request, content_type: :json do
     it 'is the reduced set of properties of the embedded elements' do
       expect(last_response.body)
         .to be_json_eql(expected.to_json)
+    end
+  end
+
+  context 'as project collection' do
+    let(:role) { create(:role, permissions: %i[view_work_packages]) }
+    let(:projects) { [project] }
+    let(:expected) do
+      "#{api_v3_paths.project(project.id)}/work_packages"
+    end
+
+    it 'has projects with links to their work packages' do
+      expect(last_response.body)
+        .to be_json_eql(expected.to_json).at_path('_embedded/elements/0/_links/workPackages/href')
     end
   end
 end

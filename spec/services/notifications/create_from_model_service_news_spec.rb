@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -39,7 +37,7 @@ describe Notifications::CreateFromModelService, 'news', with_settings: { journal
 
   let(:journable) { build_stubbed(:news) }
 
-  let(:resource) { create(:news, project: project) }
+  let(:resource) { create(:news, project:) }
 
   # view_news is a public permission
   let(:permissions) { [] }
@@ -68,10 +66,20 @@ describe Notifications::CreateFromModelService, 'news', with_settings: { journal
         end
       end
 
-      context 'with the user having registered for involved notifications' do
+      context 'with the user having registered for assignee notifications' do
         let(:recipient_notification_settings) do
           [
-            build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+            build(:notification_setting, **notification_settings_all_false.merge(assignee: true))
+          ]
+        end
+
+        it_behaves_like 'creates no notification'
+      end
+
+      context 'with the user having registered for responsible notifications' do
+        let(:recipient_notification_settings) do
+          [
+            build(:notification_setting, **notification_settings_all_false.merge(responsible: true))
           ]
         end
 

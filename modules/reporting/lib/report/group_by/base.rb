@@ -92,7 +92,7 @@ class Report::GroupBy
       sql_aggregation? ? engine::GroupBy::SqlAggregation : engine::GroupBy::RubyAggregation
     end
 
-    def initialize(child = nil, optios = {})
+    def initialize(child = nil, options = {})
       super
       extend aggregation_mixin
       group_fields field

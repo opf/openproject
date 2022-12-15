@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -41,7 +39,7 @@ module API
 
         @link = ::API::V3::Utilities::ResourceLinkGenerator.make_link(group_key)
 
-        super(group_key, current_user: current_user)
+        super(group_key, current_user:)
       end
 
       links :valueLink do

@@ -83,7 +83,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
    * @param resource The resource with a schema property or a string to the schema href.
    * @return A promise with the loaded schema.
    */
-  ensureLoaded(resource:HalResource|string):Promise<SchemaResource> {
+  ensureLoaded<T = SchemaResource>(resource:HalResource|string):Promise<T> {
     const href = resource instanceof HalResource ? this.getSchemaHref(resource) : resource;
 
     return this
@@ -91,7 +91,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
       .pipe(
         take(1),
       )
-      .toPromise();
+      .toPromise() as unknown as Promise<T>;
   }
 
   /**

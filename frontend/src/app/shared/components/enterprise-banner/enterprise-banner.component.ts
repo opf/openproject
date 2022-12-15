@@ -1,26 +1,28 @@
-import { Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Injector,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
+import { OpModalService } from '../modal/modal.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { pricingUrl } from 'core-app/core/setup/globals/constants.const';
+
+export const enterpriseBannerSelector = 'op-enterprise-banner';
 
 @Component({
-  selector: 'enterprise-banner',
+  selector: enterpriseBannerSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./enterprise-banner.component.sass'],
-  template: `
-    <div class="op-enterprise-banner">
-      <div class="op-toast -ee-upsale"
-           [ngClass]="{'-left-margin': leftMargin }">
-        <div class="op-toast--content">
-          <p class="-bold" [textContent]="text.enterpriseFeature"></p>
-          <p [textContent]="textMessage"></p>
-          <a [href]="eeLink()"
-             target='blank'
-             [textContent]="linkMessage"></a>
-        </div>
-      </div>
-    </div>
-  `
+  templateUrl: './enterprise-banner.component.html',
 })
-export class EnterpriseBannerComponent {
+export class EnterpriseBannerComponent implements OnInit {
   @Input() public leftMargin = false;
 
   @Input() public textMessage:string;
@@ -29,16 +31,47 @@ export class EnterpriseBannerComponent {
 
   @Input() public opReferrer:string;
 
-  public text:any = {
+  @Input() public moreInfoLink:string;
+
+  @Input() public collapsible:boolean;
+
+  public collapsed = false;
+
+  link:string;
+
+  pricingUrl = pricingUrl;
+
+  text = {
     enterpriseFeature: this.I18n.t('js.upsale.ee_only'),
+    become_hero: this.I18n.t('js.admin.enterprise.upsale.become_hero'),
+    you_contribute: this.I18n.t('js.admin.enterprise.upsale.you_contribute'),
+    button_trial: this.I18n.t('js.admin.enterprise.upsale.button_start_trial'),
+    upgrade: this.I18n.t('js.admin.enterprise.upsale.button_upgrade'),
+    more_info_link: `${this.pathHelper.appBasePath}/admin/enterprise`,
+    more_info_text: this.I18n.t('js.admin.enterprise.upsale.more_info'),
+  };
+
+  image = {
+    enterprise_edition: imagePath('enterprise-add-on.svg'),
   };
 
   constructor(
+    readonly elementRef:ElementRef,
     protected I18n:I18nService,
     protected bannersService:BannersService,
-  ) {}
+    protected opModalService:OpModalService,
+    readonly injector:Injector,
+    readonly pathHelper:PathHelperService,
+  ) {
+    populateInputsFromDataset(this);
+  }
 
-  public eeLink() {
-    this.bannersService.getEnterPriseEditionUrl({ referrer: this.opReferrer });
+  ngOnInit():void {
+    this.link = this.bannersService.getEnterPriseEditionUrl({ referrer: this.opReferrer });
+    this.collapsed = this.collapsible;
+  }
+
+  toggleCollapse():void {
+    this.collapsed = !this.collapsed;
   }
 }

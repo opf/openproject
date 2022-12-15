@@ -110,7 +110,7 @@ module ::OpenProject::Plugins
         puts "Regenerating frontend plugin registry #{file_register}."
         context = ::OpenProject::Plugins::FrontendLinking::ErbContext.new plugins
         result = template.result(context.get_binding)
-        File.open(file_register, 'w') { |file| file.write(result) }
+        File.write(file_register, result)
       end
 
       ##
@@ -123,7 +123,7 @@ module ::OpenProject::Plugins
         puts "Regenerating frontend plugin sass #{file_register}."
         context = ::OpenProject::Plugins::FrontendLinking::ErbContext.new plugins
         result = template.result(context.get_binding)
-        File.open(file_register, 'w') { |file| file.write(result) }
+        File.write(file_register, result)
       end
 
       ##

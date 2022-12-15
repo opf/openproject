@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -39,6 +37,10 @@ module API
 
           def writable?(_property)
             false
+          end
+
+          def work_package
+            nil
           end
         end
       end

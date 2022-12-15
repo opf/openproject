@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -60,8 +58,8 @@ class Workflows::BulkUpdateService < ::BaseServices::Update
 
     (status_transitions || {}).each do |status_id, transitions|
       transitions.each do |new_status_id, options|
-        new_workflows << Workflow.new(type: type,
-                                      role: role,
+        new_workflows << Workflow.new(type:,
+                                      role:,
                                       old_status: status_map[status_id.to_i],
                                       new_status: status_map[new_status_id.to_i],
                                       author: options_include(options, 'author'),

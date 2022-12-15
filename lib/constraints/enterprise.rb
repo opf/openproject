@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -28,8 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Enterprise
-  def self.matches?(_request)
+module Enterprise
+  module_function
+
+  def matches?(_request)
     OpenProject::Configuration.ee_manager_visible?
   end
 end

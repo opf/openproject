@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,7 +31,7 @@ require 'spec_helper'
 describe 'CSP appends on login form from oauth',
          type: :rails_request do
   let!(:redirect_uri) { 'https://foobar.com' }
-  let!(:oauth_app) { create(:oauth_application, redirect_uri: redirect_uri) }
+  let!(:oauth_app) { create(:oauth_application, redirect_uri:) }
   let(:oauth_path) do
     "/oauth/authorize?response_type=code&client_id=#{oauth_app.uid}&redirect_uri=#{CGI.escape(redirect_uri)}&scope=api_v3"
   end
@@ -47,6 +45,17 @@ describe 'CSP appends on login form from oauth',
 
       location = response.headers['Location']
       expect(location).to include("/login?back_url=#{CGI.escape(oauth_path)}")
+    end
+  end
+
+  context 'with redirect-uri being a custom scheme' do
+    let(:redirect_uri) { 'myscheme://custom-foobar' }
+
+    it 'appends given CSP appends from flash' do
+      get oauth_path
+
+      csp = response.headers['Content-Security-Policy']
+      expect(csp).to include "form-action 'self' myscheme:"
     end
   end
 end

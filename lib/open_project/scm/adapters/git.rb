@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -128,7 +126,7 @@ module OpenProject
         end
 
         def update_repository!
-          Rails.logger.debug "Fetching latest commits for #{checkout_path}"
+          Rails.logger.debug { "Fetching latest commits for #{checkout_path}" }
 
           Dir.chdir checkout_path do
             fetch_all
@@ -139,10 +137,10 @@ module OpenProject
             remote_branches.each do |remote_branch|
               local_branch = remote_branch.sub /^origin\//, ""
 
-              if !local_branches.include?(local_branch)
-                track_branch! local_branch, remote_branch
-              else
+              if local_branches.include?(local_branch)
                 update_branch! local_branch, remote_branch
+              else
+                track_branch! local_branch, remote_branch
               end
             end
           end
@@ -176,7 +174,7 @@ module OpenProject
         end
 
         def update_branch!(local_branch, remote_branch)
-          Rails.logger.debug("Updating branch: #{local_branch}")
+          Rails.logger.debug { "Updating branch: #{local_branch}" }
 
           capture_out(
             ["update-ref", local_branch, remote_branch],
@@ -261,7 +259,7 @@ module OpenProject
 
             Entry.new(
               name: scm_encode('UTF-8', @path_encoding, name),
-              path: path,
+              path:,
               kind: type == 'tree' ? 'dir' : 'file',
               size: type == 'tree' ? nil : size,
               lastrev: @flag_report_last_commit ? lastrev(path, identifier) : Revision.new
@@ -277,7 +275,7 @@ module OpenProject
         def lastrev(path, rev)
           return nil if path.nil?
 
-          args = %w|log --no-color --encoding=UTF-8 --date=iso --pretty=fuller --no-merges -n 1|
+          args = %w|log --no-abbrev-commit --no-color --encoding=UTF-8 --date=iso --pretty=fuller --no-merges -n 1|
           args << rev if rev
           args << '--' << path unless path.empty?
           lines = capture_git(args).lines
@@ -297,8 +295,8 @@ module OpenProject
           Revision.new(
             identifier: id,
             scmid: id,
-            author: author,
-            time: time,
+            author:,
+            time:,
             message: nil,
             paths: nil
           )
@@ -389,7 +387,7 @@ module OpenProject
         end
 
         def build_revision_args(path, identifier_from, identifier_to, options)
-          args = %w|log --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller|
+          args = %w|log --no-abbrev-commit --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller|
           args << '--reverse' if options[:reverse]
           args << '--all' if options[:all]
           args << '-n' << options[:limit].to_i.to_s if options[:limit]
@@ -398,7 +396,7 @@ module OpenProject
           from_to << identifier_to.to_s if identifier_to
           args << from_to if from_to.present?
           args << "--since=#{options[:since].strftime('%Y-%m-%d %H:%M:%S')}" if options[:since]
-          args << '--' << scm_encode(@path_encoding, 'UTF-8', path) if path && !path.empty?
+          args << '--' << scm_encode(@path_encoding, 'UTF-8', path) if path.present?
 
           args
         end
@@ -406,9 +404,9 @@ module OpenProject
         def diff(path, identifier_from, identifier_to = nil)
           args = []
           if identifier_to
-            args << 'diff' << '--no-color' << identifier_to << identifier_from
+            args << 'diff' << '--no-abbrev-commit' << '--no-color' << identifier_to << identifier_from
           else
-            args << 'show' << '--no-color' << identifier_from
+            args << 'show' << '--no-abbrev-commit' << '--no-color' << identifier_from
           end
           args << '--' << scm_encode(@path_encoding, 'UTF-8', path) unless path.empty?
           capture_git(args).lines
@@ -440,7 +438,7 @@ module OpenProject
               blame.add_line(
                 $1,
                 Revision.new(
-                  identifier: identifier,
+                  identifier:,
                   author: authors_by_commit[identifier]
                 )
               )
@@ -504,10 +502,10 @@ module OpenProject
         # Runs the given arguments through git
         # and processes the result line by line.
         #
-        def parse_by_line(cmd, opts = {}, &block)
+        def parse_by_line(cmd, opts = {}, &)
           popen3(cmd) do |io|
             io.binmode if opts[:binmode]
-            io.each_line &block
+            io.each_line(&)
           end
         end
 

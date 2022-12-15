@@ -3,12 +3,13 @@
   [ngClass]="{'op-team-planner_with_left_side_pane' : (showAddExistingPane | async)}"
 >
   <ng-container
-    *ngIf="(calendarOptions$ | async) as calendarOptions"
+    *ngIf="(calendarOptions$ | async) && !isMobile"
   >
     <button
       #addExistingToggle
       class="button op-team-planner--add-existing-toggle"
       [ngClass]="{'-active': (showAddExistingPane | async)}"
+      [title]="text.add_existing_title"
       data-qa-selector="op-team-planner--add-existing-toggle"
       (click)="toggleAddExistingPane()">
       <op-icon icon-classes="icon-add button--icon"></op-icon>
@@ -24,9 +25,26 @@
       data-qa-selector="add-existing-pane"
     >
     </op-add-existing-pane>
+
+    <button
+      type="button"
+      class="button op-team-planner--view-select-dropdown"
+      [title]="currentViewTitle"
+      opTeamPlannerViewSelectDropdown
+      [viewOptions]="viewOptions"
+      (viewSelected)="switchView($event)"
+      data-qa-selector="op-team-planner--view-select-dropdown">
+      <span class="button--text ellipsis"
+            [textContent]="currentViewTitle"
+            aria-hidden="true"></span>
+      <op-icon icon-classes="button--icon icon-small icon-pulldown hidden-for-mobile"></op-icon>
+    </button>
   </ng-container>
 
-  <div class="op-team-planner--calendar-pane">
+  <div
+    class="op-team-planner--calendar-pane"
+    data-qa-selector="op-team-planner--calendar-pane"
+  >
     <ng-container
       *ngIf="(calendarOptions$ | async) as calendarOptions"
     >
@@ -40,8 +58,10 @@
       ></full-calendar>
 
       <div
-        [textContent]="calendar.tooManyResultsText"
-        class="op-wp-calendar--notification"></div>
+        [textContent]="workPackagesCalendar.tooManyResultsText"
+        class="op-wp-calendar--notification">
+      </div>
+
       <div
         *ngIf="isEmpty$ | async"
         class="op-team-planner--no-data">
@@ -53,7 +73,8 @@
           data-qa-selector="op-team-planner--empty-state-button"
           (click)="showAssigneeAddRow()"
           [textContent]="text.add_assignee"
-        ></button>
+        >
+        </button>
       </div>
     </ng-container>
 
@@ -65,6 +86,7 @@
         <op-principal
           [principal]="resource.extendedProps.principal"
           class="tp-assignee--principal op-principal_wrapped"
+          [hideName]="isMobile"
         ></op-principal>
         <button
           type="button"
@@ -77,47 +99,59 @@
         </button>
       </div>
 
+      <op-principal-loading-skeleton
+        *ngIf="resource && !resource.extendedProps.principal && resource.id.startsWith('skeleton')"
+      ></op-principal-loading-skeleton>
+
       <op-tp-add-assignee
-        *ngIf="resource && !resource.extendedProps.principal"
+        *ngIf="resource && !resource.extendedProps.principal && !resource.id.startsWith('skeleton')"
         (selectAssignee)="addAssignee($event)"
         [alreadySelected]="principalIds$ | async"
       ></op-tp-add-assignee>
     </ng-template>
 
     <ng-template #eventContent let-event="event">
+
+      <op-wp-loading-skeleton
+        [viewBox]="event.extendedProps.viewBox"
+        class="op-team-planner--wp-loading-skeleton"
+        *ngIf="event.source && event.source.id === 'skeleton'"
+      ></op-wp-loading-skeleton>
+
       <wp-single-card
-        [workPackage]="event.extendedProps.workPackage"
+        *ngIf="(!event.source || event.source.id === 'work_packages') && event.extendedProps.workPackage as wp"
+        [workPackage]="wp"
         [selectedWhenOpen]="true"
         [orientation]="'horizontal'"
         [highlightingMode]="'type'"
         [showInfoButton]="true"
-        [disabledInfo]="showDisabledText(event.extendedProps.workPackage)"
-        [isClosed]="isStatusClosed(event.extendedProps.workPackage)"
+        [disabledInfo]="showDisabledText(wp)"
+        [isClosed]="isStatusClosed(wp)"
+        [showAsGhost]="shouldShowAsGhost(wp.id, (globalDraggingItem$ | async))"
         [showAsInlineCard]="true"
-        [showStartDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'start')"
-        [showEndDate]="!this.isWpDateInCurrentView(event.extendedProps.workPackage, 'end')"
+        [showStartDate]="!isWpStartDateInCurrentView(wp)"
+        [showEndDate]="!isWpEndDateInCurrentView(wp)"
         (stateLinkClicked)="openStateLink($event)"
-        (cardClicked)="calendar.onCardClicked($event)"
-      >
-      </wp-single-card>
+        (cardClicked)="workPackagesCalendar.onCardClicked($event)"
+        (cardDblClicked)="workPackagesCalendar.onCardDblClicked($event)"
+        (cardContextMenu)="workPackagesCalendar.showEventContextMenu($event)"
+      ></wp-single-card>
     </ng-template>
 
     <div class="op-team-planner--footer" data-qa-selector="op-team-planner-footer">
-      <div class="op-team-planner--add-assignee">
-        <div
-          class="wp-inline-create-button"
-          *ngIf="!(showAddAssignee$ | async)"
+      <div
+        class="op-team-planner--add-assignee"
+        *ngIf="!(showAddAssignee$ | async) && !(dropzone$ | async)?.dragging"
+      >
+        <button
+          type="button"
+          class="spot-link"
+          (click)="showAssigneeAddRow()"
+          data-qa-selector="tp-assignee-add-button"
         >
-          <button
-            type="button"
-            class="wp-inline-create--add-link tp-assignee-add-button"
-            (click)="showAssigneeAddRow()"
-            data-qa-selector="tp-assignee-add-button"
-          >
-            <op-icon icon-classes="icon-context icon-add"></op-icon>
-            <span [textContent]="text.add_assignee"></span>
-          </button>
-        </div>
+          <span class="spot-icon spot-icon_user-plus"></span>
+          <span [textContent]="text.add_assignee"></span>
+        </button>
       </div>
       <ng-container *ngIf="(dropzone$ | async) as dropzone">
         <div
@@ -131,11 +165,11 @@
           [class.op-team-planner--remove-dropzone_active]="dropzone.isHovering && dropzone.canDrop"
           [class.op-team-planner--remove-dropzone_forbidden]="!dropzone.canDrop"
         >
-      <span
-        *ngIf="dropzone.canDrop"
-        class="op-team-planner--dropzone-label"
-        [textContent]="text.drag_here_to_remove"
-      ></span>
+          <span
+            *ngIf="dropzone.canDrop"
+            class="op-team-planner--dropzone-label"
+            [textContent]="text.drag_here_to_remove"
+          ></span>
           <span
             *ngIf="!dropzone.canDrop"
             class="op-team-planner--dropzone-label"
@@ -145,3 +179,4 @@
       </ng-container>
     </div>
   </div>
+</div>

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -30,38 +28,36 @@
 
 require 'spec_helper'
 
-describe Activities::Fetcher, 'integration', type: :model do
-  let(:project) { create(:project) }
-  let(:permissions) { %i[view_work_packages view_time_entries view_changesets view_wiki_edits] }
-
-  let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: permissions)
-  end
+describe Activities::Fetcher, 'integration' do
+  shared_let(:user) { create(:user) }
+  shared_let(:permissions) { %i[view_work_packages view_time_entries view_changesets view_wiki_edits] }
+  shared_let(:role) { create(:role, permissions:) }
+  # execute as user so that the user is the author of the project, and the
+  # project create event will be displayed in user activities
+  shared_let(:project) { User.execute_as(user) { create(:project, members: { user => role }) } }
 
   let(:instance) { described_class.new(user, options) }
   let(:options) { {} }
 
   describe '#events' do
     let(:event_user) { user }
-    let(:work_package) { create(:work_package, project: project, author: event_user) }
-    let(:forum) { create(:forum, project: project) }
-    let(:message) { create(:message, forum: forum, author: event_user) }
-    let(:news) { create(:news, project: project, author: event_user) }
-    let(:time_entry) { create(:time_entry, project: project, work_package: work_package, user: event_user) }
-    let(:repository) { create(:repository_subversion, project: project) }
-    let(:changeset) { create(:changeset, committer: event_user.login, repository: repository) }
-    let(:wiki) { create(:wiki, project: project) }
+    let(:work_package) { create(:work_package, project:, author: event_user) }
+    let(:forum) { create(:forum, project:) }
+    let(:message) { create(:message, forum:, author: event_user) }
+    let(:news) { create(:news, project:, author: event_user) }
+    let(:time_entry) { create(:time_entry, project:, work_package:, user: event_user) }
+    let(:repository) { create(:repository_subversion, project:) }
+    let(:changeset) { create(:changeset, committer: event_user.login, repository:) }
+    let(:wiki) { create(:wiki, project:) }
     let(:wiki_page) do
       content = build(:wiki_content, page: nil, author: event_user, text: 'some text')
-      create(:wiki_page, wiki: wiki, content: content)
+      create(:wiki_page, wiki:, content:)
     end
 
-    subject { instance.events(Date.today - 30, Date.today + 1) }
+    subject { instance.events(30.days.ago, 1.day.from_now) }
 
-    context 'activities globally' do
-      let!(:activities) { [work_package, message, news, time_entry, changeset, wiki_page.content] }
+    context 'for global activities' do
+      let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page.content] }
 
       it 'finds events of all type' do
         expect(subject.map(&:journable_id))
@@ -69,12 +65,14 @@ describe Activities::Fetcher, 'integration', type: :model do
       end
 
       context 'if lacking permissions' do
-        let(:permissions) { %i[] }
+        before do
+          role.role_permissions.destroy_all
+        end
 
-        it 'finds only events for which permissions are present' do
-          # news and message only requires the user to be member
+        it 'finds only events for which permissions are satisfied' do
+          # project attributes, news and message only require the user to be member
           expect(subject.map(&:journable_id))
-            .to match_array([message.id, news.id])
+            .to match_array([project.id, message.id, news.id])
         end
       end
 
@@ -101,9 +99,9 @@ describe Activities::Fetcher, 'integration', type: :model do
       end
     end
 
-    context 'activities in a project' do
-      let(:options) { { project: project } }
-      let!(:activities) { [work_package, message, news, time_entry, changeset, wiki_page.content] }
+    context 'for activities in a project' do
+      let(:options) { { project: } }
+      let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page.content] }
 
       it 'finds events of all type' do
         expect(subject.map(&:journable_id))
@@ -111,12 +109,14 @@ describe Activities::Fetcher, 'integration', type: :model do
       end
 
       context 'if lacking permissions' do
-        let(:permissions) { %i[] }
+        before do
+          role.role_permissions.destroy_all
+        end
 
-        it 'finds only events for which permissions are present' do
-          # news and message only requires the user to be member
+        it 'finds only events for which permissions are satisfied' do
+          # project attributes, news and message only require the user to be member
           expect(subject.map(&:journable_id))
-            .to match_array([message.id, news.id])
+            .to match_array([project.id, message.id, news.id])
         end
       end
 
@@ -143,28 +143,29 @@ describe Activities::Fetcher, 'integration', type: :model do
       end
     end
 
-    context 'activities in a subproject' do
-      let(:subproject) do
+    context 'for activities in a subproject' do
+      shared_let(:subproject) do
         create(:project, parent: project).tap do
           project.reload
         end
       end
       let(:subproject_news) { create(:news, project: subproject) }
+      let(:subproject_work_package) { create(:work_package, project: subproject, author: event_user) }
       let(:subproject_member) do
         create(:member,
-               user: user,
+               user:,
                project: subproject,
-               roles: [create(:role, permissions: permissions)])
+               roles: [create(:role, permissions:)])
       end
 
-      let!(:activities) { [news, subproject_news] }
+      let!(:activities) { [project, subproject, news, subproject_news, work_package, subproject_work_package] }
 
       context 'if including subprojects' do
         before do
           subproject_member
         end
 
-        let(:options) { { project: project, with_subprojects: 1 } }
+        let(:options) { { project:, with_subprojects: 1 } }
 
         it 'finds events in the subproject' do
           expect(subject.map(&:journable_id))
@@ -174,21 +175,39 @@ describe Activities::Fetcher, 'integration', type: :model do
 
       context 'if the subproject has activity disabled' do
         before do
-          subproject.enabled_module_names = subproject.enabled_module_names - ['activity']
+          subproject.enabled_module_names -= ['activity']
         end
 
         it 'lacks events from subproject' do
           expect(subject.map(&:journable_id))
-            .to match_array [news.id]
+            .to match_array [project.id, news.id, work_package.id]
+        end
+      end
+
+      context 'if not member of the subproject' do
+        let(:options) { { project:, with_subprojects: 1 } }
+
+        it 'lacks events from subproject' do
+          expect(subject.map(&:journable_id))
+            .to match_array [project.id, news.id, work_package.id]
         end
       end
 
       context 'if lacking permissions for the subproject' do
-        let(:options) { { project: project, with_subprojects: 1 } }
+        let(:options) { { project:, with_subprojects: 1 } }
+        let!(:subproject_member) do
+          create(:member,
+                 user:,
+                 project: subproject,
+                 roles: [create(:role, permissions: [])])
+        end
 
-        it 'lacks events from subproject' do
+        it 'finds only events for which permissions are satisfied' do
+          # project attributes and news only require the user to be member
           expect(subject.map(&:journable_id))
-            .to match_array [news.id]
+            .to match_array([project.id, subproject.id, news.id, subproject_news.id, work_package.id])
+          expect(subject.map(&:journable_id))
+            .not_to include(subproject_work_package.id)
         end
       end
 
@@ -197,21 +216,21 @@ describe Activities::Fetcher, 'integration', type: :model do
           subproject_member
         end
 
-        let(:options) { { project: project } }
+        let(:options) { { project:, with_subprojects: nil } }
 
         it 'lacks events from subproject' do
           expect(subject.map(&:journable_id))
-            .to match_array [news.id]
+            .to match_array [project.id, news.id, work_package.id]
         end
       end
     end
 
-    context 'activities of a user' do
+    context 'for activities of a user' do
       let(:options) { { author: user } }
       let!(:activities) do
         # Login to have all the journals created as the user
         login_as(user)
-        [work_package, message, news, time_entry, changeset, wiki_page.content]
+        [project, work_package, message, news, time_entry, changeset, wiki_page.content]
       end
 
       it 'finds events of all type' do
@@ -241,12 +260,14 @@ describe Activities::Fetcher, 'integration', type: :model do
       end
 
       context 'if lacking permissions' do
-        let(:permissions) { %i[] }
+        before do
+          role.role_permissions.destroy_all
+        end
 
-        it 'finds only events for which permissions are present' do
-          # news and message only requires the user to be member
+        it 'finds only events for which permissions are satisfied' do
+          # project attributes, news and message only require the user to be member
           expect(subject.map(&:journable_id))
-            .to match_array([message.id, news.id])
+            .to match_array([project.id, message.id, news.id])
         end
       end
 

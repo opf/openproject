@@ -47,9 +47,9 @@ describe Messages::SetAttributesService, type: :model do
   let(:time_entry_valid) { true }
 
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: message_instance,
-                        contract_class: contract_class,
+                        contract_class:,
                         contract_options: {})
   end
   let(:message_instance) { Message.new }
@@ -78,7 +78,7 @@ describe Messages::SetAttributesService, type: :model do
   end
 
   it 'is a success' do
-    is_expected
+    expect(subject)
       .to be_success
   end
 
@@ -99,7 +99,7 @@ describe Messages::SetAttributesService, type: :model do
   context 'with params' do
     let(:params) do
       {
-        forum: forum
+        forum:
       }
     end
 
@@ -130,7 +130,7 @@ describe Messages::SetAttributesService, type: :model do
     end
 
     it 'returns failure' do
-      is_expected
+      expect(subject)
         .not_to be_success
     end
 

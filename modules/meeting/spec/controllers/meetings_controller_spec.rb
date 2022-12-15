@@ -40,7 +40,7 @@ describe MeetingsController, type: :controller do
 
   describe 'GET' do
     describe 'index' do
-      before(:each) do
+      before do
         @ms = [build_stubbed(:meeting),
                build_stubbed(:meeting),
                build_stubbed(:meeting)]
@@ -53,52 +53,60 @@ describe MeetingsController, type: :controller do
         @grouped = double('grouped')
         expect(Meeting).to receive(:group_by_time).with(@ms).and_return(@grouped)
       end
+
       describe 'html' do
-        before(:each) do
+        before do
           get 'index', params: { project_id: project.id }
         end
+
         it { expect(response).to be_successful }
         it { expect(assigns(:meetings_by_start_year_month_date)).to eql @grouped }
       end
     end
 
     describe 'show' do
-      before(:each) do
-        @m = build_stubbed(:meeting, project: project, agenda: nil)
+      before do
+        @m = build_stubbed(:meeting, project:, agenda: nil)
         allow(Meeting).to receive_message_chain(:includes, :find).and_return(@m)
       end
+
       describe 'html' do
-        before(:each) do
+        before do
           get 'show', params: { id: @m.id }
         end
+
         it { expect(response).to be_successful }
       end
     end
 
     describe 'new' do
-      before(:each) do
+      before do
         allow(Project).to receive(:find).and_return(project)
         @m = build_stubbed(:meeting)
         allow(Meeting).to receive(:new).and_return(@m)
       end
+
       describe 'html' do
-        before(:each) do
+        before do
           get 'new',  params: { project_id: project.id }
         end
+
         it { expect(response).to be_successful }
         it { expect(assigns(:meeting)).to eql @m }
       end
     end
 
     describe 'edit' do
-      before(:each) do
-        @m = build_stubbed(:meeting, project: project)
+      before do
+        @m = build_stubbed(:meeting, project:)
         allow(Meeting).to receive_message_chain(:includes, :find).and_return(@m)
       end
+
       describe 'html' do
-        before(:each) do
+        before do
           get 'edit', params: { id: @m.id }
         end
+
         it { expect(response).to be_successful }
         it { expect(assigns(:meeting)).to eql @m }
       end
@@ -128,7 +136,7 @@ describe MeetingsController, type: :controller do
         end
 
         it 'renders an error' do
-          expect(response.status).to eql 200
+          expect(response.status).to be 200
           expect(response).to render_template :new
           expect(response.body)
             .to have_selector '#errorExplanation li',
@@ -146,7 +154,7 @@ describe MeetingsController, type: :controller do
         end
 
         it 'renders an error' do
-          expect(response.status).to eql 200
+          expect(response.status).to be 200
           expect(response).to render_template :new
           expect(response.body)
             .to have_selector '#errorExplanation li',

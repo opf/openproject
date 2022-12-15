@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -40,8 +38,8 @@ module OpenProject::AuthPlugins
              author_url: 'https://www.openproject.org',
              bundled: true
 
-    initializer 'auth_plugins.register_hooks' do
-      require 'open_project/auth_plugins/hooks'
+    config.to_prepare do
+      OpenProject::AuthPlugins::Hooks
     end
   end
 end

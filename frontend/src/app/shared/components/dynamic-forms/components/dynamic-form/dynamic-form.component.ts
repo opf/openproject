@@ -11,16 +11,24 @@ import {
 import { FormlyForm } from '@ngx-formly/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { catchError, finalize } from 'rxjs/operators';
+import {
+  catchError,
+  finalize,
+} from 'rxjs/operators';
 import { HalSource } from 'core-app/features/hal/resources/hal-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { DynamicFieldsService } from 'core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
-import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from '../../typings';
+import {
+  IDynamicFieldGroupConfig,
+  IOPDynamicFormSettings,
+  IOPFormlyFieldSettings,
+} from '../../typings';
 import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 /**
 * SETTINGS:
@@ -81,7 +89,7 @@ import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.ser
 *
 * - initialPayload @Input:
 *   Allows to provide and initial payload to the form settings request. Checkout
-*   the [forms documentation](https://docs.openproject.org/api/forms/).
+*   the [forms documentation](https://www.openproject.org/docs/api/forms/).
 *
 * - model @Input:
 *   Allows to change model of the form.
@@ -142,7 +150,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
   @Input() settings?:IOPFormSettings;
 
-  @Input() dynamicFormGroup?:FormGroup;
+  @Input() dynamicFormGroup?:UntypedFormGroup;
 
   /** Initial payload to POST to the form */
   @Input() initialPayload:Object = {};
@@ -177,7 +185,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
   @Output() errored = new EventEmitter<IOPFormErrorResponse>();
 
-  form:FormGroup;
+  form:UntypedFormGroup;
 
   fields:IOPFormlyFieldSettings[];
 
@@ -253,7 +261,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     this.modelChange.emit(changes);
   }
 
-  submitForm(form:FormGroup) {
+  submitForm(form:UntypedFormGroup) {
     if (!this.handleSubmit) {
       return;
     }
@@ -378,6 +386,11 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     if (this.fieldGroups) {
       fields = this.dynamicFieldsService.getFormlyFormWithFieldGroups(this.fieldGroups, fields);
     }
+
+    // We pass the resourceId through because some of the inputComponents need it to pass to their subcomponents
+    // (e.g. the userInputComponent)
+    const id = this.resourceId || idFromLink(this.resourcePath || null);
+    model.id = id;
 
     this.fields = fields;
     this.innerModel = model;

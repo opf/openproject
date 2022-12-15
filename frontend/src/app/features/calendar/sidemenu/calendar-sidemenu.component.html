@@ -11,10 +11,12 @@
 <div class="op-sidebar--footer">
   <button
     *ngIf="(canCreateCalendar$ | async)"
-    class="spot-button spot-button_outlined"
+    class="button -alt-highlight"
     [uiSref]="createButton.uiSref"
     [uiParams]="createButton.uiParams"
+    [title]="text.create_new_calendar"
   >
-    {{createButton.title}}
+    <span class="spot-icon spot-icon_add"></span>
+    <span [textContent]="createButton.title"></span>
   </button>
 </div>

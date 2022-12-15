@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -51,7 +49,7 @@ describe Queries::Roles::Filters::UnitFilter, type: :model do
 
           it 'is the same as handwriting the query' do
             expected = model
-                       .where(["roles.type = ?", GlobalRole.name])
+                       .where(["roles.type = ?", GlobalRole.name]) # rubocop:disable Rails/WhereEquals
 
             expect(instance.scope.to_sql).to eql expected.to_sql
           end
@@ -62,7 +60,7 @@ describe Queries::Roles::Filters::UnitFilter, type: :model do
 
           it 'is the same as handwriting the query' do
             expected = model
-                       .where(["roles.type != ?", GlobalRole.name])
+                       .where(["roles.type != ?", GlobalRole.name]) # rubocop:disable Rails/WhereNot
 
             expect(instance.scope.to_sql).to eql expected.to_sql
           end
@@ -88,7 +86,7 @@ describe Queries::Roles::Filters::UnitFilter, type: :model do
 
           it 'is the same as handwriting the query' do
             expected = model
-                       .where(["roles.type != ?", Role.name])
+                       .where(["roles.type != ?", Role.name]) # rubocop:disable Rails/WhereNot
 
             expect(instance.scope.to_sql).to eql expected.to_sql
           end

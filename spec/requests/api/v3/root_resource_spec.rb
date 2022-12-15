@@ -41,19 +41,20 @@ describe 'API v3 Root resource' do
 
   describe '#get' do
     let(:response) { last_response }
-    subject { response.body }
     let(:get_path) { api_v3_paths.root }
+
+    subject { response.body }
 
     context 'anonymous user' do
       before do
         get get_path
       end
 
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(response.status).to eq(200)
       end
 
-      it 'should respond with a root representer' do
+      it 'responds with a root representer' do
         expect(subject).to have_json_path('instanceName')
       end
     end
@@ -65,11 +66,11 @@ describe 'API v3 Root resource' do
         get get_path
       end
 
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(response.status).to eq(200)
       end
 
-      it 'should respond with a root representer' do
+      it 'responds with a root representer' do
         expect(subject).to have_json_path('instanceName')
       end
 

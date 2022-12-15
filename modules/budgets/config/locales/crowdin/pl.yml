@@ -63,7 +63,7 @@ pl:
   label_example_placeholder: 'np. %{decimal}'
   label_view_all_budgets: "Zobacz wszystkie budżety"
   label_yes: "Tak"
-  notice_budget_conflict: "Zestaw zadań musi być z tego samego projektu."
+  notice_budget_conflict: "Pakiety robocze muszą być z tego samego projektu."
   notice_no_budgets_available: "Nie ma dostępnych budżetów."
   permission_edit_budgets: "Edytuj budżety"
   permission_view_budgets: "Zobacz budżety"

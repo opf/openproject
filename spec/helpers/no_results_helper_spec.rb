@@ -30,14 +30,14 @@ require 'spec_helper'
 
 describe NoResultsHelper do
   before do
-    allow(helper).to receive(:t).with('.no_results_title_text', cascade: true) { "Nothing here!" }
-    allow(helper).to receive(:t).with('.no_results_content_text') { "Add some foo" }
+    allow(helper).to receive(:t).with('.no_results_title_text', cascade: true).and_return("Nothing here!")
+    allow(helper).to receive(:t).with('.no_results_content_text').and_return("Add some foo")
   end
 
   describe '#no_results_box' do
     it "contains the just the title" do
       expect(helper.no_results_box).to have_content 'Nothing here!'
-      expect(helper.no_results_box).to_not have_link 'Add some foo'
+      expect(helper.no_results_box).not_to have_link 'Add some foo'
     end
 
     it "contains the title and content link" do

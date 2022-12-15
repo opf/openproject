@@ -1,7 +1,7 @@
 require_relative '../../../spec_helper'
 require_relative './../authentication_controller_shared_examples'
 
-describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_ee: true do
+describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController do
   let(:admin) { create :admin }
   let(:user) { create(:user, login: 'foobar') }
   let(:other_user) { create(:user) }
@@ -9,12 +9,18 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_
   let(:active_strategies) { [:developer] }
   let(:config) { {} }
 
+  include_context 'with settings' do
+    let(:settings) do
+      {
+        plugin_openproject_two_factor_authentication: {
+          'active_strategies' => active_strategies
+        }.merge(config)
+      }
+    end
+  end
+
   before do
     allow(User).to receive(:current).and_return(logged_in_user)
-    allow(OpenProject::Configuration).to receive(:[]).and_call_original
-    allow(OpenProject::Configuration)
-      .to receive(:[]).with('2fa')
-      .and_return({ active_strategies: active_strategies }.merge(config).with_indifferent_access)
     allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
       .to receive(:add_default_strategy?)
       .and_return false
@@ -123,7 +129,7 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_
       end
 
       context 'with existing non-default device' do
-        let!(:device) { create :two_factor_authentication_device_totp, user: user, default: false }
+        let!(:device) { create :two_factor_authentication_device_totp, user:, default: false }
 
         it 'deletes it' do
           delete :destroy, params: { id: user.id, device_id: device.id }
@@ -133,7 +139,7 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_
       end
 
       context 'with existing default device' do
-        let!(:device) { create :two_factor_authentication_device_totp, user: user, default: true }
+        let!(:device) { create :two_factor_authentication_device_totp, user:, default: true }
 
         it 'deletes it' do
           delete :destroy, params: { id: user.id, device_id: device.id }
@@ -143,7 +149,7 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_
       end
 
       context 'with existing default device AND enforced' do
-        let!(:device) { create :two_factor_authentication_device_totp, user: user, default: true }
+        let!(:device) { create :two_factor_authentication_device_totp, user:, default: true }
         let(:config) { { enforced: true } }
 
         it 'cannot be deleted' do

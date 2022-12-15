@@ -41,8 +41,8 @@ describe 'Meetings close', type: :feature do
            member_with_permissions: permissions)
   end
 
-  let!(:meeting) { create :meeting, project: project, title: 'Own awesome meeting!', author: user }
-  let!(:meeting_agenda) { create :meeting_agenda, meeting: meeting, text: "asdf" }
+  let!(:meeting) { create :meeting, project:, title: 'Own awesome meeting!', author: user }
+  let!(:meeting_agenda) { create :meeting_agenda, meeting:, text: "asdf" }
 
   before do
     login_as(user)

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -47,6 +45,7 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
   end
 
   let(:path) { api_v3_paths.user_form(user.id) }
+  let(:body) { response.body }
   let(:payload) do
     {}
   end
@@ -58,7 +57,6 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
   end
 
   subject(:response) { last_response }
-  let(:body) { response.body }
 
   context 'with authorized user' do
     shared_let(:current_user) do
@@ -88,27 +86,24 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
       end
     end
 
-    describe 'with a non-writable status' do
+    describe 'with a writable status' do
       let(:payload) do
         {
-          "status": 'locked'
+          status: 'locked'
         }
       end
 
-      it 'returns an invalid form', :aggregate_failures do
+      it 'returns a valid response', :aggregate_failures do
         expect(response.status).to eq(200)
         expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
 
         expect(subject.body)
-          .to have_json_size(1)
+          .to have_json_size(0)
                 .at_path('_embedded/validationErrors')
 
-        expect(subject.body)
-          .to have_json_path('_embedded/validationErrors/status')
-
         expect(body)
-          .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyIsReadOnly'.to_json)
-                .at_path('_embedded/validationErrors/status/errorIdentifier')
+          .to be_json_eql('locked'.to_json)
+                .at_path('_embedded/payload/status')
 
         # Does not change the user's status
         user.reload
@@ -119,7 +114,7 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
     describe 'with an empty firstname' do
       let(:payload) do
         {
-          "firstName": nil
+          firstName: nil
         }
       end
 
@@ -132,7 +127,7 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
                 .at_path('_embedded/payload/email')
 
         expect(body)
-          .to_not have_json_path('_embedded/payload/firstName')
+          .not_to have_json_path('_embedded/payload/firstName')
 
         expect(body)
           .to be_json_eql(user.lastname.to_json)
@@ -169,5 +164,4 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
 
     it_behaves_like 'unauthorized access'
   end
-
 end

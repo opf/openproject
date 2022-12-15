@@ -3,7 +3,7 @@ require 'spec_helper'
 describe OpenProject::Boards::GridRegistration do
   let(:project) { create(:project) }
   let(:permissions) { [:show_board_views] }
-  let(:board) { create(:board_grid, project: project) }
+  let(:board) { create(:board_grid, project:) }
   let(:user) do
     create(:user,
            member_in_project: project,

@@ -29,7 +29,6 @@
 module Pages
   module Notifications
     class Center < ::Pages::Page
-
       def open
         bell_element.click
         expect_open
@@ -37,11 +36,6 @@ module Pages
 
       def path
         notifications_center_path
-      end
-
-      def close
-        page.find('button[data-qa-selector="op-back-button"]').click
-        expect_closed
       end
 
       def mark_all_read
@@ -61,17 +55,17 @@ module Pages
       def click_item(notification)
         text = notification.resource.is_a?(WorkPackage) ? notification.resource.subject : notification.subject
         within_item(notification) do
-          page.find('span', text: text, exact_text: true).click
+          page.find('span', text:, exact_text: true).click
         end
       end
 
-      def within_item(notification, &block)
-        page.within("[data-qa-selector='op-ian-notification-item-#{notification.id}']", &block)
+      def within_item(notification, &)
+        page.within("[data-qa-selector='op-ian-notification-item-#{notification.id}']", &)
       end
 
-      def expect_item(notification, subject: notification.subject)
+      def expect_item(notification, expected_text = notification.subject)
         within_item(notification) do
-          expect(page).to have_text subject, normalize_ws: true
+          expect(page).to have_text expected_text, normalize_ws: true
         end
       end
 
@@ -103,7 +97,7 @@ module Pages
           raise(ArgumentError, "Expected work package") unless work_package.is_a?(WorkPackage)
 
           expect_item notification,
-                      subject: "#{work_package.type.name.upcase} #{work_package.subject}"
+                      "#{work_package.type.name.upcase} #{work_package.subject}"
         end
       end
 
@@ -123,7 +117,7 @@ module Pages
         if count == 0
           expect(page).to have_no_selector('[data-qa-selector^="op-ian-notification-item-"]')
         else
-          expect(page).to have_selector('[data-qa-selector^="op-ian-notification-item-"]', count: count, wait: 10)
+          expect(page).to have_selector('[data-qa-selector^="op-ian-notification-item-"]', count:, wait: 10)
         end
       end
 

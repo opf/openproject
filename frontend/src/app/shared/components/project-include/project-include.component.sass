@@ -1,21 +1,17 @@
 @import '../../../spot/styles/sass/variables'
-@import '../../../spot/styles/sass/typography'
-
-\::ng-deep .spot-drop-modal--body
-  width: 460px
-  max-width: 100vw
 
 .op-project-include
-  &--header
+  &--include-all
     display: flex
-    justify-content: space-between
     align-items: center
-    margin: $spot-spacing-0_5
+    cursor: pointer
 
-  &--title
-    margin: 0
-    padding: 0
-    @include spot-subheader-big 
+    &-text
+      // A true center aligned text does not look center aligned
+      padding-top: 1px
+      margin-left: $spot-spacing-0_5
 
-  &--loading
-    padding: 0 15px 0 15px
+  &--list
+    // If there is only one item and it is disabled, we'll need to be able to view the
+    // tooltip message. If we wouldn't have a default height here, the user would need to scroll
+    min-height: $spot-spacing-7

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -30,10 +28,18 @@
 
 module UserPreferences
   class ParamsContract < ::ParamsContract
+    include RequiresEnterpriseGuard
+    self.enterprise_action = :date_alerts
+    self.enterprise_condition = ->(*) { date_alerts_set? }
+
+    DATE_ALERT_DURATIONS = [nil, 0, 1, 3, 7].freeze
+    DATE_ALERT_OVERDUE_DURATIONS = [nil, 1, 3, 7].freeze
+
     validate :only_one_global_setting,
              if: -> { notifications.present? }
-
     validate :global_email_alerts,
+             if: -> { notifications.present? }
+    validate :date_alerts,
              if: -> { notifications.present? }
 
     protected
@@ -50,12 +56,30 @@ module UserPreferences
       end
     end
 
+    def date_alerts
+      if notifications.any?(method(:date_fields_fail_validation?))
+        errors.add :notification_settings, :wrong_date
+      end
+    end
+
+    def date_fields_fail_validation?(setting)
+      DATE_ALERT_DURATIONS.exclude?(setting[:start_date]) ||
+      DATE_ALERT_DURATIONS.exclude?(setting[:due_date]) ||
+      DATE_ALERT_OVERDUE_DURATIONS.exclude?(setting[:overdue])
+    end
+
     ##
     # Check if the given notification hash has email-only settings set
     def email_alerts_set?(notification_setting)
       NotificationSetting.email_settings.any? do |setting|
         notification_setting[setting] == true
       end
+    end
+
+    ##
+    # Check if the given notification hash has date alert related settings set
+    def date_alerts_set?
+      (NotificationSetting.date_alert_settings & notifications.flat_map(&:keys)).any?
     end
 
     def global_notifications
@@ -67,7 +91,7 @@ module UserPreferences
     end
 
     def notifications
-      params[:notification_settings]
+      params[:notification_settings] || []
     end
   end
 end

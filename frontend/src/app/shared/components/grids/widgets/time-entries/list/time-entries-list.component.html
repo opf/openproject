@@ -8,16 +8,16 @@
   </widget-menu>
 </widget-header>
 
-<no-results *ngIf="noEntries"
+<op-no-results *ngIf="noEntries"
             [title]="text.noResults">
-</no-results>
+</op-no-results>
 
 <ng-container *ngIf="!noEntries">
   <div class="total-hours">
     <p>Total: <span [textContent]="total"></span></p>
   </div>
 
-  <div class="generic-table--results-container" *ngIf="anyEntries">
+  <div class="generic-table--results-container" *ngIf="entriesLoaded && anyEntries">
     <table class="generic-table time-entries">
       <colgroup>
         <col opHighlightCol>
@@ -31,28 +31,28 @@
           <th>
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
-                <span [textContent]="text.activity"></span>
+                <span [textContent]="schema.activity.name"></span>
               </div>
             </div>
           </th>
           <th>
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
-                <span [textContent]="text.workPackage"></span>
+                <span [textContent]="schema.workPackage.name"></span>
               </div>
             </div>
           </th>
           <th>
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
-                <span [textContent]="text.comment"></span>
+                <span [textContent]="schema.comment.name"></span>
               </div>
             </div>
           </th>
           <th>
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
-                <span [textContent]="text.hour"></span>
+                <span [textContent]="schema.hours.name"></span>
               </div>
             </div>
           </th>

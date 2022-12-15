@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -49,17 +47,17 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
 
   subject(:response) { last_response }
 
-  it 'should return 200(OK)' do
+  it 'returns 200(OK)' do
     expect(response.status).to eq(200)
   end
 
-  it 'should be of type form' do
+  it 'is of type form' do
     expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
   end
 
   it 'has the available_projects link for creation in the schema' do
     expect(response.body)
-      .to be_json_eql(api_v3_paths.available_projects_on_create(nil).to_json)
+      .to be_json_eql(api_v3_paths.available_projects_on_create.to_json)
       .at_path('_embedded/schema/project/_links/allowedValues/href')
   end
 

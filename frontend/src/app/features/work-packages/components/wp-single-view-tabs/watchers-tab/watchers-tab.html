@@ -17,11 +17,13 @@
     <div class="work-package--watchers-lookup hide-when-print"
          [hidden]="!allowedToAdd">
       <form name="watcherForm" novalidate>
-        <user-autocompleter [clearAfterSelection]="true"
-                            (onChange)="addWatcher($event)"
-                            [url]="availableWatchersPath"
-                            class="wp-watcher--autocomplete">
-        </user-autocompleter>
+        <op-user-autocompleter
+          [clearAfterSelection]="true"
+          (valueChange)="addWatcher($event)"
+          [url]="availableWatchersPath"
+          appendTo="body"
+          class="wp-watcher--autocomplete"
+        ></op-user-autocompleter>
       </form>
     </div>
   </div>

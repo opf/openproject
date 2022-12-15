@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,7 +31,7 @@ require 'spec_helper'
 describe Queries::WorkPackages::Filter::ParentFilter, type: :model do
   let(:project) { build_stubbed(:project) }
   let(:query) do
-    build_stubbed(:query, project: project)
+    build_stubbed(:query, project:)
   end
 
   it_behaves_like 'basic query filter' do
@@ -132,7 +130,7 @@ describe Queries::WorkPackages::Filter::ParentFilter, type: :model do
         end
 
         it 'returns a TemplatedValue object' do
-          expect(instance.value_objects.length).to eql 1
+          expect(instance.value_objects.length).to be 1
           expect(instance.value_objects[0].id).to eql '{id}'
         end
       end
@@ -269,7 +267,7 @@ describe Queries::WorkPackages::Filter::ParentFilter, type: :model do
 
     describe '#where and #includes' do
       let(:parent) { create(:work_package) }
-      let(:visible_wp) { create(:work_package, parent: parent) }
+      let(:visible_wp) { create(:work_package, parent:) }
 
       before do
         visible_wp

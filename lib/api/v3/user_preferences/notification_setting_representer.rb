@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,9 +31,14 @@ module API
     module UserPreferences
       class NotificationSettingRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
+        include API::Decorators::DateProperty
 
         NotificationSetting.all_settings.each do |setting|
-          property setting
+          if setting.in?(NotificationSetting.date_alert_settings)
+            duration_property setting, if: ->(*) { EnterpriseToken.allows_to?(:date_alerts) }
+          else
+            property setting
+          end
         end
 
         associated_resource :project,

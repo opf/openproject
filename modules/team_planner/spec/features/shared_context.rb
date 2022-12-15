@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,7 +31,7 @@ require_relative '../support/pages/team_planner'
 
 shared_context 'with team planner full access' do
   shared_let(:project) do
-    create(:project, enabled_module_names: %w[work_package_tracking team_planner_view])
+    create(:project)
   end
 
   shared_let(:user) do

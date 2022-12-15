@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -50,7 +48,7 @@ module HomescreenHelper
     link_to label,
             link[:href],
             title: label,
-            target: '_blank'
+            target: '_blank', rel: 'noopener'
   end
 
   ##

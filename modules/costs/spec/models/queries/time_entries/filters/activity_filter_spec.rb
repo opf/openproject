@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -40,7 +38,7 @@ describe Queries::TimeEntries::Filters::ActivityFilter, type: :model do
 
   before do
     allow(::TimeEntryActivity)
-      .to receive_message_chain(:shared)
+      .to receive(:shared)
       .and_return(activities)
 
     allow(::TimeEntryActivity)

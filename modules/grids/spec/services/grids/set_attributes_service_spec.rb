@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -51,9 +49,9 @@ describe Grids::SetAttributesService, type: :model do
   end
   let(:grid_valid) { true }
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: grid,
-                        contract_class: contract_class)
+                        contract_class:)
   end
   let(:call_attributes) { {} }
   let(:grid_class) { Grids::Grid }
@@ -108,7 +106,7 @@ describe Grids::SetAttributesService, type: :model do
 
       let(:call_attributes) do
         {
-          widgets: widgets
+          widgets:
         }
       end
 
@@ -118,7 +116,7 @@ describe Grids::SetAttributesService, type: :model do
 
       it 'adds the new widgets' do
         expect(grid.widgets.length)
-          .to eql 1
+          .to be 1
       end
 
       it 'does not persist the new widget' do
@@ -160,14 +158,14 @@ describe Grids::SetAttributesService, type: :model do
 
           it 'leaves the prohibited widget' do
             expect(grid.widgets.length)
-              .to eql 1
+              .to be 1
           end
         end
 
         context 'with the grid not being a new record' do
           it 'leaves the prohibited widget' do
             expect(grid.widgets.length)
-              .to eql 1
+              .to be 1
           end
         end
       end
@@ -203,10 +201,10 @@ describe Grids::SetAttributesService, type: :model do
 
       it 'does not remove the widget right away' do
         expect(grid.widgets.length)
-          .to eql 1
+          .to be 1
       end
 
-      it 'marks the  widget for destruction' do
+      it 'marks the widget for destruction' do
         expect(grid.widgets[0])
           .to be_marked_for_destruction
       end
@@ -247,7 +245,7 @@ describe Grids::SetAttributesService, type: :model do
         context 'with the grid not being a new record' do
           it 'leaves the prohibited widget' do
             expect(grid.widgets.length)
-              .to eql 1
+              .to be 1
           end
         end
       end
@@ -279,7 +277,7 @@ describe Grids::SetAttributesService, type: :model do
 
       it 'does not remove the widget' do
         expect(grid.widgets.length)
-          .to eql 1
+          .to be 1
       end
 
       it 'does not mark the widget for destruction' do
@@ -323,7 +321,7 @@ describe Grids::SetAttributesService, type: :model do
         context 'with the grid not being a new record' do
           it 'leaves the prohibited widget' do
             expect(grid.widgets.length)
-              .to eql 1
+              .to be 1
           end
         end
       end
@@ -358,7 +356,7 @@ describe Grids::SetAttributesService, type: :model do
         )
       end
 
-      let(:call_attributes) { { widgets: widgets } }
+      let(:call_attributes) { { widgets: } }
 
       before do
         subject
@@ -433,7 +431,7 @@ describe Grids::SetAttributesService, type: :model do
         )
       end
 
-      let(:call_attributes) { { widgets: widgets } }
+      let(:call_attributes) { { widgets: } }
 
       before do
         subject

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -74,7 +72,7 @@ module API
           def attachments
             ::API::V3::Attachments::AttachmentCollectionRepresenter.new(attachment_set,
                                                                         self_link: attachments_by_resource,
-                                                                        current_user: current_user)
+                                                                        current_user:)
           end
 
           def attachments_by_resource

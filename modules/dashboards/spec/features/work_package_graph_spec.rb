@@ -40,15 +40,15 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
   let!(:closed_status) { create :status, is_closed: true }
   let!(:type_work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user,
            status: open_status,
            responsible: user
   end
   let!(:other_type_work_package) do
     create :work_package,
-           project: project,
+           project:,
            type: other_type,
            author: user,
            status: closed_status,
@@ -57,7 +57,7 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
   let!(:other_project_work_package) do
     create :work_package,
            project: other_project,
-           type: type,
+           type:,
            author: user,
            status: open_status,
            responsible: user
@@ -73,12 +73,12 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
   end
 
   let(:role) do
-    create(:role, permissions: permissions)
+    create(:role, permissions:)
   end
 
   let(:user) do
     create(:user).tap do |u|
-      create(:member, project: project, user: u, roles: [role])
+      create(:member, project:, user: u, roles: [role])
       create(:member, project: other_project, user: u, roles: [role])
     end
   end
@@ -101,9 +101,12 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
 
   context 'with the permission to save queries' do
     it 'can add the widget and see the work packages of the filtered for types' do
+      expect(page)
+        .to have_content(type_work_package.subject)
+
       dashboard_page.add_widget(1, 1, :column, "Work packages graph")
 
-      sleep(0.1)
+      sleep(1)
 
       filter_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
 
@@ -133,6 +136,8 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
 
       visit root_path
       dashboard_page.visit!
+      expect(page)
+        .to have_content(type_work_package.subject)
 
       filter_area.configure_wp_table
       modal.switch_to('Filters')

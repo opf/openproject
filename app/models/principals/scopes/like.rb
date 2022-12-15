@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -48,7 +46,7 @@ module Principals::Scopes
                "LOWER(#{firstnamelastname}) LIKE :s OR " +
                "LOWER(#{lastnamefirstname}) LIKE :s OR " +
                'LOWER(mail) LIKE :s',
-               { s: s }])
+               { s: }])
           .order(:type, :login, :lastname, :firstname, :mail)
       end
     end

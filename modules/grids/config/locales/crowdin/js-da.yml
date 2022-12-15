@@ -5,8 +5,8 @@ da:
       remove: 'Fjern widget'
       configure: 'Configure widget'
       upsale:
-        text: "Nogle widgets, som fx arbejdspakke graf-widget, er kun tilgængelige i "
-        link: 'enterprise edition.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: 'Tilpasset tekst'

@@ -46,9 +46,9 @@ module API
     def substitute_refs(spec, path:, root_path:, root_spec: spec)
       case spec
       when Hash
-        substitute_refs_in_hash spec, path: path, root_path: root_path, root_spec: root_spec
+        substitute_refs_in_hash spec, path:, root_path:, root_spec:
       when Array
-        spec.map { |s| substitute_refs s, path: path, root_path: root_path, root_spec: root_spec }
+        spec.map { |s| substitute_refs s, path:, root_path:, root_spec: }
       else
         spec
       end
@@ -59,9 +59,9 @@ module API
         ref_path = path.join spec.values.first
         ref_value = YAML.safe_load File.read(ref_path.to_s)
 
-        resolve_refs ref_value, path: ref_path.parent, root_path: root_path, root_spec: root_spec
+        resolve_refs ref_value, path: ref_path.parent, root_path:, root_spec:
       else
-        spec.transform_values { |v| substitute_refs(v, path: path, root_path: root_path, root_spec: root_spec) }
+        spec.transform_values { |v| substitute_refs(v, path:, root_path:, root_spec:) }
       end
     rescue Psych::SyntaxError => e
       raise "Failed to load #{ref_path}: #{e.class} #{e.message}"
@@ -70,9 +70,9 @@ module API
     def resolve_refs(spec, path:, root_path:, root_spec:)
       case spec
       when Hash
-        resolve_refs_in_hash spec, path: path, root_path: root_path, root_spec: root_spec
+        resolve_refs_in_hash spec, path:, root_path:, root_spec:
       when Array
-        spec.map { |v| resolve_refs v, path: path, root_path: root_path, root_spec: root_spec }
+        spec.map { |v| resolve_refs v, path:, root_path:, root_spec: }
       else
         spec
       end
@@ -82,7 +82,7 @@ module API
       if spec.size == 1 && spec.keys.first == "$ref"
         resolve_ref spec, path: path, root_path: root_path, root_spec: root_spec
       else
-        spec.transform_values { |v| resolve_refs v, path: path, root_path: root_path, root_spec: root_spec }
+        spec.transform_values { |v| resolve_refs v, path:, root_path:, root_spec: }
       end
     end
 
@@ -90,7 +90,7 @@ module API
       ref_path = spec.values.first
 
       if ref_path.start_with?(".")
-        { spec.keys.first => schema_ref(ref_path, path: path, root_path: root_path, root_spec: root_spec) }
+        { spec.keys.first => schema_ref(ref_path, path:, root_path:, root_spec:) }
       else
         spec
       end

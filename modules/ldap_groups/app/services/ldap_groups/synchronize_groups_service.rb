@@ -11,11 +11,11 @@ module LdapGroups
 
     def call
       synchronize!
-      ServiceResult.new(success: true)
+      ServiceResult.success
     rescue StandardError => e
       error = "[LDAP groups] Failed to perform LDAP group synchronization: #{e.class}: #{e.message}"
       Rails.logger.error(error)
-      ServiceResult.new(message: error, success: false)
+      ServiceResult.failure(message: error)
     end
 
     def synchronize!
@@ -81,19 +81,12 @@ module LdapGroups
     ##
     # Apply memberships from the ldap group and remove outdated
     def update_memberships!(sync, users)
-      # Get the user ids of the current members in ldap
-      set_by_us = ::LdapGroups::Membership.where(group_id: sync.id, user_id: users.select(:id)).select(:user_id)
-
       # Remove group users no longer in ids
       no_longer_present = ::LdapGroups::Membership.where(group_id: sync.id).where.not(user_id: users.select(:id))
       remove_memberships!(no_longer_present, sync)
 
-      # Add new memberships
-      new_member_ids = users
-        .where.not(id: set_by_us)
-        .where.not(id: sync.group.users.select(:id))
-
-      add_memberships!(new_member_ids, sync)
+      # Add all current users from LDAP as members
+      add_memberships!(users, sync)
 
       # Reset the counters after manually inserting items
       LdapGroups::SynchronizedGroup.reset_counters(sync.id, :users, touch: true)
@@ -121,15 +114,15 @@ module LdapGroups
 
     ##
     # Add new users to the synced group
-    def add_memberships!(new_member_ids, sync)
-      if new_member_ids.empty?
+    def add_memberships!(ldap_member_ids, sync)
+      if ldap_member_ids.empty?
         Rails.logger.info "[LDAP groups] No new users to add for #{sync.dn}"
         return
       end
 
-      Rails.logger.info { "[LDAP groups] Adding #{new_member_ids.count} users to #{sync.dn}" }
+      Rails.logger.info { "[LDAP groups] Making #{ldap_member_ids.count} members of #{sync.dn}" }
 
-      sync.add_members! new_member_ids
+      sync.add_members! ldap_member_ids
     end
 
     ##
@@ -154,9 +147,11 @@ module LdapGroups
         return
       end
 
-      Rails.logger.info "[LDAP groups] Removing users #{memberships.pluck(:user_id)} from #{sync.dn}"
+      user_ids = memberships.pluck(:user_id)
 
-      sync.remove_members! memberships.pluck(:user_id)
+      Rails.logger.info "[LDAP groups] Removing users #{user_ids.inspect} from #{sync.dn}"
+
+      sync.remove_members! user_ids
     end
   end
 end

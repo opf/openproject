@@ -36,7 +36,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
   end
   let(:role) do
     create(:role,
-           permissions: permissions)
+           permissions:)
   end
 
   let(:permissions) do
@@ -50,14 +50,14 @@ describe WorkPackages::CopyService, 'integration', type: :model do
   let(:project) { create(:project, types: [type]) }
   let(:work_package) do
     create(:work_package,
-           project: project,
-           type: type)
+           project:,
+           type:)
   end
-  let(:instance) { described_class.new(work_package: work_package, user: user) }
+  let(:instance) { described_class.new(work_package:, user:) }
   let(:custom_field) { create(:work_package_custom_field) }
   let(:custom_value) do
     create(:work_package_custom_value,
-           custom_field: custom_field,
+           custom_field:,
            customized: work_package,
            value: false)
   end
@@ -73,15 +73,14 @@ describe WorkPackages::CopyService, 'integration', type: :model do
       .call(**attributes)
   end
 
-  before do
-    login_as(user)
-  end
+  current_user { user }
 
   describe '#call' do
     shared_examples_for 'copied work package' do
-      subject { copy.id }
+      subject { copy }
 
-      it { is_expected.not_to eq(work_package.id) }
+      it { expect(subject.id).not_to eq(work_package.id) }
+      it { is_expected.to be_persisted }
     end
 
     context 'with the same project' do
@@ -121,7 +120,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
         create(:member,
                project: p,
                roles: [target_role],
-               user: user)
+               user:)
 
         p
       end
@@ -171,15 +170,19 @@ describe WorkPackages::CopyService, 'integration', type: :model do
       end
 
       describe '#attributes' do
+        before do
+          target_project.types << work_package.type
+        end
+
         context 'assigned_to' do
           let(:target_user) { create(:user) }
           let(:target_project_member) do
             create(:member,
                    project: target_project,
                    principal: target_user,
-                   roles: [create(:role)])
+                   roles: [create(:role, permissions: [:work_package_assigned])])
           end
-          let(:attributes) { { assigned_to_id: target_user.id } }
+          let(:attributes) { { project: target_project, assigned_to_id: target_user.id } }
 
           before do
             target_project_member
@@ -194,7 +197,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
 
         context 'status' do
           let(:target_status) { create(:status) }
-          let(:attributes) { { status_id: target_status.id } }
+          let(:attributes) { { project: target_project, status_id: target_status.id } }
 
           it_behaves_like 'copied work package'
 
@@ -207,7 +210,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
           let(:target_date) { Date.today + 14 }
 
           context 'start' do
-            let(:attributes) { { start_date: target_date } }
+            let(:attributes) { { project: target_project, start_date: target_date } }
 
             it_behaves_like 'copied work package'
 
@@ -217,7 +220,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
           end
 
           context 'end' do
-            let(:attributes) { { due_date: target_date } }
+            let(:attributes) { { project: target_project, due_date: target_date } }
 
             it_behaves_like 'copied work package'
 
@@ -229,7 +232,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
       end
 
       describe 'with children' do
-        let(:instance) { described_class.new(work_package: child, user: user) }
+        let(:instance) { described_class.new(work_package: child, user:) }
         let!(:child) do
           create(:work_package, parent: work_package, project: source_project)
         end
@@ -287,6 +290,41 @@ describe WorkPackages::CopyService, 'integration', type: :model do
             it { expect(grandchild.reload.project).to eql(source_project) }
             it { expect(copy.descendants).to be_empty }
           end
+        end
+      end
+    end
+
+    describe 'with start and due dates overwritten but not duration' do
+      let(:attributes) { { start_date: Time.zone.today - 5.days, due_date: Time.zone.today + 5.days } }
+
+      it_behaves_like 'copied work package'
+    end
+
+    context 'with attachments' do
+      let!(:attachment) do
+        create(:attachment,
+               container: work_package)
+      end
+
+      context 'when specifying to copy attachments (default)' do
+        it 'copies the attachment' do
+          expect(copy.attachments.length)
+            .to eq 1
+
+          expect(copy.attachments.first.attributes.slice(:digest, :file, :filesize))
+            .to eq attachment.attributes.slice(:digest, :file, :filesize)
+
+          expect(copy.attachments.first.id)
+            .not_to eq attachment.id
+        end
+      end
+
+      context 'when specifying to not copy attachments' do
+        let(:attributes) { { copy_attachments: false } }
+
+        it 'copies the attachment' do
+          expect(copy.attachments.length)
+            .to eq 0
         end
       end
     end

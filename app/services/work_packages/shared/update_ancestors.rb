@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -60,7 +58,7 @@ module WorkPackages
 
       def inherit_to_ancestors(wp, changes)
         WorkPackages::UpdateAncestorsService
-          .new(user: user,
+          .new(user:,
                work_package: wp)
           .call(changes)
       end

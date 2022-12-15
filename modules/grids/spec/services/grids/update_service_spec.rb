@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,13 +31,13 @@ require 'spec_helper'
 describe Grids::UpdateService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:contract_class) do
-    double('contract_class', "<=": true)
+    double('contract_class', '<=': true)
   end
   let(:grid_valid) { true }
   let(:instance) do
-    described_class.new(user: user,
+    described_class.new(user:,
                         model: grid,
-                        contract_class: contract_class)
+                        contract_class:)
   end
   let(:call_attributes) { {} }
   let(:grid_class) { Grids::Grid }
@@ -68,9 +66,9 @@ describe Grids::UpdateService, type: :model do
 
     allow(Grids::SetAttributesService)
       .to receive(:new)
-      .with(user: user,
+      .with(user:,
             model: grid,
-            contract_class: contract_class,
+            contract_class:,
             contract_options: {})
       .and_return(service)
 
@@ -116,7 +114,7 @@ describe Grids::UpdateService, type: :model do
 
         it 'does not persist the changes' do
           expect(grid)
-            .to_not receive(:save)
+            .not_to receive(:save)
 
           subject
         end

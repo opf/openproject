@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,7 +31,7 @@ module BasicData
     class EnumerationSeeder < Seeder
       def seed_data!
         category_names.each do |name|
-          DocumentCategory.create name: name
+          DocumentCategory.create name:
         end
       end
 

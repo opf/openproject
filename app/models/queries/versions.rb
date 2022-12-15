@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -29,13 +27,10 @@
 #++
 
 module Queries::Versions
-  register = ::Queries::Register
-  filters = ::Queries::Versions::Filters
-  orders = ::Queries::Versions::Orders
-  query = ::Queries::Versions::VersionQuery
+  ::Queries::Register.register(VersionQuery) do
+    filter Filters::SharingFilter
 
-  register.filter query, filters::SharingFilter
-
-  register.order query, orders::NameOrder
-  register.order query, orders::SemverNameOrder
+    order Orders::NameOrder
+    order Orders::SemverNameOrder
+  end
 end

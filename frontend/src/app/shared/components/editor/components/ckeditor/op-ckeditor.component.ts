@@ -52,10 +52,10 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
 
   @Input()
   public set content(newVal:string) {
-    this._content = newVal;
+    this._content = newVal || '';
 
     if (this.initialized) {
-      this.ckEditorInstance.setData(newVal);
+      this.ckEditorInstance.setData(this._content);
     }
   }
 
@@ -84,7 +84,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
 
   public manualMode = false;
 
-  private _content:string;
+  private _content = '';
 
   public text = {
     errorTitle: this.I18n.t('js.editor.ckeditor_error'),

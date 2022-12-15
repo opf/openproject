@@ -5,8 +5,9 @@ lt:
   project_module_team_planner_view: "Komandos planas"
   team_planner:
     label_team_planner: "Komandos planas"
-    label_team_planner_plural: "Team planners"
-    label_assignees: "Assignees"
+    label_create_new_team_planner: "Kurti naują komandos planą"
+    label_team_planner_plural: "Komandos planai"
+    label_assignees: "Paskirtieji"
     upsale:
       title: "Komandos planas"
-      description: "Komandos planas teikia pilną vaizdą ką kiekvienas komandos narys daro per savaitę. Perkelkite, ištempkite ar sumažinkite darbo paketus vizualiai, ar net pertempikte juos iš vieno paskirtojo kitam, kad tvarkytumėte krūvį. Jūs netgi galite kurti naujus darbo paketus ar pridėti esamus, viskas tiesiai komandos plane!"
+      description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."

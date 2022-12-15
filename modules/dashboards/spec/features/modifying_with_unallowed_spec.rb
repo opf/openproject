@@ -44,14 +44,14 @@ describe 'Modifying a dashboard which already has widgets for which permissions 
     create(:user, member_in_project: project, member_with_permissions: permissions)
   end
   let!(:dashboard) do
-    create(:dashboard_with_table, project: project)
+    create(:dashboard_with_table, project:)
   end
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
   let!(:news) do
     create :news,
-           project: project
+           project:
   end
 
   before do

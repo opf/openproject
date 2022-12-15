@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -50,7 +48,7 @@ module Queries
       validate :always_false
 
       def always_false
-        errors.add :base, I18n.t(:'activerecord.errors.messages.does_not_exist')
+        errors.add :base, I18n.t(:'activerecord.errors.messages.filter_does_not_exist')
       end
 
       # deactivating superclass validation
@@ -59,8 +57,8 @@ module Queries
       def to_hash
         {
           (name || :non_existent_filter) => {
-            operator: operator,
-            values: values
+            operator:,
+            values:
           }
         }
       end

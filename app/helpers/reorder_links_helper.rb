@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -49,7 +47,7 @@ module ReorderLinksHelper
                        class: "icon-context #{icon_class} icon-small")
     link_to(text + icon,
             url.merge("#{name}[move_to]" => direction),
-            method: method,
+            method:,
             title: label)
   end
 end

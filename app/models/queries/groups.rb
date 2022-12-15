@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -29,8 +27,7 @@
 #++
 
 module Queries::Groups
-  order_ns = Queries::Members::Orders
-  query = Queries::Members::MemberQuery
-
-  Queries::Register.order query, order_ns::DefaultOrder
+  ::Queries::Register.register(GroupQuery) do
+    order Orders::DefaultOrder
+  end
 end

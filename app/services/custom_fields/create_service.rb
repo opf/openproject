@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -43,7 +41,7 @@ module CustomFields
     def perform(params)
       super
     rescue StandardError => e
-      ServiceResult.new(success: false, message: e.message)
+      ServiceResult.failure(message: e.message)
     end
 
     def instance(params)

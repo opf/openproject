@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -40,7 +38,7 @@ module AugmentingHelper
   def augmented_collapsible_section(title:, initiallyExpanded: true, &block)
     render(
       partial: '/augmented/collapsible_section',
-      locals: { title: title, initiallyExpanded: !!initiallyExpanded, block: block }
+      locals: { title:, initiallyExpanded: !!initiallyExpanded, block: }
     )
   end
 end

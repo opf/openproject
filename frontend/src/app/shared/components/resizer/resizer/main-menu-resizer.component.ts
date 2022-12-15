@@ -47,7 +47,7 @@ export const mainMenuResizerSelector = 'main-menu-resizer';
              (move)="resizeMove($event)">
       <div class="resizer-toggle-container">
         <button
-          class="op-link main-menu--navigation-toggler"
+          class="spot-link main-menu--navigation-toggler"
           [attr.title]="toggleTitle"
           [class.open]="toggleService.showNavigation"
           (click)="toggleService.toggleNavigation($event)">

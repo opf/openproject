@@ -108,8 +108,8 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   /**
    * Returns the cached form or loads it if necessary.
    */
-  public getForm():Promise<FormResource> {
-    if (this.form$.isPristine() && !this.form$.hasActivePromiseRequest()) {
+  public getForm(reload = false):Promise<FormResource> {
+    if ((this.form$.isPristine() || reload) && !this.form$.hasActivePromiseRequest()) {
       return this.updateForm();
     }
 
@@ -239,15 +239,15 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * @param {string} key The attribute to read
    * @return {any} Either the value from the overridden change, or the default value
    */
-  public value(key:string) {
+  public value<R>(key:string):R {
     // Overridden value by user?
     if (this.changeset.contains(key)) {
-      return this.changeset.getValue(key);
+      return this.changeset.getValue(key) as R;
     }
 
     // Return whatever is on the base.
     // TODO this needs to be typed
-    return this.pristineResource[key];
+    return this.pristineResource[key] as R;
   }
 
   /**
@@ -319,9 +319,9 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * Access some promised value
    * that should be cached for the lifetime duration of the form.
    */
-  public cacheValue<T>(key:string, request:() => Promise<T>):Promise<T> {
-    if (this.cache[key]) {
-      return this.cache[key] as Promise<T>;
+  public cacheValue<V>(key:string, request:() => Promise<V>):Promise<V> {
+    if (this.cache[key] !== undefined) {
+      return this.cache[key] as Promise<V>;
     }
 
     return this.cache[key] = request();

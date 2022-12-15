@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -28,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Filters::TypeaheadFilter < Queries::Projects::Filters::NameAndIdentifierFilter
+class Queries::Projects::Filters::TypeaheadFilter < Queries::Projects::Filters::NameFilter
   def self.key
     :typeahead
   end

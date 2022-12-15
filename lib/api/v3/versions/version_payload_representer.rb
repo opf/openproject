@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -36,8 +34,8 @@ module API
 
         cached_representer disabled: true
 
-        def writeable_attributes
-          @writeable_attributes ||= begin
+        def writable_attributes
+          @writable_attributes ||= begin
             static = if represented.new_record?
                        %w[endDate definingProject]
                      else

@@ -3,7 +3,7 @@ import { DynamicFormService } from 'core-app/shared/components/dynamic-forms/ser
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
 import { DynamicFieldsService } from 'core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { of } from 'rxjs';
 import { FormsService } from 'core-app/core/forms/forms.service';
 
@@ -81,7 +81,7 @@ describe('DynamicFormService', () => {
         },
       },
       {
-        type: 'selectInput',
+        type: 'projectInput',
         expressionProperties: {},
         key: '_links.parent',
         templateOptions: {
@@ -112,7 +112,7 @@ describe('DynamicFormService', () => {
       },
       _meta: undefined,
     },
-    form: new FormGroup({}),
+    form: new UntypedFormGroup({}),
   };
 
   beforeEach(() => {
@@ -140,6 +140,8 @@ describe('DynamicFormService', () => {
     dynamicFormService
       .getSettingsFromBackend$(testFormUrl)
       .subscribe((dynamicFormConfigResponse) => {
+        console.log(dynamicFormConfig.fields);
+        console.log(dynamicFormConfigResponse.fields.map(f => f.type));
         expect(dynamicFormConfigResponse.fields.length).toEqual(dynamicFormConfig.fields.length, 'should return one dynamic field per schema field');
         expect(
           dynamicFormConfigResponse.fields.every((field, index) => field.type === dynamicFormConfig.fields[index].type),

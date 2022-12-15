@@ -96,7 +96,7 @@ class Report::Filter
 
     use :default_operators
 
-    def self.new(*args, &block) # :nodoc:
+    def self.new(*args, &) # :nodoc:
       # this class is abstract. instances are only allowed from child classes
       raise "#{name} is an abstract class" if base?
 
@@ -186,7 +186,7 @@ class Report::Filter
       super.tap do |query|
         arity = operator.arity
         query_values = [*transformed_values].compact
-        # if there is just the nil it might be actually intendet to be there
+        # if there is just the nil it might be actually intended to be there
         query_values.unshift nil if Array(values).size == 1 && Array(values).first.nil?
         query_values = query_values[0, arity] if query_values and arity >= 0 and arity != query_values.size
         operator.modify(query, field, *query_values) unless field.empty?

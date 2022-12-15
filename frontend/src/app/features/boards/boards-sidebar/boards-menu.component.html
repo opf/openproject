@@ -1,16 +1,22 @@
-<op-sidemenu
-  *ngIf="(boardOptions$ | async) as items"
-  [items]="items"
+<div
   class="op-sidebar--body"
 >
-</op-sidemenu>
+  <op-sidemenu
+    *ngIf="(boardOptions$ | async) as items"
+    [items]="items"
+  >
+  </op-sidemenu>
+</div>
 
 <div class="op-sidebar--footer">
   <button
     *ngIf="canCreateBoards$ | async"
-    class="spot-button spot-button_outlined"
+    class="button -alt-highlight"
     (click)="showNewBoardModal()"
+    [title]="text.create_new_board"
+    data-qa-selector="sidebar--create-board-button"
   >
-    {{text.create_new_board}}
+    <span class="spot-icon spot-icon_add"></span>
+    <span [textContent]="text.board"></span>
   </button>
 </div>

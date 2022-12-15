@@ -29,11 +29,27 @@ module API
     module WorkPackages
       class WorkPackageSqlRepresenter
         include API::Decorators::Sql::Hal
+        include API::Decorators::Sql::HalAssociatedResource
 
         link :self,
              path: { api: :work_package, params: %w(id) },
              column: -> { :id },
              title: -> { 'subject' }
+
+        link :project,
+             path: { api: :project, params: %w(id) },
+             column: -> { :project_id },
+             title: -> { 'project_name' },
+             join: { table: :projects,
+                     condition: 'projects.id = work_packages.project_id',
+                     select: ['projects.name project_name'] }
+
+        associated_user_link :author
+
+        associated_user_link :assignee,
+                             column_name: :assigned_to_id
+
+        associated_user_link :responsible
 
         property :_type,
                  representation: ->(*) { "'WorkPackage'" }
@@ -41,6 +57,27 @@ module API
         property :id
 
         property :subject
+
+        property :startDate, column: :start_date,
+                             render_if: ->(*) { "is_milestone != true" },
+                             join: { table: :types,
+                                     condition: 'types.id = work_packages.type_id',
+                                     select: 'types.is_milestone is_milestone',
+                                     alias: :types }
+
+        property :dueDate, column: :due_date,
+                           render_if: ->(*) { "is_milestone != true" },
+                           join: { table: :types,
+                                   condition: 'types.id = work_packages.type_id',
+                                   select: 'types.is_milestone is_milestone',
+                                   alias: :types }
+
+        property :date, column: :start_date,
+                        render_if: ->(*) { "is_milestone = true" },
+                        join: { table: :types,
+                                condition: 'types.id = work_packages.type_id',
+                                select: 'types.is_milestone is_milestone',
+                                alias: :types }
       end
     end
   end

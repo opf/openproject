@@ -37,19 +37,19 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
     build_stubbed(:project,
                   parent: parent_project,
                   description: 'some description',
-                  status: status).tap do |p|
+                  status:).tap do |p|
       allow(p)
         .to receive(:available_custom_fields)
-        .and_return([int_custom_field, version_custom_field])
+              .and_return([int_custom_field, version_custom_field])
 
       allow(p)
         .to receive(:"custom_field_#{int_custom_field.id}")
-        .and_return(int_custom_value.value)
+              .and_return(int_custom_value.value)
 
       allow(p)
         .to receive(:custom_value_for)
-        .with(version_custom_field)
-        .and_return(version_custom_value)
+              .with(version_custom_field)
+              .and_return(version_custom_value)
 
       allow(p)
         .to receive(:ancestors_from_root)
@@ -91,10 +91,10 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
     CustomValue.new(custom_field: version_custom_field,
                     value: version.id,
                     customized: nil).tap do |cv|
-                      allow(cv)
-                        .to receive(:typed_value)
-                        .and_return(version)
-                    end
+      allow(cv)
+        .to receive(:typed_value)
+              .and_return(version)
+    end
   end
 
   let(:permissions) { %i[add_work_packages view_members] }
@@ -130,10 +130,8 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
       let(:value) { project.description }
     end
 
-    context 'statusExplanation' do
-      it_behaves_like 'formattable property', 'statusExplanation' do
-        let(:value) { status.explanation }
-      end
+    it_behaves_like 'formattable property', 'statusExplanation' do
+      let(:value) { status.explanation }
     end
 
     it_behaves_like 'has UTC ISO 8601 date and time' do
@@ -146,25 +144,23 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
       let(:json_path) { 'updatedAt' }
     end
 
-    context 'int custom field' do
+    describe 'int custom field' do
       context 'if the user is admin' do
         before do
           allow(user)
             .to receive(:admin?)
-            .and_return(true)
+                  .and_return(true)
         end
 
         it "has a property for the int custom field" do
-          is_expected
-            .to be_json_eql(int_custom_value.value.to_json)
-            .at_path("customField#{int_custom_field.id}")
+          expect(subject).to be_json_eql(int_custom_value.value.to_json)
+                               .at_path("customField#{int_custom_field.id}")
         end
       end
 
       context 'if the user is no admin' do
         it "has no property for the int custom field" do
-          is_expected
-            .not_to have_json_path("customField#{int_custom_field.id}")
+          expect(subject).not_to have_json_path("customField#{int_custom_field.id}")
         end
       end
     end
@@ -176,25 +172,25 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
     it 'links to self' do
       expect(subject).to have_json_path('_links/self/href')
     end
+
     it 'has a title for link to self' do
       expect(subject).to have_json_path('_links/self/title')
     end
 
     describe 'create work packages' do
-      context 'user allowed to create work packages' do
+      context 'if user is allowed to create work packages' do
         it 'has the correct path for a create form' do
-          is_expected
-            .to be_json_eql(api_v3_paths.create_project_work_package_form(project.id).to_json)
-            .at_path('_links/createWorkPackage/href')
+          expect(subject).to be_json_eql(api_v3_paths.create_project_work_package_form(project.id).to_json)
+                               .at_path('_links/createWorkPackage/href')
         end
 
         it 'has the correct path to create a work package' do
-          is_expected.to be_json_eql(api_v3_paths.work_packages_by_project(project.id).to_json)
-            .at_path('_links/createWorkPackageImmediately/href')
+          expect(subject).to be_json_eql(api_v3_paths.work_packages_by_project(project.id).to_json)
+                               .at_path('_links/createWorkPackageImmediately/href')
         end
       end
 
-      context 'user not allowed to create work packages' do
+      context 'if user is not allowed to create work packages' do
         let(:permissions) { [] }
 
         it_behaves_like 'has no link' do
@@ -249,7 +245,6 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
       end
     end
 
-    # rubocop:disable RSpec/MultipleMemoizedHelpers
     describe 'ancestors' do
       let(:link) { 'ancestors' }
       let(:grandparent_project) do
@@ -346,7 +341,6 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
         it_behaves_like 'has an empty link collection'
       end
     end
-    # rubocop:enable RSpec/MultipleMemoizedHelpers
 
     describe 'status' do
       it_behaves_like 'has a titled link' do
@@ -367,8 +361,8 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
 
     describe 'categories' do
       it 'has the correct link to its categories' do
-        is_expected.to be_json_eql(api_v3_paths.categories_by_project(project.id).to_json)
-          .at_path('_links/categories/href')
+        expect(subject).to be_json_eql(api_v3_paths.categories_by_project(project.id).to_json)
+                             .at_path('_links/categories/href')
       end
     end
 
@@ -405,13 +399,13 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
         let(:permissions) { [:view_work_packages] }
 
         it 'links to the types active in the project' do
-          is_expected.to be_json_eql(api_v3_paths.types_by_project(project.id).to_json)
-            .at_path('_links/types/href')
+          expect(subject).to be_json_eql(api_v3_paths.types_by_project(project.id).to_json)
+                               .at_path('_links/types/href')
         end
 
         it 'links to the work packages in the project' do
-          is_expected.to be_json_eql(api_v3_paths.work_packages_by_project(project.id).to_json)
-                           .at_path('_links/workPackages/href')
+          expect(subject).to be_json_eql(api_v3_paths.work_packages_by_project(project.id).to_json)
+                               .at_path('_links/workPackages/href')
         end
       end
 
@@ -419,8 +413,8 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
         let(:permissions) { [:manage_types] }
 
         it 'links to the types active in the project' do
-          is_expected.to be_json_eql(api_v3_paths.types_by_project(project.id).to_json)
-                           .at_path('_links/types/href')
+          expect(subject).to be_json_eql(api_v3_paths.types_by_project(project.id).to_json)
+                               .at_path('_links/types/href')
         end
       end
 
@@ -428,11 +422,11 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
         let(:permission) { [] }
 
         it 'has no types link' do
-          is_expected.to_not have_json_path('_links/types/href')
+          expect(subject).not_to have_json_path('_links/types/href')
         end
 
         it 'has no work packages link' do
-          is_expected.to_not have_json_path('_links/workPackages/href')
+          expect(subject).not_to have_json_path('_links/workPackages/href')
         end
       end
     end
@@ -452,20 +446,48 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
       end
     end
 
+    describe 'storages' do
+      let(:storage) { build_stubbed(:storage) }
+      let(:permissions) { %i[view_file_links] }
+
+      before do
+        allow(project).to receive(:storages).and_return([storage])
+      end
+
+      it_behaves_like 'has a link collection' do
+        let(:link) { 'storages' }
+        let(:hrefs) do
+          [
+            {
+              href: api_v3_paths.storage(storage.id),
+              title: storage.name
+            }
+          ]
+        end
+      end
+
+      context 'if user has no permission to view file links' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'has no link' do
+          let(:link) { 'storages' }
+        end
+      end
+    end
+
     describe 'link custom field' do
       context 'if the user is admin and the field is invisible' do
         before do
           allow(user)
             .to receive(:admin?)
-            .and_return(true)
+                  .and_return(true)
 
           version_custom_field.visible = false
         end
 
         it 'links custom fields' do
-          is_expected
-            .to be_json_eql(api_v3_paths.version(version.id).to_json)
-            .at_path("_links/customField#{version_custom_field.id}/href")
+          expect(subject).to be_json_eql(api_v3_paths.version(version.id).to_json)
+                               .at_path("_links/customField#{version_custom_field.id}/href")
         end
       end
 
@@ -475,16 +497,14 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
         end
 
         it "has no property for the int custom field" do
-          is_expected
-            .not_to have_json_path("links/customField#{version_custom_field.id}")
+          expect(subject).not_to have_json_path("links/customField#{version_custom_field.id}")
         end
       end
 
       context 'if the user is no admin and the field is visible' do
         it 'links custom fields' do
-          is_expected
-            .to be_json_eql(api_v3_paths.version(version.id).to_json)
-                  .at_path("_links/customField#{version_custom_field.id}/href")
+          expect(subject).to be_json_eql(api_v3_paths.version(version.id).to_json)
+                               .at_path("_links/customField#{version_custom_field.id}/href")
         end
       end
     end
@@ -532,7 +552,7 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
         before do
           allow(user)
             .to receive(:admin?)
-            .and_return(true)
+                  .and_return(true)
         end
 
         it_behaves_like 'has an untitled link' do
@@ -590,7 +610,7 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
     it 'is based on the representer\'s cache_key' do
       allow(OpenProject::Cache)
         .to receive(:fetch)
-        .and_call_original
+              .and_call_original
 
       representer.to_json
 
@@ -615,14 +635,14 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
       end
 
       it 'changes when the project is updated' do
-        project.updated_at = Time.now + 20.seconds
+        project.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key
       end
 
       it 'changes when the project status is updated' do
-        project.status.updated_at = Time.now + 20.seconds
+        project.status.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key

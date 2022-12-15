@@ -33,13 +33,13 @@ describe Watcher, type: :model, with_mail: false do
   let(:user) { build :user, admin: true }
   let(:watcher) do
     build :watcher,
-          watchable: watchable,
-          user: user
+          watchable:,
+          user:
   end
   let(:watchable) { build :news }
   let(:other_watcher) do
     build :watcher,
-          watchable: watchable,
+          watchable:,
           user: other_user
   end
   let(:other_project) { create(:project) }
@@ -49,7 +49,7 @@ describe Watcher, type: :model, with_mail: false do
     create :user,
            member_in_project: saved_watchable.project,
            member_with_permissions: [],
-           notification_settings: notification_settings
+           notification_settings:
   end
   let(:saved_watchable) { create :news }
 
@@ -80,13 +80,13 @@ describe Watcher, type: :model, with_mail: false do
 
       context 'with a matching user scope' do
         it 'removes the watcher' do
-          Watcher.prune(user: user)
+          Watcher.prune(user:)
 
           expect(Watcher.find_by(id: watcher.id)).to be_nil
         end
 
         it 'leaves the other watcher' do
-          Watcher.prune(user: user)
+          Watcher.prune(user:)
 
           expect(Watcher.find_by(id: other_watcher.id)).to eql other_watcher
         end
@@ -124,13 +124,13 @@ describe Watcher, type: :model, with_mail: false do
 
       context 'with a matching user and project_id scope' do
         it 'removes the watcher' do
-          Watcher.prune(user: user, project_id: project.id)
+          Watcher.prune(user:, project_id: project.id)
 
           expect(Watcher.find_by(id: watcher.id)).to be_nil
         end
 
         it 'leaves the other watcher' do
-          Watcher.prune(user: user, project_id: project.id)
+          Watcher.prune(user:, project_id: project.id)
 
           expect(Watcher.find_by(id: other_watcher.id)).to eql other_watcher
         end
@@ -171,7 +171,7 @@ describe Watcher, type: :model, with_mail: false do
       end
 
       it 'is robust' do
-        expect { Watcher.prune }.to_not raise_error
+        expect { Watcher.prune }.not_to raise_error
       end
     end
 
@@ -184,7 +184,7 @@ describe Watcher, type: :model, with_mail: false do
       let(:forum) { build(:forum) }
       let(:watchable) do
         forum.save!
-        build(:message, forum: forum)
+        build(:message, forum:)
       end
       let(:project) { forum.project }
 
@@ -198,6 +198,7 @@ describe Watcher, type: :model, with_mail: false do
       expect(saved_watchable.add_watcher(saved_user))
         .to be_truthy
     end
+
     it 'adds the user to watchers' do
       saved_watchable.add_watcher(saved_user)
 

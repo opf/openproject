@@ -31,7 +31,7 @@ require File.dirname(__FILE__) + '/../shared_examples'
 
 describe ExportCardConfigurationsController, type: :controller do
   before do
-    allow(@controller).to receive(:require_admin) { true }
+    allow(@controller).to receive(:require_admin).and_return(true)
 
     @default_config = create(:default_export_card_configuration)
     @custom_config = create(:export_card_configuration)
@@ -89,7 +89,7 @@ describe ExportCardConfigurationsController, type: :controller do
   end
 
   describe 'Update' do
-    it 'should let you update a configuration' do
+    it 'lets you update a configuration' do
       @params[:id] = @custom_config.id
       @params[:export_card_configuration] = { per_page: 4 }
       put 'update', params: @params
@@ -98,7 +98,7 @@ describe ExportCardConfigurationsController, type: :controller do
       expect(flash[:notice]).to eql(I18n.t(:notice_successful_update))
     end
 
-    it 'should not let you update a configuration with invalid per_page' do
+    it 'does not let you update a configuration with invalid per_page' do
       @params[:id] = @custom_config.id
       @params[:export_card_configuration] = { per_page: 0 }
       put 'update', params: @params
@@ -106,7 +106,7 @@ describe ExportCardConfigurationsController, type: :controller do
       expect(response).to render_template('edit')
     end
 
-    it 'should not let you update a configuration with invalid page_size' do
+    it 'does not let you update a configuration with invalid page_size' do
       @params[:id] = @custom_config.id
       @params[:export_card_configuration] = { page_size: "invalid" }
       put 'update', params: @params
@@ -114,7 +114,7 @@ describe ExportCardConfigurationsController, type: :controller do
       expect(response).to render_template('edit')
     end
 
-    it 'should not let you update a configuration with invalid orientation' do
+    it 'does not let you update a configuration with invalid orientation' do
       @params[:id] = @custom_config.id
       @params[:export_card_configuration] = { orientation: "invalid" }
       put 'update', params: @params
@@ -122,7 +122,7 @@ describe ExportCardConfigurationsController, type: :controller do
       expect(response).to render_template('edit')
     end
 
-    it 'should not let you update a configuration with invalid rows yaml' do
+    it 'does not let you update a configuration with invalid rows yaml' do
       @params[:id] = @custom_config.id
       @params[:export_card_configuration] = { rows: "asdf ',#\"" }
       put 'update', params: @params
@@ -132,7 +132,7 @@ describe ExportCardConfigurationsController, type: :controller do
   end
 
   describe 'Delete' do
-    it 'should let you delete a custom configuration' do
+    it 'lets you delete a custom configuration' do
       @params[:id] = @custom_config.id
       delete 'destroy', params: @params
 
@@ -140,7 +140,7 @@ describe ExportCardConfigurationsController, type: :controller do
       expect(flash[:notice]).to eql(I18n.t(:notice_successful_delete))
     end
 
-    it 'should not let you delete the default configuration' do
+    it 'does not let you delete the default configuration' do
       @params[:id] = @default_config.id
       delete 'destroy', params: @params
 
@@ -150,7 +150,7 @@ describe ExportCardConfigurationsController, type: :controller do
   end
 
   describe 'Activate' do
-    it 'should let you activate an inactive configuration' do
+    it 'lets you activate an inactive configuration' do
       @params[:id] = @inactive_config.id
       post 'activate', params: @params
 
@@ -160,7 +160,7 @@ describe ExportCardConfigurationsController, type: :controller do
   end
 
   describe "Deactivate" do
-    it 'should let you de-activate an active configuration' do
+    it 'lets you de-activate an active configuration' do
       @params[:id] = @active_config.id
       post 'deactivate', params: @params
 
@@ -168,7 +168,7 @@ describe ExportCardConfigurationsController, type: :controller do
       expect(flash[:notice]).to eql(I18n.t(:notice_export_card_configuration_deactivated))
     end
 
-    it 'should not let you de-activate the default configuration' do
+    it 'does not let you de-activate the default configuration' do
       @params[:id] = @default_config.id
       post 'deactivate', params: @params
 

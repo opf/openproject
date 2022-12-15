@@ -1,0 +1,49 @@
+#English strings go here
+fr:
+  js:
+    storages:
+      link_files_in_storage: "Lier des fichiers dans %{storageType}"
+      link_existing_files: "Lier des fichiers existants"
+      upload_files: "Charger des fichiers"
+      drop_files: >
+        Drop files here to upload them to %{storageType}.
+      login: "Connexion à %{storageType}"
+      login_to: "Connexion à %{storageType}"
+      no_connection: "Aucune connexion à %{storageType}"
+      open_storage: "Ouvrir %{storageType}"
+      select_location: "Sélectionnez la localisation"
+      choose_location: "Choisir emplacement"
+      types:
+        nextcloud: "Nextcloud"
+      information:
+        connection_error: >
+          Certains paramètres de %{storageType} ne fonctionnent pas. Veuillez contacter votre administrateur %{storageType}.
+        live_data_error: "Erreur lors de la récupération des détails du fichier"
+        live_data_error_description: >
+          Certaines données de %{storageType} n'ont pas pu être récupérées. Essayez de recharger cette page ou contactez votre administrateur %{storageType}.
+        no_file_links: "Afin de lier des fichiers à ce lot de travaux, veuillez le faire via %{storageType}."
+        not_logged_in: >
+          Pour ajouter un lien, voir ou téléverser des fichiers liés à ce lot de travaux, veuillez vous connecter à %{storageType}.
+      file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
+        download: "Télécharger %{fileName}"
+        no_permission: "Vous n'avez pas la permission de voir ce fichier."
+        open: 'Ouvrir le fichier sur le stockage'
+        open_location: 'Ouvrir le fichier à l''emplacement'
+        remove: "Supprimer le lien de fichier"
+        remove_confirmation: >
+          Êtes-vous sûr de vouloir dissocier le fichier de ce lot de travaux ? Unlinking n'affecte pas le fichier original et supprime seulement la connexion à ce lot de travaux.
+        remove_short: "Supprimer le lien"
+        select: "Sélectionner les fichiers"
+        select_all: "Tout sélectionner"
+        selection:
+          zero: "Sélectionner les fichiers à lier"
+          one: "Link 1 file"
+          other: "Lier %{count} fichiers"
+        success_create:
+          one: "Successfully created 1 file link."
+          other: "Successfully created %{count} file links."
+        not_allowed_tooltip: "Veuillez vous connecter à Nextcloud pour accéder à ce fichier"
+        already_linked_file: "Ce fichier est déjà lié à ce lot de travaux."
+        already_linked_directory: "Ce répertoire est déjà lié à ce lot de travaux."

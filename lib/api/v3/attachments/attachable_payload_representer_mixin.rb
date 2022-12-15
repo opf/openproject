@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -35,7 +33,7 @@ module API
         extend ActiveSupport::Concern
 
         included do
-          def writeable_attributes
+          def writable_attributes
             super + %w[attachments]
           end
 

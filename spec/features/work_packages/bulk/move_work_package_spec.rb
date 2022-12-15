@@ -1,33 +1,35 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
+require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'Moving a work package through Rails view', js: true do
+  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+
   let(:dev_role) do
-    create :role,
-           permissions: %i[view_work_packages add_work_packages]
+    create(:role,
+           permissions: %i[view_work_packages add_work_packages])
   end
   let(:mover_role) do
-    create :role,
-           permissions: %i[view_work_packages move_work_packages manage_subtasks add_work_packages]
+    create(:role,
+           permissions: %i[view_work_packages move_work_packages manage_subtasks add_work_packages])
   end
   let(:dev) do
-    create :user,
+    create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
            member_in_project: project,
-           member_through_role: dev_role
+           member_through_role: dev_role)
   end
   let(:mover) do
-    create :admin,
+    create(:admin,
            firstname: 'Manager',
            lastname: 'Guy',
            member_in_project: project,
-           member_through_role: mover_role
+           member_through_role: mover_role)
   end
 
-  let(:type) { create :type, name: 'Bug' }
-  let(:type2) { create :type, name: 'Risk' }
+  let(:type) { create(:type, name: 'Bug') }
+  let(:type2) { create(:type, name: 'Risk') }
 
   let!(:project) { create(:project, name: 'Source', types: [type, type2]) }
   let!(:project2) { create(:project, name: 'Target', types: [type, type2]) }
@@ -35,15 +37,15 @@ describe 'Moving a work package through Rails view', js: true do
   let(:work_package) do
     create(:work_package,
            author: dev,
-           project: project,
-           type: type,
-           status: status)
+           project:,
+           type:,
+           status:)
   end
   let(:work_package2) do
     create(:work_package,
            author: dev,
-           project: project,
-           type: type,
+           project:,
+           type:,
            status: work_package2_status)
   end
   let(:status) { create(:status) }
@@ -68,9 +70,9 @@ describe 'Moving a work package through Rails view', js: true do
       create(:work_package,
              author: dev,
              parent: work_package,
-             project: project,
-             type: type,
-             status: status)
+             project:,
+             type:,
+             status:)
     end
 
     context 'with permission' do
@@ -82,14 +84,21 @@ describe 'Moving a work package through Rails view', js: true do
 
         # On work packages move page
         expect(page).to have_selector('#new_project_id')
-        select 'Target', from: 'new_project_id'
-        click_on 'Move and follow'
+        select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+                            query: 'Target',
+                            select_text: 'Target',
+                            results_selector: 'body'
+        SeleniumHubWaiter.wait
       end
 
       it 'moves parent and child wp to a new project' do
-        expect_angular_frontend_initialized
-        expect(page).to have_selector('.inline-edit--container.subject', text: work_package.subject, wait: 10)
-        expect(page).to have_selector('#projects-menu', text: 'Target')
+        # Clicking move and follow might be broken due to the location.href
+        # in the refresh-on-form-changes component
+        retry_block do
+          click_on 'Move and follow'
+          page.find('.inline-edit--container.subject', text: work_package.subject, wait: 10)
+          page.find_by_id('projects-menu', text: 'Target')
+        end
 
         # Should move its children
         child_wp.reload
@@ -100,11 +109,63 @@ describe 'Moving a work package through Rails view', js: true do
         let!(:project2) { create(:project, name: 'Target', types: [type2]) }
 
         it 'does moves the work package and changes the type' do
-          expect_angular_frontend_initialized
-          expect(page).to have_selector('.inline-edit--container.subject', text: work_package.subject, wait: 10)
-          expect(page).to have_selector('#projects-menu', text: 'Target')
+          # Clicking move and follow might be broken due to the location.href
+          # in the refresh-on-form-changes component
+          retry_block do
+            click_on 'Move and follow'
+            page.find('.inline-edit--container.subject', text: work_package.subject, wait: 10)
+            page.find_by_id('projects-menu', text: 'Target')
+          end
 
           # Should NOT have moved
+          child_wp.reload
+          work_package.reload
+          expect(work_package.project_id).to eq(project2.id)
+          expect(work_package.type_id).to eq(type2.id)
+          expect(child_wp.project_id).to eq(project2.id)
+          expect(child_wp.type_id).to eq(type2.id)
+        end
+      end
+
+      context 'when the target project has a type with a required field' do
+        let(:required_cf) { create(:int_wp_custom_field, is_required: true) }
+        let(:type2) { create(:type, name: 'Risk', custom_fields: [required_cf]) }
+        let!(:project2) { create(:project, name: 'Target', types: [type2], work_package_custom_fields: [required_cf]) }
+
+        it 'does not moves the work package when the required field is missing' do
+          select "Risk", from: "Type"
+          expect(page).to have_field(required_cf.name)
+
+          # Clicking move and follow might be broken due to the location.href
+          # in the refresh-on-form-changes component
+          retry_block do
+            click_on 'Move and follow'
+          end
+
+          expect(page)
+            .to have_selector('.flash.error',
+                              text: I18n.t(:'work_packages.bulk.none_could_be_saved',
+                                           total: 1))
+          child_wp.reload
+          work_package.reload
+          expect(work_package.project_id).to eq(project.id)
+          expect(work_package.type_id).to eq(type.id)
+          expect(child_wp.project_id).to eq(project.id)
+          expect(child_wp.type_id).to eq(type.id)
+        end
+
+        it 'does moves the work package when the required field is set' do
+          select "Risk", from: "Type"
+          fill_in required_cf.name, with: '1'
+
+          # Clicking move and follow might be broken due to the location.href
+          # in the refresh-on-form-changes component
+          retry_block do
+            click_on 'Move and follow'
+          end
+
+          expect(page).to have_selector('.flash.notice')
+
           child_wp.reload
           work_package.reload
           expect(work_package.project_id).to eq(project2.id)
@@ -138,7 +199,10 @@ describe 'Moving a work package through Rails view', js: true do
       context_menu.choose 'Bulk change of project'
 
       # On work packages move page
-      select project2.name, from: 'new_project_id'
+      select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
+                          query: project2.name,
+                          select_text: project2.name,
+                          results_selector: 'body'
       click_on 'Move and follow'
     end
 
@@ -189,4 +253,3 @@ describe 'Moving a work package through Rails view', js: true do
     end
   end
 end
-# rubocop:enable RSpec/MultipleMemoizedHelpers

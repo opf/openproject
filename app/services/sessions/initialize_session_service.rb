@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -45,7 +43,7 @@ module Sessions
           ::Sessions::UserSession.for_user(user).delete_all
         end
 
-        ServiceResult.new(success: true, result: session)
+        ServiceResult.success(result: session)
       end
 
       private

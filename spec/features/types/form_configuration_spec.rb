@@ -33,13 +33,13 @@ describe 'form configuration', type: :feature, js: true do
   let(:type) { create :type }
 
   let(:project) { create :project, types: [type] }
-  let(:category) { create :category, project: project }
+  let(:category) { create :category, project: }
   let(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            done_ratio: 10,
-           category: category
+           category:
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -52,6 +52,7 @@ describe 'form configuration', type: :feature, js: true do
 
     describe 'default configuration' do
       let(:dialog) { ::Components::ConfirmationDialog.new }
+
       before do
         login_as(admin)
         visit edit_type_tab_path(id: type.id, tab: "form_configuration")
@@ -117,7 +118,7 @@ describe 'form configuration', type: :feature, js: true do
         wp_page.expect_hidden_field(:done_ratio)
 
         groups = page.all('.attributes-group--header-text').map(&:text)
-        expect(groups).to eq %w[FILES]
+        expect(groups).to eq ['FILES']
         expect(page)
           .to have_selector('.work-packages--details--description', text: work_package.description)
       end
@@ -199,7 +200,7 @@ describe 'form configuration', type: :feature, js: true do
 
         # Test the actual type backend
         type.reload
-        expect(type.attribute_groups.map { |el| el.key })
+        expect(type.attribute_groups.map(&:key))
           .to include('Cool Stuff', :estimates_and_time, 'Whatever', 'New Group')
 
         # Visit work package with that type
@@ -227,7 +228,7 @@ describe 'form configuration', type: :feature, js: true do
 
         wp_page.expect_group('Estimates and time') do
           wp_page.expect_attributes estimated_time: '-'
-          wp_page.expect_attributes spent_time: '-'
+          wp_page.expect_attributes spent_time: '0 h'
         end
 
         # New work package has the same configuration
@@ -302,8 +303,22 @@ describe 'form configuration', type: :feature, js: true do
         expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
       end
 
-      context 'inactive in project' do
+      context 'if inactive in project' do
         it 'can be added to the type, but is not shown' do
+          # Disable in project, should be invisible
+          # This step is necessary, since we auto-activate custom fields
+          # when adding them to the form configuration
+          project_settings_page.visit_tab!('custom_fields')
+
+          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: 'MyNumber')
+          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
+
+          id_checkbox = find("#project_work_package_custom_field_ids_#{custom_field.id}")
+          expect(id_checkbox).to be_checked
+          id_checkbox.set(false)
+
+          click_button 'Save'
+
           # Visit work package with that type
           wp_page.visit!
           wp_page.ensure_page_loaded
@@ -318,7 +333,7 @@ describe 'form configuration', type: :feature, js: true do
           expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
 
           id_checkbox = find("#project_work_package_custom_field_ids_#{custom_field.id}")
-          expect(id_checkbox).to_not be_checked
+          expect(id_checkbox).not_to be_checked
           id_checkbox.set(true)
 
           click_button 'Save'
@@ -334,7 +349,7 @@ describe 'form configuration', type: :feature, js: true do
         end
       end
 
-      context 'active in project' do
+      context 'if active in project' do
         let(:project) do
           create :project,
                  types: [type],
@@ -364,7 +379,7 @@ describe 'form configuration', type: :feature, js: true do
   describe "without EE token" do
     let(:dialog) { ::Components::ConfirmationDialog.new }
 
-    it "should disable adding and renaming groups" do
+    it "must disable adding and renaming groups" do
       with_enterprise_token(nil)
       login_as(admin)
       visit edit_type_tab_path(id: type.id, tab: "form_configuration")

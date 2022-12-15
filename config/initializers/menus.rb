@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -45,7 +44,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             caption: I18n.t('label_work_package_plural'),
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
-                User.current.allowed_to?(:view_work_packages, nil, global: true)
+                User.current.allowed_to_globally?(:view_work_packages)
             }
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
@@ -53,7 +52,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             caption: I18n.t('label_news_plural'),
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
-                User.current.allowed_to?(:view_news, nil, global: true)
+                User.current.allowed_to_globally?(:view_news)
             }
   menu.push :help,
             OpenProject::Static::Links.help_link,
@@ -101,7 +100,11 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
   menu.push :administration,
             { controller: '/admin', action: 'index' },
-            if: Proc.new { User.current.allowed_to_globally?(:manage_placeholder_user) || User.current.allowed_to_globally?(:manage_user) }
+            if: Proc.new {
+              User.current.allowed_to_globally?(:create_backup) ||
+                User.current.allowed_to_globally?(:manage_placeholder_user) ||
+                User.current.allowed_to_globally?(:manage_user)
+            }
   menu.push :logout,
             :signout_path,
             if: Proc.new { User.current.logged? }
@@ -137,7 +140,7 @@ Redmine::MenuManager.map :my_menu do |menu|
             icon: 'icon2 icon-locked'
   menu.push :access_token,
             { controller: '/my', action: 'access_token' },
-            caption: I18n.t('my_account.access_tokens.access_token'),
+            caption: I18n.t('my_account.access_tokens.access_tokens'),
             icon: 'icon2 icon-key'
   menu.push :notifications,
             { controller: '/my', action: 'notifications' },
@@ -198,7 +201,8 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/placeholder_users' },
             if: Proc.new { User.current.admin? },
             caption: :label_placeholder_user_plural,
-            parent: :users_and_permissions
+            parent: :users_and_permissions,
+            enterprise_feature: 'placeholder_users'
 
   menu.push :groups,
             { controller: '/groups' },
@@ -260,20 +264,26 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/custom_actions' },
             if: Proc.new { User.current.admin? },
             caption: :'custom_actions.plural',
-            parent: :admin_work_packages
+            parent: :admin_work_packages,
+            enterprise_feature: 'custom_actions'
 
   menu.push :attribute_help_texts,
             { controller: '/attribute_help_texts' },
             caption: :'attribute_help_texts.label_plural',
             icon: 'icon2 icon-help2',
-            if: Proc.new {
-              User.current.admin? && EnterpriseToken.allows_to?(:attribute_help_texts)
-            }
+            if: Proc.new { User.current.admin? },
+            enterprise_feature: 'attribute_help_texts'
 
   menu.push :enumerations,
             { controller: '/enumerations' },
             if: Proc.new { User.current.admin? },
             icon: 'icon2 icon-enumerations'
+
+  menu.push :working_days,
+            { controller: '/admin/settings/working_days_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_working_days,
+            icon: 'icon2 icon-calendar'
 
   menu.push :settings,
             { controller: '/admin/settings/general_settings', action: :show },
@@ -289,29 +299,41 @@ Redmine::MenuManager.map :admin_menu do |menu|
               parent: :settings
   end
 
-  menu.push :in_out,
-            { controller: '/admin/settings/notifications_settings', action: :show },
+  menu.push :mail_and_notifications,
+            { controller: '/admin/settings/aggregation_settings', action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :'menus.admin.incoming_outgoing',
+            caption: :'menus.admin.mails_and_notifications',
             icon: 'icon2 icon-mail1'
 
   menu.push :notification_settings,
-            { controller: '/admin/settings/notifications_settings', action: :show },
+            { controller: '/admin/settings/aggregation_settings', action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
-            parent: :in_out
+            caption: :'menus.admin.aggregation',
+            parent: :mail_and_notifications
 
   menu.push :mail_notifications,
             { controller: '/admin/settings/mail_notifications_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :'menus.admin.mail_notification',
-            parent: :in_out
+            parent: :mail_and_notifications
 
   menu.push :incoming_mails,
             { controller: '/admin/settings/incoming_mails_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_incoming_emails,
-            parent: :in_out
+            parent: :mail_and_notifications
+
+  menu.push :api_and_webhooks,
+            { controller: '/admin/settings/api_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :'menus.admin.api_and_webhooks',
+            icon: 'icon2 icon-relations'
+
+  menu.push :api,
+            { controller: '/admin/settings/api_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_api_access_key_type,
+            parent: :api_and_webhooks
 
   menu.push :authentication,
             { controller: '/admin/settings/authentication_settings', action: :show },
@@ -353,7 +375,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :backups,
             { controller: '/admin/backups', action: 'show' },
-            if: Proc.new { OpenProject::Configuration.backup_enabled? && User.current.admin? },
+            if: Proc.new { OpenProject::Configuration.backup_enabled? && User.current.allowed_to_globally?(Backup.permission) },
             caption: :label_backup,
             last: true,
             icon: 'icon2 icon-save'
@@ -369,7 +391,8 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/custom_styles', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_custom_style,
-            icon: 'icon2 icon-design'
+            icon: 'icon2 icon-design',
+            enterprise_feature: 'define_custom_style'
 
   menu.push :colors,
             { controller: '/colors', action: 'index' },
@@ -380,7 +403,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :enterprise,
             { controller: '/enterprises', action: :show },
             caption: :label_enterprise_edition,
-            icon: 'icon2 icon-headset',
+            icon: 'icon2 icon-enterprise-addons',
             if: proc { User.current.admin? && OpenProject::Configuration.ee_manager_visible? }
 
   menu.push :admin_costs,
@@ -478,7 +501,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   }.each do |key, caption|
     menu.push :"settings_#{key}",
               { controller: "/projects/settings/#{key}", action: 'show' },
-              caption: caption,
+              caption:,
               parent: :settings
   end
 end

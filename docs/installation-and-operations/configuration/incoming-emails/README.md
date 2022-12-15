@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Configuring inbound emails
   priority: 7
 description: Configuring inbound emails in OpenProject.
-robots: index, follow
 keywords: incoming, e-mail, inbound, mail
 ---
 
@@ -26,7 +25,7 @@ openproject run bundle exec rake redmine:email:receive_imap host='imap.gmail.com
 
 **Docker installation**
 
-The docker installation has a ["cron-like" daemon](https://github.com/opf/openproject/blob/dev/docker/cron) that will imitate the above cron job. You need to specify the following ENV variables (e.g., to your env list file)
+The docker installation has a ["cron-like" daemon](https://github.com/opf/openproject/blob/dev/docker/prod/cron) that will imitate the above cron job. You need to specify the following ENV variables (e.g., to your env list file)
 
 - `IMAP_SSL` set to true or false depending on whether the ActionMailer IMAP connection requires implicit TLS/SSL
 - `IMAP_PORT` `IMAP_HOST` set to the IMAP host and port of your connection
@@ -62,7 +61,7 @@ Available arguments that change how the work packages are handled:
 | `version` | name of the target version |
 | `type` | name of the target type |
 | `priority` | name of the target priority |
-| `unknown_user`| ignore: email is ignored (default), accept: accept as anonymous user, create: create a user account |
+| `unknown_user` | ignore: email is ignored (default), accept: accept as anonymous user, create: create a user account |
 | `allow_override` | specifies which attributes may be overwritten though specified by previous options. Comma separated list |
 
 ## Format of the emails
@@ -123,7 +122,7 @@ If a matching account is found, the mail handler impersonates the user to create
 If no matching account is found, the mail is rejected. To override this behavior and allow unknown mail address
 to create work packages, set the option `no_permission_check=1` and specify with `unknown_user=accept`
 
-**Note**: This feature only provides a mapping of mail to user account, it does not authenticate the user based on the mail. Since you can easily spoof mail addresses, you should not rely on the authenticity of work packages created that way. At the moment in the OpenProject Enterprise Cloud work package generation by emails can only be triggered by registered email addresses.
+**Note**: This feature only provides a mapping of mail to user account, it does not authenticate the user based on the mail. Since you can easily spoof mail addresses, you should not rely on the authenticity of work packages created that way. At the moment in the OpenProject Enterprise cloud work package generation by emails can only be triggered by registered email addresses.
 
 **Users with mail suffixes**
 
@@ -171,3 +170,24 @@ If you create a work package via email and sent it to another email (to or bcc) 
 ### Truncate Emails
 
 In the administrator's setting you can specify lines after which an email will not be parsed anymore. That is useful if you want to reply to an email automatically sent to you from OpenProject. E.g. you could set it to `--Truncate here--` and insert this line into your email below the updates you want to perform.
+
+
+
+## Error handling
+
+In case of receiving errors, the application will try to send an email to the user with some error details. This mail will only be sent if:
+
+- The incoming mail has been read by the application. If the setup above fails to read the email at all, this will obviously not be able to respond anything
+
+- The user is active on the system (Note that this happens on `unknown_user=create` as well)
+
+- The configuration setting `report_incoming_email_errors` is true (which it is by default)
+
+  
+
+By returning an email with error details, you can theoretically be leaking information through the error messages. As from addresses can be spoofed, please be aware of this issue and try to reduce the impact by setting up the integration appropriately.
+
+If you'd like to disable the reporting of errors to the sender, please set `report_incoming_email_errors=false`:
+
+- In a packaged installation, run `openproject config:get OPENPROJECT_REPORT__INCOMING__EMAIL__ERRORS=false` and restart the openproject service.
+- In a docker system, add the ENV `OPENPROJECT_REPORT__INCOMING__EMAIL__ERRORS=false`

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -38,8 +36,6 @@ class Queries::Projects::Filters::ParentFilter < Queries::Projects::Filters::Pro
   end
 
   def allowed_values
-    @allowed_values ||= begin
-      ::Project.visible.pluck(:id).map { |id| [id, id.to_s] }
-    end
+    @allowed_values ||= ::Project.visible.pluck(:id).map { |id| [id, id.to_s] }
   end
 end

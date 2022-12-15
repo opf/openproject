@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::BudgetFilterDependencyRepresenter, clear_cache: true do
+describe ::API::V3::Queries::Schemas::BudgetFilterDependencyRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }
@@ -38,7 +38,7 @@ describe ::API::V3::Queries::Schemas::BudgetFilterDependencyRepresenter, clear_c
   let(:instance) do
     described_class.new(filter,
                         operator,
-                        form_embedded: form_embedded)
+                        form_embedded:)
   end
 
   subject(:generated) { instance.to_json }

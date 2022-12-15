@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -55,8 +53,7 @@ class ::Type < ApplicationRecord
                           association_foreign_key: 'custom_field_id'
 
   belongs_to :color,
-             class_name: 'Color',
-             foreign_key: 'color_id'
+             class_name: 'Color'
 
   acts_as_list
 
@@ -65,7 +62,7 @@ class ::Type < ApplicationRecord
             uniqueness: { case_sensitive: false },
             length: { maximum: 255 }
 
-  validates_inclusion_of :is_default, :is_milestone, in: [true, false]
+  validates :is_default, :is_milestone, inclusion: { in: [true, false] }
 
   scopes :milestone
 

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -32,8 +30,8 @@ module HideSectionsHelper
   def initialize_hide_sections_with(all, active)
     gon.push(
       hideSections: {
-        all: all,
-        active: active
+        all:,
+        active:
       }
     )
   end

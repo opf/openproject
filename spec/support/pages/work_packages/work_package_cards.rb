@@ -29,12 +29,11 @@ require 'support/pages/page'
 
 module Pages
   class WorkPackageCards < Page
-    include Capybara::DSL
-    include RSpec::Matchers
     attr_reader :project
 
     def initialize(project = nil)
       @project = project
+      super()
     end
 
     def expect_work_package_listed(*work_packages)
@@ -78,6 +77,10 @@ module Pages
       element.find('[data-qa-selector="op-wp-single-card--details-button"]').click
 
       ::Pages::SplitWorkPackage.new(work_package, project)
+    end
+
+    def drag_and_drop_work_package(from:, to:)
+      drag_and_drop_list(from: from, to: to, elements: 'wp-single-card', handler: '.op-wp-single-card--content')
     end
 
     def select_work_package(work_package)

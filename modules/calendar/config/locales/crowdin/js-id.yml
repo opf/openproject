@@ -2,6 +2,7 @@
 id:
   js:
     calendar:
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
-      unsaved_title: 'Unnamed calendar'
+      create_new: 'Buat kalender baru'
+      title: 'Kalender'
+      too_many: 'Terdapat %{count} paket pekerjaan, tetapi hanya %{max} yang dapat dilihat.'
+      unsaved_title: 'Kalender tanpa nama'

@@ -47,15 +47,11 @@ describe Authorization::UserAllowedService do
   let(:role_grants_action) { true }
   let(:project_allows_to) { true }
 
+  subject { instance.call(action, context) }
+
   describe '#initialize' do
     it 'has the user' do
       expect(instance.user).to eql user
-    end
-  end
-
-  shared_examples_for 'successful run' do
-    it 'is successful' do
-      expect(instance.call(action, context)).to be_success
     end
   end
 
@@ -82,22 +78,26 @@ describe Authorization::UserAllowedService do
     end
 
     context 'with the user having a granting role' do
-      it_behaves_like 'successful run' do
-        it 'is true' do
-          expect(instance.call(action, context).result).to be_truthy
+      it 'is true' do
+        expect(subject).to be_truthy
+      end
+
+      it 'does not call the db twice for a project' do
+        Array(context).each do |project|
+          allow(Authorization)
+            .to receive(:roles)
+            .with(user, project)
+            .and_return(user_roles_in_project)
         end
 
-        it 'does not call the db twice for a project' do
-          Array(context).each do |project|
-            expect(Authorization)
-              .to receive(:roles)
-              .once
-              .with(user, project)
-              .and_return(user_roles_in_project)
-          end
+        subject
+        subject
 
-          instance.call(action, context)
-          instance.call(action, context)
+        Array(context).each do |project|
+          expect(Authorization)
+            .to have_received(:roles)
+            .once
+            .with(user, project)
         end
       end
 
@@ -107,8 +107,7 @@ describe Authorization::UserAllowedService do
         end
 
         it 'returns false', :aggregate_failures do
-          expect(instance.call(action, nil, global: true)).to be_success
-          expect(instance.call(action, nil, global: true).result).not_to be_truthy
+          expect(instance.call(action, nil, global: true)).not_to be_truthy
         end
       end
     end
@@ -116,10 +115,8 @@ describe Authorization::UserAllowedService do
     context 'with the user having a nongranting role' do
       let(:role_grants_action) { false }
 
-      it_behaves_like 'successful run' do
-        it 'is false' do
-          expect(instance.call(action, context).result).to be_falsey
-        end
+      it 'is false' do
+        expect(subject).to be_falsey
       end
     end
 
@@ -131,10 +128,8 @@ describe Authorization::UserAllowedService do
         user.admin = true
       end
 
-      it_behaves_like 'successful run' do
-        it 'is true' do
-          expect(instance.call(action, context).result).to be_truthy
-        end
+      it 'is true' do
+        expect(subject).to be_truthy
       end
     end
 
@@ -145,32 +140,28 @@ describe Authorization::UserAllowedService do
         end
       end
 
-      it_behaves_like 'successful run' do
-        it 'is false' do
-          expect(instance.call(action, context).result).to be_falsey
-        end
+      it 'is false' do
+        expect(subject).to be_falsey
+      end
 
-        it 'is false even if the user is admin' do
-          user.admin = true
+      it 'is false even if the user is admin' do
+        user.admin = true
 
-          expect(instance.call(action, context).result).to be_falsey
-        end
+        expect(subject).to be_falsey
       end
     end
 
     context 'with the project not having the action enabled' do
       let(:project_allows_to) { false }
 
-      it_behaves_like 'successful run' do
-        it 'is false' do
-          expect(instance.call(action, context).result).to be_falsey
-        end
+      it 'is false' do
+        expect(subject).to be_falsey
+      end
 
-        it 'is false even if the user is admin' do
-          user.admin = true
+      it 'is false even if the user is admin' do
+        user.admin = true
 
-          expect(instance.call(action, context).result).to be_falsey
-        end
+        expect(subject).to be_falsey
       end
     end
 
@@ -201,17 +192,15 @@ describe Authorization::UserAllowedService do
         instance.preload_projects_allowed_to(action)
       end
 
-      it_behaves_like 'successful run' do
-        it 'is true' do
-          expect(instance.call(action, context).result).to be_truthy
-        end
+      it 'is true' do
+        expect(subject).to be_truthy
+      end
 
-        it 'does not call the db' do
-          expect(Authorization)
-            .to_not receive(:roles)
+      it 'does not call the db' do
+        subject
 
-          instance.call(action, context)
-        end
+        expect(Authorization)
+          .not_to have_received(:roles)
       end
     end
   end
@@ -228,12 +217,8 @@ describe Authorization::UserAllowedService do
 
       it_behaves_like 'allowed to checked'
 
-      context 'with the array being empty' do
-        it_behaves_like 'successful run' do
-          it 'is false' do
-            expect(instance.call(action, []).result).to be_falsey
-          end
-        end
+      it 'is false' do
+        expect(instance.call(action, [])).to be_falsey
       end
 
       context 'with one project not allowing an action' do
@@ -244,10 +229,8 @@ describe Authorization::UserAllowedService do
             .and_return(false)
         end
 
-        it_behaves_like 'successful run' do
-          it 'is false' do
-            expect(instance.call(action, [project, other_project]).result).to be_falsey
-          end
+        it 'is false' do
+          expect(instance.call(action, [project, other_project])).to be_falsey
         end
       end
     end
@@ -262,11 +245,7 @@ describe Authorization::UserAllowedService do
       let(:context) { nil }
 
       it 'is false' do
-        expect(instance.call(action, context).result).to be_falsey
-      end
-
-      it 'is unsuccessful' do
-        expect(instance.call(action, context)).to_not be_success
+        expect(subject).to be_falsey
       end
     end
 
@@ -277,11 +256,7 @@ describe Authorization::UserAllowedService do
         end
 
         it 'is true' do
-          expect(instance.call(action, nil, global: true).result).to be_truthy
-        end
-
-        it 'is successful' do
-          expect(instance.call(action, nil, global: true)).to be_success
+          expect(instance.call(action, nil, global: true)).to be_truthy
         end
       end
 
@@ -304,14 +279,12 @@ describe Authorization::UserAllowedService do
           end
 
           it 'is unsuccessful', :aggregate_failures do
-            expect(instance.call(action, nil, global: true)).to be_success
-            expect(instance.call(action, nil, global: true).result).not_to be_truthy
+            expect(instance.call(action, nil, global: true)).not_to be_truthy
           end
         end
 
         it 'is successful', :aggregate_failures do
-          expect(instance.call(action, nil, global: true).result).to be_truthy
-          expect(instance.call(action, nil, global: true)).to be_success
+          expect(instance.call(action, nil, global: true)).to be_truthy
         end
       end
 
@@ -329,11 +302,7 @@ describe Authorization::UserAllowedService do
         end
 
         it 'is false' do
-          expect(instance.call(action, nil, global: true).result).to be_falsey
-        end
-
-        it 'is successful' do
-          expect(instance.call(action, nil, global: true)).to be_success
+          expect(instance.call(action, nil, global: true)).to be_falsey
         end
       end
     end

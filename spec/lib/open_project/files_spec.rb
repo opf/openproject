@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -79,7 +77,7 @@ describe OpenProject::Files do
     context 'with custom file name' do
       let(:file_name) { 'my-custom-filename.png' }
 
-      subject { OpenProject::Files.build_uploaded_file(file, content_type, file_name: file_name) }
+      subject { OpenProject::Files.build_uploaded_file(file, content_type, file_name:) }
 
       it 'has the custom file name' do
         expect(subject.original_filename).to eql(file_name)
@@ -117,9 +115,9 @@ describe OpenProject::Files do
       let(:content_type) { 'image/jpeg' }
 
       let(:file) do
-        OpenProject::Files.create_uploaded_file name: name,
-                                                content: content,
-                                                content_type: content_type
+        OpenProject::Files.create_uploaded_file name:,
+                                                content:,
+                                                content_type:
       end
 
       it 'creates a file called "foo.jpg"' do
@@ -138,7 +136,7 @@ describe OpenProject::Files do
     context 'with binary content' do
       let(:content) { "\xD1\x9B\x86".b }
       let(:binary)  { false }
-      let(:file)    { OpenProject::Files.create_uploaded_file content: content, binary: binary }
+      let(:file)    { OpenProject::Files.create_uploaded_file content:, binary: }
 
       it 'fails when the content is not marked as binary' do
         expect { file }.to raise_error(Encoding::UndefinedConversionError)

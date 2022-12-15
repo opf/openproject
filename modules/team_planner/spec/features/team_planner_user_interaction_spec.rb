@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -49,14 +47,14 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
 
   let!(:first_wp) do
     create :work_package,
-           project: project,
+           project:,
            assigned_to: other_user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
   end
   let!(:second_wp) do
     create :work_package,
-           project: project,
+           project:,
            parent: first_wp,
            assigned_to: other_user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
@@ -64,10 +62,20 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
   end
   let!(:third_wp) do
     create :work_package,
-           project: project,
+           project:,
            assigned_to: user,
            start_date: Time.zone.today - 10.days,
            due_date: Time.zone.today + 20.days
+  end
+
+  let(:milestone_type) { create(:type, is_milestone: true) }
+  let!(:fourth_wp) do
+    create :work_package,
+           project:,
+           assigned_to: user,
+           type: milestone_type,
+           start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday)
   end
 
   context 'with full permissions' do
@@ -83,19 +91,21 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
         team_planner.expect_event first_wp, present: false
         team_planner.expect_event second_wp, present: false
         team_planner.expect_event third_wp
+        team_planner.expect_event fourth_wp
       end
 
       team_planner.within_lane(other_user) do
         team_planner.expect_event first_wp
         team_planner.expect_event second_wp
         team_planner.expect_event third_wp, present: false
+        team_planner.expect_event fourth_wp, present: false
       end
     end
 
     it 'allows to drag&drop between the lanes to change the assignee' do
       # Move first wp to the user
       retry_block do
-        team_planner.drag_wp_by_pixel(first_wp, 0, -100)
+        team_planner.drag_wp_to_lane(first_wp, user)
       end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
@@ -103,17 +113,19 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
         team_planner.expect_event first_wp
         team_planner.expect_event second_wp, present: false
         team_planner.expect_event third_wp
+        team_planner.expect_event fourth_wp
       end
 
       team_planner.within_lane(other_user) do
         team_planner.expect_event first_wp, present: false
         team_planner.expect_event second_wp
         team_planner.expect_event third_wp, present: false
+        team_planner.expect_event fourth_wp, present: false
       end
 
       # Move second wp to the user, resulting in the other user having no WPs any more
       retry_block do
-        team_planner.drag_wp_by_pixel(second_wp, 0, -100)
+        team_planner.drag_wp_to_lane(second_wp, user)
       end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
@@ -121,17 +133,19 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
         team_planner.expect_event first_wp
         team_planner.expect_event second_wp
         team_planner.expect_event third_wp
+        team_planner.expect_event fourth_wp
       end
 
       team_planner.within_lane(other_user) do
         team_planner.expect_event first_wp, present: false
         team_planner.expect_event second_wp, present: false
         team_planner.expect_event third_wp, present: false
+        team_planner.expect_event fourth_wp, present: false
       end
 
       # Move the third WP to the empty row of the other user
       retry_block do
-        team_planner.drag_wp_by_pixel(third_wp, 0, 200)
+        team_planner.drag_wp_to_lane(third_wp, other_user)
       end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
@@ -139,12 +153,34 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
         team_planner.expect_event first_wp
         team_planner.expect_event second_wp
         team_planner.expect_event third_wp, present: false
+        team_planner.expect_event fourth_wp
       end
 
       team_planner.within_lane(other_user) do
         team_planner.expect_event first_wp, present: false
         team_planner.expect_event second_wp, present: false
         team_planner.expect_event third_wp
+        team_planner.expect_event fourth_wp, present: false
+      end
+
+      # Move the Milestone
+      retry_block do
+        team_planner.drag_wp_to_lane(fourth_wp, other_user)
+      end
+      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+
+      team_planner.within_lane(user) do
+        team_planner.expect_event first_wp
+        team_planner.expect_event second_wp
+        team_planner.expect_event third_wp, present: false
+        team_planner.expect_event fourth_wp, present: false
+      end
+
+      team_planner.within_lane(other_user) do
+        team_planner.expect_event first_wp, present: false
+        team_planner.expect_event second_wp, present: false
+        team_planner.expect_event third_wp
+        team_planner.expect_event fourth_wp
       end
     end
 
@@ -192,6 +228,19 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
       team_planner.expect_wp_not_resizable(first_wp)
       # Elements that have start or due date outside of the current view are also not resizable
       team_planner.expect_wp_not_resizable(third_wp)
+      # Milestones are not resizable
+      team_planner.expect_wp_not_resizable(fourth_wp)
+
+      # Instead we move the milestone completely to change the date
+      retry_block do
+        team_planner.drag_wp_by_pixel(fourth_wp, 150, 0)
+      end
+      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+
+      fourth_wp.reload
+      expect(fourth_wp.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:wednesday))
+      expect(fourth_wp.due_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:wednesday))
+      expect(fourth_wp.assigned_to_id).to eq(user.id)
     end
   end
 
@@ -211,10 +260,12 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
       team_planner.expect_wp_not_resizable(first_wp)
       team_planner.expect_wp_not_resizable(second_wp)
       team_planner.expect_wp_not_resizable(third_wp)
+      team_planner.expect_wp_not_resizable(fourth_wp)
 
       team_planner.expect_wp_not_draggable(first_wp)
       team_planner.expect_wp_not_draggable(second_wp)
       team_planner.expect_wp_not_draggable(third_wp)
+      team_planner.expect_wp_not_draggable(fourth_wp)
     end
   end
 end

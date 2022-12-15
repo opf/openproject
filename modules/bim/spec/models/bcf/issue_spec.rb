@@ -30,10 +30,10 @@ require 'spec_helper'
 
 describe ::Bim::Bcf::Issue, type: :model do
   let(:type) { create :type, name: "Issue [BCF]" }
-  let(:work_package) { create :work_package, type: type }
-  let(:issue) { create :bcf_issue, work_package: work_package }
+  let(:work_package) { create :work_package, type: }
+  let(:issue) { create :bcf_issue, work_package: }
 
-  context '#markup_doc' do
+  describe '#markup_doc' do
     subject { issue }
 
     it "returns a Nokogiri::XML::Document" do
@@ -49,12 +49,12 @@ describe ::Bim::Bcf::Issue, type: :model do
       first_fetched_doc = subject.markup_doc
       subject.markup = subject.markup + ' '
       subject.save
-      expect(subject.markup_doc).to_not be_eql(first_fetched_doc)
+      expect(subject.markup_doc).not_to be_eql(first_fetched_doc)
     end
   end
 
   describe '.of_project' do
-    let!(:other_work_package) { create :work_package, type: type }
+    let!(:other_work_package) { create :work_package, type: }
     let!(:other_issue) { create :bcf_issue, work_package: other_work_package }
 
     it 'returns all issues of the provided project' do

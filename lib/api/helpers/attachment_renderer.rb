@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,7 +31,7 @@
 module API
   module Helpers
     module AttachmentRenderer
-      def self.content_endpoint(&block)
+      def self.content_endpoint(&)
         ->(*) {
           helpers ::API::Helpers::AttachmentRenderer
 
@@ -42,7 +40,7 @@ module API
           end
 
           get do
-            attachment = instance_exec(&block)
+            attachment = instance_exec(&)
             respond_with_attachment attachment, cache_seconds: fog_cache_seconds
           end
         }

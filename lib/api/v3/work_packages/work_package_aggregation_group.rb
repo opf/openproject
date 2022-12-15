@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -35,7 +33,7 @@ module API
         def initialize(group_key, count, query:, current_user:, sums: nil)
           @sums = sums
 
-          super(group_key, count, query: query, current_user: current_user)
+          super(group_key, count, query:, current_user:)
         end
 
         property :sums,

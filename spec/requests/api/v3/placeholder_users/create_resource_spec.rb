@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -34,7 +32,6 @@ require_relative './create_shared_examples'
 describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
          'create',
          type: :request do
-
   current_user { user }
 
   describe 'admin user' do

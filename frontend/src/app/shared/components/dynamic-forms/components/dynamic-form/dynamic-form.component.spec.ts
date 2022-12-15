@@ -1,13 +1,29 @@
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
-import { Component, forwardRef, ViewChild } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import {
+  Component,
+  forwardRef,
+  ViewChild,
+} from '@angular/core';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  TestBed,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { defer, of } from 'rxjs';
-import { FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import {
+  defer,
+  of,
+} from 'rxjs';
+import {
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormlyModule } from '@ngx-formly/core';
-
 import { DynamicFormComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component';
 import { DynamicFormService } from 'core-app/shared/components/dynamic-forms/services/dynamic-form/dynamic-form.service';
 import { DynamicFieldsService } from 'core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service';
@@ -21,7 +37,7 @@ import { BooleanInputComponent } from 'core-app/shared/components/dynamic-forms/
 import { DateInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/date-input/date-input.component';
 import { FormattableTextareaInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component';
 import { DynamicFieldGroupWrapperComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component';
-import { OpFormFieldComponent } from 'core-app/shared/components/forms/form-field/form-field.component';
+import { SpotFormFieldComponent } from 'core-app/spot/components/form-field/form-field.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DynamicFieldWrapperComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-field-wrapper/dynamic-field-wrapper.component';
 import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
@@ -32,7 +48,7 @@ import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-
   providers: [],
 })
 class DynamicFormsTestingComponent {
-  control = new FormControl('');
+  control = new UntypedFormControl('');
 
   @ViewChild(DynamicFormComponent) dynamicFormControl:DynamicFormComponent;
 }
@@ -260,7 +276,7 @@ describe('DynamicFormComponent', () => {
         },
       },
     },
-    form: new FormGroup({}),
+    form: new UntypedFormGroup({}),
   };
   const I18nServiceStub = {
     t(key:string) {
@@ -308,7 +324,7 @@ describe('DynamicFormComponent', () => {
         ],
         declarations: [
           DynamicFormComponent,
-          OpFormFieldComponent,
+          SpotFormFieldComponent,
           TextInputComponent,
           IntegerInputComponent,
           SelectInputComponent,

@@ -24,8 +24,6 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-#-- encoding: UTF-8
-
 # Exists to satisfy the expectations of the default end points.
 module API
   module V3

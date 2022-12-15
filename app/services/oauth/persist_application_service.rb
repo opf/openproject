@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -46,7 +44,7 @@ module OAuth
       application.attributes = attributes
 
       result, errors = validate_and_save(application, current_user)
-      ServiceResult.new success: result, errors: errors, result: application
+      ServiceResult.new success: result, errors:, result: application
     end
 
     def set_defaults

@@ -16,7 +16,7 @@ shared_examples_for 'format_text produces' do
   subject { format_text(raw, passed_options) }
 
   it 'the expected output' do
-    is_expected
+    expect(subject)
       .to be_html_eql(expected)
   end
 end

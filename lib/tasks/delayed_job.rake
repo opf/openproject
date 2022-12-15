@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -41,5 +39,5 @@ Rake::Task['jobs:environment_options']
 
 # Enhance delayed job workers to use cron
 load 'lib/tasks/cron.rake'
-Rake::Task["jobs:work"].enhance [:"openproject:cron:schedule"]
-Rake::Task["jobs:workoff"].enhance [:"openproject:cron:schedule"]
+Rake::Task["jobs:work"].enhance [:'openproject:cron:schedule']
+Rake::Task["jobs:workoff"].enhance [:'openproject:cron:schedule']

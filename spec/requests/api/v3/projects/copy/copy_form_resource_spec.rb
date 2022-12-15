@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -77,7 +75,7 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
             .at_path('_type')
 
     expect(Project.count)
-      .to eql 1
+      .to be 1
   end
 
   it 'retains the values from the source project' do
@@ -115,15 +113,15 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
         name: 'My copied project',
         identifier: 'foobar',
         "customField#{text_custom_field.id}": {
-          "raw": "CF text"
+          raw: "CF text"
         },
         statusExplanation: { raw: "A magic dwells in each beginning." },
-        "_links": {
+        _links: {
           "customField#{list_custom_field.id}": {
-            "href": api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
+            href: api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
           },
-          "status": {
-            "href": api_v3_paths.project_status('on_track')
+          status: {
+            href: api_v3_paths.project_status('on_track')
           }
         }
       }
@@ -236,7 +234,6 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
       end
     end
   end
-
 
   context 'without the necessary permission' do
     let(:current_user) do

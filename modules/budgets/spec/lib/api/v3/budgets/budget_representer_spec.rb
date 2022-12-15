@@ -36,14 +36,14 @@ describe ::API::V3::Budgets::BudgetRepresenter do
     create(:user,
            member_in_project: project,
            created_at: 1.day.ago,
-           updated_at: Date.today)
+           updated_at: Time.zone.now)
   end
   let(:budget) do
     create(:budget,
            author: user,
-           project: project,
+           project:,
            created_at: 1.day.ago,
-           updated_at: Date.today)
+           updated_at: Time.zone.now)
   end
 
   let(:representer) { described_class.new(budget, current_user: user) }
@@ -72,15 +72,15 @@ describe ::API::V3::Budgets::BudgetRepresenter do
     end
 
     it 'indicates its type' do
-      is_expected.to be_json_eql('Budget'.to_json).at_path('_type')
+      expect(subject).to be_json_eql('Budget'.to_json).at_path('_type')
     end
 
     it 'indicates its id' do
-      is_expected.to be_json_eql(budget.id.to_json).at_path('id')
+      expect(subject).to be_json_eql(budget.id.to_json).at_path('id')
     end
 
     it 'indicates its subject' do
-      is_expected.to be_json_eql(budget.subject.to_json).at_path('subject')
+      expect(subject).to be_json_eql(budget.subject.to_json).at_path('subject')
     end
   end
 end

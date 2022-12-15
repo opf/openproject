@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -56,7 +54,7 @@ describe 'Team planner query handling', type: :feature, js: true do
 
   shared_let(:task) do
     create :work_package,
-           project: project,
+           project:,
            type: type_task,
            assigned_to: user,
            start_date: Time.zone.today - 1.day,
@@ -65,7 +63,7 @@ describe 'Team planner query handling', type: :feature, js: true do
   end
   shared_let(:bug) do
     create :work_package,
-           project: project,
+           project:,
            type: type_bug,
            assigned_to: user,
            start_date: Time.zone.today - 1.day,

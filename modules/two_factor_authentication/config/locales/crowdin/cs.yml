@@ -72,7 +72,7 @@ cs:
       text_2fa_disabled: "Uživatel si nenastavil 2FA zařízení prostřednictvím stránky 'Můj účet'"
     upsale:
       title: 'Dvoufázové ověření'
-      description: 'Posilte vaše interní nebo externí autentizační mechanismy pomocí druhého faktoru.'
+      description: 'Posilte bezpečnost vaší OpenProject instance tím, že nabízíte (nebo vynucujte) dvoufaktorové ověřování všem členům projektu.'
     backup_codes:
       none_found: Pro tento účet neexistují žádné záložní kódy.
       singular: Záložní kód
@@ -109,10 +109,10 @@ cs:
       not_existing: 'Žádné 2FA zařízení nebylo zaregistrováno pro váš účet.'
       request_2fa: Zadejte prosím kód z Vašeho %{device_name} pro ověření Vaší identity.
       totp:
-        title: 'Use your app-based authenticator'
-        provisioning_uri: 'Provisioning URI'
+        title: 'Použít autentifikátor založený na aplikaci'
+        provisioning_uri: 'Poskytování URI'
         secret_key: 'Tajný klíč'
-        time_based: 'Time based'
+        time_based: 'Na základě času'
         account: 'Název účtu / vydavatel'
         setup: |
           Pro nastavení dvoufaktorového ověřování pomocí Google Authenticator, stáhněte si aplikaci z Apple App Store nebo Google Play Store.
@@ -122,8 +122,8 @@ cs:
         text_cannot_scan: |
           Pokud nemůžete naskenovat kód, můžete zadat položku ručně pomocí následujících údajů:
         description: |
-          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
-          Common examples are Google Authenticator or Authy.
+          Zaregistrujte autentifikátor aplikace pro použití u OpenProject pomocí standardu jednorázového ověřování hesla.
+          Běžnými příklady jsou Google Authenticator nebo Authy.
       sms:
         title: 'Použijte svůj mobilní telefon'
         redacted_identifier: 'Mobilní zařízení (%{redacted_number})'
@@ -135,8 +135,6 @@ cs:
     message_bird:
       sms_delivery_failed: 'Odeslání MessageBird SMS  se nezdařilo.'
       voice_delivery_failed: 'Hlasový hovor MessageBird se nezdařil.'
-    restdt:
-      delivery_failed_with_code: 'Doručení tokenu se nezdařilo. (Kód chybu %{code})'
     strategies:
       totp: 'Ověřovací aplikace'
       sns: 'Amazon SNS'
@@ -157,7 +155,7 @@ cs:
   field_otp: "Jednorázové heslo"
   notice_account_otp_invalid: "Neplatné jednorázové heslo."
   notice_account_otp_expired: "Zadané jednorázové heslo vypršelo."
-  notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
+  notice_developer_strategy_otp: "Vývojářská strategie vytvořila toto jednorázové heslo: %{token} (kanál: %{channel})"
   notice_account_otp_send_failed: "Vaše jednorázové heslo nelze odeslat."
   notice_account_has_no_phone: "S vaším účtem není přiřazeno žádné telefonní číslo."
   label_expiration_hint: "%{date} nebo po odhlášení"
@@ -172,4 +170,4 @@ cs:
   button_resend_otp_form: "Znovu odeslat"
   button_otp_by_voice: "Hovor"
   button_otp_by_sms: "SMS"
-  label_otp_channel: "Delivery channel"
+  label_otp_channel: "Doručovací kanál"

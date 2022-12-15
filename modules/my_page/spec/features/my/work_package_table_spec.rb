@@ -39,14 +39,14 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
   let!(:open_status) { create :default_status }
   let!(:type_work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            author: user,
            responsible: user
   end
   let!(:other_type_work_package) do
     create :work_package,
-           project: project,
+           project:,
            type: other_type,
            author: user,
            responsible: user
@@ -75,14 +75,18 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
 
   context 'with the permission to save queries' do
     it 'can add the widget and see the work packages of the filtered for types' do
-      sleep(0.5)
+      # This one always exists by default.
+      # Using it here as a safeguard to govern speed.
+      created_by_me_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+      expect(created_by_me_area.area)
+        .to have_selector('.subject', text: type_work_package.subject)
 
       my_page.add_widget(1, 2, :column, "Work packages table")
 
       # Actually there are two success messages displayed currently. One for the grid getting updated and one
       # for the query assigned to the new widget being created. A user will not notice it but the automated
       # browser can get confused. Therefore we wait.
-      sleep(1)
+      sleep(2)
 
       my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 

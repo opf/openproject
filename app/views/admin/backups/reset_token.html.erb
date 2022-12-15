@@ -64,7 +64,7 @@ See COPYRIGHT and LICENSE files for more details.
         <%= t(
           "backup.reset_token.verification",
           word: "<em class=\"danger-zone--expected-value\">#{t("backup.reset_token.verification_word_#{action}")}</em>",
-          action: action
+          action: t("backup.reset_token.verification_word_#{action}")
         ).html_safe %>
       </p>
       <div class="danger-zone--verification">

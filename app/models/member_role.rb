@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -35,7 +33,7 @@ class MemberRole < ApplicationRecord
   # `inherited` is reserved ActiveRecord method
   scope :only_inherited, -> { where.not(inherited_from: nil) }
 
-  validates_presence_of :role
+  validates :role, presence: true
   validate :validate_project_member_role
 
   def validate_project_member_role

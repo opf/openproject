@@ -40,7 +40,7 @@ describe "updating a cost report's cost type", type: :feature, js: true do
   end
 
   let!(:cost_entry) do
-    create :cost_entry, user: user, project: project, cost_type: cost_type
+    create :cost_entry, user:, project:, cost_type:
   end
 
   let(:report_page) { ::Pages::CostReportPage.new project }
@@ -52,8 +52,16 @@ describe "updating a cost report's cost type", type: :feature, js: true do
   it 'works' do
     report_page.visit!
     report_page.save(as: 'My Query', public: true)
-    SeleniumHubWaiter.wait
+
+    retry_block do
+      cost_query = CostQuery.find_by!(name: 'My Query')
+      raise "Expected path change" unless page.has_current_path?("/projects/#{project.identifier}/cost_reports/#{cost_query.id}")
+      expect(page).to have_field('Labor', checked: true)
+    end
+
     report_page.switch_to_type cost_type.name
+    expect(page).to have_field(cost_type.name, checked: true, wait: 10)
+
     click_on "Save"
 
     click_on "My Query"

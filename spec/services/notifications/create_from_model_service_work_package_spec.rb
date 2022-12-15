@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -44,7 +42,7 @@ describe Notifications::CreateFromModelService,
   let(:user_property) { nil }
   let(:work_package) do
     wp_attributes = {
-      project: project,
+      project:,
       author: other_user,
       responsible: other_user,
       assigned_to: other_user,
@@ -105,7 +103,7 @@ describe Notifications::CreateFromModelService,
     let(:user_property) { :assigned_to }
     let(:recipient_notification_settings) do
       [
-        build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+        build(:notification_setting, **notification_settings_all_false.merge(assignee: true))
       ]
     end
 
@@ -139,7 +137,7 @@ describe Notifications::CreateFromModelService,
       end
     end
 
-    context 'assignee has all notifications disabled' do
+    context 'when assignee has all notifications disabled' do
       let(:recipient_notification_settings) do
         [
           build(:notification_setting, **notification_settings_all_false)
@@ -149,10 +147,10 @@ describe Notifications::CreateFromModelService,
       it_behaves_like 'creates no notification'
     end
 
-    context 'assignee has all in app notifications enabled but only involved for mail' do
+    context 'when assignee has all in app notifications enabled but only assignee for mail' do
       let(:recipient_notification_settings) do
         [
-          build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+          build(:notification_setting, **notification_settings_all_false.merge(assignee: true))
         ]
       end
 
@@ -168,14 +166,14 @@ describe Notifications::CreateFromModelService,
       end
     end
 
-    context 'assignee is not allowed to view work packages' do
+    context 'when assignee is not allowed to view work packages' do
       let(:permissions) { [] }
 
       it_behaves_like 'creates no notification'
     end
 
-    context 'assignee is placeholder user' do
-      let(:recipient) { create :placeholder_user }
+    context 'when assignee is placeholder user' do
+      let(:recipient) { create(:placeholder_user) }
 
       it_behaves_like 'creates no notification'
     end
@@ -196,7 +194,7 @@ describe Notifications::CreateFromModelService,
     let(:user_property) { :responsible }
     let(:recipient_notification_settings) do
       [
-        build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+        build(:notification_setting, **notification_settings_all_false.merge(responsible: true))
       ]
     end
 
@@ -228,7 +226,7 @@ describe Notifications::CreateFromModelService,
     end
 
     context 'when responsible is placeholder user' do
-      let(:recipient) { create :placeholder_user }
+      let(:recipient) { create(:placeholder_user) }
 
       it_behaves_like 'creates no notification'
     end
@@ -364,7 +362,7 @@ describe Notifications::CreateFromModelService,
       let(:recipient_notification_settings) do
         [
           build(:notification_setting, **notification_settings_all_false),
-          build(:notification_setting, project: project, **notification_settings_all_true)
+          build(:notification_setting, project:, **notification_settings_all_true)
         ]
       end
 
@@ -384,7 +382,7 @@ describe Notifications::CreateFromModelService,
       let(:recipient_notification_settings) do
         [
           build(:notification_setting, **notification_settings_all_true),
-          build(:notification_setting, project: project, **notification_settings_all_false)
+          build(:notification_setting, project:, **notification_settings_all_false)
         ]
       end
 
@@ -445,7 +443,7 @@ describe Notifications::CreateFromModelService,
       let(:recipient_notification_settings) do
         [
           build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_prioritized: true)),
+                                                           .merge(work_package_prioritized: true))
         ]
       end
 
@@ -470,7 +468,7 @@ describe Notifications::CreateFromModelService,
       let(:recipient_notification_settings) do
         [
           build(:notification_setting, **notification_settings_all_false
-                                                           .merge(work_package_commented: true)),
+                                                           .merge(work_package_commented: true))
         ]
       end
 
@@ -723,8 +721,8 @@ describe Notifications::CreateFromModelService,
     end
 
     shared_examples_for 'group mention' do
-      context 'group member is allowed to view the work package' do
-        context 'user wants to receive notifications' do
+      context 'with a group member allowed to view the work package' do
+        context 'when the user wants to receive notifications' do
           it_behaves_like 'creates notification' do
             let(:notification_channel_reasons) do
               {
@@ -737,7 +735,7 @@ describe Notifications::CreateFromModelService,
           end
         end
 
-        context 'user disabled mention notifications' do
+        context 'when the user disabled mention notifications' do
           let(:recipient_notification_settings) do
             [
               build(:notification_setting, **notification_settings_all_false.merge(mentioned: false))
@@ -748,13 +746,13 @@ describe Notifications::CreateFromModelService,
         end
       end
 
-      context 'group is not allowed to view the work package' do
+      context 'with the group not allowed to view the work package' do
         let(:group_role) { create(:role, permissions: []) }
         let(:permissions) { [] }
 
         it_behaves_like 'creates no notification'
 
-        context 'but group member is allowed individually' do
+        context 'with the group member allowed individually' do
           let(:permissions) { [:view_work_packages] }
 
           it_behaves_like 'creates notification' do
@@ -857,6 +855,57 @@ describe Notifications::CreateFromModelService,
           end
         end
 
+        context "when the added text contains a user mention tag inside a quote" do
+          let(:note) do
+            <<~NOTE
+              #{recipient.name} wrote:
+              > Hello <mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">@#{recipient.name}</mention>
+            NOTE
+          end
+
+          it_behaves_like 'creates no notification'
+        end
+
+        context "when the added text contains a user mention tag inside an invalid quote" do
+          let(:note) do
+            <<~NOTE
+              #{recipient.name} wrote:
+              >Hello <mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">@#{recipient.name}</mention>
+            NOTE
+          end
+
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason: :mentioned,
+                mail_alert_sent: false,
+                mail_reminder_sent: false
+              }
+            end
+          end
+        end
+
+        context "when the added text contains a user mention tag inside a quote and outside" do
+          let(:note) do
+            <<~NOTE
+              Hi <mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">@#{recipient.name}</mention> :
+              > Hello <mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">@#{recipient.name}</mention>
+            NOTE
+          end
+
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason: :mentioned,
+                mail_alert_sent: false,
+                mail_reminder_sent: false
+              }
+            end
+          end
+        end
+
         context "when the recipient turned off mention notifications" do
           let(:recipient_notification_settings) do
             [
@@ -886,7 +935,48 @@ describe Notifications::CreateFromModelService,
           end
           let(:author) { recipient }
 
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason: :mentioned,
+                mail_alert_sent: false,
+                mail_reminder_sent: false
+              }
+            end
+          end
+        end
+
+        context 'when there is already a notification for the journal (because it was aggregated)' do
+          let(:note) { "Hello user:\"#{recipient_login}\"" }
+          let!(:existing_notification) do
+            create(:notification, resource:, journal:, recipient:, reason: :mentioned, read_ian: true)
+          end
+
           it_behaves_like 'creates no notification'
+
+          it 'resets the read_ian of the existing notification to false' do
+            call
+
+            expect(existing_notification.reload.read_ian)
+              .to be_falsey
+          end
+        end
+
+        context 'when there is already a notification for the journal (aggregation) but the user is no longer mentioned' do
+          let(:note) { "Hello you" }
+          let!(:existing_notification) do
+            create(:notification, resource:, journal:, recipient:, reason: :mentioned, read_ian: true)
+          end
+
+          it_behaves_like 'creates no notification'
+
+          it 'removes the existing notification' do
+            call
+
+            expect(Notification)
+              .not_to exist(id: existing_notification.id)
+          end
         end
       end
 
@@ -896,11 +986,11 @@ describe Notifications::CreateFromModelService,
           create(:group, members: recipient) do |group|
             Members::CreateService
               .new(user: User.system, contract_class: EmptyContract)
-              .call(project: project, principal: group, roles: [group_role])
+              .call(project:, principal: group, roles: [group_role])
           end
         end
 
-        context 'on a hash/id based mention' do
+        context 'with a hash/id based mention' do
           let(:note) do
             "Hello group##{group.id}"
           end
@@ -908,7 +998,7 @@ describe Notifications::CreateFromModelService,
           it_behaves_like 'group mention'
         end
 
-        context 'on a tag based mention with the type after' do
+        context 'with a tag based mention with the type after' do
           let(:note) do
             <<~NOTE
               Hello <mention class="mention" data-id="#{group.id}" data-type="group" data-text="@#{group.name}">@#{group.name}</mention>
@@ -918,7 +1008,7 @@ describe Notifications::CreateFromModelService,
           it_behaves_like 'group mention'
         end
 
-        context 'on a tag based mention with the type before' do
+        context 'with a tag based mention with the type before' do
           let(:note) do
             <<~NOTE
               Hello <mention data-type="group" class="mention" data-id="#{group.id}" data-text="@#{group.name}">@#{group.name}</mention>
@@ -928,7 +1018,7 @@ describe Notifications::CreateFromModelService,
           it_behaves_like 'group mention'
         end
 
-        context 'with the group member making the change himself and having deactivated self notification' do
+        context 'with the group member making the change himself' do
           let(:note) do
             <<~NOTE
               Hello <mention class="mention" data-id="#{group.id}" data-type="group" data-text="@#{group.name}">@#{group.name}</mention>
@@ -936,7 +1026,16 @@ describe Notifications::CreateFromModelService,
           end
           let(:author) { recipient }
 
-          it_behaves_like 'creates no notification'
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason: :mentioned,
+                mail_alert_sent: false,
+                mail_reminder_sent: false
+              }
+            end
+          end
         end
       end
     end
@@ -955,17 +1054,6 @@ describe Notifications::CreateFromModelService,
       end
 
       it_behaves_like 'mentioned'
-
-      context 'when there is a notification for mentioned on the journal' do
-        let!(:mentioned_notification) do
-          create :notification,
-                 journal: journal_2_with_notes,
-                 resource: journal_2_with_notes.journable,
-                 reason: :mentioned
-        end
-
-        it_behaves_like 'creates no notification'
-      end
     end
 
     describe 'in the description' do
@@ -991,17 +1079,26 @@ describe Notifications::CreateFromModelService,
     end
   end
 
-  context 'when aggregated journal is empty' do
-    let(:journal) { journal_2_empty_change }
-    let(:journal_2_empty_change) do
-      work_package.add_journal(author, 'temp')
-      work_package.save(validate: false)
-      work_package.journals.last.tap do |j|
-        j.update_column(:notes, nil)
-      end
+  context 'when on aggregating the journal, sending of notifications is prevented' do
+    let!(:existing_notification) do
+      create(:notification, resource:, journal:, recipient:, reason: :mentioned, read_ian: true)
+    end
+    let(:send_notifications) { false }
+    let(:user_property) { :watcher }
+    let(:recipient_notification_settings) do
+      [
+        build(:notification_setting, **notification_settings_all_true)
+      ]
     end
 
     it_behaves_like 'creates no notification'
+
+    it 'removes the existing notifications' do
+      call
+
+      expect(Notification)
+        .not_to exist(id: existing_notification.id)
+    end
   end
 
   context 'when the journal is deleted' do

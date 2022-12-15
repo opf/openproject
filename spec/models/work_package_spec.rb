@@ -39,12 +39,12 @@ describe WorkPackage, type: :model do
   let(:status) { create(:status) }
   let(:priority) { create(:priority) }
   let(:work_package) do
-    WorkPackage.new.tap do |w|
+    described_class.new.tap do |w|
       w.attributes = { project_id: project.id,
                        type_id: type.id,
                        author_id: user.id,
                        status_id: status.id,
-                       priority: priority,
+                       priority:,
                        subject: 'test_create',
                        description: 'WorkPackage#create',
                        estimated_hours: '1:30' }
@@ -62,14 +62,14 @@ describe WorkPackage, type: :model do
 
       context 'no project chosen' do
         it 'has no type set if no project was chosen' do
-          expect(WorkPackage.new.type)
+          expect(described_class.new.type)
             .to be_nil
         end
       end
 
       context 'project chosen' do
         it 'has the provided type if one is provided' do
-          expect(WorkPackage.new(project: project, type: type2).type)
+          expect(described_class.new(project:, type: type2).type)
             .to eql type2
         end
       end
@@ -96,12 +96,12 @@ describe WorkPackage, type: :model do
 
     describe 'minimal' do
       let(:work_package_minimal) do
-        WorkPackage.new.tap do |w|
+        described_class.new.tap do |w|
           w.attributes = { project_id: project.id,
                            type_id: type.id,
                            author_id: user.id,
                            status_id: status.id,
-                           priority: priority,
+                           priority:,
                            subject: 'test_create' }
         end
       end
@@ -142,7 +142,7 @@ describe WorkPackage, type: :model do
     let(:user_2) { create(:user, member_in_project: project) }
     let(:category) do
       create(:category,
-             project: project,
+             project:,
              assigned_to: user_2)
     end
 
@@ -180,19 +180,20 @@ describe WorkPackage, type: :model do
 
   describe '#assignable_versions' do
     let(:stub_version2) { build_stubbed(:version) }
+
     def stub_shared_versions(v = nil)
       versions = v ? [v] : []
 
       allow(stub_work_package.project).to receive(:assignable_versions).and_return(versions)
     end
 
-    it "should return all the project's shared versions" do
+    it "returns all the project's shared versions" do
       stub_shared_versions(stub_version)
 
       expect(stub_work_package.assignable_versions).to eq([stub_version])
     end
 
-    it 'should return the former version if the version changed' do
+    it 'returns the former version if the version changed' do
       stub_shared_versions
 
       stub_work_package.version = stub_version2
@@ -204,7 +205,7 @@ describe WorkPackage, type: :model do
       expect(stub_work_package.assignable_versions).to eq([stub_version])
     end
 
-    it 'should return the current version if the version did not change' do
+    it 'returns the current version if the version did not change' do
       stub_shared_versions
 
       stub_work_package.version = stub_version
@@ -218,7 +219,7 @@ describe WorkPackage, type: :model do
   describe '#assignable_versions' do
     let!(:work_package) do
       wp = create(:work_package,
-                  project: project,
+                  project:,
                   version: version_current)
       # remove changes to version factored into
       # assignable_versions calculation
@@ -228,22 +229,22 @@ describe WorkPackage, type: :model do
     let!(:version_current) do
       create(:version,
              status: 'closed',
-             project: project)
+             project:)
     end
     let!(:version_open) do
       create(:version,
              status: 'open',
-             project: project)
+             project:)
     end
     let!(:version_locked) do
       create(:version,
              status: 'locked',
-             project: project)
+             project:)
     end
     let!(:version_closed) do
       create(:version,
              status: 'closed',
-             project: project)
+             project:)
     end
     let!(:version_other_project) do
       create(:version,
@@ -259,13 +260,13 @@ describe WorkPackage, type: :model do
   describe '#destroy' do
     let(:time_entry_1) do
       create(:time_entry,
-             project: project,
-             work_package: work_package)
+             project:,
+             work_package:)
     end
     let(:time_entry_2) do
       create(:time_entry,
-             project: project,
-             work_package: work_package)
+             project:,
+             work_package:)
     end
 
     before do
@@ -276,7 +277,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'work package' do
-      subject { WorkPackage.find_by(id: work_package.id) }
+      subject { described_class.find_by(id: work_package.id) }
 
       it { is_expected.to be_nil }
     end
@@ -286,6 +287,10 @@ describe WorkPackage, type: :model do
 
       it { is_expected.to be_nil }
     end
+  end
+
+  include_examples 'creates an audit trail on destroy' do
+    subject { create(:work_package) }
   end
 
   describe '#done_ratio' do
@@ -387,19 +392,19 @@ describe WorkPackage, type: :model do
     let(:project) { create(:project, types: [type, type_2]) }
     let(:version_1) do
       create(:version,
-             project: project)
+             project:)
     end
     let(:version_2) do
       create(:version,
-             project: project)
+             project:)
     end
     let(:category_1) do
       create(:category,
-             project: project)
+             project:)
     end
     let(:category_2) do
       create(:category,
-             project: project)
+             project:)
     end
     let(:user_2) { create(:user) }
 
@@ -408,9 +413,9 @@ describe WorkPackage, type: :model do
              author: user,
              assigned_to: user,
              responsible: user,
-             project: project,
-             type: type,
-             priority: priority,
+             project:,
+             type:,
+             priority:,
              version: version_1,
              category: category_1)
     end
@@ -419,7 +424,7 @@ describe WorkPackage, type: :model do
              author: user_2,
              assigned_to: user_2,
              responsible: user_2,
-             project: project,
+             project:,
              type: type_2,
              priority: priority_2,
              version: version_2,
@@ -449,43 +454,43 @@ describe WorkPackage, type: :model do
     end
 
     context 'by type' do
-      let(:groups) { WorkPackage.by_type(project) }
+      let(:groups) { described_class.by_type(project) }
 
       it_behaves_like 'group by'
     end
 
     context 'by version' do
-      let(:groups) { WorkPackage.by_version(project) }
+      let(:groups) { described_class.by_version(project) }
 
       it_behaves_like 'group by'
     end
 
     context 'by priority' do
-      let(:groups) { WorkPackage.by_priority(project) }
+      let(:groups) { described_class.by_priority(project) }
 
       it_behaves_like 'group by'
     end
 
     context 'by category' do
-      let(:groups) { WorkPackage.by_category(project) }
+      let(:groups) { described_class.by_category(project) }
 
       it_behaves_like 'group by'
     end
 
     context 'by assigned to' do
-      let(:groups) { WorkPackage.by_assigned_to(project) }
+      let(:groups) { described_class.by_assigned_to(project) }
 
       it_behaves_like 'group by'
     end
 
     context 'by responsible' do
-      let(:groups) { WorkPackage.by_responsible(project) }
+      let(:groups) { described_class.by_responsible(project) }
 
       it_behaves_like 'group by'
     end
 
     context 'by author' do
-      let(:groups) { WorkPackage.by_author(project) }
+      let(:groups) { described_class.by_author(project) }
 
       it_behaves_like 'group by'
     end
@@ -495,14 +500,13 @@ describe WorkPackage, type: :model do
         create(:project,
                parent: project)
       end
+      let(:groups) { described_class.by_author(project) }
       let(:work_package_3) do
         create(:work_package,
                project: project_2)
       end
 
       before { work_package_3 }
-
-      let(:groups) { WorkPackage.by_author(project) }
 
       it_behaves_like 'group by'
     end
@@ -523,7 +527,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'limit' do
-      subject { WorkPackage.recently_updated.limit(1).first }
+      subject { described_class.recently_updated.limit(1).first }
 
       it { is_expected.to eq(work_package_2) }
     end
@@ -540,7 +544,7 @@ describe WorkPackage, type: :model do
              project: project_archived)
     end
 
-    subject { WorkPackage.on_active_project.length }
+    subject { described_class.on_active_project.length }
 
     context 'one work package in active projects' do
       it { is_expected.to eq(1) }
@@ -566,7 +570,7 @@ describe WorkPackage, type: :model do
              author: user)
     end
 
-    subject { WorkPackage.with_author(user).length }
+    subject { described_class.with_author(user).length }
 
     context 'one work package in active projects' do
       it { is_expected.to eq(1) }
@@ -580,21 +584,21 @@ describe WorkPackage, type: :model do
   end
 
   describe '#add_time_entry' do
-    it 'should return a new time entry' do
+    it 'returns a new time entry' do
       expect(stub_work_package.add_time_entry).to be_a TimeEntry
     end
 
-    it 'should already have the project assigned' do
+    it 'alreadies have the project assigned' do
       stub_work_package.project = stub_project
 
       expect(stub_work_package.add_time_entry.project).to eq(stub_project)
     end
 
-    it 'should already have the work_package assigned' do
+    it 'alreadies have the work_package assigned' do
       expect(stub_work_package.add_time_entry.work_package).to eq(stub_work_package)
     end
 
-    it 'should return an usaved entry' do
+    it 'returns an usaved entry' do
       expect(stub_work_package.add_time_entry).to be_new_record
     end
   end
@@ -608,7 +612,7 @@ describe WorkPackage, type: :model do
 
     context 'when having the move_work_packages permission' do
       it 'returns the project' do
-        expect(WorkPackage.allowed_target_projects_on_move(user))
+        expect(described_class.allowed_target_projects_on_move(user))
           .to match_array [project]
       end
     end
@@ -617,7 +621,7 @@ describe WorkPackage, type: :model do
       let(:role) { create(:role, permissions: []) }
 
       it 'does not return the project' do
-        expect(WorkPackage.allowed_target_projects_on_move(user))
+        expect(described_class.allowed_target_projects_on_move(user))
           .to be_empty
       end
     end
@@ -632,7 +636,7 @@ describe WorkPackage, type: :model do
 
     context 'when having the add_work_packages permission' do
       it 'returns the project' do
-        expect(WorkPackage.allowed_target_projects_on_create(user))
+        expect(described_class.allowed_target_projects_on_create(user))
           .to match_array [project]
       end
     end
@@ -641,60 +645,26 @@ describe WorkPackage, type: :model do
       let(:role) { create(:role, permissions: []) }
 
       it 'does not return the project' do
-        expect(WorkPackage.allowed_target_projects_on_create(user))
+        expect(described_class.allowed_target_projects_on_create(user))
           .to be_empty
       end
     end
   end
 
   describe '#duration' do
-    let(:instance) { send(subclass) }
-
-    describe "w/ today as start date
-              w/ tomorrow as finish date" do
-      before do
-        work_package.start_date = Date.today
-        work_package.due_date = Date.today + 1.day
-      end
-
-      it 'should have a duration of two' do
-        expect(work_package.duration).to eq(2)
+    context "when not setting a value" do
+      it 'is nil' do
+        expect(work_package.duration).to be_nil
       end
     end
 
-    describe "w/ today as start date
-              w/ today as finish date" do
+    context "when setting the value" do
       before do
-        work_package.start_date = Date.today
-        work_package.due_date = Date.today
+        work_package.duration = 5
       end
 
-      it 'should have a duration of one' do
-        expect(work_package.duration).to eq(1)
-      end
-    end
-
-    describe "w/ today as start date
-              w/o a finish date" do
-      before do
-        work_package.start_date = Date.today
-        work_package.due_date = nil
-      end
-
-      it 'should have a duration of one' do
-        expect(work_package.duration).to eq(1)
-      end
-    end
-
-    describe "w/o a start date
-              w today as finish date" do
-      before do
-        work_package.start_date = nil
-        work_package.due_date = Date.today
-      end
-
-      it 'should have a duration of one' do
-        expect(work_package.duration).to eq(1)
+      it 'is the value' do
+        expect(work_package.duration).to eq(5)
       end
     end
   end
@@ -707,21 +677,30 @@ describe WorkPackage, type: :model do
     end
 
     describe 'null' do
-      subject { WorkPackage.changed_since(nil) }
+      subject { described_class.changed_since(nil) }
 
       it { expect(subject).to match_array([work_package]) }
     end
 
     describe 'now' do
-      subject { WorkPackage.changed_since(DateTime.now) }
+      subject { described_class.changed_since(DateTime.now) }
 
       it { expect(subject).to be_empty }
     end
 
     describe 'work package update' do
-      subject { WorkPackage.changed_since(work_package.reload.updated_at) }
+      subject { described_class.changed_since(work_package.reload.updated_at) }
 
       it { expect(subject).to match_array([work_package]) }
+    end
+  end
+
+  describe '#ignore_non_working_days' do
+    context 'for a new record' do
+      it 'is false' do
+        expect(described_class.new.ignore_non_working_days)
+          .to be false
+      end
     end
   end
 end

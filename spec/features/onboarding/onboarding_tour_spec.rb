@@ -32,17 +32,17 @@ describe 'onboarding tour for new users', js: true do
   let(:user) { create :admin }
   let(:project) do
     create :project, name: 'Demo project', identifier: 'demo-project', public: true,
-                                enabled_module_names: %w[work_package_tracking wiki]
+                     enabled_module_names: %w[work_package_tracking wiki]
   end
   let(:project_link) { "<a href=/projects/#{project.identifier}> #{project.name} </a>" }
 
   let(:scrum_project) do
     create :project, name: 'Scrum project', identifier: 'your-scrum-project', public: true,
-                                enabled_module_names: %w[work_package_tracking]
+                     enabled_module_names: %w[work_package_tracking]
   end
   let(:scrum_project_link) { "<a href=/projects/#{scrum_project.identifier}> #{scrum_project.name} </a>" }
 
-  let!(:wp1) { create(:work_package, project: project) }
+  let!(:wp1) { create(:work_package, project:) }
   let(:next_button) { find('.enjoyhint_next_btn') }
 
   context 'with a new user' do
@@ -60,7 +60,7 @@ describe 'onboarding tour for new users', js: true do
       select 'Deutsch', from: 'user_language'
       click_button 'Save'
 
-      expect(page).to have_text 'Projekt auswählen'
+      expect(page).to have_text "Neueste sichtbare Projekte in dieser Instanz."
     end
 
     context 'the tutorial does not start' do
@@ -97,7 +97,7 @@ describe 'onboarding tour for new users', js: true do
         expect(page).to have_text 'Please select your language'
 
         # Cancel language selection
-        click_button('Close popup')
+        page.find('.spot-modal-overlay').click(x: -400, y: 1)
 
         # The tutorial appears
         expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true

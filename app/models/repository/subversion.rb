@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -31,8 +29,8 @@
 require 'open_project/scm/adapters/subversion'
 
 class Repository::Subversion < Repository
-  validates_presence_of :url
-  validates_format_of :url, with: /\A(http|https|svn(\+[^\s:\/\\]+)?|file):\/\/.+\z/i
+  validates :url, presence: true
+  validates :url, format: { with: /\A(http|https|svn(\+[^\s:\/\\]+)?|file):\/\/.+\z/i }
 
   def self.scm_adapter_class
     OpenProject::SCM::Adapters::Subversion
@@ -83,13 +81,13 @@ class Repository::Subversion < Repository
   end
 
   def latest_changesets(path, rev, limit = 10)
-    revisions = scm.revisions(path, rev, nil, limit: limit)
+    revisions = scm.revisions(path, rev, nil, limit:)
     revisions ? changesets.where(revision: revisions.map(&:identifier)).order(Arel.sql('committed_on DESC')).includes(:user) : []
   end
 
   # Returns a path relative to the url of the repository
   def relative_path(path)
-    path.gsub(Regexp.new("^\/?#{Regexp.escape(relative_url)}\/"), '')
+    path.gsub(Regexp.new("^/?#{Regexp.escape(relative_url)}/"), '')
   end
 
   def fetch_changesets

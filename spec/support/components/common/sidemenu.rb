@@ -30,9 +30,8 @@ module Components
   module Notifications
     class Sidemenu
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
-
-      def initialize; end
 
       def expect_open
         expect(page).to have_selector('[data-qa-selector="op-sidemenu"]')
@@ -61,7 +60,7 @@ module Components
       end
 
       def finished_loading
-        expect(page).to have_no_selector('.op-ian-center--loading-indicator')
+        expect(page).to have_no_selector('[data-qa-selector="op-ian-center--loading-indicator"]')
       end
 
       private

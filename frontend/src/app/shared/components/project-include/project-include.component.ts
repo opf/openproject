@@ -3,16 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
+  OnInit,
 } from '@angular/core';
-import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
-import {
-  ApiV3ListFilter,
-  ApiV3ListParameters,
-} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import {
   BehaviorSubject,
   combineLatest,
@@ -20,25 +12,42 @@ import {
 import {
   debounceTime,
   distinctUntilChanged,
+  filter,
   map,
   mergeMap,
-  skip,
+  shareReplay,
   take,
 } from 'rxjs/operators';
-import { IProjectData } from './project-data';
-import { insertInList } from './insert-in-list';
-import { recursiveSort } from './recursive-sort';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import {
+  WorkPackageViewFiltersService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import {
+  WorkPackageViewIncludeSubprojectsService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-include-subprojects.service';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { IProject } from 'core-app/core/state/projects/project.model';
+import {
+  SearchableProjectListService,
+} from 'core-app/shared/components/searchable-project-list/searchable-project-list.service';
+import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
+
+import { insertInList } from './insert-in-list';
+import { recursiveSort } from './recursive-sort';
 
 @Component({
   selector: 'op-project-include',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './project-include.component.html',
   styleUrls: ['./project-include.component.sass'],
+  providers: [
+    SearchableProjectListService,
+  ],
 })
-export class OpProjectIncludeComponent extends UntilDestroyedMixin {
+export class OpProjectIncludeComponent extends UntilDestroyedMixin implements OnInit {
   @HostBinding('class.op-project-include') className = true;
 
   public text = {
@@ -49,9 +58,15 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
     search_placeholder: this.I18n.t('js.include_projects.search_placeholder'),
     clear_selection: this.I18n.t('js.include_projects.clear_selection'),
     apply: this.I18n.t('js.include_projects.apply'),
+    include_subprojects: this.I18n.t('js.include_projects.include_subprojects'),
+    no_results: this.I18n.t('js.include_projects.no_results'),
   };
 
   public opened = false;
+
+  public textFieldFocused = false;
+
+  public query$ = this.wpTableFilters.querySpace.query.values$();
 
   public displayModeOptions = [
     { value: 'all', title: this.text.filter_all },
@@ -71,18 +86,18 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
 
   public displayMode$ = new BehaviorSubject('all');
 
-  private _query = '';
+  private _includeSubprojects = true;
 
-  public get query():string {
-    return this._query;
+  public get includeSubprojects():boolean {
+    return this._includeSubprojects;
   }
 
-  public set query(val:string) {
-    this._query = val;
-    this.query$.next(val);
+  public set includeSubprojects(val:boolean) {
+    this._includeSubprojects = val;
+    this.includeSubprojects$.next(val);
   }
 
-  public query$ = new BehaviorSubject('');
+  public includeSubprojects$ = new BehaviorSubject(true);
 
   private _selectedProjects:string[] = [];
 
@@ -108,42 +123,57 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
         if (selectedProjectHrefs.includes(currentProjectHref)) {
           return selectedProjectHrefs;
         }
-
-        return [
-          ...selectedProjectHrefs,
-          currentProjectHref,
-        ];
+        const selectedProjects = [...selectedProjectHrefs];
+        if (currentProjectHref) {
+          selectedProjects.push(currentProjectHref);
+        }
+        return selectedProjects;
       }),
     );
 
   public numberOfProjectsInFilter$ = this.projectsInFilter$.pipe(map((selected) => selected.length));
 
-  public allProjects$ = this.projectsResourceService.query.selectAll();
-
   public projects$ = combineLatest([
-    this.allProjects$,
-    this.query$.pipe(distinctUntilChanged()),
+    this.searchableProjectListService.allProjects$,
     this.displayMode$.pipe(distinctUntilChanged()),
-  ])
-    .pipe(
-      debounceTime(20),
-      mergeMap(([projects, query, displayMode]) => this.selectedProjects$.pipe(
-        take(1),
-        map((selected) => [projects, query, displayMode, selected]),
-      )),
-      map(
-        ([projects, query, displayMode, selected]:[IProject[], string, string, string[]]) => projects
+    this.includeSubprojects$.pipe(debounceTime(20)),
+    this.searchableProjectListService.searchText$.pipe(debounceTime(200)),
+  ]).pipe(
+    mergeMap(([projects, displayMode, includeSubprojects, searchText]) => this.selectedProjects$.pipe(
+      take(1),
+      map((selected) => [projects, displayMode, includeSubprojects, searchText, selected]),
+    )),
+    map(
+      ([projects, displayMode, includeSubprojects, searchText, selected]:[IProject[], string, boolean, string, string[]]) => [
+        projects
           .filter(
             (project) => {
-              if (displayMode === 'selected' && !selected.includes(project._links.self.href)) {
-                return false;
+              if (searchText.length) {
+                const matches = project.name.toLowerCase().includes(searchText.toLowerCase());
+
+                if (!matches) {
+                  return false;
+                }
               }
 
-              if (query.length) {
-                return project.name.toLowerCase().includes(query.toLowerCase()) || project.identifier.toLowerCase().includes(query.toLowerCase());
+              if (displayMode !== 'selected') {
+                return true;
               }
 
-              return true;
+              if (selected.includes(project._links.self.href)) {
+                return true;
+              }
+
+              const hasSelectedAncestor = project._links.ancestors.reduce(
+                (anySelected, ancestor) => anySelected || selected.includes(ancestor.href),
+                false,
+              );
+
+              if (includeSubprojects && hasSelectedAncestor) {
+                return true;
+              }
+
+              return false;
             },
           )
           .sort((a, b) => a._links.ancestors.length - b._links.ancestors.length)
@@ -151,64 +181,117 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
             (list, project) => {
               const { ancestors } = project._links;
 
-              return insertInList(projects, project, list, ancestors);
+              return insertInList(
+                projects,
+                project,
+                list,
+                ancestors,
+              );
             },
             [] as IProjectData[],
           ),
-      ),
-      map((projects) => recursiveSort(projects)),
-    );
+        includeSubprojects,
+      ],
+    ),
+    mergeMap(([projects, includeSubprojects]) => this.selectedProjects$.pipe(
+      map((selected) => [projects, includeSubprojects, selected]),
+    )),
+    map(([projects, includeSubprojects, selected]:[IProjectData[], boolean, string[]]) => {
+      const isDisabled = (project:IProjectData, parentChecked:boolean) => {
+        if (project.disabled) {
+          return true;
+        }
 
-  areProjectsLoaded$ = this
-    .projects$
-    .pipe(
-      distinctUntilChanged(),
-      skip(1),
-      map((items) => items.length >= 0),
-    );
+        if (project.href === this.currentProjectService.apiv3Path) {
+          return true;
+        }
 
-  public get params():ApiV3ListParameters {
-    const filters:ApiV3ListFilter[] = [
-      ['active', '=', ['t']],
-    ];
+        return includeSubprojects && parentChecked;
+      };
 
-    if (this.query) {
-      filters.push([
-        'name_and_identifier',
-        '~',
-        [this.query],
-      ]);
-    }
+      const setDisabledStatus = (project:IProjectData, parentChecked:boolean):IProjectData => ({
+        ...project,
+        disabled: isDisabled(project, parentChecked),
+        children: project.children.map(
+          (child) => setDisabledStatus(child, parentChecked || selected.includes(project.href)),
+        ),
+      });
 
-    return { filters, pageSize: -1 };
-  }
+      return projects.map((project) => setDisabledStatus(project, false));
+    }),
+    map((projects) => recursiveSort(projects)),
+    shareReplay(),
+  );
+
+  /* This seems like a way too convoluted loading check, but there's a good reason we need it.
+   * The searchableProjectListService says fetching is "done" when the request returns.
+   * However, this causes flickering on the initial load, since `projects$` still needs
+   * to do the tree calculation. In the template, we show the project-list when `loading$ | async` is false,
+   * but if we would only make this depend on `fetchingProjects$` Angular would still wait with
+   * rendering the project-list until `projects$ | async` has also fired.
+   *
+   * To fix this, we first wait for fetchingProjects$ to be true once,
+   * then switch over to projects$, and after that has pinged once, it switches back to
+   * fetchingProjects$ as the decider for when fetching is done.
+   */
+  public loading$ = this.searchableProjectListService.fetchingProjects$.pipe(
+    filter((fetching) => fetching),
+    take(1),
+    mergeMap(() => this.projects$),
+    mergeMap(() => this.searchableProjectListService.fetchingProjects$),
+  );
 
   constructor(
     readonly I18n:I18nService,
-    readonly projectsResourceService:ProjectsResourceService,
     readonly wpTableFilters:WorkPackageViewFiltersService,
+    readonly wpIncludeSubprojects:WorkPackageViewIncludeSubprojectsService,
     readonly halResourceService:HalResourceService,
     readonly currentProjectService:CurrentProjectService,
+    readonly searchableProjectListService:SearchableProjectListService,
   ) {
     super();
+
+    this.projects$
+      .pipe(
+        this.untilDestroyed(),
+        filter((p) => p.length > 0),
+        take(1),
+      )
+      .subscribe((projects) => {
+        this.searchableProjectListService.resetActiveResult(projects);
+      });
+  }
+
+  public ngOnInit():void {
+    this.query$
+      .pipe(
+        map((query) => query.includeSubprojects),
+        distinctUntilChanged(),
+      )
+      .subscribe((includeSubprojects) => {
+        this.includeSubprojects = includeSubprojects;
+      });
+  }
+
+  public toggleIncludeSubprojects():void {
+    this.wpIncludeSubprojects.setIncludeSubprojects(!this.wpIncludeSubprojects.current);
   }
 
   public toggleOpen():void {
     this.opened = !this.opened;
-    this.searchProjects();
-    this.projectsInFilter$
-      .pipe(take(1))
-      .subscribe((selectedProjects) => {
-        this.displayMode = 'all';
-        this.query = '';
-        this.selectedProjects = selectedProjects as string[];
-      });
-  }
 
-  public searchProjects():void {
-    this.projectsResourceService
-      .fetchProjects(this.params)
-      .subscribe();
+    if (this.opened) {
+      this.searchableProjectListService.loadAllProjects();
+      this.projectsInFilter$
+        .pipe(
+          take(1),
+        )
+        .subscribe((selectedProjects) => {
+          this.displayMode = 'all';
+          this.searchableProjectListService.searchText = '';
+          this.selectedProjects = selectedProjects as string[];
+        });
+    }
   }
 
   public clearSelection():void {
@@ -224,6 +307,8 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin {
       // eslint-disable-next-line no-param-reassign
       projectFilter.values = projectHrefs.map((href:string) => this.halResourceService.createHalResource({ href }, true));
     });
+
+    this.wpIncludeSubprojects.update(this.includeSubprojects);
 
     this.close();
   }

@@ -46,7 +46,7 @@ module Bim::Bcf
 
         name = "snapshot.#{snapshot_extension}"
         file = OpenProject::Files
-                 .create_uploaded_file(name: name,
+                 .create_uploaded_file(name:,
                                        content_type: snapshot_content_type,
                                        content: snapshot_binary_contents,
                                        binary: true)
@@ -56,7 +56,7 @@ module Bim::Bcf
         # delete any existing snapshot right away while the expectation
         # on a SetAttributesService is to not perform persisted changes.
         model.snapshot&.mark_for_destruction
-        model.build_snapshot file, user: user
+        model.build_snapshot file, user:
       end
 
       def snapshot_data_complete?

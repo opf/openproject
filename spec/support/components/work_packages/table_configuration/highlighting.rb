@@ -30,9 +30,8 @@ module Components
   module WorkPackages
     class Highlighting
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
-
-      def initialize; end
 
       def switch_highlighting_mode(label)
         modal_open? or open_modal
@@ -93,8 +92,8 @@ module Components
 
       private
 
-      def within_modal(&block)
-        page.within('.wp-table--configuration-modal', &block)
+      def within_modal(&)
+        page.within('.wp-table--configuration-modal', &)
       end
 
       def modal_open?

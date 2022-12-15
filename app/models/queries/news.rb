@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -29,9 +27,9 @@
 #++
 
 module Queries::News
-  query = Queries::News::NewsQuery
+  ::Queries::Register.register(NewsQuery) do
+    filter Filters::ProjectFilter
 
-  Queries::Register.filter query, Queries::News::Filters::ProjectFilter
-
-  Queries::Register.order query, Queries::News::Orders::DefaultOrder
+    order Orders::DefaultOrder
+  end
 end

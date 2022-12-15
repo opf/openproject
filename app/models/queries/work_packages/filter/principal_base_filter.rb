@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,9 +31,7 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
   include Queries::WorkPackages::Filter::MeValueFilterMixin
 
   def allowed_values
-    @allowed_values ||= begin
-      me_allowed_value + principal_loader.principal_values
-    end
+    @allowed_values ||= me_allowed_value + principal_loader.principal_values
   end
 
   def available?

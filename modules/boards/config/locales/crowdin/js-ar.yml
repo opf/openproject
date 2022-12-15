@@ -2,14 +2,13 @@
 ar:
   js:
     boards:
+      create_new: 'Create new board'
       label_unnamed_board: 'لوحة غير مسماة'
       label_unnamed_list: 'قائمة غير مسماة'
       label_board_type: 'نوع اللوحة'
       upsale:
-        teaser_text: 'قم بتحسين إدارة مشروعك الرائع مع عرض المجالس المرنة هذا. قم بإنشاء أكبر عدد من اللوحات التي تريدها لأي شيء ترغب في متابعته.'
-        upgrade_to_ee_text: 'الجلسات هي ميزة المؤسسة. الرجاء الترقية إلى خطة مدفوعة.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'الترقية الآن'
-        personal_demo: 'Contact us for a demo'
       lists:
         delete: 'حذف القائمة'
       version:
@@ -63,7 +62,7 @@ ar:
           status: الحالة
           version: الإصدار
           subproject: مشروع فرعي
-          subtasks: Parent-Child
+          subtasks: Parent-child
           basic: Basic
         select_attribute: "Action attribute"
       add_list_modal:

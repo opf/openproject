@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -136,7 +134,7 @@ module ::TypesHelper
 
   def attr_form_map(key, represented)
     {
-      key: key,
+      key:,
       is_cf: CustomField.custom_field_attribute?(key),
       is_required: represented[:required] && !represented[:has_default],
       translation: Type.translated_attribute_name(key, represented)

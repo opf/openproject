@@ -31,8 +31,8 @@ require 'spec_helper'
 describe 'Select work package card', type: :feature, js: true, selenium: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
-  let(:work_package_1) { create(:work_package, project: project) }
-  let(:work_package_2) { create(:work_package, project: project) }
+  let(:work_package_1) { create(:work_package, project:) }
+  let(:work_package_2) { create(:work_package, project:) }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:wp_card_view) { ::Pages::WorkPackageCards.new(project) }
 

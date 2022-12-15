@@ -79,6 +79,7 @@ describe CustomField, type: :model do
         field.field_format = 'text'
         field.min_length = nil
       end
+
       it { expect(field).not_to be_valid }
     end
 
@@ -88,6 +89,7 @@ describe CustomField, type: :model do
         field.field_format = 'text'
         field.max_length = nil
       end
+
       it { expect(field).not_to be_valid }
     end
 
@@ -97,6 +99,7 @@ describe CustomField, type: :model do
         field.field_format = 'text'
         field.min_length = 'a'
       end
+
       it { expect(field).not_to be_valid }
     end
 
@@ -106,6 +109,7 @@ describe CustomField, type: :model do
         field.field_format = 'text'
         field.max_length = 'a'
       end
+
       it { expect(field).not_to be_valid }
     end
 
@@ -116,6 +120,7 @@ describe CustomField, type: :model do
         field.min_length = 2
         field.max_length = 1
       end
+
       it { expect(field).not_to be_valid }
     end
 
@@ -125,6 +130,7 @@ describe CustomField, type: :model do
         field.field_format = 'text'
         field.min_length = -2
       end
+
       it { expect(field).not_to be_valid }
     end
 
@@ -134,6 +140,7 @@ describe CustomField, type: :model do
         field.field_format = 'text'
         field.max_length = -2
       end
+
       it { expect(field).not_to be_valid }
     end
 
@@ -263,7 +270,7 @@ describe CustomField, type: :model do
       end
 
       context 'with a time entry provided' do
-        let(:time_entry) { build_stubbed(:time_entry, project: project) }
+        let(:time_entry) { build_stubbed(:time_entry, project:) }
 
         it 'returns the project\'s shared_versions' do
           allow(project)

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -92,8 +90,8 @@ module OmniAuth
   end
 
   module FlexibleStrategyClass
-    def new(app, *args, &block)
-      super(app, *args, &block).tap do |strategy|
+    def new(app, *args, &)
+      super(app, *args, &).tap do |strategy|
         strategy.extend FlexibleStrategy
       end
     end

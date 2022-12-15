@@ -41,7 +41,7 @@ describe ::API::V3::Views::ViewsAPI,
   end
   shared_let(:private_user_query) do
     create(:query,
-           project: project,
+           project:,
            public: false,
            user: permitted_user)
   end

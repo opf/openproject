@@ -30,6 +30,10 @@ $badge-diameter: 1.25rem
 
 .badge
   @include badge
+  width: auto
+  min-width: 1.25rem
+  padding-left: 0.3rem
+  padding-right: 0.3rem
 
   &.-secondary
     @include badge-style($secondary-color, auto)

@@ -27,7 +27,7 @@ hu:
       name_attribute_text: "Az OpenProject csoport elnevezésére használt LDAP attribútum szűrő létrehozásakor\n"
     synchronized_filters:
       add_new: 'Szinkronizált LDAP szűrő hozzáadása'
-      singular: 'LDAP csoport szinkronizálása'
+      singular: 'LDAP csoport szinkronizációs szűrő'
       plural: 'LDAP csoport szinkronizációs szűrő'
       label_n_groups_found:
         one: "1 csoportot talált a szűrő\n"
@@ -42,8 +42,7 @@ hu:
         group_name_attribute_text: "Adja meg az OpenProject csoportnév beállításához használt LDAP csoport attribútumát.\n"
         filter_string_text: "Adja meg az RFC4515 LDAP szűrőt, amely visszaadja az LDAP csoportjait, hogy szinkronizálja őket az OpenProject szolgáltatással.\n"
         base_dn_text: >
-          Írja be a keresési alap DN -jét a szűrőhöz. A kiválasztott LDAP -kapcsolat alap DN -je alatt kell lennie.
-          Hagyja üresen ezt az opciót a kapcsolat alap DN -jének újbóli használatához
+          Írja be a keresési alap DN -jét a szűrőhöz. A kiválasztott LDAP -kapcsolat alap DN -je alatt kell lennie. Hagyja üresen ezt az opciót a kapcsolat alap DN -jének újbóli használatához
     synchronized_groups:
       add_new: 'Szinkronizált LDAP csoport hozzáadása'
       destroy:
@@ -65,7 +64,8 @@ hu:
         auth_source_text: 'LDAP csatlakozás kiválasztása'
         sync_users_text: >
           Ha engedélyezi ezt az opciót, a talált felhasználók automatikusan létrejönnek az OpenProject alkalmazásban. Enélkül csak az OpenProject meglévő fiókjai kerülnek hozzáadásra a csoportokhoz.
-
         dn_text: "Adja meg a csoport teljes DN -jét az LDAP -ban\n"
         group_text: 'Válasszon egy meglévő OpenProject csoportot, amellyel az LDAP csoport tagjait szinkronizálni kell'
+      upsale:
+        description: 'Használja ki a szinkronizált LDAP-csoportok előnyeit a felhasználók kezeléséhez, az engedélyeik módosításához és a csoportok közötti felhasználói kezelés megkönnyítéséhez.'
 

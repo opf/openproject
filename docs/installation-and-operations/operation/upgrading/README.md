@@ -6,9 +6,7 @@ sidebar_navigation:
 
 # Upgrading your OpenProject installation
 
-<div class="alert alert-warning" role="alert">
-**Note**: We strongly recommend that you have backed up your installation before upgrading OpenProject to a newer version, especially when performing multiple upgrades at once. Please follow the [backup](../backing-up) instructions.
-</div>
+> **Note**: We strongly recommend that you have backed up your installation before upgrading OpenProject to a newer version, especially when performing multiple upgrades at once. Please follow the [backup](../backing-up) instructions.
 
 | Topic                                                        | Content                                                     |
 | ------------------------------------------------------------ | ----------------------------------------------------------- |
@@ -46,6 +44,7 @@ sudo openproject configure
 ### SuSE
 
 ```bash
+sudo zypper refresh openproject
 sudo zypper update openproject
 sudo openproject configure
 ```
@@ -83,7 +82,6 @@ Using `openproject configure`, the wizard will display new steps that weren't av
 If you want to perform changes to your configuration or are unsure what steps are available, you can safely run `openproject reconfigure` to walk through the entire configuration process again.
 
 Note that this still takes previous values into consideration. Values that should not change from your previous configurations can be skipped by pressing `<Return>`. This also applies for steps with passwords, which are shown as empty even though they may have a value. Skipping those steps equals to re-use the existing value.
-</div>
 
 
 ## Compose-based installation
@@ -151,10 +149,9 @@ as described in the [installation section](../../installation/docker/#one-contai
 
 ## Upgrade notes to 12.x
 
-There are no special steps or caveats when upgrading to OpenProject 12.x or higher from any version greater than 9.x.
+Generally, there are no special steps or caveats when upgrading to OpenProject 12.x or higher from any version greater than 9.x. Simply follow the upgrade steps outlined above for your type of installation.
 
-Simply follow the upgrade steps outlined above for your type of installation.
-
+If you are using Docker, you should mount your OpenProject volume at `/var/openproject/assets` instead of `/var/db/openproject`
 
 ## Upgrade notes for 8.x to 9.x
 
@@ -197,7 +194,7 @@ you will need to adjust that package source.
 
 ## Upgrade notes for OpenProject 7.x to 8.x
 
-These following points are some known issues around the update to 8.0. It does not contain the entire list of changes. To see all changes, [please browse the release notes](../../../release-notes/8-0-0/).
+These following points are some known issues around the update to 8.0. It does not contain the entire list of changes. To see all changes, [please browse the release notes](../../../release-notes/8/8-0-0/).
 
 ### Upgrades in NPM may result in package inconsistencies
 

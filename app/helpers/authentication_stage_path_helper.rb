@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -30,7 +28,7 @@
 
 module AuthenticationStagePathHelper
   def authentication_stage_complete_path(identifier)
-    OpenProject::Authentication::Stage.complete_path identifier, session: session
+    OpenProject::Authentication::Stage.complete_path identifier, session:
   end
 
   def authentication_stage_failure_path(identifier)

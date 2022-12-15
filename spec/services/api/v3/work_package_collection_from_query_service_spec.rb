@@ -213,7 +213,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
         end
 
         context 'if the project is set' do
-          let(:query) { build_stubbed(:query, project: project) }
+          let(:query) { build_stubbed(:query, project:) }
 
           it 'is the global work_package link' do
             expect(subject.self_link)
@@ -250,7 +250,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
               .to receive(:summable)
               .and_return(custom_fields)
 
-            expected = Hashie::Mash.new(estimated_hours: 0.0, available_custom_fields: custom_fields)
+            expected = API::ParserStruct.new(estimated_hours: 0.0, available_custom_fields: custom_fields)
 
             expect(subject.total_sums)
               .to eq(expected)
@@ -299,7 +299,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
             query.display_sums = true
 
             expect(subject.query[:showSums])
-              .to eq(true)
+              .to be(true)
           end
         end
 
@@ -308,7 +308,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
             query.show_hierarchies = true
 
             expect(subject.query[:showHierarchies])
-              .to eq(true)
+              .to be(true)
           end
         end
 
@@ -431,7 +431,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
       let(:update_query_service_result) { nil }
 
       it 'returns the update service response' do
-        is_expected
+        expect(subject)
           .to eql(mock_update_query_service_response)
       end
     end

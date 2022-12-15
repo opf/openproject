@@ -26,7 +26,7 @@ it:
         costs: "Costi"
       properties:
         overallCosts: "Costi complessivi"
-        spentUnits: "Unita consumate"
+        spentUnits: "Unità spese"
     button_log_costs: "Registra unità di costo"
     label_hour: "ora"
     label_hours: "ore"

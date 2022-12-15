@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -35,7 +33,7 @@ namespace :redmine do
     include Redmine::I18n
     set_language_if_valid('en')
 
-    envlang = ENV['REDMINE_LANG']
+    envlang = ENV.fetch('REDMINE_LANG', nil)
     if !envlang || !set_language_if_valid(envlang)
       puts
       loop do

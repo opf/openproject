@@ -47,8 +47,8 @@ module API
           helpers ::API::V3::Queries::QueryHelper
 
           helpers do
-            def authorize_by_policy(action, &block)
-              authorize_by_with_raise(-> { allowed_to?(action) }, &block)
+            def authorize_by_policy(action, &)
+              authorize_by_with_raise(-> { allowed_to?(action) }, &)
             end
 
             def allowed_to?(action)
@@ -76,8 +76,8 @@ module API
               self_link = api_v3_paths.query_available_projects
 
               ::API::V3::Projects::ProjectCollectionRepresenter.new(available_projects,
-                                                                    self_link: self_link,
-                                                                    current_user: current_user)
+                                                                    self_link:,
+                                                                    current_user:)
             end
           end
 
@@ -96,9 +96,9 @@ module API
             end
           end
 
-          post do
-            create_query request_body, current_user
-          end
+          post &::API::V3::Utilities::Endpoints::Create
+            .new(model: Query)
+            .mount
 
           route_param :id, type: Integer, desc: 'Query ID' do
             after_validation do

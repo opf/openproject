@@ -1,0 +1,31 @@
+# Schema: Custom_OptionModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: The identifier
+    readOnly: true
+  value:
+    type: string
+    description: The value defined for this custom option
+    readOnly: true
+  _links:
+    type: object
+    required:
+    - self
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This custom option.
+
+            **Resource**: CustomOption
+          readOnly: true
+example:
+  _links:
+    self:
+      href: "/api/v3/custom_options/1"
+  _type: CustomOption
+  value: Foo

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -50,7 +48,7 @@ describe Shared::ServiceContext, 'integration', type: :model do
             VALUES ('test_setting', 'abc')
           SQL
 
-          ServiceResult.new success: false
+          ServiceResult.failure
         end
       end
 
@@ -61,7 +59,7 @@ describe Shared::ServiceContext, 'integration', type: :model do
             VALUES ('test_setting', 'abc')
           SQL
 
-          ServiceResult.new success: true
+          ServiceResult.success
         end
       end
     end.new(user)

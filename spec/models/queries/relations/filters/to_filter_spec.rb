@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -59,6 +57,7 @@ describe Queries::Relations::Filters::ToFilter, type: :model do
     before do
       login_as(current_user)
     end
+
     let(:visible_sql) { WorkPackage.visible(current_user).select(:id).to_sql }
 
     context 'for "="' do

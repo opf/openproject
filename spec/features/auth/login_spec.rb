@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Login', type: :feature, clear_cache: true do
+describe 'Login', type: :feature do
   before do
     @capybara_ignore_elements = Capybara.ignore_hidden_elements
     Capybara.ignore_hidden_elements = true
@@ -55,8 +55,8 @@ describe 'Login', type: :feature, clear_cache: true do
     let(:first_login) { false }
     let(:user) do
       create(:user,
-             force_password_change: force_password_change,
-             first_login: first_login,
+             force_password_change:,
+             first_login:,
              login: 'bob',
              mail: 'bob@example.com',
              firstname: 'Bo',
@@ -138,12 +138,6 @@ describe 'Login', type: :feature, clear_cache: true do
         page.driver.browser.set_cookie(OpenProject::Configuration['session_cookie_name'])
       end
 
-      before do
-        allow(Setting)
-          .to receive(:autologin?)
-          .and_return(true)
-      end
-
       it 'logs in the user automatically if enabled' do
         login_with(user.login, user_password, autologin: true)
 
@@ -155,9 +149,7 @@ describe 'Login', type: :feature, clear_cache: true do
 
         fake_browser_closed
         # faking having changed the autologin setting
-        allow(Setting)
-          .to receive(:autologin?)
-          .and_return(false)
+        with_settings(autologin: 0)
         visit my_page_path
 
         # expect not being logged in automatically

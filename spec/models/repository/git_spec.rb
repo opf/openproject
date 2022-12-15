@@ -73,6 +73,7 @@ describe Repository::Git, type: :model do
 
   describe 'managed git' do
     let(:managed_path) { '/tmp/managed_git' }
+
     it 'is not manageable unless configured explicitly' do
       expect(instance.manageable?).to be false
     end
@@ -96,12 +97,9 @@ describe Repository::Git, type: :model do
         end
       end
 
-      context 'with string disabled types' do
+      context 'with string disabled types',
+              with_config: { 'scm' => { 'git' => { 'disabled_types' => %w[managed local] } } } do
         before do
-          allow(OpenProject::Configuration).to receive(:default_override_source)
-                                                 .and_return('OPENPROJECT_SCM_GIT_DISABLED__TYPES' => '[managed,local]')
-
-          OpenProject::Configuration.load
           allow(adapter.class).to receive(:config).and_call_original
         end
 
@@ -127,7 +125,7 @@ describe Repository::Git, type: :model do
 
       context 'and associated project with parent' do
         let(:parent) { build :project }
-        let(:project) { build :project, parent: parent }
+        let(:project) { build :project, parent: }
 
         before do
           instance.project = project
@@ -142,7 +140,7 @@ describe Repository::Git, type: :model do
   end
 
   describe 'URL validation' do
-    let(:instance) { build(:repository_git, url: url) }
+    let(:instance) { build(:repository_git, url:) }
 
     shared_examples 'repository url is valid' do
       it 'is valid' do
@@ -152,16 +150,19 @@ describe Repository::Git, type: :model do
 
     context 'file:// URLs' do
       let(:url) { 'file:///foo/bar' }
+
       it_behaves_like 'repository url is valid'
     end
 
     context 'absolute paths' do
       let(:url) { 'file:///foo/bar' }
+
       it_behaves_like 'repository url is valid'
     end
 
     context 'https URLs' do
       let(:url) { 'https://localhost/git/foo' }
+
       it_behaves_like 'repository url is valid'
     end
 
@@ -181,7 +182,7 @@ describe Repository::Git, type: :model do
       let(:instance) do
         create(:repository_git,
                path_encoding: encoding,
-               url: url,
+               url:,
                root_url: url)
       end
 
@@ -190,7 +191,7 @@ describe Repository::Git, type: :model do
         instance.reload
       end
 
-      it 'should be available' do
+      it 'is available' do
         expect(instance.scm).to be_available
       end
 
@@ -223,7 +224,7 @@ describe Repository::Git, type: :model do
         end
       end
 
-      it 'should fetch changesets from scratch' do
+      it 'fetches changesets from scratch' do
         expect(instance.changesets.count).to eq(22)
         # This test fails on macs since they count file changes to be 33, *nix system count 34
         expect(instance.file_changes.count).to be_between(33, 34)
@@ -244,7 +245,7 @@ describe Repository::Git, type: :model do
         expect(change.action).to eq('A')
       end
 
-      it 'should fetch changesets incremental' do
+      it 'fetches changesets incremental' do
         # Remove the 3 latest changesets
         instance.changesets.order(Arel.sql('committed_on DESC')).limit(8).each(&:destroy)
         instance.reload
@@ -263,12 +264,12 @@ describe Repository::Git, type: :model do
       end
 
       describe '.latest_changesets' do
-        it 'should fetch changesets with limits' do
+        it 'fetches changesets with limits' do
           changesets = instance.latest_changesets('', nil, 2)
           expect(changesets.size).to eq(2)
         end
 
-        it 'should fetch changesets with paths' do
+        it 'fetches changesets with paths' do
           changesets = instance.latest_changesets('images', nil)
           expect(changesets.map(&:revision))
             .to eq(['deff712f05a90d96edbd70facc47d944be5897e3',
@@ -285,7 +286,7 @@ describe Repository::Git, type: :model do
                     '7234cb2750b63f47bff735edc50a1c0a433c2518'])
         end
 
-        it 'should fetch changesets with path, revision and limit' do
+        it 'fetches changesets with path, revision and limit' do
           changesets = instance.latest_changesets('images', '899a15dba')
           expect(changesets.map(&:revision))
             .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
@@ -305,7 +306,7 @@ describe Repository::Git, type: :model do
             .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9'])
         end
 
-        it 'should fetch changesets with tag' do
+        it 'fetches changesets with tag' do
           changesets = instance.latest_changesets('images', 'tag01.annotated')
           expect(changesets.map(&:revision))
             .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
@@ -325,7 +326,7 @@ describe Repository::Git, type: :model do
             .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9'])
         end
 
-        it 'should fetch changesets with path, branch, and limit' do
+        it 'fetches changesets with path, branch, and limit' do
           changesets = instance.latest_changesets('images', 'test_branch')
           expect(changesets.map(&:revision))
             .to eq(['899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
@@ -349,30 +350,30 @@ describe Repository::Git, type: :model do
         end
       end
 
-      it 'should find changeset by name' do
+      it 'finds changeset by name' do
         ['7234cb2750b63f47bff735edc50a1c0a433c2518', '7234cb2750b'].each do |r|
           expect(instance.find_changeset_by_name(r).revision)
             .to eq('7234cb2750b63f47bff735edc50a1c0a433c2518')
         end
       end
 
-      it 'should find changeset by empty name' do
+      it 'finds changeset by empty name' do
         ['', ' ', nil].each do |r|
           expect(instance.find_changeset_by_name(r)).to be_nil
         end
       end
 
-      it 'should assign scmid to identifier' do
+      it 'assigns scmid to identifier' do
         c = instance.changesets.where(revision: '7234cb2750b63f47bff735edc50a1c0a433c2518').first
         expect(c.scmid).to eq(c.identifier)
       end
 
-      it 'should format identifier' do
+      it 'formats identifier' do
         c = instance.changesets.where(revision: '7234cb2750b63f47bff735edc50a1c0a433c2518').first
         expect(c.format_identifier).to eq('7234cb27')
       end
 
-      it 'should find previous changeset' do
+      it 'finds previous changeset' do
         %w|1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127 1ca7f5ed|.each do |r1|
           changeset = instance.find_changeset_by_name(r1)
           %w|64f1f3e89ad1cb57976ff0ad99a107012ba3481d 64f1f3e89ad1|.each do |r2|
@@ -381,14 +382,14 @@ describe Repository::Git, type: :model do
         end
       end
 
-      it 'should return nil when no previous changeset' do
+      it 'returns nil when no previous changeset' do
         %w|7234cb2750b63f47bff735edc50a1c0a433c2518 7234cb2|.each do |r1|
           changeset = instance.find_changeset_by_name(r1)
           expect(changeset.previous).to be_nil
         end
       end
 
-      it 'should find next changeset' do
+      it 'finds next changeset' do
         %w|64f1f3e89ad1cb57976ff0ad99a107012ba3481d 64f1f3e89ad1|.each do |r2|
           changeset = instance.find_changeset_by_name(r2)
           %w|1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127 1ca7f5ed|.each do |r1|
@@ -397,7 +398,7 @@ describe Repository::Git, type: :model do
         end
       end
 
-      it 'should next nil' do
+      it 'nexts nil' do
         %w|71e5c1d3dca6304805b143b9d0e6695fb3895ea4 71e5c1d3|.each do |r1|
           changeset = instance.find_changeset_by_name(r1)
           expect(changeset.next).to be_nil
@@ -411,10 +412,10 @@ describe Repository::Git, type: :model do
         def find_events(user, options = {})
           options[:scope] = ['changesets']
           fetcher = Activities::Fetcher.new(user, options)
-          fetcher.events(Date.today - 30, Date.today + 1)
+          fetcher.events(30.days.ago, 1.day.from_now)
         end
 
-        it 'should activities' do
+        it 'activitieses' do
           Changeset.create(repository: instance,
                            committed_on: Time.now,
                            revision: 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
@@ -430,7 +431,7 @@ describe Repository::Git, type: :model do
       describe 'encoding' do
         let(:felix_hex) { "Felix Sch\xC3\xA4fer" }
 
-        it 'should display UTF-8' do
+        it 'displays UTF-8' do
           c = instance.changesets.where(revision: 'ed5bb786bbda2dee66a2d50faf51429dbc043a7b').first
           expect(c.committer).to eq("#{felix_hex} <felix@fachschaften.org>")
           expect(c.committer).to eq('Felix Schäfer <felix@fachschaften.org>')
@@ -440,7 +441,7 @@ describe Repository::Git, type: :model do
           let (:encoding) { 'ISO-8859-1' }
           let (:char1_hex) { "\xc3\x9c".force_encoding('UTF-8') }
 
-          it 'should latest changesets latin 1 dir' do
+          it 'latests changesets latin 1 dir' do
             instance.fetch_changesets
             instance.reload
             changesets = instance.latest_changesets(
@@ -450,7 +451,7 @@ describe Repository::Git, type: :model do
               .to eq(['1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127'])
           end
 
-          it 'should browse changesets' do
+          it 'browses changesets' do
             changesets = instance.latest_changesets(
               "latin-1-dir/test-#{char1_hex}-2.txt", '64f1f3e89'
             )

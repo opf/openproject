@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -42,7 +40,7 @@ module API
 
             schema :"copy_#{identifier}",
                    type: 'Boolean',
-                   name_source: name_source,
+                   name_source:,
                    has_default: true,
                    writable: true,
                    required: false,

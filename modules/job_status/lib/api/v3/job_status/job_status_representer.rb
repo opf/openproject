@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,7 +31,7 @@ module API
     module JobStatus
       class JobStatusRepresenter < ::API::Decorators::Single
         self_link id_attribute: :job_id,
-                  title_getter: ->(*) { nil }
+                  title_getter: ->(*) {}
 
         property :job_id
 

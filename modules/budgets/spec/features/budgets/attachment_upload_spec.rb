@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -59,13 +57,13 @@ describe 'Upload attachment to budget', js: true do
     # adding an image
     editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
 
-    expect(page).to have_selector('attachment-list-item', text: 'image.png')
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
 
     click_on 'Create'
 
     expect(page).to have_selector('#content img', count: 1)
     expect(page).to have_content('Image uploaded on creation')
-    expect(page).to have_selector('attachment-list-item', text: 'image.png')
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
 
     within '.toolbar-items' do
       click_on "Update"
@@ -73,13 +71,52 @@ describe 'Upload attachment to budget', js: true do
 
     editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
 
-    expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
 
     click_on 'Submit'
 
     expect(page).to have_selector('#content img', count: 2)
     expect(page).to have_content('Image uploaded on creation')
     expect(page).to have_content('Image uploaded the second time')
-    expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+  end
+
+  it 'can upload an image to new and existing budgets via drag & drop on attachment list' do
+    visit projects_budgets_path(project)
+
+    within '.toolbar-items' do
+      click_on "Budget"
+    end
+
+    fill_in "Subject", with: 'New budget'
+    editor.set_markdown "Some content because it's required"
+
+    # adding an image
+    find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+
+    click_on 'Create'
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+
+    within '.toolbar-items' do
+      click_on "Update"
+    end
+
+    script = <<~JS
+      const event = new DragEvent('dragover');
+      document.body.dispatchEvent(event);
+    JS
+    page.execute_script(script)
+
+    # adding an image
+    find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+
+    click_on 'Submit'
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
   end
 end

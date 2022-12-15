@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -37,8 +35,8 @@ describe CustomFieldFormBuilder do
   let(:builder) { described_class.new(:user, resource, helper, builder_options) }
   let(:builder_options) do
     {
-      custom_value: custom_value,
-      custom_field: custom_field
+      custom_value:,
+      custom_field:
     }
   end
 
@@ -49,7 +47,7 @@ describe CustomFieldFormBuilder do
       build_stubbed(:custom_field)
     end
     let(:custom_value) do
-      build_stubbed(:custom_value, customized: resource, custom_field: custom_field)
+      build_stubbed(:custom_value, customized: resource, custom_field:)
     end
     let(:typed_value) do
       custom_value.typed_value
@@ -79,7 +77,7 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--check-box"
                  id="user#{custom_field.id}"
@@ -99,7 +97,7 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class -augmented-datepicker form--text-field"
                  id="user#{custom_field.id}"
@@ -118,7 +116,7 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <textarea class="custom-class form--text-area"
                     id="user#{custom_field.id}"
@@ -140,7 +138,7 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{custom_field.id}"
@@ -159,7 +157,7 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{custom_field.id}"
@@ -178,7 +176,7 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{custom_field.id}"
@@ -201,14 +199,14 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{custom_field.id}"
                   name="user[#{custom_field.id}]"
                   no_label="true"><option
-                  value=\"\" label=\" \"></option>
-                  <option value=\"#{custom_option.id}\">my_option</option></select>
+                  value="" label=" "></option>
+                  <option value="#{custom_option.id}">my_option</option></select>
         }).at_path('select')
       end
 
@@ -217,14 +215,14 @@ describe CustomFieldFormBuilder do
           custom_field.is_required = true
         end
 
-        it 'should output element' do
+        it 'outputs element' do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{custom_field.id}"
                     name="user[#{custom_field.id}]"
-                    no_label="true"><option value=\"\">---
+                    no_label="true"><option value="">---
                     Please select ---</option>
-                    <option value=\"#{custom_option.id}\">my_option</option></select>
+                    <option value="#{custom_option.id}">my_option</option></select>
           }).at_path('select')
         end
       end
@@ -235,13 +233,13 @@ describe CustomFieldFormBuilder do
           custom_option.default_value = true
         end
 
-        it 'should output element' do
+        it 'outputs element' do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{custom_field.id}"
                     name="user[#{custom_field.id}]"
                     no_label="true"><option
-                    value=\"#{custom_option.id}\">my_option</option></select>
+                    value="#{custom_option.id}">my_option</option></select>
           }).at_path('select')
         end
       end
@@ -270,13 +268,13 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{custom_field.id}"
                   name="user[#{custom_field.id}]"
                   no_label="true">
-            <option value=\"\" label=\" \"></option>
+            <option value="" label=" "></option>
             <option value="#{user1.id}">#{user1.name}</option>
             <option value="#{user2.id}">#{user2.name}</option>
           </select>
@@ -288,13 +286,13 @@ describe CustomFieldFormBuilder do
           custom_field.is_required = true
         end
 
-        it 'should output element' do
+        it 'outputs element' do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{custom_field.id}"
                     name="user[#{custom_field.id}]"
                     no_label="true">
-              <option value=\"\">--- Please select ---</option>
+              <option value="">--- Please select ---</option>
               <option value="#{user1.id}">#{user1.name}</option>
               <option value="#{user2.id}">#{user2.name}</option>
             </select>
@@ -325,13 +323,13 @@ describe CustomFieldFormBuilder do
         let(:container_count) { 2 }
       end
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{custom_field.id}"
                   name="user[#{custom_field.id}]"
                   no_label="true">
-            <option value=\"\" label=\" \"></option>
+            <option value="" label=" "></option>
             <option value="#{version1.id}">#{version1.name}</option>
             <option value="#{version2.id}">#{version2.name}</option>
           </select>
@@ -343,13 +341,13 @@ describe CustomFieldFormBuilder do
           custom_field.is_required = true
         end
 
-        it 'should output element' do
+        it 'outputs element' do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{custom_field.id}"
                     name="user[#{custom_field.id}]"
                     no_label="true">
-              <option value=\"\">--- Please select ---</option>
+              <option value="">--- Please select ---</option>
               <option value="#{version1.id}">#{version1.name}</option>
               <option value="#{version2.id}">#{version2.name}</option>
             </select>

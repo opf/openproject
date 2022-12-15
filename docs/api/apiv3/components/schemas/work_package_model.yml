@@ -29,6 +29,9 @@ properties:
   scheduleManually:
     type: boolean
     description: If false (default) schedule automatically.
+  readonly:
+    type: boolean
+    description: If true, the work package is in a readonly status so with the exception of the status, no other property can be altered.
   startDate:
     type: string
     format: date
@@ -45,15 +48,22 @@ properties:
     type: string
     format: date
     description: Similar to start date but is not set by a client but rather deduced
-      by the work packages's descendants. If manual scheduleManually is active, the
+      by the work packages' descendants. If manual scheduleManually is active, the
       two dates can deviate.
     readOnly: true
   derivedDueDate:
     type: string
     format: date
     description: Similar to due date but is not set by a client but rather deduced
-      by the work packages's descendants. If manual scheduleManually is active, the
+      by the work packages' descendants. If manual scheduleManually is active, the
       two dates can deviate.
+    readOnly: true
+  duration:
+    type: string
+    format: duration
+    description:  |-
+      **(NOT IMPLEMENTED)** The amount of time in hours the work package needs to be completed.
+      Not available for milestone type of work packages.
     readOnly: true
   estimatedTime:
     type: string
@@ -63,6 +73,12 @@ properties:
     type: string
     format: duration
     description: Time a work package likely needs to be completed including its descendants
+    readOnly: true
+  ignoreNonWorkingDays:
+    type: boolean
+    description:  |-
+      **(NOT IMPLEMENTED)** When scheduling, whether or not to ignore the non working days being defined.
+      A work package with the flag set to true will be allowed to be scheduled to a non working day.
     readOnly: true
   spentTime:
     type: string
@@ -143,10 +159,15 @@ properties:
               **Permission**: add watcher
             readOnly: true
       customActions:
-        allOf:
+        type: array
+        readOnly: true
+        items:
+          allOf:
           - "$ref": "./link.yml"
-          - description: Collection of predefined changes that can be applied to the
-              work package
+          - description: |-
+              A predefined action that can be applied to the work package.
+              
+              **Resource**: CustomAction
             readOnly: true
       previewMarkup:
         allOf:
@@ -221,17 +242,20 @@ properties:
               **Resource**: Schema
             readOnly: true
       ancestors:
-        allOf:
-          - "$ref": "./link.yml"
-          - description: |-
-              Array of all visible ancestors of the work package, with the root node being the first element
-              
-              **Resource**: Collection
-              
-              # Conditions
-              
-              **Permission** view work packages
-            readOnly: true
+        type: array
+        readOnly: true
+        items:
+          allOf:
+            - "$ref": "./link.yml"
+            - description: |-
+                A visible ancestor work package of the current work package.
+                
+                **Resource**: WorkPackage
+                
+                # Conditions
+                
+                **Permission** view work packages
+              readOnly: true
       attachments:
         allOf:
           - "$ref": "./link.yml"
@@ -285,17 +309,38 @@ properties:
               
               **Resource**: Category
       children:
+        type: array
+        readOnly: true
+        items:
+          allOf:
+            - "$ref": "./link.yml"
+            - description: |-
+                A visible child work package of the current work package.
+                
+                **Resource**: WorkPackage
+                
+                # Conditions
+                
+                **Permission** view work packages
+              readOnly: true
+      addFileLink:
         allOf:
-          - "$ref": "./link.yml"
+          - $ref: './link.yml'
           - description: |-
-              Array of all visible children of the work package
-              
-              **Resource**: Collection
-              
+              Add a file link to the work package
+
               # Conditions
-              
-              **Permission** view work packages
-            readOnly: true
+
+              **Permission**: manage file links
+      fileLinks:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              Gets the file link collection of this work package
+
+              # Conditions
+
+              **Permission**: view file links
       parent:
         allOf:
           - "$ref": "./link.yml"
@@ -393,6 +438,7 @@ properties:
               
               **Permission** view work package watchers
             readOnly: true
+
 example:
   _type: WorkPackage
   _links:
@@ -520,6 +566,7 @@ example:
     raw: Develop super cool OpenProject API.
     html: "<p>Develop super cool OpenProject API.</p>"
   scheduleManually: false
+  readonly: false
   startDate:
   dueDate:
   derivedStartDate:

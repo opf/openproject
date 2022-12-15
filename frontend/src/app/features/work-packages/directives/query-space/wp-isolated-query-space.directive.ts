@@ -59,6 +59,7 @@ import { WorkPackageViewOrderService } from 'core-app/features/work-packages/rou
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
 import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { WorkPackageViewIncludeSubprojectsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-include-subprojects.service';
 import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
@@ -101,6 +102,7 @@ import { WorkPackageService } from 'core-app/features/work-packages/services/wor
     WorkPackageViewFocusService,
     WorkPackageViewHighlightingService,
     WorkPackageViewDisplayRepresentationService,
+    WorkPackageViewIncludeSubprojectsService,
     WorkPackageViewOrderService,
     WorkPackageViewHierarchyIdentationService,
     CausedUpdatesService,

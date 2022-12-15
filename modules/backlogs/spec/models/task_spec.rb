@@ -34,12 +34,12 @@ describe Task, type: :model do
   let(:project) { create(:project) }
   let(:task) do
     build(:task,
-          project: project,
+          project:,
           status: default_status,
           type: task_type)
   end
 
-  before(:each) do
+  before do
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
       .and_return({ 'task_type' => task_type.id.to_s })
@@ -82,10 +82,10 @@ describe Task, type: :model do
 
       it 'leaves the values unchanged' do
         expect(task.remaining_hours)
-          .to eql 5.0
+          .to be 5.0
 
         expect(task.estimated_hours)
-          .to eql 3.0
+          .to be 3.0
       end
     end
   end

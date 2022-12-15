@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -61,7 +59,7 @@ describe EnumerationsController, type: :controller do
     before do
       work_packages
 
-      delete :destroy, params: params
+      delete :destroy, params:
     end
 
     it 'redirects' do

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -32,12 +30,12 @@ require 'spec_helper'
 
 describe SCM::CreateLocalRepositoryJob do
   let(:instance) { described_class.new }
-  subject { instance.perform(repository) }
-
   # Allow to override configuration values to determine
   # whether to activate managed repositories
   let(:enabled_scms) { %w[subversion git] }
   let(:config) { nil }
+
+  subject { instance.perform(repository) }
 
   before do
     allow(Setting).to receive(:enabled_scm).and_return(enabled_scms)
@@ -58,7 +56,7 @@ describe SCM::CreateLocalRepositoryJob do
     end
 
     let(:config) do
-      { subversion: { mode: mode, manages: tmpdir } }
+      { subversion: { mode:, manages: tmpdir } }
     end
 
     shared_examples 'creates a directory with mode' do |expected|
@@ -84,6 +82,7 @@ describe SCM::CreateLocalRepositoryJob do
 
     context 'with string mode' do
       let(:mode) { '0770' }
+
       it 'uses the correct mode' do
         expect(instance).to receive(:create).with(0o770)
         subject
@@ -94,6 +93,7 @@ describe SCM::CreateLocalRepositoryJob do
 
     context 'with no mode set' do
       let(:mode) { nil }
+
       it 'uses the default mode' do
         expect(instance).to receive(:create).with(0o700)
         subject

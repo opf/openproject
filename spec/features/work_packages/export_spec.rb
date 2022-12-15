@@ -31,15 +31,16 @@ require 'features/work_packages/work_packages_page'
 
 describe 'work package export', type: :feature do
   let(:project) { create :project_with_types, types: [type_a, type_b] }
+  let(:export_type) { 'CSV' }
   let(:current_user) { create :admin }
 
   let(:type_a) { create :type, name: "Type A" }
   let(:type_b) { create :type, name: "Type B" }
 
-  let(:wp_1) { create :work_package, project: project, done_ratio: 25, type: type_a }
-  let(:wp_2) { create :work_package, project: project, done_ratio: 0, type: type_a }
-  let(:wp_3) { create :work_package, project: project, done_ratio: 0, type: type_b }
-  let(:wp_4) { create :work_package, project: project, done_ratio: 0, type: type_a }
+  let(:wp_1) { create :work_package, project:, done_ratio: 25, type: type_a }
+  let(:wp_2) { create :work_package, project:, done_ratio: 0, type: type_a }
+  let(:wp_3) { create :work_package, project:, done_ratio: 0, type: type_b }
+  let(:wp_4) { create :work_package, project:, done_ratio: 0, type: type_a }
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -59,7 +60,6 @@ describe 'work package export', type: :feature do
     login_as(current_user)
   end
 
-  let(:export_type) { 'CSV' }
   subject { @download_list.refresh_from(page).latest_downloaded_content }
 
   def export!(expect_success = true)
@@ -73,7 +73,7 @@ describe 'work package export', type: :feature do
                                  wait: 10
 
     # Expect title
-    expect(page).to have_selector 'h1', text: I18n.t('export.your_work_packages_export')
+    expect(page).to have_selector '[data-qa-selector="job-status--header"]', text: I18n.t('export.your_work_packages_export')
 
     begin
       perform_enqueued_jobs
@@ -110,7 +110,7 @@ describe 'work package export', type: :feature do
         expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A B A)
       end
 
-      it 'shows all work packages grouped by ', js: true do
+      it 'shows all work packages grouped by', js: true do
         group_by.enable_via_menu 'Type'
 
         wp_table.expect_work_package_listed(wp_1)
@@ -174,14 +174,14 @@ describe 'work package export', type: :feature do
       let(:query) do
         create :query,
                user: current_user,
-               project: project
+               project:
       end
 
       before do
-        ::OrderedWorkPackage.create(query: query, work_package: wp_4, position: 0)
-        ::OrderedWorkPackage.create(query: query, work_package: wp_1, position: 1)
-        ::OrderedWorkPackage.create(query: query, work_package: wp_2, position: 2)
-        ::OrderedWorkPackage.create(query: query, work_package: wp_3, position: 3)
+        ::OrderedWorkPackage.create(query:, work_package: wp_4, position: 0)
+        ::OrderedWorkPackage.create(query:, work_package: wp_1, position: 1)
+        ::OrderedWorkPackage.create(query:, work_package: wp_2, position: 2)
+        ::OrderedWorkPackage.create(query:, work_package: wp_3, position: 3)
 
         query.add_filter('manual_sort', 'ow', [])
         query.sort_criteria = [[:manual_sorting, 'asc']]
@@ -214,12 +214,12 @@ describe 'work package export', type: :feature do
     let(:query) do
       create :query,
              user: current_user,
-             project: project
+             project:
     end
 
     context 'with many columns' do
       before do
-        query.column_names = query.available_columns.map { |c| c.name.to_s } - ['bcf_thumbnail']
+        query.column_names = query.displayable_columns.map { |c| c.name.to_s } - ['bcf_thumbnail']
         query.save!
 
         # Despite attempts to provoke the error by having a lot of columns, the pdf
@@ -244,6 +244,7 @@ describe 'work package export', type: :feature do
   # a feed one can follow.
   context 'Atom export', js: true do
     let(:export_type) { 'Atom' }
+
     context 'with default filter' do
       before do
         work_packages_page.visit_index

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -48,9 +46,7 @@ class CustomValue < ApplicationRecord
            :min_length,
            to: :custom_field
 
-  def to_s
-    value.to_s
-  end
+  delegate :to_s, to: :value
 
   def value=(val)
     parsed_value = strategy.parse_value(val)
@@ -60,9 +56,9 @@ class CustomValue < ApplicationRecord
 
   def strategy
     @strategy ||= begin
-                    format = custom_field&.field_format || 'empty'
-                    OpenProject::CustomFieldFormat.find_by_name(format).formatter.new(self)
-                  end
+      format = custom_field&.field_format || 'empty'
+      OpenProject::CustomFieldFormat.find_by_name(format).formatter.new(self)
+    end
   end
 
   protected

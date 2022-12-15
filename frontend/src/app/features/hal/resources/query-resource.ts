@@ -64,6 +64,10 @@ export class QueryResource extends HalResource {
 
   public sortBy:QuerySortByResource[];
 
+  public setSortBy(newSortBy:QuerySortByResource[]):void {
+    this.sortBy = newSortBy;
+  }
+
   public filters:QueryFilterInstanceResource[];
 
   public starred:boolean;
@@ -91,6 +95,8 @@ export class QueryResource extends HalResource {
   public hidden:boolean;
 
   public project:ProjectResource;
+
+  public includeSubprojects:boolean;
 
   public ordered_work_packages:QueryOrder;
 

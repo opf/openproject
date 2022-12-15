@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Manage users
   priority: 990
 description: Manage users in OpenProject.
-robots: index, follow
 keywords: manage users, lock, unlock, invite, default language
 ---
 
@@ -14,9 +13,9 @@ The user list provides an overview of all users in OpenProject. You can create n
 <div class="glossary">
 **User** is defined as a person (described by an identifier) who uses OpenProject. Users can become project members by assigning them a role and adding them via the project settings.
 </div>
-To manage users click on your avatar (top right corner) and select *Administration*. Select *Users & Permissions -> Users*. The list of current users is shown.
+To manage users click on your avatar (top right corner) and select *Administration*. Select *Users and permissions -> Users*. The list of current users is shown.
 
-In the Community Edition there is no limit to the number of users. In Enterprise editions (cloud and on-premises) the user limit is based on your subscription. The number of users for your subscription is thus not bound to names. For example, if you block a user you can add a new one without upgrading. 
+In the Community edition there is no limit to the number of users. In Enterprise editions (cloud and on-premises) the user limit is based on your subscription. The number of users for your subscription is thus not bound to names. For example, if you block a user you can add a new one without upgrading. 
 
 | Topic                                           | Content                                                  |
 | ----------------------------------------------- | -------------------------------------------------------- |
@@ -49,11 +48,9 @@ At the top of the user list is a filter box. Filter by status or name, then clic
 
 Handling locking and unlocking of users is also done from the user list. To disable a user's access click the **Lock permanently** link next to a user. Use the **Unlock** link to restore the user's access.
 
-If you are using [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide) locking a user will make a new user available to add to the system within your booked plan.
+If you are using [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide) locking a user will free up a user license and so you could add another user to the system within your booked plan.
 
-<div class="alert alert-info" role="alert">
-**Note**: The previous activities from a locked user will still be displayed in the system.
-</div>
+> **Note**: The previous activities from a locked user will still be displayed in the system.
 
 ![System-admin-guide_lock-users](System-admin-guide_lock-users.png)
 
@@ -181,8 +178,8 @@ To enter a new hourly rate, click on the **Update** icon next to the rate histor
 The **Avatar** tab shows the default icon to be shown for this user. A custom image can be uploaded as the avatar. In addition, the users can also use their [Gravatar](https://en.wikipedia.org/wiki/Gravatar). The user can manage this in their Profile. These features can be disabled in the [avatar settings](../avatars).
 
 ### Two-factor authentication (2FA)
-This tab shows whether a user has activated a device for two-factor authentication in their account. You can see the devices and delete them if necessary. 
-Please note: As this is a [premium feature](https://www.openproject.org/enterprise-edition/#premium-features) this tab won't be visible in the Community Edition. 
+
+This tab shows whether a user has activated a device for two-factor authentication in their account. You can see the devices and delete them if necessary.
 
 ## Authentication
 
@@ -216,6 +213,4 @@ You will then be asked to type in the username in order to delete the user perma
 
 ![delete user](image-20200115162533470.png)
 
-<div class="alert alert-info" role="alert">
-**Note**: Deleting a user account is an irreversible action and cannot be reversed. The previous activities from this user will still be displayed in the system but reassigned to "deleted user".
-</div>
+> **Note**: Deleting a user account is an irreversible action and cannot be reversed. The previous activities from this user will still be displayed in the system but reassigned to "Deleted user". This is also true for the Time and cost and the Budget modules. Spent time will be still be visible for "Deleted user" inside a Work package. Time and cost reports will contain the entries with reference to "Deleted user". Labor budgets that have been setup for the user are displayed under "Deleted user", too. If you would like to keep track of the user's name in connection with the mentioned activities, the spent time and the budget, you are able to keep the user's name in the historical data by simply [locking the user](#lock-and-unlock-users).

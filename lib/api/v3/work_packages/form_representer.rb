@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -34,7 +32,7 @@ module API
       class FormRepresenter < ::API::Decorators::Form
         def payload_representer
           WorkPackagePayloadRepresenter
-            .create(represented, current_user: current_user)
+            .create(represented, current_user:)
         end
 
         def schema_representer
@@ -45,7 +43,7 @@ module API
                                                       self_link: nil,
                                                       form_embedded: true,
                                                       base_schema_link: schema_link,
-                                                      current_user: current_user)
+                                                      current_user:)
         end
       end
     end

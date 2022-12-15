@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -56,7 +54,7 @@ module API
                              },
                              getter: ->(*) {
                                active_projects.map do |project|
-                                 Projects::ProjectRepresenter.create(project, current_user: current_user)
+                                 Projects::ProjectRepresenter.create(project, current_user:)
                                end
                              }
 

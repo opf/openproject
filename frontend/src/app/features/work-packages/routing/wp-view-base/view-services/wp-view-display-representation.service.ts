@@ -38,8 +38,10 @@ export type WorkPackageDisplayRepresentationValue = 'list'|'card';
 
 @Injectable()
 export class WorkPackageViewDisplayRepresentationService extends WorkPackageQueryStateService<string|null> {
-  public constructor(readonly states:States,
-    readonly querySpace:IsolatedQuerySpace) {
+  public constructor(
+    readonly states:States,
+    readonly querySpace:IsolatedQuerySpace,
+  ) {
     super(querySpace);
   }
 

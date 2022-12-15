@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,7 +31,8 @@ module Queries::Filters::Strategies
     delegate :allowed_values_subset,
              to: :filter
 
-    self.supported_operators = ::Relation::TYPES.keys + %w(parent children)
+    # 'children' used to be supported by the API although 'child' would be more fitting.
+    self.supported_operators = ::Relation::TYPES.keys + [::Relation::TYPE_PARENT, ::Relation::TYPE_CHILD, 'children']
     self.default_operator = ::Relation::TYPE_RELATES
 
     def validate

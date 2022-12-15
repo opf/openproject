@@ -47,7 +47,7 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
   // A method for returning data based on the resource type
   // If you need to fetch our default date sources like work_packages or users,
   // you should use the default method (loadAvailable), otherwise you should implement a function for
-  // your desired resourse
+  // your desired resource
   public loadData(matching:string, resource:resource, filters?:IAPIFilter[], searchKey?:string) {
     switch (resource) {
     // in this case we can add more functions for fetching usual resources

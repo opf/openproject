@@ -29,29 +29,59 @@
 require 'spec_helper'
 
 describe 'Query menu item', js: true do
-  let(:user) { create :admin }
   let(:project) { create :project }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
   let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
 
-  before do
-    login_as(user)
-  end
+  current_user { create :admin }
 
-  context 'visiting the global work packages page' do
+  context 'when visiting the global work packages page' do
     let(:wp_table) { ::Pages::WorkPackagesTable.new }
-    it 'should show the query menu (Regression #30082)' do
+    let(:project) { nil }
+
+    let!(:global_public_view) do
+      create :view,
+             query: create(:query, project: nil, public: true, name: 'Global public')
+    end
+
+    let!(:global_my_view) do
+      create :view,
+             query: create(:query, project: nil, public: false, user: current_user, name: 'Global my view')
+    end
+
+    let!(:global_other_view) do
+      create :view,
+             query: create(:query, project: nil, public: false, user: create(:user), name: 'Other user query')
+    end
+
+    let!(:project_view) do
+      create :view,
+             query: create(:query, project: create(:project), name: 'Project query')
+    end
+
+    it 'shows the query menu with queries stored for the global page' do
       wp_table.visit!
       expect(page).to have_selector('.op-view-select--search-results')
       expect(page).to have_selector('.op-sidemenu--item-action', wait: 20, minimum: 1)
+
+      within '.op-sidebar' do
+        expect(page)
+          .to have_content(global_my_view.query.name, wait: 10)
+        expect(page)
+          .to have_content(global_public_view.query.name, wait: 10)
+        expect(page)
+          .not_to have_content(global_other_view.query.name)
+        expect(page)
+          .not_to have_content(project_view.query.name)
+      end
     end
   end
 
-  context 'filtering by version in project' do
-    let(:version) { create :version, project: project }
-    let(:work_package_with_version) { create :work_package, project: project, version: version }
-    let(:work_package_without_version) { create :work_package, project: project }
+  context 'when filtering by version in project' do
+    let(:version) { create :version, project: }
+    let(:work_package_with_version) { create :work_package, project:, version: }
+    let(:work_package_without_version) { create :work_package, project: }
 
     before do
       work_package_with_version

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -43,7 +41,7 @@ module API
             self_link = api_v3_paths.categories_by_project(@project.identifier)
 
             CategoryCollectionRepresenter
-              .new(@categories, self_link: self_link, current_user: current_user)
+              .new(@categories, self_link:, current_user:)
           end
         end
       end

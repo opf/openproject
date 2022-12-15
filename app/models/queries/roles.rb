@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -29,10 +27,8 @@
 #++
 
 module Queries::Roles
-  register = ::Queries::Register
-  filters = ::Queries::Roles::Filters
-  query = ::Queries::Roles::RoleQuery
-
-  register.filter query, filters::GrantableFilter
-  register.filter query, filters::UnitFilter
+  ::Queries::Register.register(RoleQuery) do
+    filter Filters::GrantableFilter
+    filter Filters::UnitFilter
+  end
 end

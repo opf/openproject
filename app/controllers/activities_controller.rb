@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -47,7 +45,7 @@ class ActivitiesController < ApplicationController
                                         author: @author,
                                         scope: activity_scope)
 
-    events = @activity.events(@date_from, @date_to)
+    events = @activity.events(@date_from.to_datetime, @date_to.to_datetime)
 
     respond_to do |format|
       format.html do

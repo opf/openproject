@@ -2,14 +2,13 @@
 lt:
   js:
     boards:
+      create_new: 'Kurti naują lentą'
       label_unnamed_board: 'Bevardė lenta'
       label_unnamed_list: 'Bevardis sąrašas'
       label_board_type: 'Lentos tipas'
       upsale:
-        teaser_text: 'Pagerinkite Agile projektų valdymą naudodami lanksčius Lentų vaizdus. Sukurkite tiek lentų, kiek norite, bet kokiems dalykams, kuriuos norite suvaldyti.'
-        upgrade_to_ee_text: 'Lentos yra Enterprise versijos galimybė. Prašome pereiti prie mokamo plano.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Užsisakykite dabar'
-        personal_demo: 'Susisiekite su mumis dėl demonstracijos'
       lists:
         delete: 'Pašalinti sąrašą'
       version:
@@ -63,7 +62,7 @@ lt:
           status: Būsena
           version: Versija
           subproject: Sub-projektas
-          subtasks: Tėvo-Vaiko
+          subtasks: Parent-child
           basic: Pagrindinis
         select_attribute: "Veiksmo atributas"
       add_list_modal:

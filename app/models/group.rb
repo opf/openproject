@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -42,9 +40,9 @@ class Group < Principal
   acts_as_customizable
 
   alias_attribute(:name, :lastname)
-  validates_presence_of :name
+  validates :name, presence: true
   validate :uniqueness_of_name
-  validates_length_of :name, maximum: 256
+  validates :name, length: { maximum: 256 }
 
   # HACK: We want to have the :preference association on the Principal to allow
   # for eager loading preferences.

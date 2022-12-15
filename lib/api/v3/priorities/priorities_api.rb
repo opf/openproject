@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -45,7 +43,7 @@ module API
           get do
             PriorityCollectionRepresenter.new(@priorities,
                                               self_link: api_v3_paths.priorities,
-                                              current_user: current_user)
+                                              current_user:)
           end
 
           route_param :id, type: Integer, desc: 'Priority ID' do
@@ -54,7 +52,7 @@ module API
             end
 
             get do
-              PriorityRepresenter.new(@priority, current_user: current_user)
+              PriorityRepresenter.new(@priority, current_user:)
             end
           end
         end

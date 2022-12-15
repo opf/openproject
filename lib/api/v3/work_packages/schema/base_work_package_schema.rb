@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -54,18 +52,13 @@ module API
           end
 
           def writable?(property)
-            property = property.to_sym
+            property = property.to_s
 
             # Special case for milestones + date property
-            property = :start_date if property == :date && milestone?
+            property = 'start_date' if property == 'date' && milestone?
 
-            @writable_attributes ||= begin
-              contract.writable_attributes
-            end
-
-            property_name = ::API::Utilities::PropertyNameConverter.to_ar_name(property, context: work_package)
-
-            @writable_attributes.include?(property_name)
+            @writable_attributes ||= contract.writable_attributes
+            @writable_attributes.include?(property)
           end
 
           def milestone?
@@ -74,6 +67,11 @@ module API
 
           def readonly?
             work_package.readonly_status?
+          end
+
+          # Alias method will not work since work_package is only defined in subclasses.
+          def model
+            work_package
           end
 
           private

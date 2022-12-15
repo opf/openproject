@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -83,7 +81,11 @@ module OpenProject::Bim
                    dependencies: %i[manage_public_queries save_bcf_queries]
       end
 
-      OpenProject::AccessControl.permission(:view_work_packages).controller_actions << 'bim/bcf/issues/redirect_to_bcf_issues_list'
+      Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl
+          .permission(:view_work_packages)
+          .controller_actions << 'bim/bcf/issues/redirect_to_bcf_issues_list'
+      end
 
       ::Redmine::MenuManager.map(:project_menu) do |menu|
         menu.push(:ifc_models,
@@ -189,12 +191,7 @@ module OpenProject::Bim
     end
 
     config.to_prepare do
-      require_relative 'hooks'
-    end
-
-    initializer 'bim.bcf.register_hooks' do
-      # don't use require_dependency to not reload hooks in development mode
-      require 'open_project/xls_export/hooks/work_package_hook'
+      OpenProject::Bim::Hooks::Hook
     end
 
     initializer 'bim.bcf.register_mimetypes' do
@@ -202,18 +199,22 @@ module OpenProject::Bim
       Mime::Type.register "application/octet-stream", :bcfzip unless Mime::Type.lookup_by_extension(:bcfzip)
     end
 
-    initializer 'bim.bcf.add_api_scope' do
+    # rubocop:disable Naming/VariableNumber
+    config.to_prepare do
       Doorkeeper.configuration.scopes.add(:bcf_v2_1)
 
+      # rubocop:disable Lint/ConstantDefinitionInBlock
       module OpenProject::Authentication::Scope
         BCF_V2_1 = :bcf_v2_1
       end
+      # rubocop:enable Lint/ConstantDefinitionInBlock
 
       OpenProject::Authentication.update_strategies(OpenProject::Authentication::Scope::BCF_V2_1,
                                                     store: false) do |_strategies|
         %i[oauth session]
       end
     end
+    # rubocop:enable Naming/VariableNumber
 
     config.to_prepare do
       ::Exports::Register.register do
@@ -221,8 +222,11 @@ module OpenProject::Bim
         formatter ::WorkPackage, OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail
       end
 
-      ::Queries::Register.filter ::Query, ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
-      ::Queries::Register.column ::Query, ::Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn
+      ::Queries::Register.register(::Query) do
+        filter ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
+
+        column ::Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn
+      end
 
       ::API::Root.class_eval do
         content_type :binary, 'application/octet-stream'

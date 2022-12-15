@@ -29,10 +29,10 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Meeting, type: :model do
+  shared_let (:user1) { create(:user) }
+  shared_let (:user2) { create(:user) }
   let(:project) { create(:project, members: project_members) }
-  let(:user1) { create(:user) }
-  let(:user2) { create(:user) }
-  let(:meeting) { create(:meeting, project: project, author: user1) }
+  let(:meeting) { create(:meeting, project:, author: user1) }
   let(:agenda) do
     meeting.create_agenda text: 'Meeting Agenda text'
     meeting.reload_agenda # avoiding stale object errors
@@ -45,67 +45,66 @@ describe Meeting, type: :model do
   it { is_expected.to belong_to :author }
   it { is_expected.to validate_presence_of :title }
 
-  before do
-    @m = build :meeting, title: 'dingens'
-  end
+  describe 'new instance' do
+    let(:meeting) { build :meeting, title: 'dingens' }
 
-  describe 'to_s' do
-    it { expect(@m.to_s).to eq('dingens') }
-  end
-
-  describe 'start_date' do
-    it { expect(@m.start_date).to eq(Date.tomorrow.iso8601) }
-  end
-
-  describe 'start_month' do
-    it { expect(@m.start_month).to eq(Date.tomorrow.month) }
-  end
-
-  describe 'start_year' do
-    it { expect(@m.start_year).to eq(Date.tomorrow.year) }
-  end
-
-  describe 'end_time' do
-    it { expect(@m.end_time).to eq(Date.tomorrow + 11.hours) }
-  end
-
-  describe 'date validations' do
-    it 'marks invalid start dates' do
-      @m.start_date = '-'
-      expect(@m.start_date).to eq('-')
-      expect { @m.start_time }.to raise_error(ArgumentError)
-      expect(@m).not_to be_valid
-      expect(@m.errors.count).to eq(1)
+    describe 'to_s' do
+      it { expect(meeting.to_s).to eq('dingens') }
     end
 
-    it 'marks invalid start hours' do
-      @m.start_time_hour = '-'
-      expect(@m.start_time_hour).to eq('-')
-      expect { @m.start_time }.to raise_error(ArgumentError)
-      expect(@m).not_to be_valid
-      expect(@m.errors.count).to eq(1)
+    describe 'start_date' do
+      it { expect(meeting.start_date).to eq(Date.tomorrow.iso8601) }
     end
 
-    it 'is not invalid when setting date_time explicitly' do
-      @m.start_time = DateTime.now
-      expect(@m).to be_valid
+    describe 'start_month' do
+      it { expect(meeting.start_month).to eq(Date.tomorrow.month) }
     end
 
-    it 'is invalid when setting date_time wrong' do
-      @m.start_time = '-'
-      expect(@m).not_to be_valid
+    describe 'start_year' do
+      it { expect(meeting.start_year).to eq(Date.tomorrow.year) }
     end
 
-    it 'accepts changes after invalid dates' do
-      @m.start_date = '-'
-      expect { @m.start_time }.to raise_error(ArgumentError)
-      expect(@m).not_to be_valid
+    describe 'end_time' do
+      it { expect(meeting.end_time).to eq(Date.tomorrow + 11.hours) }
+    end
 
-      @m.start_date = Date.today.iso8601
-      expect(@m).to be_valid
+    describe 'date validations' do
+      it 'marks invalid start dates' do
+        meeting.start_date = '-'
+        expect(meeting.start_date).to eq('-')
+        expect { meeting.start_time }.to raise_error(ArgumentError)
+        expect(meeting).not_to be_valid
+        expect(meeting.errors.count).to eq(1)
+      end
 
-      @m.save!
-      expect(@m.start_time).to eq(Date.today + 10.hours)
+      it 'marks invalid start hours' do
+        meeting.start_time_hour = '-'
+        expect(meeting.start_time_hour).to eq('-')
+        expect { meeting.start_time }.to raise_error(ArgumentError)
+        expect(meeting).not_to be_valid
+        expect(meeting.errors.count).to eq(1)
+      end
+
+      it 'is not invalid when setting date_time explicitly' do
+        meeting.start_time = DateTime.now
+        expect(meeting).to be_valid
+      end
+
+      it 'raises an error trying to set invalid time' do
+        expect { meeting.start_time = '-' }.to raise_error(Date::Error)
+      end
+
+      it 'accepts changes after invalid dates' do
+        meeting.start_date = '-'
+        expect { meeting.start_time }.to raise_error(ArgumentError)
+        expect(meeting).not_to be_valid
+
+        meeting.start_date = Time.zone.today.iso8601
+        expect(meeting).to be_valid
+
+        meeting.save!
+        expect(meeting.start_time).to eq(Time.zone.today + 10.hours)
+      end
     end
   end
 
@@ -113,7 +112,7 @@ describe Meeting, type: :model do
     describe 'WITH a user having the view_meetings permission' do
       let(:project_members) { { user1 => role } }
 
-      it 'should contain the user' do
+      it 'contains the user' do
         expect(meeting.all_changeable_participants).to eq([user1])
       end
     end
@@ -122,18 +121,19 @@ describe Meeting, type: :model do
       let(:role2) { create(:role, permissions: []) }
       let(:project_members) { { user1 => role, user2 => role2 } }
 
-      it 'should not contain the user' do
+      it 'does not contain the user' do
         expect(meeting.all_changeable_participants.include?(user2)).to be_falsey
       end
     end
 
     describe 'WITH a user being locked but invited' do
       let(:locked_user) { create(:locked_user) }
+
       before do
         meeting.participants_attributes = [{ 'user_id' => locked_user.id, 'invited' => 1 }]
       end
 
-      it 'should contain the user' do
+      it 'contains the user' do
         expect(meeting.all_changeable_participants.include?(locked_user)).to be_truthy
       end
     end
@@ -157,11 +157,11 @@ describe Meeting, type: :model do
       meeting.close_agenda_and_copy_to_minutes!
     end
 
-    it "should create a meeting with the agenda's text" do
+    it "creates a meeting with the agenda's text" do
       expect(meeting.minutes.text).to eq(meeting.agenda.text)
     end
 
-    it 'should close the agenda' do
+    it 'closes the agenda' do
       expect(meeting.agenda.locked?).to be_truthy
     end
   end
@@ -169,8 +169,8 @@ describe Meeting, type: :model do
   describe 'Timezones' do
     shared_examples 'uses that zone' do |zone|
       it do
-        @m.start_date = '2016-07-01'
-        expect(@m.start_time.zone).to eq(zone)
+        meeting.start_date = '2016-07-01'
+        expect(meeting.start_time.zone).to eq(zone)
       end
     end
 
@@ -203,24 +203,35 @@ describe Meeting, type: :model do
       meeting.save!
     end
 
-    it 'should have the same start_time as the original meeting' do
+    it 'has the same start_time as the original meeting' do
       copy = meeting.copy({})
       expect(copy.start_time).to eq(meeting.start_time)
     end
 
-    it 'should delete the copied meeting author if no author is given as parameter' do
+    it 'deletes the copied meeting author if no author is given as parameter' do
       copy = meeting.copy({})
       expect(copy.author).to be_nil
     end
 
-    it 'should set the author to the provided author if one is given' do
+    it 'sets the author to the provided author if one is given' do
       copy = meeting.copy author: user2
       expect(copy.author).to eq(user2)
     end
 
-    it 'should clear participant ids and attended flags for all copied attendees' do
+    it 'clears participant ids and attended flags for all copied attendees' do
       copy = meeting.copy({})
       expect(copy.participants.all? { |p| p.id.nil? && !p.attended }).to be_truthy
+    end
+
+    context 'when old meeting as user no longer in project' do
+      before do
+        user2.memberships.destroy_all
+      end
+
+      it 'does not copy that user' do
+        copy = meeting.copy({})
+        expect(copy.participants.map(&:user_id)).to eq [user1.id]
+      end
     end
   end
 end

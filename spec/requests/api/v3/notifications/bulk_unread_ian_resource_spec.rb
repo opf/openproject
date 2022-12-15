@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -36,31 +34,31 @@ describe ::API::V3::Notifications::NotificationsAPI,
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { create :project }
-  shared_let(:work_package) { create :work_package, project: project }
+  shared_let(:work_package) { create :work_package, project: }
 
   shared_let(:recipient) { create :user, member_in_project: project, member_with_permissions: %i[view_work_packages] }
   shared_let(:other_recipient) { create :user }
   shared_let(:notification1) do
-    create :notification, recipient: recipient, project: project, resource: work_package, read_ian: true
+    create :notification, recipient:, project:, resource: work_package, read_ian: true
   end
   shared_let(:notification2) do
-    create :notification, recipient: recipient, project: project, resource: work_package, read_ian: true
+    create :notification, recipient:, project:, resource: work_package, read_ian: true
   end
   shared_let(:notification3) do
-    create :notification, recipient: recipient, project: project, resource: work_package, read_ian: true
+    create :notification, recipient:, project:, resource: work_package, read_ian: true
   end
   shared_let(:other_user_notification) do
     create :notification,
            recipient: other_recipient,
            read_ian: true,
-           project: project,
+           project:,
            resource: work_package
   end
 
   let(:filters) { nil }
 
   let(:read_path) do
-    api_v3_paths.path_for :notification_bulk_unread_ian, filters: filters
+    api_v3_paths.path_for :notification_bulk_unread_ian, filters:
   end
 
   let(:parsed_response) { JSON.parse(last_response.body) }
@@ -76,7 +74,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
     it 'returns 204' do
       expect(last_response.status)
-        .to eql(204)
+        .to be(204)
     end
 
     it 'sets all the current users`s notifications to read' do
@@ -124,7 +122,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
       it 'returns 400' do
         expect(last_response.status)
-          .to eql(400)
+          .to be(400)
       end
     end
   end

@@ -38,7 +38,7 @@ describe 'Deleting a budget', type: :feature, js: true do
            subject: budget_subject,
            description: budget_description,
            author: user,
-           project: project
+           project:
   end
 
   let(:budget_page) { Pages::EditBudget.new budget.id }
@@ -60,8 +60,8 @@ describe 'Deleting a budget', type: :feature, js: true do
   end
 
   context 'when WPs are assigned to this budget' do
-    let(:wp1) { create :work_package, project: project, budget: budget }
-    let(:wp2) { create :work_package, project: project, budget: budget }
+    let(:wp1) { create :work_package, project:, budget: }
+    let(:wp2) { create :work_package, project:, budget: }
     let(:budget_destroy_info_page) { Pages::DestroyInfo.new budget }
 
     before do
@@ -93,8 +93,8 @@ describe 'Deleting a budget', type: :feature, js: true do
         # Both WPs are updated correctly
         wp1.reload
         wp2.reload
-        expect(wp1.budget).to eq nil
-        expect(wp2.budget).to eq nil
+        expect(wp1.budget).to be_nil
+        expect(wp2.budget).to be_nil
       end
     end
 
@@ -104,7 +104,7 @@ describe 'Deleting a budget', type: :feature, js: true do
                subject: 'Another budget',
                description: budget_description,
                author: user,
-               project: project
+               project:
       end
 
       before do

@@ -43,7 +43,7 @@ FactoryBot.define do
     created_at { Time.now }
     updated_at { Time.now }
 
-    callback(:after_build) do |principal, evaluator|
+    callback(:after_build) do |_principal, evaluator|
       is_build_strategy = evaluator.instance_eval { @build_strategy.is_a? FactoryBot::Strategy::Build }
       uses_member_association = evaluator.member_in_project || evaluator.member_in_projects
       if is_build_strategy && uses_member_association
@@ -61,8 +61,8 @@ FactoryBot.define do
                                                       ])
         projects.compact.each do |project|
           create(:member,
-                 project: project,
-                 principal: principal,
+                 project:,
+                 principal:,
                  roles: Array(role))
         end
       end
@@ -71,10 +71,10 @@ FactoryBot.define do
     callback(:after_create) do |principal, evaluator|
       if evaluator.global_permission || evaluator.global_role
         permissions = Array(evaluator.global_permission)
-        global_role = evaluator.global_role || create(:global_role, permissions: permissions)
+        global_role = evaluator.global_role || create(:global_role, permissions:)
 
         create(:global_member,
-               principal: principal,
+               principal:,
                roles: [global_role])
 
       end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -39,6 +37,17 @@ module OAuthHelper
     else
       safe_join(strings.map { |scope| I18n.t("oauth.scopes.#{scope}", default: scope) }, '</br>'.html_safe)
     end
+  end
+
+  ##
+  # Show first two and last two characters, with **** in the middle
+  def short_secret(secret)
+    result = ""
+    if secret.is_a?(String) && secret.present?
+      result = "#{secret[...2]}●●●●#{secret[-2...]}"
+    end
+
+    result
   end
 
   ##

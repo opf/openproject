@@ -7,10 +7,10 @@ cs:
       import_bcf_xml_file: 'Importovat soubor BCF XML (BCF verze 2.1)'
       export: 'Export'
       export_bcf_xml_file: 'Exportovat soubor BCF XML (BCF verze 2.1)'
-      viewpoint: 'Viewpoint'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
+      viewpoint: 'Bod pohledu'
+      add_viewpoint: 'Přidat pohled'
+      show_viewpoint: 'Zobrazit pohled'
+      delete_viewpoint: 'Odstranit pohled'
       management: 'Řízení BCF'
       refresh: "Aktualizovat\n"
       refresh_work_package: 'Aktualizovat pracovní balíček'
@@ -21,9 +21,9 @@ cs:
       models:
         ifc_models: 'IFC modely'
       views:
-        viewer: 'Sledující'
-        split: 'Viewer and table'
-        split_cards: 'Viewer and cards'
+        viewer: 'Prohlížeč'
+        split: 'Prohlížeč a tabulka'
+        split_cards: 'Prohlížeč a karty'
     revit:
-      revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in: "Revit doplněk"
+      revit_add_in_settings: "Nastavení Revit doplňků "

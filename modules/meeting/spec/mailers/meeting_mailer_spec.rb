@@ -42,11 +42,11 @@ describe MeetingMailer, type: :mailer do
 
   let(:meeting) do
     create :meeting,
-           author: author,
-           project: project
+           author:,
+           project:
   end
   let(:meeting_agenda) do
-    create(:meeting_agenda, meeting: meeting)
+    create(:meeting_agenda, meeting:)
   end
 
   before do
@@ -99,8 +99,8 @@ describe MeetingMailer, type: :mailer do
     context 'when the meeting time results in another date' do
       let(:meeting) do
         create :meeting,
-               author: author,
-               project: project,
+               author:,
+               project:,
                start_time: '2021-11-09T23:00:00 +0100'.to_datetime.utc
       end
 
@@ -132,8 +132,8 @@ describe MeetingMailer, type: :mailer do
   describe 'icalendar' do
     let(:meeting) do
       create :meeting,
-             author: author,
-             project: project,
+             author:,
+             project:,
              title: 'Important meeting',
              start_time: "2021-01-19T10:00:00Z".to_time(:utc),
              duration: 1.0
@@ -185,6 +185,11 @@ describe MeetingMailer, type: :mailer do
         expect(entry.summary).to eq '[My project] Important meeting'
         expect(entry.description).to eq "[My project] Agenda: Important meeting"
       end
+
+      it 'has the correct time matching the timezone' do
+        expect(entry.dtstart).to eq "2021-01-19T10:00:00Z".to_time(:utc).in_time_zone("Europe/Berlin")
+        expect(entry.dtend).to eq ("2021-01-19T10:00:00Z".to_time(:utc) + 1.hour).in_time_zone("Europe/Berlin")
+      end
     end
 
     context 'with a recipient with another time zone' do
@@ -204,8 +209,8 @@ describe MeetingMailer, type: :mailer do
     context 'when the meeting time results in another date' do
       let(:meeting) do
         create :meeting,
-               author: author,
-               project: project,
+               author:,
+               project:,
                start_time: '2021-11-09T23:00:00 +0100'.to_datetime.utc
       end
 

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -51,7 +49,7 @@ module TeamPlanner
       query
         .filters
         .detect { |filter| filter.name == :assigned_to_id }
-        .then { |filter| filter ? filter.values.count : 0 }
+        .then { |filter| filter ? filter.valid_values!.count : 0 }
     end
 
     def button_links
@@ -63,7 +61,7 @@ module TeamPlanner
         link_to(
           '',
           project_team_planner_path(project, query.id),
-          class: 'op-link icon icon-delete',
+          class: 'spot-link icon icon-delete',
           method: :delete,
           data: {
             confirm: I18n.t(:text_are_you_sure),

@@ -37,6 +37,7 @@ describe ::Query::SortCriteria, type: :model do
   let(:available_criteria) { query.sortable_key_by_column_name }
 
   let(:instance) { described_class.new query.sortable_columns }
+
   subject { instance.to_a }
 
   before do
@@ -69,6 +70,15 @@ describe ::Query::SortCriteria, type: :model do
       it 'returns the custom order by id asc' do
         expect(subject)
           .to eq [['work_packages.id']]
+      end
+    end
+
+    context 'with a sort_criteria for typeahead ASC' do
+      let(:sort_criteria) { [%w[typeahead asc]] }
+
+      it 'returns the custom order by id asc' do
+        expect(subject)
+          .to eq [['work_packages.updated_at DESC, work_packages.updated_at'], ['work_packages.id DESC']]
       end
     end
 

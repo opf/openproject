@@ -40,7 +40,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
       .and_return([])
 
     allow(query)
-      .to receive(:available_columns)
+      .to receive(:displayable_columns)
       .and_return([])
 
     allow(query)
@@ -50,7 +50,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
     query
   end
 
-  let(:instance) { described_class.new(query, self_link: self_link, current_user: user, form_embedded: form_embedded) }
+  let(:instance) { described_class.new(query, self_link:, current_user: user, form_embedded:) }
   let(:user) do
     build_stubbed(:user).tap do |user|
       allow(user)
@@ -346,7 +346,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
              Queries::WorkPackages::Columns::RelationToTypeColumn.new(type),
              Queries::WorkPackages::Columns::RelationOfTypeColumn.new(name: :label_relates_to, sym: :relation1)]
           end
-          let(:available_values_method) { :available_columns }
+          let(:available_values_method) { :displayable_columns }
 
           it_behaves_like 'has a collection of allowed values' do
             let(:expected_hrefs) do
@@ -390,7 +390,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
             [Queries::WorkPackages::Columns::PropertyColumn.new(:bogus1, highlightable: true),
              Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2, highlightable: true)]
           end
-          let(:available_values_method) { :available_columns }
+          let(:available_values_method) { :displayable_columns }
 
           it_behaves_like 'has a collection of allowed values' do
             let(:expected_hrefs) do
@@ -419,7 +419,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:href) { api_v3_paths.query_filter_instance_schemas }
 
           it 'contains the link to the filter schemas' do
-            is_expected
+            expect(subject)
               .to be_json_eql(href.to_json)
               .at_path("#{path}/_links/allowedValuesSchemas/href")
           end
@@ -430,7 +430,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:href) { api_v3_paths.query_project_filter_instance_schemas(project.id) }
 
           it 'contains the link to the filter schemas' do
-            is_expected
+            expect(subject)
               .to be_json_eql(href.to_json)
               .at_path("#{path}/_links/allowedValuesSchemas/href")
           end
@@ -532,7 +532,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:href) { api_v3_paths.query_filter_instance_schemas }
 
           it 'contains a collection of filter schemas' do
-            is_expected
+            expect(subject)
               .to be_json_eql(href.to_json)
               .at_path("#{path}/_links/self/href")
           end
@@ -543,7 +543,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:href) { api_v3_paths.query_project_filter_instance_schemas(project.id) }
 
           it 'contains a collection of filter schemas' do
-            is_expected
+            expect(subject)
               .to be_json_eql(href.to_json)
               .at_path("#{path}/_links/self/href")
           end

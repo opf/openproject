@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -58,7 +56,7 @@ module DemoData
         name: config[:name],
         status: config[:status],
         sharing: config[:sharing],
-        project: project
+        project:
       )
 
       set_wiki! version, config[:wiki] if config[:wiki]
@@ -72,7 +70,7 @@ module DemoData
 
       content = with_references config[:content], project
       Journal::NotificationConfiguration.with false do
-        WikiContent.create! page: page, author: User.admin.first, text: content
+        WikiContent.create! page:, author: User.admin.first, text: content
       end
 
       version.save!

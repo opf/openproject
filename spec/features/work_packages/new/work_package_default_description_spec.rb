@@ -40,15 +40,17 @@ describe 'new work package', js: true, with_mail: false do
 
     description_field.set_value 'Something different than the default.'
 
+    sleep 0.1
+
     type_field.openSelectField
     type_field.set_value type_task
-    expect(page).to have_no_selector('.inline-edit--container.description h1', text: 'New Task template', wait: 5)
+    expect(page).to have_selector('.inline-edit--container.description', text: 'Something different than the default.')
 
-    description_field.set_value ''
+    sleep 0.1
 
     type_field.openSelectField
     type_field.set_value type_bug
-    expect(page).to have_selector('.inline-edit--container.description h1', text: 'New Bug template')
+    expect(page).to have_selector('.inline-edit--container.description', text: 'Something different than the default.')
 
     if set_project
       project_field.openSelectField
@@ -59,7 +61,7 @@ describe 'new work package', js: true, with_mail: false do
     scroll_to_and_click find('#work-packages--edit-actions-save')
     wp_page.expect_toast message: 'Successful creation.'
 
-    expect(page).to have_selector('.inline-edit--display-field.description h1', text: 'New Bug template')
+    expect(page).to have_selector('.inline-edit--display-field.description', text: 'Something different than the default.')
   end
 
   before do
@@ -79,7 +81,7 @@ describe 'new work package', js: true, with_mail: false do
 
   describe 'project work package create' do
     let(:wp_table) { Pages::WorkPackagesTable.new project }
-    let(:wp_page) { Pages::SplitWorkPackageCreate.new project: project }
+    let(:wp_page) { Pages::SplitWorkPackageCreate.new project: }
 
     it 'shows the template after selection of project and type' do
       wp_table.visit!

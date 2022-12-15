@@ -9,7 +9,7 @@ describe 'subject inplace editor', js: true, selenium: true do
   let(:project) { create :project_with_types, public: true }
   let(:property_name) { :subject }
   let(:property_title) { 'Subject' }
-  let(:work_package) { create :work_package, project: project }
+  let(:work_package) { create :work_package, project: }
   let(:user) { create :admin }
   let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package, project) }
   let(:field) { work_packages_page.edit_field(property_name) }
@@ -22,18 +22,18 @@ describe 'subject inplace editor', js: true, selenium: true do
     work_packages_page.ensure_page_loaded
   end
 
-  context 'in read state' do
+  context 'as a read state' do
     it 'has correct content' do
       field.expect_state_text(work_package.send(property_name))
     end
   end
 
-  it_behaves_like 'an auth aware field'
+  it_behaves_like 'as an auth aware field'
   it_behaves_like 'a cancellable field'
-  it_behaves_like 'having a single validation point'
-  it_behaves_like 'a required field'
+  it_behaves_like 'as a single validation point'
+  it_behaves_like 'as a required field'
 
-  context 'in edit state' do
+  context 'as an edit state' do
     before do
       field.activate_edition
     end
@@ -59,7 +59,7 @@ describe 'subject inplace editor', js: true, selenium: true do
       notification.expect_error('Subject is too long (maximum is 255 characters)')
     end
 
-    context 'on save' do
+    context 'when save' do
       before do
         field.input_element.set 'Aloha'
       end
@@ -76,7 +76,7 @@ describe 'subject inplace editor', js: true, selenium: true do
     end
   end
 
-  context 'conflicting modification' do
+  context 'with conflicting modification' do
     it 'shows a conflict when modified elsewhere' do
       work_package.subject = 'Some other subject!'
       work_package.save!

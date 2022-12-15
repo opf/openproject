@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -35,22 +33,22 @@ describe TimeEntries::Scopes::OfUserAndDay, type: :model do
   let(:spent_on) { Date.today }
   let!(:time_entry) do
     create(:time_entry,
-           user: user,
-           spent_on: spent_on)
+           user:,
+           spent_on:)
   end
   let!(:other_time_entry) do
     create(:time_entry,
-           user: user,
-           spent_on: spent_on)
+           user:,
+           spent_on:)
   end
   let!(:other_user_time_entry) do
     create(:time_entry,
            user: create(:user),
-           spent_on: spent_on)
+           spent_on:)
   end
   let!(:other_date_time_entry) do
     create(:time_entry,
-           user: user,
+           user:,
            spent_on: spent_on - 3.days)
   end
 
@@ -58,7 +56,7 @@ describe TimeEntries::Scopes::OfUserAndDay, type: :model do
     subject { TimeEntry.of_user_and_day(user, spent_on) }
 
     it 'are all the time entries of the user on the date' do
-      is_expected
+      expect(subject)
         .to match_array([time_entry, other_time_entry])
     end
 
@@ -66,7 +64,7 @@ describe TimeEntries::Scopes::OfUserAndDay, type: :model do
       subject { TimeEntry.of_user_and_day(user, spent_on, excluding: other_time_entry) }
 
       it 'does not include the time entry' do
-        is_expected
+        expect(subject)
           .to match_array([time_entry])
       end
     end

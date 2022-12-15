@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -45,6 +43,7 @@ module Queries
     attribute :highlighted_attributes
     attribute :show_hierarchies
     attribute :display_representation
+    attribute :include_subprojects
 
     attribute :column_names # => columns
     attribute :filters

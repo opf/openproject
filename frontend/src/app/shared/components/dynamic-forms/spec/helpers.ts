@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, forwardRef, ViewChild } from '@angular/core';
-import { FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TextInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/text-input/text-input.component';
 import { IntegerInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/integer-input/integer-input.component';
@@ -21,7 +21,7 @@ import { OpCkeditorComponent } from 'core-app/shared/components/editor/component
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { CKEditorSetupService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { OpFormFieldComponent } from 'core-app/shared/components/forms/form-field/form-field.component';
+import { SpotFormFieldComponent } from 'core-app/spot/components/form-field/form-field.component';
 
 export function createDynamicInputFixture(fields:IOPFormlyFieldSettings[], model:any, providers?:any[]):ComponentFixture<any> {
   @Component({
@@ -36,7 +36,7 @@ export function createDynamicInputFixture(fields:IOPFormlyFieldSettings[], model
     providers,
   })
   class DynamicInputsTestingComponent {
-    form = new FormGroup({});
+    form = new UntypedFormGroup({});
 
     model = model;
 
@@ -78,7 +78,7 @@ export function createDynamicInputFixture(fields:IOPFormlyFieldSettings[], model
         SelectInputComponent,
         SelectProjectStatusInputComponent,
         BooleanInputComponent,
-        OpFormFieldComponent,
+        SpotFormFieldComponent,
         DateInputComponent,
         OpCkeditorComponent,
         FormattableControlComponent,
@@ -117,7 +117,7 @@ export function createDynamicInputFixture(fields:IOPFormlyFieldSettings[], model
 }
 
 export function testDynamicInputControValueAccessor(fixture:ComponentFixture<any>, model:any, selector:string) {
-  const dynamicForm:FormGroup = fixture.componentInstance.dynamicForm.form;
+  const dynamicForm:UntypedFormGroup = fixture.componentInstance.dynamicForm.form;
   const dynamicInput = fixture.debugElement.query(By.css(selector)).nativeElement;
 
   // Test ControlValueAccessor

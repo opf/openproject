@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -58,7 +56,7 @@ class Wiki < ApplicationRecord
     title = start_page if title.blank?
     # If a new page is initialized, it needs to have a slug (via the ensure_unique_url)
     # method right away, so that the correct menu item (if that exists already) is highlighted
-    find_page(title) || WikiPage.new(wiki: self, title: title).tap(&:ensure_unique_url)
+    find_page(title) || WikiPage.new(wiki: self, title:).tap(&:ensure_unique_url)
   end
 
   ##
@@ -127,7 +125,7 @@ class Wiki < ApplicationRecord
   def matching_redirect(title)
     redirects
       .where(title: WikiPage.slug(title))
-      .or(redirects.where(title: title))
+      .or(redirects.where(title:))
       .first
   end
 end

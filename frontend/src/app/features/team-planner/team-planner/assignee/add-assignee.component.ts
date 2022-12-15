@@ -27,23 +27,19 @@
 //++
 
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
   Injector,
   Input,
   Output,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable } from 'rxjs';
-import {
-  map,
-  mergeMap,
-  take,
-} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -76,48 +72,24 @@ export class AddAssigneeComponent {
   ) { }
 
   public autocomplete(term:string|null):Observable<HalResource[]> {
-    return this.wpTableFilters
-      .live$()
+    const filters = new ApiV3FilterBuilder();
+
+    const currentProjectId = this.currentProjectService.id;
+    filters.add('member', '=', [currentProjectId] as string[]);
+
+    if (term) {
+      filters.add('typeahead', '**', [term]);
+    }
+
+    return this
+      .apiV3Service
+      .principals
+      .filtered(filters)
+      .get()
       .pipe(
-        take(1),
-        map((queryFilters) => {
-          const projectFilter = queryFilters.find((queryFilter) => queryFilter._type === 'ProjectQueryFilter');
-
-          const selectedProjectIds = (() => {
-            const baseList = ((projectFilter?.values || []) as HalResource[]).map((p) => p.id);
-            const currentProjectId = this.currentProjectService.id;
-            if (baseList.includes(currentProjectId)) {
-              return [...baseList];
-            }
-
-            return [
-              ...baseList,
-              currentProjectId,
-            ];
-          })();
-
-          const filters = new ApiV3FilterBuilder();
-
-          filters.add('member', '=', selectedProjectIds as string[]);
-
-          if (term) {
-            filters.add('typeahead', '**', [term]);
-          }
-
-          return filters;
-        }),
-        mergeMap(
-          (filters) => this
-            .apiV3Service
-            .principals
-            .filtered(filters)
-            .get()
-            .pipe(
-              map((collection) => collection.elements.filter(
-                (user) => !this.alreadySelected.find((selected) => selected === user.id),
-              )),
-            ),
-        ),
+        map((collection) => collection.elements.filter(
+          (user) => !this.alreadySelected.find((selected) => selected === user.id),
+        )),
       );
   }
 

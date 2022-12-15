@@ -26,9 +26,9 @@ module Settings
       form.select(
         name,
         time_zone_entries,
-        include_blank: include_blank,
-        container_class: container_class,
-        title: title
+        include_blank:,
+        container_class:,
+        title:
       )
     end
 
@@ -36,9 +36,9 @@ module Settings
       setting_select(
         name,
         time_zone_entries,
-        include_blank: include_blank,
-        container_class: container_class,
-        title: title
+        include_blank:,
+        container_class:,
+        title:
       )
     end
 

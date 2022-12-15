@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -35,7 +33,7 @@ module API
       code 400
 
       def initialize(message, **)
-        super I18n.t('api_v3.errors.code_400', message: message)
+        super I18n.t('api_v3.errors.code_400', message:)
       end
     end
   end

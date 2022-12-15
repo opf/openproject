@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -55,11 +53,11 @@ module Projects::Concerns
 
       if user_member
         Members::UpdateService
-          .new(user: user, model: user_member, contract_class: EmptyContract)
+          .new(user:, model: user_member, contract_class: EmptyContract)
           .call(roles: user_member.roles + [role])
       else
         Members::CreateService
-          .new(user: user, contract_class: EmptyContract)
+          .new(user:, contract_class: EmptyContract)
           .call(roles: [role], project: new_project, principal: user)
       end
     end

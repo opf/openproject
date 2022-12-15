@@ -43,7 +43,8 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
       {
         'notifications' => [
           {
-            'involved' => true,
+            'assignee' => true,
+            'responsible' => true,
             '_links' => {
               'project' => {
                 'href' => '/api/v3/projects/1'
@@ -51,7 +52,8 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
             }
           },
           {
-            'involved' => false,
+            'assignee' => false,
+            'responsible' => false,
             'mentioned' => true,
             '_links' => {
               'project' => {
@@ -69,12 +71,14 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
       in_project, global = subject.notification_settings
 
       expect(in_project[:project_id]).to eq "1"
-      expect(in_project[:involved]).to be_truthy
+      expect(in_project[:assignee]).to be_truthy
+      expect(in_project[:responsible]).to be_truthy
       expect(in_project[:mentioned]).to be_nil
 
-      expect(global[:project_id]).to eq nil
-      expect(global[:involved]).to eq false
-      expect(global[:mentioned]).to eq true
+      expect(global[:project_id]).to be_nil
+      expect(global[:assignee]).to be_falsey
+      expect(global[:responsible]).to be_falsey
+      expect(global[:mentioned]).to be true
     end
   end
 

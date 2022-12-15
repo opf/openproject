@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -177,7 +175,7 @@ module API
         # Write-only properties
 
         property :password,
-                 getter: ->(*) { nil },
+                 getter: ->(*) {},
                  render_nil: false,
                  setter: ->(fragment:, represented:, **) {
                    represented.password = represented.password_confirmation = fragment

@@ -44,7 +44,7 @@ describe 'Projects custom fields', type: :feature, js: true do
     end
     let(:cf_field) { ::FormFields::SelectFormField.new custom_field }
 
-    scenario 'allows creating a new project (regression #29099)' do
+    it 'allows creating a new project (regression #29099)' do
       visit new_project_path
 
       name_field.set_value 'My project name'
@@ -75,7 +75,7 @@ describe 'Projects custom fields', type: :feature, js: true do
     let(:default_string_field) { ::FormFields::InputFormField.new default_string_custom_field }
     let(:no_default_string_field) { ::FormFields::InputFormField.new no_default_string_custom_field }
 
-    scenario 'sets the default values on custom fields and allows overwriting them' do
+    it 'sets the default values on custom fields and allows overwriting them' do
       visit new_project_path
 
       name_field.set_value 'My project name'
@@ -106,7 +106,7 @@ describe 'Projects custom fields', type: :feature, js: true do
     end
     let(:editor) { ::Components::WysiwygEditor.new "[data-qa-field-name='customField#{custom_field.id}']" }
 
-    scenario 'allows settings the project boolean CF (regression #26313)' do
+    it 'allows settings the project boolean CF (regression #26313)' do
       visit project_settings_general_path(project.id)
 
       # expect CF, description and status description ckeditor-augmented-textarea
@@ -135,7 +135,6 @@ describe 'Projects custom fields', type: :feature, js: true do
       create(:float_project_custom_field, name: 'MyFloat')
     end
     let(:float_field) { ::FormFields::InputFormField.new float_cf }
-
 
     context 'with english locale' do
       let(:current_user) { create :admin, language: 'en' }
@@ -196,7 +195,7 @@ describe 'Projects custom fields', type: :feature, js: true do
       create(:bool_project_custom_field)
     end
 
-    scenario 'allows settings the project boolean CF (regression #26313)' do
+    it 'allows settings the project boolean CF (regression #26313)' do
       visit project_settings_general_path(project.id)
       field = page.find(identifier)
       expect(field).not_to be_checked
@@ -215,24 +214,25 @@ describe 'Projects custom fields', type: :feature, js: true do
     let!(:custom_field) do
       create(:user_project_custom_field)
     end
+    let(:cf_field) { ::FormFields::SelectFormField.new custom_field }
 
     # Create a second project for visible options
     let!(:existing_project) { create :project }
 
     # Assume one user is visible
-    let!(:invisible_user) { create :user, firstname: 'Invisible', lastname: 'User'  }
+    let!(:invisible_user) { create :user, firstname: 'Invisible', lastname: 'User' }
     let!(:visible_user) { create :user, firstname: 'Visible', lastname: 'User', member_in_project: existing_project }
-    current_user do
-      create :user,
-             firstname: 'Itsa me',
-             lastname: 'Mario',
-             member_in_project: existing_project,
-             global_permissions: %i[add_project]
+
+    let(:role) { create :role }
+
+    let(:modal) do
+      ::Components::Users::InviteUserModal.new project:,
+                                               principal: invisible_user,
+                                               role:,
+                                               invite_message: 'you are invited'
     end
 
-    let(:cf_field) { ::FormFields::SelectFormField.new custom_field }
-
-    scenario 'allows setting a visible user CF (regression #26313)' do
+    it 'allows setting a visible user CF (regression #26313)' do
       visit new_project_path
 
       name_field.set_value 'My project name'
@@ -249,6 +249,31 @@ describe 'Projects custom fields', type: :feature, js: true do
       project = Project.find_by(name: 'My project name')
       cv = project.custom_values.find_by(custom_field_id: custom_field.id).typed_value
       expect(cv).to eq visible_user
+    end
+
+    it 'allows inviting a new user immediately (regression #39166)' do
+      visit project_settings_general_path(project.id)
+
+      cf_field.expect_visible
+      cf_field.expect_no_option invisible_user
+
+      # Invite the other user to the project
+      find('.ng-dropdown-footer button', text: 'Invite', wait: 5).click
+      modal.run_all_steps
+
+      sleep 2
+
+      # The newly invited user can be directly selected
+      cf_field.expect_visible
+      cf_field.search('invis')
+      cf_field.select_option invisible_user
+
+      click_on 'Save'
+      expect(page).to have_text I18n.t(:notice_successful_update)
+
+      project.reload
+      cv = project.custom_values.find_by(custom_field_id: custom_field.id).typed_value
+      expect(cv).to eq invisible_user
     end
   end
 end

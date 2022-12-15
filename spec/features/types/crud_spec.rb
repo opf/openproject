@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-feature 'Types', type: :feature do
+describe 'Types', type: :feature, js: true do
   shared_let(:admin) { create :admin }
 
   let!(:existing_role) { create(:role) }
@@ -40,7 +40,7 @@ feature 'Types', type: :feature do
     login_as(admin)
   end
 
-  scenario 'crud' do
+  it 'crud' do
     index_page.visit!
 
     index_page.click_new

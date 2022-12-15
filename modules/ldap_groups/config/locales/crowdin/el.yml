@@ -42,8 +42,7 @@ el:
         group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
         filter_string_text: 'Εισάγετε το φίλτρο RFC4515 LDAP που επιστρέφει τις ομάδες στο LDAP σας για συγχρονισμό με το OpenProject.'
         base_dn_text: >
-          Enter the search base DN to use for this filter. It needs to be below the base DN of the selected LDAP connection.
-          Leave this option empty to reuse the base DN of the connection
+          Enter the search base DN to use for this filter. It needs to be below the base DN of the selected LDAP connection. Leave this option empty to reuse the base DN of the connection
     synchronized_groups:
       add_new: 'Προσθήκη συγχρονισμένης LDAP ομάδας'
       destroy:
@@ -67,4 +66,6 @@ el:
           Αν ενεργοποιήσετε αυτήν την επιλογή, οι χρήστες που θα βρεθούν, θα δημιουργηθούν αυτόματα στο OpenProject. Χωρίς αυτό, μόνο οι υπάρχοντες λογαριασμοί OpenProject θα προστεθούν σε ομάδες.
         dn_text: 'Εισάγετε το πλήρες DN της ομάδας σε LDAP'
         group_text: 'Επιλέξτε μια υπάρχουσα ομάδα OpenProject με το οποία θα συγχρονιστούν τα μέλη της ομάδας LDAP'
+      upsale:
+        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
 

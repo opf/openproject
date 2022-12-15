@@ -29,66 +29,121 @@
 require 'spec_helper'
 
 describe Workflow, type: :model do
-  let(:status_0) { create(:status) }
-  let(:status_1) { create(:status) }
-  let(:role) { create(:role) }
-  let(:type) { create(:type) }
-
-  describe '#self.copy' do
-    let(:role_target) { create(:role) }
-    let(:type_target) { create(:type) }
+  describe '.copy' do
+    shared_let(:status0) { create(:status) }
+    shared_let(:status1) { create(:status) }
+    shared_let(:role) { create(:role) }
+    shared_let(:type) { create(:type) }
+    shared_let(:role_target) { create(:role) }
+    shared_let(:type_target) { create(:type) }
+    shared_let(:role_target2) { create(:role) }
+    shared_let(:type_target2) { create(:type) }
 
     shared_examples_for 'copied workflow' do
-      before { Workflow.copy(type, role, type_target, role_target) }
-
-      subject { Workflow.order(Arel.sql('id DESC')).first }
+      let(:expected_type) { type_target }
+      let(:expected_role) { role_target }
 
       it { expect(subject.old_status).to eq(workflow_src.old_status) }
 
       it { expect(subject.new_status).to eq(workflow_src.new_status) }
 
-      it { expect(subject.type_id).to eq(type_target.id) }
+      it { expect(subject.type).to eq(expected_type) }
 
-      it { expect(subject.role).to eq(role_target) }
+      it { expect(subject.role).to eq(expected_role) }
 
       it { expect(subject.author).to eq(workflow_src.author) }
 
       it { expect(subject.assignee).to eq(workflow_src.assignee) }
     end
 
-    describe 'workflow w/o author or assignee' do
+    context 'for a workflow w/o author or assignee' do
       let!(:workflow_src) do
         create(:workflow,
-               old_status: status_0,
-               new_status: status_1,
+               old_status: status0,
+               new_status: status1,
                type_id: type.id,
-               role: role)
+               role:)
       end
-      it_behaves_like 'copied workflow'
+
+      before { described_class.copy(type, role, type_target, role_target) }
+
+      it_behaves_like 'copied workflow' do
+        subject { described_class.order(Arel.sql('id DESC')).first }
+      end
     end
 
-    describe 'workflow with author' do
+    context 'for a workflow with author' do
       let!(:workflow_src) do
         create(:workflow,
-               old_status: status_0,
-               new_status: status_1,
+               old_status: status0,
+               new_status: status1,
                type_id: type.id,
-               role: role,
+               role:,
                author: true)
       end
-      it_behaves_like 'copied workflow'
+
+      before { described_class.copy(type, role, type_target, role_target) }
+
+      it_behaves_like 'copied workflow' do
+        subject { described_class.order(Arel.sql('id DESC')).first }
+      end
     end
 
-    describe 'workflow with assignee' do
+    context 'for a workflow with assignee' do
       let!(:workflow_src) do
         create(:workflow,
-               old_status: status_0,
-               new_status: status_1,
+               old_status: status0,
+               new_status: status1,
                type_id: type.id,
-               role: role,
+               role:,
                assignee: true)
       end
-      it_behaves_like 'copied workflow'
+
+      before { described_class.copy(type, role, type_target, role_target) }
+
+      it_behaves_like 'copied workflow' do
+        subject { described_class.order(Arel.sql('id DESC')).first }
+      end
+    end
+
+    context 'when copying to multiple types and roles' do
+      let!(:workflow_src) do
+        create(:workflow,
+               old_status: status0,
+               new_status: status1,
+               type_id: type.id,
+               role:)
+      end
+
+      before { described_class.copy(type, role, [type_target, type_target2], [role_target, role_target2]) }
+
+      it_behaves_like 'copied workflow' do
+        subject { described_class.order(Arel.sql('type_id DESC, role_id DESC')).first }
+
+        let(:expected_role) { role_target2 }
+        let(:expected_type) { type_target2 }
+      end
+
+      it_behaves_like 'copied workflow' do
+        subject { described_class.order(Arel.sql('type_id DESC, role_id DESC')).second }
+
+        let(:expected_role) { role_target }
+        let(:expected_type) { type_target2 }
+      end
+
+      it_behaves_like 'copied workflow' do
+        subject { described_class.order(Arel.sql('type_id DESC, role_id DESC')).third }
+
+        let(:expected_role) { role_target2 }
+        let(:expected_type) { type_target }
+      end
+
+      it_behaves_like 'copied workflow' do
+        subject { described_class.order(Arel.sql('type_id DESC, role_id DESC')).fourth }
+
+        let(:expected_role) { role_target }
+        let(:expected_type) { type_target }
+      end
     end
   end
 end

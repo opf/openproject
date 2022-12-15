@@ -11,14 +11,14 @@ import { take } from 'rxjs/internal/operators/take';
 import { UIRouterGlobals } from '@uirouter/core';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 import {
-  FormArray,
-  FormBuilder,
+  UntypedFormArray,
+  UntypedFormBuilder,
 } from '@angular/forms';
 import {
   DailyRemindersSettings,
   ImmediateRemindersSettings,
   PauseRemindersSettings,
-  UserPreferencesModel,
+  IUserPreference,
 } from 'core-app/features/user-preferences/state/user-preferences.model';
 import {
   emailAlerts,
@@ -30,7 +30,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { filterObservable } from 'core-app/shared/helpers/rxjs/filterWith';
-import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
+import { INotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
 
 export const myReminderPageComponentSelector = 'op-reminders-page';
 
@@ -97,7 +97,7 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
     private storeService:UserPreferencesService,
     private currentUserService:CurrentUserService,
     private uiRouterGlobals:UIRouterGlobals,
-    private fb:FormBuilder,
+    private fb:UntypedFormBuilder,
     private cdRef:ChangeDetectorRef,
   ) {
     super();
@@ -125,14 +125,14 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
       });
   }
 
-  private buildForm(settings:UserPreferencesModel, globalSetting:NotificationSetting) {
+  private buildForm(settings:IUserPreference, globalSetting:INotificationSetting) {
     this.form.get('immediateReminders.mentioned')?.setValue(settings.immediateReminders.mentioned);
 
     this.form.get('dailyReminders.enabled')?.setValue(settings.dailyReminders.enabled);
 
     this.form.get('pauseReminders')?.patchValue(settings.pauseReminders);
 
-    const dailyReminderTimes = this.form.get('dailyReminders.times') as FormArray;
+    const dailyReminderTimes = this.form.get('dailyReminders.times') as UntypedFormArray;
     dailyReminderTimes.clear({ emitEvent: false });
     [...settings.dailyReminders.times].sort().forEach((time) => {
       dailyReminderTimes.push(this.fb.control(time), { emitEvent: false });
@@ -140,7 +140,7 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
 
     dailyReminderTimes.enable({ emitEvent: true });
 
-    const workdays = this.form.get('workdays') as FormArray;
+    const workdays = this.form.get('workdays') as UntypedFormArray;
     for (let i = 0; i <= 6; i++) {
       const control = workdays.at(i);
       control.setValue(settings.workdays.includes(i + 1));

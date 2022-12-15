@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -54,10 +52,14 @@ module API
       mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::CustomActions::CustomActionsAPI
       mount ::API::V3::CustomOptions::CustomOptionsAPI
+      mount ::API::V3::Days::DaysAPI
+      mount ::API::V3::Grids::GridsAPI
       mount ::API::V3::Notifications::NotificationsAPI
       mount ::API::V3::HelpTexts::HelpTextsAPI
       mount ::API::V3::Memberships::MembershipsAPI
       mount ::API::V3::News::NewsAPI
+      mount ::API::V3::OAuth::OAuthApplicationsAPI
+      mount ::API::V3::OAuth::OAuthClientCredentialsAPI
       mount ::API::V3::Posts::PostsAPI
       mount ::API::V3::Principals::PrincipalsAPI
       mount ::API::V3::Priorities::PrioritiesAPI
@@ -75,14 +77,14 @@ module API
       mount ::API::V3::PlaceholderUsers::PlaceholderUsersAPI
       mount ::API::V3::UserPreferences::UserPreferencesAPI
       mount ::API::V3::Groups::GroupsAPI
+      mount ::API::V3::Values::ValuesAPI
       mount ::API::V3::Versions::VersionsAPI
       mount ::API::V3::Views::ViewsAPI
       mount ::API::V3::WorkPackages::WorkPackagesAPI
       mount ::API::V3::WikiPages::WikiPagesAPI
-      mount ::API::V3::Grids::GridsAPI
 
       get '/' do
-        RootRepresenter.new({}, current_user: current_user)
+        RootRepresenter.new({}, current_user:)
       end
 
       get '/spec.json' do

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -48,16 +46,14 @@ module OpenProject::JobStatus
       "#{root}/job_statuses/#{uuid}"
     end
 
-    initializer 'job_status.event_listener' do
+    config.to_prepare do
+      # Register the cron job to clear statuses periodically
+      ::Cron::CronJob.register! ::JobStatus::Cron::ClearOldJobStatusJob
+
       # Extends the ActiveJob adapter in use (DelayedJob) by a Status which lives
       # indenpendently from the job itself (which is deleted once successful or after max attempts).
       # That way, the result of a background job is available even after the original job is gone.
       EventListener.register!
-    end
-
-    config.to_prepare do
-      # Register the cron job to clear statuses periodically
-      ::Cron::CronJob.register! ::JobStatus::Cron::ClearOldJobStatusJob
     end
   end
 end

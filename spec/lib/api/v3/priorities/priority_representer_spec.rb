@@ -37,37 +37,43 @@ describe ::API::V3::Priorities::PriorityRepresenter do
   context 'generation' do
     subject { representer.to_json }
 
-    it 'should indicate its type' do
-      is_expected.to include_json('Priority'.to_json).at_path('_type')
+    it 'indicates its type' do
+      expect(subject).to include_json('Priority'.to_json).at_path('_type')
     end
 
     describe 'links' do
       it { is_expected.to have_json_type(Object).at_path('_links') }
-      it 'should link to self' do
+
+      it 'links to self' do
         path = api_v3_paths.priority(priority.id)
 
-        is_expected.to be_json_eql(path.to_json).at_path('_links/self/href')
+        expect(subject).to be_json_eql(path.to_json).at_path('_links/self/href')
       end
-      it 'should display its name as title in self' do
-        is_expected.to be_json_eql(priority.name.to_json).at_path('_links/self/title')
+
+      it 'displays its name as title in self' do
+        expect(subject).to be_json_eql(priority.name.to_json).at_path('_links/self/title')
       end
     end
 
     describe 'priority' do
-      it 'should have an id' do
-        is_expected.to be_json_eql(priority.id.to_json).at_path('id')
+      it 'has an id' do
+        expect(subject).to be_json_eql(priority.id.to_json).at_path('id')
       end
-      it 'should have a name' do
-        is_expected.to be_json_eql(priority.name.to_json).at_path('name')
+
+      it 'has a name' do
+        expect(subject).to be_json_eql(priority.name.to_json).at_path('name')
       end
-      it 'should have a position' do
-        is_expected.to be_json_eql(priority.position.to_json).at_path('position')
+
+      it 'has a position' do
+        expect(subject).to be_json_eql(priority.position.to_json).at_path('position')
       end
-      it 'should have a default flag' do
-        is_expected.to be_json_eql(priority.is_default.to_json).at_path('isDefault')
+
+      it 'has a default flag' do
+        expect(subject).to be_json_eql(priority.is_default.to_json).at_path('isDefault')
       end
-      it 'should have an active flag' do
-        is_expected.to be_json_eql(priority.active.to_json).at_path('isActive')
+
+      it 'has an active flag' do
+        expect(subject).to be_json_eql(priority.active.to_json).at_path('isActive')
       end
     end
 

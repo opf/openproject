@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -41,7 +39,7 @@ module API
             end
 
             get do
-              BudgetRepresenter.new(@budget, current_user: current_user)
+              BudgetRepresenter.new(@budget, current_user:)
             end
 
             mount ::API::V3::Attachments::AttachmentsByBudgetAPI

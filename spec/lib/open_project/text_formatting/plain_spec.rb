@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -33,11 +31,11 @@ require 'spec_helper'
 describe OpenProject::TextFormatting::Formats::Plain::Formatter do
   subject { described_class.new({}) }
 
-  it 'should plain text' do
+  it 'plains text' do
     assert_html_output('This is some input' => 'This is some input')
   end
 
-  it 'should escaping' do
+  it 'escapings' do
     assert_html_output(
       'this is a <script>' => 'this is a &lt;script&gt;'
     )

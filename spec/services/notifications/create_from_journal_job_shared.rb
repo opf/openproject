@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -36,7 +34,7 @@ shared_context 'with CreateFromJournalJob context' do
     create(:user,
            notification_settings: recipient_notification_settings,
            member_in_project: project,
-           member_through_role: create(:role, permissions: permissions),
+           member_through_role: create(:role, permissions:),
            login: recipient_login)
   end
   let(:recipient_login) { "johndoe" }
@@ -46,7 +44,7 @@ shared_context 'with CreateFromJournalJob context' do
     ]
 
     create(:user,
-           notification_settings: notification_settings)
+           notification_settings:)
   end
   let(:notification_settings_all_false) do
     NotificationSetting
@@ -87,7 +85,7 @@ shared_context 'with CreateFromJournalJob context' do
               .and_return(notifications_service)
       allow(notifications_service)
         .to receive(:call)
-              .and_return(ServiceResult.new(success: true, result: notification))
+              .and_return(ServiceResult.success(result: notification))
 
       expect(call.all_results)
         .to match_array([notification])
@@ -95,10 +93,10 @@ shared_context 'with CreateFromJournalJob context' do
       expect(notifications_service)
         .to have_received(:call)
               .with({ recipient_id: recipient.id,
-                      project: project,
+                      project:,
                       actor: sender,
-                      journal: journal,
-                      resource: resource }.merge(notification_channel_reasons))
+                      journal:,
+                      resource: }.merge(notification_channel_reasons))
     end
   end
 

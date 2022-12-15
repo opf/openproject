@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'index users', type: :feature do
+describe 'index users', type: :feature, js: true do
   shared_let(:current_user) { create :admin, firstname: 'admin', lastname: 'admin', created_at: 1.hour.ago }
   let(:index_page) { Pages::Admin::Users::Index.new }
 

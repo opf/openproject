@@ -29,9 +29,8 @@
 module Components
   class AddExistingPane
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
-
-    def initialize; end
 
     def selector
       "[data-qa-selector='add-existing-pane']"
@@ -55,7 +54,7 @@ module Components
     end
 
     def search(term)
-      page.find("[data-qa-selector='op-add-existing-pane--search-input']").set(term)
+      page.find("[data-qa-selector='op-add-existing-pane--search-input'] input").set(term)
     end
 
     def expect_result(work_package, visible: true)
@@ -72,7 +71,7 @@ module Components
       source = page
                  .find("[data-qa-selector='op-add-existing-pane--wp-#{work_package.id}']")
 
-      drag_by_pixel(element: source, by_x: by_x, by_y: by_y)
+      drag_by_pixel(element: source, by_x:, by_y:)
     end
 
     def card(work_package)

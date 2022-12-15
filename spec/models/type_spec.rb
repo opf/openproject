@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -49,7 +47,7 @@ describe ::Type, type: :model do
   end
 
   describe '.statuses' do
-    let(:subject) { type.statuses }
+    subject { type.statuses }
 
     context 'when new' do
       let(:type) { build(:type) }
@@ -74,11 +72,11 @@ describe ::Type, type: :model do
       let!(:type) { create(:type) }
       let!(:workflow_a) do
         create(:workflow, role_id: role.id,
-                                     type_id: type.id,
-                                     old_status_id: statuses[0].id,
-                                     new_status_id: statuses[1].id,
-                                     author: false,
-                                     assignee: false)
+                          type_id: type.id,
+                          old_status_id: statuses[0].id,
+                          new_status_id: statuses[1].id,
+                          author: false,
+                          assignee: false)
       end
 
       it 'returns the statuses relation' do
@@ -87,7 +85,8 @@ describe ::Type, type: :model do
 
       context 'with default status' do
         let!(:default_status) { create(:default_status) }
-        let(:subject) { type.statuses(include_default: true) }
+
+        subject { type.statuses(include_default: true) }
 
         it 'returns the workflow and the default status' do
           expect(subject.pluck(:id)).to contain_exactly(default_status.id, statuses[0].id, statuses[1].id)
@@ -108,6 +107,22 @@ describe ::Type, type: :model do
       expect(Workflow)
         .to have_received(:copy)
         .with(type2, nil, type, nil)
+    end
+  end
+
+  describe '#work_package_attributes' do
+    subject { type.work_package_attributes }
+
+    context 'for the duration field' do
+      it 'does not return the field' do
+        expect(subject).not_to have_key("duration")
+      end
+    end
+
+    context 'for the ignore_non_working_days field' do
+      it 'does not return the field' do
+        expect(subject).not_to have_key("ignore_non_working_days")
+      end
     end
   end
 end

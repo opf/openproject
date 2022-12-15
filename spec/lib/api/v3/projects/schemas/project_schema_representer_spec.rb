@@ -87,9 +87,9 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
   let(:representer) do
     described_class.create(contract,
-                           self_link: self_link,
+                           self_link:,
                            form_embedded: embedded,
-                           current_user: current_user)
+                           current_user:)
   end
 
   context 'generation' do
@@ -97,7 +97,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
     describe '_type' do
       it 'is indicated as Schema' do
-        is_expected.to be_json_eql('Schema'.to_json).at_path('_type')
+        expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
       end
     end
 
@@ -234,7 +234,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:type) { 'Integer' }
         let(:name) { custom_field.name }
         let(:required) { false }
-        let(:writable) { true }
+        let(:writable) { false }
       end
     end
 
@@ -272,7 +272,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
           it_behaves_like 'has basic schema properties' do
             let(:type) { 'Project' }
             let(:name) { Project.human_attribute_name('parent') }
-            # Required is different when the add_project permisison is lacking
+            # Required is different when the add_project permission is lacking
             let(:required) { true }
             let(:writable) { true }
             let(:location) { '_links' }

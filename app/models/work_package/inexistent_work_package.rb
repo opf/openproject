@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -29,7 +27,7 @@
 #++
 
 class WorkPackage::InexistentWorkPackage < WorkPackage
-  _validators.clear
+  include InexistentModel
 
   def does_not_exist
     errors.add :base, :does_not_exist

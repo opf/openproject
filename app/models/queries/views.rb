@@ -27,16 +27,10 @@
 #++
 
 module Queries::Views
-  [
-    Queries::Views::Filters::ProjectFilter,
-    Queries::Views::Filters::TypeFilter
-  ].each do |filter|
-    Queries::Register.filter Queries::Views::ViewQuery,
-                             filter
-  end
+  ::Queries::Register.register(ViewQuery) do
+    filter Filters::ProjectFilter
+    filter Filters::TypeFilter
 
-  [Queries::Views::Orders::DefaultOrder].each do |order|
-    Queries::Register.order Queries::Views::ViewQuery,
-                            order
+    order Orders::DefaultOrder
   end
 end

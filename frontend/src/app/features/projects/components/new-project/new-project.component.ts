@@ -3,7 +3,7 @@ import { StateService, UIRouterGlobals } from '@uirouter/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IDynamicFieldGroupConfig, IOPFormlyFieldSettings } from 'core-app/shared/components/dynamic-forms/typings';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -39,6 +39,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     use_template: this.I18n.t('js.project.use_template'),
     no_template_selected: this.I18n.t('js.project.no_template_selected'),
     advancedSettingsLabel: this.I18n.t('js.forms.advanced_settings'),
+    copySettingsLabel: this.I18n.t('js.project.copy.copy_options'),
   };
 
   hiddenFields:string[] = [
@@ -63,8 +64,8 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
       map((response) => response.elements.map((el:HalResource) => ({ href: el.href, name: el.name }))),
     );
 
-  templateForm = new FormGroup({
-    template: new FormControl(),
+  templateForm = new UntypedFormGroup({
+    template: new UntypedFormControl(),
   });
 
   get templateControl() {
@@ -88,10 +89,15 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     this.resourcePath = this.apiV3Service.projects.path;
     this.fieldGroups = [{
       name: this.text.advancedSettingsLabel,
-      fieldsFilter: (field) => !['name', 'parent', 'sendNotifications'].includes(field.templateOptions?.property as string)
+      fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property as string)
+        && !this.isMeta(field.templateOptions?.property)
         && !(field.templateOptions?.required
         && !field.templateOptions.hasDefault
         && field.templateOptions.payloadValue == null),
+    },
+    {
+      name: this.text.copySettingsLabel,
+      fieldsFilter: (field:IOPFormlyFieldSettings) => this.isMeta(field.templateOptions?.property),
     }];
 
     if (this.uIRouterGlobals.params.parent_id) {
@@ -128,8 +134,8 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     return !!key && (this.hiddenFields.includes(key) || this.isMeta(key));
   }
 
-  private isMeta(key:string):boolean {
-    return key.startsWith('_meta.');
+  private isMeta(property:string|undefined):boolean {
+    return !!property && (property.startsWith('copy') || property === 'sendNotifications');
   }
 
   private setParentAsPayload(parentId:string) {

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -36,7 +34,7 @@ class Queries::Members::Filters::GroupFilter < Queries::Members::Filters::Member
   end
 
   def scope
-    scope = model.joins(:principal).merge(User.joins(:groups))
+    scope = model.joins(:principal)
     scope.where(where)
   end
 end

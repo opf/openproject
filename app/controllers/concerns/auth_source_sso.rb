@@ -29,7 +29,11 @@ module AuthSourceSSO
     logged_user = match_sso_with_logged_user(login, user)
 
     # Return the logged in user if matches
-    return logged_user if logged_user.present?
+    # but remember it came from auth_source_sso
+    if logged_user.present?
+      session[:user_from_auth_header] = true
+      return logged_user
+    end
 
     Rails.logger.debug { "Starting header-based auth source SSO for #{header_name}='#{op_auth_header_value}'" }
 
@@ -107,7 +111,7 @@ module AuthSourceSSO
   end
 
   def find_or_create_sso_user(login, save: false)
-    find_user_from_auth_source(login) || create_user_from_auth_source(login, save: save)
+    find_user_from_auth_source(login) || create_user_from_auth_source(login, save:)
   end
 
   def find_user_from_auth_source(login)
@@ -174,7 +178,7 @@ module AuthSourceSSO
 
   def handle_sso_for!(user, login)
     if sso_login_failed?(user)
-      handle_sso_failure!(login: login)
+      handle_sso_failure!(login:)
     else
       # valid user
       # If a user is invited, ensure it gets activated
@@ -208,7 +212,7 @@ module AuthSourceSSO
 
   def handle_sso_failure!(login: nil)
     session[:auth_source_sso_failure] = {
-      login: login,
+      login:,
       back_url: request.base_url + request.original_fullpath,
       ttl: 1
     }

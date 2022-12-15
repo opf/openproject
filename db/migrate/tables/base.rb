@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -43,8 +41,8 @@ class Tables::Base
     { id: :integer }
   end
 
-  def self.create_table(migration, &block)
-    migration.create_table table_name, **id_options.merge(bulk: true), &block
+  def self.create_table(migration, &)
+    migration.create_table table_name, **id_options.merge(bulk: true), &
   end
 
   def self.table(_migration)

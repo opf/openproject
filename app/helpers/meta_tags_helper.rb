@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -48,7 +46,7 @@ module MetaTagsHelper
           firstDayOfWeek: locale_first_day_of_week,
           environment: Rails.env,
           edition: OpenProject::Configuration.edition
-    }
+        }
   end
 
   ##

@@ -91,7 +91,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     dragAndDropEnabled: true,
   };
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     readonly injector:Injector,
     readonly $state:StateService,
     readonly keepTab:KeepTabService,
@@ -102,7 +103,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
-    private ngZone:NgZone) {
+    private ngZone:NgZone,
+  ) {
     super();
   }
 

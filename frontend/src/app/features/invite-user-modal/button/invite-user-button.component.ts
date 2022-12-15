@@ -1,10 +1,13 @@
-import { Component, Input } from '@angular/core';
-import { NgSelectComponent } from '@ng-select/ng-select';
+import {
+  Component,
+  Input,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { OpInviteUserModalService } from 'core-app/features/invite-user-modal/invite-user-modal.service';
+import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 
 @Component({
   selector: 'op-invite-user-button',
@@ -30,21 +33,23 @@ export class InviteUserButtonComponent {
     readonly opInviteUserModalService:OpInviteUserModalService,
     readonly currentProjectService:CurrentProjectService,
     readonly currentUserService:CurrentUserService,
-    readonly ngSelectComponent:NgSelectComponent,
+    readonly autocompleter:OpAutocompleterComponent,
   ) {
   }
 
   public ngOnInit():void {
     this.projectId = this.projectId || this.currentProjectService.id;
-    this.canInviteUsersToProject$ = this.currentUserService.hasCapabilities$(
-      'memberships/create',
-      this.projectId || undefined,
-    );
+    this.canInviteUsersToProject$ = this
+      .currentUserService
+      .hasCapabilities$(
+        'memberships/create',
+        this.projectId || null,
+      );
   }
 
   public onAddNewClick($event:Event):void {
     $event.stopPropagation();
     this.opInviteUserModalService.open(this.projectId);
-    this.ngSelectComponent.close();
+    this.autocompleter.closeSelect();
   }
 }

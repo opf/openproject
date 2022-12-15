@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -47,6 +45,6 @@ module Grids
       name.presence || self.class.to_s.demodulize
     end
 
-    acts_as_attachable
+    acts_as_attachable allow_uncontainered: false
   end
 end

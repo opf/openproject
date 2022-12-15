@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -46,7 +44,7 @@ class Projects::TemplatedController < ApplicationController
     service_call = Projects::UpdateService
                      .new(user: current_user,
                           model: @project)
-                     .call(templated: templated)
+                     .call(templated:)
 
     if service_call.success?
       flash[:notice] = t(:notice_successful_update)

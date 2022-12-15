@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -30,10 +28,10 @@
 
 module OpenProject::Plugins
   module AuthPlugin
-    def register_auth_providers(&build_providers)
+    def register_auth_providers(&)
       initializer "#{engine_name}.middleware" do |app|
         builder = ProviderBuilder.new
-        builder.instance_eval(&build_providers)
+        builder.instance_eval(&)
 
         app.config.middleware.use OmniAuth::FlexibleBuilder do
           builder.new_strategies.each do |strategy|

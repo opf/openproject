@@ -31,20 +31,20 @@ require 'spec_helper'
 describe 'Wysiwyg work package user mentions',
          type: :feature,
          js: true do
-  let!(:user) { create :admin }
+  let!(:user) { create(:admin, firstname: 'MeMyself', lastname: 'AndI', member_in_project: project) }
   let!(:user2) { create(:user, firstname: 'Foo', lastname: 'Bar', member_in_project: project) }
   let!(:group) { create(:group, firstname: 'Foogroup', lastname: 'Foogroup') }
   let!(:group_role) { create(:role) }
   let!(:group_member) do
     create(:member,
            principal: group,
-           project: project,
+           project:,
            roles: [group_role])
   end
   let(:project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
   let!(:work_package) do
     User.execute_as user do
-      create(:work_package, subject: 'Foobar', project: project)
+      create(:work_package, subject: 'Foobar', project:)
     end
   end
 
@@ -55,7 +55,7 @@ describe 'Wysiwyg work package user mentions',
   let(:comment_field) do
     TextEditorField.new wp_page,
                         'comment',
-                        selector: selector
+                        selector:
   end
 
   before do
@@ -84,6 +84,25 @@ describe 'Wysiwyg work package user mentions',
 
     expect(page)
       .to have_selector('a.user-mention', text: 'Foo Bar')
+
+    # Mentioning myself works
+    comment_field.activate!
+
+    comment_field.clear with_backspace: true
+    comment_field.input_element.send_keys("@MeMyself")
+    expect(page).to have_selector('.mention-list-item', text: user.name)
+
+    page.find('.mention-list-item', text: user.name).click
+
+    expect(page)
+      .to have_selector('a.mention', text: '@MeMyself AndI')
+
+    comment_field.submit_by_click if comment_field.active?
+
+    wp_page.expect_and_dismiss_toaster message: "The comment was successfully added."
+
+    expect(page)
+      .to have_selector('a.user-mention', text: 'MeMyself AndI')
 
     # Mentioning a group works
     comment_field.activate!

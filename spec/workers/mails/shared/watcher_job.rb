@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -38,7 +36,7 @@ shared_examples "watcher job" do |action|
   let(:watcher_changer) do
     build_stubbed(:user)
   end
-  let(:work_package) { build_stubbed(:work_package, type: build_stubbed(:type), project: project) }
+  let(:work_package) { build_stubbed(:work_package, type: build_stubbed(:type), project:) }
   let(:watcher) do
     build_stubbed(:watcher, watchable: work_package, user: watching_user)
   end
@@ -50,7 +48,7 @@ shared_examples "watcher job" do |action|
   end
   let(:watching_user) do
     build_stubbed(:user,
-                  notification_settings: notification_settings).tap do |user|
+                  notification_settings:).tap do |user|
       allow(user)
         .to receive(:notification_settings)
               .and_return(notification_settings)
@@ -128,25 +126,32 @@ shared_examples "watcher job" do |action|
 
   it_behaves_like 'notifies the watcher' do
     let(:notification_settings) do
-      [build_stubbed(:notification_setting, mentioned: false, involved: false, watched: true)]
+      [build_stubbed(:notification_setting, mentioned: false, assignee: false, responsible: false, watched: true)]
     end
   end
 
   it_behaves_like 'notifies the watcher' do
     let(:notification_settings) do
-      [build_stubbed(:notification_setting, mentioned: false, involved: false, watched: true)]
+      [build_stubbed(:notification_setting, mentioned: false, assignee: false, responsible: false, watched: true)]
     end
   end
 
   it_behaves_like 'does not notify the watcher' do
     let(:notification_settings) do
-      [build_stubbed(:notification_setting, mentioned: false, involved: true, watched: false)]
+      [build_stubbed(:notification_setting, mentioned: false, assignee: true, responsible: true, watched: false)]
     end
   end
 
   it_behaves_like 'does not notify the watcher' do
     let(:notification_settings) do
-      [build_stubbed(:notification_setting, mentioned: true, involved: false, watched: false)]
+      [build_stubbed(:notification_setting, mentioned: true, assignee: false, responsible: false, watched: false)]
+    end
+  end
+
+  it_behaves_like 'does not notify the watcher' do
+    # Regression test for notification settings being empty
+    let(:notification_settings) do
+      []
     end
   end
 end

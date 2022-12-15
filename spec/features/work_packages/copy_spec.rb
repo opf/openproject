@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.feature 'Work package copy', js: true, selenium: true do
+RSpec.describe 'Work package copy', js: true, selenium: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -54,12 +54,12 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
   let(:project) { create(:project, types: [type]) }
   let(:original_work_package) do
     build(:work_package,
-          project: project,
+          project:,
           assigned_to: assignee,
-          responsible: responsible,
-          version: version,
-          type: type,
-          author: author)
+          responsible:,
+          version:,
+          type:,
+          author:)
   end
   let(:role) { build(:role, permissions: %i[view_work_packages work_package_assigned]) }
   let(:assignee) do
@@ -85,7 +85,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
   end
   let(:version) do
     build(:version,
-          project: project)
+          project:)
   end
 
   before do
@@ -94,7 +94,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
     work_flow.save!
   end
 
-  scenario 'on fullscreen page' do
+  it 'on fullscreen page' do
     original_work_package_page = Pages::FullWorkPackage.new(original_work_package, project)
     to_copy_work_package_page = original_work_package_page.visit_copy!
 
@@ -105,11 +105,12 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
     to_copy_work_package_page.save!
 
     expect(page).to have_selector('.op-toast--content',
-                                  text: I18n.t('js.notice_successful_create'))
+                                  text: I18n.t('js.notice_successful_create'),
+                                  wait: 20)
 
     copied_work_package = WorkPackage.order(created_at: 'desc').first
 
-    expect(copied_work_package).to_not eql original_work_package
+    expect(copied_work_package).not_to eql original_work_package
 
     work_package_page = Pages::FullWorkPackage.new(copied_work_package, project)
 
@@ -148,7 +149,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
     end
   end
 
-  scenario 'on split screen page' do
+  it 'on split screen page' do
     original_work_package_page = Pages::SplitWorkPackage.new(original_work_package, project)
     to_copy_work_package_page = original_work_package_page.visit_copy!
 
@@ -156,14 +157,13 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
     to_copy_work_package_page.expect_fully_loaded
 
     to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
-    to_copy_work_package_page.save!
 
-    expect(page).to have_selector('.op-toast--content',
-                                  text: I18n.t('js.notice_successful_create'))
+    to_copy_work_package_page.save!
+    find('.op-toast--content', text: I18n.t('js.notice_successful_create'), wait: 20)
 
     copied_work_package = WorkPackage.order(created_at: 'desc').first
 
-    expect(copied_work_package).to_not eql original_work_package
+    expect(copied_work_package).not_to eql original_work_package
 
     work_package_page = Pages::SplitWorkPackage.new(copied_work_package, project)
 

@@ -25,6 +25,7 @@ describe ::Webhooks::Webhook, type: :model do
 
   describe '#events' do
     let(:events) { %w(work_package:updated work_package:created) }
+
     before do
       subject.event_names = events
       subject.save!

@@ -30,12 +30,13 @@ module Components
   module WorkPackages
     class SettingsMenu
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       def open_and_save_query(name)
         open!
         find("#{selector} .menu-item", text: 'Save', match: :prefer_exact).click
-        page.within('.op-modal') do
+        page.within('.spot-modal') do
           find('#save-query-name').set name
           click_on 'Save'
         end
@@ -66,7 +67,7 @@ module Components
       def expect_options(options)
         expect_open
         options.each do |text|
-          expect(page).to have_selector("#{selector} a", text: text)
+          expect(page).to have_selector("#{selector} a", text:)
         end
       end
 

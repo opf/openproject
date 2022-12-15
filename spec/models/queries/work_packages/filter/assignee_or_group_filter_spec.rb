@@ -51,7 +51,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       let(:values) { [assignee.id.to_s] }
 
       it 'returns the work package' do
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
     end
@@ -66,7 +66,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       end
 
       it 'returns the work package' do
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
     end
@@ -81,7 +81,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       end
 
       it 'does not return the work package' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
@@ -91,7 +91,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       let(:values) { [group.id.to_s] }
 
       it 'returns the work package' do
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
     end
@@ -101,7 +101,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       let(:group_members) { [assignee] }
 
       it 'returns the work package' do
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
     end
@@ -110,7 +110,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       let(:values) { [group.id.to_s] }
 
       it 'does not return the work package' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
@@ -122,7 +122,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       let!(:group) { create(:group, members: user) }
 
       it 'returns the work package' do
-        is_expected
+        expect(subject)
           .to match_array [work_package]
       end
     end
@@ -133,7 +133,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       let(:user) { create(:user) }
 
       it 'does not return the work package' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
@@ -142,7 +142,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
       let(:values) { ['0'] }
 
       it 'does not return the work package' do
-        is_expected
+        expect(subject)
           .to be_empty
       end
     end
@@ -160,7 +160,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
 
         allow(loader)
           .to receive(:user_values)
-          .and_return([[user.name, user.id.to_s]])
+          .and_return([[nil, user.id.to_s]])
         allow(loader)
           .to receive(:group_values)
           .and_return([])

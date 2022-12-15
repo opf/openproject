@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -77,11 +75,11 @@ class ParseSchemaFilterParamsService
   def error(message)
     errors = ActiveModel::Errors.new(self)
     errors.add(:base, message)
-    ServiceResult.new(errors: errors)
+    ServiceResult.failure(errors:)
   end
 
   def success(result)
-    ServiceResult.new(success: true, result: result)
+    ServiceResult.success(result:)
   end
 
   def valid_project_type_pairs(filter)

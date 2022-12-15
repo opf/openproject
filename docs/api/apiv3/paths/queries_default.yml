@@ -51,20 +51,20 @@ get:
   - description: Indicates whether properties should be summed up if they support
       it. The showSums parameter is applied to the to the query's result collection
       of work packages overriding the query's persisted sums property.
-    example: 'true'
+    example: true
     in: query
     name: showSums
     required: false
     schema:
-      default: 'false'
+      default: false
       type: boolean
   - description: Indicates whether the timeline should be shown.
-    example: 'true'
+    example: true
     in: query
     name: timelineVisible
     required: false
     schema:
-      default: 'false'
+      default: false
       type: boolean
   - description: Indicates in what zoom level the timeline should be shown. Valid
       values are  `days`, `weeks`, `months`, `quarters`, and `years`.
@@ -76,12 +76,12 @@ get:
       default: days
       type: string
   - description: Indicates whether the hierarchy mode should be enabled.
-    example: 'true'
+    example: true
     in: query
     name: showHierarchies
     required: false
     schema:
-      default: 'true'
+      default: true
       type: boolean
   responses:
     '200':
@@ -132,11 +132,11 @@ get:
                   - href: "/api/v3/queries/columns/updated_at"
                     title: Updated on
                   groupBy:
-                    href: 
-                    title: 
+                    href:
+                    title:
                   highlightedAttributes: []
                   project:
-                    href: 
+                    href:
                   results:
                     href: "/api/v3/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=1&pageSize=2&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
                   self:

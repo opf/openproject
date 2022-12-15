@@ -36,30 +36,32 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
   let(:work_package) do
     create :work_package,
-           project: project,
-           type: type,
+           project:,
+           type:,
            custom_values: initial_custom_values
   end
 
   let!(:time_entry1) do
     create :time_entry,
-           user: user,
-           work_package: work_package,
-           project: project,
+           user:,
+           work_package:,
+           project:,
            hours: 10
   end
 
   let!(:time_entry2) do
     create :time_entry,
-           user: user,
-           work_package: work_package,
-           project: project,
+           user:,
+           work_package:,
+           project:,
            hours: 2.50
   end
 
   def custom_value_for(cf, str)
     cf.custom_options.find { |co| co.value == str }.try(:id)
   end
+
+  current_user { user }
 
   context 'with multi value cf' do
     let!(:custom_field) do
@@ -78,13 +80,13 @@ describe 'Custom fields reporting', type: :feature, js: true do
     # as this caused problems with casting the nil value of the custom value to 0.
     let!(:work_package2) do
       create :work_package,
-             project: project,
-             type: type
+             project:,
+             type:
     end
 
     before do
-      login_as(user)
       visit '/cost_reports'
+      sleep(0.1)
     end
 
     it 'filters by the multi CF' do
@@ -99,7 +101,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       expect(select).to have_selector('option', text: 'Second option')
       select.find('option', text: 'Second option').select_option
 
-      find('#query-icon-apply-button').click
+      click_link 'Apply'
 
       # Expect empty result table
       within('#result-table') do
@@ -125,7 +127,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       select 'List CF', from: 'group-by--add-columns'
       select 'Work package', from: 'group-by--add-rows'
 
-      find('#query-icon-apply-button').click
+      click_link 'Apply'
 
       # Expect row of work package
       within('#result-table') do
@@ -157,15 +159,15 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
       let!(:work_package2) do
         create :work_package,
-               project: project,
+               project:,
                custom_values: { custom_field_2.id => custom_value_for(custom_field_2, 'A') }
       end
 
       let!(:time_entry1) do
         create :time_entry,
-               user: user,
+               user:,
                work_package: work_package2,
-               project: project,
+               project:,
                hours: 10
       end
 
@@ -173,8 +175,8 @@ describe 'Custom fields reporting', type: :feature, js: true do
         CustomValue.find_by(customized_id: work_package2.id).update_columns(value: 'invalid')
         work_package2.reload
 
-        login_as(user)
         visit '/cost_reports'
+        sleep(0.1)
       end
 
       it 'groups by the raw values when an invalid value exists' do
@@ -186,7 +188,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
         select 'Invalid List CF', from: 'group-by--add-columns'
         select 'Work package', from: 'group-by--add-rows'
 
-        find('#query-icon-apply-button').click
+        click_link 'Apply'
 
         # Expect row of work package
         within('#result-table') do
@@ -208,8 +210,8 @@ describe 'Custom fields reporting', type: :feature, js: true do
     let(:initial_custom_values) { { custom_field.id => 'foo' } }
 
     before do
-      login_as(user)
       visit '/cost_reports'
+      sleep(0.1)
     end
 
     it 'groups by a text CF' do
@@ -219,7 +221,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       select 'Text CF', from: 'group-by--add-columns'
       select 'Work package', from: 'group-by--add-rows'
 
-      find('#query-icon-apply-button').click
+      click_link 'Apply'
 
       # Expect row of work package
       within('#result-table') do

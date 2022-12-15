@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -47,7 +45,7 @@ module OpenProject::TextFormatting
           next if has_ancestor?(node, PREFORMATTED_BLOCKS)
 
           self.class.matchers.each do |matcher|
-            matcher.call(node, doc: doc, context: context)
+            matcher.call(node, doc:, context:)
           end
         end
 

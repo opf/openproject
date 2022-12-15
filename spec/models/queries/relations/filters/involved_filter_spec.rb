@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -57,13 +55,14 @@ describe Queries::Relations::Filters::InvolvedFilter, type: :model do
     before do
       login_as(current_user)
     end
+
     let(:visible_sql) { WorkPackage.visible(current_user).select(:id).to_sql }
 
     context 'for "="' do
       let(:operator) { '=' }
 
       it 'is the same as handwriting the query' do
-        sql = "(from_id IN ('1') AND to_id IN (#{visible_sql}))\n OR (to_id IN ('1') AND from_id IN (#{visible_sql}))\n"
+        sql = "(from_id IN ('1') AND to_id IN (#{visible_sql})) OR (to_id IN ('1') AND from_id IN (#{visible_sql}))"
         expected = model.where(sql)
 
         expect(instance.scope.to_sql).to eql expected.to_sql
@@ -74,7 +73,7 @@ describe Queries::Relations::Filters::InvolvedFilter, type: :model do
       let(:operator) { '!' }
 
       it 'is the same as handwriting the query' do
-        sql = "(from_id NOT IN ('1') AND to_id IN (#{visible_sql}))\n AND (to_id NOT IN ('1') AND from_id IN (#{visible_sql}))\n"
+        sql = "(from_id NOT IN ('1') AND to_id IN (#{visible_sql})) AND (to_id NOT IN ('1') AND from_id IN (#{visible_sql}))"
         expected = model.where(sql)
 
         expect(instance.scope.to_sql).to eql expected.to_sql

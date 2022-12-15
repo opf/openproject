@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -27,9 +25,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
 module API
   class Root < ::API::RootAPI
+    include ::API::AppsignalAPI
     content_type 'hal+json', 'application/hal+json; charset=utf-8'
     format 'hal+json'
     formatter 'hal+json', API::Formatter.new

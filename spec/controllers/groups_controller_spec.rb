@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -145,7 +143,7 @@ describe GroupsController, type: :controller do
       context 'with an existing membership' do
         let!(:member_group) do
           create(:member,
-                 project: project,
+                 project:,
                  principal: group,
                  roles: [role1])
         end

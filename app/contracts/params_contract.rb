@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -32,7 +30,7 @@ class ParamsContract < BaseContract
   attr_reader :params
 
   def initialize(model, user, params:, options: {})
-    super(model, user, options: options)
+    super(model, user, options:)
 
     @params = params
   end

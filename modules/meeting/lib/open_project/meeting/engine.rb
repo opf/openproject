@@ -80,12 +80,9 @@ module OpenProject::Meeting
       mount ::API::V3::Meetings::MeetingContentsAPI
     end
 
-    initializer 'meeting.register_latest_project_activity' do
-      Project.register_latest_project_activity on: 'Meeting',
-                                               attribute: :updated_at
-    end
-
     config.to_prepare do
+      OpenProject::ProjectLatestActivity.register on: 'Meeting'
+
       PermittedParams.permit(:search, :meetings)
     end
 

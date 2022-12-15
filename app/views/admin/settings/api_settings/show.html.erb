@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <%= toolbar title: t(:label_api_access_key_type) %>
 
-<%= styled_form_tag(admin_settings_update_api_path, method: :patch) do %>
+<%= styled_form_tag(admin_settings_api_path, method: :patch) do %>
   <section class="form--section">
     <div class="form--field">
       <%= setting_number_field :apiv3_max_page_size, min: 50, container_class: '-slim' %>

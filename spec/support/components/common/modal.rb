@@ -30,13 +30,12 @@ module Components
   module Common
     class Modal
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
-
-      def initialize; end
 
       def expect_title(text)
         within_modal do
-          expect(page).to have_selector('.op-modal--title' ,text: text)
+          expect(page).to have_selector('.spot-modal--header', text:)
         end
       end
 
@@ -60,8 +59,8 @@ module Components
         end
       end
 
-      def within_modal(&block)
-        page.within(selector, &block)
+      def within_modal(&)
+        page.within(selector, &)
       end
 
       def modal_element
@@ -69,7 +68,7 @@ module Components
       end
 
       def selector
-        '.op-modal'
+        '.spot-modal'
       end
     end
   end

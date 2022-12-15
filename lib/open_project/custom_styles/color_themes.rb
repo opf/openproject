@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -29,7 +27,9 @@
 #++
 
 module OpenProject::CustomStyles
-  class ColorThemes
+  module ColorThemes
+    module_function
+
     OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME = 'OpenProject'.freeze
 
     THEMES = [
@@ -99,7 +99,7 @@ module OpenProject::CustomStyles
       }
     ].freeze
 
-    def self.themes
+    def themes
       THEMES
     end
   end

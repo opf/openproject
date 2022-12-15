@@ -2,14 +2,13 @@
 sv:
   js:
     boards:
+      create_new: 'Create new board'
       label_unnamed_board: 'Namnlös tavla'
       label_unnamed_list: 'Namnlös lista'
       label_board_type: 'Typ av tavla'
       upsale:
-        teaser_text: 'Förbättra din agila projektledning med denna flexibla styrelsevy. Skapa så många tavlor som du vill för allt du vill hålla reda på.'
-        upgrade_to_ee_text: 'Tavlor är en Enterprise funktion. Vänligen uppgradera till en betald plan.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Uppgradera nu'
-        personal_demo: 'Contact us for a demo'
       lists:
         delete: 'Ta bort lista'
       version:
@@ -63,7 +62,7 @@ sv:
           status: Status
           version: Version
           subproject: Delprojekt
-          subtasks: Parent-Child
+          subtasks: Parent-child
           basic: Basic
         select_attribute: "Åtgärdsattribut"
       add_list_modal:

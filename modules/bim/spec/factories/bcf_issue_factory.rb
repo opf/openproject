@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -113,16 +111,20 @@ FactoryBot.define do
     labels { [] }
     sequence(:index)
 
+    transient do
+      vp_snapshot { nil }
+    end
+
     factory :bcf_issue_with_viewpoint do
-      after(:create) do |issue|
-        create(:bcf_viewpoint, issue: issue)
+      after(:create) do |issue, evaluator|
+        create(:bcf_viewpoint, issue:, snapshot: evaluator.vp_snapshot)
       end
     end
 
     factory :bcf_issue_with_comment do
-      after(:create) do |issue|
-        viewpoint = create(:bcf_viewpoint, issue: issue)
-        create(:bcf_comment, issue: issue, viewpoint: viewpoint)
+      after(:create) do |issue, evaluator|
+        viewpoint = create(:bcf_viewpoint, issue:, snapshot: evaluator.vp_snapshot)
+        create(:bcf_comment, issue:, viewpoint:)
       end
     end
   end

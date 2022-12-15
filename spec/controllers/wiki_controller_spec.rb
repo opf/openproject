@@ -34,6 +34,7 @@ describe WikiController, type: :controller do
   shared_let(:project) do
     create(:project).tap(&:reload)
   end
+  shared_let(:wiki) { project.wiki }
 
   shared_let(:existing_page) do
     create(:wiki_page, wiki_id: project.wiki.id, title: 'ExistingPage')
@@ -44,11 +45,32 @@ describe WikiController, type: :controller do
     create(:wiki_content, page_id: existing_page.id, author_id: admin.id)
   end
 
-
   describe 'actions' do
     before do
       allow(controller).to receive(:set_localization)
-      login_as admin
+    end
+
+    current_user { admin }
+
+    describe 'index' do
+      before do
+        get :index, params: { project_id: project.identifier }
+      end
+
+      it 'is successful' do
+        expect(response)
+          .to have_http_status(:ok)
+      end
+
+      it 'renders the index template' do
+        expect(response)
+          .to render_template(:index)
+      end
+
+      it 'assigns pages' do
+        expect(assigns[:pages])
+          .to eq project.wiki.pages
+      end
     end
 
     shared_examples_for "a 'new' action" do
@@ -84,13 +106,13 @@ describe WikiController, type: :controller do
     describe 'new' do
       let(:get_page) { get 'new', params: { project_id: project } }
 
-      it_should_behave_like "a 'new' action"
+      it_behaves_like "a 'new' action"
     end
 
     describe 'new_child' do
       let(:get_page) { get 'new_child', params: { project_id: project, id: existing_page.title } }
 
-      it_should_behave_like "a 'new' action"
+      it_behaves_like "a 'new' action"
 
       it 'sets the parent page for the new page' do
         get_page
@@ -106,27 +128,255 @@ describe WikiController, type: :controller do
     end
 
     describe 'show' do
-      let(:get_page) { get :show, params: { project_id: project, id: 'wiki' } }
+      let(:permissions) { %w[view_wiki_pages] }
+      let(:user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
 
-      describe 'with an empty wiki and no permission to edit' do
-        let(:view_role) { create :role, permissions: %w[view_wiki_pages] }
-        let(:user) { create(:user, member_in_project: project, member_through_role: view_role) }
+      current_user { user }
 
-        it 'visiting the start page redirects to index' do
-          login_as user
-          get_page
+      before do
+        get_page
+      end
+
+      context 'when querying for an existing page' do
+        let(:get_page) { get :show, params: { project_id: project, id: existing_page.title } }
+
+        it 'is a success' do
+          expect(response)
+            .to have_http_status(:ok)
+        end
+
+        it 'renders the show template' do
+          expect(response)
+            .to render_template(:show)
+        end
+
+        it 'assigns the page' do
+          expect(assigns[:page])
+            .to eql existing_page
+        end
+
+        it 'assigns the content' do
+          expect(assigns[:content])
+            .to eql existing_content
+        end
+      end
+
+      context 'when querying for the wiki root page with edit permissions' do
+        let(:get_page) { get :show, params: { project_id: project, id: 'wiki' } }
+        let(:permissions) { %w[view_wiki_pages edit_wiki_pages] }
+
+        it 'is a success' do
+          expect(response)
+            .to have_http_status(:ok)
+        end
+
+        it 'renders the new template' do
+          expect(response)
+            .to render_template(:new)
+        end
+
+        it 'assigns a new page that is unpersisted' do
+          expect(assigns[:page])
+            .to be_a WikiPage
+
+          expect(assigns[:page])
+            .to be_new_record
+        end
+
+        it 'assigns a new content that is unpersisted' do
+          expect(assigns[:content])
+            .to be_a WikiContent
+
+          expect(assigns[:content])
+            .to be_new_record
+        end
+      end
+
+      context 'when querying for an unexisting page with edit permissions' do
+        let(:get_page) { get :show, params: { project_id: project, id: 'new_page' } }
+        let(:permissions) { %w[view_wiki_pages edit_wiki_pages] }
+
+        it 'is a success' do
+          expect(response)
+            .to have_http_status(:ok)
+        end
+
+        it 'renders the new template' do
+          expect(response)
+            .to render_template(:new)
+        end
+
+        it 'assigns a new page that is unpersisted' do
+          expect(assigns[:page])
+            .to be_a WikiPage
+
+          expect(assigns[:page])
+            .to be_new_record
+        end
+
+        it 'assigns a new content that is unpersisted' do
+          expect(assigns[:content])
+            .to be_a WikiContent
+
+          expect(assigns[:content])
+            .to be_new_record
+        end
+      end
+
+      context 'when querying for no specific page' do
+        let(:get_page) do
+          project.wiki.update_column(:start_page, existing_page.title)
+
+          get :show, params: { project_id: project }
+        end
+
+        it 'is a success' do
+          expect(response)
+            .to have_http_status(:ok)
+        end
+
+        it 'renders the show template' do
+          expect(response)
+            .to render_template(:show)
+        end
+
+        it 'assigns the wiki start page' do
+          expect(assigns[:page])
+            .to eql existing_page
+        end
+
+        it 'assigns the wiki start page content' do
+          expect(assigns[:content])
+            .to eql existing_content
+        end
+      end
+
+      context 'when querying for the wiki root page without edit permissions' do
+        let(:get_page) { get :show, params: { project_id: project, id: 'wiki' } }
+
+        it 'redirects to index' do
           expect(response).to redirect_to action: :index
+        end
+
+        it 'shows a flash info' do
           expect(flash[:info]).to include I18n.t('wiki.page_not_editable_index')
+        end
+      end
+
+      context 'when querying for a non existing page without edit permissions' do
+        let(:get_page) { get :show, params: { project_id: project, id: 'new_page' } }
+
+        it 'returns 404' do
+          expect(response)
+            .to have_http_status(:not_found)
         end
       end
     end
 
     describe 'edit' do
-      it 'will link to a parent page if it was set' do
-        get 'edit', params: { project_id: project, id: 'foobar' }, flash: { _related_wiki_page_id: 1234 }
+      let(:permissions) { %i[view_wiki_pages edit_wiki_pages] }
 
-        page = assigns[:page]
-        expect(page.parent_id).to eq 1234
+      let(:params) do
+        { project_id: project, id: existing_page.title }
+      end
+      let(:flash) do
+        {}
+      end
+
+      current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+
+      before do
+        get :edit, params:, flash:
+      end
+
+      context 'with an existing wiki page' do
+        let(:params) do
+          { project_id: project, id: existing_page.title }
+        end
+
+        it 'is sucessful' do
+          expect(response)
+            .to have_http_status(:ok)
+        end
+
+        it 'renders the edit template' do
+          expect(response)
+            .to render_template :edit
+        end
+
+        it 'assigns the page' do
+          expect(assigns[:page])
+            .to eq existing_page
+
+          expect(assigns[:page])
+            .not_to be_changed
+        end
+      end
+
+      context 'with an existing wiki page that is protected' do
+        let(:params) do
+          existing_page.update_column(:protected, true)
+          { project_id: project, id: existing_page.title }
+        end
+
+        it 'is forbiddend' do
+          expect(response)
+            .to have_http_status(:forbidden)
+        end
+      end
+
+      context 'with an existing wiki page that is protected and having the necessary permission' do
+        let(:permissions) do
+          existing_page.update_column(:protected, true)
+
+          %i[view_wiki_pages edit_wiki_pages protect_wiki_pages]
+        end
+
+        it 'is sucessful' do
+          expect(response)
+            .to have_http_status(:ok)
+        end
+
+        it 'renders the edit template' do
+          expect(response)
+            .to render_template :edit
+        end
+
+        it 'assigns the page' do
+          expect(assigns[:page])
+            .to eq existing_page
+
+          expect(assigns[:page])
+            .not_to be_changed
+        end
+      end
+
+      context 'with a related wiki page in the flash and a non existing wiki page' do
+        let(:flash) { { _related_wiki_page_id: 1234 } }
+        let(:params) do
+          { project_id: project, id: 'foobar' }
+        end
+
+        it 'is sucessful' do
+          expect(response)
+            .to have_http_status(:ok)
+        end
+
+        it 'renders the edit template' do
+          expect(response)
+            .to render_template :edit
+        end
+
+        it 'assigns @page to a new wiki page with the parent id set' do
+          expect(assigns[:page])
+            .to be_a WikiPage
+
+          expect(assigns[:page])
+            .to be_new_record
+
+          expect(assigns[:page].parent_id)
+            .to eql flash[:_related_wiki_page_id]
+        end
       end
     end
 
@@ -234,26 +484,521 @@ describe WikiController, type: :controller do
     end
 
     describe 'destroy' do
-      describe 'successful action' do
-        context 'when it is not the only wiki page' do
-          let(:wiki) { project.wiki }
-          let(:redirect_page_after_destroy) { wiki.find_page(wiki.start_page) || wiki.pages.first }
+      shared_let(:parent_page) { create(:wiki_page, wiki:) }
+      shared_let(:child_page) { create(:wiki_page, wiki:, parent: parent_page) }
 
-          before do
-            create :wiki_page, wiki: wiki
-          end
+      let(:redirect_page_after_destroy) { wiki.find_page(wiki.start_page) || wiki.pages.first }
 
-          it 'redirects to wiki#index' do
-            delete :destroy, params: { project_id: project, id: existing_page }
-            expect(response).to redirect_to action: 'index', project_id: project, id: redirect_page_after_destroy
-          end
+      let(:params) do
+        { project_id: project, id: existing_page }
+      end
+
+      subject do
+        delete :destroy, params: params
+
+        response
+      end
+
+      context 'when it is not the only wiki page' do
+        it 'redirects to wiki#index' do
+          expect(subject)
+            .to redirect_to action: 'index', project_id: project, id: redirect_page_after_destroy
         end
 
-        context 'when it is the only wiki page' do
-          it 'redirects to projects#show' do
-            delete :destroy, params: { project_id: project, id: existing_page }
-            expect(response).to redirect_to project_path(project)
-          end
+        it 'destroys the page' do
+          expect { subject }
+            .to change { WikiPage.where(id: existing_page.id).count }
+                  .from(1)
+                  .to(0)
+        end
+      end
+
+      context 'when it is the only wiki page' do
+        before do
+          WikiPage.where.not(id: existing_page.id).destroy_all
+        end
+
+        it 'redirects to projects#show' do
+          expect(subject)
+            .to redirect_to project_path(project)
+        end
+
+        it 'destroys the page' do
+          expect { subject }
+            .to change { WikiPage.where(id: existing_page.id).count }
+                  .from(1)
+                  .to(0)
+        end
+      end
+
+      context 'when destroying a child' do
+        let(:params) do
+          { project_id: project, id: child_page }
+        end
+
+        it 'redirects to wiki#index' do
+          expect(subject)
+            .to redirect_to action: 'index', project_id: project, id: redirect_page_after_destroy
+        end
+
+        it 'destroys the page' do
+          expect { subject }
+            .to change { WikiPage.where(id: child_page.id).count }
+                  .from(1)
+                  .to(0)
+        end
+      end
+
+      context 'when destroying a parent without specifying todo' do
+        let(:params) do
+          { project_id: project, id: parent_page }
+        end
+
+        it 'responds with success' do
+          expect(subject)
+            .to have_http_status(:ok)
+        end
+
+        it 'destroys the page' do
+          expect { subject }
+            .not_to change(WikiPage, :count)
+        end
+      end
+
+      context 'when destroying a parent with nullify' do
+        let(:params) do
+          { project_id: project, id: parent_page, todo: 'nullify' }
+        end
+
+        it 'redirects to wiki#index' do
+          expect(subject)
+            .to redirect_to action: 'index', project_id: project, id: redirect_page_after_destroy
+        end
+
+        it 'destroys the page' do
+          expect { subject }
+            .to change { WikiPage.where(id: parent_page.id).count }
+                  .from(1)
+                  .to(0)
+        end
+
+        it 'sets the parent_id of the child to nil' do
+          subject
+
+          expect(child_page.parent_id)
+            .to be_nil
+        end
+      end
+
+      context 'when destroying a parent with todo = destroy' do
+        let(:params) do
+          { project_id: project, id: parent_page, todo: 'destroy' }
+        end
+
+        it 'redirects to wiki#index' do
+          expect(subject)
+            .to redirect_to action: 'index', project_id: project, id: redirect_page_after_destroy
+        end
+
+        it 'destroys the page' do
+          expect { subject }
+            .to change { WikiPage.where(id: [parent_page, child_page]).count }
+                  .from(2)
+                  .to(0)
+        end
+      end
+
+      context 'when destroying a parent with reassign' do
+        let(:params) do
+          { project_id: project, id: parent_page, todo: 'reassign', reassign_to_id: existing_page.id }
+        end
+
+        it 'redirects to wiki#index' do
+          expect(subject)
+            .to redirect_to action: 'index', project_id: project, id: redirect_page_after_destroy
+        end
+
+        it 'destroys the page' do
+          expect { subject }
+            .to change { WikiPage.where(id: parent_page).count }
+                  .from(1)
+                  .to(0)
+        end
+
+        it 'sets the parent_id of the child to the specified page' do
+          subject
+
+          expect(child_page.parent_id)
+            .to eq existing_page.id
+        end
+      end
+    end
+
+    describe 'rename' do
+      shared_let(:parent_page) { create(:wiki_page, wiki:) }
+      shared_let(:child_page) { create(:wiki_page, wiki:, parent: parent_page) }
+
+      let(:permissions) { %i[view_wiki_pages rename_wiki_pages edit_wiki_pages] }
+
+      let(:params) do
+        { project_id: project, id: existing_page.title }
+      end
+
+      let(:request) do
+        get :rename, params:
+      end
+
+      current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+
+      subject do
+        request
+
+        response
+      end
+
+      context 'when getting for a page' do
+        it 'is success' do
+          expect(subject)
+            .to have_http_status(:ok)
+        end
+
+        it 'renders the template' do
+          expect(subject)
+            .to render_template :rename
+        end
+      end
+
+      context 'when getting for a child page' do
+        let(:params) do
+          { project_id: project, id: child_page.title }
+        end
+
+        it 'is success' do
+          expect(subject)
+            .to have_http_status(:ok)
+        end
+
+        it 'renders the template' do
+          expect(subject)
+            .to render_template :rename
+        end
+      end
+
+      context 'when getting for a page without permissions' do
+        let(:permissions) { %i[view_wiki_pages] }
+
+        it 'is forbidden' do
+          expect(subject)
+            .to have_http_status(:forbidden)
+        end
+      end
+
+      context 'when patching with redirect' do
+        let(:new_title) { 'The new page title' }
+        let!(:old_title) { existing_page.title }
+
+        let(:params) do
+          {
+            project_id: project,
+            id: existing_page.title,
+            page: {
+              title: new_title,
+              redirect_existing_links: 1
+            }
+          }
+        end
+
+        let(:request) do
+          patch :rename, params:
+        end
+
+        it 'redirects to the show page with the altered name' do
+          expect(subject)
+            .to redirect_to action: 'show', project_id: project.identifier, id: 'the-new-page-title'
+        end
+
+        it 'renames the page' do
+          subject
+
+          expect(existing_page.reload.title)
+            .to eql new_title
+        end
+
+        it 'finds the page by the old name' do
+          subject
+
+          expect(wiki.find_page(old_title))
+            .to eql existing_page
+        end
+      end
+
+      context 'when patching without redirect' do
+        let(:new_title) { 'The new page title' }
+        let!(:old_title) { existing_page.title }
+
+        let(:params) do
+          {
+            project_id: project,
+            id: existing_page.title,
+            page: {
+              title: new_title,
+              redirect_existing_links: '0'
+            }
+          }
+        end
+
+        let(:request) do
+          patch :rename, params:
+        end
+
+        it 'redirects to the show page with the altered name' do
+          expect(subject)
+            .to redirect_to action: 'show', project_id: project.identifier, id: 'the-new-page-title'
+        end
+
+        it 'renames the page' do
+          subject
+
+          expect(existing_page.reload.title)
+            .to eql new_title
+        end
+
+        it 'does not find the page by the old name' do
+          subject
+
+          expect(wiki.find_page(old_title))
+            .to be_nil
+        end
+      end
+    end
+
+    describe 'diffs' do
+      let!(:journal_from) { existing_content.journals.last }
+      let!(:journal_to) do
+        existing_content.text = 'new_text'
+        existing_content.save
+
+        existing_content.journals.reload.last
+      end
+
+      let(:permissions) { %i[view_wiki_pages view_wiki_edits] }
+
+      let(:params) do
+        {
+          project_id: project,
+          id: existing_page.title,
+          version: journal_to.version,
+          version_from: journal_from.version
+        }
+      end
+
+      let(:request) do
+        get :diff, params:
+      end
+
+      current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+
+      subject do
+        request
+
+        response
+      end
+
+      it 'is success' do
+        expect(subject)
+          .to have_http_status(:ok)
+      end
+
+      it 'renders the template' do
+        expect(subject)
+          .to render_template :diff
+      end
+
+      it 'assigns html_diff' do
+        subject
+
+        expect(assigns[:html_diff])
+          .to be_a(String)
+      end
+    end
+
+    describe 'annotates' do
+      let!(:journal_from) { existing_content.journals.last }
+      let!(:journal_to) do
+        existing_content.text = 'new_text'
+        existing_content.save
+
+        existing_content.journals.reload.last
+      end
+
+      let(:permissions) { %i[view_wiki_pages view_wiki_edits] }
+
+      let(:params) do
+        { project_id: project, id: existing_page.title, version: journal_to.version }
+      end
+
+      let(:request) do
+        get :annotate, params:
+      end
+
+      current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+
+      subject do
+        request
+
+        response
+      end
+
+      it 'is success' do
+        expect(subject)
+          .to have_http_status(:ok)
+      end
+
+      it 'renders the template' do
+        expect(subject)
+          .to render_template :annotate
+      end
+    end
+
+    describe 'export' do
+      let(:permissions) { %i[view_wiki_pages export_wiki_pages] }
+
+      current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+
+      before do
+        get :export, params: { project_id: project.identifier }
+      end
+
+      it 'is successful' do
+        expect(response)
+          .to have_http_status(:ok)
+      end
+
+      it 'assigns pages' do
+        expect(assigns[:pages])
+          .to eq project.wiki.pages
+      end
+
+      it 'is an html response' do
+        expect(response.content_type)
+          .to eq 'text/html'
+      end
+
+      context 'for an unauthorized user' do
+        let(:permissions) { %i[view_wiki_pages] }
+
+        it 'prevents access' do
+          expect(response)
+            .to have_http_status(:forbidden)
+        end
+      end
+    end
+
+    describe 'protect' do
+      let(:permissions) { %i[view_wiki_pages protect_wiki_pages] }
+
+      let(:params) do
+        { project_id: project, id: existing_page.title, protected: '1' }
+      end
+
+      let(:request) do
+        post :protect, params:
+      end
+
+      current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+
+      subject do
+        request
+        response
+      end
+
+      context 'with an existing wiki page' do
+        it 'set the protected property of the page' do
+          expect { subject }
+            .to change { existing_page.reload.protected? }
+                  .from(false)
+                  .to(true)
+        end
+
+        it 'redirects to the show page' do
+          expect(subject)
+            .to redirect_to action: 'show', project_id: project.identifier, id: existing_page.title.downcase
+        end
+      end
+
+      context 'with an existing wiki page that is protected' do
+        let(:permissions) do
+          existing_page.update_column :protected, true
+
+          %i[view_wiki_pages protect_wiki_pages]
+        end
+
+        let(:params) do
+          { project_id: project, id: existing_page.title, protected: '0' }
+        end
+
+        it 'set the protected property of the page' do
+          expect { subject }
+            .to change { existing_page.reload.protected? }
+                  .from(true)
+                  .to(false)
+        end
+
+        it 'redirects to the show page' do
+          expect(subject)
+            .to redirect_to action: 'show', project_id: project.identifier, id: existing_page.title.downcase
+        end
+      end
+
+      context 'with an existing wiki page but missing permissions' do
+        let(:permissions) do
+          %i[view_wiki_pages]
+        end
+
+        it 'does not change the protected property of the page' do
+          expect { subject }
+            .not_to change { existing_page.reload.protected? }
+        end
+
+        it 'return forbidden' do
+          expect(subject)
+            .to have_http_status(:forbidden)
+        end
+      end
+    end
+
+    describe 'history' do
+      let(:permissions) { %i[view_wiki_edits] }
+
+      current_user { create(:user, member_in_project: project, member_with_permissions: permissions) }
+
+      before do
+        get :history, params: { project_id: project.identifier, id: existing_page.title }
+      end
+
+      it 'is successful' do
+        expect(response)
+          .to have_http_status(:ok)
+      end
+
+      it 'renders the template' do
+        expect(response)
+          .to render_template :history
+      end
+
+      it 'assigns versions' do
+        expect(assigns[:versions])
+          .to eq existing_content.journals
+      end
+
+      context 'for a non existing page' do
+        before do
+          get :history, params: { project_id: project.identifier, id: 'bogus' }
+        end
+
+        it 'states not found' do
+          expect(response)
+            .to have_http_status(:not_found)
         end
       end
     end
@@ -266,7 +1011,7 @@ describe WikiController, type: :controller do
       create(:public_project).tap(&:reload)
     end
 
-    before :each do
+    before do
       allow(@controller).to receive(:set_localization)
       allow(Setting).to receive(:login_required?).and_return(false)
 
@@ -295,20 +1040,20 @@ describe WikiController, type: :controller do
 
       # creating page contents
       create(:wiki_content, page_id: @page_default.id,
-                        author_id: admin.id)
+                            author_id: admin.id)
       create(:wiki_content, page_id: @page_with_content.id,
-                        author_id: admin.id)
+                            author_id: admin.id)
       create(:wiki_content, page_id: @unrelated_page.id,
-                        author_id: admin.id)
+                            author_id: admin.id)
 
       # creating some child pages
       @children = {}
       [@page_with_content].each do |page|
         child_page = create(:wiki_page, wiki_id: project.wiki.id,
-                                       parent_id: page.id,
-                                       title: page.title + ' child')
+                                        parent_id: page.id,
+                                        title: page.title + ' child')
         create(:wiki_content, page_id: child_page.id,
-                          author_id: admin.id)
+                              author_id: admin.id)
 
         @children[page] = child_page
       end
@@ -398,9 +1143,9 @@ describe WikiController, type: :controller do
           @child_page = @children[@page_with_content]
         end
 
-        it_should_behave_like 'all wiki menu items'
-        it_should_behave_like 'all existing wiki menu items'
-        it_should_behave_like 'all wiki menu items with child pages'
+        it_behaves_like 'all wiki menu items'
+        it_behaves_like 'all existing wiki menu items'
+        it_behaves_like 'all wiki menu items with child pages'
       end
 
       describe '- wiki menu item pointing to a new wiki page' do
@@ -409,7 +1154,7 @@ describe WikiController, type: :controller do
           @other_wiki_menu_item = @other_menu_item
         end
 
-        it_should_behave_like 'all wiki menu items'
+        it_behaves_like 'all wiki menu items'
       end
 
       describe '- wiki_menu_item containing special chars only' do
@@ -421,7 +1166,7 @@ describe WikiController, type: :controller do
           @other_wiki_menu_item = @other_menu_item
         end
 
-        it_should_behave_like 'all wiki menu items'
+        it_behaves_like 'all wiki menu items'
       end
     end
 

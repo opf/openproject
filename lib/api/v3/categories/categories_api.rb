@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -44,7 +42,7 @@ module API
             end
 
             get do
-              CategoryRepresenter.new(@category, current_user: current_user)
+              CategoryRepresenter.new(@category, current_user:)
             end
           end
         end

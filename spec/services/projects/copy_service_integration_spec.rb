@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2022 the OpenProject GmbH
@@ -51,18 +49,19 @@ describe Projects::CopyService, 'integration', type: :model do
            member_in_project: source,
            member_through_role: role)
   end
-  let(:role) { create :role, permissions: %i[copy_projects view_work_packages work_package_assigned] }
-  shared_let(:new_project_role) { create :role, permissions: %i[] }
   let(:instance) do
-    described_class.new(source: source, user: current_user)
+    described_class.new(source:, user: current_user)
   end
   let(:only_args) { nil }
   let(:target_project_params) do
     { name: 'Some name', identifier: 'some-identifier' }
   end
   let(:params) do
-    { target_project_params: target_project_params, only: only_args }
+    { target_project_params:, only: only_args }
   end
+  let(:role) { create :role, permissions: %i[copy_projects view_work_packages work_package_assigned] }
+
+  shared_let(:new_project_role) { create :role, permissions: %i[] }
 
   before do
     with_enterprise_token(:readonly_work_packages)
@@ -72,14 +71,29 @@ describe Projects::CopyService, 'integration', type: :model do
       .and_return(new_project_role.id.to_s)
   end
 
+  describe '.copyable_dependencies' do
+    it 'includes dependencies for work packages as well as for their attachments' do
+      expect(described_class.copyable_dependencies.pluck(:identifier))
+        .to include(::Projects::Copy::WorkPackagesDependentService.identifier,
+                    ::Projects::Copy::WorkPackageAttachmentsDependentService.identifier)
+    end
+
+    it 'includes dependencies for wiki as well as for their pages\'s attachments' do
+      expect(described_class.copyable_dependencies.pluck(:identifier))
+        .to include(::Projects::Copy::WikiDependentService.identifier,
+                    ::Projects::Copy::WikiPageAttachmentsDependentService.identifier)
+    end
+  end
+
   describe 'call' do
     subject { instance.call(params) }
+
     let(:project_copy) { subject.result }
 
     context 'restricting only to members and categories' do
       let(:only_args) { %w[members categories] }
 
-      it 'should limit copying' do
+      it 'limits copying' do
         expect(subject).to be_success
 
         expect(project_copy.members.count).to eq 1
@@ -146,7 +160,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
     describe '#public' do
       before do
-        source.update!(public: public)
+        source.update!(public:)
       end
 
       context 'when not public' do
@@ -234,7 +248,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
       let(:only_args) { %w[work_packages] }
 
-      it 'should the relations relations' do
+      it 'copies relations' do
         expect(subject).to be_success
 
         expect(source.work_packages.count).to eq(project_copy.work_packages.count)
@@ -243,16 +257,32 @@ describe Projects::CopyService, 'integration', type: :model do
 
         # First issue with a relation on project
         # copied relation + reflexive relation
-        expect(copied_wp.relations.direct.count).to eq 2
-        relates_relation = copied_wp.relations.direct.find { |r| r.relation_type == 'relates' }
+        expect(copied_wp.relations.count).to eq 2
+        relates_relation = copied_wp.relations.find { |r| r.relation_type == 'relates' }
         expect(relates_relation.from_id).to eq copied_wp.id
         expect(relates_relation.to_id).to eq copied_wp_2.id
 
         # Second issue with a cross project relation
         # copied relation + reflexive relation
-        duplicates_relation = copied_wp.relations.direct.find { |r| r.relation_type == 'duplicates' }
+        duplicates_relation = copied_wp.relations.find { |r| r.relation_type == 'duplicates' }
         expect(duplicates_relation.from_id).to eq copied_wp.id
         expect(duplicates_relation.to_id).to eq other_wp.id
+      end
+    end
+
+    context 'with work package budgets' do
+      let!(:budget) { create(:budget, project: source) }
+
+      let(:only_args) { %w[work_packages] }
+
+      it 'copies the work package without budgets' do
+        source_wp.update!(budget:)
+
+        expect(subject).to be_success
+
+        expect(source.work_packages.count).to eq(project_copy.work_packages.count)
+        copied_wp = project_copy.work_packages.find_by(subject: 'source wp')
+        expect(copied_wp.budget).to be_nil
       end
     end
 
@@ -272,6 +302,35 @@ describe Projects::CopyService, 'integration', type: :model do
         expect(subject).to be_success
         expect(project_copy.wiki.wiki_menu_items.count).to eq 3
       end
+
+      context 'with attachments' do
+        let!(:attachment) { create(:attachment, container: source_wiki_page) }
+
+        context 'when requested' do
+          let(:only_args) { %i[wiki wiki_page_attachments] }
+
+          it 'copies them' do
+            expect(subject).to be_success
+            expect(subject.errors).to be_empty
+            expect(project_copy.wiki.pages.count).to eq 2
+
+            page = project_copy.wiki.pages.find_by(title: source_wiki_page.title)
+            expect(page.attachments.count).to eq(1)
+            expect(page.attachments.first.author).to eql(current_user)
+          end
+        end
+
+        context 'when not requested' do
+          it 'ignores them' do
+            expect(subject).to be_success
+            expect(subject.errors).to be_empty
+            expect(project_copy.wiki.pages.count).to eq 2
+
+            page = project_copy.wiki.pages.find_by(title: source_wiki_page.title)
+            expect(page.attachments.count).to eq(0)
+          end
+        end
+      end
     end
 
     describe 'valid queries' do
@@ -287,7 +346,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
         it 'produces a valid query in the new project' do
           expect(subject).to be_success
-          expect(project_copy.queries.all?(&:valid?)).to eq(true)
+          expect(project_copy.queries.all?(&:valid?)).to be(true)
           expect(project_copy.queries.count).to eq 2
         end
       end
@@ -318,7 +377,7 @@ describe Projects::CopyService, 'integration', type: :model do
         query.add_filter('subject', '~', ['bogus'])
         query.save!
 
-        create(:view_work_packages_table, query: query)
+        create(:view_work_packages_table, query:)
 
         query
       end
@@ -350,11 +409,12 @@ describe Projects::CopyService, 'integration', type: :model do
 
       let(:only_args) { %w[work_packages] }
 
-      describe '#attachments' do
+      context 'with attachments' do
         let!(:attachment) { create(:attachment, container: work_package) }
 
         context 'when requested' do
           let(:only_args) { %i[work_packages work_package_attachments] }
+
           it 'copies them' do
             expect(subject).to be_success
             expect(project_copy.work_packages.count).to eq(3)
@@ -385,14 +445,13 @@ describe Projects::CopyService, 'integration', type: :model do
             create(:view_work_packages_table, query: q)
           end
         end
+        let(:only_args) { %w[work_packages queries] }
 
         before do
-          ::OrderedWorkPackage.create(query: query, work_package: work_package, position: 100)
-          ::OrderedWorkPackage.create(query: query, work_package: work_package2, position: 0)
-          ::OrderedWorkPackage.create(query: query, work_package: work_package3, position: 50)
+          ::OrderedWorkPackage.create(query:, work_package:, position: 100)
+          ::OrderedWorkPackage.create(query:, work_package: work_package2, position: 0)
+          ::OrderedWorkPackage.create(query:, work_package: work_package3, position: 50)
         end
-
-        let(:only_args) { %w[work_packages queries] }
 
         it 'copies the query and order' do
           expect(subject).to be_success
@@ -411,11 +470,11 @@ describe Projects::CopyService, 'integration', type: :model do
 
         context 'if one work package is a cross project reference' do
           let(:other_project) { create :project }
+          let(:only_args) { %w[work_packages queries] }
+
           before do
             work_package2.update! project: other_project
           end
-
-          let(:only_args) { %w[work_packages queries] }
 
           it 'copies the query and order' do
             expect(subject).to be_success
@@ -479,7 +538,7 @@ describe Projects::CopyService, 'integration', type: :model do
         it do
           expect(subject).to be_success
           wp = project_copy.work_packages.find_by(subject: work_package.subject)
-          expect(cat = wp.category).not_to eq(nil)
+          expect(cat = wp.category).not_to be_nil
           expect(cat.project).to eq(project_copy)
         end
       end
@@ -644,6 +703,7 @@ describe Projects::CopyService, 'integration', type: :model do
     describe 'project custom fields' do
       context 'with user project CF' do
         let(:user_custom_field) { create(:user_project_custom_field) }
+        let(:only_args) { %w[wiki] }
         let(:user_value) do
           create(:user,
                  member_in_project: source,
@@ -653,8 +713,6 @@ describe Projects::CopyService, 'integration', type: :model do
         before do
           source.custom_values << CustomValue.new(custom_field: user_custom_field, value: user_value.id.to_s)
         end
-
-        let(:only_args) { %w[wiki] }
 
         it 'copies the custom_field' do
           expect(subject).to be_success
@@ -668,6 +726,7 @@ describe Projects::CopyService, 'integration', type: :model do
 
       context 'with multi selection project list CF' do
         let(:list_custom_field) { create(:list_project_custom_field, multi_value: true) }
+        let(:only_args) { %w[wiki] }
 
         before do
           source.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of('A'))
@@ -676,8 +735,6 @@ describe Projects::CopyService, 'integration', type: :model do
           source.save!
         end
 
-        let(:only_args) { %w[wiki] }
-
         it 'copies the custom_field' do
           expect(subject).to be_success
 
@@ -685,6 +742,34 @@ describe Projects::CopyService, 'integration', type: :model do
           expect(cv).to be_kind_of Array
           expect(cv.count).to eq 2
           expect(cv.map(&:formatted_value)).to contain_exactly('A', 'B')
+        end
+      end
+
+      context 'with disabled work package custom field' do
+        it 'is still disabled in the copy' do
+          custom_field = create(:text_wp_custom_field)
+          create(:type_task,
+                 projects: [source],
+                 custom_fields: [custom_field])
+
+          expect(subject).to be_success
+
+          expect(source.work_package_custom_fields).to eq([])
+          expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
+        end
+      end
+
+      context 'with enabled work package custom field' do
+        it 'is still enabled in the copy' do
+          custom_field = create(:text_wp_custom_field, projects: [source])
+          create(:type_task,
+                 projects: [source],
+                 custom_fields: [custom_field])
+
+          expect(subject).to be_success
+
+          expect(source.work_package_custom_fields).to eq([custom_field])
+          expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
         end
       end
     end

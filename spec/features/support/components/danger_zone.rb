@@ -28,6 +28,7 @@
 
 class DangerZone
   include Capybara::DSL
+  include Capybara::RSpecMatchers
 
   attr_reader :page
 
@@ -64,7 +65,5 @@ class DangerZone
   end
 
   ##
-  def disabled?
-    danger_button.disabled?
-  end
+  delegate :disabled?, to: :danger_button
 end

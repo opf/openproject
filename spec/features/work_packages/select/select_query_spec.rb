@@ -34,7 +34,7 @@ describe 'Query selection', type: :feature do
   let(:role) { create :role, permissions: [:view_work_packages] }
   let(:current_user) do
     create :user, member_in_project: project,
-                             member_through_role: role
+                  member_through_role: role
   end
 
   let(:default_status) { create(:default_status) }
@@ -42,13 +42,13 @@ describe 'Query selection', type: :feature do
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   let(:query) do
-    build(:query, project: project, public: true).tap do |query|
+    build(:query, project:, public: true).tap do |query|
       query.filters.clear
       query.add_filter('assigned_to_id', '=', ['me'])
       query.add_filter('done_ratio', '>=', [10])
       query.save!
       create(:view_work_packages_table,
-             query: query)
+             query:)
 
       query
     end
@@ -85,17 +85,15 @@ describe 'Query selection', type: :feature do
       filters.open
       filters.expect_filter_by 'Assignee', 'is', ['me']
       filters.expect_filter_by 'Progress (%)', '>=', ['10'], 'percentageDone'
-    end
 
-    it 'shows filter count within toggle button', js: true do
-      expect(find_button('Activate Filter')).to have_text /2$/
+      expect(page).to have_selector('[data-qa-selector="wp-filter-button"] .badge', text: '2')
     end
   end
 
   context 'when the selected query is changed' do
     let(:query2) do
       create(:query_with_view_work_packages_table,
-             project: project,
+             project:,
              public: true)
     end
 

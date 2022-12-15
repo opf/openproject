@@ -2,6 +2,7 @@ import { AfterViewInit, Directive, ElementRef } from '@angular/core';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import * as Mousetrap from 'mousetrap';
 
 @Directive({
   selector: '[opContextMenuTrigger]',
@@ -11,8 +12,10 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
 
   protected items:OpContextMenuItem[] = [];
 
-  constructor(readonly elementRef:ElementRef,
-    readonly opContextMenu:OPContextMenuService) {
+  constructor(
+    readonly elementRef:ElementRef,
+    readonly opContextMenu:OPContextMenuService,
+  ) {
     super(opContextMenu);
   }
 
@@ -22,16 +25,13 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
     // Open by clicking the element
     this.$element.on('click', (evt:JQuery.TriggeredEvent) => {
       evt.preventDefault();
-      evt.stopPropagation();
 
       // When clicking the same trigger twice, close the element instead.
       if (this.opContextMenu.isActive(this)) {
         this.opContextMenu.close();
-        return false;
+      } else {
+        this.open(evt);
       }
-
-      this.open(evt);
-      return false;
     });
 
     // Open with keyboard combination as well

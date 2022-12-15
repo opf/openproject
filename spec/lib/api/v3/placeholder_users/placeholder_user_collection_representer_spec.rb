@@ -41,13 +41,13 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
     placeholders = build_stubbed_list(:placeholder_user,
                                       actual_count)
     allow(placeholders)
-      .to receive(:per_page)
+      .to receive(:limit)
       .with(page_size)
       .and_return(placeholders)
 
     allow(placeholders)
-      .to receive(:page)
-      .with(page)
+      .to receive(:offset)
+      .with(page - 1)
       .and_return(placeholders)
 
     allow(placeholders)
@@ -61,8 +61,8 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
     described_class.new(placeholders,
                         self_link: self_base_link,
                         per_page: page_size,
-                        page: page,
-                        current_user: current_user)
+                        page:,
+                        current_user:)
   end
 
   context 'generation' do

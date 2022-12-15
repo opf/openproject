@@ -13,12 +13,14 @@ describe 'User avatar management', type: :feature, js: true do
 
   context 'when user is admin' do
     let(:target_user) { create :user }
+
     it_behaves_like 'avatar management'
   end
 
   context 'when user is self' do
     let(:user) { create :user }
     let(:target_user) { user }
+
     it 'forbids the user to access' do
       visit avatar_management_path
       expect(page).to have_text('[Error 403]')
