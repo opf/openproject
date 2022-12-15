@@ -1007,4 +1007,56 @@ describe 'Projects index page',
       expect(page).to have_selector(".#{list_custom_field.column_name}.format-list", text: expected_sort.join(", "))
     end
   end
+
+  describe 'project activity menu item' do
+    context 'for projects with activity module enabled' do
+      shared_let(:project_with_activity_enabled) { project }
+      shared_let(:can_copy_projects_role) do
+        create(:role, name: 'Can Copy Projects Role', permissions: [:copy_projects])
+      end
+      shared_let(:can_copy_projects_manager) do
+        create(:user,
+               member_in_project: project_with_activity_enabled,
+               member_through_role: can_copy_projects_role)
+      end
+      shared_let(:simple_member) do
+        create(:user,
+               member_in_project: project_with_activity_enabled,
+               member_through_role: developer)
+      end
+
+      before do
+        project_with_activity_enabled.enabled_module_names += ["activity"]
+        project_with_activity_enabled.save
+      end
+
+      it 'is displayed' do
+        # For a simple project member the 'More' menu is not visible.
+        # that's why we're using a user with can_copy_projects_role permission
+        # TODO: use simple_member instead and ensure the test still passes
+        login_as(can_copy_projects_manager)
+        visit projects_path
+
+        expect(page).to have_text(project.name)
+
+        # 'More' becomes visible on hover
+        # because we use css opacity we can not test for the visibility changes
+        page.find('tbody tr').hover
+        expect(page).to have_selector('.icon-show-more-horizontal')
+
+        # Test visibility of 'more' menu list items
+        page.find('tbody tr .icon-show-more-horizontal').click
+        menu = page.find('tbody tr .project-actions')
+
+        # expect(menu).to have_text('Copy')
+        expect(menu).to have_text('Project Activity')
+      end
+    end
+
+    it 'redirects to project activity page with only project attributes visible'
+  end
+
+  context 'for projects with activity module disabled' do
+    it 'is not displayed'
+  end
 end

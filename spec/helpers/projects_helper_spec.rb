@@ -152,5 +152,9 @@ describe ProjectsHelper do
 
       it { is_expected.not_to include(t(:button_archive)) }
     end
+
+    context 'when project has activity module enabled' do
+      it { is_expected.not_to be_empty }
+    end
   end
 end
