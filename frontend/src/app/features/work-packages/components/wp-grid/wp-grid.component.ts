@@ -122,9 +122,8 @@ export class WorkPackagesGridComponent implements WorkPackageViewOutputs {
       void this.wpList.createOrSave(query);
     }
   }
-  
-  private highlightingModeChanged(): void {
-    console.log("NOW")
+
+  private highlightingModeChanged():void {
     this.highlightingMode = this.wpTableHighlight.current.mode;
     this.cdRef.detectChanges();
   }
