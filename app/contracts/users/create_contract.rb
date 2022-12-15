@@ -40,8 +40,15 @@ module Users
     validate :user_allowed_to_add
     validate :authentication_defined
     validate :type_is_user
+    validate :notification_settings_present
 
     private
+
+    def notification_settings_present
+      if model.notification_settings.empty?
+        errors.add :notification_settings, :blank
+      end
+    end
 
     def authentication_defined
       errors.add :password, :blank if model.active? && no_auth?

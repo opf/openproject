@@ -1,7 +1,7 @@
 # Custom OpenID Connect providers
 
 OpenProject's admin interface only allows you to configure providers from a pre-defined list.
-This includes Google and Azure right now.
+This includes Google Workspace and Microsoft Azure Active Directory right now. Find out how to use those in the [OpenID Providers Authentication Guide](https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/).
 
 You can still use an arbitrary provider. But for the time being there is no user interface for this.
 That means you will have to do it directly using the console on the server or via environment variables.
@@ -69,7 +69,7 @@ Setting.plugin_openproject_openid_connect = Hash(Setting.plugin_openproject_open
 })
 ```
 
-Replace "okta" with any other value such as "keycloak". It is used in some URLs so keep it a plain lowercase string.
+Replace "okta" with any other value such as "keycloak". It is used as the identifier in some URLs so keep it a plain lowercase string.
 
 Just copy these lines into the console and again confirm using *Enter*.
 After you are done you can leave the console by entering `exit`.
@@ -143,6 +143,27 @@ Setting.plugin_openproject_openid_connect = Hash(Setting.plugin_openproject_open
 ```
 
 At the time of writing the known providers are: `azure`, `google`, `okta`
+
+### Attribute mapping
+
+You can override the default attribute mapping for values derived from the userinfo endpoint. For example, let's map the OpenProject login to the claim `preferred_username` that is sent by many OIDC providers.
+
+```
+options = { 
+  # ... other options
+  attribute_map: {
+    'login' => 'preferred_username'
+  }
+}
+```
+
+
+
+### Back-channel logout
+
+OpenProject OIDC integration supports [back-channel logouts](https://openid.net/specs/openid-connect-backchannel-1_0.html) if OpenProject is configured for ActiveRecord based sessions (which is the default).
+
+On the identity provider side, you need to set `https://<OpenProject host>/auth/<provider>/backchannel-logout`. `<provider>` is the identifier of the OIDC configuration as provided above. 
 
 ### Claims
 
