@@ -1049,7 +1049,7 @@ describe 'Projects index page',
         menu = page.find('tbody tr .project-actions')
 
         # expect(menu).to have_text('Copy')
-        expect(menu).to have_text('Project Activity')
+        expect(menu).to have_text(I18n.t(:label_project_activity))
       end
     end
 

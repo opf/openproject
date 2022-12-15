@@ -67,6 +67,7 @@ module ProjectsHelper
   def project_more_menu_items(project)
     [project_more_menu_subproject_item(project),
      project_more_menu_settings_item(project),
+     project_more_menu_activity_item(project),
      project_more_menu_archive_item(project),
      project_more_menu_unarchive_item(project),
      project_more_menu_copy_item(project),
@@ -88,6 +89,17 @@ module ProjectsHelper
        project_settings_general_path(project),
        { class: 'icon-context icon-settings',
          title: t(:label_project_settings) }]
+    end
+  end
+
+  def project_more_menu_activity_item(project)
+    if project.enabled_module_names.include?('activity')
+      [
+        t(:label_project_activity),
+        project_activity_index_path(project),
+        { class: 'icon-context icon-checkmark',
+          title: t(:label_project_activity) }
+      ]
     end
   end
 
