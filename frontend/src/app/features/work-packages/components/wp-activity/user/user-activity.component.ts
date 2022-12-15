@@ -171,7 +171,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public quoteComment() {
-    this.commentService.quoteEvents.next(this.quotedText(this.activity.comment.raw));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    this.commentService.quoteEvents$.next(this.quotedText(this.activity.comment.raw));
   }
 
   public get bcfSnapshotUrl() {
