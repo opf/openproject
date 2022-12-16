@@ -91,7 +91,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def build_upload_link(share)
-      destination = @base_uri.merge("#{UPLOAD_LINK_BASE}/#{share.file_name}")
+      destination = @base_uri.merge("#{UPLOAD_LINK_BASE}/#{ERB::Util.url_encode(share.file_name)}")
       destination.user = share.token
       destination.password = share.password
 

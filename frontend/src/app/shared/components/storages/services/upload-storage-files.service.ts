@@ -83,8 +83,14 @@ export class UploadStorageFilesService {
     const size = /<oc:size>(.*)<\/oc:size>/.exec(xml)?.pop();
     if (!size) { throw error; }
 
-    const location = /<d:href>(.*)<\/d:href>/.exec(xml)?.pop();
-    if (!location) { throw error; }
+    const href = /<d:href>(.*)<\/d:href>/.exec(xml)?.pop();
+    const parts = href?.split('/');
+    if (!parts || parts.length < 1) { throw error; }
+
+    const name = parts.pop();
+    if (!name) { throw error; }
+
+    const location = `/${parts.slice(parts.indexOf('webdav') + 1).join('/')}`;
 
     const date = /<d:getlastmodified>(.*)<\/d:getlastmodified>/.exec(xml)?.pop();
     if (!date) { throw error; }
@@ -96,10 +102,10 @@ export class UploadStorageFilesService {
 
     return {
       id,
-      name: location.split('/').pop() || '',
+      name: decodeURIComponent(name),
+      location,
       mimeType,
       size: parseInt(size, 10),
-      location,
       createdAt,
       createdByName: creator,
       lastModifiedAt,
@@ -113,20 +119,9 @@ export class UploadStorageFilesService {
       + '  <d:prop>\n'
       + '    <oc:fileid />\n'
       + '    <d:getlastmodified />\n'
-      + '    <d:getetag />\n'
       + '    <d:getcontenttype />\n'
-      + '    <d:resourcetype />\n'
-      + '    <oc:fileid />\n'
-      + '    <oc:permissions />\n'
       + '    <oc:size />\n'
-      + '    <d:getcontentlength />\n'
-      + '    <nc:has-preview />\n'
-      + '    <oc:favorite />\n'
-      + '    <oc:comments-unread />\n'
       + '    <oc:owner-display-name />\n'
-      + '    <oc:share-types />\n'
-      + '    <nc:contained-folder-count />\n'
-      + '    <nc:contained-file-count />\n'
       + '  </d:prop>\n'
       + '</d:propfind>';
   }
