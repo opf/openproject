@@ -203,11 +203,6 @@ gem 'mini_magick', '~> 4.12.0', require: false
 
 gem 'validate_url'
 
-# Sentry error reporting
-gem "sentry-delayed_job", '~> 5.7.0'
-gem "sentry-rails", '~> 5.7.0'
-gem "sentry-ruby", '~> 5.7.0'
-
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
 

@@ -596,7 +596,7 @@ ru:
         watched: 'Наблюдатель'
         date_alert: 'Дата оповещения'
       settings:
-        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
+        change_notification_settings: 'Измените <a target="_blank" href="%{url}">настройки уведомлений</a> , чтобы не пропустить важное обновление.'
         title: "Настройки уведомлений"
         notify_me: "Уведомлять меня"
         reminders:
@@ -736,8 +736,8 @@ ru:
       duplicated: "Дублируется"
       blocks: "Блокирует"
       blocked: "Блокируется"
-      precedes: "Идет перед"
-      follows: "Идет после"
+      precedes: "Предшествует"
+      follows: "Следует"
       includes: "Включения"
       partof: "Является частью"
       requires: "Требует выполнения"
