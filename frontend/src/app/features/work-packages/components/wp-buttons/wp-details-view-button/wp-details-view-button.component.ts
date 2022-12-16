@@ -81,7 +81,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
       this.isActive = this.$state.includes(this.activeState);
       this.cdRef.detectChanges();
     });
-    
+
     Mousetrap.bind(['i', 'I'], (e) => {
       this.performAction(e);
     });
@@ -90,7 +90,7 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
   public ngOnDestroy() {
     super.ngOnDestroy();
     this.transitionListener();
-    
+
     Mousetrap.unbind(['i', 'I']);
   }
 
