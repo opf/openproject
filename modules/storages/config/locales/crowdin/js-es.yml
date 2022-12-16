@@ -6,7 +6,7 @@ es:
       link_existing_files: "Enlazar archivos existentes"
       upload_files: "Subir archivos"
       drop_files: >
-        Drop files here to upload them to %{storageType}.
+        Arrastra archivos aquí para cargarlos a %{storageType}.
       login: "%{storageType} iniciar sesión"
       login_to: "Iniciar sesión en %{storageType}"
       no_connection: "No hay conexión para %{storageType}"
@@ -42,8 +42,8 @@ es:
           one: "Enlazar 1 archivo"
           other: "Enlazar %{count} archivos"
         success_create:
-          one: "Successfully created 1 file link."
-          other: "Successfully created %{count} file links."
+          one: "Se ha creado correctamente 1 enlace de fichero."
+          other: "Se han creado correctamente %{count} enlaces de fichero."
         not_allowed_tooltip: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"
         already_linked_file: "El archivo ya está vinculado a este paquete de trabajo."
         already_linked_directory: "El directorio ya está vinculado a este paquete de trabajo."

@@ -22,7 +22,7 @@ module OpenProject
 
       ##
       # Extend a payload to be logged with additional information
-      # @param context {Hash} The context of the log, might contain controller or sentry related keys
+      # @param context {Hash} The context of the log, might contain controller related keys
       def extend_payload!(payload, context)
         payload_extenders.reduce(payload.dup) do |hash, handler|
           res = handler.call(context)

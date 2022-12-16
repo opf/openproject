@@ -115,6 +115,24 @@ describe 'user deletion:', type: :feature, js: true do
       expect(page).to have_current_path '/users'
     end
 
+    it 'can delete and confirm with keyboard (Regression #44499)', selenium: true do
+      Setting.users_deletable_by_admins = 1
+      visit edit_user_path(user)
+
+      expect(page).to have_content "#{user.firstname} #{user.lastname}"
+
+      click_on 'Delete'
+
+      SeleniumHubWaiter.wait
+      fill_in 'login_verification', with: user.login
+      click_on 'Delete'
+
+      dialog.confirm_flow_with user_password, with_keyboard: true, should_fail: false
+
+      expect(page).to have_content 'Account successfully deleted'
+      expect(page).to have_current_path '/users'
+    end
+
     it 'cannot delete other users if the settings forbid it' do
       Setting.users_deletable_by_admins = 0
       visit edit_user_path(user)
