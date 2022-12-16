@@ -29,7 +29,7 @@
 import { applyTransaction } from '@datorama/akita';
 import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import {
   groupBy,
   mergeMap,
@@ -100,7 +100,12 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
       );
   }
 
-  addFileLinks(collectionKey:string, addFileLinksHref:string, storage:IHalResourceLink, filesToLink:IStorageFile[]):void {
+  addFileLinks(
+    collectionKey:string,
+    addFileLinksHref:string,
+    storage:IHalResourceLink,
+    filesToLink:IStorageFile[],
+  ):Observable<IHALCollection<IFileLink>> {
     const elements = filesToLink.map((file) => ({
       originData: {
         id: file.id,
@@ -115,10 +120,10 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
       _links: { storage },
     }));
 
-    this.http
+    return this.http
       .post<IHALCollection<IFileLink>>(addFileLinksHref, { _type: 'Collection', _embedded: { elements } })
-      .subscribe(
-        (collection) => {
+      .pipe(
+        tap((collection) => {
           applyTransaction(() => {
             const newFileLinks = collection._embedded.elements;
             this.store.add(newFileLinks);
@@ -136,8 +141,7 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
               ),
             );
           });
-        },
-        this.toastAndThrow.bind(this),
+        }),
       );
   }
 

@@ -1324,16 +1324,19 @@ af:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Projek geredigeer'
     changeset: 'Veranderingstel geredigeer'
     message: Boodskap geredigeer
     news: Nuus
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Geantwoord
     time_entry: 'Tydrekord geredigeer'
     wiki_page: 'Wiki-blad geredigeer'
     work_package_closed: 'Werkspakket gesluit'
     work_package_edit: 'Werkspakket geredigeer'
     work_package_note: 'Werkspakket nota bygevoeg'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1786,6 +1789,7 @@ af:
   label_product_version: "Produk weergawe"
   label_professional_support: "Professional support"
   label_profile: "Profiel"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Stuur e-pos kennisgewings gedurende die projek afskrif"
   label_project_latest: "Nuutste projekte"

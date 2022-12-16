@@ -5,6 +5,8 @@ de:
       link_files_in_storage: "Verknüpfen Sie Dateien in %{storageType}"
       link_existing_files: "Vorhandene Dateien verknüpfen"
       upload_files: "Dateien hochladen"
+      drop_files: >
+        Drop files here to upload them to %{storageType}.
       login: "%{storageType} Login"
       login_to: "Bei %{storageType} anmelden"
       no_connection: "Keine %{storageType} Verbindung"
@@ -23,6 +25,8 @@ de:
         not_logged_in: >
           Um einen Link hinzuzufügen, mit diesem Arbeitspaket verknüpfte Dateien zu sehen oder hochzuladen, melden Sie sich bitte bei %{storageType} an.
       file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "%{fileName} herunterladen"
         no_permission: "Sie haben keine Berechtigung, diese Datei zu sehen."
         open: 'Datei im Speicher öffnen'
@@ -37,6 +41,9 @@ de:
           zero: "Dateien zum Verlinken auswählen"
           one: "Eine Datei verknüpfen"
           other: "%{count} Dateien verknüpfen"
+        success_create:
+          one: "Successfully created 1 file link."
+          other: "Successfully created %{count} file links."
         not_allowed_tooltip: "Bitte melden Sie sich bei Nextcloud an, um auf diese Datei zuzugreifen"
         already_linked_file: "Die Datei ist bereits mit diesem Arbeitspaket verknüpft."
         already_linked_directory: "Das Verzeichnis ist bereits mit diesem Arbeitspaket verknüpft."

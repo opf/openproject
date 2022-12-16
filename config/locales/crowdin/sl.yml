@@ -1355,16 +1355,19 @@ sl:
   error_external_authentication_failed: "Med zunanjo overitvijo je prišlo do napake. Prosim poskusite ponovno."
   error_attribute_not_highlightable: "Atribut(i) niso označljivi: %{attributes}"
   events:
-    project: 'Projekt urejen'
     changeset: 'Sprememba je bila urejena'
     message: Sporočilo urejeno
     news: Novice
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Odgovori
     time_entry: 'Časovnik urejen'
     wiki_page: 'Wiki stran posodobljena'
     work_package_closed: 'Delovni paket zaprt'
     work_package_edit: 'Delovni paket je bil urejen'
     work_package_note: 'Dodana opomba o delovnem paketu'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Izvoz delovnih paketov\n"
     succeeded: "Izvoz uspešno zaključen."
@@ -1817,6 +1820,7 @@ sl:
   label_product_version: "Različica izdelka"
   label_professional_support: "Strokovna podpora"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Skupno število projektov"
   label_project_copy_notifications: "Med kopijo projekta pošljite obvestila po e-pošti"
   label_project_latest: "Zadnji projekti"

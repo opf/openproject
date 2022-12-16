@@ -572,7 +572,7 @@ it:
           one: 'e 1 altro'
           other: 'e altri %{count}'
         no_results:
-          at_all: 'Nuove notifiche appariranno qui quando c''è un''attività che ti riguarda, nel frattempo puoi anche visualizzare e modificare le tue impostazioni di notifica per configurare quando essere notificato.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'Non ci sono notifiche in questa vista al momento'
         mark_all_read: 'Segna tutti come letti'
         mark_as_read: 'Segna come letto'
@@ -595,7 +595,7 @@ it:
         watched: 'Osservatore'
         date_alert: 'Avviso data'
       settings:
-        change_notification_settings: 'Per visualizzare e modificare le impostazioni di notifica, <a target="_blank" href="%{url}">fai clic qui</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Impostazioni notifiche"
         notify_me: "Avvisami"
         reminders:

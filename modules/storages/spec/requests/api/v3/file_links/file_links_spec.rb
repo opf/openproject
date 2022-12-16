@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 file links resource', type: :request do
+describe 'API v3 file links resource' do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }
@@ -42,7 +42,8 @@ describe 'API v3 file links resource', type: :request do
   let(:work_package) { create(:work_package, author: current_user, project:) }
   let(:another_work_package) { create(:work_package, author: current_user, project:) }
 
-  let(:storage) { create(:storage, creator: current_user) }
+  let(:oauth_application) { create(:oauth_application) }
+  let(:storage) { create(:storage, creator: current_user, oauth_application:) }
   let(:another_storage) { create(:storage, creator: current_user) }
 
   let(:oauth_client) { create(:oauth_client, integration: storage) }
@@ -63,14 +64,14 @@ describe 'API v3 file links resource', type: :request do
     create(:file_link, creator: current_user, container: work_package, storage: another_storage)
   end
 
-  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
-  let(:sync_service) { instance_double(::Storages::FileLinkSyncService) }
+  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
+  let(:sync_service) { instance_double(Storages::FileLinkSyncService) }
 
   subject(:response) { last_response }
 
   before do
     # Mock ConnectionManager to behave as if connected
-    allow(::OAuthClients::ConnectionManager)
+    allow(OAuthClients::ConnectionManager)
       .to receive(:new).and_return(connection_manager)
     allow(connection_manager)
       .to receive(:get_access_token)
@@ -81,7 +82,7 @@ describe 'API v3 file links resource', type: :request do
       .to receive(:get_authorization_uri).and_return('https://example.com/authorize')
 
     # Mock FileLinkSyncService as if Nextcloud would respond positively
-    allow(::Storages::FileLinkSyncService)
+    allow(Storages::FileLinkSyncService)
       .to receive(:new).and_return(sync_service)
     allow(sync_service).to receive(:call) do |file_links|
       ServiceResult.success(result: file_links.each { |file_link| file_link.origin_permission = :view })
@@ -417,7 +418,7 @@ describe 'API v3 file links resource', type: :request do
 
     it 'is successful' do
       expect(subject.status).to be 204
-      expect(::Storages::FileLink.exists?(id: file_link.id)).to be false
+      expect(Storages::FileLink.exists?(id: file_link.id)).to be false
     end
 
     context 'if user has no view permissions' do

@@ -571,7 +571,7 @@ lol:
           one: 'crwdns787698:1crwdne787698:1'
           other: 'crwdns787698:5%{count}crwdne787698:5'
         no_results:
-          at_all: 'crwdns823054:0crwdne823054:0'
+          at_all: 'crwdns842635:0crwdne842635:0'
           with_current_filter: 'crwdns787702:0crwdne787702:0'
         mark_all_read: 'crwdns787704:0crwdne787704:0'
         mark_as_read: 'crwdns787706:0crwdne787706:0'
@@ -594,7 +594,7 @@ lol:
         watched: 'crwdns836620:0crwdne836620:0'
         date_alert: 'crwdns836777:0crwdne836777:0'
       settings:
-        change_notification_settings: 'crwdns787736:0%{url}crwdne787736:0'
+        change_notification_settings: 'crwdns842805:0%{url}crwdne842805:0'
         title: "crwdns787738:0crwdne787738:0"
         notify_me: "crwdns787740:0crwdne787740:0"
         reminders:

@@ -1324,16 +1324,19 @@ bg:
   error_external_authentication_failed: "Възникна грешка по време на външно удостоверяване. Моля, опитайте отново."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Проекта е редактиран'
     changeset: 'Редактиран пакет промени'
     message: Съобщението е редактирано
     news: Новини
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Отговорено
     time_entry: 'Редактирани записи по време'
     wiki_page: 'Wiki страница редактирана'
     work_package_closed: 'Работният пакет е затворен'
     work_package_edit: 'Работният пакет е редактиран'
     work_package_note: 'Добавена бележка за работен пакет'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Експорт на вашите работни пакети"
     succeeded: "Експортирането завърши успешно"
@@ -1786,6 +1789,7 @@ bg:
   label_product_version: "Версия на продукта"
   label_professional_support: "Професионална поддръжка"
   label_profile: "Профил"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Общ брой на проектите"
   label_project_copy_notifications: "Изпраща имейл известия по време на копиране на проект"
   label_project_latest: "Последни проекти"

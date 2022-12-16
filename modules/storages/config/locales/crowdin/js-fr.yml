@@ -5,6 +5,8 @@ fr:
       link_files_in_storage: "Lier des fichiers dans %{storageType}"
       link_existing_files: "Lier des fichiers existants"
       upload_files: "Charger des fichiers"
+      drop_files: >
+        Drop files here to upload them to %{storageType}.
       login: "Connexion à %{storageType}"
       login_to: "Connexion à %{storageType}"
       no_connection: "Aucune connexion à %{storageType}"
@@ -23,6 +25,8 @@ fr:
         not_logged_in: >
           Pour ajouter un lien, voir ou téléverser des fichiers liés à ce lot de travaux, veuillez vous connecter à %{storageType}.
       file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Télécharger %{fileName}"
         no_permission: "Vous n'avez pas la permission de voir ce fichier."
         open: 'Ouvrir le fichier sur le stockage'
@@ -37,6 +41,9 @@ fr:
           zero: "Sélectionner les fichiers à lier"
           one: "Link 1 file"
           other: "Lier %{count} fichiers"
+        success_create:
+          one: "Successfully created 1 file link."
+          other: "Successfully created %{count} file links."
         not_allowed_tooltip: "Veuillez vous connecter à Nextcloud pour accéder à ce fichier"
         already_linked_file: "Ce fichier est déjà lié à ce lot de travaux."
         already_linked_directory: "Ce répertoire est déjà lié à ce lot de travaux."

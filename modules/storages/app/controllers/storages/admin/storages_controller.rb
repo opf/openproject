@@ -67,7 +67,7 @@ class Storages::Admin::StoragesController < ApplicationController
     # That service inherits from ::BaseServices::SetAttributes
     @object = ::Storages::Storages::SetAttributesService
                 .new(user: current_user,
-                     model: Storages::Storage.new,
+                     model: Storages::Storage.new(provider_type: Storages::Storage::PROVIDER_TYPE_NEXTCLOUD),
                      contract_class: EmptyContract)
                 .call
                 .result

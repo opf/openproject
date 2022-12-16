@@ -1321,16 +1321,19 @@ it:
   error_external_authentication_failed: "Si è verificato un errore durante l'autenticazione esterna. Per favore riprova."
   error_attribute_not_highlightable: "Attributo/i non sottolineabile/i: %{attributes}"
   events:
-    project: 'Progetto modificato'
     changeset: 'Changeset modificato'
     message: Messaggio modificato
     news: Notizie
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Risposto
     time_entry: 'Registro dell''orario effettuato modificato'
     wiki_page: 'Pagina wiki modificata'
     work_package_closed: 'Macro-attività chiusa'
     work_package_edit: 'Macro-attività modificata'
     work_package_note: 'Aggiunta nota alla macro-attività'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Esportazione macro-attività"
     succeeded: "L’esportazione si è conclusa con successo."
@@ -1783,6 +1786,7 @@ it:
   label_product_version: "Versione del prodotto"
   label_professional_support: "Supporto professionale"
   label_profile: "Profilo"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Numero totale di progetti"
   label_project_copy_notifications: "Invia le email di notifica durante la copia del progetto"
   label_project_latest: "Ultimi progetti"

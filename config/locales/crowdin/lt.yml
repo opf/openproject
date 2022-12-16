@@ -1355,16 +1355,19 @@ lt:
   error_external_authentication_failed: "Įvyko klaida vykstant išorinei autentifikacijai. Bandykite dar kartą."
   error_attribute_not_highlightable: "Atributai, kurių negalima paryškinti: %{attributes}"
   events:
-    project: 'Projektas redaguotas'
     changeset: 'Pakeitimų paketas redaguotas'
     message: Žinutė redaguota
     news: Naujienos
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Atsakė
     time_entry: 'Laiko įrašai redaguoti'
     wiki_page: 'Wiki puslapis redaguotas'
     work_package_closed: 'Darbų paketas uždarytas'
     work_package_edit: 'Darbų paketas redaguotas'
     work_package_note: 'Darbų paketo pastaba pridėta'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Jūsų darbo užduočių eksportas"
     succeeded: "Eksportas baigtas sėkmingai."
@@ -1817,6 +1820,7 @@ lt:
   label_product_version: "Produkto versija"
   label_professional_support: "Profesionali pagalba"
   label_profile: "Profilis"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Bendras projektų skaičius"
   label_project_copy_notifications: "Vykstant projekto kopijavimui siųsti pranešimus į el. paštą"
   label_project_latest: "Naujausi projektai"

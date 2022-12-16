@@ -1341,16 +1341,19 @@ hr:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Projekt je uređivan'
     changeset: 'Changeset uređen'
     message: Poruka uređena
     news: Vijesti
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Je odgovorio
     time_entry: 'Timelog uređen'
     wiki_page: 'Wiki stranica je uređena'
     work_package_closed: 'Radni paket zatvoren'
     work_package_edit: 'Radni paket je uređen'
     work_package_note: 'Bilješka za Radni paket je dodana'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1803,6 +1806,7 @@ hr:
   label_product_version: "Verzija proizvoda"
   label_professional_support: "Profesionalna Podrška"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Ukupan broj projekata"
   label_project_copy_notifications: "Slanje obavijesti e-mailom tijekom kopiranja projekta"
   label_project_latest: "Najnoviji projekti"

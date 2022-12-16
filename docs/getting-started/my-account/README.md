@@ -102,7 +102,7 @@ In order to activate the two-factor authentication for your OpenProject installa
 
 ![two factor authentication](two-factor-authentication.png)
 
-In order to register a new device for two-factor authentication, lick the green button to add a **new 2FA device**.
+In order to register a new device for two-factor authentication, click the green button to add a **new 2FA device**.
 
 To receive the second factor, you can use an authentication app on your mobile phone, such as Google Authenticator or Authy. You have to enter the code that is displayed in the authentication app to your login.
 

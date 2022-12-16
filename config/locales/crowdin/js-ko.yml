@@ -571,7 +571,7 @@ ko:
         and_more_users:
           other: '외 %{count}건'
         no_results:
-          at_all: '사용자와 관련된 활동이 있을 때 여기에 새로운 알림이 표시되므로, 알림 설정을 보고 수정하여 알림을 받을 시기를 구성할 수도 있습니다.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: '현재 이 보기에는 알림이 없습니다.'
         mark_all_read: '모두 읽은 상태로 표시'
         mark_as_read: '읽음으로 표시'
@@ -594,7 +594,7 @@ ko:
         watched: '주시자'
         date_alert: '날짜 경보'
       settings:
-        change_notification_settings: '알림 설정을 보고 변경하려면 <a target="_blank" href="%{url}">여기를 클릭</a>하세요.'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "알림 설정"
         notify_me: "알림 받기"
         reminders:

@@ -40,7 +40,7 @@ require 'csv'
 module OpenProject
   ##
   # Shortcut to the OpenProject log delegator, which extends
-  # default Rails error handling with other error handlers such as sentry.
+  # default Rails error handling with other error handlers such as appsignal.
   def self.logger
     ::OpenProject::Logging::LogDelegator
   end

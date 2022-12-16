@@ -283,6 +283,10 @@ module API
             alias :issue_priority :priority
           end
 
+          show :oauth_application
+
+          show :oauth_client_credentials
+
           resources :project
 
           show :project_status

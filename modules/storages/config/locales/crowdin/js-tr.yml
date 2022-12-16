@@ -5,6 +5,8 @@ tr:
       link_files_in_storage: "%{storageType} içindeki dosyaları bağla"
       link_existing_files: "Mevcut dosyaları bağla"
       upload_files: "Dosyaları yükle"
+      drop_files: >
+        Drop files here to upload them to %{storageType}.
       login: "%{storageType} oturum açma"
       login_to: "%{storageType}'da oturum açın"
       no_connection: "%{storageType} bağlantısı yok"
@@ -23,6 +25,8 @@ tr:
         not_logged_in: >
           Bir bağlantı eklemek, bu iş paketiyle ilgili dosyaları görmek veya yüklemek için lütfen %{storageType}'da oturum açın.
       file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "%{fileName} dosyasını indir"
         no_permission: "Bu dosyayı görme izniniz yok."
         open: 'Dosyayı depoda aç'
@@ -37,6 +41,9 @@ tr:
           zero: "Bağlanacak dosyaları seçin"
           one: "1 dosya bağla"
           other: "%{count} dosya bağla"
+        success_create:
+          one: "Successfully created 1 file link."
+          other: "Successfully created %{count} file links."
         not_allowed_tooltip: "Bu dosyaya erişmek için lütfen Nextcloud'da oturum açın"
         already_linked_file: "Bu dosya zaten bu iş paketine bağlı."
         already_linked_directory: "Bu dizin zaten bu çalışma paketine bağlı."

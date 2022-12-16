@@ -570,7 +570,7 @@ zh-TW:
         and_more_users:
           other: '和 1 個其他'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -593,7 +593,7 @@ zh-TW:
         watched: "關注者\n"
         date_alert: 'Date alert'
       settings:
-        change_notification_settings: '檢視或更改您的通知設定, <a target="_blank" href="%{url}">請按此處</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "通知設定"
         notify_me: "通知我"
         reminders:

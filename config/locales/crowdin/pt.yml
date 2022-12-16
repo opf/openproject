@@ -1323,16 +1323,19 @@ pt:
   error_external_authentication_failed: "Ocorreu um erro durante a autenticação externa. Por favor, tente novamente."
   error_attribute_not_highlightable: "Atributo(s) não destacado(s): %{attributes}"
   events:
-    project: 'Projeto editado'
     changeset: 'Conjunto de alterações editadas'
     message: Mensagem editada
     news: Notícias
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Respondida
     time_entry: 'Registro de tempo editado'
     wiki_page: 'Página wiki editada'
     work_package_closed: 'Pacote de Trabalho fechado'
     work_package_edit: 'Pacote de Trabalho editado'
     work_package_note: 'Anotação acrescentada ao Pacote de Trabalho'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Exportação de seus pacotes de trabalho"
     succeeded: "A exportação foi completada com sucesso."
@@ -1785,6 +1788,7 @@ pt:
   label_product_version: "Versão do produto"
   label_professional_support: "Suporte profissional"
   label_profile: "Perfil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Número total de projetos"
   label_project_copy_notifications: "Enviar notificações por email durante a cópia do projeto"
   label_project_latest: "Últimos projetos"

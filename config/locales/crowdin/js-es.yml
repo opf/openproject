@@ -224,7 +224,7 @@ es:
           status_label: "Estado:"
           status_confirmed: "confirmado"
           status_waiting: "correo electrónico enviado - esperando confirmación"
-          test_ee: "Test the Enterprise edition 14 days for free"
+          test_ee: "Pruebe la edición Enterprise de forma gratuita durante 14 días"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "¡Conviértete en un héroe!"
@@ -572,7 +572,7 @@ es:
           one: 'y 1 más'
           other: 'y %{count} más'
         no_results:
-          at_all: 'Las nuevas notificaciones aparecerán aquí cuando haya alguna actividad que te concierna, mientras tanto, también puedes ver y modificar la configuración de las notificaciones y modificar cuándo quieres ser notificado.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'No hay notificaciones en esta vista actualmente'
         mark_all_read: 'Marcar todas como leídas'
         mark_as_read: 'Marcar como leída'
@@ -595,7 +595,7 @@ es:
         watched: 'Observador'
         date_alert: 'Alerta de fecha'
       settings:
-        change_notification_settings: 'Para ver y cambiar los ajustes de notificaciones, <a target="_blank" href="%{url}">haga clic aquí</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Ajustes de notificación"
         notify_me: "Notifícame"
         reminders:
@@ -707,7 +707,7 @@ es:
         reset_title: "Restablecer la configuración del formulario"
         confirm_reset: >
           Advertencia: ¿Está seguro de que quiere restablecer la configuración del formulario? Se restablecerán los atributos al grupo predeterminado y se deshabilitarán TODOS los campos personalizados.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee: "Actualizar a edición Enterprise on-premises"
         upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "Más información"
         nevermind: "No importa"
@@ -1046,7 +1046,7 @@ es:
         upsale:
           attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
           relation_columns: '¿Necesita ver las relaciones en la lista de paquetes de trabajo?'
-          check_out_link: 'Check out the Enterprise edition.'
+          check_out_link: 'Echa un vistazo a la edición Enterprise.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrar paquetes de trabajo por tipo de relación'
       tabs:

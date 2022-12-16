@@ -574,7 +574,7 @@ lt:
           many: 'ir dar %{count}'
           other: 'ir dar %{count}'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'Šiuo metu šiame vaizde pranešimų nėra'
         mark_all_read: 'Pažymėti visus kaip perskaitytus'
         mark_as_read: 'Žymėti kaip skaitytą'
@@ -597,7 +597,7 @@ lt:
         watched: 'Watcher'
         date_alert: 'Date alert'
       settings:
-        change_notification_settings: 'Norėdami pažiūrėti ir keisti jūsų pranešimų nustatymus, <a target="_blank" href="%{url}">spauskite čia</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Pranešimų nustatymai"
         notify_me: "Pranešti man"
         reminders:

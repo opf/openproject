@@ -574,7 +574,7 @@ cs:
           many: 'a %{count} dalšich'
           other: 'a %{count} dalšich'
         no_results:
-          at_all: 'Nová oznámení se objeví zde, když se vyskytne aktivita, která se vás týká. V mezidobí si můžete také prohlédnout a změnit nastavení oznámení, abyste mohli nastavit, kdy chcete být upozorněn.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'V současné době nejsou v tomto zobrazení žádná oznámení'
         mark_all_read: 'Označit vše jako přečtené'
         mark_as_read: 'Označit jako přečteno'
@@ -597,7 +597,7 @@ cs:
         watched: 'Watcher'
         date_alert: 'Date alert'
       settings:
-        change_notification_settings: 'Chcete-li zobrazit a změnit nastavení oznámení, <a target="_blank" href="%{url}">klikněte zde</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Nastavení oznámení"
         notify_me: "Upozornit mě"
         reminders:

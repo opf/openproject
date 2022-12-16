@@ -1320,16 +1320,19 @@ ca:
   error_external_authentication_failed: "S'ha produït un error durant l'autentificació externa. Torneu-ho a provar."
   error_attribute_not_highlightable: "Atribut(s) no destacables: %{attributes}"
   events:
-    project: 'Projecte editat'
     changeset: 'Conjunt de canvis editat'
     message: Missatge editat
     news: Notícies
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Respost
     time_entry: 'Registre horari editat'
     wiki_page: 'Pàgina wiki editada'
     work_package_closed: 'Paquet de treball tancat'
     work_package_edit: 'Paquet de treball editat'
     work_package_note: 'Afegida nota al paquet de treball'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "La teva exportació de paquets de treball"
     succeeded: "L'exportació s'ha completat amb èxit."
@@ -1782,6 +1785,7 @@ ca:
   label_product_version: "Versió del producte"
   label_professional_support: "Suport professional"
   label_profile: "Perfil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Nombre total de projectes"
   label_project_copy_notifications: "Envia notificacions de correu electrònic durant la còpia del projecte"
   label_project_latest: "Últims projectes"

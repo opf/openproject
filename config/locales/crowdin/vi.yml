@@ -1309,16 +1309,19 @@ vi:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Đã chỉnh sửa dự án'
     changeset: 'Đã chỉnh sửa Changeset (bộ thay đổi)'
     message: Đã chỉnh sửa tin nhắn
     news: Tin tức
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Đã phản hồi
     time_entry: 'Đã chỉnh sửa Timelog'
     wiki_page: 'Đã chỉnh sửa trang Wiki'
     work_package_closed: 'Đã đóng work package'
     work_package_edit: 'Đã chỉnh sửa work package'
     work_package_note: 'Đã thêm ghi chú của work package'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1771,6 +1774,7 @@ vi:
   label_product_version: "Phiên bản sản phẩm"
   label_professional_support: "Hỗ trợ chuyên nghiệp"
   label_profile: "Hồ sơ"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Tổng số dự án"
   label_project_copy_notifications: "Gửi email thông báo trong quá trình sao chép dự án"
   label_project_latest: "Dự án mới nhất"

@@ -1324,16 +1324,19 @@ fr:
   error_external_authentication_failed: "Une erreur s'est produite lors de l'authentification externe. Veuillez réessayer."
   error_attribute_not_highlightable: "Attribut(s) ne pouvant pas être mis en surbrillance: %{attributes}"
   events:
-    project: 'Projet édité'
     changeset: 'Lot de modification édité'
     message: Message édité
     news: Actualités
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Y a-t-il eu une réponse
     time_entry: 'Journal horaire édité'
     wiki_page: 'Page Wiki éditée'
     work_package_closed: 'Lot de travaux clôturé'
     work_package_edit: 'Lot de Travaux édité'
     work_package_note: 'Note de Lot de Travaux ajoutée'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Exportation de vos lots de travaux"
     succeeded: "Export terminé avec succès"
@@ -1786,6 +1789,7 @@ fr:
   label_product_version: "Version du produit"
   label_professional_support: "Support professionnel"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Nombre total de projets"
   label_project_copy_notifications: "Notifier par courriel lors de la copie du projet"
   label_project_latest: "Derniers projets"
