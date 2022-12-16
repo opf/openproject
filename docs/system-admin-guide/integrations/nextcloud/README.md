@@ -137,7 +137,6 @@ Additional settings on this page also allow you, as an administrator, to define 
 
 - **Enable navigation link** displays a link to the OpenProject instance in the Nextcloud header 
 - **Enable unified search for tickets** allows users to search for OpenProject work packages via the universal search bar in Nextcloud
-- **Enable notifications for activity in my work packages** sends users Nextcloud notifications when there are updates to linked OpenProject work packages
 
 
 #### 5. Add your new Nextcloud file storage to a project

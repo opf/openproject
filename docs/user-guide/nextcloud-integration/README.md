@@ -89,7 +89,6 @@ There are three additional features related to the integration that you can enab
 
 - **Enable navigation link** displays a link to your OpenProject instance in the Nextcloud header 
 - **Enable unified search for tickets** allows you to search OpenProject work packages via the universal search bar in Nextcloud
-- **Enable notifications for activity in my work packages** sends you notifications when there are updates to linked OpenProject work packages
 
 ![NC_extra_settings](Nextcloud_connected_account.png)
 
@@ -149,9 +148,3 @@ If you see the words "No Nextcloud connection" in the Files tab in OpenProject, 
 In rare occasions, it is possible for the integration to not be able to fetch all the details of all linked files. A simple page refresh should solve the issue. Should the error persist, please contact administrator of your OpenProject and Nextcloud instances.
 
 ![OP_fetching_error](1_0_03-Fetching_error.png)
-
-#### Project notifications are not displayed in Nextcloud
-
-If OpenProject notifications are not properly displayed in Nextcloud, navigate to *Nextcloud settings → Basic settings → Background jobs* and ensure that _Cron_ is selected.
-
-![NC_notifications_not_displayed](Cron_job_settings.png)
