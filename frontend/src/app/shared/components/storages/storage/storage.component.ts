@@ -119,7 +119,8 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     },
     dropBox: {
       uploadLabel: this.i18n.t('js.storages.upload_files'),
-      dropFiles: ():string => this.i18n.t('js.storages.drop_files', { storageType: this.storageType }),
+      dropFiles: ():string => this.i18n.t('js.storages.drop_files', { name: this.storage.name }),
+      dropClickFiles: ():string => this.i18n.t('js.storages.drop_or_click_files', { name: this.storage.name }),
     },
     emptyList: ():string => this.i18n.t('js.storages.file_links.empty', { storageType: this.storageType }),
     openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.storageType }),
