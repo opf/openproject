@@ -27,17 +27,8 @@
 #++
 
 FactoryBot.define do
-  factory :journal_work_package_journal, class: 'Journal::WorkPackageJournal' do
-    ignore_non_working_days { false }
-    # The following properties are not actually valid.
-    # They were added when the default value (also 0) was removed and too many
-    # tests relied on this behaviour for it to be fixed right away.
-    subject { 'abc' }
-    type_id { 0 }
-    project_id { 0 }
-    status_id { 0 }
-    priority_id { 0 }
-    author_id { 0 }
-    done_ratio { 0 }
+  factory :journal_news_journal, class: 'Journal::NewsJournal' do
+    title { 'abc' }
+    comments_count { 4 }
   end
 end
