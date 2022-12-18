@@ -88,8 +88,8 @@ describe Journable::WithHistoricAttributes do
     end
 
     it "provides access to the work-package attributes at timestamps" do
-      expect(subject.attributes_at_timestamps["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
-      expect(subject.attributes_at_timestamps["PT0S"].subject).to eq "The current work package"
+      expect(subject.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
+      expect(subject.attributes_by_timestamp["PT0S"].subject).to eq "The current work package"
     end
 
     it "determines whether the journable attributes are historic" do
@@ -117,11 +117,11 @@ describe Journable::WithHistoricAttributes do
 
       it "provides access to the work-package attributes at timestamps " \
          "where the attribute is different from the work package's attribute" do
-        expect(subject.attributes_at_timestamps["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
+        expect(subject.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
       end
 
       specify "the attributes at timestamps do not include attributes that are the same as the work package's attribute" do
-        expect(subject.attributes_at_timestamps["PT0S"].subject).to be_nil
+        expect(subject.attributes_by_timestamp["PT0S"].subject).to be_nil
       end
     end
 
@@ -133,7 +133,7 @@ describe Journable::WithHistoricAttributes do
       end
 
       it "provides access to the historic work-package attributes at timestamps" do
-        expect(subject.attributes_at_timestamps["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
+        expect(subject.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
       end
 
       it "determines whether the journable attributes are historic" do
@@ -149,7 +149,7 @@ describe Journable::WithHistoricAttributes do
       end
 
       it "has not attributes at the baseline date" do
-        expect(subject.attributes_at_timestamps["2021-01-01T00:00:00Z"]).to be_nil
+        expect(subject.attributes_by_timestamp["2021-01-01T00:00:00Z"]).to be_nil
       end
     end
   end
@@ -173,8 +173,8 @@ describe Journable::WithHistoricAttributes do
       end
 
       it "provides access to the work-package attributes at timestamps" do
-        expect(subject.first.attributes_at_timestamps["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
-        expect(subject.first.attributes_at_timestamps["PT0S"].subject).to eq "The current work package"
+        expect(subject.first.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
+        expect(subject.first.attributes_by_timestamp["PT0S"].subject).to eq "The current work package"
       end
 
       describe "when providing a query" do
@@ -198,11 +198,11 @@ describe Journable::WithHistoricAttributes do
 
         it "provides access to the work-package attributes at timestamps " \
            "where the attribute is different from the work package's attribute" do
-          expect(subject.first.attributes_at_timestamps["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
+          expect(subject.first.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
         end
 
         specify "the attributes at timestamps do not include attributes that are the same as the work package's attribute" do
-          expect(subject.first.attributes_at_timestamps["PT0S"].subject).to be_nil
+          expect(subject.first.attributes_by_timestamp["PT0S"].subject).to be_nil
         end
       end
 
@@ -214,7 +214,7 @@ describe Journable::WithHistoricAttributes do
         end
 
         it "provides access to the historic work-package attributes at timestamps" do
-          expect(subject.first.attributes_at_timestamps["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
+          expect(subject.first.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
         end
 
         it "determines whether the journable attributes are historic" do
