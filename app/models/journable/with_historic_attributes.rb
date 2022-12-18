@@ -35,33 +35,33 @@
 #   # Wrap single work package
 #   timestamps = [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")]
 #   work_package = WorkPackage.find(1)
-#   work_package = Journable::WithAttributesAtTimestamps.wrap(work_package, timestamps:)
+#   work_package = Journable::WithHistoricAttributes.wrap(work_package, timestamps:)
 #
 #   # Wrap multiple work packages
 #   timestamps = query.timestamps
 #   work_packages = query.results.work_packages
-#   work_packages = Journable::WithAttributesAtTimestamps.wrap_multiple(work_packages, timestamps:)
+#   work_packages = Journable::WithHistoricAttributes.wrap_multiple(work_packages, timestamps:)
 #
 #   # Access historic attributes at timestamps after wrapping
-#   work_package = Journable::WithAttributesAtTimestamps.wrap(work_package, timestamps:)
+#   work_package = Journable::WithHistoricAttributes.wrap(work_package, timestamps:)
 #   work_package.subject  # => "Subject at PT0S (current time)"
 #   work_package.attributes_at_timestamps["2022-01-01T00:00:00Z"].subject  # => "Subject at 2022-01-01 (baseline time)"
 #
 #   # Check at which timestamps the work package matches query filters after wrapping
 #   query.timestamps  # => [<Timestamp 2022-01-01T00:00:00Z>, <Timestamp PT0S>]
-#   work_package = Journable::WithAttributesAtTimestamps.wrap(work_package, query:)
+#   work_package = Journable::WithHistoricAttributes.wrap(work_package, query:)
 #   work_package.matches_query_at_timestamps  # => [<Timestamp 2022-01-01T00:00:00Z>]
 #
 #   # Include only changed attributes in payload
 #   # i.e. only historic attributes that differ from the work_package's attributes
 #   timestamps = [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")]
-#   work_package = Journable::WithAttributesAtTimestamps.wrap(work_package, timestamps:, include_only_changed_attributes: true)
+#   work_package = Journable::WithHistoricAttributes.wrap(work_package, timestamps:, include_only_changed_attributes: true)
 #   work_package.attributes_at_timestamps["2022-01-01T00:00:00Z"].subject  # => "Subject at 2022-01-01 (baseline time)"
 #   work_package.attributes_at_timestamps["PT0S"].subject  # => nil
 #
 #   # Simplified interface for two timestamps
 #   query.timestamps  # => [<Timestamp 2022-01-01T00:00:00Z>, <Timestamp PT0S>]
-#   work_package = Journable::WithAttributesAtTimestamps.wrap(work_package, query:)
+#   work_package = Journable::WithHistoricAttributes.wrap(work_package, query:)
 #   work_package.baseline_timestamp  # => [<Timestamp 2022-01-01T00:00:00Z>]
 #   work_package.current_timestamp  # => [<Timestamp PT0S>]
 #   work_package.matches_query_filter_at_baseline_timestamp?
@@ -69,20 +69,20 @@
 #   work_package.baseline_attributes.subject # => "Subject at 2022-01-01 (baseline time)"
 #   work_package.subject  # => "Subject at PT0S (current time)"
 #
-class Journable::WithAttributesAtTimestamps < SimpleDelegator
+class Journable::WithHistoricAttributes < SimpleDelegator
   attr_accessor :timestamps, :query, :include_only_changed_attributes, :attributes_at_timestamps, :matches_query_at_timestamps
 
   def initialize(journable, timestamps: nil, query: nil, include_only_changed_attributes: false)
     super(journable)
 
     if query and not journable.is_a? WorkPackage
-      raise Journable::NotImplementedError, "Journable::WithAttributesAtTimestamps with query " \
+      raise Journable::NotImplementedError, "Journable::WithHistoricAttributes with query " \
                                             "is only implemented for WorkPackages at the moment " \
                                             "because Query objects currently only support work packages."
     end
 
     self.query = query
-    self.timestamps = timestamps || query.timestamps || []
+    self.timestamps = timestamps || query.try(:timestamps) || []
     self.include_only_changed_attributes = include_only_changed_attributes
 
     self.attributes_at_timestamps = {}
@@ -90,9 +90,14 @@ class Journable::WithAttributesAtTimestamps < SimpleDelegator
   end
 
   def self.wrap(journable, timestamps: nil, query: nil, include_only_changed_attributes: false)
+    wrap_one(journable, timestamps:, query:, include_only_changed_attributes:)
+  end
+
+  def self.wrap_one(journable, timestamps: nil, query: nil, include_only_changed_attributes: false)
+    timestamps ||= query.try(:timestamps) || []
     journable = journable.at_timestamp(timestamps.last) if timestamps.last.try(:historic?)
     journable = new(journable, timestamps:, query:, include_only_changed_attributes:)
-    (timestamps || query.timestamps || []).each do |timestamp|
+    timestamps.each do |timestamp|
       journable.assign_historic_attributes(
         timestamp:,
         historic_journable: journable.at_timestamp(timestamp),
@@ -103,9 +108,10 @@ class Journable::WithAttributesAtTimestamps < SimpleDelegator
   end
 
   def self.wrap_multiple(journables, timestamps: nil, query: nil, include_only_changed_attributes: false)
+    timestamps ||= query.try(:timestamps) || []
     journables = journables.first.class.at_timestamp(timestamps.last).where(id: journables) if timestamps.last.try(:historic?)
     journables = journables.map { |j| new(j, timestamps:, query:, include_only_changed_attributes:) }
-    (timestamps || query.timestamps || []).each do |timestamp|
+    timestamps.each do |timestamp|
       assign_historic_attributes_to(
         journables,
         timestamp:,
@@ -184,6 +190,10 @@ class Journable::WithAttributesAtTimestamps < SimpleDelegator
     query = query.dup
     query.timestamps = [timestamp] if timestamp
     query.results.work_packages
+  end
+
+  def to_ary
+    __getobj__.send(:to_ary)
   end
 
   class NotImplemented < StandardError; end

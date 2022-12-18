@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Journable::WithAttributesAtTimestamps do
+describe Journable::WithHistoricAttributes do
   let(:work_package) do
     new_work_package = create(:work_package, subject: "The current work package", project: project1)
     new_work_package.update_columns created_at: baseline_time - 1.day
@@ -79,7 +79,7 @@ describe Journable::WithAttributesAtTimestamps do
 
     subject { described_class.wrap(work_package, timestamps:, query:, include_only_changed_attributes:) }
 
-    it "returns a Journable::WithAttributesAtTimestamps instance" do
+    it "returns a Journable::WithHistoricAttributes instance" do
       expect(subject).to be_a described_class
     end
 
@@ -164,7 +164,7 @@ describe Journable::WithAttributesAtTimestamps do
     context "with a single work package" do
       let(:work_packages) { [work_package] }
 
-      it "returns an array of Journable::WithAttributesAtTimestamps instances" do
+      it "returns an array of Journable::WithHistoricAttributes instances" do
         expect(subject).to all be_a described_class
       end
 
