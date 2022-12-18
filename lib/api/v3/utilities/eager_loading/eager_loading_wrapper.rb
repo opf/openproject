@@ -40,6 +40,10 @@ module API
             __getobj__.send(:to_ary)
           end
 
+          def inspect
+            __getobj__.inspect.gsub(/#<(.+)>/m, "#<#{self.class.name} \\1>")
+          end
+
           class << self
             def wrap(objects)
               objects
