@@ -167,7 +167,9 @@ module API
             groups:,
             total_sums: sums,
             embed_schemas: true,
-            current_user:
+            current_user:,
+            timestamps: query.timestamps,
+            _query: query
           )
         end
       end

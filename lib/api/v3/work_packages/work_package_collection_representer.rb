@@ -30,6 +30,8 @@ module API
   module V3
     module WorkPackages
       class WorkPackageCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        attr_accessor :timestamps, :_query
+
         def initialize(models,
                        self_link:,
                        groups:,
@@ -39,10 +41,14 @@ module API
                        project: nil,
                        page: nil,
                        per_page: nil,
-                       embed_schemas: false)
+                       embed_schemas: false,
+                       timestamps: [],
+                       _query: nil)
           @project = project
           @total_sums = total_sums
           @embed_schemas = embed_schemas
+          @timestamps = timestamps
+          @_query = _query
 
           super(models,
                 self_link:,

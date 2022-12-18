@@ -84,7 +84,9 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
                :page,
                :per_page,
                :embed_schemas,
-               :current_user) do
+               :current_user,
+               :timestamps,
+               :_query) do
       def initialize(work_packages,
                      self_link:,
                      query:,
@@ -94,7 +96,9 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
                      page:,
                      per_page:,
                      embed_schemas:,
-                     current_user:)
+                     current_user:,
+                     timestamps:,
+                     _query:)
         super(work_packages,
               self_link,
               query,
@@ -104,7 +108,9 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
               page,
               per_page,
               embed_schemas,
-              current_user)
+              current_user,
+              timestamps,
+              _query)
       end
     end
   end
@@ -226,6 +232,25 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
         it 'is true' do
           expect(subject.embed_schemas)
             .to be_truthy
+        end
+      end
+
+      context 'timestamps' do
+        let(:timestamps) { [Timestamp.parse("P-1Y"), Timestamp.now] }
+        let(:query) { build_stubbed(:query, timestamps: timestamps) }
+
+        it 'has the query timestamps' do
+          expect(subject.timestamps)
+            .to match_array(timestamps)
+        end
+      end
+
+      context '_query' do
+        # This is a workaround to allow the representer to access the query object itself.
+        # The attribute 'query' is already used by the representer and holds a Hash.
+        it 'has the query' do
+          expect(subject._query)
+            .to eq(query)
         end
       end
 

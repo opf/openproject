@@ -45,6 +45,8 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   let(:default_page_size) { 30 }
   let(:total) { 5 }
   let(:embed_schemas) { false }
+  let(:timestamps) { nil }
+  let(:_query) { nil }
 
   let(:representer) do
     described_class.new(
@@ -57,7 +59,9 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       page: page_parameter,
       per_page: page_size_parameter,
       current_user: user,
-      embed_schemas:
+      embed_schemas:,
+      timestamps:,
+      _query:
     )
   end
   let(:collection_inner_type) { 'WorkPackage' }
@@ -467,6 +471,62 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       expect(collection)
         .to be_json_eql(expected_path.to_json)
         .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
+    end
+  end
+
+  context 'when passing timestamps' do
+    let(:work_pacakges) { WorkPackage.where(id: work_package.id) }
+    let(:work_package) do
+      new_work_package = create(:work_package, subject: "The current work package")
+      new_work_package.update_columns created_at: baseline_time - 1.day
+      new_work_package
+    end
+    let(:original_journal) do
+      create_journal(journable: work_package, timestamp: baseline_time - 1.day,
+                     version: 1,
+                     attributes: { subject: "The original work package" })
+    end
+    let(:current_journal) do
+      create_journal(journable: work_package, timestamp: 1.day.ago,
+                     version: 2,
+                     attributes: { subject: "The current work package" })
+    end
+    let(:baseline_time) { "2022-01-01".to_time }
+
+    def create_journal(journable:, version:, timestamp:, attributes: {})
+      work_package_attributes = work_package.attributes.except("id")
+      journal_attributes = work_package_attributes \
+          .extract!(*Journal::WorkPackageJournal.attribute_names) \
+          .symbolize_keys.merge(attributes)
+      create(:work_package_journal, version:,
+             journable:, created_at: timestamp, updated_at: timestamp,
+             data: build(:journal_work_package_journal, journal_attributes))
+    end
+
+    before do
+      WorkPackage.destroy_all
+      work_package
+      Journal.destroy_all
+      original_journal
+      current_journal
+    end
+
+    shared_examples_for 'includes the properties of the current work package' do
+      it 'includes the properties of the current work package' do
+        expect(collection)
+          .to be_json_eql("The current work package".to_json)
+          .at_path('_embedded/elements/0/subject')
+      end
+    end
+
+    context 'current only' do
+      let(:timestamps) { [Timestamp.parse("PT0S")] }
+      it_behaves_like 'includes the properties of the current work package'
+    end
+
+    context 'empty' do
+      let(:timestamps) { [] }
+      it_behaves_like 'includes the properties of the current work package'
     end
   end
 end
