@@ -547,6 +547,26 @@ describe Journable::Timestamps do
           expect(subject.description).to eq "The work package as it has been on Monday"
           expect(journable.description).to eq "The work package as it is since Friday"
         end
+
+        describe "for columns that don't exist in the journal-data table" do
+          let(:column_name) { :lock_version }
+
+          specify "the column name does exist in the journable table" do
+            expect(WorkPackage.column_names).to include column_name.to_s
+          end
+
+          specify "the column name does not exist in the journal-data table" do
+            expect(Journal::WorkPackageJournal.column_names).not_to include column_name.to_s
+          end
+
+          it "has the attribute with null value" do
+            expect(subject.attributes_before_type_cast[column_name]).to be nil
+          end
+
+          it "has the typecasted value matching the journable class's data type" do
+            expect(subject.send(column_name)).to eq 0
+          end
+        end
       end
     end
 
