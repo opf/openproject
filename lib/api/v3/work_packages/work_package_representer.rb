@@ -41,10 +41,15 @@ module API
         cached_representer key_parts: %i(project),
                            disabled: false
 
-        def initialize(model, current_user:, embed_links: false)
+        attr_accessor :timestamps, :query
+
+        def initialize(model, current_user:, embed_links: false, timestamps: nil, query: nil)
+          @query = query
+          @timestamps = timestamps || query.try(:timestamps) || []
+
           model = load_complete_model(model)
 
-          super
+          super(model, current_user:, embed_links:)
         end
 
         self_link title_getter: ->(*) { represented.subject }
@@ -647,7 +652,7 @@ module API
         end
 
         def load_complete_model(model)
-          ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap_one(model, current_user)
+          ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap_one(model, current_user, timestamps:, query:)
         end
       end
     end

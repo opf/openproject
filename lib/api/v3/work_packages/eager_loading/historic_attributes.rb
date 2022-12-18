@@ -26,26 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_context 'eager loaded work package representer' do
-  before do
-    allow(::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper)
-      .to receive(:wrap_one) do |work_package, _user|
-      allow(work_package)
-        .to receive(:cache_checksum)
-        .and_return(srand)
+module API::V3::WorkPackages::EagerLoading
+  class HistoricAttributes < Base
+    attr_accessor :timestamps, :query
 
-      allow(work_package)
-        .to receive(:baseline_attributes)
-        .and_return({ subject: "The original work package" })
+    def apply(work_package)
+      work_package_with_historic_attributes = work_packages_with_historic_attributes.detect { |wp| wp.id == work_package.id }
+      work_package.attributes = work_package_with_historic_attributes.attributes.except('timestamp')
+      work_package.baseline_attributes = work_package_with_historic_attributes.baseline_attributes
+      work_package.attributes_by_timestamp = work_package_with_historic_attributes.attributes_by_timestamp
+    end
 
-      allow(work_package)
-        .to receive(:attributes_by_timestamp)
-        .and_return({
-          "2022-01-01T00:00:00+00:00" => {subject: "The original work package"},
-          "PT0S" => {subject: "The current work package"}
-        })
+    def self.module
+      HistoricAttributesAccessors
+    end
 
-      work_package
+    private
+
+    def work_packages_with_historic_attributes
+      @work_packages_with_historic_attributes ||= begin
+        @timestamps ||= @query.try(:timestamps) || []
+        Journable::WithHistoricAttributes.wrap_multiple(work_packages, timestamps: @timestamps, query: @query)  # TODO: rename wrap to wrap_one, wrap_multiple to wrap
+      end
+    end
+
+  end
+
+  module HistoricAttributesAccessors
+    extend ActiveSupport::Concern
+
+    included do
+      attr_accessor :baseline_attributes, :attributes_by_timestamp
     end
   end
 end

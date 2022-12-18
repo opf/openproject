@@ -34,8 +34,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:member) { build_stubbed(:user) }
   let(:current_user) { member }
   let(:embed_links) { true }
+  let(:timestamps) { nil }
+  let(:query) { nil }
   let(:representer) do
-    described_class.create(work_package, current_user:, embed_links:)
+    described_class.create(work_package, current_user:, embed_links:, timestamps:, query:)
   end
   let(:parent) { nil }
   let(:priority) { build_stubbed(:priority, updated_at: Time.zone.now) }
@@ -1297,6 +1299,46 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             .to be_json_eql('Unassign'.to_json)
             .at_path('_embedded/customActions/0/name')
         end
+      end
+
+      context 'when passing timestamps' do
+        let(:timestamps) { [Timestamp.new(baseline_time), Timestamp.now] }
+        let(:baseline_time) { "2022-01-01".to_time }
+        let(:work_pacakges) { WorkPackage.where(id: work_package.id) }
+        let(:work_package) do
+          new_work_package = create(:work_package, subject: "The current work package")
+          new_work_package.update_columns created_at: baseline_time - 1.day
+          new_work_package
+        end
+        let(:original_journal) do
+          create_journal(journable: work_package, timestamp: baseline_time - 1.day,
+                         version: 1,
+                         attributes: { subject: "The original work package" })
+        end
+        let(:current_journal) do
+          create_journal(journable: work_package, timestamp: 1.day.ago,
+                         version: 2,
+                         attributes: { subject: "The current work package" })
+        end
+
+        def create_journal(journable:, version:, timestamp:, attributes: {})
+          work_package_attributes = work_package.attributes.except("id")
+          journal_attributes = work_package_attributes \
+              .extract!(*Journal::WorkPackageJournal.attribute_names) \
+              .symbolize_keys.merge(attributes)
+          create(:work_package_journal, version:,
+                 journable:, created_at: timestamp, updated_at: timestamp,
+                 data: build(:journal_work_package_journal, journal_attributes))
+        end
+
+        before do
+          WorkPackage.destroy_all
+          work_package
+          Journal.destroy_all
+          original_journal
+          current_journal
+        end
+
       end
     end
 

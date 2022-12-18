@@ -71,7 +71,7 @@ module API
           # and set those to be the represented collection.
           # A potential ordering is reapplied to the work package collection in ruby.
 
-          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap(represented, current_user)
+          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap(represented, current_user, timestamps:, query: _query)
         end
 
         link :sumsSchema do
@@ -140,7 +140,7 @@ module API
                      rep_class = element_decorator.custom_field_class(all_fields)
 
                      represented.map do |model|
-                       rep_class.send(:new, model, current_user:)
+                       rep_class.send(:new, model, current_user:, timestamps:, query: _query)
                      end
                    },
                    exec_context: :decorator,
