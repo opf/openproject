@@ -159,10 +159,17 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   # However, I prefer OpenStruct here because it makes it easier to deal with the
   # non existing attributes when using `include_only_changed_attributes: true`.
   #
+  # We need to patch the `as_json` method because OpenStruct's `as_json` would
+  # wrap everything into a "table" hash.
+  #
   # rubocop:disable Style/OpenStructUse
   #
   def convert_attributes_hash_to_struct(attributes)
-    OpenStruct.new(attributes)
+    Class.new(OpenStruct) do
+      def as_json(options = nil)
+        self.to_h.as_json(options)
+      end
+    end.new(attributes)
   end
   # rubocop:enable Style/OpenStructUse
 

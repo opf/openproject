@@ -1339,6 +1339,28 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           current_journal
         end
 
+        describe 'baselineAttributes' do
+          it 'has the work package attributes at the baseline time' do
+            expect(subject)
+              .to be_json_eql('The original work package'.to_json)
+              .at_path('_embedded/baselineAttributes/subject')
+          end
+        end
+
+        describe 'attributesByTimestamp' do
+          it 'has a hash with timestamp strings as keys' do
+            expect(JSON.parse(subject)['_embedded']['attributesByTimestamp'].keys).to eq timestamps.map(&:to_s)
+          end
+
+          it 'has the historic attributes for each timestamp' do
+            expect(subject)
+              .to be_json_eql('The original work package'.to_json)
+              .at_path("_embedded/attributesByTimestamp/#{timestamps[0]}/subject")
+            expect(subject)
+              .to be_json_eql('The current work package'.to_json)
+              .at_path("_embedded/attributesByTimestamp/#{timestamps[1]}/subject")
+          end
+        end
       end
     end
 

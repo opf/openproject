@@ -519,9 +519,37 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       end
     end
 
+    shared_examples_for 'embeds the properties of the baseline work package' do
+      it 'embeds the properties of the baseline work package in attributesByTimestamp' do
+        expect(collection)
+          .to be_json_eql("The original work package".to_json)
+          .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first.to_s}/subject")
+      end
+      it 'embed the properties of the baseline work package in baselineAttributes' do
+        expect(collection)
+          .to be_json_eql("The original work package".to_json)
+          .at_path("_embedded/elements/0/_embedded/baselineAttributes/subject")
+      end
+    end
+
+    context 'baseline and current' do
+      let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
+      it_behaves_like 'includes the properties of the current work package'
+      it_behaves_like 'embeds the properties of the baseline work package'
+    end
+
     context 'current only' do
       let(:timestamps) { [Timestamp.parse("PT0S")] }
       it_behaves_like 'includes the properties of the current work package'
+    end
+
+    context 'baseline only' do
+      let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z")] }
+      it 'includes the properties of the baseline work package' do
+        expect(collection)
+          .to be_json_eql("The original work package".to_json)
+          .at_path('_embedded/elements/0/subject')
+      end
     end
 
     context 'empty' do

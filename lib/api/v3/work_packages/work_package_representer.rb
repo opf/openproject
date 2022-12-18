@@ -443,6 +443,17 @@ module API
                    status_id && status.is_readonly?
                  end
 
+        property :baseline_attributes,
+                 as: :baselineAttributes,
+                 embedded: true,
+                 uncachable: true
+
+        property :attributes_by_timestamp,
+                 as: :attributesByTimestamp,
+                 if: ->(*) { respond_to?(:attributes_by_timestamp) and attributes_by_timestamp.any? },
+                 embedded: true,
+                 uncachable: true
+
         associated_resource :category
 
         associated_resource :type
