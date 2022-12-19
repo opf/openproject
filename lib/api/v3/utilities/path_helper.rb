@@ -484,6 +484,12 @@ module API
 
           resources :work_package, except: :schema
 
+          def self.work_package(id, timestamps: nil)
+            "#{root}/work_packages/#{id}" + if timestamps.present?
+              "?" + {timestamps: timestamps_to_param_value(timestamps)}.to_query
+            end.to_s
+          end
+
           def self.work_package_schema(project_id, type_id)
             "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
           end
@@ -537,7 +543,8 @@ module API
           end
 
           def self.timestamps_to_param_value(timestamps)
-            if timestamps.present? and timestamps.is_a? Array
+            timestamps = [timestamps] if timestamps.is_a? Timestamp
+            if timestamps.present? and timestamps.kind_of? Array
               timestamps.collect { |timestamp| timestamp.absolute.iso8601 }.join(",")
             end
           end

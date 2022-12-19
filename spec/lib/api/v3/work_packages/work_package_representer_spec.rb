@@ -1345,6 +1345,12 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
               .to be_json_eql('The original work package'.to_json)
               .at_path('_embedded/baselineAttributes/subject')
           end
+
+          it 'has a link to the baseline work package' do
+            expect(subject)
+              .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: [timestamps.first]).to_json)
+              .at_path('_embedded/baselineAttributes/_links/self/href')
+          end
         end
 
         describe 'attributesByTimestamp' do
@@ -1359,6 +1365,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             expect(subject)
               .to be_json_eql('The current work package'.to_json)
               .at_path("_embedded/attributesByTimestamp/#{timestamps[1]}/subject")
+          end
+
+          it 'has a link to the work package at the timestamp' do
+            expect(subject)
+              .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: [timestamps[0]]).to_json)
+              .at_path("_embedded/attributesByTimestamp/#{timestamps[0]}/_links/self/href")
+            expect(subject)
+              .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: [timestamps[1]]).to_json)
+              .at_path("_embedded/attributesByTimestamp/#{timestamps[1]}/_links/self/href")
           end
         end
       end

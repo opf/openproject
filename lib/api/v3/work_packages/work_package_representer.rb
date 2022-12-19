@@ -52,6 +52,10 @@ module API
           super(model, current_user:, embed_links:)
         end
 
+        def self_v3_path(path, id_attribute)
+          api_v3_paths.work_package(represented.id, timestamps:)
+        end
+
         self_link title_getter: ->(*) { represented.subject }
 
         link :update,
@@ -446,12 +450,32 @@ module API
         property :baseline_attributes,
                  as: :baselineAttributes,
                  if: ->(*) { respond_to?(:baseline_attributes) and baseline_attributes.present? },
+                 getter: ->(*) do
+                   baseline_attributes.to_h.merge({
+                     "_links": {
+                       "self": {
+                         "href": API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: baseline_timestamp)
+                       }
+                     }
+                   })
+                 end,
                  embedded: true,
                  uncachable: true
 
         property :attributes_by_timestamp,
                  as: :attributesByTimestamp,
                  if: ->(*) { respond_to?(:attributes_by_timestamp) and attributes_by_timestamp.present? },
+                 getter: ->(*) do
+                   attributes_by_timestamp.to_a.collect do |timestamp, attributes|
+                     [timestamp, attributes.to_h.merge({
+                       "_links": {
+                         "self": {
+                           "href": API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: Timestamp.parse(timestamp.dup))
+                         }
+                       }
+                     })]
+                   end.to_h
+                 end,
                  embedded: true,
                  uncachable: true
 

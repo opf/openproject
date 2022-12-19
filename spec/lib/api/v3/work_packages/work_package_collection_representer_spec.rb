@@ -84,9 +84,11 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
         let(:absolute_timestamps_query_param) { { timestamps: absolute_timestamp_strings.join(",") }.to_query }
 
         it 'has the absolute timestamps within the self link' do
-          is_expected
-            .to include_json(absolute_timestamps_query_param.to_json)
-            .at_path('_links/self/href')
+          Timecop.freeze do
+            is_expected
+              .to include_json(absolute_timestamps_query_param.to_json)
+              .at_path('_links/self/href')
+          end
         end
       end
     end
@@ -539,10 +541,34 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
           .to be_json_eql("The original work package".to_json)
           .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first.to_s}/subject")
       end
-      it 'embed the properties of the baseline work package in baselineAttributes' do
+
+      it 'embeds the link to the baseline work package in attributesByTimestamp' do
+        expect(collection)
+          .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.first).to_json)
+          .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first.to_s}/_links/self/href")
+      end
+
+      it 'embeds the properties of the baseline work package in baselineAttributes' do
         expect(collection)
           .to be_json_eql("The original work package".to_json)
           .at_path("_embedded/elements/0/_embedded/baselineAttributes/subject")
+      end
+
+      it 'embeds the link to the baseline work package in baselineAttributes' do
+        expect(collection)
+          .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.first).to_json)
+          .at_path("_embedded/elements/0/_embedded/baselineAttributes/_links/self/href")
+      end
+    end
+
+    shared_examples_for 'has the absolute timestamps within the self link' do
+      let(:absolute_timestamp_strings) { timestamps.collect { |timestamp| timestamp.absolute.iso8601 } }
+      let(:absolute_timestamps_query_param) { { timestamps: absolute_timestamp_strings.join(",") }.to_query }
+
+      it 'has the absolute timestamps within the self link' do
+        is_expected
+          .to include_json(absolute_timestamps_query_param.to_json)
+          .at_path('_embedded/elements/0/_links/self/href')
       end
     end
 
@@ -550,11 +576,13 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
       it_behaves_like 'includes the properties of the current work package'
       it_behaves_like 'embeds the properties of the baseline work package'
+      it_behaves_like 'has the absolute timestamps within the self link'
     end
 
     context 'current only' do
       let(:timestamps) { [Timestamp.parse("PT0S")] }
       it_behaves_like 'includes the properties of the current work package'
+      it_behaves_like 'has the absolute timestamps within the self link'
     end
 
     context 'baseline only' do
@@ -564,11 +592,18 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
           .to be_json_eql("The original work package".to_json)
           .at_path('_embedded/elements/0/subject')
       end
+      it_behaves_like 'has the absolute timestamps within the self link'
     end
 
     context 'empty' do
       let(:timestamps) { [] }
       it_behaves_like 'includes the properties of the current work package'
+
+      it 'has no timestamps within the self link' do
+        is_expected
+          .not_to include_json("timestamps".to_json)
+          .at_path('_embedded/elements/0/_links/self/href')
+      end
     end
   end
 end

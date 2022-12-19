@@ -35,6 +35,7 @@ module API::V3::WorkPackages::EagerLoading
       work_package.attributes = work_package_with_historic_attributes.attributes.except('timestamp')
       work_package.baseline_attributes = work_package_with_historic_attributes.baseline_attributes
       work_package.attributes_by_timestamp = work_package_with_historic_attributes.attributes_by_timestamp
+      work_package.baseline_timestamp = work_package_with_historic_attributes.baseline_timestamp
     end
 
     def self.module
@@ -56,7 +57,7 @@ module API::V3::WorkPackages::EagerLoading
     extend ActiveSupport::Concern
 
     included do
-      attr_accessor :baseline_attributes, :attributes_by_timestamp
+      attr_accessor :baseline_attributes, :attributes_by_timestamp, :baseline_timestamp
     end
   end
 end

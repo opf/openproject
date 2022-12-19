@@ -45,6 +45,10 @@ shared_context 'eager loaded work package representer' do
           "PT0S" => {subject: "The current work package"}
         })
 
+      allow(work_package)
+        .to receive(:baseline_timestamp)
+        .and_return(Timestamp.parse("2022-01-01T00:00:00+00:00"))
+
       work_package
     end
   end
