@@ -55,7 +55,9 @@ module API
           # TODO: Should we rename `_query` to `query_object`?
           # TODO: Should we rename `query` to `query_params`?
           # TODO: Should we include the timestamps in the query params instead of passing them separately?
-          query[:timestamps] ||= API::V3::Utilities::PathHelper::ApiV3Path.timestamps_to_param_value(timestamps) if timestamps.present?
+          if timestamps.present? && (timestamps.count > 1 or timestamps.first.historic?)
+            query[:timestamps] ||= API::V3::Utilities::PathHelper::ApiV3Path.timestamps_to_param_value(timestamps)
+          end
 
           super(models,
                 self_link:,

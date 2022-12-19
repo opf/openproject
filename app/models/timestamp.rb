@@ -118,7 +118,14 @@ class Timestamp
   end
 
   def ==(other)
-    iso8601 == other.iso8601
+    case other
+    when String
+      iso8601 == other or to_s == other
+    when Timestamp
+      iso8601 == other.iso8601
+    else
+      raise Timestamp::Exception, "Comparison to #{other.class.name} not implemented, yet."
+    end
   end
 
   def eql?(other)

@@ -91,6 +91,18 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
           end
         end
       end
+
+      describe 'when providing only the current timestamp' do
+        let(:timestamps) { [Timestamp.parse("PT0S")] }
+
+        it 'has no timestamps within the self link' do
+          Timecop.freeze do
+            is_expected
+              .not_to include_json("timestamps".to_json)
+              .at_path('_links/self/href')
+          end
+        end
+      end
     end
 
     describe 'representations' do
@@ -582,7 +594,12 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     context 'current only' do
       let(:timestamps) { [Timestamp.parse("PT0S")] }
       it_behaves_like 'includes the properties of the current work package'
-      it_behaves_like 'has the absolute timestamps within the self link'
+
+      it 'has no timestamps within the self link' do
+        is_expected
+          .not_to include_json("timestamps".to_json)
+          .at_path('_embedded/elements/0/_links/self/href')
+      end
     end
 
     context 'baseline only' do

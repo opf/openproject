@@ -470,7 +470,7 @@ module API
                      [timestamp, attributes.to_h.merge({
                        "_links": {
                          "self": {
-                           "href": API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: Timestamp.parse(timestamp.dup))
+                           "href": API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: timestamp)
                          }
                        }
                      })]
