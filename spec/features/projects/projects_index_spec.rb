@@ -31,13 +31,13 @@ require 'spec_helper'
 describe 'Projects index page',
          js: true,
          with_settings: { login_required?: false } do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
-  shared_let(:manager)   { create :role, name: 'Manager' }
-  shared_let(:developer) { create :role, name: 'Developer' }
+  shared_let(:manager)   { create(:role, name: 'Manager') }
+  shared_let(:developer) { create(:role, name: 'Developer') }
 
-  shared_let(:custom_field) { create :project_custom_field }
-  shared_let(:invisible_custom_field) { create :project_custom_field, visible: false }
+  shared_let(:custom_field) { create(:project_custom_field) }
+  shared_let(:invisible_custom_field) { create(:project_custom_field, visible: false) }
 
   shared_let(:project) do
     create(:project,
@@ -263,9 +263,9 @@ describe 'Projects index page',
 
       # Results should be filtered and ordered ASC by name
       expect(page).to have_text(development_project.name)
-      expect(page).to have_no_text(project.name) # as it filtered away
+      expect(page).not_to have_text(project.name) # as it filtered away
       expect(page).to have_text('Next') # as the result set is larger than 1
-      expect(page).to have_no_text(public_project.name) # as it is on the second page
+      expect(page).not_to have_text(public_project.name) # as it is on the second page
 
       # Changing the page size to 5 and back to 1 should not change the filters (which we test later on the second page)
       SeleniumHubWaiter.wait
@@ -277,9 +277,9 @@ describe 'Projects index page',
 
       # On page 2 you should see the second page of the filtered set ordered ASC by name
       expect(page).to have_text(public_project.name)
-      expect(page).to have_no_text(project.name)             # Filtered away
-      expect(page).to have_no_text('Next')                   # Filters kept active, so there is no third page.
-      expect(page).to have_no_text(development_project.name) # That one should be on page 1
+      expect(page).not_to have_text(project.name)             # Filtered away
+      expect(page).not_to have_text('Next')                   # Filters kept active, so there is no third page.
+      expect(page).not_to have_text(development_project.name) # That one should be on page 1
 
       # Sorts DESC by name
       SeleniumHubWaiter.wait
@@ -287,9 +287,9 @@ describe 'Projects index page',
 
       # On page 2 the same filters should still be intact but the order should be DESC on name
       expect(page).to have_text(development_project.name)
-      expect(page).to have_no_text(project.name)        # Filtered away
-      expect(page).to have_no_text('Next')              # Filters kept active, so there is no third page.
-      expect(page).to have_no_text(public_project.name) # That one should be on page 1
+      expect(page).not_to have_text(project.name)        # Filtered away
+      expect(page).not_to have_text('Next')              # Filters kept active, so there is no third page.
+      expect(page).not_to have_text(public_project.name) # That one should be on page 1
       expect(page).to have_selector('.sort.desc', text: 'NAME')
 
       # Sending the filter form again what implies to compose the request freshly
@@ -299,8 +299,8 @@ describe 'Projects index page',
       # We should see page 1, resetting pagination, as it is a new filter, but keeping the DESC order on the project
       # name
       expect(page).to have_text(public_project.name)
-      expect(page).to have_no_text(development_project.name) # as it is on the second page
-      expect(page).to have_no_text(project.name)             # as it filtered away
+      expect(page).not_to have_text(development_project.name) # as it is on the second page
+      expect(page).not_to have_text(project.name)             # as it filtered away
       expect(page).to have_text('Next') # as the result set is larger than 1
       expect(page).to have_selector('.sort.desc', text: 'NAME')
     end
@@ -321,7 +321,7 @@ describe 'Projects index page',
 
       expect(page).to have_text(development_project.name)
       expect(page).to have_text(public_project.name)
-      expect(page).to have_no_text(project.name)
+      expect(page).not_to have_text(project.name)
 
       # Filter on model attribute 'identifier'
       SeleniumHubWaiter.wait
@@ -335,8 +335,8 @@ describe 'Projects index page',
       click_on 'Apply'
 
       expect(page).to have_text(project.name)
-      expect(page).to have_no_text(development_project.name)
-      expect(page).to have_no_text(public_project.name)
+      expect(page).not_to have_text(development_project.name)
+      expect(page).not_to have_text(public_project.name)
     end
 
     describe 'Active or archived' do
@@ -368,9 +368,9 @@ describe 'Projects index page',
         projects_page.click_menu_item_of('Archive', parent_project)
         projects_page.accept_alert_dialog!
 
-        expect(page).to have_no_text(parent_project.name)
+        expect(page).not_to have_text(parent_project.name)
         # The child project gets archived automatically
-        expect(page).to have_no_text(child_project.name)
+        expect(page).not_to have_text(child_project.name)
         expect(page).to have_text('Plain project')
         expect(page).to have_text('Development project')
         expect(page).to have_text('Public project')
@@ -416,7 +416,7 @@ describe 'Projects index page',
         projects_page.filter_by_active('yes')
 
         expect(page).to have_text(parent_project.name)
-        expect(page).to have_no_text(child_project.name)
+        expect(page).not_to have_text(child_project.name)
         expect(page).to have_text('Plain project')
         expect(page).to have_text('Development project')
         expect(page).to have_text('Public project')
@@ -513,8 +513,8 @@ describe 'Projects index page',
     describe 'other filter types' do
       include ActiveSupport::Testing::TimeHelpers
 
-      shared_let(:list_custom_field) { create :list_project_custom_field }
-      shared_let(:date_custom_field) { create :date_project_custom_field }
+      shared_let(:list_custom_field) { create(:list_project_custom_field) }
+      shared_let(:date_custom_field) { create(:date_project_custom_field) }
       shared_let(:datetime_of_this_week) do
         today = Date.current
         # Ensure that the date is not today but still in the middle of the week to not run into week-start-issues here.
@@ -737,7 +737,7 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).to have_text(project_created_on_today.name)
-        expect(page).to have_no_text(project_created_on_fixed_date.name)
+        expect(page).not_to have_text(project_created_on_fixed_date.name)
       end
 
       pending "NOT WORKING YET: Date vs. DateTime issue: Selecting same date for from and to value shows projects of that date"
@@ -754,7 +754,7 @@ describe 'Projects index page',
         projects_page.filter_by_public('no')
 
         expect(page).to have_text(project.name)
-        expect(page).to have_no_text(public_project.name)
+        expect(page).not_to have_text(public_project.name)
 
         load_and_open_filters admin
 
@@ -762,17 +762,17 @@ describe 'Projects index page',
         projects_page.filter_by_public('yes')
 
         expect(page).to have_text(public_project.name)
-        expect(page).to have_no_text(project.name)
+        expect(page).not_to have_text(project.name)
       end
     end
   end
 
   describe 'Non-admins with role with permission' do
     shared_let(:can_copy_projects_role) do
-      create :role, name: 'Can Copy Projects Role', permissions: [:copy_projects]
+      create(:role, name: 'Can Copy Projects Role', permissions: [:copy_projects])
     end
     shared_let(:can_add_subprojects_role) do
-      create :role, name: 'Can Add Subprojects Role', permissions: [:add_subprojects]
+      create(:role, name: 'Can Add Subprojects Role', permissions: [:add_subprojects])
     end
 
     shared_let(:parent_project) do
@@ -806,6 +806,7 @@ describe 'Projects index page',
 
       project.update(created_at: 7.days.ago)
 
+      parent_project.enabled_module_names -= ["activity"]
       news
     end
 
@@ -861,15 +862,15 @@ describe 'Projects index page',
       # Test admin only properties are invisible
       within('#project-table') do
         expect(page)
-          .to have_no_selector('th', text: 'REQUIRED DISK STORAGE')
+          .not_to have_selector('th', text: 'REQUIRED DISK STORAGE')
         expect(page)
-          .to have_no_selector('th', text: 'CREATED ON')
+          .not_to have_selector('th', text: 'CREATED ON')
         expect(page)
-          .to have_no_selector('td', text: project.created_at.strftime('%m/%d/%Y'))
+          .not_to have_selector('td', text: project.created_at.strftime('%m/%d/%Y'))
         expect(page)
-          .to have_no_selector('th', text: 'LATEST ACTIVITY AT')
+          .not_to have_selector('th', text: 'LATEST ACTIVITY AT')
         expect(page)
-          .to have_no_selector('td', text: news.created_at.strftime('%m/%d/%Y'))
+          .not_to have_selector('td', text: news.created_at.strftime('%m/%d/%Y'))
       end
     end
   end
@@ -1011,19 +1012,13 @@ describe 'Projects index page',
   describe 'project activity menu item' do
     context 'for projects with activity module enabled' do
       shared_let(:project_with_activity_enabled) { project }
-      shared_let(:can_copy_projects_role) do
-        create(:role, name: 'Can Copy Projects Role', permissions: [:copy_projects])
-      end
-      shared_let(:can_copy_projects_manager) do
-        create(:user,
-               member_in_project: project_with_activity_enabled,
-               member_through_role: can_copy_projects_role)
-      end
+      shared_let(:work_packages_viewer) { create(:role, name: 'Viewer', permissions: [:view_work_packages]) }
       shared_let(:simple_member) do
         create(:user,
                member_in_project: project_with_activity_enabled,
-               member_through_role: developer)
+               member_through_role: work_packages_viewer)
       end
+      shared_let(:work_package) { create(:work_package, project: project_with_activity_enabled) }
 
       before do
         project_with_activity_enabled.enabled_module_names += ["activity"]
@@ -1031,10 +1026,7 @@ describe 'Projects index page',
       end
 
       it 'is displayed' do
-        # For a simple project member the 'More' menu is not visible.
-        # that's why we're using a user with can_copy_projects_role permission
-        # TODO: use simple_member instead and ensure the test still passes
-        login_as(can_copy_projects_manager)
+        login_as(simple_member)
         visit projects_path
 
         expect(page).to have_text(project.name)
@@ -1048,15 +1040,23 @@ describe 'Projects index page',
         page.find('tbody tr .icon-show-more-horizontal').click
         menu = page.find('tbody tr .project-actions')
 
-        # expect(menu).to have_text('Copy')
         expect(menu).to have_text(I18n.t(:label_project_activity))
       end
+
+      it 'redirects to project activity page with only project attributes visible' do
+        login_as(simple_member)
+        visit projects_path
+
+        page.find('tbody tr').hover
+        page.find('tbody tr .icon-show-more-horizontal').click
+
+        menu = page.find('tbody tr .project-actions')
+        menu.find_link(text: I18n.t(:label_project_activity)).click
+
+        expect(page).to have_current_path(project_activity_index_path(project_with_activity_enabled), ignore_query: true)
+        expect(page).to have_checked_field(id: 'event_types_project_attributes')
+        expect(page).to have_unchecked_field(id: 'event_types_work_packages')
+      end
     end
-
-    it 'redirects to project activity page with only project attributes visible'
-  end
-
-  context 'for projects with activity module disabled' do
-    it 'is not displayed'
   end
 end

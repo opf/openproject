@@ -96,7 +96,7 @@ module ProjectsHelper
     if project.enabled_module_names.include?('activity')
       [
         t(:label_project_activity),
-        project_activity_index_path(project),
+        project_activity_index_path(project, event_types: ['project_attributes']),
         { class: 'icon-context icon-checkmark',
           title: t(:label_project_activity) }
       ]
