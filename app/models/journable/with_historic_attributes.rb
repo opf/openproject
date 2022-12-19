@@ -193,6 +193,10 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     matches_query_at_timestamps.include?(current_timestamp)
   end
 
+  def matches_query_filter_at_timestamp?(timestamp)
+    matches_query_at_timestamps.include?(timestamp)
+  end
+
   def self.query_work_packages(query:, timestamp: nil)
     query = query.dup
     query.timestamps = [timestamp] if timestamp

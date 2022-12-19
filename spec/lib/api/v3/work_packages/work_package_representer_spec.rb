@@ -1306,7 +1306,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         let(:baseline_time) { Time.zone.parse("2022-01-01") }
         let(:work_pacakges) { WorkPackage.where(id: work_package.id) }
         let(:work_package) do
-          new_work_package = create(:work_package, subject: "The current work package")
+          new_work_package = create(:work_package, subject: "The current work package", project:)
           new_work_package.update_columns created_at: baseline_time - 1.day
           new_work_package
         end
@@ -1320,6 +1320,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
                          version: 2,
                          attributes: { subject: "The current work package" })
         end
+        let(:project) { create(:project) }
 
         def create_journal(journable:, version:, timestamp:, attributes: {})
           work_package_attributes = work_package.attributes.except("id")
@@ -1359,6 +1360,12 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
               .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: [timestamps.first]).to_json)
               .at_path('_embedded/baselineAttributes/_links/self/href')
           end
+
+          it 'has the baseline timestamp as meta information' do
+            expect(subject)
+              .to be_json_eql(timestamps.first.to_s.to_json)
+              .at_path('_embedded/baselineAttributes/_meta/timestamp')
+          end
         end
 
         describe 'attributesByTimestamp' do
@@ -1382,6 +1389,44 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             expect(subject)
               .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: [timestamps[1]]).to_json)
               .at_path("_embedded/attributesByTimestamp/#{timestamps[1]}/_links/self/href")
+          end
+        end
+
+        context 'when passing a query' do
+          let(:search_term) { 'original' }
+          let(:query) do
+            login_as(current_user)
+            build(:query, user: current_user, project: nil).tap do |query|
+              query.filters.clear
+              query.add_filter 'subject', '~', search_term
+              query.timestamps = timestamps
+            end
+          end
+          let(:current_user) do
+            create(:user,
+                   firstname: 'user',
+                   lastname: '1',
+                   member_in_project: project,
+                   member_with_permissions: %i[view_work_packages view_file_links])
+          end
+
+          describe 'baselineAttributes' do
+            it 'states whether the work package matches the query filters at the baseline time' do
+              expect(subject)
+                .to be_json_eql(true.to_json)
+                .at_path('_embedded/baselineAttributes/_meta/matchesFilters')
+            end
+          end
+
+          describe 'attributesByTimestamp' do
+            it 'states whether the work package matches the query filters at the timestamp' do
+              expect(subject)
+                .to be_json_eql(true.to_json)
+                .at_path("_embedded/attributesByTimestamp/#{timestamps[0]}/_meta/matchesFilters")
+              expect(subject)
+                .to be_json_eql(false.to_json)
+                .at_path("_embedded/attributesByTimestamp/#{timestamps[1]}/_meta/matchesFilters")
+            end
           end
         end
       end

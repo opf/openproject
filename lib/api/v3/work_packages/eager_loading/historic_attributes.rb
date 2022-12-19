@@ -36,6 +36,10 @@ module API::V3::WorkPackages::EagerLoading
       work_package.baseline_attributes = work_package_with_historic_attributes.baseline_attributes
       work_package.attributes_by_timestamp = work_package_with_historic_attributes.attributes_by_timestamp
       work_package.baseline_timestamp = work_package_with_historic_attributes.baseline_timestamp
+      work_package.matches_query_filter_at_baseline_timestamp = work_package_with_historic_attributes.matches_query_filter_at_baseline_timestamp?
+      work_package.matches_query_at_timestamps = work_package_with_historic_attributes.matches_query_at_timestamps
+
+      # TODO: rename `matches_query_at_timestamps` to `matches_query_filters_at_timestamps`?
     end
 
     def self.module
@@ -57,7 +61,17 @@ module API::V3::WorkPackages::EagerLoading
     extend ActiveSupport::Concern
 
     included do
-      attr_accessor :baseline_attributes, :attributes_by_timestamp, :baseline_timestamp
+      attr_accessor :baseline_attributes, :attributes_by_timestamp, :baseline_timestamp,
+                    :matches_query_filter_at_baseline_timestamp,
+                    :matches_query_at_timestamps
+    end
+
+    def matches_query_filter_at_baseline_timestamp?
+      matches_query_filter_at_baseline_timestamp
+    end
+
+    def matches_query_filter_at_timestamp?(timestamp)
+      matches_query_at_timestamps.include?(timestamp)
     end
   end
 end

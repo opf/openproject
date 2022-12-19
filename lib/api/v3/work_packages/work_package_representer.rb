@@ -456,6 +456,10 @@ module API
                        "self": {
                          "href": API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: baseline_timestamp)
                        }
+                     },
+                     "_meta": {
+                       "timestamp": baseline_timestamp.to_s,
+                       "matchesFilters": matches_query_filter_at_baseline_timestamp?
                      }
                    })
                  end,
@@ -472,6 +476,9 @@ module API
                          "self": {
                            "href": API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: timestamp)
                          }
+                       },
+                       "_meta": {
+                         "matchesFilters": matches_query_filter_at_timestamp?(timestamp)
                        }
                      })]
                    end.to_h
