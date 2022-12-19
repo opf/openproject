@@ -1303,7 +1303,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       context 'when passing timestamps' do
         let(:timestamps) { [Timestamp.new(baseline_time), Timestamp.now] }
-        let(:baseline_time) { "2022-01-01".to_time }
+        let(:baseline_time) { Time.zone.parse("2022-01-01") }
         let(:work_pacakges) { WorkPackage.where(id: work_package.id) }
         let(:work_package) do
           new_work_package = create(:work_package, subject: "The current work package")
@@ -1332,6 +1332,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         before do
+          # Usually the eager loading wrapper is mocked
+          # in spec/support/api/v3/work_packages/work_package_representer_eager_loading.rb.
+          # However, I feel more comfortable if we test the real thing here.
+          #
+          allow(::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper)
+            .to receive(:wrap_one)
+            .and_call_original
+
           WorkPackage.destroy_all
           work_package
           Journal.destroy_all

@@ -34,21 +34,6 @@ shared_context 'eager loaded work package representer' do
         .to receive(:cache_checksum)
         .and_return(srand)
 
-      allow(work_package)
-        .to receive(:baseline_attributes)
-        .and_return({ subject: "The original work package" })
-
-      allow(work_package)
-        .to receive(:attributes_by_timestamp)
-        .and_return({
-          "2022-01-01T00:00:00+00:00" => {subject: "The original work package"},
-          "PT0S" => {subject: "The current work package"}
-        })
-
-      allow(work_package)
-        .to receive(:baseline_timestamp)
-        .and_return(Timestamp.parse("2022-01-01T00:00:00+00:00"))
-
       work_package
     end
   end
