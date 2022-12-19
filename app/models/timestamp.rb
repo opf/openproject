@@ -89,6 +89,10 @@ class Timestamp
     "#<Timestamp \"#{iso8601}\">"
   end
 
+  def absolute
+    Timestamp.new(to_time)
+  end
+
   def to_time
     if relative?
       Time.zone.now - (to_duration * (to_duration.to_i.positive? ? 1 : -1))

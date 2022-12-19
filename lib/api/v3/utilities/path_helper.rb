@@ -536,14 +536,23 @@ module API
             "#{project(project_id)}/work_packages"
           end
 
-          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil, select: nil)
+          def self.timestamps_to_param_value(timestamps)
+            if timestamps.present? and timestamps.is_a? Array
+              timestamps.collect { |timestamp| timestamp.absolute.iso8601 }.join(",")
+            end
+          end
+
+          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil, select: nil, timestamps: nil)
+            timestamps = timestamps_to_param_value(timestamps)
+
             query_params = {
               filters: filters&.to_json,
               sortBy: sort_by&.to_json,
               groupBy: group_by,
               pageSize: page_size,
               offset:,
-              select:
+              select:,
+              timestamps:
             }.compact_blank
 
             if query_params.any?

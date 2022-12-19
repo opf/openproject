@@ -50,6 +50,13 @@ module API
           @timestamps = timestamps
           @_query = _query
 
+          # While `_query` is the actual query object, `query` refers to
+          # the query parameters passed to the API.
+          # TODO: Should we rename `_query` to `query_object`?
+          # TODO: Should we rename `query` to `query_params`?
+          # TODO: Should we include the timestamps in the query params instead of passing them separately?
+          query[:timestamps] ||= API::V3::Utilities::PathHelper::ApiV3Path.timestamps_to_param_value(timestamps)
+
           super(models,
                 self_link:,
                 query:,
@@ -71,6 +78,7 @@ module API
           # and set those to be the represented collection.
           # A potential ordering is reapplied to the work package collection in ruby.
 
+          # TODO: Should we pass the timestamps only through the `query` rather than passing them separately?
           @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap(represented, current_user, timestamps:, query: _query)
         end
 

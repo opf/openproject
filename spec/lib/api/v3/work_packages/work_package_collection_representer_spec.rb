@@ -77,6 +77,20 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   subject(:collection) { representer.to_json }
 
   describe '_links' do
+    describe 'self' do
+      describe 'when providing timestamps' do
+        let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
+        let(:absolute_timestamp_strings) { timestamps.collect { |timestamp| timestamp.absolute.iso8601 } }
+        let(:absolute_timestamps_query_param) { { timestamps: absolute_timestamp_strings.join(",") }.to_query }
+
+        it 'has the absolute timestamps within the self link' do
+          is_expected
+            .to include_json(absolute_timestamps_query_param.to_json)
+            .at_path('_links/self/href')
+        end
+      end
+    end
+
     describe 'representations' do
       context 'when outside of a project and the user has the export_work_packages permission' do
         let(:query) { { foo: 'bar' } }
