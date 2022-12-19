@@ -288,13 +288,3 @@ openproject=# \dn
 openproject=# ALTER SCHEMA "123456789_1234567_1234567a_123b_12c3_1234_c2a1a123c123" RENAME TO "public";
 ALTER SCHEMA
 ```
-
-4. OPTIONAL: The `protocol` in the `settings` table could be changed from `https`to `http`. (This is only recommended if you do not like to use HTTPS)
-
-```psql
-openproject=# UPDATE settings SET value = 'http' WHERE name = 'protocol';
-UPDATE 1
-```
-
-
-
