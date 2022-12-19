@@ -572,7 +572,7 @@ ro:
           few: 'și %{count} alții'
           other: 'și %{count} alții'
         no_results:
-          at_all: 'Noi notificări vor apărea aici atunci când există activitate care vă privește, între timp, puteți vedea și modifica setările de notificare pentru a configura când să vă notificați.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'Nu există notificări în această vizualizare în acest moment'
         mark_all_read: 'Marchează Tot ca Citit'
         mark_as_read: 'Marchează ca Citit'
@@ -595,7 +595,7 @@ ro:
         watched: 'Observator'
         date_alert: 'Alertă de dată'
       settings:
-        change_notification_settings: 'Pentru a vizualiza și a schimba setările de notificare, <a target="_blank" href="%{url}">fă clic aici</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Setări de notificare"
         notify_me: "Anunta-ma"
         reminders:

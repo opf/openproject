@@ -33,8 +33,7 @@ module Storages::Storages
 
     def set_default_attributes(_params)
       storage.creator ||= user
-      storage.provider_type = Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-      storage.name ||= I18n.t("storages.provider_types.#{storage.provider_type}.default_name")
+      storage.name ||= derive_default_storage_name
     end
 
     private
@@ -45,6 +44,15 @@ module Storages::Storages
 
     def storage
       model
+    end
+
+    def derive_default_storage_name
+      prefix = I18n.t("storages.provider_types.#{storage.provider_type}.default_name")
+      last_id = Storages::Storage.where("name like ?", "#{prefix}%").maximum(:id)
+
+      return prefix if last_id.nil?
+
+      "#{prefix} #{last_id + 1}"
     end
   end
 end

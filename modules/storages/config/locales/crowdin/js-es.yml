@@ -5,6 +5,8 @@ es:
       link_files_in_storage: "Enlace archivos en %{storageType}"
       link_existing_files: "Enlazar archivos existentes"
       upload_files: "Subir archivos"
+      drop_files: >
+        Arrastra archivos aquí para cargarlos a %{storageType}.
       login: "%{storageType} iniciar sesión"
       login_to: "Iniciar sesión en %{storageType}"
       no_connection: "No hay conexión para %{storageType}"
@@ -23,6 +25,8 @@ es:
         not_logged_in: >
           Para añadir un enlace, ver o subir archivos relacionados con este paquete de trabajo, por favor inicie sesión en %{storageType}.
       file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Descargar %{fileName}"
         no_permission: "No tienes permisos para ver este archivo."
         open: 'Abrir el fichero en almacenamiento'
@@ -37,6 +41,9 @@ es:
           zero: "Seleccionar archivos a enlazar"
           one: "Enlazar 1 archivo"
           other: "Enlazar %{count} archivos"
+        success_create:
+          one: "Se ha creado correctamente 1 enlace de fichero."
+          other: "Se han creado correctamente %{count} enlaces de fichero."
         not_allowed_tooltip: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"
         already_linked_file: "El archivo ya está vinculado a este paquete de trabajo."
         already_linked_directory: "El directorio ya está vinculado a este paquete de trabajo."

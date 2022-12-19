@@ -572,7 +572,7 @@ ca:
           one: ' i 1 altre'
           other: ' i %{count} altres'
         no_results:
-          at_all: 'Noves notificacions apareixeran aquí quan hi hagi activitats que t''afectin, de mentre també pots modificar la teva configuració de notificacions per estipular quan vols ser notificat.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'En aquest moment no hi han notificacions en aquesta vista'
         mark_all_read: 'Marca tot com a llegit'
         mark_as_read: 'Marca com a llegit'
@@ -595,7 +595,7 @@ ca:
         watched: 'Observador'
         date_alert: 'Alerta per dates'
       settings:
-        change_notification_settings: 'Per veure i canviar la configuració de notificacions, <a target="_blank" href="%{url}">fes clic aquí</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Configuració de notificacions"
         notify_me: "Notifica’m"
         reminders:

@@ -1319,16 +1319,19 @@ de:
   error_external_authentication_failed: "Die externe Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut."
   error_attribute_not_highlightable: "Nicht hervorhebbare Attribut(e): %{attributes}"
   events:
-    project: 'Projekt bearbeitet'
     changeset: 'Projektarchiv-Änderung bearbeitet'
     message: Nachricht bearbeitet
     news: Neuigkeiten
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Antwort erstellt
     time_entry: 'Zeiterfassungseintrag bearbeitet'
     wiki_page: 'Wiki-Seite bearbeitet'
     work_package_closed: 'Arbeitspaket geschlossen'
     work_package_edit: 'Arbeitspaket bearbeitet'
     work_package_note: 'Arbeitspaket kommentiert'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Export der Arbeitspakete"
     succeeded: "Der Export wurde erfolgreich abgeschlossen."
@@ -1781,6 +1784,7 @@ de:
   label_product_version: "Produktversion"
   label_professional_support: "Professionelle Unterstützung"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Gesamtzahl der Projekte"
   label_project_copy_notifications: "Sende Mailbenachrichtigungen beim Kopieren des Projekts."
   label_project_latest: "Neueste Projekte"

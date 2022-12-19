@@ -572,7 +572,7 @@ nl:
           one: 'en 1 ander'
           other: 'en %{count} anderen'
         no_results:
-          at_all: 'Nieuwe meldingen verschijnen hier wanneer er activiteit is die je aangaat, in de tussentijd kunt u ook uw meldingsinstellingen bekijken en wijzigen zodat u kunt configureren wanneer u een melding moet ontvangen.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'Er zijn geen meldingen in deze weergave op dit moment'
         mark_all_read: 'Alles als gelezen markeren'
         mark_as_read: 'Als gelezen markeren'
@@ -595,7 +595,7 @@ nl:
         watched: 'Watcher'
         date_alert: 'Date alert'
       settings:
-        change_notification_settings: 'Om je meldingen instellingen te bekijken en te wijzigen, <a target="_blank" href="%{url}">klik hier</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Instellingen voor meldingen"
         notify_me: "Waarschuw mij"
         reminders:

@@ -25,14 +25,15 @@
 #  See COPYRIGHT and LICENSE files for more details.
 
 module OpenProject
-  module ProjectActivity
+  module ProjectLatestActivity
     class << self
-      def register(on:, attribute:, chain: [])
+      def register(on:, attribute: :updated_at, chain: [], project_id_attribute: :project_id)
         @registered ||= Set.new
 
-        @registered << { on: on,
-                         chain: chain,
-                         attribute: attribute }
+        @registered << { on:,
+                         chain:,
+                         attribute:,
+                         project_id_attribute: }
       end
 
       attr_reader :registered

@@ -56,8 +56,10 @@ export class HalAwareErrorHandler extends ErrorHandler {
   }
 
   /**
-   * Report any errors to sentry, if configured.
-   * Sentry will filter according to their error status
+   * Report any errors to APM tool, if configured.
+   *
+   * The Application Performance Monitoring tool will filter according to their
+   * error status.
    *
    * @param error
    * @private

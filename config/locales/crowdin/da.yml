@@ -1322,16 +1322,19 @@ da:
   error_external_authentication_failed: "Der opstod en fejl under ekstern godkendelse. Prøv venligst igen."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Projekt er redigeret'
     changeset: 'Pakke af ændringer er redigeret'
     message: Meddelelse er redigeret
     news: Nyheder
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Besvaret
     time_entry: 'Tidsregistreringer ændret'
     wiki_page: 'Wiki-side redigeret'
     work_package_closed: 'Arbejdspakke lukket'
     work_package_edit: 'Arbejdspakke redigeret'
     work_package_note: 'Note tilføjet arbejdspakke'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1784,6 +1787,7 @@ da:
   label_product_version: "Product version"
   label_professional_support: "Professionel support"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Samlet antal projekter"
   label_project_copy_notifications: "Adviser via e-mail under kopiering af projekt"
   label_project_latest: "Seneste projekter"

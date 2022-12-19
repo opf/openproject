@@ -572,7 +572,7 @@ hu:
           one: "és 1 másik\n"
           other: 'és %{count} egyéb'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'Ebben a nézetben jelenleg nincsenek értesítések'
         mark_all_read: 'Mindegyik megjelölése olvasottként'
         mark_as_read: 'Megjelölés olvasottként'
@@ -595,7 +595,7 @@ hu:
         watched: 'Watcher'
         date_alert: 'Date alert'
       settings:
-        change_notification_settings: 'Az értesítési beállítások megtekintéséhez és megváltoztatásához <a target="_blank" href="%{url}">kattintson ide</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Értesítési beállítások"
         notify_me: "Értesítést kérek"
         reminders:

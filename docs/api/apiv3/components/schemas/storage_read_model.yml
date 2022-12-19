@@ -1,4 +1,4 @@
-# Schema: StorageModel
+# Schema: StorageReadModel
 ---
 type: object
 required:
@@ -25,6 +25,16 @@ properties:
     type: string
     format: date-time
     description: Time of the most recent change to the storage
+  _embedded:
+    type: object
+    required:
+      - oauthApplication
+      - oauthClientCredentials
+    properties:
+      oauthApplication:
+        $ref: './oauth_application_read_model.yml'
+      oauthClientCredentials:
+        $ref: './oauth_client_credentials_read_model.yml'
   _links:
     type: object
     required:
@@ -86,6 +96,28 @@ properties:
               - urn:openproject-org:api:v3:storages:authorization:FailedAuthorization
               
               **Resource**: N/A
+      oauthApplication:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The OAuth 2 provider application linked to the storage.
+
+              # Conditions
+
+              - User has role `admin`
+
+              **Resource**: OAuthApplication
+      oauthClientCredentials:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The OAuth 2 credentials resource linked to the storage.
+
+              # Conditions
+
+              - User has role `admin`
+
+              **Resource**: OAuthClientCredentials
 example:
   id: 1337
   _type: Storage
@@ -109,3 +141,8 @@ example:
     authorize:
       href: https://nextcloud.deathstar.rocks/authorize/
       title: Authorize
+    oauthApplication:
+      href: /api/v3/oauth_application/42
+      title: It's no moon (Nextcloud)
+    oauthClientCredentials:
+      href: /api/v3/oauth_client_credentials/42

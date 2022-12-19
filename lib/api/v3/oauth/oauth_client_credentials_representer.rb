@@ -26,15 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Journalized
-  extend ActiveSupport::Concern
+module API::V3::OAuth
+  class OAuthClientCredentialsRepresenter < ::API::Decorators::Single
+    include API::Decorators::LinkedResource
+    include API::Decorators::DateProperty
 
-  included do
-    acts_as_journalized
-  end
+    self_link title: false
 
-  # override acts_as_journalized method
-  def activity_type
-    'project_attributes'
+    property :id
+
+    property :client_id
+
+    property :client_secret,
+             skip_render: true
+
+    property :confidential,
+             getter: ->(*) { client_secret.present? }
+
+    date_time_property :created_at
+
+    date_time_property :updated_at
+
+    link :integration do
+      next if represented.integration.blank?
+
+      {
+        href: api_v3_paths.storage(represented.integration.id),
+        title: represented.integration.name
+      }
+    end
+
+    def _type
+      'OAuthClientCredentials'
+    end
   end
 end

@@ -571,7 +571,7 @@ de:
           one: 'und ein weiterer'
           other: 'und %{count} weitere'
         no_results:
-          at_all: 'Neue Benachrichtigungen erscheinen hier, wenn es Aktivitäten gibt, die Sie betreffen. In der Zwischenzeit können Sie auch Ihre Benachrichtigungseinstellungen anzeigen und ändern, um zu konfigurieren, wann Sie benachrichtigt werden wollen.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'Es gibt derzeit keine Benachrichtigungen in dieser Ansicht'
         mark_all_read: 'Alles als gelesen markieren'
         mark_as_read: 'Als gelesen markieren'
@@ -594,7 +594,7 @@ de:
         watched: 'Beobachter'
         date_alert: 'Datums-Erinnerung'
       settings:
-        change_notification_settings: 'Um Ihre Benachrichtigungseinstellungen anzuzeigen und zu ändern, <a target="_blank" href="%{url}">klicken Sie hier</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Benachrichtigungseinstellungen"
         notify_me: "Benachrichtige mich"
         reminders:

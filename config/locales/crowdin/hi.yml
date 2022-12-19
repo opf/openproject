@@ -1322,16 +1322,19 @@ hi:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "गुण हाइलाइट नहीं करने लायक: %{attributes}"
   events:
-    project: 'Project edited'
     changeset: 'Changeset edited'
     message: Message edited
     news: नया
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Replied
     time_entry: 'Timelog edited'
     wiki_page: 'Wiki page edited'
     work_package_closed: 'Work Package closed'
     work_package_edit: 'Work Package edited'
     work_package_note: 'Work Package note added'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1784,6 +1787,7 @@ hi:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "प्रोफ़ाइल"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "प्रोजेक्ट प्रतिलिपी के दौरान ईमेल सूचनाएँ भेजें"
   label_project_latest: "नवीनतम परियोजनाएं"

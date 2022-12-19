@@ -574,7 +574,7 @@ uk:
           many: 'і ще %{count}'
           other: 'і ще %{count}'
         no_results:
-          at_all: 'Тут з’являтимуться нові сповіщення про дії, які можуть вас цікавити. Ви можете також переглянути або змінити налаштування часу отримання цих сповіщень.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'Зараз у цьому поданні немає сповіщень'
         mark_all_read: 'Позначити все як прочитане'
         mark_as_read: 'Позначити як прочитане'
@@ -597,7 +597,7 @@ uk:
         watched: 'Спостерігач'
         date_alert: 'Оповіщення про дату'
       settings:
-        change_notification_settings: 'Щоб переглянути та змінити налаштування сповіщень, <a target="_blank" href="%{url}">натисніть тут</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Налаштування сповіщень"
         notify_me: "Сповіщати мене"
         reminders:

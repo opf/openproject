@@ -1,0 +1,51 @@
+# /api/v3/oauth_applications/{id}
+---
+get:
+  summary: Get the oauth application.
+  operationId: get_oauth_application
+  tags:
+    - OAuth 2
+  description: |-
+    Retrieves the OAuth 2 provider application for the given identifier. The secret will not be part of the response,
+    instead a `confidential` flag is indicating, whether there is a secret or not.
+  parameters:
+    - name: id
+      description: OAuth application id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1337
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/oauth_application_read_model.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** admin
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the application does not exist.

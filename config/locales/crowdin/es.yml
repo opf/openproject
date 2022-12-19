@@ -65,13 +65,13 @@ es:
       theme_warning: Al cambiar el tema, se sobrescribirá su estilo personalizado y, como consecuencia, se perderá el diseño. ¿Seguro que quiere continuar?
     enterprise:
       upgrade_to_ee: "Actualizar a la edición Enterprise"
-      add_token: "Upload an Enterprise edition support token"
+      add_token: "Cargue el token de soporte de la edición Enterprise"
       delete_token_modal:
         text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Eliminar token"
       replace_token: "Reemplace su token de apoyo actual"
-      order: "Order Enterprise on-premises edition"
-      paste: "Paste your Enterprise edition support token"
+      order: "Solicitar la edición Enterprise on-premises"
+      paste: "Pegue su token de soporte de la edición Enterprise"
       required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Para obtener más información, haga clic aquí."
       start_trial: 'Iniciar prueba gratuita'
@@ -1321,16 +1321,19 @@ es:
   error_external_authentication_failed: "Se produjo un error durante la autenticación externa. Vuelva a intentarlo."
   error_attribute_not_highlightable: "Atributos que no pueden resaltarse: %{attributes}"
   events:
-    project: 'Proyecto editado'
     changeset: 'Set de cambios editado'
     message: Mensaje editado
     news: Noticias
+    project_attributes: 'Atributos del proyecto editados'
+    projects: 'Proyecto editado'
     reply: Respondió
     time_entry: 'Tiempo de ingreso editado'
     wiki_page: 'Página wiki editada'
     work_package_closed: 'Paquete de trabajo cerrada'
     work_package_edit: 'Paquete de trabajo editado'
     work_package_note: 'Nota de paquete de trabajo añadido'
+    title:
+      project: "Proyecto: %{name}"
   export:
     your_work_packages_export: "Exportar paquetes de trabajo"
     succeeded: "La exportación se ha completado correctamente."
@@ -1374,10 +1377,10 @@ es:
     blocks:
       community: "Comunidad de OpenProject"
       upsale:
-        title: "Upgrade to Enterprise edition"
+        title: "Actualizar a la edición Enterprise"
         more_info: "Más información"
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
+      upgrade_enterprise_edition: "Actualizar a la edición Enterprise"
       postgres_migration: "Migrando su instalación a PostgreSQL"
       user_guides: "Guia de usuario"
       faq: "Preguntas Frecuentes"
@@ -1593,7 +1596,7 @@ es:
   label_enumerations: "Enumeraciones"
   label_enterprise: "Empresa"
   label_enterprise_active_users: "%{current}/%{limit} usuarios activos que han reservado"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "Edición Enterprise"
   label_environment: "Entorno"
   label_estimates_and_time: "Valores estimados y tiempo"
   label_equals: "es"
@@ -1783,6 +1786,7 @@ es:
   label_product_version: "Versión del producto"
   label_professional_support: "Soporte profesional"
   label_profile: "Perfil"
+  label_project_attribute_plural: "Atributos del proyecto"
   label_project_count: "Número total de proyectos"
   label_project_copy_notifications: "Enviar notificaciones por correo electrónico durante la copia del proyecto"
   label_project_latest: "Últimos proyectos"

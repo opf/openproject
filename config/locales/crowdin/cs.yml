@@ -1358,16 +1358,19 @@ cs:
   error_external_authentication_failed: "Vyskytla sa chyba během externí autentifikace. Prosím zkuste to znova."
   error_attribute_not_highlightable: "Atribut není zvýrazněn: %{attributes}"
   events:
-    project: 'Projekt upraven'
     changeset: 'Sada změn upravena'
     message: Zpráva upravena
     news: Novinky
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Zodpovězeno
     time_entry: 'Časový záznam změněn'
     wiki_page: 'Wiki stránka upravena'
     work_package_closed: 'Pracovní balíček uzavřen'
     work_package_edit: 'Pracovní balíček upraven'
     work_package_note: 'Poznámka k pracovnímu balíčku přidána'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Export pracovních balíčků"
     succeeded: "Export úspěšně dokončen."
@@ -1820,6 +1823,7 @@ cs:
   label_product_version: "Verze produktu"
   label_professional_support: "Profesionální podpora"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Celkový počet projektů"
   label_project_copy_notifications: "Během kopie projektu odeslat oznámení e-mailem"
   label_project_latest: "Nejnovější projekty"

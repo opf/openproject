@@ -1321,16 +1321,19 @@ nl:
   error_external_authentication_failed: "Er is een fout opgetreden tijdens de externe verificatie. Probeer het opnieuw."
   error_attribute_not_highlightable: "Attribute(s) niet markeerbaar: %{attributes}"
   events:
-    project: 'Project bewerkt'
     changeset: 'Wijzigingsset bewerkt'
     message: Bericht bewerkt
     news: Nieuws
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Beantwoord
     time_entry: 'Tijdlog bewerkt'
     wiki_page: 'Wiki-pagina bewerkt'
     work_package_closed: 'Werkpakket gesloten'
     work_package_edit: 'Werkpakket bewerkt'
     work_package_note: 'Werkpakket notitie toegevoegd'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Uw werkpakketten exporteren"
     succeeded: "Het exporteren is voltooid."
@@ -1783,6 +1786,7 @@ nl:
   label_product_version: "Versie van het product"
   label_professional_support: "Professionele ondersteuning"
   label_profile: "Profiel"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Totale aantal projecten"
   label_project_copy_notifications: "Verzenden van e-mailmeldingen tijdens het project kopiëren"
   label_project_latest: "Meest recente projecten"

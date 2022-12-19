@@ -1324,16 +1324,19 @@ eo:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Projekto redaktita'
     changeset: 'Ŝanĝaro redaktita'
     message: Mesaĝo redaktita
     news: Novaĵoj
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Respondis
     time_entry: 'Tempprotokolo redaktita'
     wiki_page: 'Vikipaĝo redaktita'
     work_package_closed: 'Laborpakaĵo fermita'
     work_package_edit: 'Laborpakaĵo redaktita'
     work_package_note: 'Laborpakaĵa noto aldonita'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1786,6 +1789,7 @@ eo:
   label_product_version: "Versio de la produkto"
   label_professional_support: "Profesia subteno"
   label_profile: "Profilo"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Totala kvanto da projektoj"
   label_project_copy_notifications: "Sendi retpoŝtajn sciigojn dum la projekta kopiado"
   label_project_latest: "Lastaj projektoj"

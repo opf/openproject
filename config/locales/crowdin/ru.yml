@@ -1357,16 +1357,19 @@ ru:
   error_external_authentication_failed: "Произошла ошибка во время внешней аутентификации. Пожалуйста, попробуйте еще раз."
   error_attribute_not_highlightable: "Атрибуты не выделяются: %{attributes}"
   events:
-    project: 'Проект отредактирован'
     changeset: 'Набор изменений отредактирован'
     message: Сообщение отредактировано
     news: Новости
+    project_attributes: 'Атрибуты проекта изменены'
+    projects: 'Проект отредактирован'
     reply: Отвечено
     time_entry: 'Время подключения отредактировано'
     wiki_page: 'Wiki-страница отредактирована'
     work_package_closed: 'Комплекс работ закрыт'
     work_package_edit: 'Пакет работ отредактирован'
     work_package_note: 'Добавлено примечание к пакету работ'
+    title:
+      project: "Проект: %{name}"
   export:
     your_work_packages_export: "Экспорт ваших пакетов работ"
     succeeded: "Экспорт успешно завершен."
@@ -1819,6 +1822,7 @@ ru:
   label_product_version: "Версия продукта"
   label_professional_support: "Профессиональная поддержка"
   label_profile: "Профиль"
+  label_project_attribute_plural: "Атрибуты проекта"
   label_project_count: "Общее количество проектов"
   label_project_copy_notifications: "Уведомлять по электронной почте по ходу копирования проекта"
   label_project_latest: "Последние проекты"

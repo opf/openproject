@@ -572,7 +572,7 @@ fr:
           one: 'et 1 autre'
           other: 'et %{count} autres'
         no_results:
-          at_all: 'De nouvelles notifications apparaîtront ici quand il y a des activités qui vous concernent, en attendant, vous pouvez également afficher et modifier vos paramètres de notification pour configurer quand être notifié.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'Il n''y a pas de notifications dans cette vue pour le moment'
         mark_all_read: 'Tout marquer comme lu'
         mark_as_read: 'Marquer comme lu'
@@ -595,7 +595,7 @@ fr:
         watched: 'Observateur'
         date_alert: 'Alarmes'
       settings:
-        change_notification_settings: 'Pour afficher et modifier vos paramètres de notification, <a target="_blank" href="%{url}">cliquez ici</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Paramètres de notifications"
         notify_me: "M'alerter"
         reminders:

@@ -1324,16 +1324,19 @@ fi:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Projektia muokattu'
     changeset: 'Changeset edited'
     message: Viestiä muokattu
     news: Uutiset
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Vastattu
     time_entry: 'Timelog edited'
     wiki_page: 'Wiki-sivu päivitetty'
     work_package_closed: 'Tehtävä suljettu'
     work_package_edit: 'Tehtävää muokattu'
     work_package_note: 'Kommentti lisätty tehtävään'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1786,6 +1789,7 @@ fi:
   label_product_version: "Tuotteen versio"
   label_professional_support: "Ammatillinen apu"
   label_profile: "Profile"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Lähetä sähköposti-ilmoituksia projektin kopioinnin aikana"
   label_project_latest: "Uusimmat projektit"

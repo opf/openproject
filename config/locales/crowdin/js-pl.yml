@@ -574,7 +574,7 @@ pl:
           many: 'i %{count} inne'
           other: 'i %{count} innych'
         no_results:
-          at_all: 'Nowe powiadomienia pojawią się tutaj, gdy pojawi się aktywność, która cię dotyczy. W międzyczasie możesz również przeglądać lub modyfikować swoje ustawienia powiadomień, decydując, kiedy mają działać.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'Obecnie brak powiadomień w tym widoku'
         mark_all_read: 'Oznacz wszystko jako przeczytane'
         mark_as_read: 'Oznacz jako przeczytane'
@@ -597,7 +597,7 @@ pl:
         watched: 'Obserwator'
         date_alert: 'Data ostrzeżenia'
       settings:
-        change_notification_settings: 'Aby wyświetlić i zmienić ustawienia powiadomień, <a target="_blank" href="%{url}">kliknij tutaj</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Ustawienia powiadomień"
         notify_me: "Powiadom mnie"
         reminders:

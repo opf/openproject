@@ -1324,16 +1324,19 @@
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Prosjektet er redigert'
     changeset: 'Changeset ble redigert'
     message: Meldingen ble redigert
     news: Nyheter
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Besvart
     time_entry: 'Tidsrapporten er redigert'
     wiki_page: 'Wiki-side redigert'
     work_package_closed: 'Arbeidspakke lukket'
     work_package_edit: 'Arbeidspakke redigert'
     work_package_note: 'Notat lagt til arbeidspakke'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1786,6 +1789,7 @@
   label_product_version: "Produktversjon"
   label_professional_support: "Profesjonell hjelp"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Antall prosjekter"
   label_project_copy_notifications: "Send e-postvarsler mens prosjektkopieringen pågår"
   label_project_latest: "Siste prosjekter"

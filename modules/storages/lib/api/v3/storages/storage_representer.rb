@@ -35,11 +35,40 @@ module API::V3::Storages
   URN_CONNECTION_AUTH_FAILED = "#{::API::V3::URN_PREFIX}storages:authorization:FailedAuthorization".freeze
   URN_CONNECTION_ERROR = "#{::API::V3::URN_PREFIX}storages:authorization:Error".freeze
 
+  URN_STORAGE_TYPE_NEXTCLOUD = "#{::API::V3::URN_PREFIX}storages:Nextcloud".freeze
+
+  STORAGE_TYPE_MAP = {
+    URN_STORAGE_TYPE_NEXTCLOUD => Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+  }.freeze
+
+  STORAGE_TYPE_URN_MAP = {
+    Storages::Storage::PROVIDER_TYPE_NEXTCLOUD => URN_STORAGE_TYPE_NEXTCLOUD
+  }.freeze
+
   class StorageRepresenter < ::API::Decorators::Single
     # LinkedResource module defines helper methods to describe attributes
     include API::Decorators::LinkedResource
     include API::Decorators::DateProperty
     include Storages::Peripherals::StorageUrlHelper
+
+    module ClassMethods
+      private
+
+      def link_without_resource(name, getter:, setter:)
+        link name do
+          instance_eval(&getter)
+        end
+
+        property name,
+                 exec_context: :decorator,
+                 getter: ->(*) {},
+                 setter:,
+                 skip_render: true,
+                 linked_resource: true
+      end
+    end
+
+    extend ClassMethods
 
     def initialize(model, current_user:, embed_links: nil)
       @connection_manager =
@@ -58,16 +87,26 @@ module API::V3::Storages
 
     self_link
 
-    link :type do
-      {
-        href: "#{::API::V3::URN_PREFIX}storages:Nextcloud",
-        title: 'Nextcloud'
-      }
-    end
+    link_without_resource :type,
+                          getter: ->(*) {
+                            type = STORAGE_TYPE_URN_MAP[represented.provider_type] || represented.provider_type
 
-    link :origin do
-      { href: represented.host }
-    end
+                            { href: type, title: 'Nextcloud' }
+                          },
+                          setter: ->(fragment:, **) {
+                            href = fragment['href']
+                            break if href.blank?
+
+                            represented.provider_type = STORAGE_TYPE_MAP[href] || href
+                          }
+
+    link_without_resource :origin,
+                          getter: ->(*) { { href: represented.host } },
+                          setter: ->(fragment:, **) {
+                            break if fragment['href'].blank?
+
+                            represented.host = fragment['href'].gsub(/\/+$/, '')
+                          }
 
     link :open do
       { href: storage_url_open(represented) }
@@ -93,6 +132,32 @@ module API::V3::Storages
 
       { href: @connection_manager.get_authorization_uri, title: 'Authorize' }
     end
+
+    associated_resource :oauth_application,
+                        skip_render: ->(*) { !current_user.admin? },
+                        getter: ->(*) {
+                          ::API::V3::OAuth::OAuthApplicationsRepresenter.create(represented.oauth_application, current_user:)
+                        },
+                        link: ->(*) {
+                          next unless current_user.admin?
+
+                          {
+                            href: api_v3_paths.oauth_application(represented.oauth_application.id),
+                            title: represented.oauth_application.name
+                          }
+                        }
+
+    associated_resource :oauth_client,
+                        as: :oauthClientCredentials,
+                        skip_render: ->(*) { !current_user.admin? || represented.oauth_client.blank? },
+                        representer: ::API::V3::OAuth::OAuthClientCredentialsRepresenter,
+                        link: ->(*) {
+                          next unless current_user.admin?
+
+                          return { href: nil } if represented.oauth_client.blank?
+
+                          { href: api_v3_paths.oauth_client_credentials(represented.oauth_client.id) }
+                        }
 
     def _type
       'Storage'
