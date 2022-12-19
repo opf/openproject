@@ -445,12 +445,13 @@ module API
 
         property :baseline_attributes,
                  as: :baselineAttributes,
+                 if: ->(*) { respond_to?(:baseline_attributes) and baseline_attributes.present? },
                  embedded: true,
                  uncachable: true
 
         property :attributes_by_timestamp,
                  as: :attributesByTimestamp,
-                 if: ->(*) { respond_to?(:attributes_by_timestamp) and attributes_by_timestamp.any? },
+                 if: ->(*) { respond_to?(:attributes_by_timestamp) and attributes_by_timestamp.present? },
                  embedded: true,
                  uncachable: true
 
