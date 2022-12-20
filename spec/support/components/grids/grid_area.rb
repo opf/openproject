@@ -29,7 +29,7 @@ module Components
         open_menu
 
         SeleniumHubWaiter.wait
-        click_button text
+        click_link_or_button text
       end
 
       def expect_menu_item(text)
@@ -39,7 +39,7 @@ module Components
         open_menu
 
         within('ul.dropdown-menu') do |element|
-          expect(element).to have_button(text:)
+          expect(element).to have_selector('span', text:)
         end
       end
 

@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Directive, Input } from '@angular/core';
+import { Directive, Injector, Input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
@@ -39,7 +39,8 @@ export abstract class WidgetAbstractMenuComponent {
 
   protected menuItemList:OpContextMenuItem[] = [this.removeItem];
 
-  constructor(readonly i18n:I18nService,
+  constructor(readonly injector:Injector,
+    readonly i18n:I18nService,
     protected readonly remove:GridRemoveWidgetService,
     protected readonly layout:GridAreaService) {
   }
@@ -48,7 +49,7 @@ export abstract class WidgetAbstractMenuComponent {
     return async () => this.menuItemList;
   }
 
-  protected get removeItem() {
+  protected get removeItem():OpContextMenuItem {
     return {
       linkText: this.i18n.t('js.grid.remove'),
       onClick: () => {

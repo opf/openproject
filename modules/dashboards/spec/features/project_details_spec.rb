@@ -183,7 +183,6 @@ describe 'Project details widget on dashboard', js: true do
       details_widget.click_menu_item('Project details activity')
       expect(page).to have_current_path(project_activity_index_path(project), ignore_query: true)
       expect(page).to have_checked_field(id: 'event_types_project_attributes')
-      expect(page).to have_unchecked_field(id: 'event_types_work_packages')
     end
   end
 end

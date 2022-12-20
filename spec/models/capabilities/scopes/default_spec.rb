@@ -97,6 +97,20 @@ describe Capabilities::Scopes::Default do
       let(:members) { [member] }
 
       include_examples 'is empty'
+
+      context 'with a module being activated with a public permission' do
+        before do
+          project.enabled_module_names = ['activity']
+        end
+
+        include_examples 'consists of contract actions', with: 'the actions of the public permission' do
+          let(:expected) do
+            [
+              ['activities/read', user.id, project.id]
+            ]
+          end
+        end
+      end
     end
 
     context 'with a global member without any permissions' do
@@ -109,6 +123,21 @@ describe Capabilities::Scopes::Default do
       let(:members) { [non_member_role] }
 
       include_examples 'is empty'
+
+      context 'with the project being public and having a module activated with a public permission' do
+        before do
+          project.update(public: true)
+          project.enabled_module_names = ['activity']
+        end
+
+        include_examples 'consists of contract actions', with: 'the actions of the public permission' do
+          let(:expected) do
+            [
+              ['activities/read', user.id, project.id]
+            ]
+          end
+        end
+      end
     end
 
     context 'with a global member with a global permission' do
@@ -195,18 +224,38 @@ describe Capabilities::Scopes::Default do
       include_examples 'is empty'
     end
 
+    context 'with the anonymous user without any permissions with a public project' do
+      let(:anonymous_permissions) { %i[] }
+      let!(:user) { create(:anonymous) }
+      let(:members) { [anonymous_role] }
+
+      before do
+        project.update(public: true)
+      end
+
+      include_examples 'is empty'
+
+      context 'with the project having a module activated with a public permission' do
+        before do
+          project.enabled_module_names = ['activity']
+        end
+
+        include_examples 'consists of contract actions', with: 'the actions of the public permission' do
+          let(:expected) do
+            [
+              ['activities/read', user.id, project.id]
+            ]
+          end
+        end
+      end
+    end
+
     context 'with the anonymous user with a project permission' do
       let(:anonymous_permissions) { %i[view_members] }
       let!(:user) { create(:anonymous) }
       let(:members) { [anonymous_role] }
 
       context 'with the project being private' do
-        include_examples 'is empty'
-      end
-
-      context 'with the anonymous role without any permissions' do
-        let(:anonymous_permissions) { %i[] }
-
         include_examples 'is empty'
       end
 
@@ -287,6 +336,10 @@ describe Capabilities::Scopes::Default do
 
           it 'does not include actions of permissions non-grantable to admin' do
             expect(scope.pluck(:action)).not_to include('work_packages/assigned')
+          end
+
+          it 'include actions from public permissions of activated modules' do
+            expect(scope.pluck(:action)).to include('activities/read')
           end
         end
       end

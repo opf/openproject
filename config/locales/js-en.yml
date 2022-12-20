@@ -707,6 +707,7 @@ en:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes.
         You can only select projects which have the type above activated.
+      details_activity: 'Project details activity'
       context: 'Project context'
       work_package_belongs_to: 'This work package belongs to project %{projectname}.'
       click_to_switch_context: 'Open this work package in that project.'

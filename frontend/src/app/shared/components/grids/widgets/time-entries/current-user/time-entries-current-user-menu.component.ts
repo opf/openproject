@@ -27,37 +27,26 @@
 //++
 
 import {
-  Component, EventEmitter, Injector, Output,
+  Component, EventEmitter, Output,
 } from '@angular/core';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { GridRemoveWidgetService } from 'core-app/shared/components/grids/grid/remove-widget.service';
-import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 import { WidgetAbstractMenuComponent } from 'core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component';
 import { TimeEntriesCurrentUserConfigurationModalComponent } from 'core-app/shared/components/grids/widgets/time-entries/current-user/configuration-modal/configuration.modal';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Component({
   selector: 'widget-time-entries-current-user-menu',
   templateUrl: '../../menu/widget-menu.component.html',
 })
 export class WidgetTimeEntriesCurrentUserMenuComponent extends WidgetAbstractMenuComponent {
-  @Output()
-  onConfigured:EventEmitter<any> = new EventEmitter();
+  @InjectField() opModalService:OpModalService;
+
+  @Output() onConfigured:EventEmitter<any> = new EventEmitter();
 
   protected menuItemList = [
     this.removeItem,
     this.configureItem,
   ];
-
-  constructor(private readonly injector:Injector,
-    private readonly opModalService:OpModalService,
-    readonly i18n:I18nService,
-    protected readonly remove:GridRemoveWidgetService,
-    readonly layout:GridAreaService) {
-    super(i18n,
-      remove,
-      layout);
-  }
 
   protected get configureItem() {
     return {

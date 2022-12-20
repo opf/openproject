@@ -34,8 +34,8 @@ module Actions::Scopes
       def default
         RequestStore[:action_default_scope] ||= begin
           actions_sql = <<~SQL.squish
-            (SELECT id, permission, global, module, grant_to_admin
-            FROM (VALUES #{action_map}) AS t(id, permission, global, module, grant_to_admin)) actions
+            (SELECT id, permission, global, module, grant_to_admin, public
+             FROM (VALUES #{action_map}) AS t(id, permission, global, module, grant_to_admin, public)) actions
           SQL
 
           unscoped # prevent triggering the default scope again
@@ -54,14 +54,17 @@ module Actions::Scopes
           .join(', ')
       end
 
-      def map_actions(permission, actions:, global:, module_name:, grant_to_admin:)
+      def map_actions(permission, actions:, global:, module_name:, grant_to_admin:, public:)
         actions.map do |namespace, actions|
           actions.map do |action|
-            values = [quote_string("#{action_v3_name(namespace)}/#{action}"),
-                      quote_string(permission),
-                      global,
-                      module_name ? quote_string(module_name) : 'NULL',
-                      grant_to_admin].join(', ')
+            values = [
+              quote_string("#{action_v3_name(namespace)}/#{action}"),
+              quote_string(permission),
+              global,
+              module_name ? quote_string(module_name) : 'NULL',
+              grant_to_admin,
+              public
+            ].join(', ')
 
             "(#{values})"
           end
