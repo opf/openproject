@@ -109,7 +109,7 @@ module API::V3::Storages
                             represented.host = fragment['href'].gsub(/\/+$/, '')
                           }
 
-    links :prepare_upload do
+    links :prepareUpload do
       storage_projects_ids(represented).map do |project_id|
         {
           href: api_v3_paths.prepare_upload(represented.id),

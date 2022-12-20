@@ -36,18 +36,14 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import {
-  BehaviorSubject,
-  Observable,
-  throwError,
-} from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { v4 as uuidv4 } from 'uuid';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
-import { IStorage } from 'core-app/core/state/storages/storage.model';
+import { IPrepareUploadLink, IStorage } from 'core-app/core/state/storages/storage.model';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import {
   fileLinkViewError,
@@ -257,11 +253,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     let isUploadError = false;
 
     this.storageFilesResourceService
-      .uploadLink(
-        this.UploadResourceLink(this.storage._links.self),
-        file.name,
-        location,
-      )
+      .uploadLink(this.uploadResourceLink(file.name, location))
       .pipe(
         switchMap((link) => this.uploadStorageFilesService.uploadFile(link, file)),
         catchError((error) => {
@@ -291,10 +283,22 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       );
   }
 
-  private UploadResourceLink(storageLink:IHalResourceLink):IHalResourceLink {
+  private uploadResourceLink(fileName:string, location:string):IPrepareUploadLink {
+    const project = (this.resource.project as unknown&{ id:string }).id;
+    const link = this.storage._links.prepareUpload.filter((value) => project === value.payload.projectId.toString());
+    if (link.length === 0) {
+      throw new Error('Cannot upload to this storage. Missing permissions in project.');
+    }
+
     return {
-      href: `${storageLink.href}/files/prepare_upload`,
-      title: 'Upload resource link',
+      href: link[0].href,
+      method: link[0].method,
+      title: link[0].title,
+      payload: {
+        projectId: link[0].payload.projectId,
+        parent: location,
+        fileName,
+      },
     };
   }
 
