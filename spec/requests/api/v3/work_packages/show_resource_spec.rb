@@ -207,4 +207,94 @@ describe 'API v3 Work package resource',
                       I18n.t('api_v3.errors.not_found.work_package')
     end
   end
+
+  describe 'GET /api/v3/work_packages/:id?timestamps=' do
+    let(:get_path) { api_v3_paths.work_package(work_package.id) + "?timestamps=" + timestamps.map(&:to_s).join(',') }
+
+    describe 'response body' do
+      subject do
+        login_as current_user
+        get get_path
+        last_response.body
+      end
+
+      context 'when providing timestamps' do
+        let(:timestamps) { [Timestamp.parse('2015-01-01T00:00:00Z'), Timestamp.now] }
+        let(:baseline_time) { timestamps.first.to_time }
+
+        let(:work_package) do
+          new_work_package = create(:work_package, subject: "The current work package", project:)
+          new_work_package.update_columns created_at: baseline_time - 1.day
+          new_work_package
+        end
+        let(:original_journal) do
+          create_journal(journable: work_package, timestamp: baseline_time - 1.day,
+                        version: 1,
+                        attributes: { subject: "The original work package" })
+        end
+        let(:current_journal) do
+          create_journal(journable: work_package, timestamp: 1.day.ago,
+                        version: 2,
+                        attributes: { subject: "The current work package" })
+        end
+
+        def create_journal(journable:, version:, timestamp:, attributes: {})
+          work_package_attributes = work_package.attributes.except("id")
+          journal_attributes = work_package_attributes \
+              .extract!(*Journal::WorkPackageJournal.attribute_names) \
+              .symbolize_keys.merge(attributes)
+          create(:work_package_journal, version:,
+                journable:, created_at: timestamp, updated_at: timestamp,
+                data: build(:journal_work_package_journal, journal_attributes))
+        end
+
+        before do
+          WorkPackage.destroy_all
+          work_package
+          Journal.destroy_all
+          original_journal
+          current_journal
+        end
+
+        it 'responds with 200' do
+          expect(subject && last_response.status).to eq(200)
+        end
+
+        it 'embeds the baselineAttributes' do
+          expect(subject)
+            .to be_json_eql("The original work package".to_json)
+            .at_path('_embedded/baselineAttributes/subject')
+        end
+
+        it 'embeds the attributesByTimestamp' do
+          expect(subject)
+            .to be_json_eql("The original work package".to_json)
+            .at_path("_embedded/attributesByTimestamp/#{timestamps.first.to_s}/subject")
+          expect(subject)
+            .to be_json_eql("The current work package".to_json)
+            .at_path("_embedded/attributesByTimestamp/#{timestamps.last.to_s}/subject")
+        end
+
+        it 'has the current attributes as attributes' do
+          expect(subject)
+            .to be_json_eql("The current work package".to_json)
+            .at_path('subject')
+        end
+
+        it 'has an embedded link to the baseline work package' do
+          expect(subject)
+            .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.first).to_json)
+            .at_path('_embedded/baselineAttributes/_links/self/href')
+        end
+
+        it 'has the absolute timestamps within the self link' do
+          Timecop.freeze do
+            expect(subject)
+              .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.map(&:absolute)).to_json)
+              .at_path('_links/self/href')
+          end
+        end
+      end
+    end
+  end
 end
