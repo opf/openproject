@@ -89,8 +89,13 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     self.matches_query_at_timestamps = []
   end
 
-  def self.wrap(journable, timestamps: nil, query: nil, include_only_changed_attributes: false)
-    wrap_one(journable, timestamps:, query:, include_only_changed_attributes:)
+  def self.wrap(journable_or_journables, timestamps: nil, query: nil, include_only_changed_attributes: false)
+    case journable_or_journables
+    when Array, ActiveRecord::Relation
+      wrap_multiple(journable_or_journables, timestamps:, query:, include_only_changed_attributes:)
+    else
+      wrap_one(journable_or_journables, timestamps:, query:, include_only_changed_attributes:)
+    end
   end
 
   def self.wrap_one(journable, timestamps: nil, query: nil, include_only_changed_attributes: false)

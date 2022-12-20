@@ -51,7 +51,7 @@ module API::V3::WorkPackages::EagerLoading
     def work_packages_with_historic_attributes
       @work_packages_with_historic_attributes ||= begin
         @timestamps ||= @query.try(:timestamps) || []
-        Journable::WithHistoricAttributes.wrap_multiple(work_packages, timestamps: @timestamps, query: @query)  # TODO: rename wrap to wrap_one, wrap_multiple to wrap
+        Journable::WithHistoricAttributes.wrap_multiple(work_packages, timestamps: @timestamps, query: @query)
       end
     end
 
