@@ -235,7 +235,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
         end
       end
 
-      context 'timestamps' do
+      context 'when timestamps are given' do
         let(:timestamps) { [Timestamp.parse("P-1Y"), Timestamp.now] }
         let(:query) { build_stubbed(:query, timestamps:) }
 
@@ -245,7 +245,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
         end
       end
 
-      context '_query' do
+      context 'when a _query object is given' do
         # This is a workaround to allow the representer to access the query object itself.
         # The attribute 'query' is already used by the representer and holds a Hash.
         it 'has the query' do

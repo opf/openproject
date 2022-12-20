@@ -209,7 +209,7 @@ describe 'API v3 Work package resource',
   end
 
   describe 'GET /api/v3/work_packages/:id?timestamps=' do
-    let(:get_path) { api_v3_paths.work_package(work_package.id) + "?timestamps=" + timestamps.map(&:to_s).join(',') }
+    let(:get_path) { "#{api_v3_paths.work_package(work_package.id)}?timestamps=#{timestamps.map(&:to_s).join(',')}" }
 
     describe 'response body' do
       subject do

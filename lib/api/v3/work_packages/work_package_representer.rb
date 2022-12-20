@@ -26,6 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# rubocop:disable Lint/SymbolConversion
+#   because some of the json attributes are written in 'singleQuotes' instead of symbols
+#   for better reading.
+
 module API
   module V3
     module WorkPackages
@@ -52,7 +56,7 @@ module API
           super(model, current_user:, embed_links:)
         end
 
-        def self_v3_path(path, id_attribute)
+        def self_v3_path(*)
           api_v3_paths.work_package(represented.id, timestamps:)
         end
 
@@ -466,17 +470,19 @@ module API
                  as: :baselineAttributes,
                  if: ->(*) { respond_to?(:baseline_attributes) and baseline_attributes.present? },
                  getter: ->(*) do
-                   baseline_attributes.to_h.merge({
-                     '_links': {
-                       'self': {
-                         'href': API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: baseline_timestamp)
-                       }
-                     },
-                     '_meta': {
-                       'timestamp': baseline_timestamp.to_s,
-                       'matchesFilters': matches_query_filters_at_baseline_timestamp?
-                     }.compact
-                   })
+                   baseline_attributes.to_h.merge(
+                     {
+                       '_links': {
+                         'self': {
+                           'href': API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: baseline_timestamp)
+                         }
+                       },
+                       '_meta': {
+                         'timestamp': baseline_timestamp.to_s,
+                         'matchesFilters': matches_query_filters_at_baseline_timestamp?
+                       }.compact
+                     }
+                   )
                  end,
                  embedded: true,
                  uncachable: true
@@ -485,18 +491,20 @@ module API
                  as: :attributesByTimestamp,
                  if: ->(*) { respond_to?(:attributes_by_timestamp) and attributes_by_timestamp.present? },
                  getter: ->(*) do
-                   attributes_by_timestamp.to_a.collect do |timestamp, attributes|
-                     [timestamp, attributes.to_h.merge({
-                       '_links': {
-                         'self': {
-                           'href': API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: timestamp)
-                         }
-                       },
-                       '_meta': {
-                         'matchesFilters': matches_query_filters_at_timestamp?(timestamp)
-                       }.compact
-                     })]
-                   end.to_h
+                   attributes_by_timestamp.to_a.to_h do |timestamp, attributes|
+                     [timestamp, attributes.to_h.merge(
+                       {
+                         '_links': {
+                           'self': {
+                             'href': API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: timestamp)
+                           }
+                         },
+                         '_meta': {
+                           'matchesFilters': matches_query_filters_at_timestamp?(timestamp)
+                         }.compact
+                       }
+                     )]
+                   end
                  end,
                  embedded: true,
                  uncachable: true
@@ -716,3 +724,5 @@ module API
     end
   end
 end
+
+# rubocop:enable Lint/SymbolConversion
