@@ -487,7 +487,7 @@ module API
           def self.work_package(id, timestamps: nil)
             "#{root}/work_packages/#{id}" + \
             if (param_value = timestamps_to_param_value(timestamps)).present?
-              "?" + {timestamps: param_value}.to_query
+              "?#{{ timestamps: param_value }.to_query}"
             end.to_s
           end
 
@@ -546,12 +546,13 @@ module API
           def self.timestamps_to_param_value(timestamps)
             timestamps = Timestamp.parse_multiple(timestamps) if timestamps.is_a? String
             timestamps = [timestamps] if timestamps.is_a? Timestamp
-            if timestamps.present? and timestamps.kind_of? Array and timestamps != [Timestamp.now]
+            if timestamps.present? and timestamps.is_a? Array and timestamps != [Timestamp.now]
               timestamps.collect { |timestamp| timestamp.absolute.iso8601 }.join(",")
             end
           end
 
-          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil, select: nil, timestamps: nil)
+          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil,
+                            select: nil, timestamps: nil)
             timestamps = timestamps_to_param_value(timestamps)
 
             query_params = {

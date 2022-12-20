@@ -237,7 +237,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
 
       context 'timestamps' do
         let(:timestamps) { [Timestamp.parse("P-1Y"), Timestamp.now] }
-        let(:query) { build_stubbed(:query, timestamps: timestamps) }
+        let(:query) { build_stubbed(:query, timestamps:) }
 
         it 'has the query timestamps' do
           expect(subject.timestamps)

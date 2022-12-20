@@ -26,6 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# rubocop:disable Metrics/AbcSize
 module API::V3::WorkPackages::EagerLoading
   class HistoricAttributes < Base
     attr_accessor :timestamps, :query
@@ -36,7 +37,8 @@ module API::V3::WorkPackages::EagerLoading
       work_package.baseline_attributes = work_package_with_historic_attributes.baseline_attributes
       work_package.attributes_by_timestamp = work_package_with_historic_attributes.attributes_by_timestamp
       work_package.baseline_timestamp = work_package_with_historic_attributes.baseline_timestamp
-      work_package.matches_query_filter_at_baseline_timestamp = work_package_with_historic_attributes.matches_query_filter_at_baseline_timestamp?
+      work_package.matches_query_filter_at_baseline_timestamp = \
+        work_package_with_historic_attributes.matches_query_filter_at_baseline_timestamp?
       work_package.matches_query_filters_at_timestamps = work_package_with_historic_attributes.matches_query_filters_at_timestamps
     end
 
@@ -52,7 +54,6 @@ module API::V3::WorkPackages::EagerLoading
         Journable::WithHistoricAttributes.wrap_multiple(work_packages, timestamps: @timestamps, query: @query)
       end
     end
-
   end
 
   module HistoricAttributesAccessors
@@ -79,3 +80,4 @@ module API::V3::WorkPackages::EagerLoading
     end
   end
 end
+# rubocop:enable Metrics/AbcSize

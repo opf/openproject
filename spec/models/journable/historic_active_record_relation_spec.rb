@@ -384,6 +384,7 @@ describe Journable::HistoricActiveRecordRelation do
   describe "#first" do
     describe "for columns that don't exist in the journal-data table" do
       let(:column_name) { :lock_version }
+
       subject { historic_relation.first.send(column_name) }
 
       specify "the column name does exist in the journable table" do
@@ -395,7 +396,7 @@ describe Journable::HistoricActiveRecordRelation do
       end
 
       it "has the attribute with null value" do
-        expect(historic_relation.first.attributes_before_type_cast[column_name]).to be nil
+        expect(historic_relation.first.attributes_before_type_cast[column_name]).to be_nil
       end
 
       it "has the typecasted value matching the journable class's data type" do

@@ -82,8 +82,8 @@ module API
           # and set those to be the represented collection.
           # A potential ordering is reapplied to the work package collection in ruby.
 
-          # TODO: Should we pass the timestamps only through the `query` rather than passing them separately?
-          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap(represented, current_user, timestamps:, query: _query)
+          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper \
+            .wrap(represented, current_user, timestamps:, query: _query)
         end
 
         link :sumsSchema do

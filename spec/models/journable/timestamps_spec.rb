@@ -560,7 +560,7 @@ describe Journable::Timestamps do
           end
 
           it "has the attribute with null value" do
-            expect(subject.attributes_before_type_cast[column_name]).to be nil
+            expect(subject.attributes_before_type_cast[column_name]).to be_nil
           end
 
           it "has the typecasted value matching the journable class's data type" do

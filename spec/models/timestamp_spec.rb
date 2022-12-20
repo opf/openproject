@@ -368,7 +368,7 @@ describe Timestamp do
       subject { Query.where("updated_at < ?", timestamp.to_time) }
 
       it "raises no error" do
-        expect { subject }.not_to raise_error TypeError
+        expect { subject }.not_to raise_error
       end
     end
   end

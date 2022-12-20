@@ -229,13 +229,13 @@ describe 'API v3 Work package resource',
         end
         let(:original_journal) do
           create_journal(journable: work_package, timestamp: baseline_time - 1.day,
-                        version: 1,
-                        attributes: { subject: "The original work package" })
+                         version: 1,
+                         attributes: { subject: "The original work package" })
         end
         let(:current_journal) do
           create_journal(journable: work_package, timestamp: 1.day.ago,
-                        version: 2,
-                        attributes: { subject: "The current work package" })
+                         version: 2,
+                         attributes: { subject: "The current work package" })
         end
 
         def create_journal(journable:, version:, timestamp:, attributes: {})
@@ -244,8 +244,8 @@ describe 'API v3 Work package resource',
               .extract!(*Journal::WorkPackageJournal.attribute_names) \
               .symbolize_keys.merge(attributes)
           create(:work_package_journal, version:,
-                journable:, created_at: timestamp, updated_at: timestamp,
-                data: build(:journal_work_package_journal, journal_attributes))
+                                        journable:, created_at: timestamp, updated_at: timestamp,
+                                        data: build(:journal_work_package_journal, journal_attributes))
         end
 
         before do
@@ -269,10 +269,10 @@ describe 'API v3 Work package resource',
         it 'embeds the attributesByTimestamp' do
           expect(subject)
             .to be_json_eql("The original work package".to_json)
-            .at_path("_embedded/attributesByTimestamp/#{timestamps.first.to_s}/subject")
+            .at_path("_embedded/attributesByTimestamp/#{timestamps.first}/subject")
           expect(subject)
             .to be_json_eql("The current work package".to_json)
-            .at_path("_embedded/attributesByTimestamp/#{timestamps.last.to_s}/subject")
+            .at_path("_embedded/attributesByTimestamp/#{timestamps.last}/subject")
         end
 
         it 'has the current attributes as attributes' do

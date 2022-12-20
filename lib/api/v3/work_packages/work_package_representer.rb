@@ -452,14 +452,14 @@ module API
                  if: ->(*) { respond_to?(:baseline_attributes) and baseline_attributes.present? },
                  getter: ->(*) do
                    baseline_attributes.to_h.merge({
-                     "_links": {
-                       "self": {
-                         "href": API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: baseline_timestamp)
+                     '_links': {
+                       'self': {
+                         'href': API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: baseline_timestamp)
                        }
                      },
-                     "_meta": {
-                       "timestamp": baseline_timestamp.to_s,
-                       "matchesFilters": matches_query_filter_at_baseline_timestamp?
+                     '_meta': {
+                       'timestamp': baseline_timestamp.to_s,
+                       'matchesFilters': matches_query_filter_at_baseline_timestamp?
                      }.compact
                    })
                  end,
@@ -472,13 +472,13 @@ module API
                  getter: ->(*) do
                    attributes_by_timestamp.to_a.collect do |timestamp, attributes|
                      [timestamp, attributes.to_h.merge({
-                       "_links": {
-                         "self": {
-                           "href": API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: timestamp)
+                       '_links': {
+                         'self': {
+                           'href': API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: timestamp)
                          }
                        },
-                       "_meta": {
-                         "matchesFilters": matches_query_filter_at_timestamp?(timestamp)
+                       '_meta': {
+                         'matchesFilters': matches_query_filter_at_timestamp?(timestamp)
                        }.compact
                      })]
                    end.to_h

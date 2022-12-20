@@ -70,7 +70,8 @@
 #   work_package.subject  # => "Subject at PT0S (current time)"
 #
 class Journable::WithHistoricAttributes < SimpleDelegator
-  attr_accessor :timestamps, :query, :include_only_changed_attributes, :attributes_by_timestamp, :matches_query_filters_at_timestamps
+  attr_accessor :timestamps, :query, :include_only_changed_attributes, :attributes_by_timestamp,
+                :matches_query_filters_at_timestamps
 
   def initialize(journable, timestamps: nil, query: nil, include_only_changed_attributes: false)
     super(journable)
@@ -172,7 +173,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   def convert_attributes_hash_to_struct(attributes)
     Class.new(OpenStruct) do
       def as_json(options = nil)
-        self.to_h.as_json(options)
+        to_h.as_json(options)
       end
     end.new(attributes)
   end

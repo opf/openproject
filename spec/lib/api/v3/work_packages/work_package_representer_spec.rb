@@ -1328,8 +1328,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
               .extract!(*Journal::WorkPackageJournal.attribute_names) \
               .symbolize_keys.merge(attributes)
           create(:work_package_journal, version:,
-                 journable:, created_at: timestamp, updated_at: timestamp,
-                 data: build(:journal_work_package_journal, journal_attributes))
+                                        journable:, created_at: timestamp, updated_at: timestamp,
+                                        data: build(:journal_work_package_journal, journal_attributes))
         end
 
         before do
@@ -1337,7 +1337,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           # in spec/support/api/v3/work_packages/work_package_representer_eager_loading.rb.
           # However, I feel more comfortable if we test the real thing here.
           #
-          allow(::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper)
+          allow(API::V3::WorkPackages::WorkPackageEagerLoadingWrapper)
             .to receive(:wrap_one)
             .and_call_original
 
@@ -1369,8 +1369,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
           it 'has no information about whether the work package matches the query filters at the baseline time' \
              'because there are no filters without a query' do
-              expect(subject)
-                .not_to have_json_path('_embedded/baselineAttributes/_meta/matchesFilters')
+            expect(subject)
+              .not_to have_json_path('_embedded/baselineAttributes/_meta/matchesFilters')
           end
         end
 
