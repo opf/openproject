@@ -26,27 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages::Scopes::CoveringDaysOfWeek
+module WorkPackages::Scopes::CoveringDatesAndDaysOfWeek
   extend ActiveSupport::Concern
   using CoreExtensions::SquishSql
 
   class_methods do
-    # Fetches all work packages that cover specific days of the week.
+    # Fetches all work packages that cover specific days of the week, and/or specific dates.
     #
     # The period considered is from the work package start date to the due date.
     #
+    # @param dates Date[] An array of the Date objects.
     # @param days_of_week number[] An array of the ISO days of the week to
     #   consider. 1 is Monday, 7 is Sunday.
-    def covering_days_of_week(days_of_week)
+    def covering_dates_and_days_of_week(days_of_week: [], dates: [])
       days_of_week = Array(days_of_week)
-      return none if days_of_week.empty?
+      dates = Array(dates)
+      return none if days_of_week.empty? && dates.empty?
 
-      where("id IN (#{query(days_of_week)})")
+      where("id IN (#{query(days_of_week, dates)})")
     end
 
     private
 
-    def query(days_of_week)
+    def query(days_of_week, dates)
       sql = <<~SQL.squish
         -- select work packages dates with their followers dates
         WITH work_packages_with_dates AS (
@@ -68,29 +70,29 @@ module WorkPackages::Scopes::CoveringDaysOfWeek
             GREATEST(work_package_start_date, work_package_due_date) AS end_date
           FROM work_packages_with_dates
         ),
-        -- expand period into days of the week. Limit to 7 days (more would be useless).
-        work_packages_days_of_week AS (
-          SELECT id,
-            extract(
-              isodow
-              from generate_series(
-                  work_packages_periods.start_date,
-                  LEAST(
-                    work_packages_periods.start_date + 6,
-                    work_packages_periods.end_date
-                  ),
-                  '1 day'
-                )
+        -- expand period into days.
+        work_packages_expaned_periods AS (
+          SELECT id, generate_series(
+            work_packages_periods.start_date,
+            work_packages_periods.end_date,
+            '1 day') AS dates,
+            -- limit to 7 days (more would be useless).
+            extract(isodow from generate_series(
+              work_packages_periods.start_date,
+              LEAST(
+                work_packages_periods.start_date + 6,
+                work_packages_periods.end_date
+              ),
+              '1 day')
             ) AS dow
             FROM work_packages_periods
         )
         -- select id of work packages covering the given days
-        SELECT DISTINCT id
-        FROM work_packages_days_of_week
-        WHERE dow IN (:days_of_week)
+        SELECT id FROM work_packages_expaned_periods
+        WHERE dow IN (:days_of_week) OR dates IN (:dates)
       SQL
 
-      sanitize_sql([sql, { days_of_week: }])
+      sanitize_sql([sql, { days_of_week:, dates: }])
     end
   end
 end

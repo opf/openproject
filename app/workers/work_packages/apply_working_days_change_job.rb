@@ -72,7 +72,7 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
     changed_days = changed_days(previous_working_days)
 
     WorkPackage
-      .covering_days_of_week(changed_days)
+      .covering_dates_and_days_of_week(changed_days)
       .order(WorkPackage.arel_table[:start_date].asc.nulls_first,
              WorkPackage.arel_table[:due_date].asc)
   end
