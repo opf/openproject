@@ -32,6 +32,17 @@ module Components
         click_button text
       end
 
+      def expect_menu_item(text)
+        # Ensure there are no active toasters
+        dismiss_toaster!
+
+        open_menu
+
+        within('ul.dropdown-menu') do |element|
+          expect(element).to have_button(text:)
+        end
+      end
+
       def remove
         click_menu_item(I18n.t('js.grid.remove'))
       end
