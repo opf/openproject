@@ -107,8 +107,8 @@ describe Journable::WithHistoricAttributes do
       let(:search_term) { "original" }
 
       it "determines for each timestamp whether the journable matches the query at that timestamp" do
-        expect(subject.matches_query_at_timestamps).to include Timestamp.parse("2022-01-01T00:00:00Z")
-        expect(subject.matches_query_at_timestamps).not_to include Timestamp.parse("PT0S")
+        expect(subject.matches_query_filters_at_timestamps).to include Timestamp.parse("2022-01-01T00:00:00Z")
+        expect(subject.matches_query_filters_at_timestamps).not_to include Timestamp.parse("PT0S")
       end
     end
 
@@ -188,8 +188,8 @@ describe Journable::WithHistoricAttributes do
         let(:search_term) { "original" }
 
         it "determines for each timestamp whether the journables matches the query at that timestamp" do
-          expect(subject.first.matches_query_at_timestamps).to include Timestamp.parse("2022-01-01T00:00:00Z")
-          expect(subject.first.matches_query_at_timestamps).not_to include Timestamp.parse("PT0S")
+          expect(subject.first.matches_query_filters_at_timestamps).to include Timestamp.parse("2022-01-01T00:00:00Z")
+          expect(subject.first.matches_query_filters_at_timestamps).not_to include Timestamp.parse("PT0S")
         end
       end
 
