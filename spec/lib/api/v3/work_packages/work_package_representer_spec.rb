@@ -1410,6 +1410,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
+        describe '_meta' do
+          describe 'matchesFilters' do
+            it 'does not have this meta field without a query given' do
+              expect(subject)
+                .not_to have_json_path('_meta/matchesFilters')
+            end
+          end
+        end
+
         context 'when passing a query' do
           let(:search_term) { 'original' }
           let(:query) do
@@ -1444,6 +1453,18 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
               expect(subject)
                 .to be_json_eql(false.to_json)
                 .at_path("_embedded/attributesByTimestamp/#{timestamps[1]}/_meta/matchesFilters")
+            end
+          end
+
+          describe '_meta' do
+            describe 'matchesFilters' do
+              it 'states whether the work package matches the query filters at the last timestamp' do
+                # If this value is false, it means that the work package has been found by the query
+                # at another of the given timestamps, e.g. the baseline timestamp.
+                expect(subject)
+                  .to be_json_eql(false.to_json)
+                  .at_path('_meta/matchesFilters')
+              end
             end
           end
         end

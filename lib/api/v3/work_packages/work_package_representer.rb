@@ -326,6 +326,21 @@ module API
           end
         end
 
+        property :_meta,
+                 if: ->(*) {
+                   respond_to? :matches_query_filters_at_timestamps \
+                   and matches_query_filters_at_timestamps.any?
+                 },
+                 getter: ->(*) {
+                   {
+                     # This meta property states whether the attributes of the work package at the
+                     # last given timestamp (commonly the current time) match the filters of the
+                     # query. https://github.com/opf/openproject/pull/11783
+                     #
+                     'matchesFilters': matches_query_filters_at_timestamp?(attributes_by_timestamp.keys.last)
+                   }
+                 }
+
         property :id,
                  render_nil: true
 
