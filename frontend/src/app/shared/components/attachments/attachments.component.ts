@@ -90,7 +90,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
     attachments: this.I18n.t('js.label_attachments'),
     uploadLabel: this.I18n.t('js.label_add_attachments'),
     dropFiles: this.I18n.t('js.label_drop_files'),
-    dropFilesHint: this.I18n.t('js.label_drop_files_hint'),
+    dropClickFiles: this.I18n.t('js.label_drop_or_click_files'),
     foldersWarning: this.I18n.t('js.label_drop_folders_hint'),
   };
 

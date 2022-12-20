@@ -2,7 +2,7 @@
 el:
   js:
     calendar:
-      create_new: 'Create new calendar'
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
-      unsaved_title: 'Unnamed calendar'
+      create_new: 'Δημιουργία νέου ημερολογίου'
+      title: 'Ημερολόγιο'
+      too_many: 'Συνολικά υπάρχουν %{count} πακέτα εργασίας, αλλά μπορούν να εμφανιστούν μόνο %{max}.'
+      unsaved_title: 'Ανώνυμο ημερολόγιο'

@@ -475,8 +475,8 @@ fr:
     label_custom_queries: "Privé"
     label_columns: "Colonnes"
     label_attachments: Fichiers
-    label_drop_files: Déposez des fichiers ici
-    label_drop_files_hint: ou cliquez pour ajouter des fichiers
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Vous ne pouvez pas télécharger les dossiers en pièce jointe. S’il vous plaît sélectionnez des fichiers seuls.
     label_add_attachments: "Ajouter pièces jointes"
     label_formattable_attachment_hint: "Insérer des fichiers en les glissant sur ce champ, ou en les collant depuis le presse-papiers."

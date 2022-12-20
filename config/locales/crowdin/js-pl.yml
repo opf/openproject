@@ -475,8 +475,8 @@ pl:
     label_custom_queries: "Prywatny"
     label_columns: "Kolumny"
     label_attachments: Załączniki
-    label_drop_files: Upuść pliki tutaj
-    label_drop_files_hint: lub kliknij aby dodać pliki
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Nie można przesłać folderów jako załącznika. Wybierz pojedyncze pliki.
     label_add_attachments: "Dodaj Załączniki"
     label_formattable_attachment_hint: "Aby załączyć pliki, przeciągnij je tutaj lub wklej ze schowka."

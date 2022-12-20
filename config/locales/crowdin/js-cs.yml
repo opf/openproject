@@ -475,8 +475,8 @@ cs:
     label_custom_queries: "Soukromé"
     label_columns: "Sloupce"
     label_attachments: Přílohy
-    label_drop_files: Sem přetáhněte soubory
-    label_drop_files_hint: nebo klikněte pro přidání souborů
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Není možné použít složku jako přílohu. Prosím vyberte jednotlivé soubory.
     label_add_attachments: "Přidat přílohy"
     label_formattable_attachment_hint: "Připojit a propojit soubory smazáním tohoto pole nebo vložením ze schránky."

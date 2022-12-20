@@ -474,8 +474,8 @@ lol:
     label_custom_queries: "crwdns822878:0crwdne822878:0"
     label_columns: "crwdns787584:0crwdne787584:0"
     label_attachments: crwdns807696:0crwdne807696:0
-    label_drop_files: crwdns787588:0crwdne787588:0
-    label_drop_files_hint: crwdns787590:0crwdne787590:0
+    label_drop_files: "crwdns843197:0crwdne843197:0"
+    label_drop_or_click_files: "crwdns843199:0crwdne843199:0"
     label_drop_folders_hint: crwdns787592:0crwdne787592:0
     label_add_attachments: "crwdns787594:0crwdne787594:0"
     label_formattable_attachment_hint: "crwdns787596:0crwdne787596:0"

@@ -476,8 +476,8 @@ ja:
     label_custom_queries: "Private"
     label_columns: "列"
     label_attachments: 添付ファイル
-    label_drop_files: ここにファイルをドロップ
-    label_drop_files_hint: またはクリックしてファイルを追加する
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: フォルダを添付ファイルとしてアップロードすることはできません。 単一のファイルを選択してください。
     label_add_attachments: "添付ファイルを追加する"
     label_formattable_attachment_hint: "このフィールドにドロップ、またはクリップボードから貼り付けて、ファイルを添付およびリンクします。"

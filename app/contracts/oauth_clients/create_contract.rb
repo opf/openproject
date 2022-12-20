@@ -29,7 +29,6 @@
 module OAuthClients
   class CreateContract < ::ModelContract
     include ActiveModel::Validations
-    include ActiveModel::Validations
 
     attribute :client_id, writable: true
     validates :client_id, presence: true, length: { maximum: 255 }

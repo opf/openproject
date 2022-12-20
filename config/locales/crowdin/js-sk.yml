@@ -475,8 +475,8 @@ sk:
     label_custom_queries: "Private"
     label_columns: "Stĺpce"
     label_attachments: Prílohy
-    label_drop_files: Presuňte súbory sem
-    label_drop_files_hint: alebo kliknite na tlačidlo Pridať súbory
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Nie je možné použiť priečinok ako prílohu. Prosím vyberte jednotlivé súbory.
     label_add_attachments: "Pridať prílohy"
     label_formattable_attachment_hint: "Na priloženie súboru ho potiahnite a pustite na toto pole alebo ho vložte zo schránky."

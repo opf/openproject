@@ -475,8 +475,8 @@ lt:
     label_custom_queries: "Private"
     label_columns: "Stulpeliai"
     label_attachments: Priedai
-    label_drop_files: Numeskite failus čia
-    label_drop_files_hint: arba spustelkite, kad pridėtumėte failus
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Aplankų negalima įkelti kaip priedų. Prašome pasirinkti atskirus failus.
     label_add_attachments: "Prisegti priedus"
     label_formattable_attachment_hint: "Prisegti ir susieti failus užvelkant ant šio laukelio arba įklijuojant į iškarpinę."

@@ -475,8 +475,8 @@ uk:
     label_custom_queries: "Приватні"
     label_columns: "Стовпці"
     label_attachments: Вкладення
-    label_drop_files: Перетягніть файли сюди
-    label_drop_files_hint: або клацніть, щоб додати файли
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Ви не можете завантажувати теки як вкладення. Будь ласка, оберіть окремі файли.
     label_add_attachments: "Додати вкладення"
     label_formattable_attachment_hint: "Приєднати файли та зв'язати їх, скинувши це поле або вставивши його з буфера обміну."
