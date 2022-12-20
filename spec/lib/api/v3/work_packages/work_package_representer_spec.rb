@@ -1379,13 +1379,17 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             expect(JSON.parse(subject)['_embedded']['attributesByTimestamp'].keys).to eq timestamps.map(&:to_s)
           end
 
-          it 'has the historic attributes for each timestamp' do
+          it 'has the historic attributes for each timestamp when they differ from the current attributes' do
             expect(subject)
               .to be_json_eql('The original work package'.to_json)
               .at_path("_embedded/attributesByTimestamp/#{timestamps[0]}/subject")
+          end
+
+          it 'skips the historic attributes when they are the same as the current attributes' do
             expect(subject)
-              .to be_json_eql('The current work package'.to_json)
-              .at_path("_embedded/attributesByTimestamp/#{timestamps[1]}/subject")
+              .to have_json_path("_embedded/attributesByTimestamp/#{timestamps[1]}")
+            expect(subject)
+              .not_to have_json_path("_embedded/attributesByTimestamp/#{timestamps[1]}/subject")
           end
 
           it 'has a link to the work package at the timestamp' do
