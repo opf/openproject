@@ -1366,6 +1366,12 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
               .to be_json_eql(timestamps.first.to_s.to_json)
               .at_path('_embedded/baselineAttributes/_meta/timestamp')
           end
+
+          it 'has no information about whether the work package matches the query filters at the baseline time' \
+             'because there are no filters without a query' do
+              expect(subject)
+                .not_to have_json_path('_embedded/baselineAttributes/_meta/matchesFilters')
+          end
         end
 
         describe 'attributesByTimestamp' do
@@ -1389,6 +1395,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             expect(subject)
               .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: [timestamps[1]]).to_json)
               .at_path("_embedded/attributesByTimestamp/#{timestamps[1]}/_links/self/href")
+          end
+
+          it 'has no information about whether the work package matches the query filters at the timestamp' \
+             'because there are no filters without a query' do
+            expect(subject)
+              .not_to have_json_path("_embedded/attributesByTimestamp/#{timestamps[0]}/_meta/matchesFilters")
+            expect(subject)
+              .not_to have_json_path("_embedded/attributesByTimestamp/#{timestamps[1]}/_meta/matchesFilters")
           end
         end
 

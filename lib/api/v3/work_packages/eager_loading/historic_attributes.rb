@@ -66,12 +66,18 @@ module API::V3::WorkPackages::EagerLoading
                     :matches_query_at_timestamps
     end
 
+    # Does the work package match the query filter at the baseline timestamp?
+    # Returns `nil` if no query is given.
+    #
     def matches_query_filter_at_baseline_timestamp?
-      matches_query_filter_at_baseline_timestamp
+      matches_query_at_timestamps.any? ? matches_query_filter_at_baseline_timestamp : nil
     end
 
+    # Does the work package match the query filter at the given timestamp?
+    # Returns `nil` if no query is given.
+    #
     def matches_query_filter_at_timestamp?(timestamp)
-      matches_query_at_timestamps.include?(timestamp)
+      matches_query_at_timestamps.any? ? matches_query_at_timestamps.include?(timestamp) : nil
     end
   end
 end

@@ -182,7 +182,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   end
 
   def matches_query_filter_at_baseline_timestamp?
-    matches_query_at_timestamps.include?(baseline_timestamp)
+    query && matches_query_at_timestamps.include?(baseline_timestamp)
   end
 
   def current_timestamp
@@ -190,11 +190,11 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   end
 
   def matches_query_filter_at_current_timestamp?
-    matches_query_at_timestamps.include?(current_timestamp)
+    query && matches_query_at_timestamps.include?(current_timestamp)
   end
 
   def matches_query_filter_at_timestamp?(timestamp)
-    matches_query_at_timestamps.include?(timestamp)
+    query && matches_query_at_timestamps.include?(timestamp)
   end
 
   def self.query_work_packages(query:, timestamp: nil)
