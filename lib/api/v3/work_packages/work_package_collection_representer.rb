@@ -48,13 +48,15 @@ module API
           @total_sums = total_sums
           @embed_schemas = embed_schemas
           @timestamps = timestamps
-          @_query = _query
 
           # While `_query` is the actual query object, `query` refers to
           # the query parameters passed to the API.
+          #
           # TODO: Should we rename `_query` to `query_object`?
           # TODO: Should we rename `query` to `query_params`?
-          # TODO: Should we include the timestamps in the query params instead of passing them separately?
+          #
+          @_query = _query
+
           if timestamps.present? && (timestamps.count > 1 or timestamps.first.historic?)
             query[:timestamps] ||= API::V3::Utilities::PathHelper::ApiV3Path.timestamps_to_param_value(timestamps)
           end
