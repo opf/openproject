@@ -104,6 +104,7 @@ class BulkRunner
     FileUtils.rm_rf(bulk_run_dir('logs')) if bulk_run_dir('logs').exist?
     `mkdir -p #{bulk_run_dir('logs')}`
     puts "#{tests.count} tests to run"
+    puts "logs: #{bulk_run_dir('logs')}"
     tests.each do |test|
       puts '=' * 80
       puts "Running #{test.path} #{RUN_COUNT} times"
@@ -111,7 +112,7 @@ class BulkRunner
       RUN_COUNT.times do |i|
         puts " Run #{i} ".center(80, '-')
         run = Run.new(test.path)
-        run.output = `CI=true bundle exec rspec '#{run.path}' 2>&1`
+        run.output = `DISABLE_PRY=1 CI=true bundle exec rspec '#{run.path}' 2>&1`
         if $?.success?
           puts 'ok'.green
           run.passed!
