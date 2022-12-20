@@ -459,7 +459,7 @@ module API
                      },
                      '_meta': {
                        'timestamp': baseline_timestamp.to_s,
-                       'matchesFilters': matches_query_filter_at_baseline_timestamp?
+                       'matchesFilters': matches_query_filters_at_baseline_timestamp?
                      }.compact
                    })
                  end,
@@ -478,7 +478,7 @@ module API
                          }
                        },
                        '_meta': {
-                         'matchesFilters': matches_query_filter_at_timestamp?(timestamp)
+                         'matchesFilters': matches_query_filters_at_timestamp?(timestamp)
                        }.compact
                      })]
                    end.to_h

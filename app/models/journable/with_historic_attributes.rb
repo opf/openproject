@@ -64,8 +64,8 @@
 #   work_package = Journable::WithHistoricAttributes.wrap(work_package, query:)
 #   work_package.baseline_timestamp  # => [<Timestamp 2022-01-01T00:00:00Z>]
 #   work_package.current_timestamp  # => [<Timestamp PT0S>]
-#   work_package.matches_query_filter_at_baseline_timestamp?
-#   work_package.matches_query_filter_at_current_timestamp?
+#   work_package.matches_query_filters_at_baseline_timestamp?
+#   work_package.matches_query_filters_at_current_timestamp?
 #   work_package.baseline_attributes.subject # => "Subject at 2022-01-01 (baseline time)"
 #   work_package.subject  # => "Subject at PT0S (current time)"
 #
@@ -187,7 +187,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     attributes_by_timestamp[baseline_timestamp.to_s]
   end
 
-  def matches_query_filter_at_baseline_timestamp?
+  def matches_query_filters_at_baseline_timestamp?
     query && matches_query_filters_at_timestamps.include?(baseline_timestamp)
   end
 
@@ -195,11 +195,11 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     timestamps.last
   end
 
-  def matches_query_filter_at_current_timestamp?
+  def matches_query_filters_at_current_timestamp?
     query && matches_query_filters_at_timestamps.include?(current_timestamp)
   end
 
-  def matches_query_filter_at_timestamp?(timestamp)
+  def matches_query_filters_at_timestamp?(timestamp)
     query && matches_query_filters_at_timestamps.include?(timestamp)
   end
 

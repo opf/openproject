@@ -37,8 +37,8 @@ module API::V3::WorkPackages::EagerLoading
       work_package.baseline_attributes = work_package_with_historic_attributes.baseline_attributes
       work_package.attributes_by_timestamp = work_package_with_historic_attributes.attributes_by_timestamp
       work_package.baseline_timestamp = work_package_with_historic_attributes.baseline_timestamp
-      work_package.matches_query_filter_at_baseline_timestamp = \
-        work_package_with_historic_attributes.matches_query_filter_at_baseline_timestamp?
+      work_package.matches_query_filters_at_baseline_timestamp = \
+        work_package_with_historic_attributes.matches_query_filters_at_baseline_timestamp?
       work_package.matches_query_filters_at_timestamps = work_package_with_historic_attributes.matches_query_filters_at_timestamps
     end
 
@@ -62,21 +62,21 @@ module API::V3::WorkPackages::EagerLoading
 
     included do
       attr_accessor :baseline_attributes, :attributes_by_timestamp, :baseline_timestamp,
-                    :matches_query_filter_at_baseline_timestamp,
+                    :matches_query_filters_at_baseline_timestamp,
                     :matches_query_filters_at_timestamps
     end
 
     # Does the work package match the query filter at the baseline timestamp?
     # Returns `nil` if no query is given.
     #
-    def matches_query_filter_at_baseline_timestamp?
-      matches_query_filters_at_timestamps.any? ? matches_query_filter_at_baseline_timestamp : nil
+    def matches_query_filters_at_baseline_timestamp?
+      matches_query_filters_at_timestamps.any? ? matches_query_filters_at_baseline_timestamp : nil
     end
 
     # Does the work package match the query filter at the given timestamp?
     # Returns `nil` if no query is given.
     #
-    def matches_query_filter_at_timestamp?(timestamp)
+    def matches_query_filters_at_timestamp?(timestamp)
       matches_query_filters_at_timestamps.any? ? matches_query_filters_at_timestamps.include?(timestamp) : nil
     end
   end

@@ -246,7 +246,7 @@ describe Journable::WithHistoricAttributes do
     end
   end
 
-  describe "#matches_query_filter_at_baseline_timestamp?" do
+  describe "#matches_query_filters_at_baseline_timestamp?" do
     let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
     let(:journable) { described_class.wrap(work_package, timestamps:, query:) }
     let(:query) do
@@ -257,7 +257,7 @@ describe Journable::WithHistoricAttributes do
       end
     end
 
-    subject { journable.matches_query_filter_at_baseline_timestamp? }
+    subject { journable.matches_query_filters_at_baseline_timestamp? }
 
     describe "providing a filter that matches at the baseline timestamp" do
       let(:search_term) { "original" }
@@ -287,7 +287,7 @@ describe Journable::WithHistoricAttributes do
     end
   end
 
-  describe "#matches_query_filter_at_current_timestamp?" do
+  describe "#matches_query_filters_at_current_timestamp?" do
     let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
     let(:journable) { described_class.wrap(work_package, timestamps:, query:) }
     let(:query) do
@@ -298,7 +298,7 @@ describe Journable::WithHistoricAttributes do
       end
     end
 
-    subject { journable.matches_query_filter_at_current_timestamp? }
+    subject { journable.matches_query_filters_at_current_timestamp? }
 
     describe "providing a filter that matches at the baseline timestamp" do
       let(:search_term) { "original" }
