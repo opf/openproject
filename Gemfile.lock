@@ -825,7 +825,7 @@ GEM
     roar (1.1.1)
       representable (~> 3.0)
     rotp (6.2.2)
-    rouge (4.0.0)
+    rouge (4.0.1)
     rspec (3.12.0)
       rspec-core (~> 3.12.0)
       rspec-expectations (~> 3.12.0)
