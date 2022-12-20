@@ -475,8 +475,8 @@ es:
     label_custom_queries: "Privado"
     label_columns: "Columnas"
     label_attachments: Archivos adjuntos
-    label_drop_files: Suelta los archivos aquí
-    label_drop_files_hint: o haga clic en agregar archivos
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: No se pueden cargar carpetas como archivos adjuntos. Seleccione archivos individuales.
     label_add_attachments: "Añadir archivos adjuntos"
     label_formattable_attachment_hint: "Para adjuntar y vincular archivos, colóquelos en este campo o péguelos desde el portapapeles."

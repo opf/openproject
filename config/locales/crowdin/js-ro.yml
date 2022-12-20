@@ -474,8 +474,8 @@ ro:
     label_custom_queries: "Privat"
     label_columns: "Coloane"
     label_attachments: Atașamente
-    label_drop_files: Trageți fișierele aici
-    label_drop_files_hint: sau dați click pentru a adăuga fişiere
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Nu puteți încărca dosare ca atașament. Vă rugăm să selectați fișiere individuale.
     label_add_attachments: "Adaugă fișiere"
     label_formattable_attachment_hint: "Atașați și legați fișiere prin plasarea în acest câmp sau prin lipirea din clipboard."

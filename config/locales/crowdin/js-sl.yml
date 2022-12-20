@@ -474,8 +474,8 @@ sl:
     label_custom_queries: "Private"
     label_columns: "Stolpci"
     label_attachments: Priponka
-    label_drop_files: Spustite datoteke tukaj
-    label_drop_files_hint: ali kliknite da dodate datoteke
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Mape ne morate naložiti kot priponke. Prosim izberite samo eno datoteko.
     label_add_attachments: "Dodaj priponke"
     label_formattable_attachment_hint: "Pripnite in povežite datoteke tako, da spustite to polje ali prilepite iz odložišča."

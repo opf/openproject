@@ -5,8 +5,8 @@ nl:
       link_files_in_storage: "Koppel bestanden aan %{storageType}"
       link_existing_files: "Bestaande bestanden koppelen"
       upload_files: "Upload files"
-      drop_files: >
-        Drop files here to upload them to %{storageType}.
+      drop_files: "Drop files here to upload them to %{name}."
+      drop_or_click_files: "Drop files here or click to upload them to %{name}."
       login: "%{storageType} login"
       login_to: "Inloggen op %{storageType}"
       no_connection: "Geen %{storageType} verbinding"

@@ -5,8 +5,8 @@ it:
       link_files_in_storage: "Collega file in %{storageType}"
       link_existing_files: "Collega file esistenti"
       upload_files: "Caricare i files"
-      drop_files: >
-        Drop files here to upload them to %{storageType}.
+      drop_files: "Drop files here to upload them to %{name}."
+      drop_or_click_files: "Drop files here or click to upload them to %{name}."
       login: "Accesso %{storageType}"
       login_to: "Accedi a %{storageType}"
       no_connection: "Nessuna connessione %{storageType}"

@@ -475,8 +475,8 @@
     label_custom_queries: "Private"
     label_columns: "Kolonner"
     label_attachments: Vedlegg
-    label_drop_files: Drop files here
-    label_drop_files_hint: eller klikk for å legge til filer
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
     label_add_attachments: "Add attachments"
     label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."

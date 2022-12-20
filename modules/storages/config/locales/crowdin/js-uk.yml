@@ -5,8 +5,8 @@ uk:
       link_files_in_storage: "Додати посилання на файли в сховищі %{storageType}"
       link_existing_files: "Прив’язати наявні файли"
       upload_files: "Upload files"
-      drop_files: >
-        Drop files here to upload them to %{storageType}.
+      drop_files: "Drop files here to upload them to %{name}."
+      drop_or_click_files: "Drop files here or click to upload them to %{name}."
       login: "Облікові дані %{storageType}"
       login_to: "Увійти в %{storageType}"
       no_connection: "Немає підключення до сховища %{storageType}"

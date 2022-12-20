@@ -5,8 +5,8 @@ pt:
       link_files_in_storage: "Vincular arquivos em %{storageType}"
       link_existing_files: "Vincular arquivos existentes"
       upload_files: "Upload files"
-      drop_files: >
-        Drop files here to upload them to %{storageType}.
+      drop_files: "Drop files here to upload them to %{name}."
+      drop_or_click_files: "Drop files here or click to upload them to %{name}."
       login: "Início de sessão de %{storageType}"
       login_to: "Iniciar sessão em %{storageType}"
       no_connection: "Sem conexão de %{storageType}"
