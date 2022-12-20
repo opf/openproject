@@ -84,9 +84,9 @@ module Pages
     end
 
     def switch_view_mode(text)
-      find('[data-qa-selector="op-team-planner--view-select-dropdown"]').click
-
       retry_block do
+        find('[data-qa-selector="op-team-planner--view-select-dropdown"]').click
+
         within('#op-team-planner--view-select-dropdown') do
           click_button(text)
         end
