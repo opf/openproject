@@ -49,6 +49,7 @@ module API::V3::Storages
     # LinkedResource module defines helper methods to describe attributes
     include API::Decorators::LinkedResource
     include API::Decorators::DateProperty
+    include ::API::Caching::CachedRepresenter
     include Storages::Peripherals::StorageUrlHelper
 
     module ClassMethods
@@ -108,6 +109,22 @@ module API::V3::Storages
                             represented.host = fragment['href'].gsub(/\/+$/, '')
                           }
 
+    links :prepare_upload do
+      storage_projects_ids(represented).map do |project_id|
+        {
+          href: api_v3_paths.prepare_upload(represented.id),
+          method: :post,
+          title: "Upload file",
+          payload: {
+            projectId: project_id,
+            fileName: '{fileName}',
+            parent: '{parent}'
+          },
+          templated: true
+        }
+      end
+    end
+
     link :open do
       { href: storage_url_open(represented) }
     end
@@ -161,6 +178,16 @@ module API::V3::Storages
 
     def _type
       'Storage'
+    end
+
+    private
+
+    def storage_projects_ids(model)
+      model.projects.filter { |project| user_allowed_to_manage?(project) }.map(&:id)
+    end
+
+    def user_allowed_to_manage?(model)
+      current_user.allowed_to?(:manage_file_links, model.project)
     end
   end
 end
