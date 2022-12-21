@@ -37,6 +37,7 @@ Working on OpenProject comes with the satisfaction of working on a widely used o
 
 Also, if you do not want to be limited to working on open source in your free time, OpenProject GmbH, the company contributing to the OpenProject development, [is hiring](https://www.openproject.org/career/).
 
+
 ## Contact
 
 Here you can find our [contact information](https://www.openproject.org/contact/). If you are interested in development or have general questions, feel free to also join our [community discussion forums](https://community.openproject.org/projects/openproject/forums).
