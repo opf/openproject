@@ -1,4 +1,5 @@
 # OpenProject
+
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/opf/openproject)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/opf/openproject)
 ![GitHub branch checks state](https://img.shields.io/github/checks-status/opf/openproject/dev)
@@ -6,15 +7,15 @@
 
 OpenProject is a web-based project management software. Its key features are:
 
-* [Project planning and scheduling](https://www.openproject.org/collaboration-software-features/#project-planning)
-* [Product roadmap and release planning](https://www.openproject.org/collaboration-software-features/#product-management)
-* [Task management and team collaboration](https://www.openproject.org/collaboration-software-features/#task-management)
-* [Agile and Scrum](https://www.openproject.org/collaboration-software-features/#agile-scrum)
-* [Time tracking, cost reporting and budgeting](https://www.openproject.org/collaboration-software-features/#time-tracking)
-* [Bug tracking](https://www.openproject.org/collaboration-software-features/#bug-tracking)
-* [Wikis](https://www.openproject.org/docs/user-guide/wysiwyg/)
-* [Forums](https://www.openproject.org/docs/user-guide/forums/)
-* [Meeting agendas and meeting minutes](https://www.openproject.org/docs/user-guide/meetings/)
+- [Project planning and scheduling](https://www.openproject.org/collaboration-software-features/#project-planning)
+- [Product roadmap and release planning](https://www.openproject.org/collaboration-software-features/#product-management)
+- [Task management and team collaboration](https://www.openproject.org/collaboration-software-features/#task-management)
+- [Agile and Scrum](https://www.openproject.org/collaboration-software-features/#agile-scrum)
+- [Time tracking, cost reporting, and budgeting](https://www.openproject.org/collaboration-software-features/#time-tracking)
+- [Bug tracking](https://www.openproject.org/collaboration-software-features/#bug-tracking)
+- [Wikis](https://www.openproject.org/docs/user-guide/wysiwyg/)
+- [Forums](https://www.openproject.org/docs/user-guide/forums/)
+- [Meeting agendas and meeting minutes](https://www.openproject.org/docs/user-guide/meetings/)
 
 More information and screenshots can be found on our [website](https://www.openproject.org).
 
@@ -36,7 +37,6 @@ We are always looking for new members to our community, so if you are interested
 Working on OpenProject comes with the satisfaction of working on a widely used open source application.
 
 Also, if you do not want to be limited to working on open source in your free time, OpenProject GmbH, the company contributing to the OpenProject development, [is hiring](https://www.openproject.org/career/).
-
 
 ## Contact
 
@@ -67,6 +67,7 @@ Thanks to Vincent Le Moign and his fabulous Minicons icons on [webalys.com](http
 Thanks to Łukasz Dziedzic (aka "tyPoland") for his 'Lato' font.
 
 ### OpenProject icon font
+
 Published and created by the OpenProject Foundation (OPF) under [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/)
 with icons from the following sources
 [Minicons Free Vector Icons Pack](http://www.webalys.com/minicons) and
