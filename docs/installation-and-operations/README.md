@@ -34,7 +34,7 @@ Compare the features of these versions [on the website](https://www.openproject.
 | [Operations & Maintenance](operation/) | Guides on how to configure, backup, **upgrade**, and monitor your OpenProject installation |
 | [Advanced configuration](configuration/) | Guides on how to perform advanced configuration of your OpenProject installation |
 | [Other](misc/) | Guides on infrequent operations such as MySQL to PostgreSQL migration |
-| [BIM](..Ibim-guide/) |How to install OpenProject BIM edition |
+| [BIM](../bim-guide/) |How to install OpenProject BIM edition |
 
 For production environments and when using a [supported distribution](system-requirements), we recommend using the [packaged installation](installation/packaged/). This will install OpenProject as a system dependency using your distribution's package manager, and provide updates in the same fashion that all other system packages do.
 
