@@ -79,6 +79,7 @@ describe 'API v3 Work package resource',
 
     context 'with filtering by typeahead' do
       before { get path }
+
       subject { last_response }
 
       let(:path) { api_v3_paths.path_for :work_packages, filters: }
@@ -127,6 +128,7 @@ describe 'API v3 Work package resource',
 
     describe 'encoded query props' do
       before { get path }
+
       subject { last_response }
 
       let(:props) do
@@ -329,7 +331,7 @@ describe 'API v3 Work package resource',
       it 'has the absolute timestamps within the collection self link' do
         Timecop.freeze do
           expect(subject.body)
-            .to include_json({timestamps: api_v3_paths.timestamps_to_param_value(timestamps.map(&:absolute))}.to_query.to_json)
+            .to include_json({ timestamps: api_v3_paths.timestamps_to_param_value(timestamps.map(&:absolute)) }.to_query.to_json)
             .at_path('_links/self/href')
         end
       end
