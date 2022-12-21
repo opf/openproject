@@ -11,7 +11,7 @@ This page summarizes the options for getting OpenProject, some hosted and some o
 ### On-premises
 
 * **Community edition** - The free, no license, edition of OpenProject that you install on-premise. The additional add-ons of the Enterprise edition are not included. See the "Installation" row of the table below.
-* **Enterprise on-premise edition** - Builds on top of the Community edition: Enterprise add-ons, professional support, hosted on-premise with optional installation support. See more [on the website](https://www.openproject.org/enterprise-edition/), where you can apply for a free trial, or in the [documentation](../enterprise-guide/enterprise-on-premises-guide/). The Community edition can easily be upgraded to the Enterprise on-premises edition.
+* **Enterprise on-premise edition** - Builds on top of the Community edition: Enterprise add-ons, professional support, hosted on-premises with optional installation support. See more [on the website](https://www.openproject.org/enterprise-edition/), where you can apply for a free trial, or in the [documentation](../enterprise-guide/enterprise-on-premises-guide/). The Community edition can easily be upgraded to the Enterprise on-premises edition.
 
 ### Hosted
 
