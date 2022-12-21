@@ -50,7 +50,10 @@ describe 'API v3 Work package resource',
   end
 
   describe 'GET /api/v3/work_packages' do
-    subject { last_response }
+    subject do
+      get path
+      last_response
+    end
 
     let(:path) { api_v3_paths.work_packages }
     let(:other_work_package) { create(:work_package) }
@@ -58,7 +61,6 @@ describe 'API v3 Work package resource',
 
     before do
       work_packages
-      get path
     end
 
     it 'succeeds' do
@@ -76,6 +78,9 @@ describe 'API v3 Work package resource',
     end
 
     context 'with filtering by typeahead' do
+      before { get path }
+      subject { last_response }
+
       let(:path) { api_v3_paths.path_for :work_packages, filters: }
       let(:filters) do
         [
@@ -114,12 +119,16 @@ describe 'API v3 Work package resource',
 
       context 'with the user not allowed to see work packages in general' do
         let(:non_member_permissions) { [] }
+        before { get path }
 
         it_behaves_like 'unauthorized access'
       end
     end
 
     describe 'encoded query props' do
+      before { get path }
+      subject { last_response }
+
       let(:props) do
         eprops = {
           filters: [{ id: { operator: '=', values: [work_package.id.to_s, other_visible_work_package.id.to_s] } }].to_json,
@@ -222,6 +231,183 @@ describe 'API v3 Work package resource',
         end
 
         it_behaves_like 'param validation error'
+      end
+    end
+
+    context 'when provoding timestamps' do
+      subject do
+        get path
+        last_response
+      end
+
+      let(:path) { "#{api_v3_paths.work_packages}?timestamps=#{timestamps.join(',')}" }
+      let(:timestamps) { [Timestamp.parse('2015-01-01T00:00:00Z'), Timestamp.now] }
+      let(:baseline_time) { timestamps.first.to_time }
+
+      let(:work_package) do
+        new_work_package = create(:work_package, subject: "The current work package", project:)
+        new_work_package.update_columns created_at: baseline_time - 1.day
+        new_work_package
+      end
+      let(:original_journal) do
+        create_journal(journable: work_package, timestamp: baseline_time - 1.day,
+                       version: 1,
+                       attributes: { subject: "The original work package" })
+      end
+      let(:current_journal) do
+        create_journal(journable: work_package, timestamp: 1.day.ago,
+                       version: 2,
+                       attributes: { subject: "The current work package" })
+      end
+
+      def create_journal(journable:, version:, timestamp:, attributes: {})
+        work_package_attributes = work_package.attributes.except("id")
+        journal_attributes = work_package_attributes \
+            .extract!(*Journal::WorkPackageJournal.attribute_names) \
+            .symbolize_keys.merge(attributes)
+        create(:work_package_journal, version:,
+                                      journable:, created_at: timestamp, updated_at: timestamp,
+                                      data: build(:journal_work_package_journal, journal_attributes))
+      end
+
+      before do
+        work_package.journals.destroy_all
+        original_journal
+        current_journal
+      end
+
+      it 'succeeds' do
+        expect(subject.status).to be 200
+      end
+
+      it 'embeds the baselineAttributes' do
+        expect(subject.body)
+          .to be_json_eql("The original work package".to_json)
+          .at_path('_embedded/elements/0/_embedded/baselineAttributes/subject')
+      end
+
+      it 'does not embed the attributes in baselineAttributes if they are the same as the current attributes' do
+        expect(subject.body)
+          .not_to have_json_path('_embedded/elements/0/_embedded/baselineAttributes/description')
+      end
+
+      it 'embeds the attributesByTimestamp' do
+        expect(subject.body)
+          .to be_json_eql("The original work package".to_json)
+          .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first}/subject")
+        expect(subject.body)
+          .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.last}")
+      end
+
+      it 'does not embed the attributes in attributesByTimestamp if they are the same as the current attributes' do
+        expect(subject.body)
+          .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first}/description")
+        expect(subject.body)
+          .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.last}/description")
+      end
+
+      it 'has the current attributes as attributes' do
+        expect(subject.body)
+          .to be_json_eql("The current work package".to_json)
+          .at_path('_embedded/elements/0/subject')
+      end
+
+      it 'has an embedded link to the baseline work package' do
+        expect(subject.body)
+          .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.first).to_json)
+          .at_path('_embedded/elements/0/_embedded/baselineAttributes/_links/self/href')
+      end
+
+      it 'has the absolute timestamps within the self links of the elements' do
+        Timecop.freeze do
+          expect(subject.body)
+            .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.map(&:absolute)).to_json)
+            .at_path('_embedded/elements/0/_links/self/href')
+        end
+      end
+
+      it 'has the absolute timestamps within the collection self link' do
+        Timecop.freeze do
+          expect(subject.body)
+            .to include_json({timestamps: api_v3_paths.timestamps_to_param_value(timestamps.map(&:absolute))}.to_query.to_json)
+            .at_path('_links/self/href')
+        end
+      end
+
+      describe "when filtering such that the filters do not match at all timestamps" do
+        let(:path) { api_v3_paths.path_for :work_packages, filters:, timestamps: }
+        let(:filters) do
+          [
+            {
+              subject: {
+                operator: '~',
+                values: [search_term]
+              }
+            }
+          ]
+        end
+
+        describe "when the filters match the work package today" do
+          let(:search_term) { 'current' }
+
+          it 'finds the work package' do
+            expect(subject.body)
+              .to be_json_eql(work_package.id.to_json)
+              .at_path('_embedded/elements/0/id')
+          end
+
+          describe "_meta" do
+            describe "matchesFilters" do
+              it 'marks the work package as matching the filters' do
+                expect(subject.body)
+                  .to be_json_eql(true.to_json)
+                  .at_path('_embedded/elements/0/_meta/matchesFilters')
+              end
+            end
+          end
+
+          describe "baselineAttributes" do
+            describe "_meta" do
+              describe "matchesFilters" do
+                it 'marks the work package as not matching the filters at the baseline time' do
+                  expect(subject.body)
+                    .to be_json_eql(false.to_json)
+                    .at_path('_embedded/elements/0/_embedded/baselineAttributes/_meta/matchesFilters')
+                end
+              end
+            end
+          end
+        end
+
+        describe "when the filters match the work package at the baseline time" do
+          let(:search_term) { 'original' }
+
+          it 'finds the work package' do
+            expect(subject.body)
+              .to be_json_eql(work_package.id.to_json)
+              .at_path('_embedded/elements/0/id')
+          end
+
+          describe "_meta" do
+            it 'marks the work package as not matching the filters in its current state' do
+              expect(subject.body)
+              .to be_json_eql(false.to_json)
+                .at_path('_embedded/elements/0/_meta/matchesFilters')
+            end
+          end
+
+          describe "baselineAttributes" do
+            describe "_meta" do
+              describe "matchesFilters" do
+                it 'marks the work package as matching the filters at the baseline time' do
+                  expect(subject.body)
+                    .to be_json_eql(true.to_json)
+                    .at_path('_embedded/elements/0/_embedded/baselineAttributes/_meta/matchesFilters')
+                end
+              end
+            end
+          end
+        end
       end
     end
   end

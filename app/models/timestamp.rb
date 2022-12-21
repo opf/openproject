@@ -123,6 +123,8 @@ class Timestamp
       iso8601 == other or to_s == other
     when Timestamp
       iso8601 == other.iso8601
+    when NilClass
+      to_s.blank?
     else
       raise Timestamp::Exception, "Comparison to #{other.class.name} not implemented, yet."
     end
