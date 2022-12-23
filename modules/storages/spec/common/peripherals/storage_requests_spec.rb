@@ -346,7 +346,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           }.to_json
         )
       stub_request(:put, "#{url}/ocs/v2.php/apps/files_sharing/api/v1/shares/#{share_id}")
-        .with(body: { permissions: 4 })
+        .with(body: { permissions: 5 })
         .to_return(status: 200, body: {}.to_json)
     end
 
@@ -430,7 +430,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     describe 'with second outbound request returning 200 and an empty body' do
       before do
         stub_request(:put, "#{url}/ocs/v2.php/apps/files_sharing/api/v1/shares/#{share_id}")
-          .with(body: { permissions: 4 })
+          .with(body: { permissions: 5 })
           .to_return(status: 200)
       end
 

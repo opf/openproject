@@ -35,7 +35,7 @@ module Storages::Peripherals
       when :not_found
         raise API::Errors::NotFound.new
       when :bad_request
-        raise API::Errors::BadRequest.new("Malformed body.")
+        raise API::Errors::BadRequest.new(error.log_message)
       else
         raise API::Errors::InternalError.new
       end

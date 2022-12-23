@@ -36,7 +36,9 @@ module Storages::Peripherals::StorageInteraction
         authorize(:manage_file_links, context: Project.find(project_id))
         ServiceResult.success(result: { fileName: file_name, parent: }.transform_keys(&:to_s))
       else
-        ServiceResult.failure(errors: :bad_request)
+        ServiceResult.failure(
+          errors: Storages::StorageError.new(code: :bad_request, log_message: 'Request body malformed!')
+        )
       end
     end
 
