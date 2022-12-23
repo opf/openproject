@@ -474,8 +474,8 @@ zh-TW:
     label_custom_queries: "私人"
     label_columns: "欄"
     label_attachments: 附加檔
-    label_drop_files: 將檔案拖曳至此處
-    label_drop_files_hint: 或按一下要添加的檔
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: 不能將資料夾作為附件上載。請選擇單個檔。
     label_add_attachments: "新增附件"
     label_formattable_attachment_hint: "藉由拖放或從剪貼簿貼上至此欄位來附加和連結檔案。"

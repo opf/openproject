@@ -474,8 +474,8 @@ el:
     label_custom_queries: "Private"
     label_columns: "Στήλες"
     label_attachments: Συνημμένα
-    label_drop_files: Σύρετε αρχεία εδώ
-    label_drop_files_hint: ή κάντε κλικ για να προσθέσετε αρχεία
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Δεν μπορείτε να μεταφορτώσετε φακέλους ως συνημμένο. Παρακαλώ επιλέξτε μεμονωμένα αρχεία.
     label_add_attachments: "Προσθέστε συνημμένα"
     label_formattable_attachment_hint: "Συνάψτε και συνδέστε αρχεία σέρνοντας τα σε αυτό το πεδίο, ή κάνοντας επικόλληση."

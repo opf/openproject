@@ -475,8 +475,8 @@ ca:
     label_custom_queries: "Privat"
     label_columns: "Columnes"
     label_attachments: Fitxers adjunts
-    label_drop_files: Arrossegueu els fitxers aquí
-    label_drop_files_hint: o feu clic per afegir fitxers
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: No pots carregar carpetes com a fitxers adjunts. Si us plau, selecciona fitxers únics.
     label_add_attachments: "Afegir fitxers adjunts"
     label_formattable_attachment_hint: "Adjuntar i enllaça fitxers arrossegant-los en aquest camp, o enganxant-los des del porta-papers."

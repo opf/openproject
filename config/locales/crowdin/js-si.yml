@@ -475,8 +475,8 @@ si:
     label_custom_queries: "Private"
     label_columns: "තීරු"
     label_attachments: ඇමුණුම්
-    label_drop_files: ගොනු මෙහි අතහැර
-    label_drop_files_hint: හෝ ගොනු එකතු කිරීමට ක්ලික් කරන්න
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: ඔබට ෆෝල්ඩර ඇමුණුමක් ලෙස උඩුගත කළ නොහැක. කරුණාකර තනි ගොනු තෝරන්න.
     label_add_attachments: "ඇමුණුම් එකතු කරන්න"
     label_formattable_attachment_hint: "අමුණන්න සහ සම්බන්ධ ගොනු මෙම ක්ෂේත්රය මත අතහැර, හෝ පසුරු පුවරුවේ සිට ඇලවීම."

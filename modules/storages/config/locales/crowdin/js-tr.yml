@@ -5,8 +5,8 @@ tr:
       link_files_in_storage: "%{storageType} içindeki dosyaları bağla"
       link_existing_files: "Mevcut dosyaları bağla"
       upload_files: "Dosyaları yükle"
-      drop_files: >
-        Drop files here to upload them to %{storageType}.
+      drop_files: "Drop files here to upload them to %{name}."
+      drop_or_click_files: "Drop files here or click to upload them to %{name}."
       login: "%{storageType} oturum açma"
       login_to: "%{storageType}'da oturum açın"
       no_connection: "%{storageType} bağlantısı yok"

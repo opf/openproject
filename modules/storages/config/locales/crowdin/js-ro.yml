@@ -5,8 +5,8 @@ ro:
       link_files_in_storage: "Link-ul fişierelor în %{storageType}"
       link_existing_files: "Legaţi fişierele existente"
       upload_files: "Încarcă fişiere"
-      drop_files: >
-        Drop files here to upload them to %{storageType}.
+      drop_files: "Drop files here to upload them to %{name}."
+      drop_or_click_files: "Drop files here or click to upload them to %{name}."
       login: "%{storageType} autentificare"
       login_to: "Autentificare în %{storageType}"
       no_connection: "Nu există %{storageType} conexiune"

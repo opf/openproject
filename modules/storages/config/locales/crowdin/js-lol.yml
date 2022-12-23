@@ -5,8 +5,8 @@ lol:
       link_files_in_storage: "crwdns823088:0%{storageType}crwdne823088:0"
       link_existing_files: "crwdns836442:0crwdne836442:0"
       upload_files: "crwdns838827:0crwdne838827:0"
-      drop_files: >
-        crwdns842639:0%{storageType}crwdne842639:0
+      drop_files: "crwdns843201:0%{name}crwdne843201:0"
+      drop_or_click_files: "crwdns843203:0%{name}crwdne843203:0"
       login: "crwdns823090:0%{storageType}crwdne823090:0"
       login_to: "crwdns823092:0%{storageType}crwdne823092:0"
       no_connection: "crwdns823094:0%{storageType}crwdne823094:0"

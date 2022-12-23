@@ -474,8 +474,8 @@ pt:
     label_custom_queries: "Privado"
     label_columns: "Colunas"
     label_attachments: Anexos
-    label_drop_files: Solte os arquivos aqui
-    label_drop_files_hint: ou clique para adicionar arquivos
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Você não pode enviar pastas como anexo. Por favor, selecione arquivos individuais.
     label_add_attachments: "Adicionar anexos"
     label_formattable_attachment_hint: "Anexe e vincule arquivos soltando neste campo ou colando da área de transferência."

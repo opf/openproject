@@ -5,8 +5,8 @@ de:
       link_files_in_storage: "Verknüpfen Sie Dateien in %{storageType}"
       link_existing_files: "Vorhandene Dateien verknüpfen"
       upload_files: "Dateien hochladen"
-      drop_files: >
-        Drop files here to upload them to %{storageType}.
+      drop_files: "Drop files here to upload them to %{name}."
+      drop_or_click_files: "Drop files here or click to upload them to %{name}."
       login: "%{storageType} Login"
       login_to: "Bei %{storageType} anmelden"
       no_connection: "Keine %{storageType} Verbindung"

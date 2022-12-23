@@ -474,8 +474,8 @@ ru:
     label_custom_queries: "Приватный"
     label_columns: "Столбцы"
     label_attachments: Вложения
-    label_drop_files: Перетащите файлы сюда
-    label_drop_files_hint: или кликните для добавления файлов
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Вы не можете загружать папки как вложение. Пожалуйста, выберите один файл.
     label_add_attachments: "Добавить вложения"
     label_formattable_attachment_hint: "Прикрепить и связать файлы, перетащив их на это поле, или вставив их из буфера обмена."

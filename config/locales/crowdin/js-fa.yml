@@ -475,8 +475,8 @@ fa:
     label_custom_queries: "Private"
     label_columns: "ستون‌ها"
     label_attachments: Attachments
-    label_drop_files: پرونده را اینجا رها کنید
-    label_drop_files_hint: یا برای افزودن فابل کلیک کنید
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: لطفا یک فایل انتخاب کنید. شما نمیتوانید یک فولدر را ارسال کنید.
     label_add_attachments: "افزودن پیوست ها"
     label_formattable_attachment_hint: "اتصال یا افزودن فایل با رها کردن آن بر روی این فیلد، یا انتقال از clipboard."

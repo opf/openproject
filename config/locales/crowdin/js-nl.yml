@@ -475,8 +475,8 @@ nl:
     label_custom_queries: "Privé"
     label_columns: "Kolommen"
     label_attachments: Bijlagen
-    label_drop_files: Bestanden hier neerzetten
-    label_drop_files_hint: of klik om bestanden toe te voegen
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: U kunt geen mappen uploaden als bijlage. Selecteer a. u. b. enkele bestanden.
     label_add_attachments: "Bijlagen toevoegen"
     label_formattable_attachment_hint: "Hecht en link bestanden door deze in dit veld te slepen, of plak deze vanuit het klembord."

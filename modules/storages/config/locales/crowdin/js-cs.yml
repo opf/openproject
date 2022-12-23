@@ -5,8 +5,8 @@ cs:
       link_files_in_storage: "Prolinkovat soubory v"
       link_existing_files: "Link existing files"
       upload_files: "Upload files"
-      drop_files: >
-        Drop files here to upload them to %{storageType}.
+      drop_files: "Drop files here to upload them to %{name}."
+      drop_or_click_files: "Drop files here or click to upload them to %{name}."
       login: "%{storageType} přihlášení"
       login_to: "Přihlásit se k %{storageType}"
       no_connection: "Žádné připojení %{storageType}"

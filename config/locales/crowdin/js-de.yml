@@ -474,8 +474,8 @@ de:
     label_custom_queries: "Privat"
     label_columns: "Spalten"
     label_attachments: Anhänge
-    label_drop_files: Dateien hier ablegen
-    label_drop_files_hint: oder klicken Sie, um Dateien hinzuzufügen
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Ordner können nicht als Anhänge hinzugefügt werden. Bitte wählen Sie einzelne Dateien aus.
     label_add_attachments: "Anhänge hinzufügen"
     label_formattable_attachment_hint: "Ziehen Sie Dateien in dieses Feld hinein oder fügen Sie sie aus der Zwischenablage ein, um sie Hinzuzufügen und zu Verlinken."
