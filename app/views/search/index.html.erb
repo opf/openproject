@@ -55,14 +55,12 @@ See COPYRIGHT and LICENSE files for more details.
           <% event_type = e.event_type == 'reply' ? 'forums' : event_type %>
           <%= icon_wrapper("icon-context icon-#{event_type}", e.event_name) %>
 
-          <% if e.project != @project %>
-            <span class="project"><%= e.project %></span>
-            <span> - </span>
-          <% end %>
-
-          <%= link_to highlight_tokens(truncate(e.event_title, escape: false, length: 255), @tokens), with_notes_anchor(e, @tokens) %>
+          <%= link_to highlight_tokens(truncate(e.event_title, escape: false, length: 255), @tokens, text_on_not_found: true), with_notes_anchor(e, @tokens) %>
         </dt>
         <dd>
+          <div class="search-breadcrumb -show">
+            <%= breadcrumb_list(*breadcrumb_from_event(e)) %>
+          </div>
           <span class="description"><%= highlight_tokens_in_event(e, @tokens) %></span>
           <span class="author"><%= format_time(e.event_datetime) %></span>
         </dd>

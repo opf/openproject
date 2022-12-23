@@ -42,7 +42,7 @@ class WikiPage < ApplicationRecord
               adapter: OpenProject::ActsAsUrl::Adapter::OpActiveRecord # use a custom adapter able to handle edge cases
 
   acts_as_watchable
-  acts_as_event title: Proc.new { |o| "#{Wiki.model_name.human}: #{o.title}" },
+  acts_as_event title: Proc.new { |o| o.title },
                 description: :text,
                 url: Proc.new { |o| { controller: '/wiki', action: 'show', project_id: o.wiki.project, id: o.title } }
 

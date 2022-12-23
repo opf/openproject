@@ -99,7 +99,7 @@ class Project < ApplicationRecord
   acts_as_journalized
 
   # Necessary for acts_as_searchable which depends on the event_datetime method for sorting
-  acts_as_event title: Proc.new { |o| "#{Project.model_name.human}: #{o.name}" },
+  acts_as_event title: Proc.new { |o| o.name },
                 url: Proc.new { |o| { controller: 'overviews/overviews', action: 'show', project_id: o } },
                 author: nil,
                 datetime: :created_at
