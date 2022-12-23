@@ -35,6 +35,12 @@ Rails.application.reloader.to_prepare do
                      global: true,
                      contract_actions: { projects: %i[create] }
 
+      map.permission :archive_project,
+                     {
+                       'projects/archive': %i[create]
+                     },
+                     require: :member
+
       map.permission :create_backup,
                      {
                        admin: %i[index],

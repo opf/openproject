@@ -28,7 +28,8 @@
 
 class Projects::ArchiveController < ApplicationController
   before_action :find_project_by_project_id
-  before_action :require_admin
+  before_action :authorize, only: [:create]
+  before_action :require_admin, only: [:destroy]
 
   def create
     change_status_action(:archive)

@@ -2,7 +2,7 @@ shared_context 'ModelContract shared context' do # rubocop:disable RSpec/Context
   def expect_contract_valid
     expect(contract.validate)
       .to be(true),
-          "Contract is invalid with the following errors: #{contract.errors.details}"
+          "Expected contract to be valid. Got invalid contract with the following errors: #{contract.errors.details}"
   end
 
   def expect_contract_invalid(errors = {})

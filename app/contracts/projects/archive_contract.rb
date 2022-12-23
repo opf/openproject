@@ -28,12 +28,35 @@
 
 module Projects
   class ArchiveContract < ModelContract
-    include RequiresAdminGuard
     include Projects::Archiver
 
     validate :validate_no_foreign_wp_references
+    validate :validate_has_archive_project_permission
+    validate :validate_has_archive_project_permission
 
     protected
+
+    def validate_has_archive_project_permission
+      validate_can_archive_project
+      validate_can_archive_subprojects
+    end
+
+    def validate_can_archive_project
+      return if user.allowed_to?(:archive_project, model)
+
+      errors.add :base, :error_unauthorized
+    end
+
+    def validate_can_archive_subprojects
+      return if errors.any?
+
+      subprojects_with_missing_permission = model.descendants.reject do |subproject|
+        user.allowed_to?(:archive_project, subproject)
+      end
+      if subprojects_with_missing_permission.any?
+        errors.add :base, :archive_permission_missing_on_subprojects
+      end
+    end
 
     def validate_model?
       false

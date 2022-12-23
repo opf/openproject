@@ -110,4 +110,47 @@ describe ProjectsHelper, type: :helper do
         .to eql(((('Abcd ' * 5) + "\n") * 10)[0..-2] + '...')
     end
   end
+
+  describe '#project_more_menu_items' do
+    shared_let(:project) { create(:project) }
+    shared_let(:current_user) { create(:user) }
+
+    subject(:menu) do
+      items = project_more_menu_items(project)
+      # each item is a [label, href, **link_to_options]
+      items.pluck(0)
+    end
+
+    before do
+      allow(User).to receive(:current).and_return(current_user)
+    end
+
+    context 'when current user is admin' do
+      before do
+        current_user.update(admin: true)
+      end
+
+      it { is_expected.to include(t(:button_archive)) }
+    end
+
+    context 'when current user has archive_project permission' do
+      before do
+        create(:member, user: current_user, project:, roles: [build(:role, permissions: [:archive_project])])
+      end
+
+      it { is_expected.to include(t(:button_archive)) }
+    end
+
+    context 'when current user does not have archive_project permission' do
+      it { is_expected.not_to include(t(:button_archive)) }
+    end
+
+    context 'when project is archived' do
+      before do
+        project.update(active: false)
+      end
+
+      it { is_expected.not_to include(t(:button_archive)) }
+    end
+  end
 end
