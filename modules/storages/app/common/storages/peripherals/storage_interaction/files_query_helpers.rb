@@ -26,19 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  module StorageErrorHelper
-    def raise_error(error)
-      Rails.logger.error(error)
+module Storages::Peripherals::StorageInteraction
+  module FilesQueryHelpers
+    def files_query(storage, user)
+      Storages::Peripherals::StorageRequests
+        .new(storage:)
+        .files_query(user:)
+    end
 
-      case error.code
-      when :not_found
-        raise API::Errors::NotFound.new
-      when :bad_request
-        raise API::Errors::BadRequest.new("Malformed body.")
-      else
-        raise API::Errors::InternalError.new
-      end
+    def execute_files_query(parent)
+      ->(query) { query.call(parent) }
     end
   end
 end

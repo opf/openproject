@@ -26,19 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  module StorageErrorHelper
-    def raise_error(error)
-      Rails.logger.error(error)
+module Storages::Peripherals::StorageInteraction
+  module UploadLinkQueryHelpers
+    using Storages::Peripherals::ServiceResultRefinements
 
-      case error.code
-      when :not_found
-        raise API::Errors::NotFound.new
-      when :bad_request
-        raise API::Errors::BadRequest.new("Malformed body.")
+    def validate_request_body(body)
+      case body.transform_keys(&:to_sym)
+      in { projectId: project_id, fileName: file_name, parent: parent }
+        authorize(:manage_file_links, context: Project.find(project_id))
+        ServiceResult.success(result: { fileName: file_name, parent: }.transform_keys(&:to_s))
       else
-        raise API::Errors::InternalError.new
+        ServiceResult.failure(errors: :bad_request)
       end
+    end
+
+    def upload_link_query(storage, user)
+      Storages::Peripherals::StorageRequests
+        .new(storage:)
+        .upload_link_query(
+          user:,
+          finalize_url: nil # ToDo: api_v3_paths.finalize_upload(@storage.id)
+        )
+    end
+
+    def execute_upload_link_query(request_body)
+      ->(query) { validate_request_body(request_body) >> query }
     end
   end
 end
