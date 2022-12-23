@@ -132,12 +132,23 @@ describe Settings::WorkingDaysUpdateService do
           context 'when deleting and re-creating the duplicate non-working day' do
             let(:non_working_days_params) do
               [
-                existing_nwd.slice(:id, :name, :date).merge('_destroy' => true),
-                existing_nwd.slice(:name, :date)
+                nwd_to_delete.slice(:id, :name, :date).merge('_destroy' => true),
+                nwd_to_delete.slice(:name, :date)
               ]
             end
 
             include_examples 'successful call'
+
+            it 'persists (create/delete) the non working days' do
+              expect { subject }.not_to change(NonWorkingDay, :count)
+              expect { nwd_to_delete.reload }.to raise_error(ActiveRecord::RecordNotFound)
+
+              # The nwd_to_delete is being re-created after the deletion.
+              expect(NonWorkingDay.all).to contain_exactly(
+                have_attributes(existing_nwd.slice(:name, :date)),
+                have_attributes(nwd_to_delete.slice(:name, :date))
+              )
+            end
           end
         end
       end
