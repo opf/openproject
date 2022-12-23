@@ -390,6 +390,7 @@ en:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: There are currently no wiki pages.
+    print_hint: This will print the content of this wiki page without any navigation bars.
 
     index:
       no_results_content_text: Add a new wiki page
