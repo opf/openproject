@@ -27,14 +27,23 @@
 #++
 
 module Projects
-  class ArchiveContract < ModelContract
-    include Projects::Archiver
-
+  class ArchiveContract < ::BaseContract
     validate :validate_no_foreign_wp_references
-    validate :validate_has_archive_project_permission
     validate :validate_has_archive_project_permission
 
     protected
+
+    # Check that there is no wp of a non descendant project that is assigned
+    # to one of the project or descendant versions
+    def validate_no_foreign_wp_references
+      version_ids = model.rolled_up_versions.select(:id)
+
+      exists = WorkPackage
+                 .where.not(project_id: model.self_and_descendants.select(:id))
+                 .exists?(version_id: version_ids)
+
+      errors.add :base, :foreign_wps_reference_version if exists
+    end
 
     def validate_has_archive_project_permission
       validate_can_archive_project
@@ -56,10 +65,6 @@ module Projects
       if subprojects_with_missing_permission.any?
         errors.add :base, :archive_permission_missing_on_subprojects
       end
-    end
-
-    def validate_model?
-      false
     end
   end
 end

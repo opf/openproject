@@ -30,7 +30,6 @@ module Projects
   class BaseContract < ::ModelContract
     include AssignableValuesContract
     include AssignableCustomFieldValues
-    include Projects::Archiver
 
     attribute :name
     attribute :identifier
@@ -131,14 +130,11 @@ module Projects
     def validate_changing_active
       return unless model.active_changed?
 
-      RequiresAdminGuard.validate_admin_only(user, errors)
+      contract_klass = model.being_archived? ? ArchiveContract : UnarchiveContract
+      contract = contract_klass.new(model, user)
+      contract.validate
 
-      if model.active?
-        # switched to active -> unarchiving
-        validate_all_ancestors_active
-      else
-        validate_no_foreign_wp_references
-      end
+      errors.merge!(contract.errors)
     end
   end
 end

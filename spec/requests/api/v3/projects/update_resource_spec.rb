@@ -268,6 +268,12 @@ describe 'API v3 Project resource update', type: :request, content_type: :json d
   end
 
   context 'when deactivating (archiving) the project' do
+    let(:body) do
+      {
+        active: false
+      }
+    end
+
     context 'for an admin' do
       let(:current_user) do
         create(:admin)
@@ -279,12 +285,6 @@ describe 'API v3 Project resource update', type: :request, content_type: :json d
       end
       let(:child_project) do
         create(:project)
-      end
-
-      let(:body) do
-        {
-          active: false
-        }
       end
 
       it 'responds with 200 OK' do
@@ -304,12 +304,6 @@ describe 'API v3 Project resource update', type: :request, content_type: :json d
     end
 
     context 'for a non admin' do
-      let(:body) do
-        {
-          active: false
-        }
-      end
-
       it 'responds with 403' do
         expect(last_response.status)
           .to be(403)

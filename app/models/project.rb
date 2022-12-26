@@ -162,6 +162,10 @@ class Project < ApplicationRecord
     !active?
   end
 
+  def being_archived?
+    (active == false) && (active_was == true)
+  end
+
   def copy_allowed?
     User.current.allowed_to?(:copy_projects, self)
   end
