@@ -403,9 +403,9 @@ class Project < ApplicationRecord
   end
 
   def allowed_actions
-    @actions_allowed ||= allowed_permissions
-                           .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
-                           .flatten
+    @allowed_actions ||= allowed_permissions.flat_map do |permission|
+      OpenProject::AccessControl.allowed_actions(permission)
+    end
   end
 
   def remove_white_spaces_from_project_name
