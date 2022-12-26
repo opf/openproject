@@ -234,7 +234,7 @@ describe 'API v3 storages resource', content_type: :json, webmock: true do
 
       context 'if user does not belong to a project using the given storage' do
         let(:current_user) do
-          create(:user, member_with_permissions: permissions)
+          create(:user)
         end
 
         it_behaves_like 'not found'
@@ -274,7 +274,7 @@ describe 'API v3 storages resource', content_type: :json, webmock: true do
 
       context 'if user does not belong to a project using the given storage' do
         let(:current_user) do
-          create(:user, member_with_permissions: permissions)
+          create(:user)
         end
 
         it_behaves_like 'not found'
@@ -304,7 +304,7 @@ describe 'API v3 storages resource', content_type: :json, webmock: true do
 
       context 'if user does not belong to a project using the given storage' do
         let(:current_user) do
-          create(:user, member_with_permissions: permissions)
+          create(:user)
         end
 
         it_behaves_like 'not found'

@@ -38,10 +38,17 @@ FactoryBot.define do
       global_permission { nil }
     end
 
-    # necessary as we have created_on instead of created_at for which factory girl would
-    # provide values automatically
-    created_at { Time.now }
-    updated_at { Time.now }
+    # prevent forgetting :member_in_project(s) when using :member_through_role
+    # or :member_with_permissions for a better DX
+    after(:build, :create, :stub) do |principal, evaluator|
+      next if %i[member_in_project member_in_projects].any? { |attr| evaluator.overrides?(attr) }
+
+      unusable_attribute = %i[member_through_role member_with_permissions].find { |attr| evaluator.send(attr).present? }
+      next unless unusable_attribute
+
+      raise ArgumentError, "Cannot use :#{unusable_attribute} without :member_in_project or :member_in_projects " \
+                           "for #{principal.class} factory"
+    end
 
     callback(:after_build) do |_principal, evaluator|
       is_build_strategy = evaluator.instance_eval { @build_strategy.is_a? FactoryBot::Strategy::Build }
