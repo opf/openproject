@@ -35,6 +35,9 @@ module OpenProject
                   :project_module,
                   :dependencies
 
+      # @param public [Boolean] when true, the permission is granted to anybody
+      # having at least one role in a project, regardless of the role's
+      # permissions.
       def initialize(name,
                      hash,
                      public: false,

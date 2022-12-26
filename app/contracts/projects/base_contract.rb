@@ -89,9 +89,7 @@ module Projects
 
     def validate_user_allowed_to_manage
       with_unchanged_id do
-        with_active_assumed do
-          errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
-        end
+        errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
       end
     end
 
@@ -116,15 +114,6 @@ module Projects
       yield
     ensure
       model.id = project_id
-    end
-
-    def with_active_assumed
-      active = model.active
-      model.active = true
-
-      yield
-    ensure
-      model.active = active
     end
 
     def validate_changing_active

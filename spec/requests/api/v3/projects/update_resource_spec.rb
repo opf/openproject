@@ -41,10 +41,6 @@ describe 'API v3 Project resource update', type: :request, content_type: :json d
   let(:project_status) do
     build(:project_status, project: nil)
   end
-  let(:other_project) do
-    create(:project, public: false)
-  end
-  let(:role) { create(:role) }
   let(:custom_field) do
     create(:text_project_custom_field)
   end
@@ -267,7 +263,7 @@ describe 'API v3 Project resource update', type: :request, content_type: :json d
     end
   end
 
-  context 'when deactivating (archiving) the project' do
+  context 'when archiving the project (change active from true to false)' do
     let(:body) do
       {
         active: false
@@ -289,7 +285,7 @@ describe 'API v3 Project resource update', type: :request, content_type: :json d
 
       it 'responds with 200 OK' do
         expect(last_response.status)
-          .to be(200)
+          .to eq(200)
       end
 
       it 'archives the project' do
@@ -303,15 +299,175 @@ describe 'API v3 Project resource update', type: :request, content_type: :json d
       end
     end
 
-    context 'for a non admin' do
+    context 'for a user with only edit_project permission' do
+      let(:permissions) { [:edit_project] }
+
       it 'responds with 403' do
         expect(last_response.status)
-          .to be(403)
+          .to eq(403)
       end
 
       it 'does not alter the project' do
         expect(project.reload.active)
           .to be_truthy
+      end
+    end
+
+    context 'for a user with only archive_project permission' do
+      let(:permissions) { [:archive_project] }
+
+      it 'responds with 200 OK' do
+        expect(last_response.status)
+          .to eq(200)
+      end
+
+      it 'archives the project' do
+        expect(project.reload.active)
+          .to be_falsey
+      end
+    end
+
+    context 'for a user missing archive_project permission on child project' do
+      let(:permissions) { [:archive_project] }
+      let(:project) do
+        create(:project).tap do |p|
+          p.children << child_project
+        end
+      end
+      let(:child_project) { create(:project) }
+
+      it 'responds with 422 (and not 403?)' do
+        expect(last_response.status)
+          .to eq(422)
+      end
+
+      it 'does not alter the project' do
+        expect(project.reload.active)
+          .to be_truthy
+      end
+    end
+  end
+
+  context 'when setting a custom field and archiving the project' do
+    let(:body) do
+      {
+        active: false,
+        "customField#{custom_field.id}": {
+          raw: "CF text"
+        }
+      }
+    end
+
+    context 'for an admin' do
+      let(:current_user) do
+        create(:admin)
+      end
+      let(:project) do
+        create(:project).tap do |p|
+          p.children << child_project
+        end
+      end
+      let(:child_project) do
+        create(:project)
+      end
+
+      it 'responds with 200 OK' do
+        expect(last_response.status)
+          .to eq(200)
+      end
+
+      it 'sets the cf value' do
+        expect(project.reload.send("custom_field_#{custom_field.id}"))
+          .to eql("CF text")
+      end
+
+      it 'archives the project' do
+        expect(project.reload.active)
+          .to be_falsey
+      end
+
+      it 'archives the child project' do
+        expect(child_project.reload.active)
+          .to be_falsey
+      end
+    end
+
+    context 'for a user with only edit_project permission' do
+      let(:permissions) { [:edit_project] }
+
+      it 'responds with 403' do
+        expect(last_response.status)
+          .to eq(403)
+      end
+    end
+
+    context 'for a user with only archive_project permission' do
+      let(:permissions) { [:archive_project] }
+
+      it 'responds with 403' do
+        expect(last_response.status)
+          .to eq(403)
+      end
+    end
+
+    context 'for a user with both archive_project and edit_project permissions' do
+      let(:permissions) { %i[archive_project edit_project] }
+
+      it 'responds with 200 OK' do
+        expect(last_response.status)
+          .to eq(200)
+      end
+    end
+  end
+
+  context 'when unarchiving the project (change active from false to true)' do
+    let(:project_active) { false }
+    let(:body) do
+      {
+        active: true
+      }
+    end
+
+    context 'for an admin' do
+      let(:current_user) do
+        create(:admin)
+      end
+      let(:project) do
+        create(:project).tap do |p|
+          p.children << child_project
+        end
+      end
+      let(:child_project) do
+        create(:project)
+      end
+
+      it 'responds with 200 OK' do
+        expect(last_response.status)
+          .to eq(200)
+      end
+
+      it 'unarchives the project' do
+        expect(project.reload)
+          .to be_active
+      end
+
+      it 'unarchives the child project' do
+        expect(child_project.reload)
+          .to be_active
+      end
+    end
+
+    context 'for a non-admin user, even with both archive_project and edit_project permissions' do
+      let(:permissions) { %i[archive_project edit_project] }
+
+      it 'responds with 404' do
+        expect(last_response.status)
+          .to eq(404)
+      end
+
+      it 'does not alter the project' do
+        expect(project.reload)
+          .not_to be_active
       end
     end
   end
