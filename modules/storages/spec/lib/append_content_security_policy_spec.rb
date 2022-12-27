@@ -31,69 +31,83 @@ require_relative '../spec_helper'
 # These specs mainly check that error messages from a sub-service
 # (about unsafe hosts with HTTP protocol) are passed to the main form.
 describe OpenProject::Storages::AppendContentSecurityPolicy do
-  let(:permissions) { %i(manage_file_links) }
-  let(:project) { create(:project) }
-  let(:current_user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
+  shared_let(:admin) { create(:admin) }
+  shared_let(:project) { create(:project) }
   let(:storage) { create(:storage) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
+  let(:controller) { instance_double(ApplicationController) }
 
   before do
-    current_user
     storage
     project_storage
 
-    login_as current_user
+    allow(controller).to receive(:append_content_security_policy_directives)
   end
 
-  shared_examples 'appends hosts to CSP' do
-    let(:controller) { instance_double(ApplicationController) }
-    let(:context) { { controller: } }
+  def trigger_application_controller_before_action_hook
+    hook_listener = described_class.instance
+    hook_listener.application_controller_before_action(controller:)
+  end
 
-    before do
-      allow(controller).to receive(:append_content_security_policy_directives)
+  shared_examples 'appends storage host to CSP' do
+    it 'adds CSP directive to allow connection to storage host' do
+      trigger_application_controller_before_action_hook
 
-      instance = described_class.instance
-      instance.application_controller_before_action(context)
-    end
-
-    it 'secure_header helper function for appending CSP is called with correct storage hosts' do
       expect(controller).to have_received(:append_content_security_policy_directives)
-                              .with({ connect_src: expected_hosts })
+                              .with({ connect_src: [storage.host] })
     end
   end
 
-  context 'on happy path' do
-    let(:expected_hosts) { [storage.host] }
+  shared_examples 'does not change CSP' do
+    it 'does not change CSP directives' do
+      trigger_application_controller_before_action_hook
 
-    it_behaves_like 'appends hosts to CSP'
+      expect(controller).not_to have_received(:append_content_security_policy_directives)
+    end
   end
 
-  context 'when current user is admin without being a member of any project' do
-    let(:current_user) { create(:admin) }
-    let(:expected_hosts) { [storage.host] }
+  context 'with a project with an active storage' do
+    context 'when current user is an admin without being a member of any project' do
+      current_user { admin }
 
-    it_behaves_like 'appends hosts to CSP'
+      include_examples 'appends storage host to CSP'
+    end
+
+    context 'when current user is a member of the project with permission to manage file links' do
+      current_user { create(:user, member_in_project: project, member_with_permissions: %i[manage_file_links]) }
+
+      include_examples 'appends storage host to CSP'
+    end
+
+    context 'when current user is a member of the project without permission to manage file links' do
+      current_user { create(:user, member_in_project: project, member_with_permissions: []) }
+
+      include_examples 'does not change CSP'
+    end
+
+    context 'when the project is archived' do
+      current_user { admin }
+
+      before do
+        project.update(active: false)
+      end
+
+      include_examples 'does not change CSP'
+    end
   end
 
-  context 'without correct permission' do
-    let(:permissions) { [] }
-    let(:expected_hosts) { [] }
-
-    it_behaves_like 'appends hosts to CSP'
-  end
-
-  context 'without the storage being active in a project' do
+  context 'with a project without an active storage' do
+    current_user { admin }
     let(:project_storage) { nil }
-    let(:expected_hosts) { [] }
 
-    it_behaves_like 'appends hosts to CSP'
+    include_examples 'does not change CSP'
   end
 
-  context 'without the storage' do
+  context 'with a project without any storages configured' do
+    current_user { admin }
     let(:project_storage) { nil }
     let(:storage) { nil }
-    let(:expected_hosts) { [] }
 
-    it_behaves_like 'appends hosts to CSP'
+    include_examples 'does not change CSP'
   end
 end

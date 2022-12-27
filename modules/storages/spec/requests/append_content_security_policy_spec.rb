@@ -30,31 +30,24 @@ require 'spec_helper'
 require_module_spec_helper
 
 describe 'Appendix of default CSP for external file storage hosts' do
-  let(:permissions) { %i(manage_file_links) }
-  let(:project) { create(:project) }
-  let(:current_user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
-  let(:storage) { create(:storage) }
-  let(:project_storage) { create(:project_storage, project:, storage:) }
-
-  before do
-    storage
-    project_storage
-  end
+  shared_let(:project) { create(:project) }
+  shared_let(:storage) { create(:storage) }
+  shared_let(:project_storage) { create(:project_storage, project:, storage:) }
 
   describe 'GET /' do
-    let(:path) { '/' }
-
     context 'when logged in' do
+      current_user { create(:user, member_in_project: project, member_with_permissions: %i[manage_file_links]) }
+
       it 'appends to storage host to the connect-src CSP' do
-        login_as current_user
-        get path
+        get '/'
+
         expect(last_response.headers['Content-Security-Policy']).to match /#{storage.host}/
       end
     end
 
     context 'when not logged in' do
       it 'does not append the storage host to connect-src CSP' do
-        get path
+        get '/'
 
         expect(last_response.headers['Content-Security-Policy']).not_to match /#{storage.host}/
       end

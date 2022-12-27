@@ -25,22 +25,31 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class ::OpenProject::Storages::AppendContentSecurityPolicy < OpenProject::Hook::Listener
-  # OpenProject's front-end needs to allow the browser to connect to external file servers for direct file uploads.
-  # Therefore it needs to extend its content security policy (CSP) `connect-src` by the hostnames of all servers that
-  # the current user is allowed to upload files. That is the case for all storages that activated in at least one active
-  # project in which the user is member and has the permission to `manage_file_links`.
-  # The allowed values can be different for every user and can change every time a store gets activated, removed, a role
-  # changes, or even project memberships. Caching it, without accessing the DB seems to be pretty impossible. So we
-  # decided to not do it for now.
-  # We extend the CSP for all HTML requests as work packages can pop in many places of OpenProject, and we want to be
-  # able to upload in all those places (work packages module, BCF module, notification center, boards, ...).
+  # OpenProject's front-end needs to allow the browser to connect to external
+  # file servers for direct file uploads. Therefore it needs to extend its
+  # Content Security Policy (CSP) `connect-src` with the hostnames of all
+  # servers that the current user is allowed to upload files to. That is all
+  # storages activated in at least one active project for which the user has the
+  # `manage_file_links` permission.
+  #
+  # The allowed values can be different for each user and can change on store
+  # activations, store removals, role changes, and even project membership
+  # changes. Caching it without accessing the database seems almost impossible,
+  # so we decided to not do it for now.
+  #
+  # The CSP is extended for all HTML requests as work packages can pop in many
+  # places of OpenProject, and we want to be able to upload in all those places
+  # (work packages module, BCF module, notification center, boards, ...).
   def application_controller_before_action(context)
     projects_of_user = Project.allowed_to(User.current, :manage_file_links).select(:id)
     projects_with_permission = ::Storages::ProjectStorage.where(project_id: projects_of_user)
                                                          .select(:storage_id)
     hosts = ::Storages::Storage.where(id: projects_with_permission)
                                .pluck(:host)
+
+    return if hosts.empty?
 
     # secure_headers gem provides this helper method to append to the current content security policy
     controller = context[:controller]
