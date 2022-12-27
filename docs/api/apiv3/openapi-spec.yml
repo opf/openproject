@@ -650,6 +650,8 @@ components:
       "$ref": "./components/schemas/membership_update_form.yml"
     NewsModel:
       "$ref": "./components/schemas/news_model.yml"
+    NonWorkingDayCollectionModel:
+      "$ref": "./components/schemas/non_working_day_collection_model.yml"
     NonWorkingDayModel:
       "$ref": "./components/schemas/non_working_day_model.yml"
     NotificationCollectionModel:

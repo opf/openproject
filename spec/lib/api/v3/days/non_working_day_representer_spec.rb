@@ -35,13 +35,16 @@ describe ::API::V3::Days::NonWorkingDayRepresenter do
   describe '#to_json' do
     subject(:generated) { representer.to_json }
 
-    it 'has _type: NonWorkingDay' do
-      expect(subject).to be_json_eql('NonWorkingDay'.to_json).at_path('_type')
+    it_behaves_like 'property', :_type do
+      let(:value) { 'NonWorkingDay' }
     end
 
-    it 'has name string property' do
-      expect(subject).to have_json_type(String).at_path('name')
-      expect(subject).to be_json_eql(non_working_day.name.to_json).at_path('name')
+    it_behaves_like 'property', :id do
+      let(:value) { non_working_day.id }
+    end
+
+    it_behaves_like 'property', :name do
+      let(:value) { non_working_day.name }
     end
 
     it_behaves_like 'has ISO 8601 date only' do

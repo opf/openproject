@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,29 +24,36 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
 
-module API::V3::Days
-  class NonWorkingDaysAPI < ::API::OpenProjectAPI
-    helpers ::API::Utilities::UrlPropsParsingHelper
+require 'spec_helper'
+require 'services/work_packages/shared/shared_examples_days'
 
-    resources :non_working do
-      get &::API::V3::Utilities::Endpoints::Index.new(
-        api_name: "Day",
-        model: NonWorkingDay,
-        render_representer: NonWorkingDayCollectionRepresenter,
-        self_path: -> { api_v3_paths.days_non_working }
-      ).mount
+describe API::V3::Days::NonWorkingDaysAPI,
+         'index',
+         content_type: :json do
+  include API::V3::Utilities::PathHelper
 
-      route_param :date, type: Date, desc: 'NonWorkingDay DATE' do
-        after_validation do
-          @non_working_day = NonWorkingDay.find_by!(date: declared_params[:date])
-        end
+  let(:parsed_response) { JSON.parse(last_response.body) }
+  let(:filters) { [] }
 
-        get &::API::V3::Utilities::Endpoints::Show.new(model: NonWorkingDay,
-                                                       render_representer: NonWorkingDayRepresenter)
-                                                  .mount
+  current_user { user }
+
+  before do
+    get api_v3_paths.path_for :days_non_working, filters:
+  end
+
+  context 'for an admin user', :non_working_days_from_this_and_next_year do
+    let(:user) { build(:admin) }
+
+    it_behaves_like 'API V3 collection response', 2, 2, 'NonWorkingDay'
+
+    context 'when filtering by date' do
+      let(:filters) do
+        [{ date: { operator: '<>d',
+                   values: [first_of_may.date.beginning_of_month.iso8601, new_year_day.date.iso8601] } }]
       end
+
+      it_behaves_like 'API V3 collection response', 3, 3, 'NonWorkingDay'
     end
   end
 end

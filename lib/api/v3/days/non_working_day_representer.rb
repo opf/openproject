@@ -31,6 +31,7 @@ module API::V3::Days
     include ::API::Decorators::DateProperty
     include ::API::Caching::CachedRepresenter
 
+    property :id
     property :name
     date_property :date
 

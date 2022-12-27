@@ -26,27 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::Days
-  class NonWorkingDaysAPI < ::API::OpenProjectAPI
-    helpers ::API::Utilities::UrlPropsParsingHelper
+require 'spec_helper'
 
-    resources :non_working do
-      get &::API::V3::Utilities::Endpoints::Index.new(
-        api_name: "Day",
-        model: NonWorkingDay,
-        render_representer: NonWorkingDayCollectionRepresenter,
-        self_path: -> { api_v3_paths.days_non_working }
-      ).mount
+describe API::V3::Days::NonWorkingDayCollectionRepresenter do
+  let(:non_working_days) do
+    [
+      build(:non_working_day, date: Date.new(2022, 12, 27)),
+      build(:non_working_day, date: Date.new(2022, 12, 28)),
+      build(:non_working_day, date: Date.new(2022, 12, 29))
+    ]
+  end
+  let(:current_user) { instance_double(User, name: 'current_user') }
+  let(:representer) do
+    described_class.new(non_working_days,
+                        self_link: '/api/v3/self_link_untested',
+                        current_user:)
+  end
 
-      route_param :date, type: Date, desc: 'NonWorkingDay DATE' do
-        after_validation do
-          @non_working_day = NonWorkingDay.find_by!(date: declared_params[:date])
-        end
+  describe '#to_json' do
+    subject(:collection) { representer.to_json }
 
-        get &::API::V3::Utilities::Endpoints::Show.new(model: NonWorkingDay,
-                                                       render_representer: NonWorkingDayRepresenter)
-                                                  .mount
-      end
-    end
+    it_behaves_like 'unpaginated APIv3 collection', 3, 'self_link_untested', 'NonWorkingDay'
   end
 end

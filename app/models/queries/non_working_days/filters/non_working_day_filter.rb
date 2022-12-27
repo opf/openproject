@@ -26,27 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::Days
-  class NonWorkingDaysAPI < ::API::OpenProjectAPI
-    helpers ::API::Utilities::UrlPropsParsingHelper
+class Queries::NonWorkingDays::Filters::NonWorkingDayFilter < Queries::Filters::Base
+  self.model = NonWorkingDay
 
-    resources :non_working do
-      get &::API::V3::Utilities::Endpoints::Index.new(
-        api_name: "Day",
-        model: NonWorkingDay,
-        render_representer: NonWorkingDayCollectionRepresenter,
-        self_path: -> { api_v3_paths.days_non_working }
-      ).mount
-
-      route_param :date, type: Date, desc: 'NonWorkingDay DATE' do
-        after_validation do
-          @non_working_day = NonWorkingDay.find_by!(date: declared_params[:date])
-        end
-
-        get &::API::V3::Utilities::Endpoints::Show.new(model: NonWorkingDay,
-                                                       render_representer: NonWorkingDayRepresenter)
-                                                  .mount
-      end
-    end
+  def human_name
+    model.human_attribute_name(name)
   end
 end
