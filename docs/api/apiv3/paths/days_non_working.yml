@@ -21,8 +21,7 @@ get:
         endpoint. Currently supported filters are:
 
         + date: the inclusive date interval to scope days to look up. When
-          unspecified, default is from the beginning of current month to the end
-          of following month.
+          unspecified, default is from the beginning to the end of current year.
 
           Example: `{ "date": { "operator": "<>d", "values": ["2022-05-02","2022-05-26"] } }`
           would return days between May 5 and May 26 2022, inclusive.
