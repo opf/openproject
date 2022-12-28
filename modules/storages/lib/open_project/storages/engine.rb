@@ -93,7 +93,7 @@ module OpenProject::Storages
     # This hook is executed when the module is loaded.
     config.to_prepare do
       # Allow the browser to connect to external servers for direct file uploads.
-      AppendContentSecurityPolicy
+      AppendStoragesHostsToCspHook
 
       # We have a bunch of filters defined within the module. Here we register the filters.
       ::Queries::Register.register(::Query) do
