@@ -15,17 +15,17 @@ State management in complex frontend applications is a topic that has been heavi
 
 *State management in OpenProject frontend...*
 
-- is mainly controlled by `RxJs` and the reactivestates library
-- `State` and `InputState` are mostly syntactic sugar over RXJS `Subject` and `BehaviorSubject`
+- is mainly controlled by `RxJs` and the [reactivestates](https://github.com/ReactiveStates/reactivestates) library
+- `State` and `InputState` are mostly syntactic sugar over RxJS `Subject` and `BehaviorSubject`
 - States are used to hold and cache values with their values and non-values being observable
 
 
 
 ## InputState
 
-An `InputState` object is a wrapper around RXJS Behaviorsubject. It provides some syntactic sugar over it to inspect values and provide helpers to observe streams and fill in the underlying `Subject`.
+An `InputState` object is a wrapper around RxJS [`BehaviorSubject`](https://rxjs.dev/api/index/class/BehaviorSubject). It provides some syntactic sugar over it to inspect values and provide helpers to observe streams and fill in the underlying `Subject`.
 
-To create an InputState, you call `new InputState<Type>(initialValue:Type|undefined)` or use the helper method `input<Type>(initialValue?:Type)` which will fall back to the undefined value. You will then be able to inspect its value and contents.
+To create an `InputState`, call `new InputState<Type>(initialValue:Type|undefined)` or use the helper method `input<Type>(initialValue?:Type)` which will fall back to the undefined value. You will then be able to inspect its value and contents.
 
 ```typescript
 // An initially empty state
@@ -76,7 +76,7 @@ state.clearAndPutFromPromise(Promise.resolve('overridden value'));
 
 
 
-You can get an RXJS observable to the value stream with `state.values$()`:
+You can get an RxJS `Observable` to the value stream with `state.values$()`:
 
 ```typescript
 state
@@ -100,14 +100,14 @@ The `MultiInputState` is basically a map with a string key and an `InputState` a
 
 
 
-To create a MultiInputState, you can use the helper method `multiInput<Type>()` . To get an InputState member of this map, use the following:
+To create a `MultiInputState`, use the helper method `multiInput<Type>()` . To get an `InputState` member of this map, use the following:
 
 ```typescript
 export type FooType = { id:number };
 const multi = multiInput<FooType>();
 const state = multi.get('my identifier');
 state.putValue({ id: 1234 });
-               
+
 // Later on
 multi.get('my identifier').value // { id: 1324}
 ```
