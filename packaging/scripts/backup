@@ -44,11 +44,15 @@ else
   echo "* No Git repositories folder. Ignoring." >&2
 fi
 
-if [ -d "$ATTACHMENTS_STORAGE_PATH" ]; then
+# Use ATTACHMENTS_STORAGE_PATH value when OPENPROJECT_ATTACHMENTS__STORAGE__PATH is not set
+export OPENPROJECT_ATTACHMENTS__STORAGE__PATH=${OPENPROJECT_ATTACHMENTS__STORAGE__PATH:-$ATTACHMENTS_STORAGE_PATH}
+unset ATTACHMENTS_STORAGE_PATH
+
+if [ -d "$OPENPROJECT_ATTACHMENTS__STORAGE__PATH" ]; then
   dst="${TARGET}/attachments-${timestamp}.tar.gz"
   touch "$dst" && chmod 0640 "$dst"
   echo -n "* Generating attachments backup..." >&2
-  if tar czf "$dst" -C "${ATTACHMENTS_STORAGE_PATH}" . ; then
+  if tar czf "$dst" -C "${OPENPROJECT_ATTACHMENTS__STORAGE__PATH}" . ; then
     echo " done" >&2
     echo "$dst"
   else

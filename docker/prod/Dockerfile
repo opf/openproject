@@ -19,14 +19,14 @@ ENV PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 
 ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 ENV RAILS_ENV=production
-ENV RAILS_CACHE_STORE=memcache
 ENV RAILS_GROUPS=production
 ENV RAILS_LOG_TO_STDOUT=1
 ENV RAILS_SERVE_STATIC_FILES=1
-ENV OPENPROJECT_INSTALLATION__TYPE=docker
+ENV OPENPROJECT_ATTACHMENTS__STORAGE__PATH=$APP_DATA_PATH/files
 # Valid values are: standard,bim
 ENV OPENPROJECT_EDITION=standard
-ENV ATTACHMENTS_STORAGE_PATH=$APP_DATA_PATH/files
+ENV OPENPROJECT_INSTALLATION__TYPE=docker
+ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
 # Set a default key base, ensure to provide a secure value in production environments!
 ENV SECRET_KEY_BASE=OVERWRITE_ME
 

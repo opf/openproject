@@ -68,8 +68,8 @@ x-op-app: &app
   environment:
     OPENPROJECT_HTTPS: true
     # ... other configuration
-    RAILS_CACHE_STORE: "memcache"
     OPENPROJECT_CACHE__MEMCACHE__SERVER: "cache:11211"
+    OPENPROJECT_RAILS__CACHE__STORE: "memcache"
     OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
     DATABASE_URL: "${DATABASE_URL:-postgres://postgres:p4ssw0rd@db/openproject?pool=20&encoding=unicode&reconnect=true}"
     RAILS_MIN_THREADS: 4
@@ -79,7 +79,7 @@ x-op-app: &app
   volumes:
     - "${OPDATA:-opdata}:/var/openproject/assets"
 
-# configuration cut off at this point. 
+# configuration cut off at this point.
 # Please use the file at https://github.com/opf/openproject-deploy/blob/stable/12/compose/docker-compose.yml
 ```
 
@@ -116,7 +116,7 @@ x-op-app: &app
     OPENPROJECT_HTTPS: ${OPENPROJECT_HTTPS}
     # ... more environment variables
 
-# configuration cut off at this point. 
+# configuration cut off at this point.
 # Please use the file at https://github.com/opf/openproject-deploy/blob/stable/12/compose/docker-compose.yml
 ```
 
@@ -135,7 +135,7 @@ If you have a `docker-compose.override.yml` file created, it is also easy to dis
 To do that, add this section to the file:
 
 ```yaml
-services: 
+services:
   db:
     deploy:
       replicas: 0
@@ -205,7 +205,7 @@ To enable, set the configuration option:
 OPENPROJECT_SESSION__STORE="{ :active_record_store: { drop_old_sessions_on_login: true } }"
 ```
 
-**Delete old sessions for the same user when logging out** 
+**Delete old sessions for the same user when logging out**
 
 To disable, set the configuration option:
 
@@ -285,9 +285,9 @@ OPENPROJECT_GRAVATAR__FALLBACK__IMAGE="identicon"
 
 ### Attachments storage
 
-You can modify the folder that attachments are stored locally. Use the `attachments_storage_path` configuration variable for that. But ensure that you move the existing paths. To find out the current path on a packaged installation, use `openproject config:get ATTACHMENTS_STORAGE_PATH`.
+You can modify the folder where attachments are stored locally. Use the `attachments_storage_path` configuration variable for that. But ensure that you move the existing paths. To find out the current path on a packaged installation, use `openproject config:get OPENPROJECT_ATTACHMENTS__STORAGE__PATH`.
 
-To update the path, use `openproject config:set ATTACHMENTS_STORAGE_PATH="/path/to/new/folder"`. Ensure that this is writable by the `openproject` user. Afterwards issue a restart by `sudo openproject configure`
+To update the path, use `openproject config:set OPENPROJECT_ATTACHMENTS__STORAGE__PATH="/path/to/new/folder"`. Ensure that this is writable by the `openproject` user. Afterwards issue a restart by `sudo openproject configure`
 
 #### attachment storage type
 
@@ -369,7 +369,7 @@ OPENPROJECT_IMPRESSUM__LINK="https://impressum.example.com"
 
 ### hidden menu items admin menu
 
-You can disable specific menu items in the menu sidebar for each main menu (such as Administration and Projects). The configuration can be done through environment variables. You have to define one variable for each menu that shall be hidden. 
+You can disable specific menu items in the menu sidebar for each main menu (such as Administration and Projects). The configuration can be done through environment variables. You have to define one variable for each menu that shall be hidden.
 
 *default: {}*
 
