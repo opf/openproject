@@ -291,7 +291,7 @@ GEM
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.680.0)
+    aws-partitions (1.684.0)
     aws-sdk-core (3.168.4)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -392,7 +392,7 @@ GEM
     date_validator (0.12.0)
       activemodel (>= 3)
       activesupport (>= 3)
-    debug (1.7.0)
+    debug (1.7.1)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
     deckar01-task_list (2.3.2)
@@ -452,7 +452,7 @@ GEM
       nokogiri (>= 1.4.3)
     erbse (0.1.4)
       temple
-    erubi (1.11.0)
+    erubi (1.12.0)
     escape_utils (1.3.0)
     et-orbi (1.2.7)
       tzinfo
@@ -464,7 +464,7 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
-    faker (3.0.0)
+    faker (3.1.0)
       i18n (>= 1.8.11, < 2)
     faraday (1.10.2)
       faraday-em_http (~> 1.0)
@@ -563,7 +563,7 @@ GEM
     ice_cube (0.16.4)
     interception (0.5)
     io-console (0.6.0)
-    irb (1.6.1)
+    irb (1.6.2)
       reline (>= 0.3.0)
     iso8601 (0.13.0)
     jmespath (1.6.2)
@@ -587,8 +587,8 @@ GEM
       kramdown (~> 2.0)
     ladle (1.0.1)
       open4 (~> 1.0)
-    launchy (2.5.0)
-      addressable (~> 2.7)
+    launchy (2.5.2)
+      addressable (~> 2.8)
     lefthook (1.2.6)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
@@ -626,7 +626,7 @@ GEM
     mime-types-data (3.2022.0105)
     mini_magick (4.12.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.0)
+    mini_portile2 (2.8.1)
     minisyntax (0.2.5)
     minitest (5.16.3)
     msgpack (1.6.0)
@@ -637,7 +637,7 @@ GEM
     mustermann-grape (1.0.2)
       mustermann (>= 1.0.0)
     nap (1.1.0)
-    net-imap (0.3.2)
+    net-imap (0.3.4)
       date
       net-protocol
     net-ldap (0.17.1)
@@ -730,11 +730,11 @@ GEM
       multi_json
     puma (5.6.5)
       nio4r (~> 2.0)
-    puma-plugin-statsd (2.3.0)
-      puma (>= 5.0, < 6)
+    puma-plugin-statsd (2.4.0)
+      puma (>= 5.0, < 7)
     raabro (1.4.0)
-    racc (1.6.1)
-    rack (2.2.4)
+    racc (1.6.2)
+    rack (2.2.5)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-attack (6.6.1)
@@ -859,9 +859,9 @@ GEM
       rubocop-ast (>= 1.23.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.24.0)
+    rubocop-ast (1.24.1)
       parser (>= 3.1.1.0)
-    rubocop-rails (2.17.3)
+    rubocop-rails (2.17.4)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
@@ -872,7 +872,7 @@ GEM
       i18n
       iso8601
     ruby-ole (1.2.12.2)
-    ruby-prof (1.4.4)
+    ruby-prof (1.4.5)
     ruby-progressbar (1.11.0)
     ruby-rc4 (0.1.5)
     ruby-saml (1.14.0)
@@ -1165,7 +1165,7 @@ DEPENDENCIES
   with_advisory_lock (~> 4.6.0)
 
 RUBY VERSION
-   ruby 3.1.2p20
+   ruby 3.2.0p0
 
 BUNDLED WITH
-   2.3.12
+   2.4.1

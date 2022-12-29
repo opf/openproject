@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 3.1.2'
+ruby '~> 3.2.0'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -181,7 +181,8 @@ gem 'puma', '~> 5.6'
 gem 'puma-plugin-statsd', '~> 2.0'
 gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 
-gem 'nokogiri', '~> 1.13.10'
+# TODO: remove `force_ruby_platform: true` once sparklemotion/nokogiri#2740 is done
+gem 'nokogiri', '~> 1.13.10', force_ruby_platform: true
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
