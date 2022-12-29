@@ -259,7 +259,6 @@ end
 group :development do
   gem 'listen', '~> 3.7.0' # Use for event-based reloaders
 
-  gem 'faker', require: false
   gem 'letter_opener'
 
   gem 'spring'
