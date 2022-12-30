@@ -30,9 +30,18 @@ require 'rspec/mocks'
 
 module RSpec
   module Mocks
+    class Proxy
+      # Backport rspec/rspec-mocks#1508 for ruby 3.2 compatibility until a new
+      # version of rspec-mocks is released
+      #
+      # Delete this file if using rspec-mocks version > 3.12.1. The fix will
+      # probably be included.
+      ruby2_keywords :record_message_received
+    end
+
     class VerifyingMethodDouble
-      # Backport rspec/rspec-mocks#1502 until a new version of rspec-mocks is
-      # released
+      # Backport rspec/rspec-mocks#1502 for ruby 3.2 compatibility until a new
+      # version of rspec-mocks is released
       #
       # Delete this file if using rspec-mocks version > 3.12.1. The fix will
       # probably be included.
