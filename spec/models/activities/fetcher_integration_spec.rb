@@ -206,7 +206,7 @@ describe Activities::Fetcher, 'integration' do
           # project attributes and news only require the user to be member
           expect(subject.map(&:journable_id))
             .to match_array([project.id, subproject.id, news.id, subproject_news.id, work_package.id])
-          expect(subject.map(&:journable_id))
+          expect(subject.filter { |e| e.event_type.starts_with?('work_package') }.map(&:journable_id))
             .not_to include(subproject_work_package.id)
         end
       end
