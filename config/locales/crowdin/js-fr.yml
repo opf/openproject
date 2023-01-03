@@ -855,7 +855,7 @@ fr:
       zooms: "Niveau de zoom"
       outlines: "Niveau de hiérarchie"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: 'Add-on de l''édition entreprise'
     wiki_formatting:
       strong: "Gras"
       italic: "Italique"
