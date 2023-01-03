@@ -528,7 +528,7 @@ GEM
       i18n (>= 0.7)
       multi_json
       request_store (>= 1.0)
-    grape (1.6.2)
+    grape (1.7.0)
       activesupport
       builder
       dry-types (>= 1.1)
@@ -1039,7 +1039,7 @@ DEPENDENCIES
   friendly_id (~> 5.5.0)
   fuubar (~> 2.5.0)
   gon (~> 6.4.0)
-  grape (~> 1.6.0)
+  grape (~> 1.7.0)
   grape_logging (~> 1.8.4)
   grids!
   html-pipeline (~> 2.14.0)
