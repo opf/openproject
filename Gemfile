@@ -177,7 +177,7 @@ gem 'rails-i18n', '~> 7.0.0'
 gem 'sprockets', '~> 3.7.2' # lock sprockets below 4.0
 gem 'sprockets-rails', '~> 3.4.2'
 
-gem 'puma', '~> 5.6'
+gem 'puma', '~> 6.0'
 gem 'puma-plugin-statsd', '~> 2.0'
 gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 
@@ -305,7 +305,7 @@ end
 gem 'bootsnap', '~> 1.15.0', require: false
 
 # API gems
-gem 'grape', '~> 1.6.0'
+gem 'grape', '~> 1.7.0'
 gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.1.0'
 
