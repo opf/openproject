@@ -2097,8 +2097,6 @@ ro:
   mail_subject_incoming_email_error: "Un e-mail pe care l-ați trimis la OpenProject nu a putut fi procesat"
   mail_subject_lost_password: "Parola dumneavoastră pentru %{value}"
   mail_subject_register: "Activarea contului dumneavoastră %{value}"
-  mail_subject_reminder: "%{count} pachete de lucru trebuie rezolvate în următoarele %{days} zile"
-  mail_subject_group_reminder: "Pentru grupul \"%{group}\" %{count} pachet(e) de lucru care trebuie să fie depus(e) în următoarele %{days} zile"
   mail_subject_wiki_content_added: "Pagina de wiki '%{id}' a fost adăugată"
   mail_subject_wiki_content_updated: "Pagina wiki '%{id}' a fost actualizată"
   mail_member_added_project:

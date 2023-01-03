@@ -475,8 +475,8 @@ fr:
     label_custom_queries: "Privé"
     label_columns: "Colonnes"
     label_attachments: Fichiers
-    label_drop_files: "Drop files here to attach files."
-    label_drop_or_click_files: "Drop files here or click to attach files."
+    label_drop_files: "Déposez des fichiers ici pour joindre des fichiers."
+    label_drop_or_click_files: "Déposez des fichiers ici ou cliquez pour joindre des fichiers."
     label_drop_folders_hint: Vous ne pouvez pas télécharger les dossiers en pièce jointe. S’il vous plaît sélectionnez des fichiers seuls.
     label_add_attachments: "Ajouter pièces jointes"
     label_formattable_attachment_hint: "Insérer des fichiers en les glissant sur ce champ, ou en les collant depuis le presse-papiers."
@@ -572,7 +572,7 @@ fr:
           one: 'et 1 autre'
           other: 'et %{count} autres'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you.'
+          at_all: 'Les nouvelles notifications apparaîtront ici lorsqu''il y a une activité qui vous concerne.'
           with_current_filter: 'Il n''y a pas de notifications dans cette vue pour le moment'
         mark_all_read: 'Tout marquer comme lu'
         mark_as_read: 'Marquer comme lu'
@@ -595,7 +595,7 @@ fr:
         watched: 'Observateur'
         date_alert: 'Alarmes'
       settings:
-        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
+        change_notification_settings: 'Vous pouvez modifier vos <a target="_blank" href="%{url}">paramètres de notification</a> pour vous assurer de ne jamais manquer une mise à jour importante.'
         title: "Paramètres de notifications"
         notify_me: "M'alerter"
         reminders:
@@ -855,7 +855,7 @@ fr:
       zooms: "Niveau de zoom"
       outlines: "Niveau de hiérarchie"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: 'Add-on de l''édition entreprise'
     wiki_formatting:
       strong: "Gras"
       italic: "Italique"

@@ -2114,8 +2114,6 @@ ru:
   mail_subject_incoming_email_error: "Письмо отправлено на OpenProject не может быть обработано"
   mail_subject_lost_password: "Ваш пароль %{value}"
   mail_subject_register: "Активация вашей учетной записи %{value}"
-  mail_subject_reminder: "%{count}  пакет(-ов) работ на  следующие %{days}"
-  mail_subject_group_reminder: "В группе \"%{group}\" есть комплексы работ (%{count}), срок выполнения которых истекает в следующие %{days} дн."
   mail_subject_wiki_content_added: "'%{id}' wiki-страница добавлена"
   mail_subject_wiki_content_updated: "'%{id}' wiki страница была обновлена"
   mail_member_added_project:

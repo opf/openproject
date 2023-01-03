@@ -2079,8 +2079,6 @@ fi:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Sinun %{value} salasanasi"
   mail_subject_register: "%{value} käyttäjätiedot"
-  mail_subject_reminder: "%{count} tapahtuma(a) erääntyy %{days} lähipäivinä"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki-sivu on poistettu"
   mail_subject_wiki_content_updated: "'%{id}' Wiki-sivu on päivitetty"
   mail_member_added_project:

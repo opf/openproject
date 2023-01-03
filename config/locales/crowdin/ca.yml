@@ -2073,8 +2073,6 @@ ca:
   mail_subject_incoming_email_error: "Un correu electrònic que vas enviar a OpenProject no s'ha pogut processar."
   mail_subject_lost_password: "La teva contrasenya %{value}"
   mail_subject_register: "L'activació del teu compte %{value}"
-  mail_subject_reminder: "%{count} paquet(s) de treball pendents en els següents %{days} dies"
-  mail_subject_group_reminder: "Pel grup \"%{group}\" %{count} paquet(s) de treball arribaran a la seva data final en els pròxims %{days} dies"
   mail_subject_wiki_content_added: "S'ha afegit la pàgina wiki «%{id}»"
   mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «%{id}»"
   mail_member_added_project:

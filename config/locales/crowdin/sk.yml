@@ -2115,8 +2115,6 @@ sk:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Vaše heslo %{value}"
   mail_subject_register: "Aktivácia vášho účtu %{value}"
-  mail_subject_reminder: "%{count} pracovných balíčkov, ktoré finišujú v najbližších %{days} dňoch"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Bola pridaná wikistránka '%{id}'"
   mail_subject_wiki_content_updated: "Wikistránka '%{id}' bola aktualizovaná"
   mail_member_added_project:

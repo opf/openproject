@@ -2079,8 +2079,6 @@ fil:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ang iyong %{value} password"
   mail_subject_register: "Ang iyong %{value} akwant aktibasyon"
-  mail_subject_reminder: "%{count} work package dahil sa susunod na mga %{days} araw"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Ang '%{id}' wikin pahina ay naidagdag"
   mail_subject_wiki_content_updated: "'%{id}' wiking pahina ay naka-update na"
   mail_member_added_project:

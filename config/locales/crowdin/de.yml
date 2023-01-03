@@ -2074,8 +2074,6 @@ de:
   mail_subject_incoming_email_error: "Eine E-Mail, die Sie an OpenProject gesendet haben, konnte nicht verarbeitet werden"
   mail_subject_lost_password: "Ihr %{value} Kennwort"
   mail_subject_register: "Ihre %{value} Kontoaktivierung"
-  mail_subject_reminder: "%{count} Arbeitspaket(e) müssen in den nächsten %{days} Tagen abgeschlossen werden"
-  mail_subject_group_reminder: "Für Gruppe \"%{group}\" sind/ist %{count} Arbeitspaket(e) fällig in den nächsten %{days} Tagen"
   mail_subject_wiki_content_added: "Wiki-Seite '%{id}' hinzugefügt"
   mail_subject_wiki_content_updated: "Wiki-Seite '%{id}' erfolgreich aktualisiert"
   mail_member_added_project:

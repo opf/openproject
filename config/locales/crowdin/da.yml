@@ -2077,8 +2077,6 @@ da:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Din %{value} adgangskode"
   mail_subject_register: "Din %{value} kontoaktivering"
-  mail_subject_reminder: "%{count} arbejdspakke(r) har deadline i de næste %{days} dage"
-  mail_subject_group_reminder: "Gruppen \"%{group}\" har %{count} arbejdspakke(r) med deadline indenfor %{days} dage"
   mail_subject_wiki_content_added: "'%{id}' wikisider er blevet tilføjet"
   mail_subject_wiki_content_updated: "'%{id}' wikiside er blevet opdateret"
   mail_member_added_project:

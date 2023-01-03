@@ -2076,8 +2076,6 @@ es:
   mail_subject_incoming_email_error: "Un correo electrónico que enviaste a OpenProject no pudo ser procesado."
   mail_subject_lost_password: "Su contraseña %{value}"
   mail_subject_register: "La activación de la cuenta %{value}"
-  mail_subject_reminder: "%{count} paquete(s) de trabajo pendientes en los siguientes %{days} dias"
-  mail_subject_group_reminder: "Para el grupo “%{group}”, hay %{count} paquete(s) de trabajo que vencerá(n) en los próximos %{days} días"
   mail_subject_wiki_content_added: "'%{id}' wiki página ha sido agregada"
   mail_subject_wiki_content_updated: "'%{id}' wiki página ha sido actualizada"
   mail_member_added_project:

@@ -2076,8 +2076,6 @@ hu:
   mail_subject_incoming_email_error: "Az OpenProjectnek küldött e-mailt nem sikerült feldolgozni."
   mail_subject_lost_password: "A jelszavad %{value}"
   mail_subject_register: "A %{value} fiókód aktiválása"
-  mail_subject_reminder: "%{count} munkacsomag(ok) miatt a következő %{days} nap"
-  mail_subject_group_reminder: "A \"%{group}\" csoporthoz rendelt %{count} feladat határidős az elkövetkező %{days} napban"
   mail_subject_wiki_content_added: "'%{id}' wiki oldal hozzáadva"
   mail_subject_wiki_content_updated: "'%{id}' wiki oldal frissítve"
   mail_member_added_project:

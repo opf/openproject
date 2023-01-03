@@ -2057,8 +2057,6 @@ ja:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "%{value} パスワード再発行"
   mail_subject_register: "%{value} アカウント登録の確認"
-  mail_subject_reminder: "%{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
-  mail_subject_group_reminder: "グループ \"%{group}\" の %{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
   mail_subject_wiki_content_added: "Wikiページ'%{id}'が追加されました"
   mail_subject_wiki_content_updated: "Wikiページ'%{id}'が更新されました"
   mail_member_added_project:

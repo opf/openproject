@@ -2079,8 +2079,6 @@ fa:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Your %{value} password"
   mail_subject_register: "Your %{value} account activation"
-  mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_member_added_project:

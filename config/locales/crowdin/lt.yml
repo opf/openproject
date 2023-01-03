@@ -2112,8 +2112,6 @@ lt:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Jūsų slaptažodis %{value}"
   mail_subject_register: "Jūsų %{value} paskyros aktyvavimas"
-  mail_subject_reminder: "%{count} darbų paketas(-ai, -ų) baigiasi per ateinančias %{days} dienas(-ai, -ų)"
-  mail_subject_group_reminder: "Grupės „%{group}“ %{count} darbo paketas(ai) turi būti baigti per kitas %{days} dienas"
   mail_subject_wiki_content_added: "Wiki puslapis '%{id}' buvo pridėtas"
   mail_subject_wiki_content_updated: "Wiki puslapis '%{id}' buvo atnaujintas"
   mail_member_added_project:

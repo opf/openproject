@@ -2079,8 +2079,6 @@ si:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "ඔබගේ %{value} මුරපදය"
   mail_subject_register: "ඔබගේ %{value} ගිණුම සක්රිය කිරීම"
-  mail_subject_reminder: "%{count} වැඩ පැකේජය (න්) ඉදිරි දින %{days} තුළ නියමිත"
-  mail_subject_group_reminder: "කණ්ඩායම් සඳහා \"%{group}\" %{count} වැඩ පැකේජය (න්) ඉදිරි දින %{days} තුළ"
   mail_subject_wiki_content_added: "'%{id}' විකි පිටුව එකතු කර ඇත"
   mail_subject_wiki_content_updated: "'%{id}' විකි පිටුව යාවත්කාලීන කර ඇත"
   mail_member_added_project:

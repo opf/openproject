@@ -2115,8 +2115,6 @@ cs:
   mail_subject_incoming_email_error: "E-mail odeslaný na OpenProject nelze zpracovat"
   mail_subject_lost_password: "Vaše heslo %{value}"
   mail_subject_register: "Aktivace vašeho účtu %{value}"
-  mail_subject_reminder: "%{count} pracovních balíčků s termínem do dalších %{days} dnů"
-  mail_subject_group_reminder: "Pro skupinu \"%{group}\" %{count} pracovních balíčků splatných během následujících %{days} dnů"
   mail_subject_wiki_content_added: "'%{id}' wiki stránka byla přidána"
   mail_subject_wiki_content_updated: "'%{id}' wiki stránka byla aktualizována"
   mail_member_added_project:

@@ -2112,8 +2112,6 @@ sl:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Vaše %{value} geslo"
   mail_subject_register: "Aktivacija %{value} vašega računa"
-  mail_subject_reminder: "%{count} zahtevek(zahtevki) zapadejo v naslednjih %{days} dneh"
-  mail_subject_group_reminder: "Za skupino \"%{group}\"  delovni paketi %{count} zapadejo v naslednjih %{days} dnevih"
   mail_subject_wiki_content_added: "'%{id}' je bil dodan strani wiki"
   mail_subject_wiki_content_updated: "'%{id}' strani wiki je bil posodobljen"
   mail_member_added_project:

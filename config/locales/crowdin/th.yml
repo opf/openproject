@@ -2061,8 +2061,6 @@ th:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "รหัสผ่าน %{value} ของคุณ"
   mail_subject_register: "การเปิดใช้บัญชี %{value} ของคุณ"
-  mail_subject_reminder: "มี %{count} ชุดภารกิจกำลังจะครบกำหนดในอีก %{days} วัน"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "มีการเพิ่มหน้าวิกิ '%{id}' แล้ว"
   mail_subject_wiki_content_updated: "มีการปรับปรุงหน้าวิกิ '%{id}' แล้ว"
   mail_member_added_project:

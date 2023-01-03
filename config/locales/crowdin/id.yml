@@ -2058,8 +2058,6 @@ id:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Password Anda %{value}"
   mail_subject_register: "Kode aktivasi Akun Anda %{value}"
-  mail_subject_reminder: "%{count} Paket-Penugasan akan berakhir %{days} hari lagi"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Halaman Wiki '%{id}' telah ditambahkan"
   mail_subject_wiki_content_updated: "Halaman Wiki '%{id}' telah diupdate"
   mail_member_added_project:

@@ -2146,8 +2146,6 @@ ar:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "كلمة المرور %{value}"
   mail_subject_register: "تنشيط الحساب الخاص بك %{value}"
-  mail_subject_reminder: "الحزمة (الحزم) %{count} العمل الواجب في الأيام القادمة %{days}"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "تم إضافة صفحة wiki '%{id}'"
   mail_subject_wiki_content_updated: "تم تحديث صفحة wiki '%{id}'"
   mail_member_added_project:

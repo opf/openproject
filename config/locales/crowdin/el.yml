@@ -2075,8 +2075,6 @@ el:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ο %{value} κωδικός σας"
   mail_subject_register: "Ενεργοποίηση του %{value} λογαριασμού σας"
-  mail_subject_reminder: "%{count} πακέτο(-α) εργασίας με προθεσμία στις επόμενες %{days} ημέρες"
-  mail_subject_group_reminder: "Για την ομάδα \"%{group}\" %{count} πακέτα εργασίας έχουν προθεσμία στις επόμενες %{days} ημέρες"
   mail_subject_wiki_content_added: "προστέθηκε η σελίδα wiki '%{id}'"
   mail_subject_wiki_content_updated: "ενημερώθηκε η σελίδα wiki '%{id}'"
   mail_member_added_project:

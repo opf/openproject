@@ -2079,8 +2079,6 @@
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ditt %{value} passord"
   mail_subject_register: "Din %{value} kontoaktivering"
-  mail_subject_reminder: "%{count} arbeidspakke(r) forfaller de neste %{days} dagene"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Wiki-siden '%{id}' er lagt til"
   mail_subject_wiki_content_updated: "Wiki-siden '%{id}' er oppdatert"
   mail_member_added_project:
