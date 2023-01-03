@@ -5,8 +5,8 @@ ko:
       remove: '위젯 제거'
       configure: '위젯 구성'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
-        link: 'Enterprise edition.'
+        text: "작업 패키지 그래프 위젯 같은 일부 위젯은 다음에서만 사용 가능합니다:"
+        link: 'Enterprise edition'
       widgets:
         custom_text:
           title: '사용자 지정 텍스트'

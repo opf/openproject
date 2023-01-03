@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -1306,16 +1306,19 @@ lol:
   error_external_authentication_failed: "crwdns496681:0crwdne496681:0"
   error_attribute_not_highlightable: "crwdns496683:0%{attributes}crwdne496683:0"
   events:
-    project: 'crwdns496685:0crwdne496685:0'
     changeset: 'crwdns496687:0crwdne496687:0'
     message: crwdns496689:0crwdne496689:0
     news: crwdns496691:0crwdne496691:0
+    project_attributes: 'crwdns842627:0crwdne842627:0'
+    projects: 'crwdns842629:0crwdne842629:0'
     reply: crwdns496693:0crwdne496693:0
     time_entry: 'crwdns496695:0crwdne496695:0'
     wiki_page: 'crwdns496697:0crwdne496697:0'
     work_package_closed: 'crwdns496699:0crwdne496699:0'
     work_package_edit: 'crwdns496701:0crwdne496701:0'
     work_package_note: 'crwdns496703:0crwdne496703:0'
+    title:
+      project: "crwdns842631:0%{name}crwdne842631:0"
   export:
     your_work_packages_export: "crwdns496705:0crwdne496705:0"
     succeeded: "crwdns496707:0crwdne496707:0"
@@ -1763,6 +1766,7 @@ lol:
   label_product_version: "crwdns497535:0crwdne497535:0"
   label_professional_support: "crwdns497537:0crwdne497537:0"
   label_profile: "crwdns497539:0crwdne497539:0"
+  label_project_attribute_plural: "crwdns842633:0crwdne842633:0"
   label_project_count: "crwdns497543:0crwdne497543:0"
   label_project_copy_notifications: "crwdns497545:0crwdne497545:0"
   label_project_latest: "crwdns497547:0crwdne497547:0"
@@ -2049,8 +2053,6 @@ lol:
   mail_subject_incoming_email_error: "crwdns816750:0crwdne816750:0"
   mail_subject_lost_password: "crwdns498185:0%{value}crwdne498185:0"
   mail_subject_register: "crwdns498187:0%{value}crwdne498187:0"
-  mail_subject_reminder: "crwdns498191:0%{count}crwdnd498191:0%{days}crwdne498191:0"
-  mail_subject_group_reminder: "crwdns498193:0%{group}crwdnd498193:0%{count}crwdnd498193:0%{days}crwdne498193:0"
   mail_subject_wiki_content_added: "crwdns498197:0%{id}crwdne498197:0"
   mail_subject_wiki_content_updated: "crwdns498199:0%{id}crwdne498199:0"
   mail_member_added_project:

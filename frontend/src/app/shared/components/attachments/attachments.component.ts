@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -62,7 +62,6 @@ export const attachmentsSelector = 'op-attachments';
 @Component({
   selector: attachmentsSelector,
   templateUrl: './attachments.component.html',
-  styleUrls: ['./attachments.component.sass'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -71,9 +70,9 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
 
   @HostBinding('id.attachments_fields') public hostId = true;
 
-  @HostBinding('class.op-attachments') public className = true;
+  @HostBinding('class.op-file-section') public className = true;
 
-  @Input('resource') public resource:HalResource;
+  @Input() public resource:HalResource;
 
   @Input() public allowUploading = true;
 
@@ -91,7 +90,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
     attachments: this.I18n.t('js.label_attachments'),
     uploadLabel: this.I18n.t('js.label_add_attachments'),
     dropFiles: this.I18n.t('js.label_drop_files'),
-    dropFilesHint: this.I18n.t('js.label_drop_files_hint'),
+    dropClickFiles: this.I18n.t('js.label_drop_or_click_files'),
     foldersWarning: this.I18n.t('js.label_drop_folders_hint'),
   };
 
@@ -161,12 +160,14 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
       );
 
     document.body.addEventListener('dragover', this.onGlobalDragOver.bind(this));
-    document.body.addEventListener('dragleave', this.onGlobalDragLeave.bind(this));
+    document.body.addEventListener('dragleave', this.onGlobalDragEnd.bind(this));
+    document.body.addEventListener('drop', this.onGlobalDragEnd.bind(this));
   }
 
   ngOnDestroy():void {
     document.body.removeEventListener('dragover', this.onGlobalDragOver.bind(this));
-    document.body.removeEventListener('dragleave', this.onGlobalDragLeave.bind(this));
+    document.body.removeEventListener('dragleave', this.onGlobalDragEnd.bind(this));
+    document.body.removeEventListener('drop', this.onGlobalDragEnd.bind(this));
   }
 
   public triggerFileInput():void {
@@ -186,8 +187,6 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
 
     // eslint-disable-next-line no-param-reassign
     event.dataTransfer.dropEffect = 'copy';
-    event.preventDefault();
-    event.stopPropagation();
 
     const dfFiles = event.dataTransfer.files;
     const length:number = dfFiles ? dfFiles.length : 0;
@@ -214,7 +213,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
     this.draggingOverDropZone = false;
   }
 
-  public onGlobalDragLeave():void {
+  public onGlobalDragEnd():void {
     this.dragging = false;
 
     this.cdRef.detectChanges();

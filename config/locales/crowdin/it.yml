@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -1321,16 +1321,19 @@ it:
   error_external_authentication_failed: "Si è verificato un errore durante l'autenticazione esterna. Per favore riprova."
   error_attribute_not_highlightable: "Attributo/i non sottolineabile/i: %{attributes}"
   events:
-    project: 'Progetto modificato'
     changeset: 'Changeset modificato'
     message: Messaggio modificato
     news: Notizie
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Risposto
     time_entry: 'Registro dell''orario effettuato modificato'
     wiki_page: 'Pagina wiki modificata'
     work_package_closed: 'Macro-attività chiusa'
     work_package_edit: 'Macro-attività modificata'
     work_package_note: 'Aggiunta nota alla macro-attività'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Esportazione macro-attività"
     succeeded: "L’esportazione si è conclusa con successo."
@@ -1783,6 +1786,7 @@ it:
   label_product_version: "Versione del prodotto"
   label_professional_support: "Supporto professionale"
   label_profile: "Profilo"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Numero totale di progetti"
   label_project_copy_notifications: "Invia le email di notifica durante la copia del progetto"
   label_project_latest: "Ultimi progetti"
@@ -2072,8 +2076,6 @@ it:
   mail_subject_incoming_email_error: "Impossibile elaborare un'email inviata a OpenProject"
   mail_subject_lost_password: "La tua %{value} password"
   mail_subject_register: "La tua %{value} attivazione dell'account"
-  mail_subject_reminder: "%{count} macro-attività in scadenza nei prossimi %{days} giorni"
-  mail_subject_group_reminder: "Per il gruppo \"%{group}\" ci sono %{count} macro-attività in scadenza nei prossimi %{days} giorni"
   mail_subject_wiki_content_added: "La pagina wiki '%{id}' è stata aggiunta"
   mail_subject_wiki_content_updated: "La pagina wiki '%{id}' è stata aggiornata"
   mail_member_added_project:

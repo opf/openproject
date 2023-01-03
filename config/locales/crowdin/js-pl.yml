@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -475,8 +475,8 @@ pl:
     label_custom_queries: "Prywatny"
     label_columns: "Kolumny"
     label_attachments: Załączniki
-    label_drop_files: Upuść pliki tutaj
-    label_drop_files_hint: lub kliknij aby dodać pliki
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Nie można przesłać folderów jako załącznika. Wybierz pojedyncze pliki.
     label_add_attachments: "Dodaj Załączniki"
     label_formattable_attachment_hint: "Aby załączyć pliki, przeciągnij je tutaj lub wklej ze schowka."
@@ -574,7 +574,7 @@ pl:
           many: 'i %{count} inne'
           other: 'i %{count} innych'
         no_results:
-          at_all: 'Nowe powiadomienia pojawią się tutaj, gdy pojawi się aktywność, która cię dotyczy. W międzyczasie możesz również przeglądać lub modyfikować swoje ustawienia powiadomień, decydując, kiedy mają działać.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'Obecnie brak powiadomień w tym widoku'
         mark_all_read: 'Oznacz wszystko jako przeczytane'
         mark_as_read: 'Oznacz jako przeczytane'
@@ -597,7 +597,7 @@ pl:
         watched: 'Obserwator'
         date_alert: 'Data ostrzeżenia'
       settings:
-        change_notification_settings: 'Aby wyświetlić i zmienić ustawienia powiadomień, <a target="_blank" href="%{url}">kliknij tutaj</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Ustawienia powiadomień"
         notify_me: "Powiadom mnie"
         reminders:

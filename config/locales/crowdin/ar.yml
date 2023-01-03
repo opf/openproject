@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -1391,16 +1391,19 @@ ar:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'تم تعديل المشروع'
     changeset: 'تم تحرير مجموعة التغييرات'
     message: تم تحرير الرسالة
     news: الأخبار
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: تم الرد
     time_entry: 'تم تحرير Timelog'
     wiki_page: 'تم تحرير صفحة WiKi'
     work_package_closed: 'تم اغلاق مجموعة العمل'
     work_package_edit: 'تم تحريرمجموعة العمل'
     work_package_note: 'لم يتم اضافة مجموعة العمل'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1853,6 +1856,7 @@ ar:
   label_product_version: "إصدار المنتج"
   label_professional_support: "الدعم الفني"
   label_profile: "الصفحة الشخصية"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "العدد الإجمالي للمشاريع"
   label_project_copy_notifications: "إرسال إشعارات البريد الالكتروني أثناء نسخ المشروع"
   label_project_latest: "أحدث المشاريع"
@@ -2142,8 +2146,6 @@ ar:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "كلمة المرور %{value}"
   mail_subject_register: "تنشيط الحساب الخاص بك %{value}"
-  mail_subject_reminder: "الحزمة (الحزم) %{count} العمل الواجب في الأيام القادمة %{days}"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "تم إضافة صفحة wiki '%{id}'"
   mail_subject_wiki_content_updated: "تم تحديث صفحة wiki '%{id}'"
   mail_member_added_project:

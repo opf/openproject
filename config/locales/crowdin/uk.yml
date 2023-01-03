@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -1353,16 +1353,19 @@ uk:
   error_external_authentication_failed: "Під час зовнішньої автентифікації сталася помилка. Повторіть спробу."
   error_attribute_not_highlightable: "Атрибут(и) не виділено: %{attributes}"
   events:
-    project: 'Проект відредаговано'
     changeset: 'Набір змін відредаговано'
     message: Повідомлення відредаговано
     news: Новини
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Відповіли
     time_entry: 'Timelog відредаговано'
     wiki_page: 'Wiki-сторінка оновлена'
     work_package_closed: 'Робочий пакет закритий'
     work_package_edit: 'Робочий пакет оновлений'
     work_package_note: 'Робочий пакет не доданий'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Експорт ваших пакетів робіт"
     succeeded: "Експорт успішно завершено."
@@ -1815,6 +1818,7 @@ uk:
   label_product_version: "Версія продукту"
   label_professional_support: "Професійна підтримка"
   label_profile: "Профіль"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Загальна кількість проектів"
   label_project_copy_notifications: "Відправлення повідомлень по електронній пошті в ході реалізації проекту копія"
   label_project_latest: "Останні проекти"
@@ -2105,8 +2109,6 @@ uk:
   mail_subject_incoming_email_error: "Не вдалось обробити електронний лист, надісланий на адресу OpenProject"
   mail_subject_lost_password: "Ваш %{value} пароль"
   mail_subject_register: "Активація облікового запису %{value}"
-  mail_subject_reminder: "%{count} призначених на Вас робочих пакетів в найближчі %{days} дні"
-  mail_subject_group_reminder: "Пакети робіт (%{count}), призначені групі «%{group}», потрібно завершити протягом наступних %{days} дн."
   mail_subject_wiki_content_added: "Wiki-сторінка '%{id}' була додана"
   mail_subject_wiki_content_updated: "Wiki-сторінка '%{id}' була оновлена"
   mail_member_added_project:

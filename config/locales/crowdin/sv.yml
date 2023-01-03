@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -1323,16 +1323,19 @@ sv:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribut(en) kan inte markeras: %{attributes}"
   events:
-    project: 'Projektet redigerades'
     changeset: 'Uppdatering redigerades'
     message: Meddelande redigerades
     news: Nyheter
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Svarade
     time_entry: 'Tidrapport redigerades'
     wiki_page: 'Wiki-sida redigerades'
     work_package_closed: 'Arbetspaket stängdes'
     work_package_edit: 'Arbetspaket redigerades'
     work_package_note: 'Anteckning lades till arbetspaketet'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1785,6 +1788,7 @@ sv:
   label_product_version: "Produktversion"
   label_professional_support: "Professionell hjälp"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Totalt antal projekt"
   label_project_copy_notifications: "Skicka e-postaviseringar under projekt kopian"
   label_project_latest: "Senaste projekt"
@@ -2074,8 +2078,6 @@ sv:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ditt %{value} lösenord"
   mail_subject_register: "Din %{value} kontoaktivering"
-  mail_subject_reminder: "%{count} arbetspaket förfaller inom de %{days} dagarna"
-  mail_subject_group_reminder: "För grupp \"%{group}\" %{count} arbetspaket som ska läggas till under de kommande %{days} dagarna"
   mail_subject_wiki_content_added: "'%{id}' wiki-sida har lagts till"
   mail_subject_wiki_content_updated: "'%{id}' wiki-sidan har uppdaterats"
   mail_member_added_project:

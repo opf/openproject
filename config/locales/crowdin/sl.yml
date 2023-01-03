@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -1355,16 +1355,19 @@ sl:
   error_external_authentication_failed: "Med zunanjo overitvijo je prišlo do napake. Prosim poskusite ponovno."
   error_attribute_not_highlightable: "Atribut(i) niso označljivi: %{attributes}"
   events:
-    project: 'Projekt urejen'
     changeset: 'Sprememba je bila urejena'
     message: Sporočilo urejeno
     news: Novice
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Odgovori
     time_entry: 'Časovnik urejen'
     wiki_page: 'Wiki stran posodobljena'
     work_package_closed: 'Delovni paket zaprt'
     work_package_edit: 'Delovni paket je bil urejen'
     work_package_note: 'Dodana opomba o delovnem paketu'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Izvoz delovnih paketov\n"
     succeeded: "Izvoz uspešno zaključen."
@@ -1817,6 +1820,7 @@ sl:
   label_product_version: "Različica izdelka"
   label_professional_support: "Strokovna podpora"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Skupno število projektov"
   label_project_copy_notifications: "Med kopijo projekta pošljite obvestila po e-pošti"
   label_project_latest: "Zadnji projekti"
@@ -2108,8 +2112,6 @@ sl:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Vaše %{value} geslo"
   mail_subject_register: "Aktivacija %{value} vašega računa"
-  mail_subject_reminder: "%{count} zahtevek(zahtevki) zapadejo v naslednjih %{days} dneh"
-  mail_subject_group_reminder: "Za skupino \"%{group}\"  delovni paketi %{count} zapadejo v naslednjih %{days} dnevih"
   mail_subject_wiki_content_added: "'%{id}' je bil dodan strani wiki"
   mail_subject_wiki_content_updated: "'%{id}' strani wiki je bil posodobljen"
   mail_member_added_project:

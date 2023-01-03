@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -203,11 +203,6 @@ gem 'mini_magick', '~> 4.12.0', require: false
 
 gem 'validate_url'
 
-# Sentry error reporting
-gem "sentry-delayed_job", '~> 5.7.0'
-gem "sentry-rails", '~> 5.7.0'
-gem "sentry-ruby", '~> 5.7.0'
-
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
 
@@ -264,7 +259,6 @@ end
 group :development do
   gem 'listen', '~> 3.7.0' # Use for event-based reloaders
 
-  gem 'faker', require: false
   gem 'letter_opener'
 
   gem 'spring'

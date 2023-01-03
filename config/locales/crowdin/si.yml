@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -1324,16 +1324,19 @@ si:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "විශේෂණය (ය) අවධාරණය කළ නොහැකි: %{attributes}"
   events:
-    project: 'සංස්කරණය කරන ලද ව්යාපෘතිය'
     changeset: 'සංස්කරණය කරන ලද වෙනස්'
     message: සංස්කරණය කරන ලද පණිවිඩය
     news: පුවත්
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: පිළිතුරු
     time_entry: 'සංස්කරණය ටයිමෙලෝග්'
     wiki_page: 'විකි පිටුව සංස්කරණය'
     work_package_closed: 'වැඩ පැකේජය වසා'
     work_package_edit: 'සංස්කරණය කරන ලද වැඩ පැකේජය'
     work_package_note: 'වැඩ පැකේජ සටහන එකතු'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1786,6 +1789,7 @@ si:
   label_product_version: "නිෂ්පාදන අනුවාදය"
   label_professional_support: "වෘත්තීය සහාය"
   label_profile: "පැතිකඩ"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "මුළු ව්යාපෘති සංඛ්යාව"
   label_project_copy_notifications: "ව්යාපෘති පිටපත තුළ විද්යුත් තැපැල් දැනුම්දීම් යවන්න"
   label_project_latest: "නවතම ව්යාපෘති"
@@ -2075,8 +2079,6 @@ si:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "ඔබගේ %{value} මුරපදය"
   mail_subject_register: "ඔබගේ %{value} ගිණුම සක්රිය කිරීම"
-  mail_subject_reminder: "%{count} වැඩ පැකේජය (න්) ඉදිරි දින %{days} තුළ නියමිත"
-  mail_subject_group_reminder: "කණ්ඩායම් සඳහා \"%{group}\" %{count} වැඩ පැකේජය (න්) ඉදිරි දින %{days} තුළ"
   mail_subject_wiki_content_added: "'%{id}' විකි පිටුව එකතු කර ඇත"
   mail_subject_wiki_content_updated: "'%{id}' විකි පිටුව යාවත්කාලීන කර ඇත"
   mail_member_added_project:

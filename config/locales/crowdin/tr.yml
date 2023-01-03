@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -1324,16 +1324,19 @@ tr:
   error_external_authentication_failed: "Harici kimlik doğrulama sırasında bir hata oluştu. Lütfen tekrar deneyin."
   error_attribute_not_highlightable: "Nitelikler vurgulanmıyor: %{attributes}"
   events:
-    project: 'Proje düzenlendi'
     changeset: 'Değişiklikler düzenlendi'
     message: Mesaj düzenlendi
     news: Haberler
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Yanıtlandı
     time_entry: 'Timelog düzenlendi'
     wiki_page: 'Viki sayfası düzenlendi'
     work_package_closed: 'İş Paketi kapandı'
     work_package_edit: 'İş Paketi düzenlendi'
     work_package_note: 'İk Paketi notu eklendi'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "İş paketleri dışa aktarma"
     succeeded: "Dışa aktarma başarıyla tamamlandı."
@@ -1786,6 +1789,7 @@ tr:
   label_product_version: "Ürün sürümü"
   label_professional_support: "Profesyonel destek"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Toplam proje sayısı"
   label_project_copy_notifications: "Proje kopyalaması esnasında bilgilendirme e-postaları gönder"
   label_project_latest: "Son projeler"
@@ -2075,8 +2079,6 @@ tr:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Sizin %{value} parola"
   mail_subject_register: "İşletme %{value} hesap etkinleştirme"
-  mail_subject_reminder: "%{days} günde %{count} iş paketi(ler) geçecek"
-  mail_subject_group_reminder: "Bir sonraki %{days} günden itibaren \"%{group}\" %{count} iş paketi / grupları için"
   mail_subject_wiki_content_added: "'%{id}' viki sayfası eklendi"
   mail_subject_wiki_content_updated: "'%{id}' viki sayfası güncellendi"
   mail_member_added_project:

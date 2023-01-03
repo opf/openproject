@@ -31,7 +31,7 @@ properties:
       - container
     properties:
       storage:
-        $ref: './storage_model.yml'
+        $ref: './storage_read_model.yml'
       container:
         $ref: './work_package_model.yml'
   _links:

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -1358,16 +1358,19 @@ sk:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Atribút(y), ktoré nie je možné zvýrazniť: %{attributes}"
   events:
-    project: 'Projekt upravený'
     changeset: 'Sada zmien upravená'
     message: Správa upravená
     news: Novinky
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Zodpovedané
     time_entry: 'Časový záznam zmenený'
     wiki_page: 'Wiki stránka upravená'
     work_package_closed: 'Pracovný balíček uzatvorený'
     work_package_edit: 'Pracovný balíček upravený'
     work_package_note: 'Poznámka pracovného balíčka pridaná'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "Operácia bola úspešne dokončená."
@@ -1820,6 +1823,7 @@ sk:
   label_product_version: "Verzia produktu"
   label_professional_support: "Profesionálna podpora"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Celkový počet projektov"
   label_project_copy_notifications: "Odoslať e-mail notifikácie počas kopírovania projektu"
   label_project_latest: "Najnovšie projekty"
@@ -2111,8 +2115,6 @@ sk:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Vaše heslo %{value}"
   mail_subject_register: "Aktivácia vášho účtu %{value}"
-  mail_subject_reminder: "%{count} pracovných balíčkov, ktoré finišujú v najbližších %{days} dňoch"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Bola pridaná wikistránka '%{id}'"
   mail_subject_wiki_content_updated: "Wikistránka '%{id}' bola aktualizovaná"
   mail_member_added_project:

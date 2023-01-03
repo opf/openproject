@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -88,6 +88,11 @@ FactoryBot.define do
           project.types << build(:type_with_workflow)
         end
       end
+    end
+
+    trait :updated_a_long_time_ago do
+      created_at { 2.years.ago }
+      updated_at { 2.years.ago }
     end
   end
 end

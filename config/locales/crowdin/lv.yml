@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -1340,16 +1340,19 @@ lv:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Project edited'
     changeset: 'Changeset edited'
     message: Ziņojums rediģēts
     news: Jaunumi
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Replied
     time_entry: 'Timelog edited'
     wiki_page: 'Wiki page edited'
     work_package_closed: 'Slēgtie pieteikumi'
     work_package_edit: 'Labotie pieteikumi'
     work_package_note: 'Pieteikumam pievienotā piezīme'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1802,6 +1805,7 @@ lv:
   label_product_version: "Product version"
   label_professional_support: "Profesionāls atbalsts"
   label_profile: "Profils"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Kopējais projektu skaits"
   label_project_copy_notifications: "Send email notifications during the project copy"
   label_project_latest: "Jaunākie projekti"
@@ -2088,8 +2092,6 @@ lv:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Your %{value} password"
   mail_subject_register: "Your %{value} account activation"
-  mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_member_added_project:

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -150,7 +150,13 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_attachment_journal,
                       :author_id do
         let(:attributes) do
-          {}
+          {
+            filename: "'abc.txt'",
+            disk_filename: "'abc.txt'",
+            filesize: 123,
+            digest: "'qwerty'",
+            downloads: 5
+          }
         end
       end
     end
@@ -193,8 +199,10 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       String do
         let(:user_cf) { create(:user_wp_custom_field) }
         let(:attributes) do
-          { journal_id: 1,
-            custom_field_id: user_cf.id }
+          {
+            journal_id: 1,
+            custom_field_id: user_cf.id
+          }
         end
       end
     end
@@ -226,7 +234,10 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :message,
                       :author_id do
         let(:attributes) do
-          { forum_id: 1 }
+          {
+            forum_id: 1,
+            subject: "'abc'"
+          }
         end
       end
 
@@ -234,7 +245,10 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_message_journal,
                       :author_id do
         let(:attributes) do
-          { forum_id: 1 }
+          {
+            forum_id: 1,
+            subject: "'abc'"
+          }
         end
       end
     end
@@ -274,8 +288,10 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :meeting_participant,
                       :user_id do
         let(:attributes) do
-          { created_at: 'NOW()',
-            updated_at: 'NOW()' }
+          {
+            created_at: 'NOW()',
+            updated_at: 'NOW()'
+          }
         end
       end
     end
@@ -289,7 +305,10 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_news_journal,
                       :author_id do
         let(:attributes) do
-          {}
+          {
+            title: "'abc'",
+            comments_count: 5
+          }
         end
       end
     end
@@ -299,8 +318,10 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :wiki_content,
                       :author_id do
         let(:attributes) do
-          { page_id: 1,
-            lock_version: 5 }
+          {
+            page_id: 1,
+            lock_version: 5
+          }
         end
       end
 
@@ -326,7 +347,9 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
           type_id: type.id,
           status_id: status.id,
           priority_id: priority.id,
-          author_id: author.id
+          author_id: author.id,
+          subject: "'abc'",
+          done_ratio: 0
         }
       end
 
@@ -347,8 +370,11 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :assigned_to_id do
         let(:attributes) do
           {
-            # ignore_non_working_days is non nullable. This part is not related to the test.
+            # This part is not related to the test but the columns are non nullable.
             ignore_non_working_days: false,
+            subject: "'abc'",
+            done_ratio: 5,
+            # End non relevant.
             project_id: project.id,
             type_id: type.id,
             status_id: status.id,
@@ -363,8 +389,11 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :responsible_id do
         let(:attributes) do
           {
-            # ignore_non_working_days is non nullable. This part is not related to the test.
+            # This part is not related to the test but the columns are non nullable.
             ignore_non_working_days: false,
+            subject: "'abc'",
+            done_ratio: 5,
+            # End non relevant.
             project_id: project.id,
             type_id: type.id,
             status_id: status.id,

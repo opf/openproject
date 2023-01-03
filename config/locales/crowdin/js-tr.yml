@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -475,8 +475,8 @@ tr:
     label_custom_queries: "Özel"
     label_columns: "Sütunlar"
     label_attachments: Ekler
-    label_drop_files: Dosyaları buraya bırakın
-    label_drop_files_hint: veya eklemek için tıklayın
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Klasörleri ek olarak karşıya yükleyemezsiniz. Lütfen tekil dosyalar seçiniz.
     label_add_attachments: "Dosya Ekle"
     label_formattable_attachment_hint: "Dosyaları bu alana sürükleyerek ekleyebilir veya panodan yapıştırabilirsiniz."
@@ -572,7 +572,7 @@ tr:
           one: 've 1 diğer'
           other: 've 1 diğer'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Tümünü okundu olarak işaretle'
         mark_as_read: 'Okundu olarak işaretle'
@@ -595,7 +595,7 @@ tr:
         watched: 'Watcher'
         date_alert: 'Date alert'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Bildirim ayarları"
         notify_me: "Beni dürt"
         reminders:

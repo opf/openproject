@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -1324,16 +1324,19 @@ fil:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Naka-edit ang proyekto'
     changeset: 'Naka-edit ang changeset'
     message: Naka-edit ang mensahe
     news: Mga balita
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Sumagot
     time_entry: 'Naka-edit ang timelog'
     wiki_page: 'Naka-edit ang wike na pahina'
     work_package_closed: 'Isinara ang work package'
     work_package_edit: 'Naka-edit ang work package'
     work_package_note: 'Nadagdag ang talaan ng work package'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1786,6 +1789,7 @@ fil:
   label_product_version: "Produktong bersyon"
   label_professional_support: "Propesyonal na suporta"
   label_profile: "Profile"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Kabuuang bilang ng mga proyekto"
   label_project_copy_notifications: "Magpadala ng mga email na abiso habang ang proyekto ay kinopya"
   label_project_latest: "Pinakamabagong proyekto"
@@ -2075,8 +2079,6 @@ fil:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ang iyong %{value} password"
   mail_subject_register: "Ang iyong %{value} akwant aktibasyon"
-  mail_subject_reminder: "%{count} work package dahil sa susunod na mga %{days} araw"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Ang '%{id}' wikin pahina ay naidagdag"
   mail_subject_wiki_content_updated: "'%{id}' wiking pahina ay naka-update na"
   mail_member_added_project:

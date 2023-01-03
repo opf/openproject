@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -1324,16 +1324,19 @@ bg:
   error_external_authentication_failed: "Възникна грешка по време на външно удостоверяване. Моля, опитайте отново."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Проекта е редактиран'
     changeset: 'Редактиран пакет промени'
     message: Съобщението е редактирано
     news: Новини
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Отговорено
     time_entry: 'Редактирани записи по време'
     wiki_page: 'Wiki страница редактирана'
     work_package_closed: 'Работният пакет е затворен'
     work_package_edit: 'Работният пакет е редактиран'
     work_package_note: 'Добавена бележка за работен пакет'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Експорт на вашите работни пакети"
     succeeded: "Експортирането завърши успешно"
@@ -1786,6 +1789,7 @@ bg:
   label_product_version: "Версия на продукта"
   label_professional_support: "Професионална поддръжка"
   label_profile: "Профил"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Общ брой на проектите"
   label_project_copy_notifications: "Изпраща имейл известия по време на копиране на проект"
   label_project_latest: "Последни проекти"
@@ -2075,8 +2079,6 @@ bg:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Вашата парола %{value}"
   mail_subject_register: "Your %{value} account activation"
-  mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_member_added_project:

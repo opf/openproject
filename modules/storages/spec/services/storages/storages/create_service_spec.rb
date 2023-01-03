@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,11 +29,11 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
 
-describe ::Storages::Storages::CreateService, type: :model do
+describe Storages::Storages::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
     let(:factory) { :storage }
 
-    let!(:user) { create :admin }
+    let!(:user) { create(:admin) }
 
     let(:instance) do
       described_class.new(user:,
@@ -58,11 +58,11 @@ describe ::Storages::Storages::CreateService, type: :model do
 
     it "creates an OAuth application (::Doorkeeper::Application)" do
       expect(subject).to be_success
-      expect(subject.result.oauth_application).to be_a(::Doorkeeper::Application)
+      expect(subject.result.oauth_application).to be_a(Doorkeeper::Application)
       expect(subject.result.oauth_application.name).to include call_attributes[:name]
       expect(subject.result.oauth_application.redirect_uri).to include call_attributes[:host]
       expect(subject.result.oauth_application.owner).to eql user
-      expect(subject.dependent_results.first.result.secret).to be_present
+      expect(subject.result.oauth_application.plaintext_secret).to be_present
     end
   end
 end
