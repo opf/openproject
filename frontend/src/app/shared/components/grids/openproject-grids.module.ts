@@ -32,7 +32,6 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 import { OPSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { OpenprojectCalendarModule } from 'core-app/features/calendar/openproject-calendar.module';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
@@ -70,7 +69,6 @@ import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/tim
 
 @NgModule({
   imports: [
-    BrowserModule,
     FormsModule,
     DragDropModule,
 
