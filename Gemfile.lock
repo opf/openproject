@@ -464,6 +464,8 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
+    faker (3.1.0)
+      i18n (>= 1.8.11, < 2)
     faraday (1.10.2)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
@@ -648,7 +650,7 @@ GEM
     netrc (0.11.0)
     nio4r (2.5.8)
     no_proxy_fix (0.1.2)
-    nokogiri (1.13.10)
+    nokogiri (1.14.0.rc1)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     octokit (5.6.1)
@@ -1061,7 +1063,7 @@ DEPENDENCIES
   multi_json (~> 1.15.0)
   my_page!
   net-ldap (~> 0.17.0)
-  nokogiri (~> 1.13.10)
+  nokogiri (~> 1.14.0.rc1)
   oj (~> 3.13.0)
   okcomputer (~> 1.18.1)
   omniauth!
@@ -1162,7 +1164,7 @@ DEPENDENCIES
   with_advisory_lock (~> 4.6.0)
 
 RUBY VERSION
-   ruby 3.1.2p20
+   ruby 3.2.0p0
 
 BUNDLED WITH
-   2.3.12
+   2.4.1

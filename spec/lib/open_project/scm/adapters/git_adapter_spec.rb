@@ -88,7 +88,7 @@ describe OpenProject::SCM::Adapters::Git do
     describe 'invalid repository' do
       describe '.check_availability!' do
         it 'is not available' do
-          expect(Dir.exists?(url)).to be false
+          expect(Dir.exist?(url)).to be false
           expect(adapter).not_to be_available
           expect { adapter.check_availability! }
             .to raise_error(OpenProject::SCM::Exceptions::SCMUnavailable)
@@ -155,7 +155,7 @@ describe OpenProject::SCM::Adapters::Git do
         end
 
         it 'is a valid repository' do
-          expect(Dir.exists?(repo_dir)).to be true
+          expect(Dir.exist?(repo_dir)).to be true
 
           out, process = Open3.capture2e('git', '--git-dir', repo_dir, 'branch')
           expect(process.exitstatus).to eq(0)
