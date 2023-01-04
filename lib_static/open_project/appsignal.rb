@@ -37,7 +37,6 @@ module OpenProject
     def exception_handler(message, log_context = {})
       if (exception = log_context[:exception])
         ::Appsignal.send_error(exception) do |transaction|
-          transaction.set_namespace("log_delegator")
           transaction.set_tags tags(log_context)
         end
       else
