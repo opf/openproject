@@ -15,7 +15,7 @@ If you are an administrator on your OpenProject environment,  you can access the
 
 Click on one of the categories in order to proceed with the configuration.
 
-![image-20201006154046435](image-20201006154046435.png)
+![openproject_system_administration_start_page](openproject_system_administration_start_page.png)
 
 
 
