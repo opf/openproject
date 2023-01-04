@@ -412,7 +412,7 @@ When you take screenshots:
 
 ### Highlight specific areas and add numbered labels
 
-You can highlight a specific area of a screenshot if you would like to draw the reader's attention to it. Additionally, you can add numbered labels so you can refer to specific parts of the screenshot in the documentation text. These should, however, be used sparingly, since any future changes to the interface require the highlighted areas and labels to be manually be added to each updated screenshot.
+You can highlight a specific area of a screenshot to draw the reader's attention to it. Additionally, add numbered labels to refer to specific parts of the screenshot in the documentation text. These should, however, be used sparingly, since any future changes to the interface require the highlighted areas and labels to be manually added to each updated screenshot.
 
 A highlighted area should be marked with a green rectangle (2px width, *Accent/Accent* color in our design system: #308720). The size of the area will naturally depend on the size of the area you wish you highlight.
 
