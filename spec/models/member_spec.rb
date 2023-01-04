@@ -72,9 +72,9 @@ describe Member, type: :model do
       member
       group = create(:group, members: [user])
       create(:member, project:, principal: group, roles: [role])
-      ::Groups::AddUsersService
+      ::Groups::CreateInheritedRolesService
         .new(group, current_user: User.system, contract_class: EmptyContract)
-        .call(ids: [user.id])
+        .call(user_ids: [user.id])
 
       expect(user.reload.memberships.map { _1.deletable_role?(role) }).to match_array([true, false])
     end
