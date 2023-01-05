@@ -57,14 +57,14 @@ module Projects
     end
 
     def validate_can_archive_subprojects
-      return if errors.any?
+      # prevent adding another error if there is already one present
+      return if errors.present?
 
-      subprojects_with_missing_permission = model.descendants.reject do |subproject|
-        user.allowed_to?(:archive_project, subproject)
-      end
-      if subprojects_with_missing_permission.any?
-        errors.add :base, :archive_permission_missing_on_subprojects
-      end
+      subprojects = model.descendants
+      return if subprojects.empty?
+      return if user.allowed_to?(:archive_project, subprojects)
+
+      errors.add :base, :archive_permission_missing_on_subprojects
     end
   end
 end
