@@ -57,6 +57,8 @@ class Notifications::CreateDateAlertsNotificationsJob::Service
   end
 
   def mark_previous_notifications_as_read(user, work_packages, reason)
+    return if work_packages.empty?
+
     Notification
       .where(recipient: user,
              reason:,
