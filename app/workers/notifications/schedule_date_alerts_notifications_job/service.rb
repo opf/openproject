@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications
-  class CreateDateAlertsNotificationsJob < ApplicationJob
-    def perform(user)
-      return unless EnterpriseToken.allows_to?(:date_alerts)
+# Creates date alerts notifications for users whose local time is 1am for the
+# given run_times.
+class Notifications::ScheduleDateAlertsNotificationsJob::Service
+  attr_reader :run_times
 
-      Service
-        .new(user)
-        .call
+  # @param run_times [Array<DateTime>] the times for which the service is run.
+  # Must be multiple of 15 minutes (xx:00, xx:15, xx:30, or xx:45).
+  def initialize(run_times)
+    @run_times = run_times
+  end
+
+  def call
+    return unless EnterpriseToken.allows_to?(:date_alerts)
+
+    User.with_time_zone(time_zones_covering_1am_local_time).find_each do |user|
+      Notifications::CreateDateAlertsNotificationsJob.perform_later(user)
     end
+  end
+
+  private
+
+  def time_zones_covering_1am_local_time
+    UserPreferences::UpdateContract
+      .assignable_time_zones
+      .select { |time_zone| executing_at_1am_for_timezone?(time_zone) }
+      .map { |time_zone| time_zone.tzinfo.canonical_zone.name }
+  end
+
+  def executing_at_1am_for_timezone?(time_zone)
+    run_times.any? { |time| is_1am?(time, time_zone) }
+  end
+
+  def is_1am?(time, time_zone)
+    local_time = time.in_time_zone(time_zone)
+    local_time.strftime('%H:%M') == '01:00'
   end
 end

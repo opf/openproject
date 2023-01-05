@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPackages
@@ -34,18 +34,20 @@ class Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPackages
   end
 
   def alertable_for_start
-    find_alertables
-      .filter_map { |row| row["id"] if row["start_alert"] }
-      .then { |ids| WorkPackage.where(id: ids) }
+    alertable_for("start_alert")
   end
 
   def alertable_for_due
-    find_alertables
-      .filter_map { |row| row["id"] if row["due_alert"] }
-      .then { |ids| WorkPackage.where(id: ids) }
+    alertable_for("due_alert")
   end
 
   private
+
+  def alertable_for(alert)
+    find_alertables
+      .filter_map { |row| row["id"] if row[alert] }
+      .then { |ids| WorkPackage.where(id: ids) }
+  end
 
   def find_alertables
     @find_alertables ||= ActiveRecord::Base.connection.execute(query).to_a

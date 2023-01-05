@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications
-  class CreateDateAlertsNotificationsJob < ApplicationJob
-    def perform(user)
-      return unless EnterpriseToken.allows_to?(:date_alerts)
-
-      Service
-        .new(user)
-        .call
-    end
+class RemoveRenamedDateAlertJob < ActiveRecord::Migration[6.0]
+  def up
+    # The job has been renamed to Notifications::ScheduleDateAlertsNotificationsJob.
+    # The new job will be added on restarting the application.
+    Delayed::Job
+      .where('handler LIKE ?', "%job_class: Notifications::CreateDateAlertsNotificationsJob%")
+      .delete_all
   end
 end
