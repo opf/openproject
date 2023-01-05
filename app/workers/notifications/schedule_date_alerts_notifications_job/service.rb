@@ -40,7 +40,7 @@ class Notifications::ScheduleDateAlertsNotificationsJob::Service
   def call
     return unless EnterpriseToken.allows_to?(:date_alerts)
 
-    User.with_time_zone(time_zones_covering_1am_local_time).find_each do |user|
+    users_at_1am_with_notification_settings.find_each do |user|
       Notifications::CreateDateAlertsNotificationsJob.perform_later(user)
     end
   end
@@ -61,5 +61,14 @@ class Notifications::ScheduleDateAlertsNotificationsJob::Service
   def is_1am?(time, time_zone)
     local_time = time.in_time_zone(time_zone)
     local_time.strftime('%H:%M') == '01:00'
+  end
+
+  def users_at_1am_with_notification_settings
+    User
+      .with_time_zone(time_zones_covering_1am_local_time)
+      .not_locked
+      .where("EXISTS (SELECT 1 FROM notification_settings " \
+             "WHERE user_id = users.id AND " \
+             "(overdue IS NOT NULL OR start_date IS NOT NULL OR due_date IS NOT NULL))")
   end
 end

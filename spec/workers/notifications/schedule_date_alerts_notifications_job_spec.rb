@@ -194,5 +194,108 @@ describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, with_ee:
         let(:user) { user_paris }
       end
     end
+
+    context 'with a user having only due_date active in notification settings' do
+      before do
+        NotificationSetting
+          .where(user: user_paris)
+          .update_all(due_date: 1,
+                      start_date: nil,
+                      overdue: nil)
+      end
+
+      it_behaves_like 'job execution creates date alerts creation job' do
+        let(:timezone) { timezone_paris }
+        let(:scheduled_at) { '1:00' }
+        let(:local_time) { '1:00' }
+        let(:user) { user_paris }
+      end
+    end
+
+    context 'with a user having only start_date active in notification settings' do
+      before do
+        NotificationSetting
+          .where(user: user_paris)
+          .update_all(due_date: nil,
+                      start_date: 1,
+                      overdue: nil)
+      end
+
+      it_behaves_like 'job execution creates date alerts creation job' do
+        let(:timezone) { timezone_paris }
+        let(:scheduled_at) { '1:00' }
+        let(:local_time) { '1:00' }
+        let(:user) { user_paris }
+      end
+    end
+
+    context 'with a user having only overdue active in notification settings' do
+      before do
+        NotificationSetting
+          .where(user: user_paris)
+          .update_all(due_date: nil,
+                      start_date: nil,
+                      overdue: 1)
+      end
+
+      it_behaves_like 'job execution creates date alerts creation job' do
+        let(:timezone) { timezone_paris }
+        let(:scheduled_at) { '1:00' }
+        let(:local_time) { '1:00' }
+        let(:user) { user_paris }
+      end
+    end
+
+    context 'without a user having notification settings' do
+      before do
+        NotificationSetting
+          .where(user: user_paris)
+          .update_all(due_date: nil,
+                      start_date: nil,
+                      overdue: nil)
+      end
+
+      it_behaves_like 'job execution creates no date alerts creation job' do
+        let(:timezone) { timezone_paris }
+        let(:scheduled_at) { '1:00' }
+        let(:local_time) { '1:00' }
+      end
+    end
+
+    context 'with a user having only a project active notification settings' do
+      before do
+        NotificationSetting
+          .where(user: user_paris)
+          .update_all(due_date: nil,
+                      start_date: nil,
+                      overdue: nil)
+
+        NotificationSetting
+          .create(user: user_paris,
+                  project: create(:project),
+                  due_date: 1,
+                  start_date: nil,
+                  overdue: nil)
+      end
+
+      it_behaves_like 'job execution creates date alerts creation job' do
+        let(:timezone) { timezone_paris }
+        let(:scheduled_at) { '1:00' }
+        let(:local_time) { '1:00' }
+        let(:user) { user_paris }
+      end
+    end
+
+    context 'with a locked user' do
+      before do
+        user_paris.locked!
+      end
+
+      it_behaves_like 'job execution creates no date alerts creation job' do
+        let(:timezone) { timezone_paris }
+        let(:scheduled_at) { '1:00' }
+        let(:local_time) { '1:00' }
+      end
+    end
   end
 end
