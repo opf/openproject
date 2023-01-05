@@ -55,7 +55,6 @@ class Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPackages
 
   def query
     today = Arel::Nodes::build_quoted(Date.current).to_sql
-    alertable_durations = Arel::Nodes::Grouping.new(UserPreferences::ParamsContract::DATE_ALERT_DURATIONS.compact).to_sql
 
     alertables = alertable_work_packages
       .select(:id,
@@ -63,9 +62,9 @@ class Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPackages
               "work_packages.start_date - #{today} AS start_delta",
               "work_packages.due_date - #{today} AS due_delta",
               "#{today} - work_packages.due_date AS overdue_delta")
-      .where("work_packages.start_date - #{today} IN #{alertable_durations} " \
-             "OR work_packages.due_date - #{today} IN #{alertable_durations} " \
-             "OR #{today} - work_packages.due_date > 0")
+      .where("work_packages.start_date IN #{alertable_dates} " \
+             "OR work_packages.due_date IN #{alertable_dates} " \
+             "OR work_packages.due_date < #{today}")
 
     <<~SQL.squish
       WITH
@@ -124,5 +123,13 @@ class Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPackages
     # query.
     join_dependency = work_packages.construct_join_dependency([:status], Arel::Nodes::OuterJoin)
     work_packages.joins(join_dependency)
+  end
+
+  def alertable_dates
+    dates = UserPreferences::ParamsContract::DATE_ALERT_DURATIONS
+              .compact
+              .map { |offset| Arel::Nodes::build_quoted(Date.current + offset.days) }
+
+    Arel::Nodes::Grouping.new(dates).to_sql
   end
 end
