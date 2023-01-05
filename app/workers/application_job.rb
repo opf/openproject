@@ -36,7 +36,7 @@ class ApplicationJob < ::ActiveJob::Base
   # to avoid leaking sensitive information to logs
   self.log_arguments = false
 
-  around_perform :clean_context
+  around_perform :prepare_job_context
 
   ##
   # Return a priority number on the given payload
@@ -94,8 +94,9 @@ class ApplicationJob < ::ActiveJob::Base
 
   private
 
-  def clean_context
+  def prepare_job_context
     with_clean_request_store do
+      ::OpenProject::Appsignal.tag_request
       reload_mailer_settings!
 
       yield
