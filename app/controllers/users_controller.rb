@@ -228,7 +228,7 @@ class UsersController < ApplicationController
 
     Users::DeleteService.new(model: @user, user: User.current).call
 
-    flash[:notice] = I18n.t('account.deleted')
+    flash[:notice] = I18n.t('account.deletion_pending')
 
     respond_to do |format|
       format.html do
