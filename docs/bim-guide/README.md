@@ -35,7 +35,7 @@ Details: [IFC-Viewer](ifc-viewer)
 
 Create tasks directly connected to your building model, import tasks or export tasks from any other BIM application.
 
-Deails: [BIM Issue Management](bim-issue-management)
+Details: [BIM Issue Management](bim-issue-management)
 
 
 
