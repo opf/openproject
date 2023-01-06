@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -474,8 +474,8 @@ lol:
     label_custom_queries: "crwdns822878:0crwdne822878:0"
     label_columns: "crwdns787584:0crwdne787584:0"
     label_attachments: crwdns807696:0crwdne807696:0
-    label_drop_files: crwdns787588:0crwdne787588:0
-    label_drop_files_hint: crwdns787590:0crwdne787590:0
+    label_drop_files: "crwdns843197:0crwdne843197:0"
+    label_drop_or_click_files: "crwdns843199:0crwdne843199:0"
     label_drop_folders_hint: crwdns787592:0crwdne787592:0
     label_add_attachments: "crwdns787594:0crwdne787594:0"
     label_formattable_attachment_hint: "crwdns787596:0crwdne787596:0"
@@ -594,7 +594,7 @@ lol:
         watched: 'crwdns836620:0crwdne836620:0'
         date_alert: 'crwdns836777:0crwdne836777:0'
       settings:
-        change_notification_settings: 'crwdns842637:0%{url}crwdne842637:0'
+        change_notification_settings: 'crwdns842805:0%{url}crwdne842805:0'
         title: "crwdns787738:0crwdne787738:0"
         notify_me: "crwdns787740:0crwdne787740:0"
         reminders:

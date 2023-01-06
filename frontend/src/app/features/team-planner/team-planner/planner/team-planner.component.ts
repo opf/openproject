@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -44,8 +44,6 @@ import {
   EventContentArg,
   EventDropArg,
   EventInput,
-  RawOptionsFromRefiners,
-  ViewOptionRefiners,
 } from '@fullcalendar/core';
 import {
   BehaviorSubject,
@@ -118,8 +116,11 @@ import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { RawOptionsFromRefiners } from '@fullcalendar/core/internal';
+import { ViewOptionRefiners } from '@fullcalendar/common';
+import { ResourceApi } from '@fullcalendar/resource';
 
-export type TeamPlannerViewOptionKey = 'resourceTimelineWorkWeek' | 'resourceTimelineWeek' | 'resourceTimelineTwoWeeks';
+export type TeamPlannerViewOptionKey = 'resourceTimelineWorkWeek'|'resourceTimelineWeek'|'resourceTimelineTwoWeeks';
 export type TeamPlannerViewOptions = { [K in TeamPlannerViewOptionKey]:RawOptionsFromRefiners<Required<ViewOptionRefiners>> };
 
 @Component({
@@ -138,8 +139,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   set ucCalendarElement(v:ElementRef|undefined) {
     this.calendar.resizeObserver(v);
   }
-
-  @ViewChild('eventContent') eventContent:TemplateRef<unknown>;
 
   @ViewChild('resourceContent') resourceContent:TemplateRef<unknown>;
 
@@ -430,7 +429,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         const api = this.ucCalendar.getApi();
 
         // This also removes the skeleton resources that are rendered initially
-        api.getResources().forEach((resource) => resource.remove());
+        api.getResources().forEach((resource:ResourceApi) => resource.remove());
 
         principals.forEach((principal) => {
           const id = principal._links.self.href;
@@ -522,8 +521,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             resources: skeletonResources,
             resourceAreaWidth: this.isMobile ? '60px' : '180px',
             select: this.handleDateClicked.bind(this) as unknown,
-            resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
-            resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
             // DnD configuration
             editable: true,
             droppable: true,
@@ -581,24 +578,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               }
               await this.updateEvent(dropInfo, true);
               this.actions$.dispatch(teamPlannerEventAdded({ workPackage: wp.id as string }));
-            },
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            eventContent: (data:EventContentArg):{ domNodes:unknown[] }|undefined => {
-              // Let FC handle the background events
-              if (data.event.source?.id === 'background') {
-                return undefined;
-              }
-
-              return this.renderTemplate(this.eventContent, this.eventId(data), data);
-            },
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            eventWillUnmount: (data:EventContentArg) => {
-              // Nothing to do for background events
-              if (data.event.source?.id === 'background') {
-                return;
-              }
-
-              this.unrenderTemplate(this.eventId(data));
             },
           } as CalendarOptions),
         );

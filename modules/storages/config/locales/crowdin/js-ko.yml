@@ -5,8 +5,8 @@ ko:
       link_files_in_storage: "%{storageType}의 파일 연결"
       link_existing_files: "기존 파일 연결"
       upload_files: "Upload files"
-      drop_files: >
-        Drop files here to upload them to %{storageType}.
+      drop_files: "Drop files here to upload them to %{name}."
+      drop_or_click_files: "Drop files here or click to upload them to %{name}."
       login: "%{storageType} 로그인"
       login_to: "%{storageType}에 로그인"
       no_connection: "%{storageType} 연결 없음"

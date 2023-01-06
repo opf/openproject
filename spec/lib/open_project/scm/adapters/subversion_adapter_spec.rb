@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -72,7 +72,7 @@ describe OpenProject::SCM::Adapters::Subversion do
   describe 'invalid repository' do
     describe '.check_availability!' do
       it 'is not available' do
-        expect(Dir.exists?(url)).to be false
+        expect(Dir.exist?(url)).to be false
         expect(adapter).not_to be_available
         expect { adapter.check_availability! }
           .to raise_error(OpenProject::SCM::Exceptions::SCMUnavailable)
@@ -133,11 +133,11 @@ describe OpenProject::SCM::Adapters::Subversion do
     describe '.create_empty_svn' do
       context 'with valid root_url' do
         it 'creates the repository' do
-          expect(Dir.exists?(root_url)).to be true
+          expect(Dir.exist?(root_url)).to be true
           expect(Dir.entries(root_url).length).to eq 2
           expect { adapter.create_empty_svn }.not_to raise_error
 
-          expect(Dir.exists?(root_url)).to be true
+          expect(Dir.exist?(root_url)).to be true
           expect(Dir.entries(root_url).length).to be >= 5
         end
       end
@@ -149,7 +149,7 @@ describe OpenProject::SCM::Adapters::Subversion do
           expect { adapter.create_empty_svn }
             .to raise_error(OpenProject::SCM::Exceptions::CommandFailed)
 
-          expect(Dir.exists?(root_url)).to be false
+          expect(Dir.exist?(root_url)).to be false
         end
       end
     end
@@ -172,7 +172,7 @@ describe OpenProject::SCM::Adapters::Subversion do
       end
 
       it 'is a valid repository' do
-        expect(Dir.exists?(repo_dir)).to be true
+        expect(Dir.exist?(repo_dir)).to be true
 
         out, process = Open3.capture2e('svn', 'info', url)
         expect(process.exitstatus).to eq(0)

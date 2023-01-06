@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,13 +32,16 @@
 # Hence, the modules of the class have to be represented in the directory structure.
 
 # OpenProjectAPI is a simple subclass of Grape::API that handles patches.
-class API::V3::Storages::StoragesAPI < ::API::OpenProjectAPI
+class API::V3::Storages::StoragesAPI < API::OpenProjectAPI
   # helpers is defined by the grape framework. They make methods from the
   # module available from within the endpoint context.
   helpers Storages::Peripherals::Scopes
 
   # The `:resources` keyword defines the API namespace -> /api/v3/storages/...
   resources :storages do
+    # post &::API::V3::Storages::CreateEndpoint.new(model: ::Storages::Storage).mount
+    post &API::V3::Utilities::Endpoints::Create.new(model: Storages::Storage).mount
+
     # `route_param` extends the route by a route parameter of the endpoint.
     # The input parameter value is parsed into the `:storage_id` symbol.
     route_param :storage_id, type: Integer, desc: 'Storage id' do
@@ -56,11 +59,14 @@ class API::V3::Storages::StoragesAPI < ::API::OpenProjectAPI
       # passed as a block to the `get` helper thanks to the `&` operator.
       # The block will get called everytime a GET request is sent to this
       # route.
-      get &::API::V3::Utilities::Endpoints::Show.new(model: ::Storages::Storage).mount
+      get &API::V3::Utilities::Endpoints::Show.new(model: Storages::Storage).mount
 
-      delete &::API::V3::Utilities::Endpoints::Delete.new(model: ::Storages::Storage).mount
+      patch &API::V3::Utilities::Endpoints::Update.new(model: Storages::Storage).mount
+
+      delete &API::V3::Utilities::Endpoints::Delete.new(model: Storages::Storage).mount
 
       mount API::V3::StorageFiles::StorageFilesAPI
+      mount API::V3::OAuthClient::OAuthClientCredentialsAPI
     end
   end
 end

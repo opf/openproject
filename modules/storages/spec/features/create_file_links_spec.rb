@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,8 @@ describe 'Creating file links in work package', js: true, webmock: true, with_fl
   let(:current_user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
   let(:work_package) { create(:work_package, project:, description: 'Initial description') }
 
-  let(:storage) { create(:storage) }
+  let(:oauth_application) { create(:oauth_application) }
+  let(:storage) { create(:storage, oauth_application:) }
   let(:oauth_client) { create(:oauth_client, integration: storage) }
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
