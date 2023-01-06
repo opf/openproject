@@ -334,6 +334,7 @@ sl:
   wiki:
     page_not_editable_index: Ta stran (še) ne obstaja. Preusmerjeni ste bili na kazalo vseh wiki strani.
     no_results_title_text: Trenutno ni wiki strani
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Dodaj novo stran
   work_flows:
@@ -374,7 +375,7 @@ sl:
   account:
     delete: "Izbriši račun"
     delete_confirmation: "Ali ste prepričani da želite izbrisati ia račun ?"
-    deleted: "Vaš račun je bil uspešno izbrisan"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Iz podatkov, ki jih je uporabnik ustvaril (npr. E-pošta, nastavitve, delovni paketi, vnosi v wiki), bodo v največji možni meri izbrisani. Upoštevajte pa, da podatkov, kot so delovni paketi in vnosi v wiki, ni mogoče izbrisati, ne da bi ovirali delo drugih uporabnikov. Takšni podatki so torej dodeljeni računu z imenom \"Izbrisani uporabnik\". Ker so podatki vsakega izbrisanega računa dodeljeni temu računu, podatkov, ki jih je uporabnik ustvaril, ne bo mogoče ločiti od podatkov drugega izbrisanega računa."

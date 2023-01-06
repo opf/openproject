@@ -337,6 +337,7 @@ fil:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Sa kasalukuyan ay walang mga wiki pages.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Gumawa ng bagong wiki page
   work_flows:
@@ -375,7 +376,7 @@ fil:
   account:
     delete: "Alisin ang akawnt"
     delete_confirmation: "Ikaw ba ay sigurad na gusto mong alisin ang akawnt na ito?"
-    deleted: "Ang akawnt ay matagumpay na naalis"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Sa datos na nilikha ng gumagamit (hal. email, mga kagustuhan, mga naka-package na trabaho, mga wiki entry) hangga't maari ay buburahin. Gayunpaman tandaan, na ang data tulad ng mga work package at wiki entry ay hindi pwedeng burahin na hindi nakaapekto sa mga trabaho ng ibang gumagamit. Tulad ng data ay naka-assign sa isang akwant na ang tawag ay \"Deleted user\". Bilang ang data ng bawat tinanggal na akwant ay naka-reassign sa akwant na ito ay posibleng makilala ang data na gumagamit mula sa data ng ibang naburang akwant."

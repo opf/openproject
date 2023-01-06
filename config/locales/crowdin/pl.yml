@@ -334,6 +334,7 @@ pl:
   wiki:
     page_not_editable_index: Żądana strona nie istnieje (jeszcze). Nastąpiło przekierowanie do indeksu wszystkich stron wiki.
     no_results_title_text: Nie ma jeszcze żadnych stron Wiki.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Dodaj nową stronę Wiki
   work_flows:
@@ -374,7 +375,7 @@ pl:
   account:
     delete: "Usuń konto"
     delete_confirmation: "Czy na pewno chcesz usunąć to konto?"
-    deleted: "Konto usunięte pomyślnie"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Dane użytkownika (np. e-mail, preferencje, pakiety pracy, wpisy wiki) będą usunięte w miarę możliwości. Jednakże, takie dane jak Zadania i wpisy wiki nie mogą być usunięte bez wpływu na pracę pozostałych użytkowników i mogą ją utrudnić. Te dane zostaną przypisane do konta \"Użytkownik usunięty\". Wszystkie dane z usuwanego konta zostaną przypisane do tego ww. konta uniemożliwiając ich późniejszą identyfikację."

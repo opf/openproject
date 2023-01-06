@@ -337,6 +337,7 @@ bg:
   wiki:
     page_not_editable_index: Исканата страница (все още) не съществува. Пренасочени сте към индекса на всички wiki страници.
     no_results_title_text: Няма в момента wiki страници.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Добавяне на нова wiki страница
   work_flows:
@@ -375,7 +376,7 @@ bg:
   account:
     delete: "Изтриване на профил"
     delete_confirmation: "Наистина ли искате да изтриете акаунта?"
-    deleted: "Профилът е успешно изтрит"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "От данните, създадени от потребителя (например, електронна поща, предпочитания, работни пакети, уики страници), колкото е възможно, ще бъдат изтрити. Имайте предвид обаче, че данните като работни пакети и уики страници не могат да бъдат изтрити без възпрепятстване на работата на другите потребители. Такива данни се преразпределят към профил, наречен \"Изтрит потребител\". Тъй като данните от всеки изтрит профил се записват в този профил, то няма да бъде възможно да се разграничат данните създадени от потребителя от данни от друг изтрит профил."

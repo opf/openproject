@@ -319,6 +319,7 @@ lol:
   wiki:
     page_not_editable_index: crwdns495049:0crwdne495049:0
     no_results_title_text: crwdns495051:0crwdne495051:0
+    print_hint: crwdns843657:0crwdne843657:0
     index:
       no_results_content_text: crwdns495053:0crwdne495053:0
   work_flows:
@@ -357,7 +358,7 @@ lol:
   account:
     delete: "crwdns495081:0crwdne495081:0"
     delete_confirmation: "crwdns495083:0crwdne495083:0"
-    deleted: "crwdns495085:0crwdne495085:0"
+    deletion_pending: "crwdns843659:0crwdne843659:0"
     deletion_info:
       data_consequences:
         other: "crwdns495087:0crwdne495087:0"

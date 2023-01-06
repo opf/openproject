@@ -334,6 +334,7 @@ id:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: There are currently no wiki pages.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Add a new wiki page
   work_flows:
@@ -371,7 +372,7 @@ id:
   account:
     delete: "Hapus akun"
     delete_confirmation: "Yakin Anda ingin menghapus akun?"
-    deleted: "Akun telah dihapus"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Data yang dibuat pengguna (seperti email, preferensi, Work Package, entri wiki) akan dihapus. Namun, data seperti Work Package dan entri wiki yang terhubung dengan pengguna lain tidak bisa dihapus. Data seperti ini akan dipindahkan ke sebuah akun bernama \"Pengguna Terhapus\". Karena data dari setiap akun terhapus dipindahkan ke akun tersebut, maka pembedaan antara data yang dibuat pengguna dengan data dari akun terhapus lainnya tidak akan bisa dilakukan."

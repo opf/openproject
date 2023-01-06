@@ -334,6 +334,7 @@ lt:
   wiki:
     page_not_editable_index: Prašomas puslapis (dar) neegzistuoja. Vietoje to jus nukreipėme į visų wiki puslapių sąrašą.
     no_results_title_text: Nėra wiki puslapių.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Pridėti naują wiki puslapį
   work_flows:
@@ -374,7 +375,7 @@ lt:
   account:
     delete: "Pašaslinti paskyrą"
     delete_confirmation: "Ar tikrai norite ištrinti paskyrą?"
-    deleted: "Paskyrą sėkmingai ištrinta"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Naudotojo duomenys (pvz., el. paštas, nustatymai, darbo paketai, wiki įrašai) bus ištrinti kiek įmanoma. Tačiau duomenys, kaip darbo paketai, viki įrašai, negali būti ištrinti nepaveikiant kitų naudotojų darbo. Taigi, tokie duomenys priskiriami ištrinto naudotojo paskyrai „Ištrintas naudotojas“. Kadangi kiekvieno ištrinto naudotojo duomenys priskiriami tam pačiam naudotojui, nėra įmanoma išskirti atskirų ištrintojo naudotojo duomenų."

@@ -337,6 +337,7 @@ tr:
   wiki:
     page_not_editable_index: İstenen sayfa mevcut değil (henüz). Tüm wiki sayfalarının dizinine yönlendirildiniz.
     no_results_title_text: Şu anda wiki sayfası bulunmuyor.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Yeni wiki sayfası Ekle
   work_flows:
@@ -375,7 +376,7 @@ tr:
   account:
     delete: "Hesabı sil"
     delete_confirmation: "Hesabını silmek istediğinden emin misin?"
-    deleted: "Hesap başarıyla silindi"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Kullanıcının oluşturduğu (ör. E-posta, tercihler, iş paketleri, wiki girdileri) mümkün olduğunca silinen verilerden. Bununla birlikte, iş paketleri ve wiki girdileri gibi veriler, diğer kullanıcıların çalışmalarını engellemeden silinemez. Bu tür veriler, \"Silinmiş kullanıcı\" adı verilen bir hesaba yeniden atanır. Her silinen hesabın verileri bu hesaba yeniden atandığından, kullanıcının oluşturduğu verileri başka bir silinen hesabın verilerinden ayırt etmek mümkün olmayacaktır."

@@ -336,6 +336,7 @@ sv:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Det finns för närvarande inga wiki-sidor.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Lägg till en ny wiki-sida
   work_flows:
@@ -374,7 +375,7 @@ sv:
   account:
     delete: "Ta bort konto"
     delete_confirmation: "Är du säker du vill ta bort kontot?"
-    deleted: "Kontot har tagits bort"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Det mesta av informationen som användaren skapat (t.ex. e-post och inställningar) kommer att raderas. Information som exempelvis arbetspaket och wiki-poster kan dock inte raderas eftersom detta skulle påverka andra användares arbete, så detta kommer istället att tilldelas ett konto som heter \"Raderad användare\". Eftersom information från alla raderade konton överförs till detta konto kommer det inte längre vara möjligt att se vem som skapat vad."
