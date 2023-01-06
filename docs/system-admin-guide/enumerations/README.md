@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Enumerations
-  priority: 780
+  priority: 950
 description: Manage enumerations in OpenProject.
 keywords: enumerations, time tracking, priority, document categories
 ---
