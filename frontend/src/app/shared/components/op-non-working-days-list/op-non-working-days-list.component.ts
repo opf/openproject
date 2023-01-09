@@ -32,10 +32,10 @@ import { ConfirmDialogOptions } from '../modals/confirm-dialog/confirm-dialog.mo
 export const nonWorkingDaysListSelector = 'op-non-working-days-list';
 
 export interface INonWorkingDay {
-  id:string|null;
+  id:string | null;
   name:string;
   date:string;
-  _deleted:boolean|null;
+  _deleted:boolean | null;
 }
 
 @Component({
@@ -73,6 +73,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   calendarOptions:CalendarOptions = {
     plugins: [listPlugin],
     initialView: 'listYear',
+    contentHeight: 'auto',
     headerToolbar: {
       right: 'prev,next',
       center: '',
@@ -158,7 +159,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     fetchInfo:{ start:Date },
     successCallback:(events:EventInput[]) => void,
     failureCallback:(error:unknown) => void,
-  ):void|PromiseLike<EventInput[]> {
+  ):void | PromiseLike<EventInput[]> {
     this.dayService.requireNonWorkingYear$(fetchInfo.start)
       .subscribe(
         (days:IDay[]) => {
