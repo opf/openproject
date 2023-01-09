@@ -176,6 +176,7 @@ Configuring OpenProject through environment variables is described in detail [in
 * `drop_old_sessions_on_login` (default: false)
 * [`auth_source_sso`](#auth-source-sso) (default: nil)
 * [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
+* [`oauth_allow_remapping_of_existing_users`](#prevent-omniauth-remapping-of-existing-users) (default: true)
 * [`disable_password_login`](#disable-password-login) (default: false)
 * [`attachments_storage`](#attachments-storage) (default: file)
 * [`direct_uploads`](#direct-uploads) (default: true)
@@ -266,6 +267,21 @@ If this option is active, a login will lead directly to the configured omniauth 
 
 ```yaml
 OPENPROJECT_OMNIAUTH__DIRECT__LOGIN__PROVIDER="google"
+```
+
+### prevent omniauth remapping of existing users
+
+Per default external authentication providers through OmniAuth (such as SAML or OpenID connect providers) are allowed to take over existing
+accounts if the mapped login is already taken. This is usually desirable, if you have e.g., accounts created through LDAP and want these
+accounts to be accessible through a SSO provider as well
+
+If you want to prevent this from happening, you can set this variable to false. In this case, accounts with matching logins will need
+to create a new account.
+
+*default: true*
+
+```yaml
+OPENPROJECT_OAUTH__ALLOW__REMAPPING__OF__EXISTING__USERS="false"
 ```
 
 
