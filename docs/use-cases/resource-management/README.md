@@ -12,9 +12,15 @@ keywords: use-case, resource management
 
 ![resource management](resource-management.png)
 
-Step 1: Select a project and go to the work package overview. If you would like to create an overview over multiple projects, select the respective projects and/or subprojects in the **Include projects** menu between the **+ Create** and the **Filter** buttons.
+Step 1: Select a project and go to the work package overview. If you would like to create an overview over multiple projects, select the respective projects and/or subprojects in the **Include projects** menu between the **+ Create** and the **Filter** buttons. 
 
-Step 2: Either use existing fields, **Estimated time** and **Spent time**, or create custom fields (i.e. **Est. Scope (h)** a nd **Time spent (h)**)
+​		Alternatively, you can also chose the **Global work package overview** by selecting the **Waffle button** in the top right:
+
+![Global WP overview](Global WP overview.PNG)
+
+
+
+Step 2: Either use existing fields, **Estimated time** and **Spent time**, or create custom fields (i.e. **Est. Scope (h)** and **Time spent (h)**)
 
 Step 3: Either insert the standard fields to the view, or insert the custom fields if created in Step 2
 
