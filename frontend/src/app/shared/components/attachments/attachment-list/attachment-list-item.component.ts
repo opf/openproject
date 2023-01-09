@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -47,21 +47,19 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import { IFileIcon } from 'core-app/shared/components/file-links/file-link-icons/icon-mappings';
-import {
-  getIconForMimeType,
-} from 'core-app/shared/components/file-links/file-link-icons/file-link-list-item-icon.factory';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { ConfirmDialogOptions } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
+import { getIconForMimeType } from 'core-app/shared/components/storages/functions/storages.functions';
+import { IFileIcon } from 'core-app/shared/components/storages/icons.mapping';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[op-attachment-list-item]',
-  templateUrl: './attachment-list-item.html',
+  templateUrl: './attachment-list-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttachmentListItemComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
+export class OpAttachmentListItemComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   @Input() public attachment:IAttachment;
 
   @Input() public index:number;
@@ -175,7 +173,7 @@ export class AttachmentListItemComponent extends UntilDestroyedMixin implements 
 
   private get isImage():boolean {
     const ext = this.attachment.fileName.split('.').pop() || '';
-    return AttachmentListItemComponent.imageFileExtensions.indexOf(ext.toLowerCase()) > -1;
+    return OpAttachmentListItemComponent.imageFileExtensions.indexOf(ext.toLowerCase()) > -1;
   }
 
   public confirmRemoveAttachment():void {

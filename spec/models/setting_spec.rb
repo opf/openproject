@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -178,6 +178,47 @@ describe Setting, type: :model do
     it 'raises an error for a non writable setting' do
       expect { described_class.smtp_openssl_verify_mode = 'none' }
         .to raise_error NoMethodError
+    end
+
+    context 'for a integer setting with non-nil default value', :settings_reset do
+      before do
+        Settings::Definition.add(
+          'my_setting',
+          format: :integer,
+          default: 42
+        )
+      end
+
+      it 'does not save it when set to nil' do
+        expect(described_class.my_setting).to eq(42)
+        described_class.my_setting = nil
+        expect(described_class.my_setting).not_to be_nil
+        expect(described_class.my_setting).to eq(42)
+      end
+    end
+
+    context 'for a integer setting with nil default value', :settings_reset do
+      before do
+        Settings::Definition.add(
+          'my_setting',
+          format: :integer,
+          default: nil
+        )
+      end
+
+      it 'saves it when set to nil' do
+        described_class.my_setting = 42
+        expect(described_class.my_setting).to eq(42)
+        described_class.my_setting = nil
+        expect(described_class.my_setting).to be_nil
+      end
+
+      it 'saves it as nil when set to empty string' do
+        described_class.my_setting = 42
+        expect(described_class.my_setting).to eq(42)
+        described_class.my_setting = ''
+        expect(described_class.my_setting).to be_nil
+      end
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -150,8 +150,22 @@ class Setting < ApplicationRecord
   validates :value,
             numericality: {
               only_integer: true,
-              if: Proc.new { |setting| setting.format == :integer }
+              if: ->(setting) { setting.non_null_integer_format? }
             }
+  validates :value,
+            numericality: {
+              only_integer: true,
+              allow_nil: true,
+              if: ->(setting) { setting.nullable_integer_format? }
+            }
+
+  def nullable_integer_format?
+    format == :integer && definition.default.nil?
+  end
+
+  def non_null_integer_format?
+    format == :integer && !definition.default.nil?
+  end
 
   def value
     self.class.deserialize(name, read_attribute(:value))

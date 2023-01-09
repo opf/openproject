@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -81,12 +81,6 @@ module Acts::Journalized
       # Returns an array of column names that are journaled.
       def journaled_columns_names
         self.class.journal_class.journaled_attributes
-      end
-
-      # Returns the activity type. Should be overridden in the journalized class to offer
-      # multiple types
-      def activity_type
-        self.class.name.underscore.pluralize
       end
     end
   end

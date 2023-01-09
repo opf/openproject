@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -158,17 +158,6 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     project_field.expect_active!
     project_field.openSelectField
     project_field.set_value project.name
-
-    embedded_table.expect_toast(
-      message: 'Type is not set to one of the allowed values.',
-      type: :error
-    )
-
-    # Set type
-    type_field = embedded_table.edit_field(nil, :type)
-    type_field.expect_active!
-    type_field.openSelectField
-    type_field.set_value type.name
 
     embedded_table.expect_toast(
       message: 'Successful creation. Click here to open this work package in fullscreen view.'

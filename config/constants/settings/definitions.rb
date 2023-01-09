@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -401,14 +401,6 @@ Settings::Definition.define do
       default: 'enterprise-on-premises---euro---1-year',
       writable: false
 
-  # feature flags
-  # To add a feature flag register a new definition for a configuration variable
-  #
-  # Example:
-  # add :feature_your_module_active,
-  #     default: Rails.env.development?,
-  #     format: :boolean
-
   add :feeds_enabled,
       default: true
 
@@ -753,45 +745,10 @@ Settings::Definition.define do
       format: :string,
       default: "/usr/sbin/sendmail"
 
-  # Which breadcrumb loggers to enable
-  add :sentry_breadcrumb_loggers,
-      default: ['active_support_logger'],
-      writable: false
-
-  # Log errors to sentry instance
-  add :sentry_dsn,
-      format: :string,
-      default: nil,
-      writable: false
-
-  # Allow separate error reporting for frontend errors
-  add :sentry_frontend_dsn,
-      format: :string,
-      default: nil,
-      writable: false
-
-  add :sentry_host,
-      format: :string,
-      default: nil,
-      writable: false
-
   # Allow separate error reporting for frontend errors
   add :appsignal_frontend_key,
       format: :string,
       default: nil,
-      writable: false
-
-  # Allow sentry to collect tracing samples
-  # set to 1 to enable default tracing samples (see sentry initializer)
-  # set to n >= 1 to enable n times the default tracing
-  add :sentry_trace_factor,
-      default: 0,
-      writable: false
-
-  # Allow sentry to collect tracing samples on frontend
-  # set to n >= 1 to enable n times the default tracing
-  add :sentry_frontend_trace_factor,
-      default: 0,
       writable: false
 
   add :session_cookie_name,
@@ -923,7 +880,7 @@ Settings::Definition.define do
   add :user_default_timezone,
       default: nil,
       format: :string,
-      allowed: ActiveSupport::TimeZone.all + [nil]
+      allowed: ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.canonical_identifier }.sort.uniq + [nil]
 
   add :users_deletable_by_admins,
       default: false
@@ -977,7 +934,7 @@ Settings::Definition.define do
 
   add :work_package_list_default_columns,
       default: %w[id subject type status assigned_to priority],
-      allowed: -> { Query.new.available_columns.map(&:name).map(&:to_s) }
+      allowed: -> { Query.new.displayable_columns.map(&:name).map(&:to_s) }
 
   add :work_package_startdate_is_adddate,
       default: false

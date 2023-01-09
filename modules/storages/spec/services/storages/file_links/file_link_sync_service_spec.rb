@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,7 +67,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
            container: work_package)
   end
 
-  # We're going to mock OAuth2 autentication failures below
+  # We're going to mock OAuth2 authentication failures below
   let(:connection_manager) { ::OAuthClients::ConnectionManager.new(user:, oauth_client: oauth_client1) }
   let(:authorize_url) { 'https://example.com/authorize' }
   let(:instance) { described_class.new(user:) }

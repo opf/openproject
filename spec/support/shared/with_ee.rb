@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+def assert_valid_ee_action(action, example)
+  valid_ee_actions = Authorization::EnterpriseService::GUARDED_ACTIONS
+  return if valid_ee_actions.include?(action)
+
+  spell_checker = DidYouMean::SpellChecker.new(dictionary: valid_ee_actions)
+  suggestions = spell_checker.correct(action).map(&:inspect).join(' ')
+  did_you_mean = " Did you mean #{suggestions} instead?" if suggestions.present?
+
+  raise "Invalid Enterprise action #{action.inspect} at #{example.location}.#{did_you_mean}"
+end
+
+def ee_actions(example)
+  return [] unless example.respond_to?(:metadata) && example.metadata[:with_ee]
+
+  actions = example.metadata[:with_ee]
+  actions.each { |action| assert_valid_ee_action(action, example) }
+end
+
 def aggregate_parent_array(example, acc)
   # We have to manually check parent groups for with_ee:,
   # since they are being ignored otherwise
   example.example_group.module_parents.each do |parent|
-    if parent.respond_to?(:metadata) && parent.metadata[:with_ee]
-      acc.merge(parent.metadata[:with_ee])
-    end
+    acc.merge(ee_actions(parent))
   end
 
   acc
@@ -40,7 +56,7 @@ end
 
 RSpec.configure do |config|
   config.before do |example|
-    allowed = example.metadata[:with_ee]
+    allowed = ee_actions(example)
     if allowed.present?
       allowed = aggregate_parent_array(example, allowed.to_set)
 

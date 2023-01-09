@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -168,7 +168,11 @@ module Redmine::MenuManager::MenuHelper
     link_text << content_tag(:span,
                              class: "#{menu_class}--item-title #{item.badge(project).present? ? "#{menu_class}--item-title_has-badge" : ''}",
                              lang: menu_item_locale(item)) do
-      ''.html_safe + caption + badge_for(item)
+      title_text = ''.html_safe + caption + badge_for(item)
+      if item.enterprise_feature.present? && !EnterpriseToken.allows_to?(item.enterprise_feature)
+        title_text << (' '.html_safe + spot_icon('enterprise-addons'))
+      end
+      title_text
     end
     link_text << (' '.html_safe + op_icon(item.icon_after)) if item.icon_after.present?
     html_options = item.html_options(selected:)

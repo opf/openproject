@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,7 +69,7 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
         .not_to have_json_path('_type')
     end
 
-    (NotificationSetting.all_settings - NotificationSetting.duration_settings).each do |property|
+    (NotificationSetting.all_settings - NotificationSetting.date_alert_settings).each do |property|
       it_behaves_like 'property', property.to_s.camelize(:lower) do
         let(:value) do
           notification_setting.send property
@@ -77,14 +77,24 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
       end
     end
 
-    it_behaves_like 'property', :startDate do
-      let(:value) { 'P1D' }
+    context 'without enterprise' do
+      it 'does not have the date alert settings in the resulting json' do
+        expect(subject).not_to have_json_path("startDate")
+        expect(subject).not_to have_json_path("dueDate")
+        expect(subject).not_to have_json_path("overdue")
+      end
     end
-    it_behaves_like 'property', :dueDate do
-      let(:value) { 'P1D' }
-    end
-    it_behaves_like 'property', :overdue do
-      let(:value) { 'P3D' }
+
+    context 'with enterprise', with_ee: %i[date_alerts] do
+      it_behaves_like 'property', :startDate do
+        let(:value) { 'P1D' }
+      end
+      it_behaves_like 'property', :dueDate do
+        let(:value) { 'P1D' }
+      end
+      it_behaves_like 'property', :overdue do
+        let(:value) { 'P3D' }
+      end
     end
   end
 

@@ -2,16 +2,16 @@
 sidebar_navigation:
   title: Enterprise on-premises trial
   priority: 999
-description: Create an OpenProject Enterprise Edition trial installation.
-keywords: Enterprise Edition trial, EOP
+description: Create an OpenProject Enterprise edition trial installation.
+keywords: enterprise on-premises, trial, eop
 ---
 # Create an Enterprise on-premises edition trial
 
-You can **test the OpenProject Enterprise on-premises edition 14 days for free**. It will extend your current Community edition with the premium features so you can thoroughly test those premium functionalities.
+You can **test the OpenProject Enterprise on-premises edition 14 days for free**. It will extend your current Community edition with the Enterprise add-ons so you can thoroughly test those Enterprise functionalities.
 
 You can start the trial period for OpenProject either via an already installed Community edition or via our website.
 
-A) To upgrade your Community installation, navigate to your system -> Administration -> Enterprise Edition. Here, you can simply click the green **Start free trial button**.
+A) To upgrade your Community installation, navigate to your system -> Administration -> Enterprise edition. Here, you can simply click the green **Start free trial button**.
 
 ![start trial with community edition](start-trial-with-community-edition.png)
 

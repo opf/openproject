@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,8 +27,17 @@
 #++
 
 class Queries::Notifications::Filters::ReasonFilter < Queries::Notifications::Filters::NotificationFilter
+  REASONS = Notification
+              .reasons
+              .except(:date_alert_start_date, :date_alert_due_date)
+              .merge(dateAlert: [Notification::REASONS[:date_alert_start_date],
+                                 Notification::REASONS[:date_alert_due_date]])
+              .freeze
+
   def allowed_values
-    Notification.reasons.keys.map { |reason| [reason, reason] }
+    reasons = REASONS.keys
+    reasons = reasons.without("dateAlert") unless EnterpriseToken.allows_to?(:date_alerts)
+    reasons.map { |reason| [reason, reason] }
   end
 
   def type
@@ -36,7 +45,7 @@ class Queries::Notifications::Filters::ReasonFilter < Queries::Notifications::Fi
   end
 
   def where
-    id_values = values.map { |value| Notification.reasons[value] }
+    id_values = values.flat_map { |value| REASONS[value] }
     operator_strategy.sql_for_field(id_values, self.class.model.table_name, :reason)
   end
 end

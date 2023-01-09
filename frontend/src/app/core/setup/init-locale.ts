@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +31,8 @@ import * as moment from 'moment';
 export function initializeLocale() {
   const meta = document.querySelector('meta[name=openproject_initializer]') as HTMLMetaElement;
   const locale = meta.dataset.locale || 'en';
-  const firstDayOfWeek = parseInt(meta.dataset.firstDayOfWeek || '', 10);
-  const firstWeekOfYear = parseInt(meta.dataset.firstWeekOfYear || '', 10);
+  const firstDayOfWeek = parseInt(meta.dataset.firstdayofweek || '', 10); // properties of meta.dataset are exposed in lowercase
+  const firstWeekOfYear = parseInt(meta.dataset.firstweekofyear || '', 10); // properties of meta.dataset are exposed in lowercase
 
   I18n.locale = locale;
 

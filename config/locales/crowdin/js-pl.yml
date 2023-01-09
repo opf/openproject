@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -224,29 +224,32 @@ pl:
           status_label: "Stan:"
           status_confirmed: "potwierdzony"
           status_waiting: "wysłano wiadomość e-mail — oczekiwanie na potwierdzenie"
-          test_ee: "Testuj wersję Enterprise przez 14 dni za darmo"
-          quick_overview: "Zapoznaj się z krótkim omówieniem zarządzania projektami i pracy zespołowej w OpenProject w wersji Enterprise."
+          test_ee: "Test the Enterprise edition 14 days for free"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Zostań bohaterem!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          upgrade_info: "Aby ją aktywować i zacząć korzystać z niej w zespole, przejdź na plan płatny."
           benefits:
-            description: "Jakie są korzyści z rozwiązania lokalnego wersji Enterprise?"
+            description: "What are the benefits of the Enterprise on-premises edition?"
             high_security: "Funkcje zabezpieczeń"
-            high_security_text: "Pojedyncze logowanie (SAML, OpenID Connect, CAS), uwierzytelnianie dwuskładnikowe i automatyczna synchronizacja grup LDAP."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Pomoc w instalacji"
             installation_text: "Doświadczeni inżynierowie oprogramowania prowadzą Cię przez cały proces instalacji i konfiguracji w Twojej własnej infrastrukturze."
-            premium_features: "Funkcje premium"
+            premium_features: "Dodatki dla Enterprise"
             premium_features_text: "Tablice zwinne, niestandardowy motyw i logotyp, wykresy, inteligentne przepływy pracy z działaniami niestandardowymi, wyszukiwanie pełnotekstowe w załącznikach do pakietów roboczych i pola niestandardowe, umożliwiające wybór wielokrotny."
             professional_support: "Profesjonalne wsparcie"
             professional_support_text: "Uzyskaj niezawodne, wysokiej klasy wsparcie od starszych inżynierów wsparcia technicznego posiadających wiedzę fachową na temat uruchamiania oprogramowania OpenProject w środowiskach o znaczeniu krytycznym dla biznesu."
           button_start_trial: "Rozpocznij bezpłatny okres próbny"
           button_upgrade: "Aktualizuj teraz"
+          button_contact_us: "Skontaktuj się z nami, aby uzyskać demo"
           button_book_now: "Zarezerwuj teraz"
           confidence: >
             Dostarczamy sprawdzone i wspierane oprogramowanie klasy korporacyjnej do zarządzania projektami — z otwartym kodem źródłowym i otwartym umysłem.
           link_quote: "Uzyskaj wycenę"
           more_info: "Więcej informacji"
           text: >
-            Wersja OpenProject Enterprise opiera się na wersji społecznościowej. Zawiera funkcje premium i profesjonalne wsparcie skierowane głównie do organizacji z ponad 10 użytkownikami, które zarządzają projektami o znaczeniu krytycznym dla biznesu za pomocą OpenProject.
+            Edycja OpenProject Enterprise opiera się na edycji społecznośiowej. Zawiera dodatki dla Entrprise i profesjonalne wsparcie skierowane głównie do organizacji z ponad 10 użytkownikami, które zarządzają projektami o kluczowym znaczeniu dla biznesu za pomocą OpenProject.
           unlimited: "Bez ograniczeń"
           you_contribute: "Deweloperzy również muszą płacić rachunki. Poprzez przejście na wersję Enterprise będziesz wspierać ten wysiłek społeczności open source i przyczyniać się do jej rozwoju, utrzymania i ciągłego doskonalenia."
     custom_actions:
@@ -277,7 +280,7 @@ pl:
           one: "Pierwsze kryterium sortowania"
           two: "Drugie kryterium sortowania"
           three: "Trzecie kryterium sortowania"
-      upsale_for_more: "Zaawansowane filtry umożliwiają również filtrowanie nazw plików i zawartości załączników pakietu roboczego. Ulepsz do płatnego planu, aby korzystać z tej funkcji."
+      upsale_for_more: "Zaawansowane filtry umożliwiają również filtrowanie nazw plików i zawartości załączników pakietu roboczego. Ulepsz do płatnego planu, aby korzystać z tego dodatku."
       upsale_link: 'Wersja Enterprise.'
     general_text_no: "nie"
     general_text_yes: "tak"
@@ -297,15 +300,15 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Określ swój globalny tydzień pracy (weekendy i dni wolne od pracy).</li> <li>Oblicz czas trwania w oparciu o daty rozpoczęcia i zakończenia oraz możliwość uwzględnienia dni wolnych od pracy (weekendów) w harmonogramie.</li> <li>Dodaj znaczące podpowiedzi do najistotniejszych działań.</li> <li>Kopiowanie projektu skopiuje również linki do plików dołączone do wszystkich pakietów roboczych.</li> </ul>
+                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Aktywuj alerty powiadomień o nadchodzących datach i zaległych zadaniach.</li> <li>Udostępniamy uwierzytelnianie dwuskładnikowe (2FA) dla wersji społecznościowej.</li> <li>Opcja wyświetlania tygodnia roboczego została dodana do planisty zespołu.</li> <li>Wymień do 3 osób na karcie powiadomień, gdy w zmiany zaangażowanych było wiele osób.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Określ swój globalny tydzień pracy (weekendy i dni wolne od pracy).</li> <li>Oblicz czas trwania w oparciu o daty rozpoczęcia i zakończenia oraz możliwość uwzględnienia dni wolnych od pracy (weekendów) w harmonogramie.</li> <li>Dodaj znaczące podpowiedzi do najistotniejszych działań.</li> <li>Kopiowanie projektu skopiuje również linki do plików dołączone do wszystkich pakietów roboczych.</li> </ul>
+                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Aktywuj alerty powiadomień o nadchodzących datach i zaległych zadaniach.</li> <li>Udostępniamy uwierzytelnianie dwuskładnikowe (2FA) dla wersji społecznościowej.</li> <li>Opcja wyświetlania tygodnia roboczego została dodana do planisty zespołu.</li> <li>Wymień do 3 osób na karcie powiadomień, gdy w zmiany zaangażowanych było wiele osób.</li> </ul>
     label_activate: "Aktywuj"
     label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"
@@ -397,6 +400,7 @@ pl:
     label_no_data: "Brak danych do pokazania"
     label_no_due_date: "brak daty ukończenia"
     label_no_start_date: "brak daty rozpoczęcia"
+    label_no_date: "brak daty"
     label_no_value: "Brak wartości"
     label_none: "Brak"
     label_not_contains: "nie zawierają"
@@ -471,8 +475,8 @@ pl:
     label_custom_queries: "Prywatny"
     label_columns: "Kolumny"
     label_attachments: Załączniki
-    label_drop_files: Upuść pliki tutaj
-    label_drop_files_hint: lub kliknij aby dodać pliki
+    label_drop_files: "Upuść pliki tutaj, aby je załączyć."
+    label_drop_or_click_files: "Upuść pliki tutaj lub kliknij, aby je załączyć."
     label_drop_folders_hint: Nie można przesłać folderów jako załącznika. Wybierz pojedyncze pliki.
     label_add_attachments: "Dodaj Załączniki"
     label_formattable_attachment_hint: "Aby załączyć pliki, przeciągnij je tutaj lub wklej ze schowka."
@@ -537,14 +541,26 @@ pl:
       no_unread: "Brak nieprzeczytanych powiadomień"
       reasons:
         mentioned: 'wzmianka'
-        watched: 'watcher'
-        assigned: 'assignee'
+        watched: 'obserwator'
+        assigned: 'przypisana osoba'
         responsible: 'osoba odpowiedzialna'
         created: 'utworzono'
         scheduled: 'zaplanowano'
         commented: 'skomentowano'
         processed: 'przetworzono'
         prioritized: 'priorytetowo'
+        dateAlert: 'Alert dotyczący daty'
+      date_alerts:
+        milestone_date: 'Data  kamienia milowego'
+        overdue: 'Przekroczony termin'
+        overdue_since: 'od %{difference_in_days}'
+        property_today: 'jest dzisiaj'
+        property_is: 'jest za %{difference_in_days}'
+        property_was: 'była %{difference_in_days} temu'
+        property_is_deleted: 'usunięto'
+        upsale:
+          title: 'Alerty dotyczące dat'
+          description: 'Dzięki alertom dotyczącym dat będziesz otrzymywać powiadomienia o zbliżających się terminach rozpoczęcia lub zakończenia pracy, dzięki czemu nigdy nie przegapisz ani nie zapomnisz ważnego terminu.'
       facets:
         unread: 'Nieprzeczytane'
         unread_title: 'Pokaż nieprzeczytane'
@@ -558,7 +574,7 @@ pl:
           many: 'i %{count} inne'
           other: 'i %{count} innych'
         no_results:
-          at_all: 'Nowe powiadomienia pojawią się tutaj, gdy pojawi się aktywność, która cię dotyczy. W międzyczasie możesz również przeglądać lub modyfikować swoje ustawienia powiadomień, decydując, kiedy mają działać.'
+          at_all: 'Nowe powiadomienia pojawią się tutaj, gdy pojawi się aktywność, która dotyczy ciebie.'
           with_current_filter: 'Obecnie brak powiadomień w tym widoku'
         mark_all_read: 'Oznacz wszystko jako przeczytane'
         mark_as_read: 'Oznacz jako przeczytane'
@@ -575,21 +591,34 @@ pl:
       menu:
         accountable: 'Osoba odpowiedzialna'
         by_project: 'Nieprzeczytane wg projektu'
-        by_reason: 'Zaangażowanie'
+        by_reason: 'Przyczyna'
         inbox: 'Inbox'
-        mentioned: 'Mentioned'
-        watched: 'Watcher'
+        mentioned: 'Wzmianka'
+        watched: 'Obserwator'
+        date_alert: 'Data ostrzeżenia'
       settings:
-        change_notification_settings: 'Aby wyświetlić i zmienić ustawienia powiadomień, <a target="_blank" href="%{url}">kliknij tutaj</a>'
+        change_notification_settings: 'Możesz zmodyfikować <a target="_blank" href="%{url}">ustawienia powiadomień</a>, aby upewnić się, że nigdy nie przegapisz ważnej aktualizacji.'
         title: "Ustawienia powiadomień"
         notify_me: "Powiadom mnie"
+        reminders:
+          no_notification: Bez powiadomienia
+          timeframes:
+            normal:
+              PT0S: tego samego dnia
+              P1D: 1 dzień przed
+              P3D: 3 dni przed
+              P7D: 1 tydzień przed
+            overdue:
+              P1D: codziennie
+              P3D: co 3 dni
+              P7D: co tydzień
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'Wzmianka'
             description: 'Otrzymuj powiadomienie za każdym razem, gdy pojawi się o tobie wzmianka gdziekolwiek'
           assignee: 'Przypisana osoba'
           responsible: 'Osoba odpowiedzialna'
-          watched: 'Watcher'
+          watched: 'Obserwator'
           work_package_commented: 'Wszystkie nowe komentarze'
           work_package_created: 'Nowe pakiety robocze'
           work_package_processed: 'Wszystkie zmiany statusu'
@@ -597,17 +626,19 @@ pl:
           work_package_scheduled: 'Wszystkie zmiany daty'
         global:
           immediately:
-            title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            title: 'Uczestnictwo'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
-            title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            title: 'Brak uczestnictwa'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
-            title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            title: 'Data ostrzeżeń'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            teaser_text: 'Dzięki alertom dotyczącym dat będziesz otrzymywać powiadomienia o zbliżających się terminach rozpoczęcia lub zakończenia pracy, dzięki czemu nigdy nie przegapisz ani nie zapomnisz ważnego terminu.'
+          overdue: Po upływie terminu
         project_specific:
           title: 'Ustawienia powiadomień dla danego projektu'
-          description: 'Te ustawienia dla danego projektu zastępują ustawienia domyślne powyżej'
+          description: 'These project-specific settings override default settings above.'
           add: 'Dodaj ustawienie dla projektu'
           already_selected: 'Ten projekt jest już wybrany'
           remove: 'Usuń ustawienia projektu'
@@ -678,8 +709,8 @@ pl:
         reset_title: "Zresetuj konfigurację formularza"
         confirm_reset: >
           Ostrzeżenie: czy na pewno chcesz zresetować konfigurację formularza? Przywróci to atrybuty do ich grupy domyślnej i wyłączy WSZYSTKIE pola niestandardowe.
-        upgrade_to_ee: "Aktualizuj do wersji Enterprise"
-        upgrade_to_ee_text: "Znakomicie! Jeśli potrzebujesz tej funkcji, jesteś prawdziwym pro! Możesz wesprzesz nas jako deweloperów OpenSource, zostając klientem edycji Enterprise."
+        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "Więcej informacji"
         nevermind: "Nieważne"
       edit:
@@ -826,7 +857,7 @@ pl:
       zooms: "Powiększenie"
       outlines: "Poziom hierarchii"
     upsale:
-      ee_only: 'Funkcja edycji Enterprise'
+      ee_only: 'Dodatek do wersji Enterprise'
     wiki_formatting:
       strong: "Pogrubienie"
       italic: "Kursywa"
@@ -914,7 +945,7 @@ pl:
         estimatesAndTime: "Szacunki i czas"
         other: "Inne"
       properties:
-        assignee: "Przypisany do"
+        assignee: "Przypisana osoba"
         author: "Autor"
         createdAt: "Utworzone"
         description: "Opis"
@@ -1165,9 +1196,9 @@ pl:
           description: 'Uprawnienia na podstawie przypisanej roli w wybranym projekcie'
         placeholder:
           title: 'Użytkownik zastępczy'
-          title_no_ee: 'Użytkownik zastępczy (funkcja dostępna tylko w wersji Enterprise Edition)'
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Nie ma dostępu do projektu i nie są wysyłane żadne wiadomości e-mail.'
-          description_no_ee: 'Nie ma dostępu do projektu i nie są wysyłane żadne wiadomości e-mail. <br>Sprawdź wersję <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
           name_or_email: 'Nazwa lub adres e-mail'

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -134,7 +134,7 @@ describe 'Upload attachment to work package', js: true do
 
         scroll_to_and_click find('#work-packages--edit-actions-save')
 
-        new_page.expect_toast(
+        new_page.expect_and_dismiss_toaster(
           message: 'Successful creation.'
         )
 
@@ -247,7 +247,7 @@ describe 'Upload attachment to work package', js: true do
   describe 'attachment dropzone' do
     it 'can drag something to the files tab and have it open' do
       wp_page.expect_tab 'Activity'
-      attachments.drag_and_drop_file '.wp-attachment-upload',
+      attachments.drag_and_drop_file '[data-qa-selector="op-attachments--drop-box"]',
                                      image_fixture.path,
                                      :center,
                                      page.find('[data-qa-tab-id="files"]')
@@ -270,7 +270,7 @@ describe 'Upload attachment to work package', js: true do
 
     it 'can upload an image via attaching and drag & drop' do
       wp_page.switch_to_tab(tab: 'files')
-      container = page.find('.wp-attachment-upload')
+      container = page.find('[data-qa-selector="op-attachments--drop-box"]')
 
       ##
       # Attach file manually

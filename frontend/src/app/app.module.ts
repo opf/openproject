@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -79,7 +79,6 @@ import { OpHeaderProjectSelectListComponent } from 'core-app/shared/components/h
 
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { MainMenuResizerComponent } from 'core-app/shared/components/resizer/resizer/main-menu-resizer.component';
-import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
 import { OpenprojectAdminModule } from 'core-app/features/admin/openproject-admin.module';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
@@ -93,16 +92,21 @@ import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct
 import { OpenProjectStateModule } from 'core-app/core/state/openproject-state.module';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { OpenProjectHeaderInterceptor } from 'core-app/features/hal/http/openproject-header-interceptor';
+import { TopMenuService } from 'core-app/core/top-menu/top-menu.service';
+import { A11yModule } from '@angular/cdk/a11y';
 
 export function initializeServices(injector:Injector) {
   return () => {
     const PreviewTrigger = injector.get(PreviewTriggerService);
     const mainMenuNavigationService = injector.get(MainMenuNavigationService);
+    const topMenuService = injector.get(TopMenuService);
     const keyboardShortcuts = injector.get(KeyboardShortcutService);
     // Conditionally add the Revit Add-In settings button
     injector.get(RevitAddInSettingsButtonService);
 
     mainMenuNavigationService.register();
+
+    topMenuService.register();
 
     PreviewTrigger.setupListener();
 
@@ -114,6 +118,8 @@ export function initializeServices(injector:Injector) {
   imports: [
     // The BrowserModule must only be loaded here!
     BrowserModule,
+    A11yModule,
+
     // Commons
     OPSharedModule,
     // Design System
@@ -203,8 +209,6 @@ export function initializeServices(injector:Injector) {
     OpenProjectBackupService,
     OpenProjectFileUploadService,
     OpenProjectDirectFileUploadService,
-    // Split view
-    CommentService,
     ConfirmDialogService,
     RevitAddInSettingsButtonService,
   ],

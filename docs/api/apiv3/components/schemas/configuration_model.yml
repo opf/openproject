@@ -6,21 +6,17 @@ properties:
     type: integer
     description: The maximum allowed size of an attachment in Bytes
     readOnly: true
+  hostName:
+    type: string
+    description: The host name configured for the system
+    readOnly: true
   perPageOptions:
     type: array
     description: Page size steps to be offered in paginated list UI
     items:
       type: integer
-example:
-  _type: Configuration
-  _links:
-    self:
-      href: "/api/v3/configuration"
-    userPreferences:
-      href: "/api/v3/my_preferences"
-  maximumAttachmentFileSize: 5242880
-  hostName: 'example.com:8080'
-  perPageOptions:
-    - 1
-    - 10
-    - 100
+  activeFeatureFlags:
+    type: array
+    description: The list of all feature flags that are active
+    items:
+      type: string

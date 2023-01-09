@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,10 +31,11 @@ require 'spec_helper'
 describe ::Users::LoginService, type: :model do
   let(:input_user) { build_stubbed(:user) }
   let(:controller) { double('ApplicationController') }
+  let(:request) { {} }
   let(:session) { {} }
   let(:flash) { ActionDispatch::Flash::FlashHash.new }
 
-  let(:instance) { described_class.new(controller:) }
+  let(:instance) { described_class.new(controller:, request:) }
 
   subject { instance.call(input_user) }
 
@@ -49,7 +50,8 @@ describe ::Users::LoginService, type: :model do
 
       before do
         allow(::OpenProject::Plugins::AuthPlugin)
-          .to(receive(:login_provider_for))
+          .to(receive(:find_provider_by_name))
+          .with('provider_name')
           .and_return sso_provider
 
         allow(controller)
@@ -74,6 +76,7 @@ describe ::Users::LoginService, type: :model do
         let(:retained_values) { %i[foo bar] }
 
         it 'retains present session values' do
+          session[:omniauth_provider] = 'provider_name'
           session[:foo] = 'foo value'
           session[:what] = 'should be cleared'
 

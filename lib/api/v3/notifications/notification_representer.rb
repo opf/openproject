@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,18 +34,25 @@ module API
         include API::Decorators::LinkedResource
         extend API::Decorators::PolymorphicResource
 
-        self_link title_getter: ->(*) {}
+        self_link title: false
 
         property :id
 
         property :read_ian,
                  as: :readIAN
 
-        property :reason
+        property :reason,
+                 exec_context: :decorator,
+                 getter: ->(*) { PropertyFactory.reason_for(represented) }
 
         date_time_property :created_at
 
         date_time_property :updated_at
+
+        property :details,
+                 embedded: true,
+                 exec_context: :decorator,
+                 getter: ->(*) { PropertyFactory.details_for(represented) }
 
         link :readIAN do
           next if represented.read_ian
@@ -84,7 +91,7 @@ module API
           'Notification'
         end
 
-        self.to_eager_load = %i[project actor]
+        self.to_eager_load = %i[project actor journal]
       end
     end
   end

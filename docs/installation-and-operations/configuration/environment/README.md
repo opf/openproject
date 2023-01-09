@@ -8,6 +8,8 @@ sidebar_navigation:
 
 # Environment variables
 
+> **NOTE:** This documentation is for OpenProject on-premises Installations only, if you would like to setup similar in your OpenProject cloud instance, please contact us at support@openproject.com
+
 When using environment variables, you can set the options by setting environment variables with the name of the options below in uppercase. So for example, to configure email delivery via an SMTP server, you can set the following environment variables:
 
 ```bash
@@ -23,7 +25,7 @@ SMTP_ENABLE_STARTTLS_AUTO="true"
 
 In case you want to use environment variables, but you have no easy way to set them on a specific system, you can use the [dotenv](https://github.com/bkeepers/dotenv) gem. It automatically sets environment variables written to a .env file for a Rails application.
 
-
+Please be aware that **only those variables shall be edited which are documented** as not everything is meant to be configured or bend.
 
 ### Nested values
 
@@ -49,7 +51,7 @@ storage config above like this:
 OPENPROJECT_STORAGE_TYPE=nfs
 ```
 
-## Passing data structures
+## Passing data structures to the app
 
 The configuration uses YAML to parse overrides from ENV. Using YAML inline syntax, you can:
 
@@ -64,6 +66,22 @@ Example: `{!ruby/symbol key: !ruby/symbol value}` will be parsed as `{ key: :val
 
 Please note: The Configuration is a HashWithIndifferentAccess and thus it should be irrelevant for hashes to use symbol keys.
 
+Here an Example:
+
+Configured in the `/etc/openproject/conf.d/env` like this:
+
+```yaml
+OPENPROJECT_ENTERPRISE_FAIL__FAST=true
+
+# is the same as
+
+OPENPROJECT_ENTERPRISE="{ fail_fast: true }"
+
+# in the old configration.yml it looked like this
+
+enterprise:
+  fail_fast: true
+```
 
 # Supported environment variables
 
@@ -266,12 +284,6 @@ OPENPROJECT_SECURITY__BADGE__URL (default="https://releases.openproject.com/v1/c
 OPENPROJECT_SELF__REGISTRATION (default=2)
 OPENPROJECT_SENDMAIL__ARGUMENTS (default="-i")
 OPENPROJECT_SENDMAIL__LOCATION (default="/usr/sbin/sendmail")
-OPENPROJECT_SENTRY__BREADCRUMB__LOGGERS (default=["active_support_logger"])
-OPENPROJECT_SENTRY__DSN (default=nil)
-OPENPROJECT_SENTRY__FRONTEND__DSN (default=nil)
-OPENPROJECT_SENTRY__FRONTEND__TRACE__FACTOR (default=0)
-OPENPROJECT_SENTRY__HOST (default=nil)
-OPENPROJECT_SENTRY__TRACE__FACTOR (default=0)
 OPENPROJECT_SESSION__COOKIE__NAME (default="_open_project_session")
 OPENPROJECT_SESSION__STORE (default=:active_record_store)
 OPENPROJECT_SESSION__TTL (default=120)
@@ -322,4 +334,4 @@ OPENPROJECT_YOUTUBE__CHANNEL (default="https://www.youtube.com/c/OpenProjectComm
 
 ### PostgreSQL statement_timeout
 
-In docker installations, there is a default `statement_timeout` of 90s set for the docker image. To override this value in case you're getting statement timeout errros such as "ERROR:  canceling statement due to statement timeout", use the environment variable `POSTGRES_STATEMENT_TIMEOUT`
+In docker installations, there is a default `statement_timeout` of 90s set for the docker image. To override this value in case you're getting statement timeout errors such as "ERROR:  canceling statement due to statement timeout", use the environment variable `POSTGRES_STATEMENT_TIMEOUT`

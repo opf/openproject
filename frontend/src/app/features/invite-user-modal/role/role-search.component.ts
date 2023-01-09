@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import {
   combineLatest,
   Observable,
@@ -27,7 +27,7 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
   templateUrl: './role-search.component.html',
 })
 export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
-  @Input() spotFormBinding:FormControl;
+  @Input() spotFormBinding:UntypedFormControl;
 
   public input$ = new Subject<string|null>();
 

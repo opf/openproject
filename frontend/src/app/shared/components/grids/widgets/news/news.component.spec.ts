@@ -69,7 +69,7 @@ describe('shows news', () => {
     expect(app.entries.length).toBe(1);
   }));
 
-  it('should render the componenet successfully to show the news', waitForAsync(() => {
+  it('should render the component successfully to show the news', waitForAsync(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       const newsItem = document.querySelector('li');

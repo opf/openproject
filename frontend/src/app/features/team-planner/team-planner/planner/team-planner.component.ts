@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -116,6 +116,12 @@ import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { RawOptionsFromRefiners } from '@fullcalendar/core/internal';
+import { ViewOptionRefiners } from '@fullcalendar/common';
+import { ResourceApi } from '@fullcalendar/resource';
+
+export type TeamPlannerViewOptionKey = 'resourceTimelineWorkWeek'|'resourceTimelineWeek'|'resourceTimelineTwoWeeks';
+export type TeamPlannerViewOptions = { [K in TeamPlannerViewOptionKey]:RawOptionsFromRefiners<Required<ViewOptionRefiners>> };
 
 @Component({
   selector: 'op-team-planner',
@@ -133,8 +139,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   set ucCalendarElement(v:ElementRef|undefined) {
     this.calendar.resizeObserver(v);
   }
-
-  @ViewChild('eventContent') eventContent:TemplateRef<unknown>;
 
   @ViewChild('resourceContent') resourceContent:TemplateRef<unknown>;
 
@@ -286,6 +290,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     add_assignee: this.I18n.t('js.team_planner.add_assignee'),
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
     noData: this.I18n.t('js.team_planner.no_data'),
+    work_week: this.I18n.t('js.team_planner.work_week'),
     two_weeks: this.I18n.t('js.team_planner.two_weeks'),
     one_week: this.I18n.t('js.team_planner.one_week'),
     today: this.I18n.t('js.team_planner.today'),
@@ -306,6 +311,55 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     );
 
   isMobile = this.deviceService.isMobile;
+
+  private initialCalendarView = this.workPackagesCalendar.initialView || 'resourceTimelineWorkWeek';
+
+  private viewOptionDefaults = {
+    type: 'resourceTimeline',
+    slotDuration: { days: 1 },
+    resourceAreaColumns: [
+      {
+        field: 'title',
+        headerContent: {
+          html: `<span aria-label="${this.text.assignee}" class="spot-icon spot-icon_user"></span> <span class="hidden-for-mobile">${this.text.assignee}</span>`,
+        },
+      },
+    ],
+  };
+
+  public viewOptions:TeamPlannerViewOptions = {
+    resourceTimelineWorkWeek: {
+      ...this.viewOptionDefaults,
+      ...{
+        duration: { weeks: 1 },
+        slotLabelFormat: [
+          { weekday: 'long', day: '2-digit' },
+        ],
+        buttonText: this.text.work_week,
+      },
+    },
+    resourceTimelineWeek: {
+      ...this.viewOptionDefaults,
+      ...{
+        duration: { weeks: 1 },
+        slotLabelFormat: [
+          { weekday: 'long', day: '2-digit' },
+        ],
+        buttonText: this.text.one_week,
+      },
+    },
+    resourceTimelineTwoWeeks: {
+      ...this.viewOptionDefaults,
+      ...{
+        buttonText: this.text.two_weeks,
+        duration: { weeks: 2 },
+        dateIncrement: { weeks: 1 },
+        slotLabelFormat: [
+          { weekday: 'short', day: '2-digit' },
+        ],
+      },
+    },
+  };
 
   constructor(
     private $state:StateService,
@@ -375,7 +429,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         const api = this.ucCalendar.getApi();
 
         // This also removes the skeleton resources that are rendered initially
-        api.getResources().forEach((resource) => resource.remove());
+        api.getResources().forEach((resource:ResourceApi) => resource.remove());
 
         principals.forEach((principal) => {
           const id = principal._links.self.href;
@@ -428,49 +482,21 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             plugins: [resourceTimelinePlugin, interactionPlugin],
             titleFormat: { year: 'numeric', month: 'long', day: 'numeric' },
             buttonText: { today: this.text.today },
-            initialView: this.workPackagesCalendar.initialView || 'resourceTimelineWeek',
+            initialView: this.initialCalendarView,
             headerToolbar: {
               left: '',
               center: 'title',
-              right: 'prev,next today resourceTimelineWeek,resourceTimelineTwoWeeks',
+              right: 'prev,next today',
             },
-            views: {
-              resourceTimelineWeek: {
-                type: 'resourceTimeline',
-                buttonText: this.text.one_week,
-                duration: { weeks: 1 },
-                slotDuration: { days: 1 },
-                slotLabelFormat: [
-                  { weekday: 'long', day: '2-digit' },
-                ],
-                resourceAreaColumns: [
-                  {
-                    field: 'title',
-                    headerContent: {
-                      html: `<span class="spot-icon spot-icon_user"></span> <span class="hidden-for-mobile">${this.text.assignee}</span>`,
-                    },
-                  },
-                ],
+            views: _.merge(
+              {},
+              this.viewOptions,
+              {
+                resourceTimelineWorkWeek: {
+                  hiddenDays: this.weekdayService.nonWorkingDays.map((weekday) => weekday.day % 7), // The OP days are 1 based but this needs to be 0 based.
+                },
               },
-              resourceTimelineTwoWeeks: {
-                type: 'resourceTimeline',
-                buttonText: this.text.two_weeks,
-                slotDuration: { days: 1 },
-                duration: { weeks: 2 },
-                dateIncrement: { weeks: 1 },
-                slotLabelFormat: [
-                  { weekday: 'short', day: '2-digit' },
-                ],
-                resourceAreaColumns: [
-                  {
-                    field: 'title',
-                    headerContent: {
-                      html: `<span class="spot-icon spot-icon_user"></span> <span class="hidden-for-mobile">${this.text.assignee}</span>`,
-                    },
-                  },
-                ],
-              },
-            },
+            ),
             // Ensure we show the skeleton from the beginning
             progressiveEventRendering: true,
             eventSources: [
@@ -495,8 +521,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             resources: skeletonResources,
             resourceAreaWidth: this.isMobile ? '60px' : '180px',
             select: this.handleDateClicked.bind(this) as unknown,
-            resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
-            resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
             // DnD configuration
             editable: true,
             droppable: true,
@@ -555,24 +579,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               await this.updateEvent(dropInfo, true);
               this.actions$.dispatch(teamPlannerEventAdded({ workPackage: wp.id as string }));
             },
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            eventContent: (data:EventContentArg):{ domNodes:unknown[] }|undefined => {
-              // Let FC handle the background events
-              if (data.event.source?.id === 'background') {
-                return undefined;
-              }
-
-              return this.renderTemplate(this.eventContent, this.eventId(data), data);
-            },
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            eventWillUnmount: (data:EventContentArg) => {
-              // Nothing to do for background events
-              if (data.event.source?.id === 'background') {
-                return;
-              }
-
-              this.unrenderTemplate(this.eventId(data));
-            },
           } as CalendarOptions),
         );
       });
@@ -605,6 +611,14 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       );
 
     void this.workPackagesCalendar.updateTimeframe(fetchInfo, this.projectIdentifier);
+  }
+
+  public switchView(key:TeamPlannerViewOptionKey):void {
+    this.ucCalendar.getApi().changeView(key);
+  }
+
+  public get currentViewTitle():string {
+    return this.viewOptions[((this.ucCalendar && this.ucCalendar.getApi().view.type) || this.initialCalendarView) as TeamPlannerViewOptionKey].buttonText as string;
   }
 
   /**

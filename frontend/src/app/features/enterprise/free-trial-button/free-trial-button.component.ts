@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -41,6 +41,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { GonService } from 'core-app/core/gon/gon.service';
+import { IEnterpriseData } from 'core-app/features/enterprise/enterprise-trial.model';
 
 export const freeTrialButtonSelector = 'free-trial-button';
 
@@ -48,15 +49,6 @@ export interface EETrialKey {
   created:string;
   value:string;
 }
-
-export interface TrialDetails {
-  first_name:string;
-  last_name:string;
-  email:string;
-  company:string;
-  domain:string;
-}
-
 @Component({
   selector: freeTrialButtonSelector,
   templateUrl: './free-trial-button.component.html',
@@ -86,12 +78,12 @@ export class FreeTrialButtonComponent implements OnInit {
   }
 
   ngOnInit():void {
-    this.eeTrialService.userData$
-      .values$()
+    this.eeTrialService
+      .userData$
       .pipe(
         distinctUntilChanged(),
       )
-      .subscribe((userForm) => {
+      .subscribe((userForm:IEnterpriseData) => {
         this.email = userForm.email;
         this.cdRef.detectChanges();
       });
@@ -105,20 +97,22 @@ export class FreeTrialButtonComponent implements OnInit {
       const savedDateStr = eeTrialKey.created.split(' ')[0];
       this.created = this.timezoneService.formattedDate(savedDateStr);
 
-      if (!this.eeTrialService.userData$.hasValue()) {
+      const { data } = this.eeTrialService.store.getValue();
+      if (data) {
         // after reload: get data from Augur using the trial key saved in gon
-        this.eeTrialService.trialLink = `${this.eeTrialService.baseUrlAugur}/public/v1/trials/${eeTrialKey.value}`;
-        this.getUserDataFromAugur();
+        const trialLink = `${this.eeTrialService.baseUrlAugur}/public/v1/trials/${eeTrialKey.value}`;
+        this.eeTrialService.store.update({ trialLink });
+        this.getUserDataFromAugur(trialLink);
       }
     }
   }
 
-  private getUserDataFromAugur():void {
+  private getUserDataFromAugur(trialLink:string):void {
     this.http
-      .get<TrialDetails>(`${this.eeTrialService.trialLink}/details`)
+      .get<IEnterpriseData>(`${trialLink}/details`)
       .toPromise()
-      .then((userForm:TrialDetails) => {
-        this.eeTrialService.userData$.putValue(userForm);
+      .then((data:IEnterpriseData) => {
+        this.eeTrialService.store.update({ data });
         this.eeTrialService.retryConfirmation();
       })
       .catch(() => {
@@ -129,13 +123,12 @@ export class FreeTrialButtonComponent implements OnInit {
 
   public openTrialModal():void {
     // cancel request and open first modal window
-    this.eeTrialService.cancelled = true;
-    this.eeTrialService.modalOpen = true;
+    this.eeTrialService.store.update({ cancelled: true, modalOpen: true });
     this.opModalService.show(EnterpriseTrialModalComponent, this.injector);
   }
 
   public get trialRequested():boolean {
-    const eeTrialKey = this.Gon.get('ee_trial_key') as EETrialKey;
-    return (eeTrialKey && eeTrialKey !== undefined);
+    const eeTrialKey = this.Gon.get('ee_trial_key') as EETrialKey|undefined;
+    return !!eeTrialKey;
   }
 }

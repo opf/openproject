@@ -1,6 +1,4 @@
-import 'core-vendor/qrcode-min';
-
-declare let QRCode:any;
+import QrCreator from 'qr-creator';
 
 jQuery(($) => {
   $('#submit_otp').submit(() => {
@@ -13,15 +11,14 @@ jQuery(($) => {
   });
 
   $('.qr-code-element').each(function () {
-    const el = $(this);
-    new QRCode(
-      el[0],
-      {
-        text: el.data('value'),
-        width: 220,
-        height: 220,
-      },
-    );
+    QrCreator.render({
+      text: this.dataset.value as string,
+      radius: 0,
+      ecLevel: 'H',
+      fill: '#222222',
+      background: '#FFFFFF',
+      size: 250,
+    }, this);
   });
 
   $('.ajax_form').submit(function () {

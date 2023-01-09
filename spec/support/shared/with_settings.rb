@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,11 +39,13 @@ def aggregate_mocked_settings(example, settings)
 end
 
 RSpec.shared_context 'with settings reset' do
-  around do |example|
-    definitions_before = Settings::Definition.all.dup
+  let!(:definitions_before) { Settings::Definition.all.dup }
+
+  before do
     Settings::Definition.send(:reset)
-    example.run
-  ensure
+  end
+
+  after do
     Settings::Definition.send(:reset)
     Settings::Definition.instance_variable_set(:@all, definitions_before)
   end

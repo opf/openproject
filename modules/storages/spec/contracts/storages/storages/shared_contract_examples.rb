@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
   # Only admins have the right to create/delete storages.
   let(:current_user) { create(:admin) }
   let(:storage_name) { 'Storage 1' }
-  let(:storage_provider_type) { ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+  let(:storage_provider_type) { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
   let(:storage_host) { 'https://host1.example.com' }
   let(:storage_creator) { current_user }
 
@@ -95,13 +95,13 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
       context 'as host is not a URL' do
         let(:storage_host) { '---invalid-url---' }
 
-        include_examples 'contract is invalid', host: :url
+        include_examples 'contract is invalid', host: I18n.t('activerecord.errors.messages.invalid_url')
       end
 
       context 'as host is an empty string' do
         let(:storage_host) { '' }
 
-        include_examples 'contract is invalid', host: :url
+        include_examples 'contract is invalid', host: I18n.t('activerecord.errors.messages.invalid_url')
       end
 
       context 'as host is longer than 255' do

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ uk:
         main-menu-border-color: "Контур головного меню"
       custom_colors: "Кольори за власними вподобаннями"
       customize: "Персоналізуйте свій екземпляр OpenProject за допомогою власного логотипа й кольорів."
-      enterprise_notice: "Як особливий «Спасибі!» для їхнього фінансового внеску в розвиток OpenProject, ця маленька функція доступна лише для абонентів підтримки Enterprise Edition."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Примітка: використаний логотип буде загальнодоступний."
       manage_colors: "Редагувати параметри вибору кольору"
       instructions:
@@ -64,15 +64,15 @@ uk:
         main-menu-bg-color: "Колір фону меню зліва."
       theme_warning: Змінення теми перезапише ваш власний стиль. У такому разі дизайн буде втрачено. Справді продовжити?
     enterprise:
-      upgrade_to_ee: "Перейти на Enterprise Edition"
-      add_token: "Завантажте маркер підтримки для Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "Вилучити поточний маркер Enterprise Edition?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Видалити маркер"
       replace_token: "Замініть поточний маркер підтримки"
-      order: "Замовити локальний корпоративний випуск"
-      paste: "Вставте маркер підтримки для Enterprise Edition"
-      required_for_feature: "Ця функція доступна лише з активним маркером підтримки Enterprise Edition."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Для отримання додаткової інформації натисніть тут."
       start_trial: 'Розпочати безкоштовну пробну версію'
       book_now: 'Забронювати зараз'
@@ -80,7 +80,7 @@ uk:
       buttons:
         upgrade: "Оновити зараз"
         contact: "Зв’яжіться з нами, щоб отримати демоверсію"
-      enterprise_info_html: "– це функція Enterprise <strong class='icon-medal'>."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
     journal_aggregation:
       explanation:
@@ -134,6 +134,7 @@ uk:
         Якщо встановити цей прапорець, OpenProject автоматично створюватиме нових користувачів на основі своїх записів LDAP під час їх першої автентифікації в OpenProject.
         Не встановлюйте його, щоб дозволити автентифікацію через LDAP лише наявним обліковим записам в OpenProject!
     connection_encryption: 'Підключення шифрування'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Системний обліковий запис'
     system_account_legend: |
       OpenProject потрібен доступ лише для читання через системний обліковий запис, щоб шукати користувачів і групи у вашому LDAP-дереві.
@@ -144,13 +145,18 @@ uk:
       Наведені нижче поля пов’язані з тим, як користувачі створюються в OpenProject на основі записів LDAP і з тим, які атрибути LDAP використовуються для визначення атрибутів користувача OpenProject (зіставлення атрибутів).
     tls_mode:
       plain: 'нічого'
-      simple_tls: 'Звичайний_TLS'
-      start_tls: 'Запустити_TLS'
-      plain_description: "Незашифроване з’эднання, без TLS передачі."
-      simple_tls_description: "Наявне шифрування TLS, але не підверджено сертифікатів. Використовуйте з обережністю та  з довіреним з'єднання LDAP."
-      start_tls_description: "Шифрування TLS з повною перевіркою. Використовується для LDAP через TLS / SSL"
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Цей розділ стосується безпеки підключення цього джерела автентифікації LDAP. Для отримання додаткової інформації, вбудовуйте <a href="%{link}">the Net::LDAP documentation</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: На даний момент на форумі немає публікацій.
@@ -207,13 +213,13 @@ uk:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
-      overviews: 'Project overview'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      members: 'Учасники проєкту'
+      overviews: 'Огляд проєкту'
+      queries: 'Пакети робіт: збережені подання'
+      wiki_page_attachments: 'Сторінки Wiki: вкладення'
+      work_package_attachments: 'Пакети робіт: вкладення'
+      work_package_categories: 'Пакети робіт: категорії'
+      work_package_file_links: 'Пакети робіт: посилання на файли'
     delete:
       scheduled: "Видалення заплановано та виконується у фоновому режимі. Ви отримаєте сповіщення про результат."
       schedule_failed: "Проект не можна видалити: %{errors}"
@@ -311,7 +317,7 @@ uk:
       settings: "Налаштування"
       form_configuration: "Конфігурація форми"
       more_info_text_html: >
-        У версії Enterprise Edition можна персоналізувати конфігурацію форми за допомогою таких додаткових функцій: <br> <ul class="%{list_styling_class}">Додавання нових груп атрибутів</b></li> <li><b>Перейменування груп атрибутів</b></li> <li><b>Додавання таблиці пов’язаних пакетів робіт</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Проекти"
       enabled_projects: "Включені проекти"
       edit_query: "Редагувати таблицю"
@@ -326,6 +332,7 @@ uk:
   wiki:
     page_not_editable_index: Запитувана сторінка не існує (поки що). Вас було переспрямовано до індексу всіх вікі-сторінок.
     no_results_title_text: Наразі немає wiki-сторінок.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Додати нову wiki-сторінку
   work_flows:
@@ -366,7 +373,7 @@ uk:
   account:
     delete: "Видалити обліковий запис"
     delete_confirmation: "Ви дійсно бажаєте видалити цей обліковий запис?"
-    deleted: "Обліковий запис успішно видалений"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "З даних, створених користувачем (наприклад, електронною поштою, налаштуваннями, робочими пакетами, вікі-записами), буде максимально вилучено. Зауважте, що дані, такі як робочі пакети та записи вікі, не можуть бути видалені без перешкод роботі інших користувачів. Таким чином, такі дані перепризначено до облікового запису, який називається \"Видалений користувач\". Оскільки дані кожного видаленого облікового запису перепризначені для цього облікового запису, неможливо буде розрізняти дані, створені користувачем, з даних іншого видаленого облікового запису."
@@ -416,6 +423,7 @@ uk:
         host: "Хост"
         onthefly: "Автоматичне створення користувачів"
         port: "Порт"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Репозиторій"
       comment:
@@ -577,7 +585,7 @@ uk:
         confirmation: "не збігається %{attribute}"
         could_not_be_copied: "%{dependency} не вдалося скопіювати (повністю)."
         does_not_exist: "не існує."
-        error_enterprise_only: "доступно лише у версії OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "– можливо, немає доступу."
         error_readonly: "– було здійснено спробу запису, але елемент недоступний для запису."
         email: "– це не дійсна електронна адреса."
@@ -624,6 +632,11 @@ uk:
           не надає контекст безпеки. Використовуйте HTTPS або адресу loopback, наприклад localhost.
         wrong_length: "неправильна довжина (повинна бути %{count} символів)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -749,10 +762,15 @@ uk:
             daily_reminders:
               full_hour: "– можна налаштувати отримання лише на початку кожної години."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: 'Має існувати лише одне глобальне налаштування сповіщень.'
+              email_alerts_global: 'Налаштування сповіщень електронною поштою можна встановити лише глобально.'
               format: "%{message}"
-              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+              wrong_date: 'Неправильні значення атрибутів «Дата початку», «Дата закінчення» або «Прострочено».'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "не може переглядати цей ресурс."
+              locked: "заблоковано."
         wiki_page:
           attributes:
             slug:
@@ -1275,11 +1293,11 @@ uk:
   ee:
     upsale:
       form_configuration:
-        description: "Налаштуйте конфігурацію форми за допомогою цих додаткових функцій:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Додати нові групи атрибутів"
         rename_groups: "Перейменувати групи атрибутів"
       project_filters:
-        description_html: "Фільтрування та сортування по власних полях доступне тільки у корпоративній версії."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Дії щодо відстеження часу"
   enumeration_work_package_priorities: "Пріоритети робочого пакету"
   enumeration_reported_project_statuses: "Повідомлення про статус проекту"
@@ -1301,7 +1319,7 @@ uk:
   error_cookie_missing: 'Файл cookie OpenProject відсутній. Переконайтеся, що файли cookie увімкнено, оскільки ця програма не буде функціонувати належним чином.'
   error_custom_option_not_found: "Варіант не існує."
   error_enterprise_activation_user_limit: "Ваш обліковий запис не можна активувати (досягнуто обмеження користувача). Щоб отримати доступ, зверніться до свого адміністратора."
-  error_enterprise_token_invalid_domain: "Версія Enterprise Edition не активна. Ваш домен маркера Enterprise (%{actual}) не збігається з іменем хосту системи (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Не вдалося видалити цей запис.'
   error_in_dependent: "Помилка спроби змінити залежний об'єкт: %{dependent_class} %{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Не вдалося змінити залежний об’єкт: %{dependent_class} – %{related_subject}: %{error}"
@@ -1336,16 +1354,19 @@ uk:
   error_external_authentication_failed: "Під час зовнішньої автентифікації сталася помилка. Повторіть спробу."
   error_attribute_not_highlightable: "Атрибут(и) не виділено: %{attributes}"
   events:
-    project: 'Проект відредаговано'
     changeset: 'Набір змін відредаговано'
     message: Повідомлення відредаговано
     news: Новини
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Відповіли
     time_entry: 'Timelog відредаговано'
     wiki_page: 'Wiki-сторінка оновлена'
     work_package_closed: 'Робочий пакет закритий'
     work_package_edit: 'Робочий пакет оновлений'
     work_package_note: 'Робочий пакет не доданий'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Експорт ваших пакетів робіт"
     succeeded: "Експорт успішно завершено."
@@ -1389,10 +1410,10 @@ uk:
     blocks:
       community: "Спільнота OpenProject"
       upsale:
-        title: "Оновлення до Enterprise Edition"
+        title: "Upgrade to Enterprise edition"
         more_info: "Більше інформації"
     links:
-      upgrade_enterprise_edition: "Оновлення до Enterprise Edition"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Міграція інсталяції в PostgreSQL"
       user_guides: "Посібники користувача"
       faq: "ЧаПи"
@@ -1608,7 +1629,7 @@ uk:
   label_enumerations: "Перерахування"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} зареєстровано активних користувачів"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Навколишнє середовище"
   label_estimates_and_time: "Оцінки та час"
   label_equals: "є"
@@ -1798,6 +1819,7 @@ uk:
   label_product_version: "Версія продукту"
   label_professional_support: "Професійна підтримка"
   label_profile: "Профіль"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Загальна кількість проектів"
   label_project_copy_notifications: "Відправлення повідомлень по електронній пошті в ході реалізації проекту копія"
   label_project_latest: "Останні проекти"
@@ -2052,6 +2074,8 @@ uk:
         mentioned: 'Згадано'
         subscribed: 'всі'
         prefix: 'Отримано через налаштування сповіщень: %{reason}'
+        date_alert_start_date: 'Оповіщення про дату'
+        date_alert_due_date: 'Оповіщення про дату'
       see_all: 'Показати всі'
       updated_at: 'Оновлено о %{timestamp} користувачем %{user}'
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
@@ -2086,8 +2110,6 @@ uk:
   mail_subject_incoming_email_error: "Не вдалось обробити електронний лист, надісланий на адресу OpenProject"
   mail_subject_lost_password: "Ваш %{value} пароль"
   mail_subject_register: "Активація облікового запису %{value}"
-  mail_subject_reminder: "%{count} призначених на Вас робочих пакетів в найближчі %{days} дні"
-  mail_subject_group_reminder: "Пакети робіт (%{count}), призначені групі «%{group}», потрібно завершити протягом наступних %{days} дн."
   mail_subject_wiki_content_added: "Wiki-сторінка '%{id}' була додана"
   mail_subject_wiki_content_updated: "Wiki-сторінка '%{id}' була оновлена"
   mail_member_added_project:
@@ -2622,11 +2644,11 @@ uk:
   text_custom_field_hint_activate_per_project_and_type: >
     Користувальницькі поля повинні бути активовані за типом робочого пакета та проекту.
   text_wp_custom_field_html: >
-    У випуску Enterprise Edition з’являться такі додаткові функції для користувацьких полів пакетів робіт: <br> <ul><li><b>Дозволити вибір кількох користувацьких полів типу «Список» або «Користувач»</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    У випуску Enterprise Edition з’являться такі додаткові функції для полів статусу пакетів робіт: <br> <ul><li><b>Дозволити позначати пакети робіт певних статусів як доступні тільки для читання</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    У випуску Enterprise Edition з’являться такі додаткові функції для користувацьких проєктів: <br> <ul><li><b>Додавати користувацькі поля проєктів у список проєктів для створення режиму перегляду портфеля проєктів</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Рекомендується використовувати білий логотип з прозорим фоном. Для оптимального відображення на звичайних і retina-дисплеях розмір картинки повинен бути 460 на 110 пікселів.
   text_custom_favicon_instructions: >
@@ -2931,7 +2953,7 @@ uk:
   warning_user_limit_reached: >
     Досягнуто обмеження користувача. Не можна активувати більше користувачів. Будь ласка <a href="%{upgrade_url}"> оновіть свій план </a> або заблокувати учасників для додаткових користувачів.
   warning_user_limit_reached_instructions: >
-    Ви досягли обмеження користувача (%{current}/%{max} активних користувачів). Зверніться до sales@openproject.com, щоб оновити план Enterprise Edition і додати додаткових користувачів.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2972,6 +2994,7 @@ uk:
   api_v3:
     attributes:
       lock_version: "Версія замку"
+      property: 'Властивість'
     errors:
       code_400: "Поганий запит: %{message}"
       code_401: "Щоб отримати доступ до цього ресурсу, потрібно пройти аутентифікацію."

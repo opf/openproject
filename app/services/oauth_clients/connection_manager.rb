@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -151,7 +151,7 @@ module OAuthClients
       # `yield` needs to returns a ServiceResult:
       #   success: result= any object with data
       #   failure: result= :error or :not_authorized
-      yield_service_result = yield
+      yield_service_result = yield(oauth_client_token)
 
       if yield_service_result.failure? && yield_service_result.result == :not_authorized
         refresh_service_result = refresh_token
@@ -162,17 +162,10 @@ module OAuthClients
         end
 
         oauth_client_token.reload
-        yield_service_result = yield # Should contain result=<data> in case of success
+        yield_service_result = yield(oauth_client_token) # Should contain result=<data> in case of success
       end
 
       yield_service_result
-    end
-
-    def with_refreshed_token(&)
-      token = get_existing_token
-      return ServiceResult.failure(result: :not_authorized) if token.blank?
-
-      request_with_token_refresh(token, &)
     end
 
     private

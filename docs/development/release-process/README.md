@@ -67,5 +67,5 @@ Since the Stable Release 3.0.8 this idea only applies by considering the OpenPro
 
 ## Support of releases
 
-* For the community edition only the current stable releases are maintained. The [Enterprise Edition](https://www.openproject.org/enterprise-edition) provides extended maintenance.
+* For the community edition only the current stable releases are maintained. The [Enterprise on-premises](https://www.openproject.org/enterprise-edition) provides extended maintenance.
 * We recommended to update to a new stable release as soon as possible to have a supported version installed.

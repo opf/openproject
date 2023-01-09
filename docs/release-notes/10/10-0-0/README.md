@@ -8,7 +8,7 @@ release_date: 2019-09-23
 
 # OpenProject 10.0
 
-OpenProject 10 introduces drag and drop ordering of work packages in the work package table and Gantt view. The project overview dashboard has been completely rewritten to provide a modern and flexible overview of the project. In addition, work package description and custom fields now have task lists you can create and manage within the CKEditor5 WYSIWYG editor. A new card view on the work package page provides quick overview of the tasks. Users of the Cloud and Enterprise Edition benefit from graphs which can be included in the project overview page.
+OpenProject 10 introduces drag and drop ordering of work packages in the work package table and Gantt view. The project overview dashboard has been completely rewritten to provide a modern and flexible overview of the project. In addition, work package description and custom fields now have task lists you can create and manage within the CKEditor5 WYSIWYG editor. A new card view on the work package page provides quick overview of the tasks. Users of the Enterprise cloud and Enterprise on-premises benefit from graphs which can be included in the project overview page.
 
 Read below to get a detailed overview of what is new in OpenProject 10.
 
@@ -50,9 +50,9 @@ The overview pages of users upgrading from earlier versions to OpenProject 10 wi
 
 
 
-## Graphs on project overview page (Cloud / Enterprise Edition)
+## Graphs on project overview page (Enterprise add-on)
 
-As a user of the Cloud or Enterprise Edition, you can add graphs to the overview page. This enables you to visualize important project information - directly form the project overview page.
+As a user of the Enterprise cloud or Enterprise on-premises, you can add graphs to the overview page. This enables you to visualize important project information - directly form the project overview page.
 
 Therefore, you can quickly communicate e.g. who is assigned to which work packages, how many tasks are still open and more. To give you maximum flexibility, you can choose from seven different types of graphs, such as bar charts, pie charts and line graphs.
 
@@ -120,7 +120,7 @@ OpenProject 10 significantly improves the performance, especially for the work p
 - Fixed: No warning when switching from project description to other page [[#30587](https://community.openproject.com/wp/30587)]
 - Fixed: Sorting of card view is not the same as in the list [[#30675](https://community.openproject.com/wp/30675)]
 - Fixed: Project resource not updated when changing a custom field [[#30683](https://community.openproject.com/wp/30683)]
-- Fixed: Typo in German Enterprise Edition license Email (date) [[#30732](https://community.openproject.com/wp/30732)]
+- Fixed: Typo in German Enterprise edition license Email (date) [[#30732](https://community.openproject.com/wp/30732)]
 - Fixed: Users and permissions tile in the administration should link to the users table instead of the user settings [[#30742](https://community.openproject.com/wp/30742)]
 - Fixed: After pressing enter in the work package widget title the cursor is still blinking [[#30757](https://community.openproject.com/wp/30757)]
 - Fixed: Dropdown in WP list not centered (when next to subject) [[#30760](https://community.openproject.com/wp/30760)]
@@ -132,7 +132,7 @@ OpenProject 10 significantly improves the performance, especially for the work p
 - Fixed: New child work package that is created in the relations tab is not shown in the list view [[#30777](https://community.openproject.com/wp/30777)]
 - Fixed: Typos in German language settings [[#30785](https://community.openproject.com/wp/30785)]
 - Fixed: When changing WP type in Gantt shadow WPs are shown [[#30787](https://community.openproject.com/wp/30787)]
-- Fixed: Enterprise Edition option shown in Cloud Administration (Page not found) [[#30788](https://community.openproject.com/wp/30788)]
+- Fixed: Enterprise edition option shown in Cloud Administration (Page not found) [[#30788](https://community.openproject.com/wp/30788)]
 - Fixed: Wrong side entry selected in administration when selecting "Work packages" [[#30789](https://community.openproject.com/wp/30789)]
 - Fixed: Default descriptions get still applied even after deleting them. [[#30795](https://community.openproject.com/wp/30795)]
 - Fixed: UX: Inconsistency when confirm-click on tick-button is needed (Adding an existing child vs. adding a relation). [[#30796](https://community.openproject.com/wp/30796)]
@@ -215,7 +215,7 @@ OpenProject 10 significantly improves the performance, especially for the work p
 - Fixed: Type colors lost in print of Gantt chart [[#31021](https://community.openproject.com/wp/31021)]
 - Fixed: Graph titles get get lost after page reload [[#31026](https://community.openproject.com/wp/31026)]
 - Fixed: Misaligned drag and drop handle in Members widget [[#31027](https://community.openproject.com/wp/31027)]
-- Fixed: Single Sign on feature is available in Community Edition [[#31045](https://community.openproject.com/wp/31045)]
+- Fixed: Single Sign on feature is available in Community edition [[#31045](https://community.openproject.com/wp/31045)]
 - Fixed: Cannot edit comment that was just created [[#31057](https://community.openproject.com/wp/31057)]
 
 
@@ -226,7 +226,7 @@ You will find useful information in the OpenProject [FAQ]() or you can post your
 
 ### Upgrading your installation to OpenProject 10.0.
 
-If you're using the OpenProject Cloud Edition, you are already running on the latest version of OpenProject 10.0. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
+If you're using the OpenProject Enterprise cloud edition, you are already running on the latest version of OpenProject 10.0. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
 
 [Please visit our upgrade guides for more information](../../../installation-and-operations/operation/upgrading).
 

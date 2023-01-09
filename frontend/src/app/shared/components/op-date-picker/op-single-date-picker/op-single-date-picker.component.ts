@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { Instance } from 'flatpickr/dist/types/instance';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
@@ -42,14 +47,31 @@ import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 export class OpSingleDatePickerComponent extends AbstractDatePickerDirective {
   @Output() public changed = new DebouncedEventEmitter<string>(componentDestroyed(this));
 
+  @Output() public blurred = new EventEmitter<string>();
+
+  @Output() public enterPressed = new EventEmitter<string>();
+
   @Input() public initialDate = '';
 
   onInputChange():void {
     if (this.inputIsValidDate()) {
       this.changed.emit(this.currentValue);
-    } else {
-      this.changed.emit('');
     }
+  }
+
+  onBlurred(event:MouseEvent):void {
+    if (this.isOutsideClick(event)) {
+      this.close();
+      this.blurred.emit(this.currentValue);
+    }
+  }
+
+  get dateValue():string {
+    if (this.inputIsValidDate()) {
+      return this.currentValue;
+    }
+
+    return '';
   }
 
   protected inputIsValidDate():boolean {

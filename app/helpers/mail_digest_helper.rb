@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,6 +42,16 @@ module MailDigestHelper
     summary
   end
 
+  def date_alerts_text(notification, html: true)
+    date_value = date_value(notification)
+    is_past, is_overdue, days_diff = text_modifiers_for(notification, date_value)
+
+    alert_text = build_alert_text(date_value, is_past, is_overdue, days_diff)
+    property_text = build_property_text(notification, is_overdue, days_diff)
+
+    highlight_overdue("#{property_text} #{alert_text}", is_overdue, html)
+  end
+
   def digest_notification_timestamp_text(notification, html: true)
     journal = notification.journal
     user = html ? link_to_user(journal.user, only_path: false) : journal.user.name
@@ -73,5 +83,44 @@ module MailDigestHelper
 
   def number_of_authors(notifications)
     notifications.group_by { |n| n[:actor_id] }.count
+  end
+
+  def date_value(notification)
+    work_package = notification.resource
+    notification.reason == "date_alert_start_date" ? work_package.start_date : work_package.due_date
+  end
+
+  def text_modifiers_for(notification, value)
+    return unless value
+
+    is_past = value.before?(Time.zone.today)
+    is_overdue = is_past && notification.reason == "date_alert_due_date"
+    difference_in_days = (value - Time.zone.today).to_i.abs
+    [is_past, is_overdue, difference_in_days]
+  end
+
+  def build_property_text(notification, is_overdue, days_diff)
+    return I18n.t('js.notifications.date_alerts.overdue') if is_overdue && days_diff > 0
+    return I18n.t('js.notifications.date_alerts.milestone_date') if notification.resource.milestone?
+    return I18n.t('js.work_packages.properties.startDate') if notification.reason == "date_alert_start_date"
+
+    I18n.t('js.work_packages.properties.dueDate')
+  end
+
+  def build_alert_text(date_value, is_past, is_overdue, days_diff)
+    return I18n.t('js.notifications.date_alerts.property_is_deleted') unless date_value
+    return I18n.t('js.notifications.date_alerts.property_today') if days_diff == 0
+
+    days_text = I18n.t('js.units.day', count: days_diff)
+    return I18n.t('js.notifications.date_alerts.overdue_since', difference_in_days: days_text) if is_overdue
+    return I18n.t('js.notifications.date_alerts.property_was', difference_in_days: days_text) if is_past
+
+    I18n.t('js.notifications.date_alerts.property_is', difference_in_days: days_text)
+  end
+
+  def highlight_overdue(text, is_overdue, html)
+    return text unless html && is_overdue
+
+    content_tag :span, text, style: 'color: #C92A2A'
   end
 end

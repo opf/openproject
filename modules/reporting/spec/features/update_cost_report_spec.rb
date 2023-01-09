@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,8 +52,16 @@ describe "updating a cost report's cost type", type: :feature, js: true do
   it 'works' do
     report_page.visit!
     report_page.save(as: 'My Query', public: true)
-    SeleniumHubWaiter.wait
+
+    retry_block do
+      cost_query = CostQuery.find_by!(name: 'My Query')
+      raise "Expected path change" unless page.has_current_path?("/projects/#{project.identifier}/cost_reports/#{cost_query.id}")
+      expect(page).to have_field('Labor', checked: true)
+    end
+
     report_page.switch_to_type cost_type.name
+    expect(page).to have_field(cost_type.name, checked: true, wait: 10)
+
     click_on "Save"
 
     click_on "My Query"

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { catchError, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -12,7 +12,7 @@ export class FormsService {
     private _httpClient:HttpClient,
   ) { }
 
-  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?:'post' | 'patch', formSchema?:IOPFormSchema):Observable<any> {
+  submit$(form:UntypedFormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?:'post' | 'patch', formSchema?:IOPFormSchema):Observable<any> {
     const modelToSubmit = this.formatModelToSubmit(form.getRawValue(), formSchema);
     const httpMethod = resourceId ? 'patch' : (formHttpMethod || 'post');
     const url = resourceId ? `${resourceEndpoint}/${resourceId}` : resourceEndpoint;
@@ -37,7 +37,7 @@ export class FormsService {
       );
   }
 
-  validateForm$(form:FormGroup, resourceEndpoint:string, formSchema?:IOPFormSchema):Observable<any> {
+  validateForm$(form:UntypedFormGroup, resourceEndpoint:string, formSchema?:IOPFormSchema):Observable<any> {
     const modelToSubmit = this.formatModelToSubmit(form.value, formSchema);
 
     return this._httpClient
@@ -116,7 +116,7 @@ export class FormsService {
     return model;
   }
 
-  private handleBackendFormValidationErrors(error:HttpErrorResponse, form:FormGroup):void {
+  private handleBackendFormValidationErrors(error:HttpErrorResponse, form:UntypedFormGroup):void {
     const errors:IOPFormError[] = error?.error?._embedded?.errors
       ? error?.error?._embedded?.errors : [error.error];
     const formErrors = this.getFormattedErrors(errors);
@@ -124,7 +124,7 @@ export class FormsService {
     this.setFormValidationErrors(formErrors, form);
   }
 
-  private setFormValidationErrors(errors:IFormattedValidationError[], form:FormGroup) {
+  private setFormValidationErrors(errors:IFormattedValidationError[], form:UntypedFormGroup) {
     errors.forEach((err:any) => {
       const formControl = form.get(err.key) || form.get('_links')?.get(err.key);
 

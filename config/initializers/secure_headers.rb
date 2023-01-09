@@ -28,9 +28,8 @@ Rails.application.config.after_initialize do
     # Allow requests to CLI in dev mode
     connect_src = default_src + [OpenProject::Configuration.enterprise_trial_creation_host]
 
-    if OpenProject::Configuration.sentry_frontend_dsn.present?
-      connect_src += [OpenProject::Configuration.sentry_host]
-    end
+    # Rules for media (e.g. video sources)
+    media_src = default_src
 
     if OpenProject::Configuration.appsignal_frontend_key
       connect_src += ['https://appsignal-endpoint.net']
@@ -38,11 +37,11 @@ Rails.application.config.after_initialize do
 
     # Add proxy configuration for Angular CLI to csp
     if FrontendAssetHelper.assets_proxied?
-      proxied = ['ws://localhost:3000', 'http://localhost:3000',
-                 'ws://localhost:4200', 'http://localhost:4200',
-                 FrontendAssetHelper.cli_proxy]
+      proxied = ["ws://#{Setting.host_name}", "http://#{Setting.host_name}",
+                 FrontendAssetHelper.cli_proxy.sub('http', 'ws'), FrontendAssetHelper.cli_proxy]
       connect_src += proxied
       assets_src += proxied
+      media_src += proxied
     end
 
     # Allow to extend the script-src in specific situations
@@ -57,7 +56,7 @@ Rails.application.config.after_initialize do
       preserve_schemes: true,
 
       # Fallback when no value is defined
-      default_src: default_src,
+      default_src:,
       # Allowed uri in <base> tag
       base_uri: %w('self'),
 
@@ -71,14 +70,17 @@ Rails.application.config.after_initialize do
       # Allow images from anywhere including data urls and blobs (used in resizing)
       img_src: %w(* data: blob:),
       # Allow scripts from self
-      script_src: script_src,
+      script_src:,
       # Allow unsafe-inline styles
       style_src: assets_src + %w('unsafe-inline'),
       # Allow object-src from Release API
       object_src: [OpenProject::Configuration[:security_badge_url]],
 
       # Connect sources for CLI in dev mode
-      connect_src: connect_src
+      connect_src:,
+
+      # Allow videos from self and from the asset proxy in dev mode.
+      media_src:
     }
   end
 end

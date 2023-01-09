@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -61,14 +61,17 @@ export class ConfirmDialogService {
    */
   public confirm(options:ConfirmDialogOptions):Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      const confirmModal = this.opModalService.show(ConfirmDialogModalComponent, this.injector, { options });
-      confirmModal.closingEvent.subscribe((modal:ConfirmDialogModalComponent) => {
+      this.opModalService.show(
+        ConfirmDialogModalComponent,
+        this.injector,
+        { options },
+      ).subscribe((modal) => modal.closingEvent.subscribe(() => {
         if (modal.confirmed) {
           resolve();
         } else {
           reject();
         }
-      });
+      }));
     });
   }
 

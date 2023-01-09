@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
       .and_return([])
 
     allow(query)
-      .to receive(:available_columns)
+      .to receive(:displayable_columns)
       .and_return([])
 
     allow(query)
@@ -346,7 +346,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
              Queries::WorkPackages::Columns::RelationToTypeColumn.new(type),
              Queries::WorkPackages::Columns::RelationOfTypeColumn.new(name: :label_relates_to, sym: :relation1)]
           end
-          let(:available_values_method) { :available_columns }
+          let(:available_values_method) { :displayable_columns }
 
           it_behaves_like 'has a collection of allowed values' do
             let(:expected_hrefs) do
@@ -390,7 +390,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
             [Queries::WorkPackages::Columns::PropertyColumn.new(:bogus1, highlightable: true),
              Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2, highlightable: true)]
           end
-          let(:available_values_method) { :available_columns }
+          let(:available_values_method) { :displayable_columns }
 
           it_behaves_like 'has a collection of allowed values' do
             let(:expected_hrefs) do

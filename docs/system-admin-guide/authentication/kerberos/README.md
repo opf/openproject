@@ -10,7 +10,7 @@ keywords: Kerberos, authentication
 
 # Kerberos integration
 
-> **Note**: This documentation is valid for the OpenProject Enterprise Edition only.
+> **Note**: This documentation is valid for the OpenProject Enterprise edition only.
 [Kerberos](https://web.mit.edu/kerberos/) allows you to authenticate user requests to a service within a computer network. You can integrate it with OpenProject with the use of [GSSAPI Apache module](https://github.com/gssapi/mod_auth_gssapi/) (`mod_auth_gssapi`) plugging into the OpenProject packaged installation using Apache web server.
 
 This guide will also apply for Docker-based installation, if you have an outer proxying server such as Apache2 that you can configure to use Kerberos. This guide however focuses on the packaged installation of OpenProject.

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -350,7 +350,7 @@ describe Users::ReplaceMentionsService, 'integration' do
   end
 
   context 'for custom_value value' do
-    it_behaves_like 'rewritten mention', :custom_value, :value do
+    it_behaves_like 'rewritten mention', :principal_custom_value, :value do
       let(:additional_properties) { { custom_field: create(:text_wp_custom_field) } }
     end
   end
@@ -388,7 +388,11 @@ describe Users::ReplaceMentionsService, 'integration' do
   end
 
   context 'for news_journals description' do
-    it_behaves_like 'rewritten mention', :journal_news_journal, :description
+    shared_let(:author) { create(:user) }
+
+    it_behaves_like 'rewritten mention', :journal_news_journal, :description do
+      let(:additional_properties) { { author_id: author.id } }
+    end
   end
 
   context 'for project description' do

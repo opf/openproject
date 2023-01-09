@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -71,6 +71,11 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
     super();
 
     this.updateFromChangeset(change);
+  }
+
+  ngOnInit():void {
+    this.$element = jQuery(this.elementRef.nativeElement as HTMLElement);
+    this.initialize();
 
     if (this.change.state) {
       this.change.state
@@ -82,7 +87,7 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
           const fieldSchema = change.schema.ofProperty(this.name);
 
           if (!fieldSchema) {
-            return handler.deactivate(false);
+            return this.handler.deactivate(false);
           }
 
           this.updateFromChangeset(change);
@@ -90,11 +95,6 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
           this.cdRef.markForCheck();
         });
     }
-  }
-
-  ngOnInit():void {
-    this.$element = jQuery(this.elementRef.nativeElement);
-    this.initialize();
   }
 
   public get overflowingSelector() {

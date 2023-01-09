@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,63 +33,130 @@ describe ModelContract do
            child_attribute: nil,
            grand_child_attribute: nil,
            overwritten_attribute: nil,
+           custom_field1: nil,
+           not_allowed: nil,
            changed: [],
            valid?: true,
            errors: ActiveModel::Errors.new(nil))
   end
-  let(:child_contract) { ChildContract.new(model, nil) }
-  let(:grand_child_contract) { GrandChildContract.new(model, nil) }
 
-  before do
-    child_contract.child_value = 0
-    grand_child_contract.child_value = 0
-  end
+  context 'with child and grand_child' do
+    let(:child_contract_class) do
+      Class.new(ModelContract) do
+        attr_accessor :child_value
 
-  describe 'child' do
-    class ChildContract < ModelContract
-      attr_accessor :child_value
+        attribute :child_attribute
+        attribute :overwritten_attribute do
+          @child_value = 1
+        end
+      end
+    end
+    let(:child_contract) { child_contract_class.new(model, nil) }
 
-      attribute :child_attribute
-      attribute :overwritten_attribute do
-        @child_value = 1
+    let(:grand_child_contract_class) do
+      Class.new(child_contract_class) do
+        attr_accessor :grand_child_value
+
+        attribute :grand_child_attribute
+        attribute :overwritten_attribute do
+          @grand_child_value = 2
+        end
+      end
+    end
+    let(:grand_child_contract) { grand_child_contract_class.new(model, nil) }
+
+    before do
+      child_contract.child_value = 0
+      grand_child_contract.child_value = 0
+    end
+
+    describe 'child' do
+      it 'collects its own writable attributes' do
+        expect(child_contract.writable_attributes).to include('child_attribute',
+                                                              'overwritten_attribute')
+      end
+
+      it 'collects its own attribute validations' do
+        child_contract.validate
+        expect(child_contract.child_value).to eq(1)
       end
     end
 
-    it 'collects its own writable attributes' do
-      expect(child_contract.writable_attributes).to include('child_attribute',
-                                                            'overwritten_attribute')
-    end
+    describe 'grand_child' do
+      it 'considers its ancestor writable attributes' do
+        expect(grand_child_contract.writable_attributes).to include('child_attribute',
+                                                                    'overwritten_attribute',
+                                                                    'grand_child_attribute')
+      end
 
-    it 'collects its own attribute validations' do
-      child_contract.validate
-      expect(child_contract.child_value).to eq(1)
+      it 'does not contain the same attribute twice, but also has the _id variant' do
+        expect(grand_child_contract.writable_attributes.count).to eq(6)
+      end
+
+      it 'executes all the validations' do
+        grand_child_contract.validate
+        expect(grand_child_contract.child_value).to eq(1)
+        expect(grand_child_contract.grand_child_value).to eq(2)
+      end
     end
   end
 
-  describe 'grand_child' do
-    class GrandChildContract < ChildContract
-      attr_accessor :grand_child_value
+  describe 'valid?' do
+    let(:model_contract_class) do
+      Class.new(ModelContract) do
+        attribute :custom_field1
+        attribute :not_allowed
+      end
+    end
+    let(:model_contract) { model_contract_class.new(model, nil) }
 
-      attribute :grand_child_attribute
-      attribute :overwritten_attribute do
-        @grand_child_value = 2
+    context 'when the model extends no plugins' do
+      before do
+        allow(model).to receive(:changed).and_return([:custom_field1])
+      end
+
+      it 'adds an error to the custom field attribute' do
+        model_contract.valid?
+        expect(model_contract.errors.symbols_for(:custom_field1))
+          .to include(:error_readonly)
       end
     end
 
-    it 'considers its ancestor writable attributes' do
-      expect(grand_child_contract.writable_attributes).to include('child_attribute',
-                                                                  'overwritten_attribute',
-                                                                  'grand_child_attribute')
+    context 'when the model extends the acts_as_customizable plugin' do
+      before do
+        allow(model).to receive(:changed_with_custom_fields).and_return([:custom_field1])
+      end
+
+      it 'adds an error to the custom field attribute' do
+        model_contract.valid?
+        expect(model_contract.errors.symbols_for(:custom_field1))
+          .to include(:error_readonly)
+      end
     end
 
-    it 'does not contain the same attribute twice, but also has the _id variant' do
-      expect(grand_child_contract.writable_attributes.count).to eq(6)
+    context 'when the model extends the OpenProject::ChangedBySystem module' do
+      before do
+        allow(model).to receive(:changed_by_user).and_return([:custom_field1])
+      end
+
+      it 'adds an error to the custom field attribute' do
+        model_contract.valid?
+        expect(model_contract.errors.symbols_for(:custom_field1))
+          .to include(:error_readonly)
+      end
     end
 
-    it 'executes all the validations' do
-      grand_child_contract.validate
-      expect(grand_child_contract.child_value).to eq(1)
-      expect(grand_child_contract.grand_child_value).to eq(2)
+    context 'when the model extends both modules' do
+      before do
+        allow(model).to receive(:changed_by_user).and_return([:custom_field1])
+        allow(model).to receive(:changed_with_custom_fields).and_return([:no_allowed])
+      end
+
+      it 'adds an error to the custom field attribute from the OpenProject::ChangedBySystem module' do
+        model_contract.valid?
+        expect(model_contract.errors.symbols_for(:custom_field1))
+          .to include(:error_readonly)
+      end
     end
   end
 end

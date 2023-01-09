@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ sk:
         main-menu-border-color: "Main menu border"
       custom_colors: "Vlastné farby"
       customize: "Customize your OpenProject installation with your own logo and colors."
-      enterprise_notice: "Ďakujeme vám za finančnú podporu pri vývoji OpenProject, táto funkcia je k dispozícii iba v spojení s predplatným Enterprise Edition."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Upraviť možnosti výberu farieb"
       instructions:
@@ -64,15 +64,15 @@ sk:
         main-menu-bg-color: "Farba pozadia ľavého menu."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
-      add_token: "Nahrajte token podpory Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Delete token"
       replace_token: "Nahraďte aktuálny token podpory"
-      order: "Order Enterprise on-premises Edition"
-      paste: "Vložte token podpory Enterprise Edition"
-      required_for_feature: "Táto funkcia je k dispozícii iba s aktívnym tokenom podpory Enterprise Edition."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Pre ďalšie informácie kliknite sem."
       start_trial: 'Start free trial'
       book_now: 'Book now'
@@ -80,7 +80,7 @@ sk:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
@@ -138,6 +138,7 @@ sk:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Šifrovanie pripojenia'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'System account'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
@@ -149,13 +150,18 @@ sk:
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
       plain: 'žiadne'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Obyčajné nešifrované pripojenie, nepožadované TLS pripojenie."
-      simple_tls_description: "Implicitné šifrovanie TLS, ale žiadne overenie certifikátu. Používať s opatrnosťou a implicitne dôverné LDAP pripojenie."
-      start_tls_description: "Explicitné šifrovanie TLS s úplným overením. Použitie LDAP cez TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Táto časť sa týka bezpečnosti pripojenia tohto zdroja autentifikácie LDAP. Ďalšie informácie nájdete na stránke<a href="%{link}">the Net::LDAP documentation</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -316,7 +322,7 @@ sk:
       settings: "Nastavenia"
       form_configuration: "Konfigurácia formulára"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekty"
       enabled_projects: "Povolené projekty"
       edit_query: "Upraviť tabuľku"
@@ -331,6 +337,7 @@ sk:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Momentálne neexistujú žiadne stránky wiki.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Pridať novú stránku wiki
   work_flows:
@@ -371,7 +378,7 @@ sk:
   account:
     delete: "Vymazať účet"
     delete_confirmation: "Ste si istý, že chcete vymazať daný účet?"
-    deleted: "Účet bol úspešne vymazaný"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Dáta, ktoré daný používateľ vytvoril (čiže e-mail, nastavenia, pracovné balíčky, wiki stránky a pod.), budú odstránené do takej miery, do akej to bude možné. Pamätajte však, že pracovné balíčky a wiki stránky nemôžu byť odstránené bez skomplikovania prác ostatných používateľov. Takéto dáta budú preto preradené na účet nazvaný \"Odstránený používateľ\". Keďže dáta všetkých odstránených účtov sú automaticky priraďované na uvedený účet, nebude možné rozlíšiť dáta tohto používateľa od dát ostatných už odstránených používateľov."
@@ -421,6 +428,7 @@ sk:
         host: "Host"
         onthefly: "Automatic user creation"
         port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitár"
       comment:
@@ -582,7 +590,7 @@ sk:
         confirmation: "%{attribute} sa nezhoduje."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "neexistuje."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         email: "is not a valid email address."
@@ -629,6 +637,11 @@ sk:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "má chybnú dĺžku (správne má byť %{count} znakov)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -758,6 +771,11 @@ sk:
               email_alerts_global: 'The email notification settings can only be set globally.'
               format: "%{message}"
               wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -1280,11 +1298,11 @@ sk:
   ee:
     upsale:
       form_configuration:
-        description: "Prispôsobte konfiguráciu formulára pomocou týchto doplnkových funkcií:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Pridajte nové skupiny atribútov"
         rename_groups: "Premenovať skupiny atribútov"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Priority Pracovného balíka"
   enumeration_reported_project_statuses: "Nahlásený stav projektu"
@@ -1306,7 +1324,7 @@ sk:
   error_cookie_missing: 'Chýbajú súbory cookie pre OpenProject. Skontrolujte, či sú povolené súbory cookie, nakoľko bez nich táto aplikácia nebude správne fungovať.'
   error_custom_option_not_found: "Nastavenie neexistuje."
   error_enterprise_activation_user_limit: "Váš účet nemôže byť aktivovaný (dosiahnutý limit počtu užívateľov). Prosím kontaktujte vášho správcu pre získanie prístupu."
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Chyba pri odstraňovaní tejto položky.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
@@ -1341,16 +1359,19 @@ sk:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Atribút(y), ktoré nie je možné zvýrazniť: %{attributes}"
   events:
-    project: 'Projekt upravený'
     changeset: 'Sada zmien upravená'
     message: Správa upravená
     news: Novinky
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Zodpovedané
     time_entry: 'Časový záznam zmenený'
     wiki_page: 'Wiki stránka upravená'
     work_package_closed: 'Pracovný balíček uzatvorený'
     work_package_edit: 'Pracovný balíček upravený'
     work_package_note: 'Poznámka pracovného balíčka pridaná'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "Operácia bola úspešne dokončená."
@@ -1394,10 +1415,10 @@ sk:
     blocks:
       community: "OpenProject komunita"
       upsale:
-        title: "Upgrade na Enterprise Edition"
+        title: "Upgrade to Enterprise edition"
         more_info: "Viac informácií"
     links:
-      upgrade_enterprise_edition: "Upgrade na Enterprise Edition"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "Používateľské príručky"
       faq: "Často kladené otázky"
@@ -1613,7 +1634,7 @@ sk:
   label_enumerations: "Výpočet"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} rezervovaných aktívnych užívateľov"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Prostredie"
   label_estimates_and_time: "Odhady a čas"
   label_equals: "je"
@@ -1803,6 +1824,7 @@ sk:
   label_product_version: "Verzia produktu"
   label_professional_support: "Profesionálna podpora"
   label_profile: "Profil"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Celkový počet projektov"
   label_project_copy_notifications: "Odoslať e-mail notifikácie počas kopírovania projektu"
   label_project_latest: "Najnovšie projekty"
@@ -2057,6 +2079,8 @@ sk:
         mentioned: 'Mentioned'
         subscribed: 'Všetky'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Bol zaregistrovaný nový používateľ (%{value}). Účet čaká na vaše schválenie:"
@@ -2092,8 +2116,6 @@ sk:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Vaše heslo %{value}"
   mail_subject_register: "Aktivácia vášho účtu %{value}"
-  mail_subject_reminder: "%{count} pracovných balíčkov, ktoré finišujú v najbližších %{days} dňoch"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Bola pridaná wikistránka '%{id}'"
   mail_subject_wiki_content_updated: "Wikistránka '%{id}' bola aktualizovaná"
   mail_member_added_project:
@@ -2629,11 +2651,11 @@ sk:
   text_custom_field_hint_activate_per_project_and_type: >
     Vlastné polia je potrebné aktivovať podľa typu pracovného balíčka a projektu.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Odporúčané je biele logo na farebnom pozadí. Pre najlepšie výsledky na všetkých typoch monitorov (štandardných aj retina) použite obrázok s rozmermi 460px x 60px.
   text_custom_favicon_instructions: >
@@ -2939,7 +2961,7 @@ sk:
   warning_user_limit_reached: >
     Váš limit počtu užívateľov bol dosiahnutý. Nie je možné aktivovať viac užívateľov. Prosím <a href="%{upgrade_url}">upgradujte váš cenový plán</a> alebo zablokujte niektorých stávajúcich členov aby bolo možné pridanie ďalších užívateľov.
   warning_user_limit_reached_instructions: >
-    Limit počtu užívateľov (%{current}/%{max} aktívnych užívateľov) dosiahnutý. Prosím kontaktujte sales@openproject.com a upgradujte Vašu Enterprise Edition a pridajte ďalších užívateľov.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2980,6 +3002,7 @@ sk:
   api_v3:
     attributes:
       lock_version: "Uzamknúť verziu"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "Pre prístup k tomuto prostriedku musíte byť autentifikovaný."

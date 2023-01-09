@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,9 @@
 require 'spec_helper'
 require File.expand_path('../support/shared/become_member', __dir__)
 
-describe Project, type: :model do
+describe Project do
   include BecomeMember
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   let(:active) { true }
   let(:project) { create(:project, active:) }
@@ -105,7 +105,7 @@ describe Project, type: :model do
 
     context 'with copy project permission' do
       it 'is true' do
-        expect(project.copy_allowed?).to be_truthy
+        expect(project).to be_copy_allowed
       end
     end
 
@@ -113,7 +113,7 @@ describe Project, type: :model do
       let(:permission_granted) { false }
 
       it 'is false' do
-        expect(project.copy_allowed?).to be_falsey
+        expect(project).not_to be_copy_allowed
       end
     end
   end
@@ -371,5 +371,10 @@ describe Project, type: :model do
           .not_to change { project.reload.enabled_modules.find { |em| em.name == 'work_package_tracking' }.id }
       end
     end
+  end
+
+  it_behaves_like 'acts_as_customizable included' do
+    let(:model_instance) { project }
+    let(:custom_field) { create(:string_project_custom_field) }
   end
 end

@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Enterprise cloud FAQ
   priority: 001
 description: Frequently asked questions regarding Enterprise cloud
-keywords: Enterprise cloud FAQ, Cloud Edition, hosted by OpenProject
+keywords: Enterprise cloud, FAQ, cloud edition, hosted by OpenProject
 ---
 
 # Frequently asked questions (FAQ) for Enterprise cloud
@@ -18,7 +18,7 @@ You can do this in your OpenProject instance in the administration. The number o
 
 ## How can I change my payment details (e.g. new credit card)?
 
-Please have a look at [this instruction](../manage-cloud-subscription/) for the Cloud edition to change your payment details.
+Please have a look at [this instruction](../manage-cloud-subscription/) for the Enterprise cloud edition to change your payment details.
 
 
 ## Does OpenProject comply with GDPR?
@@ -27,15 +27,19 @@ Yes. The protection of personal data is for OpenProject more than just a legal r
 
 ## Is the Enterprise cloud certified?
 
-The data center (AWS) we use for Enterprise Cloud Edition is ISO27001 certified.
+The data center (AWS) we use for Enterprise cloud edition is ISO27001 certified.
 
 For more information please visit the [information regarding security measures](https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures) on our website.
 
-## Does OpenProject employ sub-processors for the OpenProject Cloud Edition from outside the EU?
+## How to change the Open Project Enterprise cloud creators account?
 
-A list of all sub-processors used in the OpenProject Enterprise Cloud can be found [here](https://www.openproject.org/legal/data-processing-agreement/sub-processors/).
+Users (who are administrators) can change email addresses and accounts of other users, but not their own account. Single administrators can change their own account/email address by creating a second administrator account and using the new administrator to change data of the first administrator. The second administrator could be deactivated again afterwards by the first administrator. Normal users CAN change their own email address, just not their login.
 
-Please note: For the OpenProject Enterprise Cloud we currently have two SaaS infrastructures:
+## Does OpenProject employ sub-processors for the OpenProject Enterprise cloud edition from outside the EU?
+
+A list of all sub-processors used in the OpenProject Enterprise cloud can be found [here](https://www.openproject.org/legal/data-processing-agreement/sub-processors/).
+
+Please note: For the OpenProject Enterprise cloud we currently have two SaaS infrastructures:
 
 **OpenProject.com** 
 
@@ -55,7 +59,7 @@ Yes, you can create your custom domain name. For this service we charge €100 p
 
 ## Can I import my OpenProject community instance into my Enterprise cloud environment?
 
-Yes, we provide an upload possibility of your data to move from a Community Edition installation to the Enterprise cloud edition.
+Yes, we provide an upload possibility of your data to move from a Community edition installation to the Enterprise cloud edition.
 To import your community instance into our cloud environment, please send us the following files:
 
 1. The database SQL dump of your local installation
@@ -64,7 +68,10 @@ To import your community instance into our cloud environment, please send us the
 For a package-based installation, you can create both as root user on your environment as follows: `openproject run backup`
 This creates the attachment and PostgreSQL-dump or MySQL-dump under /var/db/openproject/backup.
 If you are still running OpenProject under MySQL, your dump will be converted to PostgreSQL before importing, we will do this for you. More information about the backup tool can be found [here](../../../installation-and-operations/operation/backing-up/).
+
 Please upload these documents as an attachment to a work package within your new OpenProject Enterprise cloud environment and send us the link to this work package via email.
+
+If you are having trouble accessing the files on your server with your browser, you can upload them directly from the server using [this script](./op-file-upload.sh). Simply download it and run it (`bash op-file-upload.sh`) to find out more.
 
 ## How can I export the documents loaded on OpenProject?
 

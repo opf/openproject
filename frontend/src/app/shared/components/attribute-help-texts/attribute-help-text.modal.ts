@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -40,23 +40,20 @@ import { HelpTextResource } from 'core-app/features/hal/resources/help-text-reso
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttributeHelpTextModalComponent extends OpModalComponent implements OnInit {
-  /* Close on escape? */
-  public closeOnEscape = true;
-
-  /* Close on outside click */
-  public closeOnOutsideClick = false;
-
   readonly text = {
+    attachments: this.I18n.t('js.label_attachments'),
     edit: this.I18n.t('js.button_edit'),
     close: this.I18n.t('js.button_close'),
   };
 
   public helpText:HelpTextResource = this.locals.helpText!;
 
-  constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+  constructor(
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef) {
+    readonly elementRef:ElementRef,
+  ) {
     super(locals, cdRef, elementRef);
   }
 

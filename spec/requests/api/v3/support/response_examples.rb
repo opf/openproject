@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +37,12 @@ shared_examples_for 'successful response' do |code = 200|
     expected_content_type = 'application/hal+json; charset=utf-8'
     expect(last_response.headers).to include 'Content-Type'
     expect(last_response.headers['Content-Type'].downcase).to eql expected_content_type
+  end
+end
+
+shared_examples_for 'successful no content response' do |code = 204|
+  it "has the status code #{code}" do
+    expect(last_response.status).to eq(code)
   end
 end
 

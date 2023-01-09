@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -107,6 +107,22 @@ describe 'my',
             dialog.confirm_flow_with('adminADMIN!')
             expect_changed!
           end
+        end
+      end
+    end
+
+    describe 'settings' do
+      context 'with a default time zone', with_settings: { user_default_timezone: 'Asia/Tokyo' } do
+        it 'can override a time zone' do
+          expect(user.pref.time_zone).to eq 'Asia/Tokyo'
+          visit my_settings_path
+
+          expect(page).to have_select 'pref_time_zone', selected: '(GMT+09:00) Tokyo'
+          select '(GMT+01:00) Paris', from: 'pref_time_zone'
+          click_on 'Save'
+
+          expect(page).to have_select 'pref_time_zone', selected: '(GMT+01:00) Paris'
+          expect(user.pref.time_zone).to eq 'Europe/Paris'
         end
       end
     end

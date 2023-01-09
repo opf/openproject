@@ -1,6 +1,7 @@
 require:
   - rubocop-rails
   - rubocop-rspec
+  - ./lib_static/rubocop/cop/open_project/no_do_end_block_with_rspec_capybara_matcher_in_expect.rb
   - ./lib_static/rubocop/cop/open_project/use_service_result_factory_methods.rb
 
 inherit_mode:
@@ -222,13 +223,14 @@ RSpec/NamedSubject:
 RSpec/ContextWording:
   Prefixes:
     - as
+    - for
+    - if
     - 'on'
+    - to
+    - unless
     - when
     - with
     - without
-    - if
-    - unless
-    - for
 
 RSpec/FactoryBot/SyntaxMethods:
   Enabled: true

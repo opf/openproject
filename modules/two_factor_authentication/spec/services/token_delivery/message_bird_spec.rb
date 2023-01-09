@@ -84,7 +84,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
     end
 
     describe 'calling a mocked API Client' do
-      let(:messagebird) { double(::MessageBird::Client) }
+      let(:messagebird) { instance_double(::MessageBird::Client) }
 
       let(:failed_count) { 0 }
       let(:response) { instance_double(::MessageBird::Message, recipients: { 'totalDeliveryFailedCount' => failed_count }) }
@@ -98,7 +98,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
 
       context 'with SMS' do
         before do
-          expect(messagebird)
+          allow(messagebird)
             .to receive(:message_create)
             .with(Setting.app_title,
                   '49123456789',
@@ -126,17 +126,24 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
         let(:expected_language) { :'en-us' }
 
         before do
-          expect(messagebird)
+          allow(subject.strategy)
+            .to receive(:has_localized_text?)
+                  .with(locale)
+                  .and_return true
+
+          allow(messagebird)
             .to receive(:voice_message_create)
-            .with('49123456789',
-                  subject.strategy.send(:localized_message, locale, '1234'),
-                  ifMachine: :continue,
-                  language: expected_language)
             .and_return(response)
         end
 
         it 'returns success in the service' do
           expect(result).to be_success
+          expect(messagebird)
+            .to have_received(:voice_message_create)
+                  .with('49123456789',
+                        subject.strategy.send(:localized_message, locale, '1234'),
+                        ifMachine: :continue,
+                        language: expected_language)
         end
 
         context 'failure' do
@@ -153,8 +160,13 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
           let(:expected_language) { :'de-de' }
 
           it 'returns success in the service' do
-            expect(subject.strategy).to receive(:has_localized_text?).with('de').and_return true
             expect(result).to be_success
+            expect(messagebird)
+              .to have_received(:voice_message_create)
+                    .with('49123456789',
+                          subject.strategy.send(:localized_message, locale, '1234'),
+                          ifMachine: :continue,
+                          language: expected_language)
           end
         end
       end

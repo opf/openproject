@@ -14,6 +14,9 @@
     <div
       *ngIf="label"
       class="spot-form-field--label spot-selector-field--label"
+      [ngClass]="{
+        'spot-selector-field--label_regular': labelWeight === 'regular'
+      }"
     >
       <span
         *ngIf="showErrorMessage"

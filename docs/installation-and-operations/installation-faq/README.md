@@ -14,7 +14,7 @@ keywords: installation FAQ, upgrades, updates, operation faq
 
 There's the package based installation (recommended), installation via Docker, using a provider (like Univention, Bitnami, IONOS) and the manual installation.
 
-### What skills should I have for the installation of Community Edition or Enterprise on-premises?
+### What skills should I have for the installation of Community edition or Enterprise on-premises?
 
 If you use the packaged installation, you should have basic knowledge of Linux and the command-line terminal.
 
@@ -22,7 +22,7 @@ If you use the docker images, you need to be familiar with Docker and Docker vol
 
 ### My favorite Linux distribution is not listed. What can I do?
 
-You can either try the manual installation, or ask in the forum whether this could be added to the list of supported distributions. We try to support recent major distributions, but due to maintenance and operations cost cannot freely add to that list.
+You can either try the OUTDATED and OLD manual installation guide, or add a Feature request whether your operating system could be added to the list of supported distributions. We try to support recent major distributions, but due to maintenance and operations cost cannot freely add to that list.
 
 ### What is the better option to run OpenProject in production environments: Docker or Linux packages?
 
@@ -34,7 +34,7 @@ You can use a virtual machine as long as the hardware and the operating system m
 
 ### Why is there no installation wizard for desktop as there is for other software?
 
-The Community Edition and Enterprise Edition of OpenProject are not a desktop application but a server application, typically for Linux servers. Therefore there's no typical user interface to install it. 
+The Community edition and Enterprise edition of OpenProject are not a desktop application but a server application, typically for Linux servers. Therefore there's no typical user interface to install it. 
 If you want to install it on Windows or Mac you can use the Docker based installation. Please note that installing on Windows Desktop usually works but is not officially supported.
 The package based installation (for Linux) offers an installation wizard.
 If you already use Univention, you can use it to install OpenProject, too.
@@ -84,9 +84,9 @@ Please follow these steps:
 
 ### Are there extra fees to pay, in terms of installing the OpenProject software?
 
-The Community Edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. 
+The Community edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. 
 The Community edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). 
-If you would like us to install the **Enterprise on-premises edition** for you, we are charging a fee of €150 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition).
+If you would like us to install the **Enterprise on-premises edition** for you, we are charging a fee of €300 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition).
 
 ### How do I get SSL certificates (in case of installation support by OpenProject employee)? Do we have to purchase them?
 
@@ -161,7 +161,7 @@ For existing projects you can enable the module in the project settings (*Projec
 
 Mind, that repository integration in the sense that you will be able to checkout the repository through OpenProject **does only work in the packaged installation, not docker**. 
 
-### How can I uninstall OpenProject (Community Edition or Enterprise on-premises)?
+### How can I uninstall OpenProject (Community edition or Enterprise on-premises)?
 
 The package based installation is intended to be run on a dedicated system. Dedicated in this case means that no other application software should be served by the server. The system can be either physical or virtual. Removing OpenProject is then equivalent with removing that system or docker instances. 
 

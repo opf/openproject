@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -80,7 +80,7 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
   /** Get the selected options */
   public selected:SelectItem|SelectItem[];
 
-  /** Get the selected options especially fot the project autocompleter  */
+  /** Get the selected options especially for the project autocompleter  */
   public currentProjectSelection:{ id:string, name:string }|{ id:string, name:string }[];
 
   /** The input name we're syncing selections to */

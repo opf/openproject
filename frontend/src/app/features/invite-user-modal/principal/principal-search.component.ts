@@ -6,7 +6,7 @@ import {
   Output,
   ElementRef,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import {
   Observable,
   BehaviorSubject,
@@ -42,7 +42,7 @@ interface NgSelectPrincipalOption {
   templateUrl: './principal-search.component.html',
 })
 export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnInit {
-  @Input() spotFormBinding:FormControl;
+  @Input() spotFormBinding:UntypedFormControl;
 
   @Input() type:PrincipalType;
 
@@ -67,7 +67,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   public canInviteByEmail$ = combineLatest(
     this.items$,
     this.input$,
-    this.currentUserService.hasCapabilities$('users/create'),
+    this.currentUserService.hasCapabilities$('users/create', 'global'),
   ).pipe(
     map(([elements, input, canCreateUsers]) => canCreateUsers
       && this.type === PrincipalType.User
@@ -79,7 +79,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   public canCreateNewPlaceholder$ = combineLatest([
     this.items$,
     this.input$,
-    this.currentUserService.hasCapabilities$('placeholder_users/create'),
+    this.currentUserService.hasCapabilities$('placeholder_users/create', 'global'),
   ])
     .pipe(
       map(([elements, input, hasCapability]) => {

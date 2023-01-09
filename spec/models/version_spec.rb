@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Version, type: :model do
+describe Version do
   subject(:version) { build(:version, name: 'Test Version') }
 
   it { is_expected.to be_valid }
@@ -87,21 +87,21 @@ describe Version, type: :model do
       version.sharing = 'system'
       version.save!
 
-      expect(Version.systemwide).to match_array [version]
+      expect(described_class.systemwide).to match_array [version]
     end
 
     it 'is empty if the version is not shared' do
       version.sharing = 'none'
       version.save!
 
-      expect(Version.systemwide).to be_empty
+      expect(described_class.systemwide).to be_empty
     end
 
     it 'is empty if the version is shared with the project hierarchy' do
       version.sharing = 'hierarchy'
       version.save!
 
-      expect(Version.systemwide).to be_empty
+      expect(described_class.systemwide).to be_empty
     end
   end
 
@@ -252,7 +252,7 @@ describe Version, type: :model do
     end
 
     it 'is empty for a new version' do
-      expect(Version.new.projects).to be_empty
+      expect(described_class.new.projects).to be_empty
     end
 
     it 'returns project the version is defined in for unshared' do
@@ -500,5 +500,10 @@ describe Version, type: :model do
           .to eq 25.0 / 100.0 * 100
       end
     end
+  end
+
+  it_behaves_like 'acts_as_customizable included' do
+    let(:model_instance) { version }
+    let(:custom_field) { create(:version_custom_field) }
   end
 end

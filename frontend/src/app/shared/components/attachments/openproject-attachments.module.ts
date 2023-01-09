@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,11 +31,9 @@ import { CommonModule } from '@angular/common';
 
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 
-import { AttachmentsComponent } from './attachments.component';
-import { AttachmentListComponent } from './attachment-list/attachment-list.component';
-import { AttachmentListItemComponent } from './attachment-list/attachment-list-item.component';
-import { AttachmentsUploadComponent } from './attachments-upload/attachments-upload.component';
-import { AuthoringComponent } from './authoring/authoring.component';
+import { OpAttachmentsComponent } from './attachments.component';
+import { OpAttachmentListComponent } from './attachment-list/attachment-list.component';
+import { OpAttachmentListItemComponent } from './attachment-list/attachment-list-item.component';
 
 @NgModule({
   imports: [
@@ -43,20 +41,15 @@ import { AuthoringComponent } from './authoring/authoring.component';
     IconModule,
   ],
   declarations: [
-    AttachmentsComponent,
-    AttachmentListComponent,
-    AttachmentListItemComponent,
-    AttachmentsUploadComponent,
-
-    AuthoringComponent,
+    OpAttachmentsComponent,
+    OpAttachmentListComponent,
+    OpAttachmentListItemComponent,
   ],
   exports: [
-    AttachmentsUploadComponent,
-    AttachmentListComponent,
-    AttachmentsComponent,
+    OpAttachmentListComponent,
+    OpAttachmentsComponent,
 
-    AuthoringComponent,
-    AttachmentListItemComponent,
+    OpAttachmentListItemComponent,
   ],
 })
 export class OpenprojectAttachmentsModule {

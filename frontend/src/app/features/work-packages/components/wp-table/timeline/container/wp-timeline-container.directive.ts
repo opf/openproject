@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -67,6 +67,7 @@ import {
   zoomLevelOrder,
 } from '../wp-timeline';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import * as Mousetrap from 'mousetrap';
 
 @Component({
   selector: 'wp-timeline-container',
@@ -380,7 +381,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
         currentParams.now,
         startDate,
         date,
-      );
+      ).clone(); // clone because currentParams.now should not be changed
 
       // finish date
       newParams.dateDisplayEnd = moment.max(
@@ -388,11 +389,11 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
         currentParams.now,
         dueDate,
         date,
-      );
+      ).clone(); // clone because currentParams.now should not be changed
     });
 
     // left spacing
-    newParams.dateDisplayStart = newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, 'days');
+    newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, 'days'); // .substract modifies its instance
 
     // right spacing
     // RR: kept both variants for documentation purpose.
@@ -403,7 +404,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
     const { pixelPerDay } = currentParams;
     const visibleDays = Math.ceil((width / pixelPerDay) * 1.5);
-    newParams.dateDisplayEnd = newParams.dateDisplayEnd.add(visibleDays, 'days');
+    newParams.dateDisplayEnd.add(visibleDays, 'days'); // .add modifies its instance
 
     // Check if view params changed:
 

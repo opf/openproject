@@ -34,13 +34,13 @@ We suggest to store the Gemfile under `/etc/openproject/Gemfile.custom`, but the
 
 You have to tell your installation to use the custom gemfile via a config setting:
 
-```
-openproject config:set CUSTOM_PLUGIN_GEMFILE=/etc/openproject/Gemfile.custom
+```bash
+openproject config:set CUSTOM_PLUGIN_GEMFILE="/etc/openproject/Gemfile.custom"
 ```
 
 If your plugin links into the Angular frontend, you will need to set the following environment variable to ensure it gets recompiled. Please note that NPM dependencies will be installed during the installation, and the angular CLI compilation will take place which will delay the configuration process by a few minutes.
 
-```
+```bash
 openproject config:set RECOMPILE_ANGULAR_ASSETS="true"
 ```
 
@@ -52,8 +52,8 @@ openproject config:set RECOMPILE_ANGULAR_ASSETS="true"
 
 To re-bundle the application including the new plugins, as well as running migrations and precompiling their assets, simply re-run the installer while using the same configuration as before.
 
-```
-openproject configure
+```bash
+sudo openproject configure
 ```
 
 Using configure will take your previous decisions in the installer and simply re-apply them, which is an idempotent operation. It will detect the Gemfile config option being set and re-bundle the application with the additional plugins.

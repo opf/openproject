@@ -48,7 +48,11 @@ OpenProject offers integration with Nextcloud for file storage and collaboration
 ## Slack
 
 There is a rudimentary OpenProject Slack integration from the community. It messages a configured Slack channel, every time a Work Package or Wiki site is modified. This integration is not officially supported by OpenProject.
-To activate it in the Enterprise cloud please [get in touch](https://www.openproject.org/contact/). For the Enterprise on-premises edition and the Community Edition you can find the plugin and its documentation on GitHub: [OpenProject Slack plugin](https://github.com/opf/openproject-slack) 
+To activate it in the Enterprise cloud please [get in touch](https://www.openproject.org/contact/). For the Enterprise on-premises edition and the Community edition you can find the plugin and its documentation on GitHub: [OpenProject Slack plugin](https://github.com/opf/openproject-slack) 
+
+## Thunderbird
+
+There is an OpenProject integration with Thunderbird from the Community. Please note that this add-on is not officially supported and that we do not take any liability when you use it. You can find it [here](https://addons.thunderbird.net/en-GB/thunderbird/addon/thunderbird-openproject/).
 
 ## Timesheet
 

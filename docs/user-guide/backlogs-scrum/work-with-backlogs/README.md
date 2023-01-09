@@ -33,6 +33,9 @@ The Sprint 1, Sprint 2, Bug Backlog, Product Backlog in the example below are al
 
 ![backlogs view](image-20200127164402798.png)
 
+> **Note**: The columns of the version are actually sorted differently. The left column for sprints is sorted chronologically, i.e. according to the time of creation, since sprints usually also run chronologically in project management planning.
+The right column (for backlogs) is sorted alphabetically, so that you can determine the sequence of the backlogs yourself.
+
 ## Create a new user story
 
 In order to create a new work package in the product backlog, click on the arrow on the left of the product backlog and choose *New Story* from the drop-down menu.
@@ -107,7 +110,7 @@ The remaining story points per sprint are displayed in the chart. Optionally, th
 
 ![Burndown chart graph](17_BurndownChart2.png)
 
-    
+​    
 
 ## Print story cards
 

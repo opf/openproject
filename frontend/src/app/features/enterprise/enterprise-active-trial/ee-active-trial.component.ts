@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -42,6 +42,7 @@ import {
 import { EEActiveTrialBase } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-trial.base';
 import { GonService } from 'core-app/core/gon/gon.service';
 import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
+import { IEnterpriseData } from 'core-app/features/enterprise/enterprise-trial.model';
 
 @Component({
   selector: 'enterprise-active-trial',
@@ -74,14 +75,13 @@ export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit 
 
   ngOnInit() {
     if (!this.subscriber) {
-      this.eeTrialService.userData$
-        .values$()
+      void this.eeTrialService.userData$
         .pipe(
           distinctUntilChanged(),
           this.untilDestroyed(),
         )
-        .subscribe((userForm) => {
-          this.formatUserData(userForm);
+        .subscribe((data:IEnterpriseData) => {
+          this.formatUserData(data);
           this.cdRef.detectChanges();
         });
 
@@ -90,22 +90,24 @@ export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit 
   }
 
   private initialize():void {
-    const eeTrialKey = this.Gon.get('ee_trial_key') as any;
+    const eeTrialKey = this.Gon.get('ee_trial_key') as { value:string }|undefined;
+    const { data } = this.eeTrialService.current;
 
-    if (eeTrialKey && !this.eeTrialService.userData$.hasValue()) {
+    if (eeTrialKey && !data) {
       // after reload: get data from Augur using the trial key saved in gon
-      this.eeTrialService.trialLink = `${this.eeTrialService.baseUrlAugur}/public/v1/trials/${eeTrialKey.value}`;
-      this.getUserDataFromAugur();
+      const trialLink = `${this.eeTrialService.baseUrlAugur}/public/v1/trials/${eeTrialKey.value}`;
+      this.eeTrialService.store.update({ trialLink });
+      this.getUserDataFromAugur(trialLink);
     }
   }
 
   // use the trial key saved in the db
   // to get the user data from Augur
-  private getUserDataFromAugur() {
+  private getUserDataFromAugur(trialLink:string) {
     this
       .http
-      .get<any>(
-        `${this.eeTrialService.trialLink}/details`,
+      .get(
+        `${trialLink}/details`,
         {
           headers: {
             [EXTERNAL_REQUEST_HEADER]: 'true',
@@ -113,17 +115,17 @@ export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit 
         },
       )
       .toPromise()
-      .then((userForm:any) => {
-        this.eeTrialService.userData$.putValue(userForm);
+      .then((data:IEnterpriseData) => {
+        this.eeTrialService.store.update({ data });
         this.eeTrialService.retryConfirmation();
       })
-      .catch((error:HttpErrorResponse) => {
+      .catch(() => {
         // Check whether the mail has been confirmed by now
         this.eeTrialService.getToken();
       });
   }
 
-  private formatUserData(userForm:any) {
+  private formatUserData(userForm:IEnterpriseData) {
     this.subscriber = `${userForm.first_name} ${userForm.last_name}`;
     this.email = userForm.email;
     this.company = userForm.company;

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,11 +51,15 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   describe '#inject_schema' do
     let(:base_class) { Class.new(::API::Decorators::SchemaRepresenter) }
     let(:modified_class) { described_class.create_schema_representer([custom_field], base_class) }
+    let(:schema_writable) { true }
+    let(:model) { build_stubbed(:work_package) }
     let(:schema) do
       double('WorkPackageSchema',
              project_id: 42,
+             model:,
              defines_assignable_values?: true,
-             available_custom_fields: [custom_field])
+             available_custom_fields: [custom_field],
+             writable?: schema_writable)
     end
 
     subject { modified_class.new(schema, current_user: nil, form_embedded: true).to_json }
@@ -69,6 +73,18 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:required) { true }
         let(:writable) { true }
         let(:has_default) { false }
+      end
+
+      context 'with schema not writable' do
+        let(:schema_writable) { false }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'Boolean' }
+          let(:name) { custom_field.name }
+          let(:required) { true }
+          let(:writable) { false }
+          let(:has_default) { false }
+        end
       end
 
       context 'with default set' do
@@ -155,6 +171,19 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:location) { '_links' }
       end
 
+      context 'with schema not writable' do
+        let(:schema_writable) { false }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { cf_path }
+          let(:type) { 'Version' }
+          let(:name) { custom_field.name }
+          let(:required) { true }
+          let(:writable) { false }
+          let(:location) { '_links' }
+        end
+      end
+
       it_behaves_like 'links to allowed values directly' do
         let(:path) { cf_path }
         let(:hrefs) { assignable_versions.map { |version| api_v3_paths.version version.id } }
@@ -196,6 +225,19 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:location) { '_links' }
       end
 
+      context 'with schema not writable' do
+        let(:schema_writable) { false }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { cf_path }
+          let(:type) { 'CustomOption' }
+          let(:name) { custom_field.name }
+          let(:required) { true }
+          let(:writable) { false }
+          let(:location) { '_links' }
+        end
+      end
+
       it_behaves_like 'links to and embeds allowed values directly' do
         let(:path) { cf_path }
         let(:hrefs) do
@@ -220,6 +262,19 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:required) { true }
         let(:writable) { true }
         let(:location) { '_links' }
+      end
+
+      context 'with schema not writable' do
+        let(:schema_writable) { false }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { cf_path }
+          let(:type) { 'User' }
+          let(:name) { custom_field.name }
+          let(:required) { true }
+          let(:writable) { false }
+          let(:location) { '_links' }
+        end
       end
 
       it_behaves_like 'links to allowed values via collection link' do

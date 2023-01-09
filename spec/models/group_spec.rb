@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,10 @@
 require 'spec_helper'
 require_relative '../support/shared/become_member'
 
-describe Group, type: :model do
+describe Group do
   let(:group) { create(:group) }
   let(:user) { create(:user) }
-  let(:watcher) { create :user }
+  let(:watcher) { create(:user) }
   let(:project) { create(:project_with_types) }
   let(:status) { create(:status) }
   let(:package) do
@@ -43,7 +43,7 @@ describe Group, type: :model do
   end
 
   it 'creates' do
-    g = Group.new(lastname: 'New group')
+    g = described_class.new(lastname: 'New group')
     expect(g.save).to be true
   end
 
@@ -109,7 +109,7 @@ describe Group, type: :model do
     describe 'group with empty group name' do
       let(:group) { build(:group, lastname: '') }
 
-      it { expect(group.valid?).to be_falsey }
+      it { expect(group).not_to be_valid }
 
       describe 'error message' do
         before do
@@ -140,5 +140,10 @@ describe Group, type: :model do
 
   include_examples 'creates an audit trail on destroy' do
     subject { create(:attachment) }
+  end
+
+  it_behaves_like 'acts_as_customizable included' do
+    let(:model_instance) { group }
+    let(:custom_field) { create(:string_group_custom_field) }
   end
 end

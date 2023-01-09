@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -54,6 +54,8 @@ import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/
 import { DatePickerModule } from 'core-app/shared/components/op-date-picker/date-picker.module';
 import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
 import { EnterpriseBannerComponent } from 'core-app/shared/components/enterprise-banner/enterprise-banner.component';
+import { EnterprisePageComponent } from 'core-app/shared/components/enterprise-page/enterprise-page.component';
+import { FreeTrialButtonComponent } from 'core-app/features/enterprise/free-trial-button/free-trial-button.component';
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -182,6 +184,8 @@ export function bootstrapModule(injector:Injector):void {
 
     // Enterprise Edition
     EnterpriseBannerComponent,
+    EnterprisePageComponent,
+    FreeTrialButtonComponent,
 
     DynamicModule,
 
@@ -236,6 +240,8 @@ export function bootstrapModule(injector:Injector):void {
 
     // Enterprise Edition
     EnterpriseBannerComponent,
+    EnterprisePageComponent,
+    FreeTrialButtonComponent,
 
     HomescreenNewFeaturesBlockComponent,
 

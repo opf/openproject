@@ -6,30 +6,30 @@ describe 'Moving a work package through Rails view', js: true do
   include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:dev_role) do
-    create :role,
-           permissions: %i[view_work_packages add_work_packages]
+    create(:role,
+           permissions: %i[view_work_packages add_work_packages])
   end
   let(:mover_role) do
-    create :role,
-           permissions: %i[view_work_packages move_work_packages manage_subtasks add_work_packages]
+    create(:role,
+           permissions: %i[view_work_packages move_work_packages manage_subtasks add_work_packages])
   end
   let(:dev) do
-    create :user,
+    create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
            member_in_project: project,
-           member_through_role: dev_role
+           member_through_role: dev_role)
   end
   let(:mover) do
-    create :admin,
+    create(:admin,
            firstname: 'Manager',
            lastname: 'Guy',
            member_in_project: project,
-           member_through_role: mover_role
+           member_through_role: mover_role)
   end
 
-  let(:type) { create :type, name: 'Bug' }
-  let(:type2) { create :type, name: 'Risk' }
+  let(:type) { create(:type, name: 'Bug') }
+  let(:type2) { create(:type, name: 'Risk') }
 
   let!(:project) { create(:project, name: 'Source', types: [type, type2]) }
   let!(:project2) { create(:project, name: 'Target', types: [type, type2]) }
@@ -89,17 +89,17 @@ describe 'Moving a work package through Rails view', js: true do
                             select_text: 'Target',
                             results_selector: 'body'
         SeleniumHubWaiter.wait
+      end
 
+      it 'moves parent and child wp to a new project' do
         # Clicking move and follow might be broken due to the location.href
         # in the refresh-on-form-changes component
         retry_block do
           click_on 'Move and follow'
           page.find('.inline-edit--container.subject', text: work_package.subject, wait: 10)
-          page.find('#projects-menu', text: 'Target')
+          page.find_by_id('projects-menu', text: 'Target')
         end
-      end
 
-      it 'moves parent and child wp to a new project' do
         # Should move its children
         child_wp.reload
         expect(child_wp.project_id).to eq(project2.id)
@@ -109,7 +109,63 @@ describe 'Moving a work package through Rails view', js: true do
         let!(:project2) { create(:project, name: 'Target', types: [type2]) }
 
         it 'does moves the work package and changes the type' do
+          # Clicking move and follow might be broken due to the location.href
+          # in the refresh-on-form-changes component
+          retry_block do
+            click_on 'Move and follow'
+            page.find('.inline-edit--container.subject', text: work_package.subject, wait: 10)
+            page.find_by_id('projects-menu', text: 'Target')
+          end
+
           # Should NOT have moved
+          child_wp.reload
+          work_package.reload
+          expect(work_package.project_id).to eq(project2.id)
+          expect(work_package.type_id).to eq(type2.id)
+          expect(child_wp.project_id).to eq(project2.id)
+          expect(child_wp.type_id).to eq(type2.id)
+        end
+      end
+
+      context 'when the target project has a type with a required field' do
+        let(:required_cf) { create(:int_wp_custom_field, is_required: true) }
+        let(:type2) { create(:type, name: 'Risk', custom_fields: [required_cf]) }
+        let!(:project2) { create(:project, name: 'Target', types: [type2], work_package_custom_fields: [required_cf]) }
+
+        it 'does not moves the work package when the required field is missing' do
+          select "Risk", from: "Type"
+          expect(page).to have_field(required_cf.name)
+
+          # Clicking move and follow might be broken due to the location.href
+          # in the refresh-on-form-changes component
+          retry_block do
+            click_on 'Move and follow'
+          end
+
+          expect(page)
+            .to have_selector('.flash.error',
+                              text: I18n.t(:'work_packages.bulk.none_could_be_saved',
+                                           total: 1))
+          child_wp.reload
+          work_package.reload
+          expect(work_package.project_id).to eq(project.id)
+          expect(work_package.type_id).to eq(type.id)
+          expect(child_wp.project_id).to eq(project.id)
+          expect(child_wp.type_id).to eq(type.id)
+        end
+
+        it 'does moves the work package when the required field is set' do
+          select "Risk", from: "Type"
+          fill_in required_cf.name, with: '1'
+
+          # Clicking move and follow might be broken due to the location.href
+          # in the refresh-on-form-changes component
+          retry_block do
+            click_on 'Move and follow'
+          end
+
+          expect(page).to have_selector('.flash.notice')
+
           child_wp.reload
           work_package.reload
           expect(work_package.project_id).to eq(project2.id)

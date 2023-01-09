@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,13 +47,13 @@ describe 'Files tab', js: true do
     context 'if on work packages full view' do
       it 'must open files tab' do
         wp_page.switch_to_tab tab: 'activity'
-        expect(page).not_to have_selector '.work-package--attachments--drop-box'
+        expect(page).not_to have_selector '[data-qa-selector="op-attachments--drop-box"]'
 
         files_link = wp_page.find('.work-packages--files-container .attributes-group--icon-indented-text a')
         files_link.click
 
         expect(page).to have_current_path project_work_package_path(project, work_package, 'files')
-        expect(page).to have_selector '.work-package--attachments--drop-box'
+        expect(page).to have_selector '[data-qa-selector="op-attachments--drop-box"]'
       end
     end
 
@@ -62,13 +62,13 @@ describe 'Files tab', js: true do
 
       it 'must open files tab' do
         wp_page.switch_to_tab tab: 'overview'
-        expect(page).not_to have_selector '.work-package--attachments--drop-box'
+        expect(page).not_to have_selector '[data-qa-selector="op-attachments--drop-box"]'
 
         files_link = wp_page.find('.work-packages--files-container .attributes-group--icon-indented-text a')
         files_link.click
 
         expect(page).to have_current_path project_work_packages_path(project) + "/details/#{work_package.id}/files"
-        expect(page).to have_selector '.work-package--attachments--drop-box'
+        expect(page).to have_selector '[data-qa-selector="op-attachments--drop-box"]'
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -142,14 +142,16 @@ Rails.application.reloader.to_prepare do
                      contract_actions: { work_packages: %i[read] }
 
       wpt.permission :add_work_packages,
-                     {}
+                     {},
+                     contract_actions: { work_packages: %i[create] }
 
       wpt.permission :edit_work_packages,
                      {
                        'work_packages/bulk': %i[edit update]
                      },
                      require: :member,
-                     dependencies: :view_work_packages
+                     dependencies: :view_work_packages,
+                     contract_actions: { work_packages: %i[update] }
 
       wpt.permission :move_work_packages,
                      { 'work_packages/moves': %i[new create] },

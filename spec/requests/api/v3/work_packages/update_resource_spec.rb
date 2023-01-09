@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,6 @@ require 'spec_helper'
 require 'rack/test'
 
 describe 'API v3 Work package resource',
-         type: :request,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
@@ -74,7 +73,7 @@ describe 'API v3 Work package resource',
     context 'user without needed permissions' do
       context 'no permission to see the work package' do
         let(:work_package) { create(:work_package) }
-        let(:current_user) { create :user }
+        let(:current_user) { create(:user) }
         let(:params) { valid_params }
 
         include_context 'patch request'
@@ -399,12 +398,13 @@ describe 'API v3 Work package resource',
         let(:project_link) { api_v3_paths.project target_project.id }
         let(:project_parameter) { { _links: { project: { href: project_link } } } }
         let(:params) { valid_params.merge(project_parameter) }
+        let(:member_permissions) { [:move_work_packages] }
 
         before do
-          create :member,
+          create(:member,
                  user: current_user,
                  project: target_project,
-                 roles: [create(:role, permissions: [:move_work_packages])]
+                 roles: [create(:role, permissions: member_permissions)])
 
           allow(User).to receive(:current).and_return current_user
         end
@@ -428,6 +428,7 @@ describe 'API v3 Work package resource',
         end
 
         context 'with a custom field defined on the target project' do
+          let(:member_permissions) { %i[move_work_packages edit_work_packages] }
           let(:custom_field) { create(:work_package_custom_field) }
           let(:custom_field_parameter) { { "customField#{custom_field.id}": true } }
           let(:params) { valid_params.merge(project_parameter).merge(custom_field_parameter) }

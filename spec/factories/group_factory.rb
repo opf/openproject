@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ FactoryBot.define do
       next if members.empty?
 
       User.system.run_given do |system_user|
-        ::Groups::AddUsersService
+        Groups::AddUsersService
           .new(group, current_user: system_user)
           .call(ids: members.map(&:id))
           .on_failure { |call| raise call.message }

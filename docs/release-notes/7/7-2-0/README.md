@@ -13,7 +13,7 @@ OpenProject 7.2 includes several improvements: Relations can be
 displayed as a column in the work package page, the Gantt chart can be
 expanded to full width, weekends are shown in the Gantt chart and it is
 possible to use copy / paste to add screenshots from the clipboard.
-Users of the Enterprise Edition and Cloud Edition can specify attribute
+Users of the OpenProject Enterprise cloud and Enterprise on-premises edition can specify attribute
 help texts which make working with attributes easier.
 
 ### Gantt chart includes weekends, subject and dates
@@ -47,7 +47,7 @@ on the activity tab to hide all other activity entries.
 
 
 
-### Relations in the work package list (Enterprise Edition / Cloud Edition)
+### Relations in the work package list (Enterprise add-on)
 
 With OpenProject 7.2 you can show relation columns in the work package
 list. A label shows how many related elements a work package has. By
@@ -55,9 +55,9 @@ clicking on the label, the related work packages are shown.
 
 
 
-### Attribute help texts (Enterprise Edition / Cloud Edition)
+### Attribute help texts (Enterprise add-on)
 
-Users of the Enterprise Edition and Cloud Edition can specify attribute
+Users of the OpenProject Enterprise cloud and Enterprise on-premises edition can specify attribute
 help texts which show additional information for attributes (e.g. custom
 fields).
 

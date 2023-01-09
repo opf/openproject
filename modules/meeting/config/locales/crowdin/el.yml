@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -64,7 +64,7 @@ el:
   label_time_zone: "Ζώνη Ώρας"
   label_start_date: "Ημερομηνία έναρξης"
   meeting:
-    copied: "Copied from Meeting #%{id}"
+    copied: "Αντιγράφηκε από τη Συνάντηση #%{id}"
   notice_successful_notification: "Η ειδοποίηση απεστάλη επιτυχώς"
   notice_timezone_missing: Δεν έχει οριστεί ζώνη ώρας και θεωρήθηκε η %{zone}. Για να επιλέξετε την ζώνη ώρας σας, παρακαλούμε κάντε κλικ εδώ.
   permission_create_meetings: "Δημιουργία συναντήσεων"

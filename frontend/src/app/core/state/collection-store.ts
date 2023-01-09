@@ -167,7 +167,7 @@ export function collectionFrom<T>(elements:T[]):IHALCollection<T> {
 /**
  * Takes a collection of elements that do not have an ID, and extract the ID from self link.
  * @param collection a IHALCollection with elements that have a self link
- * @returns the same collection with elements extended with an ID dervied from the self link.
+ * @returns the same collection with elements extended with an ID derived from the self link.
  */
 export function extendCollectionElementsWithId<T extends { _links:IHalResourceLinks }>(
   collection:IHALCollection<T>,

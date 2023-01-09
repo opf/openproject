@@ -8,6 +8,10 @@ get:
   description: |-
     Returns the collection of available in-app notifications. The notifications returned depend on the provided
     parameters and also on the requesting user's permissions.
+
+    Contrary to most collections, this one also links to and embeds schemas for the `details` properties of the notifications returned.
+    This is an optimization. Clients will receive the information necessary to display the various types of details that a notification
+    can carry.
   parameters:
     - name: offset
       description: Page number inside the requested collection.
@@ -79,6 +83,9 @@ get:
         application/hal+json:
           schema:
             $ref: '../components/schemas/notification_collection_model.yml'
+          examples:
+            'Collection of notifications':
+              $ref: '../components/examples/notification_collection.yml'
       description: OK
     '403':
       content:

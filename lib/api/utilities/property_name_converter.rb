@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,9 +64,9 @@ module API
         # Converts the attribute name as referred to by the APIv3 to the source name of the attribute
         # in ActiveRecord. For that to work properly, an instance of the correct AR-class needs
         # to be passed as context.
-        def to_ar_name(attribute, context:, refer_to_ids: false)
+        def to_ar_name(attribute, context:, refer_to_ids: false, collapse_cf_name: true)
           attribute = underscore_attribute attribute.to_s.underscore
-          attribute = collapse_custom_field_name(attribute)
+          attribute = collapse_custom_field_name(attribute) if collapse_cf_name
 
           special_conversion = Constants::ARToAPIConversions.api_to_ar_conversions[attribute]
 

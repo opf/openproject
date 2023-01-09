@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,14 +31,16 @@ module RequiresEnterpriseGuard
 
   included do
     class_attribute :enterprise_action
-    validate :has_enterprise
+    class_attribute :enterprise_condition
+    # Validate when no enterprise_condition is set, or when it evaluates to true
+    validate :has_enterprise, if: -> { enterprise_condition.nil? || instance_exec(&enterprise_condition) }
   end
 
   module_function
 
   def has_enterprise
     unless EnterpriseToken.allows_to?(enterprise_action)
-      errors.add :base, :error_enterprise_only
+      errors.add :base, :error_enterprise_only, action: enterprise_action.to_s.titleize
     end
   end
 end

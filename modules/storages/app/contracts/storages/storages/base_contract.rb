@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ module Storages::Storages
     validates :provider_type, inclusion: { in: ->(*) { Storages::Storage::PROVIDER_TYPES } }
 
     attribute :host
-    validates :host, url: true, length: { maximum: 255 }
+    validates :host, url: { message: I18n.t('activerecord.errors.messages.invalid_url') }, length: { maximum: 255 }
     # Check that a host actually is a storage server.
     # But only do so if the validations above for URL were successful.
     validates :host, secure_context_uri: true, nextcloud_compatible_host: true, unless: -> { errors.include?(:host) }

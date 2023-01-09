@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -127,7 +127,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     context 'remainingTime not writable' do
       before do
         allow(schema).to receive(:writable?).and_call_original
-        allow(schema).to receive(:writable?).with(:remaining_time).and_return(false)
+        allow(schema).to receive(:writable?).with('remaining_hours').and_return(false)
       end
 
       it_behaves_like 'has basic schema properties' do

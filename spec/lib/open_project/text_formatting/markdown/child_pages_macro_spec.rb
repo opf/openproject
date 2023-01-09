@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -138,7 +138,7 @@ describe 'OpenProject child pages macro' do
     it { is_expected.not_to match(current_page.title) }
     it { is_expected.to match(middle_page.title) }
     it { is_expected.to match(leaf_page.title) }
-    # Check accessability
+    # Check accessibility
     it { is_expected.to include('hidden-for-sighted', 'tabindex', 'Expanded. Click to collapse') }
   end
 

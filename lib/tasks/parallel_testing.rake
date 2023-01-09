@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -105,7 +105,7 @@ namespace :parallel do
       rspec_options += " #{additional_options}"
     end
     group_options += " -o '#{rspec_options}'" if rspec_options.length.positive?
-    cmd = "bundle exec parallel_test --verbose --verbose-rerun-command --type rspec #{parallel_options} #{group_options} #{folders} #{pattern}"
+    cmd = "bundle exec parallel_test --verbose --verbose-command --type rspec #{parallel_options} #{group_options} #{folders} #{pattern}"
     sh cmd
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,6 +89,8 @@ module Settings
       if format == :hash
         self.value = {} if value.nil?
         value.deep_merge! other_value.deep_stringify_keys
+      elsif format == :datetime && !other_value.is_a?(DateTime)
+        self.value = DateTime.parse(other_value.to_s)
       else
         self.value = other_value
       end
@@ -188,7 +190,10 @@ module Settings
 
       private
 
-      # Currently only required for testing
+      # Currently only required for testing.
+      #
+      # Tag your test with :settings_reset to start test with fresh settings
+      # definitions and restore them after test.
       def reset
         @all = nil
         @loaded = false

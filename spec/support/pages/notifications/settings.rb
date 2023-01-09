@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,9 +61,9 @@ module Pages
           work_package_prioritized
           work_package_scheduled
         ].each do |type|
-          expect(page).to have_selector("input[type='checkbox'][data-qa-global-notification-type='#{type}']") do |checkbox|
+          expect(page).to have_selector("input[type='checkbox'][data-qa-global-notification-type='#{type}']") { |checkbox|
             checkbox.checked? == setting[type]
-          end
+          }
         end
       end
 
@@ -87,6 +87,22 @@ module Pages
         checked ? checkbox.check : checkbox.uncheck
       end
 
+      def enable_date_alert(type, checked)
+        checkbox = page.find "input[type='checkbox'][data-qa-global-notification-type='op-settings-#{type}-date-active']"
+        checked ? checkbox.check : checkbox.uncheck
+      end
+
+      def set_reminder(label, time)
+        select_box = page.find "select[data-qa-global-notification-type='op-reminder-settings-#{label}-alerts']"
+        select_box.select time
+      end
+
+      def expect_no_date_alert_setting(label)
+        expect(page).not_to have_selector(
+          "select[data-qa-global-notification-type='op-reminder-settings-#{label}-alerts']"
+        )
+      end
+
       def configure_project(project: nil, **types)
         types.each { |type| set_project_option(*type, project) }
       end
@@ -94,6 +110,19 @@ module Pages
       def set_project_option(type, checked, project)
         checkbox = page.find "input[type='checkbox'][data-qa-project='#{project}'][data-qa-project-notification-type='#{type}']"
         checked ? checkbox.check : checkbox.uncheck
+      end
+
+      def set_project_reminder(label, time, project)
+        select_box =
+          page.find "select[data-qa-project='#{project}']" \
+                    "[data-qa-project-notification-type='op-reminder-settings-#{label}-alerts']"
+        select_box.select time
+      end
+
+      def expect_no_project_date_alert_setting(label, project)
+        expect(page).not_to have_selector(
+          "select[data-qa-project='#{project}'][data-qa-project-notification-type='op-reminder-settings-#{label}-alerts']"
+        )
       end
 
       def save

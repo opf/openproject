@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -372,10 +372,14 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
         } }]
       end
 
-      it 'is empty' do
+      it 'is empty and includes an empty element set', :aggregate_failures do
         expect(subject.body)
           .to be_json_eql('0')
           .at_path('total')
+
+        expect(subject.body)
+          .to be_json_eql([].to_json)
+                .at_path('_embedded/elements')
       end
     end
 

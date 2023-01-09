@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,9 +63,9 @@ module Pages
         page.within("[data-qa-selector='op-ian-notification-item-#{notification.id}']", &)
       end
 
-      def expect_item(notification, subject: notification.subject)
+      def expect_item(notification, expected_text = notification.subject)
         within_item(notification) do
-          expect(page).to have_text subject, normalize_ws: true
+          expect(page).to have_text expected_text, normalize_ws: true
         end
       end
 
@@ -97,7 +97,7 @@ module Pages
           raise(ArgumentError, "Expected work package") unless work_package.is_a?(WorkPackage)
 
           expect_item notification,
-                      subject: "#{work_package.type.name.upcase} #{work_package.subject}"
+                      "#{work_package.type.name.upcase} #{work_package.subject}"
         end
       end
 

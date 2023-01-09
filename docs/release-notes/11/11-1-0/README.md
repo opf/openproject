@@ -40,7 +40,7 @@ In the work package list it is possible to group by any attribute,  e.g. assigne
 
 ## Signing Data Processing Agreement (DPA) documents in Enterprise cloud
 
-For EU customers it is required by the GDPR to sign a data processing agreement (sometimes called data processing addendum) before using our Cloud edition. Until now, we processed these contracts manually. Users had to print the document, enter their information and send it to us. We then had to sign it too, and send it back to the customer.
+For EU customers it is required by the GDPR to sign a data processing agreement (sometimes called data processing addendum) before using our Enterprise cloud edition. Until now, we processed these contracts manually. Users had to print the document, enter their information and send it to us. We then had to sign it too, and send it back to the customer.
 
 Luckily, we now automated this process in order to reduce manual effort on both sides. This way, it is even easier to comply with GDPR. Within -> Administration -> GDPR you can now online review and sign your DPA document with us.
 
@@ -87,12 +87,12 @@ There are a lot more things we packed into 11.1 to tell you about.
 
 ## Installation and Updates
 
-To use OpenProject 11.1 right away, create an instance and [test 14 days for free in the Cloud](https://start.openproject.com/).
+To use OpenProject 11.1 right away, create an instance and [test Enterprise cloud 14 days for free](https://start.openproject.com/).
 
 Prefer to run OpenProject 11.1 in your own infrastructure?
 Here you can find the [Installation guidelines](../../../installation-and-operations) for OpenProject.
 
-Want to upgrade from your self-managed Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/)
+Want to upgrade from your self-managed Community version to try out the Enterprise Enterprise add-ons? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/)
 
 Navigate to the -> *Administration*-> *Enterprise Edition* and request your trial token.
 
@@ -100,7 +100,7 @@ Navigate to the -> *Administration*-> *Enterprise Edition* and request your tria
 
 Follow the [upgrade guide for the packaged installation or Docker installation](../../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.0. Please note the blue box on top of the page.
 
-We update the hosted OpenProject environments (Enterprise Cloud) automatically.
+We update the hosted OpenProject environments (Enterprise cloud) automatically.
 
 ## Credits and contributions
 

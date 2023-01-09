@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,7 +76,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
     end
   end
 
-  describe 'notification_settings' do
+  describe 'notification_settings', with_ee: %i[date_alerts] do
     it 'renders them as a nested array' do
       expect(subject).to have_json_type(Array).at_path('notifications')
       expect(subject).to be_json_eql(nil.to_json).at_path('notifications/0/_links/project/href')

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -171,9 +171,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
       return true;
     }
 
-    if (this.isEditable) {
-      this.handleUserActivate(event);
-    }
+    this.handleUserActivate(event);
 
     this.opContextMenu.close();
     event.preventDefault();
@@ -192,8 +190,13 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   }
 
   public handleUserActivate(evt:MouseEvent|KeyboardEvent|null):boolean {
+    if (!this.isEditable) {
+      return false;
+    }
+
     let positionOffset = 0;
 
+    // This can be both a direct click as well as a "click" via keyboard, e.g. the <Enter> key.
     if (evt?.type === 'click') {
       // Get the position where the user clicked.
       positionOffset = getPosition(evt);

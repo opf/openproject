@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,6 +51,18 @@ module OpenProject
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    # Initialize configuration defaults for a Rails version.
+    #
+    # This includes defaults for versions prior to the target version. See the
+    # configuration guide at
+    # https://guides.rubyonrails.org/configuring.html#versioned-default-values
+    # for the default values associated with a particular version.
+    #
+    # Currently, defaults from Rails 4.2 are applied. Goal is to reach 7.0
+    # defaults. Overridden defaults should be stored in specific initializers
+    # files. See https://community.openproject.org/wp/45463 for details.
+    # config.load_defaults 5.0
 
     # Sets up logging for STDOUT and configures the default logger formatter
     # so that all environments receive level and timestamp information
@@ -122,7 +134,7 @@ module OpenProject
     # Doing this, it is e.g. possible to avoid having the format of '%{attribute} %{message}' which
     # will always prepend the attribute name to the error message.
     # The formats can then be specified using the `format:` key within the [local].yml file in every
-    # layer of activerecord.errors down to the individual leve of the message, e.g.
+    # layer of activerecord.errors down to the individual level of the message, e.g.
     # activerecord.errors.models.project.attributes.types.format
     config.active_model.i18n_customize_full_message = true
 

@@ -19,10 +19,10 @@ x-defaults: &defaults
   volumes:
     - "openproject_data:/var/openproject/assets"
   environment:
-    - "RAILS_CACHE_STORE=file_store"
     - "DATABASE_URL=postgresql://app:p4ssw0rd@db:5432/app?encoding=utf8&pool=5&timeout=5000&reconnect=true"
-    - "SECRET_KEY_BASE=d4e74f017910ac56c6ebad01165b7e1b37f4c9c02e9716836f8670cdc8d65a231e64e4f6416b19c8"
+    - "OPENPROJECT_RAILS__CACHE__STORE=file_store"
     - "RAILS_ENV=production"
+    - "SECRET_KEY_BASE=d4e74f017910ac56c6ebad01165b7e1b37f4c9c02e9716836f8670cdc8d65a231e64e4f6416b19c8"
   networks:
     - backend
 

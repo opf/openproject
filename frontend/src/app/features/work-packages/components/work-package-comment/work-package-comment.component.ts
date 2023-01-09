@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -51,6 +51,10 @@ import { WorkPackagesActivityService } from 'core-app/features/work-packages/com
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import { HalError } from 'core-app/features/hal/services/hal-error';
+import {
+  filter,
+  take,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'work-package-comment',
@@ -85,7 +89,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     protected injector:Injector,
     protected commentService:CommentService,
     protected wpLinkedActivities:WorkPackagesActivityService,
-    protected ConfigurationService:ConfigurationService,
+    protected configurationService:ConfigurationService,
     protected loadingIndicator:LoadingIndicatorService,
     protected apiV3Service:ApiV3Service,
     protected workPackageNotificationService:WorkPackageNotificationService,
@@ -95,13 +99,23 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     super(elementRef, injector);
   }
 
-  public ngOnInit() {
+  public ngOnInit():void {
     super.ngOnInit();
 
     this.canAddComment = !!this.workPackage.addComment;
-    this.showAbove = this.ConfigurationService.commentsSortedInDescendingOrder();
+    this.showAbove = this.configurationService.commentsSortedInDescendingOrder();
 
-    this.commentService.quoteEvents
+    this.commentService.draft$
+      .pipe(
+        this.untilDestroyed(),
+        take(1),
+        filter((val) => !!val),
+      )
+      .subscribe((draft:string) => {
+        this.activate(draft);
+      });
+
+    this.commentService.quoteEvents$
       .pipe(
         this.untilDestroyed(),
       )
@@ -111,8 +125,13 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
       });
   }
 
+  public ngOnDestroy():void {
+    super.ngOnDestroy();
+    this.commentService.draft$.next(this.active ? this.rawComment : null);
+  }
+
   // Open the field when its closed and relay drag & drop events to it.
-  public startDragOverActivation(event:JQuery.TriggeredEvent) {
+  public startDragOverActivation(event:JQuery.TriggeredEvent):boolean {
     if (this.active) {
       return true;
     }
@@ -123,7 +142,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     return false;
   }
 
-  public activate(withText?:string) {
+  public activate(withText?:string):void {
     super.activate(withText);
 
     if (!this.showAbove) {
@@ -133,13 +152,13 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     this.cdRef.detectChanges();
   }
 
-  public deactivate(focus:boolean) {
+  public deactivate(focus:boolean):void {
     focus && this.focus();
     this.active = false;
     this.cdRef.detectChanges();
   }
 
-  public async handleUserSubmit() {
+  public async handleUserSubmit():Promise<unknown> {
     if (this.inFlight || !this.rawComment) {
       return Promise.resolve();
     }

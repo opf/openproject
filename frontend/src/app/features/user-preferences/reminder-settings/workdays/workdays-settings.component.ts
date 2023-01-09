@@ -4,8 +4,8 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  FormArray,
-  FormControl,
+  UntypedFormArray,
+  UntypedFormControl,
   FormGroupDirective,
 } from '@angular/forms';
 import * as moment from 'moment';
@@ -18,7 +18,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkdaysSettingsComponent implements OnInit {
-  control:FormArray;
+  control:UntypedFormArray;
 
   /**
    * The locale might render workdays in a different order, which is what moment return with localeSorted
@@ -46,16 +46,16 @@ export class WorkdaysSettingsComponent implements OnInit {
   }
 
   ngOnInit():void {
-    this.control = this.formGroup.control.get('workdays') as FormArray;
+    this.control = this.formGroup.control.get('workdays') as UntypedFormArray;
   }
 
   indexOfLocalWorkday(day:string):number {
     return this.isoWorkdays.indexOf(day);
   }
 
-  controlForLocalWorkday(day:string):FormControl {
+  controlForLocalWorkday(day:string):UntypedFormControl {
     const index = this.indexOfLocalWorkday(day);
-    return this.control.at(index) as FormControl;
+    return this.control.at(index) as UntypedFormControl;
   }
 
   /** Workdays from moment.js are in non-ISO order, that means Sunday=0, Saturday=6 */

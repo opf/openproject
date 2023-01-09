@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,12 +47,17 @@ class Queries::WorkPackages::Filter::RelatableFilter < Queries::WorkPackages::Fi
   end
 
   def scope
-    WorkPackage.relatable(WorkPackage.find_by(id: values.first), Relation.canonical_type(operator))
+    WorkPackage.relatable(WorkPackage.find_by(id: values.first), scope_operator)
   end
 
   private
 
-  def canonical_operator
-    Relation.canonical_type(operator)
+  # 'children' used to be supported by the API although 'child' would be more fitting.
+  def scope_operator
+    if operator == 'children'
+      Relation::TYPE_CHILD
+    else
+      operator
+    end
   end
 end

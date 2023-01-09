@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -219,7 +219,7 @@ describe 'work package export', type: :feature do
 
     context 'with many columns' do
       before do
-        query.column_names = query.available_columns.map { |c| c.name.to_s } - ['bcf_thumbnail']
+        query.column_names = query.displayable_columns.map { |c| c.name.to_s } - ['bcf_thumbnail']
         query.save!
 
         # Despite attempts to provoke the error by having a lot of columns, the pdf

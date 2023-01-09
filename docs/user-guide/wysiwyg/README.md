@@ -34,7 +34,7 @@ Instead of creating a new paragraph with Enter, you can also press `SHIFT+Enter`
 
 ### Links
 
-Create hyperlinks by pressing the tool-bar (optionally with some selected text), or by pressing `CTRL+k` to open a popup to enter the link href.
+Create hyperlinks by pressing the tool-bar (optionally with some selected text), or by pressing `CTRL+k` to open a popup to enter the link here.
 
 ### Widgets and Newlines
 
@@ -49,7 +49,7 @@ As CKEditor5 currently does not provide support for code blocks, OpenProject can
 
 ### Tables
 
-The GFM extension of the CommonMark specs adds a definition for table syntax which the CKEditor build of OpenProject supports. This definition requires all tables to have a heading row. For tables created with CKEditor without heading rows, a HTML table is output instead. This matches the behavior of, e.g., GitHub.
+The GFM extension of the CommonMark specs adds a definition for table syntax which the CKEditor of OpenProject supports. This definition requires all tables to have a heading row. For tables created with CKEditor without heading rows, a HTML table is output instead. This matches the behavior of, e.g., GitHub.
 
 ### Autoformatting
 
@@ -163,15 +163,18 @@ Examples:
 
 
 ### Embedding attribute help texts
-You can also embed attribute values and [their help texts](../../system-admin-guide/attribute-help-texts/) by using `workPackageLabel` instead: `workPackageLabel:1234:status` would output the translated label for "Status" and (if exists), the corresponding help text for it.
+You can also embed attribute values and [their help texts](../../system-admin-guide/attribute-help-texts/) by using `workPackageLabel` instead of: `workPackageLabel:1234:status` which would output the translated label for "Status" and (if exists), the corresponding help text for it.
 
 
 
 > **Please note**: These macros will only be expanded in the frontend. For each individual user, the correct permissions will be checked and the macro will result in an error if the user is not allowed to view the respective resource.    
 
 
+## Attributes
 
+The following lists show the supported attributes for work packages and projects.
 
+> **Please note**: If you are using a different language than, English a translation of the commands can only be used in the text editor if all user languages (of all useres) of an instance are set to the same language (for example: German). In this case, only the attribute to which the command refers is translated, e.g. (`workPackageValue:1234:"translated attribute"`).
 
 ### Available attributes for work packages
 
@@ -180,7 +183,7 @@ The following list contains all supported attribute names for the `workPackageVa
 | **Attribute**       | Usage example                                                |
 | ------------------- | ------------------------------------------------------------ |
 | *Custom Fields*     | `workPackageValue:1234:"Name of the work package custom field"` |
-| Assigned user       | `workPackageValue:1234:assignee`                             |
+| Assignee            | `workPackageValue:1234:assignee`                             |
 | Author              | `workPackageValue:1234:author`                               |
 | Category            | `workPackageValue:1234:category`                             |
 | Creation date       | `workPackageValue:1234:createdAt`                            |

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,13 +49,10 @@ module Activities
       @event_types ||=
         if @project
           OpenProject::Activity.available_event_types.select do |o|
-            @project.self_and_descendants.detect do |_p|
-              permissions = constantized_providers(o).map do |p|
-                p.activity_provider_options[:permission]
-              end.compact
-
-              permissions.all? { |p| @user.allowed_to?(p, @project) }
-            end
+            permissions = constantized_providers(o).map do |activity_provider|
+              activity_provider.activity_provider_options[:permission]
+            end.compact
+            permissions.all? { |p| @user.allowed_to?(p, @project) }
           end
         else
           OpenProject::Activity.available_event_types.to_a

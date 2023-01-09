@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -173,7 +173,7 @@ describe Notifications::CreateFromModelService,
     end
 
     context 'when assignee is placeholder user' do
-      let(:recipient) { create :placeholder_user }
+      let(:recipient) { create(:placeholder_user) }
 
       it_behaves_like 'creates no notification'
     end
@@ -226,7 +226,7 @@ describe Notifications::CreateFromModelService,
     end
 
     context 'when responsible is placeholder user' do
-      let(:recipient) { create :placeholder_user }
+      let(:recipient) { create(:placeholder_user) }
 
       it_behaves_like 'creates no notification'
     end
@@ -855,6 +855,57 @@ describe Notifications::CreateFromModelService,
           end
         end
 
+        context "when the added text contains a user mention tag inside a quote" do
+          let(:note) do
+            <<~NOTE
+              #{recipient.name} wrote:
+              > Hello <mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">@#{recipient.name}</mention>
+            NOTE
+          end
+
+          it_behaves_like 'creates no notification'
+        end
+
+        context "when the added text contains a user mention tag inside an invalid quote" do
+          let(:note) do
+            <<~NOTE
+              #{recipient.name} wrote:
+              >Hello <mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">@#{recipient.name}</mention>
+            NOTE
+          end
+
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason: :mentioned,
+                mail_alert_sent: false,
+                mail_reminder_sent: false
+              }
+            end
+          end
+        end
+
+        context "when the added text contains a user mention tag inside a quote and outside" do
+          let(:note) do
+            <<~NOTE
+              Hi <mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">@#{recipient.name}</mention> :
+              > Hello <mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">@#{recipient.name}</mention>
+            NOTE
+          end
+
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason: :mentioned,
+                mail_alert_sent: false,
+                mail_reminder_sent: false
+              }
+            end
+          end
+        end
+
         context "when the recipient turned off mention notifications" do
           let(:recipient_notification_settings) do
             [
@@ -884,7 +935,16 @@ describe Notifications::CreateFromModelService,
           end
           let(:author) { recipient }
 
-          it_behaves_like 'creates no notification'
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason: :mentioned,
+                mail_alert_sent: false,
+                mail_reminder_sent: false
+              }
+            end
+          end
         end
 
         context 'when there is already a notification for the journal (because it was aggregated)' do
@@ -958,7 +1018,7 @@ describe Notifications::CreateFromModelService,
           it_behaves_like 'group mention'
         end
 
-        context 'with the group member making the change himself and having deactivated self notification' do
+        context 'with the group member making the change himself' do
           let(:note) do
             <<~NOTE
               Hello <mention class="mention" data-id="#{group.id}" data-type="group" data-text="@#{group.name}">@#{group.name}</mention>
@@ -966,7 +1026,16 @@ describe Notifications::CreateFromModelService,
           end
           let(:author) { recipient }
 
-          it_behaves_like 'creates no notification'
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason: :mentioned,
+                mail_alert_sent: false,
+                mail_reminder_sent: false
+              }
+            end
+          end
         end
       end
     end

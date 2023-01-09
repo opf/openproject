@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,7 @@ import { Injectable } from '@angular/core';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import * as Mousetrap from 'mousetrap';
 
 const accessKeys = {
   preview: 1,

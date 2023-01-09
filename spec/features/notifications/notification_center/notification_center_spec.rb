@@ -1,25 +1,28 @@
 require 'spec_helper'
 
-describe "Notification center", type: :feature, js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
+describe "Notification center",
+         js: true,
+         with_ee: %i[date_alerts],
+         with_settings: { journal_aggregation_time_minutes: 0 } do
   # Notice that the setup in this file here is not following the normal rules as
   # it also tests notification creation.
-  let!(:project1) { create :project }
-  let!(:project2) { create :project }
+  let!(:project1) { create(:project) }
+  let!(:project2) { create(:project) }
   let!(:recipient) do
     # Needs to take place before the work package is created so that the notification listener is set up
-    create :user,
+    create(:user,
            member_in_projects: [project1, project2],
            member_with_permissions: %i[view_work_packages],
-           notification_settings: [build(:notification_setting, all: true)]
+           notification_settings: [build(:notification_setting, all: true)])
   end
   let!(:other_user) do
     create(:user)
   end
   let(:work_package) do
-    create :work_package, project: project1, author: other_user
+    create(:work_package, project: project1, author: other_user)
   end
   let(:work_package2) do
-    create :work_package, project: project2, author: other_user
+    create(:work_package, project: project2, author: other_user)
   end
   let(:notification) do
     # Will have been created via the JOURNAL_CREATED event listeners
@@ -120,19 +123,19 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
 
     context "with a new notification" do
       let(:work_package3) do
-        create :work_package,
+        create(:work_package,
                project: project1,
-               author: other_user
+               author: other_user)
       end
       let(:notification3) do
-        create :notification,
+        create(:notification,
                reason: :commented,
                recipient:,
                resource: work_package3,
                project: project1,
                actor: other_user,
                journal: work_package3.journals.reload.last,
-               read_ian: true
+               read_ian: true)
       end
 
       it "opens a toaster if the notification is part of the current filters" do
@@ -159,6 +162,96 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
         side_menu.finished_loading
         center.expect_no_toaster
         notification3.update(read_ian: false)
+        # We need to wait for the bell to poll for updates
+        sleep 15
+        center.expect_no_toaster
+      end
+    end
+
+    context "with date alert notifications" do
+      let(:starting_soon_work_package) do
+        # Executing as current user to avoid notification creation
+        User.execute_as(recipient) do
+          create(:work_package,
+                 start_date: 3.days.from_now,
+                 project: project1)
+        end
+      end
+      let(:ending_soon_work_package) do
+        # Executing as current user to avoid notification creation
+        User.execute_as(recipient) do
+          create(:work_package,
+                 due_date: 2.days.from_now,
+                 project: project1)
+        end
+      end
+      let(:overdue_milestone_work_package) do
+        # Executing as current user to avoid notification creation
+        User.execute_as(recipient) do
+          create(:work_package,
+                 :is_milestone,
+                 due_date: 1.day.ago,
+                 project: project1)
+        end
+      end
+      let(:start_date_notification) do
+        create(:notification,
+               reason: :date_alert_start_date,
+               recipient:,
+               resource: starting_soon_work_package,
+               project: project1,
+               read_ian: false)
+      end
+      let(:due_date_notification) do
+        create(:notification,
+               reason: :date_alert_due_date,
+               recipient:,
+               resource: ending_soon_work_package,
+               project: project1,
+               read_ian: false)
+      end
+      let(:overdue_date_notification) do
+        create(:notification,
+               reason: :date_alert_due_date,
+               recipient:,
+               resource: overdue_milestone_work_package,
+               project: project1,
+               read_ian: false)
+      end
+
+      let(:notifications) do
+        [notification, start_date_notification, due_date_notification, overdue_date_notification]
+      end
+
+      it "displays the date alerts; allows reading and filtering them" do
+        visit home_path
+        center.open
+        # Three date alerts and the standard (created) notification
+        center.expect_bell_count 4
+        center.expect_work_package_item notification
+        center.expect_work_package_item start_date_notification
+        center.expect_work_package_item due_date_notification
+        center.expect_work_package_item overdue_date_notification
+
+        # Reading one will update the unread notification list
+        center.mark_notification_as_read start_date_notification
+
+        center.expect_bell_count 3
+
+        # Filtering for only date alert notifications (that are unread)
+        side_menu.click_item 'Date alert'
+
+        center.expect_work_package_item due_date_notification
+        center.expect_work_package_item overdue_date_notification
+        center.expect_no_item(notification, start_date_notification)
+
+        # do not open a toaster if the notification is not part of the current filters
+        create(:notification,
+               reason: :mentioned,
+               recipient:,
+               resource: overdue_milestone_work_package,
+               project: project1)
+
         # We need to wait for the bell to poll for updates
         sleep 15
         center.expect_no_toaster

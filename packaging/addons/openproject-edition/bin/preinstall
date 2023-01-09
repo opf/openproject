@@ -4,6 +4,8 @@ set -e
 . ${INSTALLER_DIR}/wizard
 
 CLI="${APP_NAME}"
+OSFAMILY="$(wiz_fact osfamily)"
+OSVERSION="$(wiz_fact osversion)"
 edition="$(wiz_get "openproject/edition")"
 
 tmpdir="$(mktemp -d)"
@@ -16,36 +18,44 @@ trap cleanup INT TERM EXIT
 if [ "$edition" = "bim" ]; then
 	${CLI} config:set OPENPROJECT_EDITION="$edition"
 
-        case "$(wiz_fact "osfamily")" in
-                "debian")
-                        case "$(wiz_fact "osversion")" in
-                                "20.04")
+	case "$OSFAMILY" in
+		"debian")
+			case "$OSVERSION" in
+				"20.04")
 					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/20.04/prod.list
 					apt-get update -qq
-					apt-get install -y dotnet-runtime-3.1
-                                        ;;
+					;;
 				"18.04")
 					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/18.04/prod.list
 					apt-get update -qq
-					apt-get install -y dotnet-runtime-3.1
-                                        ;;
+					;;
+				"11")
+					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/11/prod.list
+					apt-get update -qq
+					;;
 				"10")
 					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/10/prod.list
 					apt-get update -qq
-					apt-get install -y dotnet-runtime-3.1
-                        esac
+					;;
+				esac
+				apt-get install -y dotnet-runtime-6.0
 			;;
 		"redhat")
 			case "$(wiz_fact "osversion")" in
 				8*)
-					dnf install -y dotnet-runtime-3.1
+					dnf install -y dotnet-runtime-6.0
 					;;
 			esac
 			;;
 	esac
+
+  if [ "$OSFAMILY" = "debian" ] && [ "$OSVERSION" = "22.04" ]; then
+    ${CLI} config:set DOTNET_ROOT=$(dirname $(realpath $(which dotnet)))
+  fi
 
 	cd $tmpdir
 
@@ -69,9 +79,10 @@ if [ "$edition" = "bim" ]; then
 		mv IfcConvert "$APP_HOME/bin/IfcConvert"
 	fi
 
-	if ! ${CLI} run which xeokit-metadata &>/dev/null ; then
+	if ! ${CLI} run which xeokit-metadata &>/dev/null ||
+	   ! echo "f960fb98106280223a664d176daaeb7ca7904e6f  $(${CLI} run which xeokit-metadata)" | sha1sum -c - ; then
 		echo "Fetching and installing xeokit-metadata..."
-		wget --quiet https://github.com/bimspot/xeokit-metadata/releases/download/1.0.0/xeokit-metadata-linux-x64.tar.gz
+		wget --quiet https://github.com/bimspot/xeokit-metadata/releases/download/1.0.1/xeokit-metadata-linux-x64.tar.gz
 		tar -zxf xeokit-metadata-linux-x64.tar.gz
 		chmod +x xeokit-metadata-linux-x64/xeokit-metadata
 		cp -r xeokit-metadata-linux-x64/ "$APP_HOME/vendor/xeokit-metadata"

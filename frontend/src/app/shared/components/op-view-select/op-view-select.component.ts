@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -52,6 +52,7 @@ import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { IView } from 'core-app/core/state/views/view.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { MAGIC_PAGE_NUMBER } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
 export type ViewType = 'WorkPackagesTable'|'Bim'|'TeamPlanner'|'WorkPackagesCalendar';
 
@@ -174,6 +175,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       filters: [
         ['type', '=', [this.apiViewType]],
       ],
+      pageSize: MAGIC_PAGE_NUMBER,
     };
 
     if (this.projectId) {

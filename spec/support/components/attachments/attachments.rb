@@ -3,8 +3,7 @@
 module Components
   class Attachments
     include Capybara::DSL
-
-    def initialize; end
+    include Capybara::RSpecMatchers
 
     ##
     # Drag and Drop the file loaded from path on to the (native) target element
