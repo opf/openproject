@@ -30,6 +30,7 @@ export class DayResourceService extends ResourceCollectionService<IDay> {
     return this
       .apiV3Service
       .days
+      .nonWorkingDays
       .path;
   }
 
@@ -49,7 +50,6 @@ export class DayResourceService extends ResourceCollectionService<IDay> {
 
     const filters:ApiV3ListFilter[] = [
       ['date', '<>d', [from, to]],
-      ['working', '=', ['f']],
     ];
 
     return this.require({ filters });
