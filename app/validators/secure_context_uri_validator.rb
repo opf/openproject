@@ -40,7 +40,7 @@ class SecureContextUriValidator < ActiveModel::EachValidator
     end
 
     # The URI could be parsable but not contain a host name
-    if uri.host.nil?
+    if uri.host.blank?
       contract.errors.add(attribute, :invalid_url)
       return
     end

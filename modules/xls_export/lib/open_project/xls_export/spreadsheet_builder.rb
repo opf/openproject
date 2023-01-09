@@ -131,13 +131,13 @@ module OpenProject::XlsExport
     end
 
     # Add a simple row. This will default to the next row in the sequence.
-    # Fixnums, Dates and Times are preserved, all other types are converted
-    # to String as the spreadsheet gem cannot do more formats
+    # Integer, Float, Date, and Time instances are preserved, all other types
+    # are converted to String as the spreadsheet gem cannot do more formats
     def add_row(arr, idx = nil)
       idx ||= [@sheet.last_row_index + 1, 1].max
       column_array = []
       arr.each_with_index do |c, i|
-        value = if %w(Time Date Fixnum Float Integer).include?(c.class.name)
+        value = if %w(Time Date Float Integer).include?(c.class.name)
                   c
                 elsif c.instance_of?(BigDecimal)
                   c.to_f

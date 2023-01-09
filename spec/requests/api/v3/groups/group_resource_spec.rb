@@ -213,9 +213,9 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
     before do
       # Setup the memberships the group has
-      ::Groups::AddUsersService
+      ::Groups::CreateInheritedRolesService
         .new(group, current_user: admin)
-        .call(ids: members.map(&:id))
+        .call(user_ids: members.map(&:id))
 
       another_user
       group_updated_at
@@ -343,9 +343,9 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
     before do
       # Setup the memberships in the group has
-      ::Groups::AddUsersService
+      ::Groups::CreateInheritedRolesService
         .new(group, current_user: admin)
-        .call(ids: members.map(&:id))
+        .call(user_ids: members.map(&:id))
 
       # Have one user have a role independent of the group
       Member

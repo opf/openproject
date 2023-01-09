@@ -77,7 +77,8 @@ export class FormattableControlComponent implements ControlValueAccessor, OnInit
 
   setDisabledState(disabled:boolean):void {
     this.disabled = disabled;
-    this.editor.ckEditorInstance.isReadOnly = disabled;
+
+    this.syncCKEditorReadonlyMode();
   }
 
   onContentChange(value:string) {
@@ -87,7 +88,21 @@ export class FormattableControlComponent implements ControlValueAccessor, OnInit
     this.onChange(valueToEmit);
   }
 
+  syncCKEditorReadonlyMode() {
+    const { ckEditorInstance } = this.editor;
+    if (!ckEditorInstance) {
+      return;
+    }
+
+    if (this.disabled) {
+      ckEditorInstance.enableReadOnlyMode('formattable-control');
+    } else {
+      ckEditorInstance.disableReadOnlyMode('formattable-control');
+    }
+  }
+
   onCkeditorSetup(_editor:ICKEditorInstance) {
+    this.syncCKEditorReadonlyMode();
     this.editor.ckEditorInstance.ui.focusTracker.on(
       'change:isFocused',
       (evt:unknown, name:unknown, isFocused:unknown) => {

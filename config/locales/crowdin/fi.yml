@@ -337,6 +337,7 @@ fi:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Ei Wiki-sivuja.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Lisää uusi wikisivu
   work_flows:
@@ -375,7 +376,7 @@ fi:
   account:
     delete: "Poista tili"
     delete_confirmation: "Oletko varma, että haluat poistaa tilin?"
-    deleted: "Tili poistettu"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Käyttäjän luomasta tiedosta (esim. sähköposti, asetukset, työmäärän, wiki merkinnät) poistetaan niin paljon kuin mahdollista. Huomaa kuitenkin, että tietoja, kuten työmäärää ja wiki merkintöjä ei voida poistaa haittaamatta muiden käyttäjien työtä. Sellaiset tiedot siirretään siksi käyttäjälle nimeltä \"Poistettu käyttäjä\". Koska jokaisen poistetun tilin tiedot siirrettiin tälle käyttäjälle, tehtyjen merkintöjen yksiköiminen poistettuun käyttäjään ei ole enää mahdollista."

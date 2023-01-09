@@ -337,6 +337,7 @@ ro:
   wiki:
     page_not_editable_index: Pagina solicitată nu există (încă). Ați fost redirecționat către indexul tuturor paginilor wiki.
     no_results_title_text: În acest moment nu există pagini wiki.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Adăugare pagină wiki nouă
   work_flows:
@@ -376,7 +377,7 @@ ro:
   account:
     delete: "Ştergere cont"
     delete_confirmation: "Sunteţi sigur că doriţi să ştergeţi contul?"
-    deleted: "Contul a fost șters cu succes"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Vor fi șterse cât mai multe din datele create de utilizator (e.g. email, preferințe, pachete de lucru, contribuții wiki). De reținut, totuși, că date precum pachete de lucru și contribuții wiki nu pot fi șterse fără a afecta activitatea altor utilizatori. Prin urmare, astfel de date sunt realocate la un cont numit \"Utilizator șters\". Deoarece datele fiecărui cont șters sunt realocate acestui cont, nu va mai fi posibil să se facă distincția între datele create de utilizator și datele altui cont șters."

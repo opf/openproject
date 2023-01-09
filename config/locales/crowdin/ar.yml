@@ -337,6 +337,7 @@ ar:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: لا يوجد حالياً صفحة ويكي.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: إضافة صفحة ويكي جديدة
   work_flows:
@@ -379,7 +380,7 @@ ar:
   account:
     delete: "حذف الحساب"
     delete_confirmation: "هل أنت متأكد من رغبتك في إلغاء الحساب؟"
-    deleted: "تم حذف الحساب بنجاح"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "من البيانات إنشاء المستخدم (مثل البريد الإلكتروني، والأفضليات، ومجموعات العمل، ومداخل ويكي) سيتم حذفها قدر الإمكان. لكن لاحظ أن البيانات مثل حزم العمل ومداخل ويكي لا يمكن حذفها دون إعاقة عمل المستخدمين الآخرين. وبالتالي تعيين هذه البيانات إلى حساب يسمى \"المستخدم المحذوف\". كما تم تعيين البيانات من كل حساب محذوف في هذا الحساب فإنه لن يكون من الممكن التمييز بين بيانات المستخدم التي تم إنشاؤها من البيانات من حساب آخرمحذوف."

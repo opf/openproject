@@ -306,7 +306,7 @@ describe UsersController, type: :controller do
           expect(response).to redirect_to(controller: 'account', action: 'login')
         end
 
-        it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
+        it { expect(flash[:notice]).to eq(I18n.t('account.deletion_pending')) }
       end
 
       describe "WHEN the current user is the requested one
@@ -375,7 +375,7 @@ describe UsersController, type: :controller do
           expect(response).to redirect_to(controller: 'users', action: 'index')
         end
 
-        it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
+        it { expect(flash[:notice]).to eq(I18n.t('account.deletion_pending')) }
       end
 
       describe "WHEN the current user is the admin

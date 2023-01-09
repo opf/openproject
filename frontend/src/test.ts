@@ -17,8 +17,6 @@ import { I18nShim } from './test/i18n-shim';
 (window as any).global = window;
 
 require('expose-loader?_!lodash');
-
-declare const require:any;
 declare global {
   export interface Window {
     I18n:GlobalI18n;
@@ -36,8 +34,3 @@ getTestBed().initTestEnvironment(
     teardown: { destroyAfterEach: false },
   },
 );
-
-// Then we find all the tests.
-const context = require.context('./', true, /\.spec\.ts$/);
-// And load the modules.
-context.keys().map(context);

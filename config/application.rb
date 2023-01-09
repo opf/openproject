@@ -52,6 +52,18 @@ module OpenProject
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
+    # Initialize configuration defaults for a Rails version.
+    #
+    # This includes defaults for versions prior to the target version. See the
+    # configuration guide at
+    # https://guides.rubyonrails.org/configuring.html#versioned-default-values
+    # for the default values associated with a particular version.
+    #
+    # Currently, defaults from Rails 4.2 are applied. Goal is to reach 7.0
+    # defaults. Overridden defaults should be stored in specific initializers
+    # files. See https://community.openproject.org/wp/45463 for details.
+    # config.load_defaults 5.0
+
     # Sets up logging for STDOUT and configures the default logger formatter
     # so that all environments receive level and timestamp information
     #

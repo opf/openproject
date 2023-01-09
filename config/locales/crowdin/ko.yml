@@ -336,6 +336,7 @@ ko:
   wiki:
     page_not_editable_index: 요청한 페이지가 (아직) 존재하지 않습니다. 모든 위키 페이지의 색인으로 리디렉션되었습니다.
     no_results_title_text: 위키 페이지가 없습니다.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: 위키 페이지 추가
   work_flows:
@@ -373,7 +374,7 @@ ko:
   account:
     delete: "계정 삭제"
     delete_confirmation: "이 계정을 정말로 삭제합니까?"
-    deleted: "계정을 성공적으로 삭제했습니다."
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "이 사용자에 대한 데이터(예를 들어 이메일, 환경 설정, 일감, 위키 항목)를 가능한 범위까지 지울 것입니다. 다만 일감이나 위키 항목과 같은 데이터는 지워버릴 경우 다른 사용자의 작업을 방해하게 됩니다. 따라서 그러한 데이터는 \"삭제된 사용자\" 계정에 귀속됩니다. 삭제된 사용자의 작업물이 하나의 계정으로 귀속되기에, 작업물을 만든 원래 사용자가 누구인지 구분할 수 없게 됩니다."
