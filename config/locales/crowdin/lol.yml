@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -319,6 +319,7 @@ lol:
   wiki:
     page_not_editable_index: crwdns495049:0crwdne495049:0
     no_results_title_text: crwdns495051:0crwdne495051:0
+    print_hint: crwdns843657:0crwdne843657:0
     index:
       no_results_content_text: crwdns495053:0crwdne495053:0
   work_flows:
@@ -357,7 +358,7 @@ lol:
   account:
     delete: "crwdns495081:0crwdne495081:0"
     delete_confirmation: "crwdns495083:0crwdne495083:0"
-    deleted: "crwdns495085:0crwdne495085:0"
+    deletion_pending: "crwdns843659:0crwdne843659:0"
     deletion_info:
       data_consequences:
         other: "crwdns495087:0crwdne495087:0"
@@ -2053,8 +2054,6 @@ lol:
   mail_subject_incoming_email_error: "crwdns816750:0crwdne816750:0"
   mail_subject_lost_password: "crwdns498185:0%{value}crwdne498185:0"
   mail_subject_register: "crwdns498187:0%{value}crwdne498187:0"
-  mail_subject_reminder: "crwdns498191:0%{count}crwdnd498191:0%{days}crwdne498191:0"
-  mail_subject_group_reminder: "crwdns498193:0%{group}crwdnd498193:0%{count}crwdnd498193:0%{days}crwdne498193:0"
   mail_subject_wiki_content_added: "crwdns498197:0%{id}crwdne498197:0"
   mail_subject_wiki_content_updated: "crwdns498199:0%{id}crwdne498199:0"
   mail_member_added_project:

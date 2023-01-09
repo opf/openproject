@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,23 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-namespace :sample_data do
-  desc 'Create the given number of fake projects'
-  task :projects, [:nr_of_projects] => :environment do |_task, args|
-    require 'faker'
+require 'spec_helper'
 
-    puts "Creating #{args[:nr_of_projects]} fake projects"
+describe API::V3::Days::NonWorkingDayCollectionRepresenter do
+  let(:non_working_days) do
+    [
+      build(:non_working_day, date: Date.new(2022, 12, 27)),
+      build(:non_working_day, date: Date.new(2022, 12, 28)),
+      build(:non_working_day, date: Date.new(2022, 12, 29))
+    ]
+  end
+  let(:current_user) { instance_double(User, name: 'current_user') }
+  let(:representer) do
+    described_class.new(non_working_days,
+                        self_link: '/api/v3/self_link_untested',
+                        current_user:)
+  end
 
-    args[:nr_of_projects].to_i.times do |i|
-      project = Project.create(name: Faker::Commerce.product_name,
-                               identifier: "#{Faker::Code.isbn}-#{i}",
-                               description: Faker::Lorem.paragraph(5),
-                               types: Type.all,
-                               is_public: true)
+  describe '#to_json' do
+    subject(:collection) { representer.to_json }
 
-      puts "created: #{project.name}"
-    end
-
-    puts "#{args[:nr_of_projects]} fake projects created"
+    it_behaves_like 'unpaginated APIv3 collection', 3, 'self_link_untested', 'NonWorkingDay'
   end
 end

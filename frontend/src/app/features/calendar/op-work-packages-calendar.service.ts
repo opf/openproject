@@ -409,7 +409,8 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       '.',
       {
         cdate: this.timezoneService.formattedISODate(dates.view.currentStart),
-        cview: dates.view.type,
+        // v6.beta3 fails to have type on the ViewAPI
+        cview: (dates.view as unknown as { type:string }).type,
       },
       {
         custom: { notify: false },

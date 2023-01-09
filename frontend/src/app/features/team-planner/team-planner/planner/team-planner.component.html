@@ -55,7 +55,68 @@
         [options]="calendarOptions"
         class="op-team-planner--calendar fc-scroller"
         [ngClass]="{'op-team-planner--calendar_empty': (isEmpty$ | async)}"
-      ></full-calendar>
+      >
+
+        <ng-template #resourceLabelContent let-resource="$implicit.resource">
+          <div
+            *ngIf="resource && resource.extendedProps.principal"
+            class="tp-assignee"
+          >
+            <op-principal
+              [principal]="resource.extendedProps.principal"
+              class="tp-assignee--principal op-principal_wrapped"
+              [hideName]="isMobile"
+            ></op-principal>
+            <button
+              type="button"
+              class="tp-assignee--remove"
+              (click)="removeAssignee(resource.id)"
+              [attr.aria-label]="text.remove_assignee"
+              [attr.data-qa-remove-assignee]="resource.extendedProps.principal.id"
+            >
+              <op-icon icon-classes="icon-remove"></op-icon>
+            </button>
+          </div>
+
+          <op-principal-loading-skeleton
+            *ngIf="resource && !resource.extendedProps.principal && resource.id.startsWith('skeleton')"
+          ></op-principal-loading-skeleton>
+
+          <op-tp-add-assignee
+            *ngIf="resource && !resource.extendedProps.principal && !resource.id.startsWith('skeleton')"
+            (selectAssignee)="addAssignee($event)"
+            [alreadySelected]="principalIds$ | async"
+          ></op-tp-add-assignee>
+        </ng-template>
+
+        <ng-template #eventContent let-event="$implicit.event">
+          <op-wp-loading-skeleton
+            [viewBox]="event.extendedProps.viewBox"
+            class="op-team-planner--wp-loading-skeleton"
+            *ngIf="event.source && event.source.id === 'skeleton'"
+          ></op-wp-loading-skeleton>
+
+          <wp-single-card
+            *ngIf="(!event.source || event.source.id === 'work_packages') && event.extendedProps.workPackage as wp"
+            [workPackage]="wp"
+            [selectedWhenOpen]="true"
+            [orientation]="'horizontal'"
+            [highlightingMode]="'type'"
+            [showInfoButton]="true"
+            [disabledInfo]="showDisabledText(wp)"
+            [isClosed]="isStatusClosed(wp)"
+            [showAsGhost]="shouldShowAsGhost(wp.id, (globalDraggingItem$ | async))"
+            [showAsInlineCard]="true"
+            [showStartDate]="!isWpStartDateInCurrentView(wp)"
+            [showEndDate]="!isWpEndDateInCurrentView(wp)"
+            (stateLinkClicked)="openStateLink($event)"
+            (cardClicked)="workPackagesCalendar.onCardClicked($event)"
+            (cardDblClicked)="workPackagesCalendar.onCardDblClicked($event)"
+            (cardContextMenu)="workPackagesCalendar.showEventContextMenu($event)"
+          ></wp-single-card>
+        </ng-template>
+
+      </full-calendar>
 
       <div
         [textContent]="workPackagesCalendar.tooManyResultsText"
@@ -77,66 +138,6 @@
         </button>
       </div>
     </ng-container>
-
-    <ng-template #resourceContent let-resource="resource">
-      <div
-        *ngIf="resource && resource.extendedProps.principal"
-        class="tp-assignee"
-      >
-        <op-principal
-          [principal]="resource.extendedProps.principal"
-          class="tp-assignee--principal op-principal_wrapped"
-          [hideName]="isMobile"
-        ></op-principal>
-        <button
-          type="button"
-          class="tp-assignee--remove"
-          (click)="removeAssignee(resource.id)"
-          [attr.aria-label]="text.remove_assignee"
-          [attr.data-qa-remove-assignee]="resource.extendedProps.principal.id"
-        >
-          <op-icon icon-classes="icon-remove"></op-icon>
-        </button>
-      </div>
-
-      <op-principal-loading-skeleton
-        *ngIf="resource && !resource.extendedProps.principal && resource.id.startsWith('skeleton')"
-      ></op-principal-loading-skeleton>
-
-      <op-tp-add-assignee
-        *ngIf="resource && !resource.extendedProps.principal && !resource.id.startsWith('skeleton')"
-        (selectAssignee)="addAssignee($event)"
-        [alreadySelected]="principalIds$ | async"
-      ></op-tp-add-assignee>
-    </ng-template>
-
-    <ng-template #eventContent let-event="event">
-
-      <op-wp-loading-skeleton
-        [viewBox]="event.extendedProps.viewBox"
-        class="op-team-planner--wp-loading-skeleton"
-        *ngIf="event.source && event.source.id === 'skeleton'"
-      ></op-wp-loading-skeleton>
-
-      <wp-single-card
-        *ngIf="(!event.source || event.source.id === 'work_packages') && event.extendedProps.workPackage as wp"
-        [workPackage]="wp"
-        [selectedWhenOpen]="true"
-        [orientation]="'horizontal'"
-        [highlightingMode]="'type'"
-        [showInfoButton]="true"
-        [disabledInfo]="showDisabledText(wp)"
-        [isClosed]="isStatusClosed(wp)"
-        [showAsGhost]="shouldShowAsGhost(wp.id, (globalDraggingItem$ | async))"
-        [showAsInlineCard]="true"
-        [showStartDate]="!isWpStartDateInCurrentView(wp)"
-        [showEndDate]="!isWpEndDateInCurrentView(wp)"
-        (stateLinkClicked)="openStateLink($event)"
-        (cardClicked)="workPackagesCalendar.onCardClicked($event)"
-        (cardDblClicked)="workPackagesCalendar.onCardDblClicked($event)"
-        (cardContextMenu)="workPackagesCalendar.showEventContextMenu($event)"
-      ></wp-single-card>
-    </ng-template>
 
     <div class="op-team-planner--footer" data-qa-selector="op-team-planner-footer">
       <div

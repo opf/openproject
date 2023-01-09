@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -333,6 +333,7 @@ ca:
   wiki:
     page_not_editable_index: La pàgina sol·licitada no existeix (encara). Se t'ha redirigit a la pàgina índex de totes les pàgines wiki.
     no_results_title_text: Actualment no hi ha cap pàgina wiki.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Afegiu una nova pàgina wiki
   work_flows:
@@ -371,7 +372,7 @@ ca:
   account:
     delete: "Elimina el compte"
     delete_confirmation: "Segur que vols eliminar aquest compte?"
-    deleted: "Compte suprimit amb èxit"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "De les dades de l'usuari ha creat (per exemple, correu electrònic, preferències, paquets de treball, wiki entrades) se n'esborraran tantes com sigui possible. Fixeu-vos que dades com paquets de treball i entrades de la wiki no es poden suprimir sense que obstaculitzin la feina d'altres usuaris. Aquestes dades es reassignaran a un compte genèric anomenat \"Usuari esborrat\". Com que les dades de cada usuari suprimit es reassignen sempre a aquest compte genèric no serà possible distingir les dades d'aquest usuari de les dades d'un altre usuari esborrat."
@@ -2073,8 +2074,6 @@ ca:
   mail_subject_incoming_email_error: "Un correu electrònic que vas enviar a OpenProject no s'ha pogut processar."
   mail_subject_lost_password: "La teva contrasenya %{value}"
   mail_subject_register: "L'activació del teu compte %{value}"
-  mail_subject_reminder: "%{count} paquet(s) de treball pendents en els següents %{days} dies"
-  mail_subject_group_reminder: "Pel grup \"%{group}\" %{count} paquet(s) de treball arribaran a la seva data final en els pròxims %{days} dies"
   mail_subject_wiki_content_added: "S'ha afegit la pàgina wiki «%{id}»"
   mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «%{id}»"
   mail_member_added_project:

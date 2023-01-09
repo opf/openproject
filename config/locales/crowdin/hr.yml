@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -337,6 +337,7 @@ hr:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Trentuno nema wiki stranica.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Nova wiki stranici
   work_flows:
@@ -376,7 +377,7 @@ hr:
   account:
     delete: "Izbriši korisnički račun"
     delete_confirmation: "Jeste li sigurni da želite izbrisati korisnički račun?"
-    deleted: "Korisnički račun uspješno izbrisan"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Od podataka unesenih od strana korisnika (npr. e-mail, postavke, radni paketi, wiki unosi) većina će biti izbrisana. Uzmite u obzir da podaci, kao što su radni zadaci i wiki unosi ne mogu biti izrisani bez utjecaja na radne zadatke ostalih korisnika. Takvi podaci biti će dodjeljeni korisničkom računu naziva \"Izbrisan korisnik\". Kako su podaci svih izbrisanih korisnika dodjeljeni ovom korisničkom računu, zbog toga neće biti moguće razlučiti podatke koje je korisnik unio od podataka iz izbrisanog korisničkog računa."
@@ -2097,8 +2098,6 @@ hr:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Vaša %{value} lozinka"
   mail_subject_register: "Vaša %{value} aktivacija korisničkog računa"
-  mail_subject_reminder: "%{count} radni paket(i) koji ima krajnji rok u sljedećih %{days} dana"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki stranica je dodana"
   mail_subject_wiki_content_updated: "'%{id}' wiki stranica je ažurirana"
   mail_member_added_project:

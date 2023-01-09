@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,12 @@ RSpec.shared_context 'with weekend days Saturday and Sunday' do
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
 end
 
+RSpec.shared_context 'with non working days from this and next year' do
+  shared_let(:first_of_may) { create(:non_working_day, date: Date.new(Date.current.year, 5, 1)) }
+  shared_let(:christmas) { create(:non_working_day, date: Date.new(Date.current.year, 12, 25)) }
+  shared_let(:new_year_day) { create(:non_working_day, date: Date.new(Date.current.year + 1, 1, 1)) }
+end
+
 RSpec.shared_context 'with non working days Christmas 2022 and new year 2023' do
   shared_let(:christmas) { create(:non_working_day, date: Date.new(2022, 12, 25)) }
   shared_let(:new_year_day) { create(:non_working_day, date: Date.new(2023, 1, 1)) }
@@ -48,6 +54,7 @@ end
 RSpec.configure do |rspec|
   rspec.include_context 'with weekend days Saturday and Sunday', :weekend_saturday_sunday
   rspec.include_context 'with non working days Christmas 2022 and new year 2023', :christmas_2022_new_year_2023
+  rspec.include_context 'with non working days from this and next year', :non_working_days_from_this_and_next_year
   rspec.include_context 'with no working days', :no_working_days
 end
 

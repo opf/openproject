@@ -11,7 +11,8 @@ if OpenProject::Configuration.web_workers >= 2
     ::Rack::Timeout,
     service_timeout: service_timeout, # time after which a request being served times out
     wait_timeout: wait_timeout, # time after which a request waiting to be served times out
-    term_on_timeout: 1 # shut down worker (gracefully) right away on timeout to be restarted
+    term_on_timeout: 1, # shut down worker (gracefully) right away on timeout to be restarted
+    service_past_wait: true # Treat the service timeout as independent from the wait timeout
   )
 
   Rails.application.config.after_initialize do

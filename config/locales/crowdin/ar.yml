@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -337,6 +337,7 @@ ar:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: لا يوجد حالياً صفحة ويكي.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: إضافة صفحة ويكي جديدة
   work_flows:
@@ -379,7 +380,7 @@ ar:
   account:
     delete: "حذف الحساب"
     delete_confirmation: "هل أنت متأكد من رغبتك في إلغاء الحساب؟"
-    deleted: "تم حذف الحساب بنجاح"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "من البيانات إنشاء المستخدم (مثل البريد الإلكتروني، والأفضليات، ومجموعات العمل، ومداخل ويكي) سيتم حذفها قدر الإمكان. لكن لاحظ أن البيانات مثل حزم العمل ومداخل ويكي لا يمكن حذفها دون إعاقة عمل المستخدمين الآخرين. وبالتالي تعيين هذه البيانات إلى حساب يسمى \"المستخدم المحذوف\". كما تم تعيين البيانات من كل حساب محذوف في هذا الحساب فإنه لن يكون من الممكن التمييز بين بيانات المستخدم التي تم إنشاؤها من البيانات من حساب آخرمحذوف."
@@ -2146,8 +2147,6 @@ ar:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "كلمة المرور %{value}"
   mail_subject_register: "تنشيط الحساب الخاص بك %{value}"
-  mail_subject_reminder: "الحزمة (الحزم) %{count} العمل الواجب في الأيام القادمة %{days}"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "تم إضافة صفحة wiki '%{id}'"
   mail_subject_wiki_content_updated: "تم تحديث صفحة wiki '%{id}'"
   mail_member_added_project:
