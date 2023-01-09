@@ -31,7 +31,7 @@
       ></spot-switch>
     </spot-selector-field>
 
-    <spot-form-field
+    <!--spot-form-field
       label="Name"
     >
       <spot-text-field
@@ -41,7 +41,7 @@
         [(ngModel)]="entityName"
         [showClearButton]="true"
       ></spot-text-field>
-    </spot-form-field>
+    </spot-form-field-->
 
     <spot-form-field
       [label]="text.date"
@@ -64,9 +64,10 @@
     </spot-form-field>
 
     <input
-      id="flatpickr-input"
+      [id]="id"
       hidden
     >
+    <div #flatpickrTarget></div>
 
     <div class="spot-action-bar">
       <div class="spot-action-bar--right">

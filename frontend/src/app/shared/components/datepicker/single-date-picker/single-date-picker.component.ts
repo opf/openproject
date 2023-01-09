@@ -27,29 +27,27 @@
 //++
 
 import {
-    AfterViewInit,
   ChangeDetectionStrategy,
-    ChangeDetectorRef,
+  ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   forwardRef,
   Injector,
   Input,
   Output,
+  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
-  mappedDate,
   onDayCreate,
   parseDate,
   setDates,
-  validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from '../datepicker';
-import { DeviceService } from 'core-app/core/browser/device.service';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 
@@ -67,16 +65,20 @@ import { DayElement } from 'flatpickr/dist/types/instance';
     },
   ],
 })
-export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterViewInit {
+export class OpSingleDatePickerComponent implements ControlValueAccessor {
   @Output('valueChange') valueChange = new EventEmitter();
 
   @Input() value = '';
 
-  @Input() id = '';
+  @Input() id = `flatpickr-input-${+(new Date())}`;
 
   @Input() name = '';
 
   @Input() required = false;
+
+  @Input() minimalDate:Date|null = null;
+
+  @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
 
   public workingDate:Date = new Date();
 
@@ -103,16 +105,12 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterV
     readonly I18n:I18nService,
     readonly timezoneService:TimezoneService,
     readonly injector:Injector,
-    readonly deviceService:DeviceService,
     readonly cdRef:ChangeDetectorRef,
   ) { }
 
-  ngAfterViewInit():void {
-    this.initializeDatepicker(this.workingDate);
-  }
-
   open() {
     this.isOpened = true;
+    this.initializeDatepicker();
   }
 
   close() {
@@ -136,15 +134,15 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterV
     setDates(date, this.datePickerInstance, enforceDate);
   }
 
-  private initializeDatepicker(minimalDate?:Date|null) {
+  private initializeDatepicker() {
     this.datePickerInstance?.destroy();
     this.datePickerInstance = new DatePicker(
       this.injector,
-      '#flatpickr-input',
+      this.id,
       this.workingDate || '',
       {
         mode: 'single',
-        showMonths: this.deviceService.isMobile ? 1 : 2,
+        showMonths: 1,
         inline: true,
         onReady: (_date:Date[], _datestr:string, instance:flatpickr.Instance) => {
           instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
@@ -162,13 +160,12 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterV
             dayElem,
             this.ignoreNonWorkingDays,
             this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
-            minimalDate,
-            // this.dateModalScheduling.isDayDisabled(dayElem, minimalDate),
-            true,
+            this.minimalDate,
+            !!this.minimalDate && dayElem.dateObj <= this.minimalDate,
           );
         },
       },
-      null,
+      this.flatpickrTarget.nativeElement,
     );
   }
 
