@@ -34,7 +34,7 @@ To adapt email notification settings, go to *Administration* -> *Emails and noti
 2. Activate **blind carbon copy recipients** (bcc).
 3. Define if the email should be formatted in **plain text** (no HTML).![image-20211129135301400](image-20211129135301400.png)
 
-The frequency of sending e-mails per work package can be set in [this way](../system-settings/display-settings/#time-and-date-formatting-aggregation-of-changes-in-activity).
+The frequency of sending e-mails per work package can be set in [this way](../system-settings/display-settings/#time-and-date-formatting).
 
 ### Configure email header and email footer
 
