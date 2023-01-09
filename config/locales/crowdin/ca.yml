@@ -333,6 +333,7 @@ ca:
   wiki:
     page_not_editable_index: La pàgina sol·licitada no existeix (encara). Se t'ha redirigit a la pàgina índex de totes les pàgines wiki.
     no_results_title_text: Actualment no hi ha cap pàgina wiki.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Afegiu una nova pàgina wiki
   work_flows:
@@ -371,7 +372,7 @@ ca:
   account:
     delete: "Elimina el compte"
     delete_confirmation: "Segur que vols eliminar aquest compte?"
-    deleted: "Compte suprimit amb èxit"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "De les dades de l'usuari ha creat (per exemple, correu electrònic, preferències, paquets de treball, wiki entrades) se n'esborraran tantes com sigui possible. Fixeu-vos que dades com paquets de treball i entrades de la wiki no es poden suprimir sense que obstaculitzin la feina d'altres usuaris. Aquestes dades es reassignaran a un compte genèric anomenat \"Usuari esborrat\". Com que les dades de cada usuari suprimit es reassignen sempre a aquest compte genèric no serà possible distingir les dades d'aquest usuari de les dades d'un altre usuari esborrat."

@@ -332,6 +332,7 @@ de:
   wiki:
     page_not_editable_index: Die angeforderte Seite existiert (noch) nicht. Sie wurden auf die Übersichtseite der Wiki-Seiten weitergeleitet.
     no_results_title_text: Derzeit gibt es keine Wikiseiten.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Neue Wikiseite hinzufügen
   work_flows:
@@ -370,7 +371,7 @@ de:
   account:
     delete: "Konto löschen"
     delete_confirmation: "Sind Sie sicher, dass Sie das Konto löschen wollen?"
-    deleted: "Konto erfolgreich gelöscht"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Von den vom Nutzer im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Arbeitspakete, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Arbeitspakete und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschten Accounts dem \"Gelöschten Nutzer\" zugewiesen werden, ist es unmöglich, die vom Nutzer erstellten Daten diesem Nutzer zuzuordnen."

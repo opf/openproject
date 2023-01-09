@@ -337,6 +337,7 @@ sk:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Momentálne neexistujú žiadne stránky wiki.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Pridať novú stránku wiki
   work_flows:
@@ -377,7 +378,7 @@ sk:
   account:
     delete: "Vymazať účet"
     delete_confirmation: "Ste si istý, že chcete vymazať daný účet?"
-    deleted: "Účet bol úspešne vymazaný"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Dáta, ktoré daný používateľ vytvoril (čiže e-mail, nastavenia, pracovné balíčky, wiki stránky a pod.), budú odstránené do takej miery, do akej to bude možné. Pamätajte však, že pracovné balíčky a wiki stránky nemôžu byť odstránené bez skomplikovania prác ostatných používateľov. Takéto dáta budú preto preradené na účet nazvaný \"Odstránený používateľ\". Keďže dáta všetkých odstránených účtov sú automaticky priraďované na uvedený účet, nebude možné rozlíšiť dáta tohto používateľa od dát ostatných už odstránených používateľov."

@@ -337,6 +337,7 @@ cs:
   wiki:
     page_not_editable_index: Požadovaná stránka ještě neexistuje. Byli jste přesměrováni na index všech wiki stránek.
     no_results_title_text: V současné době neexistují žádné Wiki stránky.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Přidat novou wiki stránku
   work_flows:
@@ -377,7 +378,7 @@ cs:
   account:
     delete: "Odstranit účet"
     delete_confirmation: "Jste si jisti, že chcete odstranit tento účet?"
-    deleted: "Účet úspěšně odstraněn"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Z dat, která uživatel vytvořil (např. e-mail, nastavení, pracovní balíčky, wiki položky), bude co nejvíce smazáno. Všimněte si však, že data jako pracovní balíčky a wiki nelze odstranit, aniž by to bránilo práci ostatních uživatelů. Tyto údaje jsou proto přeřazeny na účet nazvaný „Smazaný uživatel“. Vzhledem k tomu, že data každého smazaného účtu jsou znovu přiřazena k tomuto účtu, nebude možné rozlišit data, která uživatel vytvořil od dat jiného smazaného účtu."

@@ -47,7 +47,7 @@ module OpenProject
     ##
     # Add current user and other stateful tags to appsignal
     # @param context A hash of context, such as passing in the current controller or request
-    def tag_request(context)
+    def tag_request(context = {})
       return unless enabled?
 
       payload = tags(context)

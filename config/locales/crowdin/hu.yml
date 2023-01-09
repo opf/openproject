@@ -334,6 +334,7 @@ hu:
   wiki:
     page_not_editable_index: "A kért oldal (még) nem létezik. Átirányítottuk az összes wiki -oldal indexébe.\n"
     no_results_title_text: Jelenleg nincsenek wiki oldalak.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Új wiki oldal hozzáadása
   work_flows:
@@ -372,7 +373,7 @@ hu:
   account:
     delete: "Felhasználói hozzáférés törölése"
     delete_confirmation: "Biztosan törölni akarja ezt a felhasználói hozzáférést?"
-    deleted: "A felhasználóiiók sikeresen törölve"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "A létrehozott adatok (pl. e-mail, beállítások, munkacsomag, wiki bejegyzés) lehetőség szerint törlődnek. Azonban máshol használt adatokat, mint pl. a munkacsomagok és wiki bejegyzések, nem lehet törölni a többi felhasználó munkájának akadályozása nélkül. Az ilyen adatokat ezért áthelyezzük egy \"törölt felhasználó\" nevű fiókba. Mivel minden törölt hozzáférésnél ez a fiók tartalmazza az adatokat, nem lehet megkülönböztetni a törölt felhasználók adatainak szerzőjét egymástól."

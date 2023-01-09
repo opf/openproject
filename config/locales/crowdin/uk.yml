@@ -332,6 +332,7 @@ uk:
   wiki:
     page_not_editable_index: Запитувана сторінка не існує (поки що). Вас було переспрямовано до індексу всіх вікі-сторінок.
     no_results_title_text: Наразі немає wiki-сторінок.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Додати нову wiki-сторінку
   work_flows:
@@ -372,7 +373,7 @@ uk:
   account:
     delete: "Видалити обліковий запис"
     delete_confirmation: "Ви дійсно бажаєте видалити цей обліковий запис?"
-    deleted: "Обліковий запис успішно видалений"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "З даних, створених користувачем (наприклад, електронною поштою, налаштуваннями, робочими пакетами, вікі-записами), буде максимально вилучено. Зауважте, що дані, такі як робочі пакети та записи вікі, не можуть бути видалені без перешкод роботі інших користувачів. Таким чином, такі дані перепризначено до облікового запису, який називається \"Видалений користувач\". Оскільки дані кожного видаленого облікового запису перепризначені для цього облікового запису, неможливо буде розрізняти дані, створені користувачем, з даних іншого видаленого облікового запису."

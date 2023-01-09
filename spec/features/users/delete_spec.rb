@@ -52,7 +52,7 @@ describe 'user deletion:', type: :feature, js: true do
 
       dialog.confirm_flow_with user_password
 
-      expect(page).to have_content 'Account successfully deleted'
+      expect(page).to have_content 'Account has been locked and was scheduled for deletion'
       expect(page).to have_current_path '/login'
     end
 
@@ -111,7 +111,7 @@ describe 'user deletion:', type: :feature, js: true do
 
       dialog.confirm_flow_with user_password, should_fail: false
 
-      expect(page).to have_content 'Account successfully deleted'
+      expect(page).to have_content 'Account has been locked and was scheduled for deletion'
       expect(page).to have_current_path '/users'
     end
 
@@ -129,7 +129,7 @@ describe 'user deletion:', type: :feature, js: true do
 
       dialog.confirm_flow_with user_password, with_keyboard: true, should_fail: false
 
-      expect(page).to have_content 'Account successfully deleted'
+      expect(page).to have_content 'Account has been locked and was scheduled for deletion'
       expect(page).to have_current_path '/users'
     end
 
