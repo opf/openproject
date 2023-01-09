@@ -177,6 +177,33 @@ describe OpenProject::TextFormatting,
       end
     end
 
+    context 'Query link' do
+      let!(:query) do
+        create(:query,
+               name: 'project plan with milestones',
+               project:)
+      end
+      let(:query_link) do
+        link_to(
+          'project plan with milestones',
+          project_work_packages_path([query.project.id], query_id: query.id),
+          class: 'query op-uc-link'
+        )
+      end
+
+      context 'Link with query id' do
+        subject { format_text("view##{query.id}") }
+
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{query_link}</p>") }
+      end
+
+      context 'Escaping link with view id' do
+        subject { format_text("!view##{query.id}") }
+
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>view##{query.id}</p>") }
+      end
+    end
+
     context 'Message links' do
       let(:forum) { create(:forum, project:) }
       let(:message1) { create(:message, forum:) }
