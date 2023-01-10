@@ -50,7 +50,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
 
   @HostBinding('class.op-non-working-days-list') className = true;
 
-  @Input() public modified_non_working_days:INonWorkingDay[] = [];
+  @Input() public modifiedNonWorkingDays:INonWorkingDay[] = [];
 
   text = {
     empty_state_header: this.I18n.t('js.admin.working_days.calendar.empty_state_header'),
@@ -145,8 +145,8 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   }
 
   ngOnInit():void {
-    if (this.modified_non_working_days.length > 0) {
-      const removedNWD = this.modified_non_working_days.filter((event) => event._deleted === true);
+    if (this.modifiedNonWorkingDays.length > 0) {
+      const removedNWD = this.modifiedNonWorkingDays.filter((event) => event._deleted === true);
       if (removedNWD.length > 0) {
         removedNWD.forEach((NWD) => {
           this.addRemovedNonWorkingdayInputs(NWD);
@@ -164,8 +164,8 @@ export class OpNonWorkingDaysListComponent implements OnInit {
       .subscribe(
         (days:IDay[]) => {
           this.nonWorkingDays = days;
-          if (this.modified_non_working_days.length > 0) {
-            this.mergeEvents(this.modified_non_working_days);
+          if (this.modifiedNonWorkingDays.length > 0) {
+            this.mergeEvents(this.modifiedNonWorkingDays);
           }
           const events = this.mapToCalendarEvents(this.nonWorkingDays);
           successCallback(events);
