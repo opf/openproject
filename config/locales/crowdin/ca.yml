@@ -686,6 +686,11 @@ ca:
               no_notification_reason: 'no pot ser buit ja que s''ha escollit com a canal IAN (notificacions en aplicació).'
             reason_mail_digest:
               no_notification_reason: 'no pot ser buit ja que s''ha escollit com a canal correu automàtic.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:

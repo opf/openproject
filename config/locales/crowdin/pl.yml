@@ -689,6 +689,11 @@ pl:
               no_notification_reason: 'nie może być puste, ponieważ IAN jest wybrany jako kanał.'
             reason_mail_digest:
               no_notification_reason: 'nie może być puste, ponieważ streszczenie e-maili jest wybrane jako kanał.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:

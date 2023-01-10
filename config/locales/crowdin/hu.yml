@@ -687,6 +687,11 @@ hu:
               no_notification_reason: "nem lehet üres, mivel az IAN-t választották csatornának.\n"
             reason_mail_digest:
               no_notification_reason: "nem lehet üres, mivel a mail digest csatornaként van kiválasztva.\n"
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:

@@ -5,8 +5,8 @@ es:
       link_files_in_storage: "Enlace archivos en %{storageType}"
       link_existing_files: "Enlazar archivos existentes"
       upload_files: "Subir archivos"
-      drop_files: "Drop files here to upload them to %{name}."
-      drop_or_click_files: "Drop files here or click to upload them to %{name}."
+      drop_files: "Arrastra archivos aquí para cargarlos a %{storageType}."
+      drop_or_click_files: "Arrastra archivos o haz clic aquí para cargarlos a %{storageType}."
       login: "%{storageType} iniciar sesión"
       login_to: "Iniciar sesión en %{storageType}"
       no_connection: "No hay conexión para %{storageType}"
@@ -26,7 +26,7 @@ es:
           Para añadir un enlace, ver o subir archivos relacionados con este paquete de trabajo, por favor inicie sesión en %{storageType}.
       file_links:
         empty: >
-          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
+          Actualmente no hay archivos enlazados a este paquete de trabajo. Vincule sus primeros archivos usando la acción de abajo o desde %{storageType}.
         download: "Descargar %{fileName}"
         no_permission: "No tienes permisos para ver este archivo."
         open: 'Abrir el fichero en almacenamiento'
