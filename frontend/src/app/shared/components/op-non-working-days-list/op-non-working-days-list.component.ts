@@ -93,7 +93,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
       this.addNonWorkingdayInputs(el, event);
 
       anchor.addEventListener('click', () => {
-        this.removedNonWorkingDays.push(moment(event.id).format('MMMM DD, YYYY'));
+        this.removedNonWorkingDays.push(moment(event.startStr).format('MMMM DD, YYYY'));
         if (event.id !== '') {
           this.addRemovedNonWorkingdayInputs({ id: event.id, name: event.title, date: event.startStr } as unknown as INonWorkingDay);
         }
@@ -240,7 +240,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   public addNonWorkingDay():void {
     // opens date picker modal
     // now I am just testing adding new event to the calendar, will be removed
-    const day = { start: '2022-12-22', title: 'test' } as unknown as IDay;
+    const day = { start: '2022-12-22', title: 'test3' } as unknown as IDay;
     const api = this.ucCalendar.getApi();
     this.nonWorkingDays.push(day as unknown as IDay);
     api.addEvent({ ...day });

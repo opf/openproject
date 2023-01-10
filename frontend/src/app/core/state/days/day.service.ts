@@ -12,7 +12,6 @@ import {
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import {
   collectionKey,
-  extendCollectionElementsWithId,
   insertCollectionIntoState,
   removeCollectionLoading,
   setCollectionLoading,
@@ -64,7 +63,6 @@ export class DayResourceService extends ResourceCollectionService<IDay> {
       .http
       .get<IHALCollection<IDay>>(this.basePath() + collectionURL)
       .pipe(
-        map((collection) => extendCollectionElementsWithId(collection)),
         tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
         finalize(() => removeCollectionLoading(this.store, collectionURL)),
       );

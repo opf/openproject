@@ -34,7 +34,8 @@ module.exports = {
         "plugin:@angular-eslint/recommended",
         // This is required if you use inline templates in Components
         "plugin:@angular-eslint/template/process-inline-templates",
-        "airbnb-typescript",
+        "airbnb-base",
+        "airbnb-typescript/base",
       ],
       rules: {
         /**
