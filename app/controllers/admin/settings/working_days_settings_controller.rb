@@ -38,7 +38,7 @@ module Admin::Settings
     end
 
     def non_working_days_params
-      non_working_days = params[:settings].to_unsafe_hash[:non_working_days] || {}
+      non_working_days = params[:settings].to_unsafe_hash[:non_working_days_attributes] || {}
       non_working_days.to_h.values
     end
   end
