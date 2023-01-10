@@ -102,9 +102,9 @@ describe Admin::Settings::WorkingDaysSettingsController do
       it 'sets the @modified_non_working_days variable' do
         subject
         expect(assigns(:modified_non_working_days)).to contain_exactly(
-          have_attributes(name: 'Christmas Eve', date: Date.parse('2022-12-24')),
-          have_attributes(name: 'Christmas Eve2', date: Date.parse('2022-12-24')),
-          have_attributes(nwd_to_delete.slice(:id, :name, :date))
+          hash_including('name' => 'Christmas Eve', 'date' => '2022-12-24'),
+          hash_including('name' => 'Christmas Eve2', 'date' => '2022-12-24'),
+          hash_including(nwd_to_delete.as_json(only: %i[id name date]).merge('_destroy' => true))
         )
       end
 

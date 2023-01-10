@@ -81,7 +81,11 @@ class Settings::WorkingDaysUpdateService < Settings::UpdateService
   end
 
   def destroy_records(ids)
-    wrap_result NonWorkingDay.where(id: ids).destroy_all
+    records = NonWorkingDay.where(id: ids)
+    # In case the transaction fails we also mark the records for destruction,
+    # this way we can display them correctly on the frontend.
+    records.each(&:mark_for_destruction)
+    wrap_result records.destroy_all
   end
 
   def wrap_result(result)
