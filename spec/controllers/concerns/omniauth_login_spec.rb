@@ -306,6 +306,28 @@ describe AccountController,
           expect(user.last_login_on.utc.to_i).to be >= post_at.utc.to_i
         end
 
+        context 'with a partially blank auth_hash' do
+          let(:omniauth_hash) do
+            OmniAuth::AuthHash.new(
+              provider: 'google',
+              uid: '123545',
+              info: { name: 'foo',
+                      first_name: '',
+                      last_name: 'newLastname',
+                      email: 'foo@bar.com' }
+            )
+          end
+
+          it 'signs in the user after successful external authentication' do
+            expect { post :omniauth_login, params: { provider: :google } }
+                .not_to change { user.reload.firstname }
+
+            expect(response).to redirect_to my_page_path
+
+            expect(user.lastname).to eq 'newLastname'
+          end
+        end
+
         describe 'authorization' do
           let(:config) do
             Struct.new(:google_name, :global_email).new 'foo', 'foo@bar.com'

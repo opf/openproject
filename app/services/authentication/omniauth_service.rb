@@ -231,7 +231,7 @@ module Authentication
 
       # Remove any nil values to avoid
       # overriding existing attributes
-      attribute_map.compact!
+      attribute_map.compact_blank!
 
       Rails.logger.debug { "Mapped auth_hash user attributes #{attribute_map.inspect}" }
       attribute_map
