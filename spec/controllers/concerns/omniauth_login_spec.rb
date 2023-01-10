@@ -442,12 +442,9 @@ describe AccountController,
           post :omniauth_login, params: { provider: :google }
         end
 
-        it 'shows an error about a not activated account' do
-          expect(flash[:error]).to eql(I18n.t('account.error_inactive_activation_by_mail'))
-        end
-
-        it 'redirects to signin_path' do
-          expect(response).to redirect_to signin_path
+        it 'shows a notice about the activated account', :aggregate_failures do
+          expect(flash[:notice]).to eq(I18n.t('notice_account_registered_and_logged_in'))
+          expect(user.reload).to be_active
         end
       end
 
