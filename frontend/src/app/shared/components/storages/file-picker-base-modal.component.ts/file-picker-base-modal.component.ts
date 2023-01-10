@@ -132,7 +132,7 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
     };
   }
 
-  protected changeLevel(parent:string|null, crumbs:Breadcrumb[]):void {
+  protected changeLevel(parent:string | null, crumbs:Breadcrumb[]):void {
     this.cancelCurrentLoading();
     this.loading$.next(true);
     this.breadcrumbs = new BreadcrumbsContent(crumbs);

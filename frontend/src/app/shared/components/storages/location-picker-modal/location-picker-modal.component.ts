@@ -112,7 +112,7 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
     );
   }
 
-  protected changeLevel(parent:string|null, crumbs:Breadcrumb[]):void {
+  protected changeLevel(parent:string | null, crumbs:Breadcrumb[]):void {
     this.location = parent === null ? '/' : parent;
     super.changeLevel(parent, crumbs);
   }

@@ -142,7 +142,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private get addFileLinksHref() {
-    return (this.resource.$links as unknown&{ addFileLink:IHalResourceLink }).addFileLink.href;
+    return (this.resource.$links as unknown & { addFileLink:IHalResourceLink }).addFileLink.href;
   }
 
   constructor(
@@ -185,7 +185,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
     this.allowEditing$ = this
       .currentUserService
-      .hasCapabilities$('file_links/manage', (this.resource.project as unknown&{ id:string }).id);
+      .hasCapabilities$('file_links/manage', (this.resource.project as unknown & { id:string }).id);
 
     document.body.addEventListener('dragover', this.onGlobalDragOver.bind(this));
     document.body.addEventListener('dragleave', this.afterGlobalDragEnd.bind(this));
@@ -231,7 +231,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     this.openSelectLocationDialog(fileList);
   }
 
-  private openSelectLocationDialog(files:FileList|null):void {
+  private openSelectLocationDialog(files:FileList | null):void {
     const locals = {
       storageType: this.storage._links.type.href,
       storageTypeName: this.storageType,
@@ -284,7 +284,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private uploadResourceLink(fileName:string, location:string):IPrepareUploadLink {
-    const project = (this.resource.project as unknown&{ id:string }).id;
+    const project = (this.resource.project as unknown & { id:string }).id;
     const link = this.storage._links.prepareUpload.filter((value) => project === value.payload.projectId.toString());
     if (link.length === 0) {
       throw new Error('Cannot upload to this storage. Missing permissions in project.');
@@ -369,7 +369,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private get fileLinkSelfLink():string {
-    const fileLinks = this.resource.fileLinks as unknown&{ href:string };
+    const fileLinks = this.resource.fileLinks as unknown & { href:string };
     return `${fileLinks.href}?filters=[{"storage":{"operator":"=","values":["${this.storage.id}"]}}]`;
   }
 
