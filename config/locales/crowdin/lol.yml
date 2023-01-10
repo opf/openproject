@@ -672,6 +672,11 @@ lol:
               no_notification_reason: 'crwdns495543:0crwdne495543:0'
             reason_mail_digest:
               no_notification_reason: 'crwdns495545:0crwdne495545:0'
+        non_working_day:
+          attributes:
+            date:
+              taken: "crwdns843717:0%{value}crwdne843717:0"
+              format: "crwdns843719:0%{message}crwdne843719:0"
         parse_schema_filter_params_service:
           attributes:
             base:

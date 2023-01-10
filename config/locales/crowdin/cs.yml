@@ -692,6 +692,11 @@ cs:
               no_notification_reason: 'nemůže být prázdné, protože IAN je vybrán jako kanál.'
             reason_mail_digest:
               no_notification_reason: 'nemůže být prázdné, protože poštovní digest je vybrán jako kanál.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:

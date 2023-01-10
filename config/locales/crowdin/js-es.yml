@@ -475,8 +475,8 @@ es:
     label_custom_queries: "Privado"
     label_columns: "Columnas"
     label_attachments: Archivos adjuntos
-    label_drop_files: "Drop files here to attach files."
-    label_drop_or_click_files: "Drop files here or click to attach files."
+    label_drop_files: "Arrastra archivos aquí para adjuntarlos."
+    label_drop_or_click_files: "Arrastra los archivos o haz clic aquí para adjuntar archivos."
     label_drop_folders_hint: No se pueden cargar carpetas como archivos adjuntos. Seleccione archivos individuales.
     label_add_attachments: "Añadir archivos adjuntos"
     label_formattable_attachment_hint: "Para adjuntar y vincular archivos, colóquelos en este campo o péguelos desde el portapapeles."
@@ -1190,7 +1190,7 @@ es:
           description: 'Permisos basados en el rol asignado en el proyecto seleccionado'
         placeholder:
           title: 'Usuario de marcador de posición'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
+          title_no_ee: 'Usuario de marcador de posición (add-on solo para edición Enterprise)'
           description: 'No tiene acceso al proyecto y no se enviarán correos electrónicos.'
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:

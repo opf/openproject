@@ -691,6 +691,11 @@ ro:
               no_notification_reason: 'nu poate fi gol deoarece IAN este ales ca un canal.'
             reason_mail_digest:
               no_notification_reason: 'nu poate fi gol ca digest e-mail este ales ca un canal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:

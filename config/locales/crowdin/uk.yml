@@ -687,6 +687,11 @@ uk:
               no_notification_reason: '– потрібно вказати, оскільки як канал вибрано сповіщення в додатку.'
             reason_mail_digest:
               no_notification_reason: '– потрібно вказати, оскільки як канал вибрано поштову розсилку.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:

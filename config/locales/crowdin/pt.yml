@@ -689,6 +689,11 @@ pt:
               no_notification_reason: 'não pode ficar em branco porque o IAN foi escolhido como um canal.'
             reason_mail_digest:
               no_notification_reason: 'não pode ficar em branco porque o resumo do e-mail foi escolhido como um canal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
