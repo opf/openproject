@@ -67,6 +67,7 @@ import {
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 
 @Component({
   selector: 'op-single-date-form',
@@ -123,6 +124,9 @@ export class OpSingleDateFormComponent extends UntilDestroyedMixin implements Af
     readonly deviceService:DeviceService,
   ) {
     super();
+
+    dateModalRelations.setChangeset(this.changeset as WorkPackageChangeset);
+    dateModalScheduling.setChangeset(this.changeset as WorkPackageChangeset);
   }
 
   ngAfterViewInit():void {

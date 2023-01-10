@@ -80,6 +80,7 @@ import { DeviceService } from 'core-app/core/browser/device.service';
 import { DatePicker } from '../datepicker';
 
 import DateOption = flatpickr.Options.DateOption;
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -253,6 +254,10 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   ) {
     super(locals, cdRef, elementRef);
     this.changeset = locals.changeset as ResourceChangeset;
+
+    this.dateModalScheduling.setChangeset(this.changeset as WorkPackageChangeset);
+    this.dateModalRelations.setChangeset(this.changeset as WorkPackageChangeset);
+
     this.htmlId = `wp-datepicker-${locals.fieldName as string}`;
 
     this.scheduleManually = !!this.changeset.value('scheduleManually');

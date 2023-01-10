@@ -47,6 +47,7 @@ import {
   combineLatest,
   Observable,
   of,
+  Subject,
 } from 'rxjs';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
@@ -55,13 +56,15 @@ import { parseDate } from 'core-app/shared/components/datepicker/helpers/date-mo
 
 @Injectable()
 export class DateModalRelationsService {
+  private changeset$:Subject<WorkPackageChangeset> = new Subject();
   private changeset:WorkPackageChangeset;
 
   setChangeset(changeset:WorkPackageChangeset) {
+    this.changeset$.next(changeset);
     this.changeset = changeset;
   }
 
-  precedingWorkPackages$:Observable<{ id:string, dueDate?:string, date?:string }[]> = of(this.changeset)
+  precedingWorkPackages$:Observable<{ id:string, dueDate?:string, date?:string }[]> = this.changeset$
     .pipe(
       filter((changeset) => !isNewResource(changeset.pristineResource)),
       switchMap((changeset) => this
@@ -80,7 +83,7 @@ export class DateModalRelationsService {
       shareReplay(1),
     );
 
-  followingWorkPackages$:Observable<{ id:string }[]> = of(this.changeset)
+  followingWorkPackages$:Observable<{ id:string }[]> = this.changeset$
     .pipe(
       filter((changeset) => !isNewResource(changeset.pristineResource)),
       switchMap((changeset) => this
