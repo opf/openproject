@@ -82,7 +82,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
 
   public draggingOverDropZone = false;
 
-  public dragging = false;
+  public dragging = 0;
 
   @ViewChild('hiddenFileInput') public filePicker:ElementRef<HTMLInputElement>;
 
@@ -159,14 +159,16 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
         }),
       );
 
-    document.body.addEventListener('dragover', this.onGlobalDragOver.bind(this));
-    document.body.addEventListener('dragleave', this.onGlobalDragEnd.bind(this));
+    document.body.addEventListener('dragenter', this.onGlobalDragEnter.bind(this));
+    document.body.addEventListener('dragleave', this.onGlobalDragLeave.bind(this));
+    document.body.addEventListener('dragend', this.onGlobalDragEnd.bind(this));
     document.body.addEventListener('drop', this.onGlobalDragEnd.bind(this));
   }
 
   ngOnDestroy():void {
-    document.body.removeEventListener('dragover', this.onGlobalDragOver.bind(this));
-    document.body.removeEventListener('dragleave', this.onGlobalDragEnd.bind(this));
+    document.body.removeEventListener('dragenter', this.onGlobalDragEnter.bind(this));
+    document.body.removeEventListener('dragleave', this.onGlobalDragLeave.bind(this));
+    document.body.removeEventListener('dragend', this.onGlobalDragEnd.bind(this));
     document.body.removeEventListener('drop', this.onGlobalDragEnd.bind(this));
   }
 
@@ -198,7 +200,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
 
     this.uploadFiles(files);
     this.draggingOverDropZone = false;
-    this.dragging = false;
+    this.dragging = 0;
   }
 
   public onDragOver(event:DragEvent):void {
@@ -213,15 +215,18 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
     this.draggingOverDropZone = false;
   }
 
-  public onGlobalDragEnd():void {
-    this.dragging = false;
-
+  public onGlobalDragLeave(_event:DragEvent):void {
+    this.dragging = Math.max(this.dragging - 1, 0);
     this.cdRef.detectChanges();
   }
 
-  public onGlobalDragOver():void {
-    this.dragging = true;
+  public onGlobalDragEnd(_event:DragEvent):void {
+    this.dragging = 0;
+    this.cdRef.detectChanges();
+  }
 
+  public onGlobalDragEnter(_event:DragEvent):void {
+    this.dragging = this.dragging + 1;
     this.cdRef.detectChanges();
   }
 
