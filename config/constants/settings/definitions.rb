@@ -582,7 +582,7 @@ Settings::Definition.define do
       allowed: -> { Role.pluck(:id) }
 
   add :oauth_allow_remapping_of_existing_users,
-      default: false
+      default: true
 
   add :omniauth_direct_login_provider,
       format: :string,
