@@ -688,6 +688,11 @@ ko:
               no_notification_reason: '- IAN이 채널로 선택되었으므로 비워둘 수 없습니다.'
             reason_mail_digest:
               no_notification_reason: '- 메일 요약이 채널로 선택되었으므로 비워둘 수 없습니다.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:

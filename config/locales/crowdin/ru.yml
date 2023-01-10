@@ -691,6 +691,11 @@ ru:
               no_notification_reason: 'не может быть пустым, так как IAN выбран как канал.'
             reason_mail_digest:
               no_notification_reason: 'не может быть пустым, так как почтовый дайджест выбран как канал.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:

@@ -689,6 +689,11 @@ zh-TW:
               no_notification_reason: '當 IAN 被選為管道時不能為空'
             reason_mail_digest:
               no_notification_reason: '當郵件摘要被選為管道時不能為空'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
