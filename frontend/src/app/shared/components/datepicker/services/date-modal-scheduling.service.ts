@@ -38,14 +38,19 @@ import { DayElement } from 'flatpickr/dist/types/instance';
 
 @Injectable()
 export class DateModalSchedulingService {
-  private changeset:WorkPackageChangeset = this.locals.changeset as WorkPackageChangeset;
+  private changeset:WorkPackageChangeset;
 
-  scheduleManually = !!this.changeset.value('scheduleManually');
+  scheduleManually = false;
 
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly dateModalRelations:DateModalRelationsService,
   ) {}
+
+  setChangeset(changeset:WorkPackageChangeset) {
+    this.changeset = changeset;
+    this.scheduleManually = !!this.changeset.value('scheduleManually');
+  }
 
   /**
    * Returns whether the user can alter the dates of the work package.

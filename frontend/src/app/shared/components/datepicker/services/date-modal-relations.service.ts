@@ -55,7 +55,11 @@ import { parseDate } from 'core-app/shared/components/datepicker/helpers/date-mo
 
 @Injectable()
 export class DateModalRelationsService {
-  private changeset:WorkPackageChangeset = this.locals.changeset as WorkPackageChangeset;
+  private changeset:WorkPackageChangeset;
+
+  setChangeset(changeset:WorkPackageChangeset) {
+    this.changeset = changeset;
+  }
 
   precedingWorkPackages$:Observable<{ id:string, dueDate?:string, date?:string }[]> = of(this.changeset)
     .pipe(

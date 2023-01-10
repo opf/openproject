@@ -30,6 +30,7 @@ import {
   Directive,
   OnDestroy,
   OnInit,
+  Injector,
 } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -48,6 +49,8 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
 
   @InjectField() dateModalRelations:DateModalRelationsService;
 
+  @InjectField() injector:Injector;
+
   ngOnInit():void {
     super.ngOnInit();
 
@@ -65,8 +68,8 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
     super.ngOnDestroy();
   }
 
-  public set():void {
-      // { changeset: this.change, fieldName: this.name },
+  public showDatePickerModal():void {
+    this.injector.set({ changeset: this.change, fieldName: this.name },
     /*
     const component = this.change.schema.isMilestone ? SingleDateModalComponent : MultiDateModalComponent;
     this.opModalService.show<SingleDateModalComponent|MultiDateModalComponent>(
