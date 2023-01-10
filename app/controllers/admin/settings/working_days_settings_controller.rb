@@ -13,7 +13,7 @@ module Admin::Settings
     end
 
     def failure_callback(call)
-      @modified_non_working_days = call.result
+      @modified_non_working_days = modified_non_working_days_for(call.result)
       flash[:error] = call.message || I18n.t(:notice_internal_server_error)
       render action: 'show', tab: params[:tab]
     end
@@ -40,6 +40,14 @@ module Admin::Settings
     def non_working_days_params
       non_working_days = params[:settings].to_unsafe_hash[:non_working_days_attributes] || {}
       non_working_days.to_h.values
+    end
+
+    def modified_non_working_days_for(result)
+      result.map do |record|
+        json_attributes = record.as_json
+        json_attributes["_destroy"] = true if record.marked_for_destruction?
+        json_attributes
+      end
     end
   end
 end
