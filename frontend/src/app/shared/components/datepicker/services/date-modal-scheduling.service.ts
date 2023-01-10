@@ -27,11 +27,8 @@
 //++
 
 import {
-  Inject,
   Injectable,
 } from '@angular/core';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
@@ -43,7 +40,6 @@ export class DateModalSchedulingService {
   scheduleManually = false;
 
   constructor(
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly dateModalRelations:DateModalRelationsService,
   ) {}
 

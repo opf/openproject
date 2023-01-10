@@ -27,11 +27,8 @@
 //++
 
 import {
-  Inject,
   Injectable,
 } from '@angular/core';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
@@ -46,7 +43,6 @@ import {
 import {
   combineLatest,
   Observable,
-  of,
   Subject,
 } from 'rxjs';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -107,7 +103,6 @@ export class DateModalRelationsService {
     );
 
   constructor(
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     private apiV3Service:ApiV3Service,
   ) {}
 

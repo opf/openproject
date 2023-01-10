@@ -33,12 +33,13 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  forwardRef,
+  OnInit,
   Injector,
   Input,
   Output,
   ViewChild,
   ViewEncapsulation,
+  HostBinding,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DatePicker } from 'core-app/shared/components/datepicker/datepicker';
@@ -80,10 +81,14 @@ import { WorkPackageChangeset } from 'core-app/features/work-packages/components
     DateModalRelationsService,
   ],
 })
-export class OpSingleDateFormComponent extends UntilDestroyedMixin implements AfterViewInit {
+export class OpSingleDateFormComponent extends UntilDestroyedMixin implements AfterViewInit, OnInit {
+  @HostBinding('class.op-datepicker-modal') className = true;
+
   @Output('savedOrCancelled') savedOrCancelled = new EventEmitter();
 
   @Input('value') value = '';
+
+  @Input() changeset:ResourceChangeset;
 
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
@@ -107,8 +112,6 @@ export class OpSingleDateFormComponent extends UntilDestroyedMixin implements Af
 
   private debounceDelay = 0; // will change after initial render
 
-  private changeset:ResourceChangeset;
-
   private datePickerInstance:DatePicker;
 
   constructor(
@@ -124,9 +127,11 @@ export class OpSingleDateFormComponent extends UntilDestroyedMixin implements Af
     readonly deviceService:DeviceService,
   ) {
     super();
-
-    dateModalRelations.setChangeset(this.changeset as WorkPackageChangeset);
-    dateModalScheduling.setChangeset(this.changeset as WorkPackageChangeset);
+  }
+  
+  ngOnInit():void {
+    this.dateModalRelations.setChangeset(this.changeset as WorkPackageChangeset);
+    this.dateModalScheduling.setChangeset(this.changeset as WorkPackageChangeset);
   }
 
   ngAfterViewInit():void {

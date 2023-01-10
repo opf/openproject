@@ -10,7 +10,16 @@
   >{{ dates }}</button>
 
   <op-single-date-form
-    value="dates"
+    *ngIf="!isMultiDate"
+    [value]="dates"
+    [changeset]="change"
     slot="body"
-  >body</op-single-date-form>
+  ></op-single-date-form>
+  <op-multi-date-form
+    *ngIf="isMultiDate"
+    [value]="dates"
+    [changeset]="change"
+    [fieldName]="name"
+    slot="body"
+  ></op-multi-date-form>
 </spot-drop-modal>

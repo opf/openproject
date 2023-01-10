@@ -71,8 +71,8 @@ import { ToastComponent } from './components/toaster/toast.component';
 
 import { OpSingleDateFormComponent } from './components/datepicker/single-date-form/single-date-form.component';
 import { OpSingleDatePickerComponent } from './components/datepicker/single-date-picker/single-date-picker.component';
+import { OpMultiDateFormComponent } from 'core-app/shared/components/datepicker/multi-date-form/multi-date-form.component';
 import { OpDatePickerBannerComponent } from './components/datepicker/banner/datepicker-banner.component';
-import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/multi-date-modal/multi-date.modal';
 import { OpDatePickerWorkingDaysToggleComponent } from 'core-app/shared/components/datepicker/toggle/datepicker-working-days-toggle.component';
 import { OpDatePickerSchedulingToggleComponent } from 'core-app/shared/components/datepicker/scheduling-mode/datepicker-scheduling-toggle.component';
 
@@ -206,7 +206,7 @@ export function bootstrapModule(injector:Injector):void {
     OpSingleDateFormComponent,
     OpSingleDatePickerComponent,
     OpDatePickerBannerComponent,
-    MultiDateModalComponent,
+    OpMultiDateFormComponent,
     OpDatePickerWorkingDaysToggleComponent,
     OpDatePickerSchedulingToggleComponent,
   ],
@@ -268,7 +268,7 @@ export function bootstrapModule(injector:Injector):void {
     OpSingleDateFormComponent,
     OpSingleDatePickerComponent,
     OpDatePickerBannerComponent,
-    MultiDateModalComponent,
+    OpMultiDateFormComponent,
     OpDatePickerWorkingDaysToggleComponent,
     OpDatePickerSchedulingToggleComponent,
   ],

@@ -46,11 +46,10 @@ export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent
     },
   };
 
-  public showDatePickerModal():void {
-    this.isOpened = true;
-    /*
-    super.showDatePickerModal();
+  get isMultiDate():boolean {
+    return  this.change.schema.isMilestone;
 
+    /*
     this
       .modal
       ?.onDataUpdated
