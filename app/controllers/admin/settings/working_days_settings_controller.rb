@@ -46,7 +46,7 @@ module Admin::Settings
       return if result.nil?
 
       result.map do |record|
-        json_attributes = record.as_json
+        json_attributes = record.as_json(only: %i[id name date])
         json_attributes["_destroy"] = true if record.marked_for_destruction?
         json_attributes
       end
