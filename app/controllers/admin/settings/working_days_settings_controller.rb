@@ -43,6 +43,8 @@ module Admin::Settings
     end
 
     def modified_non_working_days_for(result)
+      return if result.nil?
+
       result.map do |record|
         json_attributes = record.as_json
         json_attributes["_destroy"] = true if record.marked_for_destruction?
