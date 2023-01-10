@@ -233,7 +233,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
 
       element
         .parent()
-        .append(`<input type="hidden" name="settings[non_working_days_attributes]['${event.id}'][_deleted]" value="true"/>`);
+        .append(`<input type="hidden" name="settings[non_working_days_attributes]['${event.id}'][_destroy]" value="true"/>`);
     }
   }
 
