@@ -33,16 +33,14 @@ describe ProjectsController, type: :controller do
   let(:non_member) { create :non_member }
 
   before do
-    allow(@controller).to receive(:set_localization)
+    allow(controller).to receive(:set_localization)
 
     login_as admin
-
-    @params = {}
   end
 
   describe '#new' do
     it "renders 'new'" do
-      get 'new', params: @params
+      get 'new'
       expect(response).to be_successful
       expect(response).to render_template 'new'
     end
@@ -64,18 +62,15 @@ describe ProjectsController, type: :controller do
   end
 
   describe 'index.html' do
-    let(:project_a) { create(:project, name: 'Project A', public: false, active: true) }
-    let(:project_b) { create(:project, name: 'Project B', public: false, active: true) }
-    let(:project_c) { create(:project, name: 'Project C', public: true, active: true) }
-    let(:project_d) { create(:project, name: 'Project D', public: true, active: false) }
-
-    let(:projects) { [project_a, project_b, project_c, project_d] }
+    shared_let(:project_a) { create(:project, name: 'Project A', public: false, active: true) }
+    shared_let(:project_b) { create(:project, name: 'Project B', public: false, active: true) }
+    shared_let(:project_c) { create(:project, name: 'Project C', public: true, active: true) }
+    shared_let(:project_d) { create(:project, name: 'Project D', public: true, active: false) }
 
     before do
       Role.anonymous
       Role.non_member
 
-      projects
       login_as(user)
       get 'index'
     end

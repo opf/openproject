@@ -75,6 +75,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             xml['oc'].size
             xml['d'].getcontenttype
             xml['d'].getlastmodified
+            xml['oc'].permissions
             xml['oc'].send('owner-display-name')
           end
         end
@@ -121,7 +122,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         last_modified_at(file_element),
         created_by(file_element),
         nil,
-        location
+        location,
+        permissions(file_element)
       )
     end
 
@@ -175,6 +177,22 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         .map(&:inner_text)
         .reject(&:empty?)
         .first
+    end
+
+    def permissions(element)
+      permissions_string =
+        element
+          .xpath('.//oc:permissions')
+          .map(&:inner_text)
+          .reject(&:empty?)
+          .first
+
+      # Nextcloud Dav permissions:
+      # https://github.com/nextcloud/server/blob/66648011c6bc278ace57230db44fd6d63d67b864/lib/public/Files/DavUtil.php
+      result = []
+      result << :readable if permissions_string.include?('G')
+      result << :writeable if %w[CK W].reduce(false) { |s, v| s || permissions_string.include?(v) }
+      result
     end
   end
 end
