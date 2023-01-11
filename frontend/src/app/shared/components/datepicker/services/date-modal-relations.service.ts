@@ -43,6 +43,7 @@ import {
 import {
   combineLatest,
   Observable,
+  ReplaySubject,
   Subject,
 } from 'rxjs';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -52,7 +53,7 @@ import { parseDate } from 'core-app/shared/components/datepicker/helpers/date-mo
 
 @Injectable()
 export class DateModalRelationsService {
-  private changeset$:Subject<WorkPackageChangeset> = new Subject();
+  private changeset$:Subject<WorkPackageChangeset> = new ReplaySubject();
   private changeset:WorkPackageChangeset;
 
   setChangeset(changeset:WorkPackageChangeset) {

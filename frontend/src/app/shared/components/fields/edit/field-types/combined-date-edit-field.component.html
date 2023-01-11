@@ -1,6 +1,7 @@
 <spot-drop-modal
   [open]="isOpened"
-  (closed)="onModalClosed"
+  (closed)="cancel()"
+  alignment="bottom-center"
 >
   <button
     slot="trigger"
@@ -13,6 +14,8 @@
     *ngIf="!isMultiDate"
     [value]="dates"
     [changeset]="change"
+    (save)="save()"
+    (cancel)="cancel()"
     slot="body"
   ></op-single-date-form>
   <op-multi-date-form
@@ -20,6 +23,8 @@
     [value]="dates"
     [changeset]="change"
     [fieldName]="name"
+    (save)="save()"
+    (cancel)="cancel()"
     slot="body"
   ></op-multi-date-form>
 </spot-drop-modal>

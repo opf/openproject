@@ -4,7 +4,7 @@
   [attr.id]="htmlId"
   #modalContainer
   data-indicator-name="modal"
-  (submit)="save($event)"
+  (submit)="doSave($event)"
   tabindex="0"
   cdkFocusInitial
   cdkTrapFocus
@@ -60,7 +60,7 @@
     <div class="spot-action-bar--right">
       <button
         type="button"
-        (click)="cancel()"
+        (click)="doCancel()"
         class="op-datepicker-modal--action spot-modal--cancel-button button button_no-margin spot-action-bar--action"
         data-qa-selector="op-datepicker-modal--action"
         [textContent]="text.cancel"

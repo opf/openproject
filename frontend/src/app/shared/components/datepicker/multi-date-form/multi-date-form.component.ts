@@ -38,6 +38,8 @@ import {
   ViewChild,
   ViewEncapsulation,
   OnInit,
+  Output,
+  HostBinding,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -111,6 +113,10 @@ export type FieldUpdates =
   ],
 })
 export class OpMultiDateFormComponent extends UntilDestroyedMixin implements AfterViewInit, OnInit {
+  @HostBinding('class.op-datepicker-modal') className = true;
+
+  @HostBinding('class.op-datepicker-modal_wide') classNameWide = true;
+
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
   @ViewChild('durationField', { read: ElementRef }) durationField:ElementRef<HTMLElement>;
@@ -118,6 +124,10 @@ export class OpMultiDateFormComponent extends UntilDestroyedMixin implements Aft
   @Input() changeset:ResourceChangeset;
 
   @Input() fieldName:string = '';
+
+  @Output() cancel = new EventEmitter();
+
+  @Output() save = new EventEmitter();
 
   text = {
     save: this.I18n.t('js.button_save'),
@@ -302,7 +312,7 @@ export class OpMultiDateFormComponent extends UntilDestroyedMixin implements Aft
     this.cdRef.detectChanges();
   }
 
-  save($event:Event):void {
+  doSave($event:Event):void {
     $event.preventDefault();
     // Apply the changed scheduling mode if any
     this.changeset.setValue('scheduleManually', this.scheduleManually);
@@ -317,11 +327,11 @@ export class OpMultiDateFormComponent extends UntilDestroyedMixin implements Aft
       this.changeset.setValue('duration', this.durationAsIso8601);
     }
 
-    // this.closeMe();
+    this.save.emit();
   }
 
-  cancel():void {
-    // this.closeMe();
+  doCancel():void {
+    this.cancel.emit();
   }
 
   updateDate(key:DateKeys, val:string|null):void {
@@ -350,20 +360,6 @@ export class OpMultiDateFormComponent extends UntilDestroyedMixin implements Aft
 
     const nextActive = key === 'start' ? 'end' : 'start';
     this.setCurrentActivatedField(nextActive);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>):void {
-    if (this.deviceService.isMobile) {
-      return;
-    }
-
-    element.position({
-      my: 'left top',
-      at: 'left bottom',
-      of: target,
-      collision: 'flipfit',
-    });
   }
 
   showTodayLink():boolean {
@@ -452,7 +448,6 @@ export class OpMultiDateFormComponent extends UntilDestroyedMixin implements Aft
           instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
 
           if (!this.modalPositioned) {
-            this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
             this.modalPositioned = true;
           }
 

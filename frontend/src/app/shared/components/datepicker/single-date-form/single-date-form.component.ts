@@ -73,7 +73,10 @@ import { WorkPackageChangeset } from 'core-app/features/work-packages/components
 @Component({
   selector: 'op-single-date-form',
   templateUrl: './single-date-form.component.html',
-  styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
+  styleUrls: [
+    '../styles/datepicker.modal.sass',
+    '../styles/datepicker_mobile.modal.sass',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -84,13 +87,15 @@ import { WorkPackageChangeset } from 'core-app/features/work-packages/components
 export class OpSingleDateFormComponent extends UntilDestroyedMixin implements AfterViewInit, OnInit {
   @HostBinding('class.op-datepicker-modal') className = true;
 
-  @Output('savedOrCancelled') savedOrCancelled = new EventEmitter();
-
   @Input('value') value = '';
 
   @Input() changeset:ResourceChangeset;
 
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
+
+  @Output() cancel = new EventEmitter();
+
+  @Output() save = new EventEmitter();
 
   text = {
     save: this.I18n.t('js.button_save'),
@@ -181,7 +186,7 @@ export class OpSingleDateFormComponent extends UntilDestroyedMixin implements Af
     this.cdRef.detectChanges();
   }
 
-  save($event:Event):void {
+  doSave($event:Event):void {
     $event.preventDefault();
     // Apply the changed scheduling mode if any
     this.changeset.setValue('scheduleManually', this.scheduleManually);
@@ -194,11 +199,11 @@ export class OpSingleDateFormComponent extends UntilDestroyedMixin implements Af
       this.changeset.setValue('date', mappedDate(this.date));
     }
 
-    this.savedOrCancelled.emit();
+    this.save.emit();
   }
 
-  cancel():void {
-    this.savedOrCancelled.emit();
+  doCancel():void {
+    this.cancel.emit();
   }
 
   updateDate(val:string|null):void {

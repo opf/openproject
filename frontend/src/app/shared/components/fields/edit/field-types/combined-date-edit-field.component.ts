@@ -36,7 +36,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent {
   dates = '';
 
-  isOpened = false;
+  isOpened = true;
 
   text = {
     placeholder: {
@@ -47,7 +47,7 @@ export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent
   };
 
   get isMultiDate():boolean {
-    return  this.change.schema.isMilestone;
+    return !this.change.schema.isMilestone;
 
     /*
     this
@@ -64,6 +64,14 @@ export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent
     this.isOpened = false;
     this.resetDates();
     super.onModalClosed();
+  }
+
+  public save():void {
+    this.handler.deactivate(true);
+  }
+
+  public cancel():void {
+    this.handler.reset();
   }
 
   // Overwrite super in order to set the initial dates.
