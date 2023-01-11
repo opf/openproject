@@ -7,7 +7,7 @@ keywords: users, permissions, roles, groups, avatars
 ---
 # Users and permissions
 
-Manage users, placeholder users and permissions in OpenProject.
+In this section of the System Administration guide you can learn how to manage users, placeholder users and permissions in OpenProject.
 
 ## Overview
 
