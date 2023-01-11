@@ -54,10 +54,16 @@ class Projects::ArchiveController < ApplicationController
   end
 
   def change_status(status)
-    "Projects::#{status.to_s.camelcase}Service"
-      .constantize
+    service_class(status)
       .new(user: current_user, model: @project)
       .call
+  end
+
+  def service_class(status)
+    case status
+    when :archive then Projects::ArchiveService
+    when :unarchive then Projects::UnarchiveService
+    end
   end
 
   def project_path_with_status
