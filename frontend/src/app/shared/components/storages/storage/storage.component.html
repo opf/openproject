@@ -30,7 +30,7 @@
       class="spot-list spot-list_compact op-file-list"
       [ngClass]="{
         'op-file-section': true,
-        'op-file-section--list_dragging': dragging
+        'op-file-section--list_dragging': dragging > 0
       }"
       data-qa-selector="file-list"
     >
@@ -59,7 +59,7 @@
       [ngClass]="{
         'hide-when-print': true,
         'op-file-section--drop-box': true,
-        'op-file-section--drop-box_dragging': dragging,
+        'op-file-section--drop-box_dragging': dragging > 0,
         'op-file-section--drop-box_dragging-over': draggingOverDropZone,
         'op-file-section--drop-box_float': (fileLinks$ | async).length
       }"
