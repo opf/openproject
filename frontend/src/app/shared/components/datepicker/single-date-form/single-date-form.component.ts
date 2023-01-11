@@ -50,7 +50,6 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
 import { debounce } from 'rxjs/operators';
-import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import {
   Subject,
   timer,
@@ -66,7 +65,6 @@ import {
   setDates,
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
-import { DeviceService } from 'core-app/core/browser/device.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 
@@ -105,8 +103,6 @@ export class OpSingleDateFormComponent extends UntilDestroyedMixin implements Af
     today: this.I18n.t('js.label_today'),
   };
 
-  scheduleManually = false;
-
   ignoreNonWorkingDays = false;
 
   htmlId = '';
@@ -129,7 +125,6 @@ export class OpSingleDateFormComponent extends UntilDestroyedMixin implements Af
     readonly halEditing:HalResourceEditingService,
     readonly dateModalScheduling:DateModalSchedulingService,
     readonly dateModalRelations:DateModalRelationsService,
-    readonly deviceService:DeviceService,
   ) {
     super();
   }
@@ -137,6 +132,7 @@ export class OpSingleDateFormComponent extends UntilDestroyedMixin implements Af
   ngOnInit():void {
     this.dateModalRelations.setChangeset(this.changeset as WorkPackageChangeset);
     this.dateModalScheduling.setChangeset(this.changeset as WorkPackageChangeset);
+    this.date = this.timezoneService.formattedISODate(this.value);
   }
 
   ngAfterViewInit():void {
@@ -169,28 +165,13 @@ export class OpSingleDateFormComponent extends UntilDestroyedMixin implements Af
       });
   }
 
-  changeSchedulingMode():void {
-    this.initializeDatepicker();
-    this.cdRef.detectChanges();
-  }
-
   changeNonWorkingDays():void {
     this.initializeDatepicker();
-
-    // If we're single date, update the date
-    if (!this.ignoreNonWorkingDays && this.date) {
-      // Resent the current start and end dates so duration can be calculated again.
-      // this.dateUpdates$.next(this.date);
-    }
-
     this.cdRef.detectChanges();
   }
 
   doSave($event:Event):void {
     $event.preventDefault();
-    // Apply the changed scheduling mode if any
-    this.changeset.setValue('scheduleManually', this.scheduleManually);
-
     // Apply include NWD
     this.changeset.setValue('ignoreNonWorkingDays', this.ignoreNonWorkingDays);
 
@@ -222,20 +203,6 @@ export class OpSingleDateFormComponent extends UntilDestroyedMixin implements Af
     this.enforceManualChangesToDatepicker(today);
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>):void {
-    if (this.deviceService.isMobile) {
-      return;
-    }
-
-    element.position({
-      my: 'left top',
-      at: 'left bottom',
-      of: target,
-      collision: 'flipfit',
-    });
-  }
-
   private initializeDatepicker(minimalDate?:Date|null) {
     this.datePickerInstance?.destroy();
     this.datePickerInstance = new DatePicker(
@@ -244,11 +211,10 @@ export class OpSingleDateFormComponent extends UntilDestroyedMixin implements Af
       this.date || '',
       {
         mode: 'single',
-        showMonths: this.deviceService.isMobile ? 1 : 2,
+        showMonths: 1,
         inline: true,
         onReady: (_date:Date[], _datestr:string, instance:flatpickr.Instance) => {
           instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
-          this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
         },
         onChange: (dates:Date[]) => {
           if (dates.length > 0) {
@@ -275,6 +241,10 @@ export class OpSingleDateFormComponent extends UntilDestroyedMixin implements Af
   private enforceManualChangesToDatepicker(enforceDate?:Date) {
     const date = parseDate(this.date || '');
     setDates(date, this.datePickerInstance, enforceDate);
+
+    if (date) {
+      this.date = this.timezoneService.formattedISODate(date);
+    }
   }
 
   /**
