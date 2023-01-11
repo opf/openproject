@@ -32,23 +32,19 @@ describe Capabilities::Scopes::Default do
   # we focus on the non current user capabilities to make the tests easier to understand
   subject(:scope) { Capability.default.where(principal_id: user.id) }
 
+  shared_let(:project) { create(:project) }
+  shared_let(:user) { create(:user) }
+
   let(:permissions) { %i[] }
   let(:global_permissions) { %i[] }
   let(:non_member_permissions) { %i[] }
   let(:anonymous_permissions) { %i[] }
-  let(:project_public) { false }
-  let(:project_active) { true }
-  let!(:project) { create(:project, public: project_public, active: project_active) }
   let(:role) do
     create(:role, permissions:)
   end
   let(:global_role) do
     create(:global_role, permissions: global_permissions)
   end
-  let(:user_admin) { false }
-  let(:user_status) { Principal.statuses[:active] }
-  let(:current_user_admin) { true }
-  let!(:user) { create(:user, admin: user_admin, status: user_status) }
   let(:global_member) do
     create(:global_member,
            principal: user,
@@ -77,8 +73,8 @@ describe Capabilities::Scopes::Default do
   end
   let(:members) { [] }
 
-  current_user do
-    create(:user, admin: current_user_admin)
+  shared_current_user do
+    create(:admin)
   end
 
   shared_examples_for 'consists of contract actions' do
@@ -151,7 +147,10 @@ describe Capabilities::Scopes::Default do
     context 'with a global member with an action permission and the user being locked' do
       let(:permissions) { %i[manage_user] }
       let(:members) { [global_member] }
-      let(:user_status) { Principal.statuses[:locked] }
+
+      before do
+        user.locked!
+      end
 
       it_behaves_like 'is empty'
     end
@@ -159,7 +158,10 @@ describe Capabilities::Scopes::Default do
     context 'with a member with an action permission and the user being locked' do
       let(:permissions) { %i[manage_members] }
       let(:members) { [member] }
-      let(:user_status) { Principal.statuses[:locked] }
+
+      before do
+        user.locked!
+      end
 
       it_behaves_like 'is empty'
     end
@@ -173,7 +175,9 @@ describe Capabilities::Scopes::Default do
       end
 
       context 'with the project being public' do
-        let(:project_public) { true }
+        before do
+          project.update(public: true)
+        end
 
         it_behaves_like 'consists of contract actions' do
           let(:expected) do
@@ -187,8 +191,11 @@ describe Capabilities::Scopes::Default do
 
     context 'with the anonymous role having the action permission in a public project' do
       let(:anonymous_permissions) { %i[view_members] }
-      let(:project_public) { true }
       let(:members) { [anonymous_role] }
+
+      before do
+        project.update(public: true)
+      end
 
       it_behaves_like 'is empty'
     end
@@ -209,7 +216,9 @@ describe Capabilities::Scopes::Default do
       end
 
       context 'with the project being public' do
-        let(:project_public) { true }
+        before do
+          project.update(public: true)
+        end
 
         it_behaves_like 'consists of contract actions' do
           let(:expected) do
@@ -251,14 +260,19 @@ describe Capabilities::Scopes::Default do
     context 'with the non member role with an action permission and the user being locked' do
       let(:non_member_permissions) { %i[view_members] }
       let(:members) { [non_member_role] }
-      let(:project_public) { true }
-      let(:user_status) { Principal.statuses[:locked] }
+
+      before do
+        project.update(public: true)
+        user.locked!
+      end
 
       it_behaves_like 'is empty'
     end
 
     context 'with an admin' do
-      let(:user_admin) { true }
+      before do
+        user.update(admin: true)
+      end
 
       it_behaves_like 'consists of contract actions' do
         let(:expected) do
@@ -285,9 +299,8 @@ describe Capabilities::Scopes::Default do
     end
 
     context 'with an admin but with modules deactivated' do
-      let(:user_admin) { true }
-
       before do
+        user.update(admin: true)
         project.enabled_modules = []
       end
 
@@ -313,8 +326,10 @@ describe Capabilities::Scopes::Default do
     end
 
     context 'with an admin but being locked' do
-      let(:user_admin) { true }
-      let(:user_status) { Principal.statuses[:locked] }
+      before do
+        user.update(admin: true)
+        user.locked!
+      end
 
       it_behaves_like 'is empty'
     end
@@ -323,7 +338,10 @@ describe Capabilities::Scopes::Default do
       let(:permissions) { %i[manage_members] }
       let(:global_permissions) { %i[manage_user] }
       let(:members) { [member, global_member] }
-      let(:current_user_admin) { false }
+
+      before do
+        current_user.update(admin: false)
+      end
 
       it_behaves_like 'is empty'
     end
@@ -332,7 +350,10 @@ describe Capabilities::Scopes::Default do
       let(:permissions) { %i[manage_members] }
       let(:global_permissions) { %i[manage_user] }
       let(:members) { [own_member, member, global_member] }
-      let(:current_user_admin) { false }
+
+      before do
+        current_user.update(admin: false)
+      end
 
       it_behaves_like 'consists of contract actions' do
         let(:expected) do
@@ -364,7 +385,10 @@ describe Capabilities::Scopes::Default do
     context 'with a member with an action permission and the project being archived' do
       let(:permissions) { %i[manage_members] }
       let(:members) { [member] }
-      let(:project_active) { false }
+
+      before do
+        project.update(active: false)
+      end
 
       it_behaves_like 'is empty'
     end
