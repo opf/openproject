@@ -590,7 +590,7 @@ GEM
     lefthook (1.2.7)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
-    listen (3.7.1)
+    listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     livingstyleguide (2.1.0)
@@ -1051,7 +1051,7 @@ DEPENDENCIES
   launchy (~> 2.5.0)
   lefthook
   letter_opener
-  listen (~> 3.7.0)
+  listen (~> 3.8.0)
   livingstyleguide (~> 2.1.0)
   lograge (~> 0.12.0)
   mail (~> 2.7.1)
