@@ -90,6 +90,8 @@ export class OpNonWorkingDaysListComponent implements OnInit {
       anchor.appendChild(opIconElement('icon', 'icon-delete'));
 
       anchor.addEventListener('click', () => {
+        debugger;
+        // Create 4 hidden inputs(id, name, date, _destroy) for the deleted NWD
         this.addRemovedNonWorkingdayInputs({ id: event.id, name: event.title, date: event.startStr } as unknown as INonWorkingDay);
         event.remove();
       });
@@ -139,14 +141,23 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   }
 
   ngOnInit():void {
+
     if (this.modifiedNonWorkingDays.length > 0) {
+      debugger;
       const removedNWD = this.modifiedNonWorkingDays.filter((event) => event._destroy === true);
+      const addedNWD = this.modifiedNonWorkingDays.filter((event) => event.id === null);
       if (removedNWD.length > 0) {
         removedNWD.forEach((NWD) => {
           this.addRemovedNonWorkingdayInputs(NWD);
         });
       }
+      if (addedNWD.length > 0) {
+        addedNWD.forEach((NWD) => {
+         // this.addNonWorkingdayInputs(NWD);
+        });
+      }
     }
+
   }
 
   public calendarEventsFunction(
@@ -158,6 +169,8 @@ export class OpNonWorkingDaysListComponent implements OnInit {
       .subscribe(
         (days:IDay[]) => {
           this.nonWorkingDays = days;
+          // if there is any error while saving NWDs,
+          // we should remove the deleted ones from the datasoure also add the new ones to it
           if (this.modifiedNonWorkingDays.length > 0) {
             this.mergeEvents(this.modifiedNonWorkingDays);
           }
@@ -181,27 +194,30 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     const addedNWD = modifiedNonWorkingDays.filter((event) => event.id === null).map((NWD) => ({
       name: NWD.name,
       date: NWD.date,
+      id: NWD.id,
     })) as IDay[];
 
     this.nonWorkingDays = this.nonWorkingDays.filter((ar) => !removedNWD.find((rm) => (rm._destroy === true && rm.id === ar.id)));
     this.nonWorkingDays = [...this.nonWorkingDays, ...addedNWD];
   }
 
-  private addNonWorkingdayInputs(event:IDay):void {
+  private addNonWorkingdayInputs(event:INonWorkingDay):void {
     const element = jQuery(this.elementRef.nativeElement);
+    const eventID = event.id !== null ? event.id : `new${(Math.floor(Date.now() / 1000)).toString()}`;
     element
       .parent()
-      .append(`<input type="hidden" name="settings[non_working_days_attributes]['${event.id}'][date]" value="${event.date}" id="${event.id}"/>`);
+      .append(`<input type="hidden" name="settings[non_working_days_attributes]['${eventID}'][date]" value="${event.date}" id="${eventID}"/>`);
 
     element
       .parent()
-      .append(`<input type="hidden" name="settings[non_working_days_attributes]['${event.id}'][name]" value="${event.name}" id="${event.id}"/>`);
+      .append(`<input type="hidden" name="settings[non_working_days_attributes]['${eventID}'][name]" value="${event.name}" id="${eventID}"/>`);
   }
 
   private addRemovedNonWorkingdayInputs(event:INonWorkingDay):void {
+   
     const element = jQuery(this.elementRef.nativeElement);
     const id = event.id.substring(0, 3);
-    if (id !== 'new') {
+    if (event.id !== null && id !== 'new') {
       this.removedNonWorkingDays.push(moment(event.date).format('MMMM DD, YYYY'));
 
       element
@@ -220,6 +236,9 @@ export class OpNonWorkingDaysListComponent implements OnInit {
         .parent()
         .append(`<input type="hidden" name="settings[non_working_days_attributes]['${event.id}'][_destroy]" value="true"/>`);
     } else {
+      // debugger;
+      // const element = jQuery(this.elementRef.nativeElement);
+      // console.log(element)
       const newHiddenInputs = document.querySelectorAll(`#${event.id}`);
       newHiddenInputs.forEach((input) => input.remove());
     }
@@ -231,11 +250,21 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     const id = (Math.floor(Date.now() / 1000)).toString();
     const eventId = `new${id}`;
     const day = {
-      start: '2023-12-23', date: '2023-12-23', title: 'test4', name: 'test4', id: eventId,
-    } as unknown as IDay;
+      start: '2023-12-24', date: '2023-12-24', title: 'test4', name: 'test4', id: eventId,
+    } as unknown as INonWorkingDay;
+    const day2 = {
+      start: '2023-12-25', date: '2023-12-25', title: 'test5', name: 'test5', id: eventId,
+    } as unknown as INonWorkingDay;
+
     const api = this.ucCalendar.getApi();
     this.nonWorkingDays.push(day as unknown as IDay);
+    this.nonWorkingDays.push(day2 as unknown as IDay);
     api.addEvent({ ...day });
+    api.addEvent({ ...day2 });
     this.addNonWorkingdayInputs(day);
+    this.addNonWorkingdayInputs(day2);
+    // debugger;
+    //   const element = jQuery(this.elementRef.nativeElement);
+    //   console.log(element)
   }
 }
