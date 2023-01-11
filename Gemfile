@@ -213,7 +213,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 1.0.0'
+  gem 'test-prof', '~> 1.1.0'
 
   gem 'rack_session_access'
   gem 'rspec', '~> 3.12.0'
