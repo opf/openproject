@@ -36,10 +36,12 @@ module API::V3::WorkPackages::EagerLoading
       work_package.attributes = work_package_with_historic_attributes.attributes.except('timestamp')
       work_package.baseline_attributes = work_package_with_historic_attributes.baseline_attributes
       work_package.attributes_by_timestamp = work_package_with_historic_attributes.attributes_by_timestamp
+      work_package.timestamps = work_package_with_historic_attributes.timestamps
       work_package.baseline_timestamp = work_package_with_historic_attributes.baseline_timestamp
       work_package.matches_query_filters_at_baseline_timestamp = \
         work_package_with_historic_attributes.matches_query_filters_at_baseline_timestamp?
       work_package.matches_query_filters_at_timestamps = work_package_with_historic_attributes.matches_query_filters_at_timestamps
+      work_package.exists_at_timestamps = work_package_with_historic_attributes.exists_at_timestamps
     end
 
     def self.module
@@ -61,9 +63,10 @@ module API::V3::WorkPackages::EagerLoading
     extend ActiveSupport::Concern
 
     included do
-      attr_accessor :baseline_attributes, :attributes_by_timestamp, :baseline_timestamp,
+      attr_accessor :baseline_attributes, :attributes_by_timestamp, :timestamps, :baseline_timestamp,
                     :matches_query_filters_at_baseline_timestamp,
-                    :matches_query_filters_at_timestamps
+                    :matches_query_filters_at_timestamps,
+                    :exists_at_timestamps
     end
 
     # Does the work package match the query filter at the baseline timestamp?

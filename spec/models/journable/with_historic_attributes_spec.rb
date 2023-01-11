@@ -31,11 +31,11 @@ require 'spec_helper'
 describe Journable::WithHistoricAttributes do
   let(:work_package) do
     new_work_package = create(:work_package, subject: "The current work package", project: project1)
-    new_work_package.update_columns created_at: baseline_time - 1.day
+    new_work_package.update_columns(created_at:)
     new_work_package
   end
   let(:original_journal) do
-    create_journal(journable: work_package, timestamp: baseline_time - 1.day,
+    create_journal(journable: work_package, timestamp: created_at,
                    version: 1,
                    attributes: { subject: "The original work package" })
   end
@@ -45,6 +45,7 @@ describe Journable::WithHistoricAttributes do
                    attributes: { subject: "The current work package" })
   end
   let(:baseline_time) { "2022-01-01".to_time }
+  let(:created_at) { baseline_time - 1.day }
   let(:project1) { create(:project) }
   let(:user1) do
     create(:user,
@@ -92,6 +93,11 @@ describe Journable::WithHistoricAttributes do
       expect(subject.attributes_by_timestamp["PT0S"].subject).to eq "The current work package"
     end
 
+    it "determines for each timestamp whether the journable exists at that timestamp" do
+      expect(subject.exists_at_timestamps).to include Timestamp.parse("2022-01-01T00:00:00Z")
+      expect(subject.exists_at_timestamps).to include Timestamp.parse("PT0S")
+    end
+
     it "determines whether the journable attributes are historic" do
       expect(subject.historic?).to be false
     end
@@ -110,6 +116,21 @@ describe Journable::WithHistoricAttributes do
         expect(subject.matches_query_filters_at_timestamps).to include Timestamp.parse("2022-01-01T00:00:00Z")
         expect(subject.matches_query_filters_at_timestamps).not_to include Timestamp.parse("PT0S")
       end
+
+      describe "when the work package did not exist yet at the basline date" do
+        let(:timestamps) { [Timestamp.parse("2021-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
+        let(:search_term) { "current" }
+
+        it "does not include the timestamp in the matches_query_filters_at_timestamps array" do
+          expect(subject.matches_query_filters_at_timestamps).not_to include Timestamp.parse("2021-01-01T00:00:00Z")
+          expect(subject.matches_query_filters_at_timestamps).to include Timestamp.parse("PT0S")
+        end
+
+        it "does not include the timestamp in the exists_at_timestamps array" do
+          expect(subject.exists_at_timestamps).not_to include Timestamp.parse("2021-01-01T00:00:00Z")
+          expect(subject.exists_at_timestamps).to include Timestamp.parse("PT0S")
+        end
+      end
     end
 
     describe "with include_only_changed_attributes: true" do
@@ -122,6 +143,11 @@ describe Journable::WithHistoricAttributes do
 
       specify "the attributes at timestamps do not include attributes that are the same as the work package's attribute" do
         expect(subject.attributes_by_timestamp["PT0S"].subject).to be_nil
+      end
+
+      it "includes the timestamps in the exists_at_timestamps array" do
+        expect(subject.exists_at_timestamps).to include Timestamp.parse("2022-01-01T00:00:00Z")
+        expect(subject.exists_at_timestamps).to include Timestamp.parse("PT0S")
       end
     end
 
@@ -139,6 +165,10 @@ describe Journable::WithHistoricAttributes do
       it "determines whether the journable attributes are historic" do
         expect(subject.historic?).to be true
       end
+
+      it "includes the timestamp in the exists_at_timestamps array" do
+        expect(subject.exists_at_timestamps).to include Timestamp.parse("2022-01-01T00:00:00Z")
+      end
     end
 
     describe "when the work package did not exist yet at the basline date" do
@@ -148,8 +178,17 @@ describe Journable::WithHistoricAttributes do
         expect(subject.subject).to eq "The current work package"
       end
 
-      it "has not attributes at the baseline date" do
+      it "has no attributes at the baseline date" do
         expect(subject.attributes_by_timestamp["2021-01-01T00:00:00Z"]).to be_nil
+      end
+
+      it "has no baseline attributes" do
+        expect(subject.baseline_attributes).to be_nil
+      end
+
+      it "does not include the timestamp in the exists_at_timestamps array" do
+        expect(subject.exists_at_timestamps).not_to include Timestamp.parse("2021-01-01T00:00:00Z")
+        expect(subject.exists_at_timestamps).to include Timestamp.parse("PT0S")
       end
     end
   end

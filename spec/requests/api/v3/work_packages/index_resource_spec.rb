@@ -245,14 +245,15 @@ describe 'API v3 Work package resource',
       let(:path) { "#{api_v3_paths.work_packages}?timestamps=#{timestamps.join(',')}" }
       let(:timestamps) { [Timestamp.parse('2015-01-01T00:00:00Z'), Timestamp.now] }
       let(:baseline_time) { timestamps.first.to_time }
+      let(:created_at) { baseline_time - 1.day }
 
       let(:work_package) do
         new_work_package = create(:work_package, subject: "The current work package", project:)
-        new_work_package.update_columns created_at: baseline_time - 1.day
+        new_work_package.update_columns(created_at:)
         new_work_package
       end
       let(:original_journal) do
-        create_journal(journable: work_package, timestamp: baseline_time - 1.day,
+        create_journal(journable: work_package, timestamp: created_at,
                        version: 1,
                        attributes: { subject: "The original work package" })
       end
@@ -406,6 +407,67 @@ describe 'API v3 Work package resource',
                     .to be_json_eql(true.to_json)
                     .at_path('_embedded/elements/0/_embedded/baselineAttributes/_meta/matchesFilters')
                 end
+              end
+            end
+          end
+        end
+      end
+
+      describe "when the work package has not been present at the baseline time" do
+        let(:timestamps) { [Timestamp.parse('2015-01-01T00:00:00Z'), Timestamp.now] }
+        let(:created_at) { 10.days.ago }
+
+        describe "baselineAttributes" do
+          describe "_meta" do
+            describe "exists" do
+              it 'marks the work package as not existing at the baseline time' do
+                expect(subject.body)
+                  .to be_json_eql(false.to_json)
+                  .at_path('_embedded/elements/0/_embedded/baselineAttributes/_meta/exists')
+              end
+            end
+
+            describe "matchesFilters" do
+              it 'marks the work package as not matching the filters at the baseline time' do
+                expect(subject.body)
+                  .to be_json_eql(false.to_json)
+                  .at_path('_embedded/elements/0/_embedded/baselineAttributes/_meta/matchesFilters')
+              end
+            end
+          end
+
+          describe "_links" do
+            it 'is not present' do
+              expect(subject.body)
+                .not_to have_json_path('_embedded/elements/0/_embedded/baselineAttributes/_links')
+            end
+          end
+        end
+
+        describe "attributesByTimestamp" do
+          describe "baseline time" do
+            describe "_meta" do
+              describe "exists" do
+                it 'marks the work package as not existing at the baseline time' do
+                  expect(subject.body)
+                    .to be_json_eql(false.to_json)
+                    .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first}/_meta/exists")
+                end
+              end
+
+              describe "matchesFilters" do
+                it 'marks the work package as not matching the filters at the baseline time' do
+                  expect(subject.body)
+                    .to be_json_eql(false.to_json)
+                    .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first}/_meta/matchesFilters")
+                end
+              end
+            end
+
+            describe "_links" do
+              it 'is not present' do
+                expect(subject.body)
+                  .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first}/_links")
               end
             end
           end

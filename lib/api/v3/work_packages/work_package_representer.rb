@@ -468,21 +468,27 @@ module API
 
         property :baseline_attributes,
                  as: :baselineAttributes,
-                 if: ->(*) { respond_to?(:baseline_attributes) and baseline_attributes.present? },
+                 if: ->(*) { respond_to?(:baseline_attributes) and baseline_timestamp.present? },
                  getter: ->(*) do
-                   baseline_attributes.to_h.merge(
-                     {
-                       '_links': {
-                         'self': {
-                           'href': API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: baseline_timestamp)
-                         }
-                       },
-                       '_meta': {
-                         'timestamp': baseline_timestamp.to_s,
-                         'matchesFilters': matches_query_filters_at_baseline_timestamp?
-                       }.compact
-                     }
-                   )
+                   attrs = baseline_attributes.to_h
+                   if exists_at_timestamps.include?(baseline_timestamp)
+                     attrs = attrs.merge({
+                                           '_links': {
+                                             'self': {
+                                               'href': API::V3::Utilities::PathHelper::ApiV3Path \
+                                                 .work_package(id, timestamps: baseline_timestamp)
+                                             }
+                                           }
+                                         })
+                   end
+                   attrs = attrs.merge({
+                                         '_meta': {
+                                           'timestamp': baseline_timestamp.to_s,
+                                           'matchesFilters': matches_query_filters_at_baseline_timestamp?,
+                                           'exists': exists_at_timestamps.include?(baseline_timestamp)
+                                         }.compact
+                                       })
+                   attrs
                  end,
                  embedded: true,
                  uncachable: true
@@ -491,19 +497,25 @@ module API
                  as: :attributesByTimestamp,
                  if: ->(*) { respond_to?(:attributes_by_timestamp) and attributes_by_timestamp.present? },
                  getter: ->(*) do
-                   attributes_by_timestamp.to_a.to_h do |timestamp, attributes|
-                     [timestamp, attributes.to_h.merge(
-                       {
-                         '_links': {
-                           'self': {
-                             'href': API::V3::Utilities::PathHelper::ApiV3Path.work_package(id, timestamps: timestamp)
-                           }
-                         },
-                         '_meta': {
-                           'matchesFilters': matches_query_filters_at_timestamp?(timestamp)
-                         }.compact
-                       }
-                     )]
+                   timestamps.to_h do |timestamp|
+                     attrs = attributes_by_timestamp[timestamp.to_s].to_h
+                     if exists_at_timestamps.include?(timestamp)
+                       attrs = attrs.merge({
+                                             '_links': {
+                                               'self': {
+                                                 'href': API::V3::Utilities::PathHelper::ApiV3Path \
+                                                   .work_package(id, timestamps: timestamp)
+                                               }
+                                             }
+                                           })
+                     end
+                     attrs = attrs.merge({
+                                           '_meta': {
+                                             'matchesFilters': matches_query_filters_at_timestamp?(timestamp),
+                                             'exists': exists_at_timestamps.include?(timestamp)
+                                           }.compact
+                                         })
+                     [timestamp, attrs]
                    end
                  end,
                  embedded: true,
