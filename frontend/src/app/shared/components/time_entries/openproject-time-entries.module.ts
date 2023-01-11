@@ -45,9 +45,6 @@ import { TriggerActionsEntryComponent } from 'core-app/shared/components/time_en
     // Editable fields e.g. for modals
     OpenprojectFieldsModule,
   ],
-  providers: [
-    TimeEntryEditService,
-  ],
   declarations: [
     TimeEntryEditModalComponent,
     TimeEntryCreateModalComponent,
