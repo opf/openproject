@@ -37,10 +37,6 @@ Settings::Definition.define do
   add :activity_days_default,
       default: 30
 
-  add :additional_footer_content,
-      format: :string,
-      default: nil
-
   add :after_first_login_redirect_url,
       format: :string,
       default: nil,
