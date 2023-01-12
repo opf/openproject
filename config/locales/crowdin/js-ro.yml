@@ -477,7 +477,7 @@ ro:
     label_drop_files: "Aruncați fișierele aici pentru a atașa fișiere."
     label_drop_or_click_files: "Lăsați fișierele aici pentru a atașa fișiere."
     label_drop_folders_hint: Nu puteți încărca dosare ca atașament. Vă rugăm să selectați fișiere individuale.
-    label_add_attachments: "Adaugă fișiere"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Atașați și legați fișiere prin plasarea în acest câmp sau prin lipirea din clipboard."
     label_remove_file: "Ştergere %{fileName}"
     label_remove_watcher: "Eliminare observator %{name}"

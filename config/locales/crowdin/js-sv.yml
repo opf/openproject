@@ -477,7 +477,7 @@ sv:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Du kan inte ladda upp mappar som bilaga. Välj enstaka filer.
-    label_add_attachments: "Lägg till bilagor"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Bifoga och länka filer genom att släppa på fältet, eller klistra in från Urklipp."
     label_remove_file: "Radera %{fileName}"
     label_remove_watcher: "Ta bort bevakare %{name}"

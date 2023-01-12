@@ -694,7 +694,7 @@ ru:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "Для %{value} уже существует нерабочий день."
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:

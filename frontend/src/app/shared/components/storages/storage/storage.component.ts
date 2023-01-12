@@ -102,7 +102,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
   draggingOverDropZone = false;
 
-  dragging = false;
+  dragging = 0;
 
   private isLoggedIn = false;
 
@@ -144,6 +144,21 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   private get addFileLinksHref() {
     return (this.resource.$links as unknown&{ addFileLink:IHalResourceLink }).addFileLink.href;
   }
+
+  private onGlobalDragLeave:(_event:DragEvent) => void = (_event) => {
+    this.dragging = Math.max(this.dragging - 1, 0);
+    this.cdRef.detectChanges();
+  };
+
+  private onGlobalDragEnd:(_event:DragEvent) => void = (_event) => {
+    this.dragging = 0;
+    this.cdRef.detectChanges();
+  };
+
+  private onGlobalDragEnter:(_event:DragEvent) => void = (_event) => {
+    this.dragging += 1;
+    this.cdRef.detectChanges();
+  };
 
   constructor(
     private readonly i18n:I18nService,
@@ -187,15 +202,17 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       .currentUserService
       .hasCapabilities$('file_links/manage', (this.resource.project as unknown&{ id:string }).id);
 
-    document.body.addEventListener('dragover', this.onGlobalDragOver.bind(this));
-    document.body.addEventListener('dragleave', this.afterGlobalDragEnd.bind(this));
-    document.body.addEventListener('drop', this.afterGlobalDragEnd.bind(this));
+    document.body.addEventListener('dragenter', this.onGlobalDragEnter);
+    document.body.addEventListener('dragleave', this.onGlobalDragLeave);
+    document.body.addEventListener('dragend', this.onGlobalDragEnd);
+    document.body.addEventListener('drop', this.onGlobalDragEnd);
   }
 
   ngOnDestroy():void {
-    document.body.removeEventListener('dragover', this.onGlobalDragOver.bind(this));
-    document.body.removeEventListener('dragleave', this.afterGlobalDragEnd.bind(this));
-    document.body.removeEventListener('drop', this.afterGlobalDragEnd.bind(this));
+    document.body.removeEventListener('dragenter', this.onGlobalDragEnter);
+    document.body.removeEventListener('dragleave', this.onGlobalDragLeave);
+    document.body.removeEventListener('dragend', this.onGlobalDragEnd);
+    document.body.removeEventListener('drop', this.onGlobalDragEnd);
   }
 
   public removeFileLink(fileLink:IFileLink):void {
@@ -391,7 +408,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     if (event.dataTransfer === null) return;
 
     this.draggingOverDropZone = false;
-    this.dragging = false;
+    this.dragging = 0;
   }
 
   public onDragOver(event:DragEvent):void {
@@ -404,18 +421,6 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
   public onDragLeave(_event:DragEvent):void {
     this.draggingOverDropZone = false;
-  }
-
-  public afterGlobalDragEnd():void {
-    this.dragging = false;
-
-    this.cdRef.detectChanges();
-  }
-
-  public onGlobalDragOver():void {
-    this.dragging = true;
-
-    this.cdRef.detectChanges();
   }
 }
 

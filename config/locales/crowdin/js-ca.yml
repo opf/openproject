@@ -478,7 +478,7 @@ ca:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: No pots carregar carpetes com a fitxers adjunts. Si us plau, selecciona fitxers únics.
-    label_add_attachments: "Afegir fitxers adjunts"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Adjuntar i enllaça fitxers arrossegant-los en aquest camp, o enganxant-los des del porta-papers."
     label_remove_file: "Eliminar %{fileName}"
     label_remove_watcher: "Elimina l'observador %{name}"

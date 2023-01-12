@@ -213,7 +213,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 1.0.0'
+  gem 'test-prof', '~> 1.1.0'
 
   gem 'rack_session_access'
   gem 'rspec', '~> 3.12.0'
@@ -257,7 +257,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.7.0' # Use for event-based reloaders
+  gem 'listen', '~> 3.8.0' # Use for event-based reloaders
 
   gem 'letter_opener'
 

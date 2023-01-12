@@ -61,6 +61,10 @@ class CustomValue < ApplicationRecord
     end
   end
 
+  def default?
+    value == custom_field.default_value
+  end
+
   protected
 
   def validate_presence_of_required_value

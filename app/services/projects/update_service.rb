@@ -90,17 +90,19 @@ module Projects
     def handle_archiving
       return unless model.saved_change_to_active?
 
-      if model.active?
-        # was unarchived
-        Projects::UnarchiveService
-          .new(user:, model:)
-          .call
-      else
-        # as archived
-        Projects::ArchiveService
-          .new(user:, model:)
-          .call
-      end
+      service_class =
+        if model.active?
+          # was unarchived
+          Projects::UnarchiveService
+        else
+          # was archived
+          Projects::ArchiveService
+        end
+
+      # EmptyContract is used because archive/unarchive conditions have
+      # already been checked in Projects::UpdateContract
+      service = service_class.new(user:, model:, contract_class: EmptyContract)
+      service.call
     end
   end
 end

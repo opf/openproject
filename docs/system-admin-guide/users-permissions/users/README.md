@@ -31,7 +31,7 @@ In the Community edition there is no limit to the number of users. In Enterprise
 
 The User list is where users are managed. They can be added, edited or deleted from this list, which can be filtered if required.
 
-![user list](image-20200211141841492.png)
+![openproject_system_admin_guide_users_list](openproject_system_admin_guide_users_list.png)
 
 Column headers can be clicked to toggle sort direction. Arrows indicate sort order, up for ascending (a-z/0-9) and down for descending (z-a/9-0). Paging controls are shown at the bottom of the list. You will also see whether a user is a system administrator in OpenProject.
 
@@ -42,7 +42,7 @@ At the top of the user list is a filter box. Filter by status or name, then clic
 * **Status** - select from Active, All or Locked Temporarily. Each selection shows the number of users.
 * **Name** - enter any text; this can contain a "%" wild card for 0 or more characters. The filter applies to user name, first name, last name and email address.
 
-![filter users](image-20200115155456033.png)
+![Filter users in OpenProject](image-20200115155456033.png)
 
 ## Lock and unlock users
 
@@ -52,9 +52,9 @@ If you are using [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-g
 
 > **Note**: The previous activities from a locked user will still be displayed in the system.
 
-![System-admin-guide_lock-users](System-admin-guide_lock-users.png)
+![Lock users in OpenProject](open_project_system_admin_lock_user_permanently.png)
 
-If a user has repeated failed logins the user will be locked temporarily and a "Reset failed logins" link is shown in the user list. Click the link to unlock it now, or wait and it will be unlocked automatically. Have a look at the section [Other authentication settings](../../authentication/authentication-settings/#other-authentication-settings) for failed attempts and time blocked.
+If a user has repeated failed logins the user will be locked temporarily and a **Reset failed logins" link will be shown in the user list. Click the link to unlock it right away, or wait and it will be unlocked automatically. Have a look at the section [Other authentication settings](../../authentication/authentication-settings/#other-authentication-settings) for failed attempts and time blocked.
 
 ## Create users
 
@@ -62,9 +62,9 @@ New users can be created and configured by an administrator or by the users them
 
 ### Invite user (as administrator)
 
-In the user list, click the **+User** button to open the "New user" form.
+In the user list, click the **+User** button to open the **New user** form.
 
-![new user](image-20200115155855409.png)
+![Create a new user in OpenProject](openproject_system_guide_create_user.png)
 
 Enter the email address, first name, and last name of the new user. Tick the box to make them a system administrator user.
 
@@ -75,28 +75,28 @@ When adding the last of multiple users you can click on **Create** or click the 
 
 ### Create user (via self-registration)
 
-To allow users to create their own user accounts allow self-registration in the [authentication settings](../../authentication/authentication-settings). A person can then create their own user from the home page by clicking on the "Sign in" button (top right), then on the "Create a new account" link in the sign in box. 
+To allow users to create their own user accounts allow self-registration in the [authentication settings](../../authentication/authentication-settings). A person can then create their own user from the home page by clicking on the **Sign in** button (top right), then on the **Create a new account** link in the sign in box. 
 
 Enter values in all fields (they cannot be left blank). The email field must be a valid email address that is not used in this system. Click the **Create** button. Depending on the [settings](../../authentication/authentication-settings) the account is created but it could be that it still needs to be activated by an administrator.
 
 #### Activate users
 
-Open the user list. If a user has created their own account (and it has not been activated automatically) it is shown in the user list with an "Activate" link on the right. Click this link and continue to add details to this user as below. There is also an "Activate" button at the top of the user's details page.
+Open the user list. If a user has created their own account (and it has not been activated automatically) it is shown in the user list with an **Activate** link on the right. Click this link and continue to add details to this user as below. There is also an **Activate** button at the top of the user's details page.
 
 ### Set initial details
 
-You can edit the details of a newly created user. Useful fields might be Username, Language and Time zone. You might also fill Projects, Groups and Rates, or leave these to the "Project creator".
+You can edit the details of a newly created user. Useful fields might be **Username**, **Language** and **Time zone**. You might also fill Projects, Groups and Rates, or leave these to the **Project creator**.
 Also consider the [authentication](#authentication) settings. 
 
 See [Manage user settings](#manage-user-settings) for full details.
 
 ### Resend user invitation via email
 
-If a user did not receive the email invitation or shall change their authentication method to email, you can send the invitation to the user again if needed. In the user list, click on the user name to whom you want to resend the email with the invitation link to the system.
+If a user did not receive the email invitation or shall change their authentication method to email, you can send the invitation to the user again if needed. In the user list, click on the name of the user to whom you want to resend the email with the invitation link to the system.
 
 In the top right, click the **Send invitation** button in order to send the email once again.
 
-![Sys-admin-resend-invitation](Sys-admin-resend-invitation.png)
+![Send user invitation in OpenProject](openproject_system_guide_send_user_invitation.png)
 
 
 ### Delete user invitations

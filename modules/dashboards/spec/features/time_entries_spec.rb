@@ -68,6 +68,8 @@ describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail
   let(:role) do
     create(:role,
            permissions: %i[view_time_entries
+                           view_work_packages
+                           edit_time_entries
                            view_dashboards
                            manage_dashboards])
   end
@@ -80,6 +82,8 @@ describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail
       create(:member, project: other_project, roles: [role], user: u)
     end
   end
+
+  let(:time_logging_modal) { ::Components::TimeLoggingModal.new }
 
   let(:dashboard) do
     Pages::Dashboard.new(project)
@@ -122,6 +126,27 @@ describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail
         .to have_selector('.comments', text: other_visible_time_entry.comments)
       expect(page)
         .to have_selector('.hours', text: other_visible_time_entry.hours)
+
+      # Allows to edit
+      page.find("[data-qa-selector='edit-time-entry-#{visible_time_entry.id}']").click
     end
+
+    time_logging_modal.is_visible true
+
+    time_logging_modal.expect_work_package work_package.subject
+
+    time_logging_modal.update_field 'hours', 4
+
+    sleep(0.1)
+
+    time_logging_modal.perform_action 'Save'
+    time_logging_modal.is_visible false
+
+    within spent_time_widget.area do
+      expect(page).to have_selector('.hours', text: 4)
+    end
+
+    visible_time_entry.reload
+    expect(visible_time_entry.hours).to eq 4.0
   end
 end

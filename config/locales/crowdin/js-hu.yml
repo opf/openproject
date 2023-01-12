@@ -478,7 +478,7 @@ hu:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Nem tölthet fel mappákat mellékletként. Válasszon egyetlen fájlt.
-    label_add_attachments: "Melléklet hozzáadása"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Fájl hozzárendelése mellékletként a fájl \"ideejtésével\" vagy vágólapról beillesztésével."
     label_remove_file: "%{fileName} törlése"
     label_remove_watcher: "Megfigyelő törlése: %{name}"

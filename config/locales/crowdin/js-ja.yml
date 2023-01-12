@@ -479,7 +479,7 @@ ja:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: フォルダを添付ファイルとしてアップロードすることはできません。 単一のファイルを選択してください。
-    label_add_attachments: "添付ファイルを追加する"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "このフィールドにドロップ、またはクリップボードから貼り付けて、ファイルを添付およびリンクします。"
     label_remove_file: "%{fileName}を削除"
     label_remove_watcher: "ウォッチャー%{name}を削除"

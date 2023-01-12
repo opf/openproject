@@ -55,18 +55,54 @@ describe Project do
   end
 
   describe '#archived?' do
-    context 'if archived' do
-      it 'is true' do
-        expect(project).not_to be_archived
-      end
+    subject { project.archived? }
+
+    context 'if active is true' do
+      let(:active) { true }
+
+      it { is_expected.to be false }
     end
 
-    context 'if not archived' do
+    context 'if active is false' do
       let(:active) { false }
 
-      it 'is false' do
-        expect(project).to be_archived
+      it { is_expected.to be true }
+    end
+  end
+
+  describe '#being_archived?' do
+    subject { project.being_archived? }
+
+    context 'if active is true' do
+      let(:active) { true }
+
+      it { is_expected.to be false }
+    end
+
+    context 'if active was true and changes to false (marking as archived)' do
+      let(:active) { true }
+
+      before do
+        project.active = false
       end
+
+      it { is_expected.to be true }
+    end
+
+    context 'if active is false' do
+      let(:active) { false }
+
+      it { is_expected.to be false }
+    end
+
+    context 'if active was false and changes to true (marking as active)' do
+      let(:active) { false }
+
+      before do
+        project.active = true
+      end
+
+      it { is_expected.to be false }
     end
   end
 
