@@ -938,10 +938,7 @@ Settings::Definition.define do
   add :working_days,
       format: :array,
       allowed: Array(1..7),
-      default: Array(1..5), # Sat, Sun being non-working days
-      on_change: ->(previous_working_days) do
-        WorkPackages::ApplyWorkingDaysChangeJob.perform_later(user_id: User.current.id, previous_working_days:)
-      end
+      default: Array(1..5) # Sat, Sun being non-working days
 
   add :youtube_channel,
       default: 'https://www.youtube.com/c/OpenProjectCommunity',

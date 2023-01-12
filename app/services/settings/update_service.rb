@@ -32,13 +32,6 @@ class Settings::UpdateService < BaseServices::BaseContracted
           contract_class: Settings::UpdateContract
   end
 
-  def after_validate(params, call)
-    params.keys.each(&method(:remember_previous_value))
-    call
-  end
-
-  # We will have a problem with error handling on the form.
-  # How can we still display the user changed values in case the form is not successfully saved?
   def persist(call)
     params.each do |name, value|
       set_setting_value(name, value)
@@ -46,32 +39,10 @@ class Settings::UpdateService < BaseServices::BaseContracted
     call
   end
 
-  def after_perform(call)
-    super.tap do
-      params.each_key do |name|
-        run_on_change_callback(name)
-      end
-    end
-  end
-
   private
-
-  def remember_previous_value(name)
-    previous_values[name] = Setting[name]
-  end
 
   def set_setting_value(name, value)
     Setting[name] = derive_value(value)
-  end
-
-  def previous_values
-    @previous_values ||= {}
-  end
-
-  def run_on_change_callback(name)
-    if (definition = Settings::Definition[name]) && definition.on_change
-      definition.on_change.call(previous_values[name])
-    end
   end
 
   def derive_value(value)
