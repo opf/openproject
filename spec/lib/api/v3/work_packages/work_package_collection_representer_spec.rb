@@ -552,13 +552,13 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       it 'embeds the properties of the baseline work package in attributesByTimestamp' do
         expect(collection)
           .to be_json_eql("The original work package".to_json)
-          .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first}/subject")
+          .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/subject")
       end
 
       it 'embeds the link to the baseline work package in attributesByTimestamp' do
         expect(collection)
           .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.first).to_json)
-          .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first}/_links/self/href")
+          .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_links/self/href")
       end
 
       it 'embeds the properties of the baseline work package in baselineAttributes' do
@@ -662,10 +662,10 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
           it 'states whether the work package matches the query filters at the timestamp' do
             expect(subject)
               .to be_json_eql(true.to_json)
-              .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps[0]}/_meta/matchesFilters")
+              .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/matchesFilters")
             expect(subject)
               .to be_json_eql(false.to_json)
-              .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps[1]}/_meta/matchesFilters")
+              .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/matchesFilters")
           end
         end
       end

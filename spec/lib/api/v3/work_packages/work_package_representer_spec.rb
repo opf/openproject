@@ -1375,38 +1375,38 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         describe 'attributesByTimestamp' do
-          it 'has a hash with timestamp strings as keys' do
-            expect(JSON.parse(subject)['_embedded']['attributesByTimestamp'].keys).to eq timestamps.map(&:to_s)
+          it 'has an array' do
+            expect(JSON.parse(subject)['_embedded']['attributesByTimestamp']).to be_an Array
           end
 
           it 'has the historic attributes for each timestamp when they differ from the current attributes' do
             expect(subject)
               .to be_json_eql('The original work package'.to_json)
-              .at_path("_embedded/attributesByTimestamp/#{timestamps[0]}/subject")
+              .at_path("_embedded/attributesByTimestamp/0/subject")
           end
 
           it 'skips the historic attributes when they are the same as the current attributes' do
             expect(subject)
-              .to have_json_path("_embedded/attributesByTimestamp/#{timestamps[1]}")
+              .to have_json_path("_embedded/attributesByTimestamp/1")
             expect(subject)
-              .not_to have_json_path("_embedded/attributesByTimestamp/#{timestamps[1]}/subject")
+              .not_to have_json_path("_embedded/attributesByTimestamp/1/subject")
           end
 
           it 'has a link to the work package at the timestamp' do
             expect(subject)
               .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: [timestamps[0]]).to_json)
-              .at_path("_embedded/attributesByTimestamp/#{timestamps[0]}/_links/self/href")
+              .at_path("_embedded/attributesByTimestamp/0/_links/self/href")
             expect(subject)
               .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: [timestamps[1]]).to_json)
-              .at_path("_embedded/attributesByTimestamp/#{timestamps[1]}/_links/self/href")
+              .at_path("_embedded/attributesByTimestamp/1/_links/self/href")
           end
 
           it 'has no information about whether the work package matches the query filters at the timestamp' \
              'because there are no filters without a query' do
             expect(subject)
-              .not_to have_json_path("_embedded/attributesByTimestamp/#{timestamps[0]}/_meta/matchesFilters")
+              .not_to have_json_path("_embedded/attributesByTimestamp/0/_meta/matchesFilters")
             expect(subject)
-              .not_to have_json_path("_embedded/attributesByTimestamp/#{timestamps[1]}/_meta/matchesFilters")
+              .not_to have_json_path("_embedded/attributesByTimestamp/1/_meta/matchesFilters")
           end
         end
 
@@ -1449,10 +1449,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             it 'states whether the work package matches the query filters at the timestamp' do
               expect(subject)
                 .to be_json_eql(true.to_json)
-                .at_path("_embedded/attributesByTimestamp/#{timestamps[0]}/_meta/matchesFilters")
+                .at_path("_embedded/attributesByTimestamp/0/_meta/matchesFilters")
               expect(subject)
                 .to be_json_eql(false.to_json)
-                .at_path("_embedded/attributesByTimestamp/#{timestamps[1]}/_meta/matchesFilters")
+                .at_path("_embedded/attributesByTimestamp/1/_meta/matchesFilters")
             end
           end
 

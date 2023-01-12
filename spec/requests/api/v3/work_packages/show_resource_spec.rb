@@ -274,16 +274,16 @@ describe 'API v3 Work package resource',
         it 'embeds the attributesByTimestamp' do
           expect(subject)
             .to be_json_eql("The original work package".to_json)
-            .at_path("_embedded/attributesByTimestamp/#{timestamps.first}/subject")
+            .at_path("_embedded/attributesByTimestamp/0/subject")
           expect(subject)
-            .to have_json_path("_embedded/attributesByTimestamp/#{timestamps.last}")
+            .to have_json_path("_embedded/attributesByTimestamp/1")
         end
 
         it 'does not embed the attributes in attributesByTimestamp if they are the same as the current attributes' do
           expect(subject)
-            .not_to have_json_path("_embedded/attributesByTimestamp/#{timestamps.first}/description")
+            .not_to have_json_path("_embedded/attributesByTimestamp/0/description")
           expect(subject)
-            .not_to have_json_path("_embedded/attributesByTimestamp/#{timestamps.last}/description")
+            .not_to have_json_path("_embedded/attributesByTimestamp/1/description")
         end
 
         it 'has the current attributes as attributes' do
@@ -295,7 +295,7 @@ describe 'API v3 Work package resource',
         it 'has an embedded link to the baseline work package' do
           expect(subject)
             .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.first).to_json)
-            .at_path('_embedded/baselineAttributes/_links/self/href')
+            .at_path('_embedded/attributesByTimestamp/0/_links/self/href')
         end
 
         it 'has the absolute timestamps within the self link' do

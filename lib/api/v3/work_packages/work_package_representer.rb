@@ -341,7 +341,17 @@ module API
                      # last given timestamp (commonly the current time) match the filters of the
                      # query. https://github.com/opf/openproject/pull/11783
                      #
-                     'matchesFilters': matches_query_filters_at_timestamp?(attributes_by_timestamp.keys.last)
+                     'matchesFilters': matches_query_filters_at_timestamp?(timestamps.last),
+
+                     # This meta property states whether the work package exists at the last given
+                     # timestamp (commonly the current time).
+                     # https://github.com/opf/openproject/pull/11783#issuecomment-1374897874
+                     #
+                     'exists': exists_at_timestamps.include?(timestamps.last),
+
+                     # This meta property holds the timestamp of the data of the work package.
+                     #
+                     'timestamp': timestamps.last.to_s
                    }
                  }
 
@@ -497,7 +507,7 @@ module API
                  as: :attributesByTimestamp,
                  if: ->(*) { respond_to?(:attributes_by_timestamp) and attributes_by_timestamp.present? },
                  getter: ->(*) do
-                   timestamps.to_h do |timestamp|
+                   timestamps.collect do |timestamp|
                      attrs = attributes_by_timestamp[timestamp.to_s].to_h
                      if exists_at_timestamps.include?(timestamp)
                        attrs = attrs.merge({
@@ -511,11 +521,12 @@ module API
                      end
                      attrs = attrs.merge({
                                            '_meta': {
+                                             'timestamp': timestamp.to_s,
                                              'matchesFilters': matches_query_filters_at_timestamp?(timestamp),
                                              'exists': exists_at_timestamps.include?(timestamp)
                                            }.compact
                                          })
-                     [timestamp, attrs]
+                     attrs
                    end
                  end,
                  embedded: true,

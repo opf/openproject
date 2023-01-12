@@ -297,16 +297,16 @@ describe 'API v3 Work package resource',
       it 'embeds the attributesByTimestamp' do
         expect(subject.body)
           .to be_json_eql("The original work package".to_json)
-          .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first}/subject")
+          .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/subject")
         expect(subject.body)
-          .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.last}")
+          .to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1")
       end
 
       it 'does not embed the attributes in attributesByTimestamp if they are the same as the current attributes' do
         expect(subject.body)
-          .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first}/description")
+          .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/description")
         expect(subject.body)
-          .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.last}/description")
+          .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/2/description")
       end
 
       it 'has the current attributes as attributes' do
@@ -318,7 +318,7 @@ describe 'API v3 Work package resource',
       it 'has an embedded link to the baseline work package' do
         expect(subject.body)
           .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.first).to_json)
-          .at_path('_embedded/elements/0/_embedded/baselineAttributes/_links/self/href')
+          .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_links/self/href')
       end
 
       it 'has the absolute timestamps within the self links of the elements' do
@@ -366,16 +366,50 @@ describe 'API v3 Work package resource',
                   .to be_json_eql(true.to_json)
                   .at_path('_embedded/elements/0/_meta/matchesFilters')
               end
+
+              it 'marks the work package as existing today' do
+                expect(subject.body)
+                  .to be_json_eql(true.to_json)
+                  .at_path('_embedded/elements/0/_meta/exists')
+              end
             end
           end
 
-          describe "baselineAttributes" do
+          describe "attributesByTimestamp/0 (baseline attributes)" do
             describe "_meta" do
               describe "matchesFilters" do
                 it 'marks the work package as not matching the filters at the baseline time' do
                   expect(subject.body)
                     .to be_json_eql(false.to_json)
-                    .at_path('_embedded/elements/0/_embedded/baselineAttributes/_meta/matchesFilters')
+                    .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/matchesFilters')
+                end
+              end
+
+              describe "exists" do
+                it 'marks the work package as existing at the baseline time' do
+                  expect(subject.body)
+                    .to be_json_eql(true.to_json)
+                    .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/exists')
+                end
+              end
+            end
+          end
+
+          describe "attributesByTimestamp/1 (current attributes)" do
+            describe "_meta" do
+              describe "matchesFilters" do
+                it 'marks the work package as matching the filters today' do
+                  expect(subject.body)
+                    .to be_json_eql(true.to_json)
+                    .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/matchesFilters')
+                end
+              end
+
+              describe "exists" do
+                it 'marks the work package as existing today' do
+                  expect(subject.body)
+                    .to be_json_eql(true.to_json)
+                    .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/exists')
                 end
               end
             end
@@ -396,6 +430,52 @@ describe 'API v3 Work package resource',
               expect(subject.body)
               .to be_json_eql(false.to_json)
                 .at_path('_embedded/elements/0/_meta/matchesFilters')
+            end
+
+            it 'marks the work package as existing today' do
+              expect(subject.body)
+                .to be_json_eql(true.to_json)
+                .at_path('_embedded/elements/0/_meta/exists')
+            end
+          end
+
+          describe "attributesByTimestamp/0 (baseline attributes)" do
+            describe "_meta" do
+              describe "matchesFilters" do
+                it 'marks the work package as matching the filters at the baseline time' do
+                  expect(subject.body)
+                    .to be_json_eql(true.to_json)
+                    .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/matchesFilters')
+                end
+              end
+
+              describe "exists" do
+                it 'marks the work package as existing at the baseline time' do
+                  expect(subject.body)
+                    .to be_json_eql(true.to_json)
+                    .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/exists')
+                end
+              end
+            end
+          end
+
+          describe "attributesByTimestamp/1 (current attributes)" do
+            describe "_meta" do
+              describe "matchesFilters" do
+                it 'marks the work package as not matching the filters today' do
+                  expect(subject.body)
+                    .to be_json_eql(false.to_json)
+                    .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/matchesFilters')
+                end
+              end
+
+              describe "exists" do
+                it 'marks the work package as existing today' do
+                  expect(subject.body)
+                    .to be_json_eql(true.to_json)
+                    .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/exists')
+                end
+              end
             end
           end
 
@@ -445,13 +525,21 @@ describe 'API v3 Work package resource',
         end
 
         describe "attributesByTimestamp" do
-          describe "baseline time" do
+          describe "0 (baseline attributes)" do
             describe "_meta" do
+              describe "timestamp" do
+                it 'has the baseline timestamp, which is the first timestmap' do
+                  expect(subject.body)
+                    .to be_json_eql(timestamps.first.to_s.to_json)
+                    .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp')
+                end
+              end
+
               describe "exists" do
                 it 'marks the work package as not existing at the baseline time' do
                   expect(subject.body)
                     .to be_json_eql(false.to_json)
-                    .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first}/_meta/exists")
+                    .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/exists")
                 end
               end
 
@@ -459,7 +547,7 @@ describe 'API v3 Work package resource',
                 it 'marks the work package as not matching the filters at the baseline time' do
                   expect(subject.body)
                     .to be_json_eql(false.to_json)
-                    .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first}/_meta/matchesFilters")
+                    .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/matchesFilters")
                 end
               end
             end
@@ -467,7 +555,43 @@ describe 'API v3 Work package resource',
             describe "_links" do
               it 'is not present' do
                 expect(subject.body)
-                  .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/#{timestamps.first}/_links")
+                  .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_links")
+              end
+            end
+          end
+
+          describe "1 (current attributes)" do
+            describe "_meta" do
+              describe "timestamp" do
+                it 'has the current timestamp, which is the second timestamp' do
+                  expect(subject.body)
+                    .to be_json_eql(timestamps.last.to_s.to_json)
+                    .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/timestamp')
+                end
+              end
+
+              describe "exists" do
+                it 'marks the work package as existing today' do
+                  expect(subject.body)
+                    .to be_json_eql(true.to_json)
+                    .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/exists")
+                end
+              end
+
+              describe "matchesFilters" do
+                it 'marks the work package as matching the filters today' do
+                  expect(subject.body)
+                    .to be_json_eql(true.to_json)
+                    .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/matchesFilters")
+                end
+              end
+            end
+
+            describe "_links" do
+              it 'has a self link' do
+                expect(subject.body)
+                  .to be_json_eql(api_v3_paths.work_package(work_package.id).to_json)
+                  .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/_links/self/href")
               end
             end
           end
