@@ -32,13 +32,16 @@ module Actions::Scopes
 
     class_methods do
       def default
-        actions_sql = <<~SQL.squish
-          (SELECT id, permission, global, module, grant_to_admin
-           FROM (VALUES #{action_map}) AS t(id, permission, global, module, grant_to_admin)) actions
-        SQL
+        RequestStore[:action_default_scope] ||= begin
+          actions_sql = <<~SQL.squish
+            (SELECT id, permission, global, module, grant_to_admin
+            FROM (VALUES #{action_map}) AS t(id, permission, global, module, grant_to_admin)) actions
+          SQL
 
-        select('actions.*')
-          .from(actions_sql)
+          unscoped # prevent triggering the default scope again
+            .select('actions.*')
+            .from(actions_sql)
+        end
       end
 
       private
