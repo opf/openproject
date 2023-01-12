@@ -72,18 +72,19 @@ export class UploadStorageFilesService {
   }
 
   private parseXmlResponse(xml:string):IStorageFile {
+    const response = new DOMParser().parseFromString(xml, 'application/xml');
     const error = new Error(`Invalid response for uploaded file: ${xml}`);
 
-    const id = /<oc:fileid>(.*)<\/oc:fileid>/.exec(xml)?.pop();
+    const id = response.getElementsByTagName('oc:fileid')[0].textContent;
     if (!id) { throw error; }
 
-    const mimeType = /<d:getcontenttype>(.*)<\/d:getcontenttype>/.exec(xml)?.pop();
+    const mimeType = response.getElementsByTagName('d:getcontenttype')[0].textContent;
     if (!mimeType) { throw error; }
 
-    const size = /<oc:size>(.*)<\/oc:size>/.exec(xml)?.pop();
+    const size = response.getElementsByTagName('oc:size')[0].textContent;
     if (!size) { throw error; }
 
-    const href = /<d:href>(.*)<\/d:href>/.exec(xml)?.pop();
+    const href = response.getElementsByTagName('d:href')[0].textContent;
     const parts = href?.split('/');
     if (!parts || parts.length < 1) { throw error; }
 
@@ -92,12 +93,12 @@ export class UploadStorageFilesService {
 
     const location = `/${parts.slice(parts.indexOf('webdav') + 1).join('/')}`;
 
-    const date = /<d:getlastmodified>(.*)<\/d:getlastmodified>/.exec(xml)?.pop();
+    const date = response.getElementsByTagName('d:getlastmodified')[0].textContent;
     if (!date) { throw error; }
     const createdAt = this.timezoneService.parseDatetime(date).toISOString();
     const lastModifiedAt = createdAt;
 
-    const creator = /<oc:owner-display-name>(.*)<\/oc:owner-display-name>/.exec(xml)?.pop();
+    const creator = response.getElementsByTagName('oc:owner-display-name')[0].textContent;
     if (!creator) { throw error; }
 
     return {
@@ -114,16 +115,15 @@ export class UploadStorageFilesService {
   }
 
   private get propfindBody() {
-    return `
-    	<?xml version="1.0"?>
-        <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
-          <d:prop>
-            <oc:fileid />
-            <d:getlastmodified />
-            <d:getcontenttype />
-            <oc:size />
-            <oc:owner-display-name />
-            </d:prop>
-        </d:propfind>`;
+    return `<?xml version="1.0"?>
+            <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+              <d:prop>
+                <oc:fileid />
+                <d:getlastmodified />
+                <d:getcontenttype />
+                <oc:size />
+                <oc:owner-display-name />
+                </d:prop>
+            </d:propfind>`;
   }
 }
