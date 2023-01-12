@@ -478,7 +478,7 @@ sk:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Nie je možné použiť priečinok ako prílohu. Prosím vyberte jednotlivé súbory.
-    label_add_attachments: "Pridať prílohy"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Na priloženie súboru ho potiahnite a pustite na toto pole alebo ho vložte zo schránky."
     label_remove_file: "Odstrániť %{fileName}"
     label_remove_watcher: "Odstrániť pozorovateľa %{name}"

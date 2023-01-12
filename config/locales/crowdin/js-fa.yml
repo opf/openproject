@@ -478,7 +478,7 @@ fa:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: لطفا یک فایل انتخاب کنید. شما نمیتوانید یک فولدر را ارسال کنید.
-    label_add_attachments: "افزودن پیوست ها"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "اتصال یا افزودن فایل با رها کردن آن بر روی این فیلد، یا انتقال از clipboard."
     label_remove_file: "حذف %{fileName}"
     label_remove_watcher: "Remove watcher %{name}"

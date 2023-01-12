@@ -478,7 +478,7 @@ lt:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Aplankų negalima įkelti kaip priedų. Prašome pasirinkti atskirus failus.
-    label_add_attachments: "Prisegti priedus"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Prisegti ir susieti failus užvelkant ant šio laukelio arba įklijuojant į iškarpinę."
     label_remove_file: "Naikinti %{fileName}"
     label_remove_watcher: "Pašalinti stebėtoją %{name}"

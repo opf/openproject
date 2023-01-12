@@ -477,7 +477,7 @@ pt:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Você não pode enviar pastas como anexo. Por favor, selecione arquivos individuais.
-    label_add_attachments: "Adicionar anexos"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Anexe e vincule arquivos soltando neste campo ou colando da área de transferência."
     label_remove_file: "Excluir %{fileName}"
     label_remove_watcher: "Remover observador %{name}"
