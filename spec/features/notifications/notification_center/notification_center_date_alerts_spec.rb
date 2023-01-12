@@ -166,13 +166,15 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
   end
 
   def run_create_date_alerts_notifications_job
-    create_date_alerts_service = Notifications::CreateDateAlertsNotificationsJob::Service.new([timezone_time('1:00', time_zone)])
+    create_date_alerts_service = Notifications::ScheduleDateAlertsNotificationsJob::Service
+                                   .new([timezone_time('1:00', time_zone)])
     travel_to(timezone_time('1:04', time_zone))
     create_date_alerts_service.call
   end
 
   before do
     run_create_date_alerts_notifications_job
+    perform_enqueued_jobs
     login_as user
     visit notifications_center_path
   end
