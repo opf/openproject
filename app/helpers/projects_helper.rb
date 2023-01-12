@@ -93,7 +93,7 @@ module ProjectsHelper
   end
 
   def project_more_menu_activity_item(project)
-    if project.enabled_module_names.include?('activity')
+    if User.current.allowed_to?(:view_project_activity, project)
       [
         t(:label_project_activity),
         project_activity_index_path(project, event_types: ['project_attributes']),
