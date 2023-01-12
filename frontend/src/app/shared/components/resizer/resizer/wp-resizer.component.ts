@@ -191,7 +191,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
     const localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
     const number = parseInt(localStorageValue || '', 10);
 
-    if (typeof number === 'number' && number !== NaN) {
+    if (typeof number === 'number' && !Number.isNaN(number)) {
       return number;
     }
 
