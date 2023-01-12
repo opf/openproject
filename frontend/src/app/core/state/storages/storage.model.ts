@@ -36,7 +36,7 @@ export interface IPrepareUploadBody {
 }
 
 export interface IPrepareUploadLink extends IHalMethodResourceLink {
-  payload:IPrepareUploadBody
+  payload:IPrepareUploadBody;
 }
 
 export interface IStorageHalResourceLinks extends IHalResourceLinks {

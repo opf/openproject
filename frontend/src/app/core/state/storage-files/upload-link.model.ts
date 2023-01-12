@@ -29,7 +29,7 @@
 import { IHalMethodResourceLink, IHalResourceLinks } from 'core-app/core/state/hal-resource';
 
 interface IHalUploadResourceLinks extends IHalResourceLinks {
-  destination:IHalMethodResourceLink
+  destination:IHalMethodResourceLink;
 }
 
 export interface IUploadLink {

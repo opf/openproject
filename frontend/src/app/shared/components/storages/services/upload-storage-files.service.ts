@@ -114,15 +114,16 @@ export class UploadStorageFilesService {
   }
 
   private get propfindBody() {
-    return '<?xml version="1.0"?>\n'
-      + '<d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">\n'
-      + '  <d:prop>\n'
-      + '    <oc:fileid />\n'
-      + '    <d:getlastmodified />\n'
-      + '    <d:getcontenttype />\n'
-      + '    <oc:size />\n'
-      + '    <oc:owner-display-name />\n'
-      + '  </d:prop>\n'
-      + '</d:propfind>';
+    return `
+    	<?xml version="1.0"?>
+        <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+          <d:prop>
+            <oc:fileid />
+            <d:getlastmodified />
+            <d:getcontenttype />
+            <oc:size />
+            <oc:owner-display-name />
+            </d:prop>
+        </d:propfind>`;
   }
 }
