@@ -40,8 +40,9 @@ class Users::ProjectRoleCache
   private
 
   def roles(project)
-    # No role on archived projects
-    return [] unless !project || project&.active?
+    # Project is nil if checking global role
+    # No roles on archived projects, unless the active state is being changed
+    return [] if project && archived?(project)
 
     # Return all roles if user is admin
     return all_givable_roles if user.admin?
@@ -55,5 +56,12 @@ class Users::ProjectRoleCache
 
   def all_givable_roles
     @all_givable_roles ||= Role.givable.to_a
+  end
+
+  def archived?(project)
+    # project for which activity is being changed is still considered active
+    return false if project.being_archived?
+
+    project.archived?
   end
 end
