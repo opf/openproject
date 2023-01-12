@@ -26,53 +26,49 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Notifications::CreateDateAlertsNotificationsJob::Service
-  def initialize(user)
-    @user = user
+# Creates date alerts notifications for users whose local time is 1am for the
+# given run_times.
+class Notifications::ScheduleDateAlertsNotificationsJob::Service
+  attr_reader :run_times
+
+  # @param run_times [Array<DateTime>] the times for which the service is run.
+  # Must be multiple of 15 minutes (xx:00, xx:15, xx:30, or xx:45).
+  def initialize(run_times)
+    @run_times = run_times
   end
 
   def call
     return unless EnterpriseToken.allows_to?(:date_alerts)
 
-    Time.use_zone(user.time_zone) do
-      send_date_alert_notifications(user)
+    users_at_1am_with_notification_settings.find_each do |user|
+      Notifications::CreateDateAlertsNotificationsJob.perform_later(user)
     end
   end
 
   private
 
-  attr_accessor :user
-
-  def send_date_alert_notifications(user)
-    alertables = Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPackages.new(user)
-    create_date_alert_notifications(user, alertables.alertable_for_start, :date_alert_start_date)
-    create_date_alert_notifications(user, alertables.alertable_for_due, :date_alert_due_date)
+  def time_zones_covering_1am_local_time
+    UserPreferences::UpdateContract
+      .assignable_time_zones
+      .select { |time_zone| executing_at_1am_for_timezone?(time_zone) }
+      .map { |time_zone| time_zone.tzinfo.canonical_zone.name }
   end
 
-  def create_date_alert_notifications(user, work_packages, reason)
-    mark_previous_notifications_as_read(user, work_packages, reason)
-    work_packages.find_each do |work_package|
-      create_date_alert_notification(user, work_package, reason)
-    end
+  def executing_at_1am_for_timezone?(time_zone)
+    run_times.any? { |time| is_1am?(time, time_zone) }
   end
 
-  def mark_previous_notifications_as_read(user, work_packages, reason)
-    return if work_packages.empty?
-
-    Notification
-      .where(recipient: user,
-             reason:,
-             resource: work_packages)
-      .update_all(read_ian: true, updated_at: Time.current)
+  def is_1am?(time, time_zone)
+    local_time = time.in_time_zone(time_zone)
+    local_time.strftime('%H:%M') == '01:00'
   end
 
-  def create_date_alert_notification(user, work_package, reason)
-    create_service = Notifications::CreateService.new(user:)
-    create_service.call(
-      recipient_id: user.id,
-      project_id: work_package.project_id,
-      resource: work_package,
-      reason:
-    )
+  def users_at_1am_with_notification_settings
+    User
+      .with_time_zone(time_zones_covering_1am_local_time)
+      .not_locked
+      .where("EXISTS (SELECT 1 FROM notification_settings " \
+             "WHERE user_id = users.id AND " \
+             "(overdue IS NOT NULL OR start_date IS NOT NULL OR due_date IS NOT NULL))")
   end
 end

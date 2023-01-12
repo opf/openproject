@@ -26,14 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications
-  class CreateDateAlertsNotificationsJob < ApplicationJob
-    def perform(user)
-      return unless EnterpriseToken.allows_to?(:date_alerts)
-
-      Service
-        .new(user)
-        .call
-    end
+class RemoveRenamedDateAlertJob < ActiveRecord::Migration[6.0]
+  def up
+    # The job has been renamed to Notifications::ScheduleDateAlertsNotificationsJob.
+    # The new job will be added on restarting the application.
+    Delayed::Job
+      .where('handler LIKE ?', "%job_class: Notifications::CreateDateAlertsNotificationsJob%")
+      .delete_all
   end
 end

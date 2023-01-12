@@ -135,5 +135,16 @@ describe WorkPackage, 'acts_as_customizable' do
     before do
       setup_custom_field(custom_field)
     end
+
+    context 'with a default value' do
+      before do
+        custom_field.update! default_value: 'foobar'
+        model_instance.custom_values.destroy_all
+      end
+
+      it 'returns no changes' do
+        expect(model_instance.custom_field_changes).to be_empty
+      end
+    end
   end
 end
