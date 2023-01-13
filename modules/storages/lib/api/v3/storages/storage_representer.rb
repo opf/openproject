@@ -49,7 +49,6 @@ module API::V3::Storages
     # LinkedResource module defines helper methods to describe attributes
     include API::Decorators::LinkedResource
     include API::Decorators::DateProperty
-    include ::API::Caching::CachedRepresenter
     include Storages::Peripherals::StorageUrlHelper
 
     module ClassMethods
