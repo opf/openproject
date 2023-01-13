@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Custom fields reporting', type: :feature, js: true do
+describe 'Custom fields reporting', js: true do
   let(:type) { create :type }
   let(:project) { create :project, types: [type] }
 

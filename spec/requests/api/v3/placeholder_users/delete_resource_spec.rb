@@ -28,9 +28,8 @@
 require 'spec_helper'
 require_relative './delete_resource_examples'
 
-describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
-         'delete',
-         type: :request do
+describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
+         'delete' do
   include API::V3::Utilities::PathHelper
 
   shared_let(:placeholder) { create :placeholder_user, name: 'foo' }

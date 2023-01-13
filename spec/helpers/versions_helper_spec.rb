@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe VersionsHelper, type: :helper do
+describe VersionsHelper do
   include ApplicationHelper
 
   let(:test_project) { build_stubbed :valid_project }

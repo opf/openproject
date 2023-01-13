@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe Queries::Scopes::Visible, type: :model do
+describe Queries::Scopes::Visible do
   describe '.visible' do
-    subject(:scope) { ::Query.visible(user) }
+    subject(:scope) { Query.visible(user) }
 
     let(:user) do
       create(:user,

@@ -26,7 +26,7 @@
 
 require 'spec_helper'
 
-describe MailHandler::UserCreator, type: :model do
+describe MailHandler::UserCreator do
   describe '.new_user_from_attributes' do
     context 'with sufficient information' do
       # [address, name] => [login, firstname, lastname]

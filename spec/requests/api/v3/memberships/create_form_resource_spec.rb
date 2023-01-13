@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe ::API::V3::Memberships::CreateFormAPI, content_type: :json do
+describe API::V3::Memberships::CreateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

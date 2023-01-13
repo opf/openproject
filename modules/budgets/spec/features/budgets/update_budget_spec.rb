@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
-describe 'updating a budget', type: :feature, js: true do
+describe 'updating a budget', js: true do
   let(:project) do
     create :project_with_types,
            enabled_module_names: %i[budgets costs work_package_tracking],

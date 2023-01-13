@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe NonWorkingDay, type: :model do
+RSpec.describe NonWorkingDay do
   subject { build(:non_working_day) }
 
   describe 'validations' do

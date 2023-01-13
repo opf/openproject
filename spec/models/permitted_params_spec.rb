@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe PermittedParams, type: :model do
+describe PermittedParams do
   let(:user) { build_stubbed(:user) }
   let(:admin) { build_stubbed(:admin) }
 

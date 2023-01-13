@@ -26,11 +26,11 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Groups::GroupSqlRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Groups::GroupSqlRepresenter, 'rendering' do
+  include API::V3::Utilities::PathHelper
 
   subject(:json) do
-    ::API::V3::Utilities::SqlRepresenterWalker
+    API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
            current_user:,
            url_query: { select: })

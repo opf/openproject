@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, type: :model do
+describe WorkPackage do
   describe '#relation' do
     let(:closed_state) do
       create(:status,

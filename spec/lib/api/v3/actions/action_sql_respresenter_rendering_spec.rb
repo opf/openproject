@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Actions::ActionSqlRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Actions::ActionSqlRepresenter, 'rendering' do
+  include API::V3::Utilities::PathHelper
 
   let(:scope) do
     Action
@@ -45,7 +45,7 @@ describe ::API::V3::Actions::ActionSqlRepresenter, 'rendering' do
   end
 
   subject(:json) do
-    ::API::V3::Utilities::SqlRepresenterWalker
+    API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
            current_user:,
            url_query: { select: { 'id' => {}, '_type' => {}, 'self' => {} } })

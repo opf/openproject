@@ -5,9 +5,9 @@ describe 'Work Package table hierarchy and sorting', js: true do
   let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
-  let(:representation) { ::Components::WorkPackages::DisplayRepresentation.new }
-  let(:sort_by) { ::Components::WorkPackages::SortBy.new }
+  let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
+  let(:representation) { Components::WorkPackages::DisplayRepresentation.new }
+  let(:sort_by) { Components::WorkPackages::SortBy.new }
 
   let!(:wp_root) do
     create :work_package,

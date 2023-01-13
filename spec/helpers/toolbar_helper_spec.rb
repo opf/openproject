@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ToolbarHelper, type: :helper do
+describe ToolbarHelper do
   describe '.toolbar' do
     it 'creates a default toolbar' do
       result = toolbar title: 'Title'

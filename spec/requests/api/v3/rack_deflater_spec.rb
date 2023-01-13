@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Rack::Deflater, type: :request do
+describe Rack::Deflater do
   include API::V3::Utilities::PathHelper
 
   let(:text) { 'text' }

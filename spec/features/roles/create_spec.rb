@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Role creation', type: :feature, js: true do
+describe 'Role creation', js: true do
   let!(:admin) { create(:admin) }
   let!(:existing_role) { create(:role) }
   let!(:existing_workflow) { create(:workflow_with_default_status, role: existing_role, type:) }

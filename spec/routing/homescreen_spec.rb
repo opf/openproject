@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'homescreen routes', type: :routing do
+describe 'homescreen routes' do
   it '/ routes to homscreen#index' do
     expect(get('/')).to route_to('homescreen#index')
   end

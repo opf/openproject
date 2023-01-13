@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
-describe 'Custom field filter in boards', type: :feature, js: true do
+describe 'Custom field filter in boards', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -66,7 +66,7 @@ describe 'Custom field filter in boards', type: :feature, js: true do
     wp
   end
 
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   let(:custom_field) do
     create(

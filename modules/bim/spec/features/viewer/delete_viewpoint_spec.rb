@@ -30,7 +30,6 @@ require_relative '../../spec_helper'
 
 describe 'Delete viewpoint in model viewer',
          with_config: { edition: 'bim' },
-         type: :feature,
          js: true do
   let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
   let(:user) { create :admin }
@@ -46,8 +45,8 @@ describe 'Delete viewpoint in model viewer',
            uploader: user)
   end
 
-  let(:model_tree) { ::Components::XeokitModelTree.new }
-  let(:bcf_details) { ::Pages::BcfDetailsPage.new(work_package, project) }
+  let(:model_tree) { Components::XeokitModelTree.new }
+  let(:bcf_details) { Pages::BcfDetailsPage.new(work_package, project) }
 
   before do
     login_as(user)

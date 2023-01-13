@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe EnterpriseToken, type: :model do
+RSpec.describe EnterpriseToken do
   let(:object) { OpenProject::Token.new domain: Setting.host_name }
 
   subject { EnterpriseToken.new(encoded_token: 'foo') }
@@ -50,10 +50,10 @@ RSpec.describe EnterpriseToken, type: :model do
       end
 
       describe '#allows_to?' do
-        let(:service_double) { ::Authorization::EnterpriseService.new(subject) }
+        let(:service_double) { Authorization::EnterpriseService.new(subject) }
 
         before do
-          expect(::Authorization::EnterpriseService)
+          expect(Authorization::EnterpriseService)
             .to receive(:new).twice.with(subject).and_return(service_double)
         end
 

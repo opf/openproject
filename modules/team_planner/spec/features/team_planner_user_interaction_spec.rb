@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner drag&dop and resizing', type: :feature, js: true do
+describe 'Team planner drag&dop and resizing', js: true do
   before do
     with_enterprise_token(:team_planner_view)
   end

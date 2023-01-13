@@ -37,7 +37,7 @@ describe Storages::Storages::CreateContract do
   it_behaves_like 'storage contract' do
     let(:current_user) { create(:admin) }
     let(:storage) do
-      ::Storages::Storage.new(name: storage_name,
+      Storages::Storage.new(name: storage_name,
                               provider_type: storage_provider_type,
                               host: storage_host,
                               creator: storage_creator)

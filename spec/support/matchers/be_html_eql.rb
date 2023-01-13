@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-::RSpec::Matchers.define :be_html_eql do |expected|
+RSpec::Matchers.define :be_html_eql do |expected|
   def path
     @path
   end

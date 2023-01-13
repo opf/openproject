@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'repositories/stats', type: :view do
+describe 'repositories/stats' do
   let(:project) { create(:project) }
 
   before do

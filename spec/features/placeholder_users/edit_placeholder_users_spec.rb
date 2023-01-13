@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'edit placeholder users', type: :feature, js: true do
+describe 'edit placeholder users', js: true do
   shared_let(:placeholder_user) { create :placeholder_user, name: 'UX Developer' }
 
   shared_examples 'placeholders edit flow' do

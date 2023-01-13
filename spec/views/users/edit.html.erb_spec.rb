@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'users/edit', type: :view do
+describe 'users/edit' do
   let(:admin) { build :admin }
 
   before do

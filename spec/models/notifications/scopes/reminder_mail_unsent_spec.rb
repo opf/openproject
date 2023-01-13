@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe Notifications::Scopes::MailReminderUnsent, type: :model do
+describe Notifications::Scopes::MailReminderUnsent do
   describe '.unread_digest_mail' do
-    subject(:scope) { ::Notification.mail_reminder_unsent }
+    subject(:scope) { Notification.mail_reminder_unsent }
 
     let(:no_mail_notification) { create(:notification, mail_reminder_sent: nil) }
     let(:unread_mail_notification) { create(:notification, mail_reminder_sent: false) }

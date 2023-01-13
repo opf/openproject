@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Workflow, type: :model do
+describe Workflow do
   describe '.copy' do
     shared_let(:status0) { create(:status) }
     shared_let(:status1) { create(:status) }

@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require 'messagebird'
 
-describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
+describe OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
   let(:channel) { :sms }
   let(:locale) { 'en' }
   let(:user) { create(:user, language: locale) }

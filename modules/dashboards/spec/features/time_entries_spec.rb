@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail: false do
+describe 'Time entries widget on dashboard', js: true, with_mail: false do
   let!(:type) { create :type }
   let!(:project) { create :project, types: [type] }
   let!(:other_project) { create :project, types: [type] }
@@ -83,7 +83,7 @@ describe 'Time entries widget on dashboard', type: :feature, js: true, with_mail
     end
   end
 
-  let(:time_logging_modal) { ::Components::TimeLoggingModal.new }
+  let(:time_logging_modal) { Components::TimeLoggingModal.new }
 
   let(:dashboard) do
     Pages::Dashboard.new(project)

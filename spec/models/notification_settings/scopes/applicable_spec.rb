@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe NotificationSettings::Scopes::Applicable, type: :model do
+describe NotificationSettings::Scopes::Applicable do
   describe '.applicable' do
-    subject(:scope) { ::NotificationSetting.applicable(project) }
+    subject(:scope) { NotificationSetting.applicable(project) }
 
     let!(:user) do
       create(:user,

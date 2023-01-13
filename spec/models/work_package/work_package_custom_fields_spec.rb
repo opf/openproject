@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, type: :model do
+describe WorkPackage do
   describe '#custom_fields' do
     let(:type) { create(:type_standard) }
     let(:project) { create(:project, types: [type]) }

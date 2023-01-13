@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ::Bim::IfcModels::IfcModel, type: :model do
+describe Bim::IfcModels::IfcModel do
   subject { described_class.new params }
 
   let(:params) { { title: 'foo', is_default: true } }

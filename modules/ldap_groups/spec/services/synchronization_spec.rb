@@ -132,17 +132,17 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
 
           it 'removes all memberships after removing synced group' do
             synced_foo_id = synced_foo.id
-            expect(::LdapGroups::Membership.where(group_id: synced_foo_id).count).to eq(1)
+            expect(LdapGroups::Membership.where(group_id: synced_foo_id).count).to eq(1)
             synced_foo.destroy
 
             expect { group_foo.reload }.not_to raise_error
 
-            expect(::LdapGroups::Membership.where(group_id: synced_foo_id)).to be_empty
+            expect(LdapGroups::Membership.where(group_id: synced_foo_id)).to be_empty
           end
 
           it 'removes all memberships and groups after removing auth source' do
             expect { auth_source.destroy! }
-              .to change { ::LdapGroups::Membership.count }.from(4).to(0)
+              .to change { LdapGroups::Membership.count }.from(4).to(0)
 
             expect { synced_foo.reload }.to raise_error ActiveRecord::RecordNotFound
             expect { synced_bar.reload }.to raise_error ActiveRecord::RecordNotFound
@@ -150,14 +150,14 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
 
           it 'removes all memberships and groups after removing actual group' do
             synced_foo_id = synced_foo.id
-            expect(::LdapGroups::Membership.where(group_id: synced_foo_id).count).to eq(1)
+            expect(LdapGroups::Membership.where(group_id: synced_foo_id).count).to eq(1)
             group_foo.destroy
 
             expect { synced_foo.reload }.to raise_error ActiveRecord::RecordNotFound
             expect(group_bar.users)
               .to match_array([user_aa729.reload, user_bb459.reload, user_cc414.reload])
 
-            expect(::LdapGroups::Membership.where(group_id: synced_foo_id)).to be_empty
+            expect(LdapGroups::Membership.where(group_id: synced_foo_id)).to be_empty
           end
         end
       end

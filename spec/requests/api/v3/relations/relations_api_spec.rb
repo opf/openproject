@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe  'API v3 Relation resource', type: :request, content_type: :json do
+describe  'API v3 Relation resource', content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:user) { create :admin }
@@ -72,7 +72,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
   describe "creating a relation" do
     shared_examples_for 'creates the relation' do
       it 'creates the relation correctly' do
-        rel = ::API::V3::Relations::RelationPayloadRepresenter.new(Relation.new, current_user: user).from_json last_response.body
+        rel = API::V3::Relations::RelationPayloadRepresenter.new(Relation.new, current_user: user).from_json last_response.body
 
         expect(rel.from).to eq from
         expect(rel.to).to eq to
@@ -254,7 +254,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
     end
 
     it "returns the updated relation" do
-      rel = ::API::V3::Relations::RelationPayloadRepresenter.new(Relation.new, current_user: user).from_json last_response.body
+      rel = API::V3::Relations::RelationPayloadRepresenter.new(Relation.new, current_user: user).from_json last_response.body
 
       expect(rel).to eq relation.reload
     end

@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:filter) { Queries::WorkPackages::Filter::StatusFilter.create! }
   let(:assigned_to_filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
@@ -66,7 +66,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
   context 'generation' do
     before do
       filter.available_operators.each do |operator|
-        allow(::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory)
+        allow(API::V3::Queries::Schemas::FilterDependencyRepresenterFactory)
           .to receive(:create)
           .with(filter,
                 operator,
@@ -219,7 +219,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
   describe 'caching' do
     before do
       filter.available_operators.each do |operator|
-        allow(::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory)
+        allow(API::V3::Queries::Schemas::FilterDependencyRepresenterFactory)
           .to receive(:create)
           .with(filter,
                 operator,

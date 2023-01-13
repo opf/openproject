@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering' do
+  include API::V3::Utilities::PathHelper
 
   let(:activity) do
     build_stubbed(:time_entry_activity)
@@ -54,7 +54,7 @@ describe ::API::V3::TimeEntries::TimeEntriesActivityRepresenter, 'rendering' do
       let(:project2) { build_stubbed(:project) }
 
       before do
-        allow(::Project)
+        allow(Project)
           .to receive(:visible_with_activated_time_activity)
           .with(activity)
           .and_return([project1,

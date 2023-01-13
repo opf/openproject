@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe "export card configurations Admin", type: :feature, js: true do
+describe "export card configurations Admin", js: true do
   let(:user) { create :admin }
 
   let!(:config1) { create :export_card_configuration }

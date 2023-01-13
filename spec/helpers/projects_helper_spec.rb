@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ProjectsHelper, type: :helper do
+describe ProjectsHelper do
   include ApplicationHelper
   include ProjectsHelper
 

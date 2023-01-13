@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::BasicData::SettingSeeder do
+describe BasicData::SettingSeeder do
   subject { described_class.new }
 
   let(:new_project_role) { Role.find_by(name: I18n.t(:default_role_project_admin)) }

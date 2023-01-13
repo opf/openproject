@@ -12,7 +12,7 @@ describe 'Work Package group by boolean field', js: true do
   let!(:wp3) { create(:work_package, project:, type:, custom_field_values: { bool_cf.id => false }) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+  let(:group_by) { Components::WorkPackages::GroupBy.new }
 
   before do
     login_as(user)

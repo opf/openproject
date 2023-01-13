@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Task, type: :model do
+describe Task do
   let(:task_type) { create(:type) }
   let(:default_status) { create(:default_status) }
   let(:project) { create(:project) }

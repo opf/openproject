@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-describe ::Storages::FileLinks::SetAttributesService, type: :model do
+describe Storages::FileLinks::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
 
   let(:contract_instance) do
-    contract = instance_double(::Storages::Storages::BaseContract, 'contract_instance')
+    contract = instance_double(Storages::Storages::BaseContract, 'contract_instance')
     allow(contract)
       .to receive(:validate)
       .and_return(contract_valid)
@@ -52,13 +52,13 @@ describe ::Storages::FileLinks::SetAttributesService, type: :model do
                         contract_class:,
                         contract_options: {})
   end
-  let(:model_instance) { ::Storages::Storage.new }
+  let(:model_instance) { Storages::Storage.new }
   let(:contract_class) do
-    allow(::Storages::Storages::CreateContract)
+    allow(Storages::Storages::CreateContract)
       .to receive(:new)
       .and_return(contract_instance)
 
-    ::Storages::Storages::CreateContract
+    Storages::Storages::CreateContract
   end
 
   let(:params) { {} }

@@ -28,12 +28,12 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg attribute macros', type: :feature, js: true do
+describe 'Wysiwyg attribute macros', js: true do
   shared_let(:admin) { create :admin }
   let(:user) { admin }
   let!(:project) { create(:project, identifier: 'some-project', enabled_module_names: %w[wiki work_package_tracking]) }
   let!(:work_package) { create(:work_package, subject: "Foo Bar", project:) }
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
 
   let(:markdown) do
     <<~MD

@@ -97,9 +97,9 @@ RSpec.describe 'Work package index sums', js: true do
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:group_by) { Components::WorkPackages::GroupBy.new }
 
   before do
     login_as(user)

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner', type: :feature, js: true do
+describe 'Team planner', js: true do
   before do
     with_enterprise_token(:team_planner_view)
   end

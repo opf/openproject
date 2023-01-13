@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative '../support/pages/calendar'
 require_relative '../../../../spec/features/views/shared_examples'
 
-describe 'Calendar query handling', type: :feature, js: true do
+describe 'Calendar query handling', js: true do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do
@@ -76,10 +76,10 @@ describe 'Calendar query handling', type: :feature, js: true do
            public: true)
   end
 
-  let(:calendar_page) { ::Pages::Calendar.new project }
-  let(:work_package_page) { ::Pages::WorkPackagesTable.new project }
-  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
-  let(:query_menu) { ::Components::WorkPackages::QueryMenu.new }
+  let(:calendar_page) { Pages::Calendar.new project }
+  let(:work_package_page) { Pages::WorkPackagesTable.new project }
+  let(:query_title) { Components::WorkPackages::QueryTitle.new }
+  let(:query_menu) { Components::WorkPackages::QueryMenu.new }
   let(:filters) { calendar_page.filters }
 
   current_user { user }

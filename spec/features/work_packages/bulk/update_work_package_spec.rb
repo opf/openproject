@@ -61,10 +61,10 @@ describe 'Bulk update work packages through Rails view', js: true do
            type:)
   end
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
-  let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
-  let(:notes) { ::Components::WysiwygEditor.new }
+  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
+  let(:notes) { Components::WysiwygEditor.new }
 
   before do
     login_as current_user

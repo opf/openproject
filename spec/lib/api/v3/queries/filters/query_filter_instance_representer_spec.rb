@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:operator) { '=' }
   let(:values) { [status.id.to_s] }
@@ -87,7 +87,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
       it "renders templated values as part of the 'values' collection" do
         allow(filter)
           .to receive(:value_objects)
-          .and_return([::Queries::Filters::TemplatedValue.new(Status)])
+          .and_return([Queries::Filters::TemplatedValue.new(Status)])
 
         expected = {
           href: api_v3_paths.status('{id}'),

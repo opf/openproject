@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Groups::GroupRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Groups::GroupRepresenter, 'rendering' do
+  include API::V3::Utilities::PathHelper
 
   subject(:generated) { representer.to_json }
 

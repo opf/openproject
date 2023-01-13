@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Modifying a dashboard which already has widgets for which permissions are lacking', type: :feature, js: true do
+describe 'Modifying a dashboard which already has widgets for which permissions are lacking', js: true do
   let!(:project) do
     create :project
   end

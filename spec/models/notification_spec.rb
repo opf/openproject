@@ -27,8 +27,7 @@
 #++
 require 'spec_helper'
 
-describe Notification,
-         type: :model do
+describe Notification do
   describe '.save' do
     context 'for a non existing journal (e.g. because it has been deleted)' do
       let(:notification) { build(:notification) }

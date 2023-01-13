@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }
   let(:bool_cf) { build_stubbed(:bool_wp_custom_field) }

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/meetings/index'
 
-describe 'Meetings', type: :feature do
+describe 'Meetings' do
   let(:project) { create :project, enabled_module_names: %w[meetings] }
   let(:other_project) { create :project, enabled_module_names: %w[meetings] }
   let(:role) { create(:role, permissions:) }

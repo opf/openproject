@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe ::RailsCell do
+describe RailsCell do
   let(:controller) { double(ApplicationController) }
   let(:action_view) { ActionView::Base.new(ActionView::LookupContext.new(''), {}, controller) }
   let(:model) { double('model', foo: '<strong>Some HTML here!</strong>') }

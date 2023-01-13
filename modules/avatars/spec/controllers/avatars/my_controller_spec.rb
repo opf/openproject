@@ -1,14 +1,14 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 require File.expand_path(File.dirname(__FILE__) + '/../../shared_examples')
 
-describe ::Avatars::MyAvatarController, type: :controller do
+describe Avatars::MyAvatarController do
   include_context "there are users with and without avatars"
   let(:user) { user_without_avatar }
   let(:enabled) { true }
 
   before do
     login_as user
-    allow(::OpenProject::Avatars::AvatarManager).to receive(:avatars_enabled?).and_return enabled
+    allow(OpenProject::Avatars::AvatarManager).to receive(:avatars_enabled?).and_return enabled
   end
 
   describe '#show' do
@@ -48,7 +48,7 @@ describe ::Avatars::MyAvatarController, type: :controller do
     end
 
     it 'calls the service for put' do
-      expect_any_instance_of(::Avatars::UpdateService)
+      expect_any_instance_of(Avatars::UpdateService)
         .to receive(:replace)
         .and_return(ServiceResult.success)
 
@@ -58,7 +58,7 @@ describe ::Avatars::MyAvatarController, type: :controller do
     end
 
     it 'calls the service for put' do
-      expect_any_instance_of(::Avatars::UpdateService)
+      expect_any_instance_of(Avatars::UpdateService)
         .to receive(:replace)
         .and_return(ServiceResult.failure)
 
@@ -76,7 +76,7 @@ describe ::Avatars::MyAvatarController, type: :controller do
     end
 
     it 'calls the service for delete' do
-      expect_any_instance_of(::Avatars::UpdateService)
+      expect_any_instance_of(Avatars::UpdateService)
         .to receive(:destroy)
         .and_return(ServiceResult.success(result: 'message'))
 
@@ -90,7 +90,7 @@ describe ::Avatars::MyAvatarController, type: :controller do
       result = ServiceResult.failure
       result.errors.add :base, 'error'
 
-      expect_any_instance_of(::Avatars::UpdateService)
+      expect_any_instance_of(Avatars::UpdateService)
         .to receive(:destroy)
         .and_return(result)
 

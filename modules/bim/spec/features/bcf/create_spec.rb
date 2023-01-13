@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe 'Create BCF',
-         type: :feature,
          js: true,
          with_config: { edition: 'bim' },
          with_mail: false do
@@ -82,7 +81,7 @@ describe 'Create BCF',
       end
 
       work_package = WorkPackage.last
-      split_page = ::Pages::SplitWorkPackage.new(work_package, project)
+      split_page = Pages::SplitWorkPackage.new(work_package, project)
       split_page.ensure_page_loaded
       split_page.expect_subject
 

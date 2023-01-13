@@ -30,14 +30,14 @@ require 'spec_helper'
 
 describe 'Query menu item', js: true do
   let(:project) { create :project }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
+  let(:query_title) { Components::WorkPackages::QueryTitle.new }
 
   current_user { create :admin }
 
   context 'when visiting the global work packages page' do
-    let(:wp_table) { ::Pages::WorkPackagesTable.new }
+    let(:wp_table) { Pages::WorkPackagesTable.new }
     let(:project) { nil }
 
     let!(:global_public_view) do

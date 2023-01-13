@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe 'LDAP group sync administration spec', type: :feature, js: true do
+describe 'LDAP group sync administration spec', js: true do
   let(:admin) { create :admin }
 
   before do
@@ -43,7 +43,7 @@ describe 'LDAP group sync administration spec', type: :feature, js: true do
       expect(page).to have_selector '.generic-table--empty-row'
 
       # Check created group
-      sync = ::LdapGroups::SynchronizedGroup.last
+      sync = LdapGroups::SynchronizedGroup.last
       expect(sync.group_id).to eq(group.id)
       expect(sync.auth_source_id).to eq(auth_source.id)
       expect(sync.dn).to eq 'cn=foo,ou=groups,dc=example,dc=com'
@@ -68,7 +68,7 @@ describe 'LDAP group sync administration spec', type: :feature, js: true do
       expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_delete))
       expect(page).to have_selector '.generic-table--empty-row'
 
-      expect(::LdapGroups::Membership.where(id: memberships)).to be_empty
+      expect(LdapGroups::Membership.where(id: memberships)).to be_empty
     end
   end
 end

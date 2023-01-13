@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'users/index', type: :view do
+describe 'users/index' do
   shared_let(:admin) { create :admin }
   let!(:user) { create :user, firstname: "Scarlet", lastname: "Scallywag" }
 

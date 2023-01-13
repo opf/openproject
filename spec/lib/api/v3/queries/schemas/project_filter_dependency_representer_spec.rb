@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:filter) { Queries::WorkPackages::Filter::ProjectFilter.create! }
   let(:form_embedded) { false }

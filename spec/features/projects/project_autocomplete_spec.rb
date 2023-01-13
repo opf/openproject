@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe 'Projects autocomplete page', type: :feature, js: true do
+describe 'Projects autocomplete page', js: true do
   let!(:user) { create :user }
-  let(:top_menu) { ::Components::Projects::TopMenu.new }
+  let(:top_menu) { Components::Projects::TopMenu.new }
 
   let!(:project) do
     create(:project,

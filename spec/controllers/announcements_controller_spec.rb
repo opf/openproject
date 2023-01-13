@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AnnouncementsController, type: :controller do
+describe AnnouncementsController do
   let(:announcement) { build :announcement }
 
   before do

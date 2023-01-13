@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Users::LoginService, type: :model do
+describe Users::LoginService, type: :model do
   let(:input_user) { build_stubbed(:user) }
   let(:controller) { double('ApplicationController') }
   let(:request) { {} }
@@ -49,7 +49,7 @@ describe ::Users::LoginService, type: :model do
       end
 
       before do
-        allow(::OpenProject::Plugins::AuthPlugin)
+        allow(OpenProject::Plugins::AuthPlugin)
           .to(receive(:find_provider_by_name))
           .with('provider_name')
           .and_return sso_provider

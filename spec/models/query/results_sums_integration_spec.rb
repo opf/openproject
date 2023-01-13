@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Query::Results, 'sums', type: :model do
+describe Query::Results, 'sums' do
   let(:project) do
     create(:project).tap do |p|
       p.work_package_custom_fields << int_cf
@@ -150,7 +150,7 @@ describe ::Query::Results, 'sums', type: :model do
           group_by:
   end
   let(:query_results) do
-    ::Query::Results.new query
+    Query::Results.new query
   end
 
   before do

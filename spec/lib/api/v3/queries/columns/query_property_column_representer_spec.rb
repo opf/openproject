@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::Columns::QueryPropertyColumnRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:column) { Query.available_columns.detect { |column| column.name == :status } }
   let(:representer) { described_class.new(column) }

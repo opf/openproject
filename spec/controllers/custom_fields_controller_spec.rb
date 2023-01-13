@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomFieldsController, type: :controller do
+describe CustomFieldsController do
   shared_let(:admin) { create :admin }
 
   let(:custom_field) { build_stubbed(:custom_field) }

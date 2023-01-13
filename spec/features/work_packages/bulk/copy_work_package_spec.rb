@@ -3,7 +3,7 @@ require 'features/page_objects/notification'
 require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
 describe 'Copy work packages through Rails view', js: true do
-  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:type) { create :type, name: 'Bug' }
   shared_let(:type2) { create :type, name: 'Risk' }
@@ -45,10 +45,10 @@ describe 'Copy work packages through Rails view', js: true do
   end
   shared_let(:version) { create :version, project: project2 }
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
-  let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
-  let(:notes) { ::Components::WysiwygEditor.new }
+  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
+  let(:notes) { Components::WysiwygEditor.new }
 
   before do
     login_as current_user
@@ -65,7 +65,7 @@ describe 'Copy work packages through Rails view', js: true do
 
     context 'with permission' do
       let(:current_user) { mover }
-      let(:wp_table_target) { ::Pages::WorkPackagesTable.new(project2) }
+      let(:wp_table_target) { Pages::WorkPackagesTable.new(project2) }
 
       before do
         wp_table.expect_work_package_count 2
@@ -220,7 +220,7 @@ describe 'Copy work packages through Rails view', js: true do
   describe 'unsetting the assignee as the current assignee is not a member in the project' do
     let(:work_packages) { [work_package] }
     let(:current_user) { mover }
-    let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
     before do
       work_package.assigned_to = dev
@@ -248,7 +248,7 @@ describe 'Copy work packages through Rails view', js: true do
         .to have_selector('.flash.notice',
                           text: I18n.t(:notice_successful_create))
 
-      wp_page = ::Pages::FullWorkPackage.new(WorkPackage.last)
+      wp_page = Pages::FullWorkPackage.new(WorkPackage.last)
 
       wp_page.expect_attributes assignee: '-'
     end

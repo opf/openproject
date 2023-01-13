@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Work package attribute help texts', type: :feature, js: true do
+describe 'Work package attribute help texts', js: true do
   let(:project) { create :project }
   let(:work_package) { create :work_package, project: }
 

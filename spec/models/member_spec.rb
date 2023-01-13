@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Member, type: :model do
+describe Member do
   let(:user) { create(:user) }
   let(:role) { create(:role) }
   let(:project) { create(:project) }
@@ -72,7 +72,7 @@ describe Member, type: :model do
       member
       group = create(:group, members: [user])
       create(:member, project:, principal: group, roles: [role])
-      ::Groups::CreateInheritedRolesService
+      Groups::CreateInheritedRolesService
         .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(user_ids: [user.id])
 

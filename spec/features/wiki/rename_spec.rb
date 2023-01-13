@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Wiki page', type: :feature, js: true do
+describe 'Wiki page', js: true do
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:user) do
     create :user,

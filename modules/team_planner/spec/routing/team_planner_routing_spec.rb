@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Team planner routing', type: :routing do
+describe 'Team planner routing' do
   it 'routes to team_planner#index' do
     expect(subject)
       .to route(:get, '/projects/foobar/team_planners')

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'shared_query_column_specs'
 
-describe Queries::WorkPackages::Columns::CustomFieldColumn, type: :model do
+describe Queries::WorkPackages::Columns::CustomFieldColumn do
   let(:project) { build_stubbed(:project) }
   let(:custom_field) do
     double('CustomField',

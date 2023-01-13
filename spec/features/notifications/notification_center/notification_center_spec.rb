@@ -33,11 +33,11 @@ describe "Notification center",
     work_package2.journals.first.notifications.first
   end
 
-  let(:center) { ::Pages::Notifications::Center.new }
-  let(:side_menu) { ::Components::Notifications::Sidemenu.new }
-  let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
-  let(:split_screen) { ::Pages::SplitWorkPackage.new work_package }
-  let(:split_screen2) { ::Pages::SplitWorkPackage.new work_package2 }
+  let(:center) { Pages::Notifications::Center.new }
+  let(:side_menu) { Components::Notifications::Sidemenu.new }
+  let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
+  let(:split_screen) { Pages::SplitWorkPackage.new work_package }
+  let(:split_screen2) { Pages::SplitWorkPackage.new work_package2 }
 
   let(:notifications) do
     [notification, notification2]

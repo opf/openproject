@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative './shared_model'
 
-describe Grids::MyPage, type: :model do
+describe Grids::MyPage do
   let(:instance) { described_class.new(row_count: 5, column_count: 5) }
   let(:user) { build_stubbed(:user) }
 

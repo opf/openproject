@@ -28,13 +28,13 @@
 
 require 'spec_helper'
 
-describe 'Reset form configuration', type: :feature, js: true do
+describe 'Reset form configuration', js: true do
   shared_let(:admin) { create :admin }
   let(:type) { create :type }
 
   let(:project) { create :project, types: [type] }
-  let(:form) { ::Components::Admin::TypeConfigurationForm.new }
-  let(:dialog) { ::Components::ConfirmationDialog.new }
+  let(:form) { Components::Admin::TypeConfigurationForm.new }
+  let(:dialog) { Components::ConfirmationDialog.new }
 
   describe "with EE token and CFs" do
     let(:custom_fields) { [custom_field] }

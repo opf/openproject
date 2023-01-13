@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Calendar::CalendarsController, type: :routing do
+describe Calendar::CalendarsController do
   it do
     expect(get('/projects/1/calendars')).to route_to(controller: 'calendar/calendars',
                                                      action: 'index',

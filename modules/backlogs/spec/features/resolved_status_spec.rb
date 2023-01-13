@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Resolved status',
-         type: :feature do
+describe 'Resolved status' do
   let!(:project) do
     create(:project,
            enabled_module_names: %w(backlogs))

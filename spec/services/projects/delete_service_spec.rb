@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Projects::DeleteService, type: :model do
+describe Projects::DeleteService, type: :model do
   let(:user) { build_stubbed(:admin) }
   let(:project) { build_stubbed(:project) }
 
@@ -44,7 +44,7 @@ describe ::Projects::DeleteService, type: :model do
       expect(ProjectMailer)
         .to receive_message_chain(:delete_project_completed, :deliver_now)
 
-      expect(::Projects::DeleteProjectJob)
+      expect(Projects::DeleteProjectJob)
         .not_to receive(:new)
 
       expect(subject).to be_success
@@ -56,7 +56,7 @@ describe ::Projects::DeleteService, type: :model do
       expect(ProjectMailer)
         .to receive_message_chain(:delete_project_failed, :deliver_now)
 
-      expect(::Projects::DeleteProjectJob)
+      expect(Projects::DeleteProjectJob)
         .not_to receive(:new)
 
       expect(subject).to be_failure
@@ -67,7 +67,7 @@ describe ::Projects::DeleteService, type: :model do
     let(:user) { build_stubbed(:user) }
 
     it 'returns an error' do
-      expect(::Projects::DeleteProjectJob)
+      expect(Projects::DeleteProjectJob)
         .not_to receive(:new)
 
       expect(subject).to be_failure

@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe ::Avatars::UpdateService do
+describe Avatars::UpdateService do
   let(:user_without_avatar) { build_stubbed :user }
   let(:user_with_avatar) do
     u = create :user
