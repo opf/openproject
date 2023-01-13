@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,33 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::StorageFiles
-  class StorageUploadLinkRepresenter < ::API::Decorators::Single
-    link :self do
-      { href: "#{::API::V3::URN_PREFIX}storages:upload_link:no_link_provided" }
+module Storages::Peripherals::StorageInteraction
+  module FilesQueryHelpers
+    def files_query(storage, user)
+      Storages::Peripherals::StorageRequests
+        .new(storage:)
+        .files_query(user:)
     end
 
-    link :destination do
-      {
-        href: represented.destination,
-        method: :put,
-        title: 'Upload File'
-      }
-    end
-
-    link :finalize do
-      next if represented.finalize.nil?
-
-      {
-        href: represented.finalize.destination,
-        method: :post,
-        title: 'Conclude file upload',
-        payload: represented.finalize.payload
-      }
-    end
-
-    def _type
-      Storages::UploadLink.name.split('::').last
+    def execute_files_query(parent)
+      ->(query) { query.call(parent) }
     end
   end
 end

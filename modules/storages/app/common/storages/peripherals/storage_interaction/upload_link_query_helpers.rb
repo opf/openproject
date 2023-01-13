@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,33 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::StorageFiles
-  class StorageUploadLinkRepresenter < ::API::Decorators::Single
-    link :self do
-      { href: "#{::API::V3::URN_PREFIX}storages:upload_link:no_link_provided" }
+module Storages::Peripherals::StorageInteraction
+  module UploadLinkQueryHelpers
+    using Storages::Peripherals::ServiceResultRefinements
+
+    def validate_request_body(body)
+      case body.transform_keys(&:to_sym)
+      in { projectId: project_id, fileName: file_name, parent: parent }
+        authorize(:manage_file_links, context: Project.find(project_id))
+        ServiceResult.success(result: { fileName: file_name, parent: }.transform_keys(&:to_s))
+      else
+        ServiceResult.failure(
+          errors: Storages::StorageError.new(code: :bad_request, log_message: 'Request body malformed!')
+        )
+      end
     end
 
-    link :destination do
-      {
-        href: represented.destination,
-        method: :put,
-        title: 'Upload File'
-      }
+    def upload_link_query(storage, user)
+      Storages::Peripherals::StorageRequests
+        .new(storage:)
+        .upload_link_query(
+          user:,
+          finalize_url: nil # ToDo: api_v3_paths.finalize_upload(@storage.id)
+        )
     end
 
-    link :finalize do
-      next if represented.finalize.nil?
-
-      {
-        href: represented.finalize.destination,
-        method: :post,
-        title: 'Conclude file upload',
-        payload: represented.finalize.payload
-      }
-    end
-
-    def _type
-      Storages::UploadLink.name.split('::').last
+    def execute_upload_link_query(request_body)
+      ->(query) { validate_request_body(request_body) >> query }
     end
   end
 end
