@@ -704,6 +704,8 @@ pt:
           archived_ancestor: 'O projeto tem um ancestral arquivado.'
           foreign_wps_reference_version: 'Pacotes de trabalho em projetos não descendentes referenciam versões do projeto ou de seus descendentes.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "ainda em uso pelos pacotes de trabalho: %{types}"
             enabled_modules:
@@ -2215,6 +2217,7 @@ pt:
   permission_add_work_packages: "Adicionar pacotes de trabalho"
   permission_add_messages: "Postar mensagens"
   permission_add_project: "Criar Projeto"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Criar e editar usuários"
   permission_manage_placeholder_user: "Criar, editar e excluir usuários do espaço reservado"
   permission_add_subprojects: "Criar subprojetos"

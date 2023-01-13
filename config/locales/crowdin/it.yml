@@ -702,6 +702,8 @@ it:
           archived_ancestor: 'Il progetto ha un antenato archiviato.'
           foreign_wps_reference_version: 'Macro-attività in progetti non discendenti contengono riferimenti a versioni del progetto o dei suoi discendenti.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "ancora in uso dalla macro-attività: %{types}"
             enabled_modules:
@@ -2215,6 +2217,7 @@ it:
   permission_add_work_packages: "Aggiungere macro-attività (work package)"
   permission_add_messages: "Postare messaggi"
   permission_add_project: "Creare un progetto"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Crea e modifica utenti"
   permission_manage_placeholder_user: "Crea, modifica ed elimina utenti del segnaposto"
   permission_add_subprojects: "Creare sotto-progetti"

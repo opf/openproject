@@ -703,6 +703,8 @@ ko:
           archived_ancestor: '이 프로젝트에는 보관된 상위 항목이 있습니다.'
           foreign_wps_reference_version: '하위가 아닌 프로젝트의 작업 패키지는 해당 프로젝트 또는 하위 프로젝트의 버전을 참조합니다.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "아직 작업 패키지에 사용됨: %{types}"
             enabled_modules:
@@ -2197,6 +2199,7 @@ ko:
   permission_add_work_packages: "작업 패키지 추가"
   permission_add_messages: "메시지 게시"
   permission_add_project: "프로젝트 만들기"
+  permission_archive_project: "Archive project"
   permission_manage_user: "사용자 생성 및 편집"
   permission_manage_placeholder_user: "플레이스홀더 사용자 생성, 수정, 제거"
   permission_add_subprojects: "하위 프로젝트 만들기"
