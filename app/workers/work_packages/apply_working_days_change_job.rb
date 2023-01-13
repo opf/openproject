@@ -70,8 +70,8 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
   end
 
   def applicable_work_package(previous_working_days, previous_non_working_days)
-    days_of_week = changed_days(previous_working_days)
-    dates = changed_non_working_days(previous_non_working_days)
+    days_of_week = changed_days(previous_working_days).keys
+    dates = changed_non_working_days(previous_non_working_days).keys
     WorkPackage
       .covering_dates_and_days_of_week(days_of_week:, dates:)
       .order(WorkPackage.arel_table[:start_date].asc.nulls_first,
@@ -84,7 +84,7 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
 
     # `^` is a Set method returning a new set containing elements exclusive to
     # each other
-    (previous ^ current).to_a
+    (previous ^ current).index_with { |day| current.include?(day) }
   end
 
   def changed_non_working_days(previous_non_working_days)
@@ -93,7 +93,7 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
 
     # `^` is a Set method returning a new set containing elements exclusive to
     # each other
-    (previous ^ current).to_a
+    (previous ^ current).index_with { |day| current.exclude?(day) }
   end
 
   def applicable_predecessor(excluded)
@@ -103,8 +103,8 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
   end
 
   def set_journal_notice(updated_work_package_ids, previous_working_days, previous_non_working_days)
-    day_changes = changed_days(previous_working_days).index_with { |day| Setting.working_days.include?(day) }
-    date_changes = changed_non_working_days(previous_non_working_days).index_with { |day| !NonWorkingDay.exists?(date: day) }
+    day_changes = changed_days(previous_working_days)
+    date_changes = changed_non_working_days(previous_non_working_days)
     journal_note = journal_notice_text(day_changes, date_changes)
 
     WorkPackage
