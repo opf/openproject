@@ -477,7 +477,7 @@ ru:
     label_drop_files: "Перетащите файлы сюда для прикрепления файлов."
     label_drop_or_click_files: "Перетащите файлы сюда или нажмите для прикрепления файлов."
     label_drop_folders_hint: Вы не можете загружать папки как вложение. Пожалуйста, выберите один файл.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "Прикрепить файлы"
     label_formattable_attachment_hint: "Прикрепить и связать файлы, перетащив их на это поле, или вставив их из буфера обмена."
     label_remove_file: "Удалить %{fileName}"
     label_remove_watcher: "Удалить наблюдателя %{name}"

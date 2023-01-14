@@ -44,6 +44,9 @@ de:
         success_create:
           one: "Successfully created 1 file link."
           other: "Successfully created %{count} file links."
+        upload_error: "An error occurred uploading the file '%{fileName}'."
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Bitte melden Sie sich bei Nextcloud an, um auf diese Datei zuzugreifen"
         already_linked_file: "Die Datei ist bereits mit diesem Arbeitspaket verknüpft."
         already_linked_directory: "Das Verzeichnis ist bereits mit diesem Arbeitspaket verknüpft."

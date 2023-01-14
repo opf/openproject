@@ -44,6 +44,9 @@ ca:
         success_create:
           one: "Successfully created 1 file link."
           other: "Successfully created %{count} file links."
+        upload_error: "An error occurred uploading the file '%{fileName}'."
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Si us plau, inicia sessió a Nextcloud per accedir a aquest fitxer"
         already_linked_file: "Aquest fitxer ja està enllaçat a aquest paquet de treball."
         already_linked_directory: "Aquest directori ja està enllaçat a aquest paquet de treball."

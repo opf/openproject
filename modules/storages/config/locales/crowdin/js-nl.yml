@@ -44,6 +44,9 @@ nl:
         success_create:
           one: "Successfully created 1 file link."
           other: "Successfully created %{count} file links."
+        upload_error: "An error occurred uploading the file '%{fileName}'."
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Log in op Nextcloud om toegang te krijgen tot dit bestand"
         already_linked_file: "Dit bestand is al gekoppeld aan dit werkpakket."
         already_linked_directory: "Deze map is al gekoppeld aan dit werkpakket."
