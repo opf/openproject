@@ -191,20 +191,22 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     const attachments = this.workPackage.attachments as unknown&{ href:string };
     this.attachmentsResourceService.fetchAttachments(attachments.href).subscribe();
 
-    // Fetch file link collections for work package (only if storages module is enabled)
     if (this.workPackage.$links.fileLinks) {
-      this.fileLinkResourceService.updateCollectionsForWorkPackage(this.workPackage.$links.fileLinks.href as string);
+      this.fileLinkResourceService
+        .updateCollectionsForWorkPackage(this.workPackage.$links.fileLinks.href as string)
+        .subscribe(
+          () => {
+            this.projectsResourceService
+              .lookup((this.workPackage.project as unknown&{ id:string }).id)
+              .pipe(this.untilDestroyed())
+              .subscribe((project) => {
+                if (project._links.storages) {
+                  this.storages.updateCollection(project._links.self.href, project._links.storages);
+                }
+              });
+          },
+        );
     }
-
-    // Fetch storages for work package's project (only if storages module is enabled)
-    this.projectsResourceService
-      .lookup((this.workPackage.project as unknown&{ id:string }).id)
-      .pipe(this.untilDestroyed())
-      .subscribe((project) => {
-        if (project._links.storages) {
-          this.storages.updateCollection(project._links.self.href, project._links.storages);
-        }
-      });
 
     // Listen to tab changes to update the tab label
     this.keepTab.observable

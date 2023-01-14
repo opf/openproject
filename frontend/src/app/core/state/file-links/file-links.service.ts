@@ -31,10 +31,12 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { from } from 'rxjs';
 import {
+  catchError,
   groupBy,
   mergeMap,
   reduce,
   switchMap,
+  map,
   tap,
 } from 'rxjs/operators';
 
@@ -53,8 +55,8 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 export class FileLinksResourceService extends ResourceCollectionService<IFileLink> {
   @InjectField() toastService:ToastService;
 
-  updateCollectionsForWorkPackage(fileLinksSelfLink:string):void {
-    this.http
+  updateCollectionsForWorkPackage(fileLinksSelfLink:string):any {
+    return this.http
       .get<IHALCollection<IFileLink>>(fileLinksSelfLink)
       .pipe(
         tap((collection) => insertCollectionIntoState(this.store, collection, fileLinksSelfLink)),
@@ -70,15 +72,13 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
             return acc;
           }, seed));
         }),
-      )
-      .subscribe(
-        (fileLinkCollections) => {
+        map((fileLinkCollections) => {
           const storageId = idFromLink(fileLinkCollections.storage);
           const collectionKey = `${fileLinksSelfLink}?filters=[{"storage":{"operator":"=","values":["${storageId}"]}}]`;
           const collection = { _embedded: { elements: fileLinkCollections.fileLinks } } as IHALCollection<IFileLink>;
           insertCollectionIntoState(this.store, collection, collectionKey);
-        },
-        this.toastAndThrow.bind(this),
+        }),
+        catchError(this.toastAndThrow.bind(this)),
       );
   }
 
