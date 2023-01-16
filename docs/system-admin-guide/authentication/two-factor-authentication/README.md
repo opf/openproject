@@ -28,6 +28,14 @@ Usually with another device device like a mobile phone or a tablet, you are able
 - Google Authenticator
 - Microsoft Authenticator
 
+### Clock skew
+
+TOTP operates on the principal that the second factor and the server handling the authentication process are roughly in sync.
+By default, the allowed clock skew (difference in seconds between client and server) is 30 seconds, which means that the server will accept time shifts of 30 seconds in the past and future, respectively.
+
+If you are trying to register a new device and keep getting failures even though the code appears correct,
+time drift between the device and the server is most likely the reason for it.
+
 ## Advanced 2FA using MessageBird, Amazon SNS
 
 At the moment the advanced settings for improved security are only reachable on the by defining [configuration variables](https://www.openproject.org/docs/installation-and-operations/configuration/).
