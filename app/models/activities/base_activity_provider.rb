@@ -164,6 +164,7 @@ class Activities::BaseActivityProvider
 
   def event_params(event_data)
     params = { provider: self,
+               event_id: event_data['event_id'],
                event_description: event_data['event_description'],
                author_id: event_data['event_author'].to_i,
                journable_id: event_data['journable_id'],

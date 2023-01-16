@@ -1,5 +1,6 @@
 module Activities
   Event = Struct.new(:provider,
+                     :event_id,
                      :event_name,
                      :event_title,
                      :event_description,
@@ -12,5 +13,9 @@ module Activities
                      :event_type,
                      :event_path,
                      :event_url,
-                     keyword_init: true)
+                     keyword_init: true) do
+                       def journal
+                         @journal ||= Journal.find(event_id)
+                       end
+                     end
 end
