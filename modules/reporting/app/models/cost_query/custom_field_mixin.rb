@@ -109,9 +109,6 @@ module CostQuery::CustomFieldMixin
   end
 
   def list_join_table(field)
-    cast_as = SQL_TYPES[field.field_format]
-    cf_name = "custom_field#{field.id}"
-
     custom_values_table = CustomValue.table_name
     custom_options_table = CustomOption.table_name
 
@@ -119,10 +116,10 @@ module CostQuery::CustomFieldMixin
     # Because of this, we do not cast the cv.value but rather the co.id
 
     <<-SQL
-    -- BEGIN Custom Field Join: #{cf_name}
+    -- BEGIN Custom Field Join: #{db_field}
     LEFT OUTER JOIN (
     SELECT
-      co.id AS #{cf_name},
+      co.id AS #{db_field},
       co.value,
       cv.customized_type,
       cv.custom_field_id,
@@ -130,12 +127,12 @@ module CostQuery::CustomFieldMixin
       FROM #{custom_values_table} cv
       INNER JOIN #{custom_options_table} co
       ON cv.custom_field_id = co.custom_field_id AND cv.value = co.id::VARCHAR
-    ) AS #{cf_name}
-    ON #{cf_name}.customized_type = 'WorkPackage'
+    ) AS #{db_field}
+    ON #{db_field}.customized_type = 'WorkPackage'
 
-    AND #{cf_name}.custom_field_id = #{field.id}
-    AND #{cf_name}.customized_id = entries.work_package_id
-    -- END Custom Field Join: #{cf_name}
+    AND #{db_field}.custom_field_id = #{field.id}
+    AND #{db_field}.customized_id = entries.work_package_id
+    -- END Custom Field Join: #{db_field}
     SQL
   end
 
