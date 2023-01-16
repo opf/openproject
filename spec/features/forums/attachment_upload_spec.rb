@@ -32,16 +32,16 @@ require 'features/page_objects/notification'
 describe 'Upload attachment to forum message', js: true do
   let(:forum) { create(:forum) }
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
            member_with_permissions: %i[view_messages
                                        add_messages
-                                       edit_messages]
+                                       edit_messages])
   end
   let(:project) { forum.project }
-  let(:attachments) { ::Components::Attachments.new }
+  let(:attachments) { Components::Attachments.new }
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
   let(:index_page) { Pages::Messages::Index.new(forum.project) }
 
   before do
@@ -116,7 +116,7 @@ describe 'Upload attachment to forum message', js: true do
     end
 
     script = <<~JS
-      const event = new DragEvent('dragover');
+      const event = new DragEvent('dragenter');
       document.body.dispatchEvent(event);
     JS
     page.execute_script(script)

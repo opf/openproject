@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe "PATCH /api/v3/queries/:id", type: :request do
+describe "PATCH /api/v3/queries/:id" do
   let(:user) { create :admin }
   let!(:query) do
     create(

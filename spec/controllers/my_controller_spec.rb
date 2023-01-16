@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MyController, type: :controller do
+describe MyController do
   let(:user) { create(:user) }
 
   before do
@@ -243,7 +243,7 @@ describe MyController, type: :controller do
       end
 
       context 'with existing key' do
-        let!(:key) { ::Token::RSS.create user: }
+        let!(:key) { Token::RSS.create user: }
 
         it 'replaces the key' do
           expect(user.rss_token).to eq(key)
@@ -278,7 +278,7 @@ describe MyController, type: :controller do
       end
 
       context 'with existing key' do
-        let!(:key) { ::Token::API.create user: }
+        let!(:key) { Token::API.create user: }
 
         it 'replaces the key' do
           expect(user.reload.api_token).to eq(key)

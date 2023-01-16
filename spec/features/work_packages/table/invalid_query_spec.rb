@@ -4,9 +4,9 @@ describe 'Invalid query spec', js: true do
   let(:user) { create :admin }
   let(:project) { create :project }
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
+  let(:group_by) { Components::WorkPackages::GroupBy.new }
 
   let(:member) do
     create(:member,

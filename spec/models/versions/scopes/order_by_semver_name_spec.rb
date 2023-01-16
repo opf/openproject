@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Versions::Scopes::OrderBySemverName, type: :model do
+describe Versions::Scopes::OrderBySemverName do
   let(:project) { create(:project) }
   let!(:version1) do
     create(:version, name: "aaaaa 1.", project:)

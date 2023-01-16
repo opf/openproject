@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Token::HashedToken, type: :model do
+describe Token::HashedToken do
   let(:user) { build(:user) }
 
   subject { described_class.new user: }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Global role: Global Create project', type: :feature, js: true do
+describe 'Global role: Global Create project', js: true do
   let(:user) { create(:admin) }
   let(:project) { create :project }
 
@@ -75,7 +75,7 @@ describe 'Global role: Global Create project', type: :feature, js: true do
              roles: [global_role])
     end
 
-    let(:name_field) { ::FormFields::InputFormField.new :name }
+    let(:name_field) { FormFields::InputFormField.new :name }
 
     it 'does show the global permission' do
       visit projects_path

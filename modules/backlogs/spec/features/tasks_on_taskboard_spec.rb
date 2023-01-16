@@ -30,7 +30,6 @@ require 'spec_helper'
 require_relative '../support/pages/taskboard'
 
 describe 'Tasks on taskboard',
-         type: :feature,
          js: true do
   let!(:project) do
     create(:project,

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Project, 'customizable', type: :model do
+describe Project, 'customizable' do
   let(:project) do
     build_stubbed(:project,
                   custom_values:)

@@ -31,7 +31,7 @@ require 'rack/test'
 
 require_relative './shared_responses'
 
-describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_mail: false do
+describe 'BCF 2.1 topics resource', content_type: :json, with_mail: false do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::ReportsController, type: :controller do
+describe WorkPackages::ReportsController do
   let(:user) { create(:user) }
   let(:project) { create(:project) }
   let(:role) do

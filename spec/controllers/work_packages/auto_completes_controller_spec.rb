@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::AutoCompletesController, type: :controller do
+describe WorkPackages::AutoCompletesController do
   let(:user) { create(:user) }
   let(:project) { create(:project) }
   let(:role) do

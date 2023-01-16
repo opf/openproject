@@ -34,7 +34,7 @@ describe 'Default work package queries', js: true do
   shared_let(:user) { create(:admin) }
   current_user { user }
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project_with_types) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project_with_types) }
 
   describe 'Overdue' do
     let!(:work_package) { create(:work_package, subject: 'Not overdue', due_date: 5.days.from_now) }

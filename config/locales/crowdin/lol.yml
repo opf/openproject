@@ -687,6 +687,8 @@ lol:
           archived_ancestor: 'crwdns495559:0crwdne495559:0'
           foreign_wps_reference_version: 'crwdns495561:0crwdne495561:0'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "crwdns843929:0crwdne843929:0"
             types:
               in_use_by_work_packages: "crwdns495563:0%{types}crwdne495563:0"
             enabled_modules:
@@ -2189,6 +2191,7 @@ lol:
   permission_add_work_packages: "crwdns498529:0crwdne498529:0"
   permission_add_messages: "crwdns498531:0crwdne498531:0"
   permission_add_project: "crwdns498533:0crwdne498533:0"
+  permission_archive_project: "crwdns843931:0crwdne843931:0"
   permission_manage_user: "crwdns498535:0crwdne498535:0"
   permission_manage_placeholder_user: "crwdns498537:0crwdne498537:0"
   permission_add_subprojects: "crwdns498539:0crwdne498539:0"

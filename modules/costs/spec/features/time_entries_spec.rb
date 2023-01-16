@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe 'Work Package table cost entries', type: :feature, js: true do
+describe 'Work Package table cost entries', js: true do
   let(:project) { create :project }
   let(:user) { create :admin }
 
@@ -52,7 +52,7 @@ describe 'Work Package table cost entries', type: :feature, js: true do
            hours: 2.50
   end
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let!(:query) do
     query              = build(:query, user:, project:)
     query.column_names = %w(id subject spent_hours)

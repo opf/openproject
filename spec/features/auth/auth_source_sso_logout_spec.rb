@@ -33,7 +33,6 @@ Capybara.register_driver :auth_source_sso do |app|
 end
 
 describe 'Login with auth source SSO',
-         type: :feature,
          driver: :auth_source_sso do
   before do
     allow(OpenProject::Configuration)

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Project attribute help texts', type: :feature, js: true do
+describe 'Project attribute help texts', js: true do
   let(:project) { create :project }
 
   let(:instance) do

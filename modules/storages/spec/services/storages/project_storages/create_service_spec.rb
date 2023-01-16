@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
 
-describe ::Storages::ProjectStorages::CreateService, type: :model do
+describe Storages::ProjectStorages::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
     let(:factory) { :project_storage }
   end

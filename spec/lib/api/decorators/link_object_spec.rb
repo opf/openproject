@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::Decorators::LinkObject do
-  include ::API::V3::Utilities::PathHelper
+describe API::Decorators::LinkObject do
+  include API::V3::Utilities::PathHelper
 
   let(:represented) { API::ParserStruct.new }
 
@@ -70,7 +70,7 @@ describe ::API::Decorators::LinkObject do
 
         it 'throws an error' do
           expect { representer.from_hash parsed_hash }.to raise_error(
-            ::API::Errors::InvalidResourceLink
+            API::Errors::InvalidResourceLink
           )
         end
       end
@@ -121,7 +121,7 @@ describe ::API::Decorators::LinkObject do
 
         it 'throws an error' do
           expect { representer.from_hash parsed_hash }.to raise_error(
-            ::API::Errors::InvalidResourceLink
+            API::Errors::InvalidResourceLink
           )
         end
       end

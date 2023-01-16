@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Types::Scopes::Milestone, type: :model do
+describe Types::Scopes::Milestone do
   let!(:milestone) { create(:type, is_milestone: true) }
   let!(:other_type) { create(:type, is_milestone: false) }
 

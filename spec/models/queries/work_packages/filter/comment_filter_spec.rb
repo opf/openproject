@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::CommentFilter, type: :model do
+describe Queries::WorkPackages::Filter::CommentFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :text }
     let(:class_key) { :comment }

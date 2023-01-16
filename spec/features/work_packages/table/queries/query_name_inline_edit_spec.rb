@@ -62,10 +62,10 @@ describe 'Query name inline edit', js: true do
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
+  let(:query_title) { Components::WorkPackages::QueryTitle.new }
 
   before do
     login_as(user)

@@ -47,7 +47,7 @@ FactoryBot.define do
       project.enabled_module_names = project.enabled_module_names - disabled_modules
 
       if !evaluator.no_types && project.types.empty?
-        project.types << (::Type.where(is_standard: true).first || build(:type_standard))
+        project.types << (Type.where(is_standard: true).first || build(:type_standard))
       end
     end
 

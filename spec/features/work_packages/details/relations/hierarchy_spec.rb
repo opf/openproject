@@ -35,8 +35,8 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
-  let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
-  let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
+  let(:relations) { Components::WorkPackages::Relations.new(work_package) }
+  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
 
   let(:relations_tab) { find('.op-tab-row--link_selected', text: 'RELATIONS') }
 
@@ -96,7 +96,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
         )
       end
       let(:type2) { create(:type, custom_fields: [custom_field]) }
-      let(:relations) { ::Components::WorkPackages::Relations.new(parent) }
+      let(:relations) { Components::WorkPackages::Relations.new(parent) }
       let!(:status) { create(:status, is_default: true) }
       let!(:priority) { create(:priority, is_default: true) }
 

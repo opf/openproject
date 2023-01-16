@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Admin::Settings::AuthenticationSettingsController, type: :controller do
+describe Admin::Settings::AuthenticationSettingsController do
   describe 'show.html' do
     def fetch
       get 'show'

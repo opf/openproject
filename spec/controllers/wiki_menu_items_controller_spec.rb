@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiMenuItemsController, type: :controller do
+describe WikiMenuItemsController do
   let(:current_user) { create(:admin) }
 
   # create project with wiki

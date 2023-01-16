@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::DoneRatioFilter, type: :model do
+describe Queries::WorkPackages::Filter::DoneRatioFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :integer }
     let(:class_key) { :done_ratio }

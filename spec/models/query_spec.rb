@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Query, type: :model do
+describe Query do
   let(:query) { build(:query) }
   let(:project) { build_stubbed(:project) }
   let(:relation_columns_allowed) { true }

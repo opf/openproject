@@ -75,7 +75,7 @@ describe Principals::Scopes::Visible do
     shared_let(:global_group) { create(:group, firstname: 'global group') }
     shared_let(:global_placeholder_user) { create(:placeholder_user, firstname: 'global placeholder') }
 
-    subject { ::Principal.visible.to_a }
+    subject { Principal.visible.to_a }
 
     shared_examples 'sees all principals' do
       it 'sees all users, groups, and placeholder users' do

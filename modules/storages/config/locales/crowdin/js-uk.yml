@@ -48,6 +48,9 @@ uk:
           few: "Successfully created %{count} file links."
           many: "Successfully created %{count} file links."
           other: "Successfully created %{count} file links."
+        upload_error: "An error occurred uploading the file '%{fileName}'."
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Щоб отримати доступ до цього файлу, увійдіть у Nextcloud"
         already_linked_file: "Цей файл уже прив’язано до цього пакету робіт."
         already_linked_directory: "Цей каталог уже прив’язано до цього пакету робіт."

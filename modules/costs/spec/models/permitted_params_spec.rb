@@ -28,7 +28,7 @@
 
 require File.expand_path('../spec_helper', __dir__)
 
-describe PermittedParams, type: :model do
+describe PermittedParams do
   let(:user) { build(:user) }
 
   shared_examples_for 'allows params' do

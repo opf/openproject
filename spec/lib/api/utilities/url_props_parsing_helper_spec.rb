@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe ::API::Utilities::UrlPropsParsingHelper do
+describe API::Utilities::UrlPropsParsingHelper do
   let(:clazz) do
     Class.new do
-      include ::API::Utilities::UrlPropsParsingHelper
+      include API::Utilities::UrlPropsParsingHelper
     end
   end
   let(:subject) { clazz.new }

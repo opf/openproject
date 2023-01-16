@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe 'authorization for BCF api',
          with_config: { edition: 'bim' },
-         type: :feature,
          js: true do
   let!(:user) { create(:admin) }
   let(:client_secret) { app.plaintext_secret }
@@ -76,7 +75,7 @@ describe 'authorization for BCF api',
     client_secret = page.first('.attributes-key-value--value code').text
     expect(client_secret).to match /\w+/
 
-    app = ::Doorkeeper::Application.first
+    app = Doorkeeper::Application.first
 
     visit oauth_path app.uid
 

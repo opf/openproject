@@ -46,14 +46,15 @@ module Capabilities::Scopes
           ) capabilities
         SQL
 
-        select('capabilities.*')
+        unscoped # prevent triggering the default scope again
+          .select('capabilities.*')
           .from(capabilities_sql)
       end
 
       private
 
       def default_sql_by_member
-        <<~SQL.squish
+        <<~SQL_PART
           SELECT DISTINCT
             actions.id "action",
             users.id principal_id,
@@ -72,11 +73,11 @@ module Capabilities::Scopes
              AND actions.module = enabled_modules.name
           WHERE (projects.active AND (enabled_modules.project_id IS NOT NULL OR "actions".module IS NULL))
           OR (projects.id IS NULL AND "actions".global)
-        SQL
+        SQL_PART
       end
 
       def default_sql_by_admin
-        <<~SQL.squish
+        <<~SQL_PART
           SELECT DISTINCT
             actions.id "action",
             users.id principal_id,
@@ -91,11 +92,11 @@ module Capabilities::Scopes
             ON enabled_modules.project_id = projects.id
             AND actions.module = enabled_modules.name
           WHERE (projects.id IS NOT NULL AND (enabled_modules.project_id IS NOT NULL OR "actions".module IS NULL)) OR "actions".global
-        SQL
+        SQL_PART
       end
 
       def default_sql_by_non_member
-        <<~SQL.squish
+        <<~SQL_PART
           SELECT DISTINCT
             actions.id "action",
             users.id principal_id,
@@ -117,11 +118,11 @@ module Capabilities::Scopes
             AND actions.module = enabled_modules.name
 
           WHERE enabled_modules.project_id IS NOT NULL OR "actions".module IS NULL
-        SQL
+        SQL_PART
       end
 
       def default_sql_by_non_member_with_anonymous
-        <<~SQL.squish
+        <<~SQL_PART
           SELECT DISTINCT
             actions.id "action",
             users.id principal_id,
@@ -138,7 +139,7 @@ module Capabilities::Scopes
             AND actions.module = enabled_modules.name
 
           WHERE enabled_modules.project_id IS NOT NULL OR "actions".module IS NULL
-        SQL
+        SQL_PART
       end
     end
   end

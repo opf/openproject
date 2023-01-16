@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe StatusesController, type: :controller do
+describe StatusesController do
   shared_let(:user) { create(:admin) }
   shared_let(:status) { create(:status) }
 

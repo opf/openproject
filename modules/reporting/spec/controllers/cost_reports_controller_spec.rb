@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe CostReportsController, type: :controller do
+describe CostReportsController do
   include OpenProject::Reporting::PluginSpecHelper
 
   let(:user) { build(:user) }

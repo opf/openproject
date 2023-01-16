@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Notifications::NotificationCollectionRepresenter do
+describe API::V3::Notifications::NotificationCollectionRepresenter do
   let(:self_base_link) { '/api/v3/notifications' }
   let(:user) { build_stubbed(:user) }
   let(:notification_list) { build_stubbed_list(:notification, 3) }
@@ -108,9 +108,9 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
 
         it 'renders the required detailsSchemas' do
           properties = expected_schemas.map do |reason|
-            ::API::V3::Notifications::PropertyFactory::PROPERTY_FOR_REASON[reason.to_sym]
+            API::V3::Notifications::PropertyFactory::PROPERTY_FOR_REASON[reason.to_sym]
           end
-          details_schemas = ::API::V3::Values::Schemas::ValueSchemaFactory.all_for(properties)
+          details_schemas = API::V3::Values::Schemas::ValueSchemaFactory.all_for(properties)
           expect(subject).to be_json_eql(details_schemas.to_json).at_path('_embedded/detailsSchemas')
         end
       end

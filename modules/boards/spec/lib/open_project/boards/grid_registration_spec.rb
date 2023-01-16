@@ -16,7 +16,7 @@ describe OpenProject::Boards::GridRegistration do
     context 'with a relative URL root', with_config: { rails_relative_url_root: '/foobar' } do
       it 'maps that correctly' do
         expect(subject).to be_present
-        expect(subject[:class]).to eq(::Boards::Grid)
+        expect(subject[:class]).to eq(Boards::Grid)
       end
     end
   end

@@ -7,7 +7,7 @@ describe 'Work Package table hierarchy parent below', js: true do
   let(:project) { create(:project, types: [type_task, type_bug]) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
+  let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
 
   before do
     login_as(user)
@@ -145,7 +145,7 @@ describe 'Work Package table hierarchy parent below', js: true do
   describe 'An arrow is beside parent name' do
     let(:child) { create(:work_package, subject: 'AA Child WP', project:, parent:) }
     let(:parent) { create(:work_package, subject: 'ZZ Parent WP', project:) }
-    let(:relations) { ::Components::WorkPackages::Relations.new(parent) }
+    let(:relations) { Components::WorkPackages::Relations.new(parent) }
 
     before do
       child

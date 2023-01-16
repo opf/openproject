@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative '../../users/notifications/shared_examples'
 
-describe "Reminder email", type: :feature, js: true do
+describe "Reminder email", js: true do
   shared_examples 'reminder settings' do
     it 'allows to configure the reminder settings' do
       # Configure the digest

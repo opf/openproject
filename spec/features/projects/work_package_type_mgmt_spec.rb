@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Projects', 'work package type mgmt', type: :feature, js: true do
+describe 'Projects', 'work package type mgmt', js: true do
   current_user { create(:user, member_in_project: project, member_with_permissions: %i[edit_project manage_types]) }
 
   let(:phase_type)     { create(:type, name: 'Phase', is_default: true) }

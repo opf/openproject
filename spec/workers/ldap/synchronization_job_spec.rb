@@ -35,7 +35,7 @@ describe Ldap::SynchronizationJob, type: :model do
   let(:service) { instance_double(Ldap::SynchronizeUsersService) }
 
   before do
-    allow(::Ldap::SynchronizeUsersService).to receive(:new).and_return(service)
+    allow(Ldap::SynchronizeUsersService).to receive(:new).and_return(service)
     allow(service).to receive(:call)
 
     job.perform

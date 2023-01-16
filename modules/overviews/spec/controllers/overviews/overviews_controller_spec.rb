@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Overviews::OverviewsController, type: :controller do
+describe Overviews::OverviewsController do
   let(:permissions) do
     %i(view_project)
   end

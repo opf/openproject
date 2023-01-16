@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe JournalsController, type: :controller do
+describe JournalsController do
   let(:user) { create(:user, member_in_project: project, member_through_role: role) }
   let(:project) { create(:project_with_types) }
   let(:role) { create(:role, permissions:) }

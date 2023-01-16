@@ -1,12 +1,11 @@
 require_relative '../spec_helper'
 
 describe 'Admin 2FA management',
-         type: :feature,
          with_settings: {
            plugin_openproject_two_factor_authentication: { 'active_strategies' => %i[developer totp] }
          },
          js: true do
-  let(:dialog) { ::Components::PasswordConfirmationDialog.new }
+  let(:dialog) { Components::PasswordConfirmationDialog.new }
   let(:user_password) { 'admin!' * 4 }
   let(:other_user) { create :user, login: 'bob' }
   let(:admin) do

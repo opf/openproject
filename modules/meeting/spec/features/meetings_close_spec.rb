@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Meetings close', type: :feature do
+describe 'Meetings close' do
   let(:project) { create :project, enabled_module_names: %w[meetings] }
   let(:user) do
     create(:user,

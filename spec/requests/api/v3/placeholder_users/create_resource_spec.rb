@@ -29,9 +29,8 @@ require 'spec_helper'
 require 'rack/test'
 require_relative './create_shared_examples'
 
-describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
-         'create',
-         type: :request do
+describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
+         'create' do
   current_user { user }
 
   describe 'admin user' do

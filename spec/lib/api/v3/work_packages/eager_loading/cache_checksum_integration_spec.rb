@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './eager_loading_mock_wrapper'
 
-describe ::API::V3::WorkPackages::EagerLoading::Checksum do
+describe API::V3::WorkPackages::EagerLoading::Checksum do
   let(:responsible) { create(:user) }
   let(:assignee) { create(:user) }
   let(:category) { create(:category) }

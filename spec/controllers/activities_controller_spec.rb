@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ActivitiesController, type: :controller do
+describe ActivitiesController do
   shared_let(:admin) { create(:admin) }
   current_user { admin }
 

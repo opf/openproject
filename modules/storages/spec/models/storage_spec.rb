@@ -28,11 +28,11 @@
 
 require_relative '../spec_helper'
 
-describe ::Storages::Storage, type: :model do
+describe Storages::Storage do
   let(:creator) { create(:user) }
   let(:default_attributes) do
     { name: "NC 1",
-      provider_type: ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
+      provider_type: Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
       host: 'https://example.com',
       creator: }
   end

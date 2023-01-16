@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe Notifications::Scopes::UnsentRemindersBefore, type: :model do
+describe Notifications::Scopes::UnsentRemindersBefore do
   describe '.unsent_reminders_before' do
-    subject(:scope) { ::Notification.unsent_reminders_before(recipient:, time:) }
+    subject(:scope) { Notification.unsent_reminders_before(recipient:, time:) }
 
     let(:recipient) do
       create(:user)

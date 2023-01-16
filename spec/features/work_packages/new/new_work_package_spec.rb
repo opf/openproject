@@ -400,7 +400,7 @@ describe 'new work package', js: true do
   context 'as a user with no permissions' do
     let(:user) { create(:user, member_in_project: project, member_through_role: role) }
     let(:role) { create :role, permissions: %i(view_work_packages) }
-    let(:wp_page) { ::Pages::Page.new }
+    let(:wp_page) { Pages::Page.new }
 
     let(:paths) do
       [
@@ -447,7 +447,7 @@ describe 'new work package', js: true do
 
   context 'an anonymous user is prompted to login' do
     let(:user) { create(:anonymous) }
-    let(:wp_page) { ::Pages::Page.new }
+    let(:wp_page) { Pages::Page.new }
 
     let(:paths) do
       [

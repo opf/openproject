@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
+describe Queries::WorkPackages::Filter::CustomFieldFilter do
   let(:project) { build_stubbed(:project) }
   let(:bool_wp_custom_field) { build_stubbed(:bool_wp_custom_field) }
   let(:int_wp_custom_field) { build_stubbed(:int_wp_custom_field) }
@@ -70,7 +70,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     let(:all_custom_fields) { [] }
 
     it 'raises exception' do
-      expect { instance }.to raise_error(::Queries::Filters::InvalidError)
+      expect { instance }.to raise_error(Queries::Filters::InvalidError)
     end
   end
 
@@ -327,7 +327,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       before do
         filter_scope = instance_double(ActiveRecord::Relation)
 
-        allow(::WorkPackageCustomField)
+        allow(WorkPackageCustomField)
           .to receive(:filter)
                 .and_return(filter_scope)
 

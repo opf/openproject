@@ -705,6 +705,8 @@ tr:
           archived_ancestor: 'Projenin arşivlenmiş bir atası var.'
           foreign_wps_reference_version: 'Soyundan gelmeyen projelerdeki iş paketleri, projenin veya soyundan gelenlerin referans versiyonlarını referans alır.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "hala iş paketleri tarafından kullanılmaktadır:%{types}"
             enabled_modules:
@@ -2218,6 +2220,7 @@ tr:
   permission_add_work_packages: "İş paketi eklemek"
   permission_add_messages: "İleti göndermek"
   permission_add_project: "Proje oluşturmak"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Kullanıcılar oluştur ve düzenle"
   permission_manage_placeholder_user: "Yer tutucu kullanıcıları oluşturun, düzenleyin ve silin"
   permission_add_subprojects: "Alt proje oluşturmak"

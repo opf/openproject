@@ -26,7 +26,7 @@
 
 require 'spec_helper'
 
-describe ::API::ParserStruct do
+describe API::ParserStruct do
   let(:instance) { described_class.new }
 
   describe 'assigning a value and method creation' do

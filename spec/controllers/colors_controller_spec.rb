@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ColorsController, type: :controller do
+describe ColorsController do
   let(:current_user) { create(:admin) }
 
   before do

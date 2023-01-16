@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Work packages having story points', type: :feature, js: true do
+describe 'Work packages having story points', js: true do
   before do
     allow(User).to receive(:current).and_return current_user
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return('points_burn_direction' => 'down',

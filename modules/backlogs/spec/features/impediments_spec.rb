@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe 'Impediments on taskboard',
-         type: :feature,
          js: true do
   let!(:project) do
     create(:project,

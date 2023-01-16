@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Capabilities::Contexts::GlobalRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Capabilities::Contexts::GlobalRepresenter, 'rendering' do
+  include API::V3::Utilities::PathHelper
 
   subject { representer.to_json }
 

@@ -39,8 +39,8 @@ describe 'filter me value', js: true do
   let(:role) { create :existing_role, permissions: %i[view_work_packages work_package_assigned] }
   let(:admin) { create :admin }
   let(:user) { create :user }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
   let(:project_members) do
     {
       admin => role,

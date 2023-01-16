@@ -137,7 +137,7 @@ describe SCM::DeleteManagedRepositoryService do
       end
 
       it 'calls the callback' do
-        expect(::SCM::DeleteRemoteRepositoryJob)
+        expect(SCM::DeleteRemoteRepositoryJob)
           .to receive(:perform_now)
           .and_call_original
 
@@ -156,7 +156,7 @@ describe SCM::DeleteManagedRepositoryService do
       end
 
       it 'calls the callback' do
-        expect(::SCM::DeleteRemoteRepositoryJob)
+        expect(SCM::DeleteRemoteRepositoryJob)
           .to receive(:perform_now)
           .and_call_original
 

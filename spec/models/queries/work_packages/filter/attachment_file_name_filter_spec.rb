@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::AttachmentFileNameFilter, type: :model do
+describe Queries::WorkPackages::Filter::AttachmentFileNameFilter do
   if OpenProject::Database.allows_tsv?
     before do
       allow(EnterpriseToken).to receive(:allows_to?).and_return(false)

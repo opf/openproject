@@ -28,13 +28,13 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::SortBys::QuerySortByRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::SortBys::QuerySortByRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:column_name) { 'status' }
   let(:direction) { 'desc' }
   let(:column) { Queries::WorkPackages::Columns::PropertyColumn.new(column_name) }
-  let(:decorator) { ::API::V3::Queries::SortBys::SortByDecorator.new(column, direction) }
+  let(:decorator) { API::V3::Queries::SortBys::SortByDecorator.new(column, direction) }
   let(:representer) do
     described_class
       .new(decorator)

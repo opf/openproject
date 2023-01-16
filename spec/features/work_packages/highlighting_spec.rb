@@ -34,9 +34,9 @@ describe 'Work Package highlighting fields',
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:highlighting) { ::Components::WorkPackages::Highlighting.new }
-  let(:sort_by) { ::Components::WorkPackages::SortBy.new }
-  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
+  let(:highlighting) { Components::WorkPackages::Highlighting.new }
+  let(:sort_by) { Components::WorkPackages::SortBy.new }
+  let(:query_title) { Components::WorkPackages::QueryTitle.new }
 
   let!(:query) do
     query = build(:query, user:, project:)

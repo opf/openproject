@@ -28,7 +28,7 @@
 require 'spec_helper'
 require_relative '../shared_expectations'
 
-describe CustomActions::Actions::Project, type: :model do
+describe CustomActions::Actions::Project do
   let(:key) { :project }
   let(:type) { :associated_property }
   let(:priority) { 10 }

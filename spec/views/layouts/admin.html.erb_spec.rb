@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'layouts/admin', type: :view do
+describe 'layouts/admin' do
   shared_let(:admin) { create :admin }
 
   include Redmine::MenuManager::MenuHelper

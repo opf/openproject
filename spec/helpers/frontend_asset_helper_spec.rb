@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe FrontendAssetHelper, type: :helper do
+describe FrontendAssetHelper do
   describe '#include_frontend_assets' do
     context 'when in development or test' do
       before do

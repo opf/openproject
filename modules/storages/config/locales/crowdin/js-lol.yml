@@ -44,6 +44,9 @@ lol:
         success_create:
           one: "crwdns842643:1crwdne842643:1"
           other: "crwdns842643:5%{count}crwdne842643:5"
+        upload_error: "crwdns844159:0%{fileName}crwdne844159:0"
+        link_uploaded_file_error: >
+          crwdns844161:0%{fileName}crwdnd844161:0%{workPackageId}crwdne844161:0
         not_allowed_tooltip: "crwdns833126:0crwdne833126:0"
         already_linked_file: "crwdns836781:0crwdne836781:0"
         already_linked_directory: "crwdns836783:0crwdne836783:0"

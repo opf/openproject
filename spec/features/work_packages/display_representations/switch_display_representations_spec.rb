@@ -34,9 +34,9 @@ describe 'Switching work package view',
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:highlighting) { ::Components::WorkPackages::Highlighting.new }
-  let(:cards) { ::Pages::WorkPackageCards.new(project) }
-  let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
+  let(:highlighting) { Components::WorkPackages::Highlighting.new }
+  let(:cards) { Pages::WorkPackageCards.new(project) }
+  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
 
   let(:priority1) { create :issue_priority, color: create(:color, hexcode: '#123456') }
   let(:priority2) { create :issue_priority, color: create(:color, hexcode: '#332211') }

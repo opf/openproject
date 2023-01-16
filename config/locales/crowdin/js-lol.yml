@@ -477,7 +477,7 @@ lol:
     label_drop_files: "crwdns843197:0crwdne843197:0"
     label_drop_or_click_files: "crwdns843199:0crwdne843199:0"
     label_drop_folders_hint: crwdns787592:0crwdne787592:0
-    label_add_attachments: "crwdns787594:0crwdne787594:0"
+    label_add_attachments: "crwdns843869:0crwdne843869:0"
     label_formattable_attachment_hint: "crwdns787596:0crwdne787596:0"
     label_remove_file: "crwdns787598:0%{fileName}crwdne787598:0"
     label_remove_watcher: "crwdns787600:0%{name}crwdne787600:0"

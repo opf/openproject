@@ -65,6 +65,12 @@ module Components
       end
     end
 
+    def expect_work_package(subject)
+      within modal_container do
+        expect(page).to have_selector('.ng-value', text: subject, wait: 10)
+      end
+    end
+
     def shows_field(field, visible)
       within modal_container do
         if visible

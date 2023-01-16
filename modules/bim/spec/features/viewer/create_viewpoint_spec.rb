@@ -29,7 +29,6 @@
 require_relative '../../spec_helper'
 
 describe 'Create viewpoint from BCF details page',
-         type: :feature,
          with_config: { edition: 'bim' },
          js: true do
   let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
@@ -43,9 +42,9 @@ describe 'Create viewpoint from BCF details page',
   end
 
   let(:show_model_page) { Pages::IfcModels::ShowDefault.new(project) }
-  let(:card_view) { ::Pages::WorkPackageCards.new(project) }
-  let(:bcf_details) { ::Pages::BcfDetailsPage.new(work_package, project) }
-  let(:model_tree) { ::Components::XeokitModelTree.new }
+  let(:card_view) { Pages::WorkPackageCards.new(project) }
+  let(:bcf_details) { Pages::BcfDetailsPage.new(work_package, project) }
+  let(:model_tree) { Components::XeokitModelTree.new }
 
   before do
     login_as(user)

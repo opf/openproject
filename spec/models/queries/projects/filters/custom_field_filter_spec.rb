@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::Filters::CustomFieldFilter, type: :model do
+describe Queries::Projects::Filters::CustomFieldFilter do
   let(:query) { Queries::Projects::ProjectQuery.new }
   let(:bool_project_custom_field) { build_stubbed(:bool_project_custom_field) }
   let(:int_project_custom_field) { build_stubbed(:int_project_custom_field) }
@@ -69,7 +69,7 @@ describe Queries::Projects::Filters::CustomFieldFilter, type: :model do
     let(:all_custom_fields) { [] }
 
     it 'raises exception' do
-      expect { instance }.to raise_error(::Queries::Filters::InvalidError)
+      expect { instance }.to raise_error(Queries::Filters::InvalidError)
     end
   end
 

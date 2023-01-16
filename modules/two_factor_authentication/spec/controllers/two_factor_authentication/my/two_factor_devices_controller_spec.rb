@@ -1,7 +1,7 @@
 require_relative '../../../spec_helper'
 require_relative './../authentication_controller_shared_examples'
 
-describe ::TwoFactorAuthentication::My::TwoFactorDevicesController do
+describe TwoFactorAuthentication::My::TwoFactorDevicesController do
   let(:user) { create(:user, login: 'foobar') }
   let(:other_user) { create(:user) }
   let(:logged_in_user) { user }
@@ -142,7 +142,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController do
           end
 
           it 'redirects to index if token request failed' do
-            allow_any_instance_of(::TwoFactorAuthentication::TokenService)
+            allow_any_instance_of(TwoFactorAuthentication::TokenService)
               .to receive(:request)
               .and_return(ServiceResult.failure)
 
@@ -180,7 +180,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController do
           end
 
           it 'activates the device when entered correctly' do
-            allow_any_instance_of(::TwoFactorAuthentication::TokenService)
+            allow_any_instance_of(TwoFactorAuthentication::TokenService)
               .to receive(:verify)
               .with('1234')
               .and_return(ServiceResult.success)
@@ -197,7 +197,7 @@ describe ::TwoFactorAuthentication::My::TwoFactorDevicesController do
             let!(:default_device) { create :two_factor_authentication_device_totp, user:, default: true }
 
             it 'activates the device when entered correctly' do
-              allow_any_instance_of(::TwoFactorAuthentication::TokenService)
+              allow_any_instance_of(TwoFactorAuthentication::TokenService)
                   .to receive(:verify)
                           .with('1234')
                           .and_return(ServiceResult.success)
