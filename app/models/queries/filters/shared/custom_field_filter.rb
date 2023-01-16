@@ -40,7 +40,7 @@ module Queries::Filters::Shared::CustomFieldFilter
     end
 
     ##
-    # TODO this differs from CustomField#accessor_name for reasons I don't see,
+    # TODO this differs from CustomField#attribute_name for reasons I don't see,
     # however this name will be persisted in queries so we can't just map one to the other.
     def custom_field_accessor(custom_field)
       "cf_#{custom_field.id}"

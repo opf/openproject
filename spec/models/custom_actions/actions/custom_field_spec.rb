@@ -85,7 +85,7 @@ describe CustomActions::Actions::CustomField do
       .with(id: custom_field.id.to_s)
       .and_return(custom_field)
 
-    described_class.for(:"custom_field_#{custom_field.id}")
+    described_class.for(custom_field.attribute_name)
   end
   let(:instance) do
     klass.new
@@ -113,14 +113,14 @@ describe CustomActions::Actions::CustomField do
   describe '.key' do
     it 'is the custom field accessor' do
       expect(klass.key)
-        .to eql(:"custom_field_#{custom_field.id}")
+        .to eql(custom_field.attribute_getter)
     end
   end
 
   describe '#key' do
     it 'is the custom field accessor' do
       expect(instance.key)
-        .to eql(:"custom_field_#{custom_field.id}")
+        .to eql(custom_field.attribute_getter)
     end
   end
 
@@ -587,7 +587,7 @@ describe CustomActions::Actions::CustomField do
 
       it "sets the value for #{type} custom fields" do
         expect(work_package)
-          .to receive(:"custom_field_#{custom_field.id}=")
+          .to receive(custom_field.attribute_setter)
           .with([42])
 
         instance.values = 42
@@ -601,7 +601,7 @@ describe CustomActions::Actions::CustomField do
 
       it "sets the value to today for a dynamic value" do
         expect(work_package)
-          .to receive(:"custom_field_#{custom_field.id}=")
+          .to receive(custom_field.attribute_setter)
                 .with(Date.today)
 
         instance.values = '%CURRENT_DATE%'

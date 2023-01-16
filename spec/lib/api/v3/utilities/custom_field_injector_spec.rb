@@ -333,7 +333,7 @@ describe API::V3::Utilities::CustomFieldInjector do
       it 'on writing it sets on the represented' do
         expected = { custom_field.id => expected_setter }
         expect(represented)
-          .to receive(:"custom_field_#{custom_field.id}=")
+          .to receive(custom_field.attribute_setter)
           .with(expected_setter)
         modified_class
           .new(represented, current_user: nil)
@@ -346,7 +346,7 @@ describe API::V3::Utilities::CustomFieldInjector do
     let(:represented) do
       double('represented',
              available_custom_fields: [custom_field],
-             custom_field.accessor_name => value)
+             custom_field.attribute_name => value)
     end
     let(:custom_value) { double('CustomValue', value: raw_value, typed_value:) }
     let(:raw_value) { nil }
@@ -539,7 +539,7 @@ describe API::V3::Utilities::CustomFieldInjector do
 
     before do
       allow(represented).to receive(:custom_value_for).with(custom_field).and_return(custom_value)
-      allow(represented).to receive(:"custom_field_#{custom_field.id}").and_return(typed_value)
+      allow(represented).to receive(custom_field.attribute_getter).and_return(typed_value)
     end
 
     context 'reading' do
@@ -578,7 +578,7 @@ describe API::V3::Utilities::CustomFieldInjector do
           json = { cf_path => { href: path } }.to_json
           expected = ['2']
 
-          expect(represented).to receive(:"custom_field_#{custom_field.id}=").with(expected)
+          expect(represented).to receive(custom_field.attribute_setter).with(expected)
           modified_class.new(represented, current_user: nil).from_json(json)
         end
       end
@@ -587,7 +587,7 @@ describe API::V3::Utilities::CustomFieldInjector do
         json = { cf_path => { href: nil } }.to_json
         expected = []
 
-        expect(represented).to receive(:"custom_field_#{custom_field.id}=").with(expected)
+        expect(represented).to receive(custom_field.attribute_setter).with(expected)
         modified_class.new(represented, current_user: nil).from_json(json)
       end
     end

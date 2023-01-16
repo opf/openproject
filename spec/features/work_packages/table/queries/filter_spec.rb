@@ -216,14 +216,14 @@ describe 'filter work packages', js: true do
 
     let(:work_package_with_list_value) do
       wp = create :work_package, project: project, type: type
-      wp.send("#{list_cf.accessor_name}=", list_cf.custom_options.first.id)
+      wp.send(list_cf.attribute_setter, list_cf.custom_options.first.id)
       wp.save!
       wp
     end
 
     let(:work_package_with_anti_list_value) do
       wp = create :work_package, project: project, type: type
-      wp.send("#{list_cf.accessor_name}=", list_cf.custom_options.last.id)
+      wp.send(list_cf.attribute_setter, list_cf.custom_options.last.id)
       wp.save!
       wp
     end
@@ -294,14 +294,14 @@ describe 'filter work packages', js: true do
 
     let(:work_package_plus) do
       wp = create :work_package, project: project, type: type
-      wp.send("#{string_cf.accessor_name}=", 'G+H')
+      wp.send(string_cf.attribute_setter, 'G+H')
       wp.save!
       wp
     end
 
     let(:work_package_and) do
       wp = create :work_package, project: project, type: type
-      wp.send("#{string_cf.accessor_name}=", 'A&B')
+      wp.send(string_cf.attribute_setter, 'A&B')
       wp.save!
       wp
     end

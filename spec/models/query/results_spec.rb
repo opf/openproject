@@ -196,10 +196,10 @@ describe Query::Results, with_mail: false do
       before do
         login_as(user1)
 
-        work_package1.send(:"custom_field_#{custom_field.id}=", first_value)
+        work_package1.send(custom_field.attribute_setter, first_value)
         work_package1.save!
-        work_package2.send(:"custom_field_#{custom_field.id}=", [first_value,
-                                                                 last_value])
+        work_package2.send(custom_field.attribute_setter, [first_value,
+                                                      last_value])
         work_package2.save!
       end
 
@@ -229,9 +229,9 @@ describe Query::Results, with_mail: false do
         wp_p1[0].type.custom_fields << custom_field
         project1.work_package_custom_fields << custom_field
 
-        wp_p1[0].update_attribute(:"custom_field_#{custom_field.id}", 42)
+        wp_p1[0].update_attribute(custom_field.attribute_name, 42)
         wp_p1[0].save
-        wp_p1[1].update_attribute(:"custom_field_#{custom_field.id}", 42)
+        wp_p1[1].update_attribute(custom_field.attribute_name, 42)
         wp_p1[1].save
       end
 
@@ -272,9 +272,9 @@ describe Query::Results, with_mail: false do
         wp_p1[0].type.custom_fields << custom_field
         project1.work_package_custom_fields << custom_field
 
-        wp_p1[0].update_attribute(:"custom_field_#{custom_field.id}", true)
+        wp_p1[0].update_attribute(custom_field.attribute_name, true)
         wp_p1[0].save
-        wp_p1[1].update_attribute(:"custom_field_#{custom_field.id}", true)
+        wp_p1[1].update_attribute(custom_field.attribute_name, true)
         wp_p1[1].save
       end
 
@@ -296,9 +296,9 @@ describe Query::Results, with_mail: false do
         wp_p1[0].type.custom_fields << custom_field
         project1.work_package_custom_fields << custom_field
 
-        wp_p1[0].update_attribute(:"custom_field_#{custom_field.id}", Time.zone.today)
+        wp_p1[0].update_attribute(custom_field.attribute_name, Time.zone.today)
         wp_p1[0].save
-        wp_p1[1].update_attribute(:"custom_field_#{custom_field.id}", Time.zone.today)
+        wp_p1[1].update_attribute(custom_field.attribute_name, Time.zone.today)
         wp_p1[1].save
       end
 

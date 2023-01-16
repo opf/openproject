@@ -104,7 +104,7 @@ RSpec.describe 'Work package create uses attributes from filters', js: true, sel
       )
       wp = WorkPackage.last
       expect(wp.subject).to eq 'Foobar!'
-      expect(wp.send("custom_field_#{custom_field.id}")).to eq %w(A)
+      expect(wp.send(custom_field.attribute_getter)).to eq %w(A)
       expect(wp.type_id).to eq type_task.id
     end
   end

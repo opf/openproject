@@ -55,8 +55,8 @@ describe Query::Results, 'sums' do
            project:,
            estimated_hours: 5,
            done_ratio: 10,
-           "custom_field_#{int_cf.id}" => 10,
-           "custom_field_#{float_cf.id}" => 3.414,
+           int_cf.attribute_name => 10,
+           float_cf.attribute_name => 3.414,
            remaining_hours: 3,
            story_points: 7)
   end
@@ -67,8 +67,8 @@ describe Query::Results, 'sums' do
            assigned_to: current_user,
            done_ratio: 50,
            estimated_hours: 5,
-           "custom_field_#{int_cf.id}" => 10,
-           "custom_field_#{float_cf.id}" => 3.414,
+           int_cf.attribute_name => 10,
+           float_cf.attribute_name => 3.414,
            remaining_hours: 3,
            story_points: 7)
   end
@@ -80,8 +80,8 @@ describe Query::Results, 'sums' do
            responsible: current_user,
            done_ratio: 50,
            estimated_hours: 5,
-           "custom_field_#{int_cf.id}" => 10,
-           "custom_field_#{float_cf.id}" => 3.414,
+           int_cf.attribute_name => 10,
+           float_cf.attribute_name => 3.414,
            remaining_hours: 3,
            story_points: 7)
   end
@@ -90,8 +90,8 @@ describe Query::Results, 'sums' do
            type:,
            project: other_project,
            estimated_hours: 5,
-           "custom_field_#{int_cf.id}" => 10,
-           "custom_field_#{float_cf.id}" => 3.414,
+           int_cf.attribute_name => 10,
+           float_cf.attribute_name => 3.414,
            remaining_hours: 3,
            story_points: 7)
   end
