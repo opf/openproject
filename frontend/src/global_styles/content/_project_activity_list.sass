@@ -8,6 +8,8 @@
   &--item
     display: flex
     flex-direction: column
+    margin-bottom: $spot-spacing-1_25
+    color: $spot-color-basic-gray-1
 
     &-title
       @include spot-body-small (bold)
@@ -15,10 +17,20 @@
     &-subtitle
       @include spot-caption
       color: $spot-color-basic-gray-2
+      margin-bottom: $spot-spacing-0_5
 
     &-details
       @include spot-body-small
       list-style-type: disc
+      padding: $spot-spacing-0_5
+      padding-left: $spot-spacing-2
+      margin: 0
+
+    &-detail
+
+      &:not(:last-child)
+        margin-bottom: $spot-spacing-0_25
+
     &-description
 
     &-time

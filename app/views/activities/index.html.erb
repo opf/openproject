@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
     <ul class="op-project-activity-list">
       <% @events_by_day[day].sort { |x, y| y.event_datetime <=> x.event_datetime }.each_with_index do |e, index| -%>
 
-        <li class="<%= e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
+        <li class="op-project-activity-list--item">
           <div class="op-project-activity-list--item-title">
             <%= link_to format_activity_title(e.event_title), e.event_path%>
             <%# <% if (@project.nil? || @project != e.project) && e.project %>
@@ -52,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
           </div>
           <ul class="op-project-activity-list--item-details">
             <% e.journal.details.each do |detail| -%>
-              <li><%= e.journal.render_detail(detail) %></li>
+              <li class="op-project-activity-list--item-detail"><%= e.journal.render_detail(detail) %></li>
             <% end -%>
           </ul>
 
