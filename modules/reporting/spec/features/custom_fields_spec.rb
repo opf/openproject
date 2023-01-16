@@ -188,6 +188,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
         select 'Invalid List CF', from: 'group-by--add-columns'
         select 'Work package', from: 'group-by--add-rows'
 
+        sleep(0.1)
         click_link 'Apply'
 
         # Expect row of work package
