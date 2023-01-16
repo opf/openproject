@@ -102,16 +102,19 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def storage_files(response)
       response.map do |xml|
-        Nokogiri::XML(xml)
-          .xpath('//d:response')
-          .drop(1) # drop current directory
-          .map { |file_element| storage_file(file_element) }
+        a = Nokogiri::XML(xml)
+              .xpath('//d:response')
+              .to_a
+
+        a.map do |file_element|
+          storage_file(file_element)
+        end
       end
     end
 
     def storage_file(file_element)
       location = name(file_element)
-      name = CGI.unescape(location.split('/').last)
+      name = location == @base_path ? '/' : CGI.unescape(location.split('/').last)
 
       ::Storages::StorageFile.new(
         id(file_element),
@@ -142,10 +145,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       return nil if texts.empty?
 
-      texts
-        .first
-        .delete_prefix(@base_path)
-        .delete_suffix('/')
+      element_name = texts.first
+
+      return element_name if element_name == '/'
+
+      element_name.delete_suffix('/')
     end
 
     def size(element)
