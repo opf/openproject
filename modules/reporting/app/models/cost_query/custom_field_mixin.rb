@@ -112,9 +112,6 @@ module CostQuery::CustomFieldMixin
     custom_values_table = CustomValue.table_name
     custom_options_table = CustomOption.table_name
 
-    # CustomValues of lists MAY have non-integer values when the list contained invalid values.
-    # Because of this, we do not cast the cv.value but rather the co.id
-
     <<-SQL
     -- BEGIN Custom Field Join: #{db_field}
     LEFT OUTER JOIN (
