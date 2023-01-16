@@ -39,9 +39,7 @@ gem 'responders', '~> 3.0'
 
 gem 'ffi', '~> 1.15'
 
-# Lock mail at 2.7 due to incompatibility
-# TODO: Remove it once the new version is fixed
-gem 'mail', '~> 2.7.1'
+gem 'mail', '~> 2.8.0'
 
 gem 'rdoc', '>= 2.4.2'
 
@@ -181,7 +179,7 @@ gem 'puma', '~> 6.0'
 gem 'puma-plugin-statsd', '~> 2.0'
 gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 
-gem 'nokogiri', '~> 1.14.0.rc1'
+gem 'nokogiri', '~> 1.14.0'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
