@@ -39,9 +39,7 @@ gem 'responders', '~> 3.0'
 
 gem 'ffi', '~> 1.15'
 
-# Lock mail at 2.7 due to incompatibility
-# TODO: Remove it once the new version is fixed
-gem 'mail', '~> 2.7.1'
+gem 'mail', '~> 2.8.0'
 
 gem 'rdoc', '>= 2.4.2'
 
