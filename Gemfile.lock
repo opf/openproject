@@ -1064,7 +1064,7 @@ DEPENDENCIES
   multi_json (~> 1.15.0)
   my_page!
   net-ldap (~> 0.17.0)
-  nokogiri (~> 1.14.0.rc1)
+  nokogiri (~> 1.14.0)
   oj (~> 3.13.0)
   okcomputer (~> 1.18.1)
   omniauth!
