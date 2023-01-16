@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomField, type: :model do
+describe CustomField do
   before do
     CustomField.destroy_all
   end

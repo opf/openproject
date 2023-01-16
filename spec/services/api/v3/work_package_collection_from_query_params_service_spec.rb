@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackageCollectionFromQueryParamsService,
+describe API::V3::WorkPackageCollectionFromQueryParamsService,
          type: :model do
   include API::V3::Utilities::PathHelper
 
@@ -63,7 +63,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryParamsService,
     stub_const('::API::V3::WorkPackageCollectionFromQueryService',
                mock_wp_collection_from_query_service)
 
-    allow(::API::V3::WorkPackageCollectionFromQueryService)
+    allow(API::V3::WorkPackageCollectionFromQueryService)
       .to receive(:new)
       .with(query, user, scope: nil)
       .and_return(mock_wp_collection_from_query_service)

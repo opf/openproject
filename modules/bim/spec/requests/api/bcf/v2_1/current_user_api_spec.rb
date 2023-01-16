@@ -31,7 +31,7 @@ require 'rack/test'
 
 require_relative './shared_responses'
 
-describe 'BCF 2.1 current-user resource', type: :request, content_type: :json do
+describe 'BCF 2.1 current-user resource', content_type: :json do
   include Rack::Test::Methods
 
   let(:current_user) do

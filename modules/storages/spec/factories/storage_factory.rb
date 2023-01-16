@@ -28,7 +28,7 @@
 
 FactoryBot.define do
   factory :storage, class: '::Storages::Storage' do
-    provider_type { ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+    provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
     sequence(:name) { |n| "Storage #{n}" }
     sequence(:host) { |n| "https://host#{n}.example.com" }
     creator factory: :user

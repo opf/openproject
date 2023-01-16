@@ -30,7 +30,7 @@ require 'spec_helper'
 require_module_spec_helper
 
 # We want to check the case of file_links from multiple storages
-describe 'API v3 file links resource', type: :request do
+describe 'API v3 file links resource' do
   include API::V3::Utilities::PathHelper
 
   let(:project) { create(:project) }
@@ -221,7 +221,7 @@ describe 'API v3 file links resource', type: :request do
       # The deleted_file_link should not even appear in the Database anymore
       deleted_file_link = elements.detect { |e| e["originData"]["id"] == "27" }
       expect(deleted_file_link).to be_nil
-      expect(::Storages::FileLink.where(origin_id: '27').count).to be 0
+      expect(Storages::FileLink.where(origin_id: '27').count).to be 0
 
       # The FileLink from a Nextcloud with error should have origin_permission=:error
       error_file_link = elements.detect { |e| e["originData"]["id"] == "29" }

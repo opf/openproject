@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::Orders::RequiredDiskSpaceOrder, type: :model do
+describe Queries::Projects::Orders::RequiredDiskSpaceOrder do
   let(:instance) do
     described_class.new('').tap do |i|
       i.direction = direction

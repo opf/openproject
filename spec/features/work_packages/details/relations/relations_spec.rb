@@ -35,10 +35,10 @@ describe 'Work package relations tab', js: true, selenium: true do
 
   let(:project) { create :project }
   let(:work_package) { create(:work_package, project:) }
-  let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
-  let(:full_wp) { ::Pages::FullWorkPackage.new(work_package) }
-  let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
-  let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
+  let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package) }
+  let(:full_wp) { Pages::FullWorkPackage.new(work_package) }
+  let(:relations) { Components::WorkPackages::Relations.new(work_package) }
+  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
 
   let(:relations_tab) { find('.op-tab-row--link_selected', text: 'RELATIONS') }
 

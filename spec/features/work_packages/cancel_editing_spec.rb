@@ -33,8 +33,8 @@ describe 'Cancel editing work package', js: true do
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
   let(:work_package2) { create(:work_package, project:) }
-  let(:wp_page) { ::Pages::AbstractWorkPackage.new(work_package) }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new }
+  let(:wp_page) { Pages::AbstractWorkPackage.new(work_package) }
+  let(:wp_table) { Pages::WorkPackagesTable.new }
   let(:paths) do
     [
       new_work_packages_path,
@@ -158,7 +158,7 @@ describe 'Cancel editing work package', js: true do
   end
 
   it 'correctly cancels setting the back route (Regression #30714)' do
-    wp_page = ::Pages::FullWorkPackage.new work_package
+    wp_page = Pages::FullWorkPackage.new work_package
     wp_page.visit!
     wp_page.ensure_page_loaded
 

@@ -28,14 +28,14 @@
 
 require 'spec_helper'
 
-describe 'Invite user modal', type: :feature, js: true do
+describe 'Invite user modal', js: true do
   shared_let(:project) { create :project }
   shared_let(:work_package) { create :work_package, project: }
 
   let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
   let(:global_permissions) { %i[] }
   let(:modal) do
-    ::Components::Users::InviteUserModal.new project:,
+    Components::Users::InviteUserModal.new project:,
                                              principal:,
                                              role:,
                                              invite_message:

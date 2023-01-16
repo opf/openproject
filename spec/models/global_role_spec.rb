@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe GlobalRole, type: :model do
+describe GlobalRole do
   before { GlobalRole.create name: 'globalrole', permissions: ['permissions'] }
 
   it { is_expected.to validate_presence_of :name }

@@ -30,7 +30,6 @@ require 'spec_helper'
 require 'rack/test'
 
 describe 'API v3 User resource',
-         type: :request,
          content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper

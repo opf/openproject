@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SysController, type: :controller, with_settings: { sys_api_enabled: true } do
+describe SysController, with_settings: { sys_api_enabled: true } do
   let(:commit_role) do
     create(:role, permissions: %i[commit_access browse_repository])
   end
@@ -652,7 +652,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
             let(:last_updated) { 2.days.ago }
 
             it 'updates the storage' do
-              expect(::SCM::StorageUpdaterJob).to receive(:perform_later)
+              expect(SCM::StorageUpdaterJob).to receive(:perform_later)
               request_storage
             end
           end
@@ -661,7 +661,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
             let(:last_updated) { 10.minutes.ago }
 
             it 'does not update to storage' do
-              expect(::SCM::StorageUpdaterJob).not_to receive(:perform_later)
+              expect(SCM::StorageUpdaterJob).not_to receive(:perform_later)
               request_storage
             end
           end
@@ -671,7 +671,7 @@ describe SysController, type: :controller, with_settings: { sys_api_enabled: tru
             let(:last_updated) { 10.minutes.ago }
 
             it 'does update to storage' do
-              expect(::SCM::StorageUpdaterJob).to receive(:perform_later)
+              expect(SCM::StorageUpdaterJob).to receive(:perform_later)
               request_storage
             end
           end

@@ -31,7 +31,7 @@ require 'services/base_services/behaves_like_create_service'
 
 describe Bim::Bcf::Issues::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
-    let(:model_class) { ::Bim::Bcf::Issue }
+    let(:model_class) { Bim::Bcf::Issue }
     let(:factory) { :bcf_issue }
     let(:work_package) { build_stubbed :work_package }
     let(:wp_call) { ServiceResult.success(result: work_package) }

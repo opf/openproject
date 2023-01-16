@@ -29,7 +29,7 @@ require 'spec_helper'
 require 'rack/test'
 require_relative './create_user_common_examples'
 
-describe ::API::V3::Users::UsersAPI, type: :request do
+describe API::V3::Users::UsersAPI do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.users }

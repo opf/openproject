@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
+describe API::V3::UserPreferences::UserPreferenceRepresenter,
          'parsing' do
   subject(:parsed) { representer.from_hash request_body }
 
-  include ::API::V3::Utilities::PathHelper
+  include API::V3::Utilities::PathHelper
 
   let(:preference) { OpenStruct.new }
   let(:user) { build_stubbed(:user) }

@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-describe Queries::TimeEntries::Filters::SpentOnFilter, type: :model do
+describe Queries::TimeEntries::Filters::SpentOnFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :date }
     let(:class_key) { :spent_on }
-    let(:human_name) { ::TimeEntry.human_attribute_name :spent_on }
+    let(:human_name) { TimeEntry.human_attribute_name :spent_on }
 
     describe '#available?' do
       it 'is true' do

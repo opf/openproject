@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Grids::Widget, type: :model do
+describe Grids::Widget do
   let(:instance) { Grids::Widget.new }
 
   describe 'attributes' do

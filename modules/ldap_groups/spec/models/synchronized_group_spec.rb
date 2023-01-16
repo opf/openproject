@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe LdapGroups::SynchronizedGroup, type: :model do
+describe LdapGroups::SynchronizedGroup do
   describe 'validations' do
     subject { build :ldap_synchronized_group }
 
@@ -108,11 +108,11 @@ describe LdapGroups::SynchronizedGroup, type: :model do
       end
 
       context 'when the service call fails for any reason' do
-        let(:service) { instance_double(::Groups::UpdateService) }
+        let(:service) { instance_double(Groups::UpdateService) }
         let(:failure_result) { ServiceResult.new(success: false, message: 'oh noes') }
 
         it 'does not commit the changes' do
-          allow(::Groups::UpdateService).to receive(:new).and_return(service)
+          allow(Groups::UpdateService).to receive(:new).and_return(service)
           allow(service).to receive(:call).and_return(failure_result)
 
           user_ids = synchronized_group.users.pluck(:id)

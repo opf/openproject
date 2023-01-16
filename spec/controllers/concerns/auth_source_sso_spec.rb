@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 describe MyController,
-         skip_2fa_stage: true, # Prevent redirects to 2FA stage
-         type: :controller do
+         skip_2fa_stage: true do
   render_views
 
   let(:sso_config) do
@@ -209,7 +208,7 @@ describe MyController,
     end
 
     it 'logs out the user and logs it in again' do
-      allow(::Users::LogoutService).to receive(:new).and_return(service)
+      allow(Users::LogoutService).to receive(:new).and_return(service)
       allow(service).to receive(:call).with(other_user).and_call_original
 
       get :account

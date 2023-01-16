@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Type, type: :model do
+describe Type do
   let(:type) { build(:type) }
 
   shared_let(:admin) { create :admin }

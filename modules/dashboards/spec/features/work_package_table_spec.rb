@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, js: true, with_mail: false do
+describe 'Arbitrary WorkPackage query table widget dashboard', js: true, with_mail: false do
   let!(:type) { create :type }
   let!(:other_type) { create :type }
   let!(:priority) { create :default_priority }
@@ -82,9 +82,9 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
     Pages::Dashboard.new(project)
   end
 
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:filters) { Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
 
   before do
     login_as user

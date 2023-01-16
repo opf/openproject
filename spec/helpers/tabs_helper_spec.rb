@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TabsHelper, type: :helper do
+describe TabsHelper do
   include TabsHelper
 
   let(:given_tab) do
@@ -52,7 +52,7 @@ describe TabsHelper, type: :helper do
         .with([expected_tab])
         .and_return [expected_tab]
 
-      allow(::OpenProject::Ui::ExtensibleTabs)
+      allow(OpenProject::Ui::ExtensibleTabs)
         .to receive(:enabled_tabs)
         .with(:user)
         .and_return [given_tab]

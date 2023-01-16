@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'OpenIDConnect Providers', type: :routing do
+describe 'OpenIDConnect Providers' do
   it 'routes to index' do
     expect(get('/admin/openid_connect/providers')).to route_to('openid_connect/providers#index')
   end

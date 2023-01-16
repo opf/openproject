@@ -44,7 +44,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
              principal: group,
              roles:)
 
-      ::Groups::CreateInheritedRolesService
+      Groups::CreateInheritedRolesService
         .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(user_ids: users.map(&:id))
     end
@@ -124,7 +124,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
                principal: group,
                roles:)
 
-        ::Groups::CreateInheritedRolesService
+        Groups::CreateInheritedRolesService
           .new(group, current_user: User.system, contract_class: EmptyContract)
           .call(user_ids: users.map(&:id))
       end
@@ -371,7 +371,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
                principal: group,
                roles: [other_role])
 
-        ::Groups::CreateInheritedRolesService
+        Groups::CreateInheritedRolesService
           .new(group, current_user: User.system, contract_class: EmptyContract)
           .call(user_ids: users.map(&:id))
       end

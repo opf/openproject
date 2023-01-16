@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiController, type: :controller do
+describe WikiController do
   shared_let(:admin) { create :admin }
 
   shared_let(:project) do

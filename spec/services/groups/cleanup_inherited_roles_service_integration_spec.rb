@@ -54,7 +54,7 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
              principal: group,
              roles: global_roles)
 
-      ::Groups::CreateInheritedRolesService
+      Groups::CreateInheritedRolesService
         .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(user_ids: users.map(&:id))
     end
@@ -70,7 +70,7 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
     allow(Notifications::GroupMemberAlteredJob)
       .to receive(:perform_later)
 
-    allow(::OpenProject::Notifications)
+    allow(OpenProject::Notifications)
       .to receive(:send)
   end
 

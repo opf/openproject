@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Versions::Scopes::RolledUp, type: :model do
+describe Versions::Scopes::RolledUp do
   shared_let(:parent_project) { create(:project) }
   shared_let(:project) { create(:project, parent: parent_project) }
   shared_let(:sibling_project) { create(:project, parent: parent_project) }

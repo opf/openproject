@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe ::Query::Results, 'Sorting of custom field floats', type: :model, with_mail: false do
+describe Query::Results, 'Sorting of custom field floats', with_mail: false do
   let(:query_results) do
-    ::Query::Results.new query
+    Query::Results.new query
   end
   let(:user) do
     create(:user,

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'create placeholder users', type: :feature, selenium: true do
+describe 'create placeholder users', selenium: true do
   let(:new_placeholder_user_page) { Pages::NewPlaceholderUser.new }
 
   shared_examples_for 'placeholders creation flow' do

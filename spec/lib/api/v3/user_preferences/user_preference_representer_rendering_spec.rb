@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
+describe API::V3::UserPreferences::UserPreferenceRepresenter,
          'rendering' do
-  include ::API::V3::Utilities::PathHelper
+  include API::V3::Utilities::PathHelper
 
   let(:preference) do
     build_stubbed(:user_preference,

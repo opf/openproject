@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Statuses administration', type: :feature do
+describe 'Statuses administration' do
   let(:admin) { create :admin }
 
   before do

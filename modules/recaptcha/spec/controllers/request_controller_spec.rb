@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ::Recaptcha::RequestController, type: :controller do
+describe Recaptcha::RequestController do
   let(:user) { create :user }
 
   include_context 'with settings' do
@@ -30,7 +30,7 @@ describe ::Recaptcha::RequestController, type: :controller do
     end
 
     it 'skips if user is verified' do
-      allow(::Recaptcha::Entry)
+      allow(Recaptcha::Entry)
         .to receive(:exists?).with(user_id: user.id)
         .and_return true
 

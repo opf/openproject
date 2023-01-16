@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:type) { build_stubbed(:type) }
   let(:column) { Queries::WorkPackages::Columns::RelationToTypeColumn.new(type) }

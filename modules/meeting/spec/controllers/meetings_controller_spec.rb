@@ -28,7 +28,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MeetingsController, type: :controller do
+describe MeetingsController do
   let(:project) { create :project }
 
   before do

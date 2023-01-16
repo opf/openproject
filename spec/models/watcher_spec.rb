@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Watcher, type: :model, with_mail: false do
+describe Watcher, with_mail: false do
   let(:project) { watchable.project }
   let(:user) { build :user, admin: true }
   let(:watcher) do

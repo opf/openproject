@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe EnumerationsController, 'routing', type: :routing do
+describe EnumerationsController, 'routing' do
   context 'admin scoped' do
     it {
       expect(subject).to route(:get, 'admin/enumerations').to(controller: 'enumerations',

@@ -8,7 +8,7 @@ describe 'Work package table context menu', js: true do
   let(:wp_table) { Pages::WorkPackagesTable.new(work_package.project) }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(work_package.project) }
   let(:menu) { Components::WorkPackages::ContextMenu.new }
-  let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
+  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
 
   before do
     login_as(user)

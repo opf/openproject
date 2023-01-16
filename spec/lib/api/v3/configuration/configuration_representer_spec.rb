@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Configuration::ConfigurationRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Configuration::ConfigurationRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:represented) { Setting }
   let(:current_user) do

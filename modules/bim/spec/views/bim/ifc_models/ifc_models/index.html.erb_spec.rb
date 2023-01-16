@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'bim/ifc_models/ifc_models/index', type: :view do
+describe 'bim/ifc_models/ifc_models/index' do
   let(:project) { create(:project, enabled_module_names: %i[bim]) }
   let(:ifc_model) do
     create(:ifc_model,
@@ -75,7 +75,7 @@ describe 'bim/ifc_models/ifc_models/index', type: :view do
     %w[processing completed error].each do |state|
       context "with conversion_status '#{state}'" do
         before do
-          ifc_model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[state.to_sym]
+          ifc_model.conversion_status = Bim::IfcModels::IfcModel.conversion_statuses[state.to_sym]
           ifc_model.conversion_error_message = "Conversion went wrong" if state == 'error'
           render
         end

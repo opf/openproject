@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Message, 'acts_as_journalized', type: :model do
+describe Message, 'acts_as_journalized' do
   let(:user) { create(:user) }
   let(:project) { create(:project) }
   let!(:forum) do

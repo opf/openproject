@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage, type: :model do
+describe WorkPackage do
   describe 'validations' do
     let(:work_package) do
       build(:work_package)

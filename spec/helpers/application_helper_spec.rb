@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ApplicationHelper, type: :helper do
+describe ApplicationHelper do
   include ApplicationHelper
   include WorkPackagesHelper
 

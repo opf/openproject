@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Relations::Filters::ToFilter, type: :model do
+describe Queries::Relations::Filters::ToFilter do
   include_context 'filter tests'
   let(:values) { ['1'] }
   let(:model) { Relation }

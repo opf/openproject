@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-describe 'Custom text widget on my page', type: :feature, js: true do
+describe 'Custom text widget on my page', js: true do
   let(:permissions) do
     []
   end
@@ -49,8 +49,8 @@ describe 'Custom text widget on my page', type: :feature, js: true do
   let(:my_page) do
     Pages::My::Page.new
   end
-  let(:image_fixture) { ::UploadedFile.load_from('spec/fixtures/files/image.png') }
-  let(:editor) { ::Components::WysiwygEditor.new 'body' }
+  let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
+  let(:editor) { Components::WysiwygEditor.new 'body' }
   let(:field) { TextEditorField.new(page, 'description', selector: '.inline-edit--active-field') }
 
   before do

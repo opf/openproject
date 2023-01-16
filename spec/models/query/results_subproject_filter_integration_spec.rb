@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Query::Results, 'Subproject filter integration', type: :model, with_mail: false do
+describe Query::Results, 'Subproject filter integration', with_mail: false do
   let(:query) do
     build(:query,
           user:,
@@ -37,7 +37,7 @@ describe ::Query::Results, 'Subproject filter integration', type: :model, with_m
     end
   end
   let(:query_results) do
-    ::Query::Results.new query
+    Query::Results.new query
   end
 
   shared_let(:parent_project) { create :project }

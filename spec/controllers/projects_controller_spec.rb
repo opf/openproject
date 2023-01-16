@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ProjectsController, type: :controller do
+describe ProjectsController do
   shared_let(:admin) { create :admin }
   let(:non_member) { create :non_member }
 
@@ -125,14 +125,14 @@ describe ProjectsController, type: :controller do
     let(:project) { build_stubbed(:project) }
     let(:request) { delete :destroy, params: { id: project.id } }
 
-    let(:service_result) { ::ServiceResult.new(success:) }
+    let(:service_result) { ServiceResult.new(success:) }
 
     before do
       allow(Project).to receive(:find).and_return(project)
-      deletion_service = instance_double(::Projects::ScheduleDeletionService,
+      deletion_service = instance_double(Projects::ScheduleDeletionService,
                                          call: service_result)
 
-      allow(::Projects::ScheduleDeletionService)
+      allow(Projects::ScheduleDeletionService)
         .to receive(:new)
               .with(user: admin, model: project)
               .and_return(deletion_service)

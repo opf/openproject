@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::UpdateQueryFromV3ParamsService,
+describe API::V3::UpdateQueryFromV3ParamsService,
          type: :model do
   let(:user) { build_stubbed(:user) }
   let(:query) { build_stubbed(:query) }
@@ -85,7 +85,7 @@ describe ::API::V3::UpdateQueryFromV3ParamsService,
       .to receive(:new)
       .with(query, user)
       .and_return(mock_update_query_service)
-    allow(::API::V3::ParseQueryParamsService)
+    allow(API::V3::ParseQueryParamsService)
       .to receive(:new)
       .with(no_args)
       .and_return(mock_parse_query_service)

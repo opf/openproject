@@ -5,7 +5,7 @@ describe 'Work Package table hierarchy', js: true do
   let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
+  let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
 
   before do
     login_as(user)
@@ -182,7 +182,7 @@ describe 'Work Package table hierarchy', js: true do
     end
     let(:permissions) { %i(view_work_packages add_work_packages save_queries) }
     let(:role) { create :role, permissions: }
-    let(:sort_by) { ::Components::WorkPackages::SortBy.new }
+    let(:sort_by) { Components::WorkPackages::SortBy.new }
 
     let!(:query) do
       query              = build(:query, user:, project:)

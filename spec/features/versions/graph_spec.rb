@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'version show graph', type: :feature, js: true do
+describe 'version show graph', js: true do
   let(:user) { create :admin }
   let(:project) { create(:project) }
   let(:version) { create(:version, project:) }

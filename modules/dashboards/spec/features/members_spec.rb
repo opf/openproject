@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Members widget on dashboard', type: :feature, js: true do
+describe 'Members widget on dashboard', js: true do
   let!(:project) { create :project }
   let!(:other_project) { create :project }
 

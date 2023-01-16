@@ -1,7 +1,7 @@
 shared_examples 'can upload an IFC file' do
   let(:user) { create :admin }
   let(:project) { create :project, enabled_module_names: %i[bim] }
-  let(:ifc_fixture) { ::UploadedFile.load_from('modules/bim/spec/fixtures/files/minimal.ifc') }
+  let(:ifc_fixture) { UploadedFile.load_from('modules/bim/spec/fixtures/files/minimal.ifc') }
   let(:set_tick_is_default_after_file) { true }
 
   before do

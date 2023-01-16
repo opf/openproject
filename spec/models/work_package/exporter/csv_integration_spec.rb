@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage::Exports::CSV, 'integration', type: :model do
+describe WorkPackage::Exports::CSV, 'integration' do
   before do
     login_as current_user
   end

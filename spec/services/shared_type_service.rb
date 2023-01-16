@@ -51,7 +51,7 @@ shared_examples_for 'type service' do
   let(:success) { true }
   let(:params) { {} }
   let!(:contract) do
-    instance_double(::Types::BaseContract).tap do |contract|
+    instance_double(Types::BaseContract).tap do |contract|
       allow(contract)
         .to receive(:validate)
               .and_return(contract_valid)

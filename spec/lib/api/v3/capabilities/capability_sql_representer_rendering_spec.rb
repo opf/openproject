@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
+  include API::V3::Utilities::PathHelper
 
   let(:scope) do
     Capability
@@ -57,7 +57,7 @@ describe ::API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
   end
 
   subject(:json) do
-    ::API::V3::Utilities::SqlRepresenterWalker
+    API::V3::Utilities::SqlRepresenterWalker
       .new(
         scope,
         current_user:,

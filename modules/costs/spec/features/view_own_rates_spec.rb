@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe 'Only see your own rates', type: :feature, js: true do
+describe 'Only see your own rates', js: true do
   let(:project) { work_package.project }
   let(:user) do
     create :user,
@@ -45,7 +45,7 @@ describe 'Only see your own rates', type: :feature, js: true do
                                   log_costs]
   end
   let(:work_package) { create :work_package }
-  let(:wp_page) { ::Pages::FullWorkPackage.new(work_package) }
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:hourly_rate) do
     create :default_hourly_rate, user:,
                                  rate: 10.00

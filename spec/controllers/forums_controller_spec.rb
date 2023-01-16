@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ForumsController, type: :controller do
+describe ForumsController do
   shared_let(:user) { create(:user) }
   let(:project) { create(:project) }
   let!(:forum) { create(:forum, project:) }

@@ -3,7 +3,7 @@ require 'features/page_objects/notification'
 require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
 describe 'Moving a work package through Rails view', js: true do
-  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:dev_role) do
     create(:role,
@@ -51,9 +51,9 @@ describe 'Moving a work package through Rails view', js: true do
   let(:status) { create(:status) }
   let(:work_package2_status) { status }
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
-  let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
+  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
   let(:current_user) { mover }
   let(:work_packages) { [work_package, work_package2] }
 

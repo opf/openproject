@@ -27,9 +27,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Notifications::NotificationsAPI,
+describe API::V3::Notifications::NotificationsAPI,
          'update read status',
-         type: :request,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 

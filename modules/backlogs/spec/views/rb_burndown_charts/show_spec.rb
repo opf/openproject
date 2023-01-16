@@ -28,7 +28,7 @@
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe 'rb_burndown_charts/show', type: :view do
+describe 'rb_burndown_charts/show' do
   let(:user1) { create(:user) }
   let(:user2) { create(:user) }
   let(:role_allowed) do

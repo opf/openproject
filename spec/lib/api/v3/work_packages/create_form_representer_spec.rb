@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::CreateFormRepresenter do
+describe API::V3::WorkPackages::CreateFormRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:errors) { [] }
@@ -125,7 +125,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
       end
 
       context 'for an invalid work package' do
-        let(:errors) { [::API::Errors::Validation.new(:subject, 'it is broken')] }
+        let(:errors) { [API::Errors::Validation.new(:subject, 'it is broken')] }
 
         it 'has no link' do
           expect(generated).not_to have_json_path('_links/commit/href')

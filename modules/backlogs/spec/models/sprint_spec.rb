@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Sprint, type: :model do
+describe Sprint do
   let(:sprint) { build(:sprint) }
   let(:project) { build(:project) }
 

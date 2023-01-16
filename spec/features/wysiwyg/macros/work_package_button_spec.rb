@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Wysiwyg work package button spec',
-         type: :feature, js: true do
+         js: true do
   shared_let(:admin) { create :admin }
   let(:user) { admin }
 
@@ -42,7 +42,7 @@ describe 'Wysiwyg work package button spec',
            types: [type]
   end
 
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
 
   before do
     login_as(user)

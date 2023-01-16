@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './support/board_index_page'
 require_relative './support/board_page'
 
-describe 'Work Package boards updating spec', type: :feature, js: true do
+describe 'Work Package boards updating spec', js: true do
   let(:admin) { create(:admin) }
 
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }

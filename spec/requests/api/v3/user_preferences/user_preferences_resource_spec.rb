@@ -29,9 +29,9 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 UserPreferences resource', type: :request, content_type: :json do
+describe 'API v3 UserPreferences resource', content_type: :json do
   include Rack::Test::Methods
-  include ::API::V3::Utilities::PathHelper
+  include API::V3::Utilities::PathHelper
 
   subject(:response) { last_response }
 

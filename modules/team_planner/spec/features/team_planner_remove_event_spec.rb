@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './shared_context'
 require_relative '../support/components/add_existing_pane'
 
-describe 'Team planner remove event', type: :feature, js: true do
+describe 'Team planner remove event', js: true do
   include_context 'with team planner full access'
 
   let!(:viewer_role) { create :existing_role, permissions: [:view_work_packages] }
@@ -92,7 +92,7 @@ describe 'Team planner remove event', type: :feature, js: true do
   end
 
   context 'with the add existing open searching for the task' do
-    let(:add_existing_pane) { ::Components::AddExistingPane.new }
+    let(:add_existing_pane) { Components::AddExistingPane.new }
 
     it 'the removed task shows up again' do
       # Open the left hand pane

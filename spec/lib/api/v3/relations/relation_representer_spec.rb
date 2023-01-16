@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Relations::RelationRepresenter do
+describe API::V3::Relations::RelationRepresenter do
   let(:user) { build_stubbed(:admin) }
 
   let(:from) { build_stubbed(:work_package) }
@@ -90,7 +90,7 @@ describe ::API::V3::Relations::RelationRepresenter do
   end
 
   it 'deserializes the relation correctly' do
-    rep = ::API::V3::Relations::RelationRepresenter.new OpenStruct.new, current_user: user
+    rep = API::V3::Relations::RelationRepresenter.new OpenStruct.new, current_user: user
     rel = rep.from_json result.except(:id).to_json
 
     expect(rel.from_id).to eq from.id.to_s

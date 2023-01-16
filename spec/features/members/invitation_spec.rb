@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'invite user via email', type: :feature, js: true do
+describe 'invite user via email', js: true do
   let!(:project) { create :project, name: 'Project 1', identifier: 'project1', members: project_members }
   let!(:developer) { create :role, name: 'Developer' }
   let(:project_members) { {} }

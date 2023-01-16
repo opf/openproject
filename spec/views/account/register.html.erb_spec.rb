@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'account/register', type: :view do
+describe 'account/register' do
   let(:user) { build :user, auth_source: nil }
 
   context 'with the email_login setting disabled (default value)' do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Lost password', type: :feature do
+describe 'Lost password' do
   let!(:user) { create :user }
   let(:new_password) { "new_PassW0rd!" }
 

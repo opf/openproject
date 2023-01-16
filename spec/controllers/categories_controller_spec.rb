@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CategoriesController, type: :controller do
+describe CategoriesController do
   let(:user) { create(:user) }
   let(:project) { create(:project) }
   let(:role) do

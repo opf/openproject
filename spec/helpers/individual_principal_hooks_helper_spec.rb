@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe IndividualPrincipalHooksHelper, type: :helper do
+describe IndividualPrincipalHooksHelper do
   let(:user) { build(:user) }
   let(:placeholder_user) { build(:placeholder_user) }
 

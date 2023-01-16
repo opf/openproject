@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::HelpTexts::HelpTextRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::HelpTexts::HelpTextRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:user) { build_stubbed :admin }
 

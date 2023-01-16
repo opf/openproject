@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'wiki/new', type: :view do
+describe 'wiki/new' do
   let(:project) { build_stubbed(:project) }
   let(:wiki)    { build_stubbed(:wiki, project:) }
   let(:page)    { build_stubbed(:wiki_page_with_content, wiki:, title: 'foo') }

@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe 'Enterprise trial management',
-         type: :feature,
          driver: :chrome_billy do
   let(:admin) { create(:admin) }
 

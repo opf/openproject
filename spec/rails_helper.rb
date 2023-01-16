@@ -83,7 +83,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = "#{Rails.root}/spec/fixtures"
 
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
@@ -94,8 +94,8 @@ RSpec.configure do |config|
   # Add job helper
   # Only the ActiveJob::TestHelper is actually used but it in turn requires
   # e.g. assert_nothing_raised
-  config.include ::ActiveSupport::Testing::Assertions
-  config.include ::ActiveJob::TestHelper
+  config.include ActiveSupport::Testing::Assertions
+  config.include ActiveJob::TestHelper
 
   OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'
 

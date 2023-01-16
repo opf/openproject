@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Job status', type: :feature, js: true do
+describe 'Job status', js: true do
   shared_let(:admin) { create :admin }
 
   before do

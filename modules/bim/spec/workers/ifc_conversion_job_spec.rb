@@ -6,7 +6,7 @@ describe Bim::IfcModels::IfcConversionJob, type: :job do
   subject { described_class.perform_now(model) }
 
   it 'calls the conversion service' do
-    expect(::Bim::IfcModels::ViewConverterService)
+    expect(Bim::IfcModels::ViewConverterService)
       .to receive_message_chain(:new, :call)
       .and_return ServiceResult.success
 

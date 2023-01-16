@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Day, type: :model do
+describe Day do
   let(:today) { Date.current }
   let(:date_range) { Date.new(2022, 1, 1)..Date.new(2022, 2, 1) }
   let(:first_of_year) { date_range.begin }

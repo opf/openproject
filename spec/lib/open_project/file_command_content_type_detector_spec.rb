@@ -68,14 +68,14 @@ describe OpenProject::FileCommandContentTypeDetector do
   end
 
   it 'returns a sensible default when the file command is missing' do
-    allow(::Open3).to receive(:capture2).and_raise 'o noes!'
+    allow(Open3).to receive(:capture2).and_raise 'o noes!'
     @filename = '/path/to/something'
     assert_equal 'application/binary',
                  OpenProject::FileCommandContentTypeDetector.new(@filename).detect
   end
 
   it 'returns a sensible default on the odd chance that run returns nil' do
-    allow(::Open3).to receive(:capture2).and_return [nil, 0]
+    allow(Open3).to receive(:capture2).and_return [nil, 0]
     assert_equal 'application/binary',
                  OpenProject::FileCommandContentTypeDetector.new('windows').detect
   end

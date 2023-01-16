@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe LdapAuthSource, type: :model do
+describe LdapAuthSource do
   it 'creates' do
     a = described_class.new(name: 'My LDAP', host: 'ldap.example.net', port: 389, base_dn: 'dc=example,dc=net',
                            attr_login: 'sAMAccountName')

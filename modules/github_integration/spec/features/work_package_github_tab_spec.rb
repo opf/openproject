@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../support/pages/work_package_github_tab'
 
-describe 'Open the GitHub tab', type: :feature, js: true do
+describe 'Open the GitHub tab', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,

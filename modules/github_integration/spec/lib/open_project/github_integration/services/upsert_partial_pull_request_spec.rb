@@ -35,8 +35,8 @@ describe OpenProject::GithubIntegration::Services::UpsertPartialPullRequest do
   end
 
   let!(:upsert_user_service) do
-    upsert_user_service = instance_double(::OpenProject::GithubIntegration::Services::UpsertGithubUser)
-    allow(::OpenProject::GithubIntegration::Services::UpsertGithubUser)
+    upsert_user_service = instance_double(OpenProject::GithubIntegration::Services::UpsertGithubUser)
+    allow(OpenProject::GithubIntegration::Services::UpsertGithubUser)
       .to receive(:new)
             .and_return(upsert_user_service)
 

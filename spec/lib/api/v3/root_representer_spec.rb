@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::RootRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::RootRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new({}, current_user: user) }

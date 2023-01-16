@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe 'Projects#destroy',
-         type: :feature,
          js: true do
   let!(:project) { create(:project, name: 'foo', identifier: 'foo') }
   let(:project_page) { Pages::Projects::Destroy.new(project) }

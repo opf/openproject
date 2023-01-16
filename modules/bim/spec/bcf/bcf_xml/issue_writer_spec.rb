@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::OpenProject::Bim::BcfXml::IssueWriter do
+describe OpenProject::Bim::BcfXml::IssueWriter do
   let(:project) { create(:project) }
   let(:markup) do
     <<-MARKUP

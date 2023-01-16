@@ -5,10 +5,10 @@ describe "multi select custom values", js: true do
   let(:type) { create :type }
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
   let(:wp_table) { Pages::WorkPackagesTable.new project }
-  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
-  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
-  let(:sort_by) { ::Components::WorkPackages::SortBy.new }
+  let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
+  let(:group_by) { Components::WorkPackages::GroupBy.new }
+  let(:sort_by) { Components::WorkPackages::SortBy.new }
   let(:user) { create :admin }
   let(:cf_frontend) { "customField#{custom_field.id}" }
   let(:project) { create :project, types: [type] }

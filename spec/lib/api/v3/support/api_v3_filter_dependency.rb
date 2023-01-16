@@ -88,7 +88,7 @@ shared_examples_for 'filter dependency empty' do
 end
 
 shared_examples_for 'relation filter dependency' do
-  include ::API::V3::Utilities::PathHelper
+  include API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }
   let(:query) { build_stubbed(:query, project:) }

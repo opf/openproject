@@ -32,7 +32,7 @@ require_relative './shared_contract_examples'
 describe Bim::IfcModels::CreateContract do
   it_behaves_like 'ifc model contract' do
     let(:ifc_model) do
-      ::Bim::IfcModels::IfcModel.new(project: model_project,
+      Bim::IfcModels::IfcModel.new(project: model_project,
                                      title: model_title,
                                      uploader: model_user).tap do |m|
         m.extend(OpenProject::ChangedBySystem)

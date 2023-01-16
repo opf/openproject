@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner create new work package', type: :feature, js: true do
+describe 'Team planner create new work package', js: true do
   include_context 'with team planner full access'
 
   let(:type_task) { create :type_task }

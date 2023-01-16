@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
+  include API::V3::Utilities::PathHelper
 
   let(:time_entry) do
     build_stubbed(:time_entry,

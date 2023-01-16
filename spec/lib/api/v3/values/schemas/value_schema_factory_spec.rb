@@ -28,15 +28,15 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Values::Schemas::ValueSchemaFactory do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Values::Schemas::ValueSchemaFactory do
+  include API::V3::Utilities::PathHelper
 
   describe '.for' do
     let!(:representer_instance) do
-      instance_double(::API::V3::Values::Schemas::PropertySchemaRepresenter)
+      instance_double(API::V3::Values::Schemas::PropertySchemaRepresenter)
     end
     let!(:representer_class) do
-      allow(::API::V3::Values::Schemas::PropertySchemaRepresenter)
+      allow(API::V3::Values::Schemas::PropertySchemaRepresenter)
         .to receive(:new)
               .and_return(representer_instance)
     end
@@ -52,7 +52,7 @@ describe ::API::V3::Values::Schemas::ValueSchemaFactory do
       it 'instantiates the representer with the proper params' do
         described_class.for(property)
 
-        expect(::API::V3::Values::Schemas::PropertySchemaRepresenter)
+        expect(API::V3::Values::Schemas::PropertySchemaRepresenter)
           .to have_received(:new)
                 .with(API::V3::Values::Schemas::Model.new(I18n.t('attributes.start_date'), 'Date'),
                       current_user: nil,
@@ -71,7 +71,7 @@ describe ::API::V3::Values::Schemas::ValueSchemaFactory do
       it 'instantiates the representer with the proper params' do
         described_class.for(property)
 
-        expect(::API::V3::Values::Schemas::PropertySchemaRepresenter)
+        expect(API::V3::Values::Schemas::PropertySchemaRepresenter)
           .to have_received(:new)
                 .with(API::V3::Values::Schemas::Model.new(I18n.t('attributes.due_date'), 'Date'),
                       current_user: nil,
@@ -90,7 +90,7 @@ describe ::API::V3::Values::Schemas::ValueSchemaFactory do
       it 'instantiates the representer with the proper params' do
         described_class.for(property)
 
-        expect(::API::V3::Values::Schemas::PropertySchemaRepresenter)
+        expect(API::V3::Values::Schemas::PropertySchemaRepresenter)
           .to have_received(:new)
                 .with(API::V3::Values::Schemas::Model.new(I18n.t('attributes.date'), 'Date'),
                       current_user: nil,

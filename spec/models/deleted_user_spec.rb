@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe DeletedUser, type: :model do
+describe DeletedUser do
   let(:user) { DeletedUser.new }
 
   describe '#admin' do

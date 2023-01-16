@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Project description widget on dashboard', type: :feature, js: true do
+describe 'Project description widget on dashboard', js: true do
   let!(:type) { create :type_task, name: 'Task' }
   let!(:project) do
     create :project, types: [type]
@@ -52,8 +52,8 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
-  let(:image_fixture) { ::UploadedFile.load_from('spec/fixtures/files/image.png') }
-  let(:editor) { ::Components::WysiwygEditor.new 'body' }
+  let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
+  let(:editor) { Components::WysiwygEditor.new 'body' }
   let(:field) { TextEditorField.new(page, 'description', selector: '.inline-edit--active-field') }
 
   before do

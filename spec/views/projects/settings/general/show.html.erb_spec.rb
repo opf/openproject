@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'projects/settings/general/show', type: :view do
+describe 'projects/settings/general/show' do
   let(:project) { build_stubbed(:project) }
 
   describe 'project copy permission' do
