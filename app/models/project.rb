@@ -104,6 +104,8 @@ class Project < ApplicationRecord
                 author: nil,
                 datetime: :created_at
 
+  register_on_journal_formatter(:active_status, 'active')
+
   has_paper_trail
 
   validates :name,
