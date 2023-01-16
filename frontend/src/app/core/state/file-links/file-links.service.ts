@@ -29,7 +29,7 @@
 import { applyTransaction } from '@datorama/akita';
 import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import {
   catchError,
   groupBy,
@@ -55,7 +55,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 export class FileLinksResourceService extends ResourceCollectionService<IFileLink> {
   @InjectField() toastService:ToastService;
 
-  updateCollectionsForWorkPackage(fileLinksSelfLink:string):any {
+  updateCollectionsForWorkPackage(fileLinksSelfLink:string):Observable<void> {
     return this.http
       .get<IHALCollection<IFileLink>>(fileLinksSelfLink)
       .pipe(
