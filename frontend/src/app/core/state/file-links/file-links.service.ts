@@ -79,7 +79,7 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
           insertCollectionIntoState(this.store, collection, collectionKey);
         }),
         catchError(this.toastAndThrow.bind(this)),
-      );
+      ) as Observable<void>;
   }
 
   protected createStore():CollectionStore<IFileLink> {
