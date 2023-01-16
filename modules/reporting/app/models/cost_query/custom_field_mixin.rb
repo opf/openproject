@@ -122,7 +122,8 @@ module CostQuery::CustomFieldMixin
     -- BEGIN Custom Field Join: #{cf_name}
     LEFT OUTER JOIN (
     SELECT
-      CAST(co.value AS #{cast_as}) AS #{cf_name},
+      co.id AS #{cf_name},
+      co.value,
       cv.customized_type,
       cv.custom_field_id,
       cv.customized_id
