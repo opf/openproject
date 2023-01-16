@@ -25,8 +25,6 @@ OpenProject offers close integration with Nextcloud to allow users to:
 - View all work packages linked to a file
 - View OpenProject notifications via the Nextcloud dashboard
 
-
-
 ## Minimum requirements
 
 Please note these minimum version requirements for the integration to work:
@@ -35,11 +33,13 @@ Please note these minimum version requirements for the integration to work:
 - Nextcloud version 22 (or above)
 - The [OpenProject Integration](https://apps.nextcloud.com/apps/integration_openproject) app, version 2.0.0 (or above)
 
-
-
 ## Setting up the integration
 
 > **Important**: You need to have administrator privileges in both your Nextcloud and OpenProject instances to set up this integration.
+
+Watch this video to find out how to set up the Nextcloud integration as an Administrator and as a user.
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Nextcloud-Integration-Setup.mp4" type="video/mp4" controls="" style="width:100%"></video>
+
 
 #### 1. Add the "OpenProject Integration" app in Nextcloud and point it to your OpenProject instance
 

@@ -4,6 +4,7 @@ module ::Webhooks
       class ResponseCell < RailsCell
         view_paths << ::OpenProject::Webhooks::Engine.root.join("app/cells")
 
+        property :id
         property :response_headers
         property :response_body
 

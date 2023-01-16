@@ -1,8 +1,9 @@
 <section
   data-augmented-model-wrapper
+  data-activation-selector=".log-response-<%= id %>-modal--activation-link"
   data-modal-class-name="webhooks--response-body-modal"
 >
-  <a class="modal-delivery-element--activation-link" title="<%= title %>">
+  <a class="log-response-<%= id %>-modal--activation-link" title="<%= title %>">
     <%= op_icon('icon-info1') %>
     <%= t(:button_show) %>
   </a>
@@ -13,7 +14,7 @@
     <div class="spot-divider"></div>
     <div class="spot-modal--body spot-container">
       <h2 class="spot-subheader-extra-small">Headers</h2>
-      <pre class="webhooks--response-headers"><%- response_headers.each do |k, v| -%><strong><%= k -%></strong>:  <span><%= v -%></span><br/><%- end -%></pre>
+      <pre class="webhooks--response-headers"><%- response_headers.each do |k, v| -%><strong><%=h k -%></strong>:  <span><%=h v -%></span><br/><%- end -%></pre>
         <div class="spot-divider"></div>
       <h2 class="spot-subheader-extra-small">Response body</h2>
       <pre class="webhooks--response-body"><%= response_body %></pre>

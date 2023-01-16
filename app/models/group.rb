@@ -72,6 +72,6 @@ class Group < Principal
   end
 
   def fail_add
-    fail "Do not add users through association, use `group.add_members!` instead."
+    fail "Do not add users through association, use `Groups::AddUsersService` instead."
   end
 end

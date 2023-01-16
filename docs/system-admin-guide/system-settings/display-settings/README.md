@@ -20,9 +20,9 @@ At the moment there are more than 30 languages available.
 
 You can [choose your language in your user profile](../../../getting-started/my-account/#change-your-language).
 
-## Time and date formatting, aggregation of changes in activity
+## Time and date formatting
 
-Change time and date formats in OpenProject and configure the display of journal aggregation.
+Change time and date formats in OpenProject:
 
 1. **Week starts on**: Configure what date the week starts (e.g. in the calendar view). Default is `Based on user's language`.
     You can also choose to start a week always on Monday, Sunday or Saturdays.
@@ -36,3 +36,5 @@ Change time and date formats in OpenProject and configure the display of journal
 4. **Time format**: default is based on user's language. You can choose various formats to display time in the system.
 5. **Users display format**: default is [First name] [Last name]. You can change to various different formats.
 6. Do not forget to **save** your changes.![image-20211209163420270](image-20211209163420270.png)
+
+> **Info:** Configuration options related to aggregation time (the time interval in which different user activities are displayed as one set of actions) have been moved to the [Incoming and Outgoing](../../incoming-and-outgoing/) section.

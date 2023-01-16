@@ -12,7 +12,13 @@ keywords: use-case, resource management
 
 ![resource management](resource-management.png)
 
-Step 1: Select a project and go to the work package overview. 
+Step 1: Select a project and go to the work package overview. If you would like to create an overview over multiple projects, select the respective projects and/or subprojects in the **Include projects** menu between the **+ Create** and the **Filter** buttons. 
+
+​		Alternatively, you can also chose the **Global work package overview** by selecting the **Waffle button** in the top right:
+
+![Global WP overview](Global WP overview.PNG)
+
+
 
 Step 2: Either use existing fields, **Estimated time** and **Spent time**, or create custom fields (i.e. **Est. Scope (h)** and **Time spent (h)**)
 
@@ -24,13 +30,13 @@ Step 5: Save your view
 
 You could also add the Gantt view to add an additional dimension to your overview
 
-![Gantt](Gantt.jpg)
+![Gantt](Gantt.png)
 
 This will provide a rough overview of the various tasks assigned to a specific person or team. Using the Gantt view in addition provides additional overview of how these tasks happen in terms of timelines. It’s a visual way of looking at roughly how many tasks are assigned to an individual and gives you an estimate about the timeline, allowing for adjustments in assignments and timing to be made to balance your resources a little bit. Using filters and the (+) zoom function will help to focus the Gantt view to only tasks that are scheduled in let’s say the next 30 days. These functions can help focus in on showing relevant results only. 
 
 You can also use the sum function inside of **[⋮]** -> ***Configure view*** -> ***Display settings*** -> check ***Display Sums*** box:
 
-![Configure view](configure-view.jpg)
+![Configure view](configure-view.png)
 
 ![Display sums](display-sums.jpg) 
 

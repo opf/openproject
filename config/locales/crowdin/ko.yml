@@ -49,7 +49,7 @@ ko:
         main-menu-border-color: "기본 메뉴 테두리"
       custom_colors: "사용자 정의 색상"
       customize: "고유한 로고와 색상으로 OpenProject 설치를 사용자 지정하세요."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "OpenProject 개발의 금전적인 후원에 대한 특별한 감사로 이 작은 기능은 Enterprise edition 구독자에게만 지원됩니다."
       enterprise_more_info: "참고: 사용된 로그는 공개적으로 액세스 가능합니다."
       manage_colors: "색상 선택 옵션 편집"
       instructions:
@@ -64,15 +64,15 @@ ko:
         main-menu-bg-color: "왼쪽 메뉴의 배경색입니다."
       theme_warning: 테마를 변경하면 사용자 정의 스타일을 덮어 씁니다. 그러면 디자인이 손실됩니다. 너 정말 계속하고 싶니?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
-      add_token: "Upload an Enterprise edition support token"
+      upgrade_to_ee: "Enterprise edition으로 업그레이드하기"
+      add_token: "Enterprise edition 지원 토큰을 업로드하세요."
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        text: "현재 사용된 Enterprise edition 토큰을 제거하시겠습니까?"
         title: "토큰 제거"
       replace_token: "당신의 현재 지원 토큰을 바꾸세요."
-      order: "Order Enterprise on-premises edition"
-      paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      order: "Enterprise on-premises edition 주문하기"
+      paste: "Enterprise edition 지원 토큰을 붙여넣으세요."
+      required_for_feature: "이 기능은 활성화된 Enterprise edition 지원 토큰에서만 사용 가능합니다."
       enterprise_link: "더 자세한 내용은 여기를 클릭하세요."
       start_trial: '무료 평가판 시작'
       book_now: '지금 예약'
@@ -158,7 +158,7 @@ ko:
       section_more_info_link_html: >
         본 섹션에서는 이 LDAP 인증 소스의 연결 보안에 대해 설명합니다. 자세한 내용은 <a href="%{link}">Net::LDAP 문서</a>를 참조하십시오.
     tls_options:
-      verify_peer: "Verify SSL certificate"
+      verify_peer: "SSL 인증서 확인"
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."

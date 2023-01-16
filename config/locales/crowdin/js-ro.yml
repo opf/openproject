@@ -227,7 +227,7 @@ ro:
           quick_overview: "Obțineți o imagine de ansamblu rapidă a gestionării proiectelor și a colaborării în echipă cu OpenProject Enterprise edition."
         upsale:
           become_hero: "Deveniți un erou!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} este un Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Vă rugăm să treceți la un plan plătit pentru a-l activa și a începe să îl utilizați în echipa dumneavoastră."
           benefits:
             description: "Care sunt avantajele ediției Enterprise on-premise?"
@@ -248,7 +248,7 @@ ro:
           link_quote: "Obțineți o ofertă"
           more_info: "Mai multe informatii"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            Ediția OpenProject Enterprise se bazează pe ediția Community. Aceasta include add-on-uri Enterprise și asistență profesională, destinate în principal organizațiilor cu peste 10 utilizatori care gestionează proiecte esențiale pentru afaceri cu OpenProject.
           unlimited: "Nelimitat"
           you_contribute: "Dezvoltatorii trebuie să își plătească și ei facturile. Prin actualizarea la Enterprise edition, veți sprijini acest efort al comunității open source și veți contribui la dezvoltarea, întreținerea și îmbunătățirea continuă a acestuia."
     custom_actions:
@@ -279,7 +279,7 @@ ro:
           one: "Primul criteriu de sortare"
           two: "Al doilea criteriu de sortare"
           three: "Al treilea criteriu de sortare"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
+      upsale_for_more: "Filtrele avansate vă permit să filtrați, de asemenea, numele fișierelor și conținutul atașamentelor pachetelor de lucru. Vă rugăm să treceți la un plan plătit pentru a utiliza acest supliment."
       upsale_link: 'Ediția Enterprise.'
     general_text_no: "nu"
     general_text_yes: "da"
@@ -708,7 +708,7 @@ ro:
         confirm_reset: >
           Antenție: Sunteți sigur că doriți să resetați congurația formularului? Această acțiune va reseta toate atributele înapoi la grupul implicit și va dezactiva TOATE câmpurile personalizate.
         upgrade_to_ee: "Actualizare la ediția Enterprise on-premise"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee_text: "Wow! Dacă aveți nevoie de acest add-on sunteți un super profesionist! Vrei să ne sprijini pe noi, dezvoltatorii OpenSource, devenind client al ediției Enterprise?"
         more_information: "Mai multe informatii"
         nevermind: "Asta e..."
       edit:
@@ -855,7 +855,7 @@ ro:
       zooms: "Orizont de timp"
       outlines: "Nivel ierarhic"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: 'Add-on pentru ediția Enterprise'
     wiki_formatting:
       strong: "Aldin"
       italic: "Italic"
@@ -1192,7 +1192,7 @@ ro:
           description: 'Permisiuni bazate pe rolul atribuit în proiectul selectat'
         placeholder:
           title: 'Utilizator Placeholder'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
+          title_no_ee: 'Utilizator de tip Placeholder (add-on numai pentru ediția Enterprise)'
           description: 'Nu are acces la proiect și nu se trimite niciun e-mail.'
           description_no_ee: 'Nu are acces la proiect și nu se trimite niciun e-mail.  <br>Verificați<a href="%{eeHref}" ținta="_blank">ediția Enterprise</a>'
       principal:

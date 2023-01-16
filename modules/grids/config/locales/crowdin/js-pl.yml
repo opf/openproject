@@ -6,7 +6,7 @@ pl:
       configure: 'Konfiguruj widżet'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
-        link: 'Enterprise edition.'
+        link: 'Wersja Enterprise.'
       widgets:
         custom_text:
           title: 'Tekst niestandardowy/użytkownika'
