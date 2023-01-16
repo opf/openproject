@@ -50,12 +50,20 @@ See COPYRIGHT and LICENSE files for more details.
           <%# => Update colour to grey/silver? %>
           updated by <%= avatar(e.event_author, size: 'mini') if e.respond_to?(:event_author) %> <span class="spot-caption spot-caption_bold"><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %></span> on <%= format_time(e.event_datetime.to_time, true) %>
           </div>
-          <ul class="op-project-activity-list--item-details">
-            <% e.journal.details.each do |detail| -%>
-              <li class="op-project-activity-list--item-detail"><%= e.journal.render_detail(detail) %></li>
-            <% end -%>
-          </ul>
 
+          <% if e.event_description.present? -%>
+            <div class="op-project-activity-list--item-description">
+              <%= truncate_formatted_text(e.event_description) %>
+            </div>
+          <% end -%>
+
+          <% if e.journal.details.any? -%>
+            <ul class="op-project-activity-list--item-details">
+              <% e.journal.details.each do |detail| -%>
+                <li class="op-project-activity-list--item-detail"><%= e.journal.render_detail(detail) %></li>
+              <% end -%>
+            </ul>
+          <% end -%>
         </li>
 
       <% end -%>
