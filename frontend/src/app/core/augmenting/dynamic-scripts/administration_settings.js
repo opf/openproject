@@ -1,9 +1,12 @@
 var Administration = (function ($) {
-  var update_default_language_options,
-    init_language_selection_handling,
-    toggle_default_language_select;
+  const toggle_disabled_state = function (active) {
+    jQuery('#setting_default_language select').attr('disabled', active)
+      .closest('form')
+      .find('input:submit')
+      .attr('disabled', active);
+  };
 
-  update_default_language_options = function (input) {
+  const update_default_language_options = function (input) {
     var default_language_select = $('#setting_default_language select'),
       default_language_select_active;
 
@@ -24,14 +27,7 @@ var Administration = (function ($) {
     }
   };
 
-  toggle_disabled_state = function (active) {
-    jQuery('#setting_default_language select').attr('disabled', active)
-      .closest('form')
-      .find('input:submit')
-      .attr('disabled', active);
-  };
-
-  init_language_selection_handling = function () {
+  const init_language_selection_handling = function () {
     jQuery('#setting_available_languages input:not([checked="checked"])').each(function (index, input) {
       update_default_language_options($(input));
     });

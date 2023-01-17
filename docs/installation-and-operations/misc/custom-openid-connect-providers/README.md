@@ -29,7 +29,8 @@ options = {
   "secret"=>"<secret>",
   "authorization_endpoint" => "/oauth2/v1/authorize",
   "token_endpoint" => "/oauth2/v1/token",
-  "userinfo_endpoint" => "/oauth2/v1/userinfo"
+  "userinfo_endpoint" => "/oauth2/v1/userinfo",
+  "end_session_endpoint" => "https://mypersonal.okta.com/oauth2/{authorizationServerId}/v1/logout"
 }
 ```
 
@@ -261,6 +262,7 @@ OPENPROJECT_OPENID__CONNECT_KEYCLOAK_SECRET="<The client secret you copied from 
 OPENPROJECT_OPENID__CONNECT_KEYCLOAK_AUTHORIZATION__ENDPOINT="/realms/REALM/protocol/openid-connect/auth"
 OPENPROJECT_OPENID__CONNECT_KEYCLOAK_TOKEN__ENDPOINT="/realms/REALM/protocol/openid-connect/token"
 OPENPROJECT_OPENID__CONNECT_KEYCLOAK_USERINFO__ENDPOINT="/realms/REALM/protocol/openid-connect/userinfo"
+OPENPROJECT_OPENID__CONNECT_KEYCLOAK_END__SESSION__ENDPOINT="http://<Hostname of the keycloak server>/realms/REALM/protocol/openid-connect/logout"
 # Optional, if you have created the client scope mapper as shown above
 # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_ATTRIBUTE__MAP_LOGIN="preferred_username"
 ```

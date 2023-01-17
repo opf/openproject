@@ -9,8 +9,8 @@ GIT
 
 GIT
   remote: https://github.com/opf/omniauth-openid-connect.git
-  revision: 27d9d4a05c80a9b29709ae8681696de11156e0e5
-  ref: 27d9d4a05c80a9b29709ae8681696de11156e0e5
+  revision: 5dfc1758ab010eca4aae8d0e0287ec4d9ec7a1ce
+  ref: 5dfc1758ab010eca4aae8d0e0287ec4d9ec7a1ce
   specs:
     omniauth-openid-connect (0.4.0)
       addressable (~> 2.5)
@@ -282,7 +282,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.0)
       rbtree3 (~> 0.5)
-    appsignal (3.3.0)
+    appsignal (3.3.1)
       rack
     ast (2.4.2)
     attr_required (1.0.1)
@@ -291,7 +291,7 @@ GEM
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.691.0)
+    aws-partitions (1.693.0)
     aws-sdk-core (3.168.4)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -458,7 +458,7 @@ GEM
       tzinfo
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
-    excon (0.97.0)
+    excon (0.97.1)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -518,7 +518,7 @@ GEM
     fuubar (2.5.1)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
-    git (1.13.0)
+    git (1.13.1)
       addressable (~> 2.8)
       rchardet (~> 1.8)
     globalid (1.0.0)
@@ -611,8 +611,11 @@ GEM
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    mail (2.7.1)
+    mail (2.8.0.1)
       mini_mime (>= 0.1.1)
+      net-imap
+      net-pop
+      net-smtp
     marcel (1.0.2)
     matrix (0.4.2)
     messagebird-rest (1.4.2)
@@ -676,7 +679,7 @@ GEM
       activerecord (>= 5.2)
       request_store (~> 1.1)
     parallel (1.22.1)
-    parallel_tests (4.0.0)
+    parallel_tests (4.1.0)
       parallel
     parser (3.2.0.0)
       ast (~> 2.4.1)
@@ -859,12 +862,15 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.24.1)
       parser (>= 3.1.1.0)
+    rubocop-capybara (2.17.0)
+      rubocop (~> 1.41)
     rubocop-rails (2.17.4)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
-    rubocop-rspec (2.16.0)
+    rubocop-rspec (2.18.0)
       rubocop (~> 1.33)
+      rubocop-capybara
     ruby-duration (3.2.3)
       activesupport (>= 3.0.0)
       i18n
@@ -1054,14 +1060,14 @@ DEPENDENCIES
   listen (~> 3.8.0)
   livingstyleguide (~> 2.1.0)
   lograge (~> 0.12.0)
-  mail (~> 2.7.1)
+  mail (~> 2.8.0)
   matrix (~> 0.4.2)
   meta-tags (~> 2.18.0)
   mini_magick (~> 4.12.0)
   multi_json (~> 1.15.0)
   my_page!
   net-ldap (~> 0.17.0)
-  nokogiri (~> 1.14.0.rc1)
+  nokogiri (~> 1.14.0)
   oj (~> 3.13.0)
   okcomputer (~> 1.18.1)
   omniauth!
