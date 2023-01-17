@@ -49,7 +49,7 @@ tr:
         main-menu-border-color: "Ana menü kenarlığı"
       custom_colors: "Özel renkler"
       customize: "OpenProject kurulumunuzu kendi logonuz ve renklerinizle özelleştirin."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "OpenProject'in geliştirilmesine finansal destek verenlere özel olarak 'Teşekkür ederiz!'. Bu küçük özellik sadece Enterprise Sürüm alan destekçilerimize özeldir."
       enterprise_more_info: "Not: Kullanılan logo herkese açık olacaktır."
       manage_colors: "Renk seçim seçeneklerini düzenle"
       instructions:
@@ -64,7 +64,7 @@ tr:
         main-menu-bg-color: "Sol taraftaki menünün arka plan rengi."
       theme_warning: Temayı değiştirmek size özel stilin üzerine yazacaktır. Tasarım daha sonra kaybolacak. Devam etmek istediğine emin misin?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      upgrade_to_ee: "Enterprise Edition sürümüne yükseltin"
       add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
         text: "Are you sure you want to remove the current Enterprise edition token used?"
@@ -771,7 +771,7 @@ tr:
         watcher:
           attributes:
             user_id:
-              not_allowed_to_view: "is not allowed to view this resource."
+              not_allowed_to_view: "bu kaynağı görüntülemesine izin verilmiyor."
               locked: "kilitli."
         wiki_page:
           attributes:
@@ -784,10 +784,10 @@ tr:
               format: "%{message}"
             due_date:
               not_start_date: "kilometre taşları için gerekli olmasına rağmen başlangıç tarihi değil."
-              cannot_be_null: "can not be set to null as start date and duration are known."
+              cannot_be_null: "başlangıç tarihi ve süresi bilindiğinden sıfır değerine ayarlanamaz."
             duration:
-              larger_than_dates: "is larger than the interval between the start and the finish date."
-              smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              larger_than_dates: "başlangıç ve bitiş tarihi arasındaki aralıktan daha büyüktür."
+              smaller_than_dates: "başlangıç ve bitiş tarihi arasındaki aralıktan daha küçüktür."
               not_available_for_milestones: "is not available for milestone typed work packages."
               cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
@@ -824,7 +824,7 @@ tr:
             base:
               user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
-              confirmation: "Password confirmation does not match password."
+              confirmation: "Parola onayı parolayla eşleşmiyor."
               format: "%{message}"
             password:
               weak: "Aşağıdaki sınıfların karakterlerini içermelidir (en az% {min_count} /% {all_count}):% {rules}. %{min_count} %{all_count} %{rules} "
@@ -1377,10 +1377,10 @@ tr:
     blocks:
       community: "OpenProject topluluğu"
       upsale:
-        title: "Upgrade to Enterprise edition"
+        title: "Enterprise sürümüne yükseltin"
         more_info: "Daha fazla bilgi"
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
+      upgrade_enterprise_edition: "Enterprise sürümüne yükseltin"
       postgres_migration: "Kurulumunuzu PostgreSQL'e taşıyın"
       user_guides: "Kullanıcı rehberleri"
       faq: "SSS"
@@ -1404,7 +1404,7 @@ tr:
       mail_notification: "E-posta bildirimleri"
       mails_and_notifications: "E-postalar ve bildirim"
       aggregation: 'Kümelenme'
-      api_and_webhooks: "API and webhooks"
+      api_and_webhooks: "API ve web kancaları"
     quick_add:
       label: "Hızlı ekle menüsünü aç"
   my_account:
@@ -2021,7 +2021,7 @@ tr:
     notification:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
+      settings: 'E-posta ayarlarını değiştir'
     salutation: 'Merhaba %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
@@ -2261,7 +2261,7 @@ tr:
   permission_protect_wiki_pages: "Wiki sayfalarını koruma"
   permission_rename_wiki_pages: "Wiki sayfalarını yeniden adlandır"
   permission_save_queries: "Görünüm kaydetmek"
-  permission_select_custom_fields: "Select custom fields"
+  permission_select_custom_fields: "Özel alanları seçin"
   permission_select_project_modules: "Proje modülleri seçmek"
   permission_manage_types: "İş paketi türlerini seçmek"
   permission_view_changesets: "OpenProject'de depo revizyonlarını görüntüle"
@@ -2437,7 +2437,7 @@ tr:
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Belgeleme"
-  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled: "Dokümanlar sayfasını etkinleştir"
   setting_apiv3_docs_enabled_instructions_html: >
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Attachment upload whitelist"
@@ -2916,7 +2916,7 @@ tr:
   warning_user_limit_reached: >
     Kullanıcı limitine ulaşıldı. Daha fazla kullanıcıyı etkinleştiremezsiniz. Lütfen <a href="%{upgrade_url}"> planınızı yükseltin </a> veya ek kullanıcılara izin vermek için üyeleri engelleyin.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    Kullanıcı sınırınıza ulaştınız (%{current}/%{max} aktif kullanıcılar). Enterprise sürüm planınızı yükseltmek ve ek kullanıcılar eklemek için lütfen sales@openproject.com adresine başvurun.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2945,7 +2945,7 @@ tr:
   working_days:
     info: >
       <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
-    change_button: "Change working days"
+    change_button: "İş günlerini değiştir"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
@@ -3103,7 +3103,7 @@ tr:
     urn_connection_status:
       connected: "Bağlandı"
       error: "Hata"
-      failed_authorization: "Authorization failed"
+      failed_authorization: "Yetkilendirme başarısız oldu"
     labels:
       label_oauth_integration: "OAuth2 integration"
       label_redirect_uri: "Redirect URI"

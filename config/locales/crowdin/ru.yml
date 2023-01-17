@@ -907,7 +907,7 @@ ru:
   attributes:
     active: "Активно"
     assigned_to: "Назначенный"
-    assignee: "Исполнитель"
+    assignee: "Назначенный"
     attachments: "Вложения"
     author: "Автор"
     base: "Общая ошибка:"
@@ -2793,7 +2793,7 @@ ru:
         date: "дата"
         default: "по умолчанию"
       column:
-        assigned_to: "Исполнитель"
+        assigned_to: "Назначенный"
         type: "Тип"
         due_date: "Дате окончания"
         name: "Имя"
