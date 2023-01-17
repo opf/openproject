@@ -21,6 +21,7 @@ import {
   timelineMarkerSelectionStartClass,
 } from '../wp-timeline';
 import Moment = moment.Moment;
+import { DayResourceService } from 'core-app/core/state/days/day.service';
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -50,6 +51,8 @@ export class TimelineCellRenderer {
   @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
 
   @InjectField() weekdayService:WeekdayService;
+
+  @InjectField() dayService:DayResourceService;
 
   @InjectField() schemaCache:SchemaCacheService;
 
@@ -321,7 +324,7 @@ export class TimelineCellRenderer {
         break;
       }
       // Extend the duration if the currentDate is non-working
-      if (this.weekdayService.isNonWorkingDay(currentDate.toDate())) {
+      if (this.weekdayService.isNonWorkingDay(currentDate.toDate()) || this.dayService.isNonWorkingDay(currentDate.toDate())) {
         duration += 1;
       }
     }
@@ -472,10 +475,11 @@ export class TimelineCellRenderer {
     const dates = (evOrDates instanceof MouseEvent)
       ? [this.cursorDateAndDayOffset(evOrDates, renderInfo)[0]]
       : evOrDates;
-    if (!renderInfo.workPackage.ignoreNonWorkingDays && direction === 'both' && this.weekdayService.isNonWorkingDay(dates[dates.length - 1].toDate())) {
+    if (!renderInfo.workPackage.ignoreNonWorkingDays && direction === 'both'
+      && (this.weekdayService.isNonWorkingDay(dates[dates.length - 1].toDate()) || this.dayService.isNonWorkingDay(dates[dates.length - 1].toDate()))) {
       return false;
     }
-    return dates.some((date) => this.weekdayService.isNonWorkingDay(date.toDate()));
+    return dates.some((date) => (this.weekdayService.isNonWorkingDay(date.toDate()) || this.dayService.isNonWorkingDay(date.toDate())));
   }
 
   /**
