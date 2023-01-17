@@ -1,0 +1,3 @@
+[submodule "openproject"]
+	path = openproject
+	url = https://github.com/ProfessorNemo/openproject
