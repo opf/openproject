@@ -48,9 +48,9 @@ ru:
           few: "Успешно создано %{count} ссылок на файл."
           many: "Успешно создано %{count} ссылок на файл."
           other: "Успешно создано %{count} ссылок на файл."
-        upload_error: "An error occurred uploading the file '%{fileName}'."
+        upload_error: "Произошла ошибка при загрузке файла '%{fileName}'."
         link_uploaded_file_error: >
-          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
+          Произошла ошибка при привязке недавно загруженного файла '%{fileName}' к пакету работ %{workPackageId}.
         not_allowed_tooltip: "Войдите в Nextcloud для доступа к этому файлу"
         already_linked_file: "Этот файл уже связан с этим пакетом работ."
         already_linked_directory: "Этот каталог уже связан с этим пакетом работ."

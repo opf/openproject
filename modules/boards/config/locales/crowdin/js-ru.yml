@@ -58,7 +58,7 @@ ru:
           subproject: подпроект
           subtasks: родитель-потомок
         board_type_title:
-          assignee: Исполнитель
+          assignee: Назначенный
           status: Статус
           version: Версия
           subproject: Подпроект
