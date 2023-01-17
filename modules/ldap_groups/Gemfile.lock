@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    openproject-ldap_groups (8.0.0)
+    openproject-ldap_groups (1.0.0)
 
 GEM
   remote: https://www.rubygems.org/
@@ -18,4 +18,4 @@ DEPENDENCIES
   openproject-ldap_groups!
 
 BUNDLED WITH
-   1.16.1
+   2.4.1

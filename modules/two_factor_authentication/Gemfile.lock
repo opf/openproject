@@ -1,0 +1,35 @@
+PATH
+  remote: .
+  specs:
+    openproject-two_factor_authentication (1.0.0)
+      aws-sdk-sns (~> 1.56.0)
+      messagebird-rest (~> 1.4.2)
+      rotp (~> 6.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    aws-eventstream (1.2.0)
+    aws-partitions (1.693.0)
+    aws-sdk-core (3.168.4)
+      aws-eventstream (~> 1, >= 1.0.2)
+      aws-partitions (~> 1, >= 1.651.0)
+      aws-sigv4 (~> 1.5)
+      jmespath (~> 1, >= 1.6.1)
+    aws-sdk-sns (1.56.0)
+      aws-sdk-core (~> 3, >= 3.165.0)
+      aws-sigv4 (~> 1.1)
+    aws-sigv4 (1.5.2)
+      aws-eventstream (~> 1, >= 1.0.2)
+    jmespath (1.6.2)
+    messagebird-rest (1.4.2)
+    rotp (6.2.2)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  openproject-two_factor_authentication!
+
+BUNDLED WITH
+   2.4.1

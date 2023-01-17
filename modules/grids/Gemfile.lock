@@ -1,0 +1,17 @@
+PATH
+  remote: .
+  specs:
+    grids (1.0.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  grids!
+
+BUNDLED WITH
+   2.4.1

@@ -1,0 +1,38 @@
+PATH
+  remote: .
+  specs:
+    openproject-bim (1.0.0)
+      activerecord-import
+      rubyzip (~> 2.3.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activemodel (7.0.4)
+      activesupport (= 7.0.4)
+    activerecord (7.0.4)
+      activemodel (= 7.0.4)
+      activesupport (= 7.0.4)
+    activerecord-import (1.4.1)
+      activerecord (>= 4.2)
+    activesupport (7.0.4)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+    concurrent-ruby (1.1.10)
+    i18n (1.12.0)
+      concurrent-ruby (~> 1.0)
+    minitest (5.17.0)
+    rubyzip (2.3.2)
+    tzinfo (2.0.5)
+      concurrent-ruby (~> 1.0)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  openproject-bim!
+
+BUNDLED WITH
+   2.4.1
