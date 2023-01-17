@@ -217,10 +217,17 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
         watchdog.editor.on('op:source-code-enabled', () => this.enableManualMode());
         watchdog.editor.on('op:source-code-disabled', () => this.disableManualMode());
 
+        // Emit global dragend events for other drop zones to react.
+        // This is needed, as CKEditor does not bubble any drag events
         const model = watchdog.editor.model as unknown&{ on:(ev:string, callback:() => unknown) => void };
         model.on('op:attachment-added', () => document.body.dispatchEvent(new DragEvent('dragend')));
         model.on('op:attachment-removed', () => document.body.dispatchEvent(new DragEvent('dragend')));
 
+        // Emitting a global dragleave on every dragleave of the ckeditor element
+        // IMPORTANT: This emits much more dragleave events then dragenter events.
+        // In the end, this leads to a break in every drop zone that listens to those two global events
+        // to determine its state. Without it, if no dragleave is fired, the drop zones enter a failed state,
+        // not vanishing after ending the drag.
         this.$element.on('dragleave', () => document.body.dispatchEvent(new DragEvent('dragleave')));
 
         this.onInitialized.emit(watchdog.editor);
