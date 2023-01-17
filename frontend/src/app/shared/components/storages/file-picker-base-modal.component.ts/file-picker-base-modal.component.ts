@@ -95,7 +95,7 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
     super.ngOnInit();
 
     this.storageFilesResourceService
-      .files(makeFilesCollectionLink(this.storageLink, undefined))
+      .files(makeFilesCollectionLink(this.storageLink, '/'))
       .subscribe((files) => {
         const root = files.find((file) => file.name === '/');
         if (root === undefined) {

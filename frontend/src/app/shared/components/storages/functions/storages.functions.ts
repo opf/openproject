@@ -54,8 +54,8 @@ export function getIconForStorageType(storageType?:string):string {
   return storageIconMappings.default;
 }
 
-export function makeFilesCollectionLink(storageLink:IHalResourceLink, location:string|undefined):IHalResourceLink {
-  const query = location !== undefined ? `?parent=${location}` : '';
+export function makeFilesCollectionLink(storageLink:IHalResourceLink, location:string):IHalResourceLink {
+  const query = location !== '/' ? `?parent=${location}` : '';
 
   return {
     href: `${storageLink.href}/files${query}`,
