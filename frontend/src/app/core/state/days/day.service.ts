@@ -39,8 +39,14 @@ export class DayResourceService extends ResourceCollectionService<IDay> {
     return this
       .requireNonWorkingYear$(input)
       .pipe(
-        map((days) => days.findIndex((day:IDay) => !day.working && day.date === date) !== -1),
+        map((days) => days.findIndex((day:IDay) => day.date === date) !== -1),
       );
+  }
+
+  public isNonWorkingDay(date:Date):boolean {
+    let isNonWorkingDay = false;
+    this.isNonWorkingDay$(date).subscribe((isNonWorking) => { isNonWorkingDay = isNonWorking; });
+    return isNonWorkingDay;
   }
 
   requireNonWorkingYear$(date:Date):Observable<IDay[]> {
