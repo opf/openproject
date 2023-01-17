@@ -209,7 +209,7 @@ describe 'Projects index page',
     end
 
     it 'CF columns and filters are visible when added to settings' do
-      Setting.enabled_projects_columns += ["cf_#{custom_field.id}", "cf_#{invisible_custom_field.id}"]
+      Setting.enabled_projects_columns += [custom_field.column_name, invisible_custom_field.column_name]
       load_and_open_filters admin
 
       # CF's column is present:
@@ -669,7 +669,7 @@ describe 'Projects index page',
         SeleniumHubWaiter.wait
         remove_filter('latest_activity_at')
 
-        projects_page.set_filter("cf_#{list_custom_field.id}",
+        projects_page.set_filter(list_custom_field.column_name,
                                  list_custom_field.name,
                                  'is',
                                  [list_custom_field.possible_values[2].value])
@@ -680,7 +680,7 @@ describe 'Projects index page',
         expect(page).not_to have_text(project_created_on_fixed_date.name)
 
         # switching to multiselect keeps the current selection
-        cf_filter = page.find("li[filter-name='cf_#{list_custom_field.id}']")
+        cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
         within(cf_filter) do
           # Initial filter is a 'single select'
           expect(cf_filter.find(:select, 'value')).not_to be_multiple
@@ -696,7 +696,7 @@ describe 'Projects index page',
 
         click_on 'Apply'
 
-        cf_filter = page.find("li[filter-name='cf_#{list_custom_field.id}']")
+        cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
         within(cf_filter) do
           # Query has two values for that filter, so it should show a 'multi select'.
           expect(cf_filter.find(:select, 'value')).to be_multiple
@@ -718,7 +718,7 @@ describe 'Projects index page',
 
         click_on 'Apply'
 
-        cf_filter = page.find("li[filter-name='cf_#{list_custom_field.id}']")
+        cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
         within(cf_filter) do
           # Query has one value for that filter, so it should show a 'single select'.
           expect(cf_filter.find(:select, 'value')).not_to be_multiple
@@ -726,9 +726,9 @@ describe 'Projects index page',
 
         # CF date filter work (at least for one operator)
         SeleniumHubWaiter.wait
-        remove_filter("cf_#{list_custom_field.id}")
+        remove_filter(list_custom_field.column_name)
 
-        projects_page.set_filter("cf_#{date_custom_field.id}",
+        projects_page.set_filter(date_custom_field.column_name,
                                  date_custom_field.name,
                                  'on',
                                  ['2011-11-11'])
@@ -914,7 +914,7 @@ describe 'Projects index page',
     end
 
     it 'allows to alter the order in which projects are displayed' do
-      Setting.enabled_projects_columns += ["cf_#{integer_custom_field.id}"]
+      Setting.enabled_projects_columns += [integer_custom_field.column_name]
 
       # initially, ordered by name asc on each hierarchical level
       expect_projects_in_order(development_project,
@@ -991,8 +991,8 @@ describe 'Projects index page',
 
       allow_enterprise_edition
       allow(Setting)
-        .to receive(:enabled_projects_columns) # << "cf_#{list_custom_field.id}"
-        .and_return ["cf_#{list_custom_field.id}"]
+        .to receive(:enabled_projects_columns)
+        .and_return [list_custom_field.column_name]
 
       login_as(admin)
       visit projects_path
@@ -1004,7 +1004,7 @@ describe 'Projects index page',
                         .where(value: %w[A B])
                         .reorder(:id)
                         .pluck(:value)
-      expect(page).to have_selector(".cf_#{list_custom_field.id}.format-list", text: expected_sort.join(", "))
+      expect(page).to have_selector(".#{list_custom_field.column_name}.format-list", text: expected_sort.join(", "))
     end
   end
 end

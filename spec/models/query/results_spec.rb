@@ -191,7 +191,7 @@ describe Query::Results, with_mail: false do
       let(:last_value) do
         custom_field.custom_options.last
       end
-      let(:group_by) { "cf_#{custom_field.id}" }
+      let(:group_by) { custom_field.column_name }
 
       before do
         login_as(user1)
@@ -221,7 +221,7 @@ describe Query::Results, with_mail: false do
         create(:int_wp_custom_field, is_for_all: true, is_filter: true)
       end
 
-      let(:group_by) { "cf_#{custom_field.id}" }
+      let(:group_by) { custom_field.column_name }
 
       before do
         login_as(user1)
@@ -245,7 +245,7 @@ describe Query::Results, with_mail: false do
         create(:user_wp_custom_field, is_for_all: true, is_filter: true)
       end
 
-      let(:group_by) { "cf_#{custom_field.id}" }
+      let(:group_by) { custom_field.column_name }
 
       before do
         login_as(user1)
@@ -264,7 +264,7 @@ describe Query::Results, with_mail: false do
         create(:bool_wp_custom_field, is_for_all: true, is_filter: true)
       end
 
-      let(:group_by) { "cf_#{custom_field.id}" }
+      let(:group_by) { custom_field.column_name }
 
       before do
         login_as(user1)
@@ -288,7 +288,7 @@ describe Query::Results, with_mail: false do
         create(:date_wp_custom_field, is_for_all: true, is_filter: true)
       end
 
-      let(:group_by) { "cf_#{custom_field.id}" }
+      let(:group_by) { custom_field.column_name }
 
       before do
         login_as(user1)
@@ -388,7 +388,7 @@ describe Query::Results, with_mail: false do
 
       context 'when grouping by assignees' do
         before do
-          query.column_names = [:assigned_to, :"cf_#{custom_field.id}"]
+          query.column_names = [:assigned_to, custom_field.column_name.to_sym]
           query.group_by = 'assigned_to'
         end
 
@@ -407,7 +407,7 @@ describe Query::Results, with_mail: false do
         let(:group_by) { 'responsible' }
 
         before do
-          query.column_names = [:responsible, :"cf_#{custom_field.id}"]
+          query.column_names = [:responsible, custom_field.column_name.to_sym]
         end
 
         it 'returns all work packages of project 2' do
@@ -513,7 +513,7 @@ describe Query::Results, with_mail: false do
 
       activate_cf
 
-      query.add_filter(:"cf_#{bool_cf.id}", '=', [filter_value])
+      query.add_filter(bool_cf.column_name.to_sym, '=', [filter_value])
     end
 
     shared_examples_for 'is empty' do

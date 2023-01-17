@@ -42,7 +42,7 @@ describe 'Switching types in work package table', js: true do
 
     let(:query) do
       query = build(:query, user:, project:)
-      query.column_names = ['id', 'subject', 'type', "cf_#{cf_text.id}"]
+      query.column_names = ['id', 'subject', 'type', cf_text.column_name]
 
       query.save!
       query

@@ -36,8 +36,8 @@ describe Query::Results, 'sums' do
     end
   end
   let(:estimated_hours_column) { query.displayable_columns.detect { |c| c.name.to_s == 'estimated_hours' } }
-  let(:int_cf_column) { query.displayable_columns.detect { |c| c.name.to_s == "cf_#{int_cf.id}" } }
-  let(:float_cf_column) { query.displayable_columns.detect { |c| c.name.to_s == "cf_#{float_cf.id}" } }
+  let(:int_cf_column) { query.displayable_columns.detect { |c| c.name.to_s == int_cf.column_name } }
+  let(:float_cf_column) { query.displayable_columns.detect { |c| c.name.to_s == float_cf.column_name } }
   let(:material_costs_column) { query.displayable_columns.detect { |c| c.name.to_s == "material_costs" } }
   let(:labor_costs_column) { query.displayable_columns.detect { |c| c.name.to_s == "labor_costs" } }
   let(:overall_costs_column) { query.displayable_columns.detect { |c| c.name.to_s == "overall_costs" } }

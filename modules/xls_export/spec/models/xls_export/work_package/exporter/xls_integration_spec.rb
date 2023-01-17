@@ -195,7 +195,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
       wps[3].save!
       wps
     end
-    let(:column_names) { ['subject', 'status', 'estimated_hours', "cf_#{custom_field.id}"] }
+    let(:column_names) { ['subject', 'status', 'estimated_hours', custom_field.column_name] }
 
     before do
       allow(Setting)

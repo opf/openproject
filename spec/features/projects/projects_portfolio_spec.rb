@@ -96,10 +96,10 @@ describe 'Projects index page',
 
       # Check the status and custom field only
       find('input[value="project_status"]').check
-      find(%(input[value="cf_#{string_cf.id}"])).check
+      find(%(input[value="#{string_cf.column_name}"])).check
 
       expect(page).to have_selector('input[value="project_status"]:checked')
-      expect(page).to have_selector(%(input[value="cf_#{string_cf.id}"]:checked))
+      expect(page).to have_selector(%(input[value="#{string_cf.column_name}"]:checked))
 
       # Edit the project gantt query
       scroll_to_and_click(find('button', text: 'Edit query'))

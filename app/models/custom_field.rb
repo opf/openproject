@@ -244,6 +244,10 @@ class CustomField < ApplicationRecord
     :"#{attribute_name}="
   end
 
+  def column_name
+    "cf_#{id}"
+  end
+
   def type_name
     nil
   end

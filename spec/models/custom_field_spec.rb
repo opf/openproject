@@ -207,6 +207,14 @@ describe CustomField do
     it { is_expected.to eq(:"custom_field_#{field.id}=") }
   end
 
+  describe '#column_name' do
+    let(:field) { build_stubbed(:custom_field) }
+
+    subject { field.column_name }
+
+    it { is_expected.to eq("cf_#{field.id}") }
+  end
+
   describe '#possible_values_options' do
     let(:project) { build_stubbed(:project) }
     let(:user1) { build_stubbed(:user) }
