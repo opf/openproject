@@ -5,6 +5,7 @@ import {
 import { Subject } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { DayResourceService } from 'core-app/core/state/days/day.service';
 
 @Injectable()
 export class OpCalendarService extends UntilDestroyedMixin {
@@ -14,6 +15,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
 
   constructor(
     readonly weekdayService:WeekdayService,
+    readonly dayService:DayResourceService,
   ) {
     super();
   }
@@ -31,7 +33,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
   }
 
   applyNonWorkingDay({ date }:{ date?:Date }):string[] {
-    if (date && this.weekdayService.isNonWorkingDay(date)) {
+    if (date && (this.weekdayService.isNonWorkingDay(date) || this.dayService.isNonWorkingDay(date))) {
       return ['fc-non-working-day'];
     }
 
