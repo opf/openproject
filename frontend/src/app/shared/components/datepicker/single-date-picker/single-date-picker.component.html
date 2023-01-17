@@ -27,21 +27,10 @@
         slot="input"
         name="ignoreNonWorkingDays"
         [(ngModel)]="ignoreNonWorkingDays"
+        (ngModelChange)="changeNonWorkingDays()"
         data-qa-selector="op-datepicker-modal--include-non-working-days"
       ></spot-switch>
     </spot-selector-field>
-
-    <!--spot-form-field
-      label="Name"
-    >
-      <spot-text-field
-        slot="input"
-        name="name"
-        class="op-datepicker-modal--date-field"
-        [(ngModel)]="entityName"
-        [showClearButton]="true"
-      ></spot-text-field>
-    </spot-form-field-->
 
     <spot-form-field
       [label]="text.date"
@@ -50,8 +39,8 @@
         slot="input"
         name="date"
         class="op-datepicker-modal--date-field"
-        [ngModel]="value"
-        (ngModelChange)="writeValue($event)"
+        [ngModel]="workingValue"
+        (ngModelChange)="writeWorkingValue($event)"
         [showClearButton]="true"
       ></spot-text-field>
       <button

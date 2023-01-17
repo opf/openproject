@@ -69,9 +69,10 @@ import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
 import { ToastComponent } from './components/toaster/toast.component';
 
-import { OpSingleDateFormComponent } from './components/datepicker/single-date-form/single-date-form.component';
+import { OpWpSingleDateFormComponent } from './components/datepicker/wp-single-date-form/wp-single-date-form.component';
 import { OpSingleDatePickerComponent } from './components/datepicker/single-date-picker/single-date-picker.component';
-import { OpMultiDateFormComponent } from 'core-app/shared/components/datepicker/multi-date-form/multi-date-form.component';
+import { OpMultiDatePickerComponent } from './components/datepicker/multi-date-picker/multi-date-picker.component';
+import { OpWpMultiDateFormComponent } from 'core-app/shared/components/datepicker/wp-multi-date-form/wp-multi-date-form.component';
 import { OpDatePickerBannerComponent } from './components/datepicker/banner/datepicker-banner.component';
 import { OpDatePickerWorkingDaysToggleComponent } from 'core-app/shared/components/datepicker/toggle/datepicker-working-days-toggle.component';
 import { OpDatePickerSchedulingToggleComponent } from 'core-app/shared/components/datepicker/scheduling-mode/datepicker-scheduling-toggle.component';
@@ -203,10 +204,11 @@ export function bootstrapModule(injector:Injector):void {
     ViewSelectComponent,
 
     // Date pickers
-    OpSingleDateFormComponent,
+    OpWpSingleDateFormComponent,
     OpSingleDatePickerComponent,
+    OpMultiDatePickerComponent,
     OpDatePickerBannerComponent,
-    OpMultiDateFormComponent,
+    OpWpMultiDateFormComponent,
     OpDatePickerWorkingDaysToggleComponent,
     OpDatePickerSchedulingToggleComponent,
   ],
@@ -265,10 +267,11 @@ export function bootstrapModule(injector:Injector):void {
     OpLoadingProjectListComponent,
 
     // Date pickers
-    OpSingleDateFormComponent,
+    OpWpSingleDateFormComponent,
     OpSingleDatePickerComponent,
+    OpMultiDatePickerComponent,
     OpDatePickerBannerComponent,
-    OpMultiDateFormComponent,
+    OpWpMultiDateFormComponent,
     OpDatePickerWorkingDaysToggleComponent,
     OpDatePickerSchedulingToggleComponent,
   ],

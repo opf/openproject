@@ -63,27 +63,28 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
     spacer: this.I18n.t('js.filter.value_spacer'),
   };
 
-  constructor(readonly I18n:I18nService,
-    readonly timezoneService:TimezoneService) {
+  constructor(
+    readonly I18n:I18nService,
+    readonly timezoneService:TimezoneService,
+  ) {
     super(I18n, timezoneService);
   }
 
-  public get begin():HalResource|string {
-    return this.filter.values[0];
+  public get value():(HalResource[]|string[]) {
+    return this.filter.values;
   }
 
-  public set begin(val) {
-    this.filter.values[0] = val || '';
+  public set value(val:(HalResource[]|string[])) {
+    this.filter.values = val;
     this.filterChanged.emit(this.filter);
+  }
+
+  public get begin() {
+    return this.filter.values[0];
   }
 
   public get end() {
     return this.filter.values[1];
-  }
-
-  public set end(val) {
-    this.filter.values[1] = val || '';
-    this.filterChanged.emit(this.filter);
   }
 
   public get lowerBoundary():Moment|null {

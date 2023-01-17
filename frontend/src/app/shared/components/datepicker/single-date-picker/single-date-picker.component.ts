@@ -80,6 +80,8 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor {
 
   @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
 
+  public workingValue = '';
+
   public workingDate:Date = new Date();
 
   public isOpened = false;
@@ -119,7 +121,8 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor {
 
   save($event:Event) {
     $event.preventDefault();
-    // Write value to outside first
+    this.valueChange.emit(this.workingValue);
+    this.onChange(this.workingValue);
     this.close();
   }
 
@@ -127,6 +130,11 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor {
     const today = parseDate(new Date()) as Date;
     this.workingDate = today;
     this.enforceManualChangesToDatepicker(today);
+  }
+
+  changeNonWorkingDays():void {
+    this.initializeDatepicker();
+    this.cdRef.detectChanges();
   }
 
   private enforceManualChangesToDatepicker(enforceDate?:Date) {
@@ -149,8 +157,10 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor {
         },
         onChange: (dates:Date[]) => {
           if (dates.length > 0) {
-            this.writeValue(this.timezoneService.formattedISODate(dates[0]));
+            const dateString = this.timezoneService.formattedISODate(dates[0]);
+            this.writeWorkingValue(dateString);
             this.enforceManualChangesToDatepicker(dates[0]);
+            this.onTouched(dateString);
           }
 
           this.cdRef.detectChanges();
@@ -158,9 +168,8 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor {
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
-            this.ignoreNonWorkingDays,
+            !this.ignoreNonWorkingDays,
             this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
-            this.minimalDate,
             !!this.minimalDate && dayElem.dateObj <= this.minimalDate,
           );
         },
@@ -169,10 +178,14 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor {
     );
   }
 
-  writeValue(value:string):void {
-    this.value = value;
+  writeWorkingValue(value:string):void {
+    this.workingValue = value;
     this.workingDate = new Date(value);
-    this.valueChange.emit(value);
+  }
+
+  writeValue(value:string):void {
+    this.writeWorkingValue(value);
+    this.value = value;
   }
 
   onChange = (_:string):void => {};

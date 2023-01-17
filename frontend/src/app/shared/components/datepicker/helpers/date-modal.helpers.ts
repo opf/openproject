@@ -102,7 +102,6 @@ export function onDayCreate(
   dayElem:DayElement,
   ignoreNonWorkingDays:boolean,
   isNonWorkingDay:boolean,
-  minimalDate:Date|null|undefined,
   isDayDisabled:boolean,
 ):void {
   if (!ignoreNonWorkingDays && isNonWorkingDay) {

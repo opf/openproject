@@ -10,15 +10,15 @@
     class="spot-input"
   >{{ dates }}</button>
 
-  <op-single-date-form
+  <op-wp-single-date-form
     *ngIf="!isMultiDate"
     [value]="dates"
     [changeset]="change"
     (save)="save()"
     (cancel)="cancel()"
     slot="body"
-  ></op-single-date-form>
-  <op-multi-date-form
+  ></op-wp-single-date-form>
+  <op-wp-multi-date-form
     *ngIf="isMultiDate"
     [value]="dates"
     [changeset]="change"
@@ -26,5 +26,5 @@
     (save)="save()"
     (cancel)="cancel()"
     slot="body"
-  ></op-multi-date-form>
+  ></op-wp-multi-date-form>
 </spot-drop-modal>

@@ -69,8 +69,8 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 
 @Component({
-  selector: 'op-single-date-form',
-  templateUrl: './single-date-form.component.html',
+  selector: 'op-wp-single-date-form',
+  templateUrl: './wp-single-date-form.component.html',
   styleUrls: [
     '../styles/datepicker.modal.sass',
     '../styles/datepicker_mobile.modal.sass',
@@ -82,7 +82,7 @@ import { WorkPackageChangeset } from 'core-app/features/work-packages/components
     DateModalRelationsService,
   ],
 })
-export class OpSingleDateFormComponent extends UntilDestroyedMixin implements AfterViewInit, OnInit {
+export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements AfterViewInit, OnInit {
   @HostBinding('class.op-datepicker-modal') className = true;
 
   @Input('value') value = '';
@@ -229,7 +229,6 @@ export class OpSingleDateFormComponent extends UntilDestroyedMixin implements Af
             dayElem,
             this.ignoreNonWorkingDays,
             this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
-            minimalDate,
             this.dateModalScheduling.isDayDisabled(dayElem, minimalDate),
           );
         },

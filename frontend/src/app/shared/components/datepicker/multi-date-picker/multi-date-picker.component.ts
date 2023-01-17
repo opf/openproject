@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,92 +27,58 @@
 //++
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
-  Input,
+  forwardRef,
+  HostBinding,
   Injector,
-  ViewChild,
-  ViewEncapsulation,
+  Input,
   OnInit,
   Output,
-  HostBinding,
+  ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { DayElement } from 'flatpickr/dist/types/instance';
-import flatpickr from 'flatpickr';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
-  debounceTime,
-  filter,
-  map,
-  switchMap,
-} from 'rxjs/operators';
-import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
-import {
-  fromEvent,
-  merge,
-  Observable,
-  Subject,
-} from 'rxjs';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { FormResource } from 'core-app/features/hal/resources/form-resource';
-import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
-import { DateModalSchedulingService } from 'core-app/shared/components/datepicker/services/date-modal-scheduling.service';
-import {
-  areDatesEqual,
-  mappedDate,
+    areDatesEqual,
+    mappedDate,
   onDayCreate,
   parseDate,
   setDates,
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { DatePicker } from '../datepicker';
+import flatpickr from 'flatpickr';
+import { DayElement } from 'flatpickr/dist/types/instance';
+import { ActiveDateChange, DateFields, DateKeys, FieldUpdates } from '../wp-multi-date-form/wp-multi-date-form.component';
+import { merge, Observable, Subject } from 'rxjs';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { debounceTime, filter, map } from 'rxjs/operators';
+import { DeviceService } from 'core-app/core/browser/device.service';
+import { DateOption } from 'flatpickr/dist/types/options';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
-import { DeviceService } from 'core-app/core/browser/device.service';
-import { DatePicker } from '../datepicker';
-
-import DateOption = flatpickr.Options.DateOption;
-import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-
-export type DateKeys = 'start'|'end';
-export type DateFields = DateKeys|'duration';
-
-type StartUpdate = { startDate:string };
-type EndUpdate = { dueDate:string };
-type DurationUpdate = { duration:string|number|null };
-type DateUpdate = { date:string };
-type ActiveDateChange = [DateFields, null|Date|Date];
-
-export type FieldUpdates =
-  StartUpdate
-  |EndUpdate
-  |(StartUpdate&EndUpdate)
-  |(StartUpdate&DurationUpdate)
-  |(EndUpdate&DurationUpdate)
-  |DateUpdate;
 
 @Component({
-  selector: 'op-multi-date-form',
-  templateUrl: './multi-date-form.component.html',
-  styleUrls: [
-    '../styles/datepicker.modal.sass',
-    '../styles/datepicker_mobile.modal.sass',
-  ],
+  selector: 'op-multi-date-picker',
+  templateUrl: './multi-date-picker.component.html',
+  styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
-    DateModalSchedulingService,
-    DateModalRelationsService,
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => OpMultiDatePickerComponent),
+      multi: true,
+    },
   ],
 })
-export class OpMultiDateFormComponent extends UntilDestroyedMixin implements AfterViewInit, OnInit {
+export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements OnInit, ControlValueAccessor {
   @HostBinding('class.op-datepicker-modal') className = true;
 
   @HostBinding('class.op-datepicker-modal_wide') classNameWide = true;
@@ -121,9 +87,11 @@ export class OpMultiDateFormComponent extends UntilDestroyedMixin implements Aft
 
   @ViewChild('durationField', { read: ElementRef }) durationField:ElementRef<HTMLElement>;
 
-  @Input() changeset:ResourceChangeset;
-
   @Input() fieldName:string = '';
+
+  @Input() value:string[] = [];
+
+  @Output() valueChanged = new EventEmitter();
 
   @Output() cancel = new EventEmitter();
 
@@ -140,11 +108,17 @@ export class OpMultiDateFormComponent extends UntilDestroyedMixin implements Aft
     days: (count:number):string => this.I18n.t('js.units.day', { count }),
   };
 
-  onDataUpdated = new EventEmitter<string>();
+  get datesString():string {
+    if (this.value?.[0] && this.value?.[1]) {
+      return `${this.value[0]} - ${this.value[1]}`;
+    }
 
-  scheduleManually = false;
+    return this.text.placeholder;
+  }
 
   ignoreNonWorkingDays = false;
+
+  isOpened = true;
 
   duration:number|null;
 
@@ -226,12 +200,8 @@ export class OpMultiDateFormComponent extends UntilDestroyedMixin implements Aft
   constructor(
     readonly injector:Injector,
     readonly cdRef:ChangeDetectorRef,
-    readonly apiV3Service:ApiV3Service,
     readonly I18n:I18nService,
     readonly timezoneService:TimezoneService,
-    readonly halEditing:HalResourceEditingService,
-    readonly dateModalScheduling:DateModalSchedulingService,
-    readonly dateModalRelations:DateModalRelationsService,
     readonly deviceService:DeviceService,
     readonly weekdayService:WeekdayService,
     readonly focusHelper:FocusHelperService,
@@ -242,53 +212,17 @@ export class OpMultiDateFormComponent extends UntilDestroyedMixin implements Aft
   ngOnInit(): void {
     this.htmlId = `wp-datepicker-${this.fieldName as string}`;
 
-    this.dateModalScheduling.setChangeset(this.changeset as WorkPackageChangeset);
-    this.dateModalRelations.setChangeset(this.changeset as WorkPackageChangeset);
-
-    this.scheduleManually = !!this.changeset.value('scheduleManually');
-    this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
-
-    // Ensure we get the writable values from the loaded form
-    void this
-      .changeset
-      .getForm()
-      .then((form) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        this.ignoreNonWorkingDaysWritable = !!form.schema.ignoreNonWorkingDays.writable;
-        this.cdRef.detectChanges();
-      });
-
-    this.setDurationDaysFromUpstream(this.changeset.value('duration'));
-
-    this.dates.start = this.changeset.value('startDate');
-    this.dates.end = this.changeset.value('dueDate');
     this.setCurrentActivatedField(this.initialActivatedField);
   }
 
-  ngAfterViewInit():void {
-    this
-      .dateModalRelations
-      .getMinimalDateFromPreceeding()
-      .subscribe((date) => {
-        this.initializeDatepicker(date);
-        this.onDataChange();
-      });
-
-    // Autofocus duration if that's what activated us
-    if (this.initialActivatedField === 'duration') {
-      this.focusHelper.focus(this.durationField.nativeElement);
-    }
+  open():void {
+    this.isOpened = true;
+    this.initializeDatepicker();
   }
 
-  changeSchedulingMode():void {
-    this.initializeDatepicker();
-
-    // If removing manual scheduling on parent, reset ignoreNWD to original value
-    if (this.scheduleManually === false && !this.ignoreNonWorkingDaysWritable) {
-      this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
-    }
-
-    this.cdRef.detectChanges();
+  close():void {
+    this.isOpened = true;
+    this.datePickerInstance?.destroy();
   }
 
   changeNonWorkingDays():void {
@@ -479,7 +413,6 @@ export class OpMultiDateFormComponent extends UntilDestroyedMixin implements Aft
             dayElem,
             this.ignoreNonWorkingDays,
             this.weekdayService.isNonWorkingDay(dayElem.dateObj),
-            minimalDate,
             this.isDayDisabled(dayElem, minimalDate),
           );
         },
@@ -715,7 +648,7 @@ export class OpMultiDateFormComponent extends UntilDestroyedMixin implements Aft
     const end = this.dates.end || '';
 
     const output = `${start} - ${end}`;
-    this.onDataUpdated.emit(output);
+    this.save.emit(output);
   }
 
   private get initialActivatedField():DateFields {
@@ -816,5 +749,23 @@ export class OpMultiDateFormComponent extends UntilDestroyedMixin implements Aft
         filter(() => !(!!this.dates.start && !!this.dates.end)),
       )
       .subscribe(() => calendarContainer.classList.add('flatpickr-container-suppress-hover'));
+  }
+
+  writeValue(value:string[]|null):void {
+    this.value = value || [];
+    this.dates.start = this.value[0];
+    this.dates.end = this.value[1];
+  }
+
+  onChange = (_:string[]):void => {};
+
+  onTouched = ():void => {};
+
+  registerOnChange(fn:(_:string[]) => void):void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn:() => void):void {
+    this.onTouched = fn;
   }
 }

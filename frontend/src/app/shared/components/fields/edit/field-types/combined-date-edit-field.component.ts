@@ -48,16 +48,6 @@ export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent
 
   get isMultiDate():boolean {
     return !this.change.schema.isMilestone;
-
-    /*
-    this
-      .modal
-      ?.onDataUpdated
-      .subscribe((dates:string) => {
-        this.dates = dates;
-        this.cdRef.detectChanges();
-      });
-    */
   }
 
   public onModalClosed():void {
