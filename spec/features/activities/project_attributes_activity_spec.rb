@@ -37,21 +37,50 @@ describe 'Project attributes activities' do
                                        view_wiki_edits])
   end
   let(:project) { create(:project, enabled_module_names: %w[activity]) }
+  # more factories available in spec/factories/custom_field_factory.rb
+  let!(:string_project_custom_field) { create(:string_project_custom_field) }
 
   current_user { user }
 
   it 'tracks the project\'s activities', js: true do
+    new_project_attributes = {
+      name: 'a new project name',
+      description: 'a new project description',
+      string_project_custom_field.attribute_name => 'a new text custom field value'
+    }
+    project.update(new_project_attributes)
+
     visit project_activity_index_path(project)
 
     check 'Project attributes'
 
     click_button 'Apply'
 
-    within("li.project_attributes") do
+    within("li.op-project-activity-list--item") do
       expect(page)
         .to have_link("Project: #{project.name}")
 
-      expect(page).to have_selector(".hidden-for-sighted", text: 'Project attributes edited', visible: :hidden)
+      # expect each attribute to appear
+      ### own fields
+      # name
+      # description
+      # public
+      # parent
+      # identifier
+      # active (project archived or active)
+      # template
+      ### custom fields
+      # Text CF
+      # Long text CF
+      # Integer CF
+      # Float CF
+      # Boolean CF
+      # Version CF
+      # User CF
+      # Date CF
+      # List CF
+      expect(page).to have_text('Active status set to active')
+      expect(page).to have_text('a new text custom field value')
     end
   end
 end
