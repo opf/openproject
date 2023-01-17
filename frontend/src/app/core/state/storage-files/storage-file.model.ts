@@ -32,4 +32,8 @@ interface IStorageFileLocation {
   location:string;
 }
 
-export interface IStorageFile extends IFileLinkOriginData, IStorageFileLocation {}
+interface IStorageFilePermissions {
+  permissions:Array<'readable'|'writeable'>
+}
+
+export interface IStorageFile extends IFileLinkOriginData, IStorageFileLocation, IStorageFilePermissions {}

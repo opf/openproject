@@ -114,7 +114,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def storage_file(file_element)
       location = name(file_element)
-      name = location == @base_path ? '/' : CGI.unescape(location.split('/').last)
+      name = location == '/' ? location : CGI.unescape(location.split('/').last)
 
       ::Storages::StorageFile.new(
         id(file_element),
@@ -145,7 +145,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       return nil if texts.empty?
 
-      element_name = texts.first
+      element_name = texts.first.delete_prefix(@base_path)
 
       return element_name if element_name == '/'
 
