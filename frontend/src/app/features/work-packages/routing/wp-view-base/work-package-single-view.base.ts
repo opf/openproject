@@ -45,6 +45,9 @@ import {
 import {
   WorkPackageNotificationService,
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import {
+  switchMap,
+} from 'rxjs/operators';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -194,16 +197,19 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     if (this.workPackage.$links.fileLinks) {
       this.fileLinkResourceService
         .updateCollectionsForWorkPackage(this.workPackage.$links.fileLinks.href as string)
+        .pipe(
+          this.untilDestroyed(),
+          switchMap(() => this.projectsResourceService.lookup((this.workPackage.project as unknown&{ id:string }).id)),
+        )
         .subscribe(
-          () => {
-            this.projectsResourceService
-              .lookup((this.workPackage.project as unknown&{ id:string }).id)
-              .pipe(this.untilDestroyed())
-              .subscribe((project) => {
-                if (project._links.storages) {
-                  this.storages.updateCollection(project._links.self.href, project._links.storages);
-                }
-              });
+          (project) => {
+            if (project._links.storages) {
+              this.storages.updateCollection(project._links.self.href, project._links.storages);
+            }
+          },
+          (error) => {
+            this.toastService.addError(error);
+            throw error;
           },
         );
     }
