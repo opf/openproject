@@ -16,7 +16,7 @@ Step 1: Select a project and go to the work package overview. If you would like 
 
 ​		Alternatively, you can also chose the **Global work package overview** by selecting the **Waffle button** in the top right:
 
-![OpenProject global work packages overview](openproject_global_wp_view.PNG)
+![OpenProject global work packages overview](openproject_global_wp_view.png)
 
 Step 2: Either use existing fields, **Estimated time** and **Spent time**, or [create custom fields](../../system-admin-guide/custom-fields/) (i.e. **Est. Scope (h)** and **Time spent (h)**).
 
@@ -30,7 +30,7 @@ Step 5: Save your view.
 
 You could also add the Gantt view to add an additional dimension to your overview.
 
-![OpenProject work packages Gantt view](Openproject_wp_gantt_view.png)
+![OpenProject work packages Gantt view](openproject_wp_gantt_view.png)
 
 This will provide a rough overview of the various tasks assigned to a specific person or team. Adding the Gantt view provides a supplementary overview of when these tasks are scheduled. It is a visual way of looking at approximately how many tasks are assigned to an individual. This view gives you an estimate about the timeline, allowing for adjustments in assignments and timing to be made to balance your resources. 
 
