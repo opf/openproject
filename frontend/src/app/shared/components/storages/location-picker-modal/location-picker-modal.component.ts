@@ -61,6 +61,9 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
       cancel: this.i18n.t('js.button_cancel'),
       selectAll: this.i18n.t('js.storages.file_links.select_all'),
     },
+    tooltip: {
+      directory_not_writeable: this.i18n.t('js.storages.files.directory_not_writeable'),
+    },
   };
 
   public get canChooseLocation():boolean {
@@ -101,8 +104,12 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
       !isDirectory(file),
       index === 0,
       this.enterDirectoryCallback(file),
-      undefined,
+      this.isDirectoryWithoutWritePermission(file) ? this.text.tooltip.directory_not_writeable : undefined,
       undefined,
     );
+  }
+
+  private isDirectoryWithoutWritePermission(file:IStorageFile):boolean {
+    return isDirectory(file) && !file.permissions.some((permission) => permission === 'writeable');
   }
 }
