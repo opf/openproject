@@ -210,7 +210,7 @@ describe Journable::HistoricActiveRecordRelation do
 
       it "transforms the expression to query the correct table" do
         expect(subject.to_sql).to include \
-          "journals.created_at > '2022-01-01'"
+          "journals.updated_at > '2022-01-01'"
       end
 
       it "returns the requested work package" do
@@ -222,7 +222,7 @@ describe Journable::HistoricActiveRecordRelation do
 
         it "transforms the expression to query the correct table" do
           expect(subject.to_sql).to include \
-            "\"journals\".\"created_at\" > '2022-01-01'"
+            "\"journals\".\"updated_at\" > '2022-01-01'"
         end
 
         it "returns the requested work package" do
@@ -235,7 +235,7 @@ describe Journable::HistoricActiveRecordRelation do
 
         it "transforms the expression to query the correct table" do
           expect(subject.to_sql).to include \
-            "\"journals\".\"created_at\" >= '2022-01-01"
+            "\"journals\".\"updated_at\" >= '2022-01-01"
         end
 
         it "returns the requested work package" do

@@ -146,7 +146,6 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
           predicate.left.name = "journable_id"
           predicate.left.relation = Journal.arel_table
         when "updated_at"
-          predicate.left.name = "created_at"
           predicate.left.relation = Journal.arel_table
         when "created_at"
           predicate.left = Arel::Nodes::SqlLiteral.new("\"journables\".\"created_at\"")
@@ -195,7 +194,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
           #{model.journal_class.table_name}.*,
           journals.journable_id as id,
           journables.created_at as created_at,
-          journals.created_at as updated_at".gsub("\n", ""))
+          journals.updated_at as updated_at".gsub("\n", ""))
     elsif relation.select_values.count == 1 and
         relation.select_values.first.respond_to? :relation and
         relation.select_values.first.relation.name == model.journal_class.table_name and
@@ -272,8 +271,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #     "work_package.subject" => "work_package_journals.subject"
   #
   def gsub_table_names_in_sql_string!(sql_string)
-    sql_string.gsub! /(?<!_)#{model.table_name}\.updated_at/, "journals.created_at"
-    sql_string.gsub! "\"#{model.table_name}\".\"updated_at\"", "\"journals\".\"created_at\""
+    sql_string.gsub! /(?<!_)#{model.table_name}\.updated_at/, "journals.updated_at"
+    sql_string.gsub! "\"#{model.table_name}\".\"updated_at\"", "\"journals\".\"updated_at\""
     sql_string.gsub! /(?<!_)#{model.table_name}\.created_at/, "journables.created_at"
     sql_string.gsub! "\"#{model.table_name}\".\"created_at\"", "\"journables\".\"created_at\""
     sql_string.gsub! /(?<!_)#{model.table_name}\.id/, "journals.journable_id"
