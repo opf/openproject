@@ -190,11 +190,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #
   def select_columns_from_the_appropriate_tables(relation)
     if relation.select_values.count == 0
-      relation = relation.select("'#{timestamp}' as timestamp,
-          #{model.journal_class.table_name}.*,
-          journals.journable_id as id,
-          journables.created_at as created_at,
-          journals.updated_at as updated_at".gsub("\n", ""))
+      relation = relation.select(column_select_definitions.join(", "))
     elsif relation.select_values.count == 1 and
         relation.select_values.first.respond_to? :relation and
         relation.select_values.first.relation.name == model.journal_class.table_name and
@@ -205,6 +201,19 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       relation = relation.select("journals.journable_id as id")
     end
     relation
+  end
+
+  def column_select_definitions
+    [
+      "#{model.journal_class.table_name}.*",
+      "journals.journable_id as id",
+      "journables.created_at as created_at",
+      "journals.updated_at as updated_at",
+      "'#{timestamp}' as timestamp"
+    ] + \
+    model.column_names_missing_in_journal.collect do |missing_column_name|
+      "null as #{missing_column_name}"
+    end
   end
 
   # Modify order clauses to use the work-pacakge-journals table.
