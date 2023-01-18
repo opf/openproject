@@ -78,28 +78,6 @@
           [textContent]="text.today">
         </button>
       </spot-form-field>
-      <spot-form-field
-        [label]="text.duration"
-        data-qa-selector="datepicker-duration"
-      >
-        <spot-text-field
-          #durationField
-          slot="input"
-          name="duration"
-          data-qa-selector="op-datepicker-modal--duration-field"
-          class="op-datepicker-modal--date-field"
-          [attr.data-qa-highlighted]=" showFieldAsActive('duration') || undefined"
-          [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('duration')}"
-          [ngModel]="durationFocused ? duration : displayedDuration"
-          [showClearButton]="durationFocused"
-          pattern="\d*"
-          inputmode="numeric"
-          (ngModelChange)="durationChanges$.next($event)"
-          [disabled]="!isSchedulable"
-          (focusin)="handleDurationFocusIn()"
-          (focusout)="handleDurationFocusOut()"
-        ></spot-text-field>
-      </spot-form-field>
     </div>
 
     <input
@@ -109,6 +87,10 @@
     <div #flatpickrTarget></div>
 
     <div class="spot-action-bar">
+      <div class="spot-action-bar--left">
+        {{ dates.start }}
+        {{ dates.end }}
+      </div>
       <div class="spot-action-bar--right">
         <button
           type="button"

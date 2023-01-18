@@ -95,7 +95,7 @@ export class DatePicker {
 
   public destroy():void {
     this.hide();
-    this.datepickerInstance.destroy();
+    this.datepickerInstance?.destroy();
   }
 
   public hide():void {

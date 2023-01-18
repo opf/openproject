@@ -56,7 +56,7 @@ import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { ActiveDateChange, DateFields, DateKeys, FieldUpdates } from '../wp-multi-date-form/wp-multi-date-form.component';
-import { merge, Observable, Subject } from 'rxjs';
+import { fromEvent, merge, Observable, Subject } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { debounceTime, filter, map } from 'rxjs/operators';
 import { DeviceService } from 'core-app/core/browser/device.service';
@@ -79,33 +79,29 @@ import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helpe
   ],
 })
 export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements OnInit, ControlValueAccessor {
-  @HostBinding('class.op-datepicker-modal') className = true;
-
-  @HostBinding('class.op-datepicker-modal_wide') classNameWide = true;
-
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
-  @ViewChild('durationField', { read: ElementRef }) durationField:ElementRef<HTMLElement>;
+  @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
+
+  @Input() id = `flatpickr-input-${+(new Date())}`;
 
   @Input() fieldName:string = '';
 
   @Input() value:string[] = [];
 
-  @Output() valueChanged = new EventEmitter();
-
-  @Output() cancel = new EventEmitter();
-
-  @Output() save = new EventEmitter();
+  @Output() valueChange = new EventEmitter();
 
   text = {
     save: this.I18n.t('js.button_save'),
     cancel: this.I18n.t('js.button_cancel'),
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
     endDate: this.I18n.t('js.work_packages.properties.dueDate'),
-    duration: this.I18n.t('js.work_packages.properties.duration'),
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
     days: (count:number):string => this.I18n.t('js.units.day', { count }),
+    ignoreNonWorkingDays: {
+      title: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.title'),
+    },
   };
 
   get datesString():string {
@@ -118,9 +114,7 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
 
   ignoreNonWorkingDays = false;
 
-  isOpened = true;
-
-  duration:number|null;
+  isOpened = false;
 
   currentlyActivatedDateField:DateFields;
 
@@ -143,59 +137,9 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
   // Manual changes to the datepicker, with information which field was active
   datepickerChanged$ = new Subject<ActiveDateChange>();
 
-  // We want to position the modal as soon as the datepicker gets initialized
-  // But if we destroy and recreate the datepicker (e.g., when toggling switches), keep current position
-  modalPositioned = false;
-
-  // Date updates from the datepicker or a manual change
-  dateUpdates$ = merge(
-    this.startDateDebounced$,
-    this.endDateDebounced$,
-    this.datepickerChanged$,
-  )
-    .pipe(
-      this.untilDestroyed(),
-      filter(() => !!this.datePickerInstance),
-    )
-    .subscribe(([field, update]) => {
-      // When clearing the one date, clear the others as well
-      if (update !== null) {
-        this.handleSingleDateUpdate(field, update);
-      }
-
-      // Clear active field and duration
-      // when the active field was cleared
-      if (update === null && field !== 'duration') {
-        this.clearWithDuration(field);
-      }
-
-      this.onDataChange();
-      this.cdRef.detectChanges();
-    });
-
-  // Duration changes
-  durationChanges$ = new Subject<string>();
-
-  durationDebounced$ = this
-    .durationChanges$
-    .pipe(
-      this.untilDestroyed(),
-      debounceTime(500),
-      map((value) => (value === '' ? null : Math.abs(parseInt(value, 10)))),
-      filter((val) => val === null || !Number.isNaN(val)),
-      filter((val) => val !== this.duration),
-    )
-    .subscribe((value) => this.applyDurationChange(value));
-
-  // Duration is a special field as it changes its value based on its focus state
-  // which is different from the highlight state...
-  durationFocused = false;
-
   ignoreNonWorkingDaysWritable = true;
 
   private datePickerInstance:DatePicker;
-
-  private formUpdates$ = new Subject<FieldUpdates>();
 
   constructor(
     readonly injector:Injector,
@@ -207,6 +151,25 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
     readonly focusHelper:FocusHelperService,
   ) {
     super();
+
+    merge(
+      this.startDateDebounced$,
+      this.endDateDebounced$,
+      this.datepickerChanged$,
+    )
+      .pipe(
+        this.untilDestroyed(),
+        filter(() => !!this.datePickerInstance),
+      )
+      .subscribe(([field, update]) => {
+        console.log('update', field, update);
+        // When clearing the one date, clear the others as well
+        if (update !== null) {
+          this.handleSingleDateUpdate(field, update);
+        }
+
+        this.cdRef.detectChanges();
+      });
   }
 
   ngOnInit(): void {
@@ -221,51 +184,24 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
   }
 
   close():void {
-    this.isOpened = true;
+    this.isOpened = false;
     this.datePickerInstance?.destroy();
   }
 
   changeNonWorkingDays():void {
     this.initializeDatepicker();
-
-    // Resent the current start and duration so that the end date is calculated
-    if (!!this.dates.start && !!this.duration) {
-      this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
-    }
-
-    // If only one of the dates is set, sent that
-    // Resent the current start and duration so that the end date is calculated
-    if (!!this.dates.start && !this.dates.end) {
-      this.formUpdates$.next({ startDate: this.dates.start });
-    }
-
-    if (!!this.dates.end && !this.dates.start) {
-      this.formUpdates$.next({ dueDate: this.dates.end });
-    }
-
     this.cdRef.detectChanges();
   }
 
-  doSave($event:Event):void {
+  save($event:Event):void {
     $event.preventDefault();
-    // Apply the changed scheduling mode if any
-    this.changeset.setValue('scheduleManually', this.scheduleManually);
-
-    // Apply include NWD
-    this.changeset.setValue('ignoreNonWorkingDays', this.ignoreNonWorkingDays);
-
-    // Apply the dates if they could be changed
-    if (this.isSchedulable) {
-      this.changeset.setValue('startDate', mappedDate(this.dates.start));
-      this.changeset.setValue('dueDate', mappedDate(this.dates.end));
-      this.changeset.setValue('duration', this.durationAsIso8601);
-    }
-
-    this.save.emit();
-  }
-
-  doCancel():void {
-    this.cancel.emit();
+    const value = [
+      this.dates.start || '',
+      this.dates.end || '',
+    ];
+    this.valueChange.emit(value);
+    this.onChange(value);
+    this.close();
   }
 
   updateDate(key:DateKeys, val:string|null):void {
@@ -296,83 +232,15 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
     this.setCurrentActivatedField(nextActive);
   }
 
-  showTodayLink():boolean {
-    return this.isSchedulable;
-  }
-
-  /**
-   * Returns whether the user can alter the dates of the work package.
-   */
-  get isSchedulable():boolean {
-    return this.scheduleManually || !this.dateModalRelations.isParent;
-  }
-
   showFieldAsActive(field:DateFields):boolean {
-    return this.isStateOfCurrentActivatedField(field) && this.isSchedulable;
-  }
-
-  handleDurationFocusIn():void {
-    this.durationFocused = true;
-    this.setCurrentActivatedField('duration');
-  }
-
-  handleDurationFocusOut():void {
-    setTimeout(() => {
-      this.durationFocused = false;
-    });
-  }
-
-  get displayedDuration():string {
-    if (!this.duration) {
-      return '';
-    }
-
-    return this.text.days(this.duration);
-  }
-
-  private applyDurationChange(newValue:number|null):void {
-    this.duration = newValue;
-    this.cdRef.detectChanges();
-
-    // If we cleared duration or left it empty
-    // reset the value and the due date
-    if (newValue === null) {
-      this.updateDate('end', null);
-      return;
-    }
-
-    if (this.dates.start) {
-      this.formUpdates$.next({
-        startDate: this.dates.start,
-        duration: this.durationAsIso8601,
-      });
-    } else if (this.dates.end) {
-      this.formUpdates$.next({
-        dueDate: this.dates.end,
-        duration: this.durationAsIso8601,
-      });
-    }
-  }
-
-  private get durationAsIso8601():string|null {
-    if (this.duration) {
-      return this.timezoneService.toISODuration(this.duration, 'days');
-    }
-
-    return null;
-  }
-
-  private clearWithDuration(field:DateKeys) {
-    this.duration = null;
-    this.dates[field] = null;
-    this.enforceManualChangesToDatepicker();
+    return this.isStateOfCurrentActivatedField(field);
   }
 
   private initializeDatepicker(minimalDate?:Date|null) {
     this.datePickerInstance?.destroy();
     this.datePickerInstance = new DatePicker(
       this.injector,
-      '#flatpickr-input',
+      this.id,
       [this.dates.start || '', this.dates.end || ''],
       {
         mode: 'range',
@@ -381,32 +249,25 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
         onReady: (_date, _datestr, instance) => {
           instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
 
-          if (!this.modalPositioned) {
-            this.modalPositioned = true;
-          }
-
           this.ensureHoveredSelection(instance.calendarContainer);
         },
         onChange: (dates:Date[], _datestr, instance) => {
-          const activeField = this.currentlyActivatedDateField;
+          this.onTouched();
 
-          // When two values are passed from datepicker and we don't have duration set,
-          // just take the range provided by them
-          if (dates.length === 2 && !this.duration) {
-            this.setDatesAndDeriveDuration(dates[0], dates[1]);
+          if (dates.length === 2) {
+            console.log('two dates', dates);
+            this.setDates(dates[0], dates[1]);
             this.toggleCurrentActivatedField();
+            this.cdRef.detectChanges();
             return;
           }
 
           // Update with the same flow as entering a value
           const { latestSelectedDateObj } = instance as { latestSelectedDateObj:Date };
-          this.datepickerChanged$.next([activeField, latestSelectedDateObj]);
-
-          // The duration field is special in how it handles focus transitions
-          // For start/due we just toggle here
-          if (activeField !== 'duration') {
-            this.toggleCurrentActivatedField();
-          }
+          const activeField = this.currentlyActivatedDateField;
+          console.log('one date', dates, latestSelectedDateObj, activeField);
+          this.handleSingleDateUpdate(activeField, latestSelectedDateObj);
+          this.cdRef.detectChanges();
         },
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
@@ -417,7 +278,7 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
           );
         },
       },
-      null,
+      this.flatpickrTarget.nativeElement,
     );
   }
 
@@ -440,146 +301,26 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
 
     const dates = [startDate, endDate];
     setDates(dates, this.datePickerInstance, enforceDate);
-    this.onDataChange();
   }
 
-  private setDatesAndDeriveDuration(newStart:Date, newEnd:Date) {
+  private setDates(newStart:Date, newEnd:Date) {
     this.dates.start = this.timezoneService.formattedISODate(newStart);
     this.dates.end = this.timezoneService.formattedISODate(newEnd);
-
-    // Derive duration
-    this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
+    console.log(newStart, newEnd, { ...this.dates });
+    setTimeout(() => {
+      console.log(newStart, newEnd, { ...this.dates });
+    }, 50);
   }
 
   private handleSingleDateUpdate(activeField:DateFields, selectedDate:Date) {
     if (activeField === 'duration') {
-      this.durationActiveDateSelected(selectedDate);
       return;
     }
 
-    // If both dates are now set, ensure we update it accordingly
-    if (this.dates.start && this.dates.end) {
-      this.replaceDatesWithNewSelection(activeField, selectedDate);
-      return;
-    }
-
-    // Set the current date field
-    this.moveActiveDate(activeField, selectedDate);
-
-    // We may or may not have both fields set now
-    // If we have duration set, we derive the other field
-    if (this.duration) {
-      this.deriveMissingDateFromDuration(activeField);
-    } else if (this.dates.start && this.dates.end) {
-      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
-    }
+    this.replaceDatesWithNewSelection(activeField, selectedDate);
 
     // Set the selected date on the datepicker
     this.enforceManualChangesToDatepicker(selectedDate);
-  }
-
-  /**
-   * The duration field is active and a date was clicked in the datepicker.
-   *
-   * If the duration field has a value:
-   *  - start date is updated, derive end date, set end date active
-   * If the duration field has no value:
-   *   - If start date has a value, finish date is set
-   *   - Otherwise, start date is set
-   *   - Focus is set to the finish date
-   *
-   * @param selectedDate The date selected
-   * @private
-   */
-  private durationActiveDateSelected(selectedDate:Date) {
-    const selectedIsoDate = this.timezoneService.formattedISODate(selectedDate);
-
-    if (!this.duration && this.dates.start) {
-      // When duration is empty and start is set, update finish
-      this.setDaysInOrder(this.dates.start, selectedIsoDate);
-
-      // Focus moves to start date
-      this.setCurrentActivatedField('start');
-    } else {
-      // Otherwise, the start date always gets updated
-      this.setDaysInOrder(selectedIsoDate, this.dates.end);
-
-      // Focus moves to finish date
-      this.setCurrentActivatedField('end');
-    }
-
-    if (this.dates.start && this.duration) {
-      // If duration has value, derive end date from start and duration
-      this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
-    } else if (this.dates.start && this.dates.end) {
-      // If start and due now have values, derive duration again
-      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
-    }
-  }
-
-  private setDaysInOrder(start:string|null, end:string|null) {
-    const parsedStartDate = start ? parseDate(start) as Date : null;
-    const parsedEndDate = end ? parseDate(end) as Date : null;
-
-    if (parsedStartDate && parsedEndDate && parsedStartDate > parsedEndDate) {
-      this.dates.start = end;
-      this.dates.end = start;
-    } else {
-      this.dates.start = start;
-      this.dates.end = end;
-    }
-  }
-
-  /**
-   * The active field was updated in the datepicker, while the other date was not set
-   *
-   * This means we want to derive the non-active field using the duration, if that is set.
-   *
-   * @param activeField The active field that was changed
-   * @private
-   */
-  private deriveMissingDateFromDuration(activeField:'start'|'end') {
-    if (activeField === 'start' && !!this.dates.start) {
-      this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
-    }
-
-    if (activeField === 'end' && !!this.dates.end) {
-      this.formUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
-    }
-  }
-
-  /**
-   * Moves the active date to the given selected date.
-   *
-   * This is different from replaceDatesWithNewSelection as duration is prioritized higher in our case.
-   * @param activeField
-   * @param selectedDate
-   * @private
-   */
-  private moveActiveDate(activeField:DateKeys, selectedDate:Date) {
-    const parsedStartDate = this.dates.start ? parseDate(this.dates.start) as Date : null;
-    const parsedEndDate = this.dates.end ? parseDate(this.dates.end) as Date : null;
-
-    // Set the given field
-    this.dates[activeField] = this.timezoneService.formattedISODate(selectedDate);
-
-    // Special handling, moving finish date to before start date
-    if (activeField === 'end' && parsedStartDate && parsedStartDate > selectedDate) {
-      // Reset duration and start date
-      this.duration = null;
-      this.dates.start = null;
-      // Update finish date and mark as active in datepicker
-      this.enforceManualChangesToDatepicker(selectedDate);
-    }
-
-    // Special handling, moving start date to after finish date
-    if (activeField === 'start' && parsedEndDate && parsedEndDate < selectedDate) {
-      // Reset duration and start date
-      this.duration = null;
-      this.dates.end = null;
-      // Update finish date and mark as active in datepicker
-      this.enforceManualChangesToDatepicker(selectedDate);
-    }
   }
 
   private replaceDatesWithNewSelection(activeField:DateFields, selectedDate:Date) {
@@ -597,19 +338,17 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
 
     if (selectedDate < parsedStartDate) {
       if (activeField === 'start') {
-        // Set start, derive end from duration
+        // Set start, derive end from
         this.applyNewDates([selectedDate]);
       } else {
-        // Reset duration and end date
-        this.duration = null;
+        // Reset and end date
         this.applyNewDates(['', selectedDate]);
       }
     } else if (selectedDate > parsedEndDate) {
       if (activeField === 'end') {
         this.applyNewDates([parsedStartDate, selectedDate]);
       } else {
-        // Reset duration and end date
-        this.duration = null;
+        // Reset and end date
         this.applyNewDates([selectedDate]);
       }
     } else if (areDatesEqual(selectedDate, parsedStartDate) || areDatesEqual(selectedDate, parsedEndDate)) {
@@ -626,29 +365,6 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
 
     // Apply the dates to the datepicker
     setDates([start, end], this.datePickerInstance);
-
-    // We updated either start, end, or both fields
-    // If both are now set, we want to derive duration from them
-    if (this.dates.start && this.dates.end) {
-      this.formUpdates$.next({ startDate: this.dates.start, dueDate: this.dates.end });
-    }
-
-    // If only one is set, derive from duration
-    if (this.dates.start && !this.dates.end && !!this.duration) {
-      this.formUpdates$.next({ startDate: this.dates.start, duration: this.durationAsIso8601 });
-    }
-
-    if (this.dates.end && !this.dates.start && !!this.duration) {
-      this.formUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
-    }
-  }
-
-  private onDataChange() {
-    const start = this.dates.start || '';
-    const end = this.dates.end || '';
-
-    const output = `${start} - ${end}`;
-    this.save.emit(output);
   }
 
   private get initialActivatedField():DateFields {
@@ -665,42 +381,7 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
   }
 
   private isDayDisabled(dayElement:DayElement, minimalDate?:Date|null):boolean {
-    return !this.isSchedulable || (!this.scheduleManually && !!minimalDate && dayElement.dateObj <= minimalDate);
-  }
-
-  /**
-   * Update the datepicker dates and properties from a form response
-   * that includes derived/calculated values.
-   *
-   * @param form
-   * @private
-   */
-  private updateDatesFromForm(form:FormResource):void {
-    const payload = form.payload as { startDate:string, dueDate:string, duration:string, ignoreNonWorkingDays:boolean };
-    this.dates.start = payload.startDate;
-    this.dates.end = payload.dueDate;
-    this.ignoreNonWorkingDays = payload.ignoreNonWorkingDays;
-
-    this.setDurationDaysFromUpstream(payload.duration);
-
-    const parsedStartDate = parseDate(this.dates.start) as Date;
-    this.enforceManualChangesToDatepicker(parsedStartDate);
-    this.cdRef.detectChanges();
-  }
-
-  /**
-   * Updates the duration property and the displayed value
-   * @param value a ISO8601 duration string or null
-   * @private
-   */
-  private setDurationDaysFromUpstream(value:string|null) {
-    const durationDays = value ? this.timezoneService.toDays(value) : null;
-
-    if (!durationDays || durationDays === 0) {
-      this.duration = null;
-    } else {
-      this.duration = durationDays;
-    }
+    return !!minimalDate && dayElement.dateObj <= minimalDate;
   }
 
   private debouncedInput(input$:Subject<string>, key:DateKeys):Observable<ActiveDateChange> {
