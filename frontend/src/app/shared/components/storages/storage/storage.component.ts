@@ -136,6 +136,8 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       uploadFailed: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error', { fileName }),
       linkingAfterUploadFailed: (fileName:string, workPackageId:string):string =>
         this.i18n.t('js.storages.file_links.link_uploaded_file_error', { fileName, workPackageId }),
+      draggingManyFiles: (storageType:string):string => this.i18n.t('js.storages.file.dragging_many_files', { storageType }),
+      uploadingLabel: this.i18n.t('js.label_upload_notification'),
     },
     dropBox: {
       uploadLabel: this.i18n.t('js.storages.upload_files'),
@@ -144,6 +146,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     },
     emptyList: ():string => this.i18n.t('js.storages.file_links.empty', { storageType: this.storageType }),
     openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.storageType }),
+    nextcloud: this.i18n.t('js.storages.types.nextcloud'),
   };
 
   public get storageFilesLocation():string {
@@ -281,7 +284,6 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     this.storageFilesResourceService
       .uploadLink(this.uploadResourceLink(file.name, locationId))
       .pipe(
-        // switchMap((link) => this.uploadStorageFilesService.uploadFile(link, file)),
         switchMap((link) => this.uploadAndNotify(link, file)),
         catchError((error) => {
           isUploadError = true;
@@ -331,8 +333,11 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
         responseType: 'json',
       },
     ).pipe(share());
-    const message = this.i18n.t('js.label_upload_notification');
-    const notification = this.toastService.add({ data: [[file, observable]], type: 'upload', message });
+    const notification = this.toastService.add({
+      data: [[file, observable]],
+      type: 'upload',
+      message: this.text.toast.uploadingLabel,
+    });
 
     return observable
       .pipe(
@@ -460,7 +465,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private initializeStorageTypes() {
-    this.storageTypeMap[nextcloud] = this.i18n.t('js.storages.types.nextcloud');
+    this.storageTypeMap[nextcloud] = this.text.nextcloud;
   }
 
   public onDropFiles(event:DragEvent):void {
@@ -469,7 +474,13 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     this.draggingOverDropZone = false;
     this.dragging = 0;
 
-    this.openSelectLocationDialog(event.dataTransfer.files);
+    const files = event.dataTransfer.files;
+    if (files.length !== 1) {
+      this.toastService.addError(this.text.toast.draggingManyFiles(this.storageType));
+      return;
+    }
+
+    this.openSelectLocationDialog(files);
   }
 
   public onDragOver(event:DragEvent):void {
