@@ -26,10 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable RSpec/ClassCheck
-#   Prefer `kind_of?` over `is_a?` because it reads well before vowel and consonant sounds.
-#   E.g.: `relation.kind_of? ActiveRecord::Relation`
-
 require 'spec_helper'
 
 describe Journable::Timestamps do
@@ -87,16 +83,16 @@ describe Journable::Timestamps do
       subject { WorkPackage.at_timestamp(timestamp) }
 
       it "returns a historic active-record relation" do
-        expect(subject).to be_kind_of Journable::HistoricActiveRecordRelation
-        expect(subject).to be_kind_of ActiveRecord::Relation
+        expect(subject).to be_a Journable::HistoricActiveRecordRelation
+        expect(subject).to be_an ActiveRecord::Relation
       end
 
       describe "chaining a where clause" do
         subject { WorkPackage.at_timestamp(timestamp).where(assigned_to_id: 1) }
 
         it "still returns a historic active-record relation" do
-          expect(subject).to be_kind_of Journable::HistoricActiveRecordRelation
-          expect(subject).to be_kind_of ActiveRecord::Relation
+          expect(subject).to be_a Journable::HistoricActiveRecordRelation
+          expect(subject).to be_an ActiveRecord::Relation
         end
       end
 
@@ -356,7 +352,7 @@ describe Journable::Timestamps do
 
           it "returns an error because maximum returns a float rather than a relation" do
             expect { subject }.to raise_error NoMethodError
-            expect(WorkPackage.maximum(:estimated_hours)).to be_kind_of Float
+            expect(WorkPackage.maximum(:estimated_hours)).to be_a Float
           end
         end
       end
@@ -560,7 +556,7 @@ describe Journable::Timestamps do
           end
 
           it "has the attribute with null value" do
-            expect(subject.attributes_before_type_cast[column_name]).to be nil
+            expect(subject.attributes_before_type_cast[column_name]).to be_nil
           end
 
           it "has the typecasted value matching the journable class's data type" do
@@ -646,5 +642,3 @@ describe Journable::Timestamps do
     end
   end
 end
-
-# rubocop:enable RSpec/ClassCheck
