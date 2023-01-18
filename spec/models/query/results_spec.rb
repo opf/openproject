@@ -199,7 +199,7 @@ describe Query::Results, with_mail: false do
         work_package1.send(custom_field.attribute_setter, first_value)
         work_package1.save!
         work_package2.send(custom_field.attribute_setter, [first_value,
-                                                      last_value])
+                                                           last_value])
         work_package2.save!
       end
 

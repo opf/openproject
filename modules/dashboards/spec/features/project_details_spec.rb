@@ -50,7 +50,7 @@ describe 'Project details widget on dashboard', js: true do
       p.send(float_cf.attribute_setter, 4.5)
       p.send(text_cf.attribute_setter, 'Some **long** text')
       p.send(string_cf.attribute_setter, 'Some small text')
-      p.send(date_cf.attribute_setter, Date.today)
+      p.send(date_cf.attribute_setter, Date.current)
       p.send(user_cf.attribute_setter, other_user)
 
       p.save!(validate: false)

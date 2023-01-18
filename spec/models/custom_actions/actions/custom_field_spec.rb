@@ -105,8 +105,9 @@ describe CustomActions::Actions::CustomField do
       expect(described_class.all.map(&:custom_field))
         .to match_array(custom_fields)
 
-      expect(described_class.all.all? { |a| described_class >= a })
-        .to be_truthy
+      described_class.all.each do |subclass|
+        expect(subclass.ancestors).to include(described_class)
+      end
     end
   end
 
@@ -334,7 +335,7 @@ describe CustomActions::Actions::CustomField do
       end
     end
 
-    context 'for a non multi value field' do
+    context 'for a multi value field' do
       let(:custom_field) { list_multi_custom_field }
 
       it 'is true' do
@@ -477,6 +478,8 @@ describe CustomActions::Actions::CustomField do
     end
 
     context 'for a multi list custom field' do
+      let(:custom_field) { list_multi_custom_field }
+
       it_behaves_like 'associated custom action validations' do
         let(:allowed_values) do
           custom_field
@@ -571,7 +574,7 @@ describe CustomActions::Actions::CustomField do
   end
 
   describe '#apply' do
-    let(:work_package) { double('work_package') }
+    let(:work_package) { build(:work_package) }
 
     %i[list
        version
@@ -586,13 +589,15 @@ describe CustomActions::Actions::CustomField do
       let(:custom_field) { send(:"#{type}_custom_field") }
 
       it "sets the value for #{type} custom fields" do
-        expect(work_package)
+        allow(work_package)
           .to receive(custom_field.attribute_setter)
-          .with([42])
 
         instance.values = 42
-
         instance.apply(work_package)
+
+        expect(work_package)
+          .to have_received(custom_field.attribute_setter)
+          .with([42])
       end
     end
 
@@ -600,13 +605,15 @@ describe CustomActions::Actions::CustomField do
       let(:custom_field) { date_custom_field }
 
       it "sets the value to today for a dynamic value" do
-        expect(work_package)
+        allow(work_package)
           .to receive(custom_field.attribute_setter)
-                .with(Date.today)
 
         instance.values = '%CURRENT_DATE%'
-
         instance.apply(work_package)
+
+        expect(work_package)
+          .to have_received(custom_field.attribute_setter)
+                .with(Date.current)
       end
     end
   end
