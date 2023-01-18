@@ -397,7 +397,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     describe 'with Nextcloud storage type selected' do
       it 'must return an upload link URL' do
         subject
-          .upload_link_query(user:, finalize_url: nil)
+          .upload_link_query(user:)
           .match(
             on_success: ->(query) do
               query.call(query_payload).match(
@@ -457,7 +457,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
       it 'must return :not_authorized ServiceResult' do
         subject
-          .upload_link_query(user:, finalize_url: nil)
+          .upload_link_query(user:)
           .match(
             on_success: ->(query) do
               result = query.call(query_payload)
@@ -480,7 +480,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
       it 'must return :not_authorized ServiceResult' do
         subject
-          .upload_link_query(user:, finalize_url: nil)
+          .upload_link_query(user:)
           .match(
             on_success: ->(query) do
               result = query.call(query_payload)
@@ -502,7 +502,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
         it "must return :#{symbol} ServiceResult" do
           subject
-            .upload_link_query(user:, finalize_url: nil)
+            .upload_link_query(user:)
             .match(
               on_success: ->(query) do
                 result = query.call(query_payload)

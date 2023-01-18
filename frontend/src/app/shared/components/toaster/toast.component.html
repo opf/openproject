@@ -18,7 +18,7 @@
       <span [textContent]="' '"></span>
       <a class="op-toast--target-link"
          *ngIf="toast.link"
-         (click)="executeTarget($event)"
+         (click)="executeTarget()"
          [textContent]="toast.link!.text">
       </a>
     </p>
@@ -37,9 +37,10 @@
           <ul class="op-toast--uploads" *ngIf="data && data.length > 0">
             <op-toasters-upload-progress
               *ngFor="let upload of data"
-              [upload]="upload"
-              (onSuccess)="onUploadSuccess()"
-              (onError)="remove()">
+              [file]="upload[0]"
+              [upload]="upload[1]"
+              (uploadSuccess)="onUploadSuccess()"
+              (uploadError)="remove()">
             </op-toasters-upload-progress>
           </ul>
         </div>

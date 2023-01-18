@@ -28,7 +28,10 @@
 
 import { Injectable } from '@angular/core';
 import {
-  HttpClient, HttpEvent, HttpEventType, HttpResponse,
+  HttpClient,
+  HttpEvent,
+  HttpEventType,
+  HttpResponse,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map, share } from 'rxjs/operators';
@@ -61,9 +64,10 @@ export interface MappedUploadResult {
 
 @Injectable()
 export class OpenProjectFileUploadService {
-  constructor(protected http:HttpClient,
-    protected halResource:HalResourceService) {
-  }
+  constructor(
+    protected readonly http:HttpClient,
+    protected readonly halResource:HalResourceService,
+  ) { }
 
   /**
    * Upload multiple files and return a promise for each uploading file and a single promise for all processed uploads
@@ -76,7 +80,10 @@ export class OpenProjectFileUploadService {
   public uploadAndMapResponse(url:string, files:UploadFile[], method = 'post') {
     const { uploads, finished } = this.upload(url, files);
     const mapped = finished
-      .then((result:HalResource[]) => result.map((el:HalResource) => ({ response: el, uploadUrl: el.staticDownloadLocation.href }))) as Promise<{ response:HalResource, uploadUrl:string }[]>;
+      .then((result:HalResource[]) => result.map((el:HalResource) => ({
+        response: el,
+        uploadUrl: el.staticDownloadLocation.href,
+      }))) as Promise<{ response:HalResource, uploadUrl:string }[]>;
 
     return { uploads, finished: mapped } as MappedUploadResult;
   }
@@ -98,6 +105,7 @@ export class OpenProjectFileUploadService {
    * @param {string} url
    * @param {UploadFile} file
    * @param {string} method
+   * @param {'text'|'json'} responseType
    */
   public uploadSingle(url:string, file:UploadFile|UploadBlob, method = 'post', responseType:'text'|'json' = 'json') {
     const formData = new FormData();
@@ -115,9 +123,7 @@ export class OpenProjectFileUploadService {
     // Add the file
     formData.append('file', file, metadata.fileName);
 
-    const observable = this
-      .http
-      .request<HalResource>(
+    const observable = this.http.request<HalResource>(
       method,
       url,
       {
@@ -129,10 +135,7 @@ export class OpenProjectFileUploadService {
         // Subscribe to progress events. subscribe() will fire multiple times!
         reportProgress: true,
       },
-    )
-      .pipe(
-        share(),
-      );
+    ).pipe(share());
 
     return [file, observable] as UploadInProgress;
   }
