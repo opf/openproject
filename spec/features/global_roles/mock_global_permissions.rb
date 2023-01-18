@@ -19,7 +19,7 @@ def mock_global_permissions(permissions)
 end
 
 def mock_permissions(name, options = {})
-  ::OpenProject::AccessControl::Permission.new(
+  OpenProject::AccessControl::Permission.new(
     name,
     { does_not: :matter },
     project_module: 'Foo',

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe 'Subproject creation', type: :feature, js: true do
-  let(:name_field) { ::FormFields::InputFormField.new :name }
-  let(:parent_field) { ::FormFields::SelectFormField.new :parent }
+describe 'Subproject creation', js: true do
+  let(:name_field) { FormFields::InputFormField.new :name }
+  let(:parent_field) { FormFields::SelectFormField.new :parent }
   let(:add_subproject_role) { create(:role, permissions: %i[edit_project add_subprojects]) }
   let(:view_project_role) { create(:role, permissions: %i[edit_project]) }
   let!(:parent_project) do

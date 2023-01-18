@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -46,6 +46,7 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -69,12 +70,21 @@ export class WorkPackageFilesTabComponent implements OnInit {
 
   storages$:Observable<IStorage[]>;
 
+  get storageFileUploadEnabled():boolean {
+    return this.configurationService.activeFeatureFlags.includes('storageFileUpload');
+  }
+
+  get storageFileLinkingEnabled():boolean {
+    return this.configurationService.activeFeatureFlags.includes('storageFileLinking');
+  }
+
   constructor(
     private readonly i18n:I18nService,
     private readonly hook:HookService,
     private readonly currentUserService:CurrentUserService,
     private readonly projectsResourceService:ProjectsResourceService,
     private readonly storagesResourceService:StoragesResourceService,
+    private readonly configurationService:ConfigurationService,
     private readonly apiV3:ApiV3Service,
     private readonly toast:ToastService,
   ) { }

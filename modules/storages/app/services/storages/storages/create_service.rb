@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,6 +45,7 @@ module Storages::Storages
       # using values from storage (particularly :host) as defaults
       if storage.provider_type == 'nextcloud'
         persist_service_result = ::Storages::OAuthApplications::CreateService.new(storage:, user:).call
+        storage.oauth_application = persist_service_result.result if persist_service_result.success?
         service_call.add_dependent!(persist_service_result)
       end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,13 +28,13 @@
 
 require 'spec_helper'
 
-describe 'Select work package row', type: :feature, js: true, selenium: true do
+describe 'Select work package row', js: true, selenium: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package_1) { create(:work_package, project:) }
   let(:work_package_2) { create(:work_package, project:) }
   let(:work_package_3) { create(:work_package, project:) }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   include_context 'work package table helpers'
 

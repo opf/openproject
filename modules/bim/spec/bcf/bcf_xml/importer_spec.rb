@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::OpenProject::Bim::BcfXml::Importer do
+describe OpenProject::Bim::BcfXml::Importer do
   let(:filename) { 'MaximumInformation.bcf' }
   let(:file) do
     Rack::Test::UploadedFile.new(
@@ -95,7 +95,7 @@ describe ::OpenProject::Bim::BcfXml::Importer do
     it 'creates 2 work packages' do
       subject.import!
 
-      expect(::Bim::Bcf::Issue.count).to be_eql 2
+      expect(Bim::Bcf::Issue.count).to be_eql 2
       expect(WorkPackage.count).to be_eql 2
     end
   end
@@ -106,8 +106,8 @@ describe ::OpenProject::Bim::BcfXml::Importer do
     it 'imports that viewpoint successfully' do
       expect(subject.import!).to be_present
 
-      expect(::Bim::Bcf::Issue.count).to eq 1
-      issue = ::Bim::Bcf::Issue.last
+      expect(Bim::Bcf::Issue.count).to eq 1
+      issue = Bim::Bcf::Issue.last
       expect(issue.viewpoints.count).to eq 1
 
       viewpoint = issue.viewpoints.first

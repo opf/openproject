@@ -50,7 +50,7 @@ ru:
         work_packages_accountable:
           title: "Пакеты работ, в которых я проверяющий"
         work_packages_assigned:
-          title: 'Пакеты работ, где я исполнитель'
+          title: 'Переданные мне пакеты работ'
         work_packages_created:
           title: 'Пакеты работ, созданные мной'
         work_packages_watched:

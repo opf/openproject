@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'work_package'
 
-describe ::OAuth::ApplicationsController, type: :controller do
+describe OAuth::ApplicationsController do
   let(:user) { build_stubbed :admin }
   let(:application_stub) { build_stubbed(:oauth_application, id: 1, secret: 'foo') }
 
@@ -71,7 +71,7 @@ describe ::OAuth::ApplicationsController, type: :controller do
 
   describe '#edit' do
     before do
-      allow(::Doorkeeper::Application)
+      allow(Doorkeeper::Application)
         .to receive(:find)
         .with('1')
         .and_return(application_stub)
@@ -86,7 +86,7 @@ describe ::OAuth::ApplicationsController, type: :controller do
 
   describe '#create' do
     before do
-      allow(::Doorkeeper::Application)
+      allow(Doorkeeper::Application)
         .to receive(:new)
         .and_return(application_stub)
       expect(application_stub).to receive(:attributes=)
@@ -102,7 +102,7 @@ describe ::OAuth::ApplicationsController, type: :controller do
 
   describe '#update' do
     before do
-      allow(::Doorkeeper::Application)
+      allow(Doorkeeper::Application)
         .to receive(:find)
         .with('1')
         .and_return(application_stub)
@@ -118,7 +118,7 @@ describe ::OAuth::ApplicationsController, type: :controller do
 
   describe '#destroy' do
     before do
-      allow(::Doorkeeper::Application)
+      allow(Doorkeeper::Application)
         .to receive(:find)
         .with('1')
         .and_return(application_stub)

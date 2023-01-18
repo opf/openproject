@@ -25,11 +25,11 @@
       <h3 class="form--section-title">
         {{ text.title }}
       </h3>
-  
+
       <p>
         {{ text.info }}
       </p>
-  
+
       <p class="danger-zone--warning">
         <span class="icon icon-error"></span>
         <span>{{ text.note }}</span>
@@ -63,7 +63,13 @@
           (input)="backupToken = $event.target.value"
           #backupTokenInput
         />
-        <button name="button" type="submit" class="-highlight button" (click)="triggerBackup($event)" [disabled]="backupToken.length == 0">
+        <button
+          name="button"
+          type="submit"
+          class="-highlight button"
+          [disabled]="backupToken.length === 0"
+          (click)="triggerBackup($event)"
+        >
           <i class="button--icon icon-export"></i>
           <span class="button--text">{{ text.requestBackup }}</span>
         </button>

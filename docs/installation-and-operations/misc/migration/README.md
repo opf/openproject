@@ -71,11 +71,20 @@ pg_restore -h <dbhost> -u <dbuser> -W --dbname <dbname> --clean postgresql-dump-
 Your storage path on the old installation can be shown using the following command:
 
 ```
+openproject config:get OPENPROJECT_ATTACHMENTS__STORAGE__PATH
+#=> e.g., /var/db/openproject/files
+```
+
+On versions prior to 12.5, the environment variable was named differently. Use
+the following command to show the storage path:
+
+```
 openproject config:get ATTACHMENTS_STORAGE_PATH
 #=> e.g., /var/db/openproject/files
 ```
 
-Simply extract your attachments dump into that folder with `tar -vxfz <dump>.tar.gz`, creating it beforehand if needed.
+Simply extract your attachments dump into that folder with `tar -xvzf <dump>.tar.gz`,
+creating it beforehand if needed. Ensure that this is writable by the `openproject` user.
 
 
 

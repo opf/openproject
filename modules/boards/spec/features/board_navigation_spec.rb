@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './support/board_index_page'
 require_relative './support/board_page'
 
-describe 'Work Package boards spec', type: :feature, js: true do
+describe 'Work Package boards spec', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -45,7 +45,7 @@ describe 'Work Package boards spec', type: :feature, js: true do
   let!(:status) { create :default_status }
   let(:board_index) { Pages::BoardIndex.new(project) }
   let!(:board_view) { create :board_grid_with_query, name: 'My board', project: }
-  let(:project_html_title) { ::Components::HtmlTitle.new project }
+  let(:project_html_title) { Components::HtmlTitle.new project }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
 
   before do
@@ -114,7 +114,7 @@ describe 'Work Package boards spec', type: :feature, js: true do
 
     subitem.click
 
-    board_page = ::Pages::Board.new board_view
+    board_page = Pages::Board.new board_view
     board_page.expect_query 'List 1', editable: true
     board_page.add_card 'List 1', 'Task 1'
   end

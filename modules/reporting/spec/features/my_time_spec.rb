@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Cost report showing my own times', type: :feature, js: true do
+describe 'Cost report showing my own times', js: true do
   let(:project) { create :project }
   let(:user) { create :admin }
   let(:user2) { create :admin }

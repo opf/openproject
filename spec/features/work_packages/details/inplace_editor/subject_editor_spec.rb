@@ -13,7 +13,7 @@ describe 'subject inplace editor', js: true, selenium: true do
   let(:user) { create :admin }
   let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package, project) }
   let(:field) { work_packages_page.edit_field(property_name) }
-  let(:notification) { ::PageObjects::Notifications.new(page) }
+  let(:notification) { PageObjects::Notifications.new(page) }
 
   before do
     login_as(user)

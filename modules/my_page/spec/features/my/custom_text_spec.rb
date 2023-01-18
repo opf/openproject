@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-describe 'Custom text widget on my page', type: :feature, js: true do
+describe 'Custom text widget on my page', js: true do
   let(:permissions) do
     []
   end
@@ -49,8 +49,8 @@ describe 'Custom text widget on my page', type: :feature, js: true do
   let(:my_page) do
     Pages::My::Page.new
   end
-  let(:image_fixture) { ::UploadedFile.load_from('spec/fixtures/files/image.png') }
-  let(:editor) { ::Components::WysiwygEditor.new 'body' }
+  let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
+  let(:editor) { Components::WysiwygEditor.new 'body' }
   let(:field) { TextEditorField.new(page, 'description', selector: '.inline-edit--active-field') }
 
   before do

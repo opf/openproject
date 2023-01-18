@@ -82,7 +82,7 @@ describe Bim::IfcModels::ViewConverterService do
         allow(subject).to receive(:ifc_model_path).and_return(ifc_model_path)
         allow(subject).to receive(:working_directory).and_return(working_directory)
 
-        model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:error]
+        model.conversion_status = Bim::IfcModels::IfcModel.conversion_statuses[:error]
         model.conversion_error_message = "Some message"
       end
 

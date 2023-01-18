@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -105,16 +105,15 @@ export class WorkPackagesGridComponent implements WorkPackageViewOutputs {
     this.dragInto = this.configuration.dragAndDropEnabled;
     this.canDragOutOf = () => this.configuration.dragAndDropEnabled;
 
+    this.wpTableHighlight.onReady().then(() => this.highlightingModeChanged());
+
     this.wpTableHighlight
       .updates$()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions),
         distinctUntilChanged(),
       )
-      .subscribe(() => {
-        this.highlightingMode = this.wpTableHighlight.current.mode;
-        this.cdRef.detectChanges();
-      });
+      .subscribe(() => this.highlightingModeChanged());
   }
 
   public switchToManualSorting() {
@@ -122,5 +121,10 @@ export class WorkPackagesGridComponent implements WorkPackageViewOutputs {
     if (query && this.wpTableSortBy.switchToManualSorting(query)) {
       void this.wpList.createOrSave(query);
     }
+  }
+
+  private highlightingModeChanged():void {
+    this.highlightingMode = this.wpTableHighlight.current.mode;
+    this.cdRef.detectChanges();
   }
 }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::BulkController, type: :controller, with_settings: { journal_aggregation_time_minutes: 0 } do
+describe WorkPackages::BulkController, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
   let(:custom_field_value) { '125' }
@@ -324,7 +324,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
           it { expect(response.response_code).to eq(403) }
 
           describe '#journal' do
-            subject { Journal.count }
+            subject { Journal.for_work_package.count }
 
             it { is_expected.to eq(work_package_ids.count) }
           end

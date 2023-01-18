@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,8 @@
 
 class Projects::ArchiveController < ApplicationController
   before_action :find_project_by_project_id
-  before_action :require_admin
+  before_action :authorize, only: [:create]
+  before_action :require_admin, only: [:destroy]
 
   def create
     change_status_action(:archive)
@@ -44,24 +45,24 @@ class Projects::ArchiveController < ApplicationController
     service_call = change_status(status)
 
     if service_call.success?
-      redirect_to(project_path_with_status)
+      redirect_to(projects_path)
     else
       flash[:error] = t(:"error_can_not_#{status}_project",
                         errors: service_call.errors.full_messages.join(', '))
-      redirect_back fallback_location: project_path_with_status
+      redirect_back fallback_location: projects_path
     end
   end
 
   def change_status(status)
-    "Projects::#{status.to_s.camelcase}Service"
-      .constantize
+    service_class(status)
       .new(user: current_user, model: @project)
       .call
   end
 
-  def project_path_with_status
-    acceptable_params = params.permit(:status).to_h.compact.select { |_, v| v.present? }
-
-    projects_path(acceptable_params)
+  def service_class(status)
+    case status
+    when :archive then Projects::ArchiveService
+    when :unarchive then Projects::UnarchiveService
+    end
   end
 end

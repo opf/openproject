@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 ##
 # Tests that email notifications will be sent upon creating or changing a work package.
-describe WorkPackage, type: :model, with_settings: { journal_aggregation_time_minutes: 0 } do
+describe WorkPackage, with_settings: { journal_aggregation_time_minutes: 0 } do
   describe 'OpenProject notifications' do
     shared_let(:admin) { create :admin }
 

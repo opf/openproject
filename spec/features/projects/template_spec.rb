@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Project templates', type: :feature, js: true do
+describe 'Project templates', js: true do
   describe 'making project a template' do
     let(:project) { create :project }
 
@@ -73,16 +73,16 @@ describe 'Project templates', type: :feature, js: true do
       %i[add_project]
     end
     let(:status_field_selector) { 'ckeditor-augmented-textarea[textarea-selector="#project_status_explanation"]' }
-    let(:status_description) { ::Components::WysiwygEditor.new status_field_selector }
+    let(:status_description) { Components::WysiwygEditor.new status_field_selector }
 
     let!(:other_user) do
       create(:user, member_in_project: template, member_through_role: role)
     end
 
-    let(:name_field) { ::FormFields::InputFormField.new :name }
-    let(:template_field) { ::FormFields::SelectFormField.new :use_template }
-    let(:status_field) { ::FormFields::SelectFormField.new :status }
-    let(:parent_field) { ::FormFields::SelectFormField.new :parent }
+    let(:name_field) { FormFields::InputFormField.new :name }
+    let(:template_field) { FormFields::SelectFormField.new :use_template }
+    let(:status_field) { FormFields::SelectFormField.new :status }
+    let(:parent_field) { FormFields::SelectFormField.new :parent }
 
     current_user do
       create(:user,

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Backlogs
-  priority: 670
+  priority: 840
 description: Configure backlogs in OpenProject.
 keywords: configure backlogs, backlogs settings
 ---

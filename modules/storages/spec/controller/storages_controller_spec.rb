@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,15 +30,17 @@ require_relative '../spec_helper'
 
 # These specs mainly check that error messages from a sub-service
 # (about unsafe hosts with HTTP protocol) are passed to the main form.
-describe ::Storages::Admin::StoragesController, webmock: true, type: :controller do
+describe Storages::Admin::StoragesController, type: :controller, webmock: true do
   render_views # rendering views is stubbed by default in controller specs
   include StorageServerHelpers
 
-  let(:admin) { create :admin }
+  let(:admin) { create(:admin) }
   let(:schema) { "https" }
   let(:host) { "#{schema}://example.org" }
   let(:content_type_json) { { 'Content-Type' => 'application/json; charset=utf-8' } }
-  let(:params) { { storages_storage: { name: "My Nextcloud", host: } } }
+  let(:params) do
+    { storages_storage: { name: "My Nextcloud", host:, provider_type: Storages::Storage::PROVIDER_TYPE_NEXTCLOUD } }
+  end
 
   before do
     login_as admin

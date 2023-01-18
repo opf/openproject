@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,8 +32,58 @@ require 'contracts/shared/model_contract_shared_context'
 describe Projects::ArchiveContract do
   include_context 'ModelContract shared context'
 
+  shared_let(:archivist_role) { create(:role, permissions: %i[archive_project]) }
   let(:project) { build_stubbed(:project) }
   let(:contract) { described_class.new(project, current_user) }
 
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
+
+  context 'when user has archive_project permission' do
+    let(:project) { create(:project) }
+    let(:current_user) { create(:user, member_in_project: project, member_through_role: archivist_role) }
+
+    include_examples 'contract is valid'
+  end
+
+  context 'with subprojects' do
+    shared_let(:subproject1) { create(:project) }
+    shared_let(:subproject2) { create(:project) }
+    shared_let(:project) { create(:project, children: [subproject1, subproject2]) }
+    shared_let(:current_user) { create(:user, member_in_project: project, member_through_role: archivist_role) }
+
+    shared_examples 'with archive_project permission on all/some/none of subprojects' do
+      context 'when user does not have archive_project permission on any subprojects' do
+        include_examples 'contract is invalid', base: :archive_permission_missing_on_subprojects
+      end
+
+      context 'when user has archive_project permission on some subprojects but not all' do
+        before do
+          create(:member, user: current_user, project: subproject1, roles: [archivist_role])
+        end
+
+        include_examples 'contract is invalid', base: :archive_permission_missing_on_subprojects
+      end
+
+      context 'when user has archive_project permission on all subprojects' do
+        before do
+          create(:member, user: current_user, project: subproject1, roles: [archivist_role])
+          create(:member, user: current_user, project: subproject2, roles: [archivist_role])
+        end
+
+        include_examples 'contract is valid'
+      end
+    end
+
+    include_examples 'contract is valid for active admins and invalid for regular users'
+    include_examples 'with archive_project permission on all/some/none of subprojects'
+
+    context 'with deep nesting' do
+      before do
+        subproject2.update(parent: subproject1)
+      end
+
+      include_examples 'contract is valid for active admins and invalid for regular users'
+      include_examples 'with archive_project permission on all/some/none of subprojects'
+    end
+  end
 end

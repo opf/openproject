@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -183,7 +183,7 @@ RB.Model = (function ($) {
               input.change(function () {
                 typeId = $(this).val();
                 statusId = $.trim(self.$.find('.status_id .v').html());
-                newInput = self.findFactory(typeId, statusId, 'status_id');
+                let newInput = self.findFactory(typeId, statusId, 'status_id');
                 newInput = self.prepareInputFromFactory(newInput, fieldId, 'status_id', fieldOrder, maxTabIndex);
                 newInput = self.replaceStatusForNewType(input, newInput, $(this).parent().find('.status_id').val(), editor);
               });
@@ -224,7 +224,7 @@ RB.Model = (function ($) {
 
     findFactory: function (typeId, statusId, fieldName){
       // Find a factory
-      newInput = $('#' + fieldName + '_options_' + typeId + '_' + statusId);
+      let newInput = $('#' + fieldName + '_options_' + typeId + '_' + statusId);
       if (newInput.length === 0) {
         // when no list found, only offer the default status
         // no list = combination is not valid / user has no rights -> workflow

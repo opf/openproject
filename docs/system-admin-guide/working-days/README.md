@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Working days
-  priority: 6790
+  priority: 940
 description: Define which days of the week are considered working days for scheduling and calculation of duration
 keywords: working non-working days work week
 ---

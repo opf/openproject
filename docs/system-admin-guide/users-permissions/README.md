@@ -1,13 +1,13 @@
 ---
 sidebar_navigation:
   title: Users and permissions
-  priority: 997
+  priority: 990
 description: Manage users and permissions.
 keywords: users, permissions, roles, groups, avatars
 ---
 # Users and permissions
 
-Manage users, placeholder users and permissions in OpenProject.
+In this section of the System Administration guide you can learn how to manage users, placeholder users and permissions in OpenProject.
 
 ## Overview
 

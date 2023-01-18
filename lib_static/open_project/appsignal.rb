@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,6 @@ module OpenProject
     def exception_handler(message, log_context = {})
       if (exception = log_context[:exception])
         ::Appsignal.send_error(exception) do |transaction|
-          transaction.set_namespace("log_delegator")
           transaction.set_tags tags(log_context)
         end
       else
@@ -48,7 +47,7 @@ module OpenProject
     ##
     # Add current user and other stateful tags to appsignal
     # @param context A hash of context, such as passing in the current controller or request
-    def tag_request(context)
+    def tag_request(context = {})
       return unless enabled?
 
       payload = tags(context)

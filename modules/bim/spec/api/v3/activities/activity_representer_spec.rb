@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../../../support/bcf_topic_with_stubbed_comment'
 
-describe ::API::V3::Activities::ActivityRepresenter do
+describe API::V3::Activities::ActivityRepresenter do
   include API::Bim::Utilities::PathHelper
 
   include_context 'user with stubbed permissions'

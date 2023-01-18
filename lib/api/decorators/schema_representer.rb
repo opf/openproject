@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -230,7 +230,13 @@ module API
         def default_writable_property(property)
           -> do
             if represented.respond_to?(:writable?)
-              represented.writable?(property)
+              property_name = ::API::Utilities::PropertyNameConverter.to_ar_name(
+                property,
+                context: represented.model,
+                collapse_cf_name: false
+              )
+
+              represented.writable?(property_name)
             else
               false
             end

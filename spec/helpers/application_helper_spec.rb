@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,55 +28,9 @@
 
 require 'spec_helper'
 
-describe ApplicationHelper, type: :helper do
+describe ApplicationHelper do
   include ApplicationHelper
   include WorkPackagesHelper
-
-  describe 'footer_content' do
-    context 'no additional footer content' do
-      before do
-        OpenProject::Footer.content = nil
-      end
-
-      it {
-        expect(footer_content).to eq(I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name, OpenProject::Info.url)))
-      }
-    end
-
-    context 'string as additional footer content' do
-      before do
-        OpenProject::Footer.content = nil
-        OpenProject::Footer.add_content('openproject', 'footer')
-      end
-
-      it {
-        expect(footer_content.include?(I18n.t(:text_powered_by,
-                                              link: link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_truthy
-      }
-
-      it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_truthy }
-    end
-
-    context 'proc as additional footer content' do
-      before do
-        OpenProject::Footer.content = nil
-        OpenProject::Footer.add_content('openproject', Proc.new { Date.parse(Time.now.to_s) })
-      end
-
-      it {
-        expect(footer_content.include?("<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>")).to be_truthy
-      }
-    end
-
-    context 'proc which returns nothing' do
-      before do
-        OpenProject::Footer.content = nil
-        OpenProject::Footer.add_content('openproject', Proc.new { 'footer' if false })
-      end
-
-      it { expect(footer_content.include?("<span class=\"footer_openproject\">")).to be_falsey }
-    end
-  end
 
   describe '.link_to_if_authorized' do
     let(:project) { create :valid_project }

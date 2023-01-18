@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage::Ancestors, type: :model do
+describe WorkPackage::Ancestors do
   let(:user) { create(:user) }
   let(:project) { create :project }
   let(:project2) { create :project }
@@ -72,7 +72,7 @@ describe WorkPackage::Ancestors, type: :model do
   let(:leaf_ids) { [leaf.id, leaf_project2.id] }
   let(:intermediate_ids) { [intermediate.id, intermediate_project2.id] }
 
-  subject { ::WorkPackage.aggregate_ancestors(ids, user) }
+  subject { WorkPackage.aggregate_ancestors(ids, user) }
 
   before do
     allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)

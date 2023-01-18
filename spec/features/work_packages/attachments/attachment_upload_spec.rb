@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,8 +43,8 @@ describe 'Upload attachment to work package', js: true do
   end
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:, description: 'Initial description') }
-  let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
-  let(:attachments) { ::Components::Attachments.new }
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
+  let(:attachments) { Components::Attachments.new }
   let(:field) { TextEditorField.new wp_page, 'description' }
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { Components::WysiwygEditor.new }
@@ -111,7 +111,7 @@ describe 'Upload attachment to work package', js: true do
       let!(:project) do
         create(:project, types: [type])
       end
-      let!(:table) { ::Pages::WorkPackagesTable.new project }
+      let!(:table) { Pages::WorkPackagesTable.new project }
 
       it 'can add two work packages in a row when uploading (Regression #42933)' do
         table.visit!
@@ -138,7 +138,7 @@ describe 'Upload attachment to work package', js: true do
           message: 'Successful creation.'
         )
 
-        split_view = ::Pages::SplitWorkPackage.new(WorkPackage.last)
+        split_view = Pages::SplitWorkPackage.new(WorkPackage.last)
 
         field = split_view.edit_field :description
         expect(field.display_element).to have_selector('img')
@@ -237,7 +237,7 @@ describe 'Upload attachment to work package', js: true do
             expect(a[:file]).to eq image_fixture.basename.to_s
 
             # check /api/v3/attachments/:id/uploaded was called
-            expect(::Attachments::FinishDirectUploadJob).to have_been_enqueued
+            expect(Attachments::FinishDirectUploadJob).to have_been_enqueued
           end
         end
       end

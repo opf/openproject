@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
-         type: :feature, js: true do
+         js: true do
   let(:user) { create :admin }
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
 
   let(:wiki_page) do
     page = build :wiki_page_with_content

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,20 +28,23 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Days::NonWorkingDayRepresenter do
+describe API::V3::Days::NonWorkingDayRepresenter do
   let(:non_working_day) { build_stubbed(:non_working_day, name: "Christmas day", date: Date.tomorrow) }
   let(:representer) { described_class.new(non_working_day, current_user: instance_double(User, name: 'current_user')) }
 
   describe '#to_json' do
     subject(:generated) { representer.to_json }
 
-    it 'has _type: NonWorkingDay' do
-      expect(subject).to be_json_eql('NonWorkingDay'.to_json).at_path('_type')
+    it_behaves_like 'property', :_type do
+      let(:value) { 'NonWorkingDay' }
     end
 
-    it 'has name string property' do
-      expect(subject).to have_json_type(String).at_path('name')
-      expect(subject).to be_json_eql(non_working_day.name.to_json).at_path('name')
+    it_behaves_like 'property', :id do
+      let(:value) { non_working_day.id }
+    end
+
+    it_behaves_like 'property', :name do
+      let(:value) { non_working_day.name }
     end
 
     it_behaves_like 'has ISO 8601 date only' do

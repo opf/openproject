@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,11 +32,7 @@
 #   user    = create(:user)
 #   role    = create(:role, permissions: [:view_wiki_pages, :edit_wiki_pages])
 #
-#   member = create(:member, user: user, project: project)
-#   member.role_ids = [role.id]
-#   member.save!
-#
-# It looks like you cannot create member_role models directly.
+#   member = create(:member, user: user, project: project, roles: [role])
 
 FactoryBot.define do
   factory :member do
@@ -46,12 +42,12 @@ FactoryBot.define do
       user { nil }
     end
 
-    callback(:after_build) do |member, options|
-      member.principal ||= options.user || build(:user)
+    after(:build) do |member, evaluator|
+      member.principal ||= evaluator.user || build(:user)
     end
 
-    callback(:after_stub) do |member, options|
-      member.principal ||= options.user || build_stubbed(:user)
+    after(:stub) do |member, evaluator|
+      member.principal ||= evaluator.user || build_stubbed(:user)
     end
   end
 

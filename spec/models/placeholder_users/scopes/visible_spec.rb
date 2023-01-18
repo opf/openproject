@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe PlaceholderUsers::Scopes::Visible, type: :model do
+describe PlaceholderUsers::Scopes::Visible do
   describe '.visible' do
     shared_let(:project) { create :project }
     shared_let(:other_project) { create :project }
@@ -39,7 +39,7 @@ describe PlaceholderUsers::Scopes::Visible, type: :model do
     end
     shared_let(:global_placeholder) { create :placeholder_user }
 
-    subject { ::PlaceholderUser.visible.to_a }
+    subject { PlaceholderUser.visible.to_a }
 
     context 'when user has manage_members permission' do
       current_user { create :user, member_in_project: project, member_through_role: role }

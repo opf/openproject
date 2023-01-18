@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,19 +29,18 @@
 require 'spec_helper'
 
 describe 'Projects index page',
-         type: :feature,
          with_ee: %i[custom_fields_in_projects_list],
          js: true,
          with_settings: { login_required?: false } do
   shared_let(:admin) { create :admin }
 
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:model_filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:model_filters) { Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new }
   let(:projects_page) { Pages::Projects::Index.new }
-  let(:dropdown) { ::Components::ProjectIncludeComponent.new }
+  let(:dropdown) { Components::ProjectIncludeComponent.new }
 
   before do
     login_as admin

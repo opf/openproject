@@ -1,0 +1,90 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2023 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+#English strings go here for Rails i18n
+eu:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Lekua"
+        duration: "Iraupena"
+        participants: "Parte-hartzaileak"
+        participants_attended: "Bertaratuak"
+        participants_invited: "Gonbidatuak"
+        start_time: "Ordua"
+        start_time_hour: "Hasiera ordua"
+    errors:
+      messages:
+        invalid_time_format: "ez da baliozko ordua. Eskatzen den formatua: OO:MM"
+    models:
+      meeting_agenda: "Agenda"
+      meeting_minutes: "Aktak"
+  description_attended: "Egon da"
+  description_invite: "Gonbidatua izan da"
+  events:
+    meeting: Hitzordua aldatu da
+    meeting_agenda: Hitzorduaren agenda aldatua
+    meeting_agenda_closed: Hitzorduaren agenda itxi da
+    meeting_agenda_opened: Hitzorduaren agenda ireki da
+    meeting_minutes: Hitzorduaren aktak aldatu dira
+    meeting_minutes_created: Hitzorduaren akta sortu da
+  error_notification_with_errors: "Jakinarazpena bidaltzean akats bat egon da. Ondorengo hartzaileei ezin izan zaie jakinarazi:  %{recipients}"
+  label_meeting: "Hitzordua"
+  label_meeting_plural: "Hitzorduak"
+  label_meeting_new: "Hitzordu berria"
+  label_meeting_edit: "Aldatu hitzordua"
+  label_meeting_agenda: "Agenda"
+  label_meeting_minutes: "Aktak"
+  label_meeting_close: "Itxi"
+  label_meeting_open: "Ireki"
+  label_meeting_agenda_close: "Itxi agenda Aktak hasteko."
+  label_meeting_date_time: "Data/Ordua"
+  label_meeting_diff: "Diferentzia"
+  label_notify: "Berrikustera bidali"
+  label_icalendar: "Bidali iEgutegia"
+  label_version: "Bertsioa"
+  label_time_zone: "Ordu-eremua"
+  label_start_date: "Hasiera data"
+  meeting:
+    copied: "#%{id} Hitzordutik kopiatua"
+  notice_successful_notification: "Jakinarazpena ondo bidali da"
+  notice_timezone_missing: Ez da ordu-eremurik zehaztu eta %{zone} hartu da ontzat. Ordu-eremua aukeratzeko klikatu hemen, mesedez.
+  permission_create_meetings: "Sortu hitzordua"
+  permission_edit_meetings: "Aldatu hitzorduak"
+  permission_delete_meetings: "Ezabatu hitzorduak"
+  permission_view_meetings: "Ikusi hitzorduak"
+  permission_create_meeting_agendas: "Kudeatu agendak"
+  permission_close_meeting_agendas: "Itxi agendak"
+  permission_send_meeting_agendas_notification: "Bidali agendak berrikusteko jakinarazpena"
+  permission_create_meeting_minutes: "Kudeatu aktak"
+  permission_send_meeting_minutes_notification: "Bidali aktak berrikusteko jakinarazpena"
+  permission_meetings_send_invite: "Gonbidatu erabiltzaileak hitzorduetara"
+  permission_send_meeting_agendas_icalendar: "Bidali hitzorduen agenda egutegiaren sarrera gisa"
+  project_module_meetings: "Hitzorduak"
+  text_duration_in_hours: "Iraupena ordutan"
+  text_in_hours: "in hours"
+  text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
+  text_review_meeting_agenda: "%{author} has put the %{link} up for review."
+  text_review_meeting_minutes: "%{author} has put the %{link} up for review."
+  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"

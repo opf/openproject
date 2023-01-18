@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,16 +29,19 @@
 import { Injectable } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  Subject,
+} from 'rxjs';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Injectable()
 export class CommentService {
-  // Replacement for ng1 $scope.$emit on activty-entry to mark comments to be quoted.
-  // Should be generalized if needed for more than that.
-  public quoteEvents = new Subject<string>();
+  public quoteEvents$ = new Subject<string>();
+
+  public draft$ = new BehaviorSubject<string|null>(null);
 
   constructor(
     readonly I18n:I18nService,

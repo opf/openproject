@@ -11,6 +11,9 @@ export interface ICKEditorInstance {
 
   destroy():void;
 
+  enableReadOnlyMode(lockId:string):void;
+  disableReadOnlyMode(lockId:string):void;
+
   on(event:string, callback:() => unknown):void;
 
   model:any;
@@ -18,7 +21,6 @@ export interface ICKEditorInstance {
   config:any;
   ui:any;
   element:HTMLElement;
-  isReadOnly:boolean;
 }
 
 export interface ICKEditorStatic {

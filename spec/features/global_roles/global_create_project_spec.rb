@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Global role: Global Create project', type: :feature, js: true do
+describe 'Global role: Global Create project', js: true do
   let(:user) { create(:admin) }
   let(:project) { create :project }
 
@@ -75,7 +75,7 @@ describe 'Global role: Global Create project', type: :feature, js: true do
              roles: [global_role])
     end
 
-    let(:name_field) { ::FormFields::InputFormField.new :name }
+    let(:name_field) { FormFields::InputFormField.new :name }
 
     it 'does show the global permission' do
       visit projects_path

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ FactoryBot.define do
 
       callback(:after_build) do |t, evaluator|
         query = create(:query)
-        query.add_filter(evaluator.relation_filter.to_s, '=', [::Queries::Filters::TemplatedValue::KEY])
+        query.add_filter(evaluator.relation_filter.to_s, '=', [Queries::Filters::TemplatedValue::KEY])
         query.save
         t.attribute_groups = t.default_attribute_groups + [["Embedded table for #{evaluator.relation_filter}",
                                                             ["query_#{query.id}".to_sym]]]
@@ -76,7 +76,7 @@ FactoryBot.define do
 
     # reuse existing type with the given name
     # this prevents a validation error (name has to be unique)
-    initialize_with { ::Type.find_or_initialize_by(name:) }
+    initialize_with { Type.find_or_initialize_by(name:) }
 
     factory :type_feature do
       name { 'Feature' }

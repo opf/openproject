@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,12 +41,19 @@ module Users
     validate :authentication_defined
     validate :type_is_user
     validate :user_limit_not_exceeded
+    validate :notification_settings_present
 
     private
 
     def user_limit_not_exceeded
       if OpenProject::Enterprise.user_limit_reached?
         errors.add :base, :user_limit_reached
+      end
+    end
+
+    def notification_settings_present
+      if model.notification_settings.empty?
+        errors.add :notification_settings, :blank
       end
     end
 

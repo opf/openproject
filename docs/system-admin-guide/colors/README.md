@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Colors
-  priority: 690
+  priority: 860
 description: Set colors in OpenProject.
 keywords: colors
 ---

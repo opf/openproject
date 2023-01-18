@@ -18,6 +18,7 @@
     class="global-search"
     [placeholder]="text.search_dots"
     [classes]="{'top-menu-search--input': true, '-markable': markable, '-expanded': expanded }"
+    [inputAttrs]="{ 'class': 'global-search--input' }"
     [openOnEnter]="false"
     [labelRequired]="false"
     [focusDirectly]="isFocusedDirectly"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Grids::GridRepresenter, 'rendering' do
+describe API::V3::Grids::GridRepresenter, 'rendering' do
   include OpenProject::StaticRouting::UrlHelpers
   include API::V3::Utilities::PathHelper
 
@@ -77,12 +77,12 @@ describe ::API::V3::Grids::GridRepresenter, 'rendering' do
   before do
     OpenProject::Cache.clear
 
-    allow(::Grids::Configuration)
+    allow(Grids::Configuration)
       .to receive(:writable?)
       .with(grid, current_user)
       .and_return(writable)
 
-    allow(::Grids::Configuration)
+    allow(Grids::Configuration)
       .to receive(:to_scope)
       .with(Grids::Grid, [])
       .and_return(scope_path)

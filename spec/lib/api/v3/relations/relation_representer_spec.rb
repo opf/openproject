@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Relations::RelationRepresenter do
+describe API::V3::Relations::RelationRepresenter do
   let(:user) { build_stubbed(:admin) }
 
   let(:from) { build_stubbed(:work_package) }
@@ -90,7 +90,7 @@ describe ::API::V3::Relations::RelationRepresenter do
   end
 
   it 'deserializes the relation correctly' do
-    rep = ::API::V3::Relations::RelationRepresenter.new OpenStruct.new, current_user: user
+    rep = API::V3::Relations::RelationRepresenter.new OpenStruct.new, current_user: user
     rel = rep.from_json result.except(:id).to_json
 
     expect(rel.from_id).to eq from.id.to_s

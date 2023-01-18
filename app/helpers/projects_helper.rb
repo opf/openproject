@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -92,7 +92,7 @@ module ProjectsHelper
   end
 
   def project_more_menu_archive_item(project)
-    if User.current.admin? && project.active?
+    if User.current.allowed_to?(:archive_project, project) && project.active?
       [t(:button_archive),
        project_archive_path(project, status: params[:status]),
        { data: { confirm: t('project.archive.are_you_sure', name: project.name) },
@@ -103,7 +103,7 @@ module ProjectsHelper
   end
 
   def project_more_menu_unarchive_item(project)
-    if User.current.admin? && !project.active? && (project.parent.nil? || project.parent.active?)
+    if User.current.admin? && project.archived? && (project.parent.nil? || project.parent.active?)
       [t(:button_unarchive),
        project_archive_path(project, status: params[:status]),
        { method: :delete,

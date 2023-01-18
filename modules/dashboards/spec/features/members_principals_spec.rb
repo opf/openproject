@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Dashboard page members', type: :feature, js: true, with_mail: false do
+describe 'Dashboard page members', js: true, with_mail: false do
   shared_let(:type) { create :type }
   shared_let(:project) { create :project, types: [type], description: 'My **custom** description' }
 

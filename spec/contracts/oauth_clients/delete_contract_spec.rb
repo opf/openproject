@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ require 'contracts/shared/model_contract_shared_context'
 
 # This DeleteContract spec just tests if the user is _allowed_
 # to execute the operation.
-describe ::OAuthClients::DeleteContract do
+describe OAuthClients::DeleteContract do
   include_context 'ModelContract shared context'
 
   let(:oauth_client) { create :oauth_client }

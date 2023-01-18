@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -183,9 +183,9 @@ class Role < ApplicationRecord
   end
 
   def allowed_actions
-    @actions_allowed ||= allowed_permissions.map do |permission|
+    @allowed_actions ||= allowed_permissions.flat_map do |permission|
       OpenProject::AccessControl.allowed_actions(permission)
-    end.flatten
+    end
   end
 
   def check_deletable

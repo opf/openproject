@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,8 +35,8 @@ describe OpenProject::GithubIntegration::Services::UpsertPartialPullRequest do
   end
 
   let!(:upsert_user_service) do
-    upsert_user_service = instance_double(::OpenProject::GithubIntegration::Services::UpsertGithubUser)
-    allow(::OpenProject::GithubIntegration::Services::UpsertGithubUser)
+    upsert_user_service = instance_double(OpenProject::GithubIntegration::Services::UpsertGithubUser)
+    allow(OpenProject::GithubIntegration::Services::UpsertGithubUser)
       .to receive(:new)
             .and_return(upsert_user_service)
 

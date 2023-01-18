@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'rest-client'
 
 # rubocop:disable Rails/HttpPositionalArguments
-describe 'OAuth client credentials flow', type: :request do
+describe 'OAuth client credentials flow' do
   include Rack::Test::Methods
 
   let!(:application) { create(:oauth_application, client_credentials_user_id: user_id, name: 'Cool API app!') }

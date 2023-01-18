@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -909,8 +909,8 @@ describe Settings::Definition do
       end
 
       it 'returns the procs return value for writable' do
-        expect(instance.writable?)
-          .to be false
+        expect(instance)
+          .not_to be_writable
       end
 
       it 'returns the procs return value for allowed' do

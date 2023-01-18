@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,16 +27,44 @@
 #++
 
 module Projects
-  class ArchiveContract < ModelContract
-    include RequiresAdminGuard
-    include Projects::Archiver
-
+  class ArchiveContract < ::BaseContract
     validate :validate_no_foreign_wp_references
+    validate :validate_has_archive_project_permission
 
     protected
 
-    def validate_model?
-      false
+    # Check that there is no wp of a non descendant project that is assigned
+    # to one of the project or descendant versions
+    def validate_no_foreign_wp_references
+      version_ids = model.rolled_up_versions.select(:id)
+
+      exists = WorkPackage
+                 .where.not(project_id: model.self_and_descendants.select(:id))
+                 .exists?(version_id: version_ids)
+
+      errors.add :base, :foreign_wps_reference_version if exists
+    end
+
+    def validate_has_archive_project_permission
+      validate_can_archive_project
+      validate_can_archive_subprojects
+    end
+
+    def validate_can_archive_project
+      return if user.allowed_to?(:archive_project, model)
+
+      errors.add :base, :error_unauthorized
+    end
+
+    def validate_can_archive_subprojects
+      # prevent adding another error if there is already one present
+      return if errors.present?
+
+      subprojects = model.descendants
+      return if subprojects.empty?
+      return if user.allowed_to?(:archive_project, subprojects)
+
+      errors.add :base, :archive_permission_missing_on_subprojects
     end
   end
 end

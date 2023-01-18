@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe ::BaseServices::BaseCallable, type: :model do
+describe BaseServices::BaseCallable, type: :model do
   let(:test_service) do
-    Class.new(::BaseServices::BaseCallable) do
+    Class.new(BaseServices::BaseCallable) do
       def perform(*)
         state.test = 'foo'
         ServiceResult.success(result: 'something')
@@ -39,7 +39,7 @@ describe ::BaseServices::BaseCallable, type: :model do
   end
 
   let(:test_service2) do
-    Class.new(::BaseServices::BaseCallable) do
+    Class.new(BaseServices::BaseCallable) do
       def perform(*)
         state.test2 = 'foo'
         ServiceResult.success(result: 'something')
@@ -55,16 +55,16 @@ describe ::BaseServices::BaseCallable, type: :model do
     let(:result_state) { subject.state }
 
     it 'is returned from the call', :aggregate_failures do
-      expect(result_state).to be_kind_of(::Shared::ServiceState)
+      expect(result_state).to be_kind_of(Shared::ServiceState)
       expect(result_state.test).to eq 'foo'
-      expect(subject).to be_kind_of ::ServiceResult
+      expect(subject).to be_kind_of ServiceResult
     end
 
     describe 'with state already passed into the service' do
       let(:instance) { test_service.new.with_state(bar: 'some value') }
 
       it 'keeps that value', :aggregate_failures do
-        expect(result_state).to be_kind_of(::Shared::ServiceState)
+        expect(result_state).to be_kind_of(Shared::ServiceState)
         expect(result_state.test).to eq 'foo'
         expect(result_state.bar).to eq 'some value'
       end

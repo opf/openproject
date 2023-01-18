@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiPage, type: :model do
+describe WikiPage do
   let(:project) { create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
   let(:wiki) { project.wiki }
   let(:title) { wiki.wiki_menu_items.first.title }
@@ -133,7 +133,7 @@ describe WikiPage, type: :model do
       end
 
       it 'destroys the wiki content\'s journals as well' do
-        expect { wiki_page.destroy }.to change(Journal, :count).from(1).to(0)
+        expect { wiki_page.destroy }.to change(Journal.for_wiki_content, :count).from(1).to(0)
       end
     end
 

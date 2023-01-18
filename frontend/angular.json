@@ -45,9 +45,6 @@
               "node_modules/jquery-ui/themes/base/core.css",
               "node_modules/jquery-ui/themes/base/datepicker.css",
               "node_modules/jquery-ui/themes/base/dialog.css",
-              "node_modules/@fullcalendar/common/main.css",
-              "node_modules/@fullcalendar/daygrid/main.css",
-              "node_modules/@fullcalendar/timegrid/main.css",
               "node_modules/flatpickr/dist/flatpickr.min.css"
             ],
             "stylePreprocessorOptions": {
@@ -76,7 +73,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "fileReplacements": [
@@ -136,7 +132,6 @@
       }
     }
   },
-  "defaultProject": "OpenProject",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "op",

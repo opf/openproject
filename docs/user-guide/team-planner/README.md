@@ -89,12 +89,9 @@ You can create a new work package for a particular member of your team by clicki
 
 ![Creating a new work package by clicking and dragging across multiple day cells](TeamPlanner-12.4-newTask-drag.png)
 
-
-
 A **new work package dialog** will open. The assignee, start and finish dates will already be set based on where you clicked to create the work package. You can add any additional details, such as subject, work package type, a description and add attachments. Scrolling further down on the split screen also gives you access to other attributes such as cost and time and custom fields that might exist.
 
 ![An example of the new work package split screen view](TeamPlanner-12.4-newTask-splitScreen.png)
-
 
 
 #### Add an existing work package
@@ -122,7 +119,7 @@ The team planner allows you to quickly re-schedule and re-assign work packages c
 
 > **Info**: Work packages can also expand and retract in width depending on how many non-working days are spanned (for example, a 3-day task starting on Thursday and ending on Monday will spread across 5 calendar days;  dragging that same work package so that it starts on a Tuesday and ends on a Thursday means that it will spread across 3 calendar days. In both cases, the duration remains 3 days.
 
-Sometimes, it is not possible to modify the dates or the assignee of work packages for a variety of reasons. It could be, for example, because you might not have the necessary permissions to make that change or because existing relations make it impossible. In such cases, an error message will appear on the top of the screen to let you know that the change was was possible.
+Sometimes, it is not possible to modify the dates or the assignee of work packages for a variety of reasons. It could be, for example, because you might not have the necessary permissions to make that change or because existing relations make it impossible. In such cases, an error message will appear on the top of the screen to let you know that the change was not possible.
 
 ## Work package details view
 

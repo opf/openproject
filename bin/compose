@@ -36,24 +36,31 @@ if [ -f config/database.yml ]; then
   exit 1
 fi
 
+if command -v docker-compose &> /dev/null
+then
+  DOCKER_COMPOSE="docker-compose"
+else
+  DOCKER_COMPOSE="docker compose"
+fi
+
 if [[ "$@" = "start" ]]; then
   # backend will be started automatically as a dependency of the frontend
-  docker-compose -f $COMPOSE_FILE up -d frontend
+  $DOCKER_COMPOSE -f $COMPOSE_FILE up -d frontend
 elif [[ "$@" = "run" ]]; then
-  docker-compose -f $COMPOSE_FILE up -d frontend
-  docker-compose -f $COMPOSE_FILE stop backend
-  docker-compose -f $COMPOSE_FILE run --rm backend rm -f tmp/pids/server.pid # delete if necessary so new server can come up
-  docker-compose -f $COMPOSE_FILE run --rm -p ${PORT:-3000}:3000 --name rails backend # run backend in TTY so you can debug using pry for instance
+  $DOCKER_COMPOSE -f $COMPOSE_FILE up -d frontend
+  $DOCKER_COMPOSE -f $COMPOSE_FILE stop backend
+  $DOCKER_COMPOSE -f $COMPOSE_FILE run --rm backend rm -f tmp/pids/server.pid # delete if necessary so new server can come up
+  $DOCKER_COMPOSE -f $COMPOSE_FILE run --rm -p ${PORT:-3000}:3000 --name rails backend # run backend in TTY so you can debug using pry for instance
 elif [[ "$1" = "setup" ]]; then
-  docker-compose -f $COMPOSE_FILE run backend setup
-  yes no | docker-compose -f $COMPOSE_FILE run frontend npm install
+  $DOCKER_COMPOSE -f $COMPOSE_FILE run backend setup
+  yes no | $DOCKER_COMPOSE -f $COMPOSE_FILE run frontend npm install
 elif [[ "$1" = "reset" ]]; then
-  docker-compose -f $COMPOSE_FILE down && docker volume rm `docker volume ls -q | grep ${PWD##*/}_`
+  $DOCKER_COMPOSE -f $COMPOSE_FILE down && docker volume rm `docker volume ls -q | grep ${PWD##*/}_`
 elif [[ "$1" = "rspec" ]]; then
   if ! docker ps | grep ${PWD##*/}_backend-test_1 > /dev/null; then
     echo "Test backend not running yet. Starting it..."
 
-    docker-compose -f $COMPOSE_FILE up -d backend-test
+    $DOCKER_COMPOSE -f $COMPOSE_FILE up -d backend-test
 
     while ! docker logs --since 1m ${PWD##*/}_backend-test_1 | grep "Ready for tests" > /dev/null; do
       sleep 1
@@ -63,7 +70,7 @@ elif [[ "$1" = "rspec" ]]; then
     echo "Ready for tests"
   fi
 
-  docker-compose -f $COMPOSE_FILE exec backend-test bundle exec rspec "${@:2}"
+  $DOCKER_COMPOSE -f $COMPOSE_FILE exec backend-test bundle exec rspec "${@:2}"
 else
-  docker-compose -f $COMPOSE_FILE $*
+  $DOCKER_COMPOSE -f $COMPOSE_FILE $*
 fi

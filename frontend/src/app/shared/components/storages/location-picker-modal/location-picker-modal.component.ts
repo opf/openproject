@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -39,9 +39,10 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
+import { Breadcrumb } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
 import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import { isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
+import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import {
   StorageFileListItem,
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
@@ -54,6 +55,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
+  public submitted = false;
+
   public readonly text = {
     header: this.i18n.t('js.storages.select_location'),
     buttons: {
@@ -68,6 +71,8 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
   public get canChooseLocation():boolean {
     return this.breadcrumbs.crumbs.length > 1;
   }
+
+  public location = '/';
 
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -88,6 +93,7 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
   }
 
   public chooseLocation():void {
+    this.submitted = true;
     this.service.close();
   }
 
@@ -104,5 +110,10 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
       undefined,
       enterDirectoryCallback,
     );
+  }
+
+  protected changeLevel(parent:string | null, crumbs:Breadcrumb[]):void {
+    this.location = parent === null ? '/' : parent;
+    super.changeLevel(parent, crumbs);
   }
 }

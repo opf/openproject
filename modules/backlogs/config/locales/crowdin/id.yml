@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,8 +24,8 @@ id:
     attributes:
       work_package:
         position: "Posisi"
-        remaining_hours: "Jam yang tersisa"
-        remaining_time: "Jam yang tersisa"
+        remaining_hours: "Waktu tersisa"
+        remaining_time: "Jam tersisa"
         story_points: "Cerita poin"
         backlogs_work_package_type: "Jenis jaminan tersimpan"
     errors:
@@ -39,7 +39,7 @@ id:
               parent_child_relationship_across_projects: "tidak valid karena paket kerja '%{work_package_name}' adalah tugas backlog dan oleh karena itu tidak dapat memiliki orang tua di luar proyek saat ini."
               type_must_be_one_of_the_following: "Jenis harus menjadi salah satu dari berikut ini:%{type_names}."
             version_id:
-              task_version_must_be_the_same_as_story_version: "harus sama seperti versi kisah orang tua."
+              task_version_must_be_the_same_as_story_version: "harus sesuai dengan versi orang tua."
         sprint:
           cannot_end_before_it_starts: "Sprint tidak bisa berakhir sebelum mulai."
   backlogs:
@@ -77,7 +77,7 @@ id:
     unassigned: "Belum ditetapkan"
     x_more: "%{count} lebih ..."
   backlogs_active: "aktif"
-  backlogs_any: "apapun"
+  backlogs_any: "Apa saja"
   backlogs_card_specification: "Jenis label untuk pencetakan kartu "
   backlogs_inactive: "Proyek tidak menunjukkan aktivitas"
   backlogs_points_burn_direction: "Poin terbakar habis / turun"
@@ -99,7 +99,7 @@ id:
   backlogs_empty_title: "Ada versi yang didefinisikan untuk digunakan dalam backlogs"
   backlogs_empty_action_text: "Untuk memulai dengan backlogs, membuat versi baru, dan menetapkannya ke kolom backlogs."
   button_edit_wiki: "Edit halaman wiki"
-  error_backlogs_task_cannot_be_story: "sdas"
+  error_backlogs_task_cannot_be_story: "Pengaturan tidak valid. Jenis tugas yang dipilih juga tidak boleh berupa jenis cerita"
   error_intro_plural: "Kesalahan berikut ini ditemui:"
   error_intro_singular: "Kesalahan berikut ini ditemui:"
   error_outro: "Perbaiki kesalahan di atas sebelum mengirimkannya lagi."
@@ -137,14 +137,14 @@ id:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Lihat backlog master"
   permission_view_taskboards: "Lihat papan tugas"
-  permission_select_done_statuses: "sdsad"
+  permission_select_done_statuses: "Pilih status selesai"
   permission_update_sprints: "Perbarui sprint"
   points_accepted: "poin diterima"
   points_committed: "poin yang dilakukan"
   points_resolved: "poin terselesaikan"
   points_to_accept: "poin tidak diterima"
   points_to_resolve: "poin tidak terselesaikan"
-  project_module_backlogs: "Backlogs"
+  project_module_backlogs: "Backlog"
   rb_label_copy_tasks: "Salin paket kerja"
   rb_label_copy_tasks_all: "Semua"
   rb_label_copy_tasks_none: "Tidak ada"
@@ -153,7 +153,7 @@ id:
   remaining_hours: "jam yang tersisa"
   required_burn_rate_hours: "tingkat pembakaran yang dibutuhkan (jam)"
   required_burn_rate_points: "tingkat pembakaran yang dibutuhkan (poin)"
-  todo_work_package_description: "%{summary}: %{url}\n%{description}"
+  todo_work_package_description: "%{total}: %{url}\n%{keterangan}"
   todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Kolom di backlog"
   version_settings_display_option_left: "kiri"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,8 +38,8 @@ RSpec.describe 'Work package create uses attributes from filters', js: true, sel
   let!(:status) { create(:default_status) }
   let!(:priority) { create :priority, is_default: true }
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:split_view_create) { ::Pages::SplitWorkPackageCreate.new(project:) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:split_view_create) { Pages::SplitWorkPackageCreate.new(project:) }
 
   let(:role) { create :existing_role, permissions: %i[view_work_packages work_package_assigned] }
 

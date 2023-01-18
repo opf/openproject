@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 describe AccountController,
-         skip_2fa_stage: true, # Prevent redirects to 2FA stage
-         type: :controller do
+         skip_2fa_stage: true do
   class UserHook < OpenProject::Hook::ViewListener
     attr_reader :registered_user, :first_login_user
 
@@ -300,7 +299,7 @@ describe AccountController,
         end
 
         before do
-          allow(::OpenProject::Plugins::AuthPlugin)
+          allow(OpenProject::Plugins::AuthPlugin)
             .to(receive(:login_provider_for))
             .and_return(sso_provider)
           login_as user

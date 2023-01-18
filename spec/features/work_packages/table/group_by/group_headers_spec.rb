@@ -11,7 +11,7 @@ describe 'Work Package table group headers', js: true do
   let!(:wp_cat2) { create(:work_package, project:, category: category2) }
   let!(:wp_none) { create(:work_package, project:) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+  let(:group_by) { Components::WorkPackages::GroupBy.new }
 
   let!(:query) do
     query              = build(:query, user:, project:)

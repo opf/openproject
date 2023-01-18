@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +28,11 @@
 
 require_relative '../spec_helper'
 
-describe ::Storages::Storage, type: :model do
+describe Storages::Storage do
   let(:creator) { create(:user) }
   let(:default_attributes) do
     { name: "NC 1",
-      provider_type: ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
+      provider_type: Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
       host: 'https://example.com',
       creator: }
   end

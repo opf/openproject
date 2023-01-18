@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,35 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Creates date alerts notifications for users whose local time is 1am for the
-# given run_times.
 class Notifications::CreateDateAlertsNotificationsJob::Service
-  attr_reader :run_times
-
-  # @param run_times [Array<DateTime>] the times for which the service is run.
-  # Must be multiple of 15 minutes (xx:00, xx:15, xx:30, or xx:45).
-  def initialize(run_times)
-    @run_times = run_times
+  def initialize(user)
+    @user = user
   end
 
   def call
     return unless EnterpriseToken.allows_to?(:date_alerts)
 
-    time_zones = time_zones_covering_1am_local_time
-    return if time_zones.empty?
-
-    # warning: there may be a subtle bug here: if many run_times are given, time
-    # zones will have different time shifting. This should be ok: as the period
-    # covered is small this should not have any impact. If the period is more
-    # than 23h, then the day will change.
-    Time.use_zone(time_zones.first) do
-      User.with_time_zone(time_zones).find_each do |user|
-        send_date_alert_notifications(user)
-      end
+    Time.use_zone(user.time_zone) do
+      send_date_alert_notifications(user)
     end
   end
 
   private
+
+  attr_accessor :user
 
   def send_date_alert_notifications(user)
     alertables = Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPackages.new(user)
@@ -70,6 +57,8 @@ class Notifications::CreateDateAlertsNotificationsJob::Service
   end
 
   def mark_previous_notifications_as_read(user, work_packages, reason)
+    return if work_packages.empty?
+
     Notification
       .where(recipient: user,
              reason:,
@@ -85,21 +74,5 @@ class Notifications::CreateDateAlertsNotificationsJob::Service
       resource: work_package,
       reason:
     )
-  end
-
-  def time_zones_covering_1am_local_time
-    UserPreferences::UpdateContract
-      .assignable_time_zones
-      .select { |time_zone| executing_at_1am_for_timezone?(time_zone) }
-      .map { |time_zone| time_zone.tzinfo.canonical_zone.name }
-  end
-
-  def executing_at_1am_for_timezone?(time_zone)
-    run_times.any? { |time| is_1am?(time, time_zone) }
-  end
-
-  def is_1am?(time, time_zone)
-    local_time = time.in_time_zone(time_zone)
-    local_time.strftime('%H:%M') == '01:00'
   end
 end

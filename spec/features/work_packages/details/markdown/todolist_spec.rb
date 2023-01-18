@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ describe 'Todolists in CKEditor', js: true do
 
   describe 'with an existing work package' do
     let(:work_package) { create :work_package }
-    let(:wp_page) { ::Pages::FullWorkPackage.new(work_package) }
+    let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
     let(:field) { wp_page.edit_field :description }
     let(:ckeditor) { field.ckeditor }
 
@@ -141,7 +141,7 @@ describe 'Todolists in CKEditor', js: true do
     let!(:priority) { create :default_priority }
     let!(:type) { create :type_task }
     let(:project) { create :project, types: [type] }
-    let(:wp_page) { ::Pages::FullWorkPackageCreate.new project: }
+    let(:wp_page) { Pages::FullWorkPackageCreate.new project: }
     let(:field) { wp_page.edit_field :description }
     let(:ckeditor) { field.ckeditor }
 

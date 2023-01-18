@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,7 +67,7 @@ class Storages::Admin::StoragesController < ApplicationController
     # That service inherits from ::BaseServices::SetAttributes
     @object = ::Storages::Storages::SetAttributesService
                 .new(user: current_user,
-                     model: Storages::Storage.new,
+                     model: Storages::Storage.new(provider_type: Storages::Storage::PROVIDER_TYPE_NEXTCLOUD),
                      contract_class: EmptyContract)
                 .call
                 .result

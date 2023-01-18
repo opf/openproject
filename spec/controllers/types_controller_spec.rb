@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TypesController, type: :controller do
+describe TypesController do
   let(:project) do
     create(:project,
            work_package_custom_fields: [custom_field_2])
@@ -143,7 +143,7 @@ describe TypesController, type: :controller do
         it { expect(response).to be_redirect }
 
         it do
-          type = ::Type.find_by(name: 'New type')
+          type = Type.find_by(name: 'New type')
           expect(response).to redirect_to(action: 'edit', tab: 'settings', id: type.id)
         end
       end
@@ -191,12 +191,12 @@ describe TypesController, type: :controller do
         it { expect(response).to be_redirect }
 
         it do
-          type = ::Type.find_by(name: 'New type')
+          type = Type.find_by(name: 'New type')
           expect(response).to redirect_to(action: 'edit', tab: 'settings', id: type.id)
         end
 
         it 'has the copied workflows' do
-          expect(::Type.find_by(name: 'New type')
+          expect(Type.find_by(name: 'New type')
                         .workflows.count).to eq(existing_type.workflows.count)
         end
       end
@@ -270,7 +270,7 @@ describe TypesController, type: :controller do
         end
 
         it 'is renamed' do
-          expect(::Type.find_by(name: 'My type renamed').id).to eq(type.id)
+          expect(Type.find_by(name: 'My type renamed').id).to eq(type.id)
         end
       end
 
@@ -294,7 +294,7 @@ describe TypesController, type: :controller do
         end
 
         it 'has no projects assigned' do
-          expect(::Type.find_by(name: 'My type').projects.count).to eq(0)
+          expect(Type.find_by(name: 'My type').projects.count).to eq(0)
         end
       end
     end
@@ -312,7 +312,7 @@ describe TypesController, type: :controller do
       it { expect(response).to redirect_to(types_path) }
 
       it 'has the position updated' do
-        expect(::Type.find_by(name: 'My type').position).to eq(2)
+        expect(Type.find_by(name: 'My type').position).to eq(2)
       end
     end
 
@@ -336,7 +336,7 @@ describe TypesController, type: :controller do
         end
 
         it 'is not present in the database' do
-          expect(::Type.find_by(name: 'My type')).to be_nil
+          expect(Type.find_by(name: 'My type')).to be_nil
         end
       end
 
@@ -371,7 +371,7 @@ describe TypesController, type: :controller do
         end
 
         it 'is present in the database' do
-          expect(::Type.find_by(name: 'My type 2').id).to eq(type2.id)
+          expect(Type.find_by(name: 'My type 2').id).to eq(type2.id)
         end
       end
 

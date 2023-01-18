@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,6 @@ require 'spec_helper'
 
 # rubocop:disable RSpec:MultipleMemoizedHelpers
 describe 'Projects copy',
-         type: :feature,
          js: true do
   describe 'with a full copy example' do
     let!(:project) do
@@ -117,7 +116,7 @@ describe 'Projects copy',
              attachments: [build(:attachment, container: nil, filename: 'wiki_page_attachment.pdf')]
     end
 
-    let(:parent_field) { ::FormFields::SelectFormField.new :parent }
+    let(:parent_field) { FormFields::SelectFormField.new :parent }
 
     let(:storage) { create(:storage) }
     let(:project_storage) { create(:project_storage, project:, storage:) }
@@ -149,7 +148,7 @@ describe 'Projects copy',
       click_on 'Advanced settings'
 
       # the value of the custom field should be preselected
-      editor = ::Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
+      editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
       editor.expect_value 'some text cf'
 
       # Deactivate sending of mails during copying
@@ -180,7 +179,7 @@ describe 'Projects copy',
 
       # copies over the value of the custom field
       # has the parent of the original project
-      editor = ::Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
+      editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
       editor.expect_value 'some text cf'
 
       # has wp custom fields of original project active
@@ -288,10 +287,10 @@ describe 'Projects copy',
       login_as user
     end
 
-    let(:wp_table) { ::Pages::WorkPackagesTable.new project }
+    let(:wp_table) { Pages::WorkPackagesTable.new project }
 
     let(:copied_project) { Project.find_by(name: 'Copied project') }
-    let(:copy_wp_table) { ::Pages::WorkPackagesTable.new copied_project }
+    let(:copy_wp_table) { Pages::WorkPackagesTable.new copied_project }
 
     it 'copies them in the same order' do
       wp_table.visit!

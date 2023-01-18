@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,9 +37,9 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
   let(:origin_user_id) { 'admin' }
 
   let(:storage) do
-    storage = instance_double(::Storages::Storage)
+    storage = instance_double(Storages::Storage)
     allow(storage).to receive(:oauth_client).and_return(instance_double(OAuthClient))
-    allow(storage).to receive(:provider_type).and_return(::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD)
+    allow(storage).to receive(:provider_type).and_return(Storages::Storage::PROVIDER_TYPE_NEXTCLOUD)
     allow(storage).to receive(:host).and_return(url)
     storage
   end
@@ -52,7 +52,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
   end
 
   let(:connection_manager) do
-    connection_manager = instance_double(::OAuthClients::ConnectionManager)
+    connection_manager = instance_double(OAuthClients::ConnectionManager)
     allow(connection_manager).to receive(:get_access_token).and_return(ServiceResult.success(result: token))
     allow(connection_manager).to receive(:request_with_token_refresh).and_yield(token)
     connection_manager
@@ -92,7 +92,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     end
 
     before do
-      allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+      allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
       stub_request(:post, "#{url}/ocs/v2.php/apps/dav/api/v1/direct")
         .to_return(status: 200, body: json, headers: {})
     end
@@ -187,7 +187,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     let(:xml) { create(:webdav_data) }
 
     before do
-      allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+      allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
       stub_request(:propfind, "#{url}/remote.php/dav/files/#{origin_user_id}")
         .to_return(status: 207, body: xml, headers: {})
     end
@@ -323,7 +323,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     let(:share_id) { 37 }
 
     before do
-      allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+      allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
       stub_request(:post, "#{url}/ocs/v2.php/apps/files_sharing/api/v1/shares")
         .with(
           body: hash_including(
@@ -346,7 +346,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           }.to_json
         )
       stub_request(:put, "#{url}/ocs/v2.php/apps/files_sharing/api/v1/shares/#{share_id}")
-        .with(body: { permissions: 4 })
+        .with(body: { permissions: 5 })
         .to_return(status: 200, body: {}.to_json)
     end
 
@@ -430,7 +430,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     describe 'with second outbound request returning 200 and an empty body' do
       before do
         stub_request(:put, "#{url}/ocs/v2.php/apps/files_sharing/api/v1/shares/#{share_id}")
-          .with(body: { permissions: 4 })
+          .with(body: { permissions: 5 })
           .to_return(status: 200)
       end
 

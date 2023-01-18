@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Utilities::CustomFieldInjector do
+describe API::V3::Utilities::CustomFieldInjector do
   include API::V3::Utilities::PathHelper
 
   let(:cf_path) { "customField#{custom_field.id}" }
@@ -49,12 +49,14 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   end
 
   describe '#inject_schema' do
-    let(:base_class) { Class.new(::API::Decorators::SchemaRepresenter) }
+    let(:base_class) { Class.new(API::Decorators::SchemaRepresenter) }
     let(:modified_class) { described_class.create_schema_representer([custom_field], base_class) }
     let(:schema_writable) { true }
+    let(:model) { build_stubbed(:work_package) }
     let(:schema) do
       double('WorkPackageSchema',
              project_id: 42,
+             model:,
              defines_assignable_values?: true,
              available_custom_fields: [custom_field],
              writable?: schema_writable)
@@ -157,7 +159,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
           .with(custom_field)
           .and_return(assignable_versions)
 
-        allow(::API::V3::Versions::VersionRepresenter).to receive(:create).and_return(double)
+        allow(API::V3::Versions::VersionRepresenter).to receive(:create).and_return(double)
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -284,7 +286,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
             { member: { operator: '=', values: [schema.project_id.to_s] } }
           ]
 
-          query = CGI.escape(::JSON.dump(params))
+          query = CGI.escape(JSON.dump(params))
 
           "#{api_v3_paths.principals}?filters=#{query}&pageSize=-1"
         end
@@ -314,7 +316,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
             { member: { operator: '*', values: [] } }
           ]
 
-          query = CGI.escape(::JSON.dump(params))
+          query = CGI.escape(JSON.dump(params))
 
           "#{api_v3_paths.principals}?filters=#{query}&pageSize=-1"
         end
@@ -339,7 +341,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    let(:base_class) { Class.new(::API::Decorators::Single) }
+    let(:base_class) { Class.new(API::Decorators::Single) }
     let(:modified_class) { described_class.create_value_representer([custom_field], base_class) }
     let(:represented) do
       double('represented',
@@ -521,7 +523,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   end
 
   describe '#inject_patchable_link_value' do
-    let(:base_class) { Class.new(::API::Decorators::Single) }
+    let(:base_class) { Class.new(API::Decorators::Single) }
     let(:modified_class) do
       described_class.create_value_representer([custom_field], base_class)
     end

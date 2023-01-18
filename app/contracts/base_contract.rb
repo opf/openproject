@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -139,12 +139,7 @@ class BaseContract < Disposable::Twin
   end
 
   def writable?(attribute)
-    property_name = ::API::Utilities::PropertyNameConverter.to_ar_name(
-      attribute,
-      context: model,
-      collapse_cf_name: false
-    )
-    writable_attributes.include?(property_name)
+    writable_attributes.include?(attribute.to_s)
   end
 
   def valid?(*_args)

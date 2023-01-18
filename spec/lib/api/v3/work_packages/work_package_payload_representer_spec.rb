@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
+describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:work_package) do
@@ -450,10 +450,10 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       let(:available_custom_fields) { [build_stubbed(:int_wp_custom_field)] }
 
       it 'uses a CustomFieldInjector' do
-        allow(::API::V3::Utilities::CustomFieldInjector).to receive(:create_value_representer)
+        allow(API::V3::Utilities::CustomFieldInjector).to receive(:create_value_representer)
           .and_call_original
         representer.to_json
-        expect(::API::V3::Utilities::CustomFieldInjector).to have_received(:create_value_representer)
+        expect(API::V3::Utilities::CustomFieldInjector).to have_received(:create_value_representer)
       end
     end
 

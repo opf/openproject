@@ -556,6 +556,7 @@ sudo openproject run console
 
 Then, existing users should be able to log in using their SAML identity. Note that this works only if the user is using password-based authentication, and is not linked to any other authentication source (e.g. LDAP) or OpenID provider.
 
+Note that this setting is set to true by default for new installations already.
 
 
 **Q: Could the users be automatically logged in to OpenProject if they are already authenticated at the SAML Identity Provider?**

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'OAuthClient callback endpoint', type: :request do
+describe 'OAuthClient callback endpoint' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -41,7 +41,7 @@ describe 'OAuthClient callback endpoint', type: :request do
   end
   let(:state) { 'asdf1234' }
   let(:redirect_uri) do
-    File.join(::API::V3::Utilities::PathHelper::ApiV3Path::root_url, "/my-path?and=some&query=params")
+    File.join(API::V3::Utilities::PathHelper::ApiV3Path::root_url, "/my-path?and=some&query=params")
   end
   let(:oauth_client_token) { create :oauth_client_token }
   let(:oauth_client) do
@@ -50,10 +50,10 @@ describe 'OAuthClient callback endpoint', type: :request do
            client_secret: 'J1sg4L5PYbM2RZL3pUyxTnamvfpcP5eUcCPmeCQHJO60Gy6CJIdDaF4yXOeC8BPS'
   end
   let(:rack_oauth2_client) do
-    instance_double(::Rack::OAuth2::Client)
+    instance_double(Rack::OAuth2::Client)
   end
   let(:connection_manager) do
-    instance_double(::OAuthClients::ConnectionManager)
+    instance_double(OAuthClients::ConnectionManager)
   end
   let(:uri) { URI(File.join('oauth_clients', oauth_client.client_id, 'callback')) }
 
@@ -62,11 +62,11 @@ describe 'OAuthClient callback endpoint', type: :request do
   before do
     login_as current_user
 
-    allow(::Rack::OAuth2::Client).to receive(:new).and_return(rack_oauth2_client)
+    allow(Rack::OAuth2::Client).to receive(:new).and_return(rack_oauth2_client)
     allow(rack_oauth2_client)
       .to receive(:access_token!).with(:body)
             .and_return(
-              ::Rack::OAuth2::AccessToken::Bearer.new(access_token: 'xyzaccesstoken',
+              Rack::OAuth2::AccessToken::Bearer.new(access_token: 'xyzaccesstoken',
                                                       refresh_token: 'xyzrefreshtoken')
             )
     allow(rack_oauth2_client).to receive(:authorization_code=)
@@ -90,7 +90,7 @@ describe 'OAuthClient callback endpoint', type: :request do
   shared_examples 'fallback redirect' do
     it 'redirects to home' do
       expect(response.status).to eq 302
-      expect(URI(response.location).path).to eq ::API::V3::Utilities::PathHelper::ApiV3Path::root_path
+      expect(URI(response.location).path).to eq API::V3::Utilities::PathHelper::ApiV3Path::root_path
     end
   end
 
@@ -107,9 +107,9 @@ describe 'OAuthClient callback endpoint', type: :request do
         expect(rack_oauth2_client).to have_received(:authorization_code=).with(code)
         expect(response.status).to eq 302
         expect(response.location).to eq redirect_uri
-        expect(::OAuthClientToken.count).to eq 1
-        expect(::OAuthClientToken.last.access_token).to eq 'xyzaccesstoken'
-        expect(::OAuthClientToken.last.refresh_token).to eq 'xyzrefreshtoken'
+        expect(OAuthClientToken.count).to eq 1
+        expect(OAuthClientToken.last.access_token).to eq 'xyzaccesstoken'
+        expect(OAuthClientToken.last.refresh_token).to eq 'xyzrefreshtoken'
       end
     end
 
@@ -128,7 +128,7 @@ describe 'OAuthClient callback endpoint', type: :request do
 
     context 'with some other error, having a state param' do
       before do
-        allow(::OAuthClients::ConnectionManager)
+        allow(OAuthClients::ConnectionManager)
           .to receive(:new).and_return(connection_manager)
         allow(connection_manager)
           .to receive(:code_to_token).with(code).and_return(ServiceResult.failure)

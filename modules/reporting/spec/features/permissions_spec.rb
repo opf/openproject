@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
-describe 'Cost report calculations', type: :feature, js: true do
+describe 'Cost report calculations', js: true do
   let(:project) { create :project }
   let(:admin) { create :admin }
 
@@ -17,7 +17,7 @@ describe 'Cost report calculations', type: :feature, js: true do
   let!(:hourly_rate_admin) { create :default_hourly_rate, user: admin, rate: 1.00, valid_from: 1.year.ago }
   let!(:hourly_rate_user) { create :default_hourly_rate, user:, rate: 1.00, valid_from: 1.year.ago }
 
-  let(:report_page) { ::Pages::CostReportPage.new project }
+  let(:report_page) { Pages::CostReportPage.new project }
 
   let!(:time_entry_user) do
     create :time_entry,

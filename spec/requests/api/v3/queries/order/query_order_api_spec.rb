@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe "/api/v3/queries/:id/order", type: :request do
+describe "/api/v3/queries/:id/order" do
   let(:user) { create :admin }
   let(:query) { create(:query, name: "A Query", user:) }
   let(:path) { "/api/v3/queries/#{query.id}/order" }
@@ -62,7 +62,7 @@ describe "/api/v3/queries/:id/order", type: :request do
     let!(:wp1) { create :work_package }
     let!(:wp2) { create :work_package }
 
-    let(:timestamp) { ::API::V3::Utilities::DateTimeFormatter.format_datetime(query.updated_at) }
+    let(:timestamp) { API::V3::Utilities::DateTimeFormatter.format_datetime(query.updated_at) }
 
     before do
       query.ordered_work_packages.create(work_package_id: wp1.id, position: 0)

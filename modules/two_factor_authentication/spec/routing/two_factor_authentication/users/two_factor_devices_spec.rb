@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'users 2fa devices', type: :routing do
+describe 'users 2fa devices' do
   it 'route to GET new' do
     expect(get('/users/2/two_factor_devices/new')).to route_to(controller: 'two_factor_authentication/users/two_factor_devices',
                                                                action: 'new',

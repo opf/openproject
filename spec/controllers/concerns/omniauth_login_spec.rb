@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,7 @@ require 'spec_helper'
 
 # Concern is included into AccountController and depends on methods available there
 describe AccountController,
-         skip_2fa_stage: true, # Prevent redirects to 2FA stage
-         type: :controller do
+         skip_2fa_stage: true do
   let(:omniauth_strategy) { double('Google Strategy', name: 'google') }
   let(:omniauth_hash) do
     OmniAuth::AuthHash.new(
@@ -259,12 +258,14 @@ describe AccountController,
           post :omniauth_login, params: { provider: :google }
         end
 
-        it 'redirects to signin_path' do
-          expect(response).to redirect_to signin_path
-        end
+        it 'shows a notice about the activated account', :aggregate_failures do
+          expect(flash[:notice]).to eq(I18n.t('notice_account_registered_and_logged_in'))
+          user = User.last
 
-        it 'shows the right flash message' do
-          expect(flash[:error]).to eq(I18n.t('account.error_self_registration_disabled'))
+          expect(user.firstname).to eq 'foo'
+          expect(user.lastname).to eq 'bar'
+          expect(user.mail).to eq 'foo@bar.com'
+          expect(user).to be_active
         end
       end
     end
@@ -302,6 +303,28 @@ describe AccountController,
 
           user.reload
           expect(user.last_login_on.utc.to_i).to be >= post_at.utc.to_i
+        end
+
+        context 'with a partially blank auth_hash' do
+          let(:omniauth_hash) do
+            OmniAuth::AuthHash.new(
+              provider: 'google',
+              uid: '123545',
+              info: { name: 'foo',
+                      first_name: '',
+                      last_name: 'newLastname',
+                      email: 'foo@bar.com' }
+            )
+          end
+
+          it 'signs in the user after successful external authentication' do
+            expect { post :omniauth_login, params: { provider: :google } }
+                .not_to change { user.reload.firstname }
+
+            expect(response).to redirect_to my_page_path
+
+            expect(user.lastname).to eq 'newLastname'
+          end
         end
 
         describe 'authorization' do
@@ -440,12 +463,9 @@ describe AccountController,
           post :omniauth_login, params: { provider: :google }
         end
 
-        it 'shows an error about a not activated account' do
-          expect(flash[:error]).to eql(I18n.t('account.error_inactive_activation_by_mail'))
-        end
-
-        it 'redirects to signin_path' do
-          expect(response).to redirect_to signin_path
+        it 'shows a notice about the activated account', :aggregate_failures do
+          expect(flash[:notice]).to eq(I18n.t('notice_account_registered_and_logged_in'))
+          expect(user.reload).to be_active
         end
       end
 
@@ -458,11 +478,8 @@ describe AccountController,
           post :omniauth_login, params: { provider: :google }
         end
 
-        it 'shows a notice about the activated account' do
+        it 'shows a notice about the activated account', :aggregate_failures do
           expect(flash[:notice]).to eq(I18n.t('notice_account_registered_and_logged_in'))
-        end
-
-        it 'activates the user' do
           expect(user.reload).to be_active
         end
       end
@@ -476,11 +493,8 @@ describe AccountController,
           post :omniauth_login, params: { provider: :google }
         end
 
-        it 'shows an error indicating a failed login' do
+        it 'shows an error indicating a failed login', :aggregate_failures do
           expect(flash[:error]).to eql(I18n.t(:notice_account_invalid_credentials))
-        end
-
-        it 'redirects to signin_path' do
           expect(response).to redirect_to signin_path
         end
       end

@@ -11,7 +11,7 @@ describe 'Work Package group by progress', js: true do
   let!(:wp_4) { create(:work_package, project:, done_ratio: 50) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+  let(:group_by) { Components::WorkPackages::GroupBy.new }
 
   let!(:query) do
     query              = build(:query, user:, project:)

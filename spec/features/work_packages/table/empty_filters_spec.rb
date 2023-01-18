@@ -3,8 +3,8 @@ require 'spec_helper'
 describe 'Empty query filters', js: true do
   let(:user) { create(:admin) }
   let(:work_package) { create(:work_package) }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   before do
     login_as(user)

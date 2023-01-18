@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,9 @@
 require 'spec_helper'
 require 'webmock/rspec'
 
-describe ::OAuthClients::RedirectUriFromStateService, type: :model do
+describe OAuthClients::RedirectUriFromStateService, type: :model do
   let(:state) { 'asdf123425' }
-  let(:redirect_uri) { File.join(::API::V3::Utilities::PathHelper::ApiV3Path::root_url, 'foo/bar') }
+  let(:redirect_uri) { File.join(API::V3::Utilities::PathHelper::ApiV3Path::root_url, 'foo/bar') }
   let(:cookies) { { "oauth_state_#{state}": redirect_uri }.with_indifferent_access }
   let(:instance) { described_class.new(state:, cookies:) }
 

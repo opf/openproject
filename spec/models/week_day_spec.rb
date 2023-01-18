@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe WeekDay, type: :model do
+RSpec.describe WeekDay do
   describe '#name' do
     it 'returns the translated week day name' do
       expect(described_class.new(day: 1).name).to eq('Monday')

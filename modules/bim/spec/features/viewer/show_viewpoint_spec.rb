@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,6 @@ require_relative '../../spec_helper'
 
 describe 'Show viewpoint in model viewer',
          with_config: { edition: 'bim' },
-         type: :feature,
          js: true do
   let(:project) do
     create(:project,
@@ -51,10 +50,10 @@ describe 'Show viewpoint in model viewer',
            uploader: user)
   end
 
-  let(:model_tree) { ::Components::XeokitModelTree.new }
+  let(:model_tree) { Components::XeokitModelTree.new }
   let(:show_model_page) { Pages::IfcModels::ShowDefault.new(project) }
-  let(:card_view) { ::Pages::WorkPackageCards.new(project) }
-  let(:bcf_details) { ::Pages::BcfDetailsPage.new(work_package, project) }
+  let(:card_view) { Pages::WorkPackageCards.new(project) }
+  let(:bcf_details) { Pages::BcfDetailsPage.new(work_package, project) }
 
   shared_examples 'has the minimal viewpoint shown' do
     it 'loads the minimal viewpoint in the viewer' do
@@ -109,7 +108,7 @@ describe 'Show viewpoint in model viewer',
   end
 
   context 'when in work packages details view' do
-    let(:wp_details) { ::Pages::SplitWorkPackage.new(work_package, project) }
+    let(:wp_details) { Pages::SplitWorkPackage.new(work_package, project) }
 
     shared_examples "moves to the BCF page" do
       it 'moves to the bcf page' do
@@ -130,7 +129,7 @@ describe 'Show viewpoint in model viewer',
 
     context "current project is a parent of the work package's project" do
       let(:parent_project) { create :project, enabled_module_names: [:work_package_tracking] }
-      let(:wp_details) { ::Pages::SplitWorkPackage.new(work_package, parent_project) }
+      let(:wp_details) { Pages::SplitWorkPackage.new(work_package, parent_project) }
 
       it_behaves_like "moves to the BCF page"
     end

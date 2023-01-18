@@ -1,0 +1,101 @@
+# Schema: OAuthApplicationReadModel
+---
+type: object
+required:
+  - id
+  - _type
+  - name
+  - clientId
+  - confidential
+  - _link
+properties:
+  id:
+    type: integer
+    minimum: 1
+  _type:
+    type: string
+    enum:
+      - OAuthApplication
+  name:
+    type: string
+    description: The name of the OAuth 2 application
+  clientId:
+    type: string
+    description: OAuth 2 client id
+  clientSecret:
+    type: string
+    description: OAuth 2 client secret. This is only returned when creating a new OAuth application.
+  confidential:
+    type: boolean
+    description: true, if OAuth 2 credentials are confidential, false, if no secret is stored
+  createdAt:
+    type: string
+    format: date-time
+    description: The time the OAuth 2 Application was created at
+  updatedAt:
+    type: string
+    format: date-time
+    description: The time the OAuth 2 Application was last updated
+  scopes:
+    type: array
+    description: An array of the scopes of the OAuth 2 Application
+    items:
+      type: string
+  _links:
+    type: object
+    required:
+      - self
+      - owner
+      - redirectUri
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This OAuth application
+
+              **Resource**: OAuthApplication
+      owner:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The user that created the OAuth application.
+              
+              **Resource**: User
+      integration:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The resource that integrates this OAuth application into itself. Currently, only `Storage` resources are
+              able to create and maintain own OAuth application.
+              
+              **Resource**: Storage
+      redirectUri:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The redirect URI of the OAuth application
+              
+              **Resource**: N/A
+
+example:
+  id: 1337
+  _type: OauthClientCredentials
+  name: Vader's secure OAuth app
+  clientId: O5h6WObhMg1Z8IcLHRE3_LMh4jJYmmca2V6OTFSv8DA
+  confidential: true
+  createdAt: '2022-12-07T12:56:42Z'
+  updatedAt: '2022-12-07T12:56:42Z'
+  scopes:
+    - api_v3
+  _links:
+    self:
+      href: '/api/v3/oauth_applications/1337'
+    owner:
+      href: '/api/v3/users/13'
+      title: Darth Vader
+    integration:
+      href: '/api/v3/storages/42'
+      title: Death Star Cloud
+    redirectUri:
+      href: 'https://death-star.cloud.tools/index.php/apps/integration_openproject/oauth-redirect'

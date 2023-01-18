@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Values::PropertyDateRepresenter, 'rendering' do
+describe API::V3::Values::PropertyDateRepresenter, 'rendering' do
   subject(:generated) { representer.to_json }
 
   let(:property) { 'abc' }

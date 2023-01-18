@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'work_package'
 
-describe UsersController, type: :controller do
+describe UsersController do
   shared_let(:admin) { create :admin }
   shared_let(:anonymous) { User.anonymous }
 
@@ -306,7 +306,7 @@ describe UsersController, type: :controller do
           expect(response).to redirect_to(controller: 'account', action: 'login')
         end
 
-        it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
+        it { expect(flash[:notice]).to eq(I18n.t('account.deletion_pending')) }
       end
 
       describe "WHEN the current user is the requested one
@@ -375,7 +375,7 @@ describe UsersController, type: :controller do
           expect(response).to redirect_to(controller: 'users', action: 'index')
         end
 
-        it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
+        it { expect(flash[:notice]).to eq(I18n.t('account.deletion_pending')) }
       end
 
       describe "WHEN the current user is the admin

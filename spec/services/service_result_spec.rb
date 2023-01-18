@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -72,7 +72,7 @@ describe ServiceResult, type: :model do
       errors = ['errors']
       message = 'message'
       message_type = :message_type
-      state = instance_double(::Shared::ServiceState)
+      state = instance_double(Shared::ServiceState)
       dependent_results = ['dependent_results']
       result = instance_double(Object, 'result')
 
@@ -103,7 +103,7 @@ describe ServiceResult, type: :model do
       errors = ['errors']
       message = 'message'
       message_type = :message_type
-      state = instance_double(::Shared::ServiceState)
+      state = instance_double(Shared::ServiceState)
       dependent_results = ['dependent_results']
       result = instance_double(Object, 'result')
 

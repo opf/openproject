@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
+  include API::V3::Utilities::PathHelper
 
   let(:operator) { Queries::Operators::Equals }
   let(:form_embedded) { true }
@@ -41,7 +41,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
 
       it 'is a all principals dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::AllPrincipalsFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::AllPrincipalsFilterDependencyRepresenter)
       end
     end
 
@@ -49,7 +49,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::ResponsibleFilter.create! }
 
       it 'is a all principals dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::AllPrincipalsFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::AllPrincipalsFilterDependencyRepresenter)
       end
     end
 
@@ -57,7 +57,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::AuthorFilter.create! }
 
       it 'is the user dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::UserFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::UserFilterDependencyRepresenter)
       end
     end
 
@@ -65,7 +65,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::CategoryFilter.create! }
 
       it 'is the category dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::CategoryFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::CategoryFilterDependencyRepresenter)
       end
     end
 
@@ -73,7 +73,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::CreatedAtFilter.create! }
 
       it 'is the date dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter)
       end
     end
 
@@ -85,7 +85,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       shared_examples_for 'includes the cf json_cache_key mixin' do
         it do
           expect(subject.singleton_class.included_modules)
-            .to include(::API::V3::Queries::Schemas::CustomFieldJsonCacheKeyMixin)
+            .to include(API::V3::Queries::Schemas::CustomFieldJsonCacheKeyMixin)
         end
       end
 
@@ -93,7 +93,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         let(:custom_field) { build_stubbed(:int_wp_custom_field) }
 
         it 'is the integer dependency' do
-          expect(subject).to be_a(::API::V3::Queries::Schemas::IntegerFilterDependencyRepresenter)
+          expect(subject).to be_a(API::V3::Queries::Schemas::IntegerFilterDependencyRepresenter)
         end
 
         it_behaves_like 'includes the cf json_cache_key mixin'
@@ -103,7 +103,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         let(:custom_field) { build_stubbed(:float_wp_custom_field) }
 
         it 'is the float dependency' do
-          expect(subject).to be_a(::API::V3::Queries::Schemas::FloatFilterDependencyRepresenter)
+          expect(subject).to be_a(API::V3::Queries::Schemas::FloatFilterDependencyRepresenter)
         end
 
         it_behaves_like 'includes the cf json_cache_key mixin'
@@ -113,7 +113,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         let(:custom_field) { build_stubbed(:text_wp_custom_field) }
 
         it 'is the text dependency' do
-          expect(subject).to be_a(::API::V3::Queries::Schemas::TextFilterDependencyRepresenter)
+          expect(subject).to be_a(API::V3::Queries::Schemas::TextFilterDependencyRepresenter)
         end
 
         it_behaves_like 'includes the cf json_cache_key mixin'
@@ -123,7 +123,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         let(:custom_field) { build_stubbed(:list_wp_custom_field) }
 
         it 'is the custom option dependency' do
-          expect(subject).to be_a(::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter)
+          expect(subject).to be_a(API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter)
         end
 
         it_behaves_like 'includes the cf json_cache_key mixin'
@@ -133,7 +133,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         let(:custom_field) { build_stubbed(:user_wp_custom_field) }
 
         it 'is the user dependency' do
-          expect(subject).to be_a(::API::V3::Queries::Schemas::UserFilterDependencyRepresenter)
+          expect(subject).to be_a(API::V3::Queries::Schemas::UserFilterDependencyRepresenter)
         end
 
         it_behaves_like 'includes the cf json_cache_key mixin'
@@ -143,7 +143,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         let(:custom_field) { build_stubbed(:version_wp_custom_field) }
 
         it 'is the version dependency' do
-          expect(subject).to be_a(::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter)
+          expect(subject).to be_a(API::V3::Queries::Schemas::VersionFilterDependencyRepresenter)
         end
 
         it_behaves_like 'includes the cf json_cache_key mixin'
@@ -153,7 +153,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         let(:custom_field) { build_stubbed(:date_wp_custom_field) }
 
         it 'is the date dependency' do
-          expect(subject).to be_a(::API::V3::Queries::Schemas::DateFilterDependencyRepresenter)
+          expect(subject).to be_a(API::V3::Queries::Schemas::DateFilterDependencyRepresenter)
         end
 
         it_behaves_like 'includes the cf json_cache_key mixin'
@@ -163,7 +163,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         let(:custom_field) { build_stubbed(:bool_wp_custom_field) }
 
         it 'is the boolean filter dependency' do
-          expect(subject).to be_a(::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter)
+          expect(subject).to be_a(API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter)
         end
 
         it_behaves_like 'includes the cf json_cache_key mixin'
@@ -173,7 +173,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         let(:custom_field) { build_stubbed(:string_wp_custom_field) }
 
         it 'is the text dependency' do
-          expect(subject).to be_a(::API::V3::Queries::Schemas::TextFilterDependencyRepresenter)
+          expect(subject).to be_a(API::V3::Queries::Schemas::TextFilterDependencyRepresenter)
         end
 
         it_behaves_like 'includes the cf json_cache_key mixin'
@@ -184,7 +184,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::DoneRatioFilter.create! }
 
       it 'is the integer dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::IntegerFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::IntegerFilterDependencyRepresenter)
       end
     end
 
@@ -192,7 +192,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::DueDateFilter.create! }
 
       it 'is the date dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::DateFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::DateFilterDependencyRepresenter)
       end
     end
 
@@ -200,7 +200,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::EstimatedHoursFilter.create! }
 
       it 'is the integer dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::IntegerFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::IntegerFilterDependencyRepresenter)
       end
     end
 
@@ -208,7 +208,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::GroupFilter.create! }
 
       it 'is the group dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::GroupFilterDependencyRepresenter)
       end
     end
 
@@ -216,7 +216,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::IdFilter.create! }
 
       it 'is the id dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::IdFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::IdFilterDependencyRepresenter)
       end
     end
 
@@ -224,7 +224,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::PriorityFilter.create! }
 
       it 'is the priority dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::PriorityFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::PriorityFilterDependencyRepresenter)
       end
     end
 
@@ -232,7 +232,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::ProjectFilter.create! }
 
       it 'is the project dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter)
       end
     end
 
@@ -240,7 +240,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::RoleFilter.create! }
 
       it 'is the role dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::RoleFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::RoleFilterDependencyRepresenter)
       end
     end
 
@@ -248,7 +248,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::StartDateFilter.create! }
 
       it 'is the date dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::DateFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::DateFilterDependencyRepresenter)
       end
     end
 
@@ -256,7 +256,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::SubjectFilter.create! }
 
       it 'is the subject dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::TextFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::TextFilterDependencyRepresenter)
       end
     end
 
@@ -264,7 +264,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::StatusFilter.create! }
 
       it 'is a status dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::StatusFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::StatusFilterDependencyRepresenter)
       end
     end
 
@@ -272,7 +272,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::SubprojectFilter.create! }
 
       it 'is a subproject dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter)
       end
     end
 
@@ -280,7 +280,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::TypeFilter.create! }
 
       it 'is a type dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::TypeFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::TypeFilterDependencyRepresenter)
       end
     end
 
@@ -288,7 +288,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::UpdatedAtFilter.create! }
 
       it 'is a type dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter)
       end
     end
 
@@ -296,7 +296,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::VersionFilter.create! }
 
       it 'is a version dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::VersionFilterDependencyRepresenter)
       end
     end
 
@@ -304,7 +304,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       let(:filter) { Queries::WorkPackages::Filter::WatcherFilter.create! }
 
       it 'is a type dependency' do
-        expect(subject).to be_a(::API::V3::Queries::Schemas::UserFilterDependencyRepresenter)
+        expect(subject).to be_a(API::V3::Queries::Schemas::UserFilterDependencyRepresenter)
       end
     end
   end

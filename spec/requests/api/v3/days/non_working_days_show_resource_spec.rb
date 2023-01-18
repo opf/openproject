@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,10 +27,9 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Days::NonWorkingDaysAPI,
+describe API::V3::Days::NonWorkingDaysAPI,
          'show',
-         content_type: :json,
-         type: :request do
+         content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:non_working_day) { create(:non_working_day) }

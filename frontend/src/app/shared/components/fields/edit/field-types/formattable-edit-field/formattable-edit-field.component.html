@@ -11,7 +11,7 @@
   <edit-field-controls *ngIf="!(handler.inEditMode || initializationError)"
                        [fieldController]="field"
                        (onSave)="handleUserSubmit()"
-                       (onCancel)="handler.handleUserCancel()"
+                       (onCancel)="handleUserCancel()"
                        [saveTitle]="text.save"
                        [cancelTitle]="text.cancel">
   </edit-field-controls>

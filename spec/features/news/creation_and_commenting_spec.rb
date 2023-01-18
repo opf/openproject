@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'News creation and commenting', type: :feature, js: true do
+describe 'News creation and commenting', js: true do
   let(:project) { create(:project) }
   let!(:other_user) do
     create(:user,
@@ -79,7 +79,7 @@ describe 'News creation and commenting', type: :feature, js: true do
 
     click_link 'My new news'
 
-    comment_editor = ::Components::WysiwygEditor.new
+    comment_editor = Components::WysiwygEditor.new
     comment_editor.set_markdown "A new **text**"
 
     perform_enqueued_jobs do

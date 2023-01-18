@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Projects::ScheduleDeletionService, type: :model do
+describe Projects::ScheduleDeletionService, type: :model do
   let(:contract_class) do
     contract = double('contract_class', '<=': true)
 
@@ -89,7 +89,7 @@ describe ::Projects::ScheduleDeletionService, type: :model do
         .to receive(:call)
         .and_return(archive_result)
 
-      expect(::Projects::DeleteProjectJob)
+      expect(Projects::DeleteProjectJob)
         .to receive(:perform_later)
         .with(user:, project:)
 
@@ -110,7 +110,7 @@ describe ::Projects::ScheduleDeletionService, type: :model do
     end
 
     it 'does not schedule a job' do
-      expect(::Projects::DeleteProjectJob)
+      expect(Projects::DeleteProjectJob)
         .not_to receive(:new)
 
       subject
@@ -130,7 +130,7 @@ describe ::Projects::ScheduleDeletionService, type: :model do
     end
 
     it 'does not schedule a job' do
-      expect(::Projects::DeleteProjectJob)
+      expect(Projects::DeleteProjectJob)
         .not_to receive(:new)
 
       subject

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Attachments::AttachmentRepresenter do
+describe API::V3::Attachments::AttachmentRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
@@ -50,7 +50,7 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   end
 
   let(:representer) do
-    ::API::V3::Attachments::AttachmentRepresenter.new(attachment, current_user:)
+    API::V3::Attachments::AttachmentRepresenter.new(attachment, current_user:)
   end
 
   before do

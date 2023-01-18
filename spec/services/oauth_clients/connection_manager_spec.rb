@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,10 @@
 require 'spec_helper'
 require 'webmock/rspec'
 
-describe ::OAuthClients::ConnectionManager, type: :model do
+describe OAuthClients::ConnectionManager, type: :model do
   let(:user) { create :user }
   let(:host) { "https://example.org" }
-  let(:provider_type) { ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+  let(:provider_type) { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
   let(:storage) { create(:storage, provider_type:, host: "#{host}/") }
   let(:scope) { [:all] } # OAuth2 resources to access, specific to provider
   let(:oauth_client) do
@@ -388,7 +388,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
       context 'with access token valid' do
         context 'without other errors or exceptions' do
           before do
-            stub_request(:get, File.join(host, ::OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
+            stub_request(:get, File.join(host, OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
               .to_return(status: 200)
           end
 
@@ -399,7 +399,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
 
         context 'with some other error or exception' do
           before do
-            stub_request(:get, File.join(host, ::OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
+            stub_request(:get, File.join(host, OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
               .to_timeout
           end
 
@@ -414,7 +414,7 @@ describe ::OAuthClients::ConnectionManager, type: :model do
         let(:refresh_service_result) { ServiceResult.success }
 
         before do
-          stub_request(:get, File.join(host, ::OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
+          stub_request(:get, File.join(host, OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
             .to_return(status: 401) # 401 unauthorized
           allow(instance).to receive(:refresh_token).and_return(refresh_service_result)
         end

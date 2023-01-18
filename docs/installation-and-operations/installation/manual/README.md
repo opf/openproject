@@ -4,22 +4,24 @@ sidebar_navigation: false
 
 # Manual installation guide
 
-**IMPORTANT: We strongly recommend to use one of the officially supported [installation methods](../../installation). This guide is simply provided as a reference, and is most likely NOT up to date with relation to the latest OpenProject releases.**
+> **IMPORTANT: We strongly recommend to use one of the officially supported [installation methods](../../installation).**
+>
+> **This guide is simply provided as an OLD and OUTDATED reference, and is NOT up to date with relation to the latest OpenProject releases and will be NOT maintained NOR supported. You are on your own and maybe could ask experienced users in the forum in order to use this guide for any integrations taht you would like to solve. We also removed it from the navigation sidebar on the left in order to hide it.**
 
 Please be aware that:
 
-* This guide requires that you have a clean Ubuntu 18.04 **x64** installation
+* This guide **requires** that you have a clean **Ubuntu 18.04** **x64** installation
 with administrative rights (i.e. you must be able to `sudo`). We have tested
 the installation guide on an Ubuntu Server image, but it should work on any
 derivative. You may need to alter some of the commands to match your
 derivative.
 
-* OpenProject will be installed with a PostgreSQL database.
+* OpenProject will be installed with a **PostgreSQL** database.
 
-* OpenProject will be served in a production environment with the Apache server
+* OpenProject will be served in a production environment with the **Apache** server
 (this guide should work similarly with other servers, like nginx and others)
 
-Note: We have highlighted commands to execute like this
+> **NOTE:** We have highlighted commands to execute like this
 
 ```bash
 [user@host] command to execute
@@ -106,16 +108,16 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 3.1.2
+[openproject@host] rbenv install 3.2.0
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 3.1.2
+[openproject@host] rbenv global 3.2.0
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 3.1.2p20 (2022-04-12 revision 4491bb740a) [x86_64-linux]
+ruby 3.2.0 (2022-12-25 revision a528908271) [x86_64-linux]
 ```
 
 ## Installation of Node
@@ -147,7 +149,7 @@ v16.17.0
 
 ## Installation of OpenProject
 
-We will install the OpenProject Community edition. It contains the recommended set of plugins for use
+We will install the OpenProject Community Edition. It contains the recommended set of plugins for use
 with OpenProject. For more information, see [github.com/opf/openproject](https://github.com/opf/openproject).
 
 
@@ -213,11 +215,8 @@ a better performance of OpenProject:
 rails_cache_store: :memcache
 ```
 
-__NOTE:__ You should validate your `yml` files, for example with
-[yamlchecker.com](https://yamlchecker.com/). Both, the `database.yml` and `configuration.yml`
-file are sensitive to whitespace. It is pretty easy to write
-invalid `yml` files without seeing the error. Validating those files
-prevents you from such errors.
+> __NOTE:__ You should validate your `yml` files, for example with [yamlchecker.com](https://yamlchecker.com/). Both, the `database.yml` and `configuration.yml` file are sensitive to whitespace. It is pretty easy to write invalid `yml` files without seeing the error. Validating those files prevents you from such errors.
+>
 
 To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be automatically loaded to the application's environment.
 
@@ -231,7 +230,8 @@ To configure the environment variables such as the number of web server threads 
 [openproject@host] RAILS_ENV="production" ./bin/rake assets:precompile
 ```
 
-**NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`. E.g.
+> **NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`. E.g.
+
 ```bash
 [openproject@all] RAILS_ENV="production" OPENPROJECT_SEED_LOCALE=fr ./bin/rake db:seed
 ```

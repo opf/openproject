@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -96,6 +96,8 @@ class Project < ApplicationRecord
                      project_key: 'id',
                      permission: nil
 
+  acts_as_journalized
+
   # Necessary for acts_as_searchable which depends on the event_datetime method for sorting
   acts_as_event title: Proc.new { |o| "#{Project.model_name.human}: #{o.name}" },
                 url: Proc.new { |o| { controller: 'overviews/overviews', action: 'show', project_id: o } },
@@ -158,6 +160,10 @@ class Project < ApplicationRecord
 
   def archived?
     !active?
+  end
+
+  def being_archived?
+    (active == false) && (active_was == true)
   end
 
   def copy_allowed?
@@ -401,9 +407,9 @@ class Project < ApplicationRecord
   end
 
   def allowed_actions
-    @actions_allowed ||= allowed_permissions
-                           .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
-                           .flatten
+    @allowed_actions ||= allowed_permissions.flat_map do |permission|
+      OpenProject::AccessControl.allowed_actions(permission)
+    end
   end
 
   def remove_white_spaces_from_project_name

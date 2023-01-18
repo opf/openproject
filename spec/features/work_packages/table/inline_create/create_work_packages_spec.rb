@@ -23,7 +23,7 @@ describe 'inline create work package', js: true do
   let!(:project) { create(:project, public: true, types:) }
   let!(:existing_wp) { create(:work_package, project:) }
   let!(:priority) { create :priority, is_default: true }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   before do
     workflow
@@ -98,7 +98,7 @@ describe 'inline create work package', js: true do
       let(:types) { [type, cf_type] }
       let(:type) { create(:type_standard) }
       let(:cf_type) { create(:type, custom_fields: [cf_list]) }
-      let(:columns) { ::Components::WorkPackages::Columns.new }
+      let(:columns) { Components::WorkPackages::Columns.new }
 
       it 'applies the filter value for the custom field' do
         wp_table.visit!
@@ -143,7 +143,7 @@ describe 'inline create work package', js: true do
   end
 
   describe 'global create' do
-    let(:wp_table) { ::Pages::WorkPackagesTable.new }
+    let(:wp_table) { Pages::WorkPackagesTable.new }
 
     before do
       wp_table.visit!
@@ -164,7 +164,7 @@ describe 'inline create work package', js: true do
   end
 
   describe 'project context create' do
-    let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
     before do
       wp_table.visit!

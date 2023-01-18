@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,10 +36,6 @@
 Settings::Definition.define do
   add :activity_days_default,
       default: 30
-
-  add :additional_footer_content,
-      format: :string,
-      default: nil
 
   add :after_first_login_redirect_url,
       format: :string,
@@ -582,7 +578,7 @@ Settings::Definition.define do
       allowed: -> { Role.pluck(:id) }
 
   add :oauth_allow_remapping_of_existing_users,
-      default: false
+      default: true
 
   add :omniauth_direct_login_provider,
       format: :string,
@@ -745,45 +741,10 @@ Settings::Definition.define do
       format: :string,
       default: "/usr/sbin/sendmail"
 
-  # Which breadcrumb loggers to enable
-  add :sentry_breadcrumb_loggers,
-      default: ['active_support_logger'],
-      writable: false
-
-  # Log errors to sentry instance
-  add :sentry_dsn,
-      format: :string,
-      default: nil,
-      writable: false
-
-  # Allow separate error reporting for frontend errors
-  add :sentry_frontend_dsn,
-      format: :string,
-      default: nil,
-      writable: false
-
-  add :sentry_host,
-      format: :string,
-      default: nil,
-      writable: false
-
   # Allow separate error reporting for frontend errors
   add :appsignal_frontend_key,
       format: :string,
       default: nil,
-      writable: false
-
-  # Allow sentry to collect tracing samples
-  # set to 1 to enable default tracing samples (see sentry initializer)
-  # set to n >= 1 to enable n times the default tracing
-  add :sentry_trace_factor,
-      default: 0,
-      writable: false
-
-  # Allow sentry to collect tracing samples on frontend
-  # set to n >= 1 to enable n times the default tracing
-  add :sentry_frontend_trace_factor,
-      default: 0,
       writable: false
 
   add :session_cookie_name,

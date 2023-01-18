@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,8 @@ describe 'filter work packages', js: true do
   let(:watcher) { create :user }
   let(:project) { create :project, members: { watcher => role } }
   let(:role) { create :existing_role, permissions: [:view_work_packages] }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   current_user { user }
 
@@ -154,7 +154,7 @@ describe 'filter work packages', js: true do
   context 'by finish date outside of a project' do
     let(:work_package_with_due_date) { create :work_package, project:, due_date: Date.today }
     let(:work_package_without_due_date) { create :work_package, project:, due_date: Date.today + 5.days }
-    let(:wp_table) { ::Pages::WorkPackagesTable.new }
+    let(:wp_table) { Pages::WorkPackagesTable.new }
 
     before do
       work_package_with_due_date
@@ -380,7 +380,7 @@ describe 'filter work packages', js: true do
       create :work_package, subject: 'WP attachment B', project:, attachments: [attachment_b]
     end
     let(:wp_without_attachment) { create :work_package, subject: 'WP no attachment', project: }
-    let(:wp_table) { ::Pages::WorkPackagesTable.new }
+    let(:wp_table) { Pages::WorkPackagesTable.new }
 
     before do
       allow(EnterpriseToken).to receive(:allows_to?).and_return(false)

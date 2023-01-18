@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative './shared_model'
 
-describe Grids::MyPage, type: :model do
+describe Grids::MyPage do
   let(:instance) { described_class.new(row_count: 5, column_count: 5) }
   let(:user) { build_stubbed(:user) }
 

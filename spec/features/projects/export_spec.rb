@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'project export', type: :feature, js: true do
+describe 'project export', js: true do
   shared_let(:important_project) { create :project, name: 'Important schedule plan' }
   shared_let(:party_project) { create :project, name: 'Christmas party' }
   shared_let(:user) do
@@ -38,7 +38,7 @@ describe 'project export', type: :feature, js: true do
            member_with_permissions: %w[view_project edit_project view_work_packages]
   end
 
-  let(:index_page) { ::Pages::Projects::Index.new }
+  let(:index_page) { Pages::Projects::Index.new }
 
   let(:current_user) { user }
 
