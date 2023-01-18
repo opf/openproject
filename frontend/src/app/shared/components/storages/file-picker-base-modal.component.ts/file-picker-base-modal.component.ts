@@ -81,10 +81,6 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
 
   public readonly loading$ = new BehaviorSubject<boolean>(true);
 
-  public get location():string {
-    return this.currentDirectory.location;
-  }
-
   protected constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly elementRef:ElementRef,

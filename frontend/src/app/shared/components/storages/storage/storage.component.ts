@@ -51,7 +51,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { v4 as uuidv4 } from 'uuid';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
+import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
 import { IPrepareUploadLink, IStorage } from 'core-app/core/state/storages/storage.model';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import {
@@ -70,7 +70,6 @@ import {
   StorageInformationBox,
 } from 'core-app/shared/components/storages/storage-information/storage-information-box';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   FilePickerModalComponent,
 } from 'core-app/shared/components/storages/file-picker-modal/file-picker-modal.component';
@@ -78,11 +77,9 @@ import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import {
   LocationPickerModalComponent,
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
-import { UploadStorageFilesService } from 'core-app/shared/components/storages/services/upload-storage-files.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { OpenProjectFileUploadService, UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
+import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { IUploadLink } from 'core-app/core/state/storage-files/upload-link.model';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
@@ -179,13 +176,10 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     private readonly toastService:ToastService,
     private readonly cookieService:CookieService,
     private readonly opModalService:OpModalService,
-    private readonly currentUserService:CurrentUserService,
-    private readonly configurationService:ConfigurationService,
-    private readonly fileLinkResourceService:FileLinksResourceService,
-    private readonly uploadStorageFilesService:UploadStorageFilesService,
-    private readonly storageFilesResourceService:StorageFilesResourceService,
-    private readonly fileUploadService:OpenProjectFileUploadService,
     private readonly timezoneService:TimezoneService,
+    private readonly currentUserService:CurrentUserService,
+    private readonly fileLinkResourceService:FileLinksResourceService,
+    private readonly storageFilesResourceService:StorageFilesResourceService,
   ) {
     super();
   }
@@ -281,11 +275,11 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       });
   }
 
-  private uploadFile(file:UploadFile, _location:string):void {
+  private uploadFile(file:UploadFile, locationId:string):void {
     let isUploadError = false;
 
     this.storageFilesResourceService
-      .uploadLink(this.uploadResourceLink(file.name, '1023'))
+      .uploadLink(this.uploadResourceLink(file.name, locationId))
       .pipe(
         // switchMap((link) => this.uploadStorageFilesService.uploadFile(link, file)),
         switchMap((link) => this.uploadAndNotify(link, file)),
@@ -316,7 +310,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       );
   }
 
-  private uploadAndNotify(link:IUploadLink, file:UploadFile):Observable<IStorageFile> {
+  private uploadAndNotify(link:IUploadLink, file:UploadFile):Observable<IFileLinkOriginData> {
     const { method, href } = link._links.destination;
 
     interface FileUploadResponse {
@@ -356,7 +350,6 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
           return ({
             id: data.file_id,
             name: data.file_name,
-            location: '',
             mimeType: file.type,
             size: file.size,
             createdAt: now,

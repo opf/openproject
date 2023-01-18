@@ -66,6 +66,10 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
     },
   };
 
+  public get location():string {
+    return this.currentDirectory.id as string;
+  }
+
   public get canChooseLocation():boolean {
     if (!this.currentDirectory) {
       return false;
