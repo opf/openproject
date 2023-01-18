@@ -24,62 +24,62 @@ eu:
   activerecord:
     attributes:
       meeting:
-        location: "Location"
-        duration: "Duration"
-        participants: "Participants"
-        participants_attended: "Attendees"
-        participants_invited: "Invitees"
-        start_time: "Time"
-        start_time_hour: "Starting time"
+        location: "Lekua"
+        duration: "Iraupena"
+        participants: "Parte-hartzaileak"
+        participants_attended: "Bertaratuak"
+        participants_invited: "Gonbidatuak"
+        start_time: "Ordua"
+        start_time_hour: "Hasiera ordua"
     errors:
       messages:
-        invalid_time_format: "is not a valid time. Required format: HH:MM"
+        invalid_time_format: "ez da baliozko ordua. Eskatzen den formatua: OO:MM"
     models:
       meeting_agenda: "Agenda"
-      meeting_minutes: "Minutes"
-  description_attended: "attended"
-  description_invite: "invited"
+      meeting_minutes: "Aktak"
+  description_attended: "Egon da"
+  description_invite: "Gonbidatua izan da"
   events:
-    meeting: Meeting edited
-    meeting_agenda: Meeting agenda edited
-    meeting_agenda_closed: Meeting agenda closed
-    meeting_agenda_opened: Meeting agenda opened
-    meeting_minutes: Meeting minutes edited
-    meeting_minutes_created: Meeting minutes created
-  error_notification_with_errors: "Failed to send notification. The following recipients could not be notified: %{recipients}"
-  label_meeting: "Meeting"
-  label_meeting_plural: "Meetings"
-  label_meeting_new: "New Meeting"
-  label_meeting_edit: "Edit Meeting"
+    meeting: Hitzordua aldatu da
+    meeting_agenda: Hitzorduaren agenda aldatua
+    meeting_agenda_closed: Hitzorduaren agenda itxi da
+    meeting_agenda_opened: Hitzorduaren agenda ireki da
+    meeting_minutes: Hitzorduaren aktak aldatu dira
+    meeting_minutes_created: Hitzorduaren akta sortu da
+  error_notification_with_errors: "Jakinarazpena bidaltzean akats bat egon da. Ondorengo hartzaileei ezin izan zaie jakinarazi:  %{recipients}"
+  label_meeting: "Hitzordua"
+  label_meeting_plural: "Hitzorduak"
+  label_meeting_new: "Hitzordu berria"
+  label_meeting_edit: "Aldatu hitzordua"
   label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Minutes"
-  label_meeting_close: "Close"
-  label_meeting_open: "Open"
-  label_meeting_agenda_close: "Close the agenda to begin the Minutes"
-  label_meeting_date_time: "Date/Time"
-  label_meeting_diff: "Diff"
-  label_notify: "Send for review"
-  label_icalendar: "Send iCalendar"
-  label_version: "Version"
-  label_time_zone: "Time zone"
-  label_start_date: "Start date"
+  label_meeting_minutes: "Aktak"
+  label_meeting_close: "Itxi"
+  label_meeting_open: "Ireki"
+  label_meeting_agenda_close: "Itxi agenda Aktak hasteko."
+  label_meeting_date_time: "Data/Ordua"
+  label_meeting_diff: "Diferentzia"
+  label_notify: "Berrikustera bidali"
+  label_icalendar: "Bidali iEgutegia"
+  label_version: "Bertsioa"
+  label_time_zone: "Ordu-eremua"
+  label_start_date: "Hasiera data"
   meeting:
-    copied: "Copied from Meeting #%{id}"
-  notice_successful_notification: "Notification sent successfully"
-  notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
-  permission_create_meetings: "Create meetings"
-  permission_edit_meetings: "Edit meetings"
-  permission_delete_meetings: "Delete meetings"
-  permission_view_meetings: "View meetings"
-  permission_create_meeting_agendas: "Manage agendas"
-  permission_close_meeting_agendas: "Close agendas"
-  permission_send_meeting_agendas_notification: "Send review notification for agendas"
-  permission_create_meeting_minutes: "Manage minutes"
-  permission_send_meeting_minutes_notification: "Send review notification for minutes"
-  permission_meetings_send_invite: "Invite users to meetings"
-  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
-  project_module_meetings: "Meetings"
-  text_duration_in_hours: "Duration in hours"
+    copied: "#%{id} Hitzordutik kopiatua"
+  notice_successful_notification: "Jakinarazpena ondo bidali da"
+  notice_timezone_missing: Ez da ordu-eremurik zehaztu eta %{zone} hartu da ontzat. Ordu-eremua aukeratzeko klikatu hemen, mesedez.
+  permission_create_meetings: "Sortu hitzordua"
+  permission_edit_meetings: "Aldatu hitzorduak"
+  permission_delete_meetings: "Ezabatu hitzorduak"
+  permission_view_meetings: "Ikusi hitzorduak"
+  permission_create_meeting_agendas: "Kudeatu agendak"
+  permission_close_meeting_agendas: "Itxi agendak"
+  permission_send_meeting_agendas_notification: "Bidali agendak berrikusteko jakinarazpena"
+  permission_create_meeting_minutes: "Kudeatu aktak"
+  permission_send_meeting_minutes_notification: "Bidali aktak berrikusteko jakinarazpena"
+  permission_meetings_send_invite: "Gonbidatu erabiltzaileak hitzorduetara"
+  permission_send_meeting_agendas_icalendar: "Bidali hitzorduen agenda egutegiaren sarrera gisa"
+  project_module_meetings: "Hitzorduak"
+  text_duration_in_hours: "Iraupena ordutan"
   text_in_hours: "in hours"
   text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
   text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
