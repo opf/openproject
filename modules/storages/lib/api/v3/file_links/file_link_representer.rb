@@ -135,7 +135,8 @@ module API::V3::FileLinks
 
     associated_resource :container,
                         v3_path: :work_package,
-                        representer: ::API::V3::WorkPackages::WorkPackageRepresenter
+                        representer: ::API::V3::WorkPackages::WorkPackageRepresenter,
+                        skip_render: ->(*) { represented.container_id.nil? }
 
     def _type
       'FileLink'
@@ -144,7 +145,7 @@ module API::V3::FileLinks
     private
 
     def user_allowed_to_manage?(model)
-      current_user.allowed_to?(:manage_file_links, model.container.project)
+      model.container && current_user.allowed_to?(:manage_file_links, model.project)
     end
 
     def make_origin_data(model)
