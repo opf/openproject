@@ -208,10 +208,10 @@ In Gitlab you have to set up a webhook in each repository to be integrated with 
 
 You need to configure just two things in the webhook:
 
-1. The URL must point to your OpenProject server’s Gitlab webhook endpoint (/webhooks/gitlab). Append it to the URL as a simple GET parameter named key. In the end the URL should look something like this:
+1. The URL must point to your OpenProject server’s Gitlab webhook endpoint (/webhooks/gitlab). Append it to the URL as a simple GET parameter named key with previouslly generated token as value. In the end the URL should look something like this:
    
    ```
-   http://openproject-url.com/webhooks/gitlab?key=ae278268
+   http://openproject-url.com/webhooks/gitlab?key=generated_access_token
    ```
 
 2. Enable the required triggers:
