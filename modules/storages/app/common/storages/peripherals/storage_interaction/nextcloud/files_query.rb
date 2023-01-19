@@ -42,7 +42,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       result = @retry_proc.call(@token) do |token|
         response = http.propfind(
-          "#{@base_path}#{requested_folder(parent)}",
+          request_path(parent),
           requested_properties,
           {
             'Depth' => '1',
@@ -57,6 +57,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     private
+
+    def request_path(folder)
+      File.join(@uri.path, @base_path, requested_folder(folder)).gsub(/\/+$/, '')
+    end
 
     def requested_folder(folder)
       return '' if folder.nil?

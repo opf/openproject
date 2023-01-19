@@ -185,10 +185,11 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
   describe '#files_query' do
     let(:xml) { create(:webdav_data) }
+    let(:request_url) { "#{url}/remote.php/dav/files/#{origin_user_id}" }
 
     before do
       allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
-      stub_request(:propfind, "#{url}/remote.php/dav/files/#{origin_user_id}")
+      stub_request(:propfind, request_url)
         .to_return(status: 207, body: xml, headers: {})
     end
 
@@ -255,6 +256,21 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             .files_query(user:)
             .match(
               on_success: ->(query) { query.call(parent) },
+              on_failure: ->(error) { raise "Files query could not be created: #{error}" }
+            )
+
+          assert_requested(:propfind, request_url)
+        end
+      end
+
+      describe 'with storage running on a sub path' do
+        let(:url) { 'https://example.com/storage' }
+
+        it do
+          subject
+            .files_query(user:)
+            .match(
+              on_success: ->(query) { query.call(nil) },
               on_failure: ->(error) { raise "Files query could not be created: #{error}" }
             )
 
