@@ -580,7 +580,7 @@ describe "POST /api/v3/queries/form" do
     let(:path_with_cf) do
       uri = Addressable::URI.parse(path)
       uri.query = {
-        filters: [{ "customField#{custom_field.id}": { operator: "=", values: ["ABC"] } }]
+        filters: [{ custom_field.attribute_name(:camel_case) => { operator: "=", values: ["ABC"] } }]
       }.to_query
 
       uri.to_s

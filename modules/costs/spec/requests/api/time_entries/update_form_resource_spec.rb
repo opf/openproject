@@ -93,7 +93,7 @@ describe API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
           comment: {
             raw: "some comment"
           },
-          "customField#{custom_field.id}": {
+          custom_field.attribute_name(:camel_case) => {
             raw: 'some cf text'
           }
         }

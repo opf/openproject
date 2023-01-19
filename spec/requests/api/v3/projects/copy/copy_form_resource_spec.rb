@@ -112,12 +112,12 @@ describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
       {
         name: 'My copied project',
         identifier: 'foobar',
-        "customField#{text_custom_field.id}": {
+        text_custom_field.attribute_name(:camel_case) => {
           raw: "CF text"
         },
         statusExplanation: { raw: "A magic dwells in each beginning." },
         _links: {
-          "customField#{list_custom_field.id}": {
+          list_custom_field.attribute_name(:camel_case) => {
             href: api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
           },
           status: {

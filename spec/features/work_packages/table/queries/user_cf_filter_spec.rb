@@ -97,7 +97,7 @@ describe 'Work package filtering by user custom field', js: true do
 
     # Filtering by user
 
-    filters.add_filter_by(user_cf.name, 'is', [other_user.name], "customField#{user_cf.id}")
+    filters.add_filter_by(user_cf.name, 'is', [other_user.name], user_cf.attribute_name(:camel_case))
 
     wp_table.ensure_work_package_not_listed!(work_package_placeholder, work_package_group)
     wp_table.expect_work_package_listed(work_package_user)
@@ -116,16 +116,16 @@ describe 'Work package filtering by user custom field', js: true do
 
     # Filtering by placeholder
 
-    filters.remove_filter "customField#{user_cf.id}"
-    filters.add_filter_by(user_cf.name, 'is', [placeholder_user.name], "customField#{user_cf.id}")
+    filters.remove_filter user_cf.attribute_name(:camel_case)
+    filters.add_filter_by(user_cf.name, 'is', [placeholder_user.name], user_cf.attribute_name(:camel_case))
 
     wp_table.ensure_work_package_not_listed!(work_package_user, work_package_group)
     wp_table.expect_work_package_listed(work_package_placeholder)
 
     # Filtering by group
 
-    filters.remove_filter "customField#{user_cf.id}"
-    filters.add_filter_by(user_cf.name, 'is', [group.name], "customField#{user_cf.id}")
+    filters.remove_filter user_cf.attribute_name(:camel_case)
+    filters.add_filter_by(user_cf.name, 'is', [group.name], user_cf.attribute_name(:camel_case))
 
     wp_table.ensure_work_package_not_listed!(work_package_user, work_package_placeholder)
     wp_table.expect_work_package_listed(work_package_group)
