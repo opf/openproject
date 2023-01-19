@@ -36,10 +36,10 @@ shared_context 'with custom field params' do
       attribute_groups: [
         { 'type' => 'attribute',
           'name' => 'group1',
-          'attributes' => [{ 'key' => "custom_field_#{cf1.id}" }, { 'key' => "custom_field_#{cf2.id}" }] },
+          'attributes' => [{ 'key' => cf1.attribute_name }, { 'key' => cf2.attribute_name }] },
         { 'type' => 'attribute',
           'name' => 'groups',
-          'attributes' => [{ 'key' => "custom_field_#{cf2.id}" }] }
+          'attributes' => [{ 'key' => cf2.attribute_name }] }
       ]
     }
   end
@@ -138,7 +138,7 @@ shared_examples_for 'type service' do
       it 'enables the custom fields that are passed via attribute_groups' do
         allow(type)
           .to receive(:work_package_attributes)
-          .and_return("custom_field_#{cf1.id}" => {}, "custom_field_#{cf2.id}" => {})
+          .and_return(cf1.attribute_name => {}, cf2.attribute_name => {})
 
         allow(type)
           .to receive(:custom_field_ids=)

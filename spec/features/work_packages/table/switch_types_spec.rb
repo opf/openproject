@@ -42,7 +42,7 @@ describe 'Switching types in work package table', js: true do
 
     let(:query) do
       query = build(:query, user:, project:)
-      query.column_names = ['id', 'subject', 'type', "cf_#{cf_text.id}"]
+      query.column_names = ['id', 'subject', 'type', cf_text.column_name]
 
       query.save!
       query
@@ -257,7 +257,7 @@ describe 'Switching types in work package table', js: true do
 
       work_package.reload
       expect(work_package.type_id).to eq(type_bug.id)
-      expect(work_package.send("custom_field_#{cf_req_bool.id}")).to be(false)
+      expect(work_package.send(cf_req_bool.attribute_getter)).to be(false)
     end
   end
 

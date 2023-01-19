@@ -187,15 +187,15 @@ describe XlsExport::WorkPackage::Exporter::XLS do
                         type:)
       wps[0].estimated_hours = 27.5
       wps[0].save!
-      wps[1].send(:"custom_field_#{custom_field.id}=", 1)
+      wps[1].send(custom_field.attribute_setter, 1)
       wps[1].save!
-      wps[2].send(:"custom_field_#{custom_field.id}=", 99.99)
+      wps[2].send(custom_field.attribute_setter, 99.99)
       wps[2].save!
-      wps[3].send(:"custom_field_#{custom_field.id}=", 1000)
+      wps[3].send(custom_field.attribute_setter, 1000)
       wps[3].save!
       wps
     end
-    let(:column_names) { ['subject', 'status', 'estimated_hours', "cf_#{custom_field.id}"] }
+    let(:column_names) { ['subject', 'status', 'estimated_hours', custom_field.column_name] }
 
     before do
       allow(Setting)

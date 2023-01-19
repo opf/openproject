@@ -97,7 +97,7 @@ describe WorkPackage do
         work_package.custom_field_values = { custom_field.id => ids }
         work_package.save
 
-        expect(work_package.send("custom_field_#{custom_field.id}"))
+        expect(work_package.send(custom_field.attribute_getter))
           .to eql values
       end
     end

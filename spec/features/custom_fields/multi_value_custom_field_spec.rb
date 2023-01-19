@@ -190,10 +190,10 @@ describe "multi select custom values", js: true do
       let(:wp2_field) { table_edit_field(work_package2) }
       let!(:query) do
         query = build(:query, user:, project:)
-        query.column_names = ['id', 'type', 'subject', "cf_#{custom_field.id}"]
+        query.column_names = ['id', 'type', 'subject', custom_field.column_name]
         query.filters.clear
         query.timeline_visible = false
-        query.sort_criteria = [["cf_#{custom_field.id}", 'asc']]
+        query.sort_criteria = [[custom_field.column_name, 'asc']]
 
         query.save!
         query

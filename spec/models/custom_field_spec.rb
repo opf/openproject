@@ -183,12 +183,36 @@ describe CustomField do
     end
   end
 
-  describe '#accessor_name' do
-    let(:field) { build_stubbed :custom_field }
+  describe '#attribute_name' do
+    let(:field) { build_stubbed(:custom_field) }
 
-    it 'is formatted as expected' do
-      expect(field.accessor_name).to eql("custom_field_#{field.id}")
-    end
+    subject { field.attribute_name }
+
+    it { is_expected.to eq("custom_field_#{field.id}") }
+  end
+
+  describe '#attribute_getter' do
+    let(:field) { build_stubbed(:custom_field) }
+
+    subject { field.attribute_getter }
+
+    it { is_expected.to eq(:"custom_field_#{field.id}") }
+  end
+
+  describe '#attribute_setter' do
+    let(:field) { build_stubbed(:custom_field) }
+
+    subject { field.attribute_setter }
+
+    it { is_expected.to eq(:"custom_field_#{field.id}=") }
+  end
+
+  describe '#column_name' do
+    let(:field) { build_stubbed(:custom_field) }
+
+    subject { field.column_name }
+
+    it { is_expected.to eq("cf_#{field.id}") }
   end
 
   describe '#possible_values_options' do
