@@ -8,13 +8,13 @@ keywords: use-case, portfolio management
 
 # Use Case: Portfolio Management and Custom Reporting Options
 
-Step 1: To view all projects, first select the *project chooser drop-down* (select a project), then click on the  *View all projects*
+Step 1: To view all projects, first select the *project chooser drop-down* (select a project), then click on the  *View all projects* Button. You will then be lead to the project list.
 
-![Chose project](chose-project.jpg)
+![open project list](open-project-list.jpg)
 
-Step 2: You can sort and filter this view using custom fields, such as *Initiative* or *Status.* If you have not added useful custom fields, please see [here](../../system-admin-guide/custom-fields/).
+Step 2: You can sort the list by clicking on the heading of a column and you can filter the list according to certain information using the filter in the function bar. You can also filter for custom fields, such as *Initiative* or *Start date.* If you have not added useful custom fields, please see [here](../../system-admin-guide/custom-fields/).
 
-Step 3: Press the **floppy disk icon** to save and name your view once you are happy with the information that is displayed. You can also add this view as a favorite to the black bar on the left.
+Step 3: You can also configure the view using the button with the three dots at the upper right corner and select *configure*. You will then be lead to the *System settings* of the global Administration. If you scroll down the page, there you can select which columns are to be displayed in the project list in the section *Settings for project overview list*. Please save your changes via the blue *Save* button, at the bottom of the page.
 
 ## Creating Custom Reports
 
