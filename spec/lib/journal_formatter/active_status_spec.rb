@@ -31,20 +31,19 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 describe OpenProject::JournalFormatter::ActiveStatus do
   let(:instance) { described_class.new(build(:journal)) }
 
-  it "renders correctly when un-archiving" do
+  it "renders correctly when unarchiving" do
     html = instance.render("active", [false, true], no_html: false)
-    expect(html).to eq("<strong>Project</strong> un-archived")
+    expect(html).to eq("<strong>Project</strong> unarchived")
 
     html = instance.render("active", [false, true], no_html: true)
-    expect(html).to eq("Project un-archived")
+    expect(html).to eq("Project unarchived")
   end
 
   it "renders correctly when archiving" do
+    html = instance.render("active", [true, false], no_html: false)
+    expect(html).to eq("<strong>Project</strong> archived")
+
     html = instance.render("active", [true, false], no_html: true)
     expect(html).to eq("Project archived")
-
-    html = instance.render("active", [true, false], no_html: true)
-    expect(html).to eq("<strong>Project</strong> archived")
   end
-
 end
