@@ -66,7 +66,11 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
     return this.locals.storageLink as IHalResourceLink;
   }
 
-  public breadcrumbs:BreadcrumbsContent = new BreadcrumbsContent([]);
+  public breadcrumbs:BreadcrumbsContent = new BreadcrumbsContent([{
+    text: this.locals.storageName as string,
+    icon: getIconForStorageType(this.locals.storageType as string),
+    navigate: () => {},
+  }]);
 
   public listItems$:Observable<StorageFileListItem[]> = this.storageFiles$
     .pipe(
