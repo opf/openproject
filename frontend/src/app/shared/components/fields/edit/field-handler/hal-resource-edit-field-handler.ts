@@ -123,8 +123,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   /**
    * Handle a user submitting the field (e.g, ng-change)
    */
-  public handleUserSubmit():Promise<any> {
-    this.blurActiveField();
+  public handleUserSubmit():Promise<unknown> {
     this.onBeforeSubmit();
 
     if (this.inFlight || this.form.editMode) {
@@ -133,7 +132,10 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
     return this
       .onSubmit()
-      .then(() => this.form.submit());
+      .then(() => {
+        void this.form.submit();
+        this.blurActiveField();
+      });
   }
 
   /**
