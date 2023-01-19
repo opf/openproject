@@ -32,18 +32,18 @@ describe OpenProject::JournalFormatter::ActiveStatus do
   let(:instance) { described_class.new(build(:journal)) }
 
   it "renders correctly when unarchiving" do
-    html = instance.render("active", [false, true], no_html: false)
+    html = instance.render("active", [false, true], html: true)
     expect(html).to eq("<strong>Project</strong> unarchived")
 
-    html = instance.render("active", [false, true], no_html: true)
+    html = instance.render("active", [false, true], html: false)
     expect(html).to eq("Project unarchived")
   end
 
   it "renders correctly when archiving" do
-    html = instance.render("active", [true, false], no_html: false)
+    html = instance.render("active", [true, false], html: true)
     expect(html).to eq("<strong>Project</strong> archived")
 
-    html = instance.render("active", [true, false], no_html: true)
+    html = instance.render("active", [true, false], html: false)
     expect(html).to eq("Project archived")
   end
 end

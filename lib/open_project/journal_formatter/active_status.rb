@@ -27,8 +27,8 @@
 #++
 
 class OpenProject::JournalFormatter::ActiveStatus < JournalFormatter::Base
-  def render(key, values, options = { no_html: false })
-    label_text = options[:no_html] ? "Project" : content_tag('strong', "Project")
+  def render(_key, values, options = { html: true })
+    label_text = options[:html] ? content_tag('strong', "Project") : "Project"
     activated_text = values.last ? "unarchived" : "archived"
 
     I18n.t(:text_journal_label_value, label: label_text, value: activated_text)

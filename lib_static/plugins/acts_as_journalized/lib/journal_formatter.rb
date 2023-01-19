@@ -95,7 +95,7 @@ module JournalFormatter
   end
 
   def render_detail(detail, options = {})
-    merge_options = { no_html: false, only_path: true }.merge(options)
+    merge_options = { html: true, only_path: true }.merge(options)
 
     if detail.respond_to? :to_ary
       key = detail.first

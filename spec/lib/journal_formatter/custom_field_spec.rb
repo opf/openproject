@@ -166,7 +166,7 @@ describe OpenProject::JournalFormatter::CustomField do
              value: format_value(values.last, custom_field))
     end
 
-    it { expect(instance.render(key, values, no_html: true)).to eq(expected) }
+    it { expect(instance.render(key, values, html: false)).to eq(expected) }
   end
 
   describe "WITH the first value being a valid value as a string, and the second being a valid value as a string
@@ -181,7 +181,7 @@ describe OpenProject::JournalFormatter::CustomField do
              new: format_value(values.last, custom_field))
     end
 
-    it { expect(instance.render(key, values, no_html: true)).to eq(expected) }
+    it { expect(instance.render(key, values, html: false)).to eq(expected) }
   end
 
   describe "WITH the first value being a valid value as a string, and the second being nil
@@ -194,7 +194,7 @@ describe OpenProject::JournalFormatter::CustomField do
              old: format_value(values.first, custom_field))
     end
 
-    it { expect(instance.render(key, values, no_html: true)).to eq(expected) }
+    it { expect(instance.render(key, values, html: false)).to eq(expected) }
   end
 
   describe "WITH the first value being nil, and the second a valid value as string

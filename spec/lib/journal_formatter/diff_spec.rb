@@ -117,7 +117,7 @@ describe OpenProject::JournalFormatter::Diff do
                link: url)
       end
 
-      it { expect(instance.render(key, [nil, 'new value'], no_html: true)).to eq(expected) }
+      it { expect(instance.render(key, [nil, 'new value'], html: false)).to eq(expected) }
     end
 
     describe "WITH the first value being a string, and the second a string
@@ -128,7 +128,7 @@ describe OpenProject::JournalFormatter::Diff do
                link: url)
       end
 
-      it { expect(instance.render(key, ['old value', 'new value'], no_html: true)).to eq(expected) }
+      it { expect(instance.render(key, ['old value', 'new value'], html: false)).to eq(expected) }
     end
 
     describe "WITH the first value being a string, and the second a string
@@ -149,7 +149,7 @@ describe OpenProject::JournalFormatter::Diff do
                link: url)
       end
 
-      it { expect(instance.render(key, ['old_value', nil], no_html: true)).to eq(expected) }
+      it { expect(instance.render(key, ['old_value', nil], html: false)).to eq(expected) }
     end
   end
 end

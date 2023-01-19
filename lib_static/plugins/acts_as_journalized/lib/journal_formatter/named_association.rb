@@ -28,10 +28,10 @@
 
 module JournalFormatter
   class NamedAssociation < Attribute
-    def render(key, values, options = { no_html: false })
+    def render(key, values, options = { html: true })
       label, old_value, value = format_details(key, values, options)
 
-      unless options[:no_html]
+      if options[:html]
         label, old_value, value = *format_html_details(label, old_value, value)
       end
 
