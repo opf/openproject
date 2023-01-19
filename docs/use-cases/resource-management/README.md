@@ -28,6 +28,8 @@ Step 4: Then sort and filter all work packages and group by assignee.
 
 Step 5: Save your view.
 
+![Save adjusted openrpoject workpage view](openproject_save_wp_adjusted_view.png)
+
 You could also add the Gantt view to add an additional dimension to your overview.
 
 ![OpenProject work packages Gantt view](openproject_wp_gantt_view.png)
