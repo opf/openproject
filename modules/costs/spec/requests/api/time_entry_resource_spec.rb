@@ -438,7 +438,7 @@ describe 'API v3 time_entry resource' do
       expect(new_entry.spent_on)
         .to eql Date.parse("2017-07-28")
 
-      expect(new_entry.send(:"custom_field_#{custom_field.id}"))
+      expect(new_entry.send(custom_field.attribute_getter))
         .to eql 'some cf text'
     end
 
