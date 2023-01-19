@@ -8,7 +8,7 @@ keywords: use-case, portfolio management
 
 # Use Case: Portfolio Management and Custom Reporting Options
 
-Step 1: To view all projects, first select the *project chooser drop-down*, the chose *View all projects*
+Step 1: To view all projects, first select the *project chooser drop-down* (select a project), then click on the  *View all projects*
 
 ![Chose project](chose-project.jpg)
 
