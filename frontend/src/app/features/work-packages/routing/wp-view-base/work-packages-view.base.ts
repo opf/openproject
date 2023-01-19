@@ -221,7 +221,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
    *
    * @param A refresh request
    */
-  public abstract refresh(visibly:boolean, firstPage:boolean):Promise<unknown>;
+  public abstract refresh(visibly:boolean, firstPage:boolean):void;
 
   /**
    * Set the loading indicator for this set instance
