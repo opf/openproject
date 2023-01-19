@@ -55,13 +55,15 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Current errors of the field
   public errors:string[];
 
-  constructor(public injector:Injector,
+  constructor(
+    public injector:Injector,
     public form:EditForm,
     public fieldName:string,
     public schema:IFieldSchema,
     public element:HTMLElement,
     protected pathHelper:PathHelperService,
-    protected withErrors?:string[]) {
+    protected withErrors?:string[],
+  ) {
     super();
 
     if (withErrors !== undefined) {
@@ -105,11 +107,11 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     }
   }
 
-  public onFocusOut() {
+  public async onFocusOut() {
     // In case of inline create or erroneous forms: do not save on focus loss
     // const specialField = this.resource.shouldCloseOnFocusOut(this.fieldName);
     if (this.resource.subject && this.withErrors && this.withErrors.length === 0) {
-      this.handleUserSubmit();
+      await this.handleUserSubmit();
     }
   }
 
@@ -140,11 +142,11 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
    * In an edit mode, we can't derive from a submit event whether the user pressed enter
    * (and on what field he did that).
    */
-  public handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel = false) {
+  public async handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel = false) {
     // Only handle submission in edit mode
     if (this.inEditMode && !onlyCancel) {
       if (event.which === KeyCodes.ENTER) {
-        this.form.submit();
+        await this.form.submit();
         return false;
       }
       return true;
@@ -192,10 +194,9 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
    * field that is about to be destroyed. So we blur it beforehand.
    * @private
    */
-  private blurActiveField() {
-    const active = document.activeElement as HTMLElement|null;
-    if (active?.blur) {
-      active.blur();
+  public blurActiveField() {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
     }
   }
 
@@ -231,8 +232,10 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     if (!this.isErrorenous) {
       return '';
     }
-    return this.I18n.t('js.inplace.errors.messages_on_field',
-      { messages: this.errors.join(' ') });
+    return this.I18n.t(
+      'js.inplace.errors.messages_on_field',
+      { messages: this.errors.join(' ') },
+    );
   }
 
   public previewContext(resource:HalResource) {
