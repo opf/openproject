@@ -38,6 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
     <h3 class="op-project-activity-days--header"><%= format_activity_day(day) %></h3>
     <ul class="op-project-activity-list">
       <% @events_by_day[day].sort { |x, y| y.event_datetime <=> x.event_datetime }.each_with_index do |e, index| -%>
+        <% journal = @journals_by_id[e.event_id] %>
 
         <li class="op-project-activity-list--item">
           <div class="op-project-activity-list--item-title">
@@ -57,10 +58,10 @@ See COPYRIGHT and LICENSE files for more details.
             </div>
           <% end -%>
 
-          <% if e.journal.details.any? -%>
+          <% if journal.details.any? -%>
             <ul class="op-project-activity-list--item-details">
-              <% e.journal.details.each do |detail| -%>
-                <li class="op-project-activity-list--item-detail"><%= e.journal.render_detail(detail) %></li>
+              <% journal.details.each do |detail| -%>
+                <li class="op-project-activity-list--item-detail"><%= journal.render_detail(detail) %></li>
               <% end -%>
             </ul>
           <% end -%>

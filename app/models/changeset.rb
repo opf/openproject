@@ -28,6 +28,7 @@
 
 class Changeset < ApplicationRecord
   belongs_to :repository
+  has_one :project, through: :repository
   belongs_to :user
   has_many :file_changes, class_name: 'Change', dependent: :delete_all
   has_and_belongs_to_many :work_packages
@@ -91,8 +92,6 @@ class Changeset < ApplicationRecord
       identifier
     end
   end
-
-  delegate :project, to: :repository
 
   def author
     user || committer.to_s.split('<').first

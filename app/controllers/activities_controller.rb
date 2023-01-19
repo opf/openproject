@@ -91,6 +91,12 @@ class ActivitiesController < ApplicationController
 
   def respond_html(events)
     @events_by_day = events.group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }
+    @journals_by_id = Journal
+      .includes(:data, :customizable_journals, :attachable_journals, :bcf_comment)
+      .find(events.pluck(:event_id))
+      .then { |journals| ::API::V3::Activities::ActivityEagerLoadingWrapper.wrap(journals) }
+      .index_by(&:id)
+
     render layout: !request.xhr?
   end
 
