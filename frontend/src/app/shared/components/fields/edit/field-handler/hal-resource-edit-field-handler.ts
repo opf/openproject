@@ -122,6 +122,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
    * Handle a user submitting the field (e.g, ng-change)
    */
   public handleUserSubmit():Promise<any> {
+    this.blurActiveField();
     this.onBeforeSubmit();
 
     if (this.inFlight || this.form.editMode) {
@@ -179,10 +180,23 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
    * Close the field, resetting it with its display value.
    */
   public deactivate(focus = false) {
+    this.blurActiveField();
     delete this.form.activeFields[this.fieldName];
     this.onDestroy.next();
     this.onDestroy.complete();
     this.form.reset(this.fieldName, focus);
+  }
+
+  /**
+   * Safari scrolls around like crazy if you have a focused
+   * field that is about to be destroyed. So we blur it beforehand.
+   * @private
+   */
+  private blurActiveField() {
+    const active = document.activeElement as HTMLElement|null;
+    if (active?.blur) {
+      active.blur();
+    }
   }
 
   /**
