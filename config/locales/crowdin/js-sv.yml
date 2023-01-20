@@ -344,7 +344,7 @@ sv:
     label_details: "Detaljer"
     label_display: "Visa"
     label_cancel_comment: "Avbryt kommentar"
-    label_closed_work_packages: "stängt"
+    label_closed_work_packages: "stängda"
     label_collapse: "Fäll ihop"
     label_collapsed: "hopfällda"
     label_collapse_all: "Fäll ihop alla"
