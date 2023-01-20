@@ -277,6 +277,23 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           assert_requested(:propfind, request_url)
         end
       end
+
+      describe 'with storage running on a sub path and with parent parameter' do
+        let(:url) { 'https://example.com/storage' }
+        let(:parent) { '/Photos/Birds' }
+        let(:request_url) { "#{url}/remote.php/dav/files/#{origin_user_id}#{parent}" }
+
+        it do
+          subject
+            .files_query(user:)
+            .match(
+              on_success: ->(query) { query.call(parent) },
+              on_failure: ->(error) { raise "Files query could not be created: #{error}" }
+            )
+
+          assert_requested(:propfind, request_url)
+        end
+      end
     end
 
     describe 'with not supported storage type selected' do

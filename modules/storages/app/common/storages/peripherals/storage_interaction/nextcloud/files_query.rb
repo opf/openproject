@@ -33,7 +33,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @uri = base_uri
       @token = token
       @retry_proc = retry_proc
-      @base_path = "/remote.php/dav/files/#{token.origin_user_id}"
+      @base_path = File.join(@uri.path, "remote.php/dav/files", token.origin_user_id)
     end
 
     def query(parent)
@@ -42,7 +42,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       result = @retry_proc.call(@token) do |token|
         response = http.propfind(
-          request_path(parent),
+          "#{@base_path}#{requested_folder(parent)}",
           requested_properties,
           {
             'Depth' => '1',
@@ -57,10 +57,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     private
-
-    def request_path(folder)
-      File.join(@uri.path, @base_path, requested_folder(folder)).gsub(/\/+$/, '')
-    end
 
     def requested_folder(folder)
       return '' if folder.nil?
