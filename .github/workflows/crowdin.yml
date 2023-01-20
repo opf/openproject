@@ -25,8 +25,7 @@ jobs:
           exit 1
         fi
 
-        echo "::set-output name=branch::${BRANCH}"
-        echo "::set-output name=crowdin_release_branch::release"
+        echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
 
   crowdin:
     permissions:
@@ -42,7 +41,7 @@ jobs:
           - dev
           - "${{ needs.setup.outputs.latest_release_branch }}"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
@@ -54,9 +53,9 @@ jobs:
         run: |
           echo "Setting crowdin branch from $BRANCH"
           if [ "$BRANCH" = "dev" ]; then
-            echo "::set-output name=crowdin_branch::dev"
+            echo "crowdin_branch=dev" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=crowdin_branch::release"
+            echo "crowdin_branch=release" >> $GITHUB_OUTPUT
           fi
       - name: "Updating translations"
         uses: crowdin/github-action@1.4.4

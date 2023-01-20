@@ -23,7 +23,7 @@ jobs:
           exit 1
         fi
 
-        echo "::set-output name=branch::${BRANCH}"
+        echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
 
   crowdin:
     permissions:
