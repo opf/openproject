@@ -1,6 +1,6 @@
 #English strings go here
 sv:
-  label_calendar_plural: "Calendars"
-  permission_view_calendar: "View calendars"
-  permission_manage_calendars: "Manage calendars"
-  project_module_calendar_view: "Calendar"
+  label_calendar_plural: "Kalendrar"
+  permission_view_calendar: "Visa kalender"
+  permission_manage_calendars: "Hantera kalendrar"
+  project_module_calendar_view: "Kalender"

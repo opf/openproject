@@ -73,7 +73,7 @@ lt:
       text_2fa_disabled: "Naudotojas nenustatė savo 2FA įrenginio savo „Mano paskyros puslapyje“"
     upsale:
       title: 'Dviejų veiksnių autentifikavimas'
-      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
+      description: 'Sustiprinkite savo OpenProject sistemos saugumą pasiūlydami (ar reikalaudami) dviejų faktorių autentifikacijos visiems projekto nariams.'
     backup_codes:
       none_found: Ši paskyra neturi atsarginių kodų.
       singular: Atsarginis kodas
