@@ -188,7 +188,7 @@ describe 'custom field inplace editor', js: true do
         field.save!
 
         work_package.reload
-        expect(work_package.send("custom_field_#{custom_field.id}")).to eq 123
+        expect(work_package.send(custom_field.attribute_getter)).to eq 123
       end
     end
   end

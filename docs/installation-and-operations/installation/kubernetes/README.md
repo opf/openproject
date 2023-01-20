@@ -11,10 +11,4 @@ In the [openproject-deploy](https://github.com/opf/openproject-deploy/blob/stabl
 
 ## Helm
 
-Helm charts are also available but still under active development.
-We do not recommend using them for production just yet.
-
-You can find the current chart under https://github.com/opf/openproject-helm-chart.
-
-In the future we will publish the chart in our opf repository.
-Until then you will have to clone the repository above and follow the instructions in its README.
+You can find instructions for the official Helm charts under https://charts.openproject.org.

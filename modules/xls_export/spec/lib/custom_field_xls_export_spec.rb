@@ -40,7 +40,7 @@ describe "WorkPackageXlsExport Custom Fields" do
 
   let!(:query) do
     query              = build(:query, user: current_user, project:)
-    query.column_names = ['subject', "cf_#{custom_field.id}"]
+    query.column_names = ['subject', custom_field.column_name]
     query.sort_criteria = [%w[id asc]]
 
     query.save!
@@ -67,7 +67,7 @@ describe "WorkPackageXlsExport Custom Fields" do
   end
 
   it 'produces the valid XLS result' do
-    expect(query.columns.map(&:name)).to eq [:subject, :"cf_#{custom_field.id}"]
+    expect(query.columns.map(&:name)).to eq [:subject, custom_field.column_name.to_sym]
     expect(sheet.rows.first.take(2)).to eq ['Subject', 'Ingredients']
 
     # Subjects

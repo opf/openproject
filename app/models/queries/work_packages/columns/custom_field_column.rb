@@ -69,7 +69,7 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
   private
 
   def set_name!
-    self.name = "cf_#{custom_field.id}".to_sym
+    self.name = custom_field.column_name.to_sym
   end
 
   def set_sortable!

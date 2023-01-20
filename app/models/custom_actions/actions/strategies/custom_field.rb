@@ -28,7 +28,7 @@
 
 module CustomActions::Actions::Strategies::CustomField
   def apply(work_package)
-    work_package.send(:"#{custom_field.accessor_name}=", values) if work_package.respond_to?(:"#{custom_field.accessor_name}=")
+    work_package.send(custom_field.attribute_setter, values) if work_package.respond_to?(custom_field.attribute_setter)
   end
 
   delegate :required?, to: :custom_field

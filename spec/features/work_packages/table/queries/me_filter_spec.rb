@@ -147,8 +147,8 @@ describe 'filter me value', js: true do
              members: project_members)
     end
 
-    let(:cf_accessor) { "cf_#{custom_field.id}" }
-    let(:cf_accessor_frontend) { "customField#{custom_field.id}" }
+    let(:cf_accessor) { custom_field.attribute_name }
+    let(:cf_accessor_frontend) { cf_accessor.camelcase(:lower) }
     let(:wp_admin) do
       create :work_package,
              type: type_task,

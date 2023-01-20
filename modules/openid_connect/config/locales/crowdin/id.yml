@@ -12,8 +12,8 @@ id:
   openid_connect:
     menu_title: OpenID providers
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: Tambahkan penyedia OpenID baru
+      label_edit: Edit penyedia OpenID %{name}
+      no_results_table: Belum ada penyedia yang ditentukan.
+      plural: penyedia OpenID
+      singular: penyedia OpenID

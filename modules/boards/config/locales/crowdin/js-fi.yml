@@ -2,7 +2,7 @@
 fi:
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: 'Luo uusi taulu'
       label_unnamed_board: 'Nimeämätön taulu'
       label_unnamed_list: 'Nimeämätön lista'
       label_board_type: 'Taulun tyyppi'
@@ -10,27 +10,27 @@ fi:
         teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Päivitä nyt'
       lists:
-        delete: 'Delete list'
+        delete: 'Poista lista'
       version:
-        is_locked: 'Version is locked. No items can be added to this version.'
-        is_closed: 'Version is closed. No items can be added to this version.'
-        close_version: 'Close version'
-        open_version: 'Open version'
-        lock_version: 'Lock version'
-        unlock_version: 'Unlock version'
-        edit_version: 'Edit version'
-        show_version: 'Show version'
+        is_locked: 'Versio on lukittu. Mitään kohteita ei voi lisätä tähän versioon.'
+        is_closed: 'Versio on suljettu. Mitään kohteita ei voi lisätä tähän versioon.'
+        close_version: 'Sulje versio'
+        open_version: 'Avaa versio'
+        lock_version: 'Lukitse versio'
+        unlock_version: 'Avaa versio'
+        edit_version: 'Muokkaa versiota'
+        show_version: 'Näytä versio'
         locked: 'Lukittu'
         closed: 'Suljettu'
-      new_board: 'New board'
-      add_list: 'Add list to board'
-      add_card: 'Add card'
-      error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
-      error_loading_the_list: "Error loading the list: %{error_message}"
-      error_permission_missing: "The permission to create public queries is missing"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
-      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
-      click_to_remove_list: "Click to remove this list"
+      new_board: 'Uusi taulu'
+      add_list: 'Lisää luettelo tauluun'
+      add_card: 'Lisää kortti'
+      error_attribute_not_writable: "Työpakettia ei voi siirtää, %{attribute} ei ole kirjoitettavissa."
+      error_loading_the_list: "Virhe ladattaessa listaa: %{error_message}"
+      error_permission_missing: "Oikeus luoda julkisia kyselyitä puuttuu"
+      error_cannot_move_into_self: "Et voi siirtää työpakettia sen omaan sarakkeeseen."
+      text_hidden_list_warning: "Kaikkia listoja ei näytetä, koska sinulla ei ole oikeuksia. Ota yhteyttä ylläpitäjään saadaksesi lisätietoja."
+      click_to_remove_list: "Klikkaa poistaaksesi tämän listan"
       board_type:
         text: 'Taulun tyyppi'
         free: 'perus'
@@ -82,5 +82,5 @@ fi:
       configuration_modal:
         title: 'Configure this board'
         display_settings:
-          card_mode: "Display as cards"
-          table_mode: "Display as table"
+          card_mode: "Näytä kortteina"
+          table_mode: "Näytä taulukkona"

@@ -180,7 +180,7 @@ describe 'Custom fields reporting', js: true do
       end
 
       it 'groups by the raw values when an invalid value exists' do
-        expect(work_package2.send("custom_field_#{custom_field_2.id}")).to eq(['invalid not found'])
+        expect(work_package2.send(custom_field_2.attribute_getter)).to eq(['invalid not found'])
 
         expect(page).to have_selector('#group-by--add-columns')
         expect(page).to have_selector('#group-by--add-rows')

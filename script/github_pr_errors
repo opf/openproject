@@ -236,6 +236,7 @@ get_jobs(workflow_run)
   .sort_by { _1['name'] }
   .each { |job| warn "    #{status_line(job)}" }
   .select { _1['conclusion'] == 'failure' }
+  .reject { _1['name'] == 'rubocop' }
   .each do |job|
     is_successful = false
     get_log(job)

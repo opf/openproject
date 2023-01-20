@@ -24,6 +24,8 @@ es:
         no_file_links: "Para poder enlazar archivos en este paquete de trabajo, por favor, utiliza %{storageType}."
         not_logged_in: >
           Para añadir un enlace, ver o subir archivos relacionados con este paquete de trabajo, por favor inicie sesión en %{storageType}.
+      files:
+        directory_not_writeable: "You do not have to permission to add files to this folder."
       file_links:
         empty: >
           Actualmente no hay archivos enlazados a este paquete de trabajo. Vincule sus primeros archivos usando la acción de abajo o desde %{storageType}.
