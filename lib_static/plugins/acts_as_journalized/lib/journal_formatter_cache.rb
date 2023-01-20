@@ -26,18 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Acts
-  module Journalized
-    class JournalObjectCache
-      def fetch(klass, id, &)
-        @cache ||= Hash.new do |klass_hash, klass_key|
-          klass_hash[klass_key] = Hash.new do |id_hash, id_key|
-            id_hash[id_key] = yield klass_key, id_key
-          end
-        end
+class JournalFormatterCache
+  def self.request_instance
+    RequestStore.store[:journal_formatter_cache] ||= new
+  end
 
-        @cache[klass][id]
-      end
+  def initialize
+    @cache = Hash.new
+  end
+
+  def fetch(klass, id, &)
+    key = [klass, id]
+    if @cache.key?(key)
+      @cache[key]
+    elsif block_given?
+      @cache[key] = yield
     end
   end
 end

@@ -63,11 +63,13 @@ class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
   end
 
   def formatted_values(custom_field, values, modifier_fn)
-    old_value, new_value = values
-    old_option = modifier_fn.call(old_value, custom_field) if old_value
-    new_option = modifier_fn.call(new_value, custom_field) if new_value
+    values.map { |value| formatted_value(custom_field, value, modifier_fn) }
+  end
 
-    [old_option || old_value, new_option || new_value]
+  def formatted_value(custom_field, value, modifier_fn)
+    return if value.nil?
+
+    modifier_fn.call(value, custom_field) || value
   end
 
   def find_user_value(value, _custom_field)
@@ -89,13 +91,12 @@ class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
     end.join(', ')
   end
 
-  def find_list_value(id, custom_field)
-    ids = id.split(",").map(&:to_i)
+  def find_list_value(value, custom_field)
+    ids = value.split(",").map(&:to_i)
 
     id_value = custom_field
                .custom_options
                .where(id: ids)
-               .order(:position)
                .pluck(:id, :value)
                .to_h
 

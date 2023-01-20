@@ -49,6 +49,7 @@
 # It provides the hooks to apply different formatting to the details
 # of a specific journal.
 
+require_relative './journal_formatter_cache'
 require_relative './journal_formatter/base'
 require_relative './journal_formatter/attribute'
 require_relative './journal_formatter/datetime'
@@ -95,7 +96,7 @@ module JournalFormatter
   end
 
   def render_detail(detail, options = {})
-    merge_options = { html: true, only_path: true }.merge(options)
+    options = options.reverse_merge(html: true, only_path: true, cache: JournalFormatterCache.request_instance)
 
     if detail.respond_to? :to_ary
       key = detail.first
@@ -107,9 +108,9 @@ module JournalFormatter
 
     formatter = formatter_instance(key.to_s)
 
-    return nil if formatter.nil?
+    return if formatter.nil?
 
-    formatter.render(key, values, merge_options).html_safe
+    formatter.render(key, values, options).html_safe
   end
 
   def formatter_instance(formatter_key)
