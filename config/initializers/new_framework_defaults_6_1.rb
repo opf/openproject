@@ -57,8 +57,8 @@
 # Use new connection handling API. For most applications this won't have any
 # effect. For applications using multiple databases, this new API provides
 # support for granular connection swapping.
-# Previous versions had false. Rails 6.1+ default is true.
-# Rails.application.config.active_record.legacy_connection_handling = false
+# Previous versions had true. Rails 6.1+ default is false.
+Rails.application.config.active_record.legacy_connection_handling = false
 
 # https://guides.rubyonrails.org/configuring.html#config-action-view-form-with-generates-remote-forms
 # Make `form_with` generate non-remote forms by default.
