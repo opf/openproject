@@ -48,7 +48,7 @@ ru:
           title: 'Затраченное время (за последние 7 дней)'
           no_results: 'Нет записей о входах за последние 7 дней.'
         work_packages_accountable:
-          title: "Пакеты работ, в которых я проверяющий"
+          title: "Пакеты работ, в которых я подотчетен"
         work_packages_assigned:
           title: 'Переданные мне пакеты работ'
         work_packages_created:
