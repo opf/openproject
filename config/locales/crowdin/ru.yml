@@ -2069,7 +2069,7 @@ ru:
       reason:
         watched: 'Просмотрено'
         assigned: 'Назначено'
-        responsible: 'Проверяющий'
+        responsible: 'Подотчетный'
         mentioned: 'Упомянутые'
         subscribed: 'все'
         prefix: 'Получено из-за настройки уведомления: %{reason}'
