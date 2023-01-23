@@ -105,6 +105,7 @@ class Project < ApplicationRecord
                 datetime: :created_at
 
   register_on_journal_formatter(:active_status, 'active')
+  register_on_journal_formatter(:template, 'templated')
 
   has_paper_trail
 
