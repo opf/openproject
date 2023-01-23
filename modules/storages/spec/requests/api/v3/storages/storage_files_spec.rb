@@ -207,7 +207,7 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
       end
 
       it { is_expected.to be_json_eql(upload_link.destination.to_json).at_path('_links/destination/href') }
-      it { is_expected.to be_json_eql("put".to_json).at_path('_links/destination/method') }
+      it { is_expected.to be_json_eql("post".to_json).at_path('_links/destination/method') }
       it { is_expected.to be_json_eql("Upload File".to_json).at_path('_links/destination/title') }
     end
 

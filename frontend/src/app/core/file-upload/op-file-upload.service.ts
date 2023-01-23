@@ -82,7 +82,7 @@ export class OpenProjectFileUploadService {
     const mapped = finished
       .then((result:HalResource[]) => result.map((el:HalResource) => ({
         response: el,
-        uploadUrl: el.staticDownloadLocation.href,
+        uploadUrl: (el.staticDownloadLocation as unknown&{ href:string }).href,
       }))) as Promise<{ response:HalResource, uploadUrl:string }[]>;
 
     return { uploads, finished: mapped } as MappedUploadResult;
