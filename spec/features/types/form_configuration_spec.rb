@@ -249,8 +249,8 @@ describe 'form configuration', js: true do
     describe 'required custom field' do
       let(:custom_fields) { [custom_field] }
       let(:custom_field) { create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
-      let(:cf_identifier) { "custom_field_#{custom_field.id}" }
-      let(:cf_identifier_api) { "customField#{custom_field.id}" }
+      let(:cf_identifier) { custom_field.attribute_name }
+      let(:cf_identifier_api) { cf_identifier.camelcase(:lower) }
 
       before do
         project
@@ -279,8 +279,8 @@ describe 'form configuration', js: true do
 
       let(:custom_fields) { [custom_field] }
       let(:custom_field) { create(:integer_issue_custom_field, name: 'MyNumber') }
-      let(:cf_identifier) { "custom_field_#{custom_field.id}" }
-      let(:cf_identifier_api) { "customField#{custom_field.id}" }
+      let(:cf_identifier) { custom_field.attribute_name }
+      let(:cf_identifier_api) { cf_identifier.camelcase(:lower) }
 
       before do
         project

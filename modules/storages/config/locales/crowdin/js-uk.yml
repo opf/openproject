@@ -24,6 +24,8 @@ uk:
         no_file_links: "Додати посилання на файли в цей пакет робіт можна за допомогою сховища %{storageType}."
         not_logged_in: >
           Щоб додати посилання, переглянути або завантажити файли, пов’язані з цим пакетом робіт, увійдіть у %{storageType}.
+      files:
+        directory_not_writeable: "You do not have to permission to add files to this folder."
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.

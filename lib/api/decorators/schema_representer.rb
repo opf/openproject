@@ -83,12 +83,12 @@ module API
           end
 
           schema_property(property,
-                          getter,
-                          show_if,
-                          required,
-                          has_default,
-                          name_source,
-                          as)
+                          getter:,
+                          show_if:,
+                          required:,
+                          has_default:,
+                          name_source:,
+                          as:)
         end
 
         def schema_with_allowed_link(property,
@@ -112,12 +112,12 @@ module API
           end
 
           schema_property(property,
-                          getter,
-                          show_if,
-                          required,
-                          has_default,
-                          name_source,
-                          as)
+                          getter:,
+                          show_if:,
+                          required:,
+                          has_default:,
+                          name_source:,
+                          as:)
         end
 
         def schema_with_allowed_collection(property,
@@ -150,12 +150,12 @@ module API
           end
 
           schema_property(property,
-                          getter,
-                          show_if,
-                          required,
-                          has_default,
-                          name_source,
-                          as)
+                          getter:,
+                          show_if:,
+                          required:,
+                          has_default:,
+                          name_source:,
+                          as:)
         end
 
         def schema_with_allowed_string_collection(property,
@@ -189,25 +189,25 @@ module API
           end
 
           schema_property(property,
-                          getter,
-                          show_if,
-                          required,
-                          has_default,
-                          name_source,
-                          as)
+                          getter:,
+                          show_if:,
+                          required:,
+                          has_default:,
+                          name_source:,
+                          as:)
         end
 
         def schema_property(property,
-                            getter,
-                            show_if,
-                            required,
-                            has_default,
-                            name_source,
-                            property_alias)
+                            getter:,
+                            show_if:,
+                            required:,
+                            has_default:,
+                            name_source:,
+                            as:)
           raise ArgumentError unless property
 
           property property,
-                   as: property_alias,
+                   as:,
                    exec_context: :decorator,
                    getter:,
                    if: show_if,

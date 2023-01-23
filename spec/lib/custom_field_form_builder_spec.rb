@@ -59,7 +59,7 @@ describe CustomFieldFormBuilder do
 
     before do
       allow(resource)
-        .to receive(custom_field.accessor_name)
+        .to receive(custom_field.attribute_getter)
               .and_return(typed_value)
     end
 
@@ -256,7 +256,7 @@ describe CustomFieldFormBuilder do
         custom_field.field_format = 'user'
 
         allow(project)
-          .to receive(custom_field.accessor_name)
+          .to receive(custom_field.attribute_getter)
           .and_return typed_value
 
         allow(project)
@@ -311,7 +311,7 @@ describe CustomFieldFormBuilder do
       before do
         custom_field.field_format = 'version'
         allow(project)
-          .to receive(custom_field.accessor_name)
+          .to receive(custom_field.attribute_getter)
                 .and_return typed_value
 
         allow(project)

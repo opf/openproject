@@ -40,8 +40,8 @@ describe API::V3::Users::UpdateFormAPI, content_type: :json do
   end
   shared_let(:user) do
     create(:user,
-           "custom_field_#{text_custom_field.id}": "CF text",
-           "custom_field_#{list_custom_field.id}": list_custom_field.custom_options.first)
+           text_custom_field.attribute_getter => "CF text",
+           list_custom_field.attribute_getter => list_custom_field.custom_options.first)
   end
 
   let(:path) { api_v3_paths.user_form(user.id) }

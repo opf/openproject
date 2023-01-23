@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::CustomFieldFilter,
          'with contains filter (Regression test #28348)' do
-  let(:cf_accessor) { "cf_#{custom_field.id}" }
+  let(:cf_accessor) { custom_field.column_name }
   let(:query) { build_stubbed(:query, project:) }
   let(:instance) do
     described_class.create!(name: cf_accessor, operator:, values: %w(foo), context: query)

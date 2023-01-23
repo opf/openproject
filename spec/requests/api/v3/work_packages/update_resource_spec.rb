@@ -718,7 +718,7 @@ describe 'API v3 Work package resource',
         end
 
         let(:value_parameter) do
-          { _links: { custom_field.accessor_name.camelize(:lower) => { href: value_link } } }
+          { _links: { custom_field.attribute_name.camelize(:lower) => { href: value_link } } }
         end
         let(:params) { valid_params.merge(value_parameter) }
 
@@ -736,7 +736,7 @@ describe 'API v3 Work package resource',
           it 'responds with the work package assigned to the new value' do
             expect(subject.body)
               .to be_json_eql(value_link.to_json)
-                    .at_path("_links/#{custom_field.accessor_name.camelize(:lower)}/href")
+                    .at_path("_links/#{custom_field.attribute_name.camelize(:lower)}/href")
           end
 
           it_behaves_like 'lock version updated'

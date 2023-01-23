@@ -82,17 +82,17 @@ module API
       property :min_length, exec_context: :decorator
       property :max_length, exec_context: :decorator
       property :regular_expression, exec_context: :decorator
-      property :deprecated, exec_context: :decorator, render_nil: false
+      property :deprecated, exec_context: :decorator
       property :options, exec_context: :decorator
 
-      property :location, exec_context: :decorator, render_nil: false
+      property :location, exec_context: :decorator
 
       formattable_property :description,
                            exec_context: :decorator,
                            render_nil: false,
                            setter: nil,
                            getter: ->(*) do
-                             next unless description.present?
+                             next if description.blank?
 
                              ::API::Decorators::Formattable.new(description)
                            end

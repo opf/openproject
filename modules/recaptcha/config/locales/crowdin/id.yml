@@ -6,10 +6,10 @@ id:
     verify_account: "Verifikasi akun anda"
     error_captcha: "Akun anda tidak dapat diverifikasi. Silakan hubungi administrator."
     settings:
-      website_key: 'Website key'
-      website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
+      website_key: 'Kunci situs web'
+      website_key_text: 'Masukkan kunci situs web yang Anda buat di konsol admin reCAPTCHA untuk domain ini.'
       secret_key: 'Kunci rahasia'
-      secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
+      secret_key_text: 'Masukkan kunci rahasia yang Anda buat di konsol admin reCAPTCHA.'
       type: 'Gunakan reCAPTCHA'
       type_disabled: 'Matikan reCAPTCHA'
       type_v2: 'reCAPTCHA v2'

@@ -112,8 +112,9 @@ describe ProjectsHelper do
   end
 
   describe '#project_more_menu_items' do
-    shared_let(:project) { create(:project) }
-    shared_let(:current_user) { create(:user) }
+    # need to use refind: true because @allowed_permissions is cached in the instance
+    shared_let(:project, refind: true) { create(:project) }
+    shared_let(:current_user) { create(:user, member_in_project: project) }
 
     subject(:menu) do
       items = project_more_menu_items(project)
@@ -125,6 +126,8 @@ describe ProjectsHelper do
       allow(User).to receive(:current).and_return(current_user)
     end
 
+    # "Archive project" menu entry
+
     context 'when current user is admin' do
       before do
         current_user.update(admin: true)
@@ -135,7 +138,7 @@ describe ProjectsHelper do
 
     context 'when current user has archive_project permission' do
       before do
-        create(:member, user: current_user, project:, roles: [build(:role, permissions: [:archive_project])])
+        current_user.roles(project).first.add_permission!(:archive_project)
       end
 
       it { is_expected.to include(t(:button_archive)) }
@@ -151,6 +154,20 @@ describe ProjectsHelper do
       end
 
       it { is_expected.not_to include(t(:button_archive)) }
+    end
+
+    # "Project activity" menu entry
+
+    context 'when project does not have activity module enabled' do
+      before do
+        project.enabled_module_names -= ['activity']
+      end
+
+      it { is_expected.not_to include(t(:label_project_activity)) }
+    end
+
+    context 'when project has activity module enabled' do
+      it { is_expected.to include(t(:label_project_activity)) }
     end
   end
 end

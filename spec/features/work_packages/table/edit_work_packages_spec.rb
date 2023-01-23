@@ -193,8 +193,8 @@ describe 'Inline editing work packages', js: true do
       )
 
       work_package.reload
-      expect(work_package.send(custom_fields.first.accessor_name)).to eq('bar')
-      expect(work_package.send(custom_fields.last.accessor_name)).to eq('my custom text')
+      expect(work_package.send(custom_fields.first.attribute_getter)).to eq('bar')
+      expect(work_package.send(custom_fields.last.attribute_getter)).to eq('my custom text')
 
       # Saveguard to let the background update complete
       wp_table.visit!

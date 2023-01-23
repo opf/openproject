@@ -219,7 +219,7 @@ module API
               [value].compact
             end
 
-            represented.send(:"custom_field_#{custom_field.id}=", values)
+            represented.send(custom_field.attribute_setter, values)
           }
         end
 
@@ -233,7 +233,7 @@ module API
                     custom_field.list? ||
                     custom_field.multi_value?
 
-            value = represented.send custom_field.accessor_name
+            value = represented.send custom_field.attribute_getter
 
             next unless value
 
@@ -243,7 +243,7 @@ module API
         end
 
         def inject_property_value(custom_field)
-          @class.property "custom_field_#{custom_field.id}".to_sym,
+          @class.property custom_field.attribute_name.to_sym,
                           as: property_name(custom_field.id),
                           getter: property_value_getter_for(custom_field),
                           setter: property_value_setter_for(custom_field),
@@ -254,7 +254,7 @@ module API
           ->(*) {
             next unless available_custom_fields.include?(custom_field)
 
-            value = send custom_field.accessor_name
+            value = send(custom_field.attribute_getter)
 
             if custom_field.field_format == 'text'
               ::API::Decorators::Formattable.new(value, object: self)
@@ -271,7 +271,7 @@ module API
                     else
                       fragment
                     end
-            send(:"custom_field_#{custom_field.id}=", value)
+            send(custom_field.attribute_setter, value)
           }
         end
 

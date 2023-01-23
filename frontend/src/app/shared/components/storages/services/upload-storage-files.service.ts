@@ -111,6 +111,7 @@ export class UploadStorageFilesService {
       createdByName: creator,
       lastModifiedAt,
       lastModifiedByName: creator,
+      permissions: [],
     };
   }
 

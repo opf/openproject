@@ -241,7 +241,7 @@ describe 'Custom actions', js: true do
 
       # This custom field is not applicable
       new_ca_page.add_action(int_custom_field.name, '1')
-      new_ca_page.expect_action("custom_field_#{int_custom_field.id}", '1')
+      new_ca_page.expect_action(int_custom_field.attribute_name, '1')
 
       new_ca_page.set_condition('Status', closed_status.name)
       new_ca_page.expect_selected_option closed_status.name

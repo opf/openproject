@@ -424,7 +424,7 @@ describe Query::Results, 'sorting and grouping', with_mail: false do
     end
 
     context 'when ascending' do
-      let(:sort_by) { [["cf_#{string_cf.id}", 'asc']] }
+      let(:sort_by) { [[string_cf.column_name, 'asc']] }
 
       it 'sorts case insensitive' do
         expect(query_results.work_packages)
@@ -483,7 +483,7 @@ describe Query::Results, 'sorting and grouping', with_mail: false do
     end
 
     context 'when ascending' do
-      let(:sort_by) { [["cf_#{int_cf.id}", 'asc']] }
+      let(:sort_by) { [[int_cf.column_name, 'asc']] }
 
       it 'sorts case insensitive' do
         expect(query_results.work_packages)
@@ -492,7 +492,7 @@ describe Query::Results, 'sorting and grouping', with_mail: false do
     end
 
     context 'when descending' do
-      let(:sort_by) { [["cf_#{int_cf.id}", 'desc']] }
+      let(:sort_by) { [[int_cf.column_name, 'desc']] }
 
       it 'sorts case insensitive' do
         expect(query_results.work_packages)

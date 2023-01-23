@@ -109,7 +109,7 @@ describe OpenProject::ChangedBySystem do
       it 'returns the custom fields too' do
         model.custom_field_values = { cf1.id => 'test' }
         expect(model.changed_by_user)
-          .to include("custom_field_#{cf1.id}")
+          .to include(cf1.attribute_name)
       end
     end
   end

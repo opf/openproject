@@ -232,8 +232,20 @@ class CustomField < ApplicationRecord
     where(is_filter: true)
   end
 
-  def accessor_name
+  def attribute_name
     "custom_field_#{id}"
+  end
+
+  def attribute_getter
+    attribute_name.to_sym
+  end
+
+  def attribute_setter
+    :"#{attribute_name}="
+  end
+
+  def column_name
+    "cf_#{id}"
   end
 
   def type_name
@@ -325,7 +337,7 @@ class CustomField < ApplicationRecord
 
   def destroy_help_text
     AttributeHelpText
-      .where(attribute_name: "custom_field_#{id}")
+      .where(attribute_name:)
       .destroy_all
   end
 end

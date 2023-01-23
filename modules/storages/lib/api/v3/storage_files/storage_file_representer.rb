@@ -43,6 +43,7 @@ module API::V3::StorageFiles
     property :created_by_name
     property :last_modified_by_name
     property :location
+    property :permissions
 
     def _type
       Storages::StorageFile.name.split('::').last

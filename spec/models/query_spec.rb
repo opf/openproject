@@ -403,7 +403,7 @@ describe Query do
                               parent done_ratio priority responsible
                               spent_hours start_date status subject type
                               updated_at version) +
-                           [:"cf_#{custom_field.id}"] +
+                           [custom_field.column_name.to_sym] +
                            [:"relations_to_type_#{type.id}"] +
                            %i(relations_of_type_relation1 relations_of_type_relation2)
 
@@ -420,7 +420,7 @@ describe Query do
                               parent done_ratio priority responsible
                               spent_hours start_date status subject type
                               updated_at version) +
-                           [:"cf_#{custom_field.id}"]
+                           [custom_field.column_name.to_sym]
 
         unexpected_columns = [:"relations_to_type_#{type.id}"] +
                              %i(relations_of_type_relation1 relations_of_type_relation2)
@@ -465,7 +465,7 @@ describe Query do
       end
 
       before do
-        query.add_filter('cf_' + custom_field.id.to_s, '=', [''])
+        query.add_filter(custom_field.column_name, '=', [''])
       end
 
       it 'has the name of the custom field in the error message' do
