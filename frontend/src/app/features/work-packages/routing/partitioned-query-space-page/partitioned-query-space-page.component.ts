@@ -233,7 +233,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     }
   }
 
-  refresh(visibly = false, firstPage = false):Promise<QueryResource> {
+  refresh(visibly = false, firstPage = false):void {
     let promise = this.loadQuery(firstPage);
 
     if (visibly) {
@@ -245,20 +245,13 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
       this.loadingIndicator = promise;
     } else {
-      promise = promise.then((loadedQuery:QueryResource) => {
+      void promise.then((loadedQuery:QueryResource) => {
         this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
-        return loadedQuery;
       });
     }
-
-    return promise;
   }
 
   protected inviteModal = InviteUserModalComponent;
-
-  openInviteUserModal():void {
-    this.opModalService.show(this.inviteModal, 'global');
-  }
 
   protected loadQuery(firstPage = false):Promise<QueryResource> {
     let promise:Promise<QueryResource>;
