@@ -184,8 +184,11 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
   end
 
   describe '#files_query' do
-    let(:xml) { create(:webdav_data) }
-    let(:request_url) { "#{url}/remote.php/dav/files/#{origin_user_id}" }
+    let(:parent) { '' }
+    let(:root_path) { '' }
+    let(:xml) { create(:webdav_data, parent_path: parent, root_path:) }
+    let(:url) { "https://example.com#{root_path}" }
+    let(:request_url) { "#{url}/remote.php/dav/files/#{origin_user_id}#{parent}" }
 
     before do
       allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
@@ -289,17 +292,15 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
       describe 'with parent query parameter' do
         let(:parent) { '/Photos/Birds' }
-        let(:request_url) { "#{url}/remote.php/dav/files/#{origin_user_id}#{parent}" }
-
-        before do
-          stub_request(:propfind, request_url).to_return(status: 207, body: xml, headers: {})
-        end
 
         it do
           subject
             .files_query(user:)
             .match(
-              on_success: ->(query) { query.call(parent) },
+              on_success: ->(query) {
+                result = query.call(parent)
+                expect(result.result[3].location).to eq('/Photos/Birds/README.md')
+              },
               on_failure: ->(error) { raise "Files query could not be created: #{error}" }
             )
 
@@ -308,13 +309,16 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       describe 'with storage running on a sub path' do
-        let(:url) { 'https://example.com/storage' }
+        let(:root_path) { '/storage' }
 
         it do
           subject
             .files_query(user:)
             .match(
-              on_success: ->(query) { query.call(nil) },
+              on_success: ->(query) {
+                result = query.call(nil)
+                expect(result.result[3].location).to eq('/README.md')
+              },
               on_failure: ->(error) { raise "Files query could not be created: #{error}" }
             )
 
@@ -323,15 +327,17 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       describe 'with storage running on a sub path and with parent parameter' do
-        let(:url) { 'https://example.com/storage' }
+        let(:root_path) { '/storage' }
         let(:parent) { '/Photos/Birds' }
-        let(:request_url) { "#{url}/remote.php/dav/files/#{origin_user_id}#{parent}" }
 
         it do
           subject
             .files_query(user:)
             .match(
-              on_success: ->(query) { query.call(parent) },
+              on_success: ->(query) {
+                result = query.call(parent)
+                expect(result.result[3].location).to eq('/Photos/Birds/README.md')
+              },
               on_failure: ->(error) { raise "Files query could not be created: #{error}" }
             )
 

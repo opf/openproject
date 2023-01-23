@@ -28,9 +28,16 @@
 
 FactoryBot.define do
   factory :webdav_data, class: 'String' do
+    transient do
+      root_path { '' }
+      parent_path { '' }
+    end
+
     skip_create
 
     initialize_with do
+      base_path = File.join(root_path, '/remote.php/dav/files/admin', parent_path)
+
       Nokogiri::XML::Builder.new do |xml|
         xml['d'].multistatus(
           'xmlns:d' => 'DAV:',
@@ -39,7 +46,7 @@ FactoryBot.define do
           'xmlns:nc' => 'http://nextcloud.org/ns'
         ) do
           xml['d'].response do
-            xml['d'].href('/remote.php/dav/files/admin/')
+            xml['d'].href(base_path)
             xml['d'].propstat do
               xml['d'].prop do
                 xml['oc'].fileid('6')
@@ -58,7 +65,7 @@ FactoryBot.define do
             end
           end
           xml['d'].response do
-            xml['d'].href('/remote.php/dav/files/admin/Folder1/')
+            xml['d'].href(File.join(base_path, 'Folder1', ''))
             xml['d'].propstat do
               xml['d'].prop do
                 xml['oc'].fileid('11')
@@ -77,7 +84,7 @@ FactoryBot.define do
             end
           end
           xml['d'].response do
-            xml['d'].href('/remote.php/dav/files/admin/Folder2/')
+            xml['d'].href(File.join(base_path, 'Folder2', ''))
             xml['d'].propstat do
               xml['d'].prop do
                 xml['oc'].fileid('20')
@@ -96,7 +103,7 @@ FactoryBot.define do
             end
           end
           xml['d'].response do
-            xml['d'].href('/remote.php/dav/files/admin/README.md')
+            xml['d'].href(File.join(base_path, 'README.md'))
             xml['d'].propstat do
               xml['d'].prop do
                 xml['oc'].fileid('12')
@@ -110,7 +117,7 @@ FactoryBot.define do
             end
           end
           xml['d'].response do
-            xml['d'].href('/remote.php/dav/files/admin/Manual.pdf')
+            xml['d'].href(File.join(base_path, 'Manual.pdf'))
             xml['d'].propstat do
               xml['d'].prop do
                 xml['oc'].fileid('13')
