@@ -1025,7 +1025,7 @@ describe 'Projects index page',
         project_with_activity_enabled.save
       end
 
-      it 'is displayed' do
+      it 'is displayed and redirects to project activity page with only project attributes visible' do
         login_as(simple_member)
         visit projects_path
 
@@ -1036,21 +1036,14 @@ describe 'Projects index page',
         page.find('tbody tr').hover
         expect(page).to have_selector('.icon-show-more-horizontal')
 
-        # Test visibility of 'more' menu list items
+        # "Project activity" item should be displayed in the 'more' menu
         page.find('tbody tr .icon-show-more-horizontal').click
-        menu = page.find('tbody tr .project-actions')
 
+        menu = page.find('tbody tr .project-actions')
         expect(menu).to have_text(I18n.t(:label_project_activity))
-      end
 
-      it 'redirects to project activity page with only project attributes visible' do
-        login_as(simple_member)
-        visit projects_path
-
-        page.find('tbody tr').hover
-        page.find('tbody tr .icon-show-more-horizontal').click
-
-        menu = page.find('tbody tr .project-actions')
+        # Clicking the menu item should redirect to project activity page
+        # with only project attributes displayed
         menu.find_link(text: I18n.t(:label_project_activity)).click
 
         expect(page).to have_current_path(project_activity_index_path(project_with_activity_enabled), ignore_query: true)
