@@ -162,7 +162,6 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
         filter(() => !!this.datePickerInstance),
       )
       .subscribe(([field, update]) => {
-        console.log('update', field, update);
         // When clearing the one date, clear the others as well
         if (update !== null) {
           this.handleSingleDateUpdate(field, update);
@@ -255,7 +254,6 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
           this.onTouched();
 
           if (dates.length === 2) {
-            console.log('two dates', dates);
             this.setDates(dates[0], dates[1]);
             this.toggleCurrentActivatedField();
             this.cdRef.detectChanges();
@@ -265,7 +263,6 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
           // Update with the same flow as entering a value
           const { latestSelectedDateObj } = instance as { latestSelectedDateObj:Date };
           const activeField = this.currentlyActivatedDateField;
-          console.log('one date', dates, latestSelectedDateObj, activeField);
           this.handleSingleDateUpdate(activeField, latestSelectedDateObj);
           this.cdRef.detectChanges();
         },
@@ -306,10 +303,6 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
   private setDates(newStart:Date, newEnd:Date) {
     this.dates.start = this.timezoneService.formattedISODate(newStart);
     this.dates.end = this.timezoneService.formattedISODate(newEnd);
-    console.log(newStart, newEnd, { ...this.dates });
-    setTimeout(() => {
-      console.log(newStart, newEnd, { ...this.dates });
-    }, 50);
   }
 
   private handleSingleDateUpdate(activeField:DateFields, selectedDate:Date) {

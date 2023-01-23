@@ -69,6 +69,7 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
   }
 
   public showDatePickerModal():void {
+    console.log('show datepicker modal');
     /*
     const component = this.change.schema.isMilestone ? SingleDateModalComponent : MultiDateModalComponent;
     this.opModalService.show<SingleDateModalComponent|MultiDateModalComponent>(

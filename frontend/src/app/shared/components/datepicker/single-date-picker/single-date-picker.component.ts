@@ -90,8 +90,6 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor {
 
   public datePickerInstance:DatePicker;
 
-  public entityName = '';
-
   text = {
     save: this.I18n.t('js.button_save'),
     cancel: this.I18n.t('js.button_cancel'),
@@ -123,12 +121,13 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor {
     $event.preventDefault();
     this.valueChange.emit(this.workingValue);
     this.onChange(this.workingValue);
+    this.writeValue(this.workingValue);
     this.close();
   }
 
   setToday():void {
     const today = parseDate(new Date()) as Date;
-    this.workingDate = today;
+    this.writeWorkingValue(this.timezoneService.formattedISODate(today));
     this.enforceManualChangesToDatepicker(today);
   }
 

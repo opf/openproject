@@ -38,7 +38,7 @@
       >
         <spot-text-field
           slot="input"
-          name="date"
+          name="startDate"
           class="op-datepicker-modal--date-field"
           [attr.data-qa-highlighted]="showFieldAsActive('start') || undefined"
           [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('start')}"
@@ -61,7 +61,7 @@
       >
         <spot-text-field
           slot="input"
-          name="date"
+          name="endDate"
           class="op-datepicker-modal--date-field"
           [attr.data-qa-highlighted]="showFieldAsActive('end') || undefined"
           [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('end')}"
@@ -87,10 +87,6 @@
     <div #flatpickrTarget></div>
 
     <div class="spot-action-bar">
-      <div class="spot-action-bar--left">
-        {{ dates.start }}
-        {{ dates.end }}
-      </div>
       <div class="spot-action-bar--right">
         <button
           type="button"

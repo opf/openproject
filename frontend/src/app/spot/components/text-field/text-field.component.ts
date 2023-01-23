@@ -103,7 +103,6 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
   }
 
   writeValue(value:string) {
-    console.log('write value in text-field');
     this.value = value || '';
     this.cdRef.markForCheck();
   }

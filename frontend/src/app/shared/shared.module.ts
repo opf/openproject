@@ -69,11 +69,11 @@ import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
 import { ToastComponent } from './components/toaster/toast.component';
 
-import { OpWpSingleDateFormComponent } from './components/datepicker/wp-single-date-form/wp-single-date-form.component';
-import { OpSingleDatePickerComponent } from './components/datepicker/single-date-picker/single-date-picker.component';
-import { OpMultiDatePickerComponent } from './components/datepicker/multi-date-picker/multi-date-picker.component';
+import { OpWpSingleDateFormComponent } from 'core-app/shared/components/datepicker/wp-single-date-form/wp-single-date-form.component';
+import { OpSingleDatePickerComponent } from 'core-app/shared/components/datepicker/single-date-picker/single-date-picker.component';
+import { OpMultiDatePickerComponent } from 'core-app/shared/components/datepicker/multi-date-picker/multi-date-picker.component';
 import { OpWpMultiDateFormComponent } from 'core-app/shared/components/datepicker/wp-multi-date-form/wp-multi-date-form.component';
-import { OpDatePickerBannerComponent } from './components/datepicker/banner/datepicker-banner.component';
+import { OpDatePickerBannerComponent } from 'core-app/shared/components/datepicker/banner/datepicker-banner.component';
 import { OpDatePickerWorkingDaysToggleComponent } from 'core-app/shared/components/datepicker/toggle/datepicker-working-days-toggle.component';
 import { OpDatePickerSchedulingToggleComponent } from 'core-app/shared/components/datepicker/scheduling-mode/datepicker-scheduling-toggle.component';
 

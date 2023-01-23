@@ -2,7 +2,8 @@
   #editForm
   [resource]="entry"
   [inEditMode]="inEditMode"
-  (onSaved)="signalModifiedEntry($event)">
+  (onSaved)="signalModifiedEntry($event)"
+>
   <div class="attributes-map">
     <ng-container *ngIf="showUserField && schema.user.writable">
       <div class="attributes-map--key"
@@ -21,7 +22,7 @@
          [ngClass]="{'-required': isRequired('spentOn')}"
          [textContent]="schema.spentOn.name">
     </div>
-    <div class="attributes-map--value">
+    <div class="attributes-map--value attributes-map--value_overflow">
       <op-editable-attribute-field [resource]="entry"
                                 [wrapperClasses]="'-tiny'"
                                 [fieldName]="'spentOn'">

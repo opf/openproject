@@ -1,5 +1,5 @@
 <div
-  class="spot-modal loading-indicator--location"
+  class="spot-modal spot-modal_allow-overflow loading-indicator--location"
   data-indicator-name="modal"
 >
   <div class="spot-modal--header">
@@ -9,38 +9,42 @@
 
   <div class="spot-divider"></div>
 
-  <div class="ngdialog-body spot-modal--body spot-container">
-    <te-form #editForm
-             [changeset]="changeset"
-             [showWorkPackageField]="showWorkPackageField"
-             [showUserField]="showUserField"
-             (modifiedEntry)="setModifiedEntry($event)">
-    </te-form>
+  <div class="spot-modal--body spot-modal--body_no-scroll spot-container">
+    <te-form
+      #editForm
+      [changeset]="changeset"
+      [showWorkPackageField]="showWorkPackageField"
+      [showUserField]="showUserField"
+      (modifiedEntry)="setModifiedEntry($event)"
+    ></te-form>
   </div>
 
   <div class="spot-action-bar">
     <div class="spot-action-bar--left">
-      <button class="button button_no-margin -danger spot-action-bar--action"
-              *ngIf="deleteAllowed"
-              (click)="destroy()"
-              [textContent]="text.delete"
-              [attr.title]="text.delete">
-      </button>
+      <button
+        class="button button_no-margin -danger spot-action-bar--action"
+        *ngIf="deleteAllowed"
+        (click)="destroy()"
+        [textContent]="text.delete"
+        [attr.title]="text.delete"
+      ></button>
     </div>
     <div class="spot-action-bar--right">
-      <button class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
-              *ngIf="saveAllowed"
-              (click)="closeMe($event)"
-              [textContent]="text.cancel"
-              [attr.title]="text.cancel">
-      </button>
-      <button class="button -highlight button_no-margin spot-action-bar--action"
-              *ngIf="saveAllowed"
-              (click)="saveEntry()"
-              [attr.title]="text.save"
-              [textContent]="text.save"
-              [disabled]="formInFlight">
-      </button>
+      <button
+        class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+        *ngIf="saveAllowed"
+        (click)="closeMe($event)"
+        [textContent]="text.cancel"
+        [attr.title]="text.cancel"
+      ></button>
+      <button
+        class="button -highlight button_no-margin spot-action-bar--action"
+        *ngIf="saveAllowed"
+        (click)="saveEntry()"
+        [attr.title]="text.save"
+        [textContent]="text.save"
+        [disabled]="formInFlight"
+      ></button>
     </div>
   </div>
 </div>
