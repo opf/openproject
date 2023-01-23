@@ -38,7 +38,15 @@ describe 'Project attributes activities' do
   end
   let(:project) { create(:project, active: false, enabled_module_names: %w[activity]) }
   # more factories available in spec/factories/custom_field_factory.rb
+  let!(:list_project_custom_field) { create(:list_project_custom_field) }
+  let!(:version_project_custom_field) { create(:version_project_custom_field) }
+  let!(:bool_project_custom_field) { create(:bool_project_custom_field) }
+  let!(:user_project_custom_field) { create(:user_project_custom_field) }
+  let!(:int_project_custom_field) { create(:int_project_custom_field) }
+  let!(:float_project_custom_field) { create(:float_project_custom_field) }
+  let!(:text_project_custom_field) { create(:text_project_custom_field) }
   let!(:string_project_custom_field) { create(:string_project_custom_field) }
+  let!(:date_project_custom_field) { create(:date_project_custom_field) }
 
   current_user { user }
 
@@ -80,8 +88,28 @@ describe 'Project attributes activities' do
       # User CF
       # Date CF
       # List CF
+
+      expect(page).to have_text('Project archived')
+      # or
       expect(page).to have_text('Project unarchived')
-      # expect(page).to have_text('a new text custom field value')
+      expect(page).to have_text('Project name changed from (old name) to (new name)')
+      expect(page).to have_text('Description changed (Details)')
+      expect(page).to have_text('Project visibility changed to (new visibility)')
+      expect(page).to have_text('Project parent changed to (new parent)')
+      expect(page).to have_text('Identifier changed to (new identifier)') # probably not needed
+      expect(page).to have_text('Template: Project marked as template')
+      # or
+      expect(page).to have_text('Template: Project un-marked as template')
+
+      expect(page).to have_text('') # list
+      expect(page).to have_text('') # version
+      expect(page).to have_text('') # bool
+      expect(page).to have_text('') # user
+      expect(page).to have_text('') # int
+      expect(page).to have_text('') # float
+      expect(page).to have_text('a new text custom field value')
+      expect(page).to have_text('') # string
+      expect(page).to have_text('') # date
     end
   end
 end
