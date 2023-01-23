@@ -80,10 +80,6 @@
       </spot-form-field>
     </div>
 
-    <input
-      [id]="id"
-      hidden
-    >
     <div #flatpickrTarget></div>
 
     <div class="spot-action-bar">
@@ -105,3 +101,10 @@
     </div>
   </form>
 </spot-drop-modal>
+
+<input
+  [id]="id"
+  [name]="name"
+  [value]="value"
+  hidden
+>

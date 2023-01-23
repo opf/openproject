@@ -60,12 +60,22 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   </div>
   <div class="form--field -required">
-    <%= f.text_field :spent_on,
-                     size: 10,
-                     required: true,
-                     class: 'remote-field--input -augmented-datepicker',
-                     data: { :'remote-field-key' => 'fixed_date' },
-                     container_class: '-xslim' %>
+    <label
+      class="form--label"
+      for="cost_entry_spent_on"
+      title="<%= t(:label_date) %>"
+    ><%= t(:label_date) %></label>
+    <div class="form--field-container -visible-overflow">
+      <%= angular_component_tag 'op-single-date-picker',
+                                class: 'remote-field--input',
+                                inputs: {
+                                  value: h("#{@cost_entry.spent_on.to_s}"),
+                                  required: true,
+                                  id: "cost_entry_spent_on",
+                                  name: "cost_entry[spent_on]"
+                                }
+      %>
+    </div>
     <label for="cost_entry_spent_on" class="hidden-for-sighted"><%= t(:label_date) %> <%= t(:text_hint_date_format) %></label>
   </div>
   <% if User.current.allowed_to? :log_costs, @project %>

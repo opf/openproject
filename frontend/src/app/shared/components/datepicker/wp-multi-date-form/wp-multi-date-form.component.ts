@@ -236,6 +236,8 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   ) {
     super();
 
+    console.log('constructor');
+
     this
       .formUpdates$
       .pipe(
@@ -256,6 +258,8 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   }
 
   ngOnInit(): void {
+    console.log('ngOnInit');
+
     this.htmlId = `wp-datepicker-${this.fieldName as string}`;
 
     this.dateModalScheduling.setChangeset(this.changeset as WorkPackageChangeset);
@@ -282,6 +286,7 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   }
 
   ngAfterViewInit():void {
+    console.log('ngAfterViewInit');
     this
       .dateModalRelations
       .getMinimalDateFromPreceeding()

@@ -1,13 +1,16 @@
 <spot-drop-modal
-  [open]="isOpened"
+  [open]="opened"
   (closed)="close()"
 >
   <button
     slot="trigger"
     type="button"
-    class="button"
+    class="spot-link"
     (click)="open()"
-  >{{ value || text.date }}</button>
+  >
+    {{ value || text.date }}
+    <span class="spot-icon spot-icon_calendar"></span>
+  </button>
   
   <form
     slot="body"
@@ -52,10 +55,6 @@
       </button>
     </spot-form-field>
 
-    <input
-      [id]="id"
-      hidden
-    >
     <div #flatpickrTarget></div>
 
     <div class="spot-action-bar">
@@ -77,3 +76,10 @@
     </div>
   </form>
 </spot-drop-modal>
+
+<input
+  [id]="id"
+  [name]="name"
+  [value]="value"
+  hidden
+>

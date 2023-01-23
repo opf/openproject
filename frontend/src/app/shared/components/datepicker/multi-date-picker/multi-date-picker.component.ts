@@ -85,6 +85,8 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
 
   @Input() id = `flatpickr-input-${+(new Date())}`;
 
+  @Input() name = '';
+
   @Input() fieldName:string = '';
 
   @Input() value:string[] = [];

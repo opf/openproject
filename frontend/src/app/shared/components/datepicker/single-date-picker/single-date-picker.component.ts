@@ -50,9 +50,12 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
+import { populateInputsFromDataset } from '../../dataset-inputs';
+
+export const opSingleDatePickerSelector = 'op-single-date-picker';
 
 @Component({
-  selector: 'op-single-date-picker',
+  selector: opSingleDatePickerSelector,
   templateUrl: './single-date-picker.component.html',
   styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -78,13 +81,13 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor {
 
   @Input() minimalDate:Date|null = null;
 
+  @Input() opened = false;
+
   @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
 
   public workingValue = '';
 
   public workingDate:Date = new Date();
-
-  public isOpened = false;
 
   public ignoreNonWorkingDays = false;
 
@@ -106,15 +109,18 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor {
     readonly timezoneService:TimezoneService,
     readonly injector:Injector,
     readonly cdRef:ChangeDetectorRef,
-  ) { }
+    readonly elementRef:ElementRef,
+  ) {
+    populateInputsFromDataset(this);
+  }
 
   open() {
-    this.isOpened = true;
+    this.opened = true;
     this.initializeDatepicker();
   }
 
   close() {
-    this.isOpened = false;
+    this.opened = false;
   }
 
   save($event:Event) {
