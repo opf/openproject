@@ -37,33 +37,30 @@ See COPYRIGHT and LICENSE files for more details.
   <% @events_by_day.keys.sort.reverse.each do |day| %>
     <h3 class="op-project-activity-days--header"><%= format_activity_day(day) %></h3>
     <ul class="op-project-activity-list">
-      <% @events_by_day[day].sort { |x, y| y.event_datetime <=> x.event_datetime }.each_with_index do |e, index| -%>
+      <% @events_by_day[day].sort { |x, y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
         <% journal = @journals_by_id[e.event_id] %>
 
         <li class="op-project-activity-list--item">
           <div class="op-project-activity-list--item-title">
             <%= link_to format_activity_title(e.event_title), e.event_path%>
-            <%# <% if (@project.nil? || @project != e.project) && e.project %>
-              (Project: <%= content_tag('span', link_to(e.project.name, e.project), class: 'project') %>)
-            <%# <% end %>
+            (Project: <%= content_tag('span', link_to(e.project.name, e.project), class: 'project') %>)
           </div>
           <div class="op-project-activity-list--item-subtitle">
-          <%# => Update colour to grey/silver? %>
-          updated by <%= avatar(e.event_author, size: 'mini') if e.respond_to?(:event_author) %> <span class="spot-caption spot-caption_bold"><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %></span> on <%= format_time(e.event_datetime.to_time, true) %>
+          <%= e.journal.initial? ? "created by" : "updated by" %> <%= avatar(e.event_author, size: 'mini') if e.respond_to?(:event_author) %> <span class="spot-caption spot-caption_bold"><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %></span> on <%= format_time(e.event_datetime.to_time, true) %>
           </div>
-
           <% if e.event_description.present? -%>
             <div class="op-project-activity-list--item-description">
               <%= truncate_formatted_text(e.event_description) %>
             </div>
           <% end -%>
-
-          <% if journal.details.any? -%>
-            <ul class="op-project-activity-list--item-details">
-              <% journal.details.each do |detail| -%>
-                <li class="op-project-activity-list--item-detail"><%= journal.render_detail(detail) %></li>
-              <% end -%>
-            </ul>
+          <% unless e.journal.initial? %>
+            <% if journal.details.any? -%>
+              <ul class="op-project-activity-list--item-details">
+                <% journal.details.each do |detail| -%>
+                  <li class="op-project-activity-list--item-detail"><%= journal.render_detail(detail) %></li>
+                <% end -%>
+              </ul>
+            <% end -%>
           <% end -%>
         </li>
 
