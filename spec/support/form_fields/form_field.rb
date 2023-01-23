@@ -26,7 +26,7 @@ module FormFields
 
     def property_name
       if property.is_a? CustomField
-        "customField#{property.id}"
+        property.attribute_name(:camel_case)
       else
         property.to_s
       end
