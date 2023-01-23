@@ -114,11 +114,11 @@ import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
-import { DeviceService } from 'core-app/core/browser/device.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { RawOptionsFromRefiners } from '@fullcalendar/core/internal';
 import { ViewOptionRefiners } from '@fullcalendar/common';
 import { ResourceApi } from '@fullcalendar/resource';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 export type TeamPlannerViewOptionKey = 'resourceTimelineWorkWeek'|'resourceTimelineWeek'|'resourceTimelineTwoWeeks';
 export type TeamPlannerViewOptions = { [K in TeamPlannerViewOptionKey]:RawOptionsFromRefiners<Required<ViewOptionRefiners>> };
@@ -473,7 +473,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     void Promise.all([
       this.configuration.initialized,
       this.weekdayService.loadWeekdays().toPromise(),
-    ])
+      this.workPackagesCalendar.requireNonWorkingDays(new Date()),
+  ])
       .then(() => {
         this.calendarOptions$.next(
           this.workPackagesCalendar.calendarOptions({
@@ -584,11 +585,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       });
   }
 
-  public calendarEventsFunction(
+  public async calendarEventsFunction(
     fetchInfo:{ start:Date, end:Date, timeZone:string },
     successCallback:(events:EventInput[]) => void,
     failureCallback:(error:unknown) => void,
-  ):void|PromiseLike<EventInput[]> {
+  ):Promise<void> {
+    await this.workPackagesCalendar.updateTimeframe(fetchInfo, this.projectIdentifier);
+
     this
       .workPackagesCalendar
       .currentWorkPackages$
@@ -610,7 +613,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         failureCallback,
       );
 
-    void this.workPackagesCalendar.updateTimeframe(fetchInfo, this.projectIdentifier);
   }
 
   public switchView(key:TeamPlannerViewOptionKey):void {

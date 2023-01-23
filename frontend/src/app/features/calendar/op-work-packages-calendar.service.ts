@@ -72,7 +72,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
 
   tooManyResultsText:string|null;
 
-  public nonWorkigDays:IDay[];
+  public nonWorkingDays:IDay[] = [];
   
   currentWorkPackages$:Observable<WorkPackageCollectionResource> = this
     .querySpace
@@ -153,11 +153,20 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     }
   }
 
+  async requireNonWorkingDays(date:Date|string) {
+    this.nonWorkingDays = await this
+      .dayService
+      .requireNonWorkingYear$(date)
+      .pipe(take(1))
+      .toPromise();
+  }
+
   async updateTimeframe(
     fetchInfo:{ start:Date, end:Date, timeZone:string },
     projectIdentifier:string|undefined,
-    nonWorkigDays: IDay[],
   ):Promise<unknown> {
+    await this.requireNonWorkingDays(fetchInfo.start);
+
     if (this.areFiltersEmpty && this.querySpace.query.value) {
       // nothing to do
      
@@ -228,14 +237,11 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       this.wpListChecksumService.set(queryId, queryProps);
     }
 
-   const nwds = 
-   this.dayService.requireNonWorkingYear$(fetchInfo.start).toPromise();
     return Promise.all([this
       .wpListService
-      .fromQueryParams({ query_id: queryId, query_props: queryProps, }, projectIdentifier || undefined, this.nonWorkigDays)
+      .fromQueryParams({ query_id: queryId, query_props: queryProps, }, projectIdentifier || undefined)
       .toPromise(),
-      nwds
-    ]) 
+    ])
   }
 
   public generateQueryProps(
@@ -356,11 +362,11 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       initialDate: this.initialDate,
       initialView: this.initialView,
       datesSet: (dates) => this.updateDateParam(dates),
-      dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkigDays),
-      dayCellClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkigDays),
-      dayGridClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkigDays),
-      slotLaneClassNames: (data:SlotLaneContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkigDays),
-      slotLabelClassNames: (data:SlotLabelContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkigDays),
+      dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
+      dayCellClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
+      dayGridClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
+      slotLaneClassNames: (data:SlotLaneContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
+      slotLabelClassNames: (data:SlotLabelContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
     };
   }
 
