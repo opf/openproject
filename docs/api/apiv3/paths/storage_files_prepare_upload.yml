@@ -1,17 +1,16 @@
-# /api/v3/storages/{id}/files
+# /api/v3/storages/{id}/files/prepare_upload
 ---
-get:
-  summary: Gets files of a storage.
-  operationId: get_storage_files
+post:
+  summary: Preparation of a direct upload of a file to the given storage.
+  operationId: prepare_storage_file_upload
   tags:
     - File links
   description: |-
-    Gets a collection of files from a storage.
-
-    If no `parent` context is given, the result is the content of the document root. With `parent` context given, the
-    result contains the collections of files/directories from within the given parent file id.
-
-    If given `parent` context is no directory, `400 Bad Request` is returned.
+    Executes a request that prepares a link for a direct upload to the storage.
+    
+    The background here is, that the client needs to make a direct request to the storage instance for file uploading,
+    but should not get access to the credentials, which are stored in the backend. The response contains a link object,
+    that enables the client to execute a file upload without the real credentials.
   parameters:
     - name: id
       description: Storage id
@@ -20,20 +19,18 @@ get:
       schema:
         type: integer
       example: 1337
-    - name: parent
-      description: Parent file identification
-      in: query
-      required: false
-      schema:
-        type: string
-      example: '/my/data'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/storage_file_upload_preparation_model.yml'
   responses:
-    '200':
+    '201':
       description: OK
       content:
         application/hal+json:
           schema:
-            $ref: '../components/schemas/file_collection_model.yml'
+            $ref: '../components/schemas/storage_file_upload_link_model.yml'
     '400':
       description: Returned if the given parent parameter value does not refer to a directory.
       content:
@@ -44,19 +41,6 @@ get:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
             message: The given parent is not a directory.
-    '403':
-      content:
-        application/hal+json:
-          schema:
-            $ref: '../components/schemas/error_response.yml'
-          example:
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-            message: You are not authorized to access this resource.
-      description: |-
-        Returned if the client does not have sufficient permissions.
-
-        **Required permission:** manage file links
     '404':
       content:
         application/hal+json:
