@@ -29,6 +29,9 @@
 .op-file-picker
   &--scrollable-content
     overflow-y: auto
+    // If there a list in the content that provides tooltips on there items,
+    // we need enough space to display those tooltips
+    min-height: $spot-spacing-5
 
   @media #{$spot-mq-mobile}
     &.spot-modal
