@@ -248,7 +248,7 @@ describe CustomField do
 
       context 'for something that responds to project' do
         it 'is a list of name, id pairs' do
-          object = OpenStruct.new(project:)
+          object = OpenStruct.new(project:) # rubocop:disable Style/OpenStructUse
 
           expect(field.possible_values_options(object))
             .to match_array [[user1.name, user1.id.to_s],
