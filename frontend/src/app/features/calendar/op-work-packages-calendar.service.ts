@@ -73,7 +73,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   tooManyResultsText:string|null;
 
   public nonWorkingDays:IDay[] = [];
-  
+
   currentWorkPackages$:Observable<WorkPackageCollectionResource> = this
     .querySpace
     .results
@@ -159,6 +159,11 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       .requireNonWorkingYear$(date)
       .pipe(take(1))
       .toPromise();
+  }
+
+  isNonWorkingDay(date:Date|string):boolean {
+    const formatted = moment(date).format('YYYY-MM-DD');
+    return (this.nonWorkingDays.findIndex((el) => el.date === formatted) !== -1);
   }
 
   async updateTimeframe(

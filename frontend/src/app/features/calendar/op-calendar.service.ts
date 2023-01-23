@@ -35,7 +35,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
 
   applyNonWorkingDay({ date }:{ date?:Date }, nonWorkingDays:IDay[]):string[] {
     const formatted = moment(date).format('YYYY-MM-DD');
-    if (date && (this.weekdayService.isNonWorkingDay(date) || nonWorkingDays.find((el) => !el.working && el.date === formatted))) {
+    if (date && (this.weekdayService.isNonWorkingDay(date) || nonWorkingDays.find((el) => el.date === formatted))) {
       return ['fc-non-working-day'];
     }
 

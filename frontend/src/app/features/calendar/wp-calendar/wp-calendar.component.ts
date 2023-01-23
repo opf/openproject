@@ -217,7 +217,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         const due = moment(resizeInfo.event.endStr).subtract(1, 'day').toDate();
         const start = moment(resizeInfo.event.startStr).toDate();
         const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
-        if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.weekdayService.isNonWorkingDay(due))) {
+        if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.weekdayService.isNonWorkingDay(due)
+        || this.workPackagesCalendar.isNonWorkingDay(start) || this.workPackagesCalendar.isNonWorkingDay(due))) {
           this.toastService.addError(this.text.cannot_drag_to_non_working_day);
           resizeInfo?.revert();
           return;
@@ -227,7 +228,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       eventDrop: (dropInfo:EventDropArg) => {
         const start = moment(dropInfo.event.startStr).toDate();
         const wp = dropInfo.event.extendedProps.workPackage as WorkPackageResource;
-        if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start))) {
+        if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.workPackagesCalendar.isNonWorkingDay(start))) {
           this.toastService.addError(this.text.cannot_drag_to_non_working_day);
           dropInfo?.revert();
           return;
@@ -348,7 +349,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
 
   private handleDateClicked(info:DateSelectArg) {
     const due = moment(info.endStr).subtract(1, 'day').toDate();
-    const nonWorkingDays = this.weekdayService.isNonWorkingDay(info.start) || this.weekdayService.isNonWorkingDay(due);
+    const nonWorkingDays = this.weekdayService.isNonWorkingDay(info.start) || this.weekdayService.isNonWorkingDay(due)
+      || this.workPackagesCalendar.isNonWorkingDay(info.start) || this.workPackagesCalendar.isNonWorkingDay(due);
 
     const defaults = {
       startDate: info.startStr,
@@ -381,7 +383,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     const nonWorkingDays = new Array<{ start:Date|string, end:Date|string }>();
 
     while (currentStartDate.toString() !== currentEndDate.toString()) {
-      if (this.weekdayService.isNonWorkingDay(currentStartDate)) {
+      if (this.weekdayService.isNonWorkingDay(currentStartDate) || this.workPackagesCalendar.isNonWorkingDay(currentStartDate)) {
         nonWorkingDays.push({
           start: moment(currentStartDate).format('YYYY-MM-DD'),
           end: moment(currentStartDate).add('1', 'day').format('YYYY-MM-DD'),
