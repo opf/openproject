@@ -22,7 +22,7 @@
 # https://guides.rubyonrails.org/configuring.html#activesupport-to-time-preserves-timezone
 # Make Ruby 2.4 preserve the timezone of the receiver when calling `to_time`.
 # Previous versions had false. Rails 5.0+ default is true.
-# ActiveSupport.to_time_preserves_timezone = true
+ActiveSupport.to_time_preserves_timezone = true
 
 # https://guides.rubyonrails.org/configuring.html#config-active-record-belongs-to-required-by-default
 # Require `belongs_to` associations by default. Previous versions had false.
