@@ -40,7 +40,7 @@ describe OpenProject::AccessControl do
       end
 
       map.project_module :project_module do |mod|
-        mod.permission :proj2, { dont: :care }, contract_actions: { bar: %i[create read] }
+        mod.permission :proj2, { dont: :care }, contract_actions: { bar: %i[create read] }, public: true
       end
 
       map.project_module :mixed_module do |mod|
@@ -256,9 +256,27 @@ describe OpenProject::AccessControl do
 
     it 'contains all contract actions grouped by the permission' do
       expect(subject.contract_actions_map)
-        .to eql(global2: { actions: { baz: [:destroy] }, global: true, module_name: :mixed_module, grant_to_admin: true },
-                proj0: { actions: { foo: :create }, global: false, module_name: nil, grant_to_admin: true },
-                proj2: { actions: { bar: %i[create read] }, global: false, module_name: :project_module, grant_to_admin: true })
+        .to eql(global2: {
+                  actions: { baz: [:destroy] },
+                  global: true,
+                  module_name: :mixed_module,
+                  grant_to_admin: true,
+                  public: false
+                },
+                proj0: {
+                  actions: { foo: :create },
+                  global: false,
+                  module_name: nil,
+                  grant_to_admin: true,
+                  public: false
+                },
+                proj2: {
+                  actions: { bar: %i[create read] },
+                  global: false,
+                  module_name: :project_module,
+                  grant_to_admin: true,
+                  public: true
+                })
     end
   end
 

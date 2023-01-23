@@ -27,38 +27,27 @@
 //++
 
 import {
-  Directive, EventEmitter, Injector, Output,
+  Directive, EventEmitter, Output,
 } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { GridRemoveWidgetService } from 'core-app/shared/components/grids/grid/remove-widget.service';
 import { ComponentType } from '@angular/cdk/portal';
 import { WidgetAbstractMenuComponent } from 'core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component';
 import { WpGraphConfigurationModalComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/wp-graph-configuration.modal';
-import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Directive()
 export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuComponent {
-  protected configurationComponent:ComponentType<WpGraphConfigurationModalComponent|WpTableConfigurationModalComponent>;
+  protected configurationComponent:ComponentType<WpGraphConfigurationModalComponent | WpTableConfigurationModalComponent>;
 
-  @Output()
-  onConfigured:EventEmitter<any> = new EventEmitter();
+  @InjectField() opModalService:OpModalService;
+
+  @Output() onConfigured:EventEmitter<any> = new EventEmitter();
 
   protected menuItemList = [
     this.removeItem,
     this.configureItem,
   ];
-
-  constructor(private readonly injector:Injector,
-    private readonly opModalService:OpModalService,
-    readonly i18n:I18nService,
-    protected readonly remove:GridRemoveWidgetService,
-    readonly layout:GridAreaService) {
-    super(i18n,
-      remove,
-      layout);
-  }
 
   protected get configureItem() {
     return {

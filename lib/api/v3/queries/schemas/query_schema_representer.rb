@@ -187,12 +187,12 @@ module API
                                          }
 
           schema_property :filters,
-                          filters_schema,
-                          true,
-                          false,
-                          true,
-                          :filters,
-                          :filters
+                          getter: filters_schema,
+                          show_if: true,
+                          required: false,
+                          has_default: true,
+                          name_source: :filters,
+                          as: :filters
 
           schema_with_allowed_collection :group_by,
                                          type: '[]QueryGroupBy',
