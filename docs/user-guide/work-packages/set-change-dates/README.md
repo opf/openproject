@@ -133,7 +133,7 @@ Setting only duration without start or finish dates is especially useful when yo
 
 > **Pro tip:** This feature makes it possible to automatically derive an estimated start or finish date for entire project. 
 >
-> To do so, create a series of work packages that represent the main phases and set the approximate duration for each. Link them all using follow/precedes relationships. Now, when you set an end date on the last work package or a start date on the first one in the series, the start and end dates for all other work packages will be derived.
+> To do so, create a series of work packages that represent the main phases and set the approximate duration for each. Link them all using follow/precedes relationships. Now, when you set a start date on the first work package in the series, the start and end dates for all other work packages will be derived.
 
 
 
