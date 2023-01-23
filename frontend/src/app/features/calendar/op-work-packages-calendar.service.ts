@@ -53,6 +53,8 @@ import { WorkPackageViewContextMenu } from 'core-app/shared/components/op-contex
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { IDay } from 'core-app/core/state/days/day.model';
+import { DayResourceService } from 'core-app/core/state/days/day.service';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -70,6 +72,8 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
 
   tooManyResultsText:string|null;
 
+  public nonWorkigDays:IDay[];
+  
   currentWorkPackages$:Observable<WorkPackageCollectionResource> = this
     .querySpace
     .results
@@ -100,6 +104,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     readonly contextMenuService:OPContextMenuService,
     readonly calendarService:OpCalendarService,
     readonly weekdayService:WeekdayService,
+    readonly dayService:DayResourceService,
   ) {
     super();
   }
@@ -151,9 +156,11 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   async updateTimeframe(
     fetchInfo:{ start:Date, end:Date, timeZone:string },
     projectIdentifier:string|undefined,
+    nonWorkigDays: IDay[],
   ):Promise<unknown> {
     if (this.areFiltersEmpty && this.querySpace.query.value) {
       // nothing to do
+     
       return Promise.resolve();
     }
 
@@ -164,12 +171,12 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     if (this.urlParams.query_id) {
       queryId = this.urlParams.query_id as string;
     }
-
     // We derive the necessary props in the following cases
     // 1. We load a queryId with no props
     // 2. We load visible query props or empty
     // 3. We are already loaded and are refetching data (for changed dates, e.g.)
     let queryProps:string|undefined;
+
 
     if (this.initializingWithQuery) {
       // This is the case on initially loading the calendar with a query_id present in the url params but no
@@ -221,10 +228,14 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       this.wpListChecksumService.set(queryId, queryProps);
     }
 
-    return this
+   const nwds = 
+   this.dayService.requireNonWorkingYear$(fetchInfo.start).toPromise();
+    return Promise.all([this
       .wpListService
-      .fromQueryParams({ query_id: queryId, query_props: queryProps }, projectIdentifier || undefined)
-      .toPromise();
+      .fromQueryParams({ query_id: queryId, query_props: queryProps, }, projectIdentifier || undefined, this.nonWorkigDays)
+      .toPromise(),
+      nwds
+    ]) 
   }
 
   public generateQueryProps(
@@ -345,11 +356,11 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       initialDate: this.initialDate,
       initialView: this.initialView,
       datesSet: (dates) => this.updateDateParam(dates),
-      dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendarService.applyNonWorkingDay(data),
-      dayCellClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data),
-      dayGridClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data),
-      slotLaneClassNames: (data:SlotLaneContentArg) => this.calendarService.applyNonWorkingDay(data),
-      slotLabelClassNames: (data:SlotLabelContentArg) => this.calendarService.applyNonWorkingDay(data),
+      dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkigDays),
+      dayCellClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkigDays),
+      dayGridClassNames: (data:DayCellContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkigDays),
+      slotLaneClassNames: (data:SlotLaneContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkigDays),
+      slotLabelClassNames: (data:SlotLabelContentArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkigDays),
     };
   }
 
@@ -387,7 +398,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       && !this.urlParams.query_props;
   }
 
-  private get urlParams() {
+  public get urlParams() {
     return this.uiRouterGlobals.params;
   }
 
