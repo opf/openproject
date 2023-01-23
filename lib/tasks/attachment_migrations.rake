@@ -36,6 +36,7 @@ module Migrations
   # We create a separate classes as this is most likely to be used during
   # the migration of an ChiliProject (2.x or 3.x) which lacks a couple
   # of columns models have in OpenProject >6.
+  # rubocop:disable Rails/ApplicationRecord
   module Attachments
     class CurrentWikiPage < ::ActiveRecord::Base
       self.table_name = "wiki_pages"
@@ -47,6 +48,7 @@ module Migrations
       self.table_name = "wiki_contents"
     end
   end
+  # rubocop:enable Rails/ApplicationRecord
 end
 
 namespace :migrations do
