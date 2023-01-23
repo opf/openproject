@@ -635,33 +635,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }, 500);
   }
 
-  renderTemplate(template:TemplateRef<unknown>, id:string, data:ResourceLabelContentArg|EventContentArg):{ domNodes:unknown[] } {
-    if (this.isDraggedEvent(id)) {
-      this.viewLookup.markForDestruction(id);
-    }
-
-    const ref = this.viewLookup.getView(template, id, data);
-    return { domNodes: ref.rootNodes };
-  }
-
-  unrenderTemplate(id:string):void {
-    this.viewLookup.markForDestruction(id);
-  }
-
   isDraggedEvent(id:string):boolean {
     const dragging = this.draggingItem$.getValue();
     return !!dragging && (dragging.event.extendedProps?.workPackage as undefined|WorkPackageResource)?.href === id;
-  }
-
-  eventId(data:EventContentArg):string {
-    return [
-      data.event.id,
-      data.event.start?.toISOString(),
-      data.event.end?.toISOString(),
-      data.timeText,
-      `dragging=${data.isDragging.toString()}`,
-      `resizing=${data.isResizing.toString()}`,
-    ].join('-');
   }
 
   public showAssigneeAddRow():void {
