@@ -27,7 +27,7 @@
 # https://guides.rubyonrails.org/configuring.html#config-active-record-belongs-to-required-by-default
 # Require `belongs_to` associations by default. Previous versions had false.
 # Rails 5.0+ default is true.
-# Rails.application.config.active_record.belongs_to_required_by_default = true
+Rails.application.config.active_record.belongs_to_required_by_default = true
 
 # https://guides.rubyonrails.org/configuring.html#config-ssl-options
 # Configure SSL options to enable HSTS with subdomains. Previous versions had
