@@ -55,7 +55,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
-import { ActiveDateChange, DateFields, DateKeys, FieldUpdates } from '../wp-multi-date-form/wp-multi-date-form.component';
+import { ActiveDateChange, DateFields, DateKeys } from '../wp-multi-date-form/wp-multi-date-form.component';
 import { fromEvent, merge, Observable, Subject } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { debounceTime, filter, map } from 'rxjs/operators';
