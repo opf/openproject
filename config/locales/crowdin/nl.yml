@@ -1794,6 +1794,7 @@ nl:
   label_product_version: "Versie van het product"
   label_professional_support: "Professionele ondersteuning"
   label_profile: "Profiel"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Totale aantal projecten"
   label_project_copy_notifications: "Verzenden van e-mailmeldingen tijdens het project kopiëren"

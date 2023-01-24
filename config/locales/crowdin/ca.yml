@@ -1793,6 +1793,7 @@ ca:
   label_product_version: "Versió del producte"
   label_professional_support: "Suport professional"
   label_profile: "Perfil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Nombre total de projectes"
   label_project_copy_notifications: "Envia notificacions de correu electrònic durant la còpia del projecte"

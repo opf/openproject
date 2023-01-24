@@ -25,7 +25,7 @@ ru:
         not_logged_in: >
           Для добавления ссылки, просмотра или загрузки файлов, относящиеся к этому пакету работ, войдите в %{storageType}.
       files:
-        directory_not_writeable: "You do not have to permission to add files to this folder."
+        directory_not_writeable: "Вам не хватает прав для добавления файлов в эту папку."
       file_links:
         empty: >
           В настоящее время нет файлов связанных с этим пакетом работ. Начните привязку файлов с действием ниже или внутри %{storageType}.

@@ -1774,6 +1774,7 @@ id:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Jumlah proyek"
   label_project_copy_notifications: "Kirim email notifikasi selama meng-copy Project"

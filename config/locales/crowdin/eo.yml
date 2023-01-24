@@ -1797,6 +1797,7 @@ eo:
   label_product_version: "Versio de la produkto"
   label_professional_support: "Profesia subteno"
   label_profile: "Profilo"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Totala kvanto da projektoj"
   label_project_copy_notifications: "Sendi retpoŝtajn sciigojn dum la projekta kopiado"

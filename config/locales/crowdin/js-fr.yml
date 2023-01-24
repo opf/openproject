@@ -657,6 +657,7 @@ fr:
     project:
       required_outside_context: >
         Veuillez choisir un projet pour créer le lot de travaux et voir tous les attributs. Vous pouvez seulement sélectionner des projets ayant le type ci-dessus activé.
+      details_activity: 'Project details activity'
       context: 'Contexte du projet'
       work_package_belongs_to: 'Ce lot de travaux appartient au projet %{projectname}.'
       click_to_switch_context: 'Ouvrir ce lot de travaux dans ce projet.'

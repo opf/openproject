@@ -656,6 +656,7 @@ lol:
     project:
       required_outside_context: >
         crwdns787798:0crwdne787798:0
+      details_activity: 'crwdns844367:0crwdne844367:0'
       context: 'crwdns787800:0crwdne787800:0'
       work_package_belongs_to: 'crwdns787802:0%{projectname}crwdne787802:0'
       click_to_switch_context: 'crwdns787804:0crwdne787804:0'

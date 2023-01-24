@@ -1780,6 +1780,7 @@ th:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "ข้อมูลส่วนตัว"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "ส่งอีเมล์แจ้งเตือนในระหว่างที่คัดลอกโครงการ"

@@ -1797,6 +1797,7 @@ tr:
   label_product_version: "Ürün sürümü"
   label_professional_support: "Profesyonel destek"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Proje öznitelikleri"
   label_project_count: "Toplam proje sayısı"
   label_project_copy_notifications: "Proje kopyalaması esnasında bilgilendirme e-postaları gönder"

@@ -1814,6 +1814,7 @@ hr:
   label_product_version: "Verzija proizvoda"
   label_professional_support: "Profesionalna Podrška"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Ukupan broj projekata"
   label_project_copy_notifications: "Slanje obavijesti e-mailom tijekom kopiranja projekta"

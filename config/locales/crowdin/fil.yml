@@ -1797,6 +1797,7 @@ fil:
   label_product_version: "Produktong bersyon"
   label_professional_support: "Propesyonal na suporta"
   label_profile: "Profile"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Kabuuang bilang ng mga proyekto"
   label_project_copy_notifications: "Magpadala ng mga email na abiso habang ang proyekto ay kinopya"
