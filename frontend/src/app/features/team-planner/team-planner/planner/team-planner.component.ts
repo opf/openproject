@@ -470,7 +470,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     void Promise.all([
       this.configuration.initialized,
       this.weekdayService.loadWeekdays().toPromise(),
-      this.workPackagesCalendar.requireNonWorkingDays(new Date()),
   ])
       .then(() => {
         this.calendarOptions$.next(
@@ -606,10 +605,11 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           this.removeExternalEvents();
 
           successCallback(events);
+
+          this.ucCalendar.getApi().render();
         },
         failureCallback,
       );
-
   }
 
   public switchView(key:TeamPlannerViewOptionKey):void {

@@ -171,10 +171,10 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     projectIdentifier:string|undefined,
   ):Promise<unknown> {
     await this.requireNonWorkingDays(fetchInfo.start);
+    await this.requireNonWorkingDays(fetchInfo.end);
 
     if (this.areFiltersEmpty && this.querySpace.query.value) {
       // nothing to do
-     
       return Promise.resolve();
     }
 
