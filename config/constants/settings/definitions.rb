@@ -656,12 +656,6 @@ Settings::Definition.define do
       default: nil,
       writable: false
 
-  add :notification_email_delay_minutes,
-      default: 15
-
-  add :notification_email_digest_time,
-      default: '08:00'
-
   add :onboarding_video_url,
       description: 'Onboarding guide instructional video URL',
       default: 'https://player.vimeo.com/video/163426858?autoplay=1',
