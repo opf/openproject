@@ -62,22 +62,21 @@ export class FilterDatesValueComponent extends UntilDestroyedMixin {
     super();
   }
 
+  public get value():(HalResource[]|string[]) {
+    return this.filter.values;
+  }
+
+  public set value(val:(HalResource[]|string[])) {
+    this.filter.values = val;
+    this.filterChanged.emit(this.filter);
+  }
+
   public get begin():any {
     return this.filter.values[0];
   }
 
-  public set begin(val:any) {
-    this.filter.values[0] = val || '';
-    this.filterChanged.emit(this.filter);
-  }
-
   public get end():HalResource|string {
     return this.filter.values[1];
-  }
-
-  public set end(val) {
-    this.filter.values[1] = val || '';
-    this.filterChanged.emit(this.filter);
   }
 
   public parser(data:any) {

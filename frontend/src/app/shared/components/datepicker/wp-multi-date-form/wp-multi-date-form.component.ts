@@ -193,7 +193,6 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
         this.clearWithDuration(field);
       }
 
-      this.onDataChange();
       this.cdRef.detectChanges();
     });
 
@@ -236,8 +235,6 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   ) {
     super();
 
-    console.log('constructor');
-
     this
       .formUpdates$
       .pipe(
@@ -258,8 +255,6 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit');
-
     this.htmlId = `wp-datepicker-${this.fieldName as string}`;
 
     this.dateModalScheduling.setChangeset(this.changeset as WorkPackageChangeset);
@@ -286,13 +281,11 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   }
 
   ngAfterViewInit():void {
-    console.log('ngAfterViewInit');
     this
       .dateModalRelations
       .getMinimalDateFromPreceeding()
       .subscribe((date) => {
         this.initializeDatepicker(date);
-        this.onDataChange();
       });
 
     // Autofocus duration if that's what activated us
@@ -527,7 +520,6 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
 
     const dates = [startDate, endDate];
     setDates(dates, this.datePickerInstance, enforceDate);
-    this.onDataChange();
   }
 
   private setDatesAndDeriveDuration(newStart:Date, newEnd:Date) {
@@ -728,14 +720,6 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
     if (this.dates.end && !this.dates.start && !!this.duration) {
       this.formUpdates$.next({ dueDate: this.dates.end, duration: this.durationAsIso8601 });
     }
-  }
-
-  private onDataChange() {
-    const start = this.dates.start || '';
-    const end = this.dates.end || '';
-
-    const output = `${start} - ${end}`;
-    this.save.emit(output);
   }
 
   private get initialActivatedField():DateFields {
