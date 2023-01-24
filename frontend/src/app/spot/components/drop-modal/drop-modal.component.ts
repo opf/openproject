@@ -40,7 +40,11 @@ export class SpotDropModalComponent implements OnDestroy {
   @Input('open')
   @HostBinding('class.spot-drop-modal_opened')
   set open(value:boolean) {
-    this._open = value;
+    if (this._open === !!value) {
+      return;
+    }
+
+    this._open = !!value;
 
     if (this._open) {
       /* We have to set these listeners next tick, because they're so far up the tree.
@@ -67,6 +71,8 @@ export class SpotDropModalComponent implements OnDestroy {
       document.body.removeEventListener('keydown', this.escapeListener);
       window.removeEventListener('resize', this.appHeightListener);
       window.removeEventListener('orientationchange', this.appHeightListener);
+      
+      console.log('close?', value);
 
       this.closed.emit();
     }

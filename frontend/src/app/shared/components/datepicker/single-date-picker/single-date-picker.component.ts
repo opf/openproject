@@ -70,6 +70,8 @@ export const opSingleDatePickerSelector = 'op-single-date-picker';
   ],
 })
 export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit {
+  @Output('closed') closed = new EventEmitter();
+
   @Output('valueChange') valueChange = new EventEmitter();
 
   private _value = '';
@@ -91,15 +93,35 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
 
   @Input() minimalDate:Date|null = null;
 
-  @Input() opened = false;
+  private _opened = false;
+
+  @Input() set opened(opened:boolean) {
+    if (this._opened === !!opened) {
+      return;
+    }
+
+    this._opened = !!opened;
+
+    if (this._opened) {
+      this.initializeDatepicker();
+    } else {
+      this.closed.emit();
+    }
+  }
+
+  get opened() {
+    return this.opened;
+  }
+
+  @Input() showIgnoreNonWorkingDays = true;
+
+  @Input() ignoreNonWorkingDays = false;
 
   @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
 
   public workingValue = '';
 
   public workingDate:Date = new Date();
-
-  public ignoreNonWorkingDays = false;
 
   public datePickerInstance:DatePicker;
 
@@ -131,13 +153,8 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
     }
   }
 
-  open() {
-    this.opened = true;
-    this.initializeDatepicker();
-  }
-
-  close() {
-    this.opened = false;
+  onInputClick(event:MouseEvent) {
+    event.stopPropagation();
   }
 
   save($event:Event) {
@@ -145,7 +162,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
     this.valueChange.emit(this.workingValue);
     this.onChange(this.workingValue);
     this.writeValue(this.workingValue);
-    this.close();
+    this.opened = false;
   }
 
   setToday():void {

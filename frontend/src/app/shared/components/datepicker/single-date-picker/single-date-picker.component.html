@@ -1,16 +1,14 @@
 <spot-drop-modal
   [open]="opened"
-  (closed)="close()"
+  (closed)="opened = false"
 >
-  <button
+  <input
     slot="trigger"
-    type="button"
-    class="spot-link"
-    (click)="open()"
-  >
-    {{ value || text.date }}
-    <span class="spot-icon spot-icon_calendar"></span>
-  </button>
+    type="text"
+    class="spot-input"
+    (click)="onInputClick($event)"
+    [value]="value"
+  />
   
   <form
     slot="body"
@@ -23,6 +21,7 @@
     (submit)="save($event)"
   >
     <spot-selector-field
+      *ngIf="showIgnoreNonWorkingDays"
       [reverseLabel]="true"
       [label]="text.ignoreNonWorkingDays.title"
     >
@@ -34,6 +33,8 @@
         data-qa-selector="op-datepicker-modal--include-non-working-days"
       ></spot-switch>
     </spot-selector-field>
+
+    <ng-content select="[slot=extra-fields]"></ng-content>
 
     <spot-form-field
       [label]="text.date"
@@ -61,7 +62,7 @@
       <div class="spot-action-bar--right">
         <button
           type="button"
-          (click)="close()"
+          (click)="opened = false"
           class="button spot-action-bar--action"
           data-qa-selector="op-datepicker-modal--action"
           [textContent]="text.cancel"
