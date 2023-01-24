@@ -41,15 +41,16 @@ $toolbar-height--mobile: 100px
   display: flex
   flex-direction: column
   // Calculate table size by subtracting the space above
-  max-height: calc(100vh - #{var(--header-height)} - #{$toolbar-height})
 
-  @media screen and (max-width: 679px)
-    max-height: calc(100vh - #{var(--header-height)} - #{$toolbar-height--mobile})
 
   .generic-table--container
     display: contents
   .generic-table
     position: relative
+  .generic-table--results-container
+    overflow: unset
+    @media screen and (max-width: 679px)
+      overflow-x: auto
 
 .generic-table--container
   position:     relative
