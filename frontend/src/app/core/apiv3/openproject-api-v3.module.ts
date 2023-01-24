@@ -26,13 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { NgModule } from '@angular/core';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 
 @NgModule({
   imports: [
-    OPSharedModule,
+    OpSharedModule,
     OpenprojectHalModule,
   ],
 })

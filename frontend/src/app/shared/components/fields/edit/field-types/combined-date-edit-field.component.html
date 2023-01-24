@@ -1,0 +1,30 @@
+<spot-drop-modal
+  [open]="isOpened"
+  (closed)="cancel()"
+  alignment="bottom-center"
+>
+  <button
+    slot="trigger"
+    type="button"
+    (click)="showDatePickerModal()"
+    class="spot-link"
+  >{{ dates }}</button>
+
+  <op-wp-single-date-form
+    *ngIf="!isMultiDate"
+    [value]="dates"
+    [changeset]="change"
+    (save)="save()"
+    (cancel)="cancel()"
+    slot="body"
+  ></op-wp-single-date-form>
+  <op-wp-multi-date-form
+    *ngIf="isMultiDate"
+    [value]="dates"
+    [changeset]="change"
+    [fieldName]="name"
+    (save)="save()"
+    (cancel)="cancel()"
+    slot="body"
+  ></op-wp-multi-date-form>
+</spot-drop-modal>

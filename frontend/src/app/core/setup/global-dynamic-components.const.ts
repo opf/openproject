@@ -207,7 +207,14 @@ import {
   CalendarSidemenuComponent,
   opCalendarSidemenuSelector,
 } from 'core-app/features/calendar/sidemenu/calendar-sidemenu.component';
-import { OpModalOverlayComponent, opModalOverlaySelector } from 'core-app/shared/components/modal/modal-overlay.component';
+import {
+  OpModalOverlayComponent,
+  opModalOverlaySelector,
+} from 'core-app/shared/components/modal/modal-overlay.component';
+import {
+  OpSingleDatePickerComponent,
+  opSingleDatePickerSelector,
+} from 'core-app/shared/components/datepicker/single-date-picker/single-date-picker.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -266,4 +273,5 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
   { selector: ianMenuSelector, cls: IanMenuComponent },
   { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
+  { selector: opSingleDatePickerSelector, cls: OpSingleDatePickerComponent },
 ];

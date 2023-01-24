@@ -1,0 +1,85 @@
+<spot-drop-modal
+  [open]="opened"
+  (closed)="close()"
+>
+  <button
+    slot="trigger"
+    type="button"
+    class="spot-link"
+    (click)="open()"
+  >
+    {{ value || text.date }}
+    <span class="spot-icon spot-icon_calendar"></span>
+  </button>
+  
+  <form
+    slot="body"
+    class="spot-container op-datepicker-modal"
+    data-qa-selector="op-datepicker-modal"
+    tabindex="0"
+    cdkFocusInitial
+    cdkTrapFocus
+    [cdkTrapFocusAutoCapture]="true"
+    (submit)="save($event)"
+  >
+    <spot-selector-field
+      [reverseLabel]="true"
+      [label]="text.ignoreNonWorkingDays.title"
+    >
+      <spot-switch
+        slot="input"
+        name="ignoreNonWorkingDays"
+        [(ngModel)]="ignoreNonWorkingDays"
+        (ngModelChange)="changeNonWorkingDays()"
+        data-qa-selector="op-datepicker-modal--include-non-working-days"
+      ></spot-switch>
+    </spot-selector-field>
+
+    <spot-form-field
+      [label]="text.date"
+    >
+      <spot-text-field
+        slot="input"
+        name="date"
+        class="op-datepicker-modal--date-field"
+        [ngModel]="workingValue"
+        (ngModelChange)="writeWorkingValue($event)"
+        [showClearButton]="true"
+      ></spot-text-field>
+      <button
+        slot="action"
+        type="button"
+        class="spot-link"
+        (click)="setToday()"
+        [textContent]="text.today">
+      </button>
+    </spot-form-field>
+
+    <div #flatpickrTarget></div>
+
+    <div class="spot-action-bar">
+      <div class="spot-action-bar--right">
+        <button
+          type="button"
+          (click)="close()"
+          class="button spot-action-bar--action"
+          data-qa-selector="op-datepicker-modal--action"
+          [textContent]="text.cancel"
+        ></button>
+        <button
+          type="submit"
+          class="button -highlight spot-action-bar--action"
+          data-qa-selector="op-datepicker-modal--action"
+          [textContent]="text.save"
+        ></button>
+      </div>
+    </div>
+  </form>
+</spot-drop-modal>
+
+<input
+  [id]="id"
+  [name]="name"
+  [value]="value"
+  hidden
+>

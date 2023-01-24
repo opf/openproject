@@ -31,15 +31,12 @@ import { DatePickerEditFieldComponent } from 'core-app/shared/components/fields/
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Component({
-  template: `
-    <input [value]="dates"
-           (click)="showDatePickerModal()"
-           class="op-input"
-           type="text" />
-  `,
+  templateUrl: './combined-date-edit-field.component.html',
 })
 export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent {
   dates = '';
+
+  isOpened = true;
 
   text = {
     placeholder: {
@@ -49,21 +46,22 @@ export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent
     },
   };
 
-  public showDatePickerModal():void {
-    super.showDatePickerModal();
-
-    this
-      .modal
-      ?.onDataUpdated
-      .subscribe((dates:string) => {
-        this.dates = dates;
-        this.cdRef.detectChanges();
-      });
+  get isMultiDate():boolean {
+    return !this.change.schema.isMilestone;
   }
 
-  protected onModalClosed():void {
+  public onModalClosed():void {
+    this.isOpened = false;
     this.resetDates();
     super.onModalClosed();
+  }
+
+  public save():void {
+    this.handler.deactivate(true);
+  }
+
+  public cancel():void {
+    this.handler.reset();
   }
 
   // Overwrite super in order to set the initial dates.

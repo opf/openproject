@@ -1,16 +1,14 @@
 @import '../../app/spot/styles/sass/variables'
 
 .op-datepicker-modal
-  z-index: 500
-  width: auto
+  min-height: 200px
+  width: 100vw
   // Basically the width of the two calendars next to each other + spacings
   // will be overwritten on mobile
-  max-width: 600px
-  min-height: 200px
-  box-shadow: $spot-shadow-light-mid
-  // Apply a bottom margin before the banners are loaded
-  // to avoid overlapping
-  margin-bottom: 60px
+  max-width: 300px
+
+  &_wide
+    max-width: 600px
 
   &--toggle-actions-container
     display: grid
@@ -37,3 +35,6 @@
 
   &--hidden-link
     visibility: hidden
+
+  &--flatpickr-instance
+    margin: 0 auto
