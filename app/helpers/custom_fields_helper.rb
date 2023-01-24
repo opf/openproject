@@ -78,8 +78,13 @@ module CustomFieldsHelper
 
     tag = case field_format.try(:edit_as)
           when 'date'
-            styled_text_field_tag(field_name, custom_value.value, id: field_id, class: '-augmented-datepicker', size: 10,
-                                                                  container_class: '-slim', required: custom_field.is_required)
+            angular_component_tag 'op-single-date-picker',
+                                  inputs: {
+                                    required: custom_field.is_required,
+                                    value: custom_value.value,
+                                    id: field_id,
+                                    name: field_name
+                                  }
           when 'text'
             styled_text_area_tag(field_name, custom_value.value, id: field_id, rows: 3, container_class: '-middle',
                                                                  required: custom_field.is_required)

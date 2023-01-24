@@ -71,7 +71,16 @@ export const opSingleDatePickerSelector = 'op-single-date-picker';
 export class OpSingleDatePickerComponent implements ControlValueAccessor {
   @Output('valueChange') valueChange = new EventEmitter();
 
-  @Input() value = '';
+  private _value = '';
+
+  @Input() set value(newValue:string) {
+    this._value = newValue;
+    this.writeWorkingValue(newValue);
+  }
+
+  get value() {
+    return this._value;
+  }
 
   @Input() id = `flatpickr-input-${+(new Date())}`;
 
