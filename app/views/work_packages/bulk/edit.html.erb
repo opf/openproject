@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t(:label_change_properties) %></legend>
-      <div class="grid-block">
+      <div class="grid-block grid-block_visible-overflow">
         <div class="grid-content medium-6">
           <div class="form--field">
             <%= styled_label_tag :work_package_type_id, WorkPackage.human_attribute_name(:type) %>
@@ -150,14 +150,24 @@ See COPYRIGHT and LICENSE files for more details.
           <% end %>
           <div class="form--field">
             <%= styled_label_tag :work_package_start_date, WorkPackage.human_attribute_name(:start_date) %>
-            <div class="form--field-container">
-              <%= styled_text_field_tag 'work_package[start_date]', '', size: 10, class: '-augmented-datepicker' %>
+            <div class="form--field-container -visible-overflow">
+              <%= angular_component_tag 'op-single-date-picker',
+                                        inputs: {
+                                          id: "work_package_start_date",
+                                          name: "work_package[start_date]"
+                                        }
+              %>
             </div>
           </div>
           <div class="form--field">
             <%= styled_label_tag :work_package_due_date, WorkPackage.human_attribute_name(:due_date) %>
-            <div class="form--field-container">
-              <%= styled_text_field_tag 'work_package[due_date]', '', size: 10, class: '-augmented-datepicker' %>
+            <div class="form--field-container -visible-overflow">
+              <%= angular_component_tag 'op-single-date-picker',
+                                        inputs: {
+                                          id: "work_package_due_date",
+                                          name: "work_package[due_date]"
+                                        }
+              %>
             </div>
           </div>
           <% if WorkPackage.use_field_for_done_ratio? %>
