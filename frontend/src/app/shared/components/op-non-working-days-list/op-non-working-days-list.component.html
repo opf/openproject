@@ -8,13 +8,11 @@
 <div
 class="op-non-working-days-list--add-button"
 >
-<button
-  type="button"
-  class="spot-link"
-  (click)="addNonWorkingDay()"
->
-  <span class="spot-icon spot-icon_add"></span>
-  <span [textContent]="text.add_non_working_day"></span>
-</button>
+  <op-single-date-picker
+    id="test"
+    name="test"
+    [showIgnoreNonWorkingDays]="false"
+    [name]="text.add_non_working_day"
+  ></op-single-date-picker>
 </div>
 
