@@ -24,6 +24,7 @@
     <div class="form--field-container -visible-overflow">
       <%= angular_component_tag 'op-single-date-picker',
                                 inputs: {
+                                  value: @announcement.show_until,
                                   id: "announcement_show_until",
                                   name: "announcement[show_until]"
                                 }
