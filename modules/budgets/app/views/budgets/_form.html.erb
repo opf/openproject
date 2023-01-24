@@ -40,7 +40,15 @@ See COPYRIGHT and LICENSE files for more details.
                   resource: resource %>
 </div>
 <div class="form--field">
-  <%= f.text_field :fixed_date, container_class: '-xslim', class: '-augmented-datepicker' %>
+  <label class="form--label" for='budget_fixed_date'><%= WorkPackage.human_attribute_name(:fixed_date) %></label>
+  <div class="form--field-container -visible-overflow">
+  <%= angular_component_tag 'op-single-date-picker',
+                            inputs: {
+                              value: @budget.fixed_date,
+                              id: "budget_fixed_date",
+                              name: "budget[fixed_date]"
+                            }
+  %>
 </div>
 
 <%= render partial: 'budgets/subform/material_budget_subform' %>

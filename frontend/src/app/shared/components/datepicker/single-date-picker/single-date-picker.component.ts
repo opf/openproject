@@ -35,6 +35,7 @@ import {
   forwardRef,
   Injector,
   Input,
+  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -68,7 +69,7 @@ export const opSingleDatePickerSelector = 'op-single-date-picker';
     },
   ],
 })
-export class OpSingleDatePickerComponent implements ControlValueAccessor {
+export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit {
   @Output('valueChange') valueChange = new EventEmitter();
 
   private _value = '';
@@ -121,6 +122,13 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor {
     readonly elementRef:ElementRef,
   ) {
     populateInputsFromDataset(this);
+  }
+
+  ngOnInit(): void {
+    if (!this.value) {
+      const today = parseDate(new Date()) as Date;
+      this.writeValue(this.timezoneService.formattedISODate(today));
+    }
   }
 
   open() {
