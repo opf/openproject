@@ -26,12 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class OpenProject::JournalFormatter::Template < JournalFormatter::Base
-  def render(_key, values, options = { html: true })
-  # binding.pry
-    label_text = options[:html] ? content_tag('strong', "Template:") : "Template:"
-    activated_text = values.last ? "Project un-marked as template" : "Project marked as template"
+require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
-    I18n.t(:text_journal_label_value, label: label_text, value: activated_text)
+describe OpenProject::JournalFormatter::Template do
+  let(:instance) { described_class.new(build(:journal)) }
+
+  it "renders correctly when un-marked as template" do
+    html = instance.render("templated", [false, true], html: true)
+    expect(html).to eq("<strong>Template:</strong> Project un-marked as template")
+
+    html = instance.render("templated", [false, true], html: false)
+    expect(html).to eq("Template: Project un-marked as template")
+  end
+
+  it "renders correctly when marked as template" do
+    html = instance.render("templated", [true, false], html: true)
+    expect(html).to eq("<strong>Template:</strong> Project marked as template")
+
+    html = instance.render("templated", [true, false], html: false)
+    expect(html).to eq("Template: Project marked as template")
   end
 end
