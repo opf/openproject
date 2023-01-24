@@ -27,6 +27,8 @@
 #++
 
 class Widget::Filters::Date < Widget::Filters::Base
+  include AngularHelper
+
   def render
     @calendar_headers_tags_included = true
 
@@ -39,11 +41,12 @@ class Widget::Filters::Date < Widget::Filters::Base
                          class: 'hidden-for-sighted'
 
       arg1 = content_tag :span, id: "#{id_prefix}arg_1" do
-        text1 = text_field_tag name, @filter.values.first.to_s,
-                               size: 10,
-                               class: 'advanced-filters--text-field -augmented-datepicker',
-                               id: "#{id_prefix}arg_1_val",
-                               'data-type': 'date'
+        text1 = angular_component_tag 'op-single-date-picker',
+                                      inputs: {
+                                        value: filter.values.first.to_s,
+                                        id: "#{id_prefix}arg_1_val",
+                                        name: name
+                                      }
         label1 + text1
       end
 
@@ -52,11 +55,12 @@ class Widget::Filters::Date < Widget::Filters::Base
                          class: 'hidden-for-sighted'
 
       arg2 = content_tag :span, id: "#{id_prefix}arg_2", class: 'advanced-filters--filter-value2' do
-        text2 = text_field_tag name.to_s, @filter.values.second.to_s,
-                               size: 10,
-                               class: 'advanced-filters--text-field -augmented-datepicker',
-                               id: "#{id_prefix}arg_2_val",
-                               'data-type': 'date'
+        text2 = angular_component_tag 'op-single-date-picker',
+                                      inputs: {
+                                        value: filter.values.second.to_s,
+                                        id: "#{id_prefix}arg_2_val",
+                                        name: name.to_s
+                                      }
         label2 + text2
       end
 
