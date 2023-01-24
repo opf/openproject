@@ -106,6 +106,7 @@ class Project < ApplicationRecord
 
   register_on_journal_formatter(:active_status, 'active')
   register_on_journal_formatter(:template, 'templated')
+  register_on_journal_formatter(:identifier, 'identifier')
 
   has_paper_trail
 

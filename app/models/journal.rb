@@ -41,6 +41,8 @@ class Journal < ApplicationRecord
   register_journal_formatter :ignore_non_working_days, OpenProject::JournalFormatter::IgnoreNonWorkingDays
   register_journal_formatter :active_status, OpenProject::JournalFormatter::ActiveStatus
   register_journal_formatter :template, OpenProject::JournalFormatter::Template
+  register_journal_formatter :identifier, OpenProject::JournalFormatter::Identifier
+
 
 
   # Make sure each journaled model instance only has unique version ids
