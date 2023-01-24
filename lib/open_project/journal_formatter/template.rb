@@ -28,7 +28,6 @@
 
 class OpenProject::JournalFormatter::Template < JournalFormatter::Base
   def render(_key, values, options = { html: true })
-  # binding.pry
     label_text = options[:html] ? content_tag('strong', "Template:") : "Template:"
     activated_text = values.last ? "Project un-marked as template" : "Project marked as template"
 
