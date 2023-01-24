@@ -109,19 +109,6 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     super();
   }
 
-  workPackagesListener$(callbackFn:() => void):void {
-    this
-      .querySpace
-      .results
-      .values$()
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe(() => {
-        callbackFn();
-      });
-  }
-
   calendarOptions(additionalOptions:CalendarOptions):CalendarOptions {
     return { ...this.defaultOptions(), ...additionalOptions };
   }

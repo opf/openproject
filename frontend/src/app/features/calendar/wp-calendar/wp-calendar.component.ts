@@ -77,7 +77,15 @@ import {
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
+import {
+  EffectCallback,
+  EffectHandler,
+} from 'core-app/core/state/effects/effect-handler.decorator';
+import { teamPlannerPageRefresh } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
+import { calendarRefreshRequest } from 'core-app/features/calendar/calendar.actions';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
 
+@EffectHandler
 @Component({
   templateUrl: './wp-calendar.template.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -107,6 +115,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   };
 
   constructor(
+    readonly actions$:ActionsService,
     readonly states:States,
     readonly $state:StateService,
     readonly wpTableFilters:WorkPackageViewFiltersService,
@@ -146,7 +155,6 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     // Clear any old subscribers
     this.querySpace.stopAllSubscriptions.next();
 
-    this.setupWorkPackagesListener();
     this.initializeCalendar();
   }
 
@@ -304,13 +312,6 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     this.workPackagesCalendar.showEventContextMenu({ workPackageId, event });
   }
 
-  private setupWorkPackagesListener():void {
-    this.workPackagesCalendar.workPackagesListener$(() => {
-      this.alreadyLoaded = true;
-      this.ucCalendar.getApi().refetchEvents();
-    });
-  }
-
   private updateResults(collection:WorkPackageCollectionResource) {
     this.workPackagesCalendar.warnOnTooManyResults(collection, this.static);
     return this.mapToCalendarEvents(collection.elements);
@@ -394,5 +395,10 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     nonWorkingDays.forEach((day) => {
       api.addEvent({ ...day }, 'background');
     });
+  }
+
+  @EffectCallback(calendarRefreshRequest)
+  reloadOnRefreshRequest():void {
+    this.ucCalendar.getApi().refetchEvents();
   }
 }
