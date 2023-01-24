@@ -61,7 +61,6 @@ module WorkPackages::Scopes::CoveringDatesAndDaysOfWeek
               work_packages.start_date IS NOT NULL
               OR work_packages.due_date IS NOT NULL
             )
-          ORDER BY work_packages.id
         ),
         -- coalesce non-existing dates of work package to get period start/end
         work_packages_periods AS (
@@ -70,26 +69,26 @@ module WorkPackages::Scopes::CoveringDatesAndDaysOfWeek
             GREATEST(work_package_start_date, work_package_due_date) AS end_date
           FROM work_packages_with_dates
         ),
-        -- expand period into days.
-        work_packages_expaned_periods AS (
-          SELECT id, generate_series(
-            work_packages_periods.start_date,
-            work_packages_periods.end_date,
-            '1 day') AS dates,
-            -- limit to 7 days (more would be useless).
-            extract(isodow from generate_series(
-              work_packages_periods.start_date,
-              LEAST(
-                work_packages_periods.start_date + 6,
-                work_packages_periods.end_date
-              ),
-              '1 day')
-            ) AS dow
-            FROM work_packages_periods
+        -- All days between the start date of a work package and its due date
+        covered_dates AS (
+          SELECT
+           id,
+           generate_series(work_packages_periods.start_date,
+                           work_packages_periods.end_date,
+                           '1 day')          AS date
+          FROM work_packages_periods
+        ),
+        -- All days between the start date of a work package and its due date including the day of the week for each date
+        covered_dates_and_wday AS (
+          SELECT
+            id,
+            date,
+            EXTRACT(isodow FROM date) dow
+          FROM covered_dates
         )
         -- select id of work packages covering the given days
-        SELECT id FROM work_packages_expaned_periods
-        WHERE dow IN (:days_of_week) OR dates IN (:dates)
+        SELECT id FROM covered_dates_and_wday
+        WHERE dow IN (:days_of_week) OR date IN (:dates)
       SQL
 
       sanitize_sql([sql, { days_of_week:, dates: }])
