@@ -115,11 +115,11 @@ import { ICapability } from 'core-app/core/state/capabilities/capability.model';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
-import { DeviceService } from 'core-app/core/browser/device.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { RawOptionsFromRefiners } from '@fullcalendar/core/internal';
 import { ViewOptionRefiners } from '@fullcalendar/common';
 import { ResourceApi } from '@fullcalendar/resource';
+import { DeviceService } from 'core-app/core/browser/device.service';
 import {
   EffectCallback,
   EffectHandler,
@@ -470,7 +470,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     void Promise.all([
       this.configuration.initialized,
       this.weekdayService.loadWeekdays().toPromise(),
-    ])
+  ])
       .then(() => {
         this.calendarOptions$.next(
           this.workPackagesCalendar.calendarOptions({
@@ -605,6 +605,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           this.removeExternalEvents();
 
           successCallback(events);
+
+          this.ucCalendar.getApi().render();
         },
         failureCallback,
       );

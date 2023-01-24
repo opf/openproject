@@ -47,4 +47,7 @@ export class ApiV3DaysPaths extends ApiV3ResourceCollection<IDay, ApiV3DayPaths>
 
   // /api/v3/days/week
   public readonly week = new ApiV3GettableResource(this.apiRoot, this.path, 'week', this);
+
+  // /api/v3/days/nonWorkingDays
+  public readonly nonWorkingDays = new ApiV3GettableResource(this.apiRoot, this.path, 'non_working', this);
 }
