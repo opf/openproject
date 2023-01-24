@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RbTasksController, type: :routing do
+describe RbTasksController do
   describe 'routing' do
     it {
       expect(post('/projects/project_42/sprints/21/tasks')).to route_to(controller: 'rb_tasks',

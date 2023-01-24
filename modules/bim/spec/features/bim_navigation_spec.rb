@@ -29,7 +29,6 @@
 require_relative '../spec_helper'
 
 describe 'BIM navigation spec',
-         type: :feature,
          with_config: { edition: 'bim' },
          js: true do
   let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
@@ -50,10 +49,10 @@ describe 'BIM navigation spec',
            uploader: user)
   end
 
-  let(:card_view) { ::Pages::WorkPackageCards.new(project) }
-  let(:details_view) { ::Pages::BcfDetailsPage.new(work_package, project) }
+  let(:card_view) { Pages::WorkPackageCards.new(project) }
+  let(:details_view) { Pages::BcfDetailsPage.new(work_package, project) }
   let(:full_view) { Pages::FullWorkPackage.new(work_package) }
-  let(:model_tree) { ::Components::XeokitModelTree.new }
+  let(:model_tree) { Components::XeokitModelTree.new }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
 
   before do
@@ -163,13 +162,13 @@ describe 'BIM navigation spec',
   end
 
   context 'on default page' do
-    let(:model_page) { ::Pages::IfcModels::ShowDefault.new project }
+    let(:model_page) { Pages::IfcModels::ShowDefault.new project }
 
     it_behaves_like 'can switch from split to viewer to list-only'
   end
 
   context 'on show page' do
-    let(:model_page) { ::Pages::IfcModels::Show.new project, model.id }
+    let(:model_page) { Pages::IfcModels::Show.new project, model.id }
 
     it_behaves_like 'can switch from split to viewer to list-only'
   end

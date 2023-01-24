@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Projects', 'creation', type: :feature, js: true do
-  let(:name_field) { ::FormFields::InputFormField.new :name }
+describe 'Projects', 'creation', js: true do
+  let(:name_field) { FormFields::InputFormField.new :name }
 
   current_user { create(:admin) }
 
@@ -65,7 +65,7 @@ describe 'Projects', 'creation', type: :feature, js: true do
 
   context 'with a multi-select custom field' do
     let!(:list_custom_field) { create(:list_project_custom_field, name: 'List CF', multi_value: true) }
-    let(:list_field) { ::FormFields::SelectFormField.new list_custom_field }
+    let(:list_field) { FormFields::SelectFormField.new list_custom_field }
 
     it 'can create a project' do
       click_on 'New project'

@@ -478,7 +478,7 @@ id:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
-    label_add_attachments: "Tambahkan lampiran"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Lampirkan dan hubungkan file dengan meletakkannya pada field ini, atau sisipkan dari clipboard."
     label_remove_file: "Hapus %{fileName}"
     label_remove_watcher: "Remove watcher %{name}"
@@ -656,6 +656,7 @@ id:
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      details_activity: 'Project details activity'
       context: 'Konteks proyek'
       work_package_belongs_to: 'Paket kerja ini menjadi milik proyek %{projectname}.'
       click_to_switch_context: 'Buka paket kerja ini dalam proyek tersebut.'

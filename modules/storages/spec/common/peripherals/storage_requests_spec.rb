@@ -37,9 +37,9 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
   let(:origin_user_id) { 'admin' }
 
   let(:storage) do
-    storage = instance_double(::Storages::Storage)
+    storage = instance_double(Storages::Storage)
     allow(storage).to receive(:oauth_client).and_return(instance_double(OAuthClient))
-    allow(storage).to receive(:provider_type).and_return(::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD)
+    allow(storage).to receive(:provider_type).and_return(Storages::Storage::PROVIDER_TYPE_NEXTCLOUD)
     allow(storage).to receive(:host).and_return(url)
     storage
   end
@@ -52,7 +52,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
   end
 
   let(:connection_manager) do
-    connection_manager = instance_double(::OAuthClients::ConnectionManager)
+    connection_manager = instance_double(OAuthClients::ConnectionManager)
     allow(connection_manager).to receive(:get_access_token).and_return(ServiceResult.success(result: token))
     allow(connection_manager).to receive(:request_with_token_refresh).and_yield(token)
     connection_manager
@@ -92,7 +92,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     end
 
     before do
-      allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+      allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
       stub_request(:post, "#{url}/ocs/v2.php/apps/dav/api/v1/direct")
         .to_return(status: 200, body: json, headers: {})
     end
@@ -184,11 +184,15 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
   end
 
   describe '#files_query' do
-    let(:xml) { create(:webdav_data) }
+    let(:parent) { '' }
+    let(:root_path) { '' }
+    let(:xml) { create(:webdav_data, parent_path: parent, root_path:) }
+    let(:url) { "https://example.com#{root_path}" }
+    let(:request_url) { "#{url}/remote.php/dav/files/#{origin_user_id}#{parent}" }
 
     before do
-      allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
-      stub_request(:propfind, "#{url}/remote.php/dav/files/#{origin_user_id}")
+      allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+      stub_request(:propfind, request_url)
         .to_return(status: 207, body: xml, headers: {})
     end
 
@@ -200,7 +204,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             on_success: ->(query) do
               result = query.call(nil)
               expect(result).to be_success
-              expect(result.result.size).to eq(3)
+              expect(result.result.size).to eq(5)
             end,
             on_failure: ->(error) do
               raise "Files query could not be created: #{error}"
@@ -215,9 +219,53 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             on_success: ->(query) do
               result = query.call(nil)
               expect(result).to be_success
-              expect(result.result[0].name).to eq('Folder1')
-              expect(result.result[0].mime_type).to eq('application/x-op-directory')
-              expect(result.result[0].id).to eq('11')
+              expect(result.result[1].name).to eq('Folder1')
+              expect(result.result[1].mime_type).to eq('application/x-op-directory')
+              expect(result.result[1].id).to eq('11')
+            end,
+            on_failure: ->(error) do
+              raise "Files query could not be created: #{error}"
+            end
+          )
+      end
+
+      it 'must return directories with permissions' do
+        subject
+          .files_query(user:)
+          .match(
+            on_success: ->(query) do
+              result = query.call(nil)
+              expect(result).to be_success
+
+              expect(result.result[1].mime_type).to eq('application/x-op-directory')
+              expect(result.result[1].permissions).to include(:readable)
+              expect(result.result[1].permissions).to include(:writeable)
+
+              expect(result.result[2].mime_type).to eq('application/x-op-directory')
+              expect(result.result[2].permissions).to include(:readable)
+              expect(result.result[2].permissions).not_to include(:writeable)
+            end,
+            on_failure: ->(error) do
+              raise "Files query could not be created: #{error}"
+            end
+          )
+      end
+
+      it 'must return files with permissions' do
+        subject
+          .files_query(user:)
+          .match(
+            on_success: ->(query) do
+              result = query.call(nil)
+              expect(result).to be_success
+
+              expect(result.result[3].mime_type).to eq('text/markdown')
+              expect(result.result[3].permissions).to include(:readable)
+              expect(result.result[3].permissions).to include(:writeable)
+
+              expect(result.result[4].mime_type).to eq('application/pdf')
+              expect(result.result[4].permissions).to include(:readable)
+              expect(result.result[4].permissions).not_to include(:writeable)
             end,
             on_failure: ->(error) do
               raise "Files query could not be created: #{error}"
@@ -232,9 +280,9 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             on_success: ->(query) do
               result = query.call(nil)
               expect(result).to be_success
-              expect(result.result[1].name).to eq('README.md')
-              expect(result.result[1].mime_type).to eq('text/markdown')
-              expect(result.result[1].id).to eq('12')
+              expect(result.result[3].name).to eq('README.md')
+              expect(result.result[3].mime_type).to eq('text/markdown')
+              expect(result.result[3].id).to eq('12')
             end,
             on_failure: ->(error) do
               raise "Files query could not be created: #{error}"
@@ -244,17 +292,52 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
       describe 'with parent query parameter' do
         let(:parent) { '/Photos/Birds' }
-        let(:request_url) { "#{url}/remote.php/dav/files/#{origin_user_id}#{parent}" }
-
-        before do
-          stub_request(:propfind, request_url).to_return(status: 207, body: xml, headers: {})
-        end
 
         it do
           subject
             .files_query(user:)
             .match(
-              on_success: ->(query) { query.call(parent) },
+              on_success: ->(query) {
+                result = query.call(parent)
+                expect(result.result[3].location).to eq('/Photos/Birds/README.md')
+              },
+              on_failure: ->(error) { raise "Files query could not be created: #{error}" }
+            )
+
+          assert_requested(:propfind, request_url)
+        end
+      end
+
+      describe 'with storage running on a sub path' do
+        let(:root_path) { '/storage' }
+
+        it do
+          subject
+            .files_query(user:)
+            .match(
+              on_success: ->(query) {
+                result = query.call(nil)
+                expect(result.result[3].location).to eq('/README.md')
+              },
+              on_failure: ->(error) { raise "Files query could not be created: #{error}" }
+            )
+
+          assert_requested(:propfind, request_url)
+        end
+      end
+
+      describe 'with storage running on a sub path and with parent parameter' do
+        let(:root_path) { '/storage' }
+        let(:parent) { '/Photos/Birds' }
+
+        it do
+          subject
+            .files_query(user:)
+            .match(
+              on_success: ->(query) {
+                result = query.call(parent)
+                expect(result.result[3].location).to eq('/Photos/Birds/README.md')
+              },
               on_failure: ->(error) { raise "Files query could not be created: #{error}" }
             )
 
@@ -323,7 +406,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     let(:share_id) { 37 }
 
     before do
-      allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+      allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
       stub_request(:post, "#{url}/ocs/v2.php/apps/files_sharing/api/v1/shares")
         .with(
           body: hash_including(
@@ -346,7 +429,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           }.to_json
         )
       stub_request(:put, "#{url}/ocs/v2.php/apps/files_sharing/api/v1/shares/#{share_id}")
-        .with(body: { permissions: 4 })
+        .with(body: { permissions: 5 })
         .to_return(status: 200, body: {}.to_json)
     end
 
@@ -430,7 +513,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     describe 'with second outbound request returning 200 and an empty body' do
       before do
         stub_request(:put, "#{url}/ocs/v2.php/apps/files_sharing/api/v1/shares/#{share_id}")
-          .with(body: { permissions: 4 })
+          .with(body: { permissions: 5 })
           .to_return(status: 200)
       end
 

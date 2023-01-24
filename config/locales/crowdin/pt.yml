@@ -689,6 +689,11 @@ pt:
               no_notification_reason: 'não pode ficar em branco porque o IAN foi escolhido como um canal.'
             reason_mail_digest:
               no_notification_reason: 'não pode ficar em branco porque o resumo do e-mail foi escolhido como um canal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -699,6 +704,8 @@ pt:
           archived_ancestor: 'O projeto tem um ancestral arquivado.'
           foreign_wps_reference_version: 'Pacotes de trabalho em projetos não descendentes referenciam versões do projeto ou de seus descendentes.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "ainda em uso pelos pacotes de trabalho: %{types}"
             enabled_modules:
@@ -1789,6 +1796,7 @@ pt:
   label_product_version: "Versão do produto"
   label_professional_support: "Suporte profissional"
   label_profile: "Perfil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Número total de projetos"
   label_project_copy_notifications: "Enviar notificações por email durante a cópia do projeto"
@@ -2210,6 +2218,7 @@ pt:
   permission_add_work_packages: "Adicionar pacotes de trabalho"
   permission_add_messages: "Postar mensagens"
   permission_add_project: "Criar Projeto"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Criar e editar usuários"
   permission_manage_placeholder_user: "Criar, editar e excluir usuários do espaço reservado"
   permission_add_subprojects: "Criar subprojetos"

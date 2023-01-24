@@ -689,6 +689,11 @@ sl:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -699,6 +704,8 @@ sl:
           archived_ancestor: 'projektu je arhiviran prednik.'
           foreign_wps_reference_version: 'Delovni paketi v nesorodnih projektih referenčnih različicah projekta ali njegovih potomcih.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "delovni paketi še vedno uporabljajo: %{types}"
             enabled_modules:
@@ -1821,6 +1828,7 @@ sl:
   label_product_version: "Različica izdelka"
   label_professional_support: "Strokovna podpora"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Skupno število projektov"
   label_project_copy_notifications: "Med kopijo projekta pošljite obvestila po e-pošti"
@@ -2248,6 +2256,7 @@ sl:
   permission_add_work_packages: "Dodaj delovne pakete"
   permission_add_messages: "Objavi sporočila"
   permission_add_project: "Ustvari projekt"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Ustvari in urejaj uporabnike"
   permission_manage_placeholder_user: "Ustvari, uredi in izbriši nadomestne uporabnike"
   permission_add_subprojects: "Ustvari podprojekte"

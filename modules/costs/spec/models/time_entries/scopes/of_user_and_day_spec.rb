@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TimeEntries::Scopes::OfUserAndDay, type: :model do
+describe TimeEntries::Scopes::OfUserAndDay do
   let(:user) { create(:user) }
   let(:spent_on) { Date.today }
   let!(:time_entry) do

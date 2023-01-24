@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Going back and forth through the browser history', type: :feature, js: true do
+describe 'Going back and forth through the browser history', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -86,7 +86,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     query
   end
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   before do
     login_as(user)

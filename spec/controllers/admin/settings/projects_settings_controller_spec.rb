@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Admin::Settings::ProjectsSettingsController, type: :controller do
+describe Admin::Settings::ProjectsSettingsController do
   before do
     allow(@controller).to receive(:set_localization)
     @params = {}

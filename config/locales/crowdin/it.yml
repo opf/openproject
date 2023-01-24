@@ -64,14 +64,14 @@ it:
         main-menu-bg-color: "Colore di sfondo del menu a sinistra."
       theme_warning: Cambiando il tema si sovrascriverà lo stile personalizzato. Il design andrà poi perso. Sei sicuro di voler continuare?
     enterprise:
-      upgrade_to_ee: "Aggiorna a Enterprise Edition"
-      add_token: "Carica un token di assistenza per Enterprise Edition"
+      upgrade_to_ee: "Aggiorna a Enterprise edition"
+      add_token: "Carica un token di assistenza per Enterprise edition"
       delete_token_modal:
-        text: "Vuoi davvero rimuovere il token Enterprise Edition attualmente utilizzato?"
+        text: "Vuoi davvero rimuovere il token Enterprise edition attualmente utilizzato?"
         title: "Elimina token"
       replace_token: "Sostituisci il token di assistenza attuale"
       order: "Order Enterprise on-premises edition"
-      paste: "Incolla il tuo token di assistenza per Enterprise Edition"
+      paste: "Incolla il tuo token di assistenza per Enterprise edition"
       required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Per ulteriori informazioni, clicca qui."
       start_trial: 'Inizia la prova gratuita'
@@ -585,7 +585,7 @@ it:
         confirmation: "non coincide con %{attribute}."
         could_not_be_copied: "%{dependency} non può essere (completamente) copiato."
         does_not_exist: "non esiste."
-        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise edition"
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
         email: "non è un indirizzo email valido"
@@ -687,6 +687,11 @@ it:
               no_notification_reason: 'non può essere vuoto perché IAN è scelto come canale.'
             reason_mail_digest:
               no_notification_reason: 'non può essere vuoto perché la mail automatica è scelta come canale.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -697,6 +702,8 @@ it:
           archived_ancestor: 'Il progetto ha un antenato archiviato.'
           foreign_wps_reference_version: 'Macro-attività in progetti non discendenti contengono riferimenti a versioni del progetto o dei suoi discendenti.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "ancora in uso dalla macro-attività: %{types}"
             enabled_modules:
@@ -1287,7 +1294,7 @@ it:
   error_cookie_missing: 'Il cookie di OpenProject è mancante. Prego, verifica che i cookie siano attivati, questa applicazione non funziona correttamente senza.'
   error_custom_option_not_found: "L'opzione non esiste."
   error_enterprise_activation_user_limit: "Il tuo account potrebbe non essere attivo (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere l'accesso."
-  error_enterprise_token_invalid_domain: "L'Enterprise Edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
+  error_enterprise_token_invalid_domain: "L'Enterprise edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
   error_failed_to_delete_entry: 'Cancellazione voce non riuscita.'
   error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Errore nel tentativo di creare un oggetto dipendente: %{dependent_class} - %{related_subject}: %{error}"
@@ -1378,10 +1385,10 @@ it:
     blocks:
       community: "Comunità di OpenProject"
       upsale:
-        title: "Aggiorna ad Enterprise Edition"
+        title: "Aggiorna ad Enterprise edition"
         more_info: "Altre informazioni"
     links:
-      upgrade_enterprise_edition: "Aggiorna ad Enterprise Edition"
+      upgrade_enterprise_edition: "Aggiorna ad Enterprise edition"
       postgres_migration: "Migrazione dell'installazione su PostgreSQL"
       user_guides: "Guide utente"
       faq: "FAQ"
@@ -1597,7 +1604,7 @@ it:
   label_enumerations: "Enumerazioni"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} utenti attivi riservati"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Ambiente"
   label_estimates_and_time: "Stime e tempi"
   label_equals: "è"
@@ -1787,6 +1794,7 @@ it:
   label_product_version: "Versione del prodotto"
   label_professional_support: "Supporto professionale"
   label_profile: "Profilo"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Numero totale di progetti"
   label_project_copy_notifications: "Invia le email di notifica durante la copia del progetto"
@@ -2210,6 +2218,7 @@ it:
   permission_add_work_packages: "Aggiungere macro-attività (work package)"
   permission_add_messages: "Postare messaggi"
   permission_add_project: "Creare un progetto"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Crea e modifica utenti"
   permission_manage_placeholder_user: "Crea, modifica ed elimina utenti del segnaposto"
   permission_add_subprojects: "Creare sotto-progetti"

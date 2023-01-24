@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Members::Filters::PrincipalFilter, type: :model do
+describe Queries::Members::Filters::PrincipalFilter do
   let(:user) { build_stubbed(:user) }
   let(:group) { build_stubbed(:group) }
   let(:current_user) { build_stubbed(:user) }

@@ -24,6 +24,8 @@ ro:
         no_file_links: "Pentru a conecta fișierele la acest pachet de lucru, vă rugăm să le faceți prin intermediul %{storageType}."
         not_logged_in: >
           Pentru a adăuga un link, vezi sau încarcă fișiere legate de acest pachet de lucru, te rugăm să te autentifici la %{storageType}.
+      files:
+        directory_not_writeable: "You do not have to permission to add files to this folder."
       file_links:
         empty: >
           În prezent, nu există fișiere legate de acest pachet de lucru. Începeți să legați fișierele cu acțiunea de mai jos sau din interiorul %{storageType}.
@@ -46,6 +48,9 @@ ro:
           one: "A creat cu succes 1 legătură de fișier."
           few: "A creat cu succes %{count} legături de fișiere."
           other: "A creat cu succes %{count} de legături de fișiere."
+        upload_error: "An error occurred uploading the file '%{fileName}'."
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Vă rugăm să vă autentificaţi în Nextcloud pentru a accesa acest fişier"
         already_linked_file: "Acest fișier este deja legat la acest pachet de lucru."
         already_linked_directory: "Acest director este deja conectat la acest pachet de lucru."

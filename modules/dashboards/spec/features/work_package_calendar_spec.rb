@@ -31,7 +31,6 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Work package calendar widget on dashboard',
-         type: :feature,
          with_mail: false,
          js: true do
   let!(:type) { create :type }

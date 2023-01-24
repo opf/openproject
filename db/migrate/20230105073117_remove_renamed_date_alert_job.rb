@@ -26,34 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Setting
-  module CallbacksHelper
-    # register a callback for a setting named #name
-    def register_callback(name, &)
-      # register the block with the underlying notifications system
-      notifier.subscribe(notification_event_for(name), &)
-    end
-    # register_callback is not used anymore in our code
-    # it can be removed along with fire_callbacks in next major version
-    OpenProject::Deprecation.deprecate_method(self, :register_callback)
-
-    # instructs the underlying notifications system to publish all setting events for setting #name
-    # based on the new and old setting objects different events can be triggered
-    # currently, that's whenever a setting is set regardless whether the value changed
-    def fire_callbacks(name, new_value, old_value)
-      notifier.send(notification_event_for(name), value: new_value, old_value:)
-    end
-
-    private
-
-    # encapsulates the event name broadcast to all subscribers
-    def notification_event_for(name)
-      "setting.#{name}.changed"
-    end
-
-    # the notifier to delegate to
-    def notifier
-      OpenProject::Notifications
-    end
+class RemoveRenamedDateAlertJob < ActiveRecord::Migration[6.0]
+  def up
+    # The job has been renamed to Notifications::ScheduleDateAlertsNotificationsJob.
+    # The new job will be added on restarting the application.
+    Delayed::Job
+      .where('handler LIKE ?', "%job_class: Notifications::CreateDateAlertsNotificationsJob%")
+      .delete_all
   end
 end

@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'features/repositories/repository_settings_page'
 require 'features/support/components/danger_zone'
 
-describe 'Repository Settings', type: :feature, js: true do
+describe 'Repository Settings', js: true do
   let(:current_user) { create (:admin) }
   let(:project) { create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }

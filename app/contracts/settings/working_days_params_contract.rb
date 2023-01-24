@@ -36,7 +36,7 @@ module Settings
     protected
 
     def working_days_are_present
-      if working_days.empty?
+      if working_days.blank?
         errors.add :base, :working_days_are_missing
       end
     end

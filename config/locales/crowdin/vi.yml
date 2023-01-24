@@ -691,6 +691,11 @@ vi:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -701,6 +706,8 @@ vi:
           archived_ancestor: 'Dự án có một khu vực lưu trữ'
           foreign_wps_reference_version: 'Các gói công việc trong các phiên bản tham chiếu không kế thừa của dự án hoặc kế thừa nó.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "gói công việc vẫn được sử dụng: %{types}"
             enabled_modules:
@@ -1775,6 +1782,7 @@ vi:
   label_product_version: "Phiên bản sản phẩm"
   label_professional_support: "Hỗ trợ chuyên nghiệp"
   label_profile: "Hồ sơ"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Tổng số dự án"
   label_project_copy_notifications: "Gửi email thông báo trong quá trình sao chép dự án"
@@ -2196,6 +2204,7 @@ vi:
   permission_add_work_packages: "Thêm mới Gói công việc"
   permission_add_messages: "Đăng tin nhắn"
   permission_add_project: "Tạo Dự án"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Tạo Dự án con"

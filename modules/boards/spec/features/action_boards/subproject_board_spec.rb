@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
-describe 'Subproject action board', type: :feature, js: true do
+describe 'Subproject action board', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,

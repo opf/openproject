@@ -51,7 +51,7 @@ module BillyProxyPatch
   end
 end
 
-::Billy::Proxy.prepend(BillyProxyPatch)
+Billy::Proxy.prepend(BillyProxyPatch)
 
 ##
 # To debug stubbed and proxied connections

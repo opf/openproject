@@ -25,13 +25,13 @@
 #  See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
+require_relative 'shared/shared_call_examples'
 
 describe Settings::UpdateService do
   let(:instance) do
-    described_class.new(user:, contract_options:)
+    described_class.new(user:)
   end
   let(:user) { build_stubbed(:user) }
-  let(:contract_options) { {} }
   let(:contract) do
     instance_double(Settings::UpdateContract,
                     validate: contract_success,
@@ -76,81 +76,27 @@ describe Settings::UpdateService do
   end
 
   describe '#call' do
-    shared_examples_for 'successful call' do
-      it 'is successful' do
-        expect(instance.call(params))
-          .to be_success
-      end
-
-      it 'sets the setting value' do
-        instance.call(params)
-
-        expect(Setting)
-          .to have_received(:[]=)
-              .with(setting_name, new_setting_value)
-      end
-
-      it 'calls the on_change handler' do
-        instance.call(params)
-
-        expect(definition_on_change)
-          .to have_received(:call).with(previous_setting_value)
-      end
-    end
-
-    shared_examples_for 'unsuccessful call' do
-      it 'is not successful' do
-        expect(instance.call(params))
-          .not_to be_success
-      end
-
-      it 'does not set the setting value' do
-        instance.call(params)
-
-        expect(Setting)
-          .not_to have_received(:[]=)
-      end
-
-      it 'does not call the on_change handler' do
-        instance.call(params)
-
-        expect(definition_on_change)
-          .not_to have_received(:call)
-      end
-    end
+    subject { instance.call(params) }
 
     include_examples 'successful call'
+
+    it 'calls the on_change handler' do
+      subject
+
+      expect(definition_on_change)
+        .to have_received(:call).with(previous_setting_value)
+    end
 
     context 'when the contract is not successfully validated' do
       let(:contract_success) { false }
 
       include_examples 'unsuccessful call'
-    end
 
-    context 'with a provided params_contract' do
-      let(:contract_options) { { params_contract: ParamsContract } }
-      let(:params_contract) do
-        instance_double(ParamsContract,
-                        valid?: params_contract_success,
-                        errors: instance_double(ActiveModel::Error))
-      end
+      it 'does not call the on_change handler' do
+        subject
 
-      before do
-        allow(ParamsContract)
-        .to receive(:new)
-            .and_return(params_contract)
-      end
-
-      context 'with a provided params_contract that is successfully validated' do
-        let(:params_contract_success) { true }
-
-        include_examples 'successful call'
-      end
-
-      context 'with a provided params_contract that fails validation' do
-        let(:params_contract_success) { false }
-
-        include_examples 'unsuccessful call'
+        expect(definition_on_change)
+          .not_to have_received(:call)
       end
     end
   end

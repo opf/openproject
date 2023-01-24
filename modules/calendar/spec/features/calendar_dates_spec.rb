@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Calendar non working days', type: :feature, js: true do
+describe 'Calendar non working days', js: true do
   include_context 'with calendar full access'
 
   let!(:other_user) do

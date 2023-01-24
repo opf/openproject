@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Status, type: :model do
+describe Status do
   let(:stubbed_status) { build_stubbed(:status) }
 
   describe 'default status' do

@@ -1,12 +1,12 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 require File.expand_path(File.dirname(__FILE__) + '/../../shared_examples')
 
-describe ::Avatars::AvatarController, type: :controller do
+describe Avatars::AvatarController do
   include_context "there are users with and without avatars"
   let(:enabled) { true }
 
   before do
-    allow(::OpenProject::Avatars::AvatarManager).to receive(:local_avatars_enabled?).and_return enabled
+    allow(OpenProject::Avatars::AvatarManager).to receive(:local_avatars_enabled?).and_return enabled
   end
 
   describe ':show' do

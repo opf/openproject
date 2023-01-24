@@ -33,8 +33,8 @@ describe 'Work Package table hierarchy vs grouping', js: true do
   let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
-  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+  let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
+  let(:group_by) { Components::WorkPackages::GroupBy.new }
 
   before do
     login_as(user)

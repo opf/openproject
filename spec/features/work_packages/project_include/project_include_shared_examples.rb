@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 shared_examples 'has a project include dropdown', type: :feature, js: true do
-  let(:dropdown) { ::Components::ProjectIncludeComponent.new }
+  let(:dropdown) { Components::ProjectIncludeComponent.new }
 
   shared_let(:project) do
     create(:project, name: 'Parent', enabled_module_names: enabled_modules)

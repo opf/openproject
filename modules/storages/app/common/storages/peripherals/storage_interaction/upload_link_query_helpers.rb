@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,25 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  module Archiver
-    # Check that there is no wp of a non descendant project that is assigned
-    # to one of the project or descendant versions
-    def validate_no_foreign_wp_references
-      version_ids = model.rolled_up_versions.select(:id)
+module Storages::Peripherals::StorageInteraction
+  module UploadLinkQueryHelpers
+    using Storages::Peripherals::ServiceResultRefinements
 
-      exists = WorkPackage
-                 .where.not(project_id: model.self_and_descendants.select(:id))
-                 .where(version_id: version_ids)
-                 .exists?
-
-      errors.add :base, :foreign_wps_reference_version if exists
+    def validate_request_body(body)
+      case body.transform_keys(&:to_sym)
+      in { projectId: project_id, fileName: file_name, parent: parent }
+        authorize(:manage_file_links, context: Project.find(project_id))
+        ServiceResult.success(result: { fileName: file_name, parent: }.transform_keys(&:to_s))
+      else
+        ServiceResult.failure(
+          errors: Storages::StorageError.new(code: :bad_request, log_message: 'Request body malformed!')
+        )
+      end
     end
 
-    def validate_all_ancestors_active
-      if model.ancestors.any?(&:archived?)
-        errors.add :base, :archived_ancestor
-      end
+    def upload_link_query(storage, user)
+      Storages::Peripherals::StorageRequests
+        .new(storage:)
+        .upload_link_query(
+          user:,
+          finalize_url: nil # ToDo: api_v3_paths.finalize_upload(@storage.id)
+        )
+    end
+
+    def execute_upload_link_query(request_body)
+      ->(query) { validate_request_body(request_body) >> query }
     end
   end
 end

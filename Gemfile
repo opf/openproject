@@ -39,9 +39,7 @@ gem 'responders', '~> 3.0'
 
 gem 'ffi', '~> 1.15'
 
-# Lock mail at 2.7 due to incompatibility
-# TODO: Remove it once the new version is fixed
-gem 'mail', '~> 2.7.1'
+gem 'mail', '~> 2.8.0'
 
 gem 'rdoc', '>= 2.4.2'
 
@@ -181,7 +179,7 @@ gem 'puma', '~> 6.0'
 gem 'puma-plugin-statsd', '~> 2.0'
 gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 
-gem 'nokogiri', '~> 1.14.0.rc1'
+gem 'nokogiri', '~> 1.14.0'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -213,7 +211,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 1.0.0'
+  gem 'test-prof', '~> 1.1.0'
 
   gem 'rack_session_access'
   gem 'rspec', '~> 3.12.0'
@@ -257,7 +255,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.7.0' # Use for event-based reloaders
+  gem 'listen', '~> 3.8.0' # Use for event-based reloaders
 
   gem 'letter_opener'
 
@@ -307,7 +305,7 @@ gem 'bootsnap', '~> 1.15.0', require: false
 # API gems
 gem 'grape', '~> 1.7.0'
 gem 'grape_logging', '~> 1.8.4'
-gem 'roar', '~> 1.1.0'
+gem 'roar', '~> 1.2.0'
 
 # CORS for API
 gem 'rack-cors', '~> 1.1.1'

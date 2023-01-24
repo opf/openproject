@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Work package calendars', type: :feature, js: true do
+describe 'Work package calendars', js: true do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
@@ -63,7 +63,7 @@ describe 'Work package calendars', type: :feature, js: true do
            start_date: Date.today.at_beginning_of_month.next_month + 12.days,
            due_date: Date.today.at_beginning_of_month.next_month + 18.days)
   end
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
   let(:current_wp_split_screen) { Pages::SplitWorkPackage.new(current_work_package, project) }
 
   before do

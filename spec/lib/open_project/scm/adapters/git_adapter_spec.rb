@@ -121,7 +121,7 @@ describe OpenProject::SCM::Adapters::Git do
 
         describe 'Git version compatibility' do
           before do
-            allow(::Open3).to receive(:capture2e).and_return(output, nil)
+            allow(Open3).to receive(:capture2e).and_return(output, nil)
           end
 
           context 'older Git version' do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MenuItem, type: :model do
+describe MenuItem do
   describe 'validations' do
     let(:item) { build :menu_item }
 

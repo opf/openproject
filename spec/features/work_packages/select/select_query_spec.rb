@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Query selection', type: :feature do
+describe 'Query selection' do
   let(:project) { create :project, identifier: 'test_project', public: false }
   let(:role) { create :role, permissions: [:view_work_packages] }
   let(:current_user) do
@@ -38,8 +38,8 @@ describe 'Query selection', type: :feature do
   end
 
   let(:default_status) { create(:default_status) }
-  let(:wp_page) { ::Pages::WorkPackagesTable.new project }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:wp_page) { Pages::WorkPackagesTable.new project }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   let(:query) do
     build(:query, project:, public: true).tap do |query|

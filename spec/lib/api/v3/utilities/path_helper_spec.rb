@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Utilities::PathHelper do
-  let(:helper) { Class.new.tap { |c| c.extend(::API::V3::Utilities::PathHelper) }.api_v3_paths }
+describe API::V3::Utilities::PathHelper do
+  let(:helper) { Class.new.tap { |c| c.extend(API::V3::Utilities::PathHelper) }.api_v3_paths }
 
   shared_examples_for 'path' do |url|
     it 'provides the path' do

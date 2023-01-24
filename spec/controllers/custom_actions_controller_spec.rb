@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomActionsController, type: :controller do
+describe CustomActionsController do
   let(:admin) { build(:admin) }
   let(:non_admin) { build(:user) }
   let(:action) { build_stubbed(:custom_action) }

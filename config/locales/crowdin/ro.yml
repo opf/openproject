@@ -691,6 +691,11 @@ ro:
               no_notification_reason: 'nu poate fi gol deoarece IAN este ales ca un canal.'
             reason_mail_digest:
               no_notification_reason: 'nu poate fi gol ca digest e-mail este ales ca un canal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -701,6 +706,8 @@ ro:
           archived_ancestor: 'Proiectul are un strămoș arhivat.'
           foreign_wps_reference_version: 'Pachetele de lucru din proiectele care nu sunt descendente fac trimitere la versiuni ale proiectului sau la descendenți ai acestuia.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "încă în uz în pachetele de lucru: %{types}"
             enabled_modules:
@@ -1807,6 +1814,7 @@ ro:
   label_product_version: "Versiune produs"
   label_professional_support: "Suport profesional"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Atributele proiectului"
   label_project_count: "Număr total de proiecte"
   label_project_copy_notifications: "Trimitere notificări e-mail în timpul copierii proiectului"
@@ -2231,6 +2239,7 @@ ro:
   permission_add_work_packages: "Adăugare pachete de lucru"
   permission_add_messages: "Publicare mesaje"
   permission_add_project: "Creare proiect"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Crearea și editarea utilizatorilor"
   permission_manage_placeholder_user: "Creați, editați și ștergeți utilizatori de tip placeholder"
   permission_add_subprojects: "Creare subproiecte"

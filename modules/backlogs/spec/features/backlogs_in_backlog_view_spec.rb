@@ -30,7 +30,6 @@ require 'spec_helper'
 require_relative '../support/pages/backlogs'
 
 describe 'Backlogs in backlog view',
-         type: :feature,
          js: true do
   let!(:project) do
     create(:project,

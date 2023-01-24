@@ -102,7 +102,7 @@ describe 'Read-only statuses affect work package editing',
     assignee_field.label_element.click
     assignee_field.expect_inactive!
 
-    custom_field = wp_page.edit_field cf_all.accessor_name.camelcase(:lower)
+    custom_field = wp_page.edit_field cf_all.attribute_name.camelcase(:lower)
     custom_field.label_element.click
     custom_field.expect_inactive!
   end

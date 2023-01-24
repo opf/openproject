@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RolesController, type: :controller do
+describe RolesController do
   let(:user) do
     build_stubbed(:admin)
   end

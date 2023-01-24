@@ -30,7 +30,7 @@
       class="spot-list spot-list_compact op-file-list"
       [ngClass]="{
         'op-file-section': true,
-        'op-file-section--list_dragging': dragging
+        'op-file-section--list_dragging': dragging > 0
       }"
       data-qa-selector="file-list"
     >
@@ -52,6 +52,16 @@
       [textContent]="text.emptyList()"
     ></span>
 
+    <input
+      *ngIf="allowUploading"
+      #hiddenFileInput
+      type="file"
+      id="upload_files"
+      name="upload_files"
+      (change)="onFilePickerChanged()"
+      hidden
+    />
+
     <button
       *ngIf="allowUploading && (storageErrors | async).length === 0"
       [attr.aria-label]="text.dropBox.uploadLabel"
@@ -59,7 +69,7 @@
       [ngClass]="{
         'hide-when-print': true,
         'op-file-section--drop-box': true,
-        'op-file-section--drop-box_dragging': dragging,
+        'op-file-section--drop-box_dragging': dragging > 0,
         'op-file-section--drop-box_dragging-over': draggingOverDropZone,
         'op-file-section--drop-box_float': (fileLinks$ | async).length
       }"
@@ -67,7 +77,7 @@
       (dragover)="onDragOver($event)"
       (dragleave)="onDragLeave($event)"
       (drop)="onDropFiles($event)"
-      (click)="openSelectLocationDialog()"
+      (click)="triggerFileInput()"
     >
       <span
         class="spot-icon spot-icon_upload-arrow op-file-section--drop-box-icon"
@@ -93,7 +103,7 @@
         type="button"
         class="spot-link"
         data-qa-selector="op-storage--upload-file-button"
-        (click)="openSelectLocationDialog()"
+      (click)="triggerFileInput()"
       >
         <span class="spot-icon spot-icon_upload-arrow"></span>
         <span [textContent]="text.actions.uploadFile"></span>

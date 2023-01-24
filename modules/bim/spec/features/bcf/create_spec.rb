@@ -1,7 +1,6 @@
 require_relative '../../spec_helper'
 
 describe 'Create BCF',
-         type: :feature,
          js: true,
          with_config: { edition: 'bim' },
          with_mail: false do
@@ -14,12 +13,12 @@ describe 'Create BCF',
   let(:index_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:permissions) { %i[view_ifc_models view_linked_issues manage_bcf add_work_packages edit_work_packages view_work_packages] }
   let!(:status) { create(:default_status) }
-  let!(:priority) { create :priority, is_default: true }
+  let!(:priority) { create(:priority, is_default: true) }
 
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_with_permissions: permissions
+           member_with_permissions: permissions)
   end
 
   let!(:model) do
@@ -68,7 +67,7 @@ describe 'Create BCF',
       type_field.activate!
       type_field.set_value type_with_cf.name
 
-      cf_field = create_page.edit_field(:"customField#{integer_cf.id}")
+      cf_field = create_page.edit_field(integer_cf.attribute_name(:camel_case).to_sym)
       cf_field.set_value(815)
 
       create_page.save!
@@ -82,7 +81,7 @@ describe 'Create BCF',
       end
 
       work_package = WorkPackage.last
-      split_page = ::Pages::SplitWorkPackage.new(work_package, project)
+      split_page = Pages::SplitWorkPackage.new(work_package, project)
       split_page.ensure_page_loaded
       split_page.expect_subject
 
@@ -142,7 +141,7 @@ describe 'Create BCF',
     end
 
     context 'when starting on the details page of an existing work package' do
-      let(:work_package) { create :work_package, project: }
+      let(:work_package) { create(:work_package, project:) }
 
       before do
         visit bcf_project_frontend_path(project, "details/#{work_package.id}")

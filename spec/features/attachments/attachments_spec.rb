@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'attachments', type: :feature do
+describe 'attachments' do
   let(:project) { create :valid_project }
   let(:current_user) { create :admin }
   let!(:priority) { create :default_priority }

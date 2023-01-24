@@ -30,7 +30,6 @@ require 'spec_helper'
 require 'rack/test'
 
 describe 'API v3 Work package resource',
-         type: :request,
          content_type: :json do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers

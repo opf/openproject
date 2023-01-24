@@ -690,6 +690,11 @@ si:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -700,6 +705,8 @@ si:
           archived_ancestor: 'මෙම ව්යාපෘතියට සංරක්ෂිත මුතුන් මිත්තෙකු සිටී.'
           foreign_wps_reference_version: 'ව්යාපෘතියේ හෝ එහි පරම්පරාවෙන් පැවත එන නොවන ව්යාපෘති විමර්ශන අනුවාදවල වැඩ පැකේජ.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "වැඩ පැකේජ මගින් තවමත් භාවිතා වේ: %{types}"
             enabled_modules:
@@ -1790,6 +1797,7 @@ si:
   label_product_version: "නිෂ්පාදන අනුවාදය"
   label_professional_support: "වෘත්තීය සහාය"
   label_profile: "පැතිකඩ"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "මුළු ව්යාපෘති සංඛ්යාව"
   label_project_copy_notifications: "ව්යාපෘති පිටපත තුළ විද්යුත් තැපැල් දැනුම්දීම් යවන්න"
@@ -2213,6 +2221,7 @@ si:
   permission_add_work_packages: "වැඩ පැකේජ එකතු කරන්න"
   permission_add_messages: "තැපැල් පණිවිඩ"
   permission_add_project: "ව්යාපෘතිය නිර්මාණය"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "උප ව්යාපෘති සාදන්න"

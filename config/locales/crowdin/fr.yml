@@ -690,6 +690,11 @@ fr:
               no_notification_reason: 'ne peut pas être vide car IAN est choisi comme canal.'
             reason_mail_digest:
               no_notification_reason: 'ne peut pas être vide car le digest d''email est est choisi comme un canal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -700,6 +705,8 @@ fr:
           archived_ancestor: 'Le projet possède un ancêtre archivé.'
           foreign_wps_reference_version: 'Les lots de travaux dans les projets non-descendants font référence aux versions du projet ou de ses descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "toujours en cours d'utilisation par les lots de travaux : %{types}"
             enabled_modules:
@@ -1790,6 +1797,7 @@ fr:
   label_product_version: "Version du produit"
   label_professional_support: "Support professionnel"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Attributs du projet"
   label_project_count: "Nombre total de projets"
   label_project_copy_notifications: "Notifier par courriel lors de la copie du projet"
@@ -2213,6 +2221,7 @@ fr:
   permission_add_work_packages: "Ajouter des lots de travaux"
   permission_add_messages: "Poster des messages"
   permission_add_project: "Créer un projet"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Créer et éditer des utilisateurs"
   permission_manage_placeholder_user: "Créer, modifier et supprimer des utilisateurs fictifs"
   permission_add_subprojects: "Créer des sous-projets"

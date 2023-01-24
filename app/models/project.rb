@@ -162,6 +162,10 @@ class Project < ApplicationRecord
     !active?
   end
 
+  def being_archived?
+    (active == false) && (active_was == true)
+  end
+
   def copy_allowed?
     User.current.allowed_to?(:copy_projects, self)
   end
@@ -403,9 +407,9 @@ class Project < ApplicationRecord
   end
 
   def allowed_actions
-    @actions_allowed ||= allowed_permissions
-                           .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
-                           .flatten
+    @allowed_actions ||= allowed_permissions.flat_map do |permission|
+      OpenProject::AccessControl.allowed_actions(permission)
+    end
   end
 
   def remove_white_spaces_from_project_name

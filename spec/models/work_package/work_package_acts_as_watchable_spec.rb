@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require 'support/shared/acts_as_watchable'
 
-describe WorkPackage, type: :model do
+describe WorkPackage do
   let(:project) { create(:project) }
   let(:work_package) do
     create(:work_package,

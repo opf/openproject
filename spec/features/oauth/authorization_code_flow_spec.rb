@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe 'OAuth authorization code flow',
-         type: :feature,
          js: true do
   let!(:user) { create(:user) }
   let!(:redirect_uri) { 'urn:ietf:wg:oauth:2.0:oob' }
@@ -109,7 +108,7 @@ describe 'OAuth authorization code flow',
     expect(page).to have_current_path /\/my\/access_token/
 
     # And all grants have been revoked
-    authorized = ::Doorkeeper::Application.authorized_for(user)
+    authorized = Doorkeeper::Application.authorized_for(user)
     expect(authorized).to be_empty
   end
 

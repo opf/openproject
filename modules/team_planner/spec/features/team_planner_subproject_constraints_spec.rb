@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner constraints for a subproject', type: :feature, js: true do
+describe 'Team planner constraints for a subproject', js: true do
   before do
     with_enterprise_token(:team_planner_view)
   end
@@ -48,7 +48,7 @@ describe 'Team planner constraints for a subproject', type: :feature, js: true d
   let!(:subproject) { create :project, parent: project }
   let!(:role) { create :role, permissions: %i[view_work_packages edit_work_packages work_package_assigned] }
   let!(:member) { create :member, principal: user, project: subproject, roles: [role] }
-  let(:project_include) { ::Components::ProjectIncludeComponent.new }
+  let(:project_include) { Components::ProjectIncludeComponent.new }
 
   let!(:work_package) do
     create :work_package,

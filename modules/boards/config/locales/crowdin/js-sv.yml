@@ -2,7 +2,7 @@
 sv:
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: 'Skapa ny tavla'
       label_unnamed_board: 'Namnlös tavla'
       label_unnamed_list: 'Namnlös lista'
       label_board_type: 'Typ av tavla'
@@ -23,7 +23,7 @@ sv:
         locked: 'Låst'
         closed: 'Stängt'
       new_board: 'Ny tavla'
-      add_list: 'Add list to board'
+      add_list: 'Lägg till lista på tavlan'
       add_card: 'Lägg till kort'
       error_attribute_not_writable: "Kan inte flytta arbetspaketet, %{attribute} är inte skrivbar."
       error_loading_the_list: "Fel vid inläsning av listan: %{error_message}"
@@ -63,7 +63,7 @@ sv:
           version: Version
           subproject: Delprojekt
           subtasks: Parent-child
-          basic: Basic
+          basic: Enkel
         select_attribute: "Åtgärdsattribut"
       add_list_modal:
         labels:

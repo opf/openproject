@@ -691,6 +691,11 @@ ru:
               no_notification_reason: 'не может быть пустым, так как IAN выбран как канал.'
             reason_mail_digest:
               no_notification_reason: 'не может быть пустым, так как почтовый дайджест выбран как канал.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "Для %{value} уже существует нерабочий день."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -701,6 +706,8 @@ ru:
           archived_ancestor: 'В проекте есть архивированный предок.'
           foreign_wps_reference_version: 'Комплексы работ в проектах, не расположенных по убыванию, ссылаются на версии проекта или его производных.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "У вас нет разрешений, необходимых для архивирования всех подпроектов. Обратитесь к администратору."
             types:
               in_use_by_work_packages: "всё ещё используются в пакетах работ: %{types}"
             enabled_modules:
@@ -908,7 +915,7 @@ ru:
   attributes:
     active: "Активно"
     assigned_to: "Назначенный"
-    assignee: "Исполнитель"
+    assignee: "Назначенный"
     attachments: "Вложения"
     author: "Автор"
     base: "Общая ошибка:"
@@ -1823,6 +1830,7 @@ ru:
   label_product_version: "Версия продукта"
   label_professional_support: "Профессиональная поддержка"
   label_profile: "Профиль"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Атрибуты проекта"
   label_project_count: "Общее количество проектов"
   label_project_copy_notifications: "Уведомлять по электронной почте по ходу копирования проекта"
@@ -2074,7 +2082,7 @@ ru:
       reason:
         watched: 'Просмотрено'
         assigned: 'Назначено'
-        responsible: 'Проверяющий'
+        responsible: 'Подотчетный'
         mentioned: 'Упомянутые'
         subscribed: 'все'
         prefix: 'Получено из-за настройки уведомления: %{reason}'
@@ -2249,6 +2257,7 @@ ru:
   permission_add_work_packages: "Добавление пакетов работ"
   permission_add_messages: "Написать сообщения"
   permission_add_project: "Создать проект"
+  permission_archive_project: "Архивировать проект"
   permission_manage_user: "Создание и редактирование пользователей"
   permission_manage_placeholder_user: "Создавать, редактировать и удалять пользователей-заполнителей"
   permission_add_subprojects: "Создать подпроект"
@@ -2796,7 +2805,7 @@ ru:
         date: "дата"
         default: "по умолчанию"
       column:
-        assigned_to: "Исполнитель"
+        assigned_to: "Назначенный"
         type: "Тип"
         due_date: "Дате окончания"
         name: "Имя"

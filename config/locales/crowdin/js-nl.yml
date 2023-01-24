@@ -478,7 +478,7 @@ nl:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: U kunt geen mappen uploaden als bijlage. Selecteer a. u. b. enkele bestanden.
-    label_add_attachments: "Bijlagen toevoegen"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Hecht en link bestanden door deze in dit veld te slepen, of plak deze vanuit het klembord."
     label_remove_file: "%{fileName} verwijderen"
     label_remove_watcher: "Volger %{name} verwijderen"
@@ -657,6 +657,7 @@ nl:
     project:
       required_outside_context: >
         Kies een project om het werkpakket in te creëren om alle attributen te zien. U kunt alleen projecten selecteren waarvan het type hierboven is geactiveerd.
+      details_activity: 'Project details activity'
       context: 'Context van het project'
       work_package_belongs_to: 'Dit werkpakket behoort tot project %{projectname}.'
       click_to_switch_context: 'Open dit werkpakket in dat project.'

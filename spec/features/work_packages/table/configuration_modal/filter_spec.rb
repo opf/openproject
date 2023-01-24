@@ -7,8 +7,8 @@ describe 'Work Package table configuration modal filters spec', js: true do
   let!(:wp_1) { create(:work_package, project:) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:filters) { Components::WorkPackages::TableConfiguration::Filters.new }
 
   let!(:query) do
     query = build(:query, user:, project:)

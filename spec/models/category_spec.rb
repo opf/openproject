@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Category, type: :model do
+describe Category do
   let(:project) { create(:project) }
   let(:created_category) { create(:category, project:, assigned_to: assignee) }
   let(:assignee) { nil }

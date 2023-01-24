@@ -689,6 +689,11 @@ zh-TW:
               no_notification_reason: '當 IAN 被選為管道時不能為空'
             reason_mail_digest:
               no_notification_reason: '當郵件摘要被選為管道時不能為空'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -699,6 +704,8 @@ zh-TW:
           archived_ancestor: 'The project has an archived ancestor.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "%{types} 仍在被工作項目使用中"
             enabled_modules:
@@ -1773,6 +1780,7 @@ zh-TW:
   label_product_version: "產品版本"
   label_professional_support: "專業支援"
   label_profile: "Profile"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "專案總數"
   label_project_copy_notifications: "在專案複製期間發送電子郵件通知"
@@ -2193,6 +2201,7 @@ zh-TW:
   permission_add_work_packages: "新增工作項目"
   permission_add_messages: "張貼訊息"
   permission_add_project: "建立專案"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "建立子專案"

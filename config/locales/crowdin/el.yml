@@ -686,6 +686,11 @@ el:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -696,6 +701,8 @@ el:
           archived_ancestor: 'Το έργο έχει έναν αρχειοθετημένο πρόγονο.'
           foreign_wps_reference_version: 'Πακέτα εργασίας σε εκδόσεις αναφοράς του έργου ή των απογόνων του έργου που δεν προέρχονται απο απογόνους.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "χρησιμοποιείται ακόμη από τα πακέτα εργασίας: %{types}"
             enabled_modules:
@@ -1786,6 +1793,7 @@ el:
   label_product_version: "Έκδοση προϊόντος"
   label_professional_support: "Επαγγελματική υποστήριξη"
   label_profile: "Προφίλ"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Συνολικός αριθμός έργων"
   label_project_copy_notifications: "Αποστολή ειδοποιήσεων με email κατά την διάρκεια της αντιγραφής του έργου"
@@ -2208,6 +2216,7 @@ el:
   permission_add_work_packages: "Προσθήκη πακέτων εργασίας"
   permission_add_messages: "Δημοσίευση μηνυμάτων"
   permission_add_project: "Δημιουργία έργου"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Δημιουργία και επεξεργασία χρηστών"
   permission_manage_placeholder_user: "Δημιουργήστε, επεξεργαστείτε και διαγράψτε τους placeholder χρήστες"
   permission_add_subprojects: "Δημιουργία υποέργων"

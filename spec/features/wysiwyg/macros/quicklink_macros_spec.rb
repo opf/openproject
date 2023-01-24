@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg work package quicklink macros', type: :feature, js: true do
+describe 'Wysiwyg work package quicklink macros', js: true do
   shared_let(:admin) { create :admin }
   let(:user) { admin }
   let!(:project) { create(:project, identifier: 'some-project', enabled_module_names: %w[wiki work_package_tracking]) }
@@ -39,7 +39,7 @@ describe 'Wysiwyg work package quicklink macros', type: :feature, js: true do
            start_date: Date.parse('2020-01-01'),
            due_date: Date.parse('2020-02-01'))
   end
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
 
   let(:markdown) do
     <<~MD

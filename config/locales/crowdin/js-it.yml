@@ -224,7 +224,7 @@ it:
           status_label: "Stato:"
           status_confirmed: "confermato"
           status_waiting: "email inviata, in attesa di conferma"
-          test_ee: "Prova l'Enterprise Edition gratuitamente per 14 giorni"
+          test_ee: "Prova l'Enterprise edition gratuitamente per 14 giorni"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Diventa un eroe!"
@@ -281,7 +281,7 @@ it:
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
       upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise Edition.'
+      upsale_link: 'Enterprise edition.'
     general_text_no: "no"
     general_text_yes: "si"
     general_text_No: "No"
@@ -478,7 +478,7 @@ it:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Non è possibile caricare cartelle come allegati. Si prega di selezionare singoli file.
-    label_add_attachments: "Aggiungi allegati"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Allega e collega i file trascinandoli in questo campo, o incollandoli dagli appunti."
     label_remove_file: "Cancella %{fileName}"
     label_remove_watcher: "Rimuovi watcher %{name}"
@@ -657,6 +657,7 @@ it:
     project:
       required_outside_context: >
         Scegli un progetto per creare una macro-attività e vederne tutti gli attributi. Puoi selezionare solo progetti che hanno il tipo sopra indicato attivato.
+      details_activity: 'Project details activity'
       context: 'Contesto del progetto'
       work_package_belongs_to: 'Questa macro-attività appartiene al progetto %{projectname}.'
       click_to_switch_context: 'Apri questa macro-attività nel progetto.'

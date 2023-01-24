@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Query Group By resource', type: :request do
+describe 'API v3 Query Group By resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Members::Scopes::NotLocked, type: :model do
+describe Members::Scopes::NotLocked do
   let(:project) { create(:project) }
   let(:role) { create(:role) }
 

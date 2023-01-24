@@ -334,7 +334,7 @@ es:
   wiki:
     page_not_editable_index: La página solicitada no existe (todavía). Has sido redirigido al inicio las páginas de la wiki.
     no_results_title_text: Actualmente no hay paginas de wiki.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Esto imprimirá el contenido de esta página wiki sin ninguna barra de navegación.
     index:
       no_results_content_text: Añadir una nueva página wiki
   work_flows:
@@ -687,6 +687,11 @@ es:
               no_notification_reason: 'no puede estar en blanco, ya que se han elegido las notificaciones en la aplicación como un canal.'
             reason_mail_digest:
               no_notification_reason: 'no puede estar en blanco, ya que se ha elegido el resumen de correo como un canal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -697,6 +702,8 @@ es:
           archived_ancestor: 'El proyecto tiene un antecesor archivado.'
           foreign_wps_reference_version: 'Los paquetes de trabajo en los proyectos no descendientes hacen referencia a versiones del proyecto o a sus descendientes.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "todavia en uso por los paquetes de trabajo: %{types}"
             enabled_modules:
@@ -1787,6 +1794,7 @@ es:
   label_product_version: "Versión del producto"
   label_professional_support: "Soporte profesional"
   label_profile: "Perfil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Atributos del proyecto"
   label_project_count: "Número total de proyectos"
   label_project_copy_notifications: "Enviar notificaciones por correo electrónico durante la copia del proyecto"
@@ -2209,6 +2217,7 @@ es:
   permission_add_work_packages: "Añadir paquetes de trabajo"
   permission_add_messages: "Publicar mensajes"
   permission_add_project: "Crear proyecto"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Crear y editar usuarios"
   permission_manage_placeholder_user: "Crear, editar y eliminar usuarios de marcador de posición"
   permission_add_subprojects: "Crear subproyectos"

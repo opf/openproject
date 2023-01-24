@@ -137,6 +137,7 @@ describe Authorization::UserAllowedService do
       before do
         Array(context).each do |project|
           project.active = false
+          project.clear_changes_information
         end
       end
 
@@ -148,6 +149,18 @@ describe Authorization::UserAllowedService do
         user.admin = true
 
         expect(subject).to be_falsey
+      end
+    end
+
+    context 'with the project being archived' do
+      before do
+        Array(context).each do |project|
+          project.active = false
+        end
+      end
+
+      it 'is true' do
+        expect(subject).to be_truthy
       end
     end
 

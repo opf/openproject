@@ -478,7 +478,7 @@ si:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: ඔබට ෆෝල්ඩර ඇමුණුමක් ලෙස උඩුගත කළ නොහැක. කරුණාකර තනි ගොනු තෝරන්න.
-    label_add_attachments: "ඇමුණුම් එකතු කරන්න"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "අමුණන්න සහ සම්බන්ධ ගොනු මෙම ක්ෂේත්රය මත අතහැර, හෝ පසුරු පුවරුවේ සිට ඇලවීම."
     label_remove_file: "%{fileName}මකන්න"
     label_remove_watcher: "මුරකරු ඉවත් කරන්න %{name}"
@@ -657,6 +657,7 @@ si:
     project:
       required_outside_context: >
         කරුණාකර සියලු ගුණාංග බැලීමට වැඩ පැකේජය නිර්මාණය කිරීම සඳහා ව්යාපෘතියක් තෝරන්න. ඔබට තෝරා ගත හැක්කේ ඉහත ආකාරයේ සක්රිය කර ඇති ව්යාපෘති පමණි.
+      details_activity: 'Project details activity'
       context: 'ව්යාපෘති සන්දර්භය'
       work_package_belongs_to: 'මෙම වැඩ පැකේජය ව්යාපෘතියට අයත් වේ %{projectname}.'
       click_to_switch_context: 'එම ව්යාපෘතියේ මෙම වැඩ පැකේජය විවෘත කරන්න.'

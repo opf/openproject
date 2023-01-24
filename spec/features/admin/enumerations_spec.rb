@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Enumerations', type: :feature do
+describe 'Enumerations' do
   shared_let(:admin) { create :admin }
 
   before do

@@ -1,7 +1,7 @@
 shared_examples 'module specific query view management' do
   describe 'within a module' do
-    let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
-    let(:query_menu) { ::Components::WorkPackages::QueryMenu.new }
+    let(:query_title) { Components::WorkPackages::QueryTitle.new }
+    let(:query_menu) { Components::WorkPackages::QueryMenu.new }
     let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
     let(:filters) { module_page.filters }
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'workflows routes', type: :routing do
+describe 'workflows routes' do
   it { expect(get('/workflows')).to route_to('workflows#show') }
 
   it { expect(get('/workflows/edit')).to route_to('workflows#edit') }

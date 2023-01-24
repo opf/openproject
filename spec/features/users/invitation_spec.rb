@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'invitation spec', type: :feature, js: true do
+describe 'invitation spec', js: true do
   let(:user) { create :invited_user, mail: 'holly@openproject.com' }
 
   before do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::Status, type: :model do
+describe Projects::Status do
   let(:project) { create(:project) }
 
   let(:explanation) { 'some explanation' }

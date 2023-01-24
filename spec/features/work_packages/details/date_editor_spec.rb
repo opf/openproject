@@ -42,7 +42,7 @@ describe 'date inplace editor',
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new }
-  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
+  let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
 
   let(:start_date) { work_packages_page.edit_field(:combinedDate) }
   let(:datepicker) { start_date.datepicker }
@@ -276,9 +276,9 @@ describe 'date inplace editor',
       )
     end
 
-    let(:cf_field) { EditField.new page, :"customField#{date_cf.id}" }
-    let(:datepicker) { ::Components::Datepicker.new }
-    let(:create_page) { ::Pages::FullWorkPackageCreate.new(project:) }
+    let(:cf_field) { EditField.new page, date_cf.attribute_name(:camel_case) }
+    let(:datepicker) { Components::Datepicker.new }
+    let(:create_page) { Pages::FullWorkPackageCreate.new(project:) }
 
     it 'can handle creating a CF date' do
       create_page.visit!

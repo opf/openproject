@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planner_view] do
+describe 'Team planner index', js: true, with_ee: %i[team_planner_view] do
   shared_let(:project) do
     create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
   end

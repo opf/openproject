@@ -6,7 +6,7 @@ tr:
       configure: 'Widget''ı yapılandır'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
-        link: 'Enterprise edition.'
+        link: 'Enterprise sürümü.'
       widgets:
         custom_text:
           title: 'Özel metin'

@@ -29,7 +29,7 @@
 RSpec.configure do |config|
   config.before do |example|
     if example.metadata[:skip_2fa_stage]
-      allow(::OpenProject::TwoFactorAuthentication::TokenStrategyManager)
+      allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
         .to receive(:enabled?)
         .and_return false
     end

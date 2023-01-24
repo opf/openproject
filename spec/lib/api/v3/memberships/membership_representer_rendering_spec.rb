@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Memberships::MembershipRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Memberships::MembershipRepresenter, 'rendering' do
+  include API::V3::Utilities::PathHelper
 
   let(:member) do
     build_stubbed(:member,

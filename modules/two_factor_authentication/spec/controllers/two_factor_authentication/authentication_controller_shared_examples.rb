@@ -136,7 +136,7 @@ shared_examples '2FA SMS request success' do
   it_behaves_like '2FA login_otp fails without authenticated user'
 
   describe 'follow-up post of a login token' do
-    let(:valid_token) { instance_double(::TwoFactorAuthentication::LoginToken, value: '123456') }
+    let(:valid_token) { instance_double(TwoFactorAuthentication::LoginToken, value: '123456') }
 
     before do
       # Assume the user is pending
@@ -146,7 +146,7 @@ shared_examples '2FA SMS request success' do
     context 'with a valid token' do
       before do
         # Return the value upon find
-        expect(::TwoFactorAuthentication::LoginToken)
+        expect(TwoFactorAuthentication::LoginToken)
           .to receive(:find_by_plaintext_value)
           .with(valid_token.value)
           .and_return(valid_token)
@@ -171,7 +171,7 @@ shared_examples '2FA SMS request success' do
     context 'with an invalid token' do
       before do
         # Return the value upon find
-        expect(::TwoFactorAuthentication::LoginToken)
+        expect(TwoFactorAuthentication::LoginToken)
           .to receive(:find_by_plaintext_value)
           .with('bogus')
           .and_return(nil)

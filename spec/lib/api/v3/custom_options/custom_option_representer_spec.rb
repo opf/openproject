@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::CustomOptions::CustomOptionRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::CustomOptions::CustomOptionRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:custom_option) { build_stubbed(:custom_option, custom_field:) }
   let(:custom_field) { build_stubbed(:list_wp_custom_field) }

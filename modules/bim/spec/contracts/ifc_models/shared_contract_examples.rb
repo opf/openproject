@@ -103,7 +103,7 @@ shared_examples_for 'ifc model contract' do
   context 'if the new ifc file is no valid ifc file' do
     let(:ifc_file) { FileHelpers.mock_uploaded_file name: "model.ifc", content_type: 'application/binary', binary: true }
     let(:ifc_attachment) do
-      ::Attachments::BuildService
+      Attachments::BuildService
         .bypass_whitelist(user: current_user)
         .call(file: ifc_file, filename: 'model.ifc')
         .result
@@ -119,7 +119,7 @@ shared_examples_for 'ifc model contract' do
       FileHelpers.mock_uploaded_file name: "model.ifc", content_type: 'application/binary', binary: true, content: "ISO-10303-21;"
     end
     let(:ifc_attachment) do
-      ::Attachments::BuildService
+      Attachments::BuildService
         .bypass_whitelist(user: current_user)
         .call(file: ifc_file, filename: 'model.ifc')
         .result

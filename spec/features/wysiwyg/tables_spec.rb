@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'Wysiwyg tables',
-         type: :feature, js: true do
+         js: true do
   shared_let(:admin) { create :admin }
   let(:user) { admin }
 
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
 
   before do
     login_as(user)

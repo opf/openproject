@@ -688,6 +688,11 @@ da:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -698,6 +703,8 @@ da:
           archived_ancestor: 'Projektet har en arkiveret forfader.'
           foreign_wps_reference_version: 'Arbejdspakker i ikke-efterkommerprojekter refererer til versioner af projektet eller dets efterkommere.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "still in use by work packages: %{types}"
             enabled_modules:
@@ -1788,6 +1795,7 @@ da:
   label_product_version: "Product version"
   label_professional_support: "Professionel support"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Samlet antal projekter"
   label_project_copy_notifications: "Adviser via e-mail under kopiering af projekt"
@@ -2211,6 +2219,7 @@ da:
   permission_add_work_packages: "Tilføj arbejdspakker"
   permission_add_messages: "Send beskeder"
   permission_add_project: "Opret projekt"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Opret og rediger brugere"
   permission_manage_placeholder_user: "Opret, rediger og slet brugere af pladsholdere"
   permission_add_subprojects: "Opret underprojekter"

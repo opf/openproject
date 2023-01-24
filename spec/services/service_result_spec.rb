@@ -72,7 +72,7 @@ describe ServiceResult, type: :model do
       errors = ['errors']
       message = 'message'
       message_type = :message_type
-      state = instance_double(::Shared::ServiceState)
+      state = instance_double(Shared::ServiceState)
       dependent_results = ['dependent_results']
       result = instance_double(Object, 'result')
 
@@ -103,7 +103,7 @@ describe ServiceResult, type: :model do
       errors = ['errors']
       message = 'message'
       message_type = :message_type
-      state = instance_double(::Shared::ServiceState)
+      state = instance_double(Shared::ServiceState)
       dependent_results = ['dependent_results']
       result = instance_double(Object, 'result')
 

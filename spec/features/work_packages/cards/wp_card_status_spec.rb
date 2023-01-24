@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Update status from WP card', type: :feature, js: true do
+describe 'Update status from WP card', js: true do
   let(:manager_role) do
     create :role, permissions: %i[view_work_packages edit_work_packages]
   end
@@ -60,9 +60,9 @@ describe 'Update status from WP card', type: :feature, js: true do
            role: manager_role
   end
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:wp_card_view) { ::Pages::WorkPackageCards.new(project) }
-  let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:wp_card_view) { Pages::WorkPackageCards.new(project) }
+  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
 
   before do
     login_as(manager)

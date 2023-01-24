@@ -689,6 +689,11 @@ sv:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -699,6 +704,8 @@ sv:
           archived_ancestor: 'Projektet har en arkiverad förfader.'
           foreign_wps_reference_version: 'Arbetspaket i icke efterkommande projekt referensversioner av projektet eller dess efterkommande.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "används fortfarande av arbetspaket: %{types}"
             enabled_modules:
@@ -1789,6 +1796,7 @@ sv:
   label_product_version: "Produktversion"
   label_professional_support: "Professionell hjälp"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Totalt antal projekt"
   label_project_copy_notifications: "Skicka e-postaviseringar under projekt kopian"
@@ -2212,6 +2220,7 @@ sv:
   permission_add_work_packages: "Lägg till arbetspaket"
   permission_add_messages: "Publicera meddelanden"
   permission_add_project: "Skapa projekt"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Skapa delprojekt"

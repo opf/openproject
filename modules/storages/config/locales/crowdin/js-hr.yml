@@ -24,6 +24,8 @@ hr:
         no_file_links: "In order to link files to this work package please do it via %{storageType}."
         not_logged_in: >
           To add a link, see or upload files related to this work package, please login to %{storageType}.
+      files:
+        directory_not_writeable: "You do not have to permission to add files to this folder."
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
@@ -46,6 +48,9 @@ hr:
           one: "Successfully created 1 file link."
           few: "Successfully created %{count} file links."
           other: "Successfully created %{count} file links."
+        upload_error: "An error occurred uploading the file '%{fileName}'."
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Please log in to Nextcloud to access this file"
         already_linked_file: "This file is already linked to this work package."
         already_linked_directory: "This directory is already linked to this work package."

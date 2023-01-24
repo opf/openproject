@@ -28,7 +28,7 @@
 
 require_relative '../../spec_helper'
 
-describe 'shared/not_configured', type: :view do
+describe 'shared/not_configured' do
   it 'renders without errors' do
     render
   end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
+describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do

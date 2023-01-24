@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './mock_global_permissions'
 
-describe 'Global role: Global role CRUD', type: :feature, js: true do
+describe 'Global role: Global role CRUD', js: true do
   # Scenario: Global Role creation
   # Given there is the global permission "glob_test" of the module "global_group"
   before do

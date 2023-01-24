@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Create repository', type: :feature, js: true do
+describe 'Create repository', js: true do
   let(:current_user) { create (:admin) }
   let(:project) { create(:project) }
   let(:enabled_scms) { %w[git] }

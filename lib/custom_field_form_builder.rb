@@ -58,7 +58,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
   private
 
   def custom_field_input(options = {})
-    field = custom_field.accessor_name
+    field = custom_field.attribute_name
 
     input_options = options.merge(no_label: true,
                                   name: custom_field_field_name,

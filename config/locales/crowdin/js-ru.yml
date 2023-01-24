@@ -477,7 +477,7 @@ ru:
     label_drop_files: "Перетащите файлы сюда для прикрепления файлов."
     label_drop_or_click_files: "Перетащите файлы сюда или нажмите для прикрепления файлов."
     label_drop_folders_hint: Вы не можете загружать папки как вложение. Пожалуйста, выберите один файл.
-    label_add_attachments: "Добавить вложения"
+    label_add_attachments: "Прикрепить файлы"
     label_formattable_attachment_hint: "Прикрепить и связать файлы, перетащив их на это поле, или вставив их из буфера обмена."
     label_remove_file: "Удалить %{fileName}"
     label_remove_watcher: "Удалить наблюдателя %{name}"
@@ -541,8 +541,8 @@ ru:
       reasons:
         mentioned: 'упомянутый'
         watched: 'наблюдатель'
-        assigned: 'исполнитель'
-        responsible: 'проверяющий'
+        assigned: 'назначенный'
+        responsible: 'подотчетный'
         created: 'создано'
         scheduled: 'запланировано'
         commented: 'прокомментировано'
@@ -588,7 +588,7 @@ ru:
           message: 'Есть новые уведомления.'
           link_text: 'Нажмите здесь для их загрузки'
       menu:
-        accountable: 'Проверяющий'
+        accountable: 'Подотчетный'
         by_project: 'Непрочитано по проекту'
         by_reason: 'Причина'
         inbox: 'Входящие'
@@ -615,8 +615,8 @@ ru:
           mentioned:
             title: 'Упомянутые'
             description: 'Получать уведомления каждый раз, когда кто-то упоминает меня'
-          assignee: 'Исполнитель'
-          responsible: 'Проверяющий'
+          assignee: 'Назначенный'
+          responsible: 'Подотчетный'
           watched: 'Наблюдатель'
           work_package_commented: 'Все новые комментарии'
           work_package_created: 'Новые пакеты работ'
@@ -626,7 +626,7 @@ ru:
         global:
           immediately:
             title: 'Участие'
-            description: 'Уведомления обо всех действиях в пакетах работ, в которых вы участвуете (исполнитель, проверяющий или наблюдатель).'
+            description: 'Уведомления обо всех действиях в пакетах работ, в которых вы участвуете (назначение, подотчетность или наблюдение).'
           delayed:
             title: 'Неучастие'
             description: 'Дополнительные уведомления для деятельности во всех проектах.'
@@ -658,6 +658,7 @@ ru:
     project:
       required_outside_context: >
         Пожалуйста, выберите проект для создания пакета работ для просмотра всех атрибутов. Вы можете выбрать только проекты, которые имеют вышеуказанный тип.
+      details_activity: 'Project details activity'
       context: 'Контекст проекта'
       work_package_belongs_to: 'Этот пакет работ принадлежит проекту %{projectname}.'
       click_to_switch_context: 'Открыть этот пакет работ в этом проекте.'
@@ -944,7 +945,7 @@ ru:
         estimatesAndTime: "Оценки & время"
         other: "Другие"
       properties:
-        assignee: "Исполнитель"
+        assignee: "Назначенный"
         author: "Автор"
         createdAt: "Создано"
         description: "Описание"

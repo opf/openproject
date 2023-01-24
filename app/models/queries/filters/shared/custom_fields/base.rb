@@ -34,7 +34,7 @@ module Queries::Filters::Shared
       attr_reader :custom_field, :custom_field_context
 
       def initialize(custom_field:, custom_field_context:, **options)
-        name = :"cf_#{custom_field.id}"
+        name = custom_field.column_name.to_sym
 
         @custom_field = custom_field
         @custom_field_context = custom_field_context

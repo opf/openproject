@@ -223,8 +223,8 @@ de:
           status_label: "Status: "
           status_confirmed: "bestätigt"
           status_waiting: "E-Mail gesendet - Warten auf Bestätigung"
-          test_ee: "Testen Sie die Enterprise Edition 14 Tage kostenlos"
-          quick_overview: "Erhalten Sie einen schnellen Überblick über Projektmanagement und Teamzusammenarbeit mit der OpenProject Enterprise Edition."
+          test_ee: "Testen Sie die Enterprise edition 14 Tage kostenlos"
+          quick_overview: "Erhalten Sie einen schnellen Überblick über Projektmanagement und Teamzusammenarbeit mit der OpenProject Enterprise edition."
         upsale:
           become_hero: "Werde zum Held!"
           enterprise_info_html: "%{feature_title} ist ein Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> Add-on."
@@ -250,7 +250,7 @@ de:
           text: >
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unbegrenzt"
-          you_contribute: "Auch Software-Entwickler müssen ihre Rechnungen bezahlen. Durch ein Upgrade auf die Enterprise Edition unterstützen Sie diese Open-Source-Community und tragen zur Entwicklung, Wartung und kontinuierlichen Verbesserung von OpenProject bei."
+          you_contribute: "Auch Software-Entwickler müssen ihre Rechnungen bezahlen. Durch ein Upgrade auf die Enterprise edition unterstützen Sie diese Open-Source-Community und tragen zur Entwicklung, Wartung und kontinuierlichen Verbesserung von OpenProject bei."
     custom_actions:
       date:
         specific: 'am'
@@ -280,7 +280,7 @@ de:
           two: "Zweites Sortierkriterium"
           three: "Drittes Sortierkriterium"
       upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise Edition'
+      upsale_link: 'Enterprise edition'
     general_text_no: "nein"
     general_text_yes: "ja"
     general_text_No: "Nein"
@@ -477,7 +477,7 @@ de:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Ordner können nicht als Anhänge hinzugefügt werden. Bitte wählen Sie einzelne Dateien aus.
-    label_add_attachments: "Anhänge hinzufügen"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Ziehen Sie Dateien in dieses Feld hinein oder fügen Sie sie aus der Zwischenablage ein, um sie Hinzuzufügen und zu Verlinken."
     label_remove_file: "%{fileName} löschen"
     label_remove_watcher: "Beobachter %{name} entfernen"
@@ -656,6 +656,7 @@ de:
     project:
       required_outside_context: >
         Bitte wählen Sie ein Projekt für das Arbeitspaket, um alle Attribute anzuzeigen. Sie können nur Projekte auswählen, für die der ausgewählte Typ oben aktiviert ist.
+      details_activity: 'Project details activity'
       context: 'Projektkontext'
       work_package_belongs_to: 'Dieses Arbeitspaket gehört zum Projekt %{projectname}.'
       click_to_switch_context: 'Dieses Arbeitspaket in dem Projekt öffnen.'
@@ -1045,7 +1046,7 @@ de:
         upsale:
           attribute_highlighting: 'Sollen bestimmte Arbeitspakete aus der Menge herausstechen?'
           relation_columns: 'Möchten Sie Beziehungen als Spalten in der Arbeitspaketliste sehen können?'
-          check_out_link: 'Schauen Sie sich die Enterprise Edition an.'
+          check_out_link: 'Schauen Sie sich die Enterprise edition an.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Arbeitspakete nach Beziehungs-Typ filtern'
       tabs:
@@ -1191,7 +1192,7 @@ de:
           title: 'Platzhalter-Benutzer'
           title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails verschickt.'
-          description_no_ee: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails versendet. <br>Schau dir die <a href="%{eeHref}" target="_blank">Enterprise Edition an</a>'
+          description_no_ee: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails versendet. <br>Schau dir die <a href="%{eeHref}" target="_blank">Enterprise edition an</a>'
       principal:
         label:
           name_or_email: 'Name oder E-Mail-Adresse'

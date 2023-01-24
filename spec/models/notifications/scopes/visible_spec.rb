@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe Notifications::Scopes::Visible, type: :model do
+describe Notifications::Scopes::Visible do
   describe '.visible' do
-    subject(:scope) { ::Notification.visible(user) }
+    subject(:scope) { Notification.visible(user) }
 
     let(:user) do
       create(:user,

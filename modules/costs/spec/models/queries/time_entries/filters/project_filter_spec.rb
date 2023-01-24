@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::TimeEntries::Filters::ProjectFilter, type: :model do
+describe Queries::TimeEntries::Filters::ProjectFilter do
   let(:project1) { build_stubbed(:project) }
   let(:project2) { build_stubbed(:project) }
 

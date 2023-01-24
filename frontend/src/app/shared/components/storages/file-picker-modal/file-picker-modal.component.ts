@@ -27,11 +27,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Inject,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject,
 } from '@angular/core';
 import { take } from 'rxjs/operators';
 
@@ -147,20 +143,17 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
   }
 
   protected storageFileToListItem(file:IStorageFile, index:number):StorageFileListItem {
-    const isFolder = isDirectory(file.mimeType);
-    const enterDirectoryCallback = isFolder ? this.enterDirectoryCallback(file) : undefined;
-
     return new StorageFileListItem(
       this.timezoneService,
       file,
       this.isAlreadyLinked(file),
       index === 0,
-      isFolder ? this.text.tooltip.alreadyLinkedDirectory : this.text.tooltip.alreadyLinkedFile,
+      this.enterDirectoryCallback(file),
+      this.tooltip(file),
       {
         selected: this.selection.has(file.id as string),
         changeSelection: () => { this.changeSelection(file); },
       },
-      enterDirectoryCallback,
     );
   }
 
@@ -169,5 +162,13 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
     const found = currentFileLinks.find((a) => a.originData.id === file.id);
 
     return !!found;
+  }
+
+  private tooltip(file:IStorageFile):string|undefined {
+    if (!this.isAlreadyLinked(file)) {
+      return undefined;
+    }
+
+    return isDirectory(file) ? this.text.tooltip.alreadyLinkedDirectory : this.text.tooltip.alreadyLinkedFile;
   }
 }

@@ -35,6 +35,21 @@ import { GitActionsMenuDirective } from './git-actions-menu/git-actions-menu.dir
 import { GitActionsMenuComponent } from './git-actions-menu/git-actions-menu.component';
 import { WorkPackagesGithubPrsService } from './tab-prs/wp-github-prs.service';
 import { PullRequestComponent } from './pull-request/pull-request.component';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+export function workPackageGithubPrsCount(
+  workPackage:WorkPackageResource,
+  injector:Injector,
+):Observable<number> {
+  const githubPrsService = injector.get(WorkPackagesGithubPrsService);
+  return githubPrsService
+    .requireAndStream(workPackage)
+    .pipe(
+      map((prs) => prs.length),
+    );
+}
 
 export function initializeGithubIntegrationPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);
@@ -43,6 +58,7 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     name: I18n.t('js.github_integration.work_packages.tab_name'),
     id: 'github',
     displayable: (workPackage) => !!workPackage.github,
+    count: workPackageGithubPrsCount,
   });
 }
 

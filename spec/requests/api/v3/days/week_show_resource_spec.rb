@@ -27,10 +27,9 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Days::WeekAPI,
+describe API::V3::Days::WeekAPI,
          'show',
-         content_type: :json,
-         type: :request do
+         content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.days_week_day(1) }

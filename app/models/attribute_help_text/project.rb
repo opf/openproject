@@ -35,8 +35,8 @@ class AttributeHelpText::Project < AttributeHelpText
       .reject { |key, _| skip.include?(key.to_s) }
       .transform_values { |definition| definition[:name_source].call }
 
-    ProjectCustomField.all.find_each do |field|
-      attributes["custom_field_#{field.id}"] = field.name
+    ProjectCustomField.find_each do |field|
+      attributes[field.attribute_name] = field.name
     end
 
     attributes

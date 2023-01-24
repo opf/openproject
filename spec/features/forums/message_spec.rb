@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'messages', type: :feature, js: true do
+describe 'messages', js: true do
   let(:forum) do
     create(:forum)
   end
