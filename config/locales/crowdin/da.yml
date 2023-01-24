@@ -1795,6 +1795,7 @@ da:
   label_product_version: "Product version"
   label_professional_support: "Professionel support"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Samlet antal projekter"
   label_project_copy_notifications: "Adviser via e-mail under kopiering af projekt"

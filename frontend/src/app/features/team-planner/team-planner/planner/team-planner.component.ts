@@ -103,6 +103,7 @@ import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import {
   teamPlannerEventAdded,
   teamPlannerEventRemoved,
+  teamPlannerPageRefresh,
 } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import {
@@ -119,10 +120,15 @@ import { RawOptionsFromRefiners } from '@fullcalendar/core/internal';
 import { ViewOptionRefiners } from '@fullcalendar/common';
 import { ResourceApi } from '@fullcalendar/resource';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import {
+  EffectCallback,
+  EffectHandler,
+} from 'core-app/core/state/effects/effect-handler.decorator';
 
 export type TeamPlannerViewOptionKey = 'resourceTimelineWorkWeek'|'resourceTimelineWeek'|'resourceTimelineTwoWeeks';
 export type TeamPlannerViewOptions = { [K in TeamPlannerViewOptionKey]:RawOptionsFromRefiners<Required<ViewOptionRefiners>> };
 
+@EffectHandler
 @Component({
   selector: 'op-team-planner',
   templateUrl: './team-planner.component.html',
@@ -393,15 +399,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.initializeCalendar();
     this.projectIdentifier = this.currentProject.identifier || undefined;
 
-    this
-      .querySpace
-      .results
-      .values$()
-      .pipe(this.untilDestroyed())
-      .subscribe(() => {
-        this.ucCalendar.getApi().refetchEvents();
-      });
-
     this.calendar.resize$
       .pipe(
         this.untilDestroyed(),
@@ -640,33 +637,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }, 500);
   }
 
-  renderTemplate(template:TemplateRef<unknown>, id:string, data:ResourceLabelContentArg|EventContentArg):{ domNodes:unknown[] } {
-    if (this.isDraggedEvent(id)) {
-      this.viewLookup.markForDestruction(id);
-    }
-
-    const ref = this.viewLookup.getView(template, id, data);
-    return { domNodes: ref.rootNodes };
-  }
-
-  unrenderTemplate(id:string):void {
-    this.viewLookup.markForDestruction(id);
-  }
-
   isDraggedEvent(id:string):boolean {
     const dragging = this.draggingItem$.getValue();
     return !!dragging && (dragging.event.extendedProps?.workPackage as undefined|WorkPackageResource)?.href === id;
-  }
-
-  eventId(data:EventContentArg):string {
-    return [
-      data.event.id,
-      data.event.start?.toISOString(),
-      data.event.end?.toISOString(),
-      data.timeText,
-      `dragging=${data.isDragging.toString()}`,
-      `resizing=${data.isResizing.toString()}`,
-    ].join('-');
   }
 
   public showAssigneeAddRow():void {
@@ -1002,5 +975,15 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     nonWorkingDays.forEach((day) => {
       api.addEvent({ ...day }, 'background');
     });
+  }
+
+  @EffectCallback(teamPlannerPageRefresh)
+  reloadOnEventAdded(action:ReturnType<typeof teamPlannerPageRefresh>):void {
+    if (action.showLoading) {
+      this.loading$ = new Subject<unknown>();
+      this.toastService.addLoading(this.loading$);
+    }
+
+    this.ucCalendar.getApi().refetchEvents();
   }
 }

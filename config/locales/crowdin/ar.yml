@@ -1864,6 +1864,7 @@ ar:
   label_product_version: "إصدار المنتج"
   label_professional_support: "الدعم الفني"
   label_profile: "الصفحة الشخصية"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "العدد الإجمالي للمشاريع"
   label_project_copy_notifications: "إرسال إشعارات البريد الالكتروني أثناء نسخ المشروع"

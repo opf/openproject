@@ -6,7 +6,7 @@ describe "multi select custom values", js: true do
   let(:current_user) { admin }
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
   let(:cf_edit_field) do
-    field = wp_page.edit_field "customField#{custom_field.id}"
+    field = wp_page.edit_field custom_field.attribute_name(:camel_case)
     field.field_type = 'create-autocompleter'
     field
   end

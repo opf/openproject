@@ -152,7 +152,7 @@ describe API::V3::Versions::Schemas::VersionSchemaRepresenter do
     end
 
     describe 'int custom field' do
-      let(:path) { "customField#{custom_field.id}" }
+      let(:path) { custom_field.attribute_name(:camel_case) }
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Integer' }

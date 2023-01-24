@@ -659,6 +659,7 @@ cs:
     project:
       required_outside_context: >
         Vyberte projekt pro vytvoření pracovního balíčku, abyste viděli všechny atributy. Můžete vybrat pouze projekty, které mají výše uvedený typ aktivován.
+      details_activity: 'Project details activity'
       context: 'Kontext projektu'
       work_package_belongs_to: 'Tento pracovní balíček náleží projektu %{projectname}.'
       click_to_switch_context: 'Otevřete tento pracovní balíček v tomto projektu.'

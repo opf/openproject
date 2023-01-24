@@ -81,7 +81,7 @@ describe 'API v3 Query Filter resource' do
 
     context 'custom field filter' do
       let(:list_wp_custom_field) { create(:list_wp_custom_field) }
-      let(:filter_name) { "customField#{list_wp_custom_field.id}" }
+      let(:filter_name) { list_wp_custom_field.attribute_name(:camel_case) }
 
       it 'succeeds' do
         expect(last_response.status)

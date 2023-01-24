@@ -1780,6 +1780,7 @@ zh-TW:
   label_product_version: "產品版本"
   label_professional_support: "專業支援"
   label_profile: "Profile"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "專案總數"
   label_project_copy_notifications: "在專案複製期間發送電子郵件通知"

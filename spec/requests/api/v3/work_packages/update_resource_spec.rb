@@ -349,7 +349,7 @@ describe 'API v3 Work package resource',
 
         context 'valid type changing custom fields' do
           let(:custom_field) { create(:work_package_custom_field) }
-          let(:custom_field_parameter) { { "customField#{custom_field.id}": true } }
+          let(:custom_field_parameter) { { custom_field.attribute_name(:camel_case) => true } }
           let(:params) { valid_params.merge(type_parameter).merge(custom_field_parameter) }
 
           before do
@@ -430,7 +430,7 @@ describe 'API v3 Work package resource',
         context 'with a custom field defined on the target project' do
           let(:member_permissions) { %i[move_work_packages edit_work_packages] }
           let(:custom_field) { create(:work_package_custom_field) }
-          let(:custom_field_parameter) { { "customField#{custom_field.id}": true } }
+          let(:custom_field_parameter) { { custom_field.attribute_name(:camel_case) => true } }
           let(:params) { valid_params.merge(project_parameter).merge(custom_field_parameter) }
 
           before do

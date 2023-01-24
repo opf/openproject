@@ -111,7 +111,7 @@ describe 'My page time entries current user widget spec', js: true, with_mail: f
   let(:my_page) do
     Pages::My::Page.new
   end
-  let(:cf_field) { TextEditorField.new(page, "customField#{custom_field.id}") }
+  let(:cf_field) { TextEditorField.new(page, custom_field.attribute_name(:camel_case)) }
   let(:time_logging_modal) { Components::TimeLoggingModal.new }
 
   before do

@@ -656,6 +656,7 @@ ko:
     project:
       required_outside_context: >
         모든 특성을 보려면 작업 패키지를 만들 프로젝트를 선택하십시오. 위 유형이 활성화된 프로젝트만 선택할 수 있습니다.
+      details_activity: 'Project details activity'
       context: '프로젝트 컨텍스트'
       work_package_belongs_to: '이 작업 패키지는 프로젝트 %{projectname}에 속합니다.'
       click_to_switch_context: '해당 프로젝트에서 이 작업 패키지를 여세요.'

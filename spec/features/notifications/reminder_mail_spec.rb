@@ -32,6 +32,9 @@ describe "Reminder email sending", js: true do
         daily_reminders: {
           enabled: true,
           times: [hitting_reminder_slot_for('Pacific/Honolulu', current_utc_time)]
+        },
+        immediate_reminders: {
+          mentioned: false
         }
       },
       notification_settings: [

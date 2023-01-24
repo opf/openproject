@@ -1793,6 +1793,7 @@ el:
   label_product_version: "Έκδοση προϊόντος"
   label_professional_support: "Επαγγελματική υποστήριξη"
   label_profile: "Προφίλ"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Συνολικός αριθμός έργων"
   label_project_copy_notifications: "Αποστολή ειδοποιήσεων με email κατά την διάρκεια της αντιγραφής του έργου"

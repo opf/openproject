@@ -1831,6 +1831,7 @@ cs:
   label_product_version: "Verze produktu"
   label_professional_support: "Profesionální podpora"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Celkový počet projektů"
   label_project_copy_notifications: "Během kopie projektu odeslat oznámení e-mailem"

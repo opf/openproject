@@ -21,7 +21,10 @@ import {
   EffectCallback,
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
-import { teamPlannerEventAdded } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
+import {
+  teamPlannerEventAdded,
+  teamPlannerPageRefresh,
+} from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
@@ -138,5 +141,9 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
   @EffectCallback(teamPlannerEventAdded)
   reloadOnEventAdded():void {
     void this.refresh(false, false);
+  }
+
+  refresh(visibly = false, _firstPage = false):void {
+    this.actions$.dispatch(teamPlannerPageRefresh({ showLoading: visibly }));
   }
 }

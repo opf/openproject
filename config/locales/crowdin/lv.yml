@@ -1813,6 +1813,7 @@ lv:
   label_product_version: "Product version"
   label_professional_support: "Profesionāls atbalsts"
   label_profile: "Profils"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Kopējais projektu skaits"
   label_project_copy_notifications: "Send email notifications during the project copy"

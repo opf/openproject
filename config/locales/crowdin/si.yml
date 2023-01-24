@@ -1797,6 +1797,7 @@ si:
   label_product_version: "නිෂ්පාදන අනුවාදය"
   label_professional_support: "වෘත්තීය සහාය"
   label_profile: "පැතිකඩ"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "මුළු ව්යාපෘති සංඛ්යාව"
   label_project_copy_notifications: "ව්යාපෘති පිටපත තුළ විද්යුත් තැපැල් දැනුම්දීම් යවන්න"
