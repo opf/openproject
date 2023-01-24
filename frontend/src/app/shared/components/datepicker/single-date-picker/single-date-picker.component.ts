@@ -27,6 +27,7 @@
 //++
 
 import {
+    AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -69,7 +70,7 @@ export const opSingleDatePickerSelector = 'op-single-date-picker';
     },
   ],
 })
-export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit {
+export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit, AfterContentInit {
   @Output('closed') closed = new EventEmitter();
 
   @Output('valueChange') valueChange = new EventEmitter();
@@ -110,7 +111,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
   }
 
   get opened() {
-    return this.opened;
+    return this._opened;
   }
 
   @Input() showIgnoreNonWorkingDays = true;
@@ -124,6 +125,8 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
   public workingDate:Date = new Date();
 
   public datePickerInstance:DatePicker;
+
+  public useDefaultTrigger = false;
 
   text = {
     save: this.I18n.t('js.button_save'),
@@ -152,6 +155,11 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
       this.writeValue(this.timezoneService.formattedISODate(today));
     }
   }
+
+	ngAfterContentInit() {
+		const trigger = this.elementRef.nativeElement.querySelector("[slot='trigger']");
+		this.useDefaultTrigger = trigger === null;
+	}
 
   onInputClick(event:MouseEvent) {
     event.stopPropagation();
