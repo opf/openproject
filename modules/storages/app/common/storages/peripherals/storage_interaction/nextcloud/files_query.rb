@@ -33,7 +33,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @uri = base_uri
       @token = token
       @retry_proc = retry_proc
-      @base_path = "/remote.php/dav/files/#{token.origin_user_id}"
+      @base_path = File.join(@uri.path, "remote.php/dav/files", token.origin_user_id)
     end
 
     def query(parent)
