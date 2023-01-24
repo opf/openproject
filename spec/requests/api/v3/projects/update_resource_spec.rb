@@ -94,7 +94,7 @@ describe 'API v3 Project resource update', content_type: :json do
   context 'with a custom field' do
     let(:body) do
       {
-        "customField#{custom_field.id}": {
+        custom_field.attribute_name(:camel_case) => {
           raw: "CF text"
         }
       }
@@ -352,7 +352,7 @@ describe 'API v3 Project resource update', content_type: :json do
     let(:body) do
       {
         active: false,
-        "customField#{custom_field.id}": {
+        custom_field.attribute_name(:camel_case) => {
           raw: "CF text"
         }
       }

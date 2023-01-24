@@ -131,7 +131,7 @@ describe API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
             let(:filter) { custom_field_filter }
 
             it_behaves_like 'links to and embeds allowed values directly' do
-              let(:hrefs) { [api_v3_paths.query_filter("customField#{custom_field.id}")] }
+              let(:hrefs) { [api_v3_paths.query_filter(custom_field.attribute_name(:camel_case))] }
             end
           end
         end

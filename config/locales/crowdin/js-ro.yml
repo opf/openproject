@@ -657,6 +657,7 @@ ro:
     project:
       required_outside_context: >
         Vă rugăm să alegeți un proiect în care să creați pachetul de lucru pentru a vedea toate atributele. Puteți selecta numai proiectele care au tipul de mai sus activat.
+      details_activity: 'Project details activity'
       context: 'Contextul proiectului'
       work_package_belongs_to: 'Acest pachet de lucru face parte din proiectul %{projectname}.'
       click_to_switch_context: 'Deschide pachetul de lucru din acel proiect.'

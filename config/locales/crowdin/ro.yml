@@ -1814,6 +1814,7 @@ ro:
   label_product_version: "Versiune produs"
   label_professional_support: "Suport profesional"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Atributele proiectului"
   label_project_count: "Număr total de proiecte"
   label_project_copy_notifications: "Trimitere notificări e-mail în timpul copierii proiectului"

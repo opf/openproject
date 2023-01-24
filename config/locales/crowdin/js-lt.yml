@@ -659,6 +659,7 @@ lt:
     project:
       required_outside_context: >
         Prašau pasirinkti projektą, kuriame turi būti sukurtas darbo paketas, kad matytumėte visus atributus. Jūs galite pasirinkti tik tuos projektus, kurie turi aukščiau nurodytą tipą.
+      details_activity: 'Project details activity'
       context: 'Projekto kontekstas'
       work_package_belongs_to: 'Šis darbų paketas priklauso projektui %{projectname}.'
       click_to_switch_context: 'Atidaryti darbų paketą tame projekte.'

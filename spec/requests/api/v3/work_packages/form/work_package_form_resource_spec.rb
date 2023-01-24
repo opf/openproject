@@ -764,7 +764,7 @@ describe 'API v3 Work package form resource', with_mail: false do
                 create(:work_package_custom_field, field_format: 'text')
               end
 
-              let(:cf_param) { { "customField#{custom_field.id}" => nil } }
+              let(:cf_param) { { custom_field.attribute_name(:camel_case) => nil } }
               let(:params) { valid_params.merge(cf_param) }
 
               before do

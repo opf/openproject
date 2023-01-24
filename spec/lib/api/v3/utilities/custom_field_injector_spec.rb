@@ -31,7 +31,7 @@ require 'spec_helper'
 describe API::V3::Utilities::CustomFieldInjector do
   include API::V3::Utilities::PathHelper
 
-  let(:cf_path) { "customField#{custom_field.id}" }
+  let(:cf_path) { custom_field.attribute_name(:camel_case) }
   let(:field_format) { 'bool' }
   let(:custom_field) do
     build(:custom_field,

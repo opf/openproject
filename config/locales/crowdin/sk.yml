@@ -1831,6 +1831,7 @@ sk:
   label_product_version: "Verzia produktu"
   label_professional_support: "Profesionálna podpora"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Celkový počet projektov"
   label_project_copy_notifications: "Odoslať e-mail notifikácie počas kopírovania projektu"

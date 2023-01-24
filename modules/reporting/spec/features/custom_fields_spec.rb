@@ -105,7 +105,7 @@ describe 'Custom fields reporting', js: true do
 
       # Expect empty result table
       within('#result-table') do
-        expect(page).to have_no_selector('.top.result', text: '12.50 hours')
+        expect(page).not_to have_selector('.top.result', text: '12.50 hours')
       end
       expect(page).to have_selector('.generic-table--no-results-title')
 
@@ -132,8 +132,9 @@ describe 'Custom fields reporting', js: true do
       # Expect row of work package
       within('#result-table') do
         expect(page).to have_selector('a.work_package', text: "#{work_package.type} ##{work_package.id}")
-        expect(page).to have_selector('th.inner', text: 'First option')
-        expect(page).to have_no_selector('th.inner', text: 'Second option')
+        # There used to be additional and unwanted text after the option name being rendered.
+        expect(page).to have_selector('th.inner', text: /^First option$/)
+        expect(page).not_to have_selector('th.inner', text: 'Second option')
 
         # Only first option should have content for the work package
         expect(page).to have_selector('table.report tbody tr', count: 1)
@@ -188,13 +189,14 @@ describe 'Custom fields reporting', js: true do
         select 'Invalid List CF', from: 'group-by--add-columns'
         select 'Work package', from: 'group-by--add-rows'
 
+        sleep(0.1)
         click_link 'Apply'
 
         # Expect row of work package
         within('#result-table') do
           expect(page).to have_selector('a.work_package', text: "#{work_package.type} ##{work_package.id}")
           expect(page).to have_selector('th.inner', text: '1')
-          expect(page).to have_no_selector('th.inner', text: 'invalid!')
+          expect(page).not_to have_selector('th.inner', text: 'invalid!')
         end
       end
     end
@@ -227,7 +229,7 @@ describe 'Custom fields reporting', js: true do
       within('#result-table') do
         expect(page).to have_selector('a.work_package', text: "#{work_package.type} ##{work_package.id}")
         expect(page).to have_selector('th.inner', text: 'foo')
-        expect(page).to have_no_selector('th.inner', text: 'None')
+        expect(page).not_to have_selector('th.inner', text: 'None')
 
         # Only first option should have content for the work package
         expect(page).to have_selector('table.report tbody tr', count: 1)

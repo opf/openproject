@@ -1830,6 +1830,7 @@ ru:
   label_product_version: "Версия продукта"
   label_professional_support: "Профессиональная поддержка"
   label_profile: "Профиль"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Атрибуты проекта"
   label_project_count: "Общее количество проектов"
   label_project_copy_notifications: "Уведомлять по электронной почте по ходу копирования проекта"
@@ -2081,7 +2082,7 @@ ru:
       reason:
         watched: 'Просмотрено'
         assigned: 'Назначено'
-        responsible: 'Проверяющий'
+        responsible: 'Подотчетный'
         mentioned: 'Упомянутые'
         subscribed: 'все'
         prefix: 'Получено из-за настройки уведомления: %{reason}'

@@ -1828,6 +1828,7 @@ lt:
   label_product_version: "Produkto versija"
   label_professional_support: "Profesionali pagalba"
   label_profile: "Profilis"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Bendras projektų skaičius"
   label_project_copy_notifications: "Vykstant projekto kopijavimui siųsti pranešimus į el. paštą"

@@ -232,7 +232,9 @@ class CustomField < ApplicationRecord
     where(is_filter: true)
   end
 
-  def attribute_name
+  def attribute_name(format = nil)
+    return "customField#{id}" if format == :camel_case
+
     "custom_field_#{id}"
   end
 

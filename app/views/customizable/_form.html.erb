@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
       }
 
       if help_text
-        options[:help_text] = help_text.merge(attribute: "customField#{custom_field.id}")
+        options[:help_text] = help_text.merge(attribute: custom_field.attribute_name(:camel_case))
       end
 
       cf_form.cf_form_field(options)

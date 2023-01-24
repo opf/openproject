@@ -24,6 +24,8 @@ de:
         no_file_links: "Verknüpfen Sie Dateien mit diesem Arbeitspaket bitte über %{storageType}."
         not_logged_in: >
           Um einen Link hinzuzufügen, mit diesem Arbeitspaket verknüpfte Dateien zu sehen oder hochzuladen, melden Sie sich bitte bei %{storageType} an.
+      files:
+        directory_not_writeable: "You do not have to permission to add files to this folder."
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.

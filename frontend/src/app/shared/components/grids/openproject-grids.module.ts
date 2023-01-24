@@ -57,6 +57,7 @@ import { WidgetWpOverviewComponent } from 'core-app/shared/components/grids/widg
 import { WidgetCustomTextComponent } from 'core-app/shared/components/grids/widgets/custom-text/custom-text.component';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { WidgetProjectDetailsComponent } from 'core-app/shared/components/grids/widgets/project-details/project-details.component';
+import { WidgetProjectDetailsMenuComponent } from 'core-app/shared/components/grids/widgets/project-details/project-details-menu.component';
 import { WidgetTimeEntriesProjectComponent } from 'core-app/shared/components/grids/widgets/time-entries/project/time-entries-project.component';
 import { WidgetSubprojectsComponent } from 'core-app/shared/components/grids/widgets/subprojects/subprojects.component';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
@@ -126,6 +127,7 @@ import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/tim
     WidgetTimeEntriesProjectComponent,
 
     // Widget menus
+    WidgetProjectDetailsMenuComponent,
     WidgetMenuComponent,
     WidgetWpTableMenuComponent,
     WidgetWpGraphMenuComponent,

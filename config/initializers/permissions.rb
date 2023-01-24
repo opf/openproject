@@ -71,8 +71,7 @@ Rails.application.reloader.to_prepare do
                      contract_actions: { placeholder_users: %i[create read update] }
 
       map.permission :view_project,
-                     { projects: [:show],
-                       activities: [:index] },
+                     { projects: [:show] },
                      public: true
 
       map.permission :search_project,
@@ -362,6 +361,11 @@ Rails.application.reloader.to_prepare do
                        require: :loggedin
     end
 
-    map.project_module :activity
+    map.project_module :activity do
+      map.permission :view_project_activity,
+                     { activities: [:index] },
+                     public: true,
+                     contract_actions: { activities: %i[read] }
+    end
   end
 end

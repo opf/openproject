@@ -344,7 +344,7 @@ sv:
     label_details: "Detaljer"
     label_display: "Visa"
     label_cancel_comment: "Avbryt kommentar"
-    label_closed_work_packages: "stängt"
+    label_closed_work_packages: "stängda"
     label_collapse: "Fäll ihop"
     label_collapsed: "hopfällda"
     label_collapse_all: "Fäll ihop alla"
@@ -656,6 +656,7 @@ sv:
     project:
       required_outside_context: >
         Välj ett projekt för att skapa arbetspaketet för att se alla attribut. Du kan bara välja projekt som har typen ovan aktiverad.
+      details_activity: 'Project details activity'
       context: 'Projektsammanhang'
       work_package_belongs_to: 'Detta arbetspaket tillhör projektet %{projectname}.'
       click_to_switch_context: 'Öppna detta arbetspaket i det projektet.'

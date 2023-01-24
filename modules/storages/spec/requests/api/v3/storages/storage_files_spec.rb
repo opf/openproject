@@ -64,9 +64,9 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
     let(:files) do
       [
-        Storages::StorageFile.new(1, 'new_younglings.md', 4096, 'plain/text', DateTime.now, DateTime.now,
+        Storages::StorageFile.new(1, 'new_younglings.md', 4096, 'text/markdown', DateTime.now, DateTime.now,
                                   'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable]),
-        Storages::StorageFile.new(2, 'holocron_inventory.md', 4096, 'plain/text', DateTime.now, DateTime.now,
+        Storages::StorageFile.new(2, 'holocron_inventory.md', 4096, 'text/markdown', DateTime.now, DateTime.now,
                                   'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable writeable])
       ]
     end

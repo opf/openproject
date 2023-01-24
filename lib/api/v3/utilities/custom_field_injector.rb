@@ -127,12 +127,12 @@ module API
 
         private
 
-        def property_name(id)
-          "customField#{id}".to_sym
+        def property_name(custom_field)
+          custom_field.attribute_name(:camel_case).to_sym
         end
 
         def inject_version_schema(custom_field)
-          @class.schema_with_allowed_collection property_name(custom_field.id),
+          @class.schema_with_allowed_collection property_name(custom_field),
                                                 type: resource_type(custom_field),
                                                 name_source: ->(*) { custom_field.name },
                                                 values_callback: ->(*) {
@@ -150,7 +150,7 @@ module API
         end
 
         def inject_user_schema(custom_field)
-          @class.schema_with_allowed_link property_name(custom_field.id),
+          @class.schema_with_allowed_link property_name(custom_field),
                                           type: resource_type(custom_field),
                                           name_source: ->(*) { custom_field.name },
                                           required: custom_field.is_required,
@@ -159,7 +159,7 @@ module API
 
         def inject_list_schema(custom_field)
           @class.schema_with_allowed_collection(
-            property_name(custom_field.id),
+            property_name(custom_field),
             type: resource_type(custom_field),
             name_source: ->(*) { custom_field.name },
             values_callback: list_schemas_values_callback(custom_field),
@@ -170,7 +170,7 @@ module API
         end
 
         def inject_basic_schema(custom_field)
-          @class.schema property_name(custom_field.id),
+          @class.schema property_name(custom_field),
                         type: resource_type(custom_field),
                         name_source: ->(*) { custom_field.name },
                         required: custom_field.is_required,
@@ -182,7 +182,7 @@ module API
         end
 
         def inject_link_value(custom_field)
-          name = property_name(custom_field.id)
+          name = property_name(custom_field)
           expected_namespace = NAMESPACE_MAP[custom_field.field_format]
 
           link = LinkValueGetter.link_for custom_field
@@ -196,7 +196,7 @@ module API
                    end
 
           @class.send(method,
-                      property_name(custom_field.id),
+                      property_name(custom_field),
                       link:,
                       setter:,
                       getter:)
@@ -244,7 +244,7 @@ module API
 
         def inject_property_value(custom_field)
           @class.property custom_field.attribute_name.to_sym,
-                          as: property_name(custom_field.id),
+                          as: property_name(custom_field),
                           getter: property_value_getter_for(custom_field),
                           setter: property_value_setter_for(custom_field),
                           render_nil: true

@@ -392,7 +392,7 @@ describe 'API v3 time_entry resource' do
           raw: "some comment"
         },
         spentOn: "2017-07-28",
-        "customField#{custom_field.id}": {
+        custom_field.attribute_name(:camel_case) => {
           raw: 'some cf text'
         }
       }
@@ -485,7 +485,7 @@ describe 'API v3 time_entry resource' do
           hours: 'PT5H',
           comment: "some comment",
           spentOn: "2017-07-28",
-          "customField#{custom_field.id}": {
+          custom_field.attribute_name(:camel_case) => {
             raw: 'some cf text'
           }
         }

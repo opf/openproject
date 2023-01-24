@@ -276,7 +276,7 @@ describe 'date inplace editor',
       )
     end
 
-    let(:cf_field) { EditField.new page, :"customField#{date_cf.id}" }
+    let(:cf_field) { EditField.new page, date_cf.attribute_name(:camel_case) }
     let(:datepicker) { Components::Datepicker.new }
     let(:create_page) { Pages::FullWorkPackageCreate.new(project:) }
 

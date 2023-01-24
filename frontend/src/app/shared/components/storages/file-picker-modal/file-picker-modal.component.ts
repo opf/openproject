@@ -149,7 +149,7 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
       this.isAlreadyLinked(file),
       index === 0,
       this.enterDirectoryCallback(file),
-      isDirectory(file) ? this.text.tooltip.alreadyLinkedDirectory : this.text.tooltip.alreadyLinkedFile,
+      this.tooltip(file),
       {
         selected: this.selection.has(file.id as string),
         changeSelection: () => { this.changeSelection(file); },
@@ -162,5 +162,13 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
     const found = currentFileLinks.find((a) => a.originData.id === file.id);
 
     return !!found;
+  }
+
+  private tooltip(file:IStorageFile):string|undefined {
+    if (!this.isAlreadyLinked(file)) {
+      return undefined;
+    }
+
+    return isDirectory(file) ? this.text.tooltip.alreadyLinkedDirectory : this.text.tooltip.alreadyLinkedFile;
   }
 }

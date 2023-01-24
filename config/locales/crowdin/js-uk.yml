@@ -659,6 +659,7 @@ uk:
     project:
       required_outside_context: >
         Виберіть проект, щоб створити робочий пакет, щоб побачити всі атрибути. Ви можете вибирати лише проекти, які мають вказаний вище тип активації.
+      details_activity: 'Project details activity'
       context: 'Контекст проекту'
       work_package_belongs_to: 'Цей робочий пакет належить до проекту %{projectname}'
       click_to_switch_context: 'Відкрийте цей робочий пакет у цьому проекті.'

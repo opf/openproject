@@ -1795,6 +1795,7 @@ hi:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "प्रोफ़ाइल"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "प्रोजेक्ट प्रतिलिपी के दौरान ईमेल सूचनाएँ भेजें"

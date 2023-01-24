@@ -1782,6 +1782,7 @@ vi:
   label_product_version: "Phiên bản sản phẩm"
   label_professional_support: "Hỗ trợ chuyên nghiệp"
   label_profile: "Hồ sơ"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Tổng số dự án"
   label_project_copy_notifications: "Gửi email thông báo trong quá trình sao chép dự án"

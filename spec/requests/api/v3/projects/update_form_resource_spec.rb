@@ -162,12 +162,12 @@ describe API::V3::Projects::UpdateFormAPI, content_type: :json do
         {
           identifier: 'new_project_identifier',
           name: 'Project name',
-          "customField#{text_custom_field.id}": {
+          text_custom_field.attribute_name(:camel_case) => {
             raw: "new CF text"
           },
           statusExplanation: { raw: 'Something goes awry.' },
           _links: {
-            "customField#{list_custom_field.id}": {
+            list_custom_field.attribute_name(:camel_case) => {
               href: api_v3_paths.custom_option(list_custom_field.custom_options.last.id)
             },
             status: {

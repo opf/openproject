@@ -45,6 +45,21 @@ class CostQuery::Filter::CustomFieldEntries < Report::Filter::Base
     end
   end
 
+  def self.field
+    # There is a special treatment for how list custom values are retrieved as those
+    # are not taken directly from the custom_values but from the custom_options table.
+    # But the value still has to be the id of the option which is later on mapped to the
+    # human readable value.
+    # Mapping to the human readable value is done for all custom values (e.g. users, versions)
+    # following the same pattern of code, so simply making the exception here to use the value
+    # would complicated the code later on.
+    if custom_field.field_format == 'list'
+      "#{db_field}.value"
+    else
+      super
+    end
+  end
+
   def self.available_values(*)
     @possible_values || get_possible_values
   end
