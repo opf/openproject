@@ -103,6 +103,7 @@ export class OpenProjectFileUploadService {
     url:string,
     file:UploadFile|UploadBlob,
     method = 'post',
+    responseType:'json'|'text' = 'json',
   ):UploadInProgress {
     const formData = new FormData();
     const metadata = {
@@ -119,7 +120,7 @@ export class OpenProjectFileUploadService {
     // Add the file
     formData.append('file', file, metadata.fileName);
 
-    const observable = this.http.request<HalResource>(
+    const observable = this.http.request(
       method,
       url,
       {
@@ -127,7 +128,7 @@ export class OpenProjectFileUploadService {
         // Observe the response, not the body
         observe: 'events',
         withCredentials: true,
-        responseType: 'json',
+        responseType,
         // Subscribe to progress events. subscribe() will fire multiple times!
         reportProgress: true,
       },

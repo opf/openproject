@@ -95,7 +95,7 @@ export class AvatarUploadFormComponent implements OnInit {
   public uploadAvatar(evt:Event) {
     evt.preventDefault();
     this.busy = true;
-    const upload = this.opFileUpload.uploadSingle(this.target, this.avatarFile, this.method);
+    const upload = this.opFileUpload.uploadSingle(this.target, this.avatarFile, this.method, 'text');
     this.toastService.addAttachmentUpload(this.text.uploading, [upload]);
 
     upload[1].subscribe(
@@ -116,7 +116,7 @@ export class AvatarUploadFormComponent implements OnInit {
         }
       },
       (error:any) => {
-        this.toastService.addError(error.error);
+        this.toastService.addError(error);
         this.busy = false;
       }
     );
