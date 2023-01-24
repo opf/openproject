@@ -48,7 +48,10 @@ export class IanBellService {
   fetchUnread():Observable<number> {
     return this
       .resourceService
-      .fetchCollection({ filters: IAN_FACET_FILTERS.unread, pageSize: 0 })
+      .fetchCollection(
+        { filters: IAN_FACET_FILTERS.unread, pageSize: 0 },
+        { handleErrors: false }
+        )
       .pipe(
         map((result) => result.total),
         tap(
