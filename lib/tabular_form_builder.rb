@@ -34,6 +34,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   include ActionView::Helpers::AssetTagHelper
   include ERB::Util
   include TextFormattingHelper
+  include AngularHelper
 
   def self.tag_with_label_method(selector, &)
     ->(field, options = {}, *args) do
@@ -82,13 +83,26 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     super
   end
 
-  def date_field(field, value, options = {})
-    angular_component_tag 'op-single-date-picker',
-                           class: 'date costs-date-picker',
-                           inputs: {
-                             id: field_id(field),
-                             name: field_name(field)
-                           }
+  def date_picker(field, options = {})
+    merge_required_attributes(options[:required], options)
+    options[:visible_overflow] = true;
+
+    input_options, label_options = extract_from options
+
+    if field_has_errors?(field)
+      input_options[:class] << ' -error'
+    end
+
+    label = label_for_field(field, label_options)
+    input = angular_component_tag 'op-single-date-picker',
+                          class: options[:class],
+                          inputs: {
+                            value: @object.public_send(field),
+                            id: field_id(field),
+                            name: field_name(field)
+                          }
+
+    (label + container_wrap_field(input, :date_picker, options))
   end
 
   def radio_button(field, value, options = {}, *args)
@@ -197,7 +211,8 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     if options[:no_label]
       field_html
     else
-      content_tag(:span, field_html, class: options[:no_class] ? '' : 'form--field-container')
+      classes = options[:visible_overflow] ? '-visible-overflow' : ''
+      content_tag(:span, field_html, class: options[:no_class] ? classes : classes + ' form--field-container')
     end
   end
 

@@ -16,20 +16,7 @@
                     with_text_formatting: true %>
   </div>
   <div class="form--field">
-    <label
-      class="form--label"
-      title="<%= t('announcements.show_until') %>"
-      for="announcements_show_until"
-      ><%= t('announcements.show_until') %></label>
-    <div class="form--field-container -visible-overflow">
-      <%= angular_component_tag 'op-single-date-picker',
-                                inputs: {
-                                  value: @announcement.show_until,
-                                  id: "announcement_show_until",
-                                  name: "announcement[show_until]"
-                                }
-      %>
-    </div>
+    <%= f.date_picker :show_until, label: t('announcements.show_until') %>
   </div>
   <div class="form--field">
     <%= f.check_box :active, label: t(:label_active) %>

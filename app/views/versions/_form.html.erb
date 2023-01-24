@@ -63,13 +63,7 @@ See COPYRIGHT and LICENSE files for more details.
     for="version_start_date"
   ><%= t(:start_date) %></label>
   <div class="form--field-container -visible-overflow">
-    <%= angular_component_tag 'op-single-date-picker',
-                              inputs: {
-                                value: version.start_date,
-                                id: "version_start_date",
-                                name: "version[start_date]"
-                              }
-    %>
+    <%= f.date_picker :start_date %>
   </div>
 </div>
 
@@ -79,13 +73,7 @@ See COPYRIGHT and LICENSE files for more details.
     for="version_effective_date"
   ><%= t(:effective_date) %></label>
   <div class="form--field-container -visible-overflow">
-    <%= angular_component_tag 'op-single-date-picker',
-                              inputs: {
-                                value: version.effective_date,
-                                id: "version_effective_date",
-                                name: "version[effective_date]"
-                              }
-    %>
+    <%= f.date_picker :effective_date %>
   </div>
 </div>
 
