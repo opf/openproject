@@ -69,7 +69,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
     return (result) => {
       result.form.append('file', file, file.customName || file.name);
 
-      return this.http.request<HalResource>(
+      return this.http.request(
         method,
         result.url,
         {
@@ -81,7 +81,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
           headers: {
             [EXTERNAL_REQUEST_HEADER]: 'true',
           },
-          responseType: 'json',
+          responseType: 'text',
           // Subscribe to progress events. subscribe() will fire multiple times!
           reportProgress: true,
         },
