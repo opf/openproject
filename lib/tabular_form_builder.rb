@@ -82,6 +82,15 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     super
   end
 
+  def date_field(field, value, options = {})
+    angular_component_tag 'op-single-date-picker',
+                           class: 'date costs-date-picker',
+                           inputs: {
+                             id: field_id(field),
+                             name: field_name(field)
+                           }
+  end
+
   def radio_button(field, value, options = {}, *args)
     options[:class] = Array(options[:class]) + %w(form--radio-button)
 
