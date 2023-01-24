@@ -13,9 +13,5 @@ module Activities
                      :event_type,
                      :event_path,
                      :event_url,
-                     keyword_init: true) do
-                       def journal
-                         @journal ||= Journal.find(event_id)
-                       end
-                     end
+                     keyword_init: true)
 end
