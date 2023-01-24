@@ -116,7 +116,7 @@ export class UploadProgressComponent extends UntilDestroyedMixin implements OnIn
               this.uploadSuccess.emit();
               break;
             default:
-            // unknown event
+              console.warn(`unknown event type: ${evt.type}`);
           }
         },
         (error:HttpErrorResponse) => this.handleError(error),

@@ -72,17 +72,13 @@ export class OpenProjectFileUploadService {
   /**
    * Upload multiple files and return a promise for each uploading file and a single promise for all processed uploads
    * with their accessible URLs returned.
-   * @param {string} url
-   * @param {UploadFile[]} files
-   * @param {string} method
-   * @returns {Promise<{response:HalResource; uploadUrl:any}[]>}
    */
-  public uploadAndMapResponse(url:string, files:UploadFile[], method = 'post') {
+  public uploadAndMapResponse(url:string, files:UploadFile[]):MappedUploadResult {
     const { uploads, finished } = this.upload(url, files);
     const mapped = finished
-      .then((result:HalResource[]) => result.map((el:HalResource) => ({
-        response: el,
-        uploadUrl: (el.staticDownloadLocation as unknown&{ href:string }).href,
+      .then((result:HalResource[]) => result.map((element:HalResource) => ({
+        response: element,
+        uploadUrl: (element.staticDownloadLocation as unknown&{ href:string }).href,
       }))) as Promise<{ response:HalResource, uploadUrl:string }[]>;
 
     return { uploads, finished: mapped } as MappedUploadResult;
@@ -102,12 +98,12 @@ export class OpenProjectFileUploadService {
 
   /**
    * Upload a single file, get an UploadResult observable
-   * @param {string} url
-   * @param {UploadFile} file
-   * @param {string} method
-   * @param {'text'|'json'} responseType
    */
-  public uploadSingle(url:string, file:UploadFile|UploadBlob, method = 'post', responseType:'text'|'json' = 'json') {
+  public uploadSingle(
+    url:string,
+    file:UploadFile|UploadBlob,
+    method = 'post',
+  ):UploadInProgress {
     const formData = new FormData();
     const metadata = {
       description: file.description,
@@ -131,7 +127,7 @@ export class OpenProjectFileUploadService {
         // Observe the response, not the body
         observe: 'events',
         withCredentials: true,
-        responseType: responseType as any,
+        responseType: 'json',
         // Subscribe to progress events. subscribe() will fire multiple times!
         reportProgress: true,
       },

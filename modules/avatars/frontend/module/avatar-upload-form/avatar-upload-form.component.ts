@@ -95,7 +95,7 @@ export class AvatarUploadFormComponent implements OnInit {
   public uploadAvatar(evt:Event) {
     evt.preventDefault();
     this.busy = true;
-    const upload = this.opFileUpload.uploadSingle(this.target, this.avatarFile, this.method, 'text');
+    const upload = this.opFileUpload.uploadSingle(this.target, this.avatarFile, this.method);
     this.toastService.addAttachmentUpload(this.text.uploading, [upload]);
 
     upload[1].subscribe(
