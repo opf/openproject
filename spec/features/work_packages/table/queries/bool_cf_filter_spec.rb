@@ -31,8 +31,8 @@ require 'spec_helper'
 describe 'Work package filtering by bool custom field', js: true do
   let(:project) { create :project }
   let(:type) { project.types.first }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
   let!(:bool_cf) do
     create(:bool_wp_custom_field).tap do |cf|
       type.custom_fields << cf

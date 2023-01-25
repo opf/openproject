@@ -27,7 +27,6 @@
 #++
 
 class Setting < ApplicationRecord
-  extend CallbacksHelper
   extend Aliases
   extend MailSettings
 
@@ -212,9 +211,6 @@ class Setting < ApplicationRecord
 
       # Delete the cache
       clear_cache(old_cache_key)
-
-      # fire callbacks for name and pass as much information as possible
-      fire_callbacks(name, new_value, old_value)
 
       new_value
     else

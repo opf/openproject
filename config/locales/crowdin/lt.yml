@@ -704,6 +704,8 @@ lt:
           archived_ancestor: 'Projektas turi suarchyvuotą protėvį.'
           foreign_wps_reference_version: 'Darbų paketai iš kitų projektų medžių turi nuorodas į versijas šiame projekte arba jo subprojektuose.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "vis dar naudojama darbų paketuose: %{types}"
             enabled_modules:
@@ -1826,6 +1828,7 @@ lt:
   label_product_version: "Produkto versija"
   label_professional_support: "Profesionali pagalba"
   label_profile: "Profilis"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Bendras projektų skaičius"
   label_project_copy_notifications: "Vykstant projekto kopijavimui siųsti pranešimus į el. paštą"
@@ -2253,6 +2256,7 @@ lt:
   permission_add_work_packages: "Pridėti darbų paketų"
   permission_add_messages: "Skelbti pranešimus"
   permission_add_project: "Sukurti projektą"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Kurti ir keisti naudotojus"
   permission_manage_placeholder_user: "Kurti, keisti ir trinti statytinius naudotojus"
   permission_add_subprojects: "Sukurti sub-projektus"

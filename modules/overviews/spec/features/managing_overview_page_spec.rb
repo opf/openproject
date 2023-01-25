@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/overview'
 
-describe 'Overview page managing', type: :feature, js: true, with_mail: false do
+describe 'Overview page managing', js: true, with_mail: false do
   let!(:type) { create :type }
   let!(:project) { create :project, types: [type], description: 'My **custom** description' }
   let!(:open_status) { create :default_status }

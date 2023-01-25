@@ -27,16 +27,17 @@
 #++
 
 module Projects
-  class UnarchiveContract < ModelContract
+  class UnarchiveContract < ::BaseContract
     include RequiresAdminGuard
-    include Projects::Archiver
 
     validate :validate_all_ancestors_active
 
     protected
 
-    def validate_model?
-      false
+    def validate_all_ancestors_active
+      if model.ancestors.any?(&:archived?)
+        errors.add :base, :archived_ancestor
+      end
     end
   end
 end

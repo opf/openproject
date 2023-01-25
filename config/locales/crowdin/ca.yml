@@ -701,6 +701,8 @@ ca:
           archived_ancestor: 'El projecte té un ancestre arxivat.'
           foreign_wps_reference_version: 'Els paquets de treball en projectes no descendents referencien versions del projecte o els seus descendents.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "encara en ús pels paquets de treball: %{types}"
             enabled_modules:
@@ -1791,6 +1793,7 @@ ca:
   label_product_version: "Versió del producte"
   label_professional_support: "Suport professional"
   label_profile: "Perfil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Nombre total de projectes"
   label_project_copy_notifications: "Envia notificacions de correu electrònic durant la còpia del projecte"
@@ -2209,6 +2212,7 @@ ca:
   permission_add_work_packages: "Afegir paquets de treball"
   permission_add_messages: "Publicar missatges"
   permission_add_project: "Crear un projecte"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Crear i editar usuaris"
   permission_manage_placeholder_user: "Crea, edita i elimina usuaris de marcador de posició"
   permission_add_subprojects: "Crear subprojectes"

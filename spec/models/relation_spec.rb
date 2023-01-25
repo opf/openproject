@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe Relation, type: :model do
+describe Relation do
   create_shared_association_defaults_for_work_package_factory
 
   let(:from) { create(:work_package) }

@@ -183,9 +183,9 @@ class Role < ApplicationRecord
   end
 
   def allowed_actions
-    @actions_allowed ||= allowed_permissions.map do |permission|
+    @allowed_actions ||= allowed_permissions.flat_map do |permission|
       OpenProject::AccessControl.allowed_actions(permission)
-    end.flatten
+    end
   end
 
   def check_deletable

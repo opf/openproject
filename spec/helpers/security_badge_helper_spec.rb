@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SecurityBadgeHelper, type: :helper do
+describe SecurityBadgeHelper do
   describe '#security_badge_url' do
     before do
       # can't use with_settings since Setting.installation_uuid has a custom implementation

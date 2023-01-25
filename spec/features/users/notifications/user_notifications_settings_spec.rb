@@ -1,10 +1,10 @@
 require 'rails_helper'
 require_relative './shared_examples'
 
-describe "user notifications settings", type: :feature, js: true do
+describe "user notifications settings", js: true do
   shared_let(:user) { create :user }
 
-  let(:settings_page) { ::Pages::Notifications::Settings.new(user) }
+  let(:settings_page) { Pages::Notifications::Settings.new(user) }
 
   before do
     login_as current_user

@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './support/board_index_page'
 require_relative './support/board_page'
 
-describe 'Board remote changes resolution', type: :feature, js: true do
+describe 'Board remote changes resolution', js: true do
   let(:user1) do
     create(:user,
            member_in_project: project,

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-describe 'Assigned to me embedded query on my page', type: :feature, js: true do
+describe 'Assigned to me embedded query on my page', js: true do
   let!(:type) { create :type }
   let!(:priority) { create :default_priority }
   let!(:project) { create :project, types: [type] }
@@ -79,7 +79,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let(:assigned_area) { Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)') }
   let(:created_area) { Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)') }
   let(:embedded_table) { Pages::EmbeddedWorkPackagesTable.new(assigned_area.area) }
-  let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
+  let(:hierarchies) { Components::WorkPackages::Hierarchies.new }
 
   current_user { user }
 

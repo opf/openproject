@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe 'Subproject creation', type: :feature, js: true do
-  let(:name_field) { ::FormFields::InputFormField.new :name }
-  let(:parent_field) { ::FormFields::SelectFormField.new :parent }
+describe 'Subproject creation', js: true do
+  let(:name_field) { FormFields::InputFormField.new :name }
+  let(:parent_field) { FormFields::SelectFormField.new :parent }
   let(:add_subproject_role) { create(:role, permissions: %i[edit_project add_subprojects]) }
   let(:view_project_role) { create(:role, permissions: %i[edit_project]) }
   let!(:parent_project) do

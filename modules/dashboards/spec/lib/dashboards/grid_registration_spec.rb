@@ -10,7 +10,7 @@ describe Dashboards::GridRegistration do
       subject { described_class.from_scope '/foobar/projects/an_id/dashboards' }
 
       it 'returns the class' do
-        expect(subject[:class]).to eq(::Grids::Dashboard)
+        expect(subject[:class]).to eq(Grids::Dashboard)
       end
 
       it 'returns the project_id' do
@@ -30,7 +30,7 @@ describe Dashboards::GridRegistration do
       subject { described_class.from_scope '/projects/an_id/dashboards' }
 
       it 'returns the class' do
-        expect(subject[:class]).to eq(::Grids::Dashboard)
+        expect(subject[:class]).to eq(Grids::Dashboard)
       end
 
       it 'returns the project_id' do

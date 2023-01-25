@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::Filters::PublicFilter, type: :model do
+describe Queries::Projects::Filters::PublicFilter do
   it_behaves_like 'boolean query filter' do
     let(:model) { Project }
     let(:attribute) { :public }

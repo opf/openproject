@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Query::SortCriteria, type: :model do
+describe Query::SortCriteria do
   let(:query) do
     build_stubbed :query,
                   show_hierarchies: false

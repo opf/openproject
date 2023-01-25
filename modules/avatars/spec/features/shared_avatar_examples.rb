@@ -45,7 +45,7 @@ shared_examples 'avatar management' do
       expect(page).to have_no_selector('.form--fieldset-legend', text: 'GRAVATAR')
 
       # Attach a new invalid image
-      find('#avatar_file_input').set ::UploadedFile.load_from(File.join(image_base_path, 'invalid.txt')).path
+      find('#avatar_file_input').set UploadedFile.load_from(File.join(image_base_path, 'invalid.txt')).path
 
       # Expect error
       expect(page).to have_selector('.form--label.-error')
@@ -54,7 +54,7 @@ shared_examples 'avatar management' do
       # Attach new image
       visit avatar_management_path
       expect(page).to have_selector('.avatars--current-local-avatar', text: 'none')
-      find('#avatar_file_input').set ::UploadedFile.load_from(File.join(image_base_path, 'too_big.jpg')).path
+      find('#avatar_file_input').set UploadedFile.load_from(File.join(image_base_path, 'too_big.jpg')).path
 
       # Expect not error, since ng-file-upload resizes the image
       expect(page).to have_no_selector('.form--label.-error')

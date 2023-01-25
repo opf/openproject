@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'Wysiwyg child pages spec',
-         type: :feature, js: true do
+         js: true do
   let(:project) do
     create :project,
            enabled_module_names: %w[wiki]
   end
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
   let(:role) { create(:role, permissions: %i[view_wiki_pages edit_wiki_pages]) }
   let(:user) do
     create(:user, member_in_project: project, member_through_role: role)

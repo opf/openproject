@@ -587,7 +587,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         email: "nie jest poprawnym adresem e-mail."
@@ -704,6 +704,8 @@ pl:
           archived_ancestor: 'Projekt ma zarchiwizowanego przodka.'
           foreign_wps_reference_version: 'Pakiety robocze w projektach innych niż wersje referencyjne projektów potomnych projektu lub jego projekty potomne.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "nadal w użyciu przez Zestawy zadań: %{types}"
             enabled_modules:
@@ -1826,6 +1828,7 @@ pl:
   label_product_version: "Wersja produktu"
   label_professional_support: "Profesjonalne wsparcie"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Cechy projektu"
   label_project_count: "Całkowita liczba projektów"
   label_project_copy_notifications: "Wyślij powiadomienia e-mail podczas kopiowania projektów"
@@ -2252,6 +2255,7 @@ pl:
   permission_add_work_packages: "Dodawanie pakietów roboczych"
   permission_add_messages: "Wysyłanie wiadomości"
   permission_add_project: "Tworzenie projektu"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Tworzenie i edycja użytkowników"
   permission_manage_placeholder_user: "Twórz, edytuj i usuwaj użytkowników zastępczych"
   permission_add_subprojects: "Tworzenie podprojektów"

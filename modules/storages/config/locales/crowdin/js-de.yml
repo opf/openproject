@@ -24,6 +24,8 @@ de:
         no_file_links: "Verknüpfen Sie Dateien mit diesem Arbeitspaket bitte über %{storageType}."
         not_logged_in: >
           Um einen Link hinzuzufügen, mit diesem Arbeitspaket verknüpfte Dateien zu sehen oder hochzuladen, melden Sie sich bitte bei %{storageType} an.
+      files:
+        directory_not_writeable: "You do not have to permission to add files to this folder."
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
@@ -44,6 +46,9 @@ de:
         success_create:
           one: "Successfully created 1 file link."
           other: "Successfully created %{count} file links."
+        upload_error: "An error occurred uploading the file '%{fileName}'."
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Bitte melden Sie sich bei Nextcloud an, um auf diese Datei zuzugreifen"
         already_linked_file: "Die Datei ist bereits mit diesem Arbeitspaket verknüpft."
         already_linked_directory: "Das Verzeichnis ist bereits mit diesem Arbeitspaket verknüpft."

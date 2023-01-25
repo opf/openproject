@@ -27,11 +27,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Inject,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject,
 } from '@angular/core';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -39,9 +35,9 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import { isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
+import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import {
   StorageFileListItem,
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
@@ -54,6 +50,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
+  public submitted = false;
+
   public readonly text = {
     header: this.i18n.t('js.storages.select_location'),
     buttons: {
@@ -63,10 +61,17 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
       cancel: this.i18n.t('js.button_cancel'),
       selectAll: this.i18n.t('js.storages.file_links.select_all'),
     },
+    tooltip: {
+      directory_not_writeable: this.i18n.t('js.storages.files.directory_not_writeable'),
+    },
   };
 
   public get canChooseLocation():boolean {
-    return this.breadcrumbs.crumbs.length > 1;
+    if (!this.currentDirectory) {
+      return false;
+    }
+
+    return this.currentDirectory.permissions.some((value) => value === 'writeable');
   }
 
   constructor(
@@ -88,21 +93,23 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
   }
 
   public chooseLocation():void {
+    this.submitted = true;
     this.service.close();
   }
 
   protected storageFileToListItem(file:IStorageFile, index:number):StorageFileListItem {
-    const isFolder = isDirectory(file.mimeType);
-    const enterDirectoryCallback = isFolder ? this.enterDirectoryCallback(file) : undefined;
-
     return new StorageFileListItem(
       this.timezoneService,
       file,
-      !isFolder,
+      !isDirectory(file),
       index === 0,
+      this.enterDirectoryCallback(file),
+      this.isDirectoryWithoutWritePermission(file) ? this.text.tooltip.directory_not_writeable : undefined,
       undefined,
-      undefined,
-      enterDirectoryCallback,
     );
+  }
+
+  private isDirectoryWithoutWritePermission(file:IStorageFile):boolean {
+    return isDirectory(file) && !file.permissions.some((permission) => permission === 'writeable');
   }
 }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::AuthorFilter, type: :model do
+describe Queries::WorkPackages::Filter::AuthorFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :list }
     let(:class_key) { :author_id }

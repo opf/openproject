@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::MovesController, type: :controller, with_settings: { journal_aggregation_time_minutes: 0 } do
+describe WorkPackages::MovesController, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) { create(:user) }
   let(:role) do
     create :role,

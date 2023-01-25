@@ -29,9 +29,9 @@
 require 'spec_helper'
 require 'work_package'
 
-describe ::OAuth::GrantsController, type: :controller do
+describe OAuth::GrantsController do
   let(:user) { build_stubbed :user }
-  let(:application_stub) { instance_double(::Doorkeeper::Application, name: 'Foo', id: 1) }
+  let(:application_stub) { instance_double(Doorkeeper::Application, name: 'Foo', id: 1) }
 
   before do
     login_as user

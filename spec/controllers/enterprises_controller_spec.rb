@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe EnterprisesController, type: :controller do
+describe EnterprisesController do
   let(:a_token) { EnterpriseToken.new }
 
   let(:token_attributes) do

@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe ::API::V3::Users::CreateFormAPI, content_type: :json do
+describe API::V3::Users::CreateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -139,9 +139,9 @@ describe ::API::V3::Users::CreateFormAPI, content_type: :json do
         {
           email: 'cfuser@example.com',
           status: 'invited',
-          "customField#{custom_field.id}": "A custom value",
+          custom_field.attribute_name(:camel_case) => "A custom value",
           _links: {
-            "customField#{list_custom_field.id}": {
+            list_custom_field.attribute_name(:camel_case) => {
               href: custom_option_href
             }
           }

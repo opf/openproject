@@ -32,8 +32,8 @@ require 'features/work_packages/work_packages_page'
 describe 'Work package table refreshing due to split view', js: true do
   let(:project) { create :project_with_types }
   let!(:work_package) { create :work_package, project: }
-  let(:wp_split) { ::Pages::SplitWorkPackage.new work_package }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new project }
+  let(:wp_split) { Pages::SplitWorkPackage.new work_package }
+  let(:wp_table) { Pages::WorkPackagesTable.new project }
   let(:user) { create :admin }
 
   before do

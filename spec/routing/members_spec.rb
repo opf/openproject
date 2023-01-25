@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MembersController, type: :routing do
+describe MembersController do
   context 'project scoped' do
     it {
       expect(subject).to route(:post, '/projects/5234/members').to(controller: 'members',

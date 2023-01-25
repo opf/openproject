@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../project_include/project_include_shared_examples'
 
-describe 'Work package project include', type: :feature, js: true do
+describe 'Work package project include', js: true do
   shared_let(:enabled_modules) { %w[work_package_tracking] }
   shared_let(:status) { create(:default_status) }
   shared_let(:priority) { create(:default_priority) }

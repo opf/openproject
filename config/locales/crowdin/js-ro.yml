@@ -477,7 +477,7 @@ ro:
     label_drop_files: "Aruncați fișierele aici pentru a atașa fișiere."
     label_drop_or_click_files: "Lăsați fișierele aici pentru a atașa fișiere."
     label_drop_folders_hint: Nu puteți încărca dosare ca atașament. Vă rugăm să selectați fișiere individuale.
-    label_add_attachments: "Adaugă fișiere"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Atașați și legați fișiere prin plasarea în acest câmp sau prin lipirea din clipboard."
     label_remove_file: "Ştergere %{fileName}"
     label_remove_watcher: "Eliminare observator %{name}"
@@ -657,6 +657,7 @@ ro:
     project:
       required_outside_context: >
         Vă rugăm să alegeți un proiect în care să creați pachetul de lucru pentru a vedea toate atributele. Puteți selecta numai proiectele care au tipul de mai sus activat.
+      details_activity: 'Project details activity'
       context: 'Contextul proiectului'
       work_package_belongs_to: 'Acest pachet de lucru face parte din proiectul %{projectname}.'
       click_to_switch_context: 'Deschide pachetul de lucru din acel proiect.'

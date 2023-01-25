@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage::Ancestors, type: :model do
+describe WorkPackage::Ancestors do
   let(:user) { create(:user) }
   let(:project) { create :project }
   let(:project2) { create :project }
@@ -72,7 +72,7 @@ describe WorkPackage::Ancestors, type: :model do
   let(:leaf_ids) { [leaf.id, leaf_project2.id] }
   let(:intermediate_ids) { [intermediate.id, intermediate_project2.id] }
 
-  subject { ::WorkPackage.aggregate_ancestors(ids, user) }
+  subject { WorkPackage.aggregate_ancestors(ids, user) }
 
   before do
     allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'edit users', type: :feature, js: true do
+describe 'edit users', js: true do
   shared_let(:admin) { create :admin }
   let(:current_user) { admin }
   let(:user) { create :user, mail: 'foo@example.com' }

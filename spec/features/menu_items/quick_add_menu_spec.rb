@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Quick-add menu', js: true, selenium: true do
-  let(:quick_add) { ::Components::QuickAddMenu.new }
+  let(:quick_add) { Components::QuickAddMenu.new }
 
   context 'as a logged in user with add_project permission' do
     current_user { create :user, global_permission: %i[add_project] }
@@ -49,7 +49,7 @@ describe 'Quick-add menu', js: true, selenium: true do
 
     context 'with an existing project' do
       let(:project) { create :project }
-      let(:field) { ::FormFields::SelectFormField.new :parent }
+      let(:field) { FormFields::SelectFormField.new :parent }
 
       current_user do
         create :user,
@@ -74,7 +74,7 @@ describe 'Quick-add menu', js: true, selenium: true do
 
   context 'with current user as member with permission :manage_members in one project' do
     let!(:project) { create :project }
-    let(:invite_modal) { ::Components::Users::InviteUserModal.new project:, role: nil, principal: nil }
+    let(:invite_modal) { Components::Users::InviteUserModal.new project:, role: nil, principal: nil }
 
     current_user do
       create :user,

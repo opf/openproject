@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe EnabledModule, type: :model do
+describe EnabledModule do
   # Force reload, as association is not always(?) showing
   let(:project) { create(:project, enabled_module_names: modules).reload }
 

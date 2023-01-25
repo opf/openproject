@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiPage, type: :model do
+describe WikiPage do
   let(:project) { create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
   let(:wiki) { project.wiki }
   let(:title) { wiki.wiki_menu_items.first.title }

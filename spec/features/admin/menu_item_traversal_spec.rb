@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Menu item traversal', type: :feature do
+describe 'Menu item traversal' do
   shared_let(:admin) { create(:admin) }
 
   describe 'EnterpriseToken management' do

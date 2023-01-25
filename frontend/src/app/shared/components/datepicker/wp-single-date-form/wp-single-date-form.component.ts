@@ -224,11 +224,12 @@ export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements 
 
           this.cdRef.detectChanges();
         },
-        onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
             this.ignoreNonWorkingDays,
-            this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
+            await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
             this.dateModalScheduling.isDayDisabled(dayElem, minimalDate),
           );
         },

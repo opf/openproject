@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
+  include API::V3::Utilities::PathHelper
 
   let(:object) do
     API::ParserStruct.new available_custom_fields: []

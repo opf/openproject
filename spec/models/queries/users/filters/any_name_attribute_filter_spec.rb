@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Users::Filters::AnyNameAttributeFilter, type: :model do
+describe Queries::Users::Filters::AnyNameAttributeFilter do
   include_context 'filter tests'
   let(:values) { ['A name'] }
   let(:model) { User.user }

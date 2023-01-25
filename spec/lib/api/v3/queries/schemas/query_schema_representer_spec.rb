@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::Schemas::QuerySchemaRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:query) do
     query = Query.new project: project

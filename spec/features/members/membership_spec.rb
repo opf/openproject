@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Administrating memberships via the project settings', type: :feature, js: true do
+describe 'Administrating memberships via the project settings', js: true do
   shared_let(:admin) { create :admin }
   let(:current_user) do
     create(:user,

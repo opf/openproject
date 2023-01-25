@@ -35,11 +35,17 @@ Rails.application.reloader.to_prepare do
                      global: true,
                      contract_actions: { projects: %i[create] }
 
+      map.permission :archive_project,
+                     {
+                       'projects/archive': %i[create]
+                     },
+                     require: :member
+
       map.permission :create_backup,
                      {
-                     admin: %i[index],
-                     'admin/backups': %i[delete_token perform_token_reset reset_token show]
-                   },
+                       admin: %i[index],
+                       'admin/backups': %i[delete_token perform_token_reset reset_token show]
+                     },
                      require: :loggedin,
                      global: true,
                      enabled: -> { OpenProject::Configuration.backup_enabled? }
@@ -65,8 +71,7 @@ Rails.application.reloader.to_prepare do
                      contract_actions: { placeholder_users: %i[create read update] }
 
       map.permission :view_project,
-                     { projects: [:show],
-                       activities: [:index] },
+                     { projects: [:show] },
                      public: true
 
       map.permission :search_project,
@@ -356,6 +361,11 @@ Rails.application.reloader.to_prepare do
                        require: :loggedin
     end
 
-    map.project_module :activity
+    map.project_module :activity do
+      map.permission :view_project_activity,
+                     { activities: [:index] },
+                     public: true,
+                     contract_actions: { activities: %i[read] }
+    end
   end
 end

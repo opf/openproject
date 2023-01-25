@@ -2,13 +2,19 @@
   [open]="opened"
   (closed)="opened = false"
 >
-  <input
+  <ng-content
     slot="trigger"
-    type="text"
-    class="spot-input"
-    (click)="onInputClick($event)"
-    [value]="value"
-  />
+    select="[slot=trigger]"
+  ></ng-content>
+  <ng-template [ngIf]="useDefaultTrigger" slot="trigger">
+    <input
+      type="text"
+      class="spot-input"
+      (click)="onInputClick($event)"
+      [value]="value"
+      (focus)="opened = true"
+    />
+  </ng-template>
   
   <form
     slot="body"

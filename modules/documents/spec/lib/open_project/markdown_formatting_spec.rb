@@ -47,7 +47,7 @@ describe OpenProject::TextFormatting,
   end
 
   subject do
-    ::OpenProject::TextFormatting::Renderer.format_text(text, only_path: true)
+    OpenProject::TextFormatting::Renderer.format_text(text, only_path: true)
   end
 
   before do

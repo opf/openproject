@@ -34,11 +34,11 @@ shared_examples_for 'has ISO 8601 date only' do
   end
 
   it 'indicates date only as ISO 8601' do
-    allow(::API::V3::Utilities::DateTimeFormatter).to receive(:format_date)
+    allow(API::V3::Utilities::DateTimeFormatter).to receive(:format_date)
 
     subject
 
-    expect(::API::V3::Utilities::DateTimeFormatter)
+    expect(API::V3::Utilities::DateTimeFormatter)
       .to have_received(:format_date)
       .with(date, anything)
       .at_least(:once)
@@ -51,11 +51,11 @@ shared_examples_for 'has UTC ISO 8601 date and time' do
   end
 
   it 'indicates date and time as ISO 8601' do
-    allow(::API::V3::Utilities::DateTimeFormatter).to receive(:format_datetime)
+    allow(API::V3::Utilities::DateTimeFormatter).to receive(:format_datetime)
 
     subject
 
-    expect(::API::V3::Utilities::DateTimeFormatter)
+    expect(API::V3::Utilities::DateTimeFormatter)
       .to have_received(:format_datetime)
       .with(date.utc, anything)
       .at_least(:once)

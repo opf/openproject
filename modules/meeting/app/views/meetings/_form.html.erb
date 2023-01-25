@@ -47,12 +47,10 @@ See COPYRIGHT and LICENSE files for more details.
     </label>
 
     <div class="form--field-container -visible-overflow">
-      <%= angular_component_tag 'op-single-date-picker',
-                                inputs: {
-                                  required: true,
-                                  id: "meeting-form-start-date",
-                                  name: "meeting[start_date]"
-                                }
+      <%= f.date_picker :start_date,
+                        id: 'meeting-form-start-date',
+                        required: true,
+                        no_label: true
       %>
       <label for="meeting-form-start-time" class="hidden-for-sighted">
         <%= Meeting.human_attribute_name(:start_time) %>

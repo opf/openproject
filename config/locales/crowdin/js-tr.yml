@@ -26,9 +26,9 @@ tr:
       loading: "Yükleniyor…"
       updating: "Güncelleniyor..."
     attachments:
-      delete: "Delete attachment"
+      delete: "Eki sil"
       delete_confirmation: |
-        Are you sure you want to delete this file? This action is not reversible.
+        Bu dosyayı silmek istiyor musunuz? Bu işlem geri alınamaz.
       draggable_hint: |
         Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
     autocomplete_select:
@@ -85,10 +85,10 @@ tr:
     button_open_fullscreen: "Tam ekran görünümünü aç"
     button_show_cards: "Kart görünümünü göster"
     button_show_list: "Liste görünümünü göster"
-    button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
+    button_show_table: "Tablo görünümünü göster"
+    button_show_gantt: "Gantt görünümünü göster"
+    button_show_fullscreen: "Tam ekran görünümünü göster"
+    button_more_actions: "Daha fazla eylem"
     button_quote: "Alıntı"
     button_save: "Kayıt etmek"
     button_settings: "Ayarlar"
@@ -242,7 +242,7 @@ tr:
             professional_support_text: "İş açısından kritik ortamlarda OpenProject çalıştırma konusunda uzman bilgiye sahip kıdemli destek mühendislerinden güvenilir, yüksek dokunuşlu destek alın."
           button_start_trial: "Deneme sürümüne başla"
           button_upgrade: "Şimdi Yükselt"
-          button_contact_us: "Contact us for a demo"
+          button_contact_us: "Demo için bizimle iletişime geçin"
           button_book_now: "Şimdi rezervasyon yaptırın"
           confidence: >
             Açık Kaynak ve açık fikirli olmak üzere, test edilmiş ve desteklenen bir kurumsal sınıf proje yönetimi yazılımının güvenini sunuyoruz.
@@ -281,7 +281,7 @@ tr:
           two: "İkinci sıralama ölçütü"
           three: "Üçüncü sıralama ölçütleri"
       upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
+      upsale_link: 'Enterprise sürümü'
     general_text_no: "hayır"
     general_text_yes: "evet"
     general_text_No: "Hayır"
@@ -475,10 +475,10 @@ tr:
     label_custom_queries: "Özel"
     label_columns: "Sütunlar"
     label_attachments: Ekler
-    label_drop_files: "Drop files here to attach files."
+    label_drop_files: "Dosya eklemek için dosyaları buraya bırakın."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Klasörleri ek olarak karşıya yükleyemezsiniz. Lütfen tekil dosyalar seçiniz.
-    label_add_attachments: "Dosya Ekle"
+    label_add_attachments: "Dosyaları ekle"
     label_formattable_attachment_hint: "Dosyaları bu alana sürükleyerek ekleyebilir veya panodan yapıştırabilirsiniz."
     label_remove_file: "%{fileName} Sil"
     label_remove_watcher: "%{name} isimli takipçi sil"
@@ -541,9 +541,9 @@ tr:
       no_unread: "Okunmamış bildirim yok"
       reasons:
         mentioned: 'adı geçen, bahsedilen'
-        watched: 'watcher'
+        watched: 'izleyici'
         assigned: 'assignee'
-        responsible: 'accountable'
+        responsible: 'sorumlu'
         created: 'oluşturuldu'
         scheduled: 'zamanlandı'
         commented: 'yorumlandı'
@@ -557,7 +557,7 @@ tr:
         property_today: 'is today'
         property_is: 'is in %{difference_in_days}'
         property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        property_is_deleted: 'silindi'
         upsale:
           title: 'Date alerts'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
@@ -565,7 +565,7 @@ tr:
         unread: 'okunmamış'
         unread_title: 'Show unread'
         all: 'Hepsi'
-        all_title: 'Show all'
+        all_title: 'Tümünü göster'
       center:
         label_actor_and: 'and'
         and_more_users:
@@ -589,10 +589,10 @@ tr:
       menu:
         accountable: 'Sorumlu'
         by_project: 'Unread by project'
-        by_reason: 'Reason'
+        by_reason: 'Sebep'
         inbox: 'Gelen Kutusu'
-        mentioned: 'Mentioned'
-        watched: 'Watcher'
+        mentioned: 'Bahsedilen'
+        watched: 'İzleyici'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -602,26 +602,26 @@ tr:
           no_notification: No notification
           timeframes:
             normal:
-              PT0S: same day
-              P1D: 1 day before
-              P3D: 3 days before
-              P7D: a week before
+              PT0S: aynı gün
+              P1D: 1 gün önce
+              P3D: 3 gün önce
+              P7D: 1 hafta önce
             overdue:
-              P1D: every day
+              P1D: her gün
               P3D: every 3 days
-              P7D: every week
+              P7D: her hafta
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'Bahsedilen'
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Assignee'
-          responsible: 'Accountable'
-          watched: 'Watcher'
-          work_package_commented: 'All new comments'
+          responsible: 'Sorumlu'
+          watched: 'İzleyici'
+          work_package_commented: 'Tüm yeni yorumlar'
           work_package_created: 'Yeni iş paketleri'
-          work_package_processed: 'All status changes'
-          work_package_prioritized: 'All priority changes'
-          work_package_scheduled: 'All date changes'
+          work_package_processed: 'Tüm durum değişiklikleri'
+          work_package_prioritized: 'Tüm öncelik değişiklikleri'
+          work_package_scheduled: 'Tüm tarih değişiklikleri'
         global:
           immediately:
             title: 'Participating'
@@ -652,11 +652,12 @@ tr:
       default: '-'
       subject: 'Buraya konuyu girin'
       selection: 'Lütfen seçin'
-      description: 'Description: Click to edit...'
+      description: 'Açıklama: Düzenlemek için tıklayın...'
       relation_description: 'Bu ilişkiye açıklama eklemek için tıklayın'
     project:
       required_outside_context: >
         Lütfen tüm özellikleri görmek için çalışma paketini oluşturacak bir proje seçin. Yalnızca yukarıdaki türden etkin olan projeleri seçebilirsiniz.
+      details_activity: 'Project details activity'
       context: 'Proje içeriği'
       work_package_belongs_to: 'Bu iş paketi %{projectname} projesine ait.'
       click_to_switch_context: 'Bu iş paketini o projede aç.'
@@ -855,7 +856,7 @@ tr:
       zooms: "Yakınlaştırma düzeyi"
       outlines: "Hiyerarşi düzeyi"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: 'Enterprise sürümü eklentisi'
     wiki_formatting:
       strong: "Kalın"
       italic: "İtalik"

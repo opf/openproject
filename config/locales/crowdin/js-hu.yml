@@ -478,7 +478,7 @@ hu:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Nem tölthet fel mappákat mellékletként. Válasszon egyetlen fájlt.
-    label_add_attachments: "Melléklet hozzáadása"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Fájl hozzárendelése mellékletként a fájl \"ideejtésével\" vagy vágólapról beillesztésével."
     label_remove_file: "%{fileName} törlése"
     label_remove_watcher: "Megfigyelő törlése: %{name}"
@@ -657,6 +657,7 @@ hu:
     project:
       required_outside_context: >
         Kérjük, válasszon egy projektet a munkacsomag létrehozásához az összes attribútum megtekintéséhez. Csak olyan projekteket választhat ki, amelyek aktiválták a fenti típust.
+      details_activity: 'Project details activity'
       context: 'Projekt kontextus'
       work_package_belongs_to: 'Ez a feladatcsoport a(z) %{projectname} nevű projekthez tartozik.'
       click_to_switch_context: 'Munkacsomag megnyitása a projektben.'

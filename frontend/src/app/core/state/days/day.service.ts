@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   finalize,
   map,
+  take,
   tap,
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -33,14 +34,16 @@ export class DayResourceService extends ResourceCollectionService<IDay> {
       .path;
   }
 
-  isNonWorkingDay$(input:Date):Observable<boolean> {
+  isNonWorkingDay$(input:Date):Promise<boolean> {
     const date = moment(input).format('YYYY-MM-DD');
 
     return this
       .requireNonWorkingYear$(input)
       .pipe(
         map((days) => days.findIndex((day:IDay) => day.date === date) !== -1),
-      );
+        take(1),
+      )
+      .toPromise();
   }
 
   public isNonWorkingDay(date:Date):boolean {
@@ -49,7 +52,7 @@ export class DayResourceService extends ResourceCollectionService<IDay> {
     return isNonWorkingDay;
   }
 
-  requireNonWorkingYear$(date:Date):Observable<IDay[]> {
+  requireNonWorkingYear$(date:Date|string):Observable<IDay[]> {
     const from = moment(date).startOf('year').format('YYYY-MM-DD');
     const to = moment(date).endOf('year').format('YYYY-MM-DD');
 

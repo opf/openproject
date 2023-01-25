@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'user deletion:', type: :feature, js: true do
-  let(:dialog) { ::Components::PasswordConfirmationDialog.new }
+describe 'user deletion:', js: true do
+  let(:dialog) { Components::PasswordConfirmationDialog.new }
 
   before do
     page.set_rack_session(user_id: current_user.id, updated_at: Time.now)

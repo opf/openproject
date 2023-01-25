@@ -89,7 +89,7 @@ class ProjectsController < ApplicationController
       flash[:error] = I18n.t('projects.delete.schedule_failed', errors: service_call.errors.full_messages.join("\n"))
     end
 
-    redirect_to project_path_with_status
+    redirect_to projects_path
   end
 
   def destroy_info
@@ -117,12 +117,6 @@ class ProjectsController < ApplicationController
 
   def hide_project_in_layout
     @project = nil
-  end
-
-  def project_path_with_status
-    acceptable_params = params.permit(:status).to_h.compact.select { |_, v| v.present? }
-
-    projects_path(acceptable_params)
   end
 
   def load_query

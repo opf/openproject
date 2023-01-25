@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Boards routing', type: :routing do
+describe 'Boards routing' do
   it {
     expect(subject)
       .to route(:get, '/projects/foobar/boards/state')

@@ -488,11 +488,12 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
             this.toggleCurrentActivatedField();
           }
         },
-        onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
             this.ignoreNonWorkingDays,
-            this.weekdayService.isNonWorkingDay(dayElem.dateObj),
+            await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
             this.isDayDisabled(dayElem, minimalDate),
           );
         },

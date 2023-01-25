@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Homescreen index', type: :feature do
+describe 'Homescreen index' do
   let!(:user) { build_stubbed(:user) }
   let!(:project) { create(:public_project, identifier: 'public-project') }
 

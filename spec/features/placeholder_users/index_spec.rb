@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'index placeholder users', type: :feature, js: true do
+describe 'index placeholder users', js: true do
   before do
     with_enterprise_token(:placeholder_users)
   end

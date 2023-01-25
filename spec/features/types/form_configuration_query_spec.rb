@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'form query configuration', type: :feature, js: true do
+describe 'form query configuration', js: true do
   shared_let(:admin) { create :admin }
   let(:type_bug) { create :type_bug }
   let(:type_task) { create :type_task }
@@ -79,10 +79,10 @@ describe 'form query configuration', type: :feature, js: true do
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:form) { ::Components::Admin::TypeConfigurationForm.new }
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:form) { Components::Admin::TypeConfigurationForm.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:filters) { Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
 
   describe "with EE token" do
     before do
@@ -98,7 +98,7 @@ describe 'form query configuration', type: :feature, js: true do
       type_bug.reload
 
       query_group = type_bug.attribute_groups.detect { |x| x.is_a?(Type::QueryGroup) }
-      expect(query_group.attributes).to be_kind_of(::Query)
+      expect(query_group.attributes).to be_kind_of(Query)
       expect(query_group.key).to eq('Empty test')
     end
 

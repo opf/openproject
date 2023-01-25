@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 describe 'Session TTL',
-         with_settings: { session_ttl_enabled?: true, session_ttl: '10' },
-         type: :feature do
+         with_settings: { session_ttl_enabled?: true, session_ttl: '10' } do
   shared_let(:admin) { create :admin }
   let(:admin_password) { 'adminADMIN!' }
 

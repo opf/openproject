@@ -125,6 +125,9 @@ module.exports = {
           },
         ],
 
+        // Allow writing type union and type intersections without space
+        "@typescript-eslint/space-infix-ops": "off",
+
         // Allow empty interfaces for naming purposes (HAL resources)
         "@typescript-eslint/no-empty-interface": "off",
 

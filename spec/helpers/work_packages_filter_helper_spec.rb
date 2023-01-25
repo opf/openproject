@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackagesFilterHelper, type: :helper do
+describe WorkPackagesFilterHelper do
   let(:project) { create(:project) }
   let(:version) { create(:version, project:) }
   let(:global) { false }

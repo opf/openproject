@@ -59,7 +59,7 @@ def register_chrome(language, name: :"chrome_#{language}", override_time_zone: n
         # See https://stackoverflow.com/a/65121582/177665
         chromedriver_path = '/snap/bin/chromium.chromedriver'
       end
-      driver_opts[:service] = ::Selenium::WebDriver::Service.chrome(
+      driver_opts[:service] = Selenium::WebDriver::Service.chrome(
         path: chromedriver_path,
         args: { verbose: true, log_path: '/tmp/chromedriver.log' }
       )

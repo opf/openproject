@@ -36,6 +36,7 @@ import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { rangeSeparator } from './constants';
 
 import DateOption = flatpickr.Options.DateOption;
+import { DayResourceService } from 'core-app/core/state/days/day.service';
 
 export class DatePicker {
   private datepickerFormat = 'Y-m-d';
@@ -45,6 +46,8 @@ export class DatePicker {
   @InjectField() configurationService:ConfigurationService;
 
   @InjectField() weekdaysService:WeekdayService;
+
+  @InjectField() daysService:DayResourceService;
 
   @InjectField() I18n:I18nService;
 
@@ -81,6 +84,10 @@ export class DatePicker {
     }
 
     this.datepickerInstance = Array.isArray(datePickerInstances) ? datePickerInstances[0] : datePickerInstances;
+  }
+
+  public async isNonWorkingDay(day:Date):Promise<boolean> {
+    return this.weekdaysService.isNonWorkingDay(day) || await this.daysService.isNonWorkingDay$(day);
   }
 
   public clear():void {

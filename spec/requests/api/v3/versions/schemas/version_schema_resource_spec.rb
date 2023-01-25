@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Version schema resource', type: :request, content_type: :json do
+describe 'API v3 Version schema resource', content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

@@ -39,14 +39,13 @@ See COPYRIGHT and LICENSE files for more details.
   classes += " subform-row-template" if templated
 -%>
 
-<%= fields_for prefix, rate do |rate_form| %>
+<%= fields_for prefix, rate, builder: TabularFormBuilder do |rate_form| %>
   <tr class="subform-row <%= classes %>" id="<%= id_prefix %>">
     <td>
       <label class="hidden-for-sighted" for="<%= "#{id_prefix}_valid_from" %>"><%= Rate.human_attribute_name(:valid_from) %></label>
-      <%= rate_form.text_field :valid_from,
-                               class: 'date costs-date-picker -augmented-datepicker',
-                               index: id_or_index,
-                               required: true %>
+      <%= rate_form.date_picker :valid_from,
+                                class: 'date costs-date-picker',
+                                no_label: true %>
     </td>
     <td class="currency">
       <span class="inline-label">

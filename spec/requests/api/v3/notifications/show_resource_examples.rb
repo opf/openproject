@@ -38,11 +38,11 @@ shared_examples 'represents the notification' do
             .at_path('readIAN')
 
     expect(last_response.body)
-      .to be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_datetime(notification.created_at).to_json)
+      .to be_json_eql(API::V3::Utilities::DateTimeFormatter.format_datetime(notification.created_at).to_json)
             .at_path('createdAt')
 
     expect(last_response.body)
-      .to be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_datetime(notification.updated_at).to_json)
+      .to be_json_eql(API::V3::Utilities::DateTimeFormatter.format_datetime(notification.updated_at).to_json)
             .at_path('updatedAt')
 
     expect(last_response.body)

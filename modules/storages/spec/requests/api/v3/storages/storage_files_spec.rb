@@ -64,10 +64,10 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
     let(:files) do
       [
-        Storages::StorageFile.new(1, 'new_younglings.md', 4096, 'plain/text', DateTime.now, DateTime.now,
-                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/'),
-        Storages::StorageFile.new(2, 'holocron_inventory.md', 4096, 'plain/text', DateTime.now, DateTime.now,
-                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/')
+        Storages::StorageFile.new(1, 'new_younglings.md', 4096, 'text/markdown', DateTime.now, DateTime.now,
+                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable]),
+        Storages::StorageFile.new(2, 'holocron_inventory.md', 4096, 'text/markdown', DateTime.now, DateTime.now,
+                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable writeable])
       ]
     end
 
@@ -88,6 +88,9 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
       it { is_expected.to be_json_eql(files[0].name.to_json).at_path('_embedded/elements/0/name') }
       it { is_expected.to be_json_eql(files[1].id.to_json).at_path('_embedded/elements/1/id') }
       it { is_expected.to be_json_eql(files[1].name.to_json).at_path('_embedded/elements/1/name') }
+
+      it { is_expected.to be_json_eql(files[0].permissions.to_json).at_path('_embedded/elements/0/permissions') }
+      it { is_expected.to be_json_eql(files[1].permissions.to_json).at_path('_embedded/elements/1/permissions') }
     end
 
     describe 'with files query creation failed' do
@@ -176,9 +179,10 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
   end
 
   describe 'POST /api/v3/storages/:storage_id/files/prepare_upload', with_flag: { storage_file_upload: true } do
+    let(:permissions) { %i(view_work_packages view_file_links manage_file_links) }
     let(:path) { api_v3_paths.prepare_upload(storage.id) }
     let(:upload_link) { Storages::UploadLink.new('https://example.com/upload/xyz123') }
-    let(:body) { { fileName: "ape.png", parent: "/Pictures" }.to_json }
+    let(:body) { { fileName: "ape.png", parent: "/Pictures", projectId: project.id }.to_json }
 
     subject(:last_response) do
       post(path, body)
@@ -203,7 +207,7 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
       end
 
       it { is_expected.to be_json_eql(upload_link.destination.to_json).at_path('_links/destination/href') }
-      it { is_expected.to be_json_eql("post".to_json).at_path('_links/destination/method') }
+      it { is_expected.to be_json_eql("put".to_json).at_path('_links/destination/method') }
       it { is_expected.to be_json_eql("Upload File".to_json).at_path('_links/destination/title') }
     end
 

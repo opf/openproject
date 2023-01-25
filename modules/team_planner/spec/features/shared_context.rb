@@ -45,7 +45,7 @@ shared_context 'with team planner full access' do
            ]
   end
 
-  let(:team_planner) { ::Pages::TeamPlanner.new project }
+  let(:team_planner) { Pages::TeamPlanner.new project }
   let(:filters) { team_planner.filters }
 
   current_user { user }

@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::QueryRepresenter, 'parsing' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::QueryRepresenter, 'parsing' do
+  include API::V3::Utilities::PathHelper
 
-  let(:query) { ::API::ParserStruct.new }
+  let(:query) { API::ParserStruct.new }
   let(:project) { build_stubbed(:project) }
   let(:user) { build_stubbed(:user) }
   let(:representer) do

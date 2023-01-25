@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Meetings', type: :feature, js: true do
+describe 'Meetings', js: true do
   let(:project) { create :project, enabled_module_names: %w[meetings] }
   let(:role) { create(:role, permissions:) }
   let(:user) do

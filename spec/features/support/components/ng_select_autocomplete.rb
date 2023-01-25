@@ -27,5 +27,5 @@
 #++
 
 shared_context 'ng-select-autocomplete helpers' do
-  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
 end

@@ -31,7 +31,13 @@ module Projects
     private
 
     def manage_permission
-      :edit_project
+      if changed_by_user == ["active"]
+        :archive_project
+      else
+        # if "active" is changed, :archive_project permission will also be
+        # checked in `Projects::BaseContract#validate_changing_active`
+        :edit_project
+      end
     end
   end
 end

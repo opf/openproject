@@ -29,7 +29,7 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 require File.join(File.dirname(__FILE__), '..', '..', 'support', 'custom_field_filter')
 
-describe CostQuery, type: :model, reporting_query_helper: true do
+describe CostQuery, reporting_query_helper: true do
   minimal_query
 
   let!(:project) { create(:project_with_types) }
@@ -457,15 +457,15 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
       it "is usable as filter" do
         create_searchable_fields_and_values
-        id = WorkPackageCustomField.find_by(name: "Searchable Field").id
-        query.filter "custom_field_#{id}".to_sym, operator: '=', value: "125"
+        cf = WorkPackageCustomField.find_by(name: "Searchable Field")
+        query.filter cf.attribute_name, operator: '=', value: "125"
         expect(query.result.count).to eq(2)
       end
 
       it "is usable as filter #2" do
         create_searchable_fields_and_values
-        id = WorkPackageCustomField.find_by(name: "Searchable Field").id
-        query.filter "custom_field_#{id}".to_sym, operator: '=', value: "finnlabs"
+        cf = WorkPackageCustomField.find_by(name: "Searchable Field")
+        query.filter cf.attribute_name, operator: '=', value: "finnlabs"
         expect(query.result.count).to eq(0)
       end
     end

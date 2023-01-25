@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'group memberships through project members page', type: :feature, js: true do
+describe 'group memberships through project members page', js: true do
   shared_let(:admin) { create :admin }
   let(:project) { create :project, name: 'Project 1', identifier: 'project1', members: project_member }
 

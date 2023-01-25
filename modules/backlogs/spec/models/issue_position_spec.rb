@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage, type: :model do
+describe WorkPackage do
   describe 'Story positions' do
     def build_work_package(options)
       build(:work_package, options.reverse_merge(version_id: sprint_1.id,

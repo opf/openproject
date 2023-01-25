@@ -2,7 +2,6 @@ require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
 describe 'Login by switching 2FA device',
-         type: :feature,
          with_settings: {
            plugin_openproject_two_factor_authentication: { 'active_strategies' => %i[developer totp] }
          },

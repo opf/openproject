@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Repository::Subversion, type: :model do
+describe Repository::Subversion do
   let(:instance) { build(:repository_subversion) }
   let(:adapter)  { instance.scm }
   let(:config)   { {} }

@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe ::API::V3::Notifications::NotificationsAPI,
+describe API::V3::Notifications::NotificationsAPI,
          'index', content_type: :json do
   include API::V3::Utilities::PathHelper
 

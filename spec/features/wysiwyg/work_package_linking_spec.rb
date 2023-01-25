@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe 'Wysiwyg work package linking',
-         type: :feature, js: true do
+         js: true do
   let(:user) { create :admin }
   let(:project) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
   let(:work_package) { create(:work_package, subject: 'Foobar', project:) }
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
 
   before do
     login_as(user)

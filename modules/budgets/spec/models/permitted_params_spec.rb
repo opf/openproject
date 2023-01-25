@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe PermittedParams, type: :model do
+describe PermittedParams do
   let(:user) { build(:user) }
 
   shared_examples_for 'allows params' do

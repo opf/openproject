@@ -28,7 +28,7 @@
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 
 import {
   CollectionStore,
@@ -39,6 +39,8 @@ import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import { StorageFilesStore } from 'core-app/core/state/storage-files/storage-files.store';
 import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
+import { IUploadLink } from 'core-app/core/state/storage-files/upload-link.model';
+import { IPrepareUploadLink } from 'core-app/core/state/storages/storage.model';
 
 @Injectable()
 export class StorageFilesResourceService extends ResourceCollectionService<IStorageFile> {
@@ -58,7 +60,12 @@ export class StorageFilesResourceService extends ResourceCollectionService<IStor
           insertCollectionIntoState(this.store, collection, link.href);
         }),
         map((collection) => collection._embedded.elements),
+        take(1),
       );
+  }
+
+  uploadLink(link:IPrepareUploadLink):Observable<IUploadLink> {
+    return this.http.request<IUploadLink>(link.method, link.href, { body: link.payload });
   }
 
   reset():void {

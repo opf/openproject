@@ -24,6 +24,8 @@ it:
         no_file_links: "Per collegare i file a questa macro-attività, farlo tramite %{storageType}."
         not_logged_in: >
           Per aggiungere un link, vedere o caricare i file relativi a questo pacchetto di lavoro, accedi a %{storageType}.
+      files:
+        directory_not_writeable: "You do not have to permission to add files to this folder."
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
@@ -44,6 +46,9 @@ it:
         success_create:
           one: "Successfully created 1 file link."
           other: "Successfully created %{count} file links."
+        upload_error: "An error occurred uploading the file '%{fileName}'."
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Accedi a Nextcloud per accedere a questo file"
         already_linked_file: "Questo file è già collegato a questa macro-attività."
         already_linked_directory: "Questa directory è già collegata a questa macro-attività."

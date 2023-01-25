@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Project status widget on dashboard', type: :feature, js: true do
+describe 'Project status widget on dashboard', js: true do
   let!(:project) { create :project, status: project_status }
   let!(:project_status) do
     create :project_status

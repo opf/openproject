@@ -477,7 +477,7 @@ lol:
     label_drop_files: "crwdns843197:0crwdne843197:0"
     label_drop_or_click_files: "crwdns843199:0crwdne843199:0"
     label_drop_folders_hint: crwdns787592:0crwdne787592:0
-    label_add_attachments: "crwdns787594:0crwdne787594:0"
+    label_add_attachments: "crwdns843869:0crwdne843869:0"
     label_formattable_attachment_hint: "crwdns787596:0crwdne787596:0"
     label_remove_file: "crwdns787598:0%{fileName}crwdne787598:0"
     label_remove_watcher: "crwdns787600:0%{name}crwdne787600:0"
@@ -656,6 +656,7 @@ lol:
     project:
       required_outside_context: >
         crwdns787798:0crwdne787798:0
+      details_activity: 'crwdns844367:0crwdne844367:0'
       context: 'crwdns787800:0crwdne787800:0'
       work_package_belongs_to: 'crwdns787802:0%{projectname}crwdne787802:0'
       click_to_switch_context: 'crwdns787804:0crwdne787804:0'

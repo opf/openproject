@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe ::Storages::ProjectStorage, type: :model do
+describe Storages::ProjectStorage do
   let(:creator) { create(:user) }
   let(:project) { create(:project, enabled_module_names: %i[storages work_packages]) }
   let(:storage) { create(:storage) }

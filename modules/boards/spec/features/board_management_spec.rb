@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './support/board_index_page'
 require_relative './support/board_page'
 
-describe 'Board management spec', type: :feature, js: true do
+describe 'Board management spec', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -41,7 +41,7 @@ describe 'Board management spec', type: :feature, js: true do
   let!(:work_package) { create :work_package, subject: 'Foo', project: }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   let!(:priority) { create :default_priority }
   let!(:status) { create :default_status }

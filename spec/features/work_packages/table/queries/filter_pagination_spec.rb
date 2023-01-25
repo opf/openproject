@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Filter updates pagination', type: :feature, js: true do
+describe 'Filter updates pagination', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,

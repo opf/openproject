@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
+describe AvatarHelper, with_settings: { protocol: 'http' } do
   include AngularHelper
 
   let(:user) { build_stubbed(:user) }

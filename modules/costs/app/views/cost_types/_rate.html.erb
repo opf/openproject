@@ -46,24 +46,14 @@ See COPYRIGHT and LICENSE files for more details.
 <% unless error_messages.blank? %>
   <tr><td colspan="3"><%= error_messages %></td></tr>
 <% end %>
-<%= fields_for prefix, rate do |rate_form| %>
+<%= fields_for prefix, rate, builder: TabularFormBuilder do |rate_form| %>
   <tr class="subform-row <%= classes %>" id="<%= id_prefix %>">
-    <td>
+    <td class="-no-ellipsis">
       <label class="hidden-for-sighted" for="<%= "#{id_prefix}_valid_from" %>"><%= Rate.human_attribute_name(:valid_from) %></label>
-      <!--
-      <%= rate_form.date_field :valid_from,
+      <%= rate_form.date_picker :valid_from,
                                class: 'date costs-date-picker',
-                               index: id_or_index,
+                               no_label: true,
                                required: templated ? false : true %>
-      -->
-      <%= angular_component_tag 'op-single-date-picker',
-                                class: 'date costs-date-picker',
-                                inputs: {
-                                  value: @fixed_date,
-                                  id: "#{id_prefix}_valid_from",
-                                  name: "cost_type[new_rate_attributes[0][valid_from]"
-                                }
-      %>
     </td>
     <td class="currency">
       <span class="inline-label">
@@ -74,6 +64,7 @@ See COPYRIGHT and LICENSE files for more details.
                                  inputmode: :decimal,
                                  placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
                                  value: rate.rate ? rate.rate.round(2) : "",
+                                 no_label: true,
                                  required: templated ? false : true %>
         <span class="form-label">
           <%= Setting.plugin_costs['costs_currency'] %>

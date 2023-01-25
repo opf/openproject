@@ -58,7 +58,7 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
 
     before do
       # Ensure estimated_hours is inherited
-      ::WorkPackages::UpdateAncestorsService.new(user:, work_package: child).call(%i[estimated_hours])
+      WorkPackages::UpdateAncestorsService.new(user:, work_package: child).call(%i[estimated_hours])
       parent.reload
     end
 

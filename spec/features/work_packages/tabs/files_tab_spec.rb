@@ -33,7 +33,7 @@ describe 'Files tab', js: true do
   let(:user) { create(:user, member_in_project: project, member_through_role: role) }
   let(:project) { create :project }
   let(:work_package) { create(:work_package, project:) }
-  let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
 
   before do
     login_as(user)
@@ -58,7 +58,7 @@ describe 'Files tab', js: true do
     end
 
     context 'if on work packages split view' do
-      let(:wp_page) { ::Pages::SplitWorkPackage.new(work_package, project) }
+      let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
 
       it 'must open files tab' do
         wp_page.switch_to_tab tab: 'overview'

@@ -35,7 +35,7 @@ module API::V3::StorageFiles
     link :destination do
       {
         href: represented.destination,
-        method: :post,
+        method: :put,
         title: 'Upload File'
       }
     end

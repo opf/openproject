@@ -478,7 +478,7 @@ ko:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: 폴더를 첨부 파일로 업로드할 수 없습니다. 단일 파일을 선택하세요.
-    label_add_attachments: "첨부 파일 추가"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "이 필드에 놓거나 클립보드에서 붙여넣어 파일을 첨부하고 연결하세요."
     label_remove_file: "%{fileName} 삭제"
     label_remove_watcher: "관찰자 %{name} 제거"
@@ -656,6 +656,7 @@ ko:
     project:
       required_outside_context: >
         모든 특성을 보려면 작업 패키지를 만들 프로젝트를 선택하십시오. 위 유형이 활성화된 프로젝트만 선택할 수 있습니다.
+      details_activity: 'Project details activity'
       context: '프로젝트 컨텍스트'
       work_package_belongs_to: '이 작업 패키지는 프로젝트 %{projectname}에 속합니다.'
       click_to_switch_context: '해당 프로젝트에서 이 작업 패키지를 여세요.'

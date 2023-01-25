@@ -98,12 +98,19 @@ describe 'OpenID Connect',
       redirect_from_provider
 
       expect(response.status).to be 302
-      expect(response.location).to match /\/login$/
+      expect(response.location).to match /\/\?first_time_user=true$/
+
+      # after_login requires the optional third context parameter
+      # remove this guard once we are on v4.1
+      if OpenProject::OmniAuth::Authorization.method(:after_login!).arity.abs > 2
+        # check that cookie is stored in the access token
+        expect(response.cookies['_open_project_session_access_token']).to eq 'foo bar baz'
+      end
 
       user = User.find_by_mail(user_info[:email])
 
       expect(user).not_to be_nil
-      expect(user.active?).to be false
+      expect(user.active?).to be true
 
       ##
       # it should redirect to the provider again upon clicking on sign-in when the user has been activated
@@ -121,14 +128,7 @@ describe 'OpenID Connect',
       redirect_from_provider
 
       expect(response.status).to be 302
-      expect(response.location).to match /\/\?first_time_user=true$/
-
-      # after_login requires the optional third context parameter
-      # remove this guard once we are on v4.1
-      if OpenProject::OmniAuth::Authorization.method(:after_login!).arity.abs > 2
-        # check that cookie is stored in the access token
-        expect(response.cookies['_open_project_session_access_token']).to eq 'foo bar baz'
-      end
+      expect(response.location).to match /\/my\/page/
     end
 
     context 'with a custom claim and mapping' do

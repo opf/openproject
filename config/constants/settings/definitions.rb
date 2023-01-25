@@ -37,10 +37,6 @@ Settings::Definition.define do
   add :activity_days_default,
       default: 30
 
-  add :additional_footer_content,
-      format: :string,
-      default: nil
-
   add :after_first_login_redirect_url,
       format: :string,
       default: nil,
@@ -529,7 +525,7 @@ Settings::Definition.define do
       writable: true
 
   add :log_level,
-      default: 'info',
+      default: Rails.env.development? ? 'debug' : 'info',
       writable: false
 
   add :log_requesting_user,
@@ -582,7 +578,7 @@ Settings::Definition.define do
       allowed: -> { Role.pluck(:id) }
 
   add :oauth_allow_remapping_of_existing_users,
-      default: false
+      default: true
 
   add :omniauth_direct_login_provider,
       format: :string,

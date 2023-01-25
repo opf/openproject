@@ -477,7 +477,7 @@ zh-TW:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: 不能將資料夾作為附件上載。請選擇單個檔。
-    label_add_attachments: "新增附件"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "藉由拖放或從剪貼簿貼上至此欄位來附加和連結檔案。"
     label_remove_file: "刪除 %{fileName}"
     label_remove_watcher: "刪除關注者 %{name}"
@@ -655,6 +655,7 @@ zh-TW:
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      details_activity: 'Project details activity'
       context: '專案內容'
       work_package_belongs_to: '此工作項目屬於專案 %{projectname}。'
       click_to_switch_context: '在該專案中打開此工作項目。'

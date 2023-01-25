@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WikiPages::WikiPageRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::WikiPages::WikiPageRepresenter, 'rendering' do
+  include API::V3::Utilities::PathHelper
 
   let(:wiki_page) do
     build_stubbed(:wiki_page) do |wp|

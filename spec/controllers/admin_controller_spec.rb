@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe AdminController, type: :controller do
+describe AdminController do
   let(:user) { build :admin }
 
   before do

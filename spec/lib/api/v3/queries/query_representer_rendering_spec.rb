@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::QueryRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::QueryRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:query) { build_stubbed(:query, project:, views:) }
   let(:unpersisted_query) { build(:query, project:, user: other_user, views:) }

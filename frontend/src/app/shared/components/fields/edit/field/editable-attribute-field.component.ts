@@ -127,14 +127,13 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   }
 
   // Open the field when its closed and relay drag & drop events to it.
-  public startDragOverActivation(event:JQuery.TriggeredEvent):boolean {
+  public startDragActivation(event:DragEvent):void {
     if (!this.isDropTarget || !this.isEditable || this.active) {
-      return true;
+      return;
     }
 
     this.handleUserActivate(null);
     event.preventDefault();
-    return false;
   }
 
   public render():void {

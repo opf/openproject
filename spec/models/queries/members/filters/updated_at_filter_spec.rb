@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Members::Filters::UpdatedAtFilter, type: :model do
+describe Queries::Members::Filters::UpdatedAtFilter do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :updated_at }
     let(:type) { :datetime_past }
