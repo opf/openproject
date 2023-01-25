@@ -61,7 +61,7 @@ module Components
 
     def has_field_with_value(field, value)
       within modal_container do
-        expect(page).to have_field field_identifier(field), with: value
+        expect(page).to have_field field_identifier(field), with: value, visible: :all
       end
     end
 
