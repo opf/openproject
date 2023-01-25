@@ -121,6 +121,8 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
 
   @ViewChild('durationField', { read: ElementRef }) durationField:ElementRef<HTMLElement>;
 
+  @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
+
   @Input() changeset:ResourceChangeset;
 
   @Input() fieldName:string = '';
@@ -281,17 +283,20 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   }
 
   ngAfterViewInit():void {
+    console.log('ngAfterViewInit');
     this
       .dateModalRelations
       .getMinimalDateFromPreceeding()
       .subscribe((date) => {
+        console.log('initialize date picker');
         this.initializeDatepicker(date);
-      });
 
-    // Autofocus duration if that's what activated us
-    if (this.initialActivatedField === 'duration') {
-      this.focusHelper.focus(this.durationField.nativeElement);
-    }
+        // Autofocus duration if that's what activated us
+        if (this.initialActivatedField === 'duration') {
+          console.log('focus duration');
+          this.focusHelper.focus(this.durationField.nativeElement);
+        }
+      });
   }
 
   changeSchedulingMode():void {
@@ -498,7 +503,7 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
           );
         },
       },
-      null,
+      this.flatpickrTarget.nativeElement,
     );
   }
 

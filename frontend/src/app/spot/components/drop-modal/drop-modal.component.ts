@@ -85,6 +85,11 @@ export class SpotDropModalComponent implements OnDestroy {
           this.recalculateAlignment();
         }
 
+        // If we already have focus within the modal, don't move it
+        if (this.elementRef.nativeElement.contains(document.activeElement)) {
+          return;
+        }
+
         const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
         if (focusCatcherContainer) {
           (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement).focus();
