@@ -68,13 +68,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
 
     case field_format.try(:edit_as)
     when 'date'
-      angular_component_tag 'op-single-date-picker',
-                            class: input_options.class,
-                            inputs: {
-                              value: input_options.value,
-                              id: input_options.id,
-                              name: input_options.name
-                            }
+      date_picker(field, input_options)
     when 'text'
       text_area(field, input_options.merge(with_text_formatting: true, macros: false, editor_type: 'constrained'))
     when 'bool'

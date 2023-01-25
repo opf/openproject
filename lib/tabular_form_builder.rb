@@ -84,6 +84,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def date_picker(field, options = {})
+    options[:class] = Array(options[:class])
     merge_required_attributes(options[:required], options)
     options[:visible_overflow] = true;
 
