@@ -66,6 +66,7 @@ export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent
 
   public save():void {
     this.handler.handleUserSubmit();
+    this.onModalClosed();
   }
 
   public cancel():void {
