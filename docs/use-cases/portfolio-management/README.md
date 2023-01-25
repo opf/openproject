@@ -42,6 +42,8 @@ You will then be led to the **System settings** of the global Administration. If
 
 If you click on **Edit query** you can adjust the project overview when using the Gantt chart option. 
 
+
+
 ## Creating Custom Reports
 
 ### Exporting reports
@@ -55,21 +57,23 @@ You can export the work packages in one of the following formats.
 
 ![Openproject export options](export_options.png)
 
-Another option would be to use the print function (**CTRL+P**) and then saving as PDF. The print function in OpenProject is optimized for reporting purposes. Only information displayed in the main screen area is included. None of the designs or side or top menus are in it.
+Another option would be to use the print function (**CTRL+P**) and then saving as PDF. The print function in OpenProject is optimized for reporting purposes. Only information displayed in the main screen area is included. None of the designs or side or top menus are in it. Please see here [how to print a Gantt chart](../../user-guide/gantt-chart/#how-to-print-a-gantt-chart).
 
 
-### Wiki report pages
+### Project status reporting
+You can [display and configure the individual project status](../../user-guide/projects/project-status/) on the project overview page. 
+
 For more advanced project reporting requirements, using the Wiki module is another powerful tool. For more information about how to use the Wiki function, please consult the [Wiki user guide](../../user-guide/wiki/).
 
-The Wiki function allows you to build complete custom reports using embedded work package tables, macros and even embedded calculations.
+The Wiki function allows you to build complete custom reports using embedded work package tables, macros and even embedded calculations. 
 
-Here is an example of how a wiki could look:
+Here is an example of how a project report wiki could look:
 
-![Creating custom reports](custom-reports.jpg)
+![Creating custom reports](Wiki.png)
 
 And how the dynamic data, such as calculations, filters, macros and reference language work behind the scenes:
 
-![Dynamic data](dynamic-data.jpg)
+![Dynamic data](openproject_wiki_editing.png)
 
 For more information about the syntax and how the attributes work please look [here](../../user-guide/wysiwyg/).
 
