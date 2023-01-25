@@ -67,6 +67,7 @@ import {
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Component({
   selector: 'op-wp-single-date-form',
@@ -89,11 +90,13 @@ export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements 
 
   @Input() changeset:ResourceChangeset;
 
-  @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
-
   @Output() cancel = new EventEmitter();
 
   @Output() save = new EventEmitter();
+
+  @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
+
+  @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
   text = {
     save: this.I18n.t('js.button_save'),
@@ -132,16 +135,25 @@ export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements 
   ngOnInit():void {
     this.dateModalRelations.setChangeset(this.changeset as WorkPackageChangeset);
     this.dateModalScheduling.setChangeset(this.changeset as WorkPackageChangeset);
+    if (!moment(this.value).isValid()) {
+      this.value = '';
+      this.date = '';
+      return;
+    }
     this.date = this.timezoneService.formattedISODate(this.value);
   }
 
   ngAfterViewInit():void {
-    this
-      .dateModalRelations
-      .getMinimalDateFromPreceeding()
-      .subscribe((date) => {
-        this.initializeDatepicker(date);
-      });
+    if (isNewResource(this.changeset.pristineResource)) {
+      this.initializeDatepicker(null);
+    } else {
+      this
+        .dateModalRelations
+        .getMinimalDateFromPreceeding()
+        .subscribe((date) => {
+          this.initializeDatepicker(date);
+        });
+    }
 
     this
       .dateChangedManually$
@@ -234,7 +246,7 @@ export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements 
           );
         },
       },
-      null,
+      this.flatpickrTarget.nativeElement,
     );
   }
 
