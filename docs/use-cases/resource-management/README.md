@@ -8,7 +8,7 @@ keywords: use-case, resource management
 
 # Use Case: Resource Management
 
-**Note:**  OpenProject does not have the automated functionality to provide detailed resource management or employee work capacity calculations. However, there is a workaround that you can use to configure a visual estimate of task attribution and plan accordingly. 
+**Note:**  OpenProject does not have the automated functionality to provide detailed resource management or employee work capacity calculations. However, there is a workaround that you can use to configure a visual estimate of task distribution and plan accordingly. 
 
 These are the steps you can follow to adjust a work package overview to suit your goals. 
 
@@ -24,13 +24,13 @@ Step 2: Either use existing fields, for example **Estimated time** and **Spent t
 
 Step 3: You can either insert the standard or existing fields to the view, or insert the custom fields if created in Step 2.
 
-Step 4: You can add any filters necessary and and sort or group the work packages by assignee. 
+Step 4: You can add any filters necessary and sort or group the work packages by assignee. 
 
 ![OpenProject sort work packages by assignee](openproject_sort_by_assignee.png)
 
 Step 5: Save your adjusted view by clicking on the **Save** icon on the left (you can name this view before saving or re-name it later). ![Save adjusted openrpoject workpage view](openproject_save_wp_adjusted_view.png)
 
-This view will be saved and shown under your private work package filters. 
+This view will be saved and shown under your private work package filters (you can make it public and share with other team members).
 
 ![OpenProjec work package private filter](work_package_private_filter.png)
 
@@ -47,5 +47,9 @@ You can also use the sum function. Select **[⋮]** -> ***Configure view*** -> *
 ![OpenProject work package configure view](openproject_configure_view.png)
 
 ![OpenProject display sums](openproject_display_sums.png) 
+
+You will see the estimated, spent and remaining hours summed up by user, as well as the overall sum.
+
+![OpenProject work packages sums](openproject_work_packages_sum.png)
 
 **Limitations:** While this workaround provides a visual estimate of who works on what and when, it does not replace a dedicated capacity management tool.

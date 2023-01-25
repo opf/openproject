@@ -8,7 +8,7 @@ keywords: use-case, portfolio management
 
 # Use Case: Portfolio Management and Custom Reporting Options
 
-If you have a lot of projects running at the same time it can be helpful and even necessary to have an meta level overview of your projects, keep track of the project status and due dates. With OpenProject you can do just that. 
+If you have a lot of projects running at the same time it can be helpful and even necessary to have a meta level overview of your projects, keep track of the project status and due dates. With OpenProject you can do just that. 
 
 ![OpenProject projects portfolio overview](openproject_projects_overview.png)
 
