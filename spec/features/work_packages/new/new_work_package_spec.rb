@@ -291,6 +291,7 @@ describe 'new work package', js: true do
 
       date_field = wp_page.edit_field(:date)
 
+      byebug
       date_field.expect_value(I18n.t('js.label_no_date'))
 
       # Set date
@@ -339,6 +340,7 @@ describe 'new work package', js: true do
       create_work_package_globally(type_bug, project.name)
 
       date_field = wp_page.edit_field(:combinedDate)
+      byebug
       date_field.expect_value("no start date - no finish date")
 
       click_on 'Cancel'
@@ -363,6 +365,7 @@ describe 'new work package', js: true do
 
       # Open datepicker
       date_field = wp_page.edit_field(:combinedDate)
+      byebug
       date_field.click_to_open_datepicker
 
       # Select date
@@ -488,6 +491,7 @@ describe 'new work package', js: true do
       date_field = split_create_page.edit_field(:combinedDate)
       date_field.expect_value("#{parent.start_date} - #{parent.due_date}")
 
+      byebug
       date_field.click_to_open_datepicker
       date_field.update ['', parent.due_date]
 

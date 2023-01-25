@@ -13,7 +13,7 @@
   />
 
   <op-wp-single-date-form
-    *ngIf="!isMultiDate"
+    *ngIf="opened && !isMultiDate"
     [value]="dates"
     [changeset]="change"
     (save)="save()"
@@ -21,7 +21,7 @@
     slot="body"
   ></op-wp-single-date-form>
   <op-wp-multi-date-form
-    *ngIf="isMultiDate"
+    *ngIf="opened && isMultiDate"
     [value]="dates"
     [changeset]="change"
     [fieldName]="name"
