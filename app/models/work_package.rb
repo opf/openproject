@@ -120,7 +120,7 @@ class WorkPackage < ApplicationRecord
     where(author_id: author.id)
   }
 
-  scopes :covering_days_of_week,
+  scopes :covering_dates_and_days_of_week,
          :for_scheduling,
          :include_derived_dates,
          :include_spent_time,

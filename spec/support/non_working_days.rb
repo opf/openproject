@@ -26,32 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Settings::UpdateService < BaseServices::BaseContracted
-  def initialize(user:)
-    super user:,
-          contract_class: Settings::UpdateContract
-  end
+def week_with_saturday_and_sunday_as_non_working_day(monday: Date.current.monday, weeks_size: 4)
+  weeks_size.times.map do |week_count|
+    [
+      create(:non_working_day, date: monday.next_occurring(:saturday) + week_count.weeks),
+      create(:non_working_day, date: monday.next_occurring(:sunday) + week_count.weeks)
+    ]
+  end.flatten.pluck(:date)
+end
 
-  def persist(call)
-    params.each do |name, value|
-      set_setting_value(name, value)
-    end
-    call
-  end
+def week_without_non_working_days(monday: Date.current.monday, weeks_size: 4)
+  NonWorkingDay.where(date: monday...monday + weeks_size.weeks).destroy_all
+end
 
-  private
+def set_non_working_days(*dates)
+  dates.map { |date| create(:non_working_day, date:) }
+end
 
-  def set_setting_value(name, value)
-    Setting[name] = derive_value(value)
-  end
-
-  def derive_value(value)
-    case value
-    when Array, Hash
-      # remove blank values in array, hash settings
-      value.compact_blank!
-    else
-      value.strip
-    end
-  end
+def set_working_days(*dates)
+  NonWorkingDay.where(date: dates).destroy_all
 end
