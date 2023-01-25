@@ -86,7 +86,7 @@ export interface ResourceContextChange {
 export const overflowingContainerAttribute = 'overflowingIdentifier';
 
 @Component({
-  templateUrl: './wp-single-view.html',
+  templateUrl: './wp-single-view.component.html',
   selector: 'wp-single-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -142,7 +142,8 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   $element:JQuery;
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     protected currentProject:CurrentProjectService,
     protected PathHelper:PathHelperService,
     protected $state:StateService,
@@ -155,7 +156,8 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     protected injector:Injector,
     protected cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
-    readonly browserDetector:BrowserDetector) {
+    readonly browserDetector:BrowserDetector,
+  ) {
     super();
   }
 

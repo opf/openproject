@@ -283,17 +283,14 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   }
 
   ngAfterViewInit():void {
-    console.log('ngAfterViewInit');
     this
       .dateModalRelations
       .getMinimalDateFromPreceeding()
       .subscribe((date) => {
-        console.log('initialize date picker');
         this.initializeDatepicker(date);
 
         // Autofocus duration if that's what activated us
         if (this.initialActivatedField === 'duration') {
-          console.log('focus duration');
           this.focusHelper.focus(this.durationField.nativeElement);
         }
       });

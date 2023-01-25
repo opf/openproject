@@ -28,6 +28,7 @@ export class AutofocusDirective implements AfterViewInit {
     // <my-input opAutofocus />
     //
     if (this.condition || this.condition === '') {
+      console.log('focus', this.elementRef.nativeElement);
       this.FocusHelper.focus(this.elementRef.nativeElement);
     }
   }

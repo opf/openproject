@@ -33,8 +33,7 @@ import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-he
 export class FocusHelperService {
   public focus(element:HTMLElement):void {
     setTimeout(() => {
-      const focusable = findAllFocusableElementsWithin(element)[0];
-      console.log('focus', focusable);
+      const focusable = findAllFocusableElementsWithin(element)[0] || element;
       focusable?.focus();
     }, 20);
   }
