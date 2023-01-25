@@ -492,7 +492,7 @@ ru:
     label_wait: "Пожалуйста, подождите конфигурацию..."
     label_upload_counter: "%{done} из %{count} файлов завершено"
     label_validation_error: "Пакет работ не может быть сохранен из-за следующих ошибок:"
-    label_version_plural: "Версии"
+    label_version_plural: "Этапы"
     label_view_has_changed: "Это представление имеет несохраненные изменения. Кликните, чтобы сохранить их."
     help_texts:
       show_modal: 'Показать содержимое атрибута текста справки'
@@ -965,8 +965,8 @@ ru:
         title: "Заголовок"
         type: "Тип"
         updatedAt: "Обновлено"
-        versionName: "Этапы"
-        version: "Этапы"
+        versionName: "Этап"
+        version: "Этап"
       default_queries:
         latest_activity: "Последние действия"
         created_by_me: "Создано мной"

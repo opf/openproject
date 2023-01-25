@@ -1577,7 +1577,7 @@ ru:
   label_copy_target: "Цель"
   label_copy_workflow_from: "Копировать рабочий поток из"
   label_copy_project: "Копировать проект"
-  label_core_version: "Основной этап"
+  label_core_version: "Текущая версия"
   label_current_status: "Текущий статус"
   label_current_version: "Текущий этап"
   label_custom_field_add_no_type: "Добавьте это поле в тип комплекса работ"
@@ -2942,7 +2942,7 @@ ru:
     unlock_and_reset_failed_logins: "Разблокировать и сбросить неудачные попытки входа"
   version_status_closed: "закрыт"
   version_status_locked: "заблокировано"
-  version_status_open: "открыто"
+  version_status_open: "открыт"
   note: Заметка
   note_password_login_disabled: "Вход по паролю был отключен через параметры %{configuration}."
   warning: Предупреждение
