@@ -216,14 +216,14 @@ describe 'filter work packages', js: true do
 
     let(:work_package_with_list_value) do
       wp = create :work_package, project: project, type: type
-      wp.send("#{list_cf.accessor_name}=", list_cf.custom_options.first.id)
+      wp.send(list_cf.attribute_setter, list_cf.custom_options.first.id)
       wp.save!
       wp
     end
 
     let(:work_package_with_anti_list_value) do
       wp = create :work_package, project: project, type: type
-      wp.send("#{list_cf.accessor_name}=", list_cf.custom_options.last.id)
+      wp.send(list_cf.attribute_setter, list_cf.custom_options.last.id)
       wp.save!
       wp
     end
@@ -253,7 +253,7 @@ describe 'filter work packages', js: true do
       filters.add_filter_by(list_cf.name,
                             'is not',
                             list_cf.custom_options.last.value,
-                            "customField#{list_cf.id}")
+                            list_cf.attribute_name(:camel_case))
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_list_value
@@ -261,7 +261,7 @@ describe 'filter work packages', js: true do
 
       wp_table.save_as('Some query name')
 
-      filters.remove_filter "customField#{list_cf.id}"
+      filters.remove_filter list_cf.attribute_name(:camel_case)
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_list_value, work_package_with_anti_list_value
@@ -294,14 +294,14 @@ describe 'filter work packages', js: true do
 
     let(:work_package_plus) do
       wp = create :work_package, project: project, type: type
-      wp.send("#{string_cf.accessor_name}=", 'G+H')
+      wp.send(string_cf.attribute_setter, 'G+H')
       wp.save!
       wp
     end
 
     let(:work_package_and) do
       wp = create :work_package, project: project, type: type
-      wp.send("#{string_cf.accessor_name}=", 'A&B')
+      wp.send(string_cf.attribute_setter, 'A&B')
       wp.save!
       wp
     end
@@ -331,7 +331,7 @@ describe 'filter work packages', js: true do
       filters.add_filter_by(string_cf.name,
                             'is',
                             ['G+H'],
-                            "customField#{string_cf.id}")
+                            string_cf.attribute_name(:camel_case))
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_plus
@@ -339,7 +339,7 @@ describe 'filter work packages', js: true do
 
       wp_table.save_as('Some query name')
 
-      filters.remove_filter "customField#{string_cf.id}"
+      filters.remove_filter string_cf.attribute_name(:camel_case)
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_plus, work_package_and
@@ -362,7 +362,7 @@ describe 'filter work packages', js: true do
       filters.set_filter(string_cf,
                          'is',
                          ['A&B'],
-                         "customField#{string_cf.id}")
+                         string_cf.attribute_name(:camel_case))
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_and

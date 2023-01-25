@@ -13,3 +13,8 @@ export const teamPlannerEventAdded = action(
   '[Team planner] External event added to the team planner',
   props<{ workPackage:ID }>(),
 );
+
+export const teamPlannerPageRefresh = action(
+  '[Team planner] Refresh team planner page due to external param changes',
+  props<{ showLoading:boolean }>(),
+);

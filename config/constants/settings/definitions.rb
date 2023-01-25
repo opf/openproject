@@ -525,7 +525,7 @@ Settings::Definition.define do
       writable: true
 
   add :log_level,
-      default: 'info',
+      default: Rails.env.development? ? 'debug' : 'info',
       writable: false
 
   add :log_requesting_user,

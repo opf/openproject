@@ -47,6 +47,9 @@ describe 'Open the GitHub tab', js: true do
   let(:pull_request) { create :github_pull_request, :open, work_packages: [work_package], title: 'A Test PR title' }
   let(:check_run) { create :github_check_run, github_pull_request: pull_request, name: 'a check run name' }
 
+  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
+  let(:github_tab_element) { find('.op-tab-row--link_selected', text: 'GITHUB') }
+
   shared_examples_for "a github tab" do
     before do
       check_run
@@ -70,6 +73,8 @@ describe 'Open the GitHub tab', js: true do
       work_package_page.visit!
       work_package_page.switch_to_tab(tab: 'github')
 
+      tabs.expect_counter(github_tab_element, 1)
+
       github_tab.git_actions_menu_button.click
       github_tab.git_actions_copy_branch_name_button.click
       expect(page).to have_text('Copied!')
@@ -86,6 +91,7 @@ describe 'Open the GitHub tab', js: true do
       it 'shows the github tab with an empty-pull-requests message' do
         work_package_page.visit!
         work_package_page.switch_to_tab(tab: 'github')
+        tabs.expect_no_counter(github_tab_element)
         expect(page).to have_content('There are no pull requests')
         expect(page).to have_content("Link an existing PR by using the code OP##{work_package.id}")
       end

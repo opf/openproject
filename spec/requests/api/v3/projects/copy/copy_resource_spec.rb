@@ -90,7 +90,7 @@ describe API::V3::Projects::Copy::CopyAPI, content_type: :json do
       let(:params) do
         { name: 'My copied project',
           identifier: 'my-copied-project',
-          "customField#{text_custom_field.id}": {
+          text_custom_field.attribute_name(:camel_case) => {
             raw: "CF text"
           } }
       end

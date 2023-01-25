@@ -125,7 +125,7 @@ describe API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
           .and_return([custom_field])
 
         allow(time_entry)
-          .to receive(:"custom_field_#{custom_field.id}")
+          .to receive(custom_field.attribute_getter)
           .and_return(user)
 
         allow(time_entry)
@@ -268,7 +268,7 @@ describe API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
           .and_return([custom_field])
 
         allow(time_entry)
-          .to receive(:"custom_field_#{custom_field.id}")
+          .to receive(custom_field.attribute_getter)
           .and_return(custom_value.value)
       end
 

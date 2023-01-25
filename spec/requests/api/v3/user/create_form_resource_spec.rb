@@ -139,9 +139,9 @@ describe API::V3::Users::CreateFormAPI, content_type: :json do
         {
           email: 'cfuser@example.com',
           status: 'invited',
-          "customField#{custom_field.id}": "A custom value",
+          custom_field.attribute_name(:camel_case) => "A custom value",
           _links: {
-            "customField#{list_custom_field.id}": {
+            list_custom_field.attribute_name(:camel_case) => {
               href: custom_option_href
             }
           }

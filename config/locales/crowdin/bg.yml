@@ -1797,6 +1797,7 @@ bg:
   label_product_version: "Версия на продукта"
   label_professional_support: "Професионална поддръжка"
   label_profile: "Профил"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Общ брой на проектите"
   label_project_copy_notifications: "Изпраща имейл известия по време на копиране на проект"

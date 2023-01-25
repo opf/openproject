@@ -144,7 +144,7 @@ module Type::Attributes
 
     def add_custom_fields_to_form_attributes(attributes)
       WorkPackageCustomField.includes(:custom_options).all.find_each do |field|
-        attributes["custom_field_#{field.id}"] = {
+        attributes[field.attribute_name] = {
           required: field.is_required,
           has_default: field.default_value.present?,
           is_cf: true,

@@ -1879,6 +1879,7 @@ en:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "Profile"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Send email notifications during the project copy"

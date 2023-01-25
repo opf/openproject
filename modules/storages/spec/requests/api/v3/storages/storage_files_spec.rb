@@ -64,10 +64,10 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
     let(:files) do
       [
-        Storages::StorageFile.new(1, 'new_younglings.md', 4096, 'plain/text', DateTime.now, DateTime.now,
-                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/'),
-        Storages::StorageFile.new(2, 'holocron_inventory.md', 4096, 'plain/text', DateTime.now, DateTime.now,
-                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/')
+        Storages::StorageFile.new(1, 'new_younglings.md', 4096, 'text/markdown', DateTime.now, DateTime.now,
+                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable]),
+        Storages::StorageFile.new(2, 'holocron_inventory.md', 4096, 'text/markdown', DateTime.now, DateTime.now,
+                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable writeable])
       ]
     end
 
@@ -88,6 +88,9 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
       it { is_expected.to be_json_eql(files[0].name.to_json).at_path('_embedded/elements/0/name') }
       it { is_expected.to be_json_eql(files[1].id.to_json).at_path('_embedded/elements/1/id') }
       it { is_expected.to be_json_eql(files[1].name.to_json).at_path('_embedded/elements/1/name') }
+
+      it { is_expected.to be_json_eql(files[0].permissions.to_json).at_path('_embedded/elements/0/permissions') }
+      it { is_expected.to be_json_eql(files[1].permissions.to_json).at_path('_embedded/elements/1/permissions') }
     end
 
     describe 'with files query creation failed' do

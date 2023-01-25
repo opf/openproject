@@ -28,7 +28,7 @@
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 
 import {
   CollectionStore,
@@ -60,6 +60,7 @@ export class StorageFilesResourceService extends ResourceCollectionService<IStor
           insertCollectionIntoState(this.store, collection, link.href);
         }),
         map((collection) => collection._embedded.elements),
+        take(1),
       );
   }
 

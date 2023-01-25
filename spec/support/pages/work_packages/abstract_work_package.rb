@@ -54,7 +54,7 @@ module Pages
     end
 
     def custom_edit_field(custom_field)
-      edit_field("customField#{custom_field.id}").tap do |field|
+      edit_field(custom_field.attribute_name(:camel_case)).tap do |field|
         if custom_field.list?
           field.field_type = 'create-autocompleter'
         end

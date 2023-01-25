@@ -657,6 +657,7 @@ ja:
     project:
       required_outside_context: >
         作業パッケージを作成するプロジェクトを選択して、すべての属性を確認してください。 上記で有効になっているタイプのプロジェクトのみ選択できます。
+      details_activity: 'Project details activity'
       context: 'プロジェクトのコンテキスト'
       work_package_belongs_to: 'このワークパッケージは、プロジェクト %{projectname} に属しています。'
       click_to_switch_context: 'このワークパッケージをそのプロジェクトで開きます。'

@@ -657,6 +657,7 @@ tr:
     project:
       required_outside_context: >
         Lütfen tüm özellikleri görmek için çalışma paketini oluşturacak bir proje seçin. Yalnızca yukarıdaki türden etkin olan projeleri seçebilirsiniz.
+      details_activity: 'Project details activity'
       context: 'Proje içeriği'
       work_package_belongs_to: 'Bu iş paketi %{projectname} projesine ait.'
       click_to_switch_context: 'Bu iş paketini o projede aç.'

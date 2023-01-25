@@ -94,7 +94,7 @@ describe 'inline create work package', js: true do
       let(:cf_list) do
         create(:list_wp_custom_field, is_for_all: true, is_filter: true)
       end
-      let(:cf_accessor_frontend) { "customField#{cf_list.id}" }
+      let(:cf_accessor_frontend) { cf_list.attribute_name(:camel_case) }
       let(:types) { [type, cf_type] }
       let(:type) { create(:type_standard) }
       let(:cf_type) { create(:type, custom_fields: [cf_list]) }
@@ -136,7 +136,7 @@ describe 'inline create work package', js: true do
 
         created_wp = WorkPackage.last
 
-        cf_field = wp_table.edit_field(created_wp, :"customField#{cf_list.id}")
+        cf_field = wp_table.edit_field(created_wp, cf_list.attribute_name(:camel_case))
         cf_field.expect_text(cf_list.custom_options.second.name)
       end
     end

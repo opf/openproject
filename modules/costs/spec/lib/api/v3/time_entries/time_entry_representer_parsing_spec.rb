@@ -72,7 +72,7 @@ describe API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
           "href" => api_v3_paths.work_package(work_package2.id)
 
         },
-        "customField#{user_custom_field.id}" => {
+        user_custom_field.attribute_name(:camel_case) => {
           "href" => api_v3_paths.user(user2.id)
         }
       },
@@ -81,7 +81,7 @@ describe API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
         "raw" => "some comment"
       },
       "spentOn" => "2017-07-28",
-      "customField#{test_custom_field.id}" => {
+      test_custom_field.attribute_name(:camel_case) => {
         "raw" => "some text"
       }
     }

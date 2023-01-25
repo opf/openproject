@@ -71,7 +71,7 @@ describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
     it 'renders as expected' do
       expect(json)
         .to be_json_eql({
-          id: "memberships/read/p#{context.id}-#{principal.id}",
+          id: "activities/read/p#{context.id}-#{principal.id}",
           _type: "Capability",
           _links: {
             context: {
@@ -83,10 +83,10 @@ describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
               title: principal.name
             },
             action: {
-              href: api_v3_paths.action("memberships/read")
+              href: api_v3_paths.action("activities/read")
             },
             self: {
-              href: api_v3_paths.capability("memberships/read/p#{context.id}-#{principal.id}")
+              href: api_v3_paths.capability("activities/read/p#{context.id}-#{principal.id}")
             }
           }
         }.to_json)
@@ -115,10 +115,10 @@ describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
               title: principal.name
             },
             action: {
-              href: api_v3_paths.action("memberships/read")
+              href: api_v3_paths.action("activities/read")
             },
             self: {
-              href: api_v3_paths.capability("memberships/read/p#{context.id}-#{principal.id}")
+              href: api_v3_paths.capability("activities/read/p#{context.id}-#{principal.id}")
             }
           }
         }.to_json)

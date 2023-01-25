@@ -23,7 +23,7 @@ be:
   activerecord:
     attributes:
       work_package:
-        position: "Position"
+        position: "Пазіцыя"
         remaining_hours: "Remaining hours"
         remaining_time: "Remaining hours"
         story_points: "Story Points"

@@ -1,6 +1,6 @@
 <spot-tooltip
   [alignment]="getTooltipAlignment"
-  [disabled]="!content.disabled || !content.tooltip"
+  [disabled]="!content.tooltip"
 >
   <p
     slot="body"
@@ -11,7 +11,10 @@
     slot="trigger"
     class="spot-list--item-action"
     data-qa-selector="op-files-picker-modal--list-item"
-    [ngClass]="{ 'spot-list--item-action_disabled': content.disabled }"
+    [ngClass]="{
+      'spot-list--item-action_disabled': content.disabled,
+      'op-file-list--item-action_view-not-allowed': !content.isWriteable
+    }"
   >
     <spot-checkbox
       *ngIf="!!content.checkbox"

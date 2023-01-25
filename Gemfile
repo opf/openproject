@@ -80,7 +80,7 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.23.6'
+gem 'commonmarker', '~> 0.23.7'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -305,7 +305,7 @@ gem 'bootsnap', '~> 1.15.0', require: false
 # API gems
 gem 'grape', '~> 1.7.0'
 gem 'grape_logging', '~> 1.8.4'
-gem 'roar', '~> 1.1.0'
+gem 'roar', '~> 1.2.0'
 
 # CORS for API
 gem 'rack-cors', '~> 1.1.1'

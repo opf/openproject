@@ -129,8 +129,7 @@ module API::V3::Storages
     end
 
     link :authorizationState do
-      state = @connection_manager.authorization_state
-      urn = case state
+      urn = case authorization_state
             when :connected
               URN_CONNECTION_CONNECTED
             when :failed_authorization
@@ -138,13 +137,13 @@ module API::V3::Storages
             else
               URN_CONNECTION_ERROR
             end
-      title = I18n.t(:"oauth_client.urn_connection_status.#{state}")
+      title = I18n.t(:"oauth_client.urn_connection_status.#{authorization_state}")
 
       { href: urn, title: }
     end
 
     link :authorize do
-      next unless @connection_manager.authorization_state == :failed_authorization
+      next unless authorization_state == :failed_authorization
 
       { href: @connection_manager.get_authorization_uri, title: 'Authorize' }
     end
@@ -187,6 +186,10 @@ module API::V3::Storages
 
     def user_allowed_to_manage?(model)
       current_user.allowed_to?(:manage_file_links, model.project)
+    end
+
+    def authorization_state
+      @authorization_state ||= @connection_manager.authorization_state
     end
   end
 end

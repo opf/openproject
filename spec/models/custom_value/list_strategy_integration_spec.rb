@@ -50,13 +50,13 @@ describe CustomValue::ListStrategy, 'integration tests' do
   end
 
   it 'can handle invalid CustomOptions (Regression test)' do
-    expect(work_package.public_send(:"custom_field_#{custom_field.id}")).to eq(%w(A))
+    expect(work_package.public_send(custom_field.attribute_getter)).to eq(%w(A))
 
     # Remove the custom value without replacement
     CustomValue.find_by(customized_id: work_package.id).update_columns(value: 'invalid')
     work_package.reload
     work_package.reset_custom_values!
 
-    expect(work_package.public_send(:"custom_field_#{custom_field.id}")).to eq(['invalid not found'])
+    expect(work_package.public_send(custom_field.attribute_getter)).to eq(['invalid not found'])
   end
 end

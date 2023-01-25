@@ -655,6 +655,7 @@ zh-TW:
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      details_activity: 'Project details activity'
       context: '專案內容'
       work_package_belongs_to: '此工作項目屬於專案 %{projectname}。'
       click_to_switch_context: '在該專案中打開此工作項目。'

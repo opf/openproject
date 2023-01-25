@@ -657,6 +657,7 @@ ca:
     project:
       required_outside_context: >
         Si us plau, selecciona un projecte on crear el paquet de treball per a veure tots els atributs. Només pots seleccionar projectes que tinguin activat la classe indicada anteriorment.
+      details_activity: 'Project details activity'
       context: 'Context del projecte'
       work_package_belongs_to: 'Aquest paquet de treball pertany al projecte %{projectname}.'
       click_to_switch_context: 'Obre aquest paquet de treball en aquell projecte.'
