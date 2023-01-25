@@ -28,7 +28,6 @@
 
 import { Injectable } from '@angular/core';
 import {
-  HttpClient,
   HttpHeaders,
 } from '@angular/common/http';
 import { applyTransaction } from '@datorama/akita';
@@ -52,7 +51,6 @@ import {
 import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import isNewResource, { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';

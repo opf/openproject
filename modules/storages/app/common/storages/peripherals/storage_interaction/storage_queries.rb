@@ -52,16 +52,23 @@ module Storages::Peripherals::StorageInteraction
       end
     end
 
-    def upload_link_query(finalize_url)
+    def upload_link_query
       case @provider_type
       when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
         retry_with_refreshed_token do |token, with_refreshed_token_proc|
-          ::Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQuery.new(
-            base_uri: @uri,
-            token:,
-            retry_proc: with_refreshed_token_proc,
-            finalize_url:
-          )
+          if OpenProject::FeatureDecisions.legacy_upload_preparation_active?
+            ::Storages::Peripherals::StorageInteraction::Nextcloud::LegacyUploadLinkQuery.new(
+              base_uri: @uri,
+              token:,
+              retry_proc: with_refreshed_token_proc
+            )
+          else
+            ::Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQuery.new(
+              base_uri: @uri,
+              token:,
+              retry_proc: with_refreshed_token_proc
+            )
+          end
         end
       else
         raise ArgumentError

@@ -55,7 +55,7 @@ module API::V3::StorageFiles
       #   "parent": "/Pictures"
       # }
       post :prepare_upload do
-        raise ::API::Errors::NotFound unless OpenProject::FeatureDecisions.storage_file_upload_active?
+        raise API::Errors::NotFound unless OpenProject::FeatureDecisions.storage_file_upload_active?
 
         (upload_link_query(@storage, current_user) >> execute_upload_link_query(request_body))
           .match(
