@@ -65,6 +65,10 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 
 export type CollectionStore<T> = EntityStore<CollectionState<T>>;
 
+export interface ResourceCollectionLoadOptions {
+  handleErrors:boolean;
+}
+
 @Injectable()
 export abstract class ResourceCollectionService<T extends { id:ID }> {
   protected store:CollectionStore<T> = this.createStore();
@@ -225,8 +229,14 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
 
   /**
    * Fetch a given collection, ensuring it is being flagged as loaded
+   *
+   * @param params {ApiV3ListParameters|string} collection key or list params to build collection key from
+   * @param options {ResourceCollectionLoadOptions} Handle collection loading errors within the resource service
    */
-  fetchCollection(params:ApiV3ListParameters|string):Observable<IHALCollection<T>> {
+  fetchCollection(
+    params:ApiV3ListParameters|string,
+    options:ResourceCollectionLoadOptions = { handleErrors: true },
+  ):Observable<IHALCollection<T>> {
     const key = typeof params === 'string' ? params : collectionKey(params);
 
     setCollectionLoading(this.store, key);
@@ -238,7 +248,10 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
         tap((collection) => insertCollectionIntoState(this.store, collection, key)),
         finalize(() => removeCollectionLoading(this.store, key)),
         catchError((error:unknown) => {
-          this.handleCollectionLoadingError(error as HttpErrorResponse, key);
+          if (options.handleErrors) {
+            this.handleCollectionLoadingError(error as HttpErrorResponse, key);
+          }
+
           throw error;
         }),
       );
@@ -256,6 +269,12 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
    */
   protected abstract basePath():string;
 
+  /**
+   * By default, add a toast error in case of loading errors
+   * @param error
+   * @param _collectionKey
+   * @protected
+   */
   protected handleCollectionLoadingError(error:HttpErrorResponse, _collectionKey:string):void {
     this.toastService.addError(error);
   }
