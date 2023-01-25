@@ -153,7 +153,11 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     return this.storage._links.open.href;
   }
 
-  private get addFileLinksHref() {
+  private get addFileLinksHref():string {
+    if (isNewResource(this.resource)) {
+      return '/api/v3/file_links';
+    }
+
     return (this.resource.$links as unknown&{ addFileLink:IHalResourceLink }).addFileLink.href;
   }
 
