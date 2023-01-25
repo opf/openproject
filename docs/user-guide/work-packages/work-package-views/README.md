@@ -2,13 +2,30 @@
 sidebar_navigation:
   title: Work packages views
   priority: 999
-description: What are the different work packages views?
+description: Different ways of organising and viewing work packages, including list, split screen, board and Gantt.
 keywords: work packages views
 ---
 
 # Work packages views
 
-Work packages can be displayed in different views. They include the same work package(s) but just have a different form to display the work packages.
+A list of work packages is considered a view. Each view is based on a set of filter criteria and displays all work packages that meet those criteria. Every project in OpenProject automatically has these default views:
+
+> **IMG**: Default views on the sidebar
+
+- **All open**: All open work packages ( that is, with statuses that are not defined as _closed_), sorted in ascending order of ID (lowest on top)
+- **Latest activity**: All work packages, open and closed, in descending order of last updated date (latest on top)
+- **Recently created**: All open work packages in descending order of creation date (latest on top)
+- **Gantt chart**: All open work packages displayed in Gantt view in descending order of start date (earliest on top).
+- **Overdue**: All open work packages with finish dates that are in the past in descending order of how long each is overdue (closest to current date on top)
+- **Summary**: Table overview of the number of work packages grouped by type, status, priority, assignee, accountable, author, version, category and subproject
+- **Created by me**: All work packages created by you (the current user) in descending order of last updated date (latest on top)
+- **Assigned to me**: All work packages that are assigned to you in descending order of last updated date (latest on top)
+
+You can also create, save and modify your own work package views. Read about [work package table configuration](../work-package-table-configuration/#save-work-package-views) to learn how.
+
+## View modes
+
+The containing work packages in any view can be displayed a number of different ways. Each of these view modes display the same set of work packages but display them differently:
 
 * [List view](#work-package-list-view)
 * [Split screen view](#work-package-split-screen-view)
@@ -17,7 +34,8 @@ Work packages can be displayed in different views. They include the same work pa
 * [Gantt view](../../gantt-chart)
 * [Board view](../../../getting-started/boards-introduction/)
 
-## Work package list view
+
+### List view
 
 The list view shows all work packages in a list with selected attributes in the columns.
 
@@ -25,7 +43,7 @@ The list view shows all work packages in a list with selected attributes in the 
 
 Find out how to make changes to the work package list view, e.g. change the titles in the header, filter, group or add dependencies.
 
-## Work package split screen view
+### Split screen view
 
 If you are in the work package list, click on the blue info icon at the right end of a work package row to open the split screen view.
 
@@ -37,7 +55,7 @@ Once the split screen is open, you can easily navigate through the work package 
 
 ![split-screen-view](1566307254418.png)
 
-## Work package full screen view
+### Full screen view
 
 To display  a work package with all its details in full screen mode, double click on a row within the work package list.
 
@@ -51,6 +69,6 @@ The arrow next to the subject will bring you back to the list view.
 
 ![back-to-list-view](image-20201217125332403.png)
 
-## Card view
+### Card view
 
 You can also display the work package list in a card view. To switch to the card view in the work package list, you must select the card icon at the top right of the work package list.
