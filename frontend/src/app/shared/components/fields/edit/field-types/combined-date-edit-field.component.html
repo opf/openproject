@@ -1,14 +1,16 @@
 <spot-drop-modal
-  [open]="isOpened"
+  [open]="opened"
   (closed)="cancel()"
   alignment="bottom-center"
 >
-  <button
+  <input
     slot="trigger"
-    type="button"
-    (click)="showDatePickerModal()"
-    class="spot-link"
-  >{{ dates }}</button>
+    type="text"
+    class="spot-input"
+    (click)="onInputClick($event)"
+    [value]="dates"
+    (focus)="showDatePickerModal()"
+  />
 
   <op-wp-single-date-form
     *ngIf="!isMultiDate"
