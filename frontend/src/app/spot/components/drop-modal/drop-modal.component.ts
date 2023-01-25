@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -7,11 +8,26 @@ import {
   Input,
   OnDestroy,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import SpotDropAlignmentOption from '../../drop-alignment-options';
 import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
+import SpotDropAlignmentOption from '../../drop-alignment-options';
+
+const findClippingParent = (el:HTMLElement):HTMLElement => {
+  const parent = el.parentElement;
+  if(!parent) {
+    return document.body;
+  }
+
+  const styles = window.getComputedStyle(parent);
+  if (styles.overflowY !== 'visible' || styles.overflowX !== 'visible') {
+    return parent;
+  }
+
+  return findClippingParent(parent);
+}
 
 @Component({
   selector: 'spot-drop-modal',
@@ -22,13 +38,20 @@ export class SpotDropModalComponent implements OnDestroy {
   @HostBinding('class.spot-drop-modal') public className = true;
 
   /**
-   * The alignment of the drop modal. There are twelve alignments in total. You can check which ones they are
+   * Whether to allow automatic changing the alignment based on the available space.
+   */
+  @Input() public allowRepositioning:boolean = true;
+
+  /**
+   * The default alignment of the drop modal. There are twelve alignments in total. You can check which ones they are
    * from the `SpotDropAlignmentOption` Enum that is available in 'core-app/spot/drop-alignment-options'.
    */
   @Input() public alignment:SpotDropAlignmentOption = SpotDropAlignmentOption.BottomLeft;
 
+  private calculatedAlignment = SpotDropAlignmentOption.BottomLeft;
+
   get alignmentClass():string {
-    return `spot-drop-modal--body_${this.alignment}`;
+    return `spot-drop-modal--body_${this.allowRepositioning ? this.calculatedAlignment : this.alignment}`;
   }
 
   public _open = false;
@@ -58,6 +81,10 @@ export class SpotDropModalComponent implements OnDestroy {
         window.addEventListener('orientationchange', this.appHeightListener);
         this.appHeightListener();
 
+        if (this.allowRepositioning) {
+          this.recalculateAlignment();
+        }
+
         const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
         if (focusCatcherContainer) {
           (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement).focus();
@@ -71,8 +98,6 @@ export class SpotDropModalComponent implements OnDestroy {
       document.body.removeEventListener('keydown', this.escapeListener);
       window.removeEventListener('resize', this.appHeightListener);
       window.removeEventListener('orientationchange', this.appHeightListener);
-      
-      console.log('close?', value);
 
       this.closed.emit();
     }
@@ -106,19 +131,56 @@ export class SpotDropModalComponent implements OnDestroy {
     close: this.i18n.t('js.spot.drop_modal.close'),
   };
 
+  @ViewChild('modalBody') modalBody:ElementRef;
+
   constructor(
     readonly i18n:I18nService,
     readonly elementRef:ElementRef,
+    readonly cdRef:ChangeDetectorRef,
   ) {}
 
   close():void {
     this.open = false;
   }
 
+  private closeEventListener = this.close.bind(this) as () => void;
+
   onBodyClick(e:MouseEvent):void {
     // We stop propagation here so that clicks inside the body do not
     // close the modal when the event reaches the document body
     e.stopPropagation();
+  }
+
+  private recalculateAlignment(): void {
+    const clippingParent = findClippingParent(this.elementRef.nativeElement);
+    const parentRect = clippingParent.getBoundingClientRect();
+
+    const alignments = Object.values(SpotDropAlignmentOption) as SpotDropAlignmentOption[];
+    const index = alignments.indexOf(this.alignment);
+
+    const possibleAlignments = [
+      ...alignments.splice(index),
+      ...alignments.splice(0, index),
+    ].filter((alignment:SpotDropAlignmentOption) => {
+        this.modalBody.nativeElement.classList.remove(this.alignmentClass);
+        this.calculatedAlignment = alignment; 
+        this.modalBody.nativeElement.classList.add(this.alignmentClass);
+        const rect = this.modalBody.nativeElement.getBoundingClientRect();
+
+        const spaceOnLeft = parentRect.left <= rect.left;
+        const spaceOnRight = parentRect.right >= rect.right;
+        const spaceOnTop = parentRect.top <= rect.top;
+        const spaceOnBottom = parentRect.bottom >= rect.bottom;
+        return spaceOnLeft && spaceOnRight && spaceOnTop && spaceOnBottom;
+      });
+
+    if (possibleAlignments.length) {
+      this.calculatedAlignment = possibleAlignments[0];
+    } else {
+      this.calculatedAlignment = this.alignment;
+    }
+
+    this.cdRef.markForCheck();
   }
 
   ngOnDestroy():void {
@@ -127,8 +189,6 @@ export class SpotDropModalComponent implements OnDestroy {
     window.removeEventListener('resize', this.appHeightListener);
     window.removeEventListener('orientationchange', this.appHeightListener);
   }
-
-  private closeEventListener = this.close.bind(this) as () => void;
 
   private onEscape = (evt:KeyboardEvent) => {
     if (evt.keyCode === KeyCodes.ESCAPE) {

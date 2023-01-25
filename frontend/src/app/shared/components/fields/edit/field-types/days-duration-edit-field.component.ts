@@ -33,17 +33,33 @@ import {
 import { DatePickerEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-picker-edit-field.component';
 
 @Component({
-  template: `
-    <input type="number"
-           class="inline-edit--field op-input"
-           [ngModel]="formattedValue"
-           disabled="disabled"
-           [id]="handler.htmlId" />
-  `,
+  templateUrl: './days-duration-edit-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DaysDurationEditFieldComponent extends DatePickerEditFieldComponent {
+  opened = false;
+
   public get formattedValue():number {
     return Number(moment.duration(this.value).asDays().toFixed(0));
+  }
+
+  ngOnInit():void {
+    super.ngOnInit();
+  }
+
+  onInputClick(event:MouseEvent) {
+    event.stopPropagation();
+  }
+
+  showDatePickerModal() {
+    this.opened = true;
+  }
+
+  save() {
+    this.onModalClosed();
+  }
+
+  cancel():void {
+    this.handler.reset();
   }
 }

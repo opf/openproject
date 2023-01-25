@@ -63,7 +63,7 @@ import { EditFieldControlsModule } from 'core-app/shared/components/fields/edit/
 import { ProjectEditFieldComponent } from './edit/field-types/project-edit-field.component';
 import { HoursDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/hours-duration-edit-field.component';
 import { UserEditFieldComponent } from './edit/field-types/user-edit-field.component';
-import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.compontent';
+import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.component';
 import { CombinedDateEditFieldComponent } from './edit/field-types/combined-date-edit-field.component';
 
 @NgModule({

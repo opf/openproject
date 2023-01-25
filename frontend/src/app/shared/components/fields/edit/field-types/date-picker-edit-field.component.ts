@@ -36,18 +36,12 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { DeviceService } from 'core-app/core/browser/device.service';
-import { DateModalSchedulingService } from 'core-app/shared/components/datepicker/services/date-modal-scheduling.service';
-import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
 
 @Directive()
 export abstract class DatePickerEditFieldComponent extends EditFieldComponent implements OnInit, OnDestroy {
   @InjectField() readonly timezoneService:TimezoneService;
 
   @InjectField() deviceService:DeviceService;
-
-  @InjectField() dateModalScheduling:DateModalSchedulingService;
-
-  @InjectField() dateModalRelations:DateModalRelationsService;
 
   @InjectField() injector:Injector;
 
