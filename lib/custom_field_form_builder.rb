@@ -71,7 +71,6 @@ class CustomFieldFormBuilder < TabularFormBuilder
       angular_component_tag 'op-single-date-picker',
                             class: input_options.class,
                             inputs: {
-                              required: field.is_required,
                               value: input_options.value,
                               id: input_options.id,
                               name: input_options.name
