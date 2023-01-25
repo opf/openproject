@@ -57,8 +57,7 @@ describe 'My Account 2FA configuration',
 
     expect(page).to have_selector('h2', text: I18n.t('two_factor_authentication.devices.confirm_device'))
     expect(page).to have_selector('input#otp')
-    expect(page).to have_selector('.flash.error',
-                                  text: I18n.t('two_factor_authentication.devices.registration_failed_token_invalid'))
+    expect(page).to have_selector('.flash.error', text: '2FA device registration failed: Invalid one-time password.')
 
     # Fill in correct token
     fill_in 'otp', with: sms_token

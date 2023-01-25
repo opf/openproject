@@ -79,7 +79,8 @@ module ::TwoFactorAuthentication
           flash[:notice] = t('two_factor_authentication.devices.registration_complete')
           return redirect_to action: :index
         elsif !result.success?
-          flash[:error] = t('two_factor_authentication.devices.registration_failed_token_invalid')
+          message = result.message || t('two_factor_authentication.devices.registration_failed_token_invalid')
+          flash[:error] = t('two_factor_authentication.devices.registration_failed_token', message:)
         else
           flash[:error] = t('two_factor_authentication.devices.registration_failed_update')
         end

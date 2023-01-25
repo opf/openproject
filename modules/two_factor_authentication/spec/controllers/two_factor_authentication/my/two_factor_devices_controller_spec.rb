@@ -171,7 +171,8 @@ describe TwoFactorAuthentication::My::TwoFactorDevicesController do
           it 'redirects to the confirmation on faulty entry' do
             post :confirm, params: { device_id: device.id, otp: '1234' }
             expect(response).to redirect_to action: :confirm, device_id: device.id
-            expect(flash[:error]).to include I18n.t('two_factor_authentication.devices.registration_failed_token_invalid')
+            expect(flash[:error]).to include '2FA device registration failed'
+            expect(flash[:error]).to include ' If this happens repeatedly, please make sure your device clock is in sync'
 
             device.reload
 

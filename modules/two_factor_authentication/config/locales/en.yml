@@ -100,7 +100,8 @@ en:
       make_default_failed: 'Failed to update the default 2FA device.'
       deletion_are_you_sure: 'Are you sure you want to delete this 2FA device?'
       registration_complete: '2FA device registration complete!'
-      registration_failed_token_invalid: '2FA device registration failed, the token was invalid.'
+      registration_failed_token_invalid: 'The token was invalid.'
+      registration_failed_token: '2FA device registration failed: %{message}'
       registration_failed_update: '2FA device registration failed, the token was valid but the device could not be updated.'
       confirm_send_failed: 'Confirmation of your 2FA device failed.'
       button_complete_registration: 'Complete 2FA registration'
@@ -117,6 +118,7 @@ en:
         secret_key: 'Secret key'
         time_based: 'Time based'
         account: 'Account name / Issuer'
+        otp_invalid_drift_notice: "Invalid one-time password. If this happens repeatedly, please make sure your device clock is in sync. Current server time in your zone is %{time}"
         setup: |
           For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
           After opening the app, you can scan the following QR code to register the device.
