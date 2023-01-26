@@ -94,15 +94,16 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       input_options[:class] << ' -error'
     end
 
+    inputs = { value: @object.public_send(field), id: field_id(field), name: field_name(field) }
+
+    if input_options[:'remote-field-key']
+      inputs['remote-field-key'] = input_options[:'remote-field-key']
+    end
+
     label = label_for_field(field, label_options)
-    input = angular_component_tag 'op-single-date-picker',
+    input = angular_component_tag('op-single-date-picker',
                                   class: options[:class],
-                                  inputs: {
-                                    value: @object.public_send(field),
-                                    id: field_id(field),
-                                    name: field_name(field),
-                                    'remote-field-key': input_options[:'remote-field-key']
-                                  }
+                                  inputs:)
     (label + container_wrap_field(input, :date_picker, options))
   end
 
