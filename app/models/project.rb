@@ -108,6 +108,7 @@ class Project < ApplicationRecord
   register_on_journal_formatter(:template, 'templated')
   register_on_journal_formatter(:plaintext, 'identifier')
   register_on_journal_formatter(:plaintext, 'name')
+  register_on_journal_formatter(:diff, 'description')
 
   has_paper_trail
 
