@@ -96,8 +96,8 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
     inputs = { value: @object.public_send(field), id: field_id(field), name: field_name(field) }
 
-    if input_options[:'remote-field-key']
-      inputs['remote-field-key'] = input_options[:'remote-field-key']
+    if options.dig(:data, :'remote-field-key')
+      inputs['remote-field-key'] = options.dig(:data, :'remote-field-key')
     end
 
     label = label_for_field(field, label_options)
