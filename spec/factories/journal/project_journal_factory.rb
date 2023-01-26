@@ -26,16 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
-
-describe OpenProject::JournalFormatter::Identifier do
-  let(:instance) { described_class.new(build(:journal)) }
-
-  it "renders correctly when identifier is changed" do
-    html = instance.render("templated", [false, true], html: true)
-    expect(html).to eq("<strong>Identifier</strong> changed to []")
-
-    html = instance.render("templated", [false, true], html: false)
-    expect(html).to eq("Identifier changed to []")
-  end
+FactoryBot.define do
+  factory :journal_project_journal, class: 'Journal::ProjectJournal'
 end

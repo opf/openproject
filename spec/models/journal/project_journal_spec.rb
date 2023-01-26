@@ -26,12 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class OpenProject::JournalFormatter::Identifier < JournalFormatter::Base
-  def render(_key, values, options = { html: true })
-    binding.pry
-    label_text = options[:html] ? content_tag('strong', "Template:") : "Template:"
-    activated_text = values.last ? "Project un-marked as template" : "Project marked as template"
+require 'spec_helper'
 
-    I18n.t(:text_journal_label_value, label: label_text, value: activated_text)
+RSpec.describe Journal::ProjectJournal do
+  describe '#render_detail' do
+    it 'renders identifier field correctly' do
+      project = build(:project)
+      journal = build(:project_journal, journable: project)
+
+      html = journal.render_detail(['identifier', [nil, 'my-project']], html: true)
+      expect(html).to eq('<strong>Identifier</strong> set to ' \
+                         '<i title="my-project">my-project</i>')
+
+      html = journal.render_detail(['identifier', [nil, 'my-project']], html: false)
+      expect(html).to eq('Identifier set to my-project')
+
+      html = journal.render_detail(['identifier', ['my-project', 'my-beautiful-project']], html: true)
+      expect(html).to eq('<strong>Identifier</strong> changed from <i title="my-project">my-project</i> ' \
+                         '<strong>to</strong> <i title="my-beautiful-project">my-beautiful-project</i>')
+
+      html = journal.render_detail(['identifier', ['my-project', 'my-beautiful-project']], html: false)
+      expect(html).to eq('Identifier changed from my-project to my-beautiful-project')
+    end
   end
 end
