@@ -26,6 +26,7 @@ cs:
           Chcete-li přidat odkaz nebo zobrazit soubory související s tímto pracovním balíčkem, přihlaste se do %{storageType}.
       files:
         directory_not_writeable: "You do not have to permission to add files to this folder."
+        dragging_many_files: "The upload to %{storageType} supports only one file at once."
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.

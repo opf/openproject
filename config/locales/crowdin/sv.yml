@@ -483,9 +483,9 @@ sv:
         explanation: 'Statusbeskrivning'
         codes:
           not_started: 'Not started'
-          on_track: 'På banan'
+          on_track: 'På rätt spår'
           at_risk: 'I riskzonen'
-          off_track: 'Utanför banan'
+          off_track: 'Urspårat'
           finished: 'Finished'
           discontinued: 'Discontinued'
       query:
@@ -2962,6 +2962,9 @@ sv:
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Ingenting att förhandsgranska"
   api_v3:
     attributes:
