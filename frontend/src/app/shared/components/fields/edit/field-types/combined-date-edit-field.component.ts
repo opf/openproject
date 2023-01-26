@@ -36,7 +36,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent {
   dates = '';
 
-  isOpened = true;
+  opened = false;
 
   text = {
     placeholder: {
@@ -50,14 +50,23 @@ export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent
     return !this.change.schema.isMilestone;
   }
 
+  public onInputClick(event:MouseEvent) {
+    event.stopPropagation();
+  }
+
+  public showDatePickerModal():void {
+    this.opened = true;
+  }
+
   public onModalClosed():void {
-    this.isOpened = false;
+    this.opened = false;
     this.resetDates();
     super.onModalClosed();
   }
 
   public save():void {
-    this.handler.deactivate(true);
+    this.handler.handleUserSubmit();
+    this.onModalClosed();
   }
 
   public cancel():void {

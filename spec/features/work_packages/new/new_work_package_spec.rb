@@ -372,8 +372,6 @@ describe 'new work package', js: true do
       due = (Time.zone.today + 1.day).iso8601
       date_field.set_due_date due
 
-      date_field.expect_value "#{start} - #{due}"
-
       # Cancel
       date_field.cancel_by_click
       date_field.expect_value 'no start date - no finish date'

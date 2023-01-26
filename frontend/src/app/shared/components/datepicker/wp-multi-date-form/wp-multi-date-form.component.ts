@@ -53,7 +53,6 @@ import {
   map,
   switchMap,
 } from 'rxjs/operators';
-import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import {
   fromEvent,
   merge,
@@ -80,6 +79,7 @@ import { DatePicker } from '../datepicker';
 import DateOption = flatpickr.Options.DateOption;
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -120,6 +120,8 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
   @ViewChild('durationField', { read: ElementRef }) durationField:ElementRef<HTMLElement>;
+
+  @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
 
   @Input() changeset:ResourceChangeset;
 
@@ -281,17 +283,24 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   }
 
   ngAfterViewInit():void {
+    const init = (date:Date|null) => {
+      this.initializeDatepicker(date);
+
+      // Autofocus duration if that's what activated us
+      if (this.initialActivatedField === 'duration') {
+        this.focusHelper.focus(this.durationField.nativeElement);
+      }
+    };
+
+    if (isNewResource(this.changeset.pristineResource)) {
+      init(null);
+      return;
+    }
+
     this
       .dateModalRelations
       .getMinimalDateFromPreceeding()
-      .subscribe((date) => {
-        this.initializeDatepicker(date);
-      });
-
-    // Autofocus duration if that's what activated us
-    if (this.initialActivatedField === 'duration') {
-      this.focusHelper.focus(this.durationField.nativeElement);
-    }
+      .subscribe((date) => init(date));
   }
 
   changeSchedulingMode():void {
@@ -498,7 +507,7 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
           );
         },
       },
-      null,
+      this.flatpickrTarget.nativeElement,
     );
   }
 
