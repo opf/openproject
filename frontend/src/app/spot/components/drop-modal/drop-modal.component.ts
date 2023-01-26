@@ -129,30 +129,34 @@ export class SpotDropModalComponent implements OnDestroy {
   ) {}
 
   open() {
-    this._opened = true;
     this.repositionAnchor();
     this.updateAppHeight();
 
-    /**
+    /*
      * If we don't activate the body after one tick, angular will complain because
      * it already rendered a `null` template, but then gets an update to that
      * template in the same tick.
      * To make it happy, we update afterwards
      */
     setTimeout(() => {
-      /* We have to set these listeners next tick, because they're so far up the tree.
-       * If the open value was set because of a click listener in the trigger slot,
-       * that event would reach the event listener added here and close the modal right away.
-       */
       this.teleportationService.activate(this.body)
-      this.teleportationService.hasRendered$
-        .pipe(take(1))
-        .subscribe(() => {
-          document.body.addEventListener('click', this.close);
-          document.body.addEventListener('keydown', this.onEscape);
-          document.body.addEventListener('scroll', this.repositionAnchor);
-          window.addEventListener('resize', this.onResizeDebounced);
-          window.addEventListener('orientationchange', this.onResizeDebounced);
+    });
+
+    this.teleportationService.hasRendered$
+      .pipe(take(1))
+      .subscribe(() => {
+        this._opened = true;
+        setTimeout(() => {
+          /*
+           * We have to set these listeners next tick, because they're so far up the tree.
+           * If the open value was set because of a click listener in the trigger slot,
+           * that event would reach the event listener added here and close the modal right away.
+           */
+          document.body.addEventListener('click', this.close.bind(this));
+          document.body.addEventListener('keydown', this.onEscape.bind(this));
+          document.body.addEventListener('scroll', this.repositionAnchor.bind(this), true);
+          window.addEventListener('resize', this.onResizeDebounced.bind(this));
+          window.addEventListener('orientationchange', this.onResizeDebounced.bind(this));
 
           setTimeout(() => {
             this.recalculateAlignment();
