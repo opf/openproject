@@ -2934,6 +2934,9 @@ lol:
       days:
         working: "crwdns834174:0%{day}crwdne834174:0"
         non_working: "crwdns834176:0%{day}crwdne834176:0"
+      dates:
+        working: "crwdns844503:0%{date}crwdne844503:0"
+        non_working: "crwdns844505:0%{date}crwdne844505:0"
   nothing_to_preview: "crwdns499773:0crwdne499773:0"
   api_v3:
     attributes:

@@ -2965,6 +2965,9 @@ fr:
       days:
         working: "%{day} est maintenant un jour ouvrable"
         non_working: "%{day} est maintenant un jour non ouvrable"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Rien à afficher en apperçu"
   api_v3:
     attributes:

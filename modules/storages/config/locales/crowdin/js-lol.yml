@@ -26,6 +26,7 @@ lol:
           crwdns823108:0%{storageType}crwdne823108:0
       files:
         directory_not_writeable: "crwdns844171:0crwdne844171:0"
+        dragging_many_files: "crwdns844507:0%{storageType}crwdne844507:0"
       file_links:
         empty: >
           crwdns842641:0%{storageType}crwdne842641:0

@@ -3003,6 +3003,9 @@ ru:
       days:
         working: "%{day} сейчас работает"
         non_working: "%{day} теперь не работает"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Нет ничего для предосмотра"
   api_v3:
     attributes:

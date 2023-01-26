@@ -2955,6 +2955,9 @@ ca:
       days:
         working: "%{day} és ara laboral"
         non_working: "%{day} és ara no laboral"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Res per previsualitzar"
   api_v3:
     attributes:

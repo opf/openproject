@@ -395,6 +395,99 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
   end
 
   describe '#upload_link_query' do
+    let(:query_payload) { Struct.new(:parent).new(42) }
+    let(:upload_token) { 'valid-token' }
+
+    before do
+      allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+      stub_request(:post, "#{url}/apps/integration_openproject/direct-upload-token")
+        .with(body: { folder_id: query_payload.parent })
+        .to_return(
+          status: 200,
+          body: {
+            token: upload_token,
+            expires_on: 1673883865
+          }.to_json
+        )
+    end
+
+    describe 'with Nextcloud storage type selected' do
+      it 'must return an upload link URL' do
+        subject
+          .upload_link_query(user:)
+          .match(
+            on_success: ->(query) do
+              query.call(query_payload).match(
+                on_success: ->(link) {
+                  expect(link.destination.path).to be_eql("/apps/integration_openproject/direct-upload/#{upload_token}")
+                  expect(link.destination.host).to be_eql(URI(url).host)
+                  expect(link.destination.scheme).to be_eql(URI(url).scheme)
+                  expect(link.destination.user).to be_nil
+                  expect(link.destination.password).to be_nil
+                  expect(link.method).to eq(:post)
+                },
+                on_failure: ->(error) {
+                  raise "Files query could not be executed: #{error}"
+                }
+              )
+            end,
+            on_failure: ->(error) do
+              raise "Files query could not be created: #{error}"
+            end
+          )
+      end
+    end
+
+    describe 'with not supported storage type selected' do
+      before do
+        allow(storage).to receive(:provider_type).and_return('not_supported_storage_type'.freeze)
+      end
+
+      it 'must raise ArgumentError' do
+        expect { subject.upload_link_query(user:) }.to raise_error(ArgumentError)
+      end
+    end
+
+    describe 'with missing OAuth token' do
+      before do
+        allow(connection_manager).to receive(:get_access_token).and_return(ServiceResult.failure)
+      end
+
+      it 'must return ":not_authorized" ServiceResult' do
+        expect(subject.upload_link_query(user:)).to be_failure
+      end
+    end
+
+    shared_examples_for 'outbound is failing' do |code, symbol|
+      describe "with outbound request returning #{code}" do
+        before do
+          stub_request(:post, "#{url}/apps/integration_openproject/direct-upload-token").to_return(status: code)
+        end
+
+        it "must return :#{symbol} ServiceResult" do
+          subject
+            .upload_link_query(user:)
+            .match(
+              on_success: ->(query) do
+                result = query.call(query_payload)
+                expect(result).to be_failure
+                expect(result.errors.code).to be(symbol)
+              end,
+              on_failure: ->(error) do
+                raise "Files query could not be created: #{error}"
+              end
+            )
+        end
+      end
+    end
+
+    include_examples 'outbound is failing', 400, :error
+    include_examples 'outbound is failing', 401, :not_authorized
+    include_examples 'outbound is failing', 404, :not_found
+    include_examples 'outbound is failing', 500, :error
+  end
+
+  describe '#legacy_upload_link_query', with_flag: { legacy_upload_preparation: true } do
     let(:query_payload) do
       Struct.new(:fileName, :parent).new("ape.png", "/Pictures")
     end
@@ -436,7 +529,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     describe 'with Nextcloud storage type selected' do
       it 'must return an upload link URL' do
         subject
-          .upload_link_query(user:, finalize_url: nil)
+          .upload_link_query(user:)
           .match(
             on_success: ->(query) do
               query.call(query_payload).match(
@@ -446,6 +539,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
                   expect(link.destination.scheme).to be_eql(URI(url).scheme)
                   expect(link.destination.user).not_to be_nil
                   expect(link.destination.password).not_to be_nil
+                  expect(link.method).to eq(:put)
                 },
                 on_failure: ->(error) {
                   raise "Files query could not be executed: #{error}"
@@ -465,7 +559,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       it 'must raise ArgumentError' do
-        expect { subject.download_link_query(user:) }.to raise_error(ArgumentError)
+        expect { subject.upload_link_query(user:) }.to raise_error(ArgumentError)
       end
     end
 
@@ -475,7 +569,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       it 'must return ":not_authorized" ServiceResult' do
-        expect(subject.download_link_query(user:)).to be_failure
+        expect(subject.upload_link_query(user:)).to be_failure
       end
     end
 
@@ -496,7 +590,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
       it 'must return :not_authorized ServiceResult' do
         subject
-          .upload_link_query(user:, finalize_url: nil)
+          .upload_link_query(user:)
           .match(
             on_success: ->(query) do
               result = query.call(query_payload)
@@ -519,7 +613,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
       it 'must return :not_authorized ServiceResult' do
         subject
-          .upload_link_query(user:, finalize_url: nil)
+          .upload_link_query(user:)
           .match(
             on_success: ->(query) do
               result = query.call(query_payload)
@@ -541,7 +635,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
         it "must return :#{symbol} ServiceResult" do
           subject
-            .upload_link_query(user:, finalize_url: nil)
+            .upload_link_query(user:)
             .match(
               on_success: ->(query) do
                 result = query.call(query_payload)

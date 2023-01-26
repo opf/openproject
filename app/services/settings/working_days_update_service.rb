@@ -30,6 +30,8 @@ class Settings::WorkingDaysUpdateService < Settings::UpdateService
   def call(params)
     params = params.to_h.deep_symbolize_keys
     self.non_working_days_params = params.delete(:non_working_days) || []
+    self.previous_working_days = Setting[:working_days]
+    self.previous_non_working_days = NonWorkingDay.pluck(:date)
     super
   end
 
@@ -54,9 +56,19 @@ class Settings::WorkingDaysUpdateService < Settings::UpdateService
     results
   end
 
+  def after_perform(call)
+    super.tap do
+      WorkPackages::ApplyWorkingDaysChangeJob.perform_later(
+        user_id: User.current.id,
+        previous_working_days:,
+        previous_non_working_days:
+      )
+    end
+  end
+
   private
 
-  attr_accessor :non_working_days_params
+  attr_accessor :non_working_days_params, :previous_working_days, :previous_non_working_days
 
   def persist_non_working_days
     # We don't support update for now
