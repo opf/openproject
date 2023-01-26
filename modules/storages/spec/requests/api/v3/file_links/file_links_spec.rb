@@ -94,8 +94,7 @@ describe 'API v3 file links resource' do
   describe 'POST /api/v3/file_links' do
     let(:path) { '/api/v3/file_links' }
     let(:permissions) { %i(manage_file_links) }
-    let(:storage_url1) { storage.host }
-    let(:storage_url2) { storage.host }
+    let(:storage_url) { storage.host }
     let(:params) do
       {
         _type: "Collection",
@@ -118,11 +117,11 @@ describe 'API v3 file links resource' do
           },
           _links: {
             storageUrl: {
-              href: storage_url1
+              href: storage_url
             }
           }
         },
-        build(:file_link_element, storage_url: storage_url2)
+        build(:file_link_element, storage_url:)
       ]
     end
 
@@ -145,7 +144,7 @@ describe 'API v3 file links resource' do
           set_keys.each do |key|
             expect(file_link.attributes[key]).not_to(
               be_nil,
-              "expected keyibute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
+              "expected attribute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
             )
           end
           unset_keys.each do |key|
@@ -155,8 +154,9 @@ describe 'API v3 file links resource' do
       end
 
       it 'does not provide a link to the collection of created file links' do
-        self_link = JSON.parse(response.body).dig('_links', 'self', 'href')
-        expect(self_link).to eq('urn:openproject-org:api:v3:file_links:no_link_provided')
+        expect(response.body).to be_json_eql(
+          'urn:openproject-org:api:v3:file_links:no_link_provided'.to_json
+        ).at_path('_links/self/href')
       end
     end
   end
@@ -286,8 +286,7 @@ describe 'API v3 file links resource' do
       end
 
       it 'provides a link to the collection of created file links' do
-        self_link = JSON.parse(response.body).dig('_links', 'self', 'href')
-        expect(self_link).to eq(path)
+        expect(response.body).to be_json_eql(path.to_json).at_path('_links/self/href')
       end
     end
 
