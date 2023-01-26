@@ -49,6 +49,7 @@ describe 'Working Days', js: true do
   CHART
 
   let(:dialog) { Components::ConfirmationDialog.new }
+  let(:datepicker) { Components::Datepicker.new }
 
   current_user { admin }
 
@@ -184,6 +185,54 @@ describe 'Working Days', js: true do
   end
 
   describe 'non-working days' do
+    it 'can add non-working days' do
+      click_on 'Add non-working day'
+
+      # It can cancel and reopen
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        click_on 'Cancel'
+      end
+      click_on 'Add non-working day'
+
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        fill_in 'name', with: 'My holiday'
+      end
+
+      date1 = Time.zone.today.next_occurring(:monday)
+      datepicker.set_date date1
+
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        click_on 'Save'
+      end
+
+      expect(page).to have_selector('.fc-list-event-title', text: 'My holiday')
+
+      # Add a second day
+      click_on 'Add non-working day'
+
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        fill_in 'name', with: 'Another important day'
+      end
+
+      date2 = Time.zone.today.next_occurring(:tuesday)
+      datepicker.set_date date2
+
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        click_on 'Save'
+      end
+
+      click_on 'Save'
+      click_on 'Save and reschedule'
+
+      expect(page).to have_selector('.flash.notice', text: 'Successful update.')
+
+      nwd1 = NonWorkingDay.find_by(name: 'My holiday')
+      expect(nwd1.date).to eq date1
+
+      nwd2 = NonWorkingDay.find_by(name: 'Another important day')
+      expect(nwd2.date).to eq date2
+    end
+
     it 'deletes a non-working day' do
       non_working_days.each do |nwd|
         expect(page).to have_selector('tr', text: nwd.date.strftime("%B %-d, %Y"))
