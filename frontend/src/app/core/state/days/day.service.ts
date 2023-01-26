@@ -46,12 +46,6 @@ export class DayResourceService extends ResourceCollectionService<IDay> {
       .toPromise();
   }
 
-  public isNonWorkingDay(date:Date):boolean {
-    let isNonWorkingDay = false;
-    this.isNonWorkingDay$(date).subscribe((isNonWorking) => { isNonWorkingDay = isNonWorking; });
-    return isNonWorkingDay;
-  }
-
   requireNonWorkingYear$(date:Date|string):Observable<IDay[]> {
     const from = moment(date).startOf('year').format('YYYY-MM-DD');
     const to = moment(date).endOf('year').format('YYYY-MM-DD');

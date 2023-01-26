@@ -34,7 +34,7 @@ export interface INonWorkingDay {
   id:string;
   name:string;
   date:string;
-  _destroy:boolean | null;
+  _destroy:boolean|null;
 }
 
 @Component({
@@ -61,6 +61,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     change_button: this.I18n.t('js.admin.working_days.change_button'),
     change_title: this.I18n.t('js.admin.working_days.change_title'),
     removed_title: this.I18n.t('js.admin.working_days.removed_title'),
+    non_working_day_name: this.I18n.t('js.modals.label_name'),
   };
 
   form_submitted = false;
@@ -68,6 +69,10 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   nonWorkingDays:IDay[] = [];
 
   removedNonWorkingDays:string[] = [];
+
+  datepickerOpened = false;
+
+  selectedNonWorkingDayName:string = '';
 
   calendarOptions:CalendarOptions = {
     plugins: [listPlugin],
@@ -91,7 +96,11 @@ export class OpNonWorkingDaysListComponent implements OnInit {
 
       anchor.addEventListener('click', () => {
         // Create 4 hidden inputs(id, name, date, _destroy) for the deleted NWD
-        this.addRemovedNonWorkingdayInputs({ id: event.id, name: event.title, date: event.startStr } as unknown as INonWorkingDay);
+        this.addRemovedNonWorkingdayInputs({
+          id: event.id,
+          name: event.title,
+          date: event.startStr,
+        } as unknown as INonWorkingDay);
         event.remove();
       });
       td.appendChild(anchor);
@@ -168,7 +177,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     fetchInfo:{ start:Date },
     successCallback:(events:EventInput[]) => void,
     failureCallback:(error:unknown) => void,
-  ):void | PromiseLike<EventInput[]> {
+  ):void|PromiseLike<EventInput[]> {
     this.dayService.requireNonWorkingYear$(fetchInfo.start)
       .subscribe(
         (days:IDay[]) => {
@@ -235,26 +244,28 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     }
   }
 
-  public addNonWorkingDay():void {
+  public addNonWorkingDay(date:string):void {
+    const name = this.selectedNonWorkingDayName;
+    this.selectedNonWorkingDayName = '';
+
+    if (!date || date === '' || !name || name === '') {
+      return;
+    }
+
     // opens date picker modal
     // now I am just testing adding new event to the calendar, will be removed
-    const id = (Date.now()).toString();
-    const id2 = (Math.floor(Date.now() / 1000)).toString();
-    const eventId = `new${id}`;
-    const eventId2 = `new2${id2}`;
     const day = {
-      start: '2023-10-23', date: '2023-10-23', title: 'test4', name: 'test4', id: eventId,
-    } as unknown as INonWorkingDay;
-    const day2 = {
-      start: '2023-10-26', date: '2023-10-26', title: 'test5', name: 'test5', id: eventId2,
-    } as unknown as INonWorkingDay;
+      start: date,
+      name,
+      date,
+      title: name,
+      id: name,
+      _destroy: null,
+    } as INonWorkingDay;
 
     const api = this.ucCalendar.getApi();
     this.nonWorkingDays.push(day as unknown as IDay);
-    this.nonWorkingDays.push(day2 as unknown as IDay);
     api.addEvent({ ...day });
-    api.addEvent({ ...day2 });
     this.addNonWorkingdayInputs(day);
-    this.addNonWorkingdayInputs(day2);
   }
 }
