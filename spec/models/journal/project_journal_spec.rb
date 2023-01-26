@@ -30,10 +30,10 @@ require 'spec_helper'
 
 RSpec.describe Journal::ProjectJournal do
   describe '#render_detail' do
-    it 'renders identifier field correctly' do
-      project = build(:project)
-      journal = build(:project_journal, journable: project)
+    let(:project) { build(:project) }
+    let(:journal) { build(:project_journal, journable: project) }
 
+    it 'renders identifier field correctly' do
       html = journal.render_detail(['identifier', [nil, 'my-project']], html: true)
       expect(html).to eq('<strong>Identifier</strong> set to ' \
                          '<i title="my-project">my-project</i>')
@@ -47,6 +47,22 @@ RSpec.describe Journal::ProjectJournal do
 
       html = journal.render_detail(['identifier', ['my-project', 'my-beautiful-project']], html: false)
       expect(html).to eq('Identifier changed from my-project to my-beautiful-project')
+    end
+
+    it 'renders name field correctly' do
+      html = journal.render_detail(['name', [nil, 'Test Project 123']], html: true)
+      expect(html).to eq('<strong>Name</strong> set to ' \
+                         '<i title="Test Project 123">Test Project 123</i>')
+
+      html = journal.render_detail(['name', [nil, 'Test Project 123']], html: false)
+      expect(html).to eq('Name set to Test Project 123')
+
+      html = journal.render_detail(['name', ['Old Project Name', 'New Project Name']], html: true)
+      expect(html).to eq('<strong>Name</strong> changed from <i title="Old Project Name">Old Project Name</i> ' \
+                         '<strong>to</strong> <i title="New Project Name">New Project Name</i>')
+
+      html = journal.render_detail(['name', ['Old Project Name', 'New Project Name']], html: false)
+      expect(html).to eq('Name changed from Old Project Name to New Project Name')
     end
   end
 end
