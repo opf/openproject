@@ -27,7 +27,7 @@
 //++
 
 import {
-    AfterContentInit,
+  AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -90,6 +90,8 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
 
   @Input() name = '';
 
+  @Input() remoteFieldKey = '';
+
   @Input() required = false;
 
   @Input() minimalDate:Date|null = null;
@@ -149,17 +151,17 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
     populateInputsFromDataset(this);
   }
 
-  ngOnInit(): void {
+  ngOnInit():void {
     if (!this.value) {
       const today = parseDate(new Date()) as Date;
       this.writeValue(this.timezoneService.formattedISODate(today));
     }
   }
 
-	ngAfterContentInit() {
-		const trigger = this.elementRef.nativeElement.querySelector("[slot='trigger']");
-		this.useDefaultTrigger = trigger === null;
-	}
+  ngAfterContentInit() {
+    const trigger = this.elementRef.nativeElement.querySelector("[slot='trigger']");
+    this.useDefaultTrigger = trigger === null;
+  }
 
   onInputClick(event:MouseEvent) {
     event.stopPropagation();

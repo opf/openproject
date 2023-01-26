@@ -252,7 +252,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
   { selector: headerProjectSelectSelector, cls: OpHeaderProjectSelectComponent },
   { selector: projectsAutocompleterSelector, cls: ProjectAutocompleterComponent },
-  { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: opViewSelectSelector, cls: ViewSelectComponent },
   { selector: opTeamPlannerSidemenuSelector, cls: TeamPlannerSidemenuComponent },
@@ -268,5 +267,8 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
   { selector: ianMenuSelector, cls: IanMenuComponent },
   { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
+  // It is important to initialize the remoteFieldUpdaterSelector after the opSingleDatePickerSelector,
+  // because we need to access the input field of the opSingleDatePickerSelector inside the remoteFieldUpdaterSelector
   { selector: opSingleDatePickerSelector, cls: OpSingleDatePickerComponent },
+  { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
 ];
