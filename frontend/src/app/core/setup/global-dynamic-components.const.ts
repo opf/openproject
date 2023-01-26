@@ -211,6 +211,7 @@ import {
   OpSingleDatePickerComponent,
   opSingleDatePickerSelector,
 } from 'core-app/shared/components/datepicker/single-date-picker/single-date-picker.component';
+import { SpotDropModalPortalComponent, spotDropModalPortalComponentSelector } from 'core-app/spot/components/drop-modal/drop-modal-portal.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -269,4 +270,5 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: ianMenuSelector, cls: IanMenuComponent },
   { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
   { selector: opSingleDatePickerSelector, cls: OpSingleDatePickerComponent },
+  { selector: spotDropModalPortalComponentSelector, cls: SpotDropModalPortalComponent },
 ];

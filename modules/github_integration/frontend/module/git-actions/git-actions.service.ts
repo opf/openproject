@@ -30,9 +30,7 @@ import { Injectable } from '@angular/core';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 
 // probably not providable in root when we want to cache the formatter and set custom templates
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class GitActionsService {
   private sanitizeBranchString(str:string):string {
     // See https://stackoverflow.com/a/3651867 for how these rules came in.

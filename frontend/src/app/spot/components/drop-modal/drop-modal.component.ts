@@ -8,12 +8,16 @@ import {
   Input,
   OnDestroy,
   Output,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
 import SpotDropAlignmentOption from '../../drop-alignment-options';
+import { SpotDropModalTeleportationService } from './drop-modal-teleportation.service';
+import { take } from 'rxjs/operators';
+import { debounce } from 'lodash';
 
 const findClippingParent = (el:HTMLElement):HTMLElement => {
   const parent = el.parentElement;
@@ -54,62 +58,32 @@ export class SpotDropModalComponent implements OnDestroy {
     return `spot-drop-modal--body_${this.allowRepositioning ? this.calculatedAlignment : this.alignment}`;
   }
 
-  public _open = false;
+  public _opened = false;
 
   /**
    * Boolean indicating whether the modal should be opened
    */
   /* eslint-disable-next-line @angular-eslint/no-input-rename */
-  @Input('open')
+  @Input('opened')
   @HostBinding('class.spot-drop-modal_opened')
-  set open(value:boolean) {
-    if (this._open === !!value) {
+  set opened(value:boolean) {
+    console.log('opened change', this._opened, !!value);
+
+    if (this._opened === !!value) {
       return;
     }
 
-    this._open = !!value;
+    this._opened = !!value;
 
-    if (this._open) {
-      /* We have to set these listeners next tick, because they're so far up the tree.
-       * If the open value was set because of a click listener in the trigger slot,
-       * that event would reach the event listener added here and close the modal right away.
-       */
-      setTimeout(() => {
-        document.body.addEventListener('click', this.closeEventListener);
-        document.body.addEventListener('keydown', this.escapeListener);
-        window.addEventListener('resize', this.appHeightListener);
-        window.addEventListener('orientationchange', this.appHeightListener);
-        this.appHeightListener();
-
-        if (this.allowRepositioning) {
-          this.recalculateAlignment();
-        }
-
-        // If we already have focus within the modal, don't move it
-        if (this.elementRef.nativeElement.contains(document.activeElement)) {
-          return;
-        }
-
-        const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
-        if (focusCatcherContainer) {
-          (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement).focus();
-        } else {
-          // Index 1 because the element at index 0 is the trigger button to open the modal
-          (findAllFocusableElementsWithin(this.elementRef.nativeElement)[1] as HTMLElement).focus();
-        }
-      });
+    if (this._opened) {
+      this.open();
     } else {
-      document.body.removeEventListener('click', this.closeEventListener);
-      document.body.removeEventListener('keydown', this.escapeListener);
-      window.removeEventListener('resize', this.appHeightListener);
-      window.removeEventListener('orientationchange', this.appHeightListener);
-
-      this.closed.emit();
+      this.close();
     }
   }
 
-  get open():boolean {
-    return this._open;
+  get opened():boolean {
+    return this._opened;
   }
 
   /**
@@ -132,23 +106,95 @@ export class SpotDropModalComponent implements OnDestroy {
    */
   @Output() closed = new EventEmitter<void>();
 
+  public anchorStyles = {
+    top: '0',
+    left: '0',
+    width: '0',
+    height: '0',
+  };
+
+  public id = `drop-modal-${Math.round(Math.random() * 10000)}`;
+
   public text = {
     close: this.i18n.t('js.spot.drop_modal.close'),
   };
 
-  @ViewChild('modalBody') modalBody:ElementRef;
+  @ViewChild('body') body:TemplateRef<any>;
 
   constructor(
     readonly i18n:I18nService,
     readonly elementRef:ElementRef,
     readonly cdRef:ChangeDetectorRef,
+    private teleportationService:SpotDropModalTeleportationService,
   ) {}
 
-  close():void {
-    this.open = false;
+  open() {
+    this._opened = true;
+    this.repositionAnchor();
+    this.updateAppHeight();
+
+    /**
+     * If we don't activate the body after one tick, angular will complain because
+     * it already rendered a `null` template, but then gets an update to that
+     * template in the same tick.
+     * To make it happy, we update afterwards
+     */
+    setTimeout(() => {
+      /* We have to set these listeners next tick, because they're so far up the tree.
+       * If the open value was set because of a click listener in the trigger slot,
+       * that event would reach the event listener added here and close the modal right away.
+       */
+      this.teleportationService.activate(this.body)
+      this.teleportationService.hasRendered$
+        .pipe(take(1))
+        .subscribe(() => {
+          document.body.addEventListener('click', this.close);
+          document.body.addEventListener('keydown', this.onEscape);
+          document.body.addEventListener('scroll', this.repositionAnchor);
+          window.addEventListener('resize', this.onResizeDebounced);
+          window.addEventListener('orientationchange', this.onResizeDebounced);
+
+          setTimeout(() => {
+            this.recalculateAlignment();
+          });
+
+          // If we already have focus within the modal, don't move it
+          if (this.elementRef.nativeElement.contains(document.activeElement)) {
+            return;
+          }
+
+          const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
+          if (focusCatcherContainer) {
+            (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement).focus();
+          } else {
+            // Index 1 because the element at index 0 is the trigger button to open the modal
+            (findAllFocusableElementsWithin(this.elementRef.nativeElement)[1] as HTMLElement).focus();
+          }
+        });
+    });
   }
 
-  private closeEventListener = this.close.bind(this) as () => void;
+  close():void {
+    console.log('close');
+    this.teleportationService.clear();
+
+    this._opened = false;
+    document.body.removeEventListener('click', this.close);
+    document.body.removeEventListener('keydown', this.onEscape);
+    document.body.removeEventListener('scroll', this.repositionAnchor);
+    window.removeEventListener('resize', this.onResizeDebounced);
+    window.removeEventListener('orientationchange', this.onResizeDebounced);
+
+    this.closed.emit();
+  }
+
+  ngOnDestroy():void {
+    document.body.removeEventListener('click', this.close);
+    document.body.removeEventListener('keydown', this.onEscape);
+    document.body.removeEventListener('scroll', this.repositionAnchor);
+    window.removeEventListener('resize', this.onResizeDebounced);
+    window.removeEventListener('orientationchange', this.onResizeDebounced);
+  }
 
   onBodyClick(e:MouseEvent):void {
     // We stop propagation here so that clicks inside the body do not
@@ -157,42 +203,38 @@ export class SpotDropModalComponent implements OnDestroy {
   }
 
   private recalculateAlignment(): void {
-    const clippingParent = findClippingParent(this.elementRef.nativeElement);
-    const parentRect = clippingParent.getBoundingClientRect();
+    const anchor = document.getElementById(this.id);
+    if (!anchor) { return; }
+
+    const modalBody = anchor.querySelector('.spot-drop-modal--body');
+    if (!modalBody) { return; }
 
     const alignments = Object.values(SpotDropAlignmentOption) as SpotDropAlignmentOption[];
     const index = alignments.indexOf(this.alignment);
 
-    const possibleAlignments = [
+    const possibleAlignment = [
       ...alignments.splice(index),
       ...alignments.splice(0, index),
-    ].filter((alignment:SpotDropAlignmentOption) => {
-        this.modalBody.nativeElement.classList.remove(this.alignmentClass);
+    ].find((alignment:SpotDropAlignmentOption) => {
+        modalBody.classList.remove(this.alignmentClass);
         this.calculatedAlignment = alignment; 
-        this.modalBody.nativeElement.classList.add(this.alignmentClass);
-        const rect = this.modalBody.nativeElement.getBoundingClientRect();
+        modalBody.classList.add(this.alignmentClass);
+        const rect = modalBody.getBoundingClientRect();
 
-        const spaceOnLeft = parentRect.left <= rect.left;
-        const spaceOnRight = parentRect.right >= rect.right;
-        const spaceOnTop = parentRect.top <= rect.top;
-        const spaceOnBottom = parentRect.bottom >= rect.bottom;
+        const spaceOnLeft = rect.left >= 0;
+        const spaceOnRight = rect.right <= window.innerWidth;
+        const spaceOnTop = rect.top >= 0;
+        const spaceOnBottom = rect.bottom <= window.innerHeight;
         return spaceOnLeft && spaceOnRight && spaceOnTop && spaceOnBottom;
       });
 
-    if (possibleAlignments.length) {
-      this.calculatedAlignment = possibleAlignments[0];
+    if (possibleAlignment) {
+      this.calculatedAlignment = possibleAlignment;
     } else {
       this.calculatedAlignment = this.alignment;
     }
 
-    this.cdRef.markForCheck();
-  }
-
-  ngOnDestroy():void {
-    document.body.removeEventListener('click', this.closeEventListener);
-    document.body.removeEventListener('keydown', this.escapeListener);
-    window.removeEventListener('resize', this.appHeightListener);
-    window.removeEventListener('orientationchange', this.appHeightListener);
+    this.cdRef.detectChanges();
   }
 
   private onEscape = (evt:KeyboardEvent) => {
@@ -201,10 +243,24 @@ export class SpotDropModalComponent implements OnDestroy {
     }
   };
 
-  private escapeListener = this.onEscape.bind(this) as () => void;
+  private onResize():void {
+    this.updateAppHeight();
+    this.repositionAnchor();
+    this.recalculateAlignment();
+  }
 
-  private appHeightListener = () => {
+  private onResizeDebounced = debounce(this.onResize.bind(this), 10);
+
+  private updateAppHeight = () => {
     const doc = document.documentElement;
     doc.style.setProperty('--app-height', `${window.innerHeight}px`);
   };
+
+  private repositionAnchor():void {
+    const elementRect = (this.elementRef.nativeElement as HTMLElement).getBoundingClientRect();
+    this.anchorStyles.top = `${elementRect.top}px`;
+    this.anchorStyles.left = `${elementRect.left}px`;
+    this.anchorStyles.width = `${elementRect.width}px`;
+    this.anchorStyles.height = `${elementRect.height}px`;
+  }
 }
