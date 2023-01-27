@@ -1,0 +1,20 @@
+# Schema: StorageFileUploadPreparationModel
+---
+type: object
+required:
+  - projectId
+  - fileName
+  - parent
+properties:
+  projectId:
+    type: integer
+    description: The project identifier, from where a user starts uploading a file.
+    minimum: 1
+  fileName:
+    type: string
+    description: The file name.
+  parent:
+    type: string
+    description: |- 
+      The directory to which the file is to be uploaded. For root directories, the value `/` must
+      be provided.
