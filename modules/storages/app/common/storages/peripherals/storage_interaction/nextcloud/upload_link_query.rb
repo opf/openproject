@@ -68,7 +68,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def build_upload_link(response)
-      destination = @base_uri.merge(File.join(URI_UPLOAD_BASE_PATH, response.token))
+      destination = File.join(@base_uri.to_s, URI_UPLOAD_BASE_PATH, response.token)
       ServiceResult.success(result: Storages::UploadLink.new(destination))
     end
 
@@ -79,7 +79,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           response = ServiceResult.success(
             result: RestClient::Request.execute(
               method:,
-              url: @base_uri.merge(relative_path).to_s,
+              url: File.join(@base_uri.to_s, relative_path),
               payload: payload.to_json,
               headers: {
                 'Authorization' => "Bearer #{token.access_token}",
