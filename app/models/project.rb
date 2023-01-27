@@ -109,6 +109,7 @@ class Project < ApplicationRecord
   register_on_journal_formatter(:plaintext, 'identifier')
   register_on_journal_formatter(:plaintext, 'name')
   register_on_journal_formatter(:diff, 'description')
+  register_on_journal_formatter(:visibility, 'public')
 
   has_paper_trail
 
