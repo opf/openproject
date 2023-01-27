@@ -68,7 +68,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def build_upload_link(response)
-      destination = File.join(@base_uri.to_s, URI_UPLOAD_BASE_PATH, response.token)
+      destination = URI.parse(File.join(@base_uri.to_s, URI_UPLOAD_BASE_PATH, response.token))
       ServiceResult.success(result: Storages::UploadLink.new(destination))
     end
 
