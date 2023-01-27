@@ -584,7 +584,7 @@ es:
         confirmation: "no coincide con %{attribute}."
         could_not_be_copied: "%{dependency} no se pudo copiar (en su totalidad)."
         does_not_exist: "no existe."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} solo está disponible en OpenProject edición Enterprise"
         error_unauthorized: "no se puede acceder."
         error_readonly: "se intentó escribir pero no se puede escribir."
         email: "no es una dirección de correo válida."
@@ -634,7 +634,7 @@ es:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "El certificado SSL proporcionado no es válido: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -1260,7 +1260,7 @@ es:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "Personalice la configuración del formulario con estos add-ons extra:"
         add_groups: "Añadir nuevos grupos de atributos"
         rename_groups: "Cambiar nombre de grupos de atributos"
       project_filters:
