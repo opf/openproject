@@ -27,7 +27,11 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
 } from '@angular/core';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -63,6 +67,7 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
     },
     tooltip: {
       directory_not_writeable: this.i18n.t('js.storages.files.directory_not_writeable'),
+      file_not_selectable: this.i18n.t('js.storages.files.file_not_selectable_location'),
     },
   };
 
@@ -108,12 +113,18 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
       !isDirectory(file),
       index === 0,
       this.enterDirectoryCallback(file),
-      this.isDirectoryWithoutWritePermission(file) ? this.text.tooltip.directory_not_writeable : undefined,
+      this.tooltip(file),
       undefined,
     );
   }
 
-  private isDirectoryWithoutWritePermission(file:IStorageFile):boolean {
-    return isDirectory(file) && !file.permissions.some((permission) => permission === 'writeable');
+  private tooltip(file:IStorageFile):string|undefined {
+    if (isDirectory(file)) {
+      return file.permissions.some((permission) => permission === 'writeable')
+        ? undefined
+        : this.text.tooltip.directory_not_writeable;
+    }
+
+    return this.text.tooltip.file_not_selectable;
   }
 }
