@@ -17,7 +17,7 @@ import SpotDropAlignmentOption from '../../drop-alignment-options';
 
 const findClippingParent = (el:HTMLElement):HTMLElement => {
   const parent = el.parentElement;
-  if(!parent) {
+  if (!parent) {
     return document.body;
   }
 
@@ -27,7 +27,7 @@ const findClippingParent = (el:HTMLElement):HTMLElement => {
   }
 
   return findClippingParent(parent);
-}
+};
 
 @Component({
   selector: 'spot-drop-modal',
@@ -40,7 +40,7 @@ export class SpotDropModalComponent implements OnDestroy {
   /**
    * Whether to allow automatic changing the alignment based on the available space.
    */
-  @Input() public allowRepositioning:boolean = true;
+  @Input() public allowRepositioning = true;
 
   /**
    * The default alignment of the drop modal. There are twelve alignments in total. You can check which ones they are
@@ -86,16 +86,16 @@ export class SpotDropModalComponent implements OnDestroy {
         }
 
         // If we already have focus within the modal, don't move it
-        if (this.elementRef.nativeElement.contains(document.activeElement)) {
+        if ((this.elementRef.nativeElement as HTMLElement).contains(document.activeElement)) {
           return;
         }
 
         const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
         if (focusCatcherContainer) {
-          (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement).focus();
+          (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0]).focus();
         } else {
           // Index 1 because the element at index 0 is the trigger button to open the modal
-          (findAllFocusableElementsWithin(this.elementRef.nativeElement)[1] as HTMLElement).focus();
+          (findAllFocusableElementsWithin(this.elementRef.nativeElement as HTMLElement)[1]).focus();
         }
       });
     } else {
@@ -156,28 +156,39 @@ export class SpotDropModalComponent implements OnDestroy {
     e.stopPropagation();
   }
 
-  private recalculateAlignment(): void {
-    const clippingParent = findClippingParent(this.elementRef.nativeElement);
+  private recalculateAlignment():void {
+    const clippingParent = findClippingParent(this.elementRef.nativeElement as HTMLElement);
     const parentRect = clippingParent.getBoundingClientRect();
 
     const alignments = Object.values(SpotDropAlignmentOption) as SpotDropAlignmentOption[];
     const index = alignments.indexOf(this.alignment);
+    const originalAlignmentClass = this.alignmentClass;
+    const modalBodyEl = this.modalBody.nativeElement as HTMLElement;
 
     const possibleAlignments = [
       ...alignments.splice(index),
       ...alignments.splice(0, index),
     ].filter((alignment:SpotDropAlignmentOption) => {
-        this.modalBody.nativeElement.classList.remove(this.alignmentClass);
-        this.calculatedAlignment = alignment; 
-        this.modalBody.nativeElement.classList.add(this.alignmentClass);
-        const rect = this.modalBody.nativeElement.getBoundingClientRect();
+      modalBodyEl.classList.remove(this.alignmentClass);
+      this.calculatedAlignment = alignment;
+      modalBodyEl.classList.add(this.alignmentClass);
+      const rect = modalBodyEl.getBoundingClientRect();
 
-        const spaceOnLeft = parentRect.left <= rect.left;
-        const spaceOnRight = parentRect.right >= rect.right;
-        const spaceOnTop = parentRect.top <= rect.top;
-        const spaceOnBottom = parentRect.bottom >= rect.bottom;
-        return spaceOnLeft && spaceOnRight && spaceOnTop && spaceOnBottom;
-      });
+      const spaceOnLeft = parentRect.left <= rect.left;
+      const spaceOnRight = parentRect.right >= rect.right;
+      const spaceOnTop = parentRect.top <= rect.top;
+      const spaceOnBottom = parentRect.bottom >= rect.bottom;
+      return spaceOnLeft && spaceOnRight && spaceOnTop && spaceOnBottom;
+    });
+
+    /**
+     * We need to remove any residual classes left on the nativeElement after
+     * calculating the possibleAlignments. The final calculated alignment
+     * is applied via the `alignmentClass` function anyway.
+     */
+
+    modalBodyEl.classList.remove(this.alignmentClass);
+    modalBodyEl.classList.add(originalAlignmentClass);
 
     if (possibleAlignments.length) {
       this.calculatedAlignment = possibleAlignments[0];
