@@ -585,7 +585,7 @@ es:
         confirmation: "no coincide con %{attribute}."
         could_not_be_copied: "%{dependency} no se pudo copiar (en su totalidad)."
         does_not_exist: "no existe."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} solo está disponible en OpenProject edición Enterprise"
         error_unauthorized: "no se puede acceder."
         error_readonly: "se intentó escribir pero no se puede escribir."
         email: "no es una dirección de correo válida."
@@ -635,7 +635,7 @@ es:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "El certificado SSL proporcionado no es válido: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -690,7 +690,7 @@ es:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "Ya existe un día no laboral para %{value}."
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -1268,7 +1268,7 @@ es:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "Personalice la configuración del formulario con estos add-ons extra:"
         add_groups: "Añadir nuevos grupos de atributos"
         rename_groups: "Cambiar nombre de grupos de atributos"
       project_filters:
@@ -1794,7 +1794,7 @@ es:
   label_product_version: "Versión del producto"
   label_professional_support: "Soporte profesional"
   label_profile: "Perfil"
-  label_project_activity: "Project activity"
+  label_project_activity: "Actividad del proyecto"
   label_project_attribute_plural: "Atributos del proyecto"
   label_project_count: "Número total de proyectos"
   label_project_copy_notifications: "Enviar notificaciones por correo electrónico durante la copia del proyecto"
@@ -2217,7 +2217,7 @@ es:
   permission_add_work_packages: "Añadir paquetes de trabajo"
   permission_add_messages: "Publicar mensajes"
   permission_add_project: "Crear proyecto"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Archivar proyecto"
   permission_manage_user: "Crear y editar usuarios"
   permission_manage_placeholder_user: "Crear, editar y eliminar usuarios de marcador de posición"
   permission_add_subprojects: "Crear subproyectos"
@@ -2962,8 +2962,8 @@ es:
         working: "%{day} es ahora laboral"
         non_working: "%{day} es ahora no laboral"
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
+        working: "%{day} es ahora laboral"
+        non_working: "%{day} es ahora no laboral"
   nothing_to_preview: "Nada para previsualizar"
   api_v3:
     attributes:

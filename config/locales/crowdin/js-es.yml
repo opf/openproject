@@ -478,7 +478,7 @@ es:
     label_drop_files: "Arrastra archivos aquí para adjuntarlos."
     label_drop_or_click_files: "Arrastra los archivos o haz clic aquí para adjuntar archivos."
     label_drop_folders_hint: No se pueden cargar carpetas como archivos adjuntos. Seleccione archivos individuales.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "Adjuntar archivos"
     label_formattable_attachment_hint: "Para adjuntar y vincular archivos, colóquelos en este campo o péguelos desde el portapapeles."
     label_remove_file: "Eliminar %{fileName}"
     label_remove_watcher: "Eliminar observador %{name}"
@@ -657,7 +657,7 @@ es:
     project:
       required_outside_context: >
         Seleccione el proyecto donde quiere crear el paquete de trabajo para ver todos los atributos. Solo puede seleccionar proyectos que tengan activado el tipo de paquete utilizado.
-      details_activity: 'Project details activity'
+      details_activity: 'Actividad de detalles del proyecto'
       context: 'Contexto del proyecto'
       work_package_belongs_to: 'Este paquete de trabajo pertenece al proyecto %{projectname}.'
       click_to_switch_context: 'Abra este paquete de trabajo en ese proyecto.'
