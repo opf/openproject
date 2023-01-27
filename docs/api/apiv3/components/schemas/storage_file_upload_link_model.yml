@@ -19,7 +19,9 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              This upload link resource. As the upload link is a temporal object, and cannot be retrieved again, the
+              The resource link of the upload link resource.
+              
+              As the upload link is a temporal object, and cannot be retrieved again, the
               self link usually is `urn:openproject-org:api:v3:storages:upload_link:no_link_provided`.
 
               **Resource**: UploadLink
