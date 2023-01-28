@@ -27,6 +27,7 @@ es:
       files:
         directory_not_writeable: "You do not have to permission to add files to this folder."
         dragging_many_files: "La carga a %{storageType} solo admite un archivo a la vez."
+        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
       file_links:
         empty: >
           Actualmente no hay archivos enlazados a este paquete de trabajo. Vincule sus primeros archivos usando la acción de abajo o desde %{storageType}.
