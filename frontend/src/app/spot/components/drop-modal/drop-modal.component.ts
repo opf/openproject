@@ -218,7 +218,6 @@ export class SpotDropModalComponent implements OnDestroy {
     const alignments = Object.values(SpotDropAlignmentOption) as SpotDropAlignmentOption[];
     const index = alignments.indexOf(this.alignment);
     const originalAlignmentClass = this.alignmentClass;
-    const modalBodyEl = this.modalBody.nativeElement as HTMLElement;
 
     const possibleAlignment = [
       ...alignments.splice(index),
@@ -235,6 +234,14 @@ export class SpotDropModalComponent implements OnDestroy {
         const spaceOnBottom = rect.bottom <= window.innerHeight;
         return spaceOnLeft && spaceOnRight && spaceOnTop && spaceOnBottom;
       });
+
+    /**
+     * We need to remove any residual classes left on the nativeElement after
+     * calculating the possibleAlignments. The final calculated alignment
+     * is applied via the `alignmentClass` function anyway.
+     */
+    modalBody.classList.remove(this.alignmentClass);
+    modalBody.classList.add(originalAlignmentClass);
 
     if (possibleAlignment) {
       this.calculatedAlignment = possibleAlignment;
