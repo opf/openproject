@@ -165,12 +165,16 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
     event.stopPropagation();
   }
 
-  save($event:Event) {
-    $event.preventDefault();
-    this.valueChange.emit(this.workingValue);
-    this.onChange(this.workingValue);
-    this.writeValue(this.workingValue);
-    this.opened = false;
+  save($event:SubmitEvent) {
+    const form = $event.target as HTMLFormElement;
+
+    if (form.reportValidity()) {
+      $event.preventDefault();
+      this.valueChange.emit(this.workingValue);
+      this.onChange(this.workingValue);
+      this.writeValue(this.workingValue);
+      this.opened = false;
+    }
   }
 
   setToday():void {

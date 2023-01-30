@@ -26,6 +26,7 @@ class="op-non-working-days-list--add-button"
       <spot-text-field
         name="name"
         slot="input"
+        [required]="true"
         [(ngModel)]="selectedNonWorkingDayName"
         [showClearButton]="false"
       ></spot-text-field>
