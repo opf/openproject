@@ -218,8 +218,14 @@ class Project < ApplicationRecord
     projects_table = Project.arel_table
 
     stmt = projects_table[:id].eq(id)
-    stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt))) if with_subprojects
+    if with_subprojects && has_subprojects?
+      stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt)))
+    end
     stmt
+  end
+
+  def has_subprojects?
+    !leaf?
   end
 
   def types_used_by_work_packages
