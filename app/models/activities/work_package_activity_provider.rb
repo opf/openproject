@@ -88,8 +88,4 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
   def statuses_table
     @statuses_table = Status.arel_table
   end
-
-  def work_packages_table
-    @work_packages_table ||= WorkPackage.arel_table
-  end
 end
