@@ -283,8 +283,6 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   }
 
   ngAfterViewInit():void {
-    console.log(this.modalContainer);
-    debugger;
     const init = (date:Date|null) => {
       this.initializeDatepicker(date);
 
