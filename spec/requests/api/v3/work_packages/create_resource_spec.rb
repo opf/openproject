@@ -37,7 +37,8 @@ describe 'API v3 Work package resource',
     create(:project, identifier: 'test_project', public: false)
   end
   let(:role) { create(:role, permissions:) }
-  let(:permissions) { %i[add_work_packages view_project view_work_packages] }
+  let(:permissions) { %i[add_work_packages view_project view_work_packages] + extra_permissions }
+  let(:extra_permissions) { [] }
 
   current_user do
     create(:user, member_in_project: project, member_through_role: role)
@@ -128,7 +129,7 @@ describe 'API v3 Work package resource',
       expect(WorkPackage.first.type).to eq(type)
     end
 
-    context 'no permissions' do
+    context 'without any permissions' do
       let(:current_user) { create(:user) }
 
       it 'hides the endpoint' do
@@ -136,7 +137,7 @@ describe 'API v3 Work package resource',
       end
     end
 
-    context 'view_project permission' do
+    context 'when view_project permission is enabled' do
       # Note that this just removes the add_work_packages permission
       # view_project is actually provided by being a member of the project
       let(:permissions) { [:view_project] }
@@ -146,7 +147,7 @@ describe 'API v3 Work package resource',
       end
     end
 
-    context 'empty parameters' do
+    context 'with empty parameters' do
       let(:parameters) { {} }
 
       it_behaves_like 'multiple errors', 422
@@ -156,7 +157,7 @@ describe 'API v3 Work package resource',
       end
     end
 
-    context 'bogus parameters' do
+    context 'with bogus parameters' do
       let(:parameters) do
         {
           bogus: 'bogus',
@@ -180,7 +181,7 @@ describe 'API v3 Work package resource',
       end
     end
 
-    context 'schedule manually' do
+    context 'when scheduled manually' do
       let(:work_package) { WorkPackage.first }
 
       context 'with true' do
@@ -207,7 +208,7 @@ describe 'API v3 Work package resource',
       end
     end
 
-    context 'invalid value' do
+    context 'with invalid value' do
       let(:parameters) do
         {
           subject: nil,
@@ -231,7 +232,7 @@ describe 'API v3 Work package resource',
       end
     end
 
-    context 'claiming attachments' do
+    context 'when attachments are being claimed' do
       let(:attachment) { create(:attachment, container: nil, author: current_user) }
       let(:parameters) do
         {
@@ -251,12 +252,66 @@ describe 'API v3 Work package resource',
       end
 
       it 'creates the work package and assigns the attachments' do
-        expect(WorkPackage.all.count).to eq(1)
+        expect(WorkPackage.count).to eq(1)
 
         work_package = WorkPackage.last
 
         expect(work_package.attachments)
           .to match_array(attachment)
+      end
+    end
+
+    context 'when file links are being claimed' do
+      let(:storage) { create(:storage) }
+      let(:file_link) do
+        create(:file_link,
+               container_id: nil,
+               container_type: nil,
+               storage:,
+               creator: current_user)
+      end
+      let(:parameters) do
+        {
+          subject: 'subject',
+          _links: {
+            type: {
+              href: api_v3_paths.type(project.types.first.id)
+            },
+            project: {
+              href: api_v3_paths.project(project.id)
+            },
+            fileLinks: [
+              href: api_v3_paths.file_link(file_link.id)
+            ]
+          }
+        }
+      end
+      let(:extra_permissions) do
+        %i[view_file_links]
+      end
+
+      it 'does not create a work packages and responds with an error ' \
+         'when user is not allowed to manage file links', :aggregate_failtures do
+        expect(WorkPackage.count).to eq(0)
+        expect(last_response.body).to be_json_eql(
+          'urn:openproject-org:api:v3:errors:MissingPermission'.to_json
+        ).at_path('errorIdentifier')
+      end
+
+      context 'when user is allowed to manage file links' do
+        let(:extra_permissions) do
+          %i[view_file_links manage_file_links]
+        end
+
+        it 'creates a work package and assigns the file links', :aggregate_failtures do
+          expect(WorkPackage.count).to eq(1)
+          work_package = WorkPackage.first
+          expect(work_package.file_links).to eq([file_link])
+          expect(last_response.body).to be_json_eql(
+            api_v3_paths.file_links(work_package.id).to_json
+          ).at_path('_links/fileLinks/href')
+          expect(last_response.body).to be_json_eql("1").at_path('_embedded/fileLinks/total')
+        end
       end
     end
   end
