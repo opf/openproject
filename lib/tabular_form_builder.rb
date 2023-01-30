@@ -180,7 +180,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   ).freeze
 
   def container_wrap_field(field_html, selector, options = {})
-    ret = content_tag(:span, field_html, class: field_container_css_class(selector, options))
+    ret = if options.delete(:no_field_container)
+            field_html
+          else
+            content_tag(:span, field_html, class: field_container_css_class(selector, options))
+          end
 
     prefix, suffix = options.values_at(:prefix, :suffix)
 
