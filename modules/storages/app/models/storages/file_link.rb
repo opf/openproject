@@ -51,7 +51,7 @@ class Storages::FileLink < ApplicationRecord
 
   # Currently only WorkPackages are supported as containers for FileLinks
   # For some reason this case is not handled in the belongs_to above.
-  validates :container_type, inclusion: { in: ["WorkPackage"] }
+  validates :container_type, inclusion: { in: ["WorkPackage", nil] }
 
   # origin_id is the Nextcloud ID of the file and should be valid.
   validates :origin_id, presence: true

@@ -2962,6 +2962,9 @@ pt:
       days:
         working: "%{day} agora é um dia útil"
         non_working: "%{day} agora é um dia não-útil"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nada para visualizar"
   api_v3:
     attributes:

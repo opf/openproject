@@ -2961,6 +2961,9 @@ nl:
       days:
         working: "%{day} werkt nu"
         non_working: "%{day} is nu niet actief"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Niets om te bekijken"
   api_v3:
     attributes:

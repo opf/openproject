@@ -109,5 +109,13 @@ module Components
       expect_month(date.month)
       expect_day(date.day)
     end
+
+    ##
+    # Expect the given date to be non working
+    def expect_non_working(date)
+      label = date.strftime('%B %-d, %Y')
+      expect(page).to have_selector(".flatpickr-day.flatpickr-non-working-day[aria-label='#{label}']",
+                                    wait: 20)
+    end
   end
 end

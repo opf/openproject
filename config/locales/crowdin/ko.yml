@@ -2941,6 +2941,9 @@ ko:
       days:
         working: "%{day}은(는) 이제 근무일입니다."
         non_working: "%{day}은(는) 이제 휴무일입니다."
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "미리 볼 내용 없음"
   api_v3:
     attributes:

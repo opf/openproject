@@ -30,7 +30,7 @@
 # functionality from the Grape REST API framework. It is mounted in lib/api/v3/work_packages/work_packages_api.rb,
 # which puts the file_links namespace behind the provided namespace of the work packages api
 # -> /api/v3/work_packages/:id/file_links/...
-class API::V3::FileLinks::WorkPackagesFileLinksAPI < ::API::OpenProjectAPI
+class API::V3::FileLinks::WorkPackagesFileLinksAPI < API::OpenProjectAPI
   # helpers is defined by the grape framework. They make methods from the
   # module available from within the endpoint context.
   helpers Storages::Peripherals::Scopes
@@ -69,11 +69,16 @@ class API::V3::FileLinks::WorkPackagesFileLinksAPI < ::API::OpenProjectAPI
       )
     end
 
-    post &::API::V3::FileLinks::CreateEndpoint
+    post &::API::V3::FileLinks::WorkPackagesFileLinksCreateEndpoint
             .new(
               model: ::Storages::FileLink,
               parse_service: Storages::Peripherals::ParseCreateParamsService,
-              render_representer: ::API::V3::FileLinks::FileLinkCollectionRepresenter
+              render_representer: ::API::V3::FileLinks::FileLinkCollectionRepresenter,
+              params_modifier: ->(params) do
+                params[:container_id] = work_package.id
+                params[:container_type] = work_package.class.name
+                params
+              end
             )
             .mount
   end

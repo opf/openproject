@@ -74,15 +74,39 @@ describe Settings::WorkingDaysUpdateService do
   describe '#call' do
     subject { instance.call(params) }
 
+    shared_examples 'successful working days settings call' do
+      include_examples 'successful call'
+
+      it 'calls the WorkPackages::ApplyWorkingDaysChangeJob' do
+        previous_working_days = Setting[:working_days]
+        previous_non_working_days = NonWorkingDay.pluck(:date)
+
+        allow(WorkPackages::ApplyWorkingDaysChangeJob).to receive(:perform_later)
+
+        subject
+
+        expect(WorkPackages::ApplyWorkingDaysChangeJob)
+          .to have_received(:perform_later)
+          .with(user_id: user.id, previous_working_days:, previous_non_working_days:)
+      end
+    end
+
     shared_examples 'unsuccessful working days settings call' do
       include_examples 'unsuccessful call'
 
       it 'does not persists the non working days' do
         expect { subject }.not_to change(NonWorkingDay, :count)
       end
+
+      it 'does not calls the WorkPackages::ApplyWorkingDaysChangeJob' do
+        allow(WorkPackages::ApplyWorkingDaysChangeJob).to receive(:perform_later)
+        subject
+
+        expect(WorkPackages::ApplyWorkingDaysChangeJob).not_to have_received(:perform_later)
+      end
     end
 
-    include_examples 'successful call'
+    include_examples 'successful working days settings call'
 
     context 'when non working days are present' do
       let!(:existing_nwd) { create(:non_working_day, name: 'Existing NWD') }
@@ -96,7 +120,7 @@ describe Settings::WorkingDaysUpdateService do
         ]
       end
 
-      include_examples 'successful call'
+      include_examples 'successful working days settings call'
 
       it 'persists (create/delete) the non working days' do
         expect { subject }.to change(NonWorkingDay, :count).by(1)
@@ -132,12 +156,23 @@ describe Settings::WorkingDaysUpdateService do
           context 'when deleting and re-creating the duplicate non-working day' do
             let(:non_working_days_params) do
               [
-                existing_nwd.slice(:id, :name, :date).merge('_destroy' => true),
-                existing_nwd.slice(:name, :date)
+                nwd_to_delete.slice(:id, :name, :date).merge('_destroy' => true),
+                nwd_to_delete.slice(:name, :date)
               ]
             end
 
-            include_examples 'successful call'
+            include_examples 'successful working days settings call'
+
+            it 'persists (create/delete) the non working days' do
+              expect { subject }.not_to change(NonWorkingDay, :count)
+              expect { nwd_to_delete.reload }.to raise_error(ActiveRecord::RecordNotFound)
+
+              # The nwd_to_delete is being re-created after the deletion.
+              expect(NonWorkingDay.all).to contain_exactly(
+                have_attributes(existing_nwd.slice(:name, :date)),
+                have_attributes(nwd_to_delete.slice(:name, :date))
+              )
+            end
           end
         end
       end

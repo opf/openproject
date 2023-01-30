@@ -1,0 +1,71 @@
+# /api/v3/storages/{id}/files/prepare_upload
+---
+post:
+  summary: Preparation of a direct upload of a file to the given storage.
+  operationId: prepare_storage_file_upload
+  tags:
+    - File links
+  description: |-
+    Executes a request that prepares a link for a direct upload to the storage.
+    
+    The background here is, that the client needs to make a direct request to the storage instance for file uploading,
+    but should not get access to the credentials, which are stored in the backend. The response contains a link object,
+    that enables the client to execute a file upload without the real credentials.
+  parameters:
+    - name: id
+      description: Storage id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1337
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/storage_file_upload_preparation_model.yml'
+  responses:
+    '201':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/storage_file_upload_link_model.yml'
+    '400':
+      description: Returned if the given parent parameter value does not refer to a directory.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: The given parent is not a directory.
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage file links
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned in either of those cases:
+        - if the storage does not exist or the client does not have sufficient permissions to see it
+
+          **Required permission:** view file links
+        - if the document root file identification does not exist on the storage

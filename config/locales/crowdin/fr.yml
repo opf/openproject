@@ -337,7 +337,7 @@ fr:
   wiki:
     page_not_editable_index: La page demandée n'existe pas (encore). Vous avez été redirigé vers l'index de toutes les pages du wiki.
     no_results_title_text: Il n'y a actuellement aucune page wiki.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Ceci affichera le contenu de cette page wiki sans aucune barre de navigation.
     index:
       no_results_content_text: Ajouter une nouvelle page wiki
   work_flows:
@@ -2965,6 +2965,9 @@ fr:
       days:
         working: "%{day} est maintenant un jour ouvrable"
         non_working: "%{day} est maintenant un jour non ouvrable"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Rien à afficher en apperçu"
   api_v3:
     attributes:
