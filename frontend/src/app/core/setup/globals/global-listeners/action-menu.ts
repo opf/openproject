@@ -62,15 +62,6 @@ function openMenu(menu:JQuery) {
       // when clicking on something, which is not the menu, close the menu
       jQuery('html').on('click', { menu: menu.get(0) }, closeMenu);
     });
-
-    const scrollableContainer = dropDown.scrollParent()[0];
-    if (scrollableContainer) {
-      if (scrollableContainer.scrollTop > 0 || scrollableContainer.scrollHeight === scrollableContainer.offsetHeight) {
-        jQuery(scrollableContainer).animate({
-          scrollTop: scrollableContainer.scrollHeight,
-        }, 150);
-      }
-    }
     dropDown.addClass('open');
   }
 }
