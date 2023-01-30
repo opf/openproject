@@ -1,11 +1,11 @@
 <op-multi-date-picker
   [id]="'values-' + filter.id"
   [name]="'v[' + filter.id + ']'"
+  class="advanced-filters--date-field"
 
   [(ngModel)]="value"
   [opAutofocus]="shouldFocus"
 
-  classes="advanced-filters--date-field"
 ></op-multi-date-picker>
 
 <span
