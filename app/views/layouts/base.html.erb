@@ -60,6 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
 </noscript>
 <op-toasts-container></op-toasts-container>
 <op-modal-overlay></op-modal-overlay>
+<spot-drop-modal-portal></spot-drop-modal-portal>
 <% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
 <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>

@@ -211,6 +211,7 @@ import {
   OpSingleDatePickerComponent,
   opSingleDatePickerSelector,
 } from 'core-app/shared/components/datepicker/single-date-picker/single-date-picker.component';
+import { SpotDropModalPortalComponent, spotDropModalPortalComponentSelector } from 'core-app/spot/components/drop-modal/drop-modal-portal.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -271,4 +272,5 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   // because we need to access the input field of the opSingleDatePickerSelector inside the remoteFieldUpdaterSelector
   { selector: opSingleDatePickerSelector, cls: OpSingleDatePickerComponent },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
+  { selector: spotDropModalPortalComponentSelector, cls: SpotDropModalPortalComponent },
 ];

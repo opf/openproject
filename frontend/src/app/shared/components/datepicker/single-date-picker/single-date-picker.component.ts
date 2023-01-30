@@ -53,6 +53,7 @@ import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
+import { debounce } from 'lodash';
 
 export const opSingleDatePickerSelector = 'op-single-date-picker';
 
@@ -106,7 +107,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
     this._opened = !!opened;
 
     if (this._opened) {
-      this.initializeDatepicker();
+      this.initializeDatepickerDebounced();
     } else {
       this.closed.emit();
     }
@@ -182,7 +183,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
   }
 
   changeNonWorkingDays():void {
-    this.initializeDatepicker();
+    this.initializeDatepickerDebounced();
     this.cdRef.detectChanges();
   }
 
@@ -191,8 +192,20 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
     setDates(date, this.datePickerInstance, enforceDate);
   }
 
-  private initializeDatepicker() {
+  private initializeDatepickerDebounced = debounce(this.initializeDatepicker.bind(this), 16);
+
+  private initializeDatepicker(numberOfTries = 0) {
     this.datePickerInstance?.destroy();
+
+    // If we're too early somehow, try again in a bit
+    if (!this.flatpickrTarget?.nativeElement) {
+      if (numberOfTries >= 3) {
+        console.warn('Tried initializing flatpickr 3 times in a row with no success. Bailing out');
+        return;
+      }
+      this.initializeDatepickerDebounced(numberOfTries + 1);
+    }
+
     this.datePickerInstance = new DatePicker(
       this.injector,
       this.id,
