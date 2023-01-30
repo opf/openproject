@@ -67,7 +67,6 @@ export class SpotDropModalComponent implements OnDestroy {
   @Input('opened')
   @HostBinding('class.spot-drop-modal_opened')
   set opened(value:boolean) {
-    console.log('opened change', this._opened, !!value);
 
     if (this._opened === !!value) {
       return;
@@ -129,6 +128,7 @@ export class SpotDropModalComponent implements OnDestroy {
   ) {}
 
   open() {
+    this._opened = true;
     this.repositionAnchor();
     this.updateAppHeight();
 
@@ -145,59 +145,52 @@ export class SpotDropModalComponent implements OnDestroy {
     this.teleportationService.hasRendered$
       .pipe(take(1))
       .subscribe(() => {
-        this._opened = true;
+        /*
+         * We have to set these listeners next tick, because they're so far up the tree.
+         * If the open value was set because of a click listener in the trigger slot,
+         * that event would reach the event listener added here and close the modal right away.
+         */
         setTimeout(() => {
-          /*
-           * We have to set these listeners next tick, because they're so far up the tree.
-           * If the open value was set because of a click listener in the trigger slot,
-           * that event would reach the event listener added here and close the modal right away.
-           */
-          document.body.addEventListener('click', this.close.bind(this));
-          document.body.addEventListener('keydown', this.onEscape.bind(this));
-          document.body.addEventListener('scroll', this.repositionAnchor.bind(this), true);
-          window.addEventListener('resize', this.onResizeDebounced.bind(this));
-          window.addEventListener('orientationchange', this.onResizeDebounced.bind(this));
+          document.body.addEventListener('click', this.onGlobalClick);
+          document.body.addEventListener('keydown', this.onEscape);
+          document.body.addEventListener('scroll', this.onScroll, true);
+          window.addEventListener('resize', this.onResize);
+          window.addEventListener('orientationchange', this.onResize);
 
-          setTimeout(() => {
-            this.recalculateAlignment();
-          });
-
-          // If we already have focus within the modal, don't move it
-          if (this.elementRef.nativeElement.contains(document.activeElement)) {
-            return;
-          }
+          this.recalculateAlignment();
 
           const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
           if (focusCatcherContainer) {
-            (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement).focus();
+            (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement)?.focus();
           } else {
             // Index 1 because the element at index 0 is the trigger button to open the modal
-            (findAllFocusableElementsWithin(this.elementRef.nativeElement)[1] as HTMLElement).focus();
+            (findAllFocusableElementsWithin(this.elementRef.nativeElement)[1] as HTMLElement)?.focus();
           }
         });
-    });
+      });
   }
 
   close():void {
-    console.log('close');
     this.teleportationService.clear();
 
     this._opened = false;
-    document.body.removeEventListener('click', this.close);
+    document.body.removeEventListener('click', this.onGlobalClick);
     document.body.removeEventListener('keydown', this.onEscape);
-    document.body.removeEventListener('scroll', this.repositionAnchor);
-    window.removeEventListener('resize', this.onResizeDebounced);
-    window.removeEventListener('orientationchange', this.onResizeDebounced);
+    document.body.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('orientationchange', this.onResize);
 
     this.closed.emit();
   }
 
+  private onGlobalClick = this.close.bind(this);
+
   ngOnDestroy():void {
-    document.body.removeEventListener('click', this.close);
+    document.body.removeEventListener('click', this.onGlobalClick);
     document.body.removeEventListener('keydown', this.onEscape);
-    document.body.removeEventListener('scroll', this.repositionAnchor);
-    window.removeEventListener('resize', this.onResizeDebounced);
-    window.removeEventListener('orientationchange', this.onResizeDebounced);
+    document.body.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('orientationchange', this.onResize);
   }
 
   onBodyClick(e:MouseEvent):void {
@@ -241,19 +234,21 @@ export class SpotDropModalComponent implements OnDestroy {
     this.cdRef.detectChanges();
   }
 
-  private onEscape = (evt:KeyboardEvent) => {
+  private escapeCallback = (evt:KeyboardEvent) => {
     if (evt.keyCode === KeyCodes.ESCAPE) {
       this.close();
     }
   };
 
-  private onResize():void {
+  private onEscape = debounce(this.escapeCallback.bind(this), 10);
+
+  private resizeCallback():void {
     this.updateAppHeight();
     this.repositionAnchor();
     this.recalculateAlignment();
   }
 
-  private onResizeDebounced = debounce(this.onResize.bind(this), 10);
+  private onResize = debounce(this.resizeCallback.bind(this), 10);
 
   private updateAppHeight = () => {
     const doc = document.documentElement;
@@ -267,4 +262,6 @@ export class SpotDropModalComponent implements OnDestroy {
     this.anchorStyles.width = `${elementRect.width}px`;
     this.anchorStyles.height = `${elementRect.height}px`;
   }
+
+  private onScroll = debounce(this.repositionAnchor.bind(this), 16);
 }
