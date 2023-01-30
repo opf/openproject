@@ -279,7 +279,8 @@ class Activities::BaseActivityProvider
   end
 
   def event_name(event)
-    I18n.t(event_type(event).underscore, scope: 'events')
+    @event_names ||= {}
+    @event_names[event_type(event)] ||= I18n.t(event_type(event).underscore, scope: 'events')
   end
 
   def url_helpers

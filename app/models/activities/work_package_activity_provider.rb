@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -45,8 +46,8 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
     ]
   end
 
-  def self.work_package_title(id, subject, type_name, status_name, is_standard)
-    title = "#{is_standard ? '' : type_name.to_s} ##{id}: #{subject}"
+  def self.work_package_title(id, subject, type_name, _status_name, is_standard)
+    "#{is_standard ? '' : type_name} ##{id}: #{subject}"
   end
 
   protected
@@ -60,9 +61,7 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
   end
 
   def event_type(event)
-    state = ActiveRecord::Type::Boolean.new.cast(event['status_closed']) ? '-closed' : '-edit'
-
-    "work_package#{state}"
+    event['status_closed'] ? 'work_package-closed' : 'work_package-edit'
   end
 
   def event_path(event)
