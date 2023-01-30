@@ -64,7 +64,5 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
 
   public showDatePickerModal():void { }
 
-  protected onModalClosed():void {
-    void this.handler.handleUserSubmit();
-  }
+  protected onModalClosed():void { }
 }

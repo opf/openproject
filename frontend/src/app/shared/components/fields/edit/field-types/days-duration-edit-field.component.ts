@@ -56,6 +56,7 @@ export class DaysDurationEditFieldComponent extends DatePickerEditFieldComponent
   }
 
   save() {
+    this.handler.handleUserSubmit();
     this.onModalClosed();
   }
 

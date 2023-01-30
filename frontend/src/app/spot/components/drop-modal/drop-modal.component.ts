@@ -67,14 +67,11 @@ export class SpotDropModalComponent implements OnDestroy {
   @Input('opened')
   @HostBinding('class.spot-drop-modal_opened')
   set opened(value:boolean) {
-
     if (this._opened === !!value) {
       return;
     }
 
-    this._opened = !!value;
-
-    if (this._opened) {
+    if (!!value) {
       this.open();
     } else {
       this.close();
@@ -171,16 +168,28 @@ export class SpotDropModalComponent implements OnDestroy {
   }
 
   close():void {
-    this.teleportationService.clear();
+    /*
+     * The same as with opening; if we don't deactivate the body after
+     * one tick, angular will complain because it already rendered the
+     * template, but then gets an update to render `null` in the same tick.
+     *
+     * To make it happy, we update afterwards
+     */
+    setTimeout(() => {
+      this.teleportationService.clear();
+      this._opened = false;
+      this.cdRef.markForCheck();
+    });
 
-    this._opened = false;
-    document.body.removeEventListener('click', this.onGlobalClick);
-    document.body.removeEventListener('keydown', this.onEscape);
-    document.body.removeEventListener('scroll', this.onScroll);
-    window.removeEventListener('resize', this.onResize);
-    window.removeEventListener('orientationchange', this.onResize);
+    this.teleportationService.hasRendered$.pipe(take(1)).subscribe(() => {
+      this.closed.emit();
 
-    this.closed.emit();
+      document.body.removeEventListener('click', this.onGlobalClick);
+      document.body.removeEventListener('keydown', this.onEscape);
+      document.body.removeEventListener('scroll', this.onScroll);
+      window.removeEventListener('resize', this.onResize);
+      window.removeEventListener('orientationchange', this.onResize);
+    });
   }
 
   private onGlobalClick = this.close.bind(this);
