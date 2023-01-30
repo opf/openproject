@@ -75,6 +75,10 @@ module Components
       select_day date.day
     end
 
+    def save!
+      container.find('[data-qa-selector="op-datepicker-modal"] .button', text: "Save").click
+    end
+
     ##
     # Expect the selected month
     def expect_month(month)

@@ -299,6 +299,7 @@ describe 'date inplace editor',
       # Open date picker
       cf_field.input_element.click
       datepicker.set_date Time.zone.today
+      datepicker.save!
 
       create_page.edit_field(:subject).set_value 'My subject!'
       create_page.save!

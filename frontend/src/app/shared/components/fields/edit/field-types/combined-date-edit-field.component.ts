@@ -71,7 +71,6 @@ export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent
   public cancel():void {
     this.handler.reset();
     this.onModalClosed();
-    this.cdRef.markForCheck();
   }
 
   // Overwrite super in order to set the initial dates.

@@ -16,7 +16,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
 import SpotDropAlignmentOption from '../../drop-alignment-options';
 import { SpotDropModalTeleportationService } from './drop-modal-teleportation.service';
-import { take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { debounce } from 'lodash';
 
 const findClippingParent = (el:HTMLElement):HTMLElement => {
@@ -139,8 +139,12 @@ export class SpotDropModalComponent implements OnDestroy {
       this.teleportationService.activate(this.body)
     });
 
-    this.teleportationService.hasRendered$
-      .pipe(take(1))
+    this.teleportationService
+      .hasRenderedFiltered$
+      .pipe(
+        filter((hasRendered) => hasRendered),
+        take(1),
+      )
       .subscribe(() => {
         /*
          * We have to set these listeners next tick, because they're so far up the tree.
@@ -177,12 +181,6 @@ export class SpotDropModalComponent implements OnDestroy {
      */
     setTimeout(() => {
       this.teleportationService.clear();
-      this._opened = false;
-      this.cdRef.markForCheck();
-    });
-
-    this.teleportationService.hasRendered$.pipe(take(1)).subscribe(() => {
-      this.closed.emit();
 
       document.body.removeEventListener('click', this.onGlobalClick);
       document.body.removeEventListener('keydown', this.onEscape);
@@ -190,6 +188,18 @@ export class SpotDropModalComponent implements OnDestroy {
       window.removeEventListener('resize', this.onResize);
       window.removeEventListener('orientationchange', this.onResize);
     });
+
+    this.teleportationService
+      .hasRenderedFiltered$
+      .pipe(
+        filter((hasRendered) => !hasRendered),
+        take(1),
+      )
+      .subscribe(() => {
+        this._opened = false;
+        this.closed.emit();
+        this.cdRef.markForCheck();
+      });
   }
 
   private onGlobalClick = this.close.bind(this);

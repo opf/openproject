@@ -265,8 +265,6 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
     this.scheduleManually = !!this.changeset.value('scheduleManually');
     this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
 
-    console.log('onInit', this.scheduleManually);
-
     // Ensure we get the writable values from the loaded form
     void this
       .changeset
