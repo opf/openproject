@@ -49,7 +49,7 @@ tr:
         main-menu-border-color: "Ana menü kenarlığı"
       custom_colors: "Özel renkler"
       customize: "OpenProject kurulumunuzu kendi logonuz ve renklerinizle özelleştirin."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "OpenProject'in geliştirilmesine finansal destek verenlere özel olarak 'Teşekkür ederiz!'. Bu küçük özellik sadece Enterprise Sürüm alan destekçilerimize özeldir."
       enterprise_more_info: "Not: Kullanılan logo herkese açık olacaktır."
       manage_colors: "Renk seçim seçeneklerini düzenle"
       instructions:
@@ -64,13 +64,13 @@ tr:
         main-menu-bg-color: "Sol taraftaki menünün arka plan rengi."
       theme_warning: Temayı değiştirmek size özel stilin üzerine yazacaktır. Tasarım daha sonra kaybolacak. Devam etmek istediğine emin misin?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      upgrade_to_ee: "Enterprise Edition sürümüne yükseltin"
       add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
         text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Delete token"
       replace_token: "Geçerli destek anahtarını değiştirin"
-      order: "Order Enterprise on-premises edition"
+      order: "Enterprise on-premises edition sipariş edin"
       paste: "Paste your Enterprise edition support token"
       required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Daha fazla bilgi için burayı tıklatın."
@@ -84,7 +84,7 @@ tr:
       upgrade_info: "Etkinleştirmek ve ekibinizde kullanmaya başlamak için lütfen ücretli bir plana yükseltin."
     journal_aggregation:
       explanation:
-        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        text: "Bir kullanıcının bireysel eylemleri (örneğin, bir iş paketini iki kez güncelleme), yaş farkı belirtilen zaman aralığından azsa tek bir eylemde toplanır. Uygulama içinde tek bir eylem olarak görüntülenecektir. Bu aynı zamanda gönderilen e-posta sayısını azaltarak bildirimleri aynı süre kadar geciktirecek ve ayrıca %{webhook_link} gecikmesini etkileyecektir."
         link: "webhook"
   announcements:
     show_until: Son görüntülenme tarihi
@@ -220,10 +220,10 @@ tr:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
       members: 'Proje üyeleri'
       overviews: 'Projeye Genel Bakış'
-      queries: 'Work packages: saved views'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
+      queries: 'İş paketleri: kaydedilen görünümler'
+      wiki_page_attachments: 'Wiki sayfaları: ekler'
+      work_package_attachments: 'İş paketleri: ekler'
+      work_package_categories: 'İş paketleri: kategoriler'
       work_package_file_links: 'Çalışma paketleri: dosya bağlantıları'
     delete:
       scheduled: "Silme planlandı ve arka planda gerçekleştirilir. Sonuçtan haberdar edileceksiniz."
@@ -280,7 +280,7 @@ tr:
       no_results_title_text: Bu kullanıcı şuan için bir proje üyesi değil.
   placeholder_users:
     right_to_manage_members_missing: >
-      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+      Yer tutucu kullanıcıyı silme izniniz yok. Yer tutucu kullanıcının üyesi olduğu tüm projeler için üyeleri yönetme hakkınız yoktur.
     delete_tooltip: "Yer tutucu kullanıcısını silin."
     deletion_info:
       heading: "%{name} yer tutucu kullanıcısını sil."
@@ -637,7 +637,7 @@ tr:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Sağlanan SSL sertifikası geçersiz: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -771,7 +771,7 @@ tr:
         watcher:
           attributes:
             user_id:
-              not_allowed_to_view: "is not allowed to view this resource."
+              not_allowed_to_view: "bu kaynağı görüntülemesine izin verilmiyor."
               locked: "kilitli."
         wiki_page:
           attributes:
@@ -784,10 +784,10 @@ tr:
               format: "%{message}"
             due_date:
               not_start_date: "kilometre taşları için gerekli olmasına rağmen başlangıç tarihi değil."
-              cannot_be_null: "can not be set to null as start date and duration are known."
+              cannot_be_null: "başlangıç tarihi ve süresi bilindiğinden sıfır değerine ayarlanamaz."
             duration:
-              larger_than_dates: "is larger than the interval between the start and the finish date."
-              smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              larger_than_dates: "başlangıç ve bitiş tarihi arasındaki aralıktan daha büyüktür."
+              smaller_than_dates: "başlangıç ve bitiş tarihi arasındaki aralıktan daha küçüktür."
               not_available_for_milestones: "is not available for milestone typed work packages."
               cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
@@ -824,7 +824,7 @@ tr:
             base:
               user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
-              confirmation: "Password confirmation does not match password."
+              confirmation: "Parola onayı parolayla eşleşmiyor."
               format: "%{message}"
             password:
               weak: "Aşağıdaki sınıfların karakterlerini içermelidir (en az% {min_count} /% {all_count}):% {rules}. %{min_count} %{all_count} %{rules} "
@@ -1263,11 +1263,11 @@ tr:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "Bu ek eklentilerle form yapılandırmasını özelleştirin:"
         add_groups: "Yeni öznitelik grubu ekleyin"
         rename_groups: "Öznitelik grubunun adını değiştirin"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
+        description_html: "Özel alanlarda filtreleme ve sıralama, bir Enterprise sürümü eklentisidir."
   enumeration_activities: "Zaman izleme faaliyetleri"
   enumeration_work_package_priorities: "İş paketi öncelikleri"
   enumeration_reported_project_statuses: "Bildirilen proje durumları"
@@ -1377,10 +1377,10 @@ tr:
     blocks:
       community: "OpenProject topluluğu"
       upsale:
-        title: "Upgrade to Enterprise edition"
+        title: "Enterprise sürümüne yükseltin"
         more_info: "Daha fazla bilgi"
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
+      upgrade_enterprise_edition: "Enterprise sürümüne yükseltin"
       postgres_migration: "Kurulumunuzu PostgreSQL'e taşıyın"
       user_guides: "Kullanıcı rehberleri"
       faq: "SSS"
@@ -1404,7 +1404,7 @@ tr:
       mail_notification: "E-posta bildirimleri"
       mails_and_notifications: "E-postalar ve bildirim"
       aggregation: 'Kümelenme'
-      api_and_webhooks: "API and webhooks"
+      api_and_webhooks: "API ve web kancaları"
     quick_add:
       label: "Hızlı ekle menüsünü aç"
   my_account:
@@ -2021,7 +2021,7 @@ tr:
     notification:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
+      settings: 'E-posta ayarlarını değiştir'
     salutation: 'Merhaba %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
@@ -2033,9 +2033,9 @@ tr:
         other: 'There are %{count} more work packages with notifications.'
       reason:
         watched: 'İzlendi'
-        assigned: 'Assigned'
+        assigned: 'Atanmış'
         responsible: 'Sorumlu'
-        mentioned: 'Mentioned'
+        mentioned: 'Bahsedilen'
         subscribed: 'tüm'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Date alert'
@@ -2261,7 +2261,7 @@ tr:
   permission_protect_wiki_pages: "Wiki sayfalarını koruma"
   permission_rename_wiki_pages: "Wiki sayfalarını yeniden adlandır"
   permission_save_queries: "Görünüm kaydetmek"
-  permission_select_custom_fields: "Select custom fields"
+  permission_select_custom_fields: "Özel alanları seçin"
   permission_select_project_modules: "Proje modülleri seçmek"
   permission_manage_types: "İş paketi türlerini seçmek"
   permission_view_changesets: "OpenProject'de depo revizyonlarını görüntüle"
@@ -2437,7 +2437,7 @@ tr:
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Belgeleme"
-  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled: "Dokümanlar sayfasını etkinleştir"
   setting_apiv3_docs_enabled_instructions_html: >
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Attachment upload whitelist"
@@ -2595,7 +2595,7 @@ tr:
   text_access_token_hint: "Erişim belirteçleri, OpenProject içindeki kaynaklara harici uygulamalar erişimi vermenizi sağlar."
   text_analyze: "Daha fazla analiz: %{subject}"
   text_are_you_sure: "Emin misiniz?"
-  text_are_you_sure_continue: "Are you sure you want to continue?"
+  text_are_you_sure_continue: "Devam etmek istediğinizden emin misiniz?"
   text_are_you_sure_with_children: "Sil iş paketi ve tüm alt çalışma paketlerini?"
   text_assign_to_project: "Projeye ata"
   text_form_configuration: >
@@ -2916,7 +2916,7 @@ tr:
   warning_user_limit_reached: >
     Kullanıcı limitine ulaşıldı. Daha fazla kullanıcıyı etkinleştiremezsiniz. Lütfen <a href="%{upgrade_url}"> planınızı yükseltin </a> veya ek kullanıcılara izin vermek için üyeleri engelleyin.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    Kullanıcı sınırınıza ulaştınız (%{current}/%{max} aktif kullanıcılar). Enterprise sürüm planınızı yükseltmek ve ek kullanıcılar eklemek için lütfen sales@openproject.com adresine başvurun.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2945,7 +2945,7 @@ tr:
   working_days:
     info: >
       <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
-    change_button: "Change working days"
+    change_button: "İş günlerini değiştir"
     warning: >
       Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
     journal_note:
@@ -2957,7 +2957,7 @@ tr:
   api_v3:
     attributes:
       lock_version: "Sürümü Kilitle"
-      property: 'Property'
+      property: 'Özellik'
     errors:
       code_400: "Geçersiz istek: %{message}"
       code_401: "Bu kaynağa erişim sağlayabilmeniz için yetkilendirilmiş olmalısınız"
@@ -3103,7 +3103,7 @@ tr:
     urn_connection_status:
       connected: "Bağlandı"
       error: "Hata"
-      failed_authorization: "Authorization failed"
+      failed_authorization: "Yetkilendirme başarısız oldu"
     labels:
       label_oauth_integration: "OAuth2 integration"
       label_redirect_uri: "Redirect URI"

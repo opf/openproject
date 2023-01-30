@@ -33,7 +33,7 @@ module OpenProject
   module VERSION # :nodoc:
     MAJOR = 12
     MINOR = 4
-    PATCH = 2
+    PATCH = 3
 
     class << self
       # Used by semver to define the special version (if any).

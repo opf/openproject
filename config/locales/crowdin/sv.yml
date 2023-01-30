@@ -482,9 +482,9 @@ sv:
         explanation: 'Statusbeskrivning'
         codes:
           not_started: 'Not started'
-          on_track: 'På banan'
+          on_track: 'På rätt spår'
           at_risk: 'I riskzonen'
-          off_track: 'Utanför banan'
+          off_track: 'Urspårat'
           finished: 'Finished'
           discontinued: 'Discontinued'
       query:
