@@ -265,6 +265,8 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
     this.scheduleManually = !!this.changeset.value('scheduleManually');
     this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
 
+    console.log('onInit', this.scheduleManually);
+
     // Ensure we get the writable values from the loaded form
     void this
       .changeset
@@ -304,13 +306,15 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   }
 
   changeSchedulingMode():void {
-    this.initializeDatepicker();
-
+    console.log('change scheduling');
     // If removing manual scheduling on parent, reset ignoreNWD to original value
     if (this.scheduleManually === false && !this.ignoreNonWorkingDaysWritable) {
       this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
+      console.log(this.ignoreNonWorkingDays, this.scheduleManually);
     }
 
+
+    this.initializeDatepicker();
     this.cdRef.detectChanges();
   }
 

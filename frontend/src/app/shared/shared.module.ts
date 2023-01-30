@@ -96,6 +96,7 @@ import { OpProjectIncludeListComponent } from './components/project-include/list
 import { OpLoadingProjectListComponent } from './components/searchable-project-list/loading-project-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
+import { OpenprojectModalModule } from './components/modal/modal.module';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -138,6 +139,7 @@ export function bootstrapModule(injector:Injector):void {
     OpenprojectPrincipalRenderingModule,
     OpenprojectContentLoaderModule,
     OpenprojectAutocompleterModule,
+    OpenprojectModalModule,
 
     FocusModule,
     IconModule,
