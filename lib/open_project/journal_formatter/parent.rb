@@ -26,22 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Need to correct rubocop issues
+# Need to fix rubocop issues
 
-# class OpenProject::JournalFormatter::Parent < JournalFormatter::Base
-#   def render(_key, values, options = { html: true })
+class OpenProject::JournalFormatter::Parent < JournalFormatter::Base
+  def render(_key, values, options = { html: true })
 
-#     projects = Project.find(values).sort! { |a, b| values.index(a.id) <=> values.index(b.id) }
-#     label_text = options[:html] ? content_tag('strong', "Parent") : "Parent"
-#     if values.first.nil?
-#       activated_text = options[:html] ? "set to #{content_tag('i', projects.last.name)}" \
-#                                       : "set to #{projects.last.name}"
-#     else
-#       activated_text = options[:html] ? "changed from #{content_tag('i', projects.first.name)} \
-#                                       to #{content_tag('i', projects.last.name)}" \
-#                                       : "changed from #{projects.first.name} to #{projects.last.name}"
-#     end
+    projects = Project.find(values).sort! { |a, b| values.index(a.id) <=> values.index(b.id) }
+    label_text = options[:html] ? content_tag('strong', "Parent") : "Parent"
+    if values.first.nil?
+      activated_text = options[:html] ? "set to #{content_tag('i', projects.last.name)}"
+                                      : "set to #{projects.last.name}"
+    else
+      activated_text = options[:html] ? "changed from #{content_tag('i', projects.first.name)} " \
+                                      "to #{content_tag('i', projects.last.name)}"
+                                      : "changed from #{projects.first.name} to #{projects.last.name}"
+    end
 
-#     I18n.t(:text_journal_label_value, label: label_text, value: activated_text)
-#   end
-# end
+    I18n.t(:text_journal_label_value, label: label_text, value: activated_text)
+  end
+end
