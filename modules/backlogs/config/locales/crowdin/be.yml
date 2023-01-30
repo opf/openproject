@@ -24,16 +24,16 @@ be:
     attributes:
       work_package:
         position: "Пазіцыя"
-        remaining_hours: "Remaining hours"
-        remaining_time: "Remaining hours"
+        remaining_hours: "Засталося гадзін"
+        remaining_time: "Засталося гадзін"
         story_points: "Story Points"
-        backlogs_work_package_type: "Backlog type"
+        backlogs_work_package_type: "Тып бэклогу"
     errors:
       models:
         work_package:
           attributes:
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
+              can_only_contain_work_packages_of_current_sprint: "можа ўмяшчаць ідэнтыфікатары працоўных пакетаў толькі з бягучага спрынту."
               must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
             parent_id:
               parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
@@ -49,27 +49,27 @@ be:
     burndown_graph: "Burndown Graph"
     card_paper_size: "Paper size for card printing"
     chart_options: "Chart options"
-    close: "Close"
+    close: "Зачыніць"
     column_width: "Column width:"
     date: "Day"
     definition_of_done: "Definition of Done"
     generating_chart: "Generating Graph..."
-    hours: "Hours"
+    hours: "Гадзіны"
     impediment: "Impediment"
     label_versions_default_fold_state: "Show versions folded"
     work_package_is_closed: "Work package is done, when"
     label_is_done_status: "Status %{status_name} means done"
     no_burndown_data: "No burndown data available. It is necessary to have the sprint start- and end dates set."
-    points: "Points"
+    points: "Кропкі"
     positions_could_not_be_rebuilt: "Positions could not be rebuilt."
     positions_rebuilt_successfully: "Positions rebuilt successfully."
     properties: "Properties"
-    rebuild: "Rebuild"
+    rebuild: "Перабудаваць"
     rebuild_positions: "Rebuild positions"
     remaining_hours: "Remaining hours"
     remaining_hours_ideal: "Remaining hours (ideal)"
     show_burndown_chart: "Burndown Chart"
-    story: "Story"
+    story: "Гісторыя"
     story_points: "Story Points"
     story_points_ideal: "Story Points (ideal)"
     task: "Task"

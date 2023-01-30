@@ -36,10 +36,12 @@ module Settings
                   :env_alias
 
     attr_writer :value,
+                :description,
                 :allowed
 
     def initialize(name,
                    default:,
+                   description: nil,
                    format: nil,
                    writable: true,
                    allowed: nil,
@@ -52,6 +54,7 @@ module Settings
       self.writable = writable
       self.allowed = allowed
       self.env_alias = env_alias
+      self.description = description.presence || :"setting_#{name}"
     end
 
     def default
@@ -60,6 +63,14 @@ module Settings
 
     def value
       cast(@value)
+    end
+
+    def description
+      if @description.is_a?(Symbol)
+        I18n.t(@description, default: nil)
+      else
+        @description
+      end
     end
 
     def serialized?
@@ -124,6 +135,7 @@ module Settings
       # @param [Object] default The default value the setting has if not overridden.
       # @param [nil] format The format the value is in e.g. symbol, array, hash, string. If a value is present,
       #  the format is deferred.
+      # @param [nil] description A human-readable description of this setting.
       # @param [TrueClass] writable Whether the value can be set in the UI. In case the value is set via file or ENV var,
       #  this will be set to false later on and UI elements that refer to the definition will be disabled.
       # @param [nil] allowed The array of allowed values that can be assigned to the definition.
@@ -136,6 +148,7 @@ module Settings
       def add(name,
               default:,
               format: nil,
+              description: nil,
               writable: true,
               allowed: nil,
               env_alias: nil)
@@ -145,6 +158,7 @@ module Settings
 
         definition = new(name,
                          format:,
+                         description:,
                          default:,
                          writable:,
                          allowed:,
@@ -274,8 +288,8 @@ module Settings
         env_var_hash_part
           .scan(/(?:[a-zA-Z0-9]|__)+/)
           .map do |seg|
-            unescape_underscores(seg.downcase)
-          end
+          unescape_underscores(seg.downcase)
+        end
       end
 
       # takes the path provided and transforms it into a deeply nested hash
@@ -329,6 +343,7 @@ module Settings
           env_name_alias(definition)
         ].compact
       end
+
       public :possible_env_names
 
       def env_name_nested(definition)

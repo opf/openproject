@@ -494,7 +494,7 @@ GEM
     fastimage (2.2.6)
     ffi (1.15.5)
     flamegraph (0.9.5)
-    fog-aws (3.15.0)
+    fog-aws (3.16.0)
       fog-core (~> 2.1)
       fog-json (~> 1.1)
       fog-xml (~> 0.1)
@@ -886,7 +886,7 @@ GEM
     rubytree (2.0.0)
       json (~> 2.0, > 2.3.1)
     rubyzip (2.3.2)
-    sanitize (6.0.0)
+    sanitize (6.0.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     sassc (2.4.0)
@@ -1138,7 +1138,7 @@ DEPENDENCIES
   ruby-prof
   ruby-progressbar (~> 1.11.0)
   rubytree (~> 2.0.0)
-  sanitize (~> 6.0.0)
+  sanitize (~> 6.0.1)
   sassc-rails
   secure_headers (~> 6.5.0)
   selenium-webdriver (~> 4.0)

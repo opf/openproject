@@ -27,6 +27,7 @@ fr:
       files:
         directory_not_writeable: "You do not have to permission to add files to this folder."
         dragging_many_files: "The upload to %{storageType} supports only one file at once."
+        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
       file_links:
         empty: >
           Il n'y a actuellement aucun fichier lié à ce lot de travaux. Commencez à lier les fichiers avec l'action ci-dessous ou à partir de %{storageType}.
