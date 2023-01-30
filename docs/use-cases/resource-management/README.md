@@ -48,7 +48,7 @@ You will see the estimated, spent and remaining hours summed up by user, as well
 
 ![OpenProject work packages sums](openproject_work_packages_sum.png)
 
-## Gannt chart view
+## Gantt chart view
 
 You could also add the Gantt view to add an additional dimension to your overview.
 

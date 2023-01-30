@@ -32,7 +32,7 @@ You can add a visual component to the overview by clicking on the **Open as Gant
 
 ![OpenProject projects in Gantt view](gantt_view.png)
 
-**Step 3:** You can also configure this view using the button with the three dots at the upper right corner and select **Configure**. 
+Step 3: You can also configure this view using the button with the three dots at the upper right corner and select **Configure**. 
 
 ![OpenProject configure projects overview](openrpoject_configure_projects_overview.png)
 
