@@ -154,12 +154,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   storages$ = new BehaviorSubject<IStorage[]>([]);
 
-  public get workPackageWithProjectContext():WorkPackageResource {
-    const clone = Object.create(this.workPackage) as WorkPackageResource;
-    clone.project = { id: this.projectContext.id };
-    return clone;
-  }
-
   constructor(
     protected readonly injector:Injector,
     private readonly states:States,
@@ -207,8 +201,13 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     const isNew = isNewResource(this.workPackage);
     const resource = change.projectedResource;
 
+    if (!this.currentProject.inProjectContext) {
+      this.workPackage.project = resource.project;
+    }
+
     if (!resource.project) {
       this.projectContext = { matches: false, href: null, id: null };
+      this.storages$.next([]);
     } else {
       const project = resource.project as unknown&{ href:string, id:string };
       const workPackageId = this.workPackage.id;

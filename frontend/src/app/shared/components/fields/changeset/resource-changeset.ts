@@ -9,6 +9,7 @@ import { take } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { SchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 
 export const PROXY_IDENTIFIER = '__is_changeset_proxy';
 
@@ -380,13 +381,21 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       }
 
       // Add attachments to be assigned.
-      // They will already be created on the server but now
+      // They will already be created on the server, but now
       // we need to claim them for the newly created work package.
       if (this.pristineResource.attachments) {
         payload._links.attachments = this.pristineResource
           .attachments
           .elements
           .map((a:HalResource) => ({ href: a.href }));
+      }
+
+      // Add file links to be assigned.
+      if (this.pristineResource.fileLinks) {
+        payload._links.fileLinks = this.pristineResource
+          .fileLinks
+          .elements
+          .map((fl:IHalResourceLink) => ({ href: fl.href }));
       }
     } else {
       // Otherwise, simply use the bare minimum

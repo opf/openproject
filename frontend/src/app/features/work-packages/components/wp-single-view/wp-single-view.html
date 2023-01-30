@@ -146,7 +146,7 @@
 
   <op-storage
     *ngFor="let storage of storages$ | async"
-    [resource]="workPackageWithProjectContext"
+    [resource]="workPackage"
     [storage]="storage"
     [allowLinking]="true"
     [allowUploading]="true"
