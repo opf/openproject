@@ -521,7 +521,7 @@ GEM
     git (1.13.1)
       addressable (~> 2.8)
       rchardet (~> 1.8)
-    globalid (1.0.1)
+    globalid (1.1.0)
       activesupport (>= 5.0)
     gon (6.4.0)
       actionpack (>= 3.0.20)
