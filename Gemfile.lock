@@ -311,7 +311,7 @@ GEM
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.18)
     bindata (2.4.14)
-    bootsnap (1.15.0)
+    bootsnap (1.16.0)
       msgpack (~> 1.2)
     brakeman (5.4.0)
     browser (5.3.1)
@@ -990,7 +990,7 @@ DEPENDENCIES
   aws-sdk-core (~> 3.107)
   aws-sdk-s3 (~> 1.91)
   bcrypt (~> 3.1.6)
-  bootsnap (~> 1.15.0)
+  bootsnap (~> 1.16.0)
   brakeman (~> 5.4.0)
   browser (~> 5.3.0)
   budgets!
