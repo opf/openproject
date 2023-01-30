@@ -349,7 +349,6 @@ Settings::Definition.define do
   add :disabled_modules,
       description: 'A list of module names to prevent access to in the application',
       default: [],
-      allowed: -> { OpenProject::AccessControl.available_project_modules.map(&:to_s) },
       writable: false
 
   add :disable_password_choice,
