@@ -71,42 +71,8 @@ export class SpotDropModalComponent implements OnDestroy {
       return;
     }
 
-<<<<<<< HEAD
-    this._open = !!value;
-
-    if (this._open) {
-      /* We have to set these listeners next tick, because they're so far up the tree.
-       * If the open value was set because of a click listener in the trigger slot,
-       * that event would reach the event listener added here and close the modal right away.
-       */
-      setTimeout(() => {
-        document.body.addEventListener('click', this.closeEventListener);
-        document.body.addEventListener('keydown', this.escapeListener);
-        window.addEventListener('resize', this.appHeightListener);
-        window.addEventListener('orientationchange', this.appHeightListener);
-        this.appHeightListener();
-
-        if (this.allowRepositioning) {
-          this.recalculateAlignment();
-        }
-
-        // If we already have focus within the modal, don't move it
-        if ((this.elementRef.nativeElement as HTMLElement).contains(document.activeElement)) {
-          return;
-        }
-
-        const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
-        if (focusCatcherContainer) {
-          (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0]).focus();
-        } else {
-          // Index 1 because the element at index 0 is the trigger button to open the modal
-          (findAllFocusableElementsWithin(this.elementRef.nativeElement as HTMLElement)[1]).focus();
-        }
-      });
-=======
     if (!!value) {
       this.open();
->>>>>>> feature/42358-standardise-date-pickers-drop-modal-portal
     } else {
       this.close();
     }
