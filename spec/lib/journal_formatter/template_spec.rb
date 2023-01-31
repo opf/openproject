@@ -31,19 +31,23 @@ require 'spec_helper'
 describe OpenProject::JournalFormatter::Template do
   let(:instance) { described_class.new(build(:journal)) }
 
-  it "renders correctly when un-marked as template" do
-    html = instance.render("templated", [false, true], html: true)
-    expect(html).to eq("<strong>Template:</strong> Project un-marked as template")
-
-    html = instance.render("templated", [false, true], html: false)
-    expect(html).to eq("Template: Project un-marked as template")
-  end
-
   it "renders correctly when marked as template" do
-    html = instance.render("templated", [true, false], html: true)
+    html = instance.render("templated", [false, true], html: true)
     expect(html).to eq("<strong>Template:</strong> Project marked as template")
 
-    html = instance.render("templated", [true, false], html: false)
+    html = instance.render("templated", [false, true], html: false)
     expect(html).to eq("Template: Project marked as template")
+    html = instance.render("templated", [nil, true], html: false)
+    expect(html).to eq("Template: Project marked as template")
+  end
+
+  it "renders correctly when un-marked as template" do
+    html = instance.render("templated", [true, false], html: true)
+    expect(html).to eq("<strong>Template:</strong> Project un-marked as template")
+
+    html = instance.render("templated", [true, false], html: false)
+    expect(html).to eq("Template: Project un-marked as template")
+    html = instance.render("templated", [nil, false], html: false)
+    expect(html).to eq("Template: Project un-marked as template")
   end
 end
