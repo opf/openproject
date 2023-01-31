@@ -55,8 +55,8 @@ export class StorageFilesResourceService {
     if (value !== undefined) {
       return combineLatest([this.lookupMany(value.files), this.lookup(value.parent)])
         .pipe(
-          map(([files, parent]) => ({
-            files, parent, _type: 'storage_file', _links: { self: link },
+          map(([files, parent]):IStorageFiles => ({
+            files, parent, _type: 'StorageFiles', _links: { self: link },
           })),
           take(1),
         );

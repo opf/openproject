@@ -32,6 +32,6 @@ import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.mod
 export interface IStorageFiles {
   files:IStorageFile[];
   parent:IStorageFile;
-  _type:string;
+  _type:'StorageFiles';
   _links:IHalResourceLinks;
 }
