@@ -79,7 +79,7 @@ nl:
     label_new_storage: "Nieuwe opslag"
     label_storage: "Opslag"
     label_storages: "Opslagplaatsen"
-    no_results: "No storages set up, yet."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Type provider"
       nextcloud:

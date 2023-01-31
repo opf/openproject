@@ -79,7 +79,7 @@ de:
     label_new_storage: "Neuer Speicher"
     label_storage: "Speicher"
     label_storages: "Speicher"
-    no_results: "Noch kein Speicher eingerichtet."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Anbieter-Typ"
       nextcloud:

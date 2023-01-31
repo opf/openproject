@@ -79,7 +79,7 @@ da:
     label_new_storage: "New storage"
     label_storage: "Storage"
     label_storages: "Storages"
-    no_results: "No storages set up, yet."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Provider type"
       nextcloud:

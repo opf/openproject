@@ -79,7 +79,7 @@ pl:
     label_new_storage: "Nowy magazyn"
     label_storage: "Magazyn"
     label_storages: "Magazyny"
-    no_results: "Brak skonfigurowanych magazynów."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Typ dostawcy"
       nextcloud:

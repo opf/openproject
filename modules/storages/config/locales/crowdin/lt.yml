@@ -79,7 +79,7 @@ lt:
     label_new_storage: "Nauja saugykla"
     label_storage: "Saugykla"
     label_storages: "Saugyklos"
-    no_results: "Dar nenustatyta jokia saugykla"
+    no_results: "No storages set up yet."
     provider_types:
       label: "Tiekėjo tipas"
       nextcloud:
