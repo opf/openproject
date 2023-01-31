@@ -94,7 +94,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       input_options[:class] << ' -error'
     end
 
-    @object_name.sub!(/\[\]$/, "") || @object_name.sub!(/\[\]\]$/, "]")
+    @object_name.to_s.sub!(/\[\]$/, "") || @object_name.to_s.sub!(/\[\]\]$/, "]")
 
     inputs = {
       value: @object.public_send(field),
