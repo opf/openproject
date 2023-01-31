@@ -29,13 +29,21 @@
 # This class provides definitions for API routes and endpoints for the file_links namespace. It inherits the
 # functionality from the Grape REST API framework. It is mounted in lib/api/v3/root.rb.
 # -> /api/v3/file_links/...
-class API::V3::FileLinks::FileLinksAPI < ::API::OpenProjectAPI
+class API::V3::FileLinks::FileLinksAPI < API::OpenProjectAPI
   # helpers is defined by the grape framework. They make methods from the
   # module available from within the endpoint context.
   helpers Storages::Peripherals::Scopes
 
   # The `:resources` keyword defines the API namespace -> /api/v3/file_links/...
   resources :file_links do
+    post &::API::V3::FileLinks::CreateEndpoint
+            .new(
+              model: ::Storages::FileLink,
+              parse_service: Storages::Peripherals::ParseCreateParamsService,
+              render_representer: ::API::V3::FileLinks::FileLinkCollectionRepresenter
+            )
+            .mount
+
     # `route_param` extends the route by a route parameter of the endpoint.
     # The input parameter value is parsed into the `:file_link_id` symbol.
     route_param :file_link_id, type: Integer, desc: 'File link id' do

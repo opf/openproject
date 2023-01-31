@@ -51,7 +51,7 @@ lol:
       type_link_text: "crwdns823144:0crwdne823144:0"
       name: "crwdns823146:0crwdne823146:0"
       host: "crwdns823148:0crwdne823148:0"
-      no_storage_set_up: "crwdns807936:0crwdne807936:0"
+      no_storage_set_up: "crwdns844777:0crwdne844777:0"
       setting_up_additional_storages: "crwdns807938:0crwdne807938:0"
       setting_up_additional_storages_non_admin: "crwdns807940:0crwdne807940:0"
       setting_up_storages: "crwdns807942:0crwdne807942:0"
@@ -79,7 +79,7 @@ lol:
     label_new_storage: "crwdns807964:0crwdne807964:0"
     label_storage: "crwdns807966:0crwdne807966:0"
     label_storages: "crwdns807968:0crwdne807968:0"
-    no_results: "crwdns807970:0crwdne807970:0"
+    no_results: "crwdns844783:0crwdne844783:0"
     provider_types:
       label: "crwdns807972:0crwdne807972:0"
       nextcloud:

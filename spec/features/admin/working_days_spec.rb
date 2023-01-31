@@ -161,7 +161,7 @@ describe 'Working Days', js: true do
     # delayed jobs are handled.
     ActiveJob::QueueAdapters::DelayedJobAdapter
       .new
-      .enqueue(WorkPackages::ApplyWorkingDaysChangeJob.new(user_id: 5, previous_working_days: []))
+      .enqueue(WorkPackages::ApplyWorkingDaysChangeJob.new(user_id: 5))
 
     uncheck 'Tuesday'
     click_on 'Save'

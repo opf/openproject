@@ -45,10 +45,7 @@ module Storages::Peripherals::StorageInteraction
     def upload_link_query(storage, user)
       Storages::Peripherals::StorageRequests
         .new(storage:)
-        .upload_link_query(
-          user:,
-          finalize_url: nil # ToDo: api_v3_paths.finalize_upload(@storage.id)
-        )
+        .upload_link_query(user:)
     end
 
     def execute_upload_link_query(request_body)

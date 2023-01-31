@@ -478,7 +478,7 @@ fr:
     label_drop_files: "Déposez des fichiers ici pour joindre des fichiers."
     label_drop_or_click_files: "Déposez des fichiers ici ou cliquez pour joindre des fichiers."
     label_drop_folders_hint: Vous ne pouvez pas télécharger les dossiers en pièce jointe. S’il vous plaît sélectionnez des fichiers seuls.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "Joindre fichiers"
     label_formattable_attachment_hint: "Insérer des fichiers en les glissant sur ce champ, ou en les collant depuis le presse-papiers."
     label_remove_file: "Supprimer %{fileName}"
     label_remove_watcher: "Retirer l'observateur %{name}"

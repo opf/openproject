@@ -57,7 +57,6 @@ import {
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
-import { DateModalSchedulingService } from 'core-app/shared/components/datepicker/services/date-modal-scheduling.service';
 import {
   mappedDate,
   onDayCreate,
@@ -68,6 +67,7 @@ import {
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { DateModalSchedulingService } from '../services/date-modal-scheduling.service';
 
 @Component({
   selector: 'op-wp-single-date-form',
@@ -79,8 +79,8 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
-    DateModalSchedulingService,
     DateModalRelationsService,
+    DateModalSchedulingService,
   ],
 })
 export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements AfterViewInit, OnInit {
@@ -105,6 +105,8 @@ export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements 
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
   };
+
+  scheduleManually = false;
 
   ignoreNonWorkingDays = false;
 
@@ -177,6 +179,22 @@ export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements 
       });
   }
 
+  changeSchedulingMode():void {
+    this.initializeDatepicker();
+    this.cdRef.detectChanges();
+  }
+
+  /**
+   * Returns whether the user can alter the dates of the work package.
+   */
+  get isSchedulable():boolean {
+    return this.scheduleManually || !this.dateModalRelations.isParent;
+  }
+
+  isDayDisabled(dayElement:DayElement, minimalDate?:Date|null):boolean {
+    return !this.isSchedulable || (!this.scheduleManually && !!minimalDate && dayElement.dateObj <= minimalDate);
+  }
+
   changeNonWorkingDays():void {
     this.initializeDatepicker();
     this.cdRef.detectChanges();
@@ -188,7 +206,7 @@ export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements 
     this.changeset.setValue('ignoreNonWorkingDays', this.ignoreNonWorkingDays);
 
     // Apply the dates if they could be changed
-    if (this.dateModalScheduling.isSchedulable) {
+    if (this.isSchedulable) {
       this.changeset.setValue('date', mappedDate(this.date));
     }
 
@@ -242,7 +260,7 @@ export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements 
             dayElem,
             this.ignoreNonWorkingDays,
             await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
-            this.dateModalScheduling.isDayDisabled(dayElem, minimalDate),
+            this.isDayDisabled(dayElem, minimalDate),
           );
         },
       },

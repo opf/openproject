@@ -62,7 +62,6 @@ import {
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
-import { DateModalSchedulingService } from 'core-app/shared/components/datepicker/services/date-modal-scheduling.service';
 import {
   areDatesEqual,
   mappedDate,
@@ -80,6 +79,7 @@ import DateOption = flatpickr.Options.DateOption;
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { DateModalSchedulingService } from '../services/date-modal-scheduling.service';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -108,8 +108,8 @@ export type FieldUpdates =
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
-    DateModalSchedulingService,
     DateModalRelationsService,
+    DateModalSchedulingService,
   ],
 })
 export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements AfterViewInit, OnInit {
@@ -304,13 +304,10 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   }
 
   changeSchedulingMode():void {
-    console.log('change scheduling');
     // If removing manual scheduling on parent, reset ignoreNWD to original value
     if (this.scheduleManually === false && !this.ignoreNonWorkingDaysWritable) {
       this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
-      console.log(this.ignoreNonWorkingDays, this.scheduleManually);
     }
-
 
     this.initializeDatepicker();
     this.cdRef.detectChanges();

@@ -2940,6 +2940,9 @@ ja:
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "プレビューできるものは何もありません。"
   api_v3:
     attributes:
