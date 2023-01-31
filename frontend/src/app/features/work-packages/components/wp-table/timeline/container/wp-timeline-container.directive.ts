@@ -150,7 +150,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     const scrollBar = document.querySelector('.work-packages-tabletimeline--timeline-side');
     if (scrollBar) {
       scrollBar.addEventListener('scroll', () => {
-       this.requireNonWorkingDays(this.getFirstDayInViewport().format('YYYY-MM-DD'), this.getLastDayInViewport().format('YYYY-MM-DD'));
+        this.requireNonWorkingDays(this.getFirstDayInViewport().format('YYYY-MM-DD'), this.getLastDayInViewport().format('YYYY-MM-DD'));
       });
     }
 
