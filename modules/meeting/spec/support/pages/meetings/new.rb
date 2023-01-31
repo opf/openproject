@@ -47,13 +47,10 @@ module Pages::Meetings
       fill_in 'Title', with: text
     end
 
-    def set_start_date(date_string)
-      datepicker = Components::Datepicker.new
+    def set_start_date(date)
       find_by_id('meeting_start_date').click
-      date = Date.parse(date_string)
-      datepicker.select_year(date.year)
-      datepicker.select_month(I18n.t("date.month_names")[date.month])
-      datepicker.select_day(date.day)
+      datepicker = Components::Datepicker.new
+      datepicker.set_date(date)
       datepicker.save!
     end
 

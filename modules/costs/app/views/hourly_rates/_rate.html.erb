@@ -34,7 +34,6 @@ See COPYRIGHT and LICENSE files for more details.
   id_or_index = rate.new_record? ? index : rate.id
   prefix = "user[#{new_or_existing}_rate_attributes][]"
   id_prefix = "user_#{new_or_existing}_rate_attributes_#{id_or_index}"
-  name_prefix = "user[#{new_or_existing}_rate_attributes][#{id_or_index}]"
   classes ||= ""
   classes += " subform-row-template" if templated
 -%>
