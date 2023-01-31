@@ -10,6 +10,7 @@
     <input
       type="text"
       class="spot-input"
+      [id]="id"
       (click)="onInputClick($event)"
       [value]="value"
       (focus)="opened = true"
@@ -86,7 +87,6 @@
 </spot-drop-modal>
 
 <input
-  [id]="id"
   [name]="name"
   [value]="value"
   [ngClass]="{ 'remote-field--input': !!remoteFieldKey }"
