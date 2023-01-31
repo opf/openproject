@@ -31,7 +31,6 @@ import { SpotDropModalPortalComponent } from './components/drop-modal/drop-modal
 
   providers: [
     I18nService,
-    SpotDropModalTeleportationService,
   ],
 
   declarations: [

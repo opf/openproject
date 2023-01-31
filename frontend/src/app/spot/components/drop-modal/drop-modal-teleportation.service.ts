@@ -2,7 +2,10 @@ import {
   Injectable,
   TemplateRef,
 } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  Subject,
+} from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 export type TeleportInstance = TemplateRef<any>;
