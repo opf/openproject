@@ -15,17 +15,17 @@ module Components
     def select_month(month)
       month = Date::MONTHNAMES.index(month) if month.is_a?(String)
       retry_block do
-        current_month = Date::MONTHNAMES.index(flatpickr_container.first('.cur-month').text)
+        current_month = flatpickr_container.first('.flatpickr-monthDropdown-months').value.to_i + 1
 
         if current_month < month
           while current_month < month
             flatpickr_container.find('.flatpickr-next-month').click
-            current_month = Date::MONTHNAMES.index(flatpickr_container.first('.cur-month').text)
+            current_month = flatpickr_container.first('.flatpickr-monthDropdown-months').value.to_i + 1
           end
         elsif current_month > month
           while current_month > month
             flatpickr_container.find('.flatpickr-prev-month').click
-            current_month = Date::MONTHNAMES.index(flatpickr_container.first('.cur-month').text)
+            current_month = flatpickr_container.first('.flatpickr-monthDropdown-months').value.to_i + 1
           end
         end
       end
