@@ -36,7 +36,6 @@ import {
   forwardRef,
   Injector,
   Input,
-  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -71,7 +70,7 @@ export const opSingleDatePickerSelector = 'op-single-date-picker';
     },
   ],
 })
-export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit, AfterContentInit {
+export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterContentInit {
   @Output('closed') closed = new EventEmitter();
 
   @Output('valueChange') valueChange = new EventEmitter();
@@ -117,7 +116,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
     return this._opened;
   }
 
-  @Input() showIgnoreNonWorkingDays = true;
+  @Input() showIgnoreNonWorkingDays = false;
 
   @Input() ignoreNonWorkingDays = false;
 
@@ -125,7 +124,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
 
   public workingValue = '';
 
-  public workingDate:Date = new Date();
+  public workingDate:Date|null = null;
 
   public datePickerInstance:DatePicker;
 
@@ -150,13 +149,6 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
     readonly elementRef:ElementRef,
   ) {
     populateInputsFromDataset(this);
-  }
-
-  ngOnInit():void {
-    if (!this.value) {
-      const today = parseDate(new Date()) as Date;
-      this.writeValue(this.timezoneService.formattedISODate(today));
-    }
   }
 
   ngAfterContentInit() {

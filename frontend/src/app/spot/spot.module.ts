@@ -18,7 +18,6 @@ import { SpotFormFieldComponent } from './components/form-field/form-field.compo
 import { SpotFormBindingDirective } from './components/form-field/form-binding.directive';
 import { SpotBreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { SpotSelectorFieldComponent } from './components/selector-field/selector-field.component';
-import { SpotDropModalTeleportationService } from './components/drop-modal/drop-modal-teleportation.service';
 import { SpotDropModalPortalComponent } from './components/drop-modal/drop-modal-portal.component';
 
 @NgModule({
