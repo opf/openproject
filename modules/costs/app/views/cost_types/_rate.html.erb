@@ -50,7 +50,8 @@ See COPYRIGHT and LICENSE files for more details.
     <td class="-no-ellipsis">
       <label class="hidden-for-sighted" for="<%= "#{id_prefix}_valid_from" %>"><%= Rate.human_attribute_name(:valid_from) %></label>
       <%= rate_form.date_picker :valid_from,
-                               class: 'date costs-date-picker',
+                               index: id_or_index,
+                               class: 'date costs-date-picker op-datepicker-modal_fill_space',
                                no_field_container: true,
                                no_label: true,
                                required: templated ? false : true %>
