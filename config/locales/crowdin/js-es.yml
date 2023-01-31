@@ -225,13 +225,13 @@ es:
           status_confirmed: "confirmado"
           status_waiting: "correo electrónico enviado - esperando confirmación"
           test_ee: "Pruebe la edición Enterprise de forma gratuita durante 14 días"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          quick_overview: "Obtenga un resumen rápido sobre la gestión de proyectos y la colaboración en equipo con OpenProject edición Enterprise."
         upsale:
           become_hero: "¡Conviértete en un héroe!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} es un add-on de la edición Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
           upgrade_info: "Actualice a un plan de pago para activarla y empiece a usarla en su equipo."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
+            description: "¿Cuáles son las ventajas de la edición Enterprise on-premises?"
             high_security: "Funcionalidades de seguridad"
             high_security_text: "Inicio de sesión único (SAML, OpenID Connect, CAS), grupos LDAP."
             installation: "Ayuda en la instalación"
@@ -249,9 +249,9 @@ es:
           link_quote: "Solicitar presupuesto"
           more_info: "Más información"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            La edición Enterprise de OpenProject esta basada en la edición Community. Incluye Enterprise add-ons y soporte profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
           unlimited: "Ilimitado"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Los desarrolladores también tienen que pagar sus facturas. Al actualizar a edición Enterprise, apoyará el esfuerzo de la comunidad de código abierto y contribuirá a su desarrollo, mantenimiento y mejora continua."
     custom_actions:
       date:
         specific: 'en'
@@ -280,7 +280,7 @@ es:
           one: "Primer criterio de ordenación"
           two: "Segundo criterio de ordenación"
           three: "Tercer criterio de ordenación"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
+      upsale_for_more: "Los filtros avanzados te permiten también filtrar los nombres de los archivos y el contenido de los archivos adjuntos del paquete de trabajo. Por favor, actualice a un plan de pago para utilizar este add-on."
       upsale_link: 'Edición Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
@@ -708,7 +708,7 @@ es:
         confirm_reset: >
           Advertencia: ¿Está seguro de que quiere restablecer la configuración del formulario? Se restablecerán los atributos al grupo predeterminado y se deshabilitarán TODOS los campos personalizados.
         upgrade_to_ee: "Actualizar a edición Enterprise on-premises"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee_text: "¡Vaya! Si necesita está opción, entonces ¡es un usuario experto! ¿Le importaría apoyar a los desarrolladores de código abierto convirtiéndose en cliente de la edición Enterprise?"
         more_information: "Más información"
         nevermind: "No importa"
       edit:
@@ -1192,7 +1192,7 @@ es:
           title: 'Usuario de marcador de posición'
           title_no_ee: 'Usuario de marcador de posición (add-on solo para edición Enterprise)'
           description: 'No tiene acceso al proyecto y no se enviarán correos electrónicos.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: 'No tiene acceso al proyecto y no se enviarán correos electrónicos. <br>Consulte <a href="%{eeHref}" target="_blank">edición Enterprise</a>'
       principal:
         label:
           name_or_email: 'Nombre o dirección de correo electrónico'
