@@ -42,7 +42,6 @@ import {
 } from '../wp-timeline';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import Moment = moment.Moment;
-import { DayResourceService } from 'core-app/core/state/days/day.service';
 
 @Component({
   selector: 'wp-timeline-grid',
@@ -57,7 +56,6 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
     private elementRef:ElementRef,
     public wpTimeline:WorkPackageTimelineTableController,
     private weekdaysService:WeekdayService,
-    private daysService:DayResourceService,
   ) {}
 
   ngAfterViewInit():void {

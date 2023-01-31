@@ -147,6 +147,13 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   ngAfterViewInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
+    const scrollBar = document.querySelector('.work-packages-tabletimeline--timeline-side');
+    if (scrollBar) {
+      scrollBar.addEventListener("scroll", async () => {
+        await this.requireNonWorkingDays(this.getFirstDayInViewport().format('YYYY-MM-DD'), this.getLastDayInViewport().format('YYYY-MM-DD'));
+      })
+    }
+
     this.text = {
       selectionMode: this.I18n.t('js.timelines.selection_mode.notification'),
     };
@@ -236,7 +243,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
       this.calculateViewParams(this._viewParameters);
 
-      await this.requireNonWorkingDays(this._viewParameters.visibleViewportAtCalculationTime[0].format('YYYY-MM-DD'), this._viewParameters.visibleViewportAtCalculationTime[1].format('YYYY-MM-DD'));
+      await this.requireNonWorkingDays(this.getFirstDayInViewport().format('YYYY-MM-DD'), this.getLastDayInViewport().format('YYYY-MM-DD'));
 
       // Update all cells
       this.cellsRenderer.refreshAllCells();

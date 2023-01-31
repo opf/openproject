@@ -21,7 +21,6 @@ import {
   timelineMarkerSelectionStartClass,
 } from '../wp-timeline';
 import Moment = moment.Moment;
-import { DayResourceService } from 'core-app/core/state/days/day.service';
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -51,8 +50,6 @@ export class TimelineCellRenderer {
   @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
 
   @InjectField() weekdayService:WeekdayService;
-
-  @InjectField() dayService:DayResourceService;
 
   @InjectField() schemaCache:SchemaCacheService;
 
