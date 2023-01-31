@@ -37,12 +37,13 @@ Column headers can be clicked to toggle sort direction. Arrows indicate sort ord
 
 ## Filter users
 
-At the top of the user list is a filter box. Filter by status or name, then click the blue **Apply** button to filter the list. Click the **Clear** button to reset the filter fields and refresh the list.
+At the top of the user list is a filter box. Filter by status. group or name, then click the blue **Apply** button to filter the list. Click the **Clear** button to reset the filter fields and refresh the list.
 
 * **Status** - select from Active, All or Locked Temporarily. Each selection shows the number of users.
+* **Group** - select from the list of existing groups.
 * **Name** - enter any text; this can contain a "%" wild card for 0 or more characters. The filter applies to user name, first name, last name and email address.
 
-![Filter users in OpenProject](image-20200115155456033.png)
+![Filter users in OpenProject](openproject_systemguide_filter_users.png)
 
 ## Lock and unlock users
 
@@ -54,7 +55,7 @@ If you are using [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-g
 
 ![Lock users in OpenProject](open_project_system_admin_lock_user_permanently.png)
 
-If a user has repeated failed logins the user will be locked temporarily and a **Reset failed logins" link will be shown in the user list. Click the link to unlock it right away, or wait and it will be unlocked automatically. Have a look at the section [Other authentication settings](../../authentication/authentication-settings/#other-authentication-settings) for failed attempts and time blocked.
+If a user has repeated failed logins the user will be locked temporarily and a **Reset failed logins** link will be shown in the user list. Click the link to unlock it right away, or wait and it will be unlocked automatically. Have a look at the section [Other authentication settings](../../authentication/authentication-settings/#other-authentication-settings) for failed attempts and time blocked.
 
 ## Create users
 
@@ -71,17 +72,23 @@ Enter the email address, first name, and last name of the new user. Tick the box
 Note: the email field must be a valid format and be unique or it will be rejected on clicking the button.
 
 Click the **Create** button to add the user and show that user's details page. Click the **Create and continue** button to add the user and stay on the new user form to add another user. Either way, the new user will be invited via email.
-When adding the last of multiple users you can click on **Create** or click the **Users** link in the menu on the left. The Users list is shown. Click each user in turn to [edit their details](#set-initial-details).
+When adding the last of multiple users you can click on **Create** or click the **Users** link in the menu on the left. The **Users list** will be shown. Click on the name of  each user to [edit their details](#set-initial-details).
 
 ### Create user (via self-registration)
 
-To allow users to create their own user accounts allow self-registration in the [authentication settings](../../authentication/authentication-settings). A person can then create their own user from the home page by clicking on the **Sign in** button (top right), then on the **Create a new account** link in the sign in box. 
+To allow users to create their own user accounts enable self-registration in the [authentication settings](../../authentication/authentication-settings). A person can then create their own user from the home page by clicking on the **Sign in** button (top right), then on the **Create a new account** link in the sign in box. 
 
 Enter values in all fields (they cannot be left blank). The email field must be a valid email address that is not used in this system. Click the **Create** button. Depending on the [settings](../../authentication/authentication-settings) the account is created but it could be that it still needs to be activated by an administrator.
 
 #### Activate users
 
-Open the user list. If a user has created their own account (and it has not been activated automatically) it is shown in the user list with an **Activate** link on the right. Click this link and continue to add details to this user as below. There is also an **Activate** button at the top of the user's details page.
+Open the user list. If a user has created their own account (and it has not been activated automatically) it is shown in the user list with an **Activate** link on the right. Click this link and continue to add details to this user as below. 
+
+![Activate a user](activate user from the list.png)
+
+There is also an **Activate** button at the top of the user's details page.
+
+![Activate user in profile](activate user.png)
 
 ### Set initial details
 
@@ -123,13 +130,13 @@ On the General tab the following fields are shown:
 4. **Preferences** - users can change these on their Profile page. Time zone defaults from chosen language. "Auto-hide success notifications" means that notifications will automatically be removed after some seconds, not that there are no success notifications at all.
 5. Do not forget to **Save** your changes.
 
-![administration-user-settings-manage-user](image-20210302092958881.png)
+![administration-user-settings-manage-user](User settings general tab.png)
 
 #### Reset a user's password
 
-To create a new password for a user (e.g. if he/she lost it) navigate to the *Authentication* section of the *General* tab. You can either assign a random password (check the box on top) or set a new password manually and send it to them (preferably through secured communication). Consider checking the box next to "Enforce password change ...".
+To create a new password for a user (e.g. if he/she lost it) navigate to the **Authentication** section of the **General** tab. You can either **Aassign a random password**(check the box on top) or set a new password manually and send it to them (preferably through secured communication). Consider checking the box next to **Enforce password change on next login**.
 
-![reset-user-password](image-20210429114602604.png)
+![reset-user-password](Authentication.png)
 
 ### Add users to a project
 
@@ -141,17 +148,31 @@ On the **Projects** tab, select the new project from the drop-down list, choose 
 
 ### Add users to groups
 
-On the **Groups** tab you can see the groups the user belongs to. If a group is shown, click the group name link. If no groups are shown (i.e. the user does not belong to any group, yet), click the **Manage groups** link to [edit groups](../groups).
+On the **Groups** tab you can see the groups the user belongs to. If a group is shown, click the group name link. 
 
-![add-users-to-a-group](image-20210215185753826.png)
+![open-projet-user-groups](user groups.png)
+
+If no groups are shown (i.e. the user does not belong to any group, yet), click the **Manage groups** link to [edit groups](../groups).
+
+![manage-groups](Manage groups.png)
 
 **Please note**: The Groups tab is only shown if at least one user group exists in OpenProject.
 
 ### Global roles
 
-In order to add a global role to a user, at least one global role needs to be [created](../roles-permissions) in the system (a role with the "Global role" field ticked).
+In order to add a global role to a user, at least one global role needs to be [created](../roles-permissions) in the system (a role with the **Global role** field ticked).
 
 On the **Global roles** tab, select or de-select the global role(s) for this user. Click the **Add** button.
+
+![Openproject-user-add-global-roles](Add global roles.png)
+
+### Notification settings
+
+Under **Notification settings** tab you can edit the [notification settings](../../../user-guide/notifications/notification-settings/) for the user. Each user can adjust these settings under [My account](../../../getting-started/my-account) on their own.
+
+### Email reminders
+
+Under **Email reminders** tab you can edit the [email reminders settings](../../../getting-started/my-account/#email-reminders). Each user can adjust these settings under [My account](../../../getting-started/my-account) on their own.
 
 ### Rate history
 
@@ -163,7 +184,7 @@ If you want to set a different hourly rate for the user on different projects, y
 
 To enter a new hourly rate, click on the **Update** icon next to the rate history. You can either set a **default hourly rate** or define a rate for a certain project.
 
-![set-hourly-rate-administration](image-20210413112220100.png)
+![set-hourly-rate-administration](rate history.png) 
 
 1. Enter a date from which the rate is **Valid from**.
 2. Enter the (hourly) **Rate**. The currency can only be changed in the [respective settings](../../time-and-costs).
@@ -171,7 +192,7 @@ To enter a new hourly rate, click on the **Update** icon next to the rate histor
 4. You can **add a rate** for a different time period.
 5. **Save** your changes.
 
-![Rate-history-change](Rate-history-change.png)
+![Rate-history-change](adjust rate history.png)
 
 ### Avatar
 
@@ -213,4 +234,4 @@ You will then be asked to type in the username in order to delete the user perma
 
 ![delete user](image-20200115162533470.png)
 
-> **Note**: Deleting a user account is an irreversible action and cannot be reversed. The previous activities from this user will still be displayed in the system but reassigned to "Deleted user". This is also true for the Time and cost and the Budget modules. Spent time will be still be visible for "Deleted user" inside a Work package. Time and cost reports will contain the entries with reference to "Deleted user". Labor budgets that have been setup for the user are displayed under "Deleted user", too. If you would like to keep track of the user's name in connection with the mentioned activities, the spent time and the budget, you are able to keep the user's name in the historical data by simply [locking the user](#lock-and-unlock-users).
+> **Note**: Deleting a user account is a permanent action and cannot be reversed. The previous activities from this user will still be displayed in the system but reassigned to "Deleted user". This is also true for the Time and cost and the Budget modules. Spent time will be still be visible for "Deleted user" inside a Work package. Time and cost reports will contain the entries with reference to "Deleted user". Labor budgets that have been setup for the user are displayed under "Deleted user", too. If you would like to keep track of the user's name in connection with the mentioned activities, the spent time and the budget, you are able to keep the user's name in the historical data by simply [locking the user](#lock-and-unlock-users).
