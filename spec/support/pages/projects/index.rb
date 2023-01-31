@@ -103,11 +103,18 @@ module Pages
       def set_created_at_filter(human_operator, values)
         case human_operator
         when 'on', 'less than days ago', 'more than days ago', 'days ago'
-          fill_in 'value', with: values.first
+          set_date 'on-date-value-created_at', values.first
         when 'between'
-          fill_in 'from_value', with: values.first
-          fill_in 'to_value', with: values.second
+          set_date 'between-dates-from-value-created_at', values.first
+          set_date 'between-dates-to-value-created_at', values.second
         end
+      end
+
+      def set_date(id, date_string)
+        datepicker = Components::Datepicker.new
+        find_by_id(id).click
+        datepicker.set_date(date_string)
+        datepicker.save!
       end
 
       def set_custom_field_filter(selected_filter, human_operator, values)
