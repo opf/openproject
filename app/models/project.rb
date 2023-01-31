@@ -104,13 +104,13 @@ class Project < ApplicationRecord
                 author: nil,
                 datetime: :created_at
 
-  register_on_journal_formatter(:active_status, 'active')
-  register_on_journal_formatter(:template, 'templated')
-  register_on_journal_formatter(:plaintext, 'identifier')
-  register_on_journal_formatter(:plaintext, 'name')
-  register_on_journal_formatter(:diff, 'description')
-  register_on_journal_formatter(:visibility, 'public')
-  register_on_journal_formatter(:parent, 'parent_id')
+  register_journal_formatted_fields(:active_status, 'active')
+  register_journal_formatted_fields(:template, 'templated')
+  register_journal_formatted_fields(:plaintext, 'identifier')
+  register_journal_formatted_fields(:plaintext, 'name')
+  register_journal_formatted_fields(:diff, 'description')
+  register_journal_formatted_fields(:visibility, 'public')
+  register_journal_formatted_fields(:parent, 'parent_id')
 
   has_paper_trail
 

@@ -346,7 +346,7 @@ class Setting < ApplicationRecord
     if definition.serialized? && value.is_a?(String)
       YAML::safe_load(value, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time, URI::Generic])
         .tap { |maybe_hash| normalize_hash!(maybe_hash) if maybe_hash.is_a?(Hash) }
-    elsif value != '' && !value.nil?
+    elsif value != ''.freeze && !value.nil?
       read_formatted_setting(value, definition.format)
     else
       definition.format == :string ? value : nil
