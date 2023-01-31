@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
+require 'spec_helper'
 
 describe OpenProject::JournalFormatter::Template do
   let(:instance) { described_class.new(build(:journal)) }
