@@ -31,7 +31,7 @@ require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper.rb")
 describe OpenProject::JournalFormatter::Visibility do
   let(:instance) { described_class.new(build(:journal)) }
 
-  it "renders correctly when changing visibility" do
+  it "renders correctly when setting visibility" do
     html = instance.render("public", [nil, true], html: true)
     expect(html).to eq("<strong>Visibility</strong> set to public")
 
@@ -42,6 +42,20 @@ describe OpenProject::JournalFormatter::Visibility do
     expect(html).to eq("<strong>Visibility</strong> set to private")
 
     html = instance.render("public", [nil, false], html: false)
+    expect(html).to eq("Visibility set to private")
+  end
+
+  it "renders correctly when changing visibility" do
+    html = instance.render("public", [false, true], html: true)
+    expect(html).to eq("<strong>Visibility</strong> set to public")
+
+    html = instance.render("public", [false, true], html: false)
+    expect(html).to eq("Visibility set to public")
+
+    html = instance.render("public", [true, false], html: true)
+    expect(html).to eq("<strong>Visibility</strong> set to private")
+
+    html = instance.render("public", [true, false], html: false)
     expect(html).to eq("Visibility set to private")
   end
 end

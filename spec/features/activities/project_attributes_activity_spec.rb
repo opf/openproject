@@ -36,7 +36,7 @@ describe 'Project attributes activities' do
                                        edit_wiki_pages
                                        view_wiki_edits])
   end
-  let(:project) { create(:project, active: false, enabled_module_names: %w[activity]) }
+  let(:project) { create(:project, parent: create(:project), active: false, enabled_module_names: %w[activity]) }
   # more factories available in spec/factories/custom_field_factory.rb
   let!(:list_project_custom_field) { create(:list_project_custom_field) }
   let!(:version_project_custom_field) { create(:version_project_custom_field) }
@@ -48,16 +48,32 @@ describe 'Project attributes activities' do
   let!(:string_project_custom_field) { create(:string_project_custom_field) }
   let!(:date_project_custom_field) { create(:date_project_custom_field) }
 
+  let(:next_version) { create(:version, project:, name: 'Turfu 2.0') }
+
   current_user { user }
 
   it 'tracks the project\'s activities', js: true do
+    previous_project_attributes = project.attributes.dup
     new_project_attributes = {
-      active: true,
       name: 'a new project name',
       description: 'a new project description',
-      string_project_custom_field.attribute_name => 'a new text custom field value'
+      public: true,
+      parent: nil,
+      identifier: 'a-new-project-name',
+      active: true,
+      templated: true,
+
+      list_project_custom_field.attribute_name => list_project_custom_field.possible_values.first.id,
+      version_project_custom_field.attribute_name => next_version.id,
+      bool_project_custom_field.attribute_name => true,
+      user_project_custom_field.attribute_name => current_user.id,
+      int_project_custom_field.attribute_name => 42,
+      float_project_custom_field.attribute_name => 3.14159,
+      text_project_custom_field.attribute_name => 'a new text CF value',
+      string_project_custom_field.attribute_name => 'a new string CF value',
+      date_project_custom_field.attribute_name => Date.new(2023, 1, 31)
     }
-    project.update(new_project_attributes)
+    project.update!(new_project_attributes)
 
     visit project_activity_index_path(project)
 
@@ -69,46 +85,25 @@ describe 'Project attributes activities' do
       expect(page)
         .to have_link("Project: #{project.name}")
 
-      # expect each attribute to appear
-      ### own fields
-      # name
-      # description
-      # public
-      # parent
-      # identifier
-      # active (project archived or active)
-      # template
-      ### custom fields
-      # Text CF
-      # Long text CF
-      # Integer CF
-      # Float CF
-      # Boolean CF
-      # Version CF
-      # User CF
-      # Date CF
-      # List CF
+      expect(page).to have_selector('li', text: "Name changed from #{previous_project_attributes['name']} to #{project.name}")
+      expect(page).to have_selector('li', text: 'Description set (Details)')
+      expect(page).to have_selector('li', text: 'Visibility set to public')
+      # expect(page).to have_selector('li', text: 'Project parent changed to (new parent)')
+      expect(page).to have_selector('li', text: 'Project unarchived')
+      expect(page).to have_selector('li', text: "Identifier changed from #{previous_project_attributes['identifier']} " \
+                                                "to #{project.identifier}")
+      expect(page).to have_selector('li', text: 'Template: Project marked as template')
 
-      # or
-      expect(page).to have_text('Project unarchived')
-      # expect(page).to have_text('Project name changed from (old name) to (new name)')
-      # expect(page).to have_text('Description changed (Details)')
-      # expect(page).to have_text('Project visibility changed to (new visibility)')
-      # expect(page).to have_text('Project parent changed to (new parent)')
-      # expect(page).to have_text('Identifier changed to (new identifier)') # probably not needed
-      # expect(page).to have_text('Template: Project marked as template')
-      # # or
-      # expect(page).to have_text('Template: Project un-marked as template')
-
-      # expect(page).to have_text('') # list
-      # expect(page).to have_text('') # version
-      # expect(page).to have_text('') # bool
-      # expect(page).to have_text('') # user
-      # expect(page).to have_text('') # int
-      # expect(page).to have_text('') # float
-      # expect(page).to have_text('a new text custom field value')
-      # expect(page).to have_text('') # string
-      # expect(page).to have_text('') # date
+      expect(page).to have_selector('li', text: "#{list_project_custom_field.name} " \
+                                                "set to #{project.send(list_project_custom_field.attribute_getter)}")
+      expect(page).to have_selector('li', text: "#{version_project_custom_field.name} set to #{next_version.name}")
+      expect(page).to have_selector('li', text: "#{bool_project_custom_field.name} set to Yes")
+      expect(page).to have_selector('li', text: "#{user_project_custom_field.name} set to #{current_user.name}")
+      expect(page).to have_selector('li', text: "#{int_project_custom_field.name} set to 42")
+      expect(page).to have_selector('li', text: "#{float_project_custom_field.name} set to 3.14159")
+      expect(page).to have_selector('li', text: "#{text_project_custom_field.name} set to\na new text CF value")
+      expect(page).to have_selector('li', text: "#{string_project_custom_field.name} set to a new string CF value")
+      expect(page).to have_selector('li', text: "#{date_project_custom_field.name} set to 01/31/2023")
     end
   end
 end

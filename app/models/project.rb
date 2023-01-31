@@ -111,6 +111,7 @@ class Project < ApplicationRecord
   register_journal_formatted_fields(:diff, 'description')
   register_journal_formatted_fields(:visibility, 'public')
   register_journal_formatted_fields(:parent, 'parent_id')
+  register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
 
   has_paper_trail
 
