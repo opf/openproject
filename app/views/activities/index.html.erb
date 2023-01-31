@@ -56,8 +56,8 @@ See COPYRIGHT and LICENSE files for more details.
           <% unless journal.initial? %>
             <% if journal.details.any? -%>
               <ul class="op-project-activity-list--item-details">
-                <% journal.details.each do |detail| -%>
-                  <li class="op-project-activity-list--item-detail"><%= journal.render_detail(detail) %></li>
+                <% journal_rendered_details(journal).each do |detail| -%>
+                  <li class="op-project-activity-list--item-detail"><%= detail %></li>
                 <% end -%>
               </ul>
             <% end -%>
